@@ -1,78 +1,73 @@
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2079.outbound.protection.outlook.com [40.107.22.79])
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2044.outbound.protection.outlook.com [40.107.21.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F0716C436;
-	Fri, 21 Jun 2024 06:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D41152790;
+	Fri, 21 Jun 2024 12:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718952991; cv=fail; b=iZg9UZnXXXJv7gYMiufwIkqgEiblxy0C8CVO7GZ0ZC28ofkEC2RmQbayAY+3JV+D/BAIA7p0C70xwPAZqCsrbvt29I1oJbeweCNsENjB+31VNKWB/oPHNeS0a14dm1hOpZgAn68xosRPifTPWFjo/aJGHSbt5Ht3TtSmpijrxsk=
+	t=1718973477; cv=fail; b=a6noL1Kd5RV8N88H+PdIAlcHIsmQt6+KN5bejrP4SGHr+X9WbxHyy6KZOKVYVj6jcSZWB/p+AH8tZCMAxFjkGN94OR6K0mQX9pMz9T5Didj1/ebWS1bKSuS6flHPDLlf1NKTmE7E/10UFrx/NDKjZBbFxQG0yg4cC+1ybFxykwM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718952991; c=relaxed/simple;
-	bh=BQjEWFs3tn1kJ3gHqry+33Y19uPuh+IDbf4sSa4/dBE=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=lwI5/nOhBG3BRjc8nPmaWRAuw383KV8IOBiT0/MhRfAGsYxR3ZJ+6V05nwx8tq9Ehs7r5e9QUMgRmLMrK7UTPuNAcjxdHFdCC4QFlESgNCKHE7k5UEa+BKCzlTUVP3RJzglNXVt02Lc2gKhMS6qVSj3PiTpVlpEqFZhK7+/mWus=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (1024-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=e1C1w/sA; arc=fail smtp.client-ip=40.107.22.79
+	s=arc-20240116; t=1718973477; c=relaxed/simple;
+	bh=2O4w2fbifzVCPcq+I/K9SzSABn9DMd6WvDSc+IXCMP4=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=sBn+pgiyohrF992angPI1LsYSbxhdBQ98Dc2q6VfBO0dg/lKSAJ/Cg6oSF4xdJgKtXuYNhv0mYQcDgg+wRXVxak2KcP5phDjVBPHOaBjdSjTzXSeAAAy+tywN/GxVqFng2CU7owhEI+9v+euB1Hn/ZRM2Z0/OszWGydxwsTf3nk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (1024-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=Zt64GUxw; arc=fail smtp.client-ip=40.107.21.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="e1C1w/sA"
+	dkim=pass (1024-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="Zt64GUxw"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UU0/0mE/X+O4K5UjG1TcSkT5OUab5vVdoPOn3BlVWk9g/kPhXLx8dl5LsOqnRM2mG2OjsDWKvXWLethoWjc19u5igx32QDMculzwlfuGc8oArswDLdN9IcIM6TILFt2VDTWWIHOI4VaXdEnoN1p1Yy48slVb7qOuuiuYtE3PE7nYDqbMJdWALGnDXvd5qdSATBP3QNTFhECc4upGSsfF9v5pbgsIbgT9AXdDu5Ky/MateZQR0TyYlKQAqm+tfDjwhFJHP8TSFBBANzYvQ2vIJIuvFJHJVZAOGfbg6ZYzI6tYo2kKMuTZ5zpmFgN0UWBWhbmjvKSc/kW/1+vahp7wxA==
+ b=jdnmAuCUmrDSwdANjfHRRqc5qLn77sZJAQYuXH0io7NuHUFHMBoTG7jTzq4M0PQ7p38MtGCpc23usEceHTntwkTM+EbPu15MzlHZOr00gqwwcl2LHY9/p9QkX+upXtm5aIM9kDTs3kQSnMSTF2chUJtcdSpnh+SUgEjF89WFHNwFsbP649zhA0pdmGY4eoEHgfiProIPEaRO1/KJCES5Zv5bDfA5TppZL/xelWD1U/13osLA4TV4IMjuQ0AZRfN3i0+3Ei6G1kPe6NX/w3gfCUdLHrDP+fqmqAd6TGSjXg4Kyn0Nh3VTRaw36T/C2uq6hbUxVqaolvJr32f0dQX3ow==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=C0ggd5wKMv4U80GyDOSu2OoINrWdvdDCP012GJn8Wwo=;
- b=Y4F7JYzIlkNCS547gfRhNWOuWH5j9fnaIj7nNMFvGpshPO6+l/i/xT1ZQlMugO1DogCg7AJ2vy0ANvE9ev2wkc0WB26mn/CwRRI4GBwq9qD5ymkG8v+fPP/NyMHDSJEhkKl70bU3S5kyrDgrCZ25X3GX3EIFnhjML8HVa5ck2XAkay9ObNbflKt/HPfh7IR+oWng6rsZNuv1aE4TV1uJmcm7lbuZN0VIvGMhD008Wq6vvPXUp4c73Gi/udi8mVoawIb+H4/xQ98KOuWpA8Ai9r4MAV6Vb+zkreW+DoUknNDqFEwGigTbTzwSO8dtBsmBke0VMW+FzBMLX5yhcW1yWQ==
+ bh=06c0cdO8oxiYK9YIf5oc5IlK3qb0lOUc/4QzvmCGIGY=;
+ b=djEjdHiqHiEZUyfUSzPA857Q782KJTfTfeiBhg1/J6s8dCV1imVxAQJq6KtU0juMR6x8ot4r4oJA5Yi0X8tpTcjtljnUts1xL3xIr92lPt0g+huxX+ufCIloCuMJfztQsguT4da0NV3fpTcNdA/CTFRnPh0VtsBWOfjmOScwjmWwYuLMly/CnuZ/GdcPiYgNXyfLRJjH1jKdfWU01lvnbM60do5VoJ8w/yzs1KdnZyq109tgHVABwSk5D83WS5mrE6WZWweTWvHOTrbKV91ZV0DFvMuMn8JAJ0Xre2REwjN0RjpVIaB+jfTXp/OMLUXMetKCWn5td9kGwpXxPDb5lg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector2-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C0ggd5wKMv4U80GyDOSu2OoINrWdvdDCP012GJn8Wwo=;
- b=e1C1w/sAWUm7Ru2rMJ3VfPnkm/TC+thyHFIOqCYlHdbM/oPyjLdXxL6t8zxMQtAtLhM9aqHG0bhi0aakk0wdWMajxAQ9E+POMXKJNjyizW7YaQfPpWwzIR1idPpv+H+XZkWvQ4MUaQ004EoNT0riHQLxSiGHklkbcfZPchz0Vv0=
+ bh=06c0cdO8oxiYK9YIf5oc5IlK3qb0lOUc/4QzvmCGIGY=;
+ b=Zt64GUxwa8D3OPodSlQDn9qsCFX8Mrs1oHrjOa+Tk99s4hpspHskNs3pTSkJea3GRCTdmHyC8jQXEbUR4twRKigXR8YT2A5liHiu5i/zlFWo7PdJYWRe3hav0t4yFr6Qw3SavkMeurXXbg0KZQ69iztQbbYUv3YJFy32GtA2ApE=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from AM6PR04MB5941.eurprd04.prod.outlook.com (2603:10a6:20b:9e::16)
- by GV1PR04MB10426.eurprd04.prod.outlook.com (2603:10a6:150:1cc::21) with
+ by DB9PR04MB9553.eurprd04.prod.outlook.com (2603:10a6:10:2ed::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.19; Fri, 21 Jun
- 2024 06:56:26 +0000
+ 2024 12:37:51 +0000
 Received: from AM6PR04MB5941.eurprd04.prod.outlook.com
  ([fe80::9f4e:b695:f5f0:5256]) by AM6PR04MB5941.eurprd04.prod.outlook.com
  ([fe80::9f4e:b695:f5f0:5256%4]) with mapi id 15.20.7698.017; Fri, 21 Jun 2024
- 06:56:25 +0000
+ 12:37:51 +0000
 From: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Date: Fri, 21 Jun 2024 15:04:42 +0800
-Subject: [PATCH v5 7/7] input: keyboard: support i.MX95 BBM module
+Subject: [PATCH 0/2] firmware: arm_scmi: introduce max-rx-timeout-ms
+ property
+Date: Fri, 21 Jun 2024 20:46:56 +0800
+Message-Id: <20240621-scmi-mailbox-v1-v1-0-8ed450735f46@nxp.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240621-imx95-bbm-misc-v2-v5-7-b85a6bf778cb@nxp.com>
-References: <20240621-imx95-bbm-misc-v2-v5-0-b85a6bf778cb@nxp.com>
-In-Reply-To: <20240621-imx95-bbm-misc-v2-v5-0-b85a6bf778cb@nxp.com>
-To: Jonathan Corbet <corbet@lwn.net>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Sudeep Holla <sudeep.holla@arm.com>, 
+X-B4-Tracking: v=1; b=H4sIAEB2dWYC/x3MQQqAIBBA0avErBtQC9GuEi3KphpICwUJwrsnL
+ d/i/xcSRaYEQ/NCpMyJr1Ah2wbcMYedkNdqUEL1QkuDyXlGP/O5XA9miXZRTlqtO2s01OqOtPH
+ zH8eplA/QbHGyYQAAAA==
+To: Sudeep Holla <sudeep.holla@arm.com>, 
  Cristian Marussi <cristian.marussi@arm.com>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Peng Fan <peng.fan@nxp.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, arm-scmi@vger.kernel.org, 
- linux-rtc@vger.kernel.org, linux-input@vger.kernel.org
+ Conor Dooley <conor+dt@kernel.org>
+Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Peng Fan <peng.fan@nxp.com>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1718953487; l=8179;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718974025; l=998;
  i=peng.fan@nxp.com; s=20230812; h=from:subject:message-id;
- bh=ChfkEJX/72hXEL9g1a8O55kYUMOihK4KW1T6yM6QP7s=;
- b=478Kz2I4jFt9FPxkAK98lmXfjQPwSEDRoU4ChGwdkT9MAJDo+jB1gg6nuORaR7bm8I4KVBzUT
- JqOZH3l/a+MBl6n63yUIcLj2DjBKNKzwAa0dT3pjhv+bJ+NRxUa3F+5
+ bh=2O4w2fbifzVCPcq+I/K9SzSABn9DMd6WvDSc+IXCMP4=;
+ b=atRIIjGxUxhe2P69TuZQn7/Ps3UFnk3+gOKaGGxoetp/+OmkKOM2iut83wUitfSQOH0n4PHUj
+ PTgLb6XEq3iBNoyzMzbu/1CX86OjHXN0C0tRxGkS+9BtLUcZC5Pfozi
 X-Developer-Key: i=peng.fan@nxp.com; a=ed25519;
  pk=I4sJg7atIT1g63H7bb5lDRGR2gJW14RKDD0wFL8TT1g=
-X-ClientProxiedBy: SG2PR01CA0122.apcprd01.prod.exchangelabs.com
- (2603:1096:4:40::26) To AM6PR04MB5941.eurprd04.prod.outlook.com
+X-ClientProxiedBy: SG2PR06CA0241.apcprd06.prod.outlook.com
+ (2603:1096:4:ac::25) To AM6PR04MB5941.eurprd04.prod.outlook.com
  (2603:10a6:20b:9e::16)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -82,380 +77,118 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6PR04MB5941:EE_|GV1PR04MB10426:EE_
-X-MS-Office365-Filtering-Correlation-Id: d4a72654-60e5-466f-3f9f-08dc91bf448f
+X-MS-TrafficTypeDiagnostic: AM6PR04MB5941:EE_|DB9PR04MB9553:EE_
+X-MS-Office365-Filtering-Correlation-Id: 22f9963c-e457-4f73-e77d-08dc91eef68b
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230037|1800799021|366013|52116011|7416011|376011|921017|38350700011;
+	BCL:0;ARA:13230037|1800799021|52116011|366013|376011|38350700011;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?QUZ1WXpBOGRGT0dubW9OUzROSVJSOStLRnMvQ3A0SGFxWnlodXEzWE5LYUc4?=
- =?utf-8?B?S1ZVWWVkanFhejF2d2JkMXdWRGVaYWN5b2pHdjBESGFzNzVHY09mU3BtRXpm?=
- =?utf-8?B?bzBTYmk5N1FKdUhoNjVITWkzK2hwd1BiUmkzY2RXS0UzWE5ZZmNUcW1paWRF?=
- =?utf-8?B?OWZkbUxBWERPNXR0VkhueHZNbFBVVWlrYmdiNk5iMTFIb25mc2tKZCtuWkNp?=
- =?utf-8?B?aGM2cnE5MCtha2tOblNTSTFxWW5MR09Qc0dxRFlZNWtiVmFRVHMyRXJ4aW9V?=
- =?utf-8?B?UlZxbVVxSUVWNHFGSVBKRzl4Zkk2aXk2eTRkZ3RrVDVGNWtZcVNkeStwcHE5?=
- =?utf-8?B?M3EvRDNKZml0d0doMG1NVUd6dXJqNFFQb3RDcnhQK1lZMThTaU9TcmtwYzla?=
- =?utf-8?B?a3QrRWxlUE45SEg4Tk9yMkplQ1VwWm1hckRWdWE5ZkJZRjhBMURFMjg0aE1k?=
- =?utf-8?B?cll0ZDRWQkI4L0NvaXB5QVl2bWxPd3gyM0lETytOREtmcDZFUzNZbWNSVUxU?=
- =?utf-8?B?anJxdUpTM1Q4SXJyTzc2R0NKV2ZrZFQyMnFOcUtrbDYrM0grd3RzYjFMOUNJ?=
- =?utf-8?B?eHE3aE1uWVBxcHJxOHpWZW4xekxjZGVuejJGMDVZb1Q2ZFFnUGNScy9WajV6?=
- =?utf-8?B?QlBySGpuTGh6bXJpbEJHY3lpM1pITDZPSHIySGZaZ0Y0eURjQjdVc0xiTGpR?=
- =?utf-8?B?MmpQT0M1cG96MTI0R05VQ0JYcklXc2pSeGdscU5lL3RHRTZPdHM3Y0ZIR2Nz?=
- =?utf-8?B?V2JWdzdWb290ejlId0V0RmlHRUpUaFh5eFhXWVM0ZDB4ODN1YnlnVW5aZFhK?=
- =?utf-8?B?M2tWckE1QnBsUnpraDlRbVRiNitEMlg1RUFQaSswbDhJMFN1QkVpeFVjclJV?=
- =?utf-8?B?OENnai9oRlFJc001R0kzWHhWbTI3Zi9uUFZ2aUFjSDlGM0twZW1kOFArRWtK?=
- =?utf-8?B?akVhcHlQVmRvVEdXaUpIWGpJTkh1MHluYVFPVDROaGpEbW9uaG80c3I1R1pO?=
- =?utf-8?B?YkhQWEkzTEE3WkYzbkJFdjFzMldCWDhqc1AvU24yWXRacFN2dlhGWnF0MlIv?=
- =?utf-8?B?VUFvMWRTenpyMDlWWEt2M09aa0tnRHkyeDREVS9vT1ArQVppclkxNE5JTUhF?=
- =?utf-8?B?TGFDSHp3VnNWQW5va3NvOVIvQ3g3Mi9jdXF1U2w1NGgza3VYSmhHY1dudk1u?=
- =?utf-8?B?WVk3K3QwcS9iYWV5ZnBocmdGakNkNFR3TmJMNUF3aEM5MVJxNGxWaFo4a0JB?=
- =?utf-8?B?ZkQwa3ExcnRwV3paMEVNWkVwY3Vzd2t1ejI3TTk5RkdoZHhsc3hOZnZjaUZY?=
- =?utf-8?B?QThYVXdXbWo3dkZUVGVNaXhCZ0pWU1gyU3NCZTY2TWV6RXZjSStVdmZOQ2lM?=
- =?utf-8?B?KzZOZmdKcGlVelpFNHYrWTIvRGR6UnV3YmxCdUhLaEhqbGdvdWdyaHYyN1FQ?=
- =?utf-8?B?RjAxY052WERxaWdXV2UwMmZ1UzBDUy8zSkttOExKQVNmSFFCY1FEL2dJWFFO?=
- =?utf-8?B?dXJhRDZZenNDTk1CS21vMmsvWjhWa0FrY2YxRXlhSlcxbkhlTDd1ZEhEUDBF?=
- =?utf-8?B?NVZYaW5taXpyQ2g5WXdqUmFoMkhVNlFwcEJQanV6NTRna2d6cU1RNkw2VVNB?=
- =?utf-8?B?eTJTN3lHczZ1MW5DUGErZ29oSkRuK2w5eEEzT0EwdktOZnMrSjFkK2duOTFv?=
- =?utf-8?B?K2ZOVWlocVE0UGlHNFpGa1ZKNWx6U2dmWStsaXBzcGdHMzNZMmF6L21yNHVv?=
- =?utf-8?B?UjhnaHVlL3U1VXFiWWxLK1owU3VSem5zWTlUZDUxdTZJaE5EVm1CM0NhQ1Vw?=
- =?utf-8?B?c1U3MWg1TENIYXFRb210cE05WUJMSVlueWlFbVQxZXdRblV2OXdkSkpmbTNS?=
- =?utf-8?Q?SXC9Ucfurwpn1?=
+	=?utf-8?B?NUYyQjM0Wm93bjJUc1FzZCtvRXptd1hSMjBPVEwxVTVtZFpScU1GT0YzZk8w?=
+ =?utf-8?B?ZGlBNFpCNS8yK2tiS1hlc0o0UDZaWHVUdXBZck0yQVVDQU8zbzd5OTFjL1Yy?=
+ =?utf-8?B?TTZ1S0hFY0ZodWlZVzR2SDF4Z2pQM2JnWnFmaUd0eGZPejhRSGtuZGxDZjEw?=
+ =?utf-8?B?MlJCT3MyeGNzVnhBS2JKaHhBblBBZnVwbmRQcDFSVVZRL1psT0UxZGdCMGF3?=
+ =?utf-8?B?TVJnZE5hbmZKSDI0czJ6RUp1V2RrbW03djZSTU51dkRLRE5yY3ZFS2xWQWJG?=
+ =?utf-8?B?Q3V2RThYN0JDRjlDaUpBTGZRK00vRkROK0ordjJENXdtNjhsdVRnVVVINVBl?=
+ =?utf-8?B?RTR1c1VackhxQlVLalhEOVQ5SHdUb28rcGpOclRENm5ZVTRlVzlIQ205OVpq?=
+ =?utf-8?B?OElkeDk3cklJYk9UR0tPQWRDWjBFM2V6dFBVMU5McE15RXNJQUNhMUdRcGs4?=
+ =?utf-8?B?d3UwY2J1bHVvUk80dW9HWjhNS3Jpcnd2M1JFdnJ2bDd4T0UrVnViYlNEdjNL?=
+ =?utf-8?B?bVZzVjNQZ1BhSUpVcHhENUZGeGtqWkVrcVhDcW12NXBhQ0drcWZSYkYzcDZy?=
+ =?utf-8?B?MEQrdm9hYmVuR3pDZVNEZDFuZllYSC9rOG5uaC83UHk1czZFQlhJSGhlZEtC?=
+ =?utf-8?B?TG0rWTlOcEZkT2wrRnBTUzJmczVMWEV5UUp4dmhRRjgvTDArV0dEL2VCSW1U?=
+ =?utf-8?B?Y0d6NC9LNnMrWWlpdElRcWk5WExqWEM1VFZ4K1RjUVQ0RmNEYVlzcU5jS2FL?=
+ =?utf-8?B?QjhIc2lmNTZFZHdkRFlneUFQdmd4ZlNTbWI3OWp1ZWwzT05xV1AvVklPTVU4?=
+ =?utf-8?B?YTN2VVMvYTQzUEkwdlJabW9RNnYzeEN6SmtkVXVwZXhhUUMrSzU2YlIrVllw?=
+ =?utf-8?B?TDVEdWcvTEJOUlk3Y085bTNOVTVkYmhLV3lOelJkdWF0anBDM08zOEQvWEJ3?=
+ =?utf-8?B?MnJzN0t2Z2tTeDhJV1lZMnhKNkJvOGsrQ3I0ekgxMDZrZkR3UlpJaC9Fc0xE?=
+ =?utf-8?B?Ymc4RkV1NU4rd0sxMEZwbDVwSWZYdStRWjN2REdoWW1zOGZEaGFCOXRXYkVF?=
+ =?utf-8?B?bk5iMUtERG1iSnZVUUprcWtDd2lJckMzUCt2Q2plWkRQL1crZ1Vadm01RlV6?=
+ =?utf-8?B?aDQ3MlBEK2J0aWJIMmczcDlvTDB4SGNpRVo5UUFNMzRMdVVXSmJSQkszZEEv?=
+ =?utf-8?B?SjI0QjZIY2RvaW5BOTI4OGM1UmlSNi9YQ2JaSGVLanVCZFVBZGRFUkhtNW5P?=
+ =?utf-8?B?QjAwWVBQaEpEZGtOV0FCMU1VSC9PU0JwWkVjcEJubzFzRGRycTdwMHBsNTJm?=
+ =?utf-8?B?Um1QQ3ZhSDZCcldsYUhwZk1PRmNYbmRBYW1mZTVpMXk2YURqcnpMa3V4UVll?=
+ =?utf-8?B?MUpmbFYwYnFkR2VnSXZKT3RLeW1GVmpJSXZvYWdoaWFDVTZlVE1LSnc5MWRx?=
+ =?utf-8?B?K1ZLcm1UazIzcWt1bWRNcnlRTDgycDZWbFFKU3c1QUVkYnh3VXdnNkhObHpS?=
+ =?utf-8?B?NEVENWIydTZDTko3NFVrdlpTQS81V095ditnaThuUmxVVnhvSW5uWXV1Y3cw?=
+ =?utf-8?B?Y3hpMEpla1VMNWRNK0szaGRUMlNtdWxrQVQwdW9xZ2xFZVdQckRFL2owWTZm?=
+ =?utf-8?B?SVVPTE5aZjl1VCs0Z3RybHd5TGx4dGJvaEVZQU0vTUdkV2xqVUpGZ0NmYVBK?=
+ =?utf-8?B?cEs1WGlYcFdRejR5azV0MmNCNXdNV2NMNnRRbWxRLzFxVTZlNnNHektoa0ZK?=
+ =?utf-8?B?aS83RHphc1ZnVDZGeEdQL1VsVjNPTytXQ3dNR1NxYTMwZ0hWSHJkcE54N1k5?=
+ =?utf-8?Q?mRdJcxaEqBrhD+s0gsg8HSK/ZsI4vPcaWyWr0=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB5941.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(1800799021)(366013)(52116011)(7416011)(376011)(921017)(38350700011);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB5941.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(1800799021)(52116011)(366013)(376011)(38350700011);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?U0MyYXJ2N29QUERSdWs1UStJQlNQOTA0ZjRhUkxyTWcxTTBZUFBES1RXY2R4?=
- =?utf-8?B?UTRsSXpWbHhkdGtDMWZZWG1wMDdpVjZnN0dUYTQzUTIyNU9ZYU5VbE12K2w0?=
- =?utf-8?B?ZDN5UnlnWnRQdDFzNllCT1pRanVpTzQ2UDJhREMybExuZ25WTWFra3RyMjRF?=
- =?utf-8?B?Z3BsMDFsYUd3ODhBT0V2eFhudG5BMXVSVkhvQitHa3YxNEIxL01vc2R4MEZp?=
- =?utf-8?B?SnJBMkxycDl2a0dPbkdjV1FRT1d2aUNlWC96VVpldW9oMjNwaE9qOGR0VDRx?=
- =?utf-8?B?OFpQZ3FtbUVGYlQ0c1FHYmZMSDM5M3lNbnJlQjJqZmtwS1NNSFpnRXJkVHBQ?=
- =?utf-8?B?Qi9zTTBWUHBkRXd3WmNucFU0RHptUm9iVkl2NW1GWitvTEN4Njlxb0RyRkdr?=
- =?utf-8?B?MkpPa0wwR0dnVzJSbEFhNlBVTlZxR1NYTy9Rb2VTWEpNejFtMHFrVzZJT0Ex?=
- =?utf-8?B?amRZaVJhSG9nNkE1eWdrZC9LQms2WEhKYXl2NWlhNDVDNXF6ZXp1YkQ0ajVL?=
- =?utf-8?B?WGJralhCaXN6ODZLT0tObjZNdG1Wc2ZQTEtlM2hsRDc1ZXlzc202eXJCOWlB?=
- =?utf-8?B?T2RPN1E1WG5GL1FsT3BDVG83dDU4VWtoeStDdzV1ZmVrNTU5QzZ5YUdRNHh0?=
- =?utf-8?B?dStiTm1oZmpIK3pXelpYUHFMSE5KMFQ5WVR5ZElEN3BqMDdXZi9rc20zQkJW?=
- =?utf-8?B?cHErc2hWUHlDdlFIKzVoS24ydWE0ekxsaHI5dncxUEhtemYvbFoxeTYrWUR6?=
- =?utf-8?B?cEFUYW5YM3d3VElNOUZoeHZEQXZSVTlCS05XMEFLRFV6TXpZRWsvbUxvai9m?=
- =?utf-8?B?Njl0dmNDWjk1ZlYyaG95d1gxSEhyNEZNQmxneEFXZkJNTXJDUmxObVlBaWRa?=
- =?utf-8?B?QkpUNXQxTzRQS3VWbFN6djBSU2MrUjJxQUFqTWZZZkM2ZDhGSmM3NFlpYkty?=
- =?utf-8?B?anlsYmoxU3lqSDFuaENQK0JqU0RGVUoxeTVLK3dYS2doeXlua3VjR20vVExD?=
- =?utf-8?B?RUtMRDZkVVdCUXY1bFU3aXNzeklyZzhmeWZEb2tTdkJkYjJSMndmTkxicFNF?=
- =?utf-8?B?dGJYYzZNMnFSM2RUclEzeW5wdXdoUkRmWFAzbjRBOXNwNG1pQjZMQzVodlZO?=
- =?utf-8?B?bTQwR1pUMlQ4VG1iOGdDN0RCUzg0VlI3UElidVZ4S011Ujl5Tjd4ZVdHYkh5?=
- =?utf-8?B?M001bkpZRE54RTlrS2paZG51WDh6aEkrNjZMMFo1MGhqdWRqYmZndE5pMzVS?=
- =?utf-8?B?ZUFTZDFzR3oxZ0J5SmplZGE3TVdOamEwaWJ2NXdVY0FYTVQ1NXdQVndWYjE1?=
- =?utf-8?B?bnFFWGpmUVpKZUZVVmRyaHZmU05zNFlnK2o5d241YXBYdDd3bkpVM2tTTWs2?=
- =?utf-8?B?RXUyL0lsVzZRT1p6cVlIYUFXRlVMZFRsVzBZZGxsYmFhZnZ6bjJyWVVZYnM3?=
- =?utf-8?B?SGRyYkJHSnFVWjBpQ0dOUERHL0ZSeVVLUlNOMHJYYitZTlE4cCtpV0RoL0lS?=
- =?utf-8?B?YUZNdExTTlA2N1BzRkNzdEFFZHpOUDV1cFdKVXhVMVNaekpRTTdGNXdXbzVh?=
- =?utf-8?B?cWV1WmsvcjZrNE43T1RuMngxR2xhZDhyNGhJTVI5dEQ0bExOSzJFTDkrZTg0?=
- =?utf-8?B?YWJ1bDd4dlVDeE54Nk9Wbjk3ZnNrdFBPL0pFTzhjZGlxaFBicEtFc1ZNUVEx?=
- =?utf-8?B?d28yQnNLTTBPdmVCclFEUzZOU0lFeEpZYW52VFBMQ09lNmM5R1FESzFVTnJu?=
- =?utf-8?B?MGZ2MklRK21udFF5SVhVK3JLT1VPcGltZjlYdjdmSTVSVXQzemtsb2x1OUFZ?=
- =?utf-8?B?R2FtMUNjYlFULzBYazBwVHlwQWc3WnpiRGxBZ2x2bStjY1lmOEsveVQ1WnRk?=
- =?utf-8?B?NmFJS0JVajJkUFc1L2ZjbWhWbGdVdEZTSWNndlhoT1pmQk9FcGRQczZLVHpZ?=
- =?utf-8?B?TzFVQjNIbDY0ZlJEWjF2Y3UrYzJocmFvY0MvbmFCdTVoK1hqWEdkYi9PendD?=
- =?utf-8?B?c1h6a0pvdHVJY1lnZTM1bksxQXlVQTZOenlodVlNTldBTjJ2WTBMQnhvN1di?=
- =?utf-8?B?c3VqdWtERUcvL0FJdXQ2R2pNb0lRYlkwRnJKVm4ranF3VitTUEtnVWJ3MFMy?=
- =?utf-8?Q?Ztox0FzBeEDD48CEhJMEkk7PY?=
+	=?utf-8?B?MjJmd2E2ZjZyUkZZSlN1YjJGTzJrZVc5c3hnNmpLcGVSME0rWUljcHAxQmN0?=
+ =?utf-8?B?dVNFaDdDNitXZmFhSkNhOGVRV0hEL3RZeERwa0RERFRtR0hzV1VOdTl6VnFa?=
+ =?utf-8?B?czlPN1BSSDEzekg1YVJHdDREaENRWFF2SWVVOHBzd0dIZ1lkd21PZnp1RG1l?=
+ =?utf-8?B?R29KUlI5NUFHOXlnZlJzYXROb2hmNkdBNGJzNzhXOWN5VkpOK2xIa2N0N3hj?=
+ =?utf-8?B?K0pCdlk1OWJFUmVFeXhRWVNBb1JhZFlMeFJQVDBzbEViVkRIbjRtdVFiekNY?=
+ =?utf-8?B?MmovWklDVnN1eFhkQ013OXBuQXdrd0pxSDNVV3JEdEpFTXFIUjhlaGkxM3Bn?=
+ =?utf-8?B?T3FnWG9Ick8zd0s0aU4zRDhVdnAxR2FDUDNiQzh3OHNOcFNOSVhwLzRRNjEw?=
+ =?utf-8?B?b2JCOTdWaDl4bCttUDFueWYzQTlKOFlFMjNmVHBONzBZdWNuSzNEcXUvMVBW?=
+ =?utf-8?B?VU9ib2NLZFRSZEJLbWx2OFBTdU1qR3ZiM2diN0l5c1J5TjZtWFVjb3IzSjFa?=
+ =?utf-8?B?eVVvRlJRSmdKOHNzNmZ2VllPdFl1VERhUDBBaWwrN1Y4UDZWVGtxcFBxT2Ix?=
+ =?utf-8?B?TXRwajBHa2Yyc1lZTzA2aGNVbWN2dnJ1ZEtQWisxZWtvbHdjL2RBd051ZUcr?=
+ =?utf-8?B?bml6RU9tVnlPa05DYXVQWW9aZTlDNzlwWjB1ekZSQkNDMVlJUVpZL3Q2RkE3?=
+ =?utf-8?B?eFlTQStPVUxPdTFIQkZzVE1RNkNETUVjTUhmVHMxMDZSL1dmWEQ5RWFNWlh0?=
+ =?utf-8?B?ZVBneXFuWm13UUVwUlJISldRNXpzVGpYYmE3cy9Mb0M1TnJ1M3FhdWcyMVZh?=
+ =?utf-8?B?RlZ3U2dOcEZFZU5IRUlMWDdwMHlyUjdzd3MvNERYb09XNU5DQTVyRnhJWVBx?=
+ =?utf-8?B?RUFOWW9WMmpyVnVBenM5L3pNc0RHMWhoVURmamJBK24zczF4T3FHaHR2c3I5?=
+ =?utf-8?B?Y21mMzZ3cEU2Y1prWGFTWlRkRzN0aFhTdWFCR1VFSFd0cCs1aEZqZFFNTndS?=
+ =?utf-8?B?Zlo2T01IYzBEYW1QMEdBelE3bERvTDUzQS9zdFZaVW1QRFFRb0FpSy9vOHJq?=
+ =?utf-8?B?ZmRMQnJlVGhCWVA4MzNZQnNHalZUOGRLV2hOOTBiM0RteEpwMUlXYWZQTWZu?=
+ =?utf-8?B?NTkzT0I4eE9kWmhzbGVSRDB0dUVxbnVJYmNmNUN6KzVhNTZKSW5NeWI1SUtF?=
+ =?utf-8?B?NEl4WmVYMnRCbmNJZllUMXRWdjJjSnlRcTErclEzSVJZaHZrd1AwWWMzWlNi?=
+ =?utf-8?B?ZzcwY0E0dGZWem00SVluZ3J0R0RFU1h3c21TWFNjM2YydEw3b1VnQXkzaEtG?=
+ =?utf-8?B?V3J0K2hid2FBSUZqUkdvQzRJaGRqMUdZMHJ0V1JkbHZLQVhuNkY5eEloL2Zt?=
+ =?utf-8?B?b2JOR0wvOXptcDFHOFVRenJkOWFnQ2oxNE5JbDdQaUtSOTluSURJWGJ1SEZ6?=
+ =?utf-8?B?Z3Jvcm5aS0JLTDNEamtYeFNGQmwrdEltQVo1YzJXRSt2SlNPaWp6YU05ZFJv?=
+ =?utf-8?B?TzhlRVFHSkI5WUM5aFBGd2VLTDh3V2l0VTlocVVGOW5hamFhOXdzSTA2R3pJ?=
+ =?utf-8?B?VEVsV0tMZlk5VmRrakFQNTVHYVptbGdXcWFmMnQ5Q0YxRVdoUmU3UmhieDBM?=
+ =?utf-8?B?ZnlNQXpCRnBFcmtrSm1YcWpWRnVlUHdhTWk4aXo0YldaWmhPNlNwUGNzU1lF?=
+ =?utf-8?B?ZW5WT1NNTkhpSGV4cEl1ejNKbFZpY0dSL3Z5K1M4bU40RlNKOFNPSnBGL0Vk?=
+ =?utf-8?B?YURrYm9nNDdQVFoyUElhOWRSMUtjalY0TzgxY29xcEY0SFlhOUVtQkkxVmFJ?=
+ =?utf-8?B?Z3FGSjJsMFY1Znh1NldkM1pwN3FHOExRWjhWT012ZEdQeit1eWRWU0lLKy9z?=
+ =?utf-8?B?ZmZOZnp0TGZndjExanhGVStDWitxVldFM2VldUNuNVkvK1R0MDBzU0d6emlL?=
+ =?utf-8?B?ekhObjlPa3RxYnlUbXlOS1lDemFEY3hrOWo0K1BsYzlkclVGSVN4YTI5ZVpO?=
+ =?utf-8?B?RnN5SVhXczhEQ3BOcmxzYkVRcktkalNvV1c5cWk0cUFOU2ErQVRCV1JoT0tL?=
+ =?utf-8?B?NnYxdUFDOFc5T3hYSlR2VHNpblA2T0RTMmZZeGJJdEorOVhMVFNBOFVXY3Zq?=
+ =?utf-8?Q?rRa+F1AlgXeOFTw2tANyD1JCx?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d4a72654-60e5-466f-3f9f-08dc91bf448f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22f9963c-e457-4f73-e77d-08dc91eef68b
 X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB5941.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2024 06:56:25.5987
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2024 12:37:51.0831
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SmTeL7EWNsEbLfOuXKP+NFRvyoE5Stss07R2Nnwa9hzyawP3qzhdO7EGgjkCNJd6jsKUxVnvuNg7LInI1tyxcA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10426
+X-MS-Exchange-CrossTenant-UserPrincipalName: vWdBWQ5ohn+ngO/17plnF+zraJ+uqfGnVKPhAaXptTEaHdiPMn8EEfZRpXWBOrkXlSInf3LFeAKHYzDFP2cJFA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9553
 
-From: Peng Fan <peng.fan@nxp.com>
-
-The BBM module provides BUTTON feature. To i.MX95, this module
-is managed by System Manager and exported using System Management
-Control Interface(SCMI). Linux could use i.MX SCMI BBM Extension
-protocol to use BUTTON feature.
-
-This driver is to use SCMI interface to enable pwrkey.
+The current mailbox scmi_desc set the timeout value to 30ms, but
+each platform might have its own maximum receive channel timeout value
+based on the System Control Management Interface(SCMI) firmware design
+and hardware attributes, so introduce a property for that and use it.
 
 Signed-off-by: Peng Fan <peng.fan@nxp.com>
 ---
- drivers/input/keyboard/Kconfig          |  11 ++
- drivers/input/keyboard/Makefile         |   1 +
- drivers/input/keyboard/imx-sm-bbm-key.c | 225 ++++++++++++++++++++++++++++++++
- 3 files changed, 237 insertions(+)
+Peng Fan (2):
+      dt-bindings: firmware: arm,scmi: introduce property mbox-rx-timeout-ms
+      firmware: arm_scmi: set mailbox timeout value from device tree
 
-diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
-index 1d0c5f4c0f99..1c3fef7d34af 100644
---- a/drivers/input/keyboard/Kconfig
-+++ b/drivers/input/keyboard/Kconfig
-@@ -466,6 +466,17 @@ config KEYBOARD_IMX
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called imx_keypad.
- 
-+config KEYBOARD_IMX_BBM_SCMI
-+	tristate "IMX BBM SCMI Key Driver"
-+	depends on IMX_SCMI_BBM_EXT || COMPILE_TEST
-+	default y if ARCH_MXC
-+	help
-+	  This is the BBM key driver for NXP i.MX SoCs managed through
-+	  SCMI protocol.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called scmi-imx-bbm-key.
-+
- config KEYBOARD_IMX_SC_KEY
- 	tristate "IMX SCU Key Driver"
- 	depends on IMX_SCU
-diff --git a/drivers/input/keyboard/Makefile b/drivers/input/keyboard/Makefile
-index aecef00c5d09..624c90adde89 100644
---- a/drivers/input/keyboard/Makefile
-+++ b/drivers/input/keyboard/Makefile
-@@ -31,6 +31,7 @@ obj-$(CONFIG_KEYBOARD_IPAQ_MICRO)	+= ipaq-micro-keys.o
- obj-$(CONFIG_KEYBOARD_IQS62X)		+= iqs62x-keys.o
- obj-$(CONFIG_KEYBOARD_IMX)		+= imx_keypad.o
- obj-$(CONFIG_KEYBOARD_IMX_SC_KEY)	+= imx_sc_key.o
-+obj-$(CONFIG_KEYBOARD_IMX_BBM_SCMI)	+= imx-sm-bbm-key.o
- obj-$(CONFIG_KEYBOARD_HP6XX)		+= jornada680_kbd.o
- obj-$(CONFIG_KEYBOARD_HP7XX)		+= jornada720_kbd.o
- obj-$(CONFIG_KEYBOARD_LKKBD)		+= lkkbd.o
-diff --git a/drivers/input/keyboard/imx-sm-bbm-key.c b/drivers/input/keyboard/imx-sm-bbm-key.c
-new file mode 100644
-index 000000000000..907dad383b8f
---- /dev/null
-+++ b/drivers/input/keyboard/imx-sm-bbm-key.c
-@@ -0,0 +1,225 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright 2024 NXP.
-+ */
-+
-+#include <linux/input.h>
-+#include <linux/jiffies.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/rtc.h>
-+#include <linux/scmi_protocol.h>
-+#include <linux/scmi_imx_protocol.h>
-+#include <linux/suspend.h>
-+
-+#define DEBOUNCE_TIME		30
-+#define REPEAT_INTERVAL		60
-+
-+struct scmi_imx_bbm {
-+	struct scmi_protocol_handle *ph;
-+	const struct scmi_imx_bbm_proto_ops *ops;
-+	struct notifier_block nb;
-+	int keycode;
-+	int keystate;  /* 1:pressed */
-+	bool suspended;
-+	struct delayed_work check_work;
-+	struct input_dev *input;
-+};
-+
-+static void scmi_imx_bbm_pwrkey_check_for_events(struct work_struct *work)
-+{
-+	struct scmi_imx_bbm *bbnsm = container_of(to_delayed_work(work),
-+						  struct scmi_imx_bbm, check_work);
-+	struct scmi_protocol_handle *ph = bbnsm->ph;
-+	struct input_dev *input = bbnsm->input;
-+	u32 state = 0;
-+	int ret;
-+
-+	ret = bbnsm->ops->button_get(ph, &state);
-+	if (ret) {
-+		pr_err("%s: %d\n", __func__, ret);
-+		return;
-+	}
-+
-+	pr_debug("%s: state: %d, keystate %d\n", __func__, state, bbnsm->keystate);
-+
-+	/* only report new event if status changed */
-+	if (state ^ bbnsm->keystate) {
-+		bbnsm->keystate = state;
-+		input_event(input, EV_KEY, bbnsm->keycode, state);
-+		input_sync(input);
-+		pm_relax(bbnsm->input->dev.parent);
-+		pr_debug("EV_KEY: %x\n", bbnsm->keycode);
-+	}
-+
-+	/* repeat check if pressed long */
-+	if (state)
-+		schedule_delayed_work(&bbnsm->check_work, msecs_to_jiffies(REPEAT_INTERVAL));
-+}
-+
-+static int scmi_imx_bbm_pwrkey_event(struct scmi_imx_bbm *bbnsm)
-+{
-+	struct input_dev *input = bbnsm->input;
-+
-+	pm_wakeup_event(input->dev.parent, 0);
-+
-+	schedule_delayed_work(&bbnsm->check_work, msecs_to_jiffies(DEBOUNCE_TIME));
-+
-+	/*
-+	 * Directly report key event after resume to make no key press
-+	 * event is missed.
-+	 */
-+	if (READ_ONCE(bbnsm->suspended)) {
-+		bbnsm->keystate = 1;
-+		input_event(input, EV_KEY, bbnsm->keycode, 1);
-+		input_sync(input);
-+		WRITE_ONCE(bbnsm->suspended, false);
-+	}
-+
-+	return 0;
-+}
-+
-+static void scmi_imx_bbm_pwrkey_act(void *pdata)
-+{
-+	struct scmi_imx_bbm *bbnsm = pdata;
-+
-+	cancel_delayed_work_sync(&bbnsm->check_work);
-+}
-+
-+static int scmi_imx_bbm_key_notifier(struct notifier_block *nb, unsigned long event, void *data)
-+{
-+	struct scmi_imx_bbm *bbnsm = container_of(nb, struct scmi_imx_bbm, nb);
-+	struct scmi_imx_bbm_notif_report *r = data;
-+
-+	if (r->is_button) {
-+		pr_debug("BBM Button Power key pressed\n");
-+		scmi_imx_bbm_pwrkey_event(bbnsm);
-+	} else {
-+		/* Should never reach here */
-+		pr_err("Unexpected BBM event: %s\n", __func__);
-+	}
-+
-+	return 0;
-+}
-+
-+static int scmi_imx_bbm_pwrkey_init(struct scmi_device *sdev)
-+{
-+	const struct scmi_handle *handle = sdev->handle;
-+	struct device *dev = &sdev->dev;
-+	struct scmi_imx_bbm *bbnsm = dev_get_drvdata(dev);
-+	struct input_dev *input;
-+	int ret;
-+
-+	if (device_property_read_u32(dev, "linux,code", &bbnsm->keycode)) {
-+		bbnsm->keycode = KEY_POWER;
-+		dev_warn(dev, "key code is not specified, using default KEY_POWER\n");
-+	}
-+
-+	INIT_DELAYED_WORK(&bbnsm->check_work, scmi_imx_bbm_pwrkey_check_for_events);
-+
-+	input = devm_input_allocate_device(dev);
-+	if (!input) {
-+		dev_err(dev, "failed to allocate the input device for SCMI IMX BBM\n");
-+		return -ENOMEM;
-+	}
-+
-+	input->name = dev_name(dev);
-+	input->phys = "bbnsm-pwrkey/input0";
-+	input->id.bustype = BUS_HOST;
-+
-+	input_set_capability(input, EV_KEY, bbnsm->keycode);
-+
-+	ret = devm_add_action_or_reset(dev, scmi_imx_bbm_pwrkey_act, bbnsm);
-+	if (ret) {
-+		dev_err(dev, "failed to register remove action\n");
-+		return ret;
-+	}
-+
-+	bbnsm->input = input;
-+
-+	bbnsm->nb.notifier_call = &scmi_imx_bbm_key_notifier;
-+	ret = handle->notify_ops->devm_event_notifier_register(sdev, SCMI_PROTOCOL_IMX_BBM,
-+							       SCMI_EVENT_IMX_BBM_BUTTON,
-+							       NULL, &bbnsm->nb);
-+
-+	if (ret)
-+		dev_err(dev, "Failed to register BBM Button Events %d:", ret);
-+
-+	ret = input_register_device(input);
-+	if (ret) {
-+		dev_err(dev, "failed to register input device\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int scmi_imx_bbm_key_probe(struct scmi_device *sdev)
-+{
-+	const struct scmi_handle *handle = sdev->handle;
-+	struct device *dev = &sdev->dev;
-+	struct scmi_protocol_handle *ph;
-+	struct scmi_imx_bbm *bbnsm;
-+	int ret;
-+
-+	if (!handle)
-+		return -ENODEV;
-+
-+	bbnsm = devm_kzalloc(dev, sizeof(*bbnsm), GFP_KERNEL);
-+	if (!bbnsm)
-+		return -ENOMEM;
-+
-+	bbnsm->ops = handle->devm_protocol_get(sdev, SCMI_PROTOCOL_IMX_BBM, &ph);
-+	if (IS_ERR(bbnsm->ops))
-+		return PTR_ERR(bbnsm->ops);
-+
-+	bbnsm->ph = ph;
-+
-+	device_init_wakeup(dev, true);
-+
-+	dev_set_drvdata(dev, bbnsm);
-+
-+	ret = scmi_imx_bbm_pwrkey_init(sdev);
-+	if (ret)
-+		device_init_wakeup(dev, false);
-+
-+	return ret;
-+}
-+
-+static int __maybe_unused scmi_imx_bbm_key_suspend(struct device *dev)
-+{
-+	struct scmi_imx_bbm *bbnsm = dev_get_drvdata(dev);
-+
-+	WRITE_ONCE(bbnsm->suspended, true);
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused scmi_imx_bbm_key_resume(struct device *dev)
-+{
-+	return 0;
-+}
-+
-+static SIMPLE_DEV_PM_OPS(scmi_imx_bbm_pm_key_ops, scmi_imx_bbm_key_suspend,
-+			 scmi_imx_bbm_key_resume);
-+
-+static const struct scmi_device_id scmi_id_table[] = {
-+	{ SCMI_PROTOCOL_IMX_BBM, "imx-bbm-key" },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(scmi, scmi_id_table);
-+
-+static struct scmi_driver scmi_imx_bbm_key_driver = {
-+	.driver = {
-+		.pm = &scmi_imx_bbm_pm_key_ops,
-+	},
-+	.name = "scmi-imx-bbm-key",
-+	.probe = scmi_imx_bbm_key_probe,
-+	.id_table = scmi_id_table,
-+};
-+module_scmi_driver(scmi_imx_bbm_key_driver);
-+
-+MODULE_AUTHOR("Peng Fan <peng.fan@nxp.com>");
-+MODULE_DESCRIPTION("IMX SM BBM Key driver");
-+MODULE_LICENSE("GPL");
+ .../devicetree/bindings/firmware/arm,scmi.yaml        |  6 ++++++
+ drivers/firmware/arm_scmi/driver.c                    | 19 ++++++++++++++-----
+ drivers/firmware/arm_scmi/raw_mode.c                  | 11 +++++++----
+ drivers/firmware/arm_scmi/raw_mode.h                  |  3 ++-
+ 4 files changed, 29 insertions(+), 10 deletions(-)
+---
+base-commit: 76db4c64526c5e8ba0f56ad3d890dce8f9b00bbc
+change-id: 20240618-scmi-mailbox-v1-9b2c19663986
 
+Best regards,
 -- 
-2.37.1
+Peng Fan <peng.fan@nxp.com>
 
