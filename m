@@ -1,59 +1,66 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80D941E49B;
-	Mon,  1 Jul 2024 13:40:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1141167272;
+	Mon,  1 Jul 2024 14:29:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719841216; cv=none; b=p2v9hWnFndkEECOSy6x3PUG6KtVuIkatBi0FBHQHRShpd8+mqDfNM+6rNIRHBwH82pS2+t+rDKGSln0jDvitznXjDnP/0nEmaXOFL0HXnMFChE/i162NKnCXHq6rhfemFKG+e3d+5GhRC6BJHBJRb53sS3HYXg9NeMxcsrIwtUY=
+	t=1719844162; cv=none; b=YVdUU9girvZZKIH50/yYAaWcGivsUmJ4pxhxeuhdVdJABIEvDf2nKoeV7SyhvAnPo0AEZk5IttcOchuVchVgGJ6YmjSnqcqHRoE+PnfdvmrcNYu5Qyd1Fz8hnDW8GIRTj2G9Ok510S8sP0IyREEvqAdKMkF5AsCbTuQNU0E59yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719841216; c=relaxed/simple;
-	bh=fp3YoHVKSvn0Qjc5vfracn3c5dWX7U8SoDiJgYpp45s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pvrJoU7Hlnk6crzY8044Xhc0GKJnTdyoPQwEOI6snnW+07EOWDp/eHSh4Cp6PfOpcqhUnfxuLv27ExcIL3Q1NC+c6+lAaRS5yuwwGz2+TGfF1bMsjPa8t2orbXL7SJRVzF1Hvb2RPUJjFk0tzsDIW27/5fRXZ9saYoaNOR+veGw=
+	s=arc-20240116; t=1719844162; c=relaxed/simple;
+	bh=wrxd0Fuph4vel1ozo2/VNd3LYjzMS8VKldgVOhQuxIw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ABbQCVvhns50Jv7feydLnjMxc9aOkJZ+XTZAwMFz7deUu3/4fDYJFxv6N4AhxyZQ1L5UzsB0+pL5ojNu8j2AG9E+jKZPIJUCsJWPwTZXs2FXEKYve5CkOvikZHJzLcnAfeipig3h0Qc6DbyCA6xZrRgV9xFVxrlnqElD4lwH+yY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8C1BA339;
-	Mon,  1 Jul 2024 06:40:37 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 961B83F766;
-	Mon,  1 Jul 2024 06:40:11 -0700 (PDT)
-Date: Mon, 1 Jul 2024 14:40:09 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: sudeep.holla@arm.com, cristian.marussi@arm.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	arm-scmi@vger.kernel.org, Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH] firmware: arm_scmi: introduce setup_shmem_iomap
-Message-ID: <ZoKxucvEQwNNj6oQ@pluto>
-References: <20240701030143.2327844-1-peng.fan@oss.nxp.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D13DE339;
+	Mon,  1 Jul 2024 07:29:43 -0700 (PDT)
+Received: from thinkcentre-m93p.cambridge.arm.com (thinkcentre-m93p.cambridge.arm.com [10.1.197.43])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0390A3F762;
+	Mon,  1 Jul 2024 07:29:17 -0700 (PDT)
+From: Luke Parkin <luke.parkin@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org
+Cc: sudeep.holla@arm.com,
+	cristian.marussi@arm.com,
+	Luke Parkin <luke.parkin@arm.com>
+Subject: [PATCH 0/3] Add Per-transport SCMI debug statistics
+Date: Mon,  1 Jul 2024 15:28:48 +0100
+Message-Id: <20240701142851.1448515-1-luke.parkin@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240701030143.2327844-1-peng.fan@oss.nxp.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 01, 2024 at 11:01:43AM +0800, Peng Fan (OSS) wrote:
-> From: Peng Fan <peng.fan@nxp.com>
-> 
-> To get the address of shmem could be generalized by introducing
-> setup_shmem_iomap. Then the duplicated code in mailbox.c and optee.c
-> could be dropped.
-> 
+Hi,
 
-Hi Peng,
+This series adds support for tracking Arm SCMI statistics, [Patch 2]
+A config option to enable this, [Patch 1] 
+And in [Patch 3] a selection of new debugfs entries to present these statistics
 
-thanks for doing this cleanup, it is certainly needed.
+These statistics are per transport instance, and will be a helpful resource when
+debugging the SCMI and running tests.
 
-Since I am in the middle of a rework/reshape of the whole SCMI stack at
-the transport layer, I will pick up this patch of yours and integrate
-in my transports-rework related series in order to avoid clashes with
-all of my refactoring ... O_o (hopefully later this week I will post
-something...)
+Based on v6.9, Tested on Arm Juno [1]
 
 Thanks,
-Cristian
+Luke
+
+[1]: https://www.arm.com/products/development-tools/development-boards/juno-arm-dev-platform
+
+Luke Parkin (3):
+  Add Kconfig option for scmi debug statistics
+  Track basic SCMI statistics
+  Create debugfs files for statistics
+
+ drivers/firmware/arm_scmi/Kconfig  | 10 +++++
+ drivers/firmware/arm_scmi/driver.c | 61 +++++++++++++++++++++++++++++-
+ 2 files changed, 69 insertions(+), 2 deletions(-)
+
+-- 
+2.34.1
+
