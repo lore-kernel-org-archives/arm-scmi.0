@@ -1,32 +1,42 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 450D816D9C5;
-	Mon,  1 Jul 2024 16:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE92614AD25;
+	Mon,  1 Jul 2024 17:04:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719850902; cv=none; b=CN/1VsHGdUwV+OsfzXS0xgdgnHDJ9fVOTHoB4qdtjtl6tVyIOKjDgWuqro71YNm++wPOBXDNrlaGX1R83/RU6+akb5FEcmMTrEZPPS8cL/9rCrbMfgiaF+bOlaJk74H/0h2Lkdu4uAjZ9e0obOuGjDRaZwcDaDsL7fcH/bnLepo=
+	t=1719853473; cv=none; b=cqI59mlmR/DkmCM9ezN13l+jfuW1ng38DSMo4IysjJZdqWuJpQzHAYVZflrMFq3QbOJn4kGiGZ7vv/6uMYV3huRUX/GrTVn67c06/hCz4O78i92er2vFWSKLRyU4u0U75nL1xPbTivDFYdXUloQQ7j1fNhl/q1pDwjKRqx1pf2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719850902; c=relaxed/simple;
-	bh=M6IYo8b0Q1XF3SwYUmG4CG4tqJzC1dEx44Swa5frpZo=;
+	s=arc-20240116; t=1719853473; c=relaxed/simple;
+	bh=1ozzb/852acdo8maf7CK3uWvvUYvjaMR99Rgi2L1nMk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pR4+B7NjucZ6OZMBUaUCO8iMOt47qk1gaGgDb9HRlQ9AxC4KizoXX9YegmFdWKGAglDSuWjpLDawR9fVLTGm81aQt3KNfGJWI3zXJn9idxEyBtXFQ1ZKWDYMVqD+gsoowFdc2UgjeOyXrbaIjF9a+v8e3EjCqX9JC3obBTVEAtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 975CC339;
-	Mon,  1 Jul 2024 09:22:05 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BDD453F73B;
-	Mon,  1 Jul 2024 09:21:39 -0700 (PDT)
-Date: Mon, 1 Jul 2024 17:21:37 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Luke Parkin <luke.parkin@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
-	cristian.marussi@arm.com
-Subject: Re: [PATCH 0/3] Add Per-transport SCMI debug statistics
-Message-ID: <ZoLXkWur5TZaQzkm@pluto>
-References: <20240701142851.1448515-1-luke.parkin@arm.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=MfL9D1kRlzuJGLtXX17j5ANJziImrG1jpUJPuCFwlD0N8WdqjyTt0EeVbXn8UhzFpDkV5hR05I4iuHNmRIVVGJuQ+ddSi3A/rYoocMWPZBCG6hSTai5Uh/zkvbZm1rCh9XF8UP9g4ORga2ZtY1cBt8VPlgv2yX3NXg2lx8Tqxjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kb38BPDg; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kb38BPDg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D7C0C2BD10;
+	Mon,  1 Jul 2024 17:04:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719853472;
+	bh=1ozzb/852acdo8maf7CK3uWvvUYvjaMR99Rgi2L1nMk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kb38BPDg98IEiiykLogYdQog24ja1Ju1ivfXoaYRgwQ8XuDS81vqR3U+82FiqRQAC
+	 314iwm2tUYzDDTsl+3LfuNVWtDBtORtzUpitm121ABb4bfIFmB8BPYxtiZBCTjerCQ
+	 Tp3h0FXW1boa+NW5bSaxA+6faNxF2xNSaPDULORc/ULKlQwRLYuMQg8ggtC7tFPqyl
+	 yG9A8d6mNfXazVLxvrnaEVQTeK1WYLmgJNuU3uY973oiidVV2RZcM3Q+luV/dsVj9f
+	 xIslnBtOdmOFZ42JdhXIx5SHbnppLSuR6GFwU4wXVMysZx/OE5oW/PNSCJYpWhHFCH
+	 nz3RAQVfWFxRw==
+Date: Mon, 1 Jul 2024 11:04:31 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc: sudeep.holla@arm.com, linux-kernel@vger.kernel.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, cristian.marussi@arm.com,
+	krzk+dt@kernel.org, Peng Fan <peng.fan@nxp.com>,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH RESEND] dt-bindings: firmware: arm,scmi: support system
+ power protocol
+Message-ID: <171985347002.119709.17589124239067617690.robh@kernel.org>
+References: <20240628030309.1162012-1-peng.fan@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -35,37 +45,19 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240701142851.1448515-1-luke.parkin@arm.com>
+In-Reply-To: <20240628030309.1162012-1-peng.fan@oss.nxp.com>
 
-On Mon, Jul 01, 2024 at 03:28:48PM +0100, Luke Parkin wrote:
-> Hi,
+
+On Fri, 28 Jun 2024 11:03:09 +0800, Peng Fan (OSS) wrote:
+> From: Peng Fan <peng.fan@nxp.com>
 > 
-> This series adds support for tracking Arm SCMI statistics, [Patch 2]
-> A config option to enable this, [Patch 1] 
-> And in [Patch 3] a selection of new debugfs entries to present these statistics
+> Add SCMI System Power Protocol bindings, and the protocol id is 0x12.
 > 
-> These statistics are per transport instance, and will be a helpful resource when
-> debugging the SCMI and running tests.
-> 
-> Based on v6.9, Tested on Arm Juno [1]
-> 
-> Thanks,
-> Luke
-> 
-> [1]: https://www.arm.com/products/development-tools/development-boards/juno-arm-dev-platform
-> 
-> Luke Parkin (3):
->   Add Kconfig option for scmi debug statistics
->   Track basic SCMI statistics
->   Create debugfs files for statistics
-> 
->  drivers/firmware/arm_scmi/Kconfig  | 10 +++++
->  drivers/firmware/arm_scmi/driver.c | 61 +++++++++++++++++++++++++++++-
->  2 files changed, 69 insertions(+), 2 deletions(-)
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
+>  Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
 
-All in all, seems to me a good start, please address or dispute my (and
-possibly other reviewers) observations in V2.
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-Thanks,
-Cristian
