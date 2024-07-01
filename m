@@ -1,33 +1,33 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57D8A16D4C6;
-	Mon,  1 Jul 2024 15:32:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8D836F2EB;
+	Mon,  1 Jul 2024 16:15:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719847965; cv=none; b=jvKLApgolcQ+ho2K8zYzux7iWlevjVYwBxysCY3zrFvlXYZHT8gq9beLA3qBytkOpkmkUEf3+GBDvKBXf2T1x8E5JH/FbGiwl1F/blxagKDTClc41h0CWHUTQl/Z9EJnLLz3cNta/68KaLRgFY5F9IwiYSWq9BHcTUTNALm+Nzk=
+	t=1719850535; cv=none; b=iHUPoIhZ2PlC0OvLPqEkC3qA8yQEIf609jCewXp5MJFxkD+kTo+HtIEWwa92OOLuENH5f1v6IHBBeehw5NnfEvvJv7Mrnn1swOdF4mOUX9KAqWa01HUHeVDHGjBthwXOQmRNtqkVPnW+0+gf1PpyXSP4Wkyb85dH32otsFPjoc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719847965; c=relaxed/simple;
-	bh=szQdPiyo9yNxRagpcSjdtxIPW5x4G5ULZpn487xWoFA=;
+	s=arc-20240116; t=1719850535; c=relaxed/simple;
+	bh=YtlCIhlzvR741FG+CjEjpuyfwMmqxuTKUqcadGHXiNE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GIBTKJaKyPapvR3tm9C4zlCDcb1KQ9ENiEX6rNVFZvc2vcfz74e8oEmDafmZq0OfmMKidjJ5ytajgLXHmFUL0BFfBtm8ehYmicdR+E7AILJdxqVgIQm+aH+6Xo5JqDEFmMLKPcCvzRTm66Amdj+XJktY+MQCEkFLRgmi/aaIVpM=
+	 Content-Type:Content-Disposition:In-Reply-To; b=asZ6wVzB5kS6AZ0nOIPRjGDnEEeo++kQxBFmRuU4qY7k/nPtAS8Nq3PecAAz8opREgdSbA6XS+jzVAHnQlTOhk5HauXbO/ccObCInTtcaq/l+gYIY4YU9YJS2w+walG9jXP9kYwZ/QRIfcsNG4apfrI6NuNkRktgP4XMZhL8Irc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A5AED339;
-	Mon,  1 Jul 2024 08:33:07 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 09F68339;
+	Mon,  1 Jul 2024 09:15:56 -0700 (PDT)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CC6433F73B;
-	Mon,  1 Jul 2024 08:32:41 -0700 (PDT)
-Date: Mon, 1 Jul 2024 16:32:39 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2F65B3F73B;
+	Mon,  1 Jul 2024 09:15:30 -0700 (PDT)
+Date: Mon, 1 Jul 2024 17:15:27 +0100
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: Luke Parkin <luke.parkin@arm.com>
 Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
 	cristian.marussi@arm.com
-Subject: Re: [PATCH 1/3] Add Kconfig option for scmi debug statistics
-Message-ID: <ZoLMF5AFa60iefpA@pluto>
+Subject: Re: [PATCH 2/3] Track basic SCMI statistics
+Message-ID: <ZoLWH9-JPFQB4YSu@pluto>
 References: <20240701142851.1448515-1-luke.parkin@arm.com>
- <20240701142851.1448515-2-luke.parkin@arm.com>
+ <20240701142851.1448515-3-luke.parkin@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -36,48 +36,184 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240701142851.1448515-2-luke.parkin@arm.com>
+In-Reply-To: <20240701142851.1448515-3-luke.parkin@arm.com>
 
-On Mon, Jul 01, 2024 at 03:28:49PM +0100, Luke Parkin wrote:
-> Add a new config option for statistic tracking in SCMI subsystem.
+On Mon, Jul 01, 2024 at 03:28:50PM +0100, Luke Parkin wrote:
+> Add scmi_debug_stats struct with atomic_t types to prevent racing.
+> 
+
+Hi
+
+"Add SCMI debug statisticts based on atomic types to prevent races."
+
+if you want to specify why you did it this way in the commit message,
+but this seems really more something for a comment in the doxygen that
+on the commit log.
+
+> Add tracking of 5 initial statistics
+> - sent_ok & sent_fail
+> - response_ok & dlyd_response_ok
+> - xfers_response_timeout
+
+Morover I would not specify here in the log what you added, you can see
+it from the code. "Add some initial stats counter" if you want.
+
 > 
 > Signed-off-by: Luke Parkin <luke.parkin@arm.com>
 > ---
->  drivers/firmware/arm_scmi/Kconfig | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  drivers/firmware/arm_scmi/driver.c | 46 +++++++++++++++++++++++++++++-
+>  1 file changed, 45 insertions(+), 1 deletion(-)
 > 
-
-Hi,
-
-> diff --git a/drivers/firmware/arm_scmi/Kconfig b/drivers/firmware/arm_scmi/Kconfig
-> index aa5842be19b2..fac50fd0be72 100644
-> --- a/drivers/firmware/arm_scmi/Kconfig
-> +++ b/drivers/firmware/arm_scmi/Kconfig
-> @@ -55,6 +55,16 @@ config ARM_SCMI_RAW_MODE_SUPPORT_COEX
->  	  operate normally, thing which could make an SCMI test suite using the
->  	  SCMI Raw mode support unreliable. If unsure, say N.
+> diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+> index 6b6957f4743f..f69dff699d48 100644
+> --- a/drivers/firmware/arm_scmi/driver.c
+> +++ b/drivers/firmware/arm_scmi/driver.c
+> @@ -125,6 +125,22 @@ struct scmi_debug_info {
+>  	bool is_atomic;
+>  };
 >  
-> +config ARM_SCMI_DEBUG_STATISTICS
-> +	bool "Enable SCMI Raw mode statistic tracking"
-
-I would add also a depends on DEBUG_FS like in RAW...and maybe in the
-future move such all of such depends on ARM_SCMI_NEED_DEBUGFS
-instead...but for now it is easier and less potentially disruptive to
-the build to just add a depends here.
-
-> +	select ARM_SCMI_NEED_DEBUGFS
-> +	help
-> +	  Enables statistic tracking for the SCMI subsystem.
+> +/**
+> + * struct scmi_debug_stats - Debug statistics
+> + * @sent_ok: Count of successful sends
+> + * @sent_fail: Count of failed sends
+> + * @response_ok: Count of successful responses
+> + * @dlyd_response_ok: Count of successful delayed responses
+> + * @xfers_response_timeout: Count of xfer response timeouts
+> + */
+> +struct scmi_debug_stats {
+> +	atomic_t sent_ok;
+> +	atomic_t sent_fail;
+> +	atomic_t response_ok;
+> +	atomic_t dlyd_response_ok;
+> +	atomic_t xfers_response_timeout;
+> +};
 > +
-> +	  Enable this option to create a new debugfs directory which contains
-> +	  several useful statistics on various SCMI features. This can be useful
-> +	  for debugging and SCMI monitoring. If unsure, say N.
+>  /**
+>   * struct scmi_info - Structure representing a SCMI instance
+>   *
+> @@ -141,6 +157,7 @@ struct scmi_debug_info {
+>   * @protocols: IDR for protocols' instance descriptors initialized for
+>   *	       this SCMI instance: populated on protocol's first attempted
+>   *	       usage.
+> + * @stats: Contains several atomic_t's for tracking various statistics
+>   * @protocols_mtx: A mutex to protect protocols instances initialization.
+>   * @protocols_imp: List of protocols implemented, currently maximum of
+>   *		   scmi_revision_info.num_protocols elements allocated by the
+> @@ -174,6 +191,7 @@ struct scmi_info {
+>  	struct idr tx_idr;
+>  	struct idr rx_idr;
+>  	struct idr protocols;
+> +	struct scmi_debug_stats stats;
+
+Pleaase move this field right after scmi_debug_info down below, so that
+we keep all debug stuff together.
+
+Also this is an embedded structure, not a bare pointer to dynamically
+allocated stuff (and this is fine...) so you should probably ifdef
+ARM_SCMI_DEBUG_STATISTICS at compile time the presence of this field itself
+so as not to waste memory for something you never use...but this is
+opinable because it will also, on the other side, polllute a bit the code
+with unpleasant ifdeffery... so maybe Sudeep wont like it...the other option
+would be to make this a pointer and conditionaly devm_kzalloc a struct to this
+pointer (like scmi_debug_info)
+
+>  	/* Ensure mutual exclusive access to protocols instance array */
+>  	struct mutex protocols_mtx;
+>  	u8 *protocols_imp;
+> @@ -1143,7 +1161,12 @@ static void scmi_handle_response(struct scmi_chan_info *cinfo,
+>  						SCMI_RAW_REPLY_QUEUE,
+>  						cinfo->id);
+>  	}
+> -
+> +	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_STATISTICS)) {
+> +		if (xfer->hdr.type == MSG_TYPE_DELAYED_RESP)
+> +			atomic_inc(&info->stats.dlyd_response_ok);
+> +		else
+> +			atomic_inc(&info->stats.response_ok);
+> +	}
+
+Ok, so IMO, this is the main core thing to rework in this series: the
+"counting" operation/block should be defined as a macro so that it can
+be fully compiled out when STATS=n, because these are counters
+incremented on the hot path for each message, not just once in a while,
+so the above if(IS_ENABELD()) now will be there and evaluated even when
+STATS=n.
+
+Something like:
+
+	#ifdef CONFIG_ARM_SCMI_DEBUG_STATISTICS
+	#define SCMI_LOG_STATS(counter)			\
+		<your magic here> 			\
+	#else
+	#define SCMI_LOG_STATS(counter)
+	#endif
+
+.... I have not thought it through eh...so it could be radically
+different...the point is ... the counting machinery should just
+disappear at compile time when STATS=n
+
+Moreover please define this macros magic here in this patch BUT split
+out in a distinct patch all the places where you make use of it, so that
+this patch contains only definitions of mechanisms and struct and
+another patch will contain all the places where stats are monitored.
+
+>  	scmi_xfer_command_release(info, xfer);
+>  }
+>  
+> @@ -1279,6 +1302,12 @@ static int scmi_wait_for_reply(struct device *dev, const struct scmi_desc *desc,
+>  		}
+>  	}
+>  
+> +	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_STATISTICS) && ret == -ETIMEDOUT) {
+> +		struct scmi_info *info =
+> +					handle_to_scmi_info(cinfo->handle);
+> +		atomic_inc(&info->stats.xfers_response_timeout);
+> +	}
 > +
 
-Moreover you should move this Kconfig patch after the patches in the
-series that includes the logic underneath this...here really you are
-defining some option that, if enabled, at this point it really still
-does NOT enable anything.
+Ditto.
+
+>  	return ret;
+>  }
+>  
+> @@ -1414,6 +1443,13 @@ static int do_xfer(const struct scmi_protocol_handle *ph,
+>  	trace_scmi_xfer_end(xfer->transfer_id, xfer->hdr.id,
+>  			    xfer->hdr.protocol_id, xfer->hdr.seq, ret);
+>  
+> +	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_STATISTICS)) {
+> +		if (ret == 0)
+> +			atomic_inc(&info->stats.sent_ok);
+> +		else
+> +			atomic_inc(&info->stats.sent_fail);
+> +	}
+> +
+
+Ditto.
+
+>  	return ret;
+>  }
+>  
+> @@ -2994,6 +3030,14 @@ static int scmi_probe(struct platform_device *pdev)
+>  	handle->devm_protocol_get = scmi_devm_protocol_get;
+>  	handle->devm_protocol_put = scmi_devm_protocol_put;
+>  
+> +	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_STATISTICS)) {
+> +		atomic_set(&info->stats.response_ok, 0);
+> +		atomic_set(&info->stats.sent_fail, 0);
+> +		atomic_set(&info->stats.sent_ok, 0);
+> +		atomic_set(&info->stats.dlyd_response_ok, 0);
+> +		atomic_set(&info->stats.xfers_response_timeout, 0);
+> +	}
+> +
+
+I think that you can just drop this zero initializations because the
+stats are part of the info structure which is created devm_kzalloc'ed...
+so zerod at creation time AND indeed atomic_t is just a structure containing
+an int counter which will be already zeroed too...I dont think that any
+other special init is done, it is already zero, and nothing more is done
+by your atomic_set(v, 0)...but feel free to verify I am not missing
+something, please.
 
 Thanks,
 Cristian
+
