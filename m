@@ -1,35 +1,31 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B3421684BD;
-	Mon,  1 Jul 2024 14:29:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1482F15A84A;
+	Mon,  1 Jul 2024 15:20:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719844175; cv=none; b=AXpo4T3qDSMwkVhhTM+sOlPWpawz7DtXGl1g00sPsxmLc7EamjM3b8kbKIcIUW9pOc9HValpLzNRmYABMCNqclwjVLHOHeZ7aNwFTrd5jd3PclJbcSjykLMvu2DSKqHNYwnbHLgzpPU6JdYXwVm/ZVgI7LegzRmhOInFGCqwAZk=
+	t=1719847257; cv=none; b=QqKLv16VSxxLfeNdzWDdWwArrdaXRsKjwNYSUInBM1Xt5rl3x+gvsRbxV1JpMGlbOYboScb6LAocvv/FM0mWL+Rzs69mTe2IdMEM3DA4ouyD1V9t+We1MYZMHV1Q9Gp/EqWSsrsWrNzhgz0RO6+KalwWzoXTNml5Zq1OavHFrII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719844175; c=relaxed/simple;
-	bh=RaUcUsCsJULxcj53PVFIPVEf5NAcdvwQU8sNh4SOEJI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=FnAvgqylNzuUWycsVm1PSQ7WykYneb7oL/haBbpPe9QSQn+87U+Qki+9jaG+HfW3zA3t7lo9xgui4GAO14iwnEw1rgJA3pu6vUqdpHrw3UYUbfB1Cij6s24UuHRrB2WQwfWGbWBYbeqWDf7ytUcwQDgNrbh6oxqOE/rQDpwTcMQ=
+	s=arc-20240116; t=1719847257; c=relaxed/simple;
+	bh=M4jwutQQg+w0C+F7XN38u/Gf9eVj0pBlhgXe61FHLHE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VU4DPA6YjttljH7rCoTu6U+OQq0+xFUdv7TaoyqN/rOB2L3z+wIwkzmMROsOKYL4Htq+ZNV/YGKHJBD7NAum1cOOputaLi8mBsv8SXt5MlDLjiGbl4zcj9UJc8B5EpIeobo0Gg7FYRPufWRlShStf/qJRd0U+pXJGS4E0uaCnAM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EB64F367;
-	Mon,  1 Jul 2024 07:29:57 -0700 (PDT)
-Received: from thinkcentre-m93p.cambridge.arm.com (thinkcentre-m93p.cambridge.arm.com [10.1.197.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 214883F762;
-	Mon,  1 Jul 2024 07:29:32 -0700 (PDT)
-From: Luke Parkin <luke.parkin@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org
-Cc: sudeep.holla@arm.com,
-	cristian.marussi@arm.com,
-	Luke Parkin <luke.parkin@arm.com>
-Subject: [PATCH 3/3] Create debugfs files for statistics
-Date: Mon,  1 Jul 2024 15:28:51 +0100
-Message-Id: <20240701142851.1448515-4-luke.parkin@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240701142851.1448515-1-luke.parkin@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8B4FC339;
+	Mon,  1 Jul 2024 08:21:20 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ADD903F73B;
+	Mon,  1 Jul 2024 08:20:54 -0700 (PDT)
+Date: Mon, 1 Jul 2024 16:20:52 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Luke Parkin <luke.parkin@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
+	cristian.marussi@arm.com
+Subject: Re: [PATCH 0/3] Add Per-transport SCMI debug statistics
+Message-ID: <ZoLJVKqx0erHdmyl@pluto>
 References: <20240701142851.1448515-1-luke.parkin@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -37,48 +33,38 @@ List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240701142851.1448515-1-luke.parkin@arm.com>
 
-Create debugfs files for the statistics in the scmi_debug_stats struct
+On Mon, Jul 01, 2024 at 03:28:48PM +0100, Luke Parkin wrote:
+> Hi,
+> 
 
-Signed-off-by: Luke Parkin <luke.parkin@arm.com>
----
- drivers/firmware/arm_scmi/driver.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+Hi Luke,
 
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index f69dff699d48..509ea42d17bf 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -2884,7 +2884,7 @@ static void scmi_debugfs_common_cleanup(void *d)
- static struct scmi_debug_info *scmi_debugfs_common_setup(struct scmi_info *info)
- {
- 	char top_dir[16];
--	struct dentry *trans, *top_dentry;
-+	struct dentry *trans, *top_dentry, *stats;
- 	struct scmi_debug_info *dbg;
- 	const char *c_ptr = NULL;
- 
-@@ -2935,6 +2935,19 @@ static struct scmi_debug_info *scmi_debugfs_common_setup(struct scmi_info *info)
- 	debugfs_create_u32("rx_max_msg", 0400, trans,
- 			   (u32 *)&info->rx_minfo.max_msg);
- 
-+	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_STATISTICS)) {
-+		stats = debugfs_create_dir("stats", trans);
-+		debugfs_create_atomic_t("response_ok", 0400, stats,
-+					&info->stats.response_ok);
-+		debugfs_create_atomic_t("dlyd_response_ok", 0400, stats,
-+					&info->stats.dlyd_response_ok);
-+		debugfs_create_atomic_t("sent_ok", 0400, stats,
-+					&info->stats.sent_ok);
-+		debugfs_create_atomic_t("sent_fail", 0400, stats,
-+					&info->stats.sent_fail);
-+		debugfs_create_atomic_t("xfers_response_timeout", 0400, stats,
-+					&info->stats.xfers_response_timeout);
-+	}
- 	dbg->top_dentry = top_dentry;
- 
- 	if (devm_add_action_or_reset(info->dev,
--- 
-2.34.1
+thanks for taking a shot at this, a few comments down below and along
+this series.
 
+> This series adds support for tracking Arm SCMI statistics, [Patch 2]
+> A config option to enable this, [Patch 1] 
+> And in [Patch 3] a selection of new debugfs entries to present these statistics
+> 
+> These statistics are per transport instance, and will be a helpful resource when
+> debugging the SCMI and running tests.
+> 
+> Based on v6.9, Tested on Arm Juno [1]
+> 
+
+First of all a nitpick on commit messages themselves...when posting patches on a specific
+subsystem, the commit message "style" should align with the subsystem conventions:
+IOW all the patches in your series (beside this cover-letter) should be titled as:
+
+  firmware: arm_scmi: My patch starting with a capital letter
+
+as you can guess having a look at git log --oneline drivers/firmware/arm_scmi
+
+So please do this in V2 together with other reviews.
+
+Thanks,
+Cristian
