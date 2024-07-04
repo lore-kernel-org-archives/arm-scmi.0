@@ -1,35 +1,35 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E62FB1D696;
-	Thu,  4 Jul 2024 10:32:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EA3C12D76E;
+	Thu,  4 Jul 2024 10:36:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720089158; cv=none; b=bLPdJZOUDavtpVaK/VuuTfKc2dMavJohZ7ApQbjWvbf5q0Y1mA3omQioKmk28rJBYMq9bvyuUdbUyga/xAY0eHz9k7OkXNara5xne75e+rnRZF8KVjzuxZ1r3F6bOR04sb96jNj7B7mrJREV+wHaClrcVH1dvzRh619j/k13l/4=
+	t=1720089403; cv=none; b=ljwo0GzH4XkDnGWb/Ps8T/ZeCRRfGuMXdGrOnm9NIuTqSH8Rs1bZgzjrRmuSzXfvSI+MExe1fKOog/RPuciuq1y6FYS8cUcBMayw09APV939O4rXfUJskvixJaaiOhHfKEks3vPHqgXER70nsSDLiIOHYnUuvQU4/Dzrdyv++a0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720089158; c=relaxed/simple;
-	bh=0PZh3q+a7ToijpDQIW9OsIT8qGi+U0E5R5MjBL/wbWQ=;
+	s=arc-20240116; t=1720089403; c=relaxed/simple;
+	bh=tc+zXpW5EumM4Y5w1BQmomPKVoA3wzt9NxV5ihkiHlI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IbDLrqYSLSwbDRIv/C5/uj+Z8JPZcECk5gIVdn2Jvym65orrFupqZwFB23FIhaF+0eKNxHI8xjRicpjB41ajsvaHEc9AphqHYPdOS/5UEyuuiQQ8M3WblRe8UgERzCHfXtuyOYqXVMNdVCbvVSjb/AEyGdhIlDP++ktUntiUsJ4=
+	 Content-Type:Content-Disposition:In-Reply-To; b=TAKlEE5JT2U5vpMSoDrqz+rD5dyx7SH1ueYbPqyLK6i+CsMXvxx794lwufd0CGFVTq86dEX1DfM2rtvD4qhkNv99Uh0u4jf11l7MDCocI66rnwPEZli2XRzORdLI03N8DGE7zbd5+f4+mRTABviIJFsBPbM6E7VrnP5ZdtXNn8Y=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4E801367;
-	Thu,  4 Jul 2024 03:33:00 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0DACF367;
+	Thu,  4 Jul 2024 03:37:06 -0700 (PDT)
 Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A1A53F762;
-	Thu,  4 Jul 2024 03:32:33 -0700 (PDT)
-Date: Thu, 4 Jul 2024 11:32:30 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4933B3F762;
+	Thu,  4 Jul 2024 03:36:39 -0700 (PDT)
+Date: Thu, 4 Jul 2024 11:36:36 +0100
 From: Sudeep Holla <sudeep.holla@arm.com>
-To: Sibi Sankar <quic_sibis@quicinc.com>
-Cc: <ulf.hansson@linaro.org>, <cristian.marussi@arm.com>,
-	<linux-kernel@vger.kernel.org>, <arm-scmi@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<linux-arm-msm@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-	<quic_rgottimu@quicinc.com>, <quic_kshivnan@quicinc.com>,
-	Sudeep Holla <sudeep.holla@arm.com>, <johan@kernel.org>
-Subject: Re: [PATCH] pmdomain: arm: Fix debugfs node creation failure
-Message-ID: <ZoZ6Pk7NSUNDB74i@bogus>
-References: <20240703110741.2668800-1-quic_sibis@quicinc.com>
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc: cristian.marussi@arm.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
+	Sudeep Holla <sudeep.holla@arm.com>, devicetree@vger.kernel.org,
+	Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH V2 1/2] dt-bindings: firmware: arm,scmi: introduce
+ property mbox-rx-timeout-ms
+Message-ID: <ZoZ7NCSaG0YRK-60@bogus>
+References: <20240703031715.379815-1-peng.fan@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,31 +38,49 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240703110741.2668800-1-quic_sibis@quicinc.com>
+In-Reply-To: <20240703031715.379815-1-peng.fan@oss.nxp.com>
 
-On Wed, Jul 03, 2024 at 04:37:41PM +0530, Sibi Sankar wrote:
-> The domain attributes returned by the perf protocol can end up
-> reporting identical names across domains, resulting in debugfs
-> node creation failure. Fix this duplication by appending the
-> domain-id to the domain name.
+On Wed, Jul 03, 2024 at 11:17:14AM +0800, Peng Fan (OSS) wrote:
+> From: Peng Fan <peng.fan@nxp.com>
 > 
-> Logs:
-> debugfs: Directory 'NCC' with parent 'pm_genpd' already present!
-> debugfs: Directory 'NCC' with parent 'pm_genpd' already present!
->
+> System Controller Management Interface(SCMI) firmwares might have
+> different designs by SCMI firmware developers. So the maximum receive
+> channel timeout value might also varies in the various designs.
+> 
+> So introduce property mbox-rx-timeout-ms to let each platform could
+> set its own timeout value in device tree.
+> 
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
+> 
+> V2:
+>  Drop defaults, update description.
+> 
+>  Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> index ebf384e76df1..dcac0b36c76f 100644
+> --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> @@ -121,6 +121,12 @@ properties:
+>        atomic mode of operation, even if requested.
+>      default: 0
+>  
+> +  max-rx-timeout-ms:
+> +    description:
+> +      An optional time value, expressed in milliseconds, representing the
+> +      mailbox maximum timeout value for receive channel. The value should
+> +      be a non-zero value if set.
+> +
 
-If there are 2 perf domains for a device or group of devices, there must
-be something unique about each of these domains. Why can't the firmware
-specify the uniqueness or the difference via the name?
+IIRC, you had the min and max constraint in the earlier response. You
+need to have rushed and posted another version before I could respond
+with my preference.
 
-The example above seems firmware is being just lazy to update it. Also
-for the user/developer/debugger, the unique name might be more useful
-than just this number.
+So there is no rush, these are v6.12 material. Take time for respining
+and give some time for the review.
 
-So please use the name(we must now have extended name if 16bytes are less)
-to provide unique names. Please stop working around such silly firmware
-bugs like this, it just makes using debugfs for anything useful harder.
-
---
+-- 
 Regards,
 Sudeep
