@@ -1,81 +1,158 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42F00143C79;
-	Fri,  5 Jul 2024 13:04:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCE144C7B;
+	Sun,  7 Jul 2024 00:21:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720184699; cv=none; b=JSvfqTsY/c7PygYUEb3IcYmd+g/X0iiHEwPPzRlLoZCMstSEgqOKv0T+OM9sjEWErtkd289udfvoLPqSI/xXm5x/nMK6GxorIrKrjhapBbU6sf1j8LggQZVYXB8h/5o2IMa/Rx7z3xJlzcOYpvRZSm+cS3goJNY+ZZ1l4flYHyA=
+	t=1720311696; cv=none; b=moAC9VyvKSTQ22AdpQduGQ4Ek85jzLspWsCW3bmT54Qf1ou+YXm1F0ldRZzqIoHvm9fXEdrOBYX+W9thUxZG0j+16P/Rz+2X0ky0tNCLsQ6EQujV4YhneyWkr9Kgrc8TJIgvmTlerk15HoU7KdihpuYXLb3LK6V5I/CNvqrybkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720184699; c=relaxed/simple;
-	bh=EWI4zmWAXKTS95NpgBFwzsLFCqxfVD6ICNOLsknuZDE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dWx4uh9fe752pdxhlWQ//c6/ihA7/mI0Oii85GdM8125wqKDrd/rJnHuFQQl0KrlTk3AMBf2ElzPAsRUSX3qxjApQex3Uu/t2Cp9rDQWmDzrMP1XWEsOq+yyPgpP8e3yoZIKOX/k5+dJtr7kYP59MSExSzsafnl6joeYDK7GdBw=
+	s=arc-20240116; t=1720311696; c=relaxed/simple;
+	bh=oHOXUljsjplj2hMFLMYDgcenBpbY6CUbLzvvMfLxXug=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tzT/1f+u4L5I81DleTYWjYSaNGkszSw0t8zlA6zJivxivMs1xWwkuTKXjsFmD8ZV2KAiwggmiKj5QKABjEfPo0qnoQuas2iQHEHL8m2EuA6omecXZ3t9+nYDNTZmJmmUwRBL1eF0Bh4zqoiXViKkbtfQqmFPkfAUvGaLhvAxyMQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 67A83367;
-	Fri,  5 Jul 2024 06:05:21 -0700 (PDT)
-Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3168C3F762;
-	Fri,  5 Jul 2024 06:04:54 -0700 (PDT)
-Date: Fri, 5 Jul 2024 14:04:51 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Sibi Sankar <quic_sibis@quicinc.com>
-Cc: <ulf.hansson@linaro.org>, <cristian.marussi@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>, <linux-kernel@vger.kernel.org>,
-	<arm-scmi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-arm-msm@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-	<quic_rgottimu@quicinc.com>, <quic_kshivnan@quicinc.com>,
-	<johan@kernel.org>
-Subject: Re: [PATCH] pmdomain: arm: Fix debugfs node creation failure
-Message-ID: <Zofvc31pPU23mjnp@bogus>
-References: <20240703110741.2668800-1-quic_sibis@quicinc.com>
- <ZoZ6Pk7NSUNDB74i@bogus>
- <064274c4-3783-c59e-e293-dd53a8595d8e@quicinc.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1CAB0DA7;
+	Sat,  6 Jul 2024 17:21:58 -0700 (PDT)
+Received: from pluto.. (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B756A3F73B;
+	Sat,  6 Jul 2024 17:21:29 -0700 (PDT)
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org
+Cc: sudeep.holla@arm.com,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	etienne.carriere@foss.st.com,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	quic_sibis@quicinc.com,
+	quic_nkela@quicinc.com,
+	ptosi@google.com,
+	dan.carpenter@linaro.org,
+	souvik.chakravarty@arm.com,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [PATCH 0/8] Make SCMI transport as standalone drivers
+Date: Sun,  7 Jul 2024 01:20:47 +0100
+Message-ID: <20240707002055.1835121-1-cristian.marussi@arm.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <064274c4-3783-c59e-e293-dd53a8595d8e@quicinc.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 05, 2024 at 09:16:29AM +0530, Sibi Sankar wrote:
->
-> On 7/4/24 16:02, Sudeep Holla wrote:
-> >
-> > If there are 2 perf domains for a device or group of devices, there must
-> > be something unique about each of these domains. Why can't the firmware
-> > specify the uniqueness or the difference via the name?
-> >
-> > The example above seems firmware is being just lazy to update it. Also
-> > for the user/developer/debugger, the unique name might be more useful
-> > than just this number.
-> >
-> > So please use the name(we must now have extended name if 16bytes are less)
-> > to provide unique names. Please stop working around such silly firmware
-> > bugs like this, it just makes using debugfs for anything useful harder.
->
-> This is just meant to address firmware that are already out in the wild.
-> That being said I don't necessarily agree with the patch either since
-> it's penalizing firmware that actually uses a proper name by appending
-> something inherently less useful to it. Since, the using of an unique
-> domain name isn't required by the spec, the need for it goes under the radar
-> for vendors. Mandating it might be the right thing to do since
-> the kernel seems inherently expect that.
->
+Hi all,
 
-Well I would love if spec authors can agree and mandate this. But this is
-one of those things I can't argue as I don't necessarily agree with the
-argument. There are 2 distinct/unique domains but firmware authors ran out
-of unique names for them or just can't be bothered to care about it.
+SCMI transport layer was till now being embedded built into in the core
+SCMI stack.
 
-They can't run out of characters as well in above examples, firmware can
-add some useless domain ID in the name if they can't be bothered or creative.
+Some of these transports, despite being currently part of the main SCMI
+module, are indeed also registered with different subsystems like optee or
+virtio, and actvely probed also by those: this led to a few awkward and
+convoluted tricks to properly handle such interactions at boot time in the
+SCMI stack.
 
-So I must admit I can't be bothered as well with that honestly.
---
-Regards,
-Sudeep
+Moreover some partner expressed the desire to be able to fully modularize
+the transports components.
+
+This series aim to make all such transports as standalone drivers that can
+be optionally loaded as modules.
+
+In order to do this, at first some new mechanism is introduced to support
+this new capability while maintaining, in parallel, the old legacy embedded
+transports; then each transport, one by one, is transitioned to be a
+standalone driver and finally the old legacy support for embedded transport
+is removed.
+
+Patch [1/8] is a mostly unrelated (but much needed) clean-up from Peng,
+which I included in this series to avoid conflicts at merge.
+
+Patch [2/8] simply collects the existing datagram manipulation helpers in a
+pair of function pointers structures, in preparation for later reworks.
+
+Patch [3/8] adds the bulk of the new logic to the core SCMI stack and then
+each existing transport is transitioned to be a standalone driver in
+patches 4,5,6,7 while shuffling around the compatibles. (no DT change is
+needed of curse for backward compatibility)
+While doing this I kept the module authorship in line with the main
+author(S) as spitted out by git-blame.
+
+Finally patch [8/8] removes all the legacy dead code from the core SCMI
+stack.
+
+No new symbol EXPORT has been added.
+
+The new transport drivers have been tested, as built-in and LKM, as
+follows:
+
+- mailbox on JUNO
+- virtio on emulation
+- optee on QEMU/optee using Linaro setup
+
+Exercised using the regular SCMI drivers stack and the SCMI ACS suite,
+testing commands, replies, delayed responses and notification.
+
+Multiple virtual SCMI instances support has been tested too.
+
+SMC has NOT been tested/exercised at run-time, only compile-tested.
+(due to lack of hardware)
+
+Note that in this new setup, all the probe deferral and retries between the
+SCMI core stack and the transports has been removed, since no more needed.
+
+Moreover the new drivers have been tested also with a fully modularized
+SCMI stack, i.e.:
+
+  scmi-core.ko + scmi-module.ko + scmi_transport_*.ko [ + vendor modules ]
+
+One thing that I have NOT done still, but that it's an easy pick, would
+be to completely remove any dependency between the SCMI core stack and the
+transports, leaving these latter only dependent on the mere presence of
+the related subsystems like optee/virtio/mailbox/smc: this would allow to
+compile the transports and the related subsys as built-in while keeping the
+core SCMI stack as a module....not sure if it makes sense... but it can be
+already easily done by simply patching further the Kconfig.
+
+Based on sudeep/for-next/scmi/updates.
+
+Any feedback, and especially testing (:D) is welcome.
+
+Thanks,
+Cristian
+
+Cristian Marussi (7):
+  firmware: arm_scmi: Introduce packet handling helpers
+  firmware: arm_scmi: Add support for standalone transport drivers
+  firmware: arm_scmi: Make MBOX transport a standalone driver
+  firmware: arm_scmi: Make SMC transport a standalone driver
+  firmware: arm_scmi: Make OPTEE transport a standalone driver
+  firmware: arm_scmi: Make VirtIO transport a standalone driver
+  firmware: arm_scmi: Remove legacy transport-layer code
+
+Peng Fan (1):
+  firmware: arm_scmi: Introduce setup_shmem_iomap
+
+ drivers/firmware/arm_scmi/Kconfig             |  20 +-
+ drivers/firmware/arm_scmi/Makefile            |   9 +-
+ drivers/firmware/arm_scmi/common.h            | 183 +++++++++++++-----
+ drivers/firmware/arm_scmi/driver.c            | 140 +++++---------
+ drivers/firmware/arm_scmi/msg.c               |  34 +++-
+ .../{mailbox.c => scmi_transport_mailbox.c}   |  69 ++++---
+ .../{optee.c => scmi_transport_optee.c}       | 120 +++++-------
+ .../arm_scmi/{smc.c => scmi_transport_smc.c}  |  52 ++---
+ .../{virtio.c => scmi_transport_virtio.c}     |  95 +++++----
+ drivers/firmware/arm_scmi/shmem.c             |  80 ++++++--
+ 10 files changed, 445 insertions(+), 357 deletions(-)
+ rename drivers/firmware/arm_scmi/{mailbox.c => scmi_transport_mailbox.c} (87%)
+ rename drivers/firmware/arm_scmi/{optee.c => scmi_transport_optee.c} (89%)
+ rename drivers/firmware/arm_scmi/{smc.c => scmi_transport_smc.c} (88%)
+ rename drivers/firmware/arm_scmi/{virtio.c => scmi_transport_virtio.c} (95%)
+
+-- 
+2.45.2
+
