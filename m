@@ -1,33 +1,34 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD0212771C;
-	Mon,  8 Jul 2024 14:00:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F39F177F12;
+	Mon,  8 Jul 2024 14:07:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720447238; cv=none; b=csv2WnY85bpOwe6ZkEmElyP7fOWY7rAFK+Xn/ZTOKtrbOUvTGHZ21JMtdftOWDNcy5WgXF17kNuwtrHO6VhIfk/7RY8DKxswuiS86oTWm+OI5Jgmc1De0uwB7TGeGY/kN53h+FFljK7fyoLlSeLA8g2TFrEldIpV48iFtnwo0xQ=
+	t=1720447671; cv=none; b=Ouu2SN7ks5JSsylpvjqQtsp+8Su94NHAjNhT05HNde6CwGizExQI1JgjtyIMibvSsKOznM31QOE1VzFz6c/0qcbvBXeaduiG3X+98DnN9wRDn9dfzeUoU09LKj5X8EQ/YDIifOlfTEm0qTNXpHSwtX/OPZlAg63mlLMzD//qEA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720447238; c=relaxed/simple;
-	bh=aPgpK0zsSwGW/XSA+DCU5R1XQqrrM6SMAFuJUnByCuY=;
+	s=arc-20240116; t=1720447671; c=relaxed/simple;
+	bh=GXvobha2JzShyhfYlZQuvNRXc9iCXnhgxT/SEcvqLkA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mR7ox4XbKZysYsxj4ihJzQWRkagLzLjkgAhlMReTjKDyh2nKRisFMcRZbnzUteb57k94o9m33m4or40QuikqH5tNdLjEVLFbEJAMUj0dEx6Mn2/95+kwmIyPWcvLh7PJd++6BhL+u/7XMhAciQ6YPU8bHKwEbBEJHRvj6VMlL1w=
+	 Content-Type:Content-Disposition:In-Reply-To; b=SX2OxvyBYEE9QdgaCT6W7gp0//f4dIqdQausSXNdkKSZc1bIn7ft+2ogx652iaBL/XKxRDqH3LoIRwxzEnd5tD8tO2jqLYr7uD7fJbXWN0OgybPw08bVtke1QTFgZOYPp0iPhNJPcTEs5i+WkBAnbN7EdvAgV1WLbBCLAnGOgBk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E437F1042;
-	Mon,  8 Jul 2024 07:00:59 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7CDF11042;
+	Mon,  8 Jul 2024 07:08:13 -0700 (PDT)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E32313F766;
-	Mon,  8 Jul 2024 07:00:33 -0700 (PDT)
-Date: Mon, 8 Jul 2024 15:00:31 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7AB6B3F766;
+	Mon,  8 Jul 2024 07:07:47 -0700 (PDT)
+Date: Mon, 8 Jul 2024 15:07:45 +0100
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: Luke Parkin <luke.parkin@arm.com>
 Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
 	cristian.marussi@arm.com
-Subject: Re: [PATCH v2 3/4] firmware: arm_scmi: Track basic SCMI statistics
-Message-ID: <Zovw_4MgumQo8npi@pluto>
+Subject: Re: [PATCH v2 4/4] firmware: arm_scmi: Create debugfs files for
+ statistics
+Message-ID: <ZovysXW92kgiKlet@pluto>
 References: <20240703143738.2007457-1-luke.parkin@arm.com>
- <20240703143738.2007457-4-luke.parkin@arm.com>
+ <20240703143738.2007457-5-luke.parkin@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -36,175 +37,69 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240703143738.2007457-4-luke.parkin@arm.com>
+In-Reply-To: <20240703143738.2007457-5-luke.parkin@arm.com>
 
-On Wed, Jul 03, 2024 at 03:37:37PM +0100, Luke Parkin wrote:
-> Add tracking of 5 initial statistics
+On Wed, Jul 03, 2024 at 03:37:38PM +0100, Luke Parkin wrote:
+> Create debugfs files for the statistics in the scmi_debug_stats struct
 > 
 > Signed-off-by: Luke Parkin <luke.parkin@arm.com>
 
-Missing
+Missing ---
 
-	---
-
-> V1->V2
-> Drop unneccesary atomic_set's
-> Use new 'scmi_log_stats' to simplify incrementing of atomics
-> Move scmi_log_stats to locations which mean no extra conditionals
-> 	are needed
+> v1->v2
+> Only create stats pointer if stats are enabled
+> Move stats debugfs creation into a seperate helper function
 > ---
->  drivers/firmware/arm_scmi/driver.c | 20 +++++++++++++++-----
->  1 file changed, 15 insertions(+), 5 deletions(-)
+>  drivers/firmware/arm_scmi/driver.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 > 
 > diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-> index df3eb17cf439..937546397cf2 100644
+> index 937546397cf2..10cd9a319ffb 100644
 > --- a/drivers/firmware/arm_scmi/driver.c
 > +++ b/drivers/firmware/arm_scmi/driver.c
-> @@ -1146,8 +1146,10 @@ static void scmi_handle_response(struct scmi_chan_info *cinfo,
->  	if (xfer->hdr.type == MSG_TYPE_DELAYED_RESP) {
->  		scmi_clear_channel(info, cinfo);
->  		complete(xfer->async_done);
-> +		scmi_log_stats(&info->stats.dlyd_response_ok);
->  	} else {
->  		complete(&xfer->done);
-> +		scmi_log_stats(&info->stats.response_ok);
->  	}
+> @@ -2858,6 +2858,24 @@ static int scmi_device_request_notifier(struct notifier_block *nb,
+>  	return NOTIFY_OK;
+>  }
 >  
->  	if (IS_ENABLED(CONFIG_ARM_SCMI_RAW_MODE_SUPPORT)) {
-
-Up above here in scmi_handle_respnonse() I would take care to track a
-few interesting stats about when reponses that went bad...if you look at
-scmi_xfer_command_acquire() you will notice that a whole class of errors
-there, and  spread all around the core, are handled by scmi_bad_message_trace():
-please handle all of these errors based on the type of the enum scmi_bad_msg...
-
-....which means, IOW, add a counter for each the enum scmi_bad_msg and handle
-them in scmi_bad_message_trace(), so that they will get counted everywhere....
-and... :P ... while doing this please consider as usual the fact that we will
-like the log_stats call to vanish completely at compile time if STATS=n
-
-...then please look also into handle_notification() and try to add a couple
-of counters there too...
-
-... we can discuss all of these new counters in the next review...
-
-> @@ -1231,6 +1233,7 @@ static int scmi_wait_for_reply(struct device *dev, const struct scmi_desc *desc,
->  			       struct scmi_xfer *xfer, unsigned int timeout_ms)
+> +static void scmi_debugfs_stats_setup(struct scmi_info *info,
+> +				     struct dentry *trans)
+> +{
+> +	struct dentry *stats;
+> +
+> +	stats = debugfs_create_dir("stats", trans);
+> +	debugfs_create_atomic_t("response_ok", 0400, stats,
+> +				&info->stats.response_ok);
+> +	debugfs_create_atomic_t("dlyd_response_ok", 0400, stats,
+> +				&info->stats.dlyd_response_ok);
+> +	debugfs_create_atomic_t("sent_ok", 0400, stats,
+> +				&info->stats.sent_ok);
+> +	debugfs_create_atomic_t("sent_fail", 0400, stats,
+> +				&info->stats.sent_fail);
+> +	debugfs_create_atomic_t("xfers_response_timeout", 0400, stats,
+> +				&info->stats.xfers_response_timeout);
+> +}
+> +
+>  static void scmi_debugfs_common_cleanup(void *d)
 >  {
->  	int ret = 0;
-> +	struct scmi_info *info = handle_to_scmi_info(cinfo->handle);
+>  	struct scmi_debug_info *dbg = d;
+> @@ -2924,6 +2942,9 @@ static struct scmi_debug_info *scmi_debugfs_common_setup(struct scmi_info *info)
+>  	debugfs_create_u32("rx_max_msg", 0400, trans,
+>  			   (u32 *)&info->rx_minfo.max_msg);
 >  
->  	if (xfer->hdr.poll_completion) {
->  		/*
-> @@ -1251,13 +1254,12 @@ static int scmi_wait_for_reply(struct device *dev, const struct scmi_desc *desc,
->  					"timed out in resp(caller: %pS) - polling\n",
->  					(void *)_RET_IP_);
->  				ret = -ETIMEDOUT;
-> +				scmi_log_stats(&info->stats.xfers_response_timeout);
+> +	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_STATISTICS))
+> +		scmi_debugfs_stats_setup(info, trans);
+> +
 
-I would rename this as 'xfer_response_polled_timeout' (so adding one more
-stats to the structs and debugfs) in order to discern this timeout case
-for the one below.
+Nothing to say here if not that more entries will need to be added as said.
 
->  			}
->  		}
->  
->  		if (!ret) {
->  			unsigned long flags;
-> -			struct scmi_info *info =
-> -				handle_to_scmi_info(cinfo->handle);
->  
+Moreover, You could take the chance in V3 to add in this patch the
+support to handle resetting each single counter (hint...this is a low hanging
+fruit :D) and also to support something like:
 
-..in this same code-block, down below right before the trace_scmi_msg, I
-would add a:
+	transports/stats/reset
 
-		scmi_log_stats(&info->stats.response_polled_ok);
-
-...if not, you will end-up counting only the successfull reply on the IRQ
-path, i.e. only the one that are served by handle_response.
-
->  			/*
->  			 * Do not fetch_response if an out-of-order delayed
-> @@ -1291,6 +1293,7 @@ static int scmi_wait_for_reply(struct device *dev, const struct scmi_desc *desc,
->  			dev_err(dev, "timed out in resp(caller: %pS)\n",
->  				(void *)_RET_IP_);
->  			ret = -ETIMEDOUT;
-> +			scmi_log_stats(&info->stats.xfers_response_timeout);
-
-This is a different kind of timeout...on non-polled request, lets keep
-it named as it is now...
-
->  		}
->  	}
->  
-> @@ -1374,13 +1377,15 @@ static int do_xfer(const struct scmi_protocol_handle *ph,
->  	    !is_transport_polling_capable(info->desc)) {
->  		dev_warn_once(dev,
->  			      "Polling mode is not supported by transport.\n");
-> +		scmi_log_stats(&info->stats.sent_fail);
-
-Same here ... you have different reason for failures in the following,
-so you could try to count them separately...
-
-	sent_fail_polling_unsupported
-
->  		return -EINVAL;
->  	}
->  
->  	cinfo = idr_find(&info->tx_idr, pi->proto->id);
-> -	if (unlikely(!cinfo))
-> +	if (unlikely(!cinfo)) {
-> +		scmi_log_stats(&info->stats.sent_fail);
-
-	sent_fail_channel_not_found
-
->  		return -EINVAL;
-> -
-> +	}
->  	/* True ONLY if also supported by transport. */
->  	if (is_polling_enabled(cinfo, info->desc))
->  		xfer->hdr.poll_completion = true;
-> @@ -1412,6 +1417,7 @@ static int do_xfer(const struct scmi_protocol_handle *ph,
->  	ret = info->desc->ops->send_message(cinfo, xfer);
->  	if (ret < 0) {
->  		dev_dbg(dev, "Failed to send message %d\n", ret);
-> +		scmi_log_stats(&info->stats.sent_fail);
-
-this is the basic, original send failure...it is a generic failure at the transport layer,
-so lets keep it named like it is now...
-
->  		return ret;
->  	}
->  
-
-...here you can just place your (instead of the one down below)
-
-	scmi_log_stats(&info->stats.sent_ok);
-
-...becasue now, right here, you are already sure that the message has been sent ...
-
-> @@ -1420,8 +1426,12 @@ static int do_xfer(const struct scmi_protocol_handle *ph,
->  			    xfer->hdr.status, xfer->tx.buf, xfer->tx.len);
->  
->  	ret = scmi_wait_for_message_response(cinfo, xfer);
-> -	if (!ret && xfer->hdr.status)
-> +	if (!ret && xfer->hdr.status) {
->  		ret = scmi_to_linux_errno(xfer->hdr.status);
-> +		scmi_log_stats(&info->stats.sent_fail);
-
-...this is NOT a sent_fail...you DID send successfully the message AND received
-successfully a response (ret==0)  BUT there was an error of some kind at the protocol
-layer...i.e. the server sent you an error code in the reply...so I would count here
-instead something named like
-
-	stats.protocol_errs
-
-> +	} else {
-> +		scmi_log_stats(&info->stats.sent_ok);
-
-and this is really late to be counted as sent, so it would be clearer to
-count it above (where I mentiones), so please drop the else.
+which will be a WOnly booolean entry that will reset ALL the counters in
+one go.
 
 Thanks,
 Cristian
-
