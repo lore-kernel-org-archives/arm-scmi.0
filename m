@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B401B12B6C;
-	Mon,  8 Jul 2024 04:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25C1101E2;
+	Mon,  8 Jul 2024 05:54:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720411204; cv=none; b=tn2X3hdZovd6882O3cRs/9Our3XfZJ6vzI1PPKGADF6w+Qqqg/tJ0PetG6q+LxBJ5MGP+Q3cYghLfeataF53QfYF7z9AOQtX79I7vZQq/X7lMUgE2gfULASSsZxABvPDabwiGhQl4YOBlJ8Eq4noKpkeEFBbmFZheZ9OewO8x5o=
+	t=1720418048; cv=none; b=XiRFPFprAC5koDeLRkhvFncpTX7cx88i6TXeiy2TD6fDyiVvCYX4+Bc/0R+KUx51WVzpP0+JFy4xw9+zDEmSdAtCMoa2UgPptTkA2B1jED6HErc2JNsHW4eU4To45r4jUsj/jMTcH11xcQA3h3swAb0MOFa3sBsDFrcrAJWNup8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720411204; c=relaxed/simple;
-	bh=6MJg+qo/rOeiqM9LUVX2vbFaeRb3zr3mwD8IH4hQasA=;
+	s=arc-20240116; t=1720418048; c=relaxed/simple;
+	bh=gWK14INYFEkDDVKh2f3syMoAIL4a1srE4cm5hxDRiAw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TvODp+/aH57FckXn0oeIym1/rg6BQ8fJCKjhvHNxgwT/qQTgix+0d49IUz2SU7iAty1cpFog5oJB2I43e+ECoWIikvvWGrr3KYRAT5GKyPagIqviigv1RoWrKWMX22XJ3Y6pBVPrU5G71IhINvjPXOzElZVfLR6wIuev5YRfzxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UwUocrG1; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=HEk+G1lxeo2LfYmrOhcVBvsiAHWN2oc4ufj22QnhQjTNuMW+b3ekP+YpI6GQE1d4+YRMYYLQPsDF4aCv75lM/RtzTzUOfndpcmqzhxnK13G/fPDxWNoisZtayuHwLyP4f0Snq3HDsilKwlJ5JuxxEgdsvKuUHgiiTp4TlTZq4eM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=enMNKMNK; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UwUocrG1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="enMNKMNK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720411202; x=1751947202;
+  t=1720418047; x=1751954047;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6MJg+qo/rOeiqM9LUVX2vbFaeRb3zr3mwD8IH4hQasA=;
-  b=UwUocrG1Ip3daFSDhohQGW71qgvGpz2EvXjxp7ooBpz/i52A6DKD8jwv
-   kzZ26RDKUCYGzb3ZUvGqncFwmHBY42RD2TgHR5RJcGIRYDQSOREVEt16s
-   FJu25ILDyMlyfgBAtAFjJ0gIU4YjXNi1+9907V2iTfKI3Xu4wXB7OBNQk
-   ujlPM4yeQAIs/OcFRQWioqy4Voz0CK8RGH1fBPYXgAdeaSFy5tX4we6+7
-   LISwkd9SJB8en5M7RRtdP/8SuEtQ0AkEWd8V1FMn7cYKfFLwWZJEXpFIo
-   6lVqHEs5HwXztXuwHP5pPwdq3Ak6wxvy6Nh8FhLQ0RsCFJ4nh95lFsPyp
-   w==;
-X-CSE-ConnectionGUID: OAaifKifQNeWnWTDtWEw+A==
-X-CSE-MsgGUID: 1Bd/WjQeTvGfZSbezFuclA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="17727366"
+  bh=gWK14INYFEkDDVKh2f3syMoAIL4a1srE4cm5hxDRiAw=;
+  b=enMNKMNKKRruffn1n+n7sbsp90X+97ItwyrFBiuxjvKfmc3cOzlX9hEn
+   KAJEt/me6zopCrxb3ywii1/qEdBlAYnit1NG7SjoBRHG6sXfPDSZHOiCV
+   JwMEPSfdUJNaQGDVjl3IMvnucbhYPtkQzkBhBYqOnQe8VvyF7kCbJAQbQ
+   odcxMVnaVzfaIsFsnwUW2QDGhSlPlv1MGDHi9Kvh19dMxPuAS7C7m+PbA
+   T6p8ucvsrzrgGXunrj7ZYHg0HUoeCfZhLInzbr+FtBvNBnMa5BVuFDgcs
+   +6Uf/S0itfTV6DYr4aLnOujHrKjXgCxYuEeTBA7NJMs53NVimmeqIGm7f
+   Q==;
+X-CSE-ConnectionGUID: pdg4P/+VTKODWsC/iKM41A==
+X-CSE-MsgGUID: wb3Askc0SXeLq4JuXdx7og==
+X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="35135374"
 X-IronPort-AV: E=Sophos;i="6.09,191,1716274800"; 
-   d="scan'208";a="17727366"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2024 21:00:02 -0700
-X-CSE-ConnectionGUID: +ihNx+V0RgOSu+1zPUy47g==
-X-CSE-MsgGUID: WtQIuS/XSjaNauYFXBotCg==
+   d="scan'208";a="35135374"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2024 22:54:06 -0700
+X-CSE-ConnectionGUID: YRQyi2YTSdu7FkgBa+USgA==
+X-CSE-MsgGUID: WOxEGSGIT/m2PU15PRAMoQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,191,1716274800"; 
-   d="scan'208";a="51990014"
+   d="scan'208";a="51830799"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 07 Jul 2024 20:59:57 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 07 Jul 2024 22:54:02 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQfXf-000VVC-01;
-	Mon, 08 Jul 2024 03:59:55 +0000
-Date: Mon, 8 Jul 2024 11:59:26 +0800
+	id 1sQhK3-000VXG-2n;
+	Mon, 08 Jul 2024 05:53:59 +0000
+Date: Mon, 8 Jul 2024 13:53:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: Cristian Marussi <cristian.marussi@arm.com>,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -58,10 +58,13 @@ Cc: oe-kbuild-all@lists.linux.dev, sudeep.holla@arm.com,
 	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
 	quic_nkela@quicinc.com, ptosi@google.com, dan.carpenter@linaro.org,
 	souvik.chakravarty@arm.com,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: Re: [PATCH 2/8] firmware: arm_scmi: Introduce packet handling helpers
-Message-ID: <202407081158.9B8bXpH0-lkp@intel.com>
-References: <20240707002055.1835121-3-cristian.marussi@arm.com>
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Igor Skalkin <igor.skalkin@opensynergy.com>,
+	Peter Hilber <peter.hilber@opensynergy.com>
+Subject: Re: [PATCH 7/8] firmware: arm_scmi: Make VirtIO transport a
+ standalone driver
+Message-ID: <202407081344.9OceqFie-lkp@intel.com>
+References: <20240707002055.1835121-8-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -70,7 +73,7 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240707002055.1835121-3-cristian.marussi@arm.com>
+In-Reply-To: <20240707002055.1835121-8-cristian.marussi@arm.com>
 
 Hi Cristian,
 
@@ -85,41 +88,35 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/firmware-arm_scmi-Introduce-setup_shmem_iomap/20240707-082513
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20240707002055.1835121-3-cristian.marussi%40arm.com
-patch subject: [PATCH 2/8] firmware: arm_scmi: Introduce packet handling helpers
-config: arm-randconfig-r111-20240708 (https://download.01.org/0day-ci/archive/20240708/202407081158.9B8bXpH0-lkp@intel.com/config)
+patch link:    https://lore.kernel.org/r/20240707002055.1835121-8-cristian.marussi%40arm.com
+patch subject: [PATCH 7/8] firmware: arm_scmi: Make VirtIO transport a standalone driver
+config: arm-randconfig-r111-20240708 (https://download.01.org/0day-ci/archive/20240708/202407081344.9OceqFie-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce: (https://download.01.org/0day-ci/archive/20240708/202407081158.9B8bXpH0-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20240708/202407081344.9OceqFie-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407081158.9B8bXpH0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407081344.9OceqFie-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/firmware/arm_scmi/shmem.c:171:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem *[assigned] addr @@
-   drivers/firmware/arm_scmi/shmem.c:171:16: sparse:     expected void *
-   drivers/firmware/arm_scmi/shmem.c:171:16: sparse:     got void [noderef] __iomem *[assigned] addr
->> drivers/firmware/arm_scmi/shmem.c:183:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *( *setup_iomap )( ... ) @@     got void *( [noderef] __iomem * )( ... ) @@
-   drivers/firmware/arm_scmi/shmem.c:183:24: sparse:     expected void [noderef] __iomem *( *setup_iomap )( ... )
-   drivers/firmware/arm_scmi/shmem.c:183:24: sparse:     got void *( [noderef] __iomem * )( ... )
-   drivers/firmware/arm_scmi/shmem.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+>> drivers/firmware/arm_scmi/scmi_transport_virtio.c:795:24: sparse: sparse: symbol 'scmi_virtio_desc' was not declared. Should it be static?
+   drivers/firmware/arm_scmi/scmi_transport_virtio.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
    include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
    include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
 
-vim +183 drivers/firmware/arm_scmi/shmem.c
+vim +/scmi_virtio_desc +795 drivers/firmware/arm_scmi/scmi_transport_virtio.c
 
-   173	
-   174	const struct scmi_shared_mem_operations scmi_shmem_ops = {
-   175		.tx_prepare = shmem_tx_prepare,
-   176		.read_header = shmem_read_header,
-   177		.fetch_response = shmem_fetch_response,
-   178		.fetch_notification = shmem_fetch_notification,
-   179		.clear_channel = shmem_clear_channel,
-   180		.poll_done = shmem_poll_done,
-   181		.channel_free = shmem_channel_free,
-   182		.channel_intr_enabled = shmem_channel_intr_enabled,
- > 183		.setup_iomap = shmem_setup_iomap,
+   794	
+ > 795	const struct scmi_desc scmi_virtio_desc = {
+   796		.ops = &scmi_virtio_ops,
+   797		/* for non-realtime virtio devices */
+   798		.max_rx_timeout_ms = VIRTIO_MAX_RX_TIMEOUT_MS,
+   799		.max_msg = 0, /* overridden by virtio_get_max_msg() */
+   800		.max_msg_size = VIRTIO_SCMI_MAX_MSG_SIZE,
+   801		.atomic_enabled = IS_ENABLED(CONFIG_ARM_SCMI_TRANSPORT_VIRTIO_ATOMIC_ENABLE),
+   802	};
+   803	
 
 -- 
 0-DAY CI Kernel Test Service
