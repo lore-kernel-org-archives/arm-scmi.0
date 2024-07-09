@@ -1,339 +1,188 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011024.outbound.protection.outlook.com [52.101.70.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1908615251B;
-	Tue,  9 Jul 2024 12:46:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720529197; cv=none; b=GfuUflPlXjc1yPhab/FUf2qXuxGz4PoCCrziscUPj7nsf7CwR1SMa/MjlHABlxgQLef13FzRsCGYtmlbt3LU/u3XotCPVSvvw1zYJv4+0t5s5BJWsB+wiXLgoAPuu3J+OW0KFtIyTfc8dcY8Cmnna0Z5BNKLSKy+8JiR8x21OD0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720529197; c=relaxed/simple;
-	bh=o6K/SWl3shws6k/7CBGNm6oZlTts/bpSZlEoGF320X8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qUkmrdw6y/slWZooOIY9+KEuKRrAbmbqJNBFwJLd53w7yeB4p0lpYa9JaeLoMxqeF43UGxuZ2bKIvET5aGv1ENqPpQ1B1dB8FK37cHT8YRAC3sCQWSghXXpMt4KahVdzbNeTqP1dAUgGRekxCMZIj70qoBJ/9hSYStPT7Jwl9bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kHWBSIOU; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1CB1946AE;
+	Tue,  9 Jul 2024 14:01:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.24
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720533674; cv=fail; b=rvNhhFZ1wqb3uelWvfJo23BTS9Sc/pyWEcJ1GSHsvPo+KW7evCrlBdzjpfGmwx4NecBvEXd9JfYwRDZI1hP+EzvghQhnwE90ra+B+spJZo9gernF7Iga3McW/5hLkxxWCOkyyO170V2KSO3CwbEl3Rzq/IKzyhANrzMADuOOJqg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720533674; c=relaxed/simple;
+	bh=HxotWPlTV+jWU71TsiM5UmwxPXkzxMRSUZF1j7n7kcc=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=b7v6WDUUZutysgpbUaaIANrLanfcoxzGp81y9Tl1qNMBCb6SfYQwRQYNckAm6EHXGXvBQmV03m4odrlCN7NOkJInA+Nc2oeIR+m9Bel62yqnshpqRsypHn0VnIzkRmNnkMUhhlFDJFoq6bXAxEbdvfFoDQonWFFyq24GK/xW41g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (1024-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=WYp6xbcE; arc=fail smtp.client-ip=52.101.70.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kHWBSIOU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720529194; x=1752065194;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=o6K/SWl3shws6k/7CBGNm6oZlTts/bpSZlEoGF320X8=;
-  b=kHWBSIOUf8bPF/tJp90elOTvmMios0Kx9qYjbJkMvBDXEStii7J3/sre
-   tewYpfzRvWTBcwUdngC+sTVLI6KD121KCnpzhP16ELOWVzZp870p3+v9g
-   qeRfg5iTHrRqPmOxa0C6gwgqUi2aAi3E7Ow2FMPAsUleAIHPfrsZrT3Xy
-   xGVSMQNfKBcnCQz+Z/RjwQy49R//X02JHXPrEbWEja2zZxYexcj53QvAZ
-   FkC8erCmBF5e2ZHcnY9EdkTvZ4ShhDw+fiSgSHMAVeHuVRzr4Y0xcBrnm
-   k2dfv33xHIJ/TFsBE55lSXvL6dRi0Gt0yLFAXW+jHikjdtToh/HBOQhHP
-   Q==;
-X-CSE-ConnectionGUID: nKMGSGukSxCADD7LVlnZqg==
-X-CSE-MsgGUID: nIBX3t6NSNORwEgHfCmM+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="35316642"
-X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; 
-   d="scan'208";a="35316642"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 05:46:33 -0700
-X-CSE-ConnectionGUID: xsBGJRQDQUa7e3ZbU9bt7g==
-X-CSE-MsgGUID: O5/fVxTEQP+Qz6DVPPTFsQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; 
-   d="scan'208";a="52165198"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 09 Jul 2024 05:46:29 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sRAEk-000WgL-2H;
-	Tue, 09 Jul 2024 12:46:26 +0000
-Date: Tue, 9 Jul 2024 20:45:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	sudeep.holla@arm.com, james.quinlan@broadcom.com,
-	f.fainelli@gmail.com, vincent.guittot@linaro.org,
-	etienne.carriere@foss.st.com, peng.fan@oss.nxp.com,
-	michal.simek@amd.com, quic_sibis@quicinc.com,
-	quic_nkela@quicinc.com, ptosi@google.com, dan.carpenter@linaro.org,
-	souvik.chakravarty@arm.com,
-	Cristian Marussi <cristian.marussi@arm.com>,
+	dkim=pass (1024-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="WYp6xbcE"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mowuotEKKfsyrh7f+yMwcks2H/DnqXVVS8o8sshE8SED5KMwJhFwyJqR8Vf0c7bj7vdn5ziIrleb0uDXTper8iyw6ShnUmZHJebqSn2HGzU0TLNwgFnkpBIEsWuGAdl03WmfnEnHDX7B9Wf16Ji91jy6HoTsktwUiZGytNgJzNvWCU4jQkn/hDfGXHc3SaDp7Eu3DUZT4oz+uIdwhJZHQSiIdHiyI2iBHqGczvyGq/jACdRZ5/0JNN4CrWT3ooY8Dg4zFXZpNSIDo+gjip8enkPPMVtgQI5c3IM3Dzh+IzRm9M68QJrrBzSEjydZZ+p2ggSg+9pmVN/aiOutBFzyhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZPvKVu9CNdr+J0KVWFipequxEETydACxuUvVRU1Xtpg=;
+ b=Wmemqgu4LQgGQ+XnlMKOdJZ3Ge6G7Uu3lGhI/HJ797ZJNjh83uS3cCDQol8W1KgYxP6PqSrl02xkRE7VKUWmRwPwtKfbJn7EJfdp830TjrorsofNS7q+pmtbSWCSt3Ob0lrUEQYz+03bR+EgZpElxJZcpjAvr5i+lZhvIFK1CcvZfyRX8qxsC+i16y66V3KEgU3utqA9jMEdcEp3vxD4Am7euvS4XtUNYT/KAj8R5gQVN4F8g85oi1Il1tAWG2KRyatpRnIKLKzbm5OF9vjg0CVl9G9TrI0guJVvNnWNPrsJKL2jEJ4khLEcpeZA2eqtezO1RDxM3DDS3AdzMw8oCA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZPvKVu9CNdr+J0KVWFipequxEETydACxuUvVRU1Xtpg=;
+ b=WYp6xbcEpLvQyq1kMGmpRts7jmItWPT6mNNRSrIfg+qQFa6YZHk7TU44jHnvZuDAvJxfzvToP5GD3SNiIkqE0SjzzPlHJ1y/Pnk9WzMuSJwnnDlK+l5kx2ScbQrEhxUnOud2R11DjHOY7AZcOjXzzABvozPEJOFFfaMJzqxJRys=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
+ by PAXPR04MB8622.eurprd04.prod.outlook.com (2603:10a6:102:219::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.36; Tue, 9 Jul
+ 2024 14:01:08 +0000
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630%4]) with mapi id 15.20.7741.033; Tue, 9 Jul 2024
+ 14:01:07 +0000
+From: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+To: sudeep.holla@arm.com,
+	cristian.marussi@arm.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	arm-scmi@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH 5/8] firmware: arm_scmi: Make SMC transport a standalone
- driver
-Message-ID: <202407092025.wqTyq8Er-lkp@intel.com>
-References: <20240707002055.1835121-6-cristian.marussi@arm.com>
+Subject: [PATCH V3 1/2] dt-bindings: firmware: arm,scmi: introduce property mbox-rx-timeout-ms
+Date: Tue,  9 Jul 2024 22:09:56 +0800
+Message-Id: <20240709140957.3171255-1-peng.fan@oss.nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2P153CA0035.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:190::14) To PAXPR04MB8459.eurprd04.prod.outlook.com
+ (2603:10a6:102:1da::15)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240707002055.1835121-6-cristian.marussi@arm.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|PAXPR04MB8622:EE_
+X-MS-Office365-Filtering-Correlation-Id: cb448b10-d5ba-4f11-32ae-08dca01f9493
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?ffTR/pBqucByyO6bGtQ0mRVJJywhNfwNitlt64PnwFMZR9CTB2bOJA//08RK?=
+ =?us-ascii?Q?Fneaeae0N/ix64d88SQRmOgzRQwkvSDUO1e6JlyQ5zGkqRitB2EEuwWjcb+L?=
+ =?us-ascii?Q?w7Ems5C7CdkaAJIaNNaurMq/jPmLgvT8O7mKHTc8FpDtgv+kYkmw2kVMMWQo?=
+ =?us-ascii?Q?PvnxZpxKY/j8A20AOE+i7wJ4CVDjPagCtA4GqqGTJ8E/GIRreTRhNWBtGPpR?=
+ =?us-ascii?Q?RvgBlGyYP9z0N+ezQK2Lo1WqprzbfL06bQB5mVX1AaiHzEp/mfpXisPS43/p?=
+ =?us-ascii?Q?BMx3iJgDHI9urzipBCfqlL7H7JGC9sz/SDuQ597lnoNzfYjOK8q2g18hlyn4?=
+ =?us-ascii?Q?S2t+y24s99Si/8uLKnfNEbDr5P8uDLkNtYbnr07RouOh+FGY6fv3+zNAxepD?=
+ =?us-ascii?Q?ZXWtpSpXzOvLVQXXiEt6LGUpkFtCjfjvrPz+xqFHndtb/YEVWuef/vwQMRLt?=
+ =?us-ascii?Q?+2PeuuQnfB1yFAkLQGo1i69t59fwo0YlmZ0XZv/D91FA9+Pu3u1Es6Eh7et5?=
+ =?us-ascii?Q?PPSqqWWiUaMnx8uRUxWlSUjXt7ZouUEz38/X1jpevL/Qx3KBju/pcThPtx0a?=
+ =?us-ascii?Q?rM77R5d0a9z7iDW0lAfkIXEoYGCQBpg9fVKpu/ejNjS6Fpx3AyOsb03WtmpU?=
+ =?us-ascii?Q?YMHvQ4WP39Py7wyjknerj56JS5/qVDneC1L+XEOeOXpxN+ofJvL6PPtCFRh/?=
+ =?us-ascii?Q?Q+yx2YqWkNECTxtrkY/A9TNHobXszMYnMYlPWXwS3ORACio/MNynsDIsLiQ/?=
+ =?us-ascii?Q?blWFyulRb5X7LbPTHGyaYd88w15PnAxTemBLgVzAzBV8UbwRD+XNbTmI7REt?=
+ =?us-ascii?Q?GxFSW31+2mSf98eNzc8CNOlllkXlUgh4kgi4yWT+kpo3On0Kq6iveu4lKp73?=
+ =?us-ascii?Q?oSfocXnRIQG4e8XZALgUAFujh8vHTV9iLLwrKcVz3GzmqScTlVkNxjOcVe81?=
+ =?us-ascii?Q?VyklR76An4ZHkwwn4XRJfLrGYPhNxZxLdmt5tb9/ReHiqwjazbvmOFbRG6pL?=
+ =?us-ascii?Q?vT0PyhgL26FFDsRiXMfRM26mfxKM3ZaJCZwn4NEkq0QbtVbG0Mq3OEYo+f3M?=
+ =?us-ascii?Q?3JVhALWmI8KvvoQ3VZbh0npK0Pjl95vRIeGgScfKQWLrixN/8QX0SD3DtPEn?=
+ =?us-ascii?Q?/dExcUJRcr/9VGpMUMykE3S0jxzMFBq94IGDEg8D/hrUOgXkPC0bPzvUOQM+?=
+ =?us-ascii?Q?05xYEwasr8FWJ3GOPlpqwX/eX9bK7MFhWYy05XWXKiIyFyEYT6OVj3yWiXaA?=
+ =?us-ascii?Q?etXwlp9vrdWbrfcXSFm6VagGKPiFF4Ud1a+cqrtw6UI9lJc9swFJCLSVmeC3?=
+ =?us-ascii?Q?o8ETy7HWELExiKd2CaEtj3VWF6JGi/xn9SwXj/VqCVCqoBmbVZ7Hd44JF+cF?=
+ =?us-ascii?Q?RopKiCvTokK4eq2eSTOfqQtsei8RvvcIih7zrggZryWfdeerRQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?rC5BmI6C9FYcjaQPB+d1kHazjwgFZnHkT9EtF+Ytju5T64vzATxP+2M7Aot4?=
+ =?us-ascii?Q?0k+gLOG+WkDluMFKukEuiJ5WnqjM3EGW0gtfwXXYR4y0PHXMbJW89s7t7ViN?=
+ =?us-ascii?Q?E9dC3ODn4kdtosz6JJ9eTTlaCDPayf07+fwF+nN7qp4GgPbTFh6E8p6VLifU?=
+ =?us-ascii?Q?k1MFzO+diUl3pr+itAFQdyOx8ZiqsmvdYkJM2F6YlihlGel+tcW1QuDA+99r?=
+ =?us-ascii?Q?k6fw56e69uPKJn8y47LBLIbQcZ2K/SXG1dr6oATQQDpVqqd3A9QrntjZoN+p?=
+ =?us-ascii?Q?sS+OibcOnhYae474RvVMjpOIRDdK7Txw/q2R2oksnfgsJYZ0c5jJsHF82kTC?=
+ =?us-ascii?Q?zLEfuWlRSdY1xzkACKDmnnV2ZcYCbsfuJnhAbCwxvAokefjcgd6C2YgS59HS?=
+ =?us-ascii?Q?2K7tR/gUP0+PX4K/as6f5MxiP1/QnyKTs2SDTCw5pw7KQUOhziYC/+wVaQrj?=
+ =?us-ascii?Q?i+OX6ZMFsO1GpMOhit3GAIPqUrqui4sebNHoQP6iDv81/gXXMXCv2OXtVte2?=
+ =?us-ascii?Q?uA6IpfegLovrkVsrsCuDq01ZEUUIU2UVDUOcdiMOWDV5cZP7OKWyWPaSUjl8?=
+ =?us-ascii?Q?jhKbY8QTrNDPKB4gYPnaTbR9zlJCfrQWQnoh1gjwiTyBS/Y4MOMoKeD1/YUh?=
+ =?us-ascii?Q?YmG1iOyWus7akrW/w6f4c6FIyaT9o1z7XeFVVfRQrwOgp7v8tMTJLeO8FeW4?=
+ =?us-ascii?Q?84JXAXl9MEjUMBNyldum1KyzICLAnLm8+KKvBBBuKgmb4qpPSAt1MqvVmqOV?=
+ =?us-ascii?Q?1M4vEy/Tip0fWDNyW/n2v07I8E4Of2SfQAb05bCylDMVkD32wUc4gsX0kM8k?=
+ =?us-ascii?Q?CDZCYzvymO0tpYRatGSIoPsW8thm+1ZmnR1zdwisNj767oKQXotUC/oYeYvz?=
+ =?us-ascii?Q?qZ7X6N+efQ5ot7wqnkdCG7E5YFurmJM0orZEpNkNKo8ECG1MYakurwHELh56?=
+ =?us-ascii?Q?ZOQiWgNO0j1s9NFysAS+KViQ1Wu5/CJ/bPwOX5w4Y1oYK9yVbQcoJAJbwNyh?=
+ =?us-ascii?Q?VH1A4ucmmXZjDfsMD074jIdIoKI4oD5WRr+PCPhxCc3ZpZJtv9HI8IsNkEmG?=
+ =?us-ascii?Q?qFDYGvxLwgo8FMGQRZnThplPp6jlv1K2/LydEOQb/nS9095v4p8kyXCi6PnP?=
+ =?us-ascii?Q?7FEaqwQvzbke07YQNY+Wulva0+Zt2ru1WQSJGE+5lPu5uA/qwFwMhmu0R0gZ?=
+ =?us-ascii?Q?mJpuKyu3TzotieAM7Y9J7r6T1/W/0B7R94wuMMpz2PZNPlozChMTriLO5k2k?=
+ =?us-ascii?Q?YEuKVlCfL3eMay8axTL4TRrG3rBq0ODsHgX5luEdgnTlUwA8KJJnyV18Ai+6?=
+ =?us-ascii?Q?yMd7fxCha9oBP1bHbY55I+2j86uOf1HIUmE8CI+6yr0+vH4XT5fJqNhEjkNE?=
+ =?us-ascii?Q?SZp4N5fK2g+HMIH45UjgpOhU/zTJ7n7jLgtU9xnCKa7Gy8vi3rK8iwvDKHlM?=
+ =?us-ascii?Q?FaJGwcUwGJCCzIgBdKnnvC8sWH5BfQXmVNatWSwf9ejHJGj9hHeCOVSxAP17?=
+ =?us-ascii?Q?96XggRRd2sOqrQoPrF17N/Q9IBi1CF8UIQAoqPefBn8FgtaxbSA2k5tbri1A?=
+ =?us-ascii?Q?EVXUcVxlu6SunKY2Na9FjtU4qdrLX7A/JReqTmiA?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb448b10-d5ba-4f11-32ae-08dca01f9493
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2024 14:01:07.9453
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2l72GiM+IZhFYvdIzMwX97ovC7lvI9bWOy6EJyxJ7YgBBoHHCZ1YPbqV5NYHABc8UuX2at/r9hyO60Y8PqB0Ug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8622
 
-Hi Cristian,
+From: Peng Fan <peng.fan@nxp.com>
 
-kernel test robot noticed the following build errors:
+System Controller Management Interface(SCMI) firmwares might have
+different designs by SCMI firmware developers. So the maximum receive
+channel timeout value might also varies in the various designs.
 
-[auto build test ERROR on soc/for-next]
-[also build test ERROR on next-20240709]
-[cannot apply to linus/master v6.10-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+So introduce property mbox-rx-timeout-ms to let each platform could
+set its own timeout value in device tree.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/firmware-arm_scmi-Introduce-setup_shmem_iomap/20240707-082513
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20240707002055.1835121-6-cristian.marussi%40arm.com
-patch subject: [PATCH 5/8] firmware: arm_scmi: Make SMC transport a standalone driver
-config: arm-randconfig-003-20240709 (https://download.01.org/0day-ci/archive/20240709/202407092025.wqTyq8Er-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407092025.wqTyq8Er-lkp@intel.com/reproduce)
+Signed-off-by: Peng Fan <peng.fan@nxp.com>
+---
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407092025.wqTyq8Er-lkp@intel.com/
+V3:
+ Add minimum: 1, because 0 is invalid. maximum is not set,
+ because it is platform specific and unknown.
+V2:
+ Drop defaults, update description.
 
-All errors (new ones prefixed by >>):
+ Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-   drivers/firmware/arm_scmi/scmi_transport_smc.c:157:58: warning: variable 'size' is uninitialized when used here [-Wuninitialized]
-     157 |                 void __iomem *ptr = (void __iomem *)scmi_info->shmem + size - 8;
-         |                                                                        ^~~~
-   drivers/firmware/arm_scmi/scmi_transport_smc.c:136:22: note: initialize the variable 'size' to silence this warning
-     136 |         resource_size_t size;
-         |                             ^
-         |                              = 0
->> drivers/firmware/arm_scmi/scmi_transport_smc.c:235:3: error: write to reserved register 'R7'
-     235 |                 arm_smccc_1_1_invoke(scmi_info->func_id, scmi_info->cap_id, 0,
-         |                 ^
-   include/linux/arm-smccc.h:570:4: note: expanded from macro 'arm_smccc_1_1_invoke'
-     570 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
-         |                         ^
-   include/linux/arm-smccc.h:513:48: note: expanded from macro 'arm_smccc_1_1_smc'
-     513 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
-         |                                                 ^
-   include/linux/arm-smccc.h:400:24: note: expanded from macro 'SMCCC_SMC_INST'
-     400 | #define SMCCC_SMC_INST  __SMC(0)
-         |                         ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/arm/include/asm/opcodes.h:215:2: note: expanded from macro '__inst_arm_thumb32'
-     215 |         __inst_thumb32(thumb_opcode)
-         |         ^
-   arch/arm/include/asm/opcodes.h:205:27: note: expanded from macro '__inst_thumb32'
-     205 | #define __inst_thumb32(x) ___inst_thumb32(                              \
-         |                           ^
-   arch/arm/include/asm/opcodes.h:230:2: note: expanded from macro '___inst_thumb32'
-     230 |         ".short " __stringify(first) ", " __stringify(second) "\n\t"
-         |         ^
->> drivers/firmware/arm_scmi/scmi_transport_smc.c:235:3: error: write to reserved register 'R7'
-   include/linux/arm-smccc.h:567:4: note: expanded from macro 'arm_smccc_1_1_invoke'
-     567 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
-         |                         ^
-   include/linux/arm-smccc.h:529:48: note: expanded from macro 'arm_smccc_1_1_hvc'
-     529 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
-         |                                                 ^
-   include/linux/arm-smccc.h:401:24: note: expanded from macro 'SMCCC_HVC_INST'
-     401 | #define SMCCC_HVC_INST  __HVC(0)
-         |                         ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/arm/include/asm/opcodes.h:215:2: note: expanded from macro '__inst_arm_thumb32'
-     215 |         __inst_thumb32(thumb_opcode)
-         |         ^
-   arch/arm/include/asm/opcodes.h:205:27: note: expanded from macro '__inst_thumb32'
-     205 | #define __inst_thumb32(x) ___inst_thumb32(                              \
-         |                           ^
-   arch/arm/include/asm/opcodes.h:230:2: note: expanded from macro '___inst_thumb32'
-     230 |         ".short " __stringify(first) ", " __stringify(second) "\n\t"
-         |         ^
->> drivers/firmware/arm_scmi/scmi_transport_smc.c:235:3: error: write to reserved register 'R7'
-   include/linux/arm-smccc.h:573:4: note: expanded from macro 'arm_smccc_1_1_invoke'
-     573 |                         __fail_smccc_1_1(__VA_ARGS__);                  \
-         |                         ^
-   include/linux/arm-smccc.h:540:8: note: expanded from macro '__fail_smccc_1_1'
-     540 |                 asm ("" :                                               \
-         |                      ^
-   drivers/firmware/arm_scmi/scmi_transport_smc.c:238:3: error: write to reserved register 'R7'
-     238 |                 arm_smccc_1_1_invoke(scmi_info->func_id, scmi_info->param_page,
-         |                 ^
-   include/linux/arm-smccc.h:570:4: note: expanded from macro 'arm_smccc_1_1_invoke'
-     570 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
-         |                         ^
-   include/linux/arm-smccc.h:513:48: note: expanded from macro 'arm_smccc_1_1_smc'
-     513 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
-         |                                                 ^
-   include/linux/arm-smccc.h:400:24: note: expanded from macro 'SMCCC_SMC_INST'
-     400 | #define SMCCC_SMC_INST  __SMC(0)
-         |                         ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/arm/include/asm/opcodes.h:215:2: note: expanded from macro '__inst_arm_thumb32'
-     215 |         __inst_thumb32(thumb_opcode)
-         |         ^
-   arch/arm/include/asm/opcodes.h:205:27: note: expanded from macro '__inst_thumb32'
-     205 | #define __inst_thumb32(x) ___inst_thumb32(                              \
-         |                           ^
-   arch/arm/include/asm/opcodes.h:230:2: note: expanded from macro '___inst_thumb32'
-     230 |         ".short " __stringify(first) ", " __stringify(second) "\n\t"
-         |         ^
-   drivers/firmware/arm_scmi/scmi_transport_smc.c:238:3: error: write to reserved register 'R7'
-   include/linux/arm-smccc.h:567:4: note: expanded from macro 'arm_smccc_1_1_invoke'
-     567 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
-         |                         ^
-   include/linux/arm-smccc.h:529:48: note: expanded from macro 'arm_smccc_1_1_hvc'
-     529 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
-         |                                                 ^
-   include/linux/arm-smccc.h:401:24: note: expanded from macro 'SMCCC_HVC_INST'
-     401 | #define SMCCC_HVC_INST  __HVC(0)
-         |                         ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/arm/include/asm/opcodes.h:215:2: note: expanded from macro '__inst_arm_thumb32'
-     215 |         __inst_thumb32(thumb_opcode)
-         |         ^
-   arch/arm/include/asm/opcodes.h:205:27: note: expanded from macro '__inst_thumb32'
-     205 | #define __inst_thumb32(x) ___inst_thumb32(                              \
-         |                           ^
-   arch/arm/include/asm/opcodes.h:230:2: note: expanded from macro '___inst_thumb32'
-     230 |         ".short " __stringify(first) ", " __stringify(second) "\n\t"
-         |         ^
-   drivers/firmware/arm_scmi/scmi_transport_smc.c:238:3: error: write to reserved register 'R7'
-   include/linux/arm-smccc.h:573:4: note: expanded from macro 'arm_smccc_1_1_invoke'
-     573 |                         __fail_smccc_1_1(__VA_ARGS__);                  \
-         |                         ^
-   include/linux/arm-smccc.h:540:8: note: expanded from macro '__fail_smccc_1_1'
-     540 |                 asm ("" :                                               \
-         |                      ^
-   1 warning and 6 errors generated.
-
-
-vim +/R7 +235 drivers/firmware/arm_scmi/scmi_transport_smc.c
-
-0bfdca8a8661aa drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  129  
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  130  static int smc_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  131  			  bool tx)
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  132  {
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  133  	struct device *cdev = cinfo->dev;
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  134  	unsigned long cap_id = ULONG_MAX;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  135  	struct scmi_smc *scmi_info;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  136  	resource_size_t size;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  137  	struct resource res;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  138  	u32 func_id;
-d1ff11d7ad8704 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2023-07-19  139  	int ret;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  140  
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  141  	if (!tx)
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  142  		return -ENODEV;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  143  
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  144  	scmi_info = devm_kzalloc(dev, sizeof(*scmi_info), GFP_KERNEL);
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  145  	if (!scmi_info)
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  146  		return -ENOMEM;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  147  
-728a057b6ab114 drivers/firmware/arm_scmi/scmi_transport_smc.c Cristian Marussi 2024-07-07  148  	scmi_info->shmem = core->shmem->setup_iomap(cinfo, dev, tx);
-6c5d3315c40fa0 drivers/firmware/arm_scmi/smc.c                Peng Fan         2024-07-07  149  	if (IS_ERR(scmi_info->shmem))
-6c5d3315c40fa0 drivers/firmware/arm_scmi/smc.c                Peng Fan         2024-07-07  150  		return PTR_ERR(scmi_info->shmem);
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  151  
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  152  	ret = of_property_read_u32(dev->of_node, "arm,smc-id", &func_id);
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  153  	if (ret < 0)
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  154  		return ret;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  155  
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  156  	if (of_device_is_compatible(dev->of_node, "qcom,scmi-smc")) {
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09 @157  		void __iomem *ptr = (void __iomem *)scmi_info->shmem + size - 8;
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  158  		/* The capability-id is kept in last 8 bytes of shmem.
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  159  		 *     +-------+ <-- 0
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  160  		 *     | shmem |
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  161  		 *     +-------+ <-- size - 8
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  162  		 *     | capId |
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  163  		 *     +-------+ <-- size
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  164  		 */
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  165  		memcpy_fromio(&cap_id, ptr, sizeof(cap_id));
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  166  	}
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  167  
-5f2ea10a808aef drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-05-06  168  	if (of_device_is_compatible(dev->of_node, "arm,scmi-smc-param")) {
-5f2ea10a808aef drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-05-06  169  		scmi_info->param_page = SHMEM_PAGE(res.start);
-5f2ea10a808aef drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-05-06  170  		scmi_info->param_offset = SHMEM_OFFSET(res.start);
-5f2ea10a808aef drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-05-06  171  	}
-dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  172  	/*
-dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  173  	 * If there is an interrupt named "a2p", then the service and
-dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  174  	 * completion of a message is signaled by an interrupt rather than by
-dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  175  	 * the return of the SMC call.
-dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  176  	 */
-d1ff11d7ad8704 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2023-07-19  177  	scmi_info->irq = of_irq_get_byname(cdev->of_node, "a2p");
-d1ff11d7ad8704 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2023-07-19  178  	if (scmi_info->irq > 0) {
-d1ff11d7ad8704 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2023-07-19  179  		ret = request_irq(scmi_info->irq, smc_msg_done_isr,
-d1ff11d7ad8704 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2023-07-19  180  				  IRQF_NO_SUSPEND, dev_name(dev), scmi_info);
-dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  181  		if (ret) {
-dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  182  			dev_err(dev, "failed to setup SCMI smc irq\n");
-dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  183  			return ret;
-dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  184  		}
-f716cbd33f038a drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  185  	} else {
-f716cbd33f038a drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  186  		cinfo->no_completion_irq = true;
-dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  187  	}
-dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  188  
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  189  	scmi_info->func_id = func_id;
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  190  	scmi_info->cap_id = cap_id;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  191  	scmi_info->cinfo = cinfo;
-0bfdca8a8661aa drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  192  	smc_channel_lock_init(scmi_info);
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  193  	cinfo->transport_info = scmi_info;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  194  
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  195  	return 0;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  196  }
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  197  
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  198  static int smc_chan_free(int id, void *p, void *data)
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  199  {
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  200  	struct scmi_chan_info *cinfo = p;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  201  	struct scmi_smc *scmi_info = cinfo->transport_info;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  202  
-f1d71576d2c9ec drivers/firmware/arm_scmi/smc.c                Andre Przywara   2024-01-26  203  	/*
-f1d71576d2c9ec drivers/firmware/arm_scmi/smc.c                Andre Przywara   2024-01-26  204  	 * Different protocols might share the same chan info, so a previous
-f1d71576d2c9ec drivers/firmware/arm_scmi/smc.c                Andre Przywara   2024-01-26  205  	 * smc_chan_free call might have already freed the structure.
-f1d71576d2c9ec drivers/firmware/arm_scmi/smc.c                Andre Przywara   2024-01-26  206  	 */
-f1d71576d2c9ec drivers/firmware/arm_scmi/smc.c                Andre Przywara   2024-01-26  207  	if (!scmi_info)
-f1d71576d2c9ec drivers/firmware/arm_scmi/smc.c                Andre Przywara   2024-01-26  208  		return 0;
-f1d71576d2c9ec drivers/firmware/arm_scmi/smc.c                Andre Przywara   2024-01-26  209  
-d1ff11d7ad8704 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2023-07-19  210  	/* Ignore any possible further reception on the IRQ path */
-d1ff11d7ad8704 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2023-07-19  211  	if (scmi_info->irq > 0)
-d1ff11d7ad8704 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2023-07-19  212  		free_irq(scmi_info->irq, scmi_info);
-d1ff11d7ad8704 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2023-07-19  213  
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  214  	cinfo->transport_info = NULL;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  215  	scmi_info->cinfo = NULL;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  216  
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  217  	return 0;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  218  }
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  219  
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  220  static int smc_send_message(struct scmi_chan_info *cinfo,
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  221  			    struct scmi_xfer *xfer)
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  222  {
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  223  	struct scmi_smc *scmi_info = cinfo->transport_info;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  224  	struct arm_smccc_res res;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  225  
-f716cbd33f038a drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  226  	/*
-0bfdca8a8661aa drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  227  	 * Channel will be released only once response has been
-f716cbd33f038a drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  228  	 * surely fully retrieved, so after .mark_txdone()
-f716cbd33f038a drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  229  	 */
-0bfdca8a8661aa drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  230  	smc_channel_lock_acquire(scmi_info, xfer);
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  231  
-728a057b6ab114 drivers/firmware/arm_scmi/scmi_transport_smc.c Cristian Marussi 2024-07-07  232  	core->shmem->tx_prepare(scmi_info->shmem, xfer, cinfo);
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  233  
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  234  	if (scmi_info->cap_id != ULONG_MAX)
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09 @235  		arm_smccc_1_1_invoke(scmi_info->func_id, scmi_info->cap_id, 0,
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  236  				     0, 0, 0, 0, 0, &res);
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  237  	else
-1f17395124a53a drivers/firmware/arm_scmi/smc.c                Sudeep Holla     2023-10-09  238  		arm_smccc_1_1_invoke(scmi_info->func_id, scmi_info->param_page,
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  239  				     scmi_info->param_offset, 0, 0, 0, 0, 0,
-da405477e76707 drivers/firmware/arm_scmi/smc.c                Nikunj Kela      2023-10-09  240  				     &res);
-dd820ee21d5e07 drivers/firmware/arm_scmi/smc.c                Jim Quinlan      2020-12-22  241  
-f7199cf489027a drivers/firmware/arm_scmi/smc.c                Sudeep Holla     2020-04-17  242  	/* Only SMCCC_RET_NOT_SUPPORTED is valid error code */
-f716cbd33f038a drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  243  	if (res.a0) {
-0bfdca8a8661aa drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  244  		smc_channel_lock_release(scmi_info);
-f7199cf489027a drivers/firmware/arm_scmi/smc.c                Sudeep Holla     2020-04-17  245  		return -EOPNOTSUPP;
-f716cbd33f038a drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  246  	}
-f716cbd33f038a drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  247  
-f7199cf489027a drivers/firmware/arm_scmi/smc.c                Sudeep Holla     2020-04-17  248  	return 0;
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  249  }
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  250  
-
+diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+index ebf384e76df1..f84a978a36b2 100644
+--- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
++++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+@@ -121,6 +121,13 @@ properties:
+       atomic mode of operation, even if requested.
+     default: 0
+ 
++  max-rx-timeout-ms:
++    description:
++      An optional time value, expressed in milliseconds, representing the
++      mailbox maximum timeout value for receive channel. The value should
++      be a non-zero value if set.
++    minimum: 1
++
+   arm,smc-id:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     description:
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.37.1
+
