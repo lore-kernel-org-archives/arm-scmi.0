@@ -1,127 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4A03BBED;
-	Wed, 10 Jul 2024 03:38:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C34F312F37C;
+	Wed, 10 Jul 2024 17:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720582690; cv=none; b=YduVqFYj9QHI1fADkbICZxIG/+2WfyMBWZYycn3UpCSuTjso1eDQWVTMpQnYklZsfPoTlikwti6O/kobs0V+zF7KRBjc6UkwpFpI8GbGq4LX7QxOmXQCtHqbpMp0TluKIIjQiGErXVSTo1Uh9udH7rkN9IEUMMlid9USvmrkZD4=
+	t=1720632740; cv=none; b=p0ePVQFcUYnMppXDjl2/Y/dMKgK4YYGnwYa1cFtmy1zZCuTcAmOOq5m5Ad+GEkVM46FyZYSt1AowYfHeK5/vFSNTlEqKX04IJPzL7jcRnhZaflmZ1yhqLvkQ6owkKXWSB8+CM2FGEjvsJn26o5ZpFzwAM4Z7mqEJ8hldDrE7WIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720582690; c=relaxed/simple;
-	bh=M2ROzHQROcrCllh9+iB4Unb61gbzwCLA055NO3yeYwQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gaioRKF+3O70pqs99k3vuaviRx9A2Sx+Dm/L6rMkSQNSPkw0vmcgGXMNlB0fefhMhqcPW2zNXKjFqdVTfBmgMTz5r6DvTLI5VqyqNSNLWjvWImIDlDr1t1wCoSx8l4pmY2rWoWjaC3eZUEIPJlpi7lzzihOw71PoBcFiV33xvpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XM1TguvA; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XM1TguvA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720582687; x=1752118687;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=M2ROzHQROcrCllh9+iB4Unb61gbzwCLA055NO3yeYwQ=;
-  b=XM1TguvAzS1tIUaGWk5NSjeIO86gbgvyzG3vhu6qfi4Zob7HeDUL1FUh
-   fSiG61XpAedElKqVGPUl3gdkTbj7akxcsfmFzs8qNOskqtplPbyR86C4o
-   fpy/yYK0rh3yzOJHK1eDS32TczxEerZqnjmCBvH1oPvbCb9THBY6ZmPdz
-   7q6ou8AwhQfS4RvPkPv3hNpLuu9/oBpWJELU1A+fC7kp5Y08+3EiAbfzW
-   EXGLP7sL0h12hEBCTssJ6+4Z/dK0LWZM/PHcCnnAp8coVVfffw5SGAdIq
-   +DIWFH9pGYXp3lvLmgMAlHmq2dv2Fdkk4p5q1VYMt57XfjOWQVOOtOHey
-   g==;
-X-CSE-ConnectionGUID: /a50K+zSSVmHHvrioV/5oQ==
-X-CSE-MsgGUID: X7ChcVUERp2naW5TD7CX7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="18017373"
-X-IronPort-AV: E=Sophos;i="6.09,196,1716274800"; 
-   d="scan'208";a="18017373"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 20:38:07 -0700
-X-CSE-ConnectionGUID: J5tEipYOQ46fM4Cj3kAsVA==
-X-CSE-MsgGUID: VoKJNgA6SHaJKU/R7rmmiQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,196,1716274800"; 
-   d="scan'208";a="71297673"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Jul 2024 20:38:02 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sRO9Y-000XPu-2D;
-	Wed, 10 Jul 2024 03:38:00 +0000
-Date: Wed, 10 Jul 2024 11:37:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	s=arc-20240116; t=1720632740; c=relaxed/simple;
+	bh=1bai3oIFmuvB9JUlUEb5BkCdTrZXQeL5a88P5kXa0Vk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Murfww/LTJZXmdXrbx1JdYRTTYmzWeibKfpXbmRJJdAMzzkHh1WRnq3TqZ/9+YYbNTGEYeKT7LS8C74Gy6lODywQGnKS3gu8cmLONsBOSN/Iq9WcXm57JLQTcvSy/apIeqYl5hWLd2z7A1bgPlpbS+zgZSnEvevHWp2BkGNEqtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EDCA81042;
+	Wed, 10 Jul 2024 10:32:41 -0700 (PDT)
+Received: from pluto.guestnet.cambridge.arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 193153F766;
+	Wed, 10 Jul 2024 10:32:13 -0700 (PDT)
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	arm-scmi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, sudeep.holla@arm.com,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, etienne.carriere@foss.st.com,
-	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
-	quic_nkela@quicinc.com, ptosi@google.com, dan.carpenter@linaro.org,
+Cc: sudeep.holla@arm.com,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	etienne.carriere@st.com,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	quic_sibis@quicinc.com,
+	quic_nkela@quicinc.com,
+	ptosi@google.com,
+	dan.carpenter@linaro.org,
 	souvik.chakravarty@arm.com,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH 5/8] firmware: arm_scmi: Make SMC transport a standalone
- driver
-Message-ID: <202407101157.p2OvSFcO-lkp@intel.com>
-References: <20240707002055.1835121-6-cristian.marussi@arm.com>
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [PATCH 0/8] Make SCMI transport as standalone drivers
+Date: Wed, 10 Jul 2024 18:31:45 +0100
+Message-ID: <20240710173153.4060457-1-cristian.marussi@arm.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240707002055.1835121-6-cristian.marussi@arm.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Cristian,
+Hi all,
 
-kernel test robot noticed the following build warnings:
+Till now the SCMI transport layer was being built embedded into in the core
+SCMI stack.
 
-[auto build test WARNING on soc/for-next]
-[also build test WARNING on next-20240709]
-[cannot apply to linus/master v6.10-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Some of these transports, despite being currently part of the main SCMI
+module, are indeed also registered with different subsystems like optee or
+virtio, and actively probed also by those: this led to a few awkward and
+convoluted tricks to properly handle such interactions at boot time in the
+SCMI stack.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/firmware-arm_scmi-Introduce-setup_shmem_iomap/20240707-082513
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20240707002055.1835121-6-cristian.marussi%40arm.com
-patch subject: [PATCH 5/8] firmware: arm_scmi: Make SMC transport a standalone driver
-config: arm64-randconfig-r131-20240709 (https://download.01.org/0day-ci/archive/20240710/202407101157.p2OvSFcO-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240710/202407101157.p2OvSFcO-lkp@intel.com/reproduce)
+Moreover some partner expressed the desire to be able to fully modularize
+the transports components.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202407101157.p2OvSFcO-lkp@intel.com/
+This series aim to make all such transports as standalone drivers that can
+be optionally loaded as modules.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/firmware/arm_scmi/scmi_transport_smc.c:276:24: sparse: sparse: symbol 'scmi_smc_desc' was not declared. Should it be static?
+In order to do this, at first some new mechanism is introduced to support
+this new capability while maintaining, in parallel, the old legacy embedded
+transports; then each transport, one by one, is transitioned to be a
+standalone driver and finally the old legacy support for embedded transport
+is removed.
 
-vim +/scmi_smc_desc +276 drivers/firmware/arm_scmi/scmi_transport_smc.c
+Patch [1/8] is a mostly unrelated (but much needed) clean-up from Peng,
+which I included in this series to avoid conflicts at merge.
 
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  275  
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08 @276  const struct scmi_desc scmi_smc_desc = {
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  277  	.ops = &scmi_smc_ops,
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  278  	.max_rx_timeout_ms = 30,
-7adb2c8aaaa6a3 drivers/firmware/arm_scmi/smc.c                Etienne Carriere 2020-10-08  279  	.max_msg = 20,
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  280  	.max_msg_size = 128,
-117542b81fe7b1 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  281  	/*
-117542b81fe7b1 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  282  	 * Setting .sync_cmds_atomic_replies to true for SMC assumes that,
-117542b81fe7b1 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  283  	 * once the SMC instruction has completed successfully, the issued
-117542b81fe7b1 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  284  	 * SCMI command would have been already fully processed by the SCMI
-117542b81fe7b1 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  285  	 * platform firmware and so any possible response value expected
-117542b81fe7b1 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  286  	 * for the issued command will be immmediately ready to be fetched
-117542b81fe7b1 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  287  	 * from the shared memory area.
-117542b81fe7b1 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  288  	 */
-117542b81fe7b1 drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  289  	.sync_cmds_completed_on_ret = true,
-0bfdca8a8661aa drivers/firmware/arm_scmi/smc.c                Cristian Marussi 2021-12-20  290  	.atomic_enabled = IS_ENABLED(CONFIG_ARM_SCMI_TRANSPORT_SMC_ATOMIC_ENABLE),
-1dc6558062dadf drivers/firmware/arm_scmi/smc.c                Peng Fan         2020-03-08  291  };
-728a057b6ab114 drivers/firmware/arm_scmi/scmi_transport_smc.c Cristian Marussi 2024-07-07  292  
+Patch [2/8] simply collects the existing datagram manipulation helpers in a
+pair of function pointers structures, in preparation for later reworks.
+
+Patch [3/8] adds the bulk of the new logic to the core SCMI stack and then
+each existing transport is transitioned to be a standalone driver in
+patches 4,5,6,7 while shuffling around the compatibles. (no DT change is
+needed of curse for backward compatibility)
+While doing this I kept the module authorship in line with the main
+author(S) as spitted out by git-blame.
+
+Finally patch [8/8] removes all the legacy dead code from the core SCMI
+stack.
+
+No new symbol EXPORT has been added.
+
+The new transport drivers have been tested, as built-in and LKM, as
+follows:
+
+- mailbox on JUNO
+- virtio on emulation
+- optee on QEMU/optee using Linaro setup
+
+Exercised using the regular SCMI drivers stack and the SCMI ACS suite,
+testing commands, replies, delayed responses and notification.
+
+Multiple virtual SCMI instances support has been tested too.
+
+SMC has NOT been tested/exercised at run-time, only compile-tested.
+(due to lack of hardware)
+
+Note that in this new setup, all the probe deferral and retries between the
+SCMI core stack and the transports has been removed, since no more needed.
+
+Moreover the new drivers have been tested also with a fully modularized
+SCMI stack, i.e.:
+
+  scmi-core.ko + scmi-module.ko + scmi_transport_*.ko [ + vendor modules ]
+
+ToBeDone:
+ - completely remove any dependency at build time at the Kconfig level between
+   the SCMI core and the transport drivers: so that the transports will be
+   dependent only on the related subsystems (optee/virtio/mailbox/smc)
+   (easy to be done but maybe it is not worth...)
+ - integrate per-platform transport configuration capabilities
+   (max_rx_timeout_ms & friends..)
+
+Based on sudeep/for-next/scmi/updates.
+
+Any feedback, and especially testing (:D) is welcome.
+
+Thanks,
+Cristian
+
+---
+v1 --> v2
+- fixed setup_shmem_iomap to address also SMC needs (QC/nikunj)
+  (silencing also warnings by kernel test robot <lkp@intel.com>)
+- using __free OF cleanup.h magic in setup_shmme_iomap
+- properly handle platform_driver_register() failures (Dan)
+- fixed a few commit message style
+- added a few missing static in scmi_desc
+  (addresses warnings by kernel test robot <lkp@intel.com>)
+
+Cristian Marussi (7):
+  firmware: arm_scmi: Introduce packet handling helpers
+  firmware: arm_scmi: Add support for standalone transport drivers
+  firmware: arm_scmi: Make MBOX transport a standalone driver
+  firmware: arm_scmi: Make SMC transport a standalone driver
+  firmware: arm_scmi: Make OPTEE transport a standalone driver
+  firmware: arm_scmi: Make VirtIO transport a standalone driver
+  firmware: arm_scmi: Remove legacy transport-layer code
+
+Peng Fan (1):
+  firmware: arm_scmi: Introduce setup_shmem_iomap
+
+ drivers/firmware/arm_scmi/Kconfig             |  20 +-
+ drivers/firmware/arm_scmi/Makefile            |   9 +-
+ drivers/firmware/arm_scmi/common.h            | 184 +++++++++++++-----
+ drivers/firmware/arm_scmi/driver.c            | 140 +++++--------
+ drivers/firmware/arm_scmi/msg.c               |  34 +++-
+ .../{mailbox.c => scmi_transport_mailbox.c}   |  69 ++++---
+ .../{optee.c => scmi_transport_optee.c}       | 124 +++++-------
+ .../arm_scmi/{smc.c => scmi_transport_smc.c}  |  58 +++---
+ .../{virtio.c => scmi_transport_virtio.c}     | 103 +++++-----
+ drivers/firmware/arm_scmi/shmem.c             |  85 ++++++--
+ 10 files changed, 468 insertions(+), 358 deletions(-)
+ rename drivers/firmware/arm_scmi/{mailbox.c => scmi_transport_mailbox.c} (87%)
+ rename drivers/firmware/arm_scmi/{optee.c => scmi_transport_optee.c} (89%)
+ rename drivers/firmware/arm_scmi/{smc.c => scmi_transport_smc.c} (87%)
+ rename drivers/firmware/arm_scmi/{virtio.c => scmi_transport_virtio.c} (94%)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.45.2
+
