@@ -1,24 +1,24 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E031B15AD99;
-	Thu, 11 Jul 2024 14:19:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 417A015ECCA;
+	Thu, 11 Jul 2024 14:20:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720707545; cv=none; b=Yu5fOrrtTaG4RX0SVKQAExk3zgkfvVT2ZigkpBsJzOe6dLDr8xnUFYLlJOaYg9q/qJqZYQ69AUH3xyxHxPmQM1IkmiUjpTYpiKnfMmk1qDWu59l63lTJYgsQXGFxTuLDwLYSTkvVFgWyT8j8ry7CpYgMU1jKSVrVabVrW/SXIfU=
+	t=1720707649; cv=none; b=JPHeHSi29KbC+L0hcISvPzKIUKMdRSQPTkYjt7EoHAsP2S+Gr0pHjKmMsPSaaeaEj4B6KEcZWW+QBLuAmFJqMqD3eOyehfspD1X09OYwv7H/87YrMQHEUBWLyftNUVDugMz7aqStv2+TdGOq2KxJpKlHj1kbkwdrUvXovqI5P4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720707545; c=relaxed/simple;
-	bh=UqPbGCUYjGyEh6y/xNgn0aI3KQYasiL1GulTu/YZe4c=;
+	s=arc-20240116; t=1720707649; c=relaxed/simple;
+	bh=pquOPkCraFMTEeTmUKF4GVnjPOMtCd1vv88fzoBbSas=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TpbN1unLQITe/YEnJayy2ysGLbupB4qyuNVxGD8LIEF1Y0ayrN6XIfnEFx3TLmC/z4k4XFLWOT1uflszNwfoDdWs7bNjENfNmO70i7a2QgTnQ+RH2EizQaKZj5Y+TFleBvtyKzsArDCCqdnf/IZ2KrxJrq2LNDqQkNmZujZzw7U=
+	 Content-Type:Content-Disposition:In-Reply-To; b=AczJMlsyLKyFDpG0H8XS1Q9l+YUzfqek3Oyz5GlZglL4XQn2rjUZITpkv4tEE1Pe9Vjo/Dz0Ft2+PMIv3e1PmrjlAU+7onHrdfCbOQpEfLR1qF/zGN2AttkJNJa8DyEWeAPYN2p7Wcg2xSlzgQ+jEfd9Jwcc+YOifxoD1lti4zk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 835D3FEC;
-	Thu, 11 Jul 2024 07:19:28 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C1F14FEC;
+	Thu, 11 Jul 2024 07:21:11 -0700 (PDT)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0B61A3F766;
-	Thu, 11 Jul 2024 07:19:00 -0700 (PDT)
-Date: Thu, 11 Jul 2024 15:18:58 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 377EE3F766;
+	Thu, 11 Jul 2024 07:20:44 -0700 (PDT)
+Date: Thu, 11 Jul 2024 15:20:41 +0100
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: Peng Fan <peng.fan@nxp.com>
 Cc: Cristian Marussi <cristian.marussi@arm.com>,
@@ -36,13 +36,14 @@ Cc: Cristian Marussi <cristian.marussi@arm.com>,
 	"quic_nkela@quicinc.com" <quic_nkela@quicinc.com>,
 	"ptosi@google.com" <ptosi@google.com>,
 	"dan.carpenter@linaro.org" <dan.carpenter@linaro.org>,
-	"souvik.chakravarty@arm.com" <souvik.chakravarty@arm.com>
-Subject: Re: [PATCH v2 3/8] firmware: arm_scmi: Add support for standalone
- transport drivers
-Message-ID: <Zo_p0jMOh3cimNig@pluto>
+	"souvik.chakravarty@arm.com" <souvik.chakravarty@arm.com>,
+	Etienne Carriere <etienne.carriere@foss.st.com>
+Subject: Re: [PATCH v2 6/8] firmware: arm_scmi: Make OPTEE transport a
+ standalone driver
+Message-ID: <Zo_qOcRa11INO8cs@pluto>
 References: <20240710173153.4060457-1-cristian.marussi@arm.com>
- <20240710173153.4060457-4-cristian.marussi@arm.com>
- <PAXPR04MB845936D3FE063B7009B3F45088A52@PAXPR04MB8459.eurprd04.prod.outlook.com>
+ <20240710173153.4060457-7-cristian.marussi@arm.com>
+ <PAXPR04MB8459B0299D11F08605C20BB988A52@PAXPR04MB8459.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -51,276 +52,125 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PAXPR04MB845936D3FE063B7009B3F45088A52@PAXPR04MB8459.eurprd04.prod.outlook.com>
+In-Reply-To: <PAXPR04MB8459B0299D11F08605C20BB988A52@PAXPR04MB8459.eurprd04.prod.outlook.com>
 
-On Thu, Jul 11, 2024 at 12:54:51PM +0000, Peng Fan wrote:
-> > Subject: [PATCH v2 3/8] firmware: arm_scmi: Add support for
-> > standalone transport drivers
+On Thu, Jul 11, 2024 at 12:57:46PM +0000, Peng Fan wrote:
+> > Subject: [PATCH v2 6/8] firmware: arm_scmi: Make OPTEE transport a
+> > standalone driver
 > > 
-
-Hi Peng,
-
-> > Extend the core SCMI stack with structures and methods to allow for
-> > transports to be split out as standalone drivers, while still supporting
-> > old style transports, defined as built into the SCMI core stack.
+> > Make SCMI OPTEE transport a standalone driver that can be optionally
+> > loaded as a module.
 > > 
-> > No functional change.
-> > 
+> > CC: Etienne Carriere <etienne.carriere@foss.st.com>
 > > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 > > ---
-> > NOTE: old style transport support will be removed later in this series.
-> > 
 > > v1 --> v2
-> > - fixed comit message
+> > - handle platform_driver_register() failures
 > > ---
-> >  drivers/firmware/arm_scmi/common.h | 84
-> > ++++++++++++++++++++++++++++++
-> > drivers/firmware/arm_scmi/driver.c | 44 +++++++++++++++-
-> >  drivers/firmware/arm_scmi/msg.c    |  5 ++
-> >  drivers/firmware/arm_scmi/shmem.c  |  5 ++
-> >  4 files changed, 136 insertions(+), 2 deletions(-)
+> >  drivers/firmware/arm_scmi/Kconfig             |  6 +-
+> >  drivers/firmware/arm_scmi/Makefile            |  2 +-
+> >  drivers/firmware/arm_scmi/common.h            |  3 -
+> >  drivers/firmware/arm_scmi/driver.c            |  3 -
+> >  .../{optee.c => scmi_transport_optee.c}       | 91 ++++++++++---------
+> >  5 files changed, 52 insertions(+), 53 deletions(-)  rename
+> > drivers/firmware/arm_scmi/{optee.c => scmi_transport_optee.c} (90%)
 > > 
-> > diff --git a/drivers/firmware/arm_scmi/common.h
+> > diff --git a/drivers/firmware/arm_scmi/Kconfig
+> > b/drivers/firmware/arm_scmi/Kconfig
+> > index a4d44ef8bf45..def7e3f09356 100644
+> > --- a/drivers/firmware/arm_scmi/Kconfig
+> > +++ b/drivers/firmware/arm_scmi/Kconfig
+> > @@ -89,8 +89,8 @@ config ARM_SCMI_TRANSPORT_MAILBOX
+> >  	  will be called scmi_transport_mailbox.
+> > 
+> >  config ARM_SCMI_TRANSPORT_OPTEE
+> > -	bool "SCMI transport based on OP-TEE service"
+> > -	depends on OPTEE=y || OPTEE=ARM_SCMI_PROTOCOL
+> > +	tristate "SCMI transport based on OP-TEE service"
+> > +	depends on OPTEE
+> >  	select ARM_SCMI_HAVE_TRANSPORT
+> >  	select ARM_SCMI_HAVE_SHMEM
+> >  	select ARM_SCMI_HAVE_MSG
+> > @@ -100,6 +100,8 @@ config ARM_SCMI_TRANSPORT_OPTEE
+> > 
+> >  	  If you want the ARM SCMI PROTOCOL stack to include
+> > support for a
+> >  	  transport based on OP-TEE SCMI service, answer Y.
+> > +	  This driver can also be built as a module.  If so, the module
+> > +	  will be called scmi_transport_optee.
+> > 
+> >  config ARM_SCMI_TRANSPORT_SMC
+> >  	tristate "SCMI transport based on SMC"
+> > diff --git a/drivers/firmware/arm_scmi/Makefile
+> > b/drivers/firmware/arm_scmi/Makefile
+> > index 6868a47fa4ab..b04119ce972f 100644
+> > --- a/drivers/firmware/arm_scmi/Makefile
+> > +++ b/drivers/firmware/arm_scmi/Makefile
+> > @@ -7,13 +7,13 @@ scmi-driver-
+> > $(CONFIG_ARM_SCMI_RAW_MODE_SUPPORT) += raw_mode.o
+> >  scmi-transport-$(CONFIG_ARM_SCMI_HAVE_SHMEM) = shmem.o
+> >  scmi-transport-$(CONFIG_ARM_SCMI_HAVE_MSG) += msg.o
+> >  scmi-transport-$(CONFIG_ARM_SCMI_TRANSPORT_VIRTIO) += virtio.o
+> > -scmi-transport-$(CONFIG_ARM_SCMI_TRANSPORT_OPTEE) += optee.o
+> > scmi-protocols-y := base.o clock.o perf.o power.o reset.o sensors.o
+> > system.o voltage.o powercap.o  scmi-protocols-y += pinctrl.o  scmi-
+> > module-objs := $(scmi-driver-y) $(scmi-protocols-y) $(scmi-transport-y)
+> > 
+> >  obj-$(CONFIG_ARM_SCMI_TRANSPORT_SMC) +=
+> > scmi_transport_smc.o
+> >  obj-$(CONFIG_ARM_SCMI_TRANSPORT_MAILBOX) +=
+> > scmi_transport_mailbox.o
+> > +obj-$(CONFIG_ARM_SCMI_TRANSPORT_OPTEE) +=
+> > scmi_transport_optee.o
+> > 
+> >  obj-$(CONFIG_ARM_SCMI_PROTOCOL) += scmi-core.o
+> >  obj-$(CONFIG_ARM_SCMI_PROTOCOL) += scmi-module.o diff --git
+> > a/drivers/firmware/arm_scmi/common.h
 > > b/drivers/firmware/arm_scmi/common.h
-> > index 8e5751aaa600..4af06810eb39 100644
+> > index edb786cde25c..0ce1d804b3fc 100644
 > > --- a/drivers/firmware/arm_scmi/common.h
 > > +++ b/drivers/firmware/arm_scmi/common.h
-> > @@ -349,6 +349,8 @@ struct scmi_shared_mem_operations {
-> >  				     bool tx, struct resource *res);  };
+> > @@ -289,9 +289,6 @@ int
+> > scmi_xfer_raw_wait_for_message_response(struct scmi_chan_info
+> > *cinfo,  #ifdef CONFIG_ARM_SCMI_TRANSPORT_VIRTIO  extern const
+> > struct scmi_desc scmi_virtio_desc;  #endif -#ifdef
+> > CONFIG_ARM_SCMI_TRANSPORT_OPTEE -extern const struct
+> > scmi_desc scmi_optee_desc; -#endif
 > > 
-> > +const struct scmi_shared_mem_operations
-> > +*scmi_shared_mem_operations_get(void);
-> > +
-> >  /* declarations for message passing transports */  struct
-> > scmi_msg_payld;
-> > 
-> > @@ -376,6 +378,88 @@ struct scmi_message_operations {
-> >  				   size_t max_len, struct scmi_xfer
-> > *xfer);  };
-> > 
-> > +const struct scmi_message_operations
-> > +*scmi_message_operations_get(void);
-> > +
-> > +/**
-> > + * struct scmi_transport_core_operations  - Transpoert core
-> > operations
-> > + *
-> > + * @bad_message_trace: An helper to report a
-> > malformed/unexpected
-> > +message
-> > + * @rx_callback: Callback to report received messages
-> > + * @shmem: Datagram operations for shared memory based
-> > transports
-> > + * @msg: Datagram operations for message based transports  */
-> > struct
-> > +scmi_transport_core_operations {
-> > +	void (*bad_message_trace)(struct scmi_chan_info *cinfo,
-> > +				  u32 msg_hdr, enum scmi_bad_msg
-> > err);
-> > +	void (*rx_callback)(struct scmi_chan_info *cinfo, u32 msg_hdr,
-> > +			    void *priv);
-> > +	const struct scmi_shared_mem_operations *shmem;
-> > +	const struct scmi_message_operations *msg; };
-> > +
-> > +/**
-> > + * struct scmi_transport  - A structure representing a configured
-> > +transport
-> > + *
-> > + * @supplier: Device representimng the transport and acting as a
-> > supplier for
-> > + *	      the core SCMI stack
-> > + * @desc: Transport descriptor
-> > + * @core_ops: A pointer to a pointer used by the core SCMI stack to
-> > make the
-> > + *	      core transport operations accessible to the transports.
-> > + */
-> > +struct scmi_transport {
-> > +	struct device *supplier;
-> > +	const struct scmi_desc *desc;
-> > +	struct scmi_transport_core_operations **core_ops; };
-> > +
-> > +#define DEFINE_SCMI_TRANSPORT_DRIVER(__trans, __match_table,
-> > __core_ptr)\
-> > +static int __trans##_probe(struct platform_device *pdev)		\
-> > +{
-> > 	\
-> > +	struct scmi_transport *scmi_trans;
-> > 	\
-> > +	struct platform_device *scmi_pdev;
-> > 	\
-> > +	struct device *dev = &pdev->dev;				\
-> > +
-> > 	\
-> > +	scmi_trans = devm_kzalloc(dev, sizeof(*scmi_trans),
-> > GFP_KERNEL);\
-> > +	if (!scmi_trans)						\
-> > +		return -ENOMEM;
-> > 		\
-> > +
-> > 	\
-> > +	scmi_pdev = devm_kzalloc(dev, sizeof(*scmi_pdev),
-> > GFP_KERNEL);	\
-> > +	if (!scmi_pdev)
-> > 	\
-> > +		return -ENOMEM;
-> > 		\
-> > +
-> > 	\
-> > +	scmi_trans->supplier = dev;
-> > 	\
-> > +	scmi_trans->desc = &__trans##_desc;
-> > 	\
-> > +	scmi_trans->core_ops = __core_ptr;
-> > 	\
-> > +
-> > 	\
-> > +	scmi_pdev->name = "arm-scmi";
-> > 	\
-> > +	scmi_pdev->id = PLATFORM_DEVID_AUTO;
-> > 		\
-> > +	scmi_pdev->dev.platform_data = scmi_trans;
-> > 	\
-> > +
-> > 	\
-> > +	device_set_of_node_from_dev(&scmi_pdev->dev, dev);
-> > 	\
-> > +
-> > 	\
-> > +	dev_set_drvdata(dev, scmi_pdev);
-> > 	\
-> > +
-> > 	\
-> > +	return platform_device_register(scmi_pdev);
-> > 	\
-> > +}
-> > 	\
-> > +
-> > 	\
-> > +static void __trans##_remove(struct platform_device *pdev)
-> > 	\
-> > +{
-> > 	\
-> > +	struct platform_device *scmi_pdev;
-> > 	\
-> > +
-> > 	\
-> > +	scmi_pdev = dev_get_drvdata(&pdev->dev);
-> > 	\
-> > +
-> > 	\
-> > +	platform_device_unregister(scmi_pdev);
-> > 	\
-> > +}
-> > 	\
-> > +
-> > 	\
-> > +static struct platform_driver __trans##_driver = {			\
-> > +	.driver = {
-> > 	\
-> > +		   .name = #__trans "_transport",			\
-> > +		   .of_match_table = __match_table,
-> > 	\
-> > +		   },
-> > 	\
-> > +	.probe = __trans##_probe,
-> > 	\
-> > +	.remove_new = __trans##_remove,
-> > 		\
-> > +}
-> > +
-> >  extern const struct scmi_shared_mem_operations scmi_shmem_ops;
-> > extern const struct scmi_message_operations scmi_msg_ops;
+> >  void scmi_rx_callback(struct scmi_chan_info *cinfo, u32 msg_hdr,
+> > void *priv);
 > > 
 > > diff --git a/drivers/firmware/arm_scmi/driver.c
 > > b/drivers/firmware/arm_scmi/driver.c
-> > index 6b6957f4743f..a1892d4d8c69 100644
+> > index b14c5326930a..67b416c7f2f5 100644
 > > --- a/drivers/firmware/arm_scmi/driver.c
 > > +++ b/drivers/firmware/arm_scmi/driver.c
-> > @@ -194,6 +194,11 @@ struct scmi_info {
-> >  #define bus_nb_to_scmi_info(nb)	container_of(nb, struct
-> > scmi_info, bus_nb)
-> >  #define req_nb_to_scmi_info(nb)	container_of(nb, struct
-> > scmi_info, dev_req_nb)
+> > @@ -3251,9 +3251,6 @@ ATTRIBUTE_GROUPS(versions);
 > > 
-> > +static struct scmi_transport_core_operations scmi_trans_core_ops = {
-> > +	.bad_message_trace = scmi_bad_message_trace,
-> > +	.rx_callback = scmi_rx_callback,
-> > +};
-> > +
-> >  static unsigned long
-> >  scmi_vendor_protocol_signature(unsigned int protocol_id, char
-> > *vendor_id,
-> >  			       char *sub_vendor_id, u32 impl_ver) @@
-> > -2950,6 +2955,28 @@ static int scmi_debugfs_raw_mode_setup(struct
-> > scmi_info *info)
-> >  	return ret;
-> >  }
-> > 
-> > +static const struct scmi_desc *scmi_transport_lookup(struct device
-> > +*dev) {
-> > +	struct scmi_transport *trans;
-> > +
-> > +	trans = dev_get_platdata(dev);
-> > +	if (!trans || !trans->desc || !trans->supplier || !trans-
-> > >core_ops)
-> > +		return NULL;
-> > +
-> > +	if (!device_link_add(dev, trans->supplier,
-> > DL_FLAG_AUTOREMOVE_CONSUMER)) {
+> >  /* Each compatible listed below must have descriptor associated with
+> > it */  static const struct of_device_id scmi_of_match[] = { -#ifdef
+> > CONFIG_ARM_SCMI_TRANSPORT_OPTEE
+> > -	{ .compatible = "linaro,scmi-optee", .data =
+> > &scmi_optee_desc },
+> > -#endif
+> >  #ifdef CONFIG_ARM_SCMI_TRANSPORT_VIRTIO
+> >  	{ .compatible = "arm,scmi-virtio", .data = &scmi_virtio_desc},
+> > #endif diff --git a/drivers/firmware/arm_scmi/optee.c
+> > b/drivers/firmware/arm_scmi/scmi_transport_optee.c
+> > similarity index 90%
+> > rename from drivers/firmware/arm_scmi/optee.c rename to
+> > drivers/firmware/arm_scmi/scmi_transport_optee.c
+> > index 99f3b0bfb956..7a16c8d3e213 100644
+> > --- a/drivers/firmware/arm_scmi/optee.c
+> > +++ b/drivers/firmware/arm_scmi/scmi_transport_optee.c
+> > @@ -1,6 +1,6 @@
+> >  // SPDX-License-Identifier: GPL-2.0
+> >  /*
+> > - * Copyright (C) 2019-2021 Linaro Ltd.
+> > + * Copyright (C) 2019-2024 Linaro Ltd.
 > 
-> Just wonder why this is needed?
+> This should be kept unchanged?
 
-Oh, that is absolutely needed, because it unleashes the power of device_link ! 
-(..and I jus discovered this myself only recently :P ...)..if I got your
-question right....
-
-...and that, together with the AUTOREMOVE_CONSUMER flag, means in other words
-that the transport device is linked as a supplier to the consumer SCMI core
-stack devices, and as a consequence you are absolutely free to abruptly
-unload/unbind the transport driver at any time and be sure that before that
-can happen the full SCMI stack will be FULLY UNBOUND too...so stopping any
-SCMI communication before the transport module is unloaded/unbound....
-
-...and this, more importantly, happens without ME having to write ANY line of
-code :P....just thanks to the device_link core magic...
-
-...or at least this is my understanding and 
-
-> > +		dev_err(dev,
-> > +			"Adding link to supplier transport device
-> > failed\n");
-> > +		return NULL;
-> > +	}
-> > +
-> > +	/* Provide core transport ops */
-> > +	*trans->core_ops = &scmi_trans_core_ops;
-> > +
-> > +	dev_info(dev, "Using %s\n", dev_driver_string(trans->supplier));
-> > +
-> > +	return trans->desc;
-> > +}
-> > +
-> >  static int scmi_probe(struct platform_device *pdev)  {
-> >  	int ret;
-> > @@ -2962,8 +2989,14 @@ static int scmi_probe(struct
-> > platform_device *pdev)
-> >  	struct device_node *child, *np = dev->of_node;
-> > 
-> >  	desc = of_device_get_match_data(dev);
-> > -	if (!desc)
-> > -		return -EINVAL;
-> > +	if (!desc) {
-> > +		desc = scmi_transport_lookup(dev);
-> 
-> from the code, It is not actually a lookup operation.
-> How about scmi_transport_setup?
-> 
-
-Oh, yes...funny thing is that it is how exactly I DID called this
-function initially....then I spotted that there was already a similar
-__scmi_trancport_setup() helper in the legacy code that I removed, so I
-tried to use another more distinct name....I could go back to
-scmi_transport_setup indeed..
-
+Not sure, like I said previously, how to go about years.
 Thanks,
 Cristian
