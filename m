@@ -1,24 +1,24 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 417A015ECCA;
-	Thu, 11 Jul 2024 14:20:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B96AA1662FA;
+	Thu, 11 Jul 2024 14:22:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720707649; cv=none; b=JPHeHSi29KbC+L0hcISvPzKIUKMdRSQPTkYjt7EoHAsP2S+Gr0pHjKmMsPSaaeaEj4B6KEcZWW+QBLuAmFJqMqD3eOyehfspD1X09OYwv7H/87YrMQHEUBWLyftNUVDugMz7aqStv2+TdGOq2KxJpKlHj1kbkwdrUvXovqI5P4k=
+	t=1720707742; cv=none; b=DO7uZtd9yKONEmYj1goS+3puFW5I8UC6JMKS7fzgenyztYyAICbbNu7F3OXEG01AjQukLAbGsuQJ+0GZ5pvi3PK5JUJer6idrDgi5lTJhKiENsjts261nnlgOkOBkVHvl0kRnWZk3wKdYh55+nd+sdRnHDVh/BrQlfgMiwVCAaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720707649; c=relaxed/simple;
-	bh=pquOPkCraFMTEeTmUKF4GVnjPOMtCd1vv88fzoBbSas=;
+	s=arc-20240116; t=1720707742; c=relaxed/simple;
+	bh=XHSdtjIs+lF0ph52bPSTevTgqKFoHNKUsRIN8WSoeU8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AczJMlsyLKyFDpG0H8XS1Q9l+YUzfqek3Oyz5GlZglL4XQn2rjUZITpkv4tEE1Pe9Vjo/Dz0Ft2+PMIv3e1PmrjlAU+7onHrdfCbOQpEfLR1qF/zGN2AttkJNJa8DyEWeAPYN2p7Wcg2xSlzgQ+jEfd9Jwcc+YOifxoD1lti4zk=
+	 Content-Type:Content-Disposition:In-Reply-To; b=r2gdiG4MA/yE2y8BhqS/cYzLIkEpe/2xYEG0AAIq/ygT4QpgqspF6R4fx1RVGSKlT2acxBJrv/1XR+XTH+r7laaMePMJ+1LI48dr2n+St93hvZnR7qnr2aVm3elySzaF8I+KgWZoSpPaWP2iHGwVekgHgrQ36i2suz1+JxRte6U=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C1F14FEC;
-	Thu, 11 Jul 2024 07:21:11 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 65FA6FEC;
+	Thu, 11 Jul 2024 07:22:45 -0700 (PDT)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 377EE3F766;
-	Thu, 11 Jul 2024 07:20:44 -0700 (PDT)
-Date: Thu, 11 Jul 2024 15:20:41 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EBD783F766;
+	Thu, 11 Jul 2024 07:22:17 -0700 (PDT)
+Date: Thu, 11 Jul 2024 15:22:15 +0100
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: Peng Fan <peng.fan@nxp.com>
 Cc: Cristian Marussi <cristian.marussi@arm.com>,
@@ -36,14 +36,11 @@ Cc: Cristian Marussi <cristian.marussi@arm.com>,
 	"quic_nkela@quicinc.com" <quic_nkela@quicinc.com>,
 	"ptosi@google.com" <ptosi@google.com>,
 	"dan.carpenter@linaro.org" <dan.carpenter@linaro.org>,
-	"souvik.chakravarty@arm.com" <souvik.chakravarty@arm.com>,
-	Etienne Carriere <etienne.carriere@foss.st.com>
-Subject: Re: [PATCH v2 6/8] firmware: arm_scmi: Make OPTEE transport a
- standalone driver
-Message-ID: <Zo_qOcRa11INO8cs@pluto>
+	"souvik.chakravarty@arm.com" <souvik.chakravarty@arm.com>
+Subject: Re: [PATCH 0/8] Make SCMI transport as standalone drivers
+Message-ID: <Zo_qly7DOJkb05B_@pluto>
 References: <20240710173153.4060457-1-cristian.marussi@arm.com>
- <20240710173153.4060457-7-cristian.marussi@arm.com>
- <PAXPR04MB8459B0299D11F08605C20BB988A52@PAXPR04MB8459.eurprd04.prod.outlook.com>
+ <PAXPR04MB84592E272D5C16813529815588A52@PAXPR04MB8459.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -52,125 +49,100 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PAXPR04MB8459B0299D11F08605C20BB988A52@PAXPR04MB8459.eurprd04.prod.outlook.com>
+In-Reply-To: <PAXPR04MB84592E272D5C16813529815588A52@PAXPR04MB8459.eurprd04.prod.outlook.com>
 
-On Thu, Jul 11, 2024 at 12:57:46PM +0000, Peng Fan wrote:
-> > Subject: [PATCH v2 6/8] firmware: arm_scmi: Make OPTEE transport a
-> > standalone driver
-> > 
-> > Make SCMI OPTEE transport a standalone driver that can be optionally
-> > loaded as a module.
-> > 
-> > CC: Etienne Carriere <etienne.carriere@foss.st.com>
-> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> > ---
-> > v1 --> v2
-> > - handle platform_driver_register() failures
-> > ---
-> >  drivers/firmware/arm_scmi/Kconfig             |  6 +-
-> >  drivers/firmware/arm_scmi/Makefile            |  2 +-
-> >  drivers/firmware/arm_scmi/common.h            |  3 -
-> >  drivers/firmware/arm_scmi/driver.c            |  3 -
-> >  .../{optee.c => scmi_transport_optee.c}       | 91 ++++++++++---------
-> >  5 files changed, 52 insertions(+), 53 deletions(-)  rename
-> > drivers/firmware/arm_scmi/{optee.c => scmi_transport_optee.c} (90%)
-> > 
-> > diff --git a/drivers/firmware/arm_scmi/Kconfig
-> > b/drivers/firmware/arm_scmi/Kconfig
-> > index a4d44ef8bf45..def7e3f09356 100644
-> > --- a/drivers/firmware/arm_scmi/Kconfig
-> > +++ b/drivers/firmware/arm_scmi/Kconfig
-> > @@ -89,8 +89,8 @@ config ARM_SCMI_TRANSPORT_MAILBOX
-> >  	  will be called scmi_transport_mailbox.
-> > 
-> >  config ARM_SCMI_TRANSPORT_OPTEE
-> > -	bool "SCMI transport based on OP-TEE service"
-> > -	depends on OPTEE=y || OPTEE=ARM_SCMI_PROTOCOL
-> > +	tristate "SCMI transport based on OP-TEE service"
-> > +	depends on OPTEE
-> >  	select ARM_SCMI_HAVE_TRANSPORT
-> >  	select ARM_SCMI_HAVE_SHMEM
-> >  	select ARM_SCMI_HAVE_MSG
-> > @@ -100,6 +100,8 @@ config ARM_SCMI_TRANSPORT_OPTEE
-> > 
-> >  	  If you want the ARM SCMI PROTOCOL stack to include
-> > support for a
-> >  	  transport based on OP-TEE SCMI service, answer Y.
-> > +	  This driver can also be built as a module.  If so, the module
-> > +	  will be called scmi_transport_optee.
-> > 
-> >  config ARM_SCMI_TRANSPORT_SMC
-> >  	tristate "SCMI transport based on SMC"
-> > diff --git a/drivers/firmware/arm_scmi/Makefile
-> > b/drivers/firmware/arm_scmi/Makefile
-> > index 6868a47fa4ab..b04119ce972f 100644
-> > --- a/drivers/firmware/arm_scmi/Makefile
-> > +++ b/drivers/firmware/arm_scmi/Makefile
-> > @@ -7,13 +7,13 @@ scmi-driver-
-> > $(CONFIG_ARM_SCMI_RAW_MODE_SUPPORT) += raw_mode.o
-> >  scmi-transport-$(CONFIG_ARM_SCMI_HAVE_SHMEM) = shmem.o
-> >  scmi-transport-$(CONFIG_ARM_SCMI_HAVE_MSG) += msg.o
-> >  scmi-transport-$(CONFIG_ARM_SCMI_TRANSPORT_VIRTIO) += virtio.o
-> > -scmi-transport-$(CONFIG_ARM_SCMI_TRANSPORT_OPTEE) += optee.o
-> > scmi-protocols-y := base.o clock.o perf.o power.o reset.o sensors.o
-> > system.o voltage.o powercap.o  scmi-protocols-y += pinctrl.o  scmi-
-> > module-objs := $(scmi-driver-y) $(scmi-protocols-y) $(scmi-transport-y)
-> > 
-> >  obj-$(CONFIG_ARM_SCMI_TRANSPORT_SMC) +=
-> > scmi_transport_smc.o
-> >  obj-$(CONFIG_ARM_SCMI_TRANSPORT_MAILBOX) +=
-> > scmi_transport_mailbox.o
-> > +obj-$(CONFIG_ARM_SCMI_TRANSPORT_OPTEE) +=
-> > scmi_transport_optee.o
-> > 
-> >  obj-$(CONFIG_ARM_SCMI_PROTOCOL) += scmi-core.o
-> >  obj-$(CONFIG_ARM_SCMI_PROTOCOL) += scmi-module.o diff --git
-> > a/drivers/firmware/arm_scmi/common.h
-> > b/drivers/firmware/arm_scmi/common.h
-> > index edb786cde25c..0ce1d804b3fc 100644
-> > --- a/drivers/firmware/arm_scmi/common.h
-> > +++ b/drivers/firmware/arm_scmi/common.h
-> > @@ -289,9 +289,6 @@ int
-> > scmi_xfer_raw_wait_for_message_response(struct scmi_chan_info
-> > *cinfo,  #ifdef CONFIG_ARM_SCMI_TRANSPORT_VIRTIO  extern const
-> > struct scmi_desc scmi_virtio_desc;  #endif -#ifdef
-> > CONFIG_ARM_SCMI_TRANSPORT_OPTEE -extern const struct
-> > scmi_desc scmi_optee_desc; -#endif
-> > 
-> >  void scmi_rx_callback(struct scmi_chan_info *cinfo, u32 msg_hdr,
-> > void *priv);
-> > 
-> > diff --git a/drivers/firmware/arm_scmi/driver.c
-> > b/drivers/firmware/arm_scmi/driver.c
-> > index b14c5326930a..67b416c7f2f5 100644
-> > --- a/drivers/firmware/arm_scmi/driver.c
-> > +++ b/drivers/firmware/arm_scmi/driver.c
-> > @@ -3251,9 +3251,6 @@ ATTRIBUTE_GROUPS(versions);
-> > 
-> >  /* Each compatible listed below must have descriptor associated with
-> > it */  static const struct of_device_id scmi_of_match[] = { -#ifdef
-> > CONFIG_ARM_SCMI_TRANSPORT_OPTEE
-> > -	{ .compatible = "linaro,scmi-optee", .data =
-> > &scmi_optee_desc },
-> > -#endif
-> >  #ifdef CONFIG_ARM_SCMI_TRANSPORT_VIRTIO
-> >  	{ .compatible = "arm,scmi-virtio", .data = &scmi_virtio_desc},
-> > #endif diff --git a/drivers/firmware/arm_scmi/optee.c
-> > b/drivers/firmware/arm_scmi/scmi_transport_optee.c
-> > similarity index 90%
-> > rename from drivers/firmware/arm_scmi/optee.c rename to
-> > drivers/firmware/arm_scmi/scmi_transport_optee.c
-> > index 99f3b0bfb956..7a16c8d3e213 100644
-> > --- a/drivers/firmware/arm_scmi/optee.c
-> > +++ b/drivers/firmware/arm_scmi/scmi_transport_optee.c
-> > @@ -1,6 +1,6 @@
-> >  // SPDX-License-Identifier: GPL-2.0
-> >  /*
-> > - * Copyright (C) 2019-2021 Linaro Ltd.
-> > + * Copyright (C) 2019-2024 Linaro Ltd.
+On Thu, Jul 11, 2024 at 01:26:16PM +0000, Peng Fan wrote:
+> > Subject: [PATCH 0/8] Make SCMI transport as standalone drivers
 > 
-> This should be kept unchanged?
+> You may need use V2 here :)
 
-Not sure, like I said previously, how to go about years.
-Thanks,
+...oh damn :P
+
+> > 
+> > Hi all,
+> > 
+> > Till now the SCMI transport layer was being built embedded into in the
+> > core SCMI stack.
+> > 
+> > Some of these transports, despite being currently part of the main
+> > SCMI module, are indeed also registered with different subsystems like
+> > optee or virtio, and actively probed also by those: this led to a few
+> > awkward and convoluted tricks to properly handle such interactions at
+> > boot time in the SCMI stack.
+> > 
+> > Moreover some partner expressed the desire to be able to fully
+> > modularize the transports components.
+> > 
+> > This series aim to make all such transports as standalone drivers that
+> > can be optionally loaded as modules.
+> > 
+> > In order to do this, at first some new mechanism is introduced to
+> > support this new capability while maintaining, in parallel, the old
+> > legacy embedded transports; then each transport, one by one, is
+> > transitioned to be a standalone driver and finally the old legacy
+> > support for embedded transport is removed.
+> > 
+> > Patch [1/8] is a mostly unrelated (but much needed) clean-up from
+> > Peng, which I included in this series to avoid conflicts at merge.
+> > 
+> > Patch [2/8] simply collects the existing datagram manipulation helpers
+> > in a pair of function pointers structures, in preparation for later reworks.
+> > 
+> > Patch [3/8] adds the bulk of the new logic to the core SCMI stack and
+> > then each existing transport is transitioned to be a standalone driver in
+> > patches 4,5,6,7 while shuffling around the compatibles. (no DT change
+> > is needed of curse for backward compatibility) While doing this I kept
+> > the module authorship in line with the main
+> > author(S) as spitted out by git-blame.
+> > 
+> > Finally patch [8/8] removes all the legacy dead code from the core
+> > SCMI stack.
+> > 
+> > No new symbol EXPORT has been added.
+> > 
+> > The new transport drivers have been tested, as built-in and LKM, as
+> > follows:
+> > 
+> > - mailbox on JUNO
+> > - virtio on emulation
+> > - optee on QEMU/optee using Linaro setup
+> > 
+> > Exercised using the regular SCMI drivers stack and the SCMI ACS suite,
+> > testing commands, replies, delayed responses and notification.
+> > 
+> > Multiple virtual SCMI instances support has been tested too.
+> > 
+> > SMC has NOT been tested/exercised at run-time, only compile-tested.
+> > (due to lack of hardware)
+> > 
+> > Note that in this new setup, all the probe deferral and retries between
+> > the SCMI core stack and the transports has been removed, since no
+> > more needed.
+> > 
+> > Moreover the new drivers have been tested also with a fully
+> > modularized SCMI stack, i.e.:
+> > 
+> >   scmi-core.ko + scmi-module.ko + scmi_transport_*.ko [ + vendor
+> > modules ]
+> > 
+> > ToBeDone:
+> >  - completely remove any dependency at build time at the Kconfig level
+> > between
+> >    the SCMI core and the transport drivers: so that the transports will be
+> >    dependent only on the related subsystems (optee/virtio/mailbox/smc)
+> >    (easy to be done but maybe it is not worth...)
+> >  - integrate per-platform transport configuration capabilities
+> >    (max_rx_timeout_ms & friends..)
+> > 
+> > Based on sudeep/for-next/scmi/updates.
+> > 
+> > Any feedback, and especially testing (:D) is welcome.
+> > 
+> 
+> For the v2 patchset:
+> Tested-by: Peng Fan <peng.fan@nxp.com>  #i.MX95-19x19-EVK
+> 
+
+Thanks a lot for the review and testing,
+
 Cristian
