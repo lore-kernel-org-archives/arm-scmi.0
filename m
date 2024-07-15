@@ -1,89 +1,76 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D95918C341;
-	Mon, 15 Jul 2024 12:59:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E518018C180;
+	Mon, 15 Jul 2024 13:38:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721048378; cv=none; b=Fzh/PGSa4BEe/Z9DWDUyLZzNtBSxgdDNLM3ihFoK+wTVAbhJBf+JFtE2d9DrkcY1ORh/sjih1z0Yv8c05YVa2oqbUnl5ZhQBb43Y4iD9P9UmoJhBz0k0xR+OAPvarQ8528Bd2Edt+LnjocVaDltV8bm8TSkVABqiFYAAs+6kq0o=
+	t=1721050682; cv=none; b=YKmrCxaNVcFL6sUSkrX1K+8iOVs32Vr1hsFpJK5e9D6Oq6dG3Ioy76tk0RsaWnKYvtPMSDUbIof0VjpnpNd9eVvOWQi1UNdu0oqsh9t2sU2xbKvzt0/wpbm4VbvVg8HfXJqqehMkYpMdUWdX3slL55WQ1AyIzZ5/BaO8aIc/RT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721048378; c=relaxed/simple;
-	bh=tCAUoz16SFgMtRJJXCi3TzLWuHeXMPwnhI3T1kOUIJQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rpH3daOH9B+Ik8dwKzoXl799EkgbPHc+XsLSDZCsHeHefsnn8/k0gTtgeEiHGL+AlZvI8ZUC169kWABZ3fIkZ/C2YFyFIG/rhgu0TyslMr2gaXgOAP2FsmKO6MQTIyypyigdUXiKwWmDWrylXo48pJCcJploJNElNtygkOttVps=
+	s=arc-20240116; t=1721050682; c=relaxed/simple;
+	bh=Pyx1jKgT3O9zAB7pzzZnpQOB7thk7+IkDUDOcylBjH8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Dc2/Xqa7G15HeKr8zaBReyVdu0bkiZwMFN8+ISZzDSxHMUCabsznvSc0/n6usxduHZXNL+sHiAYkHK+PqkpvPONKomBSlEdLOmeUpNfOCvVTVSo9fDMsWhV+whPK5WsGUrh6H6JCDCN33qrWmQLdLvikoa3fMn8hO+PkYq1PqD0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DC521DA7;
-	Mon, 15 Jul 2024 06:00:00 -0700 (PDT)
-Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 11C1A3F73F;
-	Mon, 15 Jul 2024 05:59:32 -0700 (PDT)
-Date: Mon, 15 Jul 2024 13:59:30 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Peng Fan <peng.fan@nxp.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	"Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-	"linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: Re: [PATCH v5 1/7] Documentation: firmware-guide: add NXP i.MX95
- SCMI documentation
-Message-ID: <ZpUdMmvucei9lLPI@bogus>
-References: <20240621-imx95-bbm-misc-v2-v5-0-b85a6bf778cb@nxp.com>
- <20240621-imx95-bbm-misc-v2-v5-1-b85a6bf778cb@nxp.com>
- <Zo_bFnjWixZF6seV@pluto>
- <DB9PR04MB8461684315E753DAFDDBACA788A12@DB9PR04MB8461.eurprd04.prod.outlook.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 83998DA7;
+	Mon, 15 Jul 2024 06:38:25 -0700 (PDT)
+Received: from thinkcentre-m93p.cambridge.arm.com (thinkcentre-m93p.cambridge.arm.com [10.1.197.43])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 63A6F3F73F;
+	Mon, 15 Jul 2024 06:37:59 -0700 (PDT)
+From: Luke Parkin <luke.parkin@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org
+Cc: sudeep.holla@arm.com,
+	cristian.marussi@arm.com,
+	Luke Parkin <luke.parkin@arm.com>
+Subject: [PATCH v3 0/5] Add Per-transport SCMI debug statistics
+Date: Mon, 15 Jul 2024 14:37:46 +0100
+Message-Id: <20240715133751.2877197-1-luke.parkin@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DB9PR04MB8461684315E753DAFDDBACA788A12@DB9PR04MB8461.eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 15, 2024 at 11:47:56AM +0000, Peng Fan wrote:
-> > Subject: Re: [PATCH v5 1/7] Documentation: firmware-guide: add NXP
-> > i.MX95 SCMI documentation
-> > 
-> > On Fri, Jun 21, 2024 at 03:04:36PM +0800, Peng Fan (OSS) wrote:
-> > > From: Peng Fan <peng.fan@nxp.com>
-> > >
-> > > Add NXP i.MX95 System Control Management Interface(SCMI)
-> > vendor
-> > > extensions protocol documentation.
-> > >
-> > 
-> > Hi,
-> > 
-> > beside the final location of this file in the tree, and a few nitpicks down
-> > below.
-> 
-> Thanks for reviewing the patches. Except Documentation/firmware-guide,
-> I not have good idea where to put the API doc.
-> 
-> Sudeep,
->   Do you have any suggestions?
->
+This series adds support for tracking Arm SCMI statistics [Patch 2/3]
+A config option to enable this [Patch 2]
+Cleans up a unneeded call to handle_scmi_info [Patch 1]
+In [Patch 4] a selection of new debugfs entries to present these statistics
+Then finally in [Patch 5] enabled writing on the debugfs entries to reset stats
 
-Not really. But I am OK to keep it under drivers/firmware/arm_scmi/vendor/docs
-or something similar.
+Based on v6.9, Tested on Arm Juno [1]
 
---
-Regards,
-Sudeep
+Thanks,
+Luke
+
+[1]: https://www.arm.com/products/development-tools/development-boards/juno-arm-dev-platform
+
+V2->V3
+Switch statistic counters to an array to store statistics.
+Add more statistics
+Add the ability to reset statistics, both individually and all
+V1->V2
+Add a minor fix removing an unneeded call to handle_to_scmi_info
+Use new scmi_log_stats op/no-op rather than if(IS_ENABLED)
+Drop unneeded atomic_set's
+Use a helper function for stats debugfs creation
+
+Luke Parkin (5):
+  firmware: arm_scmi: Remove superfluous handle_to_scmi_info
+  firmware: arm_scmi: Add support for tracking statistics
+  firmware: arm_scmi: Track basic SCMI statistics
+  firmware: arm_scmi: Create debugfs files for statistics
+  firmware: arm_scmi: Reset statistics
+
+ drivers/firmware/arm_scmi/Kconfig  |  11 +++
+ drivers/firmware/arm_scmi/common.h |   9 ++
+ drivers/firmware/arm_scmi/driver.c | 138 +++++++++++++++++++++++++++--
+ 3 files changed, 150 insertions(+), 8 deletions(-)
+
+-- 
+2.34.1
+
