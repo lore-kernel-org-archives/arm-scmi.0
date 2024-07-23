@@ -1,70 +1,70 @@
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D57D208A0;
-	Tue, 23 Jul 2024 13:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B14DC153506;
+	Tue, 23 Jul 2024 13:40:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=185.132.182.106
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721741841; cv=fail; b=alt5AfwatIUVdXHT/IUWQqWu9xdPIgK0QNJddiWyRonilxWNGbv2miN4pF3uSviWHuZ1w4uNng/rbC7S/DE9JIFghAWfpnEWFR/JYR5mjCOU/CTPoo5V07TCqR494jGQctFzwm9EhcJVmq/h+okvB2hthCpONQp9euJASfTkOp8=
+	t=1721742006; cv=fail; b=i2B3p5i2fEBPn4rwmcvVEHSzTlYX5jiXVPwwRTxG2Tx5MEFiB1NyfzouGN+LFEfy7m3SBmBvsRjyaXfXz1OjDQlmdDqfJA3sPSb+cxX8OxgpCRnSWAHzWQ2h1OjTMpJoiWp38lshQfs6EzKN9VtpCzh0u8I5x3IBut3PNYAeL0A=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721741841; c=relaxed/simple;
-	bh=30mksBfqM0+DJ7GkP+PLoGm0X0/pvIjv6LITtwaGqYA=;
+	s=arc-20240116; t=1721742006; c=relaxed/simple;
+	bh=EEOV8LlIz7o53grwf6cRP+gDT+FyeITPScBYwLa8yYo=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Q7eK6oOd6v9VQUOqLl3824lqwcFW/mmVEM2PAYoI1xNDgAHdq431NieFWHVF2MK2rDVF+lC+oPQU7Ri4U/aJOXj6bjzppLojj//Rzfa2Xd1qpB/UXRXgGICZB2FpLIubts981XxLQt0pRx1CIAnn4WKh7OCdJ0dNl39u3LTDg9k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=st.com; spf=pass smtp.mailfrom=st.com; dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b=aSHIvwDk; arc=fail smtp.client-ip=91.207.212.93
+	 Content-Type:MIME-Version; b=cMi0RAOg6VWffbXxHKtW1kwWeVZAD7Jw3o/pFP+XglA7NF6y0s+u3sYUuNV1f1E2lBa6m7ZeBHlHlLRoYNjxqKyMfyfM0KTC2tnedSv0E3F7Wm3s+oM3IuZhrSff7ojikCnKDiktqbPehvUD3T0+8csHyE456n5Kjs/gfWaUyU4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=st.com; spf=pass smtp.mailfrom=st.com; dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b=b2CCBSbg; arc=fail smtp.client-ip=185.132.182.106
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=st.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="aSHIvwDk"
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46NBxRX3013342;
-	Tue, 23 Jul 2024 15:36:57 +0200
+	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="b2CCBSbg"
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46NBcXbY032420;
+	Tue, 23 Jul 2024 15:39:44 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	STMicroelectronics; bh=30mksBfqM0+DJ7GkP+PLoGm0X0/pvIjv6LITtwaGq
-	YA=; b=aSHIvwDkoy2lIXn0xZNAFrvMsV0Zalp4jPxbM2OIShM0O4bfBAJHTzJrV
-	uejjbLuYqeh0B4urv9RMBpYGTK8A4TqhqIRjSryGEDLd3ixlgSeFkrRhGe5Jcazt
-	4PhmCRUyJRwgebZf0QZ0Kw7ImgFsd5+wHzqwK1aPQ+YVXX1bxGkgyKbR3QJIVAXz
-	Won251kKmaQci5w5F6nbha8LAJeKjYaSjKfd8yl0p/8t+cJLAQ0P1rFoOTAXogfW
-	IDEJdLjnXdSYlhnwJM6a5EvRL6dE3azPrdb4tF6Y9j/KCJJZaHZDdTzCsBbHXeJv
-	MBZ/9voFd6aD39VNagx7s+cCdyPeQ==
-Received: from eur03-vi1-obe.outbound.protection.outlook.com (mail-vi1eur03lp2107.outbound.protection.outlook.com [104.47.30.107])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 40g44d285f-1
+	STMicroelectronics; bh=EEOV8LlIz7o53grwf6cRP+gDT+FyeITPScBYwLa8y
+	Yo=; b=b2CCBSbguCyvTfSOf8H/Qxa+VhsHAF0l9j2Z/VHEUH2zAyBX5ZZuNMYjA
+	PzwQQPPnJPnHRdHOfAFSZorxEUppraylzJ5NFYq9yZJCB5UVjWpQ/JLjMPuB/hd2
+	nI1KEbeUOh6St6U9YK1neq0+E3+FEyEUxDoAeGHOV4GGXeakL1tjMO7bVNY8XRPe
+	j7ImJBv5VyS+QHMD8JV1aCS5VF/lv3hEl1qvy6IEekeV/dFjjmSbAgf40vcOhufc
+	Ye4nsI97Qt2H8bErh+XW2HcM8MpKmSFElDj4ErU9NNXOoHq4UAdS6+pq3qvboKPG
+	tumnI2kbZwV3myOs/ZIiOoancKktA==
+Received: from eur05-db8-obe.outbound.protection.outlook.com (mail-db8eur05lp2105.outbound.protection.outlook.com [104.47.17.105])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 40g4jxjk5p-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Jul 2024 15:36:57 +0200 (MEST)
+	Tue, 23 Jul 2024 15:39:43 +0200 (MEST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iiz5aoBtiuYUOdHHQBZRnsbrw6Il44SFdyDO1Beho7fZzVWH2Mtb72xZ7U729bnddatjCDy81CEpldlXpE/biiV8ByEx25lhMfAp5kKbrvVpws4i1CURiSnRhw4iZoU6V5PbIcOqeKYbQG5wmvC7phiIDjOt/+dLs3g4/dxLs2PEQrVeFuRm0uhLHThoIhSGIPZpLoxYQ9PuBEOeGAEMmEab+GyXj26dsUypg8g/Gz1ZstHT6XN0qjUR1d+tPX82KQEiulhLklPqVoXzT+UjF1OhUhF9B+l3AlAQJ2UZLrPEAZKrYTMKlHgtOYsLe734kX4yA+BBcEM0mKOh0nK3Uw==
+ b=VAC3jLAAzPCCjMx7QWS0jMG7qFLI1Ez9Cg+iOL9ZR24orvw17qUyu75Bc1d6GOR88biVEYf9FgIKbYeiaEo/PjyOAy87Ve/RAytq5Qy8rn1sCbuxKUbqd5QA56vn7uIca99y/oCvOORG4LTqm9aWH3xMyapXnqzEHjC/oO4xhj/nVVZa3bYCtN3dy8OMMjhUH2R7qWQM9sLrMZDkomQNvhM0ykbk+V51UzDd8+3dmuY7smGW0CMfu6I0/fYlpyD0nRNS3GU5CCelWwtqw456q5YH2lbNSrKs/ABqQk3M+jN6LCdd7eBHHCWQlpU4e4UPgI07BntionEXme2ixFr+Yw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=30mksBfqM0+DJ7GkP+PLoGm0X0/pvIjv6LITtwaGqYA=;
- b=CrIgCPU/3UTG1MO9oz5SwxykFGVeLj5Q0NZDCYie8kZR9FFjlyfUApBoj5lKR9UQapdhG3E5Ev+vPofI736xanLZMkZrXKmz3ZoF5xtWBXBRkny2Hnhb2hrs+SCEuVMvHK7wAe0+RUbZLZkILI1YtVAG46DLtpyUYKnNtYWwhrOUnMHOyYyUSFyKR6B6xRG9RpvqL+bUlIIiEayHRsyWnu3qVijoVP/WLMraywhUeCAzD37NF7adDQsDtKnW7J+9lyv+RFetZuP6h1TU/vYQyKbj06ctTReJw64Kq2NB/NFWYMX0VEoUP9489tkoykXbYKcrFAuVH/xOScCt20SrOw==
+ bh=EEOV8LlIz7o53grwf6cRP+gDT+FyeITPScBYwLa8yYo=;
+ b=pJ6MEl4vUPtYSd17aAAiba9lY5luirCkHu1QvjeYPCWzE7EHHyySZN2Oft7CDTl3JjXNYDDj7xa7wQt8y9qdiA+MBz6G0/Qs8V9IBNs/l2EfydnHNTVcQGUi0oeCrSbitNjcBcOe2yM+B5sUGsDgwW08gwY1v/jULLunX4lFxicBCV2T8BcqJHVeuvOpDiw+jqMHstGO0yjyepSF2fX5a/0ZtWkzJNtgAWfee5vuiqePpjOFhXA6Q54WuQ+8cOKF31ZmM1B4L++0kGbqyjclK40hbiZOOoD2TSsxCNRPk22VX7IcRQ+BVoDaRpezfLS/q1wXC291ZYY1Rl6xepmVrg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=st.com; dmarc=pass action=none header.from=st.com; dkim=pass
  header.d=st.com; arc=none
 Received: from PAXPR10MB4687.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:157::13)
- by PA2PR10MB8818.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:426::19) with
+ by AS8PR10MB7523.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5ae::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.20; Tue, 23 Jul
- 2024 13:36:56 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.14; Tue, 23 Jul
+ 2024 13:39:41 +0000
 Received: from PAXPR10MB4687.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::6004:1d1:46c2:e67c]) by PAXPR10MB4687.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::6004:1d1:46c2:e67c%6]) with mapi id 15.20.7784.017; Tue, 23 Jul 2024
- 13:36:55 +0000
+ 13:39:41 +0000
 From: Etienne CARRIERE <etienne.carriere@st.com>
-To: Cristian Marussi <cristian.marussi@arm.com>, Peng Fan <peng.fan@nxp.com>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+To: Cristian Marussi <cristian.marussi@arm.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-arm-kernel@lists.infradead.org"
 	<linux-arm-kernel@lists.infradead.org>,
         "arm-scmi@vger.kernel.org"
-	<arm-scmi@vger.kernel.org>,
-        "sudeep.holla@arm.com" <sudeep.holla@arm.com>,
+	<arm-scmi@vger.kernel.org>
+CC: "sudeep.holla@arm.com" <sudeep.holla@arm.com>,
         "james.quinlan@broadcom.com" <james.quinlan@broadcom.com>,
         "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
         "vincent.guittot@linaro.org"
 	<vincent.guittot@linaro.org>,
-        "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+        "peng.fan@oss.nxp.com" <peng.fan@oss.nxp.com>,
         "michal.simek@amd.com" <michal.simek@amd.com>,
         "quic_sibis@quicinc.com"
 	<quic_sibis@quicinc.com>,
@@ -74,88 +74,89 @@ CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
 	<dan.carpenter@linaro.org>,
         "souvik.chakravarty@arm.com"
 	<souvik.chakravarty@arm.com>
-Subject: Re: [PATCH 0/8] Make SCMI transport as standalone drivers
-Thread-Topic: [PATCH 0/8] Make SCMI transport as standalone drivers
-Thread-Index: AQHa0u8dYiYl9go+nkKv95DYE5QWabHxhfIAgAAPpICAErgPsw==
-Date: Tue, 23 Jul 2024 13:36:55 +0000
+Subject: Re: [PATCH v2 3/8] firmware: arm_scmi: Add support for standalone
+ transport drivers
+Thread-Topic: [PATCH v2 3/8] firmware: arm_scmi: Add support for standalone
+ transport drivers
+Thread-Index: AQHa0u8kX4SciVGjgUS+6UFfwsXP9rIEBU/U
+Date: Tue, 23 Jul 2024 13:39:41 +0000
 Message-ID:
- <PAXPR10MB4687398182E577AD00B447FBFDA92@PAXPR10MB4687.EURPRD10.PROD.OUTLOOK.COM>
+ <PAXPR10MB4687B74810CA8EDB5BFC4781FDA92@PAXPR10MB4687.EURPRD10.PROD.OUTLOOK.COM>
 References: <20240710173153.4060457-1-cristian.marussi@arm.com>
- <PAXPR04MB84592E272D5C16813529815588A52@PAXPR04MB8459.eurprd04.prod.outlook.com>
- <Zo_qly7DOJkb05B_@pluto>
-In-Reply-To: <Zo_qly7DOJkb05B_@pluto>
+ <20240710173153.4060457-4-cristian.marussi@arm.com>
+In-Reply-To: <20240710173153.4060457-4-cristian.marussi@arm.com>
 Accept-Language: en-US, fr-FR
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 msip_labels:
- MSIP_Label_cf8c7287-838c-46dd-b281-b1140229e67a_Enabled=True;MSIP_Label_cf8c7287-838c-46dd-b281-b1140229e67a_SiteId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;MSIP_Label_cf8c7287-838c-46dd-b281-b1140229e67a_SetDate=2024-07-23T13:36:55.372Z;MSIP_Label_cf8c7287-838c-46dd-b281-b1140229e67a_Name=None
- (Unclassified);MSIP_Label_cf8c7287-838c-46dd-b281-b1140229e67a_ContentBits=0;MSIP_Label_cf8c7287-838c-46dd-b281-b1140229e67a_Method=Privileged;
+ MSIP_Label_cf8c7287-838c-46dd-b281-b1140229e67a_Enabled=True;MSIP_Label_cf8c7287-838c-46dd-b281-b1140229e67a_SiteId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;MSIP_Label_cf8c7287-838c-46dd-b281-b1140229e67a_SetDate=2024-07-23T13:39:41.139Z;MSIP_Label_cf8c7287-838c-46dd-b281-b1140229e67a_Name=None
+ (Unclassified);MSIP_Label_cf8c7287-838c-46dd-b281-b1140229e67a_ContentBits=0;MSIP_Label_cf8c7287-838c-46dd-b281-b1140229e67a_Method=Standard;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR10MB4687:EE_|PA2PR10MB8818:EE_
-x-ms-office365-filtering-correlation-id: 4913484c-8e9e-4147-b88f-08dcab1c84df
+x-ms-traffictypediagnostic: PAXPR10MB4687:EE_|AS8PR10MB7523:EE_
+x-ms-office365-filtering-correlation-id: 0293dd1e-8a27-47ca-efe0-08dcab1ce7ad
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700018;
+ BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700018;
 x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?8VweVNGRtTbU186/NisRFgydTHmhf+H9QzrWiPyAqnVK87GRD6w7C2vxMq?=
- =?iso-8859-1?Q?gSeRaBP3i95MPndizUIIs4ER8YXw2EodubmM6mbarOYNf+EGaravHhYlp+?=
- =?iso-8859-1?Q?v7legUbFiVfa9/ZD5gUZ5VcVeB3AWw3mRab3XBcw1H7KrUadU+fnwSleXQ?=
- =?iso-8859-1?Q?F4dj7S0+IZSuJ4u3utr11LdfLKcLZJdrHNzXxXaUpWhq7AvjUjuo5gBtQl?=
- =?iso-8859-1?Q?Mptx0zjXVMiIIU3m0nkSuZ+DmUhy1C2natBofGYyI9AUNkhLWGQa8FWgYv?=
- =?iso-8859-1?Q?W/cDkpavaKDGgjJfwz6oP5ddURBxaCOHPh5KqTlkVFl9dAi+ewHh4xqN2p?=
- =?iso-8859-1?Q?C4hGhuTZdte1rGQyO5+V8KefHK1UGt5yNdIpztaKZ7RXpWhTyEWEQFdf0r?=
- =?iso-8859-1?Q?jZyAF+uiod03OX3l0AbAyloTQnEZlInd/xmFJwU7nS6LUI13Vmd+uCK1nB?=
- =?iso-8859-1?Q?efn0eoGyR3cz56vJvQjp+iCQGHTI99ckydd6+pXSASrfTprG1bTYmpa1mV?=
- =?iso-8859-1?Q?ofgjA0XMTZWBjQqBI1/+20E1i5kRXktUKPRIwYwh0vfAtBOz3mPNPXztxP?=
- =?iso-8859-1?Q?/Q+RjpJYUC0cRscID0PUyudczX1eAc2JnuCNsSXfYkaLq38D7X5AcLWjAR?=
- =?iso-8859-1?Q?+Pcvt7eLRpv5o5Gr0+QiAvDmWrifeVkriMf383dbVS1mGVwWSfV3h8NOSt?=
- =?iso-8859-1?Q?rqygnJfoTe9iwwQ40jpJLTbZomaNMM9XQr1DWoi7s2SsL34NHBkBVhaL8k?=
- =?iso-8859-1?Q?wJA+lrKhpw5X/9McF/RnsxHXf10zWEfWAdTCeh89oLuYQeH7kJreaxdjvG?=
- =?iso-8859-1?Q?EYdpWs+ik85mlJIEgkUateZlBA0wHfyh73msM9WLtBU7rY+cUktcaXd9C4?=
- =?iso-8859-1?Q?mAS1addJVu8WD2AzcGV/G8l1qsFgtOgMd7e+AVD2gectB0CPnAzzCj6Wc1?=
- =?iso-8859-1?Q?1csWQlTEW1xHNBmlnBw/X5HjtgZQRPpt0tXBdyOpyN1WgMTQlbnwYyFHue?=
- =?iso-8859-1?Q?eBJtl1lEUivbjBMCWP2WqEsJqN75eQUzgPO6SpmVZud04yO1lRg5aKLXm9?=
- =?iso-8859-1?Q?aCgSt3adC3uuhpmVHFaH9vuLEDRgmIKU9xOa7cAVqqlNPBgTg0tEXtgmGt?=
- =?iso-8859-1?Q?/UUGkBQaV9oPvxg7VDIhtpFtBS3uwDPO4pS4VoZtfG2jZ4PU2fH9WMiSIb?=
- =?iso-8859-1?Q?vU6BTTZipgIJIBXU/SVySiu/WHy7Vxu9D5B9kZ0qydy6SYKLucwPtpbH1s?=
- =?iso-8859-1?Q?iCVAGJM1HFHAFfKGi73PzyoFlO7KfJpJgsWU2FB7BLUIqu6cgaq5+w03Nq?=
- =?iso-8859-1?Q?nrL2iePTxn9GfvgnF4/GFlyAQbeNqgzkiH+zwITf/Grexe4/St/2lA+rfX?=
- =?iso-8859-1?Q?8glt3bqHKQofv2cWl5XDYvWsuH6FXFUvxXadip5T6o6tLMotv51MuhwIAp?=
- =?iso-8859-1?Q?tZJP7zZwfeoEycezdk4qpbnkdH9l/Lj8wmuGfg=3D=3D?=
+ =?iso-8859-1?Q?PPbAI8Bw+mKGyhC6Beu8+ml/c9PSHJ8glcu6uV49Le/MVCB0gbiFZQre/f?=
+ =?iso-8859-1?Q?lL0eVSWenk25Dm9Db5FhZ/4l+EUkiX8KrqETwRArqHcGwLCAiD8qTFoLQX?=
+ =?iso-8859-1?Q?d+Zhdhv8fPZv73uqZC4+FAsV8x9ZxgZA3eXAet1txjioT64Z9GwAs7qOUk?=
+ =?iso-8859-1?Q?RjdZRgheG6Y89QnLsiam6BoQJ3xbau60heAC000Xn/f3ko/TrDPKrsPKaD?=
+ =?iso-8859-1?Q?Cy6kBCirF02UDFQs2rLCjYlo/C0tetXgVdRhtNtAsgLu2ajNvBb292QA5P?=
+ =?iso-8859-1?Q?w2JGGVKCBHjIKDajmo9gDdxELPgtn7hNLQAxKi/R2OredyuWVNMlGj6AVl?=
+ =?iso-8859-1?Q?HPl3zSPDQMtdasxOKN0LVeKDBbO/+q5iFd6vshJ0eibQa5uzVguRiLCQxr?=
+ =?iso-8859-1?Q?HhWkYuA03GxMwkBHWCzrXnAvZ0WwOf0Eu80/lWgO5KhlN9zuOivLQLjK4s?=
+ =?iso-8859-1?Q?ESGwM0HnN6kO8CKl986Cd0+569mi8taa/qv1650jUtnT9NWe4AnYtCLvuS?=
+ =?iso-8859-1?Q?poL1dyKRzaTCpdfbmVkOv5iyuZ9+VWNKQGxIXjFgCERkjeX4xCC1jO/9tg?=
+ =?iso-8859-1?Q?BlUPN1rfUDTX4ZzLlULlWILg5anB5DIBfj1jsrsi6VpyAxIrE7zRDRNuGW?=
+ =?iso-8859-1?Q?Ly1K3aRJb4X75gh8dFJZjpExmGv8J8NUkCnm+aJIvNWEevJQguNOQdzh/D?=
+ =?iso-8859-1?Q?uIm8eo6w5VvtnoWZ2Kj4Ut6ClwasGZAzv8j/TfCUqWR2rnoFVgyqEgOY/T?=
+ =?iso-8859-1?Q?1cCLu0gWMTKBxe11LC9LZwe1wh8DELxBXB+kaJ0quXGhQrL1iNeKx9un3m?=
+ =?iso-8859-1?Q?qIjxfUZd8DMMKWGNLDoO8r9O6/6cgrKXl3m9AuxAQ8lX4YGAtfTULJ69Ia?=
+ =?iso-8859-1?Q?4T5xcrZVmhdfuyHKosjchM3FB6dLByqjv37QDi8iDNN1tWoR3iOZE6601T?=
+ =?iso-8859-1?Q?4UPFml6PJDwWFovdskxmbagsD22dVfBijp5FGyWCFtd+sdNWkd6zto7YUt?=
+ =?iso-8859-1?Q?qOGiphz6JbNXcVre9E5dFst+b8SkMk2HilEnhFinK3xzeOUeSs/GSUDRpQ?=
+ =?iso-8859-1?Q?6YXIRsv9LfCB/BeGDej+fwdcxXlc12+kbYMharehrcVAlJRWdi1DNKAMsp?=
+ =?iso-8859-1?Q?ycb600ChHsoee/Xt0DWgNQjKeXuMqQpe84ntP5nyQo46/Kg8Z1yVtYiMYd?=
+ =?iso-8859-1?Q?spaZ72KHXs/Q/Q3CloZEsxPVT3mrVUkZDSu7TXTyewAbaBcLVasnIGmcla?=
+ =?iso-8859-1?Q?adwjvbHsvqr+12xrTpaWTexTToRWbexzJqjXuTGgjLnWSb/61ka3oxxJcg?=
+ =?iso-8859-1?Q?186ZVzlAt+0rIQ4NlFdg8fINpG4dR9YLJwvQAyLLOZcIJqZbL0gIj/DUkS?=
+ =?iso-8859-1?Q?J0as6mpXFNGSqOy5Xj0q/0zoy43zYuqb5pllIhs1XoNqkiRwo4g3MfrY8G?=
+ =?iso-8859-1?Q?ReGgv9Vy1wUU6ZuuhQWxhQ+ElSa+tiE5RqEVHg=3D=3D?=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR10MB4687.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700018);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR10MB4687.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?aGYPeMdapImPuJeRi8HLZUbmBZEOOlzFYxOC0DhCvsH3KbGrxG/N2pLHS0?=
- =?iso-8859-1?Q?v6JdG9f5ddv1A2rpSRzUpw8RLzl4JoxKgQqIleQQ7w4DBclLvJ8gEpEteN?=
- =?iso-8859-1?Q?Ui8kwRpN/w7+/wa74Sl88DQ+glBBC9YJaa6AJPyqE3Lo1okIgrzJ7fjno5?=
- =?iso-8859-1?Q?GYmb5Fv5SFPkd2Ny7HcwPNbEiQcLGsfhvv9Vvf96h1szW9Lq+zg2U4iylM?=
- =?iso-8859-1?Q?Us23aGdoQP/rrs/LFSSjEM/6jWhfM13aq7iCHFxbg0cTHcRzD3oYaZl7uU?=
- =?iso-8859-1?Q?W0IRJooDeh5jnDvCCmYAXX/b1eJRYfR4TteB4TfgVhcU+gxTXnAPwhla8O?=
- =?iso-8859-1?Q?DO9Zy17nv3i7QMazMs2n/j7eirSUOuL9PPQERSvBOHwbIqX3nXnC0cqh32?=
- =?iso-8859-1?Q?r9E63eUfEalQbOoA1Od6nx5E57I/sGiiexG7oAPIfIHJ+DEQCIEUHlpTnt?=
- =?iso-8859-1?Q?Pi+LwLXwEmnw6ePzNrJqo4C1kGwok/Ga/wz1OI08DCgYlMcbZ/EL7wFk4y?=
- =?iso-8859-1?Q?rEzV3xXCNy82zrgueFjjDLEt61HYZeA8TVH49Dn6uc3E/sqY2xkYMgi+XE?=
- =?iso-8859-1?Q?/OWJ14J0na1bmdNsvE4tmXlfDP+Te3M/nv8tLZ8o0abTYlhRaDxdijnPKr?=
- =?iso-8859-1?Q?Db8XZOl9lhNnE6heVnSJGtHWAO1I016Nmx9t9lc0rg/5lPJVAnET8Z9sFi?=
- =?iso-8859-1?Q?e0YPNlcBIuX0LwUps+/reQY/f8JiRs240WrArndOnGBXIzutZJ57FWuDSQ?=
- =?iso-8859-1?Q?O8/9trwLV9joG5xJrZyPFxgjtiY1zSlSNxL/LYVTu/q8j3f8RwKQcK7NAz?=
- =?iso-8859-1?Q?RxQcfkhvh2Ud4ehSCd0TAd8rgO3DAS34gtxqjW4G87CMei1FsHFFnH+KZD?=
- =?iso-8859-1?Q?L2gETLZXi+b2LCcWaq8Qv0DkuIBTepq5shlcrKt1GEfV+NdSd1DwCE0XrP?=
- =?iso-8859-1?Q?70/kV+C912mX5ImKSjTYJhx3A599y0X+p2ZhygmGaUVMP3JCXtQaEAFXl3?=
- =?iso-8859-1?Q?GVZhyq5L2oKaUbiKjIjA74QnM8fwpZ+yqI8mHL4faAwuY+dMdde7jjldh3?=
- =?iso-8859-1?Q?gtKsBFzpDY6lg5PWIebMxmANj5e69LUb66xIr4JhOIae4MFXRzYHdjfuZ+?=
- =?iso-8859-1?Q?FMlK4OM3VjCTCnxYzkIaWcufiEBhbjHVPJDpLb9Lb0VWH6eo2GwJghuhPi?=
- =?iso-8859-1?Q?bItOAjFmS0FGtQu/IqPtdw7aADCYm+wIqq7XxQx72xEHhjN5X/Xzfv2jmM?=
- =?iso-8859-1?Q?84xrSUD9Xf7JMn0UBltQ/yfXlNQS4wqRAbG7xbdpe+5M5NgsWVOH3bK0q5?=
- =?iso-8859-1?Q?aQLRUn7/bUCfsqHECG02Ba9J+CgRBlD4iRWovesVaG7XMwyOUcLWHYhKRt?=
- =?iso-8859-1?Q?QvB579AhxDICAvs2KKGQYk3LlS7bvoMPQV+ZKxVuGxq0owzDxTk8FPDazv?=
- =?iso-8859-1?Q?SDcG/ee8xMMka1PA+/MiarhCXjQJ+0UrvzheiAzVYMCFu9oxriN+66mf9O?=
- =?iso-8859-1?Q?8CmDEOsbjOCk1xWXUyKNozTF0d4b1gHP8eDpueICHKyGfy9xOkwgJdgR3i?=
- =?iso-8859-1?Q?KLQYXTp+aZyjHQO2HFso9r+GP+tY2eRw0d1r90Kbz4thgLrcJ4nawJzzio?=
- =?iso-8859-1?Q?OWogoAc2IBPgYr0S8ZmmDH3jVQciabl2Tv?=
+ =?iso-8859-1?Q?slMvWkzc0xyC0S4XEiVSo6Xrqw0lpljy//AFhvfw2i6fdn2+Moa/gtQXa9?=
+ =?iso-8859-1?Q?iPXzy8tpjQcEUxDjwY2G8ZmxoRt6ktOsVNkfeaYT/NnpvKv0P7FeDaiGTL?=
+ =?iso-8859-1?Q?klJttYrVmgioFJHuphHeH2ti5fkW5outr5Rj9y5V4bG5hMGZHvctVKwD0I?=
+ =?iso-8859-1?Q?FkBHdswwZ3A0uWUVXpJGzOTuWXv18DQjXEkTLGWR326G4qxc95ZgdPrh7X?=
+ =?iso-8859-1?Q?kO1eHCW6dm+a3yiAQSc4pgepxxtQtbvNOCpxkXQ3DXUi1GuqgQddGG69kI?=
+ =?iso-8859-1?Q?CaXk9wFosD6rmT1AbTwtTHzOwT90xb2uTDLldsFchMK5eP1oEG+4D+hCYr?=
+ =?iso-8859-1?Q?c7o75/YhgBTeTVos6jVxcYbH7R9W9tHT+w653nY0JYzWAHG0Cw4eArxhBy?=
+ =?iso-8859-1?Q?OZ2XZHX99U52EqRbEkFpXV6D5UF/k8UUvecTSpdqydSwGuDT2xP/4ND8WC?=
+ =?iso-8859-1?Q?VsvVcuf/7lWV5jesi7p5+NxBRmu27sIGix7Sq7m+z94MI0jJGy3F34FMln?=
+ =?iso-8859-1?Q?0/3zeIYoE7eZOvYmqYj1uQCyJZReg+v+7AVOTlp/uwBgf7y9XwtVa4qeP4?=
+ =?iso-8859-1?Q?s6Br4a96qTXTSUTRVvtPPpIfs9Fz7oJbRxqh9k0TSsR1oPABpDP1ylUW3c?=
+ =?iso-8859-1?Q?6AqD/0w6XLFcUvbSGZbD7fh4GloszOnuSadso7CX9T1GihAAS4UyYTb2De?=
+ =?iso-8859-1?Q?hoy2MTCjJIAAe1j7FT7gu3uebf1gZ6AonqB0ndfwiri4l7B8VCnlV6nw/Q?=
+ =?iso-8859-1?Q?J8iWjYGBHWJDSTmY0Gk9y5baWFYuSixHGk7kBblfqAenSSVaEXfhN6VYIk?=
+ =?iso-8859-1?Q?44mBnPb/vRjndnzvAQRlejTk9Z4PinMoBPqcT/IN5GfKPI0GmlmUP+Hztk?=
+ =?iso-8859-1?Q?E/MjGPf2gBo9IZNyMz8A9URqfSJFfOl4Ep8K1KsWhEVL3H7Axu4zzTHzuT?=
+ =?iso-8859-1?Q?KiMMLeNj7VLLZsD8Bq+807igZacYg58yTLpxBeze3jfBR4JTmB0EQs6CZ1?=
+ =?iso-8859-1?Q?rvq/D9FXQKfXLunt4VgvcZK0K0KgUpKH1B+pavRj+crBpJz/WO6J4jeEHV?=
+ =?iso-8859-1?Q?rK0S/hf92JXeibFSPSrhnC1Gxe2UYsP08JYr9CStcxSXp7qcA3TI4Lhg0n?=
+ =?iso-8859-1?Q?63DhwomU3085AEa1drNNoC9eyv/b5a2MzzQiFtnoQI1J/VzIZpxHFVSZEj?=
+ =?iso-8859-1?Q?ptuBe5fYjVJdrlvB1LIKeAaspFdVX9wUIoMfbhV+GUsTC8hfomYKhhVat1?=
+ =?iso-8859-1?Q?ygWu1E423vE4/aPdpRkdPFs+kIl+OWY/ZPbtv+zdI44cMqU7LUqAJPNPtz?=
+ =?iso-8859-1?Q?2QiDwqwYA8X1Q9IehDMqzqiDg1JMLzxdXpZBenxrg270eTG9aF8ZuwApZE?=
+ =?iso-8859-1?Q?PcdCJAq4kyZVKEY5HHZHttmowvLAb4/ls7IAVN/85HrkUARIZEEKPCYMRr?=
+ =?iso-8859-1?Q?zkgxD02MT9I4+XTWeY40mq+vooGM0nqwav9Z2jPNgVhd3vrl9teHNRChTk?=
+ =?iso-8859-1?Q?pfqvJHEh8HEZatJnnZkcWplcJU/9UIgicycFKfgF7iLojt+zm6OBMWP+vZ?=
+ =?iso-8859-1?Q?NsFsH7vSLDfxSZunTmnEnGAUqXgHD1ukF0I9up+Gg7O1+rcbGZJ9PmxnGt?=
+ =?iso-8859-1?Q?dN6KlQZ2PVU92dwz2hMd+ImtYdnvevTThG?=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -167,155 +168,408 @@ MIME-Version: 1.0
 X-OriginatorOrg: ST.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR10MB4687.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4913484c-8e9e-4147-b88f-08dcab1c84df
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2024 13:36:55.6302
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0293dd1e-8a27-47ca-efe0-08dcab1ce7ad
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2024 13:39:41.3758
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: AXRbszG1V45TSARThG2qC4FACStSu+/oMXqBg1cwWrMd/xMOpwBbvUHOgXaA9n70S8aPisMsPo/M3EGZB+ps3Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR10MB8818
-X-Proofpoint-GUID: UmzJuawnZkCzquhFdHzrUUDbd8qme1OI
-X-Proofpoint-ORIG-GUID: UmzJuawnZkCzquhFdHzrUUDbd8qme1OI
+X-MS-Exchange-CrossTenant-userprincipalname: QuVjRNCOkodtT3Gk8jmE4OlpEPOhXn4RDYUkLZodaev6ilaAVP1ZM93Wwk0Hbl5R6H5RVm3+ioH3n0xMo0LATg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR10MB7523
+X-Proofpoint-ORIG-GUID: U3I5qdp-8bAyL1Syqn2ZUEjX45CM-psz
+X-Proofpoint-GUID: U3I5qdp-8bAyL1Syqn2ZUEjX45CM-psz
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-07-23_02,2024-07-23_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwarescore=0
- lowpriorityscore=0 adultscore=0 spamscore=0 mlxscore=0 impostorscore=0
- clxscore=1011 suspectscore=0 priorityscore=1501 phishscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2407230097
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 bulkscore=0 adultscore=0
+ lowpriorityscore=0 spamscore=0 phishscore=0 mlxlogscore=999 mlxscore=0
+ malwarescore=0 suspectscore=0 impostorscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
+ definitions=main-2407230097
 
-Hi Cristian, Peng,=0A=
+Hi Cristian,=0A=
 =0A=
-On Thursday, July 11, 2024, Cristian Marussi worte:=0A=
-> On Thu, Jul 11, 2024 at 01:26:16PM +0000, Peng Fan wrote:=0A=
-> > > Subject: [PATCH 0/8] Make SCMI transport as standalone drivers=0A=
-> >=0A=
-> > You may need use V2 here :)=0A=
->=A0=0A=
-> ...oh damn :P=0A=
->=A0=0A=
-> > >=0A=
-> > > Hi all,=0A=
-> > >=0A=
-> > > Till now the SCMI transport layer was being built embedded into in th=
+Few nitpicking comments.=0A=
+=0A=
+On Wednesday, July 10, 2024, Cristian Marussi wrote: =A0=0A=
+> Extend the core SCMI stack with structures and methods to allow for=0A=
+> transports to be split out as standalone drivers, while still supporting=
+=0A=
+> old style transports, defined as built into the SCMI core stack.=0A=
+> =0A=
+> No functional change.=0A=
+> =0A=
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>=0A=
+> ---=0A=
+> NOTE: old style transport support will be removed later in this series.=
+=0A=
+> =0A=
+> v1 --> v2=0A=
+> - fixed comit message=0A=
+> ---=0A=
+> =A0drivers/firmware/arm_scmi/common.h | 84 ++++++++++++++++++++++++++++++=
+=0A=
+> =A0drivers/firmware/arm_scmi/driver.c | 44 +++++++++++++++-=0A=
+> =A0drivers/firmware/arm_scmi/msg.c=A0=A0=A0 |=A0 5 ++=0A=
+> =A0drivers/firmware/arm_scmi/shmem.c=A0 |=A0 5 ++=0A=
+> =A04 files changed, 136 insertions(+), 2 deletions(-)=0A=
+> =0A=
+> diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_sc=
+mi/common.h=0A=
+> index 8e5751aaa600..4af06810eb39 100644=0A=
+> --- a/drivers/firmware/arm_scmi/common.h=0A=
+> +++ b/drivers/firmware/arm_scmi/common.h=0A=
+> @@ -349,6 +349,8 @@ struct scmi_shared_mem_operations {=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 bool tx, struct resource *res);=0A=
+> =A0};=0A=
+> =A0=0A=
+> +const struct scmi_shared_mem_operations *scmi_shared_mem_operations_get(=
+void);=0A=
+> +=0A=
+> =A0/* declarations for message passing transports */=0A=
+> =A0struct scmi_msg_payld;=0A=
+> =A0=0A=
+> @@ -376,6 +378,88 @@ struct scmi_message_operations {=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 size_t max_len, struct scmi_xfer *xfer);=
+=0A=
+> =A0};=0A=
+> =A0=0A=
+> +const struct scmi_message_operations *scmi_message_operations_get(void);=
+=0A=
+> +=0A=
+> +/**=0A=
+> + * struct scmi_transport_core_operations=A0 - Transpoert core operations=
+=0A=
+> + *=0A=
+> + * @bad_message_trace: An helper to report a malformed/unexpected messag=
 e=0A=
-> > > core SCMI stack.=0A=
-> > >=0A=
-> > > Some of these transports, despite being currently part of the main=0A=
-> > > SCMI module, are indeed also registered with different subsystems lik=
-e=0A=
-> > > optee or virtio, and actively probed also by those: this led to a few=
+> + * @rx_callback: Callback to report received messages=0A=
+> + * @shmem: Datagram operations for shared memory based transports=0A=
+> + * @msg: Datagram operations for message based transports=0A=
+> + */=0A=
+> +struct scmi_transport_core_operations {=0A=
+> +=A0=A0=A0=A0=A0=A0 void (*bad_message_trace)(struct scmi_chan_info *cinf=
+o,=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0 u32 msg_hdr, enum scmi_bad_msg err);=0A=
+> +=A0=A0=A0=A0=A0=A0 void (*rx_callback)(struct scmi_chan_info *cinfo, u32=
+ msg_hdr,=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0 void *priv);=0A=
+> +=A0=A0=A0=A0=A0=A0 const struct scmi_shared_mem_operations *shmem;=0A=
+> +=A0=A0=A0=A0=A0=A0 const struct scmi_message_operations *msg;=0A=
+> +};=0A=
+> +=0A=
+> +/**=0A=
+> + * struct scmi_transport=A0 - A structure representing a configured tran=
+sport=0A=
+> + *=0A=
+> + * @supplier: Device representimng the transport and acting as a supplie=
+r for=0A=
 =0A=
-> > > awkward and convoluted tricks to properly handle such interactions at=
+typo: s/representimng/representing/=0A=
 =0A=
-> > > boot time in the SCMI stack.=0A=
-> > >=0A=
-> > > Moreover some partner expressed the desire to be able to fully=0A=
-> > > modularize the transports components.=0A=
-> > >=0A=
-> > > This series aim to make all such transports as standalone drivers tha=
-t=0A=
-> > > can be optionally loaded as modules.=0A=
-> > >=0A=
-> > > In order to do this, at first some new mechanism is introduced to=0A=
-> > > support this new capability while maintaining, in parallel, the old=
+> + *=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 the core SCMI stack=0A=
+> + * @desc: Transport descriptor=0A=
+> + * @core_ops: A pointer to a pointer used by the core SCMI stack to make=
+ the=0A=
+> + *=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 core transport operations accessible to=
+ the transports.=0A=
+> + */=0A=
+> +struct scmi_transport {=0A=
+> +=A0=A0=A0=A0=A0=A0 struct device *supplier;=0A=
+> +=A0=A0=A0=A0=A0=A0 const struct scmi_desc *desc;=0A=
+> +=A0=A0=A0=A0=A0=A0 struct scmi_transport_core_operations **core_ops;=0A=
+> +};=0A=
+> +=0A=
+> +#define DEFINE_SCMI_TRANSPORT_DRIVER(__trans, __match_table, __core_ptr)=
+\=0A=
+> +static int __trans##_probe(struct platform_device *pdev)=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +{=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 struct scmi_transport *scmi_trans;=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 struct platform_device *scmi_pdev;=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 struct device *dev =3D &pdev->dev;=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+ \=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 scmi_trans =3D devm_kzalloc(dev, sizeof(*scmi_trans),=
+ GFP_KERNEL);\=0A=
+> +=A0=A0=A0=A0=A0=A0 if (!scmi_trans)=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return -ENOMEM;=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 scmi_pdev =3D devm_kzalloc(dev, sizeof(*scmi_pdev), G=
+FP_KERNEL);=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 if (!scmi_pdev)=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return -ENOMEM;=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 scmi_trans->supplier =3D dev;=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 scmi_trans->desc =3D &__trans##_desc;=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
 =0A=
-> > > legacy embedded transports; then each transport, one by one, is=0A=
-> > > transitioned to be a standalone driver and finally the old legacy=0A=
-> > > support for embedded transport is removed.=0A=
-> > >=0A=
-> > > Patch [1/8] is a mostly unrelated (but much needed) clean-up from=0A=
-> > > Peng, which I included in this series to avoid conflicts at merge.=0A=
-> > >=0A=
-> > > Patch [2/8] simply collects the existing datagram manipulation helper=
-s=0A=
-> > > in a pair of function pointers structures, in preparation for later r=
-eworks.=0A=
-> > >=0A=
-> > > Patch [3/8] adds the bulk of the new logic to the core SCMI stack and=
+It's a bit weird the scmi_desc shall be specifically labeled __trans##_desc=
 =0A=
-> > > then each existing transport is transitioned to be a standalone drive=
-r in=0A=
-> > > patches 4,5,6,7 while shuffling around the compatibles. (no DT change=
+in the transport driver source file while match table and transport core=0A=
+operations instances references are passed as arguments. I think it's =0A=
+worth having the scmi_desc label also passed as an argument to=0A=
+DEFINE_SCMI_TRANSPORT_DRIVER() macro.=0A=
 =0A=
-> > > is needed of curse for backward compatibility) While doing this I kep=
-t=0A=
-> > > the module authorship in line with the main=0A=
-> > > author(S) as spitted out by git-blame.=0A=
-> > >=0A=
-> > > Finally patch [8/8] removes all the legacy dead code from the core=0A=
-> > > SCMI stack.=0A=
-> > >=0A=
-> > > No new symbol EXPORT has been added.=0A=
-> > >=0A=
-> > > The new transport drivers have been tested, as built-in and LKM, as=
+> +=A0=A0=A0=A0=A0=A0 scmi_trans->core_ops =3D __core_ptr;=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=
 =0A=
-> > > follows:=0A=
-> > >=0A=
-> > > - mailbox on JUNO=0A=
-> > > - virtio on emulation=0A=
-> > > - optee on QEMU/optee using Linaro setup=0A=
-> > >=0A=
-> > > Exercised using the regular SCMI drivers stack and the SCMI ACS suite=
-,=0A=
-> > > testing commands, replies, delayed responses and notification.=0A=
-> > >=0A=
-> > > Multiple virtual SCMI instances support has been tested too.=0A=
-> > >=0A=
-> > > SMC has NOT been tested/exercised at run-time, only compile-tested.=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 scmi_pdev->name =3D "arm-scmi";=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 scmi_pdev->id =3D PLATFORM_DEVID_AUTO;=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 scmi_pdev->dev.platform_data =3D scmi_trans;=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 device_set_of_node_from_dev(&scmi_pdev->dev, dev);=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 dev_set_drvdata(dev, scmi_pdev);=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=
 =0A=
-> > > (due to lack of hardware)=0A=
-> > >=0A=
-> > > Note that in this new setup, all the probe deferral and retries betwe=
-en=0A=
-> > > the SCMI core stack and the transports has been removed, since no=0A=
-> > > more needed.=0A=
-> > >=0A=
-> > > Moreover the new drivers have been tested also with a fully=0A=
-> > > modularized SCMI stack, i.e.:=0A=
-> > >=0A=
-> > > =A0 scmi-core.ko + scmi-module.ko + scmi_transport_*.ko [ + vendor=0A=
-> > > modules ]=0A=
-> > >=0A=
-> > > ToBeDone:=0A=
-> > > =A0- completely remove any dependency at build time at the Kconfig le=
-vel=0A=
-> > > between=0A=
-> > > =A0 =A0the SCMI core and the transport drivers: so that the transport=
-s will be=0A=
-> > > =A0 =A0dependent only on the related subsystems (optee/virtio/mailbox=
-/smc)=0A=
-> > > =A0 =A0(easy to be done but maybe it is not worth...)=0A=
-> > > =A0- integrate per-platform transport configuration capabilities=0A=
-> > > =A0 =A0(max_rx_timeout_ms & friends..)=0A=
-> > >=0A=
-> > > Based on sudeep/for-next/scmi/updates.=0A=
-> > >=0A=
-> > > Any feedback, and especially testing (:D) is welcome.=0A=
-> > >=0A=
-> >=0A=
-> > For the v2 patchset:=0A=
-> > Tested-by: Peng Fan <peng.fan@nxp.com> =A0#i.MX95-19x19-EVK=0A=
-> >=0A=
->=A0=0A=
-> Thanks a lot for the review and testing,=0A=
->=A0=0A=
-> Cristian=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 return platform_device_register(scmi_pdev);=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +}=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +static void __trans##_remove(struct platform_device *pdev)=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +{=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 struct platform_device *scmi_pdev;=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 scmi_pdev =3D dev_get_drvdata(&pdev->dev);=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 platform_device_unregister(scmi_pdev);=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +}=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +static struct platform_driver __trans##_driver =3D {=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
 =0A=
+Same here. I think __trans##_driver label should be also explicitly=0A=
+passed as an argument to DEFINE_SCMI_TRANSPORT_DRIVER().=0A=
 =0A=
-I've tested this v2 on stm32mp157c-scmi.dts. Using built-in modules=0A=
-works perfectly.=A0 I've tweaked my platform setup to test the .ko and=0A=
-modprobe part. It works ok for the probe part but I faced kernel oops=0A=
-when unloading scmi-module after transport is loaded, used, then unoaded.=
-=0A=
-The issue I saw is around calls to info->desc->ops->chan_free in=0A=
-scmi_cleanup_channels(). I wonder if there are some ops that were not=0A=
-unregistered when transport driver is unloaded.=0A=
-=0A=
-Aside this, I'll sent few minor comments on few patches of your series.=0A=
-=0A=
-Best regards,=0A=
+BR,=0A=
 Etienne=0A=
 =0A=
+=0A=
+=0A=
+=0A=
+> +=A0=A0=A0=A0=A0=A0 .driver =3D {=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .name =3D #__trans "=
+_transport",=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 .of_match_table =3D =
+__match_table,=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 },=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 .probe =3D __trans##_probe,=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0 \=0A=
+> +=A0=A0=A0=A0=A0=A0 .remove_new =3D __trans##_remove,=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0 \=0A=
+> +}=0A=
+> +=0A=
+> =A0extern const struct scmi_shared_mem_operations scmi_shmem_ops;=0A=
+> =A0extern const struct scmi_message_operations scmi_msg_ops;=0A=
+> =A0=0A=
+> diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_sc=
+mi/driver.c=0A=
+> index 6b6957f4743f..a1892d4d8c69 100644=0A=
+> --- a/drivers/firmware/arm_scmi/driver.c=0A=
+> +++ b/drivers/firmware/arm_scmi/driver.c=0A=
+> @@ -194,6 +194,11 @@ struct scmi_info {=0A=
+> =A0#define bus_nb_to_scmi_info(nb) container_of(nb, struct scmi_info, bus=
+_nb)=0A=
+> =A0#define req_nb_to_scmi_info(nb) container_of(nb, struct scmi_info, dev=
+_req_nb)=0A=
+> =A0=0A=
+> +static struct scmi_transport_core_operations scmi_trans_core_ops =3D {=
+=0A=
+> +=A0=A0=A0=A0=A0=A0 .bad_message_trace =3D scmi_bad_message_trace,=0A=
+> +=A0=A0=A0=A0=A0=A0 .rx_callback =3D scmi_rx_callback,=0A=
+> +};=0A=
+> +=0A=
+> =A0static unsigned long=0A=
+> =A0scmi_vendor_protocol_signature(unsigned int protocol_id, char *vendor_=
+id,=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0 char *sub_vendor_id, u32 impl_ver)=0A=
+> @@ -2950,6 +2955,28 @@ static int scmi_debugfs_raw_mode_setup(struct scmi=
+_info *info)=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0 return ret;=0A=
+> =A0}=0A=
+> =A0=0A=
+> +static const struct scmi_desc *scmi_transport_lookup(struct device *dev)=
+=0A=
+> +{=0A=
+> +=A0=A0=A0=A0=A0=A0 struct scmi_transport *trans;=0A=
+> +=0A=
+> +=A0=A0=A0=A0=A0=A0 trans =3D dev_get_platdata(dev);=0A=
+> +=A0=A0=A0=A0=A0=A0 if (!trans || !trans->desc || !trans->supplier || !tr=
+ans->core_ops)=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return NULL;=0A=
+> +=0A=
+> +=A0=A0=A0=A0=A0=A0 if (!device_link_add(dev, trans->supplier, DL_FLAG_AU=
+TOREMOVE_CONSUMER)) {=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev_err(dev,=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 "Addi=
+ng link to supplier transport device failed\n");=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return NULL;=0A=
+> +=A0=A0=A0=A0=A0=A0 }=0A=
+> +=0A=
+> +=A0=A0=A0=A0=A0=A0 /* Provide core transport ops */=0A=
+> +=A0=A0=A0=A0=A0=A0 *trans->core_ops =3D &scmi_trans_core_ops;=0A=
+> +=0A=
+> +=A0=A0=A0=A0=A0=A0 dev_info(dev, "Using %s\n", dev_driver_string(trans->=
+supplier));=0A=
+> +=0A=
+> +=A0=A0=A0=A0=A0=A0 return trans->desc;=0A=
+> +}=0A=
+> +=0A=
+> =A0static int scmi_probe(struct platform_device *pdev)=0A=
+> =A0{=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0 int ret;=0A=
+> @@ -2962,8 +2989,14 @@ static int scmi_probe(struct platform_device *pdev=
+)=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0 struct device_node *child, *np =3D dev->of_node;=
+=0A=
+> =A0=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0 desc =3D of_device_get_match_data(dev);=0A=
+> -=A0=A0=A0=A0=A0=A0 if (!desc)=0A=
+> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return -EINVAL;=0A=
+> +=A0=A0=A0=A0=A0=A0 if (!desc) {=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 desc =3D scmi_transport_looku=
+p(dev);=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (!desc) {=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 err_s=
+tr =3D "transport invalid\n";=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ret =
+=3D -EINVAL;=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 goto =
+out_err;=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 }=0A=
+> +=A0=A0=A0=A0=A0=A0 }=0A=
+> =A0=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0 info =3D devm_kzalloc(dev, sizeof(*info), GFP_KE=
+RNEL);=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0 if (!info)=0A=
+> @@ -3130,6 +3163,7 @@ static int scmi_probe(struct platform_device *pdev)=
+=0A=
+> =A0clear_ida:=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0 ida_free(&scmi_id, info->id);=0A=
+> =A0=0A=
+> +out_err:=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0 return dev_err_probe(dev, ret, "%s", err_str);=
+=0A=
+> =A0}=0A=
+> =A0=0A=
+> @@ -3321,6 +3355,12 @@ static int __init scmi_driver_init(void)=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0 if (ret)=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return ret;=0A=
+> =A0=0A=
+> +=A0=A0=A0=A0=A0=A0 if (IS_ENABLED(CONFIG_ARM_SCMI_HAVE_SHMEM))=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 scmi_trans_core_ops.shmem =3D=
+ scmi_shared_mem_operations_get();=0A=
+> +=0A=
+> +=A0=A0=A0=A0=A0=A0 if (IS_ENABLED(CONFIG_ARM_SCMI_HAVE_MSG))=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 scmi_trans_core_ops.msg =3D s=
+cmi_message_operations_get();=0A=
+> +=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0 if (IS_ENABLED(CONFIG_ARM_SCMI_NEED_DEBUGFS))=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 scmi_top_dentry =3D scmi=
+_debugfs_init();=0A=
+> =A0=0A=
+> diff --git a/drivers/firmware/arm_scmi/msg.c b/drivers/firmware/arm_scmi/=
+msg.c=0A=
+> index f4ba38afe0bb..0bed1d2825af 100644=0A=
+> --- a/drivers/firmware/arm_scmi/msg.c=0A=
+> +++ b/drivers/firmware/arm_scmi/msg.c=0A=
+> @@ -118,3 +118,8 @@ const struct scmi_message_operations scmi_msg_ops =3D=
+ {=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0 .fetch_response =3D msg_fetch_response,=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0 .fetch_notification =3D msg_fetch_notification,=
+=0A=
+> =A0};=0A=
+> +=0A=
+> +const struct scmi_message_operations *scmi_message_operations_get(void)=
+=0A=
+> +{=0A=
+> +=A0=A0=A0=A0=A0=A0 return &scmi_msg_ops;=0A=
+> +}=0A=
+> diff --git a/drivers/firmware/arm_scmi/shmem.c b/drivers/firmware/arm_scm=
+i/shmem.c=0A=
+> index 208a289642c3..b1fc0c31495b 100644=0A=
+> --- a/drivers/firmware/arm_scmi/shmem.c=0A=
+> +++ b/drivers/firmware/arm_scmi/shmem.c=0A=
+> @@ -187,3 +187,8 @@ const struct scmi_shared_mem_operations scmi_shmem_op=
+s =3D {=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0 .channel_intr_enabled =3D shmem_channel_intr_ena=
+bled,=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0 .setup_iomap =3D shmem_setup_iomap,=0A=
+> =A0};=0A=
+> +=0A=
+> +const struct scmi_shared_mem_operations *scmi_shared_mem_operations_get(=
+void)=0A=
+> +{=0A=
+> +=A0=A0=A0=A0=A0=A0 return &scmi_shmem_ops;=0A=
+> +}=0A=
+> --=0A=
+> 2.45.2=0A=
+> =0A=
