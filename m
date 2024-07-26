@@ -1,33 +1,37 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B241168C7;
-	Fri, 26 Jul 2024 15:16:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6FA0168C7;
+	Fri, 26 Jul 2024 15:17:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722006969; cv=none; b=RhCQfYrOLlVoiKGivXLSQhHqPi7yemc2uVM0C3g/yhoj60cpU+VsZ5SyEOGD3JQUCDlt0XDKDKHHwkDjbmzx1yTsjZulLSskFhxGuTOjK+EaluuDWLviHCu2ClDND43AX3mq3FuuFM7BlazkykhDi7GVlEtUPZJk2xNYYpMA2yg=
+	t=1722007042; cv=none; b=FFUELWQsWjg2R3ryjEM8dnLHMG+4/CwJsLMMT/HB66xTWsTiR7kQRs5yXQs9Ko4J2I0Sh24U386fenQJ3bfKsA3YvMmIVXbG05z6WT4+UOB8BwLmgGfut2wTDgtldUBrBHu5LgMSX17T3Sth30VbPK4uWtLVH9DFLL63FiLHqyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722006969; c=relaxed/simple;
-	bh=SjYuF0wHvMidJzi2rqAX+BCgJqz8mbzUz6DGGs/7Ki0=;
+	s=arc-20240116; t=1722007042; c=relaxed/simple;
+	bh=s4f65Y/N1nN7/0I0JQe+uIPI0YFfBuninrYimJdu1oE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sMTt7RmYz4Q6Jmr1IPrNoC1XObKjpzzXXWvdiLXnBvBsDX7KJ6hHktY7HMRadGdZeTddtIpMVTpjPwxidETfY94lGcyRAlQu5iFrh+mbFACb6tQgxoRV8uV7qHDDLspv6GLWJqITM78fdOYzSF+iJJLBeJqAzmmAChbd1SA80KA=
+	 Content-Type:Content-Disposition:In-Reply-To; b=kX+RKFd0C9FheG36DWS4eThcpnBbZKJ/Ia1qZFmV1S6A06v3aGtd3ebivevHaLP0m4V7fWYi4tI0OTs+iXNU8g5zVr/P7uModudAEmeBu4seG5j0+j7YkbguFAoIk7qnA9rp2GdW+rM8Wlkt1lAVSfDrxK3SvSujQs92Smz6qXw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 54A7A1007;
-	Fri, 26 Jul 2024 08:16:32 -0700 (PDT)
-Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 161E33F73F;
-	Fri, 26 Jul 2024 08:16:05 -0700 (PDT)
-Date: Fri, 26 Jul 2024 16:16:03 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Etienne Carriere <etienne.carriere@foss.st.com>
-Cc: <linux-kernel@vger.kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	<arm-scmi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH] firmware: arm_scmi: fix voltage description in failure
- cases
-Message-ID: <ZqO9s9YzYjaCHSap@bogus>
-References: <20240725065317.3758165-1-etienne.carriere@foss.st.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 57B871007;
+	Fri, 26 Jul 2024 08:17:45 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AA5603F73F;
+	Fri, 26 Jul 2024 08:17:17 -0700 (PDT)
+Date: Fri, 26 Jul 2024 16:17:15 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Florian Fainelli <f.fainelli@gmail.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
+	james.quinlan@broadcom.com, vincent.guittot@linaro.org,
+	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+	quic_sibis@quicinc.com, quic_nkela@quicinc.com, ptosi@google.com,
+	dan.carpenter@linaro.org, souvik.chakravarty@arm.com
+Subject: Re: [PATCH 0/8] Make SCMI transport as standalone drivers
+Message-ID: <ZqO9-ywEVvqdMRGF@pluto>
+References: <20240710173153.4060457-1-cristian.marussi@arm.com>
+ <0dd4e916-6f7f-4427-a217-5b7a290b1b3f@gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -36,41 +40,87 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240725065317.3758165-1-etienne.carriere@foss.st.com>
+In-Reply-To: <0dd4e916-6f7f-4427-a217-5b7a290b1b3f@gmail.com>
 
-On Thu, Jul 25, 2024 at 08:53:17AM +0200, Etienne Carriere wrote:
-> Reset the reception buffer max size when a voltage domain description
-> request fails, for example when the voltage domain returns an access
-> permission error (SCMI_ERR_ACCESS) unless what only a single 32bit
-> word is read back for the remaining voltage description requests
-> responses leading to invalid information. The side effect of this
-> issue is that the voltage regulators registered from those remaining
-> SCMI voltage domain were assigned a wrong regulator name.
+On Fri, Jul 12, 2024 at 02:02:32PM -0700, Florian Fainelli wrote:
+> On 7/10/24 10:31, Cristian Marussi wrote:
+> > Hi all,
+> > 
+> > Till now the SCMI transport layer was being built embedded into in the core
+> > SCMI stack.
+> > 
+> > Some of these transports, despite being currently part of the main SCMI
+> > module, are indeed also registered with different subsystems like optee or
+> > virtio, and actively probed also by those: this led to a few awkward and
+> > convoluted tricks to properly handle such interactions at boot time in the
+> > SCMI stack.
+> > 
+> > Moreover some partner expressed the desire to be able to fully modularize
+> > the transports components.
+> > 
+> > This series aim to make all such transports as standalone drivers that can
+> > be optionally loaded as modules.
+> > 
+> > In order to do this, at first some new mechanism is introduced to support
+> > this new capability while maintaining, in parallel, the old legacy embedded
+> > transports; then each transport, one by one, is transitioned to be a
+> > standalone driver and finally the old legacy support for embedded transport
+> > is removed.
+> > 
+> > Patch [1/8] is a mostly unrelated (but much needed) clean-up from Peng,
+> > which I included in this series to avoid conflicts at merge.
+> > 
+> > Patch [2/8] simply collects the existing datagram manipulation helpers in a
+> > pair of function pointers structures, in preparation for later reworks.
+> > 
+> > Patch [3/8] adds the bulk of the new logic to the core SCMI stack and then
+> > each existing transport is transitioned to be a standalone driver in
+> > patches 4,5,6,7 while shuffling around the compatibles. (no DT change is
+> > needed of curse for backward compatibility)
+> > While doing this I kept the module authorship in line with the main
+> > author(S) as spitted out by git-blame.
+> > 
+> > Finally patch [8/8] removes all the legacy dead code from the core SCMI
+> > stack.
+> > 
+> > No new symbol EXPORT has been added.
+> > 
+> > The new transport drivers have been tested, as built-in and LKM, as
+> > follows:
+> > 
+> > - mailbox on JUNO
+> > - virtio on emulation
+> > - optee on QEMU/optee using Linaro setup
+> > 
+> > Exercised using the regular SCMI drivers stack and the SCMI ACS suite,
+> > testing commands, replies, delayed responses and notification.
+> > 
+> > Multiple virtual SCMI instances support has been tested too.
+> > 
+> > SMC has NOT been tested/exercised at run-time, only compile-tested.
+> > (due to lack of hardware)
+> > 
+> > Note that in this new setup, all the probe deferral and retries between the
+> > SCMI core stack and the transports has been removed, since no more needed.
+> > 
+> > Moreover the new drivers have been tested also with a fully modularized
+> > SCMI stack, i.e.:
+> > 
+> >    scmi-core.ko + scmi-module.ko + scmi_transport_*.ko [ + vendor modules ]
+> > 
+> > ToBeDone:
+> >   - completely remove any dependency at build time at the Kconfig level between
+> >     the SCMI core and the transport drivers: so that the transports will be
+> >     dependent only on the related subsystems (optee/virtio/mailbox/smc)
+> >     (easy to be done but maybe it is not worth...)
+> >   - integrate per-platform transport configuration capabilities
+> >     (max_rx_timeout_ms & friends..)
+> > 
+> > Based on sudeep/for-next/scmi/updates.
+> > 
+> > Any feedback, and especially testing (:D) is welcome.
 > 
-> Signed-off-by: Etienne Carriere <etienne.carriere@foss.st.com>
-> ---
->  drivers/firmware/arm_scmi/voltage.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/firmware/arm_scmi/voltage.c b/drivers/firmware/arm_scmi/voltage.c
-> index 2175ffd6cef5..f1a7c04ae820 100644
-> --- a/drivers/firmware/arm_scmi/voltage.c
-> +++ b/drivers/firmware/arm_scmi/voltage.c
-> @@ -229,8 +229,10 @@ static int scmi_voltage_descriptors_get(const struct scmi_protocol_handle *ph,
->  		/* Retrieve domain attributes at first ... */
->  		put_unaligned_le32(dom, td->tx.buf);
->  		/* Skip domain on comms error */
-> -		if (ph->xops->do_xfer(ph, td))
-> +		if (ph->xops->do_xfer(ph, td)) {
-> +			ph->xops->reset_rx_to_maxsz(ph, td);
+> Tested-by: Florian Fainelli <florian.fainelli@broadcom.com>
 
-I am fine with this to keep it simple, but thought I will check my thoughts.
-We usually use reset_rx_to_maxsz in iterators as we don't know the expected
-size of the response, whereas here it must be max sizeof(*resp_dom).
-
-That said, we don't have any helpers and changing xfer->rx.len directly
-doesn't looks good ? Or may be it is OK ? Thoughts ?
-
---
-Regards,
-Sudeep
+Thanks for testing this, Florian.
+Cristian
