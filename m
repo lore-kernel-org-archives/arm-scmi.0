@@ -1,70 +1,103 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CF5E17583;
-	Fri, 26 Jul 2024 14:44:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A6581CF9B;
+	Fri, 26 Jul 2024 14:57:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722005053; cv=none; b=mjKQ7qzCJvgY+UU9036zmayRZT317CAFBB73vGPEeLXNhDk4ziprAXLmGJNMbbUNGPvMe2mww5flSVWiY/kvodAQeHPPalnL5ljehfY0PmqnBb8XGBv7crkqc7Rzk4l54ppNGYykPSDcy6QP4JqTJXt3YJW1XQnh5GPPlKLHUBA=
+	t=1722005867; cv=none; b=EcGOcg2+Z/OYHrbgaRIXAYfmR5hgcRXToSLX6XLUryZ7E1okcyS9/rHxXDKDMJLo8EEhCC8q8y3g5I0WWmJ9oPYUICxmnkMnmmddJPnR+hiE7mJMluKosxZb9sueyPtJuVBIuJc7XPbA/DeL4saw8sbc2UfDE827o0PwshjclYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722005053; c=relaxed/simple;
-	bh=iBdRYYu80R4lr4jNQXogJH/5xWStbjyUPmDLyowpDvg=;
+	s=arc-20240116; t=1722005867; c=relaxed/simple;
+	bh=Ije9quJA/JaId1T0emmMsYoqzpKKW6KuyzOpfB856Iw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VmV1PDhh55QKU4wEo9cLg4lyohuAaQGHHG95DEv4El7XKc5jn5j58j2tpQtEfvQsQMOywyA/3Gy1A830Cytq2Lz/mo8q4iy47Ks4lblAqSQ+3B3dkW0rSgAbVHwwslNYMfp2D8VljdaIPRlXsEem72nSVjQS/gxAHuYJBHSDY7U=
+	 Content-Type:Content-Disposition:In-Reply-To; b=OR6TyoSt3raumI9FQLzVbqGbP2DFyvu4Z/igTDZf4cJRPzrepXZqVFckj357QTlUVQVVzJyKYGBLAk4q/Cre1gSh/Z+YdOOrMRo4qpCGkeDCNLNALUUh/MclO3HWdlqKjL2ULzN/7RGSnhmi/NZU/g0OOZaa938RkhdOHoj91Ng=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 592611007;
-	Fri, 26 Jul 2024 07:44:36 -0700 (PDT)
-Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1E46A3F5A1;
-	Fri, 26 Jul 2024 07:44:08 -0700 (PDT)
-Date: Fri, 26 Jul 2024 15:44:06 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Dhruva Gole <d-gole@ti.com>
-Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, <cristian.marussi@arm.com>,
-	<mturquette@baylibre.com>, <sboyd@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>, <linux-clk@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <arm-scmi@vger.kernel.org>,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH V2] clk: scmi: add is_prepared hook
-Message-ID: <ZqO2Nn7Wofs_wfkQ@bogus>
-References: <20240726131007.1651996-1-peng.fan@oss.nxp.com>
- <20240726135231.hhzp3dqgx64e6kiw@dhruva>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 01A431007;
+	Fri, 26 Jul 2024 07:58:11 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 34DC93F73F;
+	Fri, 26 Jul 2024 07:57:43 -0700 (PDT)
+Date: Fri, 26 Jul 2024 15:57:40 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Etienne CARRIERE <etienne.carriere@st.com>
+Cc: Peng Fan <peng.fan@nxp.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"sudeep.holla@arm.com" <sudeep.holla@arm.com>,
+	"james.quinlan@broadcom.com" <james.quinlan@broadcom.com>,
+	"f.fainelli@gmail.com" <f.fainelli@gmail.com>,
+	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+	"Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+	"michal.simek@amd.com" <michal.simek@amd.com>,
+	"quic_sibis@quicinc.com" <quic_sibis@quicinc.com>,
+	"quic_nkela@quicinc.com" <quic_nkela@quicinc.com>,
+	"ptosi@google.com" <ptosi@google.com>,
+	"dan.carpenter@linaro.org" <dan.carpenter@linaro.org>,
+	"souvik.chakravarty@arm.com" <souvik.chakravarty@arm.com>
+Subject: Re: [PATCH v2 2/8] firmware: arm_scmi: Introduce packet handling
+ helpers
+Message-ID: <ZqO5ZOxruAP1FOEW@pluto>
+References: <20240710173153.4060457-1-cristian.marussi@arm.com>
+ <20240710173153.4060457-3-cristian.marussi@arm.com>
+ <PAXPR04MB8459E1ED6375ECE89C8471AE88A52@PAXPR04MB8459.eurprd04.prod.outlook.com>
+ <PAXPR10MB4687B2FCCA6E59CAEF769713FDA92@PAXPR10MB4687.EURPRD10.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240726135231.hhzp3dqgx64e6kiw@dhruva>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PAXPR10MB4687B2FCCA6E59CAEF769713FDA92@PAXPR10MB4687.EURPRD10.PROD.OUTLOOK.COM>
 
-On Fri, Jul 26, 2024 at 07:22:31PM +0530, Dhruva Gole wrote:
-> On Jul 26, 2024 at 21:10:07 +0800, Peng Fan (OSS) wrote:
-> > From: Peng Fan <peng.fan@nxp.com>
-> > 
-> > Some clks maybe default enabled by hardware, so add is_prepared hook
-> > for non-atomic clk_ops to get the status of the clk. Then when disabling
-> > unused clks, those unused clks but default hardware on clks could be
-> > in off state to save power.
+On Tue, Jul 23, 2024 at 01:41:19PM +0000, Etienne CARRIERE wrote:
+> Hi,
 > 
-> Just a nit - reword the commit message as:
-> Then when disabling the unused clocks, they can be simply turned OFF to
-> save power.
->
+> On Thursday, July 11, 2024, Peng Fan wrote:
+> > > Subject: [PATCH v2 2/8] firmware: arm_scmi: Introduce packet
+> > > handling helpers
+> > >
+> > > Introduce a pair of structures initialized to contain all the existing
+> > > packet handling helpers, both for transports based on shared memory
+> > > and messages.
+> > >
+> > > No functional change.
+> > >
+> > > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> > > ---
+> > > v1 --> v2
+> > > - fixed commit message
+> > > ---
+> > ......
+> > 
+> > > d33a704e5814..f4ba38afe0bb 100644
+> > > --- a/drivers/firmware/arm_scmi/msg.c
+> > > +++ b/drivers/firmware/arm_scmi/msg.c
+> > > @@ -4,8 +4,8 @@
+> > >   *
+> > >   * Derived from shm.c.
+> > >   *
+> > > - * Copyright (C) 2019-2021 ARM Ltd.
+> > > - * Copyright (C) 2020-2021 OpenSynergy GmbH
+> > > + * Copyright (C) 2019-2024 ARM Ltd.
+> > > + * Copyright (C) 2020-2024 OpenSynergy GmbH
+> > 
+> > Nitpick: OpenSynergy year should be kept unchanged?
+> 
 
-Ah this was what it meant. I couldn't parse the original text and was about
-to ask.
+Hi Etienne, Peng
 
-> Also if you can make it still verbose, explain when you expect this
-> disabling of unused clks to take place exactly? During boot?  Driver probe sequence?
-> or By some user commands?
->
+> I agree. Copyright dates on original non-Arm contributors should
+> not be changed, here and in patch 5/8, 6/8 and 7/8.
+> 
 
-Agreed. Being little more verbose here would be beneficial IMO.
+Agreed. Thanks for the clarification, I was not sure how to handle such
+old copyrigths....I have fixed alreay all of these Copy for V3.
 
--- 
-Regards,
-Sudeep
+Thanks,
+Cristian
