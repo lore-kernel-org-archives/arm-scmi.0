@@ -1,163 +1,89 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 302631A3BD7;
-	Tue, 30 Jul 2024 14:48:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 120B1CA6B;
+	Tue, 30 Jul 2024 14:56:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722350894; cv=none; b=FrSM4gqwbxxnhXhcOLumSTxndEgWoIsv9t4/VpY0Lnr2Rz34ICe7GEVJDlQag3TiC4zrJi55g7rCFKmH7h+l8mTbBRh++86YGBiQZcRhFscRqz49Lr/wC6d/0YlBLl89BBBZGEbdMEj43z3OFxQoZXEgLDZubpUiMH1EV8dUa4Q=
+	t=1722351420; cv=none; b=oktr+CQ7oCz8P/Mq1y+z1Ri7KoHy1O5ArIMH6//vNpGyLdVT91jmZ/0zfN4AKEFEpgwwNEK7kdLNlWhqkve3tT0taYDKm2j6S+PIc4Cpm/QT1D2YTkqNWQRsm7YbZJ4pfPTYR0SCIOrrnyDANW5a4K45MRU4rYaO09WpH1KmuFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722350894; c=relaxed/simple;
-	bh=/98SPjl3bs049AFP8/MXLSTbsr2VdIQZ/hmRsPc75N8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Bg7UdZur+hKANKnBIuHeKOr0Zaam1/QjRzCcMXjc1mB5RpDNaDX/4qzUf/a6VikK3/89G+ycYwIxZJ/VaSydBnW1ZOCFzWCTB1pOesb4jgB0qu/HqcXtg3Df0ErTDrF5P6WQhd6HMfD9w/z4ckiZj4oGcZyZ5MlYz0BDy5Tie9Q=
+	s=arc-20240116; t=1722351420; c=relaxed/simple;
+	bh=VsBH3rXK2CS3G7G2pQ+b11aJQVl/XnQ5tZ2MibiEpB0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t8v1Wt9rVN8eoyWQPgSPbH16KmYsFajFBr2aB9wlTmCzbttG6ML/KEPY8BJ12dInS3f3Cnl4gYuvgmMHJaubft8VPLZ3gV6YeUjC1SLOCLXBDEvoVkhTL1gIkXSrLAO6m7RhPdmOgW3P/rcMg9u9smaXXVn93R9yv99hgXijUmo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 255921007;
-	Tue, 30 Jul 2024 07:48:38 -0700 (PDT)
-Received: from pluto.guestnet.cambridge.arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8BD2D3F766;
-	Tue, 30 Jul 2024 07:48:09 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E315F1007;
+	Tue, 30 Jul 2024 07:57:23 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 89E9A3F5A1;
+	Tue, 30 Jul 2024 07:56:56 -0700 (PDT)
+Date: Tue, 30 Jul 2024 15:56:32 +0100
 From: Cristian Marussi <cristian.marussi@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: sudeep.holla@arm.com,
-	james.quinlan@broadcom.com,
-	f.fainelli@gmail.com,
-	vincent.guittot@linaro.org,
-	etienne.carriere@st.com,
-	peng.fan@oss.nxp.com,
-	michal.simek@amd.com,
-	quic_sibis@quicinc.com,
-	quic_nkela@quicinc.com,
-	dan.carpenter@linaro.org,
-	souvik.chakravarty@arm.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH v1 6/6] firmware: arm_scmi: Relocate atomic_threshold to scmi_desc
-Date: Tue, 30 Jul 2024 15:47:07 +0100
-Message-ID: <20240730144707.1647025-7-cristian.marussi@arm.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240730144707.1647025-1-cristian.marussi@arm.com>
-References: <20240730144707.1647025-1-cristian.marussi@arm.com>
+To: Peng Fan <peng.fan@nxp.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	"Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+	"sudeep.holla@arm.com" <sudeep.holla@arm.com>,
+	"robh@kernel.org" <robh@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: Re: [PATCH V3 2/2] firmware: arm_scmi: set mailbox timeout value
+ from device tree
+Message-ID: <Zqj_ILnsWRHmSWaQ@pluto>
+References: <20240709140957.3171255-1-peng.fan@oss.nxp.com>
+ <20240709140957.3171255-2-peng.fan@oss.nxp.com>
+ <PAXPR04MB84594F4271F68D9072BA0C0D88AC2@PAXPR04MB8459.eurprd04.prod.outlook.com>
+ <ZqjPGvTgtosWQTzM@pluto>
+ <DB9PR04MB84613EEEC8EA13469757FF8B88B02@DB9PR04MB8461.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DB9PR04MB84613EEEC8EA13469757FF8B88B02@DB9PR04MB8461.eurprd04.prod.outlook.com>
 
-Relocate the atomic_threshold field to scmi_desc and move the related code
-to scmi_transport_setup.
+On Tue, Jul 30, 2024 at 02:24:17PM +0000, Peng Fan wrote:
+> Hi Cristian,
+> 
+> > Subject: Re: [PATCH V3 2/2] firmware: arm_scmi: set mailbox timeout
+> > value from device tree
+> > 
+> > On Thu, Jul 18, 2024 at 02:24:15AM +0000, Peng Fan wrote:
+> > > Hi Cristian,
+> > >
+> > 
+> > Hi Peng,
+> > 
+> > > > Subject: [PATCH V3 2/2] firmware: arm_scmi: set mailbox timeout
+> > > > value from device tree
+> > >
+> > > The binding has got R-b from Rob, will you pick this patch in your
+> > > next Patchset?
+> > >
+> > 
+> > I am going to post a new transport_drivers_V3 and, as a separate series
+> > on top of that, your latest "max-rx-timeuout" DT patch as reviewed by
+> > Rob, plus the related new logic based on transport_drivers_V3 and a
+> > few more similar changes as requested by Nikunj.
+> 
+> Ok, so your V3 not include this patchset. Do you have time to give
+> a look on the 2nd patch? We are still waiting this got R-b to land
+> this in Google GKI kernel.
+> 
 
-No functional change.
+As said above, your max-rx-timeout-ms DT patch (with Rob R-b) and more is 
+included in this small series (just posted):
 
-Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
----
- drivers/firmware/arm_scmi/common.h |  7 +++++++
- drivers/firmware/arm_scmi/driver.c | 25 +++++++++----------------
- 2 files changed, 16 insertions(+), 16 deletions(-)
+https://lore.kernel.org/linux-arm-kernel/20240730144707.1647025-1-cristian.marussi@arm.com/T/#t
 
-diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-index 5261dc9b5f96..3bb5fdc0d57d 100644
---- a/drivers/firmware/arm_scmi/common.h
-+++ b/drivers/firmware/arm_scmi/common.h
-@@ -223,6 +223,12 @@ struct scmi_transport_ops {
-  *	be pending simultaneously in the system. May be overridden by the
-  *	get_max_msg op.
-  * @max_msg_size: Maximum size of data per message that can be handled.
-+ * @atomic_threshold: Optional system wide DT-configured threshold, expressed
-+ *		      in microseconds, for atomic operations.
-+ *		      Only SCMI synchronous commands reported by the platform
-+ *		      to have an execution latency lesser-equal to the threshold
-+ *		      should be considered for atomic mode operation: such
-+ *		      decision is finally left up to the SCMI drivers.
-  * @force_polling: Flag to force this whole transport to use SCMI core polling
-  *		   mechanism instead of completion interrupts even if available.
-  * @sync_cmds_completed_on_ret: Flag to indicate that the transport assures
-@@ -241,6 +247,7 @@ struct scmi_desc {
- 	int max_rx_timeout_ms;
- 	int max_msg;
- 	int max_msg_size;
-+	unsigned int atomic_threshold;
- 	const bool force_polling;
- 	const bool sync_cmds_completed_on_ret;
- 	const bool atomic_enabled;
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 8295e63be38e..26781e678cc3 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -147,12 +147,6 @@ struct scmi_debug_info {
-  *		   base protocol
-  * @active_protocols: IDR storing device_nodes for protocols actually defined
-  *		      in the DT and confirmed as implemented by fw.
-- * @atomic_threshold: Optional system wide DT-configured threshold, expressed
-- *		      in microseconds, for atomic operations.
-- *		      Only SCMI synchronous commands reported by the platform
-- *		      to have an execution latency lesser-equal to the threshold
-- *		      should be considered for atomic mode operation: such
-- *		      decision is finally left up to the SCMI drivers.
-  * @notify_priv: Pointer to private data structure specific to notifications.
-  * @node: List head
-  * @users: Number of users of this instance
-@@ -178,7 +172,6 @@ struct scmi_info {
- 	struct mutex protocols_mtx;
- 	u8 *protocols_imp;
- 	struct idr active_protocols;
--	unsigned int atomic_threshold;
- 	void *notify_priv;
- 	struct list_head node;
- 	int users;
-@@ -2427,7 +2420,7 @@ static bool scmi_is_transport_atomic(const struct scmi_handle *handle,
- 	ret = info->desc->atomic_enabled &&
- 		is_transport_polling_capable(info->desc);
- 	if (ret && atomic_threshold)
--		*atomic_threshold = info->atomic_threshold;
-+		*atomic_threshold = info->desc->atomic_threshold;
- 
- 	return ret;
- }
-@@ -2892,7 +2885,7 @@ static struct scmi_debug_info *scmi_debugfs_common_setup(struct scmi_info *info)
- 			   (char **)&dbg->name);
- 
- 	debugfs_create_u32("atomic_threshold_us", 0400, top_dentry,
--			   &info->atomic_threshold);
-+			   (u32 *)&info->desc->atomic_threshold);
- 
- 	debugfs_create_str("type", 0400, trans, (char **)&dbg->type);
- 
-@@ -3001,6 +2994,13 @@ static const struct scmi_desc *scmi_transport_setup(struct device *dev)
- 		 trans->desc->max_rx_timeout_ms, trans->desc->max_msg_size,
- 		 trans->desc->max_msg);
- 
-+	/* System wide atomic threshold for atomic ops .. if any */
-+	if (!of_property_read_u32(dev->of_node, "atomic-threshold-us",
-+				  &trans->desc->atomic_threshold))
-+		dev_info(dev,
-+			 "SCMI System wide atomic threshold set to %d us\n",
-+			 trans->desc->atomic_threshold);
-+
- 	return trans->desc;
- }
- 
-@@ -3050,13 +3050,6 @@ static int scmi_probe(struct platform_device *pdev)
- 	handle->devm_protocol_acquire = scmi_devm_protocol_acquire;
- 	handle->devm_protocol_get = scmi_devm_protocol_get;
- 	handle->devm_protocol_put = scmi_devm_protocol_put;
--
--	/* System wide atomic threshold for atomic ops .. if any */
--	if (!of_property_read_u32(np, "atomic-threshold-us",
--				  &info->atomic_threshold))
--		dev_info(dev,
--			 "SCMI System wide atomic threshold set to %d us\n",
--			 info->atomic_threshold);
- 	handle->is_transport_atomic = scmi_is_transport_atomic;
- 
- 	/* Setup all channels described in the DT at first */
--- 
-2.45.2
+based on top of transport_drivers_V3.
 
+Thanks,
+Cristian
