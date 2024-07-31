@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D805E1607BA;
-	Wed, 31 Jul 2024 06:11:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23AC1662E4;
+	Wed, 31 Jul 2024 06:12:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722406291; cv=none; b=lSBJn57S4F6faJSSEdNEaDavS90DpwhsV8KWJKUzcdxF3sqyePYZanTZz97XwcgLmBfQ7pIeEWWeQpgWA4rApEOUtU793GZ+QnpWrRtzF8pf1qnTysqTxLklMJ4E5E/00SZ1VyOGpeXfyyCoZGRc42XQFP8geHzZmnO/Hz4wYAg=
+	t=1722406344; cv=none; b=li3U/XY+yMjnGIHbYiq5D1QegVspeTFlRuIE18SoJMBdO1cRiVf9hunlax4UWzZZA3L2x6nHRgayqUkqlYZxDn2SoCrI1atGkdU/WHb1wsxUr0XwAqFdXKm7B6FYPJ/+peFiyQPSQ6kU5UlbpVwR5WnByqH/HjSITOElizyds7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722406291; c=relaxed/simple;
-	bh=22CUGmCw8nsf6p4/04ik73YmNnFznD+JBYTmbq26lxs=;
+	s=arc-20240116; t=1722406344; c=relaxed/simple;
+	bh=YBvpvu+6ROMww87N3cRINYmNW23g4/ou+BtFo9a12v4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pwRuKopdofgrrNQETFfN0JvaouzughaqwBlR7B7zFjfZl+B5CAY098ayeE6W1LouQwqdJJGwqKu6bSbW9zpFLViv13dyRdGyC+0LSo1I7zYkoBSGWpDvpvXIeauqvMZGtvwCWj7/TBFmdtPUJt8V5luox9hmYsg4NbgidW7mv3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mvFlq/k/; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=CeqjgedXDwvy3+P0x2I/UT9Ej7yldVR2Cv0mqVoRopwypAAO0AUyHIRv+N01f3ruZs2+4agFElpyXWA6dZYK8O7QKTgLUlGjQstQvnZ4sUun9SZnRs5+bRNUL8M7T4MFqW/0cPGPnoLFtq0rMAVQMWNQ9fo2eqaobVE+zof9bw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YHRb3rwK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mvFlq/k/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F7ADC4AF0C;
-	Wed, 31 Jul 2024 06:11:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YHRb3rwK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C6E5C116B1;
+	Wed, 31 Jul 2024 06:12:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722406290;
-	bh=22CUGmCw8nsf6p4/04ik73YmNnFznD+JBYTmbq26lxs=;
+	s=k20201202; t=1722406344;
+	bh=YBvpvu+6ROMww87N3cRINYmNW23g4/ou+BtFo9a12v4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mvFlq/k/qmK5ksW5GVWI4QPyRwZEe2slt1BIBZmaGQlUgJ5SJCGTX1xp9esGydo8C
-	 C4sD5D37lIHlW7KzwykDeNECuGXY1Y8bFToyQxtlmSDa44lTXC7oKbVxbLj933RnbS
-	 nCBrvsWLnG7wZeeVoXZCTFBxDQLXtCpN0FU5Ey8/cG9eMOMLVACY/ZpEd4pQWdtGZw
-	 IKJp8iXUgXfKUhXxh7aDZfGa21YHE64ibqPA3E4vPniKgXAjhjEJEGD4f+fAFtLKI5
-	 RsayG7y+6a9Bq+a5ZKfrRfqu2SvO6LrFMW0u6YZ3A3ljzjTTu8jyg3XtQlYcFyTbco
-	 CtBRZctet2/+g==
-Message-ID: <08e07522-f1ec-4e2f-9b9d-e7129e1ad228@kernel.org>
-Date: Wed, 31 Jul 2024 08:11:21 +0200
+	b=YHRb3rwKdmkghYUHDSr+3xZ9PbXYddww21xJWLDHwCcE35o9+jOrQImXcIY+Vxbrr
+	 ZdJzCzFxAGkPT7EYUKRJZKwvpPIbNh/fk4VxoJKMhFUnogBYU0b0NtXW5cuodWILQ0
+	 QuhIX/3NwlkmVuOlxjJ1NT7WiW58gWyk0m2Ji/L8oH3Yhhl5Djhjsphg3B8o1TZkPb
+	 bHvg5NJE00rGwdbNMB6LofnWfy2KuXGXRd6AeC6xAi4fC33dL/rAxJWnPKFNhn3UKh
+	 KwUoW9W3obO48pxznescV9Yf2w9BQLksceT0qIsR+GShQ5wMr9dc96vgwE8tCPsfJu
+	 rh0Qi77OCtGrA==
+Message-ID: <3f9a73fc-e14e-42c5-9805-0d23b9f158ef@kernel.org>
+Date: Wed, 31 Jul 2024 08:12:16 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -35,7 +35,7 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 8/9] firmware: arm_scmi: Make VirtIO transport a
+Subject: Re: [PATCH v3 7/9] firmware: arm_scmi: Make OPTEE transport a
  standalone driver
 To: Cristian Marussi <cristian.marussi@arm.com>,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -44,11 +44,9 @@ Cc: sudeep.holla@arm.com, james.quinlan@broadcom.com, f.fainelli@gmail.com,
  vincent.guittot@linaro.org, etienne.carriere@st.com, peng.fan@oss.nxp.com,
  michal.simek@amd.com, quic_sibis@quicinc.com, quic_nkela@quicinc.com,
  ptosi@google.com, dan.carpenter@linaro.org, souvik.chakravarty@arm.com,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Igor Skalkin <igor.skalkin@opensynergy.com>,
- Peter Hilber <peter.hilber@opensynergy.com>
+ Etienne Carriere <etienne.carriere@foss.st.com>
 References: <20240730133318.1573765-1-cristian.marussi@arm.com>
- <20240730133318.1573765-9-cristian.marussi@arm.com>
+ <20240730133318.1573765-8-cristian.marussi@arm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -94,28 +92,30 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240730133318.1573765-9-cristian.marussi@arm.com>
+In-Reply-To: <20240730133318.1573765-8-cristian.marussi@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 30/07/2024 15:33, Cristian Marussi wrote:
-> Make SCMI VirtIO transport a standalone driver that can be optionally
+> Make SCMI OPTEE transport a standalone driver that can be optionally
 > loaded as a module.
 > 
+> CC: Etienne Carriere <etienne.carriere@foss.st.com>
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> ---
 
-> -const struct scmi_desc scmi_virtio_desc = {
-> -	.transport_init = virtio_scmi_init,
-> -	.transport_exit = virtio_scmi_exit,
-> -	.ops = &scmi_virtio_ops,
-> -	/* for non-realtime virtio devices */
-> -	.max_rx_timeout_ms = VIRTIO_MAX_RX_TIMEOUT_MS,
-> -	.max_msg = 0, /* overridden by virtio_get_max_msg() */
-> -	.max_msg_size = VIRTIO_SCMI_MAX_MSG_SIZE,
-> -	.atomic_enabled = IS_ENABLED(CONFIG_ARM_SCMI_TRANSPORT_VIRTIO_ATOMIC_ENABLE),
+>  
+> -const struct scmi_desc scmi_optee_desc = {
+> -	.transport_exit = scmi_optee_exit,
+> -	.ops = &scmi_optee_ops,
+> -	.max_rx_timeout_ms = 30,
+> -	.max_msg = 20,
+> -	.max_msg_size = SCMI_OPTEE_MAX_MSG_SIZE,
+> -	.sync_cmds_completed_on_ret = true,
 > -};
-> +MODULE_ALIAS("scmi-transport-virtio");
+> +MODULE_ALIAS("scmi-transport-optee");
 
-Why do you need the alias being almost the same as module name?
+This looks duplicated with module name.
 
 Best regards,
 Krzysztof
