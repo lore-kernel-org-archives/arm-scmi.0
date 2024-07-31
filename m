@@ -1,37 +1,53 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 087551AC43E;
-	Wed, 31 Jul 2024 12:55:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C67741AB52C;
+	Wed, 31 Jul 2024 12:58:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722430503; cv=none; b=DMV7vOGw/Ftcxinl4K8M8OOOyJ/SRWW/fXzfuEH+SvGW1FOQdE0/MVj6ugUQnbSBz6RaNRNWUKdR6FlKiaXSkZe8WClPRF2/80VujFpdNysAJM1gGfuyT+Q/Epwxv0ALei7EpHw/l2hZKwAXiLU2//EZShzYL/WRdubVjisCmpM=
+	t=1722430734; cv=none; b=OYlF5cE7HqrHAc8hV6rlz1zDuhZfHvvbHmnSPcn0H16A94olifZ7unjIK8zFWZmguCJ2O5CpuEdG26+BkIXaqoMpwB4rWDypLToIIOP62LR+xY1nKP+HR2DprvIfVHtn0+R1PZu1bkBR+fEk8FY+0A/5E40E9QxJMZ5zy3mqt/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722430503; c=relaxed/simple;
-	bh=rXJN/m0SY2VySI8/Zb1NUZlygvm5O4/4DKDvwUgyCu8=;
+	s=arc-20240116; t=1722430734; c=relaxed/simple;
+	bh=Cz9rXVlUuUIx2KdvrKVffZhncBvWWxea9mzmttsi2Cg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QvKGeyxcrpb0gvyzsAB88ed4Q52ayBK5AiG34PRLO28z0w290qdzfNeObFdLnwu7QOrCMas6If2x7vczRurk+NqAgMlPpB01qHJ2aDicDdtfKGPt0GH64jRx4B+ICAIWrH+SQvh9UJy+fkd7a+d4toLR3R8lXRReHmpoZs3iZ0U=
+	 Content-Type:Content-Disposition:In-Reply-To; b=raA7593JR4oKwtvymFx5C1SjZmEWP15zleoFXbsjeaxmKThfyiMPSKUc2iNUUHZMMoMIclnpOLbhvt/zgH4zJB8RbLkYwj9mhpacMjXqz8sBxXbL1x34UcdEOXNhFvQ95xX2RiSKa2bI3JsMkGSGi25tHHLjjufF8eI8a5p/rSE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 170CE1007;
-	Wed, 31 Jul 2024 05:55:26 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 80E553F766;
-	Wed, 31 Jul 2024 05:54:59 -0700 (PDT)
-Date: Wed, 31 Jul 2024 13:54:57 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Luke Parkin <luke.parkin@arm.com>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org
-Subject: Re: [PATCH v4 4/5] firmware: arm_scmi: Create debugfs files for
- counts
-Message-ID: <Zqo0IWvrdUUNIAGL@pluto>
-References: <20240730093342.3558162-1-luke.parkin@arm.com>
- <20240730093342.3558162-5-luke.parkin@arm.com>
- <Zqop6qq0jibefw0g@bogus>
- <ZqouwIJUYDJB64xP@pluto>
- <Zqow0WOz0eVf6fwv@bogus>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D69881007;
+	Wed, 31 Jul 2024 05:59:16 -0700 (PDT)
+Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 78EE43F766;
+	Wed, 31 Jul 2024 05:58:48 -0700 (PDT)
+Date: Wed, 31 Jul 2024 13:58:46 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Peng Fan <peng.fan@nxp.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+	"Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Sudeep Holla <sudeep.holla@arm.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: Re: [PATCH v6 1/7] dt-bindings: firmware: add i.MX95 SCMI Extension
+ protocol
+Message-ID: <Zqo1BpZ9i3LC_TIQ@bogus>
+References: <20240718-imx95-bbm-misc-v2-v6-0-18f008e16e9d@nxp.com>
+ <20240718-imx95-bbm-misc-v2-v6-1-18f008e16e9d@nxp.com>
+ <dee6e871-daa3-4886-be57-e4d4b3fa198d@kernel.org>
+ <PAXPR04MB84592DE4592FC5D270F0820B88B12@PAXPR04MB8459.eurprd04.prod.outlook.com>
+ <ZqovdlPcnBbZn0Ue@bogus>
+ <PAXPR04MB84599389611E0E789E425FD588B12@PAXPR04MB8459.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -40,99 +56,61 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zqow0WOz0eVf6fwv@bogus>
+In-Reply-To: <PAXPR04MB84599389611E0E789E425FD588B12@PAXPR04MB8459.eurprd04.prod.outlook.com>
 
-On Wed, Jul 31, 2024 at 01:40:49PM +0100, Sudeep Holla wrote:
-> On Wed, Jul 31, 2024 at 01:32:00PM +0100, Cristian Marussi wrote:
-> > On Wed, Jul 31, 2024 at 01:11:22PM +0100, Sudeep Holla wrote:
-> > > On Tue, Jul 30, 2024 at 10:33:41AM +0100, Luke Parkin wrote:
-> > > > Create debugfs files for the metrics in the debug_counters array
-> > > > 
-> > > > Signed-off-by: Luke Parkin <luke.parkin@arm.com>
-> > > > ---
-> > > > v3->v4
-> > > > Use new locations for debug array
-> > > > Use counter instead of stats
-> > > > v2->v3
-> > > > Add extra statistics also added in v3
-> > > > v1->v2
-> > > > Only create stats pointer if stats are enabled
-> > > > Move stats debugfs creation into a seperate helper function
-> > > > ---
-> > > >  drivers/firmware/arm_scmi/driver.c | 38 ++++++++++++++++++++++++++++++
-> > > >  1 file changed, 38 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-> > > > index 5acd3d324def..ec6434692d1a 100644
-> > > > --- a/drivers/firmware/arm_scmi/driver.c
-> > > > +++ b/drivers/firmware/arm_scmi/driver.c
-> > > > @@ -2847,6 +2847,41 @@ static int scmi_device_request_notifier(struct notifier_block *nb,
-> > > >  	return NOTIFY_OK;
-> > > >  }
-> > > >  
-> > > > +static void scmi_debugfs_counters_setup(struct scmi_debug_info *dbg,
-> > > > +					struct dentry *trans)
-> > > > +{
-> > > > +	struct dentry *counters;
-> > > > +
-> > > > +	counters = debugfs_create_dir("counters", trans);
-> > > > +
-> > > > +	debugfs_create_atomic_t("sent_ok", 0400, counters,
-> > > > +				&dbg->counters[SENT_OK]);
-> > > > +	debugfs_create_atomic_t("sent_fail", 0400, counters,
-> > > > +				&dbg->counters[SENT_FAIL]);
-> > > > +	debugfs_create_atomic_t("sent_fail_polling_unsupported", 0400, counters,
-> > > > +				&dbg->counters[SENT_FAIL_POLLING_UNSUPPORTED]);
-> > > > +	debugfs_create_atomic_t("sent_fail_channel_not_found", 0400, counters,
-> > > > +				&dbg->counters[SENT_FAIL_CHANNEL_NOT_FOUND]);
-> > > > +	debugfs_create_atomic_t("response_ok", 0400, counters,
-> > > > +				&dbg->counters[RESPONSE_OK]);
-> > > > +	debugfs_create_atomic_t("notif_ok", 0400, counters,
-> > > > +				&dbg->counters[NOTIF_OK]);
-> > > > +	debugfs_create_atomic_t("dlyd_resp_ok", 0400, counters,
-> > > > +				&dbg->counters[DLYD_RESPONSE_OK]);
-> > > > +	debugfs_create_atomic_t("xfers_resp_timeout", 0400, counters,
-> > > > +				&dbg->counters[XFERS_RESPONSE_TIMEOUT]);
-> > > > +	debugfs_create_atomic_t("response_polled_ok", 0400, counters,
-> > > > +				&dbg->counters[RESPONSE_POLLED_OK]);
-> > > > +	debugfs_create_atomic_t("err_msg_unexpected", 0400, counters,
-> > > > +				&dbg->counters[ERR_MSG_UNEXPECTED]);
-> > > > +	debugfs_create_atomic_t("err_msg_invalid", 0400, counters,
-> > > > +				&dbg->counters[ERR_MSG_INVALID]);
-> > > > +	debugfs_create_atomic_t("err_msg_nomem", 0400, counters,
-> > > > +				&dbg->counters[ERR_MSG_NOMEM]);
-> > > > +	debugfs_create_atomic_t("err_protocol", 0400, counters,
-> > > > +				&dbg->counters[ERR_PROTOCOL]);
-> > > 
-> > > Just curious and wonder if we can keep all these read-only and have another
-> > > debugfs file which is write only to just reset the counters ?
-> > > 
-> > > Cristian,
-> > > 
-> > > Thoughts ? Or am I missing somthing ?
-> > 
-> > Do you mean creating a bunch of additional reset_sent_ok
-> > reset_<your_counters> that are just WO and used to reset each single
-> > counter ?
-> 
-> No, not at all. Sorry if my response meant that.
-> 
-> > (...I suppose because a global WO reset-all is already there...)
+On Wed, Jul 31, 2024 at 12:49:59PM +0000, Peng Fan wrote:
+> > Subject: Re: [PATCH v6 1/7] dt-bindings: firmware: add i.MX95 SCMI
+> > Extension protocol
 > >
-> 
-> Indeed, I hadn't seen it carefully. Do we really need per counter reset ?
-> For me one global reset all with all files read-only should suffice.
-> Let me know if and why you think otherwise.
+> > On Wed, Jul 31, 2024 at 12:18:28PM +0000, Peng Fan wrote:
+> > > > Subject: Re: [PATCH v6 1/7] dt-bindings: firmware: add i.MX95
+> > SCMI
+> > > > Extension protocol
+> > > >
+> > > > On 18/07/2024 09:41, Peng Fan (OSS) wrote:
+> > > > > From: Peng Fan <peng.fan@nxp.com>
+> > > > >
+> > > > > Add i.MX SCMI Extension protocols bindings for:
+> > > > > - Battery Backed Module(BBM) Protocol
+> > > > >   This contains persistent storage (GPR), an RTC, and the ON/OFF
+> > > > button.
+> > > > >   The protocol can also provide access to similar functions
+> > > > implemented via
+> > > > >   external board components.
+> > > > > - MISC Protocol.
+> > > > >   This includes controls that are misc settings/actions that must
+> > > > > be
+> > > > exposed
+> > > > >   from the SM to agents. They are device specific and are usually
+> > > > define to
+> > > > >   access bit fields in various mix block control modules,
+> > > > > IOMUX_GPR,
+> > > > and
+> > > > >   other GPR/CSR owned by the SM.
+> > > > >
+> > > > > Reviewed-by: "Rob Herring (Arm)" <robh@kernel.org>
+> > > >
+> > > > Why quotes? Which tools did you use?
+> > >
+> > > I could not recall why have this. I will drop and resend the patchset.
+> > >
+> >
+> > Resend only if you have any other comments addressed, no spin just
+> > for this one please.
+>
+> Sorry, I pushed the button too quick to send out v7(just correct
+> this R-b tag and rebased to linux-next) before checking my inbox.
+>
 
-Well we don't need strictly anything since it is a debug/devel feat, it
-just seemed handy to have a way to just reset one of the counters you are
-actively working on, if you think about a testing or live devel
-scenario...but it is not really needed and I have no strong opinion
-about this...it was just a nice to have I asked Luke to add last minute...
+Just makes me wonder if I should wait for 3-4 pings + 2-3 weeks after the
+last version of any of your patch set without any version bump before I
+can look at it. Otherwise it is quite impossible to match your speed of
+patch respinning and the whole review process gets complicated to follow.
 
-...patch 5 indeed already adds also a global WO reset, beside switching all
-the above counters to RW...it is just a matter to drop those RO->RW perms
-changes in patch 5.
+Also it is bit sad that you thought it needs to be re-spinned just for this
+which can be easily fixed when applying. Also I haven't even started looking
+at this series for the reason I mentioned above.
 
-Thanks,
-Cristian
+--
+Regards,
+Sudeep
