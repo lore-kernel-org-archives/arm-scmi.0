@@ -1,50 +1,51 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010027.outbound.protection.outlook.com [52.101.69.27])
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11012061.outbound.protection.outlook.com [52.101.66.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88AF41AD9C3;
-	Wed, 31 Jul 2024 13:12:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166BE1AE871;
+	Wed, 31 Jul 2024 13:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.61
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722431557; cv=fail; b=UlWjEttpN4aKj+bE1lejp6gML5bCHUJ+yL+tuCHkqiE5Wp79ymYbMeBrBxx94hOCzoTV675ON3mDsBjLImrpQxq7+HhabfA0mT0n2qZClI0AnaSSHwTYd0wW6dlXL6ilv2SvEyoBJ5ze1YtVRGkJl60MN07aIAKUp7v+NXb/u6s=
+	t=1722431604; cv=fail; b=AKNhVO3wP3cHJ81wpcrrucR0YMF1XPHUJRH3N4uyY0ixH17Y4OptwJVL2oaFGFZkPcKSKoU6kR8xCx6J+CslIKMff4A/Ju5kvbCRVSgefa1/jZMw0I8UTixFfaZeN18fJGpeQD16J24V4suXzthB/OdjJLwzBa8S9telwRcJuTk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722431557; c=relaxed/simple;
-	bh=cGcrKTN72DJ7PhMzaeFBEt4NcgzmmHMQMaeRo/4dIsE=;
+	s=arc-20240116; t=1722431604; c=relaxed/simple;
+	bh=t+Jlebyb+h3DhfbaZSoQNcovZ/xkgHEGt5vbRRcl2BI=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=T+5NmAlYGvYNl0vtiL2naKSkaw8w9xarOao+KcZkSdpmNJ8vkIpVPAkD4F6MsSNWR+5GSF3hh1I88SETZNVSiqzFGfNCZIFY8JHUieYx5J+EEdcwdVkwNPwrKCJq3Trgv6tfkH8ssFPV+OwtmuguwLFWxSe1cEP0s5DNRp57x8s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=IPChzrgY; arc=fail smtp.client-ip=52.101.69.27
+	 Content-Type:MIME-Version; b=I9FSF9hdBHNPMASPcn1redg7h8cKo80+TGwD02GoshlJYe0lg3+W12U3NDC8J0eGpU0EBIn09wbMf2taHOTXBGL3Cryzk1t+ERM0AA1326z0hM+yK98ACKh5+9Z+MooYaXwlAh0VceDKirlCQ1YqOyAPBVcSyJROIRFuQTinrR4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=lTrRfryo; arc=fail smtp.client-ip=52.101.66.61
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="IPChzrgY"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="lTrRfryo"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QJm2QXHe6WvVIlenU9xRG/yLwqE7/xHSzNtSj+wGznXYzdW9/oC+Fu7NhhN3U/ay/3ktOm8Ee6jns7OxwHkeGYRZnu7XEl4PBGX3zu84Yd9NJd3SIQa5h7v3qWfxw6Zz0cKFcQh8D1eb0iGkKVIoK6Rezm33dmFQqVc1ghalurcxz8nCOWYeid9kIR3v79DU0CB+HIo8ykcVTT3sZ13nD9gSIW5HVLBv2r1t/snmeXODsU10pkGMsHgFzoS8HTsET9SCTN7DIo8aLXAmJxoJ+kzJPNFCWEf2GW8Fb7XzEaXrqE+kejKR26m/xIrjc1Sklvxd4n/IMklIhgKMIF12bg==
+ b=nfHmNBZfgv1AM71S3eNzqlpaJ6FZd3RKHmS2gTnk4C7NvY5DMqStOkL0d4uuINS/sTwifgejfaWxgicDARDWurECu37eb+hcL98l/QId4Lfu2ilMbJjsh+ceWYjFM1dzosKQha82JT0uOVqrNssUPeWPIkGQuGyb2yc7vuRpPfMH+9leznG3cReGZhvl/r897izayJRsZqQK+ettsKP+1Eu+VcPcM5K+OW7UOegrghT1qzugXl9buiGVHbJi6JHJD5NDm0i6PaHkdN4YXWVt1by2gh1ta1WSwhXnvSFxaeBBFHQNv5y66ZBhun1g2uKzGDjBgfPwHGafgoKXvX6VDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zzdczd0Ynbj7ph5+k/eGHOuV00biMNAInp8wHGfp44I=;
- b=qg1U49VDQteCKHSfLjbmBtWxJNJHQNaxB5AXVkvcVFV1E82hk17ZxDWZ8sNcQxxe6UZmALbPZ93UIg6y73gya3fTH2qlIzsX3EAwcrjiL0hp5iUasmXSYM/z8UCsJmdbNzwVATQKBIhdVMtDw2JZx1o+ZdFul9nLiy9Gduq+F9K7ny8zfOGBhJ2EZ6w9z9DFfbNcpe9dRPTFdNis5kUFU6FiRG8si/5DVep7iX+Tm/dIl5TPqUirhOJDkY0iY27tGoPFAm3vsDmn/UlwC5R0E+lElQzU/urOfSXjYaBvkNuT8VqdnkmAFi84FuYEA8jU0QGie4rfsY5sE27LMcyMTg==
+ bh=MRi6hOHkEs7NFW2+5nl8d8n+dsktgfAPIi3dkj7pF0k=;
+ b=r4mgjMO01wZyaxsJplTU1YlNi889EJA2a/6JzfTC1bJrU7m7pwW2xYwRBZH3ltK0QyuwLaV3ivE/JfajKoojZfJTOUOM7BylUXGSAoUNJX8f+YgZdhDosjd3INvA6HguzJuHKzo1XYNSu5likVAP74ulyRnfBnhTESYMcE9mGuMSbihfW6XaVP3GJ6KPc0qSWkRHkGRPgonwW/3f+p10MRI/jAZWHuKVDOOq0BbfsjAXR1hpxw67WiSRkXsuGN1AoUpIpvJ2eArn1vBYbA8T8Smh+cqLPrJT57Qcsb8cnIpJIApKj0eZ+v+pTMDpl7co5jk9YDuW+pLL6my1f34x+g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zzdczd0Ynbj7ph5+k/eGHOuV00biMNAInp8wHGfp44I=;
- b=IPChzrgYqPAG9KgeK8WUZEjBvF+wqvDB+SpGoSdYlmI4bE5Ca65yUCXcYVq1Gi2zNrqn6Fib6N+sgFKl7EypfX1xuMIB6jlCO9bCs3+npB8wHSY7JD/iPNjNfORaUsZS2WfjEiGJAzAB7G8MDgVlHNo3pd1LufyLP/RQi+C1VWwfwQXKpYZPgRfyX5Caj6zrwVz2ImThmC/S/FkJ+XMBF37fwRf2ZCsm3923R8oqQi7dfCRBX0UlElwE2n3OZvsT43bY7bSzguJHEAh4WatKABN5vE2XXLRUo9OGNvREdKL8MQvg/3rLTSiNd6zlyPfmm63dyo+HtQN3jCFrJOXJpw==
+ bh=MRi6hOHkEs7NFW2+5nl8d8n+dsktgfAPIi3dkj7pF0k=;
+ b=lTrRfryox+E/Taw33lcW08A300zQ/8epqOldXY96DV+sl2Cnq0NKYTRabFW1EhKXb+kU0grZvZQV4uJIp7BbXdNXf+18Zy5MzWSJlAO5mnQnrf87yQ7Jol8oGTaEGIEnFIVOhJOOateuvGEKflMLdaJSMt6jJmFTi5+f6RqBT4t8jHuLkBuGiY6OtpjQ14KpycHkI8WzHKnJwNr3389cyN1WGQuon1mLvO1lVFqg68GMUhvgv8CTqbK3mrq++XS6ZXr+Cw4fsTcHpaMU5uEaYrANSv3FLvbwkguNE4trlfHnEG/2m1o00honPb3EtCD08CZsI/xvTp2L5ezWrSzVdQ==
 Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
- by AM7PR04MB7000.eurprd04.prod.outlook.com (2603:10a6:20b:104::18) with
+ by VI0PR04MB10370.eurprd04.prod.outlook.com (2603:10a6:800:214::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.21; Wed, 31 Jul
- 2024 13:12:30 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.28; Wed, 31 Jul
+ 2024 13:13:14 +0000
 Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
  ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
  ([fe80::165a:30a2:5835:9630%4]) with mapi id 15.20.7784.020; Wed, 31 Jul 2024
- 13:12:30 +0000
+ 13:13:14 +0000
 From: Peng Fan <peng.fan@nxp.com>
 To: Cristian Marussi <cristian.marussi@arm.com>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
 	"linux-arm-kernel@lists.infradead.org"
 	<linux-arm-kernel@lists.infradead.org>, "arm-scmi@vger.kernel.org"
-	<arm-scmi@vger.kernel.org>
+	<arm-scmi@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>
 CC: "sudeep.holla@arm.com" <sudeep.holla@arm.com>,
 	"james.quinlan@broadcom.com" <james.quinlan@broadcom.com>,
 	"f.fainelli@gmail.com" <f.fainelli@gmail.com>, "vincent.guittot@linaro.org"
@@ -52,17 +53,17 @@ CC: "sudeep.holla@arm.com" <sudeep.holla@arm.com>,
 	<etienne.carriere@st.com>, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
 	"michal.simek@amd.com" <michal.simek@amd.com>, "quic_sibis@quicinc.com"
 	<quic_sibis@quicinc.com>, "quic_nkela@quicinc.com" <quic_nkela@quicinc.com>,
-	"ptosi@google.com" <ptosi@google.com>, "dan.carpenter@linaro.org"
-	<dan.carpenter@linaro.org>, "souvik.chakravarty@arm.com"
-	<souvik.chakravarty@arm.com>
-Subject: RE: [PATCH v3 0/9] Make SCMI transport as standalone drivers
-Thread-Topic: [PATCH v3 0/9] Make SCMI transport as standalone drivers
-Thread-Index: AQHa4oUgFaiYY0PN7EOE2GRX5NZpB7IQ0Vhg
-Date: Wed, 31 Jul 2024 13:12:30 +0000
+	"dan.carpenter@linaro.org" <dan.carpenter@linaro.org>,
+	"souvik.chakravarty@arm.com" <souvik.chakravarty@arm.com>, "robh@kernel.org"
+	<robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>
+Subject: RE: [PATCH v1 0/6] Add SCMI transport descriptors
+Thread-Topic: [PATCH v1 0/6] Add SCMI transport descriptors
+Thread-Index: AQHa4o96gdLDJQTk2UyEYJRE51UKzLIQ0Ysg
+Date: Wed, 31 Jul 2024 13:13:14 +0000
 Message-ID:
- <PAXPR04MB845955E748C7C059A16FCA3188B12@PAXPR04MB8459.eurprd04.prod.outlook.com>
-References: <20240730133318.1573765-1-cristian.marussi@arm.com>
-In-Reply-To: <20240730133318.1573765-1-cristian.marussi@arm.com>
+ <PAXPR04MB845979C704A02CF0DCAEF39D88B12@PAXPR04MB8459.eurprd04.prod.outlook.com>
+References: <20240730144707.1647025-1-cristian.marussi@arm.com>
+In-Reply-To: <20240730144707.1647025-1-cristian.marussi@arm.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -70,68 +71,68 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR04MB8459:EE_|AM7PR04MB7000:EE_
-x-ms-office365-filtering-correlation-id: feac1cda-9bc3-41e3-5119-08dcb1626eaf
+x-ms-traffictypediagnostic: PAXPR04MB8459:EE_|VI0PR04MB10370:EE_
+x-ms-office365-filtering-correlation-id: 803aeee4-c77c-4b30-db52-08dcb1628946
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|366016|1800799024|376014|38070700018;
+ BCL:0;ARA:13230040|366016|1800799024|376014|7416014|38070700018;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?Qfvv8lemr2+Eqq3A9XvM4Jdvf4GN/9PEa8Mqs7cIk2aWoaJToZza3qLyDWpA?=
- =?us-ascii?Q?RMT/2KKRqlxkLTEBFXW6ROO8E7XM/mulfQhyQ1jJPUJhl4l5eTKamgodtUBO?=
- =?us-ascii?Q?lbwsD7rqkWMMjw1KMcaEiyYb5UZrgK2ScFmSrfWCUdOoPHAkH1jzDzznmoIH?=
- =?us-ascii?Q?iNcu1RTHSVkerlBMPEnNtKf0JIwgrHckZqszusdYVaD1MBELM1q3h7ivdCKf?=
- =?us-ascii?Q?dpOG+NCj/ti9VkW2FvnDLrkdrc0vfR2Yc0T25I6mi/lTk0F3zD2+RBPyvU+I?=
- =?us-ascii?Q?hiZCve8AuAZ+f08SbM/cio4VoljWviIXPJ83ivCNmkmFyRkMaTR/jYv+mlaD?=
- =?us-ascii?Q?Bb6hbaUstDVB8/VBbKwNdn9vEuiJBu9sxG2bLdbh4CLrYzd88UnqaiG6BN+X?=
- =?us-ascii?Q?/99HpU7wGvolxcU+v0yqfyDr9Ahzpqlg+MT9yuBXA6X9C8XHJT3gbu09YilB?=
- =?us-ascii?Q?pYOJtgcatatQkocSWYVCOMCLofH5EGKX+ciK5KXldreUDLPyWBPUtK9vP08R?=
- =?us-ascii?Q?9MwdZFVGPo3L3jHV6qLmNGYuxRHIt0w10x4vzkf7x7eIp0D3zmQzz+gJtqa0?=
- =?us-ascii?Q?p265sk1R8q1X/wdq+mD/4dX2OIZCz1vhLL88jeAcdKyeCr5hOe46axjts2QO?=
- =?us-ascii?Q?ThVke7Kf4NTyNNvSK6vcxz1bKQwh92TWtyh2NkZEzHrnE9LdCbvRATWUP51s?=
- =?us-ascii?Q?Rs4WhZBYxZHUv7uCV+TZvObYEhzs76yEom4PiVqS5zhA4Wbuj97fSCfYZbAs?=
- =?us-ascii?Q?2JAUarSftZ+939OGkvDWdmrohgz8zo1TnjC1CsM1MXDtjMJW6MwCjeUkosW3?=
- =?us-ascii?Q?3jV2Ly9p6z5QRhmuBsVOHeDCnxmxc3uO4MvTm+osyOB1UEjdJaiasyyBvBbx?=
- =?us-ascii?Q?DASv+h4ynb7+9AwUS1pTQqD9ig12Pqa5d6kA07La/e8m/LheZBC+hY+btKPB?=
- =?us-ascii?Q?WE3kznIzRBIetyo8BwsxEdHOKitrpp6phr8KRutBfO3mkulKfl6Qn3a7vSeC?=
- =?us-ascii?Q?Qyhpoqi9gc6UCDPb6+EijoAYXSSAxLVWocNnPZs55TziOKQ5AyWpcQg+b3q3?=
- =?us-ascii?Q?PyQ9iSm9Ml3rPUf2INOzoRmzeeAyH4MCwe+L9BdoyH8HL3NIdnHyrVLaqJn9?=
- =?us-ascii?Q?jn0V67LQBTAtMd9O5BajMWdA0xKPgorXTGuSl2NpzJ4tGNbKVufHnsxtOqFB?=
- =?us-ascii?Q?uaxoF6oZkjjDAF+yMDwJE/Z4uA4KuXi1rumqO/IhjJpoRojxliP/D2oY2cbs?=
- =?us-ascii?Q?sdK2E2a47AGgSwdUJlUO4gTACJ+4lTrtmOQeoOJe3MKu3gkCA5NQ0n2tOdAx?=
- =?us-ascii?Q?TZFDee3uAWGPQgEVGIMYzJom7OekDdOBKZkCBLUmfQv6+WFfy/i8u1/QUm9s?=
- =?us-ascii?Q?RdEtCzwXO8D6Qfg8EneoCsWLAu2yG2FeHIIyFgUIYnxALwu1yQ=3D=3D?=
+ =?us-ascii?Q?fUhZGjObCrBmSeVsRM46DQ0N86zdMkgF7H3jdHcNX121Ms/Dh/9bCxbZysBR?=
+ =?us-ascii?Q?D1ruoAfP4lCebuSaYAkPujZRFMWNfFypDCQ8Fnw9dLyHMwe6JRURyJLuX/2G?=
+ =?us-ascii?Q?t/w35CfzlS/kKTiGk39hWMzalv8HvY/l/J1dHonf2M1DEebwxmMNpAZKaII3?=
+ =?us-ascii?Q?9B//eOWwzNnoQS036ZnpBTTyKX3CSt7cXemddMA1b2bYvEgBvy6wQuNhM+v6?=
+ =?us-ascii?Q?VkyxOoykCTx14e8skq7r4mQMpm7TF3RiIkpONb8Uv2lQCMJDO7H378xZTA/e?=
+ =?us-ascii?Q?ysysnkI1KxMGcuflqaX8x9Q/WLydcY1W+fbS+od2TOC26fgMO53F37vH+bQ0?=
+ =?us-ascii?Q?SlMvakHHOBhndxho38NZPLPuiR90aMqBsjui6AlNXgMkU2qkQtQI40fVrRCr?=
+ =?us-ascii?Q?7ak6KxEfbyojSb2umGnmNlMUb7QDbgVUP1AFgoZAceZutkawmx3jiDFDTP2Q?=
+ =?us-ascii?Q?EPvY/xVfzGog6F81B3y7FEISnRnSnay72TSYRprsC0irhsfPPYLS98BV1zBr?=
+ =?us-ascii?Q?tTs8S2x+epZm6BojEXGncj0r9Fc6DyT1zUTW37DlZpZPrYJ3YHT8DDFwqUhN?=
+ =?us-ascii?Q?8BSQR5L5KpkUSScGfoXR6GtUJ+voDJE4ZiKmDR5+5CmF0LLl96sLssFkRb/W?=
+ =?us-ascii?Q?ArTC/h91AHoyzdL3NNu/UyfzKppDrImb/iAR8lrRcd1DOJeAb62E3PLbHRZY?=
+ =?us-ascii?Q?JRXTzFQioc2h7EMX9ruqHtOntvr9h1BcFGESJLzQFcrGVuBcf29C46TUHLVx?=
+ =?us-ascii?Q?tybpKQB8M9PPV9Ff0Tp0xDWpwyCpipSbVUHSQEX3Vo1RX4YR3pa6LCQ0J4wE?=
+ =?us-ascii?Q?kqjJaAkn6zOVsaGZC3cjoVxRT67AZitogfZctoPpYzGwFl10WuyMRNd2z9A7?=
+ =?us-ascii?Q?5I4PVJZv9qFAbkdYjBzeDJi1CcrFPsBcMEmef8cdrRlfOXkZfeckWnzGKL6k?=
+ =?us-ascii?Q?q6FCZBr1ua8icWFc2484cEL0XrVjEKdggi1pGG8FeU/2Rm2AtoKXZv5LUlYM?=
+ =?us-ascii?Q?F7TjhmQzre2JnMAPCQ91GJBCf3eGhzYJSxuaFH0bPPKuYG0eryDSCwVTz2YH?=
+ =?us-ascii?Q?5zbV+dsdQf3flfxDIjeXT1HIMzHStf3MLouBdbqhIIfFufbus2otpe3dvMuf?=
+ =?us-ascii?Q?RyrbR83nzo1iZ5lDX4bAcbuLhWdGkUHPP9qSFY1SNbUogvh3NG1UtYoN0Zlt?=
+ =?us-ascii?Q?EuNo33KHDi3RwtQQuhZAAEUeFW0r/Vc2RVfsuvdT5BMIjNWS5323S/+OL9WY?=
+ =?us-ascii?Q?xtpcO2F+SQUkH7liPuqRj087X9pdbdZoGZ4t8WWOI7mBLV24xKs4MK6aUMEW?=
+ =?us-ascii?Q?mU9bS4LZxYEklYA9WqT5iDctRXrMeZSPBvqTml3y7T9B2Lxgrb+0jawlu7n5?=
+ =?us-ascii?Q?THFld+OfOo+s/QQ8qOInq/GZDfB59WRmpeXOCN44eE7QP2IE4Q=3D=3D?=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700018);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?SuXSnbpReR1AAE2tNAM8hvpByhocfic0nAL4jMfy36lPzuW377UiA050U1V1?=
- =?us-ascii?Q?ebtuc34ewpI6Niw+rJ2cC6/I8V6WNtf4N2HqL0YAksbhtmwGR5gzSHS50UKu?=
- =?us-ascii?Q?mTt453MQo3b2qEn11m2f3Y9XNYo7vTHQyk1KyzLBjSe8VQyqjHPTe7aLfLbb?=
- =?us-ascii?Q?+HoYzTaGfvf48nbHF6q3KdMk1L8jajv4+wSmwHcSyIIQrNlzGIXvnTrl45nA?=
- =?us-ascii?Q?LTcg7n7r11pz1qg863O0xFalQRgSiL3DPi0cV6I419acggJQUtiHxaG72GWJ?=
- =?us-ascii?Q?PYiE/vUv13u5FKmDa2SvAJGLttX24E8d4o271BGJAS00oY/dSzy6U32KDIC2?=
- =?us-ascii?Q?W/lY01h57yBfLQfJt1M+KyfRyhDHeZ6bvy2dDQtHUvHLA4j8V3R4ogeUFM+U?=
- =?us-ascii?Q?DQRiQPh5K77qspGsNU+WlTmLdPKmkdQEfTRJkjPYI+73GFJqQ8s8Fy7hkJpX?=
- =?us-ascii?Q?QbEpfK4t8C0KaUo045lJpqlYyebKJfLk4N/M3//sg4fh20EOMoZ/p6tDrgp5?=
- =?us-ascii?Q?ypFXMy+j0nprjH/XamGR2a/8mrOuu2mVjQdIBeZxXvOxuIpCufDBnMWqWLcr?=
- =?us-ascii?Q?1GutQu5tPTzeSrvLSwwiPDipAnLZJET4ws3LaakqmN544lbCAM87/KsMP7DS?=
- =?us-ascii?Q?huAv1IsC23+9sHyO6ybgSEwA37rlIKNgeyOuURI9OdZsMW7DocaXCOstrnkx?=
- =?us-ascii?Q?isQLYEtcZ6h1OaVmUutonFVxz1oGRPYn/WOCkheNNeoG7cXNUErkTTkdx2hJ?=
- =?us-ascii?Q?YTWupRMnx/kf1ceo5mJNcxUjjgLMJxjexhWee+POLimwFlgXGiplA8OOSZMP?=
- =?us-ascii?Q?iDKZ2KPDYgvPXhiJffiH3I4AWA5u7I7HkbDz67lc5kHN+pEZYYtMfCbFxiUn?=
- =?us-ascii?Q?asA0QPNSVuLfWhdEwIsizk3nYBr5tq3+FqnwHX0Snv5LvEvG0CVOQzkyv5dE?=
- =?us-ascii?Q?ksF06Gq0zSrIlsq5icjZ9TvaIO7W38Du/CinEeJNr5XeYXiaH0tFURqs/kZc?=
- =?us-ascii?Q?o7JyznWKUy0JRGS6XAKV8wc6xb1yrpyfbDW7mumWMb8wdp3ebTpdarQvjkH3?=
- =?us-ascii?Q?OvpJ/hXo5TdH5iVufksPknBOix5vhQNjgJeisnU5UGJNjWjEyEjFcv+/6I+j?=
- =?us-ascii?Q?vBGlvJAsYJ3uRvW0dnP5VjqeU+wJFaDKoSZ05f1woImhPZRornVga8MOTgwN?=
- =?us-ascii?Q?xCBRAJCS7qhl+8m2FzfeHTpic1WPVwF+tPXHHPd/5NNpFTJU98VrMej8eviL?=
- =?us-ascii?Q?MogqxpeX90SG8uN+a7iJw/OugW3SsFXZoBwlcnG+Eq2f1ZufppEB1HyOtIji?=
- =?us-ascii?Q?tVrkxvMT4cqZ4ogD0bYT1vP6lPnFGVDBoR4aFdhkj76iGCCst/024oTvz2Gt?=
- =?us-ascii?Q?Bs4LMeBQ0w4mCudVvND+m8uJj+ywsuL7aKDYS712mY5tfo2ZvvDVpITUImf3?=
- =?us-ascii?Q?3ZAewisJRdg4s8mg0DTo6auVWzBYywXyjRzQ0fNeMsub0Wv4tzWlskEhq58B?=
- =?us-ascii?Q?ltKUQl/ddPg1dSSuzFsNyc9rSElDAnr4f7b/aoE8DwVdOK8pDYfVZz67ZS5y?=
- =?us-ascii?Q?cutmEbdkjzpGC0tj+lY=3D?=
+ =?us-ascii?Q?/zY/uCziRMLh7FJpeU9mknBc0PWbXlcVTc/LEdN+3TNXWdMTCR/IHNwizxJR?=
+ =?us-ascii?Q?HrR9yKlYYH3pbnIzDbkVK4KzDssLo2dC0cwn1BrfOoXh3CUW/aeZoPOqCvUO?=
+ =?us-ascii?Q?qnvRI/dfNEV5CDfLt6mqyZtCV8Tyefnk+suVmyd81GqR0KoUXNpXvX2xeVAk?=
+ =?us-ascii?Q?CbgqNInYDbzftdtAsG7JI1tmbQiQ54yoKlZEjGgTUWvKg92e7qfRNkVIsif9?=
+ =?us-ascii?Q?akql6Yg8ePGbycZOKcQCKnfLXyHyT8quFowhAzMDtmuvgg++6/XaeCXEzRJ0?=
+ =?us-ascii?Q?7Lhu2UGzzq+xYJew506XlwMNOGrP5tlKbngFf3IoMbaGLPNjDv4Lu7vLgjyW?=
+ =?us-ascii?Q?pWxIWlvEDuZpAP7mlcK6d/oYzra+hdBm7K7xNUqxB0sjcaBsIOHAW0RyHX+p?=
+ =?us-ascii?Q?VBLHP55ZtGEKbMIM326Ocjy32FaT+gXon0HW03gltAehsJ09Hdy/VmBIW7+5?=
+ =?us-ascii?Q?jat1gGy75bgQpvXzGFnw6uZOWEX60nF+EB2zKVa8jdkj6j2Q4HJ7U7M3t8YC?=
+ =?us-ascii?Q?ZeRHR0/qgGFEwYSdWv53t+GLMymhWGXfI55zccRpCzRXNOSM/Tidd/L2v/rf?=
+ =?us-ascii?Q?YYFrPvPot3E6nKACqvqMeoB7H97cXrNpDHbw6ycxWdyfbaNX/Zdl6A+MxQiB?=
+ =?us-ascii?Q?uDiGG7HR/7mS1yxwJfxOJBnBTK4drf7v+L+B2p9LklbMVnS8jAW+EbB+3Omf?=
+ =?us-ascii?Q?rPPrlMQSAEXBvwKerM952TQytwrWR4zpBh0hgHovJQVxMgsv0DDg+TL/h7qD?=
+ =?us-ascii?Q?sd9sL4gtt4OBXjhDr1IJCRmu2U7i9J49VIMYqU+GDDmyf470HbNZnIq1+d1y?=
+ =?us-ascii?Q?pZmc8YNUTgA6ztd8uZlIBSphlgKwMSrgpPHmsKPWBknZDCTw2iWd3pKgzCq3?=
+ =?us-ascii?Q?qhdEwCigyaKgvgJFl4boveRse+Gj1X0xhb2iyllHq2/5x3b3dsoHTvlAax+f?=
+ =?us-ascii?Q?nURB1mv4eLoA58DLB0ec0eGyKOMmvM08mvqKRdQ5Sb9/xO4AV5cVVkdrN1J0?=
+ =?us-ascii?Q?yGGADrveq3tUK1+SeFKjkhJttWI8MiqO6U2Tk6Gp51OmR760dWhyPAl50zb7?=
+ =?us-ascii?Q?0DG9F/7GbTKN9sO15GcozUCC3yfLlpInGz5AcOwOqJDlbcZUA/csoE9x1R8v?=
+ =?us-ascii?Q?f+cTVlK1PhHx7uC7a7ErMYT1S2l1tdN81+TtG0M2Gv82qTcq1bTyHHgLYDAx?=
+ =?us-ascii?Q?BsvgNMnIGDs2M4RViYSVslDBS/HC7bzlrpo/IOHZw7IAqMZvznL0KTfdWZGn?=
+ =?us-ascii?Q?ROxMq8bkixRmFoq2Lzdsjib7QGSDQItVsX+kfULzf3IdzUWSWcI2xG7+TaqV?=
+ =?us-ascii?Q?adhxMONjIIo3P/nHjc7wxbH+Sc821OvuULDIUFOIiHlVzB0x6YDyPG0TNe0A?=
+ =?us-ascii?Q?tORzeKey+xXPUrwt2K69LLGCYD14WeM9KSt3bBKlX9lbG9CvuKO0nsQWB90c?=
+ =?us-ascii?Q?Nz+0y3pAJQzr6HasJUbE6kd9QSYMp09EWqiTlnnhe1FIRPTx6PZptOqjwscT?=
+ =?us-ascii?Q?OAyFruai+x8CQ6H1Z9bhOuXfwnfbBgoVJmf8oAy3TH1lG4lBB9o2ox8S6dJ7?=
+ =?us-ascii?Q?7znYZETSHD+au/7r/cs=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -143,156 +144,64 @@ MIME-Version: 1.0
 X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: feac1cda-9bc3-41e3-5119-08dcb1626eaf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2024 13:12:30.1481
+X-MS-Exchange-CrossTenant-Network-Message-Id: 803aeee4-c77c-4b30-db52-08dcb1628946
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2024 13:13:14.7373
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mlN+GIS4iksJGNaU2c1oCBAiPNHlRN1G/eX1QVJoNm/03/a7oorABgARoSBHWauO//vTwcvhyxqKcElpIDspkQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB7000
+X-MS-Exchange-CrossTenant-userprincipalname: zVGt2kZcJk92CBvBL7NB8EaD9hGvIg9RkQFO0sk5HY0KhM99C2NCh+qlUmgqENZCv3pMrCxPxK3gOsnxZscMcg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10370
 
-> Subject: [PATCH v3 0/9] Make SCMI transport as standalone drivers
+> Subject: [PATCH v1 0/6] Add SCMI transport descriptors
 >=20
-> Hi all,
+> Hi,
 >=20
-> Till now the SCMI transport layer was being built embedded into in the
-> core SCMI stack.
+> this small series is an extended version of this recent, already reviewed=
+,
+> series [1] posted by Peng to add a new arm,scmi property to describe
+> some platform-specific SCMI timeout constraints.
 >=20
-> Some of these transports, despite being currently part of the main
-> SCMI module, are indeed also registered with different subsystems like
-> optee or virtio, and actively probed also by those: this led to a few
-> awkward and convoluted tricks to properly handle such interactions at
-> boot time in the SCMI stack.
+> On top of that, this adds 2 more properties to describe a couple more
+> platform-specific transport characteristics.
 >=20
-> Moreover some partner expressed the desire to be able to fully
-> modularize the transports components.
->=20
-> This series aim to make all such transports as standalone drivers that
-> can be optionally loaded as modules.
->=20
-> In order to do this, at first some new mechanism is introduced to
-> support this new capability while maintaining, in parallel, the old
-> legacy embedded transports; then each transport, one by one, is
-> transitioned to be a standalone driver and finally the old legacy
-> support for embedded transport is removed.
->=20
-> Patch [1/9] is a fix around the chan_free method for OPTEE transport; it
-> is really unrelated to this series, but included to avoid conflicts.
->=20
-> Patch [2/9] is a mostly unrelated (but much needed) clean-up from
-> Peng, which I included in this series to avoid conflicts at merge.
->=20
-> Patch [3/9] simply collects the existing datagram manipulation helpers
-> in a pair of function pointers structures, in preparation for later rewor=
-ks.
->=20
-> Patch [4/9] adds the bulk of the new logic to the core SCMI stack and
-> then each existing transport is transitioned to be a standalone driver in
-> patches 5,6,7,8 while shuffling around the compatibles. (no DT change
-> is needed of curse for backward compatibility) While doing this I kept
-> the module authorship in line with the main
-> author(S) as spitted out by git-blame.
->=20
-> Finally patch [9/9] removes all the legacy dead code from the core
-> SCMI stack.
->=20
-> No new symbol EXPORT has been added.
->=20
-> The new transport drivers have been tested, as built-in and LKM, as
-> follows:
->=20
-> - mailbox on JUNO
-> - virtio on emulation
-> - optee on QEMU/optee using Linaro setup
->=20
-> Exercised using the regular SCMI drivers stack and the SCMI ACS suite,
-> testing commands, replies, delayed responses and notification.
->=20
-> Multiple virtual SCMI instances support has been tested too.
->=20
-> SMC has NOT been tested/exercised at run-time, only compile-tested.
-> (due to lack of hardware)
->=20
-> Note that in this new setup, all the probe deferral and retries between
-> the SCMI core stack and the transports has been removed, since no
-> more needed.
->=20
-> Moreover the new drivers have been tested also with a fully
-> modularized SCMI stack, i.e.:
->=20
->   scmi-core.ko + scmi-module.ko + scmi_transport_*.ko [ + vendor
-> modules ]
->=20
-> Based on v6.11-rc1
->=20
-> Any feedback, and especially testing (:D) is welcome.
+> To minimize conflicts, the whole series is based on top of another
+> recent series, which represents a rework of the core SCMI stack to split
+> SCMI transports as standalone drivers. [2]
 
 For the patchset,
 Tested-by: Peng Fan <peng.fan@nxp.com>  #i.MX95 19x19 EVK
 
 Regards,
 Peng.
+
 >=20
 > Thanks,
 > Cristian
 >=20
+>=20
 > ---
-> v2 --> v3
-> - rebased on v6.11-rc1
-> - fixed spacing in Kconfig
-> - fixed Copyrights all over
-> - fixed platform_driver_register callsite in OPTEE transport
-> - refactored DEFINE_SCMI_TRANSPORT_DRIVER() to:
->   + use alloc + add_data + add platform drivers methods so as to
-> implictly
->     use a standard default device_release method.
->   + drop .remove method in favour of devres_add_action_or_reset
->   + use explicit parameter passing (no more concatenation)
-> - renamed scmi_transport_lookup() to scmi_transport_setup()
-> - use IOMEM_ERR_PTR to avoid sparse issues
 >=20
-> v1 --> v2
-> - fixed setup_shmem_iomap to address also SMC needs (QC/nikunj)
->   (silencing also warnings by kernel test robot <lkp@intel.com>)
-> - using __free OF cleanup.h magic in setup_shmme_iomap
-> - properly handle platform_driver_register() failures (Dan)
-> - fixed a few commit message style
-> - added a few missing static in scmi_desc
->   (addresses warnings by kernel test robot <lkp@intel.com>)
->=20
->=20
-> Cristian Marussi (8):
->   firmware: arm_scmi: Fix double free in OPTEE transport
->   firmware: arm_scmi: Introduce packet handling helpers
->   firmware: arm_scmi: Add support for standalone transport drivers
->   firmware: arm_scmi: Make MBOX transport a standalone driver
->   firmware: arm_scmi: Make SMC transport a standalone driver
->   firmware: arm_scmi: Make OPTEE transport a standalone driver
->   firmware: arm_scmi: Make VirtIO transport a standalone driver
->   firmware: arm_scmi: Remove legacy transport-layer code
+> Cristian Marussi (5):
+>   firmware: arm_scmi: Remove const from transport descriptors
+>   firmware: arm_scmi: Use max-rx-timeout-ms from devicetree
+>   dt-bindings: firmware: arm,scmi: Introduce more transport properties
+>   firmware: arm_scmi: Use max_msg and max_msg_size from
+> devicetree
+>   firmware: arm_scmi: Relocate atomic_threshold to scmi_desc
 >=20
 > Peng Fan (1):
->   firmware: arm_scmi: Introduce setup_shmem_iomap
+>   dt-bindings: firmware: arm,scmi: Introduce property max-rx-timeout-
+> ms
 >=20
->  drivers/firmware/arm_scmi/Kconfig             |  20 +-
->  drivers/firmware/arm_scmi/Makefile            |   9 +-
->  drivers/firmware/arm_scmi/common.h            | 184 +++++++++++++----
-> -
->  drivers/firmware/arm_scmi/driver.c            | 142 +++++---------
->  drivers/firmware/arm_scmi/msg.c               |  32 ++-
->  .../{mailbox.c =3D> scmi_transport_mailbox.c}   |  72 +++----
->  .../{optee.c =3D> scmi_transport_optee.c}       | 130 ++++++-------
->  .../arm_scmi/{smc.c =3D> scmi_transport_smc.c}  |  57 +++---
->  .../{virtio.c =3D> scmi_transport_virtio.c}     | 102 +++++-----
->  drivers/firmware/arm_scmi/shmem.c             |  85 ++++++--
->  10 files changed, 477 insertions(+), 356 deletions(-)  rename
-> drivers/firmware/arm_scmi/{mailbox.c =3D> scmi_transport_mailbox.c}
-> (86%)  rename drivers/firmware/arm_scmi/{optee.c =3D>
-> scmi_transport_optee.c} (89%)  rename
-> drivers/firmware/arm_scmi/{smc.c =3D> scmi_transport_smc.c} (87%)
-> rename drivers/firmware/arm_scmi/{virtio.c =3D> scmi_transport_virtio.c}
-> (94%)
+>  .../bindings/firmware/arm,scmi.yaml           | 22 +++++++++
+>  drivers/firmware/arm_scmi/common.h            |  9 +++-
+>  drivers/firmware/arm_scmi/driver.c            | 46 ++++++++++++-------
+>  .../arm_scmi/scmi_transport_mailbox.c         |  2 +-
+>  .../firmware/arm_scmi/scmi_transport_optee.c  |  2 +-
+>  .../firmware/arm_scmi/scmi_transport_smc.c    |  2 +-
+>  .../firmware/arm_scmi/scmi_transport_virtio.c |  2 +-
+>  7 files changed, 64 insertions(+), 21 deletions(-)
 >=20
 > --
 > 2.45.2
