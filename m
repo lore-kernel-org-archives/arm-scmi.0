@@ -1,40 +1,41 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B058214A4C7;
-	Thu,  1 Aug 2024 19:21:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95B331494A4;
+	Thu,  1 Aug 2024 19:22:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722540110; cv=none; b=uHayynDVyTK7PC1bUcqWoDOgDwl08Kr3Y51Hm/OpF4pPpseD9SLgxjj/aZUzo6JKoMGH7Wg+80IPk7fhZjohGU5wL7w4SiFwgAMwPo+IjuzfeVRw0KhKy3eVi50UwpG6EuIMsyIIjjwuwCgKpqMgKH7pgLS88cKUoVxsIJfHv/s=
+	t=1722540159; cv=none; b=RqP9ZE37ntd9/Di5Y4HnGC2DfIOhYy2LHBCY5lnaYwDlHg7udNWdEAb+LWuwnmEgg4F+phV2eLDxwqWv6p2sCy6NGO/nuwwf6NG7nwtVIZsH9fmeXOeR12rtIhgnuVvLu/b9LJmQ1L5XdwqkZWeOi3TizywJcNIJcq5U9tT/N3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722540110; c=relaxed/simple;
-	bh=mI3N5oRFKT0g2BpjzqJ2P6U5Zf4g29kMf9dJhor1nIQ=;
+	s=arc-20240116; t=1722540159; c=relaxed/simple;
+	bh=+hQ8iigQI9cYcudw5KPRGp2ovawK9BwQRJRwF02Pgd0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vABt0ccB8hx/Kr0uil3NB5dadXL6bw00H0/6Buk6v/Eb7vAA1WiHyo3iHL4jrl0wXEFCzlZ1IY940GJaYcR6hqEDeDtEiPKK+p75y1iBEL5dcBDZ+YxEjeM9D5VlvwJVZvUpAsGACfIidGXVaNxsqX9TGeC6xQ5jjmBHJJlXXUo=
+	 Content-Type:Content-Disposition:In-Reply-To; b=H6wazDrsLh+KTzIM9F6CY5Zv6GMyjwkR4h7fjeEpPqBY1OuPZKJtxNVNnVCmH96SJDicBMWPsCT+sod3IFvzSWmR/7ScRv49BLAvGgbmHDcYizjrE2ogO2up1DB+mn7CFIKCDIPj3FE4HQL1BJuecnS8OQiR+z5WLClIMYTCkCM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E6701007;
-	Thu,  1 Aug 2024 12:22:13 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AF1CB1007;
+	Thu,  1 Aug 2024 12:23:02 -0700 (PDT)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D0B703F64C;
-	Thu,  1 Aug 2024 12:21:45 -0700 (PDT)
-Date: Thu, 1 Aug 2024 20:21:36 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BE0573F64C;
+	Thu,  1 Aug 2024 12:22:34 -0700 (PDT)
+Date: Thu, 1 Aug 2024 20:22:32 +0100
 From: Cristian Marussi <cristian.marussi@arm.com>
-To: Nikunj Kela <quic_nkela@quicinc.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Cristian Marussi <cristian.marussi@arm.com>,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
 	james.quinlan@broadcom.com, f.fainelli@gmail.com,
 	vincent.guittot@linaro.org, etienne.carriere@st.com,
 	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
-	ptosi@google.com, dan.carpenter@linaro.org,
-	souvik.chakravarty@arm.com, Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v3 6/9] firmware: arm_scmi: Make SMC transport a
+	quic_nkela@quicinc.com, ptosi@google.com, dan.carpenter@linaro.org,
+	souvik.chakravarty@arm.com,
+	Etienne Carriere <etienne.carriere@foss.st.com>
+Subject: Re: [PATCH v3 7/9] firmware: arm_scmi: Make OPTEE transport a
  standalone driver
-Message-ID: <ZqvgQMXXPa6_aFAR@pluto>
+Message-ID: <ZqvgeKGd2ag5YQA4@pluto>
 References: <20240730133318.1573765-1-cristian.marussi@arm.com>
- <20240730133318.1573765-7-cristian.marussi@arm.com>
- <04d0cf9a-dca8-4952-88fd-f7979a22602f@quicinc.com>
+ <20240730133318.1573765-8-cristian.marussi@arm.com>
+ <3f9a73fc-e14e-42c5-9805-0d23b9f158ef@kernel.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -43,24 +44,29 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <04d0cf9a-dca8-4952-88fd-f7979a22602f@quicinc.com>
+In-Reply-To: <3f9a73fc-e14e-42c5-9805-0d23b9f158ef@kernel.org>
 
-On Thu, Aug 01, 2024 at 11:46:03AM -0700, Nikunj Kela wrote:
-> 
-> On 7/30/2024 6:33 AM, Cristian Marussi wrote:
-> > Make SCMI SMC transport a standalone driver that can be optionally
+On Wed, Jul 31, 2024 at 08:12:16AM +0200, Krzysztof Kozlowski wrote:
+> On 30/07/2024 15:33, Cristian Marussi wrote:
+> > Make SCMI OPTEE transport a standalone driver that can be optionally
 > > loaded as a module.
-> >
-> > CC: Peng Fan <peng.fan@nxp.com>
-> > CC: Nikunj Kela <quic_nkela@quicinc.com>
+> > 
+> > CC: Etienne Carriere <etienne.carriere@foss.st.com>
 > > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 > > ---
 > 
-> Tested-by: Nikunj Kela <quic_nkela@quicinc.com>
+> >  
+> > -const struct scmi_desc scmi_optee_desc = {
+> > -	.transport_exit = scmi_optee_exit,
+> > -	.ops = &scmi_optee_ops,
+> > -	.max_rx_timeout_ms = 30,
+> > -	.max_msg = 20,
+> > -	.max_msg_size = SCMI_OPTEE_MAX_MSG_SIZE,
+> > -	.sync_cmds_completed_on_ret = true,
+> > -};
+> > +MODULE_ALIAS("scmi-transport-optee");
 > 
-> Tested this series on Qualcomm SA8255p(to be upstreamed) platform that
-> uses Qualcomm SMC transport.
-> 
+> This looks duplicated with module name.
 
-Thanks a lot for testing again this series, Nikunj !
+Yes, my bad, I'll drop this or use something more useful.
 Cristian
