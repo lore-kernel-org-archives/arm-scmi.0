@@ -1,134 +1,187 @@
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 301F720B28;
-	Fri,  2 Aug 2024 06:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D9828376;
+	Sat,  3 Aug 2024 06:13:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722579346; cv=none; b=Lw4sYR2saQeXXdSnwEZUWqFQA+414AM2V6Fred1LRb1VGRdCAjCEji6dE90ZB+ICKCasIHIQYomHKg7XbvZSpg+fmxyhsODH9DLDPPe1FNc2vu34mYz6VY31wNZGyH76sQNO4gm85ugvRX8jm9mKeTaubKVF6FoC8xmVItxFF+Y=
+	t=1722665625; cv=none; b=qvZmGkr9He2JfB1gcWMn6T3Saihdv92qcI+M6uUliPsCQtlw85q5XFeY5XQ911a/k5gt4JORqBUbYsdMN5ZckLr8y7Mc6PykAOaUxKalKBC5ISxCZ49aREO81+4WU3XceOwiyvivPrfttPqIJEdSkNWoI0e719gV6TXLG5hNHOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722579346; c=relaxed/simple;
-	bh=JZb/Or9qpURnR9gRJrOJ8FvoSO3hApEfbk6TU2ea5sc=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JIYnWW22D4WyfE/hGOaIWwzStY3/9eskXmIRDGl/6OilIp5BaVMA02uhpMuxeDrEdaEDz84QngyDBuIGlwU9Zb80u3z7IUSNArGT/iuNbCFKV5bKO9zP0JE44J02JDzolFa4zuOleEAav0P2VkDhV5LQh5Zizpyk4sqrAAVhAqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=iiXbEsaz; arc=none smtp.client-ip=198.47.19.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1722665625; c=relaxed/simple;
+	bh=f3SsyA0A03ghx59fpFfz4bnYCHxtXxzbra9YDmRBIeY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=efDG/BciY+F8+Bh586iOMiTpxXkqaQXA6nUEDy0q/aQHnro6I7H9bPjAw6CB5NisIDxQjAZk+LWxY2vMeAhOpeGqOz9KSWBA7v2hVrPdbJV+wG0C2piToIc38YOnAo7+NEL29LfNEYYg/Ylj4KV6zlBYyfQxRO+D0bWRZXuH4xA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BPcl46k/; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="iiXbEsaz"
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 4726FRXv004096;
-	Fri, 2 Aug 2024 01:15:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1722579327;
-	bh=roj1YKJRrCZRIfw1JLvtG05h+2KyDfE2v87x1/5J5W0=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=iiXbEsaziWznFe6bZ70/xxcJ49RURZuYwsvLAf3coivxxmHkj30nkj5WY8tFOR1Rd
-	 RK68XRiITdFyojWp5mJ6QCqXEcmWQxkJy9AYWzLBy19SW+k07o+Ncv8J2JdY8/+vxL
-	 sSfNmxGiMtKfmKEQHMInlKmEDkYdo6kTerUYKykk=
-Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4726FRh3024074
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 2 Aug 2024 01:15:27 -0500
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 2
- Aug 2024 01:15:27 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 2 Aug 2024 01:15:27 -0500
-Received: from localhost (lcpd911.dhcp.ti.com [172.24.227.68])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4726FQVr078650;
-	Fri, 2 Aug 2024 01:15:27 -0500
-Date: Fri, 2 Aug 2024 11:45:26 +0530
-From: Dhruva Gole <d-gole@ti.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BPcl46k/"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-7a264a24ea7so5867094a12.3;
+        Fri, 02 Aug 2024 23:13:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722665623; x=1723270423; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hXMFhCUn5D/KqrMjKOKnbi8o/0EVbx6C+turhkcsq08=;
+        b=BPcl46k/OsInvh/3tWeMR/NW0cfBG1YSvTAwS2gxn2Lkd+/e33uOSEKV8is8OP+X5i
+         1vNL/L3esaz3IQ5PEng03eeA03sKmxsj0sbZXpNBWlfxOr99URe1fUeYHdVfhHqwMD/L
+         uTRLnVff0f9CjeCgjq6P3RTVJVgj5Hk601Ubmyl0Z1YmbIciAZt1vIbU2+0kvwgT8C9l
+         DYJ79pEiafaV2EEDlwasBYvAMinXItHGwCl8zb0BYVvusNB/TuIOAodnHEOnndqiTqC2
+         zs1rOxQ2MYL5bBwnf4oNOjQBFWb/YHMvNwkUUs3YrUFVP9loQnUj927xH4OC+WWQwjjt
+         aevQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722665623; x=1723270423;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hXMFhCUn5D/KqrMjKOKnbi8o/0EVbx6C+turhkcsq08=;
+        b=sn8LfadFJDb+4VwG8qDq5qsDyeZ43TUf/ICvdYyuHA/BrnvpdNe1ISY1RojQUHf0PJ
+         nEWijMV3YkBXVMeA0JMT2cuppsM+rXwsdbo1ASLYGRj9PI2ReF5zJyGmT+7RYJbxAyWl
+         rgC1RNsEpPbsfQMZha5tWOSbZcWZYhTgLz3ojt8R4Da/44qIwbAttZU+Qjg/IqrqANX9
+         bsk4u6FOPjW7VTE+xz8SJZB1WdzK7BugZA9/BEskYyg8ydE9O+PTcLSLulZHwSn6ndl4
+         kyLNMFRQlGJ96eMWEROItO9VK8ATRk9rCr13szMjoV9cbB2KMPCLqBUP2UXyV36x6nz7
+         3pcA==
+X-Forwarded-Encrypted: i=1; AJvYcCV2dHR9bcuhM2sBiUt7CJF3/Z0TnTpuVSeuvUEUOnrlsHNoQyzwzzqHv3j3eDsHTt68zmay8NTC/eVbQTe+JgoqUQ8QmdroLOUrL5mnqYGgUIOCReC4aaFBJzn2iZ+zlhDECvRsg79m6T/DW0UgjZRwXi6moEKoy5kNKNPkJWg5G39DFKg4xltQ2VTCYiaU1pMziW3oX+9xAvqknm9HcIze87Au+SFzC31CgnljTREG3OgOsbNawwLgND4=
+X-Gm-Message-State: AOJu0YxUzPEUPgxMcvFHM0AdtgjtO2R27+2DXy5Ud0ySVIM4SAy8APhK
+	YKFQRmENthcRYg6G2v0ypYsF990E2nxWS+a3IRxtnOvseq0uHXYq
+X-Google-Smtp-Source: AGHT+IGgAjO3iklC0xXjAakpcmHNCbSd220ilCOUTPiEuu5dLNSN0mr4009Uq6sYz/UQhR1i8+qevw==
+X-Received: by 2002:a05:6a21:8cc5:b0:1c0:f323:1b9d with SMTP id adf61e73a8af0-1c6995a1a4fmr7777869637.20.1722665622623;
+        Fri, 02 Aug 2024 23:13:42 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:47be:b3e2:7c00:141c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7106ece0895sm2164970b3a.125.2024.08.02.23.13.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Aug 2024 23:13:42 -0700 (PDT)
+Date: Fri, 2 Aug 2024 23:13:39 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Peng Fan <peng.fan@nxp.com>
-CC: Sudeep Holla <sudeep.holla@arm.com>,
-        "Peng Fan (OSS)"
-	<peng.fan@oss.nxp.com>,
-        "cristian.marussi@arm.com"
-	<cristian.marussi@arm.com>,
-        "mturquette@baylibre.com"
-	<mturquette@baylibre.com>,
-        "sboyd@kernel.org" <sboyd@kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "arm-scmi@vger.kernel.org"
-	<arm-scmi@vger.kernel.org>
-Subject: Re: [PATCH V2] clk: scmi: add is_prepared hook
-Message-ID: <20240802061234.njlviydzmjbsyteb@lcpd911>
-References: <20240726131007.1651996-1-peng.fan@oss.nxp.com>
- <20240726135231.hhzp3dqgx64e6kiw@dhruva>
- <ZqO2Nn7Wofs_wfkQ@bogus>
- <PAXPR04MB845938597DBD50DE1D1C0A1088B22@PAXPR04MB8459.eurprd04.prod.outlook.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	"Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+	Sudeep Holla <sudeep.holla@arm.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: Re: [PATCH v7 7/7] input: keyboard: support i.MX95 BBM module
+Message-ID: <Zq3KkwhB89zUfAjn@google.com>
+References: <20240731-imx95-bbm-misc-v2-v7-0-a41394365602@nxp.com>
+ <20240731-imx95-bbm-misc-v2-v7-7-a41394365602@nxp.com>
+ <ZqpCwOhXiLzxK43-@pluto>
+ <PAXPR04MB84598B36C6721748FB98905088B12@PAXPR04MB8459.eurprd04.prod.outlook.com>
+ <Zqp0IZfUobg6dq8G@google.com>
+ <PAXPR04MB8459CE89FFF5662AED66D9AA88B22@PAXPR04MB8459.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PAXPR04MB845938597DBD50DE1D1C0A1088B22@PAXPR04MB8459.eurprd04.prod.outlook.com>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <PAXPR04MB8459CE89FFF5662AED66D9AA88B22@PAXPR04MB8459.eurprd04.prod.outlook.com>
 
-Hi Peng,
-
-On Aug 01, 2024 at 03:35:37 +0000, Peng Fan wrote:
-> Hi Sudeep, Dhruva,
+On Thu, Aug 01, 2024 at 01:36:10AM +0000, Peng Fan wrote:
+> Hi Dmitry,
 > 
-> > Subject: Re: [PATCH V2] clk: scmi: add is_prepared hook
+> > Subject: Re: [PATCH v7 7/7] input: keyboard: support i.MX95 BBM
+> > module
 > > 
-> > On Fri, Jul 26, 2024 at 07:22:31PM +0530, Dhruva Gole wrote:
-> > > On Jul 26, 2024 at 21:10:07 +0800, Peng Fan (OSS) wrote:
-> > > > From: Peng Fan <peng.fan@nxp.com>
+> > Hi Peng,
+> > 
+> > On Wed, Jul 31, 2024 at 03:37:18PM +0000, Peng Fan wrote:
+> > > Hi Cristian,
+> > >
+> > > > Subject: Re: [PATCH v7 7/7] input: keyboard: support i.MX95 BBM
+> > > > module
 > > > >
-> > > > Some clks maybe default enabled by hardware, so add is_prepared
-> > hook
-> > > > for non-atomic clk_ops to get the status of the clk. Then when
-> > > > disabling unused clks, those unused clks but default hardware on
-> > > > clks could be in off state to save power.
-> > >
-> > > Just a nit - reword the commit message as:
-> > > Then when disabling the unused clocks, they can be simply turned
-> > OFF
-> > > to save power.
-> > >
+> > > > On Wed, Jul 31, 2024 at 08:56:11PM +0800, Peng Fan (OSS) wrote:
+> > > > > From: Peng Fan <peng.fan@nxp.com>
+> > > > >
+> > > > > The BBM module provides BUTTON feature. To i.MX95, this
+> > module is
+> > > > > managed by System Manager and exported using System
+> > > > Management Control
+> > > > > Interface(SCMI). Linux could use i.MX SCMI BBM Extension
+> > protocol
+> > > > to
+> > > > > use BUTTON feature.
+> > > > >
+> > > > > This driver is to use SCMI interface to enable pwrkey.
+> > > > >
+> > > > > +}
+> > > > > +
+> > > > > +static void scmi_imx_bbm_key_remove(struct scmi_device
+> > *sdev) {
+> > > > > +	struct device *dev = &sdev->dev;
+> > > > > +	struct scmi_imx_bbm *bbnsm = dev_get_drvdata(dev);
+> > > > > +
+> > > > > +	device_init_wakeup(dev, false);
 > > 
-> > Ah this was what it meant. I couldn't parse the original text and was
-> > about to ask.
-> > 
-> > > Also if you can make it still verbose, explain when you expect this
-> > > disabling of unused clks to take place exactly? During boot?  Driver
-> > probe sequence?
-> > > or By some user commands?
-> > >
-> > 
-> > Agreed. Being little more verbose here would be beneficial IMO.
-> > 
+> > I do not believe you need to reset the wakeup flag on driver unbind, as
+> > well as in the error handling path of probe(). If this is needed then
+> > driver core should do this cleanup (maybe it already does?).
 > 
-> I will use below in V3:
-> "
-> Some clocks maybe default enabled by hardwar. For clocks that not 
+> I just check the driver core code, you are right, there is
+> no need do this.
+> 
+> DevAttrError:
+>  device_pm_remove-> device_wakeup_disable(dev);
+>  dpm_sysfs_remove
+> 
+> > 
+> > > > > +
+> > > > > +	cancel_delayed_work_sync(&bbnsm->check_work);
+> > > > > +}
+> > > > > +
+> > > >
+> > > > ..so in v6 I asked you to add a cancel_delayed_work_sync() on the
+> > > > removal path, BUT I missed, my bad, that indeed above there was
+> > > > already a call to cancel_delayed_work_sync() associated to a
+> > > > devm_add_action_or_reset....so now we have 2....also you should
+> > try
+> > > > not to mix devm_add_action_or_reset and plain .remove
+> > methods..use
+> > > > one or the other.
+> > >
+> > > Thanks for your detailed reviewing on this. I will wait to see if
+> > > Sudeep has any comments to patch 1-4. If no comments, I will not do
+> > a
+> > > new version to this patchset.
+> > >
+> > > If v7 patch 1-4 are good for Sudeep to pick up, I will separate this
+> > > patch out as a standalone one for input subsystem maintainer.
+> > 
+> > If you remove the duplicated cancel_delayed_work_sync() in remove()
+> > and unneded device_init_wakeup(dev, false); then you can merge the
+> > input patch with the rest of them with my:
+> > 
+> > Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> 
+> Thanks for your Ack. But I think patch 1-4 needs go to arm-scmi tree,
+> Patch 5 to arm imx tree, patch 6 to rtc tree, patch 7 to input tree.
+> 
+> I put the patches together in a patchset is to let reviewers could
+> get a full picture how the whole stuff work.
+> 
+> For patch 7, I will send out it as a separate patch with fix and tag
+> after patch 1-4 is ready in arm-scmi tree.
 
-s/not/don't
+Right, but to accelerate getting support for your part into the mainline
+I am OK with input piece not going through the input tree but together
+with the rest of the patches through some other tree, probably through
+arm-scmi. If they are not willing to take it then we will have to wait
+till core support lands in mainline and then I can pick up the input
+piece and move it through my tree.
 
-> have users, they will be left in hardware default state, because prepare
-
-s/they/that, will be left in default hardware state.
-
-> count and enable count is zero,if there is no is_prepared hook to get
-> the hardware state. So add is_prepared hook to detect the hardware
-> state. Then when disabling the unused clocks, they can be simply
-> turned OFF to save power during kernel boot.
-> "
-
-Thanks, rest looks better.
+Thanks.
 
 -- 
-Best regards,
-Dhruva Gole <d-gole@ti.com>
+Dmitry
