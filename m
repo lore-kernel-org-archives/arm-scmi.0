@@ -1,23 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AC6B1591F0;
-	Mon,  5 Aug 2024 13:10:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13FC715B10F;
+	Mon,  5 Aug 2024 13:10:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722863424; cv=none; b=EgIMKxmIDd/1sid+EY2gvtlKnXy0y1Eq5nbJ+wfM75cGA94z5kfs5kiPUT6xYi3u1Rxq5EQRO34YBOodM6hpehTXiA5loMcAo9SxFXLUVGJMKZh0E4rM1pm+zNr3yhqkEP8sRpiC7uqX6cjRmOB7ruWhfLZ8MByjpdeTMPgpPo0=
+	t=1722863426; cv=none; b=DneGyF3zZ5Oa11ig7+yzEQQPF62EK0bMK3PkuQcxNwS/vr5zCXaOCBelP1314VRzoJ+ULZbnRxIq0q6YUwZsGWECG6Ze4EbRe3RmhNUirzYnHjpEVJcIsTGDubbEgI6lQgNwZrPsHprtLRcFMUHPJTL27+VWYgdldJNgVhv+YXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722863424; c=relaxed/simple;
-	bh=7TMVD6DyD9AS0Vhz1IhLZSVWy7jBr2pjzpfg+DfI4a0=;
+	s=arc-20240116; t=1722863426; c=relaxed/simple;
+	bh=JLdFEuKuNZUKZ/LMElSgzXFfm+queRPCNHEVOJZ3m+o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iuVcEt8YWc+3AAkdP17i3533Jn0jibsFHe/G12beJD3oqLyVVMoLNZJ4OcOjDi08ESKzF2mVPBO6mEC02xUOohPSpah+fnVyGVx7IwpboVNr/I8nXfNawk+trtbgjvn5DfZVXTtGVlWUh1Nleyn66B3BQUXTPurK+qkwf40qoUI=
+	 MIME-Version; b=aQt2kNba6gaSlsh/+p5Hbt3bb7SNTpYJc3LbaiaEkjxb2kaFnct7GWeZHHnfC1PUt+/DNiM2qxzkrlaW7YHHqHZzuKhwtlLCf4T3R12YPhWFsZMkxXPdYGQbgABNjRXoOGdpB1LBwVoXRZyuIaGfKybwwbw/3CafZ5vbt2H68wA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3D321143D;
-	Mon,  5 Aug 2024 06:10:48 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 625D81474;
+	Mon,  5 Aug 2024 06:10:50 -0700 (PDT)
 Received: from usa.arm.com (e103737-lin.cambridge.arm.com [10.1.197.49])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A4D2B3F836;
-	Mon,  5 Aug 2024 06:10:21 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C9D323F5A1;
+	Mon,  5 Aug 2024 06:10:23 -0700 (PDT)
 From: Sudeep Holla <sudeep.holla@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -25,9 +25,9 @@ To: linux-kernel@vger.kernel.org,
 Cc: Sudeep Holla <sudeep.holla@arm.com>,
 	Cristian Marussi <cristian.marussi@arm.com>,
 	Luke Parkin <luke.parkin@arm.com>
-Subject: [PATCH v5 2/5] firmware: arm_scmi: Add support for debug metrics at the interface
-Date: Mon,  5 Aug 2024 14:10:09 +0100
-Message-ID: <20240805131013.587016-3-sudeep.holla@arm.com>
+Subject: [PATCH v5 4/5] firmware: arm_scmi: Create debugfs files for SCMI communication debug metrics
+Date: Mon,  5 Aug 2024 14:10:11 +0100
+Message-ID: <20240805131013.587016-5-sudeep.holla@arm.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240805131013.587016-1-sudeep.holla@arm.com>
 References: <20240805131013.587016-1-sudeep.holla@arm.com>
@@ -41,88 +41,68 @@ Content-Transfer-Encoding: 8bit
 
 From: Luke Parkin <luke.parkin@arm.com>
 
-Since SCMI involves interaction with the entity(software, firmware and/or
-hardware) providing services or features, it is quite useful to track
-certain metrics(for pure debugging purposes) like how many messages were
-sent or received, were there any failures, what kind of failures, ..etc.
-
-Add a new optional config option for the above purpose and the initial
-support for counting such key debug metrics.
+Now that the basic support to collect the SCMI communication debug
+metrics is in place, let us create debugfs files for the same so
+that they are accessible to the users/debuggers.
 
 Signed-off-by: Luke Parkin <luke.parkin@arm.com>
 Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
 Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
 ---
- drivers/firmware/arm_scmi/Kconfig  | 14 ++++++++++++++
- drivers/firmware/arm_scmi/common.h | 10 ++++++++++
- drivers/firmware/arm_scmi/driver.c |  2 ++
- 3 files changed, 26 insertions(+)
+ drivers/firmware/arm_scmi/driver.c | 33 ++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-diff --git a/drivers/firmware/arm_scmi/Kconfig b/drivers/firmware/arm_scmi/Kconfig
-index aa5842be19b2..f35784d0a8dd 100644
---- a/drivers/firmware/arm_scmi/Kconfig
-+++ b/drivers/firmware/arm_scmi/Kconfig
-@@ -55,6 +55,20 @@ config ARM_SCMI_RAW_MODE_SUPPORT_COEX
- 	  operate normally, thing which could make an SCMI test suite using the
- 	  SCMI Raw mode support unreliable. If unsure, say N.
- 
-+config ARM_SCMI_DEBUG_COUNTERS
-+	bool "Enable SCMI communication debug metrics tracking"
-+	select ARM_SCMI_NEED_DEBUGFS
-+	depends on DEBUG_FS
-+	default n
-+	help
-+	  Enables tracking of some key communication metrics for debug
-+	  purposes. It may track metrics like how many messages were sent
-+	  or received, were there any failures, what kind of failures, ..etc.
-+
-+	  Enable this option to create a new debugfs directory which contains
-+	  such useful debug counters. This can be helpful for debugging and
-+	  SCMI monitoring.
-+
- config ARM_SCMI_HAVE_TRANSPORT
- 	bool
- 	help
-diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-index 4b8c5250cdb5..d414b0a43b3b 100644
---- a/drivers/firmware/arm_scmi/common.h
-+++ b/drivers/firmware/arm_scmi/common.h
-@@ -301,6 +301,16 @@ extern const struct scmi_desc scmi_optee_desc;
- 
- void scmi_rx_callback(struct scmi_chan_info *cinfo, u32 msg_hdr, void *priv);
- 
-+enum debug_counters {
-+	SCMI_DEBUG_COUNTERS_LAST
-+};
-+
-+static inline void scmi_inc_count(atomic_t *arr, int stat)
-+{
-+	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_COUNTERS))
-+		atomic_inc(&arr[stat]);
-+}
-+
- enum scmi_bad_msg {
- 	MSG_UNEXPECTED = -1,
- 	MSG_INVALID = -2,
 diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 56a93d20bf23..958b2ac92050 100644
+index 943ba03315de..ade32a67ab63 100644
 --- a/drivers/firmware/arm_scmi/driver.c
 +++ b/drivers/firmware/arm_scmi/driver.c
-@@ -117,12 +117,14 @@ struct scmi_protocol_instance {
-  * @name: Name of this SCMI instance
-  * @type: Type of this SCMI instance
-  * @is_atomic: Flag to state if the transport of this instance is atomic
-+ * @counters: An array of atomic_c's used for tracking statistics (if enabled)
-  */
- struct scmi_debug_info {
- 	struct dentry *top_dentry;
- 	const char *name;
- 	const char *type;
- 	bool is_atomic;
-+	atomic_t counters[SCMI_DEBUG_COUNTERS_LAST];
- };
+@@ -2847,6 +2847,36 @@ static int scmi_device_request_notifier(struct notifier_block *nb,
+ 	return NOTIFY_OK;
+ }
  
- /**
++static const char * const dbg_counter_strs[] = {
++	"sent_ok",
++	"sent_fail",
++	"sent_fail_polling_unsupported",
++	"sent_fail_channel_not_found",
++	"response_ok",
++	"notification_ok",
++	"delayed_response_ok",
++	"xfers_response_timeout",
++	"xfers_response_polled_timeout",
++	"response_polled_ok",
++	"err_msg_unexpected",
++	"err_msg_invalid",
++	"err_msg_nomem",
++	"err_protocol",
++};
++
++static void scmi_debugfs_counters_setup(struct scmi_debug_info *dbg,
++					struct dentry *trans)
++{
++	struct dentry *counters;
++	int idx;
++
++	counters = debugfs_create_dir("counters", trans);
++
++	for (idx = 0; idx < SCMI_DEBUG_COUNTERS_LAST; idx++)
++		debugfs_create_atomic_t(dbg_counter_strs[idx], 0400, counters,
++					&dbg->counters[idx]);
++}
++
+ static void scmi_debugfs_common_cleanup(void *d)
+ {
+ 	struct scmi_debug_info *dbg = d;
+@@ -2913,6 +2943,9 @@ static struct scmi_debug_info *scmi_debugfs_common_setup(struct scmi_info *info)
+ 	debugfs_create_u32("rx_max_msg", 0400, trans,
+ 			   (u32 *)&info->rx_minfo.max_msg);
+ 
++	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_COUNTERS))
++		scmi_debugfs_counters_setup(dbg, trans);
++
+ 	dbg->top_dentry = top_dentry;
+ 
+ 	if (devm_add_action_or_reset(info->dev,
 -- 
 2.46.0
 
