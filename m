@@ -1,35 +1,32 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F6A815B104;
-	Mon,  5 Aug 2024 13:10:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F1FA2BCF7;
+	Mon,  5 Aug 2024 15:12:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722863428; cv=none; b=sSYpMG8whLV7wybRqWSw4jnhqjl4zBJQ/C66mgdiyhbZ4Kq8SSPcuRP9zYUFtFTLTJ5vOq7HAvtrLUZ6foh8WkxpUl2wzXEpfCtcv344sOj4lWtZ6qwzjHo0zDWHosgY9E30XxrbtXSaRZ2PcmmM+n/6yJlfbD2pwYbI/i8B6EY=
+	t=1722870769; cv=none; b=ub4nw7sLKdFPoVxe5k23qdkZobkKJ7XdgVCa4r51geaf/zeg9Thg3qqNHzTQ4L0s9Du5wiZe49uQ4UcNv9U+rTOaWSabJX7N2m8xScUjoFF34cvIDDfbpXWO+Wtypon52ijctlLj3ONJTyZQH9JXcj34L2jW1Bx/g+Vrpr+2siU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722863428; c=relaxed/simple;
-	bh=X8XPp8bcUgR2UZaLcygJarmXYBYzlmio5PZaLOZMW84=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LSQFnwe8MVYGKYmzQbKUBWyUggm61ytA9nyzI7n7Fd9PLBbYAI3/jAslK/geu0ldo1p+uprrqIp0e6Xehgm0KY8mL/UrwExljoD24Z3SPh/gIT5/kkYHkWbM+DGKqFDmpf+b890zoZWrsAEivXG5gCF3PzMd46flkn/5CWEXu+0=
+	s=arc-20240116; t=1722870769; c=relaxed/simple;
+	bh=wYZd2Yw4qEEej6r+Py+PyhAzdVhFQg5Ak4FiQ0lDUpg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a4v6nrZ+FWfpm4wRILhKQ0APznpyeBfbm1zaYcpiPmDAj8WHDZDobOcU3R8vR2Mu5p7OqPgAm6G9SpFm5CXcOeXQCrSGz9vk+NTmuV9lEHUVdLwZG5WRCvVuFZwfegwfV3sz9L29HDJMAGar3dB/OMubVDczAGCohbuvzHm44HQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C24D1143D;
-	Mon,  5 Aug 2024 06:10:51 -0700 (PDT)
-Received: from usa.arm.com (e103737-lin.cambridge.arm.com [10.1.197.49])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id DC4AD3F5A1;
-	Mon,  5 Aug 2024 06:10:24 -0700 (PDT)
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Luke Parkin <luke.parkin@arm.com>
-Subject: [PATCH v5 5/5] firmware: arm_scmi: Add support to reset the debug metrics
-Date: Mon,  5 Aug 2024 14:10:12 +0100
-Message-ID: <20240805131013.587016-6-sudeep.holla@arm.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240805131013.587016-1-sudeep.holla@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 29DCB106F;
+	Mon,  5 Aug 2024 08:13:13 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 763A43F6A8;
+	Mon,  5 Aug 2024 08:12:46 -0700 (PDT)
+Date: Mon, 5 Aug 2024 16:12:33 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: Re: [PATCH v5 0/5] Add per-transport SCMI communication debug
+ statistics
+Message-ID: <ZrDr1tDPE2A593s9@pluto>
 References: <20240805131013.587016-1-sudeep.holla@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -37,64 +34,30 @@ List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240805131013.587016-1-sudeep.holla@arm.com>
 
-From: Luke Parkin <luke.parkin@arm.com>
+On Mon, Aug 05, 2024 at 02:10:07PM +0100, Sudeep Holla wrote:
+> This series adds support for SCMI communication debug metrict tracking.
+> I am just sending on behalf of Luke with minor reworks in his absense.
+> 
+> Cristian,
+> 
+> I have retained your review tags, please shout if you disagree.
+> 
+> Regards,
+> Sudeep
+> 
 
-It is sometimes useful to reset all these SCMI communication debug
-metrics especially when we are interested in analysing these metrics
-during a particular workload or for a fixed time duration. Let us
-add the capability to reset all these metrics as once so that they
-can be counted during the period of interest.
+Hi,
 
-Signed-off-by: Luke Parkin <luke.parkin@arm.com>
-Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
-Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
----
- drivers/firmware/arm_scmi/driver.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+LGTM.
 
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index ade32a67ab63..ca910079d718 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -2864,6 +2864,24 @@ static const char * const dbg_counter_strs[] = {
- 	"err_protocol",
- };
- 
-+static ssize_t reset_all_on_write(struct file *filp, const char __user *buf,
-+				  size_t count, loff_t *ppos)
-+{
-+	struct scmi_debug_info *dbg = filp->private_data;
-+
-+	for (int i = 0; i < SCMI_DEBUG_COUNTERS_LAST; i++)
-+		atomic_set(&dbg->counters[i], 0);
-+
-+	return count;
-+}
-+
-+static const struct file_operations fops_reset_counts = {
-+	.owner = THIS_MODULE,
-+	.open = simple_open,
-+	.llseek = no_llseek,
-+	.write = reset_all_on_write,
-+};
-+
- static void scmi_debugfs_counters_setup(struct scmi_debug_info *dbg,
- 					struct dentry *trans)
- {
-@@ -2873,8 +2891,10 @@ static void scmi_debugfs_counters_setup(struct scmi_debug_info *dbg,
- 	counters = debugfs_create_dir("counters", trans);
- 
- 	for (idx = 0; idx < SCMI_DEBUG_COUNTERS_LAST; idx++)
--		debugfs_create_atomic_t(dbg_counter_strs[idx], 0400, counters,
-+		debugfs_create_atomic_t(dbg_counter_strs[idx], 0600, counters,
- 					&dbg->counters[idx]);
-+
-+	debugfs_create_file("reset", 0200, counters, dbg, &fops_reset_counts);
- }
- 
- static void scmi_debugfs_common_cleanup(void *d)
--- 
-2.46.0
+If this is what was on Fri on your next, I gave it a go on my setup
+too.
 
+Tested-by: Cristian Marussi <cristian.marussi@arm.com>
+
+Thanks,
+Cristian
