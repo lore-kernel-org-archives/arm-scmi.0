@@ -1,37 +1,36 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D3351D0DD6;
-	Tue,  6 Aug 2024 13:12:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81D4E1D2F56;
+	Tue,  6 Aug 2024 13:42:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722949966; cv=none; b=GzyoY10Pa2tNT8TCQOaL/e9tLpe5jlzIp8jRY+Hk4jWtxOy6PuO1OywDyHFXrgysW5EdLWQGdyA8IYdcyj8JfeBt/g7szqCVaFLcMzDI/0Ujf5TBi19x8VUBM9DjGQVIoQzyG7psWdvh8uyoHACO70SE5vsaaBD3av/sfGbhHBM=
+	t=1722951728; cv=none; b=F6UNfz+GURncVUSDXT61n+987wNvmZS7pjUEqC+9TqVrbjhtBLSZVilmpZkTAtttIbJVWtzhScPtvBehdRojkphq0LLc7hxoOQDgUVjPhh9dCUu4jU7k5eFRfa4VMEgxEYELh6kADJL1gvhTh3jy6r0GUDSbSEcnuu+lRldAHkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722949966; c=relaxed/simple;
-	bh=WCzxqJsVEg9rtGjl6YkaHfTIDToLTT4FYExvDzsVxzU=;
+	s=arc-20240116; t=1722951728; c=relaxed/simple;
+	bh=pzyYkc0zT5UTgprpaHKFqWUJ4uyiWupZGk5utdJHzLw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZaKImT+YnYl7fuJSdPrl5B9tGeFFy0vRVP1oVTZXoJ196KFq84vLZi1VcDE4Cw2KLfA/kg7Ml+m2TNhewmHgT1xNYo5p+QtyEj463TkB0jrQc0yUOQrP3X7q8r3iupvIJyd/VnBH9wIgbQXhJOp9LB3g2P5DHD11uH1AxM6zEkY=
+	 Content-Type:Content-Disposition:In-Reply-To; b=ftbVEYdfU7z3KJCesQaJFpocGM+hYrcQufncwRkxDECaW3qxkIQVD19KfnZFm9GFKi+Og/GsGh8pwdM0WxJHWjDHcxvvEBlAq+/Zxt2rZ4z3AALXlP82U8TQfUF+nl6X1vlPrkOXt2uy+FFe6eX/0Jb0jAntyRaUV3AFEcoQyzI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 21091FEC;
-	Tue,  6 Aug 2024 06:13:10 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ACBEEFEC;
+	Tue,  6 Aug 2024 06:42:31 -0700 (PDT)
 Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C2BC23F766;
-	Tue,  6 Aug 2024 06:12:41 -0700 (PDT)
-Date: Tue, 6 Aug 2024 14:12:39 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1AFD13F766;
+	Tue,  6 Aug 2024 06:42:05 -0700 (PDT)
+Date: Tue, 6 Aug 2024 14:42:02 +0100
 From: Sudeep Holla <sudeep.holla@arm.com>
 To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, james.quinlan@broadcom.com,
-	f.fainelli@gmail.com, vincent.guittot@linaro.org,
-	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
-	quic_sibis@quicinc.com, quic_nkela@quicinc.com, ptosi@google.com,
-	dan.carpenter@linaro.org, souvik.chakravarty@arm.com
-Subject: Re: [PATCH v3 5/9] firmware: arm_scmi: Make MBOX transport a
- standalone driver
-Message-ID: <ZrIhR-bpbkwdK3Mx@bogus>
-References: <20240730133318.1573765-1-cristian.marussi@arm.com>
- <20240730133318.1573765-6-cristian.marussi@arm.com>
+Cc: Etienne Carriere <etienne.carriere@foss.st.com>,
+	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] firmware: arm_scmi: fix voltage description in failure
+ cases
+Message-ID: <ZrIoKiQVLKuA-YWh@bogus>
+References: <20240725065317.3758165-1-etienne.carriere@foss.st.com>
+ <ZqO9s9YzYjaCHSap@bogus>
+ <ZqtqS9x65zs4qXdt@pluto>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -40,34 +39,66 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240730133318.1573765-6-cristian.marussi@arm.com>
+In-Reply-To: <ZqtqS9x65zs4qXdt@pluto>
 
-On Tue, Jul 30, 2024 at 02:33:14PM +0100, Cristian Marussi wrote:
-> Make SCMI mailbox transport a standalne driver that can be optionally
-> loaded as a module.
+On Thu, Aug 01, 2024 at 11:58:19AM +0100, Cristian Marussi wrote:
+> On Fri, Jul 26, 2024 at 04:16:03PM +0100, Sudeep Holla wrote:
+> > On Thu, Jul 25, 2024 at 08:53:17AM +0200, Etienne Carriere wrote:
+> > > Reset the reception buffer max size when a voltage domain description
+> > > request fails, for example when the voltage domain returns an access
+> > > permission error (SCMI_ERR_ACCESS) unless what only a single 32bit
+> > > word is read back for the remaining voltage description requests
+> > > responses leading to invalid information. The side effect of this
+> > > issue is that the voltage regulators registered from those remaining
+> > > SCMI voltage domain were assigned a wrong regulator name.
+> > > 
+> > > Signed-off-by: Etienne Carriere <etienne.carriere@foss.st.com>
+> > > ---
+> > >  drivers/firmware/arm_scmi/voltage.c | 4 +++-
+> > >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/firmware/arm_scmi/voltage.c b/drivers/firmware/arm_scmi/voltage.c
+> > > index 2175ffd6cef5..f1a7c04ae820 100644
+> > > --- a/drivers/firmware/arm_scmi/voltage.c
+> > > +++ b/drivers/firmware/arm_scmi/voltage.c
+> > > @@ -229,8 +229,10 @@ static int scmi_voltage_descriptors_get(const struct scmi_protocol_handle *ph,
+> > >  		/* Retrieve domain attributes at first ... */
+> > >  		put_unaligned_le32(dom, td->tx.buf);
+> > >  		/* Skip domain on comms error */
+> > > -		if (ph->xops->do_xfer(ph, td))
+> > > +		if (ph->xops->do_xfer(ph, td)) {
+> > > +			ph->xops->reset_rx_to_maxsz(ph, td);
+> > 
+> > I am fine with this to keep it simple, but thought I will check my thoughts.
+> > We usually use reset_rx_to_maxsz in iterators as we don't know the expected
+> > size of the response, whereas here it must be max sizeof(*resp_dom).
+> > 
+> > That said, we don't have any helpers and changing xfer->rx.len directly
+> > doesn't looks good ? Or may be it is OK ? Thoughts ?
 > 
-> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> ---
-> v2 --> v3
-> - fixed spacing in Kconfig
-> - updated Copyright
-> - use new params in DEFINE_SCMI_TRANSPORT_DRIVER
-> ---
->  drivers/firmware/arm_scmi/Kconfig             |  4 +-
->  drivers/firmware/arm_scmi/Makefile            |  3 +-
->  drivers/firmware/arm_scmi/common.h            |  3 --
->  drivers/firmware/arm_scmi/driver.c            |  3 --
->  .../{mailbox.c => scmi_transport_mailbox.c}   | 47 +++++++++++++------
->  5 files changed, 38 insertions(+), 22 deletions(-)
->  rename drivers/firmware/arm_scmi/{mailbox.c => scmi_transport_mailbox.c} (87%)
+> We do not access those xfer internal field explicitly from the protocol layer
+> (beside once in Base)...and surely not on write....in the past I was even
+> tempted to try to make these internal stuff untouchable by the protocol layer...
+> ...that's the reason of course for the existence of reset_rx_to_maxsz() helpers
+> ....not sure if it is worth adding another helper for this, given that the
+> using the maxsz should have any adverse effect (unless I am missing
+> something of course :P).
+> 
+> This kind of 'issues' are really common whenever in the SCMI stack we
+> reuse the same allocated xfer across multiple do_xfers in a loop
+> (reusing seq_nums is another thing...) since we wanted to avoid the
+> penalty of resetting some of these automatically on each do_xfer()...
+> 
+> ....we could think of some mechanism to transparently reset/fill such xfer
+> fields automatically if the core detects a 'reuse'....got to check first,
+> though, if this does not break some of the current usage patterns...and
+> I would not say it is a high prio thing to explore as of now...
+> 
 
-I am happy with the changes in the series, they all look good. I wonder if
-it makes sense to move transport drivers into a separate folder
-drivers/firmware/arm_scmi/transport/{mailbox,smc,optee,virtio}.c
+Fair enough, I will merge this as is. I think it should be fine. My suggestion
+might simply complicates things unnecessarily. Lets not do it unless this
+becomes repeating pattern.
 
-In scmi_transport_*.c, I see scmi is redundant and transport can be eliminated
-by moving all under the folder with that name. Thoughts ?
-
---
+-- 
 Regards,
 Sudeep
