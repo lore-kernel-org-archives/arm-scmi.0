@@ -1,67 +1,51 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01DE219754D;
-	Fri,  9 Aug 2024 13:35:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5149D40870;
+	Fri,  9 Aug 2024 17:04:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723210506; cv=none; b=HNAD8cskgQY7y2MAiUcRYKwjHy4oD6V4lAxRhvH1CwSBpVQf3KozwbxXW3L4v3E32xX2tIbs3Lr+dSx5rvxe/6mAXhBUqG1U9sGF/YvIU5x+ICsjPQjV8YulJc01ZLkLF7nDDy9PWWTxVDbw63aYhQDyJfQTLESFlNVEm+XgAaI=
+	t=1723223098; cv=none; b=jHyUaxj8MXE7nAvc0t8PqNMchf49ILEt5fqQ6TD0g4kMO7zWGJL6sljc91pghJAWS+nuewBx+bBYwca27wRVNpBhwBUDtawqGQWS2+MfcaHDqQBnCaMfEcfc+bpcKk+2c2vt/GSJLB9D2dktS1CRHAx3RD/vpl9Kop6VcVUwFNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723210506; c=relaxed/simple;
-	bh=dYj5SIz6WaJp/bbG92IXPT7wb7Ke399kGoA4RC4nPB8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VOvGQV2mbVJUQPOzGABVSpg84xi1Ob4vOmDooudC/mRXmfHJXvbH1ZgZ5aKrsnW7bizEEqGheYKz6HkmoHcvLtWR8R/LvFzzrphXDVlogdjxIB4F+RhoFjbIH2WE49eSc7VKTsRbdYgZshc2mzt8ZVgCm3/zDMtdShG2T4TSVaY=
+	s=arc-20240116; t=1723223098; c=relaxed/simple;
+	bh=3oiKUAi5CQGmfjCJN5efMxS194h/agVQWYEiZVsSyRU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UrswxB1t/zdNkG07Ssh2lLrVITJi+Vs1YECWHWoV5aJKZ87I4FzcRmr/29rypgoy2a8GeKeqBOECfxXN1RSgrcOYbKwyXy6RGe4MuRiMjqxUK9BhKKgHO8I4x7dD/ScK3crBO9LzOmJ90KnVtcRbYYgZw8IWHoFgmkA980Pmb24=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A6A813D5;
-	Fri,  9 Aug 2024 06:35:30 -0700 (PDT)
-Received: from usa.arm.com (e103737-lin.cambridge.arm.com [10.1.197.49])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 615F83F86F;
-	Fri,  9 Aug 2024 06:35:03 -0700 (PDT)
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org,
-	Sudeep Holla <sudeep.holla@arm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>
-Subject: Re: [PATCH v5 0/5] Add per-transport SCMI communication debug statistics
-Date: Fri,  9 Aug 2024 14:34:59 +0100
-Message-ID: <172321004444.1571940.3668638256438188452.b4-ty@arm.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240805131013.587016-1-sudeep.holla@arm.com>
-References: <20240805131013.587016-1-sudeep.holla@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1D97113D5;
+	Fri,  9 Aug 2024 10:05:21 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 10D093F6A8;
+	Fri,  9 Aug 2024 10:04:53 -0700 (PDT)
+Date: Fri, 9 Aug 2024 18:04:45 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org
+Cc: sudeep.holla@arm.com, Cristian Marussi <cristian.marussi@arm.com>
+Subject: Re: [PATCH] firmware: arm_scmi: Update Base protocol version
+Message-ID: <ZrZMLZq_-b9EFRgn@pluto>
+References: <20240809120014.724959-1-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240809120014.724959-1-cristian.marussi@arm.com>
 
-On Mon, 05 Aug 2024 14:10:07 +0100, Sudeep Holla wrote:
-> This series adds support for SCMI communication debug metrict tracking.
-> I am just sending on behalf of Luke with minor reworks in his absense.
->
-> Cristian,
->
-> I have retained your review tags, please shout if you disagree.
->
-> [...]
+On Fri, Aug 09, 2024 at 01:00:14PM +0100, Cristian Marussi wrote:
+> Base protocol version had been increased with SCMI v3.2. Update accordingly
+> the supported version define in the kernel stack, since all the mandatory
+> Base commands are indeed already supported.
+> 
 
-Applied to sudeep.holla/linux (for-next/scmi/updates), thanks!
+Hi Sudeep,
 
-[1/5] firmware: arm_scmi: Remove superfluous handle_to_scmi_info
-      https://git.kernel.org/sudeep.holla/c/20c9234d623c
-[2/5] firmware: arm_scmi: Add support for debug metrics at the interface
-      https://git.kernel.org/sudeep.holla/c/1b18d4295f9d
-[3/5] firmware: arm_scmi: Track basic SCMI communication debug metrics
-      https://git.kernel.org/sudeep.holla/c/0b3d48c4726e
-[4/5] firmware: arm_scmi: Create debugfs files for SCMI communication debug metrics
-      https://git.kernel.org/sudeep.holla/c/f6a905eaf6bf
-[5/5] firmware: arm_scmi: Add support to reset the debug metrics
-      https://git.kernel.org/sudeep.holla/c/bd02b0737f38
---
-Regards,
-Sudeep
+please disregard this, I spotted a few more protocols lacking a similar
+update...I'll post a single patch with all the upgrades.
 
+Thanks,
+Cristian
