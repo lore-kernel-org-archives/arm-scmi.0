@@ -1,62 +1,61 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1CDD194085;
-	Fri,  9 Aug 2024 12:00:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64A831957F8;
+	Fri,  9 Aug 2024 13:34:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723204831; cv=none; b=kFIO+kT4TRSDM76j4Nm7BdDJqkmrhP1W31550ONYF8BZpqPSCaTGOGQGnL/AgRSHZMII2PGn/JUXMRiK42T3dR+GSLwC8arybk1e2C3akI1UrXPEEC19bD3m05i0xfBR2svX1VvCNKBunMkkNSjNwr3L+JL3VwspprKEFJlm4Jg=
+	t=1723210475; cv=none; b=ZUQB6rShzD4z8SYPc5U+J62knROUabZj2f9pr0sNg+NzIHpQ6q4Dv1U+hTiC7HJSG5Oj4+lvS/MLHw96rCZHQu2375UAj/fTxAyaTzkpDHM23ZCzoPbO6HAn8HsfIW3796pvACze+2ouXyrhmkH9pQrf2E3trcS7WOspzw9jHrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723204831; c=relaxed/simple;
-	bh=GWVASxbGyv+H6U7tfbAr4CKEu+FH17mr3LRov5P2PDY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SBoTXkyOyLPrUE40a7g0z1u1u8ILV0WHa6yvR7o95Rs22xi3+gMK1j5Eh18f85RKnC3HhHLQDwTQBAsOcgRLUC0awrlyMGn+YZlTAOepGjamjBXtIOlQD3p+0TQBKnh25XQoDzLLmVZuLZOVdP+g4diuRlR/n6qMmeKecLqx/Hg=
+	s=arc-20240116; t=1723210475; c=relaxed/simple;
+	bh=eePWlSDssFkATF5FBCggmH1VDNMjhQvcckssOQR4ayc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=j96b1z2ouefvuHkJo0nI6mk3JmH1zmkDU/pM4KIebpheD3OwxKgFFjxIBDYNvfHed+umsS9Gwz7OeJfHTednGEmuz5G9I6h/smjNymsiK6ddNQPbv5t8LkiQqIGgBDp752odTXXCQrfILY5hdqSKJ63UqES45PYZnwgsmOOdySE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9BF7513D5;
-	Fri,  9 Aug 2024 05:00:53 -0700 (PDT)
-Received: from pluto.guestnet.cambridge.arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CA72D3F6A8;
-	Fri,  9 Aug 2024 05:00:26 -0700 (PDT)
-From: Cristian Marussi <cristian.marussi@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 875D713D5;
+	Fri,  9 Aug 2024 06:34:58 -0700 (PDT)
+Received: from usa.arm.com (e103737-lin.cambridge.arm.com [10.1.197.49])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9EB5D3F6A8;
+	Fri,  9 Aug 2024 06:34:31 -0700 (PDT)
+From: Sudeep Holla <sudeep.holla@arm.com>
 To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org
-Cc: sudeep.holla@arm.com,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH] firmware: arm_scmi: Update Base protocol version
-Date: Fri,  9 Aug 2024 13:00:14 +0100
-Message-ID: <20240809120014.724959-1-cristian.marussi@arm.com>
-X-Mailer: git-send-email 2.45.2
+	Etienne Carriere <etienne.carriere@foss.st.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] firmware: arm_scmi: fix voltage description in failure cases
+Date: Fri,  9 Aug 2024 14:34:22 +0100
+Message-ID: <172320999328.1571611.9059796413880230384.b4-ty@arm.com>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240725065317.3758165-1-etienne.carriere@foss.st.com>
+References: <20240725065317.3758165-1-etienne.carriere@foss.st.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Base protocol version had been increased with SCMI v3.2. Update accordingly
-the supported version define in the kernel stack, since all the mandatory
-Base commands are indeed already supported.
+On Thu, 25 Jul 2024 08:53:17 +0200, Etienne Carriere wrote:
+> Reset the reception buffer max size when a voltage domain description
+> request fails, for example when the voltage domain returns an access
+> permission error (SCMI_ERR_ACCESS) unless what only a single 32bit
+> word is read back for the remaining voltage description requests
+> responses leading to invalid information. The side effect of this
+> issue is that the voltage regulators registered from those remaining
+> SCMI voltage domain were assigned a wrong regulator name.
+>
+> [...]
 
-Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
----
- drivers/firmware/arm_scmi/base.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to sudeep.holla/linux (for-next/scmi/updates), thanks!
 
-diff --git a/drivers/firmware/arm_scmi/base.c b/drivers/firmware/arm_scmi/base.c
-index 97254de35ab0..9939b1d84b7a 100644
---- a/drivers/firmware/arm_scmi/base.c
-+++ b/drivers/firmware/arm_scmi/base.c
-@@ -14,7 +14,7 @@
- #include "notify.h"
- 
- /* Updated only after ALL the mandatory features for that version are merged */
--#define SCMI_PROTOCOL_SUPPORTED_VERSION		0x20000
-+#define SCMI_PROTOCOL_SUPPORTED_VERSION		0x20001
- 
- #define SCMI_BASE_NUM_SOURCES		1
- #define SCMI_BASE_MAX_CMD_ERR_COUNT	1024
--- 
-2.45.2
+[1/1] firmware: arm_scmi: fix voltage description in failure cases
+      https://git.kernel.org/sudeep.holla/c/eedc060cff72
+--
+Regards,
+Sudeep
 
