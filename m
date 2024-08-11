@@ -1,57 +1,57 @@
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D3018E20
-	for <arm-scmi@vger.kernel.org>; Sun, 11 Aug 2024 21:03:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE27158D98
+	for <arm-scmi@vger.kernel.org>; Sun, 11 Aug 2024 21:08:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723410241; cv=none; b=EotrkCeo3NqJKB8Y3X0LqQFXNlR4XrytiMQUvw+Fub5+Uo4JKCFOFHYX55cj952dB2aRk2FGaQT80MzwwUWYwCef8D5vTjoUX15Ix+noNUp1C8JR0E8PvEHJVjTuPhp3Vku0ciYCJTw6ULLLP726nBx+atlgy3FNCiOTaZJwvw0=
+	t=1723410523; cv=none; b=nRYCFqxB+kK/AtLpmqFgA9ncJpXJpsHjB9eyjKFCIzG9ruTNcHGWHRSYXDlIEw4H93PuRxYHdTvaaOrebl2ZzAnYksmpveKWmxomd3218DXusCQqvdSoZPcyFBh97Cq3RWxq8L66+Lw5yxBlSwIy5VMSlXlOMayaw94RqsvLf4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723410241; c=relaxed/simple;
-	bh=MT0y4VCRRLpriP/eAiBk2LS90ppp/gwCZQWbl04mSwE=;
+	s=arc-20240116; t=1723410523; c=relaxed/simple;
+	bh=7Hn/bSp2BUJ6gXnNHyy9Z6qc19T+6O3qXRwkvzIv4dU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gzWM46CB8RSsTzNcM05GPWA4lFpM/uLON+zq1F3WOYnj1OeWwSrrornUnkeTEX3PAUhh/TVxw8K812e5a2EojRo5sHFqLU+oYd47y15ZdoN+kcb0o8Gx0UzwQ1si0VGyEe712tmnmgnED2mumf94sQQ8WLPSZ8vu/EsCRdgCpWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=KBSyKK6+; arc=none smtp.client-ip=209.85.160.45
+	 In-Reply-To:Content-Type; b=Dd8FaXJb0C94GW+2ZWjXOGlHREWKp2Cc5V8MQJ56eoNp+RwxY8kDi4Iw6gDlDCTLlzuZn+1wJ6WLel/vP8saTkhfBUybkQKuoT5rB0M6mEr94LADbJcJ8PRcWomqwElg6K9yaDizfG4awva22FxUs1WBStVR2jXHrEqKP8LNTaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=P1TPYG3h; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="KBSyKK6+"
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-25e3bc751daso2471722fac.3
-        for <arm-scmi@vger.kernel.org>; Sun, 11 Aug 2024 14:03:59 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="P1TPYG3h"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1fd65aaac27so31583775ad.1
+        for <arm-scmi@vger.kernel.org>; Sun, 11 Aug 2024 14:08:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1723410238; x=1724015038; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1723410519; x=1724015319; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=hhwUYVWQargogqMYBVEgIa27lfgjOztqreLsgQMR2Qo=;
-        b=KBSyKK6+9oytZuwXRMvcHArtye69d9rQDIFVTKhXEA96wzGov7nktC0NrGmTHjgbkB
-         /My/FEWFC7HRzHqagx19VJAzVp4dDHWPHrqSXlpCc/eMO3v36MQ24WEeUauOVtc7tE2j
-         rEOpFqn7SNOV+uOqv89O+ix9DIoE7MYHJNJac=
+        bh=ieHPyKsOEMGrUP0hwI39W1ByoYVFpablUCilTuIezJU=;
+        b=P1TPYG3hvIZTUuWzPI8tTOvpmCAD0QID9iuyzR0bpdsCEHJY2DN3XhYMBnlm9xbp3y
+         0+0q/bkiVET4ljnZdZ0HN6swAT46sMIBbe0YVUbAs0//Nw/DGjBv6ZgQ2ONy9K+r66bB
+         h5dgGCqTC4FZIG8lfL/gGyOZDg5I/WbfkV4sU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723410238; x=1724015038;
+        d=1e100.net; s=20230601; t=1723410519; x=1724015319;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hhwUYVWQargogqMYBVEgIa27lfgjOztqreLsgQMR2Qo=;
-        b=JoOnuG3gzva9Shtb6zHK4X4u2j0sFiSiBeN7Ky5KIPVk+NpSTy87fr/1qHJAVuHZmW
-         f3H4mgCRFViveqk58sRsm48wCiVET7kmNhIuA5sE9snSWnfN0jbr26akvT6J6CMw2AWY
-         o6LeVGqHDfPPMWewHoGd+wJe7C5Kr0FmPcHTiFpzS5J3CryJaDFEGEg3pHl8fnOdYLDQ
-         GGfTdGlrOV3gKrHaifbK20Qo5qlxy7kCtc7dpRh3uA6GHe7qvwK8Wsqw3TBwTeAsuksV
-         j8kTn7ciJwRTwwegZqGBtSJrjR+8N1GcpofYVJCJnQANdfr0BY4PjIYl0hi2u48gxuyK
-         pY0w==
-X-Forwarded-Encrypted: i=1; AJvYcCV+FTG2F2Wqe4Zbo9oSefBTlhyrldht/HOqDZbjoEPHgkrtUz1a/V0108RzbrTJQg7fpJQmIzzDBi9U/XaZSs63I/L5dzhZvdA=
-X-Gm-Message-State: AOJu0YyRaDTJBVvEnxhhtNPAOpAc2dc8JE7G1bPes0SmjKujfEVKlgvl
-	12/1j7tnMrZvbEp9798big4AorHsTQmBcJty07k0xk5lOSxpjcjY24WX74GyKQ==
-X-Google-Smtp-Source: AGHT+IH/KDSs7jY3xVlPdKDzbeU9AQUy3KjKyKP9vIgMarHgOicfawNZYm+Cmc0SbcTNJs3UiPkmJw==
-X-Received: by 2002:a05:6871:4ccc:b0:26c:64f8:d6ba with SMTP id 586e51a60fabf-26c64f9d27dmr7398335fac.41.1723410238276;
-        Sun, 11 Aug 2024 14:03:58 -0700 (PDT)
+        bh=ieHPyKsOEMGrUP0hwI39W1ByoYVFpablUCilTuIezJU=;
+        b=aAsJxNMyM3IV/aeFs7fWLsyGpMEaTR9x+kppNIbOaxVNloo/ZwM3bPqyjuKHRyv97Q
+         iDALYV9jGpgyeDxJW6R787XDQTVze//Idmsk5zjj24eHVsR9Q7kXKzigY/lupfNnNOMD
+         Ktc49HNE1tsX+PY/3fKlWVSssdpi1ilGleuKku7VW24EBlvlFJcN0wADH9AB5BKZaHGm
+         hdui4XbcnRiZO5tBaiNspGgoPqsy5L+70wsuD+zp4iglKJQm3ffPCTmCRcRKtpGk5EL3
+         M39taXZHkSerrQHBfW0ClDcGg7P4RcqOcCNaX1lBAZYTFJ1uTa7yvO7HqQMTQNXVH0Pz
+         TI1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXFbn6mKD38RfxrTiYRu83BVlA3MYnPwFjVjY8jeiDOdLexcX9OUsLHkpUyfG3bwNQV5iObqiQ/8Vhtb35gtD6LlrUDI2FJ5eI=
+X-Gm-Message-State: AOJu0YxqOhUQJGqzi45+Uv3kWLfF37yLwOS2K1GTcsCHILguG1QCQvSP
+	H/5iNZEzSP+jghEVpa6HV26hCd3RpnyjcUL+OA3cICwefDGnnMu0i//Rf+IHbg==
+X-Google-Smtp-Source: AGHT+IFBBX2OgvowFrqdkgthVYHDyM4B72w+JBWFjYtLh1ieQuDGImIR0qaja9fp61TGHJOEIutTUQ==
+X-Received: by 2002:a17:902:ce87:b0:1f2:fcc0:66f with SMTP id d9443c01a7336-200ae61a40emr99450965ad.31.1723410519439;
+        Sun, 11 Aug 2024 14:08:39 -0700 (PDT)
 Received: from [192.168.1.3] (ip68-4-215-93.oc.oc.cox.net. [68.4.215.93])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-710e58ca645sm2837308b3a.94.2024.08.11.14.03.51
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-200bb7eed50sm26088775ad.10.2024.08.11.14.08.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Aug 2024 14:03:57 -0700 (PDT)
-Message-ID: <6d601728-7f38-400c-9a51-8170d33f0055@broadcom.com>
-Date: Sun, 11 Aug 2024 14:03:50 -0700
+        Sun, 11 Aug 2024 14:08:38 -0700 (PDT)
+Message-ID: <40d5782e-6b04-40c9-9b44-6960cd61eff1@broadcom.com>
+Date: Sun, 11 Aug 2024 14:08:38 -0700
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -61,22 +61,17 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/2] firmware: arm_scmi: Support 'reg-io-width' property
  for shared memory
-To: Peng Fan <peng.fan@nxp.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+To: linux-arm-kernel@lists.infradead.org
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
  Cristian Marussi <cristian.marussi@arm.com>,
  "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
  <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- "arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
- "james.quinlan@broadcom.com" <james.quinlan@broadcom.com>,
- "justin.chen@broadcom.com" <justin.chen@broadcom.com>,
- "kapil.hali@broadcom.com" <kapil.hali@broadcom.com>,
- "bcm-kernel-feedback-list@broadcom.com"
- <bcm-kernel-feedback-list@broadcom.com>
+ arm-scmi@vger.kernel.org, james.quinlan@broadcom.com,
+ justin.chen@broadcom.com, kapil.hali@broadcom.com,
+ bcm-kernel-feedback-list@broadcom.com
 References: <20240810214621.14417-1-florian.fainelli@broadcom.com>
  <20240810214621.14417-3-florian.fainelli@broadcom.com>
- <PAXPR04MB84598FFA4F7D8D1287D220D688842@PAXPR04MB8459.eurprd04.prod.outlook.com>
 Content-Language: en-US
 From: Florian Fainelli <florian.fainelli@broadcom.com>
 Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
@@ -111,64 +106,41 @@ Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
  7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
  95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <PAXPR04MB84598FFA4F7D8D1287D220D688842@PAXPR04MB8459.eurprd04.prod.outlook.com>
+In-Reply-To: <20240810214621.14417-3-florian.fainelli@broadcom.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 8/11/2024 5:42 AM, Peng Fan wrote:
->> Subject: [PATCH 2/2] firmware: arm_scmi: Support 'reg-io-width'
->> property for shared memory
->>
->> Some shared memory areas might only support a certain access width,
->> (e.g.: 32 bits accesses only). Update the shmem layer to support
->> reading from and writing to such shared memory area using the
->> specified I/O width in the Device Tree. The various transport layers
->> making use of the shmem.c code are updated accordingly to pass the
->> I/O width to the routines that need it.
->>
->> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
->> ---
+On 8/10/2024 2:46 PM, Florian Fainelli wrote:
+> Some shared memory areas might only support a certain access width,
+> (e.g.: 32 bits accesses only). Update the shmem layer to support
+> reading from and writing to such shared memory area using the specified
+> I/O width in the Device Tree. The various transport layers making use of
+> the shmem.c code are updated accordingly to pass the I/O width to the
+> routines that need it.
 > 
-> [...]
->>   }
->>
->>   static void smc_mark_txdone(struct scmi_chan_info *cinfo, int ret, diff
->> --git a/drivers/firmware/arm_scmi/shmem.c
->> b/drivers/firmware/arm_scmi/shmem.c
->> index 01d8a9398fe8..192262d63baa 100644
->> --- a/drivers/firmware/arm_scmi/shmem.c
->> +++ b/drivers/firmware/arm_scmi/shmem.c
->> @@ -34,9 +34,20 @@ struct scmi_shared_mem {
->>   	u8 msg_payload[];
->>   };
->>
->> +#define __shmem_copy_toio_tpl(s)			\
->> +	for (unsigned int i = 0; i < xfer->tx.len; i += shmem_io_width)
->> 		\
->> +		iowrite##s(((u##s *)(xfer->tx.buf))[i / shmem_io_width],
->> 	\
->> +			   shmem->msg_payload + i);
-> 
-> there will be a barrier with iowrite, use raw_write##s?
+> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
+> ---
+[snip]
 
-Makes sense, and that matches what memcpy_{from,to}_io() does, too.
+> static void shmem_fetch_response(struct scmi_shared_mem __iomem *shmem,
+> -				 struct scmi_xfer *xfer)
+> +				 struct scmi_xfer *xfer,
+> +				 u32 shmem_io_width)
+>   {
+>   	size_t len = ioread32(&shmem->length);
+>   
+> @@ -90,20 +144,19 @@ static void shmem_fetch_response(struct scmi_shared_mem __iomem *shmem,
+>   	/* Skip the length of header and status in shmem area i.e 8 bytes */
+>   	xfer->rx.len = min_t(size_t, xfer->rx.len, len > 8 ? len - 8 : 0);
+>   
+> -	/* Take a copy to the rx buffer.. */
+> -	memcpy_fromio(xfer->rx.buf, shmem->msg_payload + 4, xfer->rx.len);
+> +	__shmem_fetch_resp_notif_data(xfer, shmem, shmem_io_width);
 
-> 
->> +
->> +#define __shmem_copy_fromio_tpl(s)			\
->> +	for (unsigned int i = 0; i < xfer->rx.len; i += shmem_io_width)
->> 		\
->> +		((u##s *)(xfer->rx.buf))[i / shmem_io_width] =
->> 		\
->> +			 ioread##s(shmem->msg_payload +
->> shmem_io_width + i);
-> 
-> Use raw_ioread##s?
-
-Agreed.
-
+As Justin pointed out to me separately, the source pointer is different 
+for response and notifications, will fix that, too.
 -- 
 Florian
 
