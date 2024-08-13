@@ -1,33 +1,39 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 213E919AD56;
-	Tue, 13 Aug 2024 13:33:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E3ED19B5A3;
+	Tue, 13 Aug 2024 13:38:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723556029; cv=none; b=XRTnUtSA+WCPDa4ID9BNEKxfdj7zacHBoubsJUoFIXAxaAvJAHPDEpUf+EjcbuMCDRrv0QXQBVskmD+em1P+OWovLShPwA9rA1QKZ3i+dxFzUw1py2yaXrf28hR5QPRfuT1RpAe2XbTXZlsddyRcXdr3uyfFfduWgcnq0JUNojs=
+	t=1723556312; cv=none; b=tJC9zH6kUGqVekN8EvQtHj/6B0aHDMyIrf7hvRhV/quFQS14P3/5cJYyiLlPX2AnyqPpvHbAW+lhj7ZkpG0vYyOB4+kNBejR4yd3KaIAU+Feg0PbtWrA0BYWVmDIhUiHxn/Jq+BYhH3J7DY/3CCYPuUy7Eqt46qKQySmvJR/8/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723556029; c=relaxed/simple;
-	bh=Z1ZsCp/XO1iuTEc+GAwxMtnVpWs/xmuGXWBt8klgSnY=;
+	s=arc-20240116; t=1723556312; c=relaxed/simple;
+	bh=99oLz2v7wwXeI48Q0L4uteHXS7e1R3xayA4koPcKQzU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nuxc11KurOYxc/rcBVbCZbx5js71jVWYmKzZDZUbVUTISrQDgO/70UfMoNdDFaG65PX2VTa4AQ2eHc9TDJKR9WNgpJ6h66qFEwIAM2cYUdwvnpr/FhiJqbhexn/yRh+/PKtoRwgpTCcypen9YHNdJL0hqK0CZUL9XbAyp38HWX8=
+	 Content-Type:Content-Disposition:In-Reply-To; b=G2xboA4ugQ/TdySVbZLshynD0Ge+ijXnE1K3iPDdebrSo0kNlJTprm9TqTMA92AAZePOlJ8U+GIgD0VwIXGyaRoszOAGwEnNivyvfUW70Rg2aX0SARdz2PiDbSJfChUiptpwl8v1CGK3udXGuc6zhavD0hmlZOpkXNGKexK2hZI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A0C812FC;
-	Tue, 13 Aug 2024 06:34:12 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 77EDF12FC;
+	Tue, 13 Aug 2024 06:38:55 -0700 (PDT)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 28A173F6A8;
-	Tue, 13 Aug 2024 06:33:45 -0700 (PDT)
-Date: Tue, 13 Aug 2024 14:33:42 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 101FA3F6A8;
+	Tue, 13 Aug 2024 06:38:27 -0700 (PDT)
+Date: Tue, 13 Aug 2024 14:38:25 +0100
 From: Cristian Marussi <cristian.marussi@arm.com>
-To: Dhruva Gole <d-gole@ti.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, sudeep.holla@arm.com
-Subject: Re: [PATCH] firmware: arm_scmi: Update various protocols versions
-Message-ID: <Zrtgtu9FF4um7kit@pluto>
-References: <20240812174027.3931160-1-cristian.marussi@arm.com>
- <20240813112237.drwgvhor3eisaj6t@lcpd911>
+To: Peng Fan <peng.fan@nxp.com>
+Cc: Dhruva Gole <d-gole@ti.com>, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+	"saravanak@google.com" <saravanak@google.com>,
+	"sudeep.holla@arm.com" <sudeep.holla@arm.com>,
+	"cristian.marussi@arm.com" <cristian.marussi@arm.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>
+Subject: Re: [PATCH V2] firmware: arm_scmi: bus: bypass set fwnode for scmi
+ cpufreq
+Message-ID: <Zrth0Ypog2TXBlxf@pluto>
+References: <20240729070325.2065286-1-peng.fan@oss.nxp.com>
+ <20240813085703.zz6ltcxmrrbdgt77@lcpd911>
+ <PAXPR04MB84597171A959F40CD9A77C7B88862@PAXPR04MB8459.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -36,78 +42,106 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240813112237.drwgvhor3eisaj6t@lcpd911>
+In-Reply-To: <PAXPR04MB84597171A959F40CD9A77C7B88862@PAXPR04MB8459.eurprd04.prod.outlook.com>
 
-On Tue, Aug 13, 2024 at 04:52:37PM +0530, Dhruva Gole wrote:
-> On Aug 12, 2024 at 18:40:27 +0100, Cristian Marussi wrote:
-> > A few protocol versions had been increased with SCMI v3.2.
-> > Update accordingly the supported version define in the kernel stack, since
-> > all the mandatory Base commands are indeed already supported.
+On Tue, Aug 13, 2024 at 10:25:31AM +0000, Peng Fan wrote:
+> > Subject: Re: [PATCH V2] firmware: arm_scmi: bus: bypass set fwnode
+> > for scmi cpufreq
 > > 
-> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> > ---
-> >  drivers/firmware/arm_scmi/base.c    | 2 +-
-> 
-> I assume this patch supersedes [1] ?
-> 
-> [1] https://lore.kernel.org/arm-scmi/ZrZMLZq_-b9EFRgn@pluto/T/#t
-> 
-
-Oh Yes, I replied to myself on that saying that I spotted more versions
-ro fix.
-
-> >  drivers/firmware/arm_scmi/power.c   | 2 +-
-> >  drivers/firmware/arm_scmi/reset.c   | 2 +-
-> >  drivers/firmware/arm_scmi/sensors.c | 2 +-
-> >  drivers/firmware/arm_scmi/system.c  | 2 +-
-> >  drivers/firmware/arm_scmi/voltage.c | 2 +-
-> >  6 files changed, 6 insertions(+), 6 deletions(-)
+> > On Jul 29, 2024 at 15:03:25 +0800, Peng Fan (OSS) wrote:
+> > > From: Peng Fan <peng.fan@nxp.com>
+> > >
+> > > Two drivers scmi_cpufreq.c and scmi_perf_domain.c both use
+> > > SCMI_PROTCOL_PERF protocol, but with different name, so two scmi
+> > > devices will be created. But the fwnode->dev could only point to one
+> > device.
+> > >
+> > > If scmi cpufreq device created earlier, the fwnode->dev will point to
+> > > the scmi cpufreq device. Then the fw_devlink will link performance
+> > > domain user device(consumer) to the scmi cpufreq device(supplier).
+> > > But actually the performance domain user device, such as GPU,
+> > should
+> > > use the scmi perf device as supplier. Also if 'cpufreq.off=1' in
+> > > bootargs, the GPU driver will defer probe always, because of the scmi
+> > > cpufreq
 > > 
-> > diff --git a/drivers/firmware/arm_scmi/base.c b/drivers/firmware/arm_scmi/base.c
-> > index 97254de35ab0..9939b1d84b7a 100644
-> > --- a/drivers/firmware/arm_scmi/base.c
-> > +++ b/drivers/firmware/arm_scmi/base.c
-> > @@ -14,7 +14,7 @@
-> >  #include "notify.h"
-> >  
-> >  /* Updated only after ALL the mandatory features for that version are merged */
-> > -#define SCMI_PROTOCOL_SUPPORTED_VERSION		0x20000
-> > +#define SCMI_PROTOCOL_SUPPORTED_VERSION		0x20001
+> > The commit message itself seems very specific to some platform to me.
+> > What about platforms that don't atall have a GPU? Why would they
+> > care about this?
 > 
-> Just curious, in upstream master TF-A I see 0x20000 still? [1]
+> It is a generic issue if a platform has performance domain to serve
+> scmi cpufreq and device performance level.
 > 
-> [1] https://github.com/ARM-software/arm-trusted-firmware/blob/master/drivers/scmi-msg/base.h#L12
+> > 
+> > > device not ready.
+> > >
+> > > Because for cpufreq, no need use fw_devlink. So bypass setting
+> > fwnode
+> > > for scmi cpufreq device.
+> > >
+> > > Fixes: 96da4a99ce50 ("firmware: arm_scmi: Set fwnode for the
+> > > scmi_device")
+> > > Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> > > ---
+> > >
+> > > V2:
+> > >  Use A!=B to replace !(A == B)
+> > >  Add fixes tag
+> > >  This might be a workaround, but since this is a fix, it is simple for
+> > > backporting.
+> > 
+> > More than a workaround, it feels like a HACK to me.
+> > 
+> > >
+> > > V1:
+> > >
+> > >
+> > >
+> > >  drivers/firmware/arm_scmi/bus.c | 3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/firmware/arm_scmi/bus.c
+> > > b/drivers/firmware/arm_scmi/bus.c index
+> > 96b2e5f9a8ef..be91a82e0cda
+> > > 100644
+> > > --- a/drivers/firmware/arm_scmi/bus.c
+> > > +++ b/drivers/firmware/arm_scmi/bus.c
+> > > @@ -395,7 +395,8 @@ __scmi_device_create(struct device_node
+> > *np, struct device *parent,
+> > >  	scmi_dev->id = id;
+> > >  	scmi_dev->protocol_id = protocol;
+> > >  	scmi_dev->dev.parent = parent;
+> > > -	device_set_node(&scmi_dev->dev, of_fwnode_handle(np));
+> > > +	if ((protocol != SCMI_PROTOCOL_PERF) || strcmp(name,
+> > "cpufreq"))
+> > > +		device_set_node(&scmi_dev->dev,
+> > of_fwnode_handle(np));
+> > 
+> > I kind of disagree with the idea here to be specific about the
+> > PROTOCOL_PERF or cpufreq. This is a generic arm scmi bus driver right?
+> > Why bring in specific code into a bus driver? We will never fix the
+> > actual root cause of the issue this way.
 > 
-
-So, the thig goes like this.
-
-This patch fixes the version of the maximum supported version in the kernel SCMI
-stack, since it was wrongly left to the old version...wrongly becase we really
-support already all the mandatory feats for those versions..it ws just
-that the minor was not bumped properly...my bad.
-
-What happens, Kernel side, is that the we support all the SCMI versions up to
-the declared supported version above and, if we detect an OLDER version on the
-platform we will just silently backdrop to the older version as advertised by
-the platform, WHILE if we detect a NEWER unsupported platform version for a
-protocol, we will try a NEGOTIATE_PROTOCOL to ask the platform to use an older
-known-to-us version (difficult that a platform suppors multiple vers) and then
-we'll go using our newest protocol vwersion stack against this even more
-new platform protocol implementation.... best effort with a WARNING.
-
-This patch is just bumping that minors, since all the feats are really
-supported already (as said), but without this, it if it happened that we
-encountered a platform advertising the latest version we would have
-complained (as above specified) even though we really suppported that
-version.
-
-Having said that, TF-A and SCP can certainly still not have been updated
-(and maybe some protocols will never be updated..,) but that is not an
-issue from the Linux agent persepctive (as said above)
-
+> The root cause is fwnode devlink only supports one fwnode, one device.
+> 1:1 match. But current arm scmi driver use one fwnode for two devices.
 > 
-> Reviewed-by: Dhruva Gole <d-gole@ti.com>
+> If your platform has scmi cpufreq and scmi device performance domain,
+> you might see that some devices are consumer of scmi cpufreq, but actually
+> they should be consumer of scmi device performance domain.
 > 
+> I not have a good idea that this is fw devlink design that only allows
+> 1 fwnode has 1 device or not. If yes, that arm scmi should be fixed.
+> If not, fw devlink should be updated.
+> 
+> The current patch is the simplest method for stable tree fixes as I
+> could work out.
 
-Thanks for having a look.
+So this is the same root cause at the end of the issues you had with IMX
+pinctrl coexistence...i.e. the SCMI stack creates scmi devices that
+embeds the protocol node, BUT since you can have multiple device/drivers
+doing different things on different resources within the same protocol
+you can end with 2 devices having the same embedded device_node, since
+we dont really have anything else to use as device_node, I rigth ?
+
+Thanks,
 Cristian
