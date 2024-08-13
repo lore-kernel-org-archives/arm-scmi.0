@@ -1,90 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD2122F11;
-	Tue, 13 Aug 2024 19:29:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6AD1A76D6
+	for <arm-scmi@vger.kernel.org>; Tue, 13 Aug 2024 20:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723577346; cv=none; b=mdkHUn0HDNU7F0WpTwu1+h2h6iOhzMk3SjCXzPzZh7krI+wgDfzmno7Ez28OiOW6TVEdjIB1cXeV3nM2QakdUTWKkwbz7UqvDrQVauwwpIRCWU6DyvHw67cnCGw4dJR+R9QaC8bHj6tToMGK3Jfg/e0enZFb+do6T/HgW8Ngz84=
+	t=1723579737; cv=none; b=odC31SqjrygFsACryhLFrk82mcGQ+lXU1j9TEXY5TdI3gcCmkMlZBgP/bMD3L9RZt5xvn+knUrT4o7CdvN242sMycaD4km93EnlXXhpwsinovnvA9eeLLTUtl/+ItEVSPaD26o9UljaSB4BZu/qWrFRJoqJ/kpfercHbU0Mw3E4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723577346; c=relaxed/simple;
-	bh=qXiUz9rk9Z1eDSfcjvPfQIY0OVlSkMuZkPOqueyerGg=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=LAz2dtyvkvuIZJsnQMfdPs0dD/ZNN1iSJn54Yegxn7GhTdCt5lT96sprHyGxVq7wsFc7GTW9jEXpkOTk248QIj1KDNB0xhbOSJd/IXoOKuyAfk/gejG/7jh3zPBYB8bGPt03HdBd/DrBh7jzZTxUYH2yoTX0HLf0KhaonTvtuPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uwn8Pdob; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723579737; c=relaxed/simple;
+	bh=hHDx9OPdr+6z3WWxNY01JOJh0e1OR4Dh+NGFkJAh8Ts=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UZ3He0bSptr56r4rFz7ZnH8St37Q9MWeuZBZL6KzL2uN9xEeqOqzNvgWPZsXm3OnfMKAYa3XBVfiRVyNVXW//2ejhE+Zlsx2b6NBwgB7ZxxzIF3i2xXFvEJrvBFF+lv/Sd5SvQP4AowDfQB0XXJxdT991APdCzCgqKLrB2h7kVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=DW1NAk/M; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uwn8Pdob"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2B38C32782;
-	Tue, 13 Aug 2024 19:29:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723577346;
-	bh=qXiUz9rk9Z1eDSfcjvPfQIY0OVlSkMuZkPOqueyerGg=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=uwn8PdobnZbcg2tOwfa0buGw2WcFqu4sD9uq0EKIAZhaRISzXwgBbeAJfFULh3Pk+
-	 /YOR4ubYB2tGlVHmUFgCz1krQV0/YNYx8FZW+Hw1ixTY7gkMZDTWU7iw1jc3J/EaKV
-	 IWbfnrVZLBRxWCjv4v5zqlnrK3gNsaEEDjktRV7OW1AA/fU8rBv6tYFqTDixjIEkHj
-	 BHGgg3FBzyspIBLcwgpJIPKW7oQJrl8EGg33Fvc5pWEnqdm7dYV1QyFdfjxMvoS5BX
-	 HhosvbWzG6lerBlKKuAKZN9hH/aNAX9OkUCkpQ5WKoy42nChK51naGFClRc+6auzRX
-	 bkyJzznGzmSPQ==
-Date: Tue, 13 Aug 2024 13:29:04 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="DW1NAk/M"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-70d162eef54so4325705b3a.3
+        for <arm-scmi@vger.kernel.org>; Tue, 13 Aug 2024 13:08:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1723579736; x=1724184536; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=mogpSA6tnPpQ3+FsmEemAAY1GN9dexeB8hMBdlUeGFs=;
+        b=DW1NAk/MBAbiAWs/5f9OgtZ6/SQilsfbPTdZmVFFVyIjlYoAo//+78sQiU3U1Sxe6O
+         ZYvvKz2FiSBGBziz6U4VveGctxaFwcm1aaLaXOK+7PAml9XkKQfFrPXSVQ++OhI8R4CC
+         WRFi5vkOEbyk9qTLYEYM7WvRo6GOBC+dSKkTs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723579736; x=1724184536;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mogpSA6tnPpQ3+FsmEemAAY1GN9dexeB8hMBdlUeGFs=;
+        b=SeGuLgi0WD+52qS0CpV6hNOrhcWnQuVLyuFRhMgF+PnRoJWnXkRW20TBgaAhCLqSkO
+         bzQ9eqpy51yBSs3Jhp2r3UuLJUvYw1AFpf80AUirH8qJzXSe/AZDSiFbcHxOo7CjQ4wZ
+         Ejux+3dHYo5SwXQdaTSkVPtA2xJZ0s1KlxzRn/Jgsg4r8BfGDcbiT/g99hjA81mpZVUJ
+         7+mbFbcGqACdFyNqm8oHDweF28Ruyqq4MFm4+1dGkJK4UHY5fm54uujHBG1PI+HdurEL
+         M4kslNeSgeY4KDINOP4SSBPUTbGhbRxPNFyUlNF5Yewqt92LxCfzYXxJKhOSGcqf8hP2
+         fwwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU0naPn0UyiCR4DzQJQpivswPwRmm+moqOVb6Hpp15LL9lPtoDARuOldhQJK7jaaxiPu+FqfixH7jspxtawR3izQC7oGEu/3Rc=
+X-Gm-Message-State: AOJu0Yyc6saTILhJOTtRofx7VtFIPCOemWWe209Z3ZMYmHZVMEwuS4JL
+	QQTEExijB8Vi5Nummrg3Dzp18bhUaIZYHUmRbcNTCL7pq+kJQj2/JdOJse39tw==
+X-Google-Smtp-Source: AGHT+IGTfGWSQYpvtsfJqO7kAE/AtFBq4DJrEYoFpcg14OTafr6ULR0Hu/1x5uFVd1Sxv8uLMztUxA==
+X-Received: by 2002:a05:6a00:2da4:b0:70d:3174:262b with SMTP id d2e1a72fcca58-712673ee4d1mr1108891b3a.29.1723579735522;
+        Tue, 13 Aug 2024 13:08:55 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-710e5ab79casm6090240b3a.199.2024.08.13.13.08.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Aug 2024 13:08:54 -0700 (PDT)
+Message-ID: <8879cc2a-ba01-4760-ad4a-a40e1d2da3c5@broadcom.com>
+Date: Tue, 13 Aug 2024 13:08:52 -0700
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: bcm-kernel-feedback-list@broadcom.com, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Cristian Marussi <cristian.marussi@arm.com>, linux-kernel@vger.kernel.org, 
- Conor Dooley <conor+dt@kernel.org>, arm-scmi@vger.kernel.org, 
- Sudeep Holla <sudeep.holla@arm.com>, linux-arm-kernel@lists.infradead.org, 
- justin.chen@broadcom.com, opendmb@gmail.com, kapil.hali@broadcom.com, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: sram: Document reg-io-width property
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: bcm-kernel-feedback-list@broadcom.com,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Cristian Marussi <cristian.marussi@arm.com>, linux-kernel@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, arm-scmi@vger.kernel.org,
+ Sudeep Holla <sudeep.holla@arm.com>, linux-arm-kernel@lists.infradead.org,
+ justin.chen@broadcom.com, opendmb@gmail.com, kapil.hali@broadcom.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  devicetree@vger.kernel.org
-In-Reply-To: <20240813180747.1439034-2-florian.fainelli@broadcom.com>
 References: <20240813180747.1439034-1-florian.fainelli@broadcom.com>
  <20240813180747.1439034-2-florian.fainelli@broadcom.com>
-Message-Id: <172357734438.1612221.15779792680136216420.robh@kernel.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: sram: Document reg-io-width
- property
+ <172357734438.1612221.15779792680136216420.robh@kernel.org>
+Content-Language: en-US
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
+ xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
+ M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
+ JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
+ PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
+ KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
+ AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
+ IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
+ ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
+ bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
+ Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
+ tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
+ TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
+ zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
+ WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
+ IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
+ U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
+ 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
+ pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
+ MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
+ IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
+ gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
+ obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
+ N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
+ CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
+ C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
+ wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
+ EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
+ fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
+ MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
+ 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
+ 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
+In-Reply-To: <172357734438.1612221.15779792680136216420.robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-
-On Tue, 13 Aug 2024 11:07:46 -0700, Florian Fainelli wrote:
-> Some SRAMs need to be accessed with a specific access width, define
-> the 'reg-io-width' property specifying such access sizes.
+On 8/13/24 12:29, Rob Herring (Arm) wrote:
 > 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-> ---
->  Documentation/devicetree/bindings/sram/sram.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
+> On Tue, 13 Aug 2024 11:07:46 -0700, Florian Fainelli wrote:
+>> Some SRAMs need to be accessed with a specific access width, define
+>> the 'reg-io-width' property specifying such access sizes.
+>>
+>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
+>> ---
+>>   Documentation/devicetree/bindings/sram/sram.yaml | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
 > 
+> My bot found errors running 'make dt_binding_check' on your patch:
+> 
+> yamllint warnings/errors:
+> ./Documentation/devicetree/bindings/sram/sram.yaml:106:12: [warning] wrong indentation: expected 10 but found 11 (indentation)
 
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/sram/sram.yaml:106:12: [warning] wrong indentation: expected 10 but found 11 (indentation)
-
-dtschema/dtc warnings/errors:
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240813180747.1439034-2-florian.fainelli@broadcom.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+My bad, I had it corrected on the machine I used to do v1, but did not 
+carry that commit over. Will fix in v3.
+-- 
+Florian
 
