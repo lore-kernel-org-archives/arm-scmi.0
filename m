@@ -1,93 +1,90 @@
-Received: from relay.smtp-ext.broadcom.com (relay.smtp-ext.broadcom.com [192.19.144.208])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB2D1993AC;
-	Tue, 13 Aug 2024 18:14:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.19.144.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD2122F11;
+	Tue, 13 Aug 2024 19:29:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723572900; cv=none; b=WUhhulGzBJY0LjuVM859kArWCrIMMpa4SrUoccFcmHBuF3pvLjDvBS8hZbZnJTIPT3lHFTUc4Ljk1o3zx/sQBkei2FMbN7zOl+oxhFLkVZyrZ7+cwxYKHeANVXtKu43Y7B1xD5O0NV5S1m8ngKaZGd6jYbzPKrqSg5fnwm/Oe/4=
+	t=1723577346; cv=none; b=mdkHUn0HDNU7F0WpTwu1+h2h6iOhzMk3SjCXzPzZh7krI+wgDfzmno7Ez28OiOW6TVEdjIB1cXeV3nM2QakdUTWKkwbz7UqvDrQVauwwpIRCWU6DyvHw67cnCGw4dJR+R9QaC8bHj6tToMGK3Jfg/e0enZFb+do6T/HgW8Ngz84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723572900; c=relaxed/simple;
-	bh=JvTEShpEcA/48jrCX1sv5imVU10NR7KciDBLqDfV0e0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YM9LZLmrGTF/aqkwJ7M2MQmEl3sHLM0MwCnlhl6VGzLBowQyD35yM5nQtg34/6fMmZGf0wy/6fWcJNMR652kvkKfAAVR1nhHCEvRVmCUYwc3pDq6KsDwFeIgGzXxf54FgsqMQNXz5hj7rfuqCDTTV1kVPN2/uBdudkQyYvJ++q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=l/gk0oci; arc=none smtp.client-ip=192.19.144.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1723577346; c=relaxed/simple;
+	bh=qXiUz9rk9Z1eDSfcjvPfQIY0OVlSkMuZkPOqueyerGg=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=LAz2dtyvkvuIZJsnQMfdPs0dD/ZNN1iSJn54Yegxn7GhTdCt5lT96sprHyGxVq7wsFc7GTW9jEXpkOTk248QIj1KDNB0xhbOSJd/IXoOKuyAfk/gejG/7jh3zPBYB8bGPt03HdBd/DrBh7jzZTxUYH2yoTX0HLf0KhaonTvtuPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uwn8Pdob; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="l/gk0oci"
-Received: from mail-lvn-it-01.lvn.broadcom.net (mail-lvn-it-01.lvn.broadcom.net [10.36.132.253])
-	by relay.smtp-ext.broadcom.com (Postfix) with ESMTP id 366A5C0000EA;
-	Tue, 13 Aug 2024 11:07:49 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 relay.smtp-ext.broadcom.com 366A5C0000EA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
-	s=dkimrelay; t=1723572469;
-	bh=JvTEShpEcA/48jrCX1sv5imVU10NR7KciDBLqDfV0e0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=l/gk0ociroF9tWEQ8wC2FgTwJfC0ZWHs3OAY6sc+t/cTfQ+kbdNMndDDKxz27+Eu0
-	 5E0AtT/hLy4yGLd7R5Vuq1NN1jYf3U6+qJjRU+spGxI+Zj9j0qd33v5iLPuisn/by8
-	 rj0gDMfx8CP026JJZnsq+KOP2/RHZJ16ZbEVzBAU=
-Received: from stbirv-lnx-1.igp.broadcom.net (stbirv-lnx-1.igp.broadcom.net [10.67.48.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail-lvn-it-01.lvn.broadcom.net (Postfix) with ESMTPSA id 60F6218041CAC4;
-	Tue, 13 Aug 2024 11:07:46 -0700 (PDT)
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-To: linux-kernel@vger.kernel.org
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
-	arm-scmi@vger.kernel.org (open list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE),
-	linux-arm-kernel@lists.infradead.org (moderated list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE),
-	justin.chen@broadcom.com,
-	opendmb@gmail.com,
-	kapil.hali@broadcom.com,
-	bcm-kernel-feedback-list@broadcom.com
-Subject: [PATCH v2 0/2] Support for I/O width within ARM SCMI SHMEM
-Date: Tue, 13 Aug 2024 11:07:45 -0700
-Message-Id: <20240813180747.1439034-1-florian.fainelli@broadcom.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uwn8Pdob"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2B38C32782;
+	Tue, 13 Aug 2024 19:29:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723577346;
+	bh=qXiUz9rk9Z1eDSfcjvPfQIY0OVlSkMuZkPOqueyerGg=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=uwn8PdobnZbcg2tOwfa0buGw2WcFqu4sD9uq0EKIAZhaRISzXwgBbeAJfFULh3Pk+
+	 /YOR4ubYB2tGlVHmUFgCz1krQV0/YNYx8FZW+Hw1ixTY7gkMZDTWU7iw1jc3J/EaKV
+	 IWbfnrVZLBRxWCjv4v5zqlnrK3gNsaEEDjktRV7OW1AA/fU8rBv6tYFqTDixjIEkHj
+	 BHGgg3FBzyspIBLcwgpJIPKW7oQJrl8EGg33Fvc5pWEnqdm7dYV1QyFdfjxMvoS5BX
+	 HhosvbWzG6lerBlKKuAKZN9hH/aNAX9OkUCkpQ5WKoy42nChK51naGFClRc+6auzRX
+	 bkyJzznGzmSPQ==
+Date: Tue, 13 Aug 2024 13:29:04 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: bcm-kernel-feedback-list@broadcom.com, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Cristian Marussi <cristian.marussi@arm.com>, linux-kernel@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, arm-scmi@vger.kernel.org, 
+ Sudeep Holla <sudeep.holla@arm.com>, linux-arm-kernel@lists.infradead.org, 
+ justin.chen@broadcom.com, opendmb@gmail.com, kapil.hali@broadcom.com, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ devicetree@vger.kernel.org
+In-Reply-To: <20240813180747.1439034-2-florian.fainelli@broadcom.com>
+References: <20240813180747.1439034-1-florian.fainelli@broadcom.com>
+ <20240813180747.1439034-2-florian.fainelli@broadcom.com>
+Message-Id: <172357734438.1612221.15779792680136216420.robh@kernel.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: sram: Document reg-io-width
+ property
 
-We just got our hands on hardware that only supports 32-bit access width
-to the SRAM being used. This patch series adds support for the
-'reg-io-width' property and allows us to specify the exact access width
-that the SRAM supports.
 
-Changes in v2:
+On Tue, 13 Aug 2024 11:07:46 -0700, Florian Fainelli wrote:
+> Some SRAMs need to be accessed with a specific access width, define
+> the 'reg-io-width' property specifying such access sizes.
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
+> ---
+>  Documentation/devicetree/bindings/sram/sram.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
 
-- fixed typo in the binding and added reviewed-by tag from Krzysztof
+My bot found errors running 'make dt_binding_check' on your patch:
 
-- determine the correct I/O operation at the time we parse the
-  'reg-io-width' property rather than for each
-  tx_prepare/fetch_response/fetch_notification call
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/sram/sram.yaml:106:12: [warning] wrong indentation: expected 10 but found 11 (indentation)
 
-- dropped support for 1 and 2 bytes 'reg-io-width' as they do not quite
-  make sense, if we can support such smaller access size, then we can
-  support the larger 4 byte access width, too, and there are many places
-  within the SCMI code where ioread32/iowrite32 are used
+dtschema/dtc warnings/errors:
 
-Florian Fainelli (2):
-  dt-bindings: sram: Document reg-io-width property
-  firmware: arm_scmi: Support 'reg-io-width' property for shared memory
+doc reference errors (make refcheckdocs):
 
- .../devicetree/bindings/sram/sram.yaml        |  6 ++
- drivers/firmware/arm_scmi/common.h            | 32 +++++++-
- .../arm_scmi/scmi_transport_mailbox.c         | 13 ++-
- .../firmware/arm_scmi/scmi_transport_optee.c  | 10 ++-
- .../firmware/arm_scmi/scmi_transport_smc.c    | 11 ++-
- drivers/firmware/arm_scmi/shmem.c             | 81 +++++++++++++++++--
- 6 files changed, 132 insertions(+), 21 deletions(-)
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240813180747.1439034-2-florian.fainelli@broadcom.com
 
--- 
-2.34.1
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
