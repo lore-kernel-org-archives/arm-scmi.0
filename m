@@ -1,121 +1,75 @@
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322DB1B1401
-	for <arm-scmi@vger.kernel.org>; Wed, 14 Aug 2024 12:39:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F4CE1B143C;
+	Wed, 14 Aug 2024 13:31:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723639143; cv=none; b=RBl0lLvFE86woMfCaJjvKKts3Nu7pRhGbegSKPAkNDgAkdIbR8q9XrAj40eiOOrCgJ8Eeb6v1hVOJJb4ZymQu78rPGduVcSvb5/1+nc1UK9XwcBcBKKaBc4B/wh3vKJt0S+1Kwgdtk1ZG5dkfmg3Pzt5Uqmq/7e6/0M1JJzjEq0=
+	t=1723642294; cv=none; b=DV8erJFMHyhAbVJ516bEN7XVCsQ5mJEB+UJzWdOZH3DhUVfxxtmXLrF2fuFsPCRz9TwB9BwuZCC3Zfb33uE/WMrT+YiGmpR4BBpSp7Dvyc9QNd9MMFDc9qHUFIpiRbraaYiatk5EfViW2ueCBpXCRV3yzJoImpeHrBuWCJPWpUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723639143; c=relaxed/simple;
-	bh=z6829gbtT4yJLMB/tAU+iKzRD0DX8KmC7O9nErKM1Fo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gc/+hJ8hYCOTSTErQgeY+aOTc+ZgJFax6cwsG4hsZx2OxFOEO/NO+F/dW9bEGJ1QiTaF2OHIWULXOpw4lomrFx936RW3LQP3pTIgNMJbRrH5DEIXAOBlHSIhoXNDGGuomCMdT0x8gRIp+QFBLEaigxcXxH7mJP/AYlf9ei72fRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GXVqUyLM; arc=none smtp.client-ip=209.85.219.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GXVqUyLM"
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e115ee08372so451552276.3
-        for <arm-scmi@vger.kernel.org>; Wed, 14 Aug 2024 05:39:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723639141; x=1724243941; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=z6829gbtT4yJLMB/tAU+iKzRD0DX8KmC7O9nErKM1Fo=;
-        b=GXVqUyLMNTDiXRus4Oqn0XENhSqiCDwBpDaTia5EjykecDlXYt4xTFuNg+XQ1KoqHC
-         +ivceXJgOCvZlQZPdRuaUpxwIg+giqJmmfY6cTqPL04RbRkwhGwV0Wo8JDylhgFHRNId
-         EPxGR0CYNiQM9Y8wRO96Cxwy3e5pg382eUGH3rYLro3WuvadLqGoPMIbqafw0sojYUuC
-         VzHrd5h/WoK7k345eTXJdqaOVFHS17bWxMcuYlSNwwY8IrhgRUdwljAlSyBpX9Mu3xWR
-         3P3DBsIxsPwHq6YYOV5V/l4BlRtJpIpF0D7FZE/NTOidBc6HcuCg2n0zYmbUEE78qIck
-         elBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723639141; x=1724243941;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z6829gbtT4yJLMB/tAU+iKzRD0DX8KmC7O9nErKM1Fo=;
-        b=aeWmYjlfHsOcGpH9sbRzSc1GvJYWIkYlX0CKzdbjJE7eYL62BYKFP/+msaQE+cmZzc
-         Txj4m+vnM2tUp3Leke1pC9LgxBEc14m2GeOvjRVR/WZIhLENYxhBLg4Jz1htTgWS3tzP
-         eSvI1j/XeaWtmkgyFeR4oJWMyKjs8PzhsCq80YGsl+CJwasW+vRA8tA8r932f6u5FFU7
-         l9KAIi1bPM32bl37+96H3Vx2QHCJ9cCI+VTfYRkVSRMZM1hOrCW9VNQu6hMaOu8tSRBD
-         0eNKghPdkxGthFIw8g6WOG8ovnxenxbM2DR3AX71RmoBHhV7JXxzyPcdnF5Hrg6H2393
-         BsYg==
-X-Forwarded-Encrypted: i=1; AJvYcCW4z/t+1yN61iQxi8G55xEnfPfah5rSCSCtwnfOJiEibMLiA0a0yyORo2yUvLKoWL8QdxRnCmcrfIAJ9pq/WjcQt+JAZhiq1t4=
-X-Gm-Message-State: AOJu0YzNIICqzRCm+EwfDU/1OlRyX32I8Qvidd/CW0bS1E573xDkjcVk
-	VDSDewRkfIK3FpYDEGRbwjYo0QTNGwlFGe1zTL7jOrp2tTD0fZvc2AsyhelszwfJXsN7viTGvIv
-	ueE8X7XsUWCGbDJwpaKIxioGnLBNf9C0B+apUbg==
-X-Google-Smtp-Source: AGHT+IHkkRHVllAhB6FNadDbkbuoZnwmtVCgnklRd2o5H5jpRCX2OPGaEKLjzxOhtnG8i+L32f1vuXQ+Vt3WAf/9toQ=
-X-Received: by 2002:a05:6902:84a:b0:e05:fea8:4c77 with SMTP id
- 3f1490d57ef6-e1155aa39b7mr3207999276.14.1723639141116; Wed, 14 Aug 2024
- 05:39:01 -0700 (PDT)
+	s=arc-20240116; t=1723642294; c=relaxed/simple;
+	bh=3n3TsOeFrLkJU7atsRGpI4Lvu85dnoqAqBQEURmF/F4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GbbKz0SmmFOjZsJNE5eyqbcDib2ErpP1EB/SKYv3aQZ8FJjMfqpgvhw4BiaAYlexffJKEgOVwsx57nNQiyf2gzm2xkMdbyU1oQkvocdVMELJOiGKuID6swsXndqE1hIx/Xz/4XbX48KFsEtLB3bb/BcNvrOlGfdc8DAXnZ0QW+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6AE1DA7;
+	Wed, 14 Aug 2024 06:31:56 -0700 (PDT)
+Received: from bogus (e107155-lin.cambridge.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8248C3F73B;
+	Wed, 14 Aug 2024 06:31:28 -0700 (PDT)
+Date: Wed, 14 Aug 2024 14:31:25 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Sibi Sankar <quic_sibis@quicinc.com>, cristian.marussi@arm.com,
+	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-pm@vger.kernel.org, quic_rgottimu@quicinc.com,
+	quic_kshivnan@quicinc.com, johan@kernel.org,
+	Sudeep Holla <sudeep.holla@arm.com>, Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH] pmdomain: arm: Fix debugfs node creation failure
+Message-ID: <Zryxrdodn2Y2xsej@bogus>
+References: <20240703110741.2668800-1-quic_sibis@quicinc.com>
+ <ZoZ6Pk7NSUNDB74i@bogus>
+ <064274c4-3783-c59e-e293-dd53a8595d8e@quicinc.com>
+ <Zofvc31pPU23mjnp@bogus>
+ <CAPDyKFrESupeNS4BO8TPHPGpXFLsNqLPrUEw3xzr8oh8FsLHeA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240703110741.2668800-1-quic_sibis@quicinc.com>
- <ZoZ6Pk7NSUNDB74i@bogus> <064274c4-3783-c59e-e293-dd53a8595d8e@quicinc.com> <Zofvc31pPU23mjnp@bogus>
-In-Reply-To: <Zofvc31pPU23mjnp@bogus>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 14 Aug 2024 14:38:24 +0200
-Message-ID: <CAPDyKFrESupeNS4BO8TPHPGpXFLsNqLPrUEw3xzr8oh8FsLHeA@mail.gmail.com>
-Subject: Re: [PATCH] pmdomain: arm: Fix debugfs node creation failure
-To: Sudeep Holla <sudeep.holla@arm.com>, Sibi Sankar <quic_sibis@quicinc.com>
-Cc: cristian.marussi@arm.com, linux-kernel@vger.kernel.org, 
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org, 
-	quic_rgottimu@quicinc.com, quic_kshivnan@quicinc.com, johan@kernel.org, 
-	Peng Fan <peng.fan@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPDyKFrESupeNS4BO8TPHPGpXFLsNqLPrUEw3xzr8oh8FsLHeA@mail.gmail.com>
 
-+ Peng
-
-On Fri, 5 Jul 2024 at 15:04, Sudeep Holla <sudeep.holla@arm.com> wrote:
+On Wed, Aug 14, 2024 at 02:38:24PM +0200, Ulf Hansson wrote:
 >
-> On Fri, Jul 05, 2024 at 09:16:29AM +0530, Sibi Sankar wrote:
-> >
-> > On 7/4/24 16:02, Sudeep Holla wrote:
-> > >
-> > > If there are 2 perf domains for a device or group of devices, there must
-> > > be something unique about each of these domains. Why can't the firmware
-> > > specify the uniqueness or the difference via the name?
-> > >
-> > > The example above seems firmware is being just lazy to update it. Also
-> > > for the user/developer/debugger, the unique name might be more useful
-> > > than just this number.
-> > >
-> > > So please use the name(we must now have extended name if 16bytes are less)
-> > > to provide unique names. Please stop working around such silly firmware
-> > > bugs like this, it just makes using debugfs for anything useful harder.
-> >
-> > This is just meant to address firmware that are already out in the wild.
-> > That being said I don't necessarily agree with the patch either since
-> > it's penalizing firmware that actually uses a proper name by appending
-> > something inherently less useful to it. Since, the using of an unique
-> > domain name isn't required by the spec, the need for it goes under the radar
-> > for vendors. Mandating it might be the right thing to do since
-> > the kernel seems inherently expect that.
-> >
+> Sudeep, while I understand your point and I agree with it, it's really
+> a simple fix that $subject patch is proposing. As the unique name
+> isn't mandated by the SCMI spec, it looks to me that we should make a
+> fix for it on the Linux side.
 >
-> Well I would love if spec authors can agree and mandate this. But this is
-> one of those things I can't argue as I don't necessarily agree with the
-> argument. There are 2 distinct/unique domains but firmware authors ran out
-> of unique names for them or just can't be bothered to care about it.
->
-> They can't run out of characters as well in above examples, firmware can
-> add some useless domain ID in the name if they can't be bothered or creative.
->
-> So I must admit I can't be bothered as well with that honestly.
 
-Sudeep, while I understand your point and I agree with it, it's really
-a simple fix that $subject patch is proposing. As the unique name
-isn't mandated by the SCMI spec, it looks to me that we should make a
-fix for it on the Linux side.
+Yes, I did come to the conclusion that this is inevitable but hadn't
+thought much on the exact solution. This email and you merging the original
+patch made me think a bit quickly now 😉
 
-I have therefore decided to queue up $subject patch for fixes. Please
-let me know if you have any other proposals/objections moving forward.
+> I have therefore decided to queue up $subject patch for fixes. Please
+> let me know if you have any other proposals/objections moving forward.
 
-Kind regards
-Uffe
+The original patch may not work well with the use case Peng presented.
+As the name and id may also match in their case, I was wondering if we
+need to add some prefix like perf- or something to avoid the potential
+clash across power and perf genpds ? I may be missing something still as
+it is hard to visualise all possible case that can happen with variety
+of platform and their firmware.
+
+In short, happy to have some fix for the issue in some form whichever
+works for wider set of platforms.
+
+--
+Regards,
+Sudeep
