@@ -1,60 +1,60 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31641B4C5F
-	for <arm-scmi@vger.kernel.org>; Wed, 14 Aug 2024 15:04:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2387A1B5811
+	for <arm-scmi@vger.kernel.org>; Wed, 14 Aug 2024 15:04:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723647866; cv=none; b=rGhj4RECN0f2jIde9Wx+fhJOw3ZO6A5lWU5iades7OUDwZRwXIroxRouVICrbJHy3ZF4wX6EYWasBCZ0p6EHmzCMOB5L3Qe8WQa76Aa6G8yZbzBTBniyV0b45MCOssHN7+cThyQ2Hhl3SYkE+MiaCRyzqxWiL9B87jprw1Bq2QU=
+	t=1723647867; cv=none; b=po/X6GrtfNIDf4jtiVjlREY30MMrcwvW1/YZ6RTbOn8vOuPydweqC/1Q1iGPo+J1r16KAtkUJLhxNQlGGfwlaiU3FcYLeb9Y1o00NOKOuj1GlGqP+3C1UhJcQlm3ELeyEW9xYWBRNT+paFJxhlXj5lIhnhTdPElFzVVzpXdXAYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723647866; c=relaxed/simple;
-	bh=HKFKyZib5VKnJdUuDJakQAsIhOr5X3HZ7uhakSIt1BE=;
+	s=arc-20240116; t=1723647867; c=relaxed/simple;
+	bh=krE+SHok9HZd63yAd9AD4NQ/RWe30H45bGKZExWRrHY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RHlcmrlJneAIR7IzXInqqKa3nm1j2cMXJ13YZBs7AMiPzg+Z6lUL8F+ktl8qQ/9Fd//uhRr9zwYxM7QriZg8dXFC1q/Kmw4WhP9/p63UzuKp+Jl5prkcFFPLlwG7loZh8MehBDYUMLd9paCZin635Eyu2ughX5BmJDDEq6AjKtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=orDNm7Ao; arc=none smtp.client-ip=209.85.167.42
+	 In-Reply-To:To:Cc; b=G8K8ta/44AU51c2LVjbtvLNj80awfAlMNAiCK8JkqTgx1yeo9lVYyYLxOpkacI9DQYkeCD5rpSAEvWEupC6HGFwo9p/ZcTnL0E6506dvhU2H5p0O+vkRTHuMQXMC/hoJdfTPTZQO4ObCOHrYdfyz1zCrjLC00GLBbotYfI/7rVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wHRYqxwo; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="orDNm7Ao"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52efa16aad9so8699160e87.0
-        for <arm-scmi@vger.kernel.org>; Wed, 14 Aug 2024 08:04:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wHRYqxwo"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-429d2d7be1eso6072865e9.1
+        for <arm-scmi@vger.kernel.org>; Wed, 14 Aug 2024 08:04:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723647863; x=1724252663; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1723647864; x=1724252664; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ql92g3IlSel/JMsJTBmGL12yP4qS4j4UtrmTRytGT1s=;
-        b=orDNm7AoFP7TzEYZEMbQ98x7rfuzflilFXbLB6r46d1feAFzpArl8m16zfVU5FPA15
-         cZg/vrgj/fp3bVPG6dvJwXrzHHSYzIGCzaIrYooEEuR5SsdbuekwvCPwcWf8lChYw4IV
-         7M9FmYcgwXZKq2q9MlAZB+7yyC9HeLKuBPAnc3VBlLMhGwTKLKpB7zNu6xdtfK0fAjHS
-         ux8B/sKDZTzEkOraGkGSAe/3amkAern+B6LCKVJAA+qC1N1roYWoQEpfnOcniJEv4Xwu
-         2bAMmwhxOhxpEgdWDR/PWN1Rs83k9vNDZXBn0RBEwf7aT6gvon2tcdkYVkKe8DWVKalD
-         DMMQ==
+        bh=5O3B7PyV7G/t+42xNPn3Ro9dRzqDxhODbgBFGwCT/6c=;
+        b=wHRYqxwo8E0KAtu+UVZl3G3ST45mn8I+jDYG9/VF7z8Zd5IBGq8Jpe3duqwwoNfrtJ
+         j4Fyd79I11IqWAlW17kMmVGMRN7A7cNIaNWvLWufRIUcVVlua91LlvbGx3S5g9PyayrW
+         AW6pwiJft0aMICAu+a8wV1quoPGN9qWojH0Tk1JygZy5EKE/9IvJ89zfIciP3vW1tZwx
+         s9oWessgZcWaeGpXzMO3Nyohu5owaFBDrBcNwAFocCRFScotUNsKPcRH0RaVtFckWB54
+         BuWWDOk86xlsVyYemZdEAb7In85gjGHS3CdrVOqt0S4zKHOHwGINt7FXOOxBImzgIaMM
+         oRaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723647863; x=1724252663;
+        d=1e100.net; s=20230601; t=1723647864; x=1724252664;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ql92g3IlSel/JMsJTBmGL12yP4qS4j4UtrmTRytGT1s=;
-        b=t4RX4EOIgyJYeeIm/FidB78whu3L3ACaF3VnidWxVGF7mZnOIh+gdbmnupAQ50Ewr/
-         A4Yk9Qv4V1F0YiKh8CnmACxr2ARDCtTcGJlR2zhh168qzPqfiqEURCtG5U8ROnhSoO7A
-         awY1aYy0XJ/IHA7v/VNDUJE0uXHFeJ1KItFzifpk3x3K44AqeXYtvddNOxind9CxGfi+
-         CpzOzS0WmVQmMa0x4PIAnH3+GziSFzBcxmNAOSMGEGH6Lj9Ro8EVG6IzTvnEy6oWdVLU
-         qdirHjjJnGobYQAeRoO4lRToT5svVvivO40P0q262P92HZCwXAlyzhGCq3+MvzoyMxRK
-         7N8A==
-X-Forwarded-Encrypted: i=1; AJvYcCXWSOvljQuiGIio9fLBMPT3Cgh3ptaQla2M3V929zTxDBdJe7CZEKdKRdmST4X5XHt1iTy3lYOpJQmx5q0EWOKtKBB8MNhj3/Y=
-X-Gm-Message-State: AOJu0YwRkrndAH/pAFg4VhIJQuRs8/1dwncnJnEgAKMxmMbYAPEBKQYr
-	80slFii0DHXVlgRZKTGwqDa2MA7DxcsuhBj6hkfoU8GpnhZcmnTpQaaYer62w8U=
-X-Google-Smtp-Source: AGHT+IGu3DwjbZr/7noh9P2H71pz2ZOViSHbSyH2U0t4pwvKJvHyX+AJnV0p3bUqSkfSvtJejl7obw==
-X-Received: by 2002:a05:6512:239b:b0:52e:fa5f:b6b1 with SMTP id 2adb3069b0e04-532edbd598fmr1593960e87.60.1723647862671;
-        Wed, 14 Aug 2024 08:04:22 -0700 (PDT)
+        bh=5O3B7PyV7G/t+42xNPn3Ro9dRzqDxhODbgBFGwCT/6c=;
+        b=nywPEV5Z5A9Jr1bNVbeu7plz/cvxCB6QHCYLAIwD0yxIBPAoouuAD/cQzSMOwZvZXh
+         +sJ+5rFD9mf3tdUT/yY2M6+9pp1uh802lExMOUarZixFfNi2vGf7dZI+OOoIJpMQqOi5
+         qAC3TdUVZ3EWFhraGUFLjWNSMRM8ZqbQilZ92UKHzag5V3L6pgwmiRTfsZ4k+EceQA+h
+         K7aPTPcwuCYLSATT0ECx2YvckQuKuZ5FezmimRahDurGzJpNoXA5JKcF6+Gxp32zEqrg
+         +AMJcgWB8sPb75ysh4rdJz/HqE9sOJKk/EIOIN75btBssxT13QvjBsNs1ZdObXVZJQOK
+         v9FQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWvGXUhHHJWjA5l9byCRodWJGDX57fyk09NjjE10k/4iYCXe+eFsPlUVdVblSLJfC0zlCZJOgfleHtDNe2R/dqzMWrpH0LlRqw=
+X-Gm-Message-State: AOJu0YzgNhUcW1fxdU5a+pTaZs5UdPReFgtuQv+9N/08/J/ZZTKIHA4+
+	HYmERTpTDs+SkUMDj4+FuhcPBKq14aXsyTlSznZL4Fxbd2AqO1U5TAwr06HsvKw=
+X-Google-Smtp-Source: AGHT+IE6GnWj7iNSWQ5cVSoFgUQG2+GjrEsQBNVpM5I8gWXB0aUTdw2SAlkBE6MigloaWs//cNK/xw==
+X-Received: by 2002:a05:600c:3512:b0:428:e820:37dc with SMTP id 5b1f17b1804b1-429deeb550cmr19752005e9.7.1723647864513;
+        Wed, 14 Aug 2024 08:04:24 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.215.209])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded7cfbasm22313425e9.45.2024.08.14.08.04.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded7cfbasm22313425e9.45.2024.08.14.08.04.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Aug 2024 08:04:22 -0700 (PDT)
+        Wed, 14 Aug 2024 08:04:24 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 14 Aug 2024 17:04:07 +0200
-Subject: [PATCH 3/7] regulator: max8997: Use scoped device node handling to
+Date: Wed, 14 Aug 2024 17:04:08 +0200
+Subject: [PATCH 4/7] regulator: s5m8767: Use scoped device node handling to
  simplify error paths
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240814-cleanup-h-of-node-put-regulator-v1-3-87151088b883@linaro.org>
+Message-Id: <20240814-cleanup-h-of-node-put-regulator-v1-4-87151088b883@linaro.org>
 References: <20240814-cleanup-h-of-node-put-regulator-v1-0-87151088b883@linaro.org>
 In-Reply-To: <20240814-cleanup-h-of-node-put-regulator-v1-0-87151088b883@linaro.org>
 To: Matti Vaittinen <mazziesaccount@gmail.com>, 
@@ -76,21 +76,21 @@ Cc: linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2267;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2654;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=HKFKyZib5VKnJdUuDJakQAsIhOr5X3HZ7uhakSIt1BE=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmvMdp9nwqP+7IBK1IA/FESYOQpVx8C/ZOu7nHN
- dyB7jnGN/iJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZrzHaQAKCRDBN2bmhouD
- 19D8D/9qJRD6vc6koDrB7DKkh+SqxKz5mPXuv81NfvAKp+tFZIxwGsSE38f242goqHEvg0UqrX9
- dawZdUvXXPprvW8yQUvzaosVLYsXRc6VmfshmGrpqBOk1m7yHeJLDFbwYAvAxMbQSTjub+eHBnN
- R8a14Pkkize/+HCavGbDnRoeJskMzDuMt3Vpdic7fxO7D55FQ1aAT2NLQpMt3rOpCxnc+QNF84g
- PFN22YiJ/B2BWzAydXgdiNxzseufjng+ISc0XK5QCxtC9L9F0gNZnFZ7+iRLRu3rZgRGSJmFYfw
- QlC5J0Iwpm+sxUTvElWmuSTx/LXZhWZ0xVCPWhD92bnWtjRTKG+cPiVf1aKNTycw88Wq1a8dSv9
- PuPlf2Y3RIPsJgfNmgYoy/SarvcQ6DD5hm9lzdz9qRxq4ymiYnDQRj6sF7N0TFXHCnU3UDMyAs3
- t6UaPf5u1/NlLJCcIGwl1GFQnZVvVBESEkXWMWKTDNExWPgxXaM+/1kA56qZF+XzWvG6EEewhVL
- rT1bbgSgbq9UYwRaK3nj1lbQSF64DQqb5o0l5trm4M8Zvwj8zqtICo1+qGYnC1qWdB9aKaiH26S
- LGa+pzCVV7KA/5n8YKfdMYFDfROyoBI8vLci1zwaovbUlNk67VJYY41rGvFg5znsw5ne6eSX6/b
- 4rvA8VGg995OeZg==
+ bh=krE+SHok9HZd63yAd9AD4NQ/RWe30H45bGKZExWRrHY=;
+ b=kA0DAAoBwTdm5oaLg9cByyZiAGa8x2qgzdRJ7uWuEFgWetBG5o2CYJimnjQmNpYDIYru8BeeL
+ YkCMwQAAQoAHRYhBN3SYig9ERsjO264qME3ZuaGi4PXBQJmvMdqAAoJEME3ZuaGi4PXq6AP/jvd
+ Iimx4qgmPCWd3AGNnGR+rQ0isWDzcSZQ93/mymBfT9iD3jkwm1+U+h245332W//C7xyrDnDvFEO
+ O+z8IQ6QVDTylIa+aIly14fHTaGQ51qEEvVU/4sf0sKAjNFbclF4R8B8ODNyyyIQre4qEqDTQGa
+ WGHHsBoWTYTTdBm7XMgA5Kl2aEyoabBzM6rKFZ8emQ0+yGbR5L6XxJjlwjTWzRxdpS/ZFNBwmBQ
+ YPUHwKvyrgtoBpWY09moq3QNmVLyAxiOnXmeBG+EBYAA5m3FjTjwMo9JTHgjoxdSbHr6OAJ/eaI
+ 46o3/Ono7o1YrlF3563wCxSwiwLb24/vt/arV7ZmY4yhAoMTJKALvCCtbLpSeAjRMeTXumyOfhK
+ 6w06o9uPWfgzxDKpjkw8+MpmfWCMGKUUkAdzfbu/yem76YuWlt2iqkz00OKhYRXlgdrXaPzdejO
+ 5858LZ163EUFa8telnsJtiYQQFmgwNALmBejk/7EbDehPyqOMAY01nulvbpWYsRf220BlU7xN1K
+ TIWxwdmuQNzx9KhFJ56Gs1XGIvpf1dWOSaHM7FIhgymlpuFAgTx8wmDYs4vO5soTo9f9YAJ/0MG
+ D9q4QsGtXdqz37clEN9yMkXAIYuCFND1xYHehOvVX1iyvLTpyGXczNwxabb6T50odkjWwTKlxWk
+ +7TUE
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
@@ -99,31 +99,31 @@ handling and make the code a bit simpler.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/regulator/max8997-regulator.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ drivers/regulator/s5m8767.c | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/regulator/max8997-regulator.c b/drivers/regulator/max8997-regulator.c
-index cdbfb4561dd8..e77621b6466c 100644
---- a/drivers/regulator/max8997-regulator.c
-+++ b/drivers/regulator/max8997-regulator.c
-@@ -8,6 +8,7 @@
- // This driver is based on max8998.c
+diff --git a/drivers/regulator/s5m8767.c b/drivers/regulator/s5m8767.c
+index bfc0e143bf40..d25cd81e3f36 100644
+--- a/drivers/regulator/s5m8767.c
++++ b/drivers/regulator/s5m8767.c
+@@ -3,6 +3,7 @@
+ // Copyright (c) 2011 Samsung Electronics Co., Ltd
+ //              http://www.samsung.com
  
- #include <linux/bug.h>
 +#include <linux/cleanup.h>
  #include <linux/err.h>
+ #include <linux/of_gpio.h>
  #include <linux/gpio/consumer.h>
- #include <linux/slab.h>
-@@ -876,7 +877,7 @@ static int max8997_pmic_dt_parse_pdata(struct platform_device *pdev,
- 					struct max8997_platform_data *pdata)
+@@ -521,7 +522,7 @@ static int s5m8767_pmic_dt_parse_pdata(struct platform_device *pdev,
+ 					struct sec_platform_data *pdata)
  {
- 	struct max8997_dev *iodev = dev_get_drvdata(pdev->dev.parent);
+ 	struct sec_pmic_dev *iodev = dev_get_drvdata(pdev->dev.parent);
 -	struct device_node *pmic_np, *regulators_np, *reg_np;
 +	struct device_node *pmic_np, *reg_np;
- 	struct max8997_regulator_data *rdata;
- 	unsigned int i, dvs_voltage_nr = 1;
- 
-@@ -886,7 +887,8 @@ static int max8997_pmic_dt_parse_pdata(struct platform_device *pdev,
+ 	struct sec_regulator_data *rdata;
+ 	struct sec_opmode_data *rmode;
+ 	unsigned int i, dvs_voltage_nr = 8, ret;
+@@ -532,7 +533,8 @@ static int s5m8767_pmic_dt_parse_pdata(struct platform_device *pdev,
  		return -ENODEV;
  	}
  
@@ -131,9 +131,9 @@ index cdbfb4561dd8..e77621b6466c 100644
 +	struct device_node *regulators_np __free(device_node) = of_get_child_by_name(pmic_np,
 +										     "regulators");
  	if (!regulators_np) {
- 		dev_err(&pdev->dev, "could not find regulators sub-node\n");
+ 		dev_err(iodev->dev, "could not find regulators sub-node\n");
  		return -EINVAL;
-@@ -898,10 +900,8 @@ static int max8997_pmic_dt_parse_pdata(struct platform_device *pdev,
+@@ -544,18 +546,14 @@ static int s5m8767_pmic_dt_parse_pdata(struct platform_device *pdev,
  	rdata = devm_kcalloc(&pdev->dev,
  			     pdata->num_regulators, sizeof(*rdata),
  			     GFP_KERNEL);
@@ -143,16 +143,34 @@ index cdbfb4561dd8..e77621b6466c 100644
  		return -ENOMEM;
 -	}
  
- 	pdata->regulators = rdata;
- 	for_each_child_of_node(regulators_np, reg_np) {
-@@ -922,7 +922,6 @@ static int max8997_pmic_dt_parse_pdata(struct platform_device *pdev,
- 		rdata->reg_node = reg_np;
- 		rdata++;
- 	}
--	of_node_put(regulators_np);
+ 	rmode = devm_kcalloc(&pdev->dev,
+ 			     pdata->num_regulators, sizeof(*rmode),
+ 			     GFP_KERNEL);
+-	if (!rmode) {
+-		of_node_put(regulators_np);
++	if (!rmode)
+ 		return -ENOMEM;
+-	}
  
- 	pdata->buck1_gpiodvs = of_property_read_bool(pmic_np, "max8997,pmic-buck1-uses-gpio-dvs");
- 	pdata->buck2_gpiodvs = of_property_read_bool(pmic_np, "max8997,pmic-buck2-uses-gpio-dvs");
+ 	pdata->regulators = rdata;
+ 	pdata->opmode = rmode;
+@@ -581,7 +579,6 @@ static int s5m8767_pmic_dt_parse_pdata(struct platform_device *pdev,
+ 			rdata->ext_control_gpiod = NULL;
+ 		} else if (IS_ERR(rdata->ext_control_gpiod)) {
+ 			of_node_put(reg_np);
+-			of_node_put(regulators_np);
+ 			return PTR_ERR(rdata->ext_control_gpiod);
+ 		}
+ 
+@@ -603,8 +600,6 @@ static int s5m8767_pmic_dt_parse_pdata(struct platform_device *pdev,
+ 		rmode++;
+ 	}
+ 
+-	of_node_put(regulators_np);
+-
+ 	if (of_property_read_bool(pmic_np, "s5m8767,pmic-buck2-uses-gpio-dvs")) {
+ 		pdata->buck2_gpiodvs = true;
+ 
 
 -- 
 2.43.0
