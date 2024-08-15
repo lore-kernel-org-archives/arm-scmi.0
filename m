@@ -1,100 +1,118 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E9F1553BD;
-	Thu, 15 Aug 2024 05:29:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D692119A282
+	for <arm-scmi@vger.kernel.org>; Thu, 15 Aug 2024 10:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723699759; cv=none; b=lGqPMyLHpaAk6HG1Cwo7d+rZ84OyqpYchQbD/3BYvSvq7kNfkWKRwadk3GaDf/GZ1zNNLbaT3GEPiW4d7/dqJGiLGkbIr5TPN/m1d/C/Ie8XlJflfhwyjnKig6/9eeX43csFNxE/itH8+J8go3ZbHywmS1H5YBOKE5Eg8ny+DVg=
+	t=1723718814; cv=none; b=Ui/TSwuRun0pYmXIulro4eTyTvmbZ4u3oYCKSeLZJw9cMWEEYNJrRQJE2N4CWTcueX2r6CJOeN+pFvggLlYRvv3xHWNlA9aAdFUn4K9cya5IxPdcryVSBxj23ojFLdcQ0nBF9101kXgdU11fUe7XQpbhgg6+tNZV8mXxx7QjHIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723699759; c=relaxed/simple;
-	bh=2a9AgodhrhH3CTPo5Xri+BdzgtYXv5AFaphVQ/5mojw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ASwqkPwlgb+EeB/ctYjTaq4IWRjO2R2jNYJMBqLyLC+yuIWzsScYfLIfxY6ze0HdwO3uC5LKteEMs2AiZ0FqCnpKE+uTB828rJOWX32H64vfAA2gRAUlSJRNSnd3+mjlRUI5D21GYFa7zZGZXTAPqsuB00u7SbNFzQbdmto+uAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OaEJrADA; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1723718814; c=relaxed/simple;
+	bh=aNnphcw6ovD9CeIcwCw8owAs63PXvt0AN73nKw8befo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TaYTGPu8sLpYGS3ICD4ghdrM3KXlb+TYXsNK/qG/8H5bgNVXRc4rq4LNDCBK/pHvA1AiBaG15Ieu8e27TzXtQNxRzmYqaV/VapmaNVkbFlxrMCRJcxtZi6oBx5aQgTCJMvm9fuZS1bf/zJ5+bVzO1MZNPbeDWKsE2xEOfMdAgKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FEvMBtTA; arc=none smtp.client-ip=209.85.219.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OaEJrADA"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2f3b8eb3df5so2407181fa.1;
-        Wed, 14 Aug 2024 22:29:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FEvMBtTA"
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e115eb44752so817040276.0
+        for <arm-scmi@vger.kernel.org>; Thu, 15 Aug 2024 03:46:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723699756; x=1724304556; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rZS64AVtiuq4By/oS75dC4kq1+h/gjy5AfNcubB/vso=;
-        b=OaEJrADA7/Vx2gncSWZPSgLgO27Q38i2zjZMARiwFFpAkFgH+SzzM1CPJw4kZ6NRp3
-         2JoeJzxgllADbuR0MjgLC/y8fKt53YGceFU98WfJcbYcbWiv8vDpyvEkvC6CfkEYxwcq
-         tvu2I+r8P/AlURxoeTBA5H7grruYPp9cYVNsUAeXT4EGyeiownvB7dhbxO+FK7i/xImQ
-         gWnIE64EYhx/I0naUG05LW3KsTVBlwPkcl+BpP55Z2uO0ex2SLVuiYmpG8qB2nsfmfDe
-         M/kPElH7etUwKic5vNAQwFgMcBdKIhypbwzbaaY6Sv2jXnEDNE90gtXHDln9iSMR89/Z
-         zdng==
+        d=linaro.org; s=google; t=1723718812; x=1724323612; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aNnphcw6ovD9CeIcwCw8owAs63PXvt0AN73nKw8befo=;
+        b=FEvMBtTAj2WR00DOQPl/fee+0EdzvdAlbZbg1/Q+qsnn9Xpte2GnA3Z8SXuJN1kh5e
+         bd239GTGerwNVk+todb+42JM5YuXgBvnHTBO54aZIzuQLDWtSIvlJwFv3LnV3DGF1lj/
+         YE0932OnjHaBGqSymR4EywhuZjiIiQyQaxJnYURzaWyJllJ4W5IEp7+E5NiO+OiyFl2i
+         zBj5ReB+HP/VO+d0qQs4qPWWlulSiq7FsheyQNPEOTEMHRIXrLZnQ6J3AXhSZGdWIgx5
+         pBNw0Xqe7Byg3bAzElPRzAnHkf4ygkiWxEmlhoebF8cb3ytY55HzWijbc6oaoGLIx/l7
+         onFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723699756; x=1724304556;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rZS64AVtiuq4By/oS75dC4kq1+h/gjy5AfNcubB/vso=;
-        b=O2+DDNxzFaCpHhXZJf4I5Z3FHllZkv/TrQ5j+WN/fZn3saTx9k7C/ySy2tHlvGF76v
-         zYdnkl/10CWSkqBvH3dwOe1raP8wh9aXqYkYR9pT8tSf1PlZslk45qToSze+O3IgLI3S
-         JBO6uykByiSCWreASkOCaZGw/s3kIYDpjI/yVt07zjp++7lV63MkfVu+PFD4efZlzeEG
-         owP20L6Cj5yrQTPCasN9NCyiZFz5+WYbGkia99aOTNacSgnWuK5gqF3cP3NY2furyOD/
-         tTViFPfkA/3iKVXSs7f7ShHYSjThjWtEGcJ33b42OleokktbUdZg4D6AILBCbd6rsKdA
-         gWjw==
-X-Forwarded-Encrypted: i=1; AJvYcCWpL7avb062dGUBshborqqQmJ8oBMKzvOAEJNCFEo/GylTnQFc67kyGqc0wBD9pDsu2T/3eCj9EGFpmHOidO2KvtlT0VrCVHiSDD0FN9TumjEap3hiX98iijhDEOrw5LJ1sY25RntQKGcoKHKuYtpuM9zresVU8puxp25paSTfI+MTnH56zW4EXiAk=
-X-Gm-Message-State: AOJu0Yyq5rPUaCdId5PseTdJW0/3YL9ApiWiQEUYwZX0Byaxrhj6LbnV
-	BIybTNwKA8kSXQJDzgtyec5UuWEFNZMPuEKQzM7gIpLe3vBiaGM6
-X-Google-Smtp-Source: AGHT+IGycwR4CF+14CvU4aVgAtzgZxOGWE6QAjBwpP5moXbwFV6NbNV7ekPWJ2Phb4XyRpTlTbWbrg==
-X-Received: by 2002:a05:651c:8d:b0:2f2:9f39:3e58 with SMTP id 38308e7fff4ca-2f3aa301372mr28041681fa.48.1723699755321;
-        Wed, 14 Aug 2024 22:29:15 -0700 (PDT)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8cfe:d6e7:6701:9dfd? ([2a10:a5c0:800d:dd00:8cfe:d6e7:6701:9dfd])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f3b746cf56sm863451fa.18.2024.08.14.22.29.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Aug 2024 22:29:14 -0700 (PDT)
-Message-ID: <f591cbac-8bbf-4112-b619-c6eb2e5de05e@gmail.com>
-Date: Thu, 15 Aug 2024 08:29:13 +0300
+        d=1e100.net; s=20230601; t=1723718812; x=1724323612;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aNnphcw6ovD9CeIcwCw8owAs63PXvt0AN73nKw8befo=;
+        b=nmkUFfD+Iig0OYL0wkdaMVtvHOsZI7eQz3Z+W4NAZg7XvtQZVftpHX4j+Q366i+6kc
+         4xJbM0EUClZ70h68Z6YP/ikRyL+qHbGpoE2k7n4oIWAE8t9UjePJNXHW0bJ1T/mDFPHU
+         8BsrxVYyvjqbK9IjWq4NCyLI71+zVoEmucNjcTbL+AJxIurC/1QZRvPSofuLlFOjsyMm
+         e2s55T7RAQ6V9guXPqaX0735+TQ4HqugqRaQDOyekzLyR7UYgzWGVKie8J5U/fQHwqT/
+         uEWsN5qDLn9rvkfMx/z3vyuasLVafWNI6ucHAKikqA1N8Woh/Ya44ZVIBV+Dq+5MrhQY
+         owZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXlyvottKNPNxIZtpSHsyAtskYWKLsWw9KJaEg97Hf6p2wf5OHcRbP1Q64cjsGbsbsbJJpDvtHVoShVrvY7JuDM8UGeSuyhUBc=
+X-Gm-Message-State: AOJu0Yx8QotgkEjkij0dWntol1G5Gl4OPaBNozb6ucLRuHrNyttgm9M2
+	ezlQ0KB4zx7el+9C4H8p+wNpfHb++ZyvZ0eu4IlMZmIVCyOYGAEwmMt/K9hj66OOuiBuzPoAZ6B
+	wU4wW7wzoeH6tydJqbe6fwJPEQ7Wq4KBukNETltHhc9iItOooYLg=
+X-Google-Smtp-Source: AGHT+IHR5za73VDRCro7qpXpLbNTcfYm0rbfqguQzgbn4WLGm+KGmWjJsguvyGGakAyVo03nrwztDauA9VWHNATK0nQ=
+X-Received: by 2002:a05:6902:2291:b0:e08:7bf9:4d65 with SMTP id
+ 3f1490d57ef6-e1155aae058mr6488901276.24.1723718811912; Thu, 15 Aug 2024
+ 03:46:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/7] regulator: bd96801: Use scoped device node handling
- to simplify error paths
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
- Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, arm-scmi@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <20240814-cleanup-h-of-node-put-regulator-v1-0-87151088b883@linaro.org>
- <20240814-cleanup-h-of-node-put-regulator-v1-2-87151088b883@linaro.org>
-Content-Language: en-US, en-GB
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20240814-cleanup-h-of-node-put-regulator-v1-2-87151088b883@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240703110741.2668800-1-quic_sibis@quicinc.com>
+ <ZoZ6Pk7NSUNDB74i@bogus> <064274c4-3783-c59e-e293-dd53a8595d8e@quicinc.com>
+ <Zofvc31pPU23mjnp@bogus> <CAPDyKFrESupeNS4BO8TPHPGpXFLsNqLPrUEw3xzr8oh8FsLHeA@mail.gmail.com>
+ <Zryxrdodn2Y2xsej@bogus>
+In-Reply-To: <Zryxrdodn2Y2xsej@bogus>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 15 Aug 2024 12:46:15 +0200
+Message-ID: <CAPDyKFqmV7yvMdLjGhDHJN4CFiUun3FXprEk7uGFV_qmn9vA8Q@mail.gmail.com>
+Subject: Re: [PATCH] pmdomain: arm: Fix debugfs node creation failure
+To: Sudeep Holla <sudeep.holla@arm.com>, Sibi Sankar <quic_sibis@quicinc.com>
+Cc: cristian.marussi@arm.com, linux-kernel@vger.kernel.org, 
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org, 
+	quic_rgottimu@quicinc.com, quic_kshivnan@quicinc.com, johan@kernel.org, 
+	Peng Fan <peng.fan@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 8/14/24 18:04, Krzysztof Kozlowski wrote:
-> Obtain the device node reference with scoped/cleanup.h and use scoped
-> for_each_child_of_node_scoped() to reduce error handling and make the
-> code a bit simpler.  Add also brackets {} over outer for loop for code
-> readability.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Wed, 14 Aug 2024 at 15:31, Sudeep Holla <sudeep.holla@arm.com> wrote:
+>
+> On Wed, Aug 14, 2024 at 02:38:24PM +0200, Ulf Hansson wrote:
+> >
+> > Sudeep, while I understand your point and I agree with it, it's really
+> > a simple fix that $subject patch is proposing. As the unique name
+> > isn't mandated by the SCMI spec, it looks to me that we should make a
+> > fix for it on the Linux side.
+> >
+>
+> Yes, I did come to the conclusion that this is inevitable but hadn't
+> thought much on the exact solution. This email and you merging the origin=
+al
+> patch made me think a bit quickly now =F0=9F=98=89
 
-Acked-by: Matti Vaittinen <mazziesaccount@gmail.com>
+Alright, great!
 
-Yours,
-	-- Matti
+>
+> > I have therefore decided to queue up $subject patch for fixes. Please
+> > let me know if you have any other proposals/objections moving forward.
+>
+> The original patch may not work well with the use case Peng presented.
+> As the name and id may also match in their case, I was wondering if we
+> need to add some prefix like perf- or something to avoid the potential
+> clash across power and perf genpds ? I may be missing something still as
+> it is hard to visualise all possible case that can happen with variety
+> of platform and their firmware.
+>
+> In short, happy to have some fix for the issue in some form whichever
+> works for wider set of platforms.
 
--- 
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
+Okay, so I have dropped the $subject patch from my fixes branch for
+now, to allow us and Sibi to come up with an improved approach.
 
-~~ When things go utterly wrong vim users can always type :help! ~~
+That said, it looks to me that the proper fix needs to involve
+pm_genpd_init() in some way, as this problem with unique device naming
+isn't really limited to SCMI. Normally we use an "ida" to get a unique
+index that we tag on to the device's name, but maybe there is a better
+strategy here!?
 
+Kind regards
+Uffe
