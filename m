@@ -1,137 +1,101 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269841B3F28
-	for <arm-scmi@vger.kernel.org>; Wed, 14 Aug 2024 15:04:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29C92E64A;
+	Thu, 15 Aug 2024 05:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723647873; cv=none; b=TJ+g98Zmzt1DiPFS/LOCTeoTZt06nmkHedJt01u9HL9Qh/vIrTLx8DZrXA/DTpluZuCJhhnemr73WBPklatSR/1TP1KH8t68Q9hI+BNGHXYTgF8M1JGFfULvVmmh4/AV/3bd1FAZjSlXceSUrM2FlX+kgPoSlz7ji/ylSayECxc=
+	t=1723698937; cv=none; b=HD+9J1NGmsVgaehnRc/0s/PjOdfwDvxIp8XZBdJOsFPVbQW49hw3I/c6wJBe3cralEPc9uMF8thSHnwn2eZt3KIGfhkRAYfy5yaC+pCI5kAfZnyWJm2Mx2adXdxjBlLosJ1MfvuCsZnrYbFTM6lrKG4NhgzfTeXOVJ/5n3rwYSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723647873; c=relaxed/simple;
-	bh=OoJl37VhWa2/ok3yWXn0smE+qe2VclKzB2yD7J0hAwk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=A0QZ8XWG+gOmyHwWoZleTn6qep1+0x387dN7i3pX9GZrGLCba0rPPMSzvzkcdo62rK7Hd68GJeHfwSvyEd65bYpr0qQg2QSFiFRg05P+1qw7KASBnJRnB/88zQosB+dmPa96U/U7yc7LavOPeEaTRZUDvwcIxGkADwl8ygkkqJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pdS568tv; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1723698937; c=relaxed/simple;
+	bh=FTpidOG8cdUwdkqLhqS7826a0ol9deT8Ic8FFg1dXQY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pZKnKDRPxdPOHLflFfTF9wS3MJBK90U4M232fFymcJyFtDMP+f5YQxCOgPz9sZmLkcGc5ISjH1AnUTkrLdZKE8qEvUbeOQWrcAvn3X3IRdkHQAwHYpwSPANwQwfvHAGRiMc9MJxH9n2uRbr4j9Dv3WTe0UxrSrmv4NCzNYRareI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X9OXKooB; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pdS568tv"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-37182eee02dso161536f8f.1
-        for <arm-scmi@vger.kernel.org>; Wed, 14 Aug 2024 08:04:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X9OXKooB"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52efef496ccso450290e87.1;
+        Wed, 14 Aug 2024 22:15:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723647870; x=1724252670; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ACUznNue5Vc1PvREpF5uL8d3frSCLJ2XL4UNUgbbF6Q=;
-        b=pdS568tvUza2UEI4RAWVRTasjZ4Rk2RWjZ/u9U5hltwn0ye8WDmEAJMPTu/Dn9UNS5
-         XS256qiK8h4BKzp29peHYAgJc/yH18Nmoz7lTmJSV+rOeXgHZvkIsps0K+1H8muiLZUf
-         Nvpnp467wUma71cs7GYegcX0TG6Pb2YqVNvZmNRcqwBgzf0rtDgISBUfR5g6PMpNeijs
-         voI7Ynvs39+fuBgED6KMqvHmsqPWiA0Av4zwHaIf6ExEbuRyr61RQ/fOPleKkltRtwOo
-         rKdkGj55it/rtP1GJF9rD/rasTv3yl3ADgBWnUW7WwnJS1I7is26aLbP2xO96B9rYLk9
-         Enbg==
+        d=gmail.com; s=20230601; t=1723698934; x=1724303734; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BlmMnfZnyk9sQ31EPnuWHDN6TPycLzZuMRASfe7DhFU=;
+        b=X9OXKooBteugvr80n5fo3H4igKtysXX7X7eQmFzsxAkIIz8Sc4m0b+VeiaJ1GbNyLD
+         /IP1WFR6Qx2Vcs4gahjfRQIqoEa5rUe+rqROTYfVBDaIvyl1p2qz+qz3llwVnMCv5IvO
+         1kqy+Cgx3m5eKBErC9PNt94GCKRe7jkYhzVzf1u1m1hD6OJNwFDUrUxlZ0uHRthBv6MF
+         CQlrASP7lPcv3qQcgCdsobVxtZC7S330RvOO6sFKClow2HOvUVsOIQ6SP4Dc0HvyBy6Y
+         WGnsVz12xe6hreOF5Lr4Z5oOdrerag70IaTFaHX8j55C8NpZsj8ubXS8Xbqpg2iAACs2
+         BiCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723647870; x=1724252670;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ACUznNue5Vc1PvREpF5uL8d3frSCLJ2XL4UNUgbbF6Q=;
-        b=AkjsHS+eRN2Q716SMSRcSvtyaxKPeKlEY3tgAktHyEwNKDD/TnpviOyhjpaLNOGxFv
-         qAsXNx628M+azRFRbpsvdQQCPhYK+dnVXVuUP9PSAxHt42MgscuT+Z1/utQSaIxGd4rJ
-         GALrinAnqp05lAQkcq31I1IV5cNTwRNojli7MINezd1mkKhFXWruV9imArUqWGfThYE3
-         vJ5RH4lIMMocMUCncYMt/9HScBicZLUl9YD9FNg+QFDD0Ou7Xqi2Bt4D0V1B2cVr2t8W
-         qJQUg/yvcNGGl2Qz8AjSRRRmgAIYaXjakBXkicZxlHoqgd3+WRNqPE3ZktTyod6F6soj
-         GYfA==
-X-Forwarded-Encrypted: i=1; AJvYcCUSBG5KowP1u+x8TSPVL0aBX6+ZyisrOlpyXcfDqdsAX6ZEiJl1Y7XhVnbmXIKBpxRgN08KR11DbFCnSbNArwV4dM1QSwfLtNo=
-X-Gm-Message-State: AOJu0YwMkVU+tJyKfH8uAhbSz5gLofiL7SRIqQzguLTpvk1kgF+ZNfOE
-	v/yvwOkA0lQ/RWQD32irka1aXUwRt+rsC7PIo3SUHW3fAiqqBYIOzuS3KjZHUzw=
-X-Google-Smtp-Source: AGHT+IF+u9tmYTlfOnF0EY/D0BDpgP+0OTvzQjNTeJeoB9+1fHj7S8CddXYLDq5O/F0RKg2kn5vuxw==
-X-Received: by 2002:adf:f3ce:0:b0:36b:bb7b:9244 with SMTP id ffacd0b85a97d-3716e3eaecamr5350141f8f.1.1723647870395;
-        Wed, 14 Aug 2024 08:04:30 -0700 (PDT)
-Received: from [127.0.1.1] ([178.197.215.209])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded7cfbasm22313425e9.45.2024.08.14.08.04.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Aug 2024 08:04:29 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 14 Aug 2024 17:04:11 +0200
-Subject: [PATCH 7/7] regulator: scmi: Simplify with scoped for each OF
- child loop
+        d=1e100.net; s=20230601; t=1723698934; x=1724303734;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BlmMnfZnyk9sQ31EPnuWHDN6TPycLzZuMRASfe7DhFU=;
+        b=eObl++m2ZmDL08TRHlEKzztpPWfkAZrxsLK0J56f9aDe/ELa3DeZHFLWEKwD8qkRqg
+         dZTmoyWon0wNAmYWDFHth4n187BzpntS9kHI9dXTmrqpNPv3xoAJyPs65NI/TpZAEdCS
+         aUgVasu4+Z4JoEEtT7mY7Pd2fmfMmkXlVHjApLz/KDXkqIIY6JKhP2xZinzxGa9+EccO
+         4+uHtIU3Gzn8M4EQLuC4GUcORnm14+6Bu/a4Jfa07miLW7GXO3g8c9sWVb4IGWffTGlk
+         Yt2nBbJz26CeDrb6gbF448N9jVctY2pIqaiZRr5qdInUN9brl+on8y6iyIJAZk66z5b/
+         rAIA==
+X-Forwarded-Encrypted: i=1; AJvYcCWD1GPKrq7ic190Slytt7FuzAvMow6RUFcWCOduZmceXb93Awmc29gBSIEnE53iNl1A7L0e2l2NGHTj1Q7DCWrD0uLcFUV2QVbmjIL4voS+ZFDyZOZ5fP6jQGb6JEWrJdtKI2p+uBg4M+RCbpo+5weZj5kaFl40xn/t53fyZuxwzRTCt87n3teJNDA=
+X-Gm-Message-State: AOJu0Yz7CP10TZOqp8BnMdLS2SQG8uwVUlomTzAcw0T5tskvZlLRARbR
+	Z9EGoWyUKNp0aLucRXlwzoKhf23iIp8pR347F8ZKxau2fWPupOJjvg1L3w==
+X-Google-Smtp-Source: AGHT+IFDckC/7w4xnBRZxUCAEKN6Sz0PyXZEyt9EmhlTiXEASI3OMzRo88vx9HWFpiahjrZdSE3V5Q==
+X-Received: by 2002:a05:6512:104e:b0:52c:8a6b:6071 with SMTP id 2adb3069b0e04-53308099ac6mr399847e87.30.1723698933071;
+        Wed, 14 Aug 2024 22:15:33 -0700 (PDT)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8cfe:d6e7:6701:9dfd? ([2a10:a5c0:800d:dd00:8cfe:d6e7:6701:9dfd])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5330d4243d5sm84560e87.245.2024.08.14.22.15.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Aug 2024 22:15:32 -0700 (PDT)
+Message-ID: <daca2d03-d52d-41a3-bf68-0f524aaa603c@gmail.com>
+Date: Thu, 15 Aug 2024 08:15:31 +0300
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240814-cleanup-h-of-node-put-regulator-v1-7-87151088b883@linaro.org>
-References: <20240814-cleanup-h-of-node-put-regulator-v1-0-87151088b883@linaro.org>
-In-Reply-To: <20240814-cleanup-h-of-node-put-regulator-v1-0-87151088b883@linaro.org>
-To: Matti Vaittinen <mazziesaccount@gmail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/7] regulator: bd718x7: Use scoped device node handling
+ to simplify error paths
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
  Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, arm-scmi@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1391;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=OoJl37VhWa2/ok3yWXn0smE+qe2VclKzB2yD7J0hAwk=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmvMdt9P9crcfh3Lp+LZmfqSw+yRnKP3vsTTgTz
- 4j9XGKy5+2JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZrzHbQAKCRDBN2bmhouD
- 14guEACS3kV18JgvbTMljOcJKLNuprPK6EWt3rzyAwJz6S/prQ5m8/dJcjR0LfXPOSIKpr8T07P
- RjGOLmrYXsdGs5RKuWilAcUETR+HBy75Fd7L6qWKvOgiEkF3f/zxxnrGJr1TywAhiJzNyZxnc7e
- D1oX9a00U9Nq/G7TzzId+WggIZVkMhVb6Wjvy6bMT13co6O7OJ3S2DwWuqW7vrG/rt09V6amwTJ
- c6fr5IINXgPXbfdgZMIlT3hSoZP5vCY+3hIUGQgFPNOtjR8oFIR7BHtnTgftiqqg2U0a2B7RdYv
- PIRFwmhK1wP5Ld75kd11lTS47+YajB59ydM6XTotcBcPYK5fTlwqInYN2s6SX1igw8axui7mYsT
- X8kDCi6zpnihNFTmXGZlTK5gqt+yZrPnMWUGyBl54qGI8nTq9zw9zGGNdp2ZAFPUFU2ARCibepr
- orZZAgeDiuFQUSQaaHd5uYLBmthqW3vWYl1uxEpgbX6l+0tvLNwN2//N9rM9sEnvHkwbLkhunWV
- 9gw9jKHQVdg4JHI3Fw2hzYoFwshNDapb7HWbJa0qU8g0nyVCFAvdfJix3aqSJwiQIkLO5dAbsJI
- l2VZSD4h0HLaesOv1QiiAOvn8x5X1Js77S24usuDWoCHb0yL60XqMFejLhdxqcKPm+rWOYnvO7r
- HL18HE2d+32PggQ==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Cc: linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, arm-scmi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20240814-cleanup-h-of-node-put-regulator-v1-0-87151088b883@linaro.org>
+ <20240814-cleanup-h-of-node-put-regulator-v1-1-87151088b883@linaro.org>
+Content-Language: en-US, en-GB
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <20240814-cleanup-h-of-node-put-regulator-v1-1-87151088b883@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Use scoped for_each_available_child_of_node_scoped() when iterating over
-device nodes to make code a bit simpler.
+On 8/14/24 18:04, Krzysztof Kozlowski wrote:
+> Obtain the device node reference with scoped/cleanup.h and use scoped
+> for_each_child_of_node_scoped() to reduce error handling and make the
+> code a bit simpler.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/regulator/scmi-regulator.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+Acked-by: Matti Vaittinen <mazziesaccount@gmail.com>
 
-diff --git a/drivers/regulator/scmi-regulator.c b/drivers/regulator/scmi-regulator.c
-index 29ab217297d6..9df726f10ad1 100644
---- a/drivers/regulator/scmi-regulator.c
-+++ b/drivers/regulator/scmi-regulator.c
-@@ -297,7 +297,7 @@ static int process_scmi_regulator_of_node(struct scmi_device *sdev,
- static int scmi_regulator_probe(struct scmi_device *sdev)
- {
- 	int d, ret, num_doms;
--	struct device_node *np, *child;
-+	struct device_node *np;
- 	const struct scmi_handle *handle = sdev->handle;
- 	struct scmi_regulator_info *rinfo;
- 	struct scmi_protocol_handle *ph;
-@@ -341,13 +341,11 @@ static int scmi_regulator_probe(struct scmi_device *sdev)
- 	 */
- 	of_node_get(handle->dev->of_node);
- 	np = of_find_node_by_name(handle->dev->of_node, "regulators");
--	for_each_child_of_node(np, child) {
-+	for_each_child_of_node_scoped(np, child) {
- 		ret = process_scmi_regulator_of_node(sdev, ph, child, rinfo);
- 		/* abort on any mem issue */
--		if (ret == -ENOMEM) {
--			of_node_put(child);
-+		if (ret == -ENOMEM)
- 			return ret;
--		}
- 	}
- 	of_node_put(np);
- 	/*
+Thanks Krzysztof! I've been a bit cautious to what comes to using the 
+cleanup attribute. Well, I suppose it's a time for me to admit it 
+simplifies things - even if it breaks the rules which were carved to a 
+stone for a long time :) So ... Thanks!
 
 -- 
-2.43.0
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
+
+~~ When things go utterly wrong vim users can always type :help! ~~
 
