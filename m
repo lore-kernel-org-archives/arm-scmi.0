@@ -1,95 +1,101 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0C5F7DA9E;
-	Thu, 15 Aug 2024 13:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2641A4F16;
+	Thu, 15 Aug 2024 14:43:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723729590; cv=none; b=gkwCtm1qDnIgYFi1LAeDESUeZUyt5tZdoPfALZa1Z/k6qS5h0Q5zjfWVx2JQkxfTPZvRRcExbG2jkzOxIwqq7U4TK5u5YrbRKXvDuSZdMvhCmxZ3Gmji+sBrVlreNChDeLUUA46D82cFT1FI6f7lKX53IC6aGkpPXBocIDnbbx8=
+	t=1723733032; cv=none; b=IwJq7ZKkHrHBL3eDkCcKkX7gilkLTGEGEcwSK0z1clVRMZHkdGUm+xj2ohmPNhIWJaLa6/Xq+WZ6ghIneREu/yeAE3txaRw6B+AAnlmV+KGa8XkNLswfs2mFW6od/10tZIar5cNp0R1Mu9YTuJQkpk3DSCiQIV2N2di52kreXK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723729590; c=relaxed/simple;
-	bh=xpa67Wr74Im2iD+qPPKLdhggzJuep5WPCdoIlQ89s5w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d6GJSHPtnjZ3jHvpbu0RL/gBE3ODpsm2d1ceGbSSF3aJvxyj2D46Yxa+IYyAV/QyrG4NcBCsBBFEq42e9B9zVhnK7GOJ/Z8CiWDqS9QqmNPQ2Y4oz7UP8GBUMZpFPGwISGv83EvkF3MyMrPg8XpeLu298Uk8xyQz6odjWndZmns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34EF914BF;
-	Thu, 15 Aug 2024 06:46:54 -0700 (PDT)
-Received: from bogus (e107155-lin.cambridge.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A72063F6A8;
-	Thu, 15 Aug 2024 06:46:26 -0700 (PDT)
-Date: Thu, 15 Aug 2024 14:46:24 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Sibi Sankar <quic_sibis@quicinc.com>, cristian.marussi@arm.com,
-	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-pm@vger.kernel.org, quic_rgottimu@quicinc.com,
-	quic_kshivnan@quicinc.com, johan@kernel.org,
-	Sudeep Holla <sudeep.holla@arm.com>, Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH] pmdomain: arm: Fix debugfs node creation failure
-Message-ID: <Zr4GsOndEEMI-6ap@bogus>
-References: <20240703110741.2668800-1-quic_sibis@quicinc.com>
- <ZoZ6Pk7NSUNDB74i@bogus>
- <064274c4-3783-c59e-e293-dd53a8595d8e@quicinc.com>
- <Zofvc31pPU23mjnp@bogus>
- <CAPDyKFrESupeNS4BO8TPHPGpXFLsNqLPrUEw3xzr8oh8FsLHeA@mail.gmail.com>
- <Zryxrdodn2Y2xsej@bogus>
- <CAPDyKFqmV7yvMdLjGhDHJN4CFiUun3FXprEk7uGFV_qmn9vA8Q@mail.gmail.com>
+	s=arc-20240116; t=1723733032; c=relaxed/simple;
+	bh=qNXtgRVvIfrKa1tEBu1adkGaXzTG53J14ad/70fCQNI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=NRDtcUMI4ZD3aDdP9xym4kBORGLNviYrfgwFv/HsY7YSJZS+AWUl9rdrPAG6+qdMz6TtL/wFoR4W0G6976ehJaV9C71FrzJyUYwX6ZoYHjwzBQwn1IWb19SZIqVT7kJpZ3UVnVgvTfmWetFdVgf/dAP60SYIZsGNRdp5+eEDO7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=us/C0sRy; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="us/C0sRy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85BC3C4AF0D;
+	Thu, 15 Aug 2024 14:43:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723733032;
+	bh=qNXtgRVvIfrKa1tEBu1adkGaXzTG53J14ad/70fCQNI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=us/C0sRysdNk+b24vnxGtukGbKypNfY/npvz00anvIta46Ldceq00UUporLwhQZJ3
+	 zQQbfPmh9fWGZbLsoxb6IY5gTFfoDbjmw22fbpI5aMypYU2BP+pxF6djh1KPQHrEC2
+	 yjR2ECz+PGwhvr1EQfyf08KlOo7A88bk5J8YvOj5h+eG82BQb1li6LLJSJreoIkkoF
+	 oRpDkGJmRICKv6DQT6q2c4RJTeujv8zlIWnjQqwHFJ2d+WNif11PYWnD1vDtkiNfO1
+	 i7ZJoKD1z/cTiORUzuXNPyhm/ME1m0IxIWCqgFdH5ePyostpi+Egi1XeNIfnL0gCBh
+	 m17wJLcVtE/dg==
+From: Mark Brown <broonie@kernel.org>
+To: Matti Vaittinen <mazziesaccount@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Sudeep Holla <sudeep.holla@arm.com>, 
+ Cristian Marussi <cristian.marussi@arm.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, arm-scmi@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20240814-cleanup-h-of-node-put-regulator-v1-0-87151088b883@linaro.org>
+References: <20240814-cleanup-h-of-node-put-regulator-v1-0-87151088b883@linaro.org>
+Subject: Re: [PATCH 0/7] regulator: Use scoped device node handling to
+ simplify error paths
+Message-Id: <172373302924.48987.479533999298131046.b4-ty@kernel.org>
+Date: Thu, 15 Aug 2024 15:43:49 +0100
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPDyKFqmV7yvMdLjGhDHJN4CFiUun3FXprEk7uGFV_qmn9vA8Q@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-37811
 
-On Thu, Aug 15, 2024 at 12:46:15PM +0200, Ulf Hansson wrote:
-> On Wed, 14 Aug 2024 at 15:31, Sudeep Holla <sudeep.holla@arm.com> wrote:
-> >
-> > On Wed, Aug 14, 2024 at 02:38:24PM +0200, Ulf Hansson wrote:
-> > >
-> > > Sudeep, while I understand your point and I agree with it, it's really
-> > > a simple fix that $subject patch is proposing. As the unique name
-> > > isn't mandated by the SCMI spec, it looks to me that we should make a
-> > > fix for it on the Linux side.
-> > >
-> >
-> > Yes, I did come to the conclusion that this is inevitable but hadn't
-> > thought much on the exact solution. This email and you merging the original
-> > patch made me think a bit quickly now 😉
+On Wed, 14 Aug 2024 17:04:04 +0200, Krzysztof Kozlowski wrote:
+> Make code a bit smaller/simpler, with less of_node_put() thanks to
+> cleanup.h.
 > 
-> Alright, great!
+> Best regards,
+> Krzysztof
 > 
-> >
-> > > I have therefore decided to queue up $subject patch for fixes. Please
-> > > let me know if you have any other proposals/objections moving forward.
-> >
-> > The original patch may not work well with the use case Peng presented.
-> > As the name and id may also match in their case, I was wondering if we
-> > need to add some prefix like perf- or something to avoid the potential
-> > clash across power and perf genpds ? I may be missing something still as
-> > it is hard to visualise all possible case that can happen with variety
-> > of platform and their firmware.
-> >
-> > In short, happy to have some fix for the issue in some form whichever
-> > works for wider set of platforms.
-> 
-> Okay, so I have dropped the $subject patch from my fixes branch for
-> now, to allow us and Sibi to come up with an improved approach.
-> 
-> That said, it looks to me that the proper fix needs to involve
-> pm_genpd_init() in some way, as this problem with unique device naming
-> isn't really limited to SCMI. Normally we use an "ida" to get a unique
-> index that we tag on to the device's name, but maybe there is a better
-> strategy here!?
 
-Yes using "ida" for unique index might work here as well AFAIU. It can be
-one of the possible solution for sure.
+Applied to
 
--- 
-Regards,
-Sudeep
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+
+Thanks!
+
+[1/7] regulator: bd718x7: Use scoped device node handling to simplify error paths
+      commit: 83c7cdeef5b22a73336eb18a59c7b4d63ec26659
+[2/7] regulator: bd96801: Use scoped device node handling to simplify error paths
+      commit: f372c262d4cfe31f0b67e8ae1a8ec9bf7c52d57b
+[3/7] regulator: max8997: Use scoped device node handling to simplify error paths
+      commit: ea13bd391d1b8f62ae2347bde7a174059d7f3f0d
+[4/7] regulator: s5m8767: Use scoped device node handling to simplify error paths
+      commit: 34a3f95941e0dfee750f2fd28faed4c8cd7ee42c
+[5/7] regulator: qcom-rpmh: Simplify with scoped for each OF child loop
+      commit: 17636d443fbe376d5192a7ce6a444aa45ce45541
+[6/7] regulator: qcom-smd: Simplify with scoped for each OF child loop
+      commit: d4cd75b8eff72d65dab63668d5d883d72dda0426
+[7/7] regulator: scmi: Simplify with scoped for each OF child loop
+      commit: 99cf5db9cdd39136fd5dbd10bda833aa0f870452
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
