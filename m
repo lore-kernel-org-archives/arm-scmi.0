@@ -1,118 +1,95 @@
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D692119A282
-	for <arm-scmi@vger.kernel.org>; Thu, 15 Aug 2024 10:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0C5F7DA9E;
+	Thu, 15 Aug 2024 13:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723718814; cv=none; b=Ui/TSwuRun0pYmXIulro4eTyTvmbZ4u3oYCKSeLZJw9cMWEEYNJrRQJE2N4CWTcueX2r6CJOeN+pFvggLlYRvv3xHWNlA9aAdFUn4K9cya5IxPdcryVSBxj23ojFLdcQ0nBF9101kXgdU11fUe7XQpbhgg6+tNZV8mXxx7QjHIQ=
+	t=1723729590; cv=none; b=gkwCtm1qDnIgYFi1LAeDESUeZUyt5tZdoPfALZa1Z/k6qS5h0Q5zjfWVx2JQkxfTPZvRRcExbG2jkzOxIwqq7U4TK5u5YrbRKXvDuSZdMvhCmxZ3Gmji+sBrVlreNChDeLUUA46D82cFT1FI6f7lKX53IC6aGkpPXBocIDnbbx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723718814; c=relaxed/simple;
-	bh=aNnphcw6ovD9CeIcwCw8owAs63PXvt0AN73nKw8befo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TaYTGPu8sLpYGS3ICD4ghdrM3KXlb+TYXsNK/qG/8H5bgNVXRc4rq4LNDCBK/pHvA1AiBaG15Ieu8e27TzXtQNxRzmYqaV/VapmaNVkbFlxrMCRJcxtZi6oBx5aQgTCJMvm9fuZS1bf/zJ5+bVzO1MZNPbeDWKsE2xEOfMdAgKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FEvMBtTA; arc=none smtp.client-ip=209.85.219.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FEvMBtTA"
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e115eb44752so817040276.0
-        for <arm-scmi@vger.kernel.org>; Thu, 15 Aug 2024 03:46:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723718812; x=1724323612; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aNnphcw6ovD9CeIcwCw8owAs63PXvt0AN73nKw8befo=;
-        b=FEvMBtTAj2WR00DOQPl/fee+0EdzvdAlbZbg1/Q+qsnn9Xpte2GnA3Z8SXuJN1kh5e
-         bd239GTGerwNVk+todb+42JM5YuXgBvnHTBO54aZIzuQLDWtSIvlJwFv3LnV3DGF1lj/
-         YE0932OnjHaBGqSymR4EywhuZjiIiQyQaxJnYURzaWyJllJ4W5IEp7+E5NiO+OiyFl2i
-         zBj5ReB+HP/VO+d0qQs4qPWWlulSiq7FsheyQNPEOTEMHRIXrLZnQ6J3AXhSZGdWIgx5
-         pBNw0Xqe7Byg3bAzElPRzAnHkf4ygkiWxEmlhoebF8cb3ytY55HzWijbc6oaoGLIx/l7
-         onFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723718812; x=1724323612;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aNnphcw6ovD9CeIcwCw8owAs63PXvt0AN73nKw8befo=;
-        b=nmkUFfD+Iig0OYL0wkdaMVtvHOsZI7eQz3Z+W4NAZg7XvtQZVftpHX4j+Q366i+6kc
-         4xJbM0EUClZ70h68Z6YP/ikRyL+qHbGpoE2k7n4oIWAE8t9UjePJNXHW0bJ1T/mDFPHU
-         8BsrxVYyvjqbK9IjWq4NCyLI71+zVoEmucNjcTbL+AJxIurC/1QZRvPSofuLlFOjsyMm
-         e2s55T7RAQ6V9guXPqaX0735+TQ4HqugqRaQDOyekzLyR7UYgzWGVKie8J5U/fQHwqT/
-         uEWsN5qDLn9rvkfMx/z3vyuasLVafWNI6ucHAKikqA1N8Woh/Ya44ZVIBV+Dq+5MrhQY
-         owZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXlyvottKNPNxIZtpSHsyAtskYWKLsWw9KJaEg97Hf6p2wf5OHcRbP1Q64cjsGbsbsbJJpDvtHVoShVrvY7JuDM8UGeSuyhUBc=
-X-Gm-Message-State: AOJu0Yx8QotgkEjkij0dWntol1G5Gl4OPaBNozb6ucLRuHrNyttgm9M2
-	ezlQ0KB4zx7el+9C4H8p+wNpfHb++ZyvZ0eu4IlMZmIVCyOYGAEwmMt/K9hj66OOuiBuzPoAZ6B
-	wU4wW7wzoeH6tydJqbe6fwJPEQ7Wq4KBukNETltHhc9iItOooYLg=
-X-Google-Smtp-Source: AGHT+IHR5za73VDRCro7qpXpLbNTcfYm0rbfqguQzgbn4WLGm+KGmWjJsguvyGGakAyVo03nrwztDauA9VWHNATK0nQ=
-X-Received: by 2002:a05:6902:2291:b0:e08:7bf9:4d65 with SMTP id
- 3f1490d57ef6-e1155aae058mr6488901276.24.1723718811912; Thu, 15 Aug 2024
- 03:46:51 -0700 (PDT)
+	s=arc-20240116; t=1723729590; c=relaxed/simple;
+	bh=xpa67Wr74Im2iD+qPPKLdhggzJuep5WPCdoIlQ89s5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d6GJSHPtnjZ3jHvpbu0RL/gBE3ODpsm2d1ceGbSSF3aJvxyj2D46Yxa+IYyAV/QyrG4NcBCsBBFEq42e9B9zVhnK7GOJ/Z8CiWDqS9QqmNPQ2Y4oz7UP8GBUMZpFPGwISGv83EvkF3MyMrPg8XpeLu298Uk8xyQz6odjWndZmns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34EF914BF;
+	Thu, 15 Aug 2024 06:46:54 -0700 (PDT)
+Received: from bogus (e107155-lin.cambridge.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A72063F6A8;
+	Thu, 15 Aug 2024 06:46:26 -0700 (PDT)
+Date: Thu, 15 Aug 2024 14:46:24 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Sibi Sankar <quic_sibis@quicinc.com>, cristian.marussi@arm.com,
+	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-pm@vger.kernel.org, quic_rgottimu@quicinc.com,
+	quic_kshivnan@quicinc.com, johan@kernel.org,
+	Sudeep Holla <sudeep.holla@arm.com>, Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH] pmdomain: arm: Fix debugfs node creation failure
+Message-ID: <Zr4GsOndEEMI-6ap@bogus>
+References: <20240703110741.2668800-1-quic_sibis@quicinc.com>
+ <ZoZ6Pk7NSUNDB74i@bogus>
+ <064274c4-3783-c59e-e293-dd53a8595d8e@quicinc.com>
+ <Zofvc31pPU23mjnp@bogus>
+ <CAPDyKFrESupeNS4BO8TPHPGpXFLsNqLPrUEw3xzr8oh8FsLHeA@mail.gmail.com>
+ <Zryxrdodn2Y2xsej@bogus>
+ <CAPDyKFqmV7yvMdLjGhDHJN4CFiUun3FXprEk7uGFV_qmn9vA8Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240703110741.2668800-1-quic_sibis@quicinc.com>
- <ZoZ6Pk7NSUNDB74i@bogus> <064274c4-3783-c59e-e293-dd53a8595d8e@quicinc.com>
- <Zofvc31pPU23mjnp@bogus> <CAPDyKFrESupeNS4BO8TPHPGpXFLsNqLPrUEw3xzr8oh8FsLHeA@mail.gmail.com>
- <Zryxrdodn2Y2xsej@bogus>
-In-Reply-To: <Zryxrdodn2Y2xsej@bogus>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Thu, 15 Aug 2024 12:46:15 +0200
-Message-ID: <CAPDyKFqmV7yvMdLjGhDHJN4CFiUun3FXprEk7uGFV_qmn9vA8Q@mail.gmail.com>
-Subject: Re: [PATCH] pmdomain: arm: Fix debugfs node creation failure
-To: Sudeep Holla <sudeep.holla@arm.com>, Sibi Sankar <quic_sibis@quicinc.com>
-Cc: cristian.marussi@arm.com, linux-kernel@vger.kernel.org, 
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org, 
-	quic_rgottimu@quicinc.com, quic_kshivnan@quicinc.com, johan@kernel.org, 
-	Peng Fan <peng.fan@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPDyKFqmV7yvMdLjGhDHJN4CFiUun3FXprEk7uGFV_qmn9vA8Q@mail.gmail.com>
 
-On Wed, 14 Aug 2024 at 15:31, Sudeep Holla <sudeep.holla@arm.com> wrote:
->
-> On Wed, Aug 14, 2024 at 02:38:24PM +0200, Ulf Hansson wrote:
+On Thu, Aug 15, 2024 at 12:46:15PM +0200, Ulf Hansson wrote:
+> On Wed, 14 Aug 2024 at 15:31, Sudeep Holla <sudeep.holla@arm.com> wrote:
 > >
-> > Sudeep, while I understand your point and I agree with it, it's really
-> > a simple fix that $subject patch is proposing. As the unique name
-> > isn't mandated by the SCMI spec, it looks to me that we should make a
-> > fix for it on the Linux side.
+> > On Wed, Aug 14, 2024 at 02:38:24PM +0200, Ulf Hansson wrote:
+> > >
+> > > Sudeep, while I understand your point and I agree with it, it's really
+> > > a simple fix that $subject patch is proposing. As the unique name
+> > > isn't mandated by the SCMI spec, it looks to me that we should make a
+> > > fix for it on the Linux side.
+> > >
 > >
->
-> Yes, I did come to the conclusion that this is inevitable but hadn't
-> thought much on the exact solution. This email and you merging the origin=
-al
-> patch made me think a bit quickly now =F0=9F=98=89
+> > Yes, I did come to the conclusion that this is inevitable but hadn't
+> > thought much on the exact solution. This email and you merging the original
+> > patch made me think a bit quickly now 😉
+> 
+> Alright, great!
+> 
+> >
+> > > I have therefore decided to queue up $subject patch for fixes. Please
+> > > let me know if you have any other proposals/objections moving forward.
+> >
+> > The original patch may not work well with the use case Peng presented.
+> > As the name and id may also match in their case, I was wondering if we
+> > need to add some prefix like perf- or something to avoid the potential
+> > clash across power and perf genpds ? I may be missing something still as
+> > it is hard to visualise all possible case that can happen with variety
+> > of platform and their firmware.
+> >
+> > In short, happy to have some fix for the issue in some form whichever
+> > works for wider set of platforms.
+> 
+> Okay, so I have dropped the $subject patch from my fixes branch for
+> now, to allow us and Sibi to come up with an improved approach.
+> 
+> That said, it looks to me that the proper fix needs to involve
+> pm_genpd_init() in some way, as this problem with unique device naming
+> isn't really limited to SCMI. Normally we use an "ida" to get a unique
+> index that we tag on to the device's name, but maybe there is a better
+> strategy here!?
 
-Alright, great!
+Yes using "ida" for unique index might work here as well AFAIU. It can be
+one of the possible solution for sure.
 
->
-> > I have therefore decided to queue up $subject patch for fixes. Please
-> > let me know if you have any other proposals/objections moving forward.
->
-> The original patch may not work well with the use case Peng presented.
-> As the name and id may also match in their case, I was wondering if we
-> need to add some prefix like perf- or something to avoid the potential
-> clash across power and perf genpds ? I may be missing something still as
-> it is hard to visualise all possible case that can happen with variety
-> of platform and their firmware.
->
-> In short, happy to have some fix for the issue in some form whichever
-> works for wider set of platforms.
-
-Okay, so I have dropped the $subject patch from my fixes branch for
-now, to allow us and Sibi to come up with an improved approach.
-
-That said, it looks to me that the proper fix needs to involve
-pm_genpd_init() in some way, as this problem with unique device naming
-isn't really limited to SCMI. Normally we use an "ida" to get a unique
-index that we tag on to the device's name, but maybe there is a better
-strategy here!?
-
-Kind regards
-Uffe
+-- 
+Regards,
+Sudeep
