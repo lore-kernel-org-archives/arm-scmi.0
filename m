@@ -1,46 +1,46 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2641A4F16;
-	Thu, 15 Aug 2024 14:43:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F3E313E05C;
+	Fri, 16 Aug 2024 09:29:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723733032; cv=none; b=IwJq7ZKkHrHBL3eDkCcKkX7gilkLTGEGEcwSK0z1clVRMZHkdGUm+xj2ohmPNhIWJaLa6/Xq+WZ6ghIneREu/yeAE3txaRw6B+AAnlmV+KGa8XkNLswfs2mFW6od/10tZIar5cNp0R1Mu9YTuJQkpk3DSCiQIV2N2di52kreXK0=
+	t=1723800553; cv=none; b=GSsRZM7usPveI4BsNNUbxgeWQ37iI8IJnGjl6O9Tf7BugSuzBb/8S2sQ0tCauflbGXvLBmhtlfXScmomda685k3Xc7ujHIgXkQQQHD9eKVyfDpgAFnbMXP146085P/2+CrLoXB4uDe8XNqscPoWdesjP3q277n+ebRrFSIiM7TA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723733032; c=relaxed/simple;
-	bh=qNXtgRVvIfrKa1tEBu1adkGaXzTG53J14ad/70fCQNI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NRDtcUMI4ZD3aDdP9xym4kBORGLNviYrfgwFv/HsY7YSJZS+AWUl9rdrPAG6+qdMz6TtL/wFoR4W0G6976ehJaV9C71FrzJyUYwX6ZoYHjwzBQwn1IWb19SZIqVT7kJpZ3UVnVgvTfmWetFdVgf/dAP60SYIZsGNRdp5+eEDO7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=us/C0sRy; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="us/C0sRy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85BC3C4AF0D;
-	Thu, 15 Aug 2024 14:43:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723733032;
-	bh=qNXtgRVvIfrKa1tEBu1adkGaXzTG53J14ad/70fCQNI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=us/C0sRysdNk+b24vnxGtukGbKypNfY/npvz00anvIta46Ldceq00UUporLwhQZJ3
-	 zQQbfPmh9fWGZbLsoxb6IY5gTFfoDbjmw22fbpI5aMypYU2BP+pxF6djh1KPQHrEC2
-	 yjR2ECz+PGwhvr1EQfyf08KlOo7A88bk5J8YvOj5h+eG82BQb1li6LLJSJreoIkkoF
-	 oRpDkGJmRICKv6DQT6q2c4RJTeujv8zlIWnjQqwHFJ2d+WNif11PYWnD1vDtkiNfO1
-	 i7ZJoKD1z/cTiORUzuXNPyhm/ME1m0IxIWCqgFdH5ePyostpi+Egi1XeNIfnL0gCBh
-	 m17wJLcVtE/dg==
-From: Mark Brown <broonie@kernel.org>
-To: Matti Vaittinen <mazziesaccount@gmail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
- Sudeep Holla <sudeep.holla@arm.com>, 
- Cristian Marussi <cristian.marussi@arm.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, arm-scmi@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org
-In-Reply-To: <20240814-cleanup-h-of-node-put-regulator-v1-0-87151088b883@linaro.org>
-References: <20240814-cleanup-h-of-node-put-regulator-v1-0-87151088b883@linaro.org>
-Subject: Re: [PATCH 0/7] regulator: Use scoped device node handling to
- simplify error paths
-Message-Id: <172373302924.48987.479533999298131046.b4-ty@kernel.org>
-Date: Thu, 15 Aug 2024 15:43:49 +0100
+	s=arc-20240116; t=1723800553; c=relaxed/simple;
+	bh=SltS1dKKb/LcApjDUP+DakymbXkrn0zHOj37EbtWeBM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cB3DsHtGT+L6BFcGeB7VKN6+rnV6BQap9rhVNnXJrIa0F84X3oAlIq6HaOTARg9DstLCBO6+zeu05aMi79QLHwL1NkFGnZ1AwVbjOMs3/suzQzZQ3hKq1e/KGlQZFkFCAvzcjfO+fS44CJx2uofuFpTJG+kVJiy5fZ85VB81wCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 61898143D;
+	Fri, 16 Aug 2024 02:29:36 -0700 (PDT)
+Received: from usa.arm.com (e107155-lin.cambridge.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7FF6E3F58B;
+	Fri, 16 Aug 2024 02:29:08 -0700 (PDT)
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org,
+	Cristian Marussi <cristian.marussi@arm.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	etienne.carriere@st.com,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	quic_sibis@quicinc.com,
+	quic_nkela@quicinc.com,
+	ptosi@google.com,
+	dan.carpenter@linaro.org,
+	souvik.chakravarty@arm.com
+Subject: Re: [PATCH v4 0/9] Make SCMI transport as standalone drivers
+Date: Fri, 16 Aug 2024 10:29:04 +0100
+Message-ID: <172380049401.784912.12689493595058820686.b4-ty@arm.com>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20240812173340.3912830-1-cristian.marussi@arm.com>
+References: <20240812173340.3912830-1-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -48,54 +48,42 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-37811
+Content-Transfer-Encoding: 8bit
 
-On Wed, 14 Aug 2024 17:04:04 +0200, Krzysztof Kozlowski wrote:
-> Make code a bit smaller/simpler, with less of_node_put() thanks to
-> cleanup.h.
+On Mon, 12 Aug 2024 18:33:31 +0100, Cristian Marussi wrote:
+> Till now the SCMI transport layer was being built embedded into in the core
+> SCMI stack.
 > 
-> Best regards,
-> Krzysztof
+> Some of these transports, despite being currently part of the main SCMI
+> module, are indeed also registered with different subsystems like optee or
+> virtio, and actively probed also by those: this led to a few awkward and
+> convoluted tricks to properly handle such interactions at boot time in the
+> SCMI stack.
 > 
+> [...]
 
-Applied to
+Applied to sudeep.holla/linux (for-linux-next), thanks!
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+[1/9] firmware: arm_scmi: Fix double free in OPTEE transport
+      https://git.kernel.org/sudeep.holla/c/e98dba934b2f
+[2/9] firmware: arm_scmi: Introduce setup_shmem_iomap
+      https://git.kernel.org/sudeep.holla/c/1ebc28e9357c
+[3/9] firmware: arm_scmi: Introduce packet handling helpers
+      https://git.kernel.org/sudeep.holla/c/b6b7c77c988a
+[4/9] firmware: arm_scmi: Add support for standalone transport drivers
+      https://git.kernel.org/sudeep.holla/c/8b76a8c95930
+[5/9] firmware: arm_scmi: Make MBOX transport a standalone driver
+      https://git.kernel.org/sudeep.holla/c/b53515fa177c
+[6/9] firmware: arm_scmi: Make SMC transport a standalone driver
+      https://git.kernel.org/sudeep.holla/c/a41759500b71
+[7/9] firmware: arm_scmi: Make OPTEE transport a standalone driver
+      https://git.kernel.org/sudeep.holla/c/db9cc5e67778
+[8/9] firmware: arm_scmi: Make VirtIO transport a standalone driver
+      https://git.kernel.org/sudeep.holla/c/20bda12a0ea0
+[9/9] firmware: arm_scmi: Remove legacy transport-layer code
+      https://git.kernel.org/sudeep.holla/c/fc789363c9f0
 
-Thanks!
-
-[1/7] regulator: bd718x7: Use scoped device node handling to simplify error paths
-      commit: 83c7cdeef5b22a73336eb18a59c7b4d63ec26659
-[2/7] regulator: bd96801: Use scoped device node handling to simplify error paths
-      commit: f372c262d4cfe31f0b67e8ae1a8ec9bf7c52d57b
-[3/7] regulator: max8997: Use scoped device node handling to simplify error paths
-      commit: ea13bd391d1b8f62ae2347bde7a174059d7f3f0d
-[4/7] regulator: s5m8767: Use scoped device node handling to simplify error paths
-      commit: 34a3f95941e0dfee750f2fd28faed4c8cd7ee42c
-[5/7] regulator: qcom-rpmh: Simplify with scoped for each OF child loop
-      commit: 17636d443fbe376d5192a7ce6a444aa45ce45541
-[6/7] regulator: qcom-smd: Simplify with scoped for each OF child loop
-      commit: d4cd75b8eff72d65dab63668d5d883d72dda0426
-[7/7] regulator: scmi: Simplify with scoped for each OF child loop
-      commit: 99cf5db9cdd39136fd5dbd10bda833aa0f870452
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+--
+Regards,
+Sudeep
 
