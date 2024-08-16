@@ -1,190 +1,101 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6556A1C3F2F;
-	Fri, 16 Aug 2024 17:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from relay.smtp-ext.broadcom.com (relay.smtp-ext.broadcom.com [192.19.144.207])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E070145A1C;
+	Fri, 16 Aug 2024 22:42:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.19.144.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723830862; cv=none; b=EsM3ZBcbiVRQjT1zmaRJD3BiI1dmT9IsYNjr9AdUdzBCO1wKei08Nuh5LNRjiOt1TAcmBzY9bimCnGV9hiYSPqrVeMBX7xedqj7EO7U9gUz4GR/IT00cpZtB9Jnkre1PGDhybfolY2ibOWb/3yq9neNEnBIZFrJrMCWdVrdOtLA=
+	t=1723848153; cv=none; b=kBMZpIuFh7ZfUDYal3p/KzueAEK246HBo94CUSXSkeTyEmdsiF99MfCYWjCGlHXF6cjxW+1Gi6IpjPv4BDV3qI6fzmaWlCY+mqAnGfY0kBCZU+htkKUiN4YeiggdySRKgd4l6NptETtLzdcQqymrfRPcR8sZVZK9JPvTMOjcZGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723830862; c=relaxed/simple;
-	bh=21bmq1wZojonL5BW0KyWR9WylEzTTKYZDupzBC5feD8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ok4rveaZbnY49Rddq++k531qBlpK2JYMCz5glYLDwsa826ptJPDIM5QSdHSvDVkGctjZnu5sdQH44w+HfqYfwpj7PJSju54TkAR/tolTukXhK4CORSCk/sDTICHGMD6DLpRr72Df00ZypYvpZcEVjYXV/GNTz/noT5vIq6WisOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6AC8113D5;
-	Fri, 16 Aug 2024 10:54:44 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AFDC83F6A8;
-	Fri, 16 Aug 2024 10:54:16 -0700 (PDT)
-Date: Fri, 16 Aug 2024 18:54:14 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
+	s=arc-20240116; t=1723848153; c=relaxed/simple;
+	bh=WRbliPKlVatjmY9WoO49bTw+Tpuioxe/sdDsJOlGUBE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Dp/MsZTVreoiXmjnr7oySIC9aNjq/3ufVYW1JfJ3t8mRoYaY15ACPeihec2s1Y+WYpc/RM9hxceZJW9ytlzaULsgdJ7XvhA7p4eh0tlqCX9Ee+yc9yZNk1SepbuIiV9Jz4sN/Wo3URajYTLANe1zSSoU3cZ6Oo+PEQBiF7ZYVUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=kI/loyTB; arc=none smtp.client-ip=192.19.144.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="kI/loyTB"
+Received: from mail-lvn-it-01.lvn.broadcom.net (mail-lvn-it-01.lvn.broadcom.net [10.36.132.253])
+	by relay.smtp-ext.broadcom.com (Postfix) with ESMTP id 7E064C0000E4;
+	Fri, 16 Aug 2024 15:42:23 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 relay.smtp-ext.broadcom.com 7E064C0000E4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
+	s=dkimrelay; t=1723848143;
+	bh=WRbliPKlVatjmY9WoO49bTw+Tpuioxe/sdDsJOlGUBE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=kI/loyTB/yUl5GOVheNi2Papl7piKaJ2uRx3/5CUiZz/Xt8bbPA3qY9jSWGj+uFvI
+	 pcuPb+hgFJwMONxt+unL7OOot/39s7ItgnHgFGRBCITceVSJwEToo9ljLwI5Ahb13x
+	 IYtd+oFQY56u4pqqaGWK/zPzve3P4HpULm9k/IB0=
+Received: from stbirv-lnx-1.igp.broadcom.net (stbirv-lnx-1.igp.broadcom.net [10.67.48.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail-lvn-it-01.lvn.broadcom.net (Postfix) with ESMTPSA id A091018041CAD3;
+	Fri, 16 Aug 2024 15:42:20 -0700 (PDT)
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+To: linux-arm-kernel@lists.infradead.org
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Sudeep Holla <sudeep.holla@arm.com>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	"open list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE" <arm-scmi@vger.kernel.org>,
-	"moderated list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE" <linux-arm-kernel@lists.infradead.org>,
-	justin.chen@broadcom.com, opendmb@gmail.com,
-	kapil.hali@broadcom.com, bcm-kernel-feedback-list@broadcom.com
-Subject: Re: [PATCH v2 2/2] firmware: arm_scmi: Support 'reg-io-width'
- property for shared memory
-Message-ID: <Zr-SRo10QtSh4G9R@pluto>
-References: <20240813180747.1439034-1-florian.fainelli@broadcom.com>
- <20240813180747.1439034-3-florian.fainelli@broadcom.com>
- <Zr-GJts3Gu6GEkhC@pluto>
- <345aca0f-12f0-4a66-a760-3b8524fda7fe@broadcom.com>
+	Cristian Marussi <cristian.marussi@arm.com>,
+	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
+	linux-kernel@vger.kernel.org (open list),
+	arm-scmi@vger.kernel.org (open list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE),
+	justin.chen@broadcom.com,
+	opendmb@gmail.com,
+	kapil.hali@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com
+Subject: [PATCH v3 0/2] Support for I/O width within ARM SCMI SHMEM
+Date: Fri, 16 Aug 2024 15:42:19 -0700
+Message-Id: <20240816224221.3256455-1-florian.fainelli@broadcom.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <345aca0f-12f0-4a66-a760-3b8524fda7fe@broadcom.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 16, 2024 at 10:39:42AM -0700, Florian Fainelli wrote:
-> On 8/16/24 10:02, Cristian Marussi wrote:
-> > On Tue, Aug 13, 2024 at 11:07:47AM -0700, Florian Fainelli wrote:
-> > > Some shared memory areas might only support a certain access width,
-> > > such as 32-bit, which memcpy_{from,to}_io() does not adhere to at least
-> > > on ARM64 by making both 8-bit and 64-bit accesses to such memory.
-> > > 
-> > > Update the shmem layer to support reading from and writing to such
-> > > shared memory area using the specified I/O width in the Device Tree. The
-> > > various transport layers making use of the shmem.c code are updated
-> > > accordingly to pass the I/O accessors that they store.
-> > > 
-> > 
-> > Hi Florian,
-> > 
+We just got our hands on hardware that only supports 32-bit access width
+to the SRAM being used. This patch series adds support for the
+'reg-io-width' property and allows us to specify the exact access width
+that the SRAM supports.
 
-Hi,
+Changes in v3:
 
-> > I gave it ago at this on a JUNO regarding the mailbox/shmem transport
-> > without any issue. I'll have a go later on an OPTEE/shmem scenario too.
-> > 
-> > This looks fundamentally good to me, since you moved all ops setup at
-> > setup time and you keep the pointers per-channel instead of global...
-> 
-> Thanks!
->
+- added missing documentation for the structure members being added
+- removed the use of a macro for the 32-bit only operation, this
+  gets rid of a number of checkpatch warnings
+- added missing trailing barriers
+- corrected binding indentation
 
-[snip]
- 
-> > > +
-> > 
-> > There are a bunch of warn/errs from checkpatch --strict, beside the volatile
-> > here and on the previous typedefs, also about args reuse and trailing semicolon
-> > in these macros...
-> 
-> I don't think we can silence the volatile ones, checkpatch --strict did not
-> complain about the typedefs in my case, what did it look like in yours?
+Changes in v2:
 
-...I dont get warns on new typedefs..only on volatile and macro args
-reuse
+- fixed typo in the binding and added reviewed-by tag from Krzysztof
 
+- determine the correct I/O operation at the time we parse the
+  'reg-io-width' property rather than for each
+  tx_prepare/fetch_response/fetch_notification call
 
----8<---
+- dropped support for 1 and 2 bytes 'reg-io-width' as they do not quite
+  make sense, if we can support such smaller access size, then we can
+  support the larger 4 byte access width, too, and there are many places
+  within the SCMI code where ioread32/iowrite32 are used
 
-WARNING: Use of volatile is usually wrong: see Documentation/process/volatile-considered-harmful.rst
-#36: FILE: drivers/firmware/arm_scmi/common.h:322:
-+typedef void (*shmem_copy_toio_t)(volatile void __iomem *to, const void *from,
+Florian Fainelli (2):
+  dt-bindings: sram: Document reg-io-width property
+  firmware: arm_scmi: Support 'reg-io-width' property for shared memory
 
-WARNING: Use of volatile is usually wrong: see Documentation/process/volatile-considered-harmful.rst
-#38: FILE: drivers/firmware/arm_scmi/common.h:324:
-+typedef void (*shmem_copy_fromio_t)(void *to, const volatile void __iomem *from,
+ .../devicetree/bindings/sram/sram.yaml        |  6 ++
+ drivers/firmware/arm_scmi/common.h            | 32 ++++++-
+ .../arm_scmi/scmi_transport_mailbox.c         | 13 ++-
+ .../firmware/arm_scmi/scmi_transport_optee.c  | 11 ++-
+ .../firmware/arm_scmi/scmi_transport_smc.c    | 11 ++-
+ drivers/firmware/arm_scmi/shmem.c             | 86 +++++++++++++++++--
+ 6 files changed, 138 insertions(+), 21 deletions(-)
 
-CHECK: Macro argument reuse 'amt' - possible side-effects?
-#94: FILE: drivers/firmware/arm_scmi/shmem.c:37:
-+#define SHMEM_IO_OPS(w, s, amt)						\
-+static inline void shmem_memcpy_fromio##s(void *to,			\
-+					  const volatile void __iomem *from, \
-+					  size_t count)			\
-+{									\
-+	while (count) {							\
-+		*(u##s *)to = __raw_read##w(from);			\
-+		from += amt;						\
-+		to += amt;						\
-+		count -= amt;						\
-+	}								\
-+}									\
-+static inline void shmem_memcpy_toio##s(volatile void __iomem *to,	\
-+					const void *from,		\
-+					size_t count)			\
-+{									\
-+	while (count) {							\
-+		__raw_write##w(*(u##s *)from, to);			\
-+		from += amt;						\
-+		to += amt;						\
-+		count -= amt;						\
-+	}								\
-+}									\
-+static struct scmi_shmem_io_ops shmem_io_ops##s = {			\
-+	.fromio	= shmem_memcpy_fromio##s,				\
-+	.toio	= shmem_memcpy_toio##s,					\
-+};
-
-WARNING: macros should not use a trailing semicolon
-#94: FILE: drivers/firmware/arm_scmi/shmem.c:37:
-+#define SHMEM_IO_OPS(w, s, amt)						\
-+static inline void shmem_memcpy_fromio##s(void *to,			\
-+					  const volatile void __iomem *from, \
-+					  size_t count)			\
-+{									\
-+	while (count) {							\
-+		*(u##s *)to = __raw_read##w(from);			\
-+		from += amt;						\
-+		to += amt;						\
-+		count -= amt;						\
-+	}								\
-+}									\
-+static inline void shmem_memcpy_toio##s(volatile void __iomem *to,	\
-+					const void *from,		\
-+					size_t count)			\
-+{									\
-+	while (count) {							\
-+		__raw_write##w(*(u##s *)from, to);			\
-+		from += amt;						\
-+		to += amt;						\
-+		count -= amt;						\
-+	}								\
-+}									\
-+static struct scmi_shmem_io_ops shmem_io_ops##s = {			\
-+	.fromio	= shmem_memcpy_fromio##s,				\
-+	.toio	= shmem_memcpy_toio##s,					\
-+};
-
-WARNING: Use of volatile is usually wrong: see Documentation/process/volatile-considered-harmful.rst
-#96: FILE: drivers/firmware/arm_scmi/shmem.c:39:
-+					  const volatile void __iomem *from, \
-
-WARNING: Use of volatile is usually wrong: see Documentation/process/volatile-considered-harmful.rst
-#106: FILE: drivers/firmware/arm_scmi/shmem.c:49:
-+static inline void shmem_memcpy_toio##s(volatile void __iomem *to,	\
-
-WARNING: Use of volatile is usually wrong: see Documentation/process/volatile-considered-harmful.rst
-#128: FILE: drivers/firmware/arm_scmi/shmem.c:71:
-+				       const volatile void __iomem *from,
-
-WARNING: Use of volatile is usually wrong: see Documentation/process/volatile-considered-harmful.rst
-#134: FILE: drivers/firmware/arm_scmi/shmem.c:77:
-+static inline void shmem_memcpy_toio(volatile void __iomem *to,
-
-total: 0 errors, 7 warnings, 1 checks, 312 lines checked
-
-NOTE: For some of the reported defects, checkpatch may be able to
-      mechanically convert to the typical style using --fix or --fix-inplace.
-
-"[PATCH] firmware: arm_scmi: Support 'reg-io-width' property for" has style problems, please review.
-
-NOTE: If any of the errors are false positives, please report
-      them to the maintainer, see CHECKPATCH in MAINTAINERS.
-
----8<----
+-- 
+2.34.1
 
