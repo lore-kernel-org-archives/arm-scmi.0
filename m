@@ -1,60 +1,476 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1C811922DD;
-	Tue, 20 Aug 2024 14:48:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F0071750
+	for <arm-scmi@vger.kernel.org>; Tue, 20 Aug 2024 16:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724165298; cv=none; b=f4FLEzMjBaJKh8Pv/WInIpB0WoeG4BVXVg5kfcU20aLDuK/XPgdd4y9gLcKjM4ZXNWgX+jfcpXfSqW/w5Dm6Am8nK8bZmi9RI+6ZmlvwTbY6UZwSk9yDIwBvuBbjv+7FLhRhpliOGkqIgmSFD6Gc+LdauA+Y7dnWMyJjgIJKd2E=
+	t=1724171704; cv=none; b=PcdXR3myTJ6e1wFgZxi0bd4cPhCrk2FRvxAo8pXkVmfCSOVbCtgUMzpXN5L/8eE1khkB8BddAkzAFnYqE1wYZKs9fUiSCXLm0jhaFiR26LtleiXkBZeEcpvm5Rqg/8QOQNEAA91m28XechB88JMDhT0gFE6YqHDZAHLbKx1hVco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724165298; c=relaxed/simple;
-	bh=Tb22dduees/8qZVbHW/1yyoCMCxgQQcl+0y4YdF4B+o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hKP0tpMyt8mKYCMefpoQJa92YcDaP76Z7MzcplgK1/zF2h7/cGnZQQtNmKp14dcAVyIfz55ten8yl3pMZ21XQg58Pc5oPH7CjCPTYicnkiHoWShwVIxjjVirhthXIYHL6aQObbm6oYl0aYpp6VEqReopYzNM1E2GjoRUXx0Y3xQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 39577DA7;
-	Tue, 20 Aug 2024 07:48:42 -0700 (PDT)
-Received: from bogus (e107155-lin.cambridge.arm.com [10.1.198.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A98113F66E;
-	Tue, 20 Aug 2024 07:48:13 -0700 (PDT)
-Date: Tue, 20 Aug 2024 15:48:11 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, devicetree@vger.kernel.org,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, etienne.carriere@st.com,
-	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
-	quic_nkela@quicinc.com, dan.carpenter@linaro.org,
-	Sudeep Holla <sudeep.holla@arm.com>, souvik.chakravarty@arm.com,
-	robh@kernel.org, krzk+dt@kernel.org
-Subject: Re: [PATCH v1 5/6] firmware: arm_scmi: Use max_msg and max_msg_size
- from devicetree
-Message-ID: <ZsSsq_Do-KEyy7vU@bogus>
-References: <20240730144707.1647025-1-cristian.marussi@arm.com>
- <20240730144707.1647025-6-cristian.marussi@arm.com>
+	s=arc-20240116; t=1724171704; c=relaxed/simple;
+	bh=FS9vKrxJsQ/bz2iGYpG7dD2unzn+WDWMS3nOJz22auk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TSjB7johh289AupbqEaQJ+VGGL9NlTR35foWzhUBpkPs2H9RozSf3R0eDDZ9p02lG07bFaaakAfdAURZA/B4gJX1TUo0VXImfuhKRr73TQjm01gLizqNAdqUToBJJRBRlYVBOoNC14tQjq6pF3YqJXHR8hI65ia49oOZyga/Tjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=JzmVgiOw; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="JzmVgiOw"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-712603f7ba5so4630165b3a.3
+        for <arm-scmi@vger.kernel.org>; Tue, 20 Aug 2024 09:35:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1724171702; x=1724776502; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=I/jQ4CsoLAYAWazFQRdZD0QAtpzqYEXDl/Ljb9v3uaE=;
+        b=JzmVgiOwen4+TI5tOxZw9zFdH3wr+cggXk5/i02Csp9y4eYjkyethUoF4TIwqM+1wA
+         xy8tiHxUqeh27lBVAbfl/9JaPWZkjNdLfXmo6EaVEySfmHvVURLBMDjOkRDAUVYX/69C
+         M4pFFp0rVku6wc+AcID8ol9AkPRrZDbDRIuG4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724171702; x=1724776502;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I/jQ4CsoLAYAWazFQRdZD0QAtpzqYEXDl/Ljb9v3uaE=;
+        b=urSzWYzMGB1IWkWOyyNvMINVIOaCDFl5dda+6cdwPh1wYY2vOE+215db9fc98H1zPH
+         YKdVmlGmfzf8Tvhc1vMVht3eEXliB3oYZIrNanteT9nXGBbo8ZKTjDqUk6huuHoU+llr
+         qaWKOD88hGM9v9FUNrhNnxXAmS3seNCXubJfjrdkVOSB+W3jAFKvVRQ535yhPMFhzymY
+         8Zgjks+2VWgkrWiTedBePk3Pi5B/B41xsGObqyKf5uI5GsjvQEZPd1vPQUHD/OSLYU6U
+         WfyYI7+9qAyuhWuMOf7KH51MIisB/eVzDd7PApPZ6JkV/glhsm3q/ufDAHaKdfjpE6Vx
+         /1oQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXvE6Uc+gTLPCl/MCxAl3hlq8eK1J1GIgInFqTAWGVt4z9DtvroAjNfxJv9TfHWDrbKz+AdObcv71xCvFuedIm7PoKhHKwrOvc=
+X-Gm-Message-State: AOJu0Yz30zcCzPr+Ww0jfRPzy57T7SZRxeHdwyO8jfS1nPj7oEz+vgD2
+	sjyDcLCNu0fZ8egHr9FQqMeLR0rcnWc5N/51EIG1y9XHanhl0K8Fp6mA79HSEw==
+X-Google-Smtp-Source: AGHT+IFd776z14UzYpO+PvAZ+OsQuKluFGT6Sas0CXJ3qt53396lWSFk10aFDTPjlR6JPoZn3aRHhw==
+X-Received: by 2002:a05:6a21:e8f:b0:1c6:fa1d:5b6a with SMTP id adf61e73a8af0-1cac8eb00e7mr3143945637.29.1724171701871;
+        Tue, 20 Aug 2024 09:35:01 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7127add721dsm8433185b3a.42.2024.08.20.09.35.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Aug 2024 09:35:01 -0700 (PDT)
+Message-ID: <1a486ead-3a65-4ef9-a562-c23ea7026b9e@broadcom.com>
+Date: Tue, 20 Aug 2024 09:34:59 -0700
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240730144707.1647025-6-cristian.marussi@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] firmware: arm_scmi: Support 'reg-io-width'
+ property for shared memory
+To: Peng Fan <peng.fan@nxp.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ "open list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE"
+ <arm-scmi@vger.kernel.org>,
+ "justin.chen@broadcom.com" <justin.chen@broadcom.com>,
+ "opendmb@gmail.com" <opendmb@gmail.com>,
+ "kapil.hali@broadcom.com" <kapil.hali@broadcom.com>,
+ "bcm-kernel-feedback-list@broadcom.com"
+ <bcm-kernel-feedback-list@broadcom.com>
+References: <20240816224221.3256455-1-florian.fainelli@broadcom.com>
+ <20240816224221.3256455-3-florian.fainelli@broadcom.com>
+ <PAXPR04MB8459322CED779885532BD852888D2@PAXPR04MB8459.eurprd04.prod.outlook.com>
+Content-Language: en-US
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
+ xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
+ M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
+ JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
+ PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
+ KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
+ AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
+ IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
+ ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
+ bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
+ Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
+ tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
+ TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
+ zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
+ WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
+ IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
+ U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
+ 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
+ pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
+ MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
+ IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
+ gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
+ obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
+ N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
+ CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
+ C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
+ wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
+ EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
+ fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
+ MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
+ 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
+ 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
+In-Reply-To: <PAXPR04MB8459322CED779885532BD852888D2@PAXPR04MB8459.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 30, 2024 at 03:47:06PM +0100, Cristian Marussi wrote:
-> Override max_msg and max_msg_size transport properties when corresponding
-> devicetree properties are available.
->
+On 8/19/24 19:49, Peng Fan wrote:
+>> Subject: [PATCH v3 2/2] firmware: arm_scmi: Support 'reg-io-width'
+>> property for shared memory
+>>
+>> Some shared memory areas might only support a certain access width,
+>> such as 32-bit, which memcpy_{from,to}_io() does not adhere to at
+>> least on ARM64 by making both 8-bit and 64-bit accesses to such
+>> memory.
+>>
+>> Update the shmem layer to support reading from and writing to such
+>> shared memory area using the specified I/O width in the Device Tree.
+>> The various transport layers making use of the shmem.c code are
+>> updated accordingly to pass the I/O accessors that they store.
+>>
+>> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
+>> ---
+>>   drivers/firmware/arm_scmi/common.h            | 32 ++++++-
+>>   .../arm_scmi/scmi_transport_mailbox.c         | 13 ++-
+>>   .../firmware/arm_scmi/scmi_transport_optee.c  | 11 ++-
+>>   .../firmware/arm_scmi/scmi_transport_smc.c    | 11 ++-
+>>   drivers/firmware/arm_scmi/shmem.c             | 86 +++++++++++++++++-
+>> -
+>>   5 files changed, 132 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/drivers/firmware/arm_scmi/common.h
+>> b/drivers/firmware/arm_scmi/common.h
+>> index 69928bbd01c2..73bb496fac01 100644
+>> --- a/drivers/firmware/arm_scmi/common.h
+>> +++ b/drivers/firmware/arm_scmi/common.h
+>> @@ -316,6 +316,26 @@ enum scmi_bad_msg {
+>>   	MSG_MBOX_SPURIOUS = -5,
+>>   };
+>>
+>> +/* Used for compactness and signature validation of the function
+>> +pointers being
+>> + * passed.
+>> + */
+>> +typedef void (*shmem_copy_toio_t)(volatile void __iomem *to, const
+>> void *from,
+>> +				  size_t count);
+>> +typedef void (*shmem_copy_fromio_t)(void *to, const volatile void
+>> __iomem *from,
+>> +				    size_t count);
+>> +
+>> +/**
+>> + * struct scmi_shmem_io_ops  - I/O operations to read from/write to
+>> + * Shared Memory
+>> + *
+>> + * @toio: Copy data to the shared memory area
+>> + * @fromio: Copy data from the shared memory area  */ struct
+>> +scmi_shmem_io_ops {
+>> +	shmem_copy_fromio_t fromio;
+>> +	shmem_copy_toio_t toio;
+>> +};
+>> +
+>>   /* shmem related declarations */
+>>   struct scmi_shared_mem;
+>>
+>> @@ -336,13 +356,16 @@ struct scmi_shared_mem;  struct
+>> scmi_shared_mem_operations {
+>>   	void (*tx_prepare)(struct scmi_shared_mem __iomem
+>> *shmem,
+>>   			   struct scmi_xfer *xfer,
+>> -			   struct scmi_chan_info *cinfo);
+>> +			   struct scmi_chan_info *cinfo,
+>> +			   shmem_copy_toio_t toio);
+>>   	u32 (*read_header)(struct scmi_shared_mem __iomem
+>> *shmem);
+>>
+>>   	void (*fetch_response)(struct scmi_shared_mem __iomem
+>> *shmem,
+>> -			       struct scmi_xfer *xfer);
+>> +			       struct scmi_xfer *xfer,
+>> +			       shmem_copy_fromio_t fromio);
+>>   	void (*fetch_notification)(struct scmi_shared_mem __iomem
+>> *shmem,
+>> -				   size_t max_len, struct scmi_xfer
+>> *xfer);
+>> +				   size_t max_len, struct scmi_xfer
+>> *xfer,
+>> +				   shmem_copy_fromio_t fromio);
+>>   	void (*clear_channel)(struct scmi_shared_mem __iomem
+>> *shmem);
+>>   	bool (*poll_done)(struct scmi_shared_mem __iomem *shmem,
+>>   			  struct scmi_xfer *xfer);
+>> @@ -350,7 +373,8 @@ struct scmi_shared_mem_operations {
+>>   	bool (*channel_intr_enabled)(struct scmi_shared_mem
+>> __iomem *shmem);
+>>   	void __iomem *(*setup_iomap)(struct scmi_chan_info *cinfo,
+>>   				     struct device *dev,
+>> -				     bool tx, struct resource *res);
+>> +				     bool tx, struct resource *res,
+>> +				     struct scmi_shmem_io_ops **ops);
+>>   };
+>>
+>>   const struct scmi_shared_mem_operations
+>> *scmi_shared_mem_operations_get(void);
+>> diff --git a/drivers/firmware/arm_scmi/scmi_transport_mailbox.c
+>> b/drivers/firmware/arm_scmi/scmi_transport_mailbox.c
+>> index dc5ca894d5eb..1a2e90e5c765 100644
+>> --- a/drivers/firmware/arm_scmi/scmi_transport_mailbox.c
+>> +++ b/drivers/firmware/arm_scmi/scmi_transport_mailbox.c
+>> @@ -25,6 +25,7 @@
+>>    * @chan_platform_receiver: Optional Platform Receiver mailbox
+>> unidirectional channel
+>>    * @cinfo: SCMI channel info
+>>    * @shmem: Transmit/Receive shared memory area
+>> + * @io_ops: Transport specific I/O operations
+>>    */
+>>   struct scmi_mailbox {
+>>   	struct mbox_client cl;
+>> @@ -33,6 +34,7 @@ struct scmi_mailbox {
+>>   	struct mbox_chan *chan_platform_receiver;
+>>   	struct scmi_chan_info *cinfo;
+>>   	struct scmi_shared_mem __iomem *shmem;
+>> +	struct scmi_shmem_io_ops *io_ops;
+>>   };
+>>
+>>   #define client_to_scmi_mailbox(c) container_of(c, struct scmi_mailbox,
+>> cl) @@ -43,7 +45,8 @@ static void tx_prepare(struct mbox_client *cl,
+>> void *m)  {
+>>   	struct scmi_mailbox *smbox = client_to_scmi_mailbox(cl);
+>>
+>> -	core->shmem->tx_prepare(smbox->shmem, m, smbox->cinfo);
+>> +	core->shmem->tx_prepare(smbox->shmem, m, smbox->cinfo,
+>> +				smbox->io_ops->toio);
+>>   }
+>>
+>>   static void rx_callback(struct mbox_client *cl, void *m) @@ -197,7
+>> +200,8 @@ static int mailbox_chan_setup(struct scmi_chan_info
+>> *cinfo, struct device *dev,
+>>   	if (!smbox)
+>>   		return -ENOMEM;
+>>
+>> -	smbox->shmem = core->shmem->setup_iomap(cinfo, dev, tx,
+>> NULL);
+>> +	smbox->shmem = core->shmem->setup_iomap(cinfo, dev, tx,
+>> NULL,
+>> +						&smbox->io_ops);
+>>   	if (IS_ERR(smbox->shmem))
+>>   		return PTR_ERR(smbox->shmem);
+>>
+>> @@ -298,7 +302,7 @@ static void mailbox_fetch_response(struct
+>> scmi_chan_info *cinfo,  {
+>>   	struct scmi_mailbox *smbox = cinfo->transport_info;
+>>
+>> -	core->shmem->fetch_response(smbox->shmem, xfer);
+>> +	core->shmem->fetch_response(smbox->shmem, xfer,
+>> +smbox->io_ops->fromio);
+>>   }
+>>
+>>   static void mailbox_fetch_notification(struct scmi_chan_info *cinfo,
+>> @@ -306,7 +310,8 @@ static void mailbox_fetch_notification(struct
+>> scmi_chan_info *cinfo,  {
+>>   	struct scmi_mailbox *smbox = cinfo->transport_info;
+>>
+>> -	core->shmem->fetch_notification(smbox->shmem, max_len,
+>> xfer);
+>> +	core->shmem->fetch_notification(smbox->shmem, max_len,
+>> xfer,
+>> +					smbox->io_ops->fromio);
+>>   }
+>>
+>>   static void mailbox_clear_channel(struct scmi_chan_info *cinfo) diff --
+>> git a/drivers/firmware/arm_scmi/scmi_transport_optee.c
+>> b/drivers/firmware/arm_scmi/scmi_transport_optee.c
+>> index 08911f40d1ff..2be4124c6826 100644
+>> --- a/drivers/firmware/arm_scmi/scmi_transport_optee.c
+>> +++ b/drivers/firmware/arm_scmi/scmi_transport_optee.c
+>> @@ -114,6 +114,7 @@ enum scmi_optee_pta_cmd {
+>>    * @req.shmem: Virtual base address of the shared memory
+>>    * @req.msg: Shared memory protocol handle for SCMI request and
+>>    *   synchronous response
+>> + * @io_ops: Transport specific I/O operations
+>>    * @tee_shm: TEE shared memory handle @req or NULL if using
+>> IOMEM shmem
+>>    * @link: Reference in agent's channel list
+>>    */
+>> @@ -128,6 +129,7 @@ struct scmi_optee_channel {
+>>   		struct scmi_shared_mem __iomem *shmem;
+>>   		struct scmi_msg_payld *msg;
+>>   	} req;
+>> +	struct scmi_shmem_io_ops *io_ops;
+>>   	struct tee_shm *tee_shm;
+>>   	struct list_head link;
+>>   };
+>> @@ -350,7 +352,8 @@ static int setup_dynamic_shmem(struct device
+>> *dev, struct scmi_optee_channel *ch  static int
+>> setup_static_shmem(struct device *dev, struct scmi_chan_info *cinfo,
+>>   			      struct scmi_optee_channel *channel)  {
+>> -	channel->req.shmem = core->shmem->setup_iomap(cinfo, dev,
+>> true, NULL);
+>> +	channel->req.shmem = core->shmem->setup_iomap(cinfo, dev,
+>> true, NULL,
+>> +						      &channel-
+>>> io_ops);
+>>   	if (IS_ERR(channel->req.shmem))
+>>   		return PTR_ERR(channel->req.shmem);
+>>
+>> @@ -465,7 +468,8 @@ static int scmi_optee_send_message(struct
+>> scmi_chan_info *cinfo,
+>>   		ret = invoke_process_msg_channel(channel,
+>>   						 core->msg-
+>>> command_size(xfer));
+>>   	} else {
+>> -		core->shmem->tx_prepare(channel->req.shmem, xfer,
+>> cinfo);
+>> +		core->shmem->tx_prepare(channel->req.shmem, xfer,
+>> cinfo,
+>> +					channel->io_ops->toio);
+>>   		ret = invoke_process_smt_channel(channel);
+>>   	}
+>>
+>> @@ -484,7 +488,8 @@ static void scmi_optee_fetch_response(struct
+>> scmi_chan_info *cinfo,
+>>   		core->msg->fetch_response(channel->req.msg,
+>>   					  channel->rx_len, xfer);
+>>   	else
+>> -		core->shmem->fetch_response(channel->req.shmem,
+>> xfer);
+>> +		core->shmem->fetch_response(channel->req.shmem,
+>> xfer,
+>> +					    channel->io_ops->fromio);
+>>   }
+>>
+>>   static void scmi_optee_mark_txdone(struct scmi_chan_info *cinfo, int
+>> ret, diff --git a/drivers/firmware/arm_scmi/scmi_transport_smc.c
+>> b/drivers/firmware/arm_scmi/scmi_transport_smc.c
+>> index c6c69a17a9cc..04e715ec1570 100644
+>> --- a/drivers/firmware/arm_scmi/scmi_transport_smc.c
+>> +++ b/drivers/firmware/arm_scmi/scmi_transport_smc.c
+>> @@ -45,6 +45,7 @@
+>>    * @irq: An optional IRQ for completion
+>>    * @cinfo: SCMI channel info
+>>    * @shmem: Transmit/Receive shared memory area
+>> + * @io_ops: Transport specific I/O operations
+>>    * @shmem_lock: Lock to protect access to Tx/Rx shared memory area.
+>>    *		Used when NOT operating in atomic mode.
+>>    * @inflight: Atomic flag to protect access to Tx/Rx shared memory
+>> area.
+>> @@ -60,6 +61,7 @@ struct scmi_smc {
+>>   	int irq;
+>>   	struct scmi_chan_info *cinfo;
+>>   	struct scmi_shared_mem __iomem *shmem;
+>> +	struct scmi_shmem_io_ops *io_ops;
+>>   	/* Protect access to shmem area */
+>>   	struct mutex shmem_lock;
+>>   #define INFLIGHT_NONE	MSG_TOKEN_MAX
+>> @@ -144,7 +146,8 @@ static int smc_chan_setup(struct
+>> scmi_chan_info *cinfo, struct device *dev,
+>>   	if (!scmi_info)
+>>   		return -ENOMEM;
+>>
+>> -	scmi_info->shmem = core->shmem->setup_iomap(cinfo, dev,
+>> tx, &res);
+>> +	scmi_info->shmem = core->shmem->setup_iomap(cinfo, dev,
+>> tx, &res,
+>> +						    &scmi_info-
+>>> io_ops);
+>>   	if (IS_ERR(scmi_info->shmem))
+>>   		return PTR_ERR(scmi_info->shmem);
+>>
+>> @@ -229,7 +232,8 @@ static int smc_send_message(struct
+>> scmi_chan_info *cinfo,
+>>   	 */
+>>   	smc_channel_lock_acquire(scmi_info, xfer);
+>>
+>> -	core->shmem->tx_prepare(scmi_info->shmem, xfer, cinfo);
+>> +	core->shmem->tx_prepare(scmi_info->shmem, xfer, cinfo,
+>> +				scmi_info->io_ops->toio);
+>>
+>>   	if (scmi_info->cap_id != ULONG_MAX)
+>>   		arm_smccc_1_1_invoke(scmi_info->func_id,
+>> scmi_info->cap_id, 0, @@ -253,7 +257,8 @@ static void
+>> smc_fetch_response(struct scmi_chan_info *cinfo,  {
+>>   	struct scmi_smc *scmi_info = cinfo->transport_info;
+>>
+>> -	core->shmem->fetch_response(scmi_info->shmem, xfer);
+>> +	core->shmem->fetch_response(scmi_info->shmem, xfer,
+>> +				    scmi_info->io_ops->fromio);
+>>   }
+>>
+>>   static void smc_mark_txdone(struct scmi_chan_info *cinfo, int ret, diff
+>> --git a/drivers/firmware/arm_scmi/shmem.c
+>> b/drivers/firmware/arm_scmi/shmem.c
+>> index 01d8a9398fe8..aded5f1cd49f 100644
+>> --- a/drivers/firmware/arm_scmi/shmem.c
+>> +++ b/drivers/firmware/arm_scmi/shmem.c
+>> @@ -34,9 +34,67 @@ struct scmi_shared_mem {
+>>   	u8 msg_payload[];
+>>   };
+>>
+>> +static inline void shmem_memcpy_fromio32(void *to,
+>> +					 const volatile void __iomem
+>> *from,
+>> +					 size_t count)
+>> +{
+>> +	while (count) {
+>> +		*(u32 *)to = __raw_readl(from);
+>> +		from += 4;
+>> +		to += 4;
+>> +		count -= 4;
+> 
+> This may not have issue, considering the 'count % 4' will be 0
+> and 'from' is 4 bytes aligned.
 
-I am holding off on these changes to think how these max_msg and max_msg_size
-can be used without breaking any platforms allowing space for the header
-and the message itself which is around 28 bytes. The binding itself looks
-good. We may have to adjust the value passed to the core driver taking
-the above into consideration.
+Correct, this cannot possibly happen today by virtue of msg->payload 
+being naturally aligned on a 4 bytes boundary.
 
---
-Regards,
-Sudeep
+> 
+> But I think it maybe better to add check if 'count' and 'from'
+> are not 4 bytes aligned.
+
+Humm, what would be the fallback, or should we just WARN()?
+
+> 
+>> +	}
+>> +
+>> +	/* Ensure all reads from I/O have completed */
+>> +	rmb();
+> 
+> Is there a need to use rmb here? I am not sure, just wonder.
+
+I personally do not think there is because there is an implicit data 
+dependency eventually we will be consuming data that was copied into 
+msg->payload and that will ensure that the data is there.
+
+> 
+>> +}
+>> +
+>> +static inline void shmem_memcpy_toio32(volatile void __iomem *to,
+>> +				       const void *from,
+>> +				       size_t count)
+>> +{
+>> +	while (count) {
+>> +		__raw_writel(*(u32 *)from, to);
+>> +		from += 4;
+>> +		to += 4;
+>> +		count -= 4;
+>> +	}
+> 
+> Ditto.
+> 
+>> +
+>> +	/* Ensure all writes to I/O have completed */
+>> +	wmb();
+> 
+> This maybe not needed.
+> The mailbox will use "writel", the SMC will use "smc",
+> the virtio will have "hvc", both will have barrier I think.
+
+Yes, those are all implicit barriers, I was attempting to address 
+Christian's concerns raised in v2:
+
+https://lore.kernel.org/all/Zr-GJts3Gu6GEkhC@pluto/
+-- 
+Florian
+
