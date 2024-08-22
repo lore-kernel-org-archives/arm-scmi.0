@@ -1,70 +1,62 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011023.outbound.protection.outlook.com [52.101.70.23])
+Received: from EUR03-VI1-obe.outbound.protection.outlook.com (mail-vi1eur03on2069.outbound.protection.outlook.com [40.107.103.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334932AF0D;
-	Thu, 22 Aug 2024 06:02:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3C71D12E6;
+	Thu, 22 Aug 2024 06:05:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.103.69
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724306533; cv=fail; b=D+haUJmDS2bZ1IOo7oQcgwDlbsLlEeqTUkgy8uM6s3tSw7S7zYrulcZOjiLtXL//9ugaHLo/JbBmCJF6AwCRG9hx7Rj8KgXHzNXgVRMh1ICh8YgWrIm7JkNzJ5bzQ8QczfaIdqIwzEfZuFL5MtomY2DEE/qf4lKc0lUnLZOJov8=
+	t=1724306719; cv=fail; b=oiCwYTcaTogtbi6GOw/5jdNMmNh9oGySmGTz0ktWLdA1xyO39yC1W3mkUlMp8X7+WsbJO1iaeLmA5HZzydiuAJhl/wqFI2sssiFcB1AkEPIujg229gfTG4CYrk/M/C3fhnPjBAP0wpSZK1vPrN5gUYJ0RECErlkxOmxe2UwuJzA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724306533; c=relaxed/simple;
-	bh=6Hu8BbZN6rzsyy+yirg/AMeqAgpc++ky7pazC9z67hE=;
+	s=arc-20240116; t=1724306719; c=relaxed/simple;
+	bh=9hhsr3Z2+5AEOlsIZIXma9PAX5sSuNlh9ZqXXu+lwDE=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=YyQMuDELi8g+A38HmHjiDoaKkBkmHm9ThY9P3sUp3wL7oC4nJoI4kgv3RvqLDvsWhbc2c2/bBmCaecPzfv1qABffQPSTy/5UOXlOhCnlOzrUl+/Yo6pNnSJwF6XWqjlCAiUazE3/F7PnON63zMF2B6+nQWwiUiGuTMBAIRC4Kzo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=bzJi/JdY; arc=fail smtp.client-ip=52.101.70.23
+	 Content-Type:MIME-Version; b=WZZha1OS4BdaEeYAI5YxBHjbYJjgTsGLLF0VQ/m+Q4zWHe6NegY8qneDJl5TOr7wj7Xl/Ah+mVTDnTHZD0st1E5iUgYV08Xi0fs25ZJ0z6wPtItEuPNS42moJPhKMDtRSiJJHTo3y2dDJfpCez8aTcaspw1DWivxdexjXS30EDo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=hYSak7Iu; arc=fail smtp.client-ip=40.107.103.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="bzJi/JdY"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="hYSak7Iu"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qq5r54lZmA+RYRfsvlZak4gl8AEc+/ptQ2Voq3l2l5kdvXOjADqOfG5Kfnhkio1CVAc//4i+H3gMigJDGISofEKC6IZfFEhbQsBLkBVD4RriLnksBwSiMH8mNmrTgEJx6CHnkEukYf2cy5dYv5/FkbL3+iNfQYILPDyxIfOtWu4JIY2UuI6akA8n2sYRYmB1sawt9l2HVKqatGJc43Sj57XbWhB8+H69LGbJI1uxz3GgB2CYAwm0HPSBOhBp86opkVqovjEpuTH5lmzF4guywxqfuAPEQPvFwIyRs3aK8F6JlkAh4D9KFPU7cUbl4Qg+Ut2vf+XlCpoytUWg1H+PKg==
+ b=vfSsgCeikVe/oYG7q6liNv3RvJPNllCx9m2cMS04h+5TBebb5M+Zc8/5y+jOD+l1vMaNAOQHIeHF6FfCVINs3CAqi3nd8uE6i1LLCo2tPVcNc0WB8OnYCEQN6M4OCokPzSNCofLeofka6n20rCyhZIbPpqgtYLraRJLeYdGs9/vPjMrfi/bR5tvqSOJtjxCRSOHeFEjkmNBU7YGI6pYOCC4OmRmZ29IJ0k1Ds4se0jrJewz3cnFY1l7jks+tOMB/a+gbTz5iPnlBxSGGhLgQoQJgtoctVELqpha537q5vXnskDiWco6Su4fdRKyGAEyFmYyq3Vqj3C2oLOCnJXBlmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Cnak0VoDF26RCgLMQbWfzxCCOqTd7xtYrcnhh+TKsfU=;
- b=oji5+LDIyXKihHfyZQdO+3nIwgg2qIu1Tkba0ZIJnUg4bY3f5+wflfOTyGGl1W9tf6hIKtjq2E+67iwpCwdKofZZ43Ak8RgEzqikYEf6BGhnh+35dflcdbSCRy7YeGw8WTDIOOtiSRCck0omLsw5vMpfQF87keMA+7DOEqeC1LH6ff5AFRXBtNmxAVdvTTgPoiHBPIKdvpDiyyB2Qfezvt0fVrGxnoVfdI+rpesoU3IOmNz2aI5EoZABDwctByRUo7YljtOe4NllZF6FRA9VUjL1hfJ2qdPAUaXDMWcwsMmrg0rAVkW26BCT0wPuBU+qUm/YayX3lSZt2XQlqoBB0Q==
+ bh=LfU0qYDtX1+KoiD6W3O016h25wLMul71RVQD6aLXcFo=;
+ b=OaUkPlQiEnkbK3cisNqW616AAIPgrHX/r8ZYdLy9RvkhrJ7Y08YPGClyhGyjPYHyZ4QR4hkaQZmxfLmfDxasUC6aR7jVh9FfaL05U2xSLmRwtQ3/SAsfbxvxyO5QDANLi9ZbdPb88xyGOekHJ0AhFGWBUEN2lkRj28DsFtYPQj/ishMqVZBAd8/tLvcXxSw7UKfNshPbGljYzXRwJsXBobX+QtEx6KAAAKElu858buBUnJa5PMg/Un5W/DAhd7MytEUHqHozDajmSpMZbMwEPopn2/4qYZdQrpOUhGnospOBNBe/+/QaWQYzI0CFYZsVuux1INoc+bSz2nWFGROnGQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Cnak0VoDF26RCgLMQbWfzxCCOqTd7xtYrcnhh+TKsfU=;
- b=bzJi/JdYnhc17yYKpw2s1zWPOvmqzxjZIIaNF0g3+IJ1kyEscYPP3Wf1ekW9Cw/ZYsllC4btuHfscIDMk+ED/UU8+AVhbp6zB3f0bmIWD2SddoIcltcMEhWabeg6z4gDcErTdMwAIhoKEqsf09HG/rQXgygsA5TKp8xqkfMXIQ++45ASFFX16B0xma3ZnSU1+eSd/Z32p+jtdarnoH2Xu1Z7Y84SG/VN8+BsMuWU9gxJ6xBwTcPZF3RhZF5+4BczfhCPXh1hIZTYlaucfUIK38FkH4hfo8uMgTwOotXQ+JqVCHZDlYh61nTbmiPGDhlIdp1zsCqgvqurlKt3+A4vKA==
+ bh=LfU0qYDtX1+KoiD6W3O016h25wLMul71RVQD6aLXcFo=;
+ b=hYSak7IuR1VIaaYWqxMlQVnIKQoIwX4SjFihm/Bhac6jV/GmMbsuHk0x4aix5cDpip2SOo69hjhBgNAlwq433kk1MUusU7XIk4cY3478nzJ31m7R6eba+WuzxygrRXlI6Rt/MqnTcRYlSMyzDdM16THo3i/YUYv3kqBEvWmUUStSsBnUxHgf2+ivNNSvylWxpnkjTDOa0ZFAuG2P1NplhNJnER+V6BF13cMpufAjZoXowrBR9lNF57zUfJEuMfWAHwHL8oIJdvPywUtcjQZxpqamnjBVUP+344tYCTqCJKWLP3OAWtW6FKzMwTa48a4cflRE320P+8Zs0ceUv7b5AA==
 Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
- by PAXPR04MB8783.eurprd04.prod.outlook.com (2603:10a6:102:20e::7) with
+ by VI0PR04MB10591.eurprd04.prod.outlook.com (2603:10a6:800:25b::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Thu, 22 Aug
- 2024 06:02:07 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Thu, 22 Aug
+ 2024 06:05:14 +0000
 Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
  ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
  ([fe80::165a:30a2:5835:9630%6]) with mapi id 15.20.7897.014; Thu, 22 Aug 2024
- 06:02:05 +0000
+ 06:05:14 +0000
 From: Peng Fan <peng.fan@nxp.com>
-To: Peng Fan <peng.fan@nxp.com>, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-	Sudeep Holla <sudeep.holla@arm.com>, Cristian Marussi
-	<cristian.marussi@arm.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo
-	<shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Dmitry Torokhov
-	<dmitry.torokhov@gmail.com>
-CC: "arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: RE: [PATCH v7 0/7] firmware: support i.MX95 SCMI BBM/MISC Extenstion
-Thread-Topic: [PATCH v7 0/7] firmware: support i.MX95 SCMI BBM/MISC Extenstion
-Thread-Index: AQHa40fEPyVCotchkEOnFP0xvgvrn7Ip1eMQgAkUKnA=
-Date: Thu, 22 Aug 2024 06:02:05 +0000
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, "sudeep.holla@arm.com"
+	<sudeep.holla@arm.com>, "cristian.marussi@arm.com"
+	<cristian.marussi@arm.com>, "mturquette@baylibre.com"
+	<mturquette@baylibre.com>, "sboyd@kernel.org" <sboyd@kernel.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
+CC: "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "arm-scmi@vger.kernel.org"
+	<arm-scmi@vger.kernel.org>, "d-gole@ti.com" <d-gole@ti.com>
+Subject: RE: [PATCH V3] clk: scmi: add is_prepared hook
+Thread-Topic: [PATCH V3] clk: scmi: add is_prepared hook
+Thread-Index: AQHa6A+OsVR2XlT/3kKcL3t9SECDi7Iy4mAw
+Date: Thu, 22 Aug 2024 06:05:14 +0000
 Message-ID:
- <PAXPR04MB845947383F2F5469B04E92C4888F2@PAXPR04MB8459.eurprd04.prod.outlook.com>
-References: <20240731-imx95-bbm-misc-v2-v7-0-a41394365602@nxp.com>
- <PAXPR04MB84591BA31D74C164E59A3B9688812@PAXPR04MB8459.eurprd04.prod.outlook.com>
-In-Reply-To:
- <PAXPR04MB84591BA31D74C164E59A3B9688812@PAXPR04MB8459.eurprd04.prod.outlook.com>
+ <PAXPR04MB8459C0CD8A4A74F20DDCB0E0888F2@PAXPR04MB8459.eurprd04.prod.outlook.com>
+References: <20240806145601.1184337-1-peng.fan@oss.nxp.com>
+In-Reply-To: <20240806145601.1184337-1-peng.fan@oss.nxp.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -72,68 +64,67 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR04MB8459:EE_|PAXPR04MB8783:EE_
-x-ms-office365-filtering-correlation-id: e4d0ae9a-2771-4c17-c22e-08dcc26ff2e4
+x-ms-traffictypediagnostic: PAXPR04MB8459:EE_|VI0PR04MB10591:EE_
+x-ms-office365-filtering-correlation-id: f4e81784-f233-44fa-dee9-08dcc2706395
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|7416014|376014|366016|921020|38070700018;
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?ckOQABEJ3Um8c81RJmIThktJXTV3JfS1o8qG/ueUKXGM/DAJVw3Qc9tWqFzS?=
- =?us-ascii?Q?bjy3ikXy4EYW97qo5432zn/BkMYxRvdzb7/pXAimFgaU9ZcEq2MkEsr3YHJw?=
- =?us-ascii?Q?8BT0kH6OAKzNXXw6/67PyGOMeFnttzOUKN9f9BPeeGvjutXr97cf5uf3lua1?=
- =?us-ascii?Q?R+9o6u4nO1xUBX7ScweaSeQRwMECTNhhN+GMWhJHfAP+PpgQIQW5IZYWzjUa?=
- =?us-ascii?Q?H9a9zj+ytUdwcweJkbnX3NkDlMDLxFywFffHSSaValFCtjD/auGdUSGu8sNv?=
- =?us-ascii?Q?0AsI9ljtNJYGz7fodjax1Zf9ah2mhBZryCUQWrn42IpfEMxrdZLf1czYflKU?=
- =?us-ascii?Q?TJWAc2KoDZfYYu7rD+AXM5mPkjp7vV176UpTQg/447tdamoGtRkJ5LYR6fG2?=
- =?us-ascii?Q?2MTEAqf9QV7fY3ciVOvZ6K1lVb0F/8vyuEJsQe31eUxdFHCObIqsqx1UKQo8?=
- =?us-ascii?Q?rQ2WzLO7wvtOj/e1svoieerhx/Hm49l5ZU3f9u76QmgoTNHksH3mQdgIwidw?=
- =?us-ascii?Q?d/G4uaeMKHN1sso+mBE9pGs/T/RTKqIbCxEr6vYpHxbSNnD/cocibAjm9tWI?=
- =?us-ascii?Q?UaAE75mIPFxfPkxuwz9rXwVnNvj4BDlBUr+Lxhsa5oXXO3hEwN/WFZPA3f+t?=
- =?us-ascii?Q?IGfP2x4rdGSilui7CheU1C4p4g4jvMxYruMIDzTCncBBmIQ/H9Bz30ylZ9wz?=
- =?us-ascii?Q?tZxNcivZIcD1j70TIIT5sB9ABYlIebtMv7KZ73jM5zZIOp90FAd/96whPJhJ?=
- =?us-ascii?Q?q2SlJNOFGwLzgbp5mFHkrKIWBSHpIP5vAHg3JWRqeitTyk8UAJAHC9Irm+Kg?=
- =?us-ascii?Q?qZuLicjig05Qyp0erG+v8GpB69GOaEMeF/IxAxw4attb4ix/7F+SvtCowWG3?=
- =?us-ascii?Q?Y0wsfLQeeVgIXLOQDaINkj+TjsvkaBRNTBeOfA/1qz6+FwX7eelTihCo90o6?=
- =?us-ascii?Q?AtHKc9iRT9ggRJAG5/tWGLSHdNjovr0w7hKBYmukrpBQb+tX3e6FeiiNbOJe?=
- =?us-ascii?Q?9GxzgSHO6+QBD8DZ7zNx8WAfUT8kJ48O0jukvZmD9WWsKu4AHBsfvBjZ0Mrn?=
- =?us-ascii?Q?yuoNo4YlXCAbcNgdHpW6cAJvlxJR4RUEkdqImKKbOmfDAr0exFl50f6b/xom?=
- =?us-ascii?Q?6vWJlDV66IchzXuCdYZ4CMDESgSd3+gbRp1coT0qMz7KKXGYZ/q7DRS9x+6W?=
- =?us-ascii?Q?+xvOnhbbBayA4ZV56y1TxnXVbbGFbS3f7b8biqso1g1vGWA+RxPQL8qOiq7o?=
- =?us-ascii?Q?3S0d6YsEod3kKGiC6U/RF1vVBLIMC56ic6SgiiBE8UWkkC264ZChN+UkXSxT?=
- =?us-ascii?Q?u+GEgatMmWLvtlPHap7zIPxyi5pCL0/ZgKuyhAKJ+aRJxgUkeAzgaP+AILb2?=
- =?us-ascii?Q?McH6AiUSs7CY5PFadMcjzAN4slKT?=
+ =?us-ascii?Q?4jUDFxaJ6d78E5PtQdX6dP5zld9+TsU9xOQrVM1J7tmZg+Ft1b02fNr8Z2e5?=
+ =?us-ascii?Q?Ri4nap1LDfuT51cJLEYnHnAsEP1eoS3bOss71vGRWesUUFOB/8LreexQrRKo?=
+ =?us-ascii?Q?GXCQTnWht20rNv8gEkX6i7TmjlKn32Z/QPEcUpuFTvkRiP2vxghdCImc4btk?=
+ =?us-ascii?Q?Ei1YOlSfMXMv6eH7sH7bdMABQAeS+197GaPhL6XDY7NgSJV0j/aYQDmwlAb1?=
+ =?us-ascii?Q?IAOnVCllXl9v8dPeXfZb7nT3NDV8ZsA1X3LyppT/Lk3sGCUcndSDpKi4w8PR?=
+ =?us-ascii?Q?IixMKAuiYwoxZ//NON7wTo6nYY8NLo4ySoUo2Cy59qsm+JmoYTGe2TMBl/Iz?=
+ =?us-ascii?Q?6oAY5APXq5lJCskE0VEfldJFOAhVbmJFTcMsPZ/FdTp6ne2Y8lZuvUPejcEb?=
+ =?us-ascii?Q?OCRJwSzHCoKDTMeYkPe85rRgzKKvzPeO1mUVaG1MsERM/82wY/mCKd9FHVbe?=
+ =?us-ascii?Q?eNT7wAIDAP4o8oj/Ku2/lcVa9Dwz7N9gfsc1fi2R0RCXXP1nn90LUGPU+kgS?=
+ =?us-ascii?Q?vtADpZwVQrf6H0cNxe+qIyYH0IspyouG5Xo8bjU2d8xLVXW45+e9lbvcwFOs?=
+ =?us-ascii?Q?uILys7yrh8Psf2AX/vJv9OlkVQ89WT6mWeOSWBdHPUeDxcVzSy9hKL2lWxi2?=
+ =?us-ascii?Q?/fn6mN3g5Vy/7gSR5gjfVavgGDBDqo3+2B2F5RddF1LN+Woe9sFP5BHi5wDn?=
+ =?us-ascii?Q?M071KXci2nOLKIVtenaXOSICXEVYCoAl9+3WdshEAhoXG9xBcK/iseUAt19a?=
+ =?us-ascii?Q?f95Nqf5o3Ep98MFNGhvFa8thLJCyJT6aAahrQ83QoB5kxGtZCbAT13jeg7YO?=
+ =?us-ascii?Q?3whJEr/cVI45JV3H07nUWwu9ZfIys/tGiZhEzwjVGwYRMvU4M+cXUiih9fQw?=
+ =?us-ascii?Q?xxGoihoPzBXl+J30+iTHQY1ogkL301b/iTUTC6Ng+rnUU+JofEx0lM8/EM53?=
+ =?us-ascii?Q?OXWReIqc8YcIzHYqpr0IBONrwZ+9PT/xjegpxLeG3N1u7oYW+JVS1cbidcMD?=
+ =?us-ascii?Q?QWJHVhR7cwDSU76f2/HfZgiqaUZ5lcC1Y3vp+h6w5N8aDflNEq0mDn54nJkC?=
+ =?us-ascii?Q?x7Kv0l9ttSC+F7HqIVoX3v61tTAtc0glsma8ny6t8DOSR7P+kViC9n4vo44l?=
+ =?us-ascii?Q?zSbRNY04LhdH+gWyNK72YpLMvCFT5gGJpnLpxwwz5tx9fKjU0D8ZSw5UxLEc?=
+ =?us-ascii?Q?gg9ICVlMTx7D0qDwBKvwzb4i5X+gOK3rvlLmEcqx81nlBo3BAmtewxdgDvBl?=
+ =?us-ascii?Q?oUfmm+Us0v9tRrTPBwZIvjFMGtGJNk54XJy+d6zBRZRpyQABtzyEcTIWhHMV?=
+ =?us-ascii?Q?jpV9HQmo128uCmvmZoL4Gpe7ZwXxKmwzoPPpR/CzUqFKJkhWVaFBGx5pftp2?=
+ =?us-ascii?Q?t1Qbpdk=3D?=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(921020)(38070700018);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?YDON+dVDfZtjsgm/GzvFsAQB478hPjKj2LX3cYw1eN0sR5Jlu5/sI8GUWP+I?=
- =?us-ascii?Q?lIRETRXq106xdF52zjtEmAkuFqXRax26mE/dnYvmTz6dQcr/NZtVf0fiiuvp?=
- =?us-ascii?Q?vdMFWDcexIjnNKXdcnSaItYAKXCnxho5AbmRiLG0z88U0AqixN6Tg7XdpESI?=
- =?us-ascii?Q?bl10ddHWQTcsYabzDWVDxm8G1gTrHZ8rgtBqBzaNXfrI+ZpVGPhDwbbglyk4?=
- =?us-ascii?Q?0t4MHJeISuhY/j13iMr+ZxZ6FG9zeKj3Y3Jvt5nyi0PVb5rOpUc//MiSlvPN?=
- =?us-ascii?Q?aZNwwVBVJXu0mgfQT0pYponazBUPZ8dZKpszsrt0DxpQV/vxsO8ohWq1KViJ?=
- =?us-ascii?Q?iPdNTxvQKPyUYTkI0P02Ouqbo0BHZ17KFTo6gQB5PUH1Y6scnFN/dMsZedLc?=
- =?us-ascii?Q?WIgYE1vaUhyvd9yjB9xKRJRwNgcpXCy6FXdEbghe2Jrjckod6DX2n9gpdZSn?=
- =?us-ascii?Q?cx1xltt5IV7eBWDjebJR0svDF7qTDHbkL+CVEpP7mcI9avSM+lpoMl2+K4tZ?=
- =?us-ascii?Q?VFY3aAYqfKOo57gIvWDN0RMUmoHHOyMzHEjy4sWPFVXXEPtw0qKAbFIFClbW?=
- =?us-ascii?Q?8DJPjFQEg/VWM6VCF2S4bn68IowJnynPo4GvJoewh9Rz5Kjm70pwZf1b+B/p?=
- =?us-ascii?Q?f6Kbr4HBsoALKCM7N0B6A2B7vc+8hay5MLlV46WkftysKu87e5i/Xo5yT/am?=
- =?us-ascii?Q?35zR5DVK1PP/ARHRIDdJ/qBT9FCSNs3CNu/nMvt41djqY2REvfyDw0is165Z?=
- =?us-ascii?Q?4EC/Q/j8OJKCDJybkYVzizE+NOhWUORAO4JtOnYATRGUrlFuRSd7mU9dkM2q?=
- =?us-ascii?Q?iDQZwZdpbBJjpa10aqZATjqT9VGY/LVzfqyY57uv9ViaQMV8pb1td/Qz+s3C?=
- =?us-ascii?Q?MW2CjDY5c/xpVdB3qJnH7UV/PvyWvGcli1aoYE2G1B1qPR/2Jc7lRFGJmZNQ?=
- =?us-ascii?Q?btifwVPKOSgPGMbmkW0Hh0X5UXPYjZbTZOoY8l0a20/PzYRt1Ph1OEpWxkSE?=
- =?us-ascii?Q?fF3PpT3eKc6+VnuOzB007zQVBplB0PoShkTVdap7Fg7KFstvVl+ffwOJ+yb3?=
- =?us-ascii?Q?38J96c1/BGXWJqSjXUWxk/xAyXcDErDr845Dp0FcAu05NN7SZ/nzMDlOD2qh?=
- =?us-ascii?Q?Y8A5SWh14uV6BbrVadMLMfMeHkbclcTVCLeZy4gE++PMt7NDJlMOwMtQKewu?=
- =?us-ascii?Q?LRL7jm9ynGkiI7xpeLAwcKwi9K3KcSxEW3qfl5d2n4l/ceB9lZtjC0CGkXbr?=
- =?us-ascii?Q?/wkaU5AwM6xS0+p4v931yOjFi209lk87LIpC2t+0RxEh7UHyffFpSve9jxXx?=
- =?us-ascii?Q?CT3pDRBjZL6eKq+31K1HI2pI9XIOtn6aTYN/iQiWSLdvq4HHCmyAEVKRhd5L?=
- =?us-ascii?Q?gD2ZH3Wow5W61ytf4paFYiVqE7ul2VLiAcoS0DW1SnKB9MrDC5mFEzvw0tD6?=
- =?us-ascii?Q?ZfJL/m1h264HIgvHCk2u68AsRjpdmlBiSQd1IYEdc3jv0pqcJJMRRNKU5G9L?=
- =?us-ascii?Q?bxs4gicVJfjuVzFxCI8CdkruYW6xDNLgJPz0MptvImQPueM9NNx3CNRHhVwS?=
- =?us-ascii?Q?90bX8BXyD4ycFsxYUV8=3D?=
+ =?us-ascii?Q?DWtYUOFuDNqi9L4/Na5Kp5+arARlJhlpCc4toDqk7jYloqTEr6ih5J8RKvRg?=
+ =?us-ascii?Q?yC5rdE4wU7NirBVUTqBCOdyK6MYDmAMGe/8IuAIBOaln/wNgmdx6CZCkE2Zx?=
+ =?us-ascii?Q?8JHpV3j8m31Lmvgcg5r2K4cfdLGWuS7WZmD1nzcvXsJRamiFRFv84P1XnGB/?=
+ =?us-ascii?Q?p2NHEShsmTy5czdVaOcxAd3aN81t8hUF3hkbD4HlVgoWFb9YctV3TPAPtXWe?=
+ =?us-ascii?Q?jWN5MWe2cL8S1ng0v4ID9/iyz4Ah8EP+YriFHHIm9Sus2ssIGeN2dfJ3yFYp?=
+ =?us-ascii?Q?dI+3/Kh3lBF4mrGQXqmzNuouEQptzrHzS5gkLcROjwT1ZkOmfO088bHRVUqu?=
+ =?us-ascii?Q?hGOiHmvmzdlK1fKuqom9WXGkCBrJ5+3RR42SdGRJkiAcfmQ5VLBV8BxyyyrB?=
+ =?us-ascii?Q?gx7GETyiOxbvqZZ3pz6RYOx7m3t2bLa6CQdT/tIp0pKivK/5+WtiCW3ZxBaf?=
+ =?us-ascii?Q?K1Em8BmOZG1iPYLDJPG1LGg1NtVYj8uRWWzA2PptL/8rg0drCSNPnEv3P5xe?=
+ =?us-ascii?Q?fB51bPb1aLsNeTpWQisCchhVyLIsv91dkfoUPvnTO3H8dFZMiC7611EPNNgc?=
+ =?us-ascii?Q?MBPfdFr0J5am7OJIQfp7PV60W4NNO2fm2Fy3VAaH7I/uOf+Ishwbo2Uus2bk?=
+ =?us-ascii?Q?MoDyEzgYmUpCeE6apB8MC4078otTBebo+wagH3vYejhWPc9j0l8eHfgMvmND?=
+ =?us-ascii?Q?uwzpBCxvBjkNWfaeKNoN0pI6i2dr4GUaOkjQlX95lZuglgtV3YzouxZzhbN+?=
+ =?us-ascii?Q?dY1RZON/Wjlu8Gsx8w/5C8R77WhUmh1cQtLUjep3DGk7h/LCmKOf7NFSmhRP?=
+ =?us-ascii?Q?dpoTB8YNdxiNttmBxxRt3UsIx+vT/Ixx+4dYeXzdNyYwesTswynz02OyKbyT?=
+ =?us-ascii?Q?1oACOeO+KUX8/y5q/bY6F2bdKQiuGxDOSPmvscntCOTwBLZXE7jcu9I2capG?=
+ =?us-ascii?Q?Nwhicn68BHxgDhUKCvaPgCZHolX0XL6B9pnTITHmmO+CRwAG8CPiSKmewz+d?=
+ =?us-ascii?Q?5bo7H8SvONT9j3mQFvU7vQarYUfPwDKiyUSyxVNXJtFgNEQmoNsYd7hrY+Xi?=
+ =?us-ascii?Q?io/wx1Rb5RiP72Z0aNOnrUusGwcHK+L3cdU3T6L582bmEN9eHWNSUTmdY4+a?=
+ =?us-ascii?Q?+pHr79Zwe3ruTTOF2JXODJnC4ZH6kDfl44P6vlnv6fYz6nZh2orXR0EaYR33?=
+ =?us-ascii?Q?Me6jfyn4IM7qOtaAPiYgTS3TQdmwlgQiRRPzdO/XiwuLdemu/Vi/fDRFS9LB?=
+ =?us-ascii?Q?4khygPKotMUjnDuT4o/jSwOimz+JYWMKb6/X8m+O1qRljCs8B8dFNZ6DKPj5?=
+ =?us-ascii?Q?0CxHpsHYVds1wIiFByLOROaUfViXUdXxQemVe1g7+WpbXW5EEeWhfveI3d+X?=
+ =?us-ascii?Q?xC/QQj2Dj1Ha7YgZcjfLFmPYzVpQg2FDN3axDsRXpk4qihVpB1j81cUTOVKc?=
+ =?us-ascii?Q?HcGx31H+V8ko1O43QpuniMLDTtwnRy6V2f4wSMc3FLhlr8Gs/u+Yt+Y/pVOR?=
+ =?us-ascii?Q?VSOsMhyW3cxc8dgCXE6tgkK281LZqLarHw0l3j24vcyicX972UdmUbckKBAX?=
+ =?us-ascii?Q?kbX7ZC0a7QcWds0C5iI=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -145,326 +136,101 @@ MIME-Version: 1.0
 X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4d0ae9a-2771-4c17-c22e-08dcc26ff2e4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2024 06:02:05.1715
+X-MS-Exchange-CrossTenant-Network-Message-Id: f4e81784-f233-44fa-dee9-08dcc2706395
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2024 06:05:14.2212
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9ui03DEGkk10091hl10sUHMhJkJoJcUeZR2UXGKu2WahtfbI5qGEjirHOHXqf4SZujRkJnA+7XUrWHGAke+r8A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8783
+X-MS-Exchange-CrossTenant-userprincipalname: ojgqb1X1NkJv9kPZ8wC9nvAcTUuC2Ti/zBHCi9IrIHWVnXW02DHsDsEMmOKja25ldZUTYGfH//Dx7vHudjTXig==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10591
 
-Hi Sudeep,
+Hi Stephen, Sudeep
 
-> Subject: RE: [PATCH v7 0/7] firmware: support i.MX95 SCMI BBM/MISC
-> Extension
+> Subject: [PATCH V3] clk: scmi: add is_prepared hook
 
-With Cristian's transport patchset applied, there a minor conflict in Makef=
-ile
-with this patchset. Please let me know if I need to send v8 to address
-the Makefile conflict or you could help.
+Not sure this patch belongs to clk tree or scmi tree. But please give a loo=
+k
+when you have time.
 
 Thanks,
 Peng.
 
 >=20
-> Hi Sudeep,
+> From: Peng Fan <peng.fan@nxp.com>
 >=20
-> > Subject: [PATCH v7 0/7] firmware: support i.MX95 SCMI BBM/MISC
-> > Extension
+> Some clocks maybe default enabled by hardware. For clocks that don't
+> have users, that will be left in hardware default state, because prepare
+> count and enable count is zero,if there is no is_prepared hook to get
+> the hardware state. So add is_prepared hook to detect the hardware
+> state. Then when disabling the unused clocks, they can be simply
+> turned OFF to save power during kernel boot.
 >=20
-> Would you please give a look on patch [1-4]/7?
-> Cristian has gave his R-b, are the patches good for you to pick up?
+> Reviewed-by: Dhruva Gole <d-gole@ti.com>
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
 >=20
-> Thanks,
-> Peng.
+> V3:
+>  Update the commit log. See discussion:
 >=20
-> >
-> > i.MX95 System Manager Firmware source:
-> >
-> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
-> gith
-> > ub.com%2Fnxp-
-> &data=3D05%7C02%7Cpeng.fan%40nxp.com%7C1002bc37426b4344192
-> 5
-> >
-> 08dcbde5c496%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%
-> 7C638594041757
-> >
-> 286225%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJ
-> QIjoiV2luMzIiLCJ
-> >
-> BTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7C%7C%7C&sdata=3DId8fggn%2
-> B%2B8NBRYzEHSr
-> > LK3GYSDX8bA3%2FNHPibH5xuEk%3D&reserved=3D0
-> > imx/imx-sm To generate html from the repo: make html
-> >
-> > i.MX95 System Manager Firmware support vendor extension
-> protocol:
-> > - Battery Backed Module(BBM) Protocol
-> >   This protocol is intended provide access to the battery-backed
-> module.
-> >   This contains persistent storage (GPR), an RTC, and the ON/OFF
-> > button.
-> >   The protocol can also provide access to similar functions
-> > implemented via
-> >   external board components. The BBM protocol provides functions to:
-> >
-> >   - Describe the protocol version.
-> >   - Discover implementation attributes.
-> >   - Read/write GPR
-> >   - Discover the RTCs available in the system.
-> >   - Read/write the RTC time in seconds and ticks
-> >   - Set an alarm (per LM) in seconds
-> >   - Get notifications on RTC update, alarm, or rollover.
-> >   - Get notification on ON/OFF button activity.
-> >
-> > - MISC Protocol for misc settings
-> >   This includes controls that are misc settings/actions that must be
-> >   exposed from the SM to agents. They are device specific and are
-> > usually
-> >   define to access bit fields in various mix block control modules,
-> >   IOMUX_GPR, and other GPR/CSR owned by the SM.
-> >   This protocol supports the following functions:
-> >
-> >   - Describe the protocol version.
-> >   - Discover implementation attributes.
-> >   - Set/Get a control.
-> >   - Initiate an action on a control.
-> >   - Obtain platform (i.e. SM) build information.
-> >   - Obtain ROM passover data.
-> >   - Read boot/shutdown/reset information for the LM or the system.
-> >
-> > This patchset is to support the two protocols and users that use the
-> > protocols. The upper protocol infomation is also included in patch 1
-> >
-> > Signed-off-by: Peng Fan <peng.fan@nxp.com>
-> >
-> > Changes in v7:
-> > - Just correct R-b tag from Rob to drop quotes "", and rebased
-> > - Link to v6:
-> >
-> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
-> lore
-> > .kernel.org%2Fr%2F20240718-imx95-bbm-misc-v2-
-> &data=3D05%7C02%7Cpeng.fan%
-> >
-> 40nxp.com%7C1002bc37426b4344192508dcbde5c496%7C686ea1d3
-> bc2b4c6fa92cd99
-> >
-> c5c301635%7C0%7C0%7C638594041757299262%7CUnknown%7CT
-> WFpbGZsb3d8eyJWIjo
-> >
-> iMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D
-> %7C0%7C%7C%
-> >
-> 7C&sdata=3DIelY7nn8UonmziY%2FTKQy0V5F68zDmX3fRJeS%2FNYxlRA%
-> 3D&reserved=3D0
-> > v6-0-18f008e16e9d@nxp.com
-> >
-> > Changes in v6:
-> > - Add R-b from Cristian for patch 2,3,4,5,6
-> > - Add a new function parameter 'bool enable' to rtc_alarm_set in
-> patch
-> > 2
-> > - Drop dev_err per RTC maintainer, move devm_rtc_register to
-> function
-> >   end in patch 6
-> > - Address Cristian's comment to documentation. Also moved the
-> >   documentation to patch 3, which adds the imx.rst under
-> >   drivers/firmware/arm_scmi/imx
-> > - Add remove hook to cancel_delayed_work_sync in patch 7
-> > - Link to v5:
-> >
-> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
-> lore
-> > .kernel.org%2Fr%2F20240621-imx95-bbm-misc-v2-
-> &data=3D05%7C02%7Cpeng.fan%
-> >
-> 40nxp.com%7C1002bc37426b4344192508dcbde5c496%7C686ea1d3
-> bc2b4c6fa92cd99
-> >
-> c5c301635%7C0%7C0%7C638594041757307547%7CUnknown%7CT
-> WFpbGZsb3d8eyJWIjo
-> >
-> iMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D
-> %7C0%7C%7C%
-> >
-> 7C&sdata=3DTIgALwKaM0bL3%2F8%2BH5TURHjK4KM6Qadpr64dUEbla6
-> M%3D&reserved=3D0
-> > v5-0-b85a6bf778cb@nxp.com
-> >
-> > Changes in v5:
-> > - Collected missing comments in v1, I not intend to miss any, and
-> sorry
-> >   if I make something wrong.
-> > - Update the documentation per Cristian's comments. Not sure we
-> need a
-> > new directory for firmware stuff, not firmware-guide direcotyr.
-> > - Added R-b for patch 3 "firmware: arm_scmi: add initial support for
-> > i.MX BBM protocol"
-> > - For patch 4, added comments in scmi_imx_misc_ctrl_validate_id,
-> use
-> >   num_sources in scmi_protocol_events, move
-> > scmi_imx_misc_protocol_init
-> >   near init, use get_max_msg_size and drop MISC_MAX_VAL.
-> > - Separate the sm-bbm.c into rtc and key drivers with
-> >   each has its own notifiy callback, put the driver in rtc and input
-> >   directory, handle error return, add kconfig for each driver, use
-> >   to_delayed_work, use READ/WRITE_ONCE, still keep ops as private,
-> >   device_init_wakeup set false if failure.
-> > - For patch 5, Add kconfig for sm-misc.c. Only support one instance,
-> > so add a check
-> >   ops in probe.
-> > - Link to v4:
-> >
-> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
-> lore
-> > .kernel.org%2Fr%2F20240524-imx95-bbm-misc-v2-
-> &data=3D05%7C02%7Cpeng.fan%
-> >
-> 40nxp.com%7C1002bc37426b4344192508dcbde5c496%7C686ea1d3
-> bc2b4c6fa92cd99
-> >
-> c5c301635%7C0%7C0%7C638594041757313869%7CUnknown%7CT
-> WFpbGZsb3d8eyJWIjo
-> >
-> iMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D
-> %7C0%7C%7C%
-> >
-> 7C&sdata=3DNLUX8pWiyfLJXd9tLkWZHW9HxB00gVnKpNqGphH6PZk%3
-> D&reserved=3D0
-> > v4-0-dc456995d590@nxp.com
-> >
-> > Changes in v4:
-> > - Rebased to next-20240520
-> > - Added vendor/sub-vendor, currently the sub-vendor is "i.MX95 EVK",
-> >   this may not be proper, I will check with firmware owner on this to
-> >   seen any update. please still help review other parts of the patchset=
-.
-> > - Added constrain value in binding doc, change the property name
-> from
-> >   nxp,wakeup-sources to nxp,ctrl-ids to match firmware definition.
-> > - Put i.MX code under new directory imx/
-> > - Change the misc event from three to one, the code in previous
-> > patchset
-> >   was wrong.
-> > - Link to v3:
-> >
-> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
-> lore
-> > .kernel.org%2Fr%2F20240412-imx95-bbm-misc-v2-
-> &data=3D05%7C02%7Cpeng.fan%
-> >
-> 40nxp.com%7C1002bc37426b4344192508dcbde5c496%7C686ea1d3
-> bc2b4c6fa92cd99
-> >
-> c5c301635%7C0%7C0%7C638594041757319735%7CUnknown%7CT
-> WFpbGZsb3d8eyJWIjo
-> >
-> iMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D
-> %7C0%7C%7C%
-> >
-> 7C&sdata=3DDsX6rHSn9UHxg00XUXdioRTDKikM9dlGWtyMOWSKQqc%3
-> D&reserved=3D0
-> > v3-0-4380a4070980@nxp.com
-> >
-> > Changes in v3:
-> > - Update cover letter and patch commit log to include more
-> > information.
-> > - Add documentation for BBM and MISC protocols under
-> >   Documentation/firmware-guide/nxp. Not sure if this is a good place.
-> > - Fix the bindings, hope I have addressed the issues.
-> >   Drop imx,scmi.yaml.
-> >   Add nxp,imx95-scmi.yaml for NXP vendor protocol properties.
-> >   Add constraints, add nxp prefix for NXP vendor properties.
-> >   Use anyOf in arm,scmi.yaml to ref vendor yaml.
-> > - Use cpu_to_le32 per Cristian
-> > - Link to v2:
-> >
-> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
-> lore
-> > .kernel.org%2Fr%2F20240405-imx95-bbm-misc-v2-
-> &data=3D05%7C02%7Cpeng.fan%
-> >
-> 40nxp.com%7C1002bc37426b4344192508dcbde5c496%7C686ea1d3
-> bc2b4c6fa92cd99
-> >
-> c5c301635%7C0%7C0%7C638594041757325573%7CUnknown%7CT
-> WFpbGZsb3d8eyJWIjo
-> >
-> iMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D
-> %7C0%7C%7C%
-> >
-> 7C&sdata=3DxCKP6hjdqJIppJkmJsNhfZa85df%2BDYR%2B%2FawL6qQI5Xc
-> %3D&reserved
-> > =3D0
-> > v2-0-9fc9186856c2@nxp.com
-> >
-> > Changes in v2:
-> > - Sorry for late update since v1.
-> > - Add a new patch 1
-> > - Address imx,scmi.yaml issues
-> > - Address comments for imx-sm-bbm.c and imx-sm-misc.c
-> > - I not add vendor id since related patches not landed in linux-next.
-> > - Link to v1:
-> >
-> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
-> lore
-> > .kernel.org%2Fr%2F20240202-imx95-bbm-misc-v1-0-
-> &data=3D05%7C02%7Cpeng.fa
-> >
-> n%40nxp.com%7C1002bc37426b4344192508dcbde5c496%7C686ea1
-> d3bc2b4c6fa92cd
-> >
-> 99c5c301635%7C0%7C0%7C638594041757331366%7CUnknown%7C
-> TWFpbGZsb3d8eyJWI
-> >
-> joiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3
-> D%7C0%7C%7
-> >
-> C%7C&sdata=3DV5SX0eUuQo5nYcQD44C%2FSnq9M9cc2TlpeuoO2A2Mh
-> Ss%3D&reserved=3D0
-> > 3cb743020933@nxp.com
-> >
-> > ---
-> > Peng Fan (7):
-> >       dt-bindings: firmware: add i.MX95 SCMI Extension protocol
-> >       firmware: arm_scmi: add initial support for i.MX BBM protocol
-> >       firmware: arm_scmi: add initial support for i.MX MISC protocol
-> >       firmware: arm_scmi: add NXP i.MX95 SCMI documentation
-> >       firmware: imx: add i.MX95 MISC driver
-> >       rtc: support i.MX95 BBM RTC
-> >       input: keyboard: support i.MX95 BBM module
-> >
-> >  .../devicetree/bindings/firmware/arm,scmi.yaml     |   5 +-
-> >  .../bindings/firmware/nxp,imx95-scmi.yaml          |  43 +
-> >  drivers/firmware/arm_scmi/Kconfig                  |   2 +
-> >  drivers/firmware/arm_scmi/Makefile                 |   1 +
-> >  drivers/firmware/arm_scmi/imx/Kconfig              |  23 +
-> >  drivers/firmware/arm_scmi/imx/Makefile             |   3 +
-> >  drivers/firmware/arm_scmi/imx/imx-sm-bbm.c         | 379
-> +++++++++
-> >  drivers/firmware/arm_scmi/imx/imx-sm-misc.c        | 315 ++++++++
-> >  drivers/firmware/arm_scmi/imx/imx95.rst            | 886
-> > +++++++++++++++++++++
-> >  drivers/firmware/imx/Kconfig                       |  11 +
-> >  drivers/firmware/imx/Makefile                      |   1 +
-> >  drivers/firmware/imx/sm-misc.c                     | 119 +++
-> >  drivers/input/keyboard/Kconfig                     |  11 +
-> >  drivers/input/keyboard/Makefile                    |   1 +
-> >  drivers/input/keyboard/imx-sm-bbm-key.c            | 236 ++++++
-> >  drivers/rtc/Kconfig                                |   8 +
-> >  drivers/rtc/Makefile                               |   1 +
-> >  drivers/rtc/rtc-imx-sm-bbm.c                       | 162 ++++
-> >  include/linux/firmware/imx/sm.h                    |  33 +
-> >  include/linux/scmi_imx_protocol.h                  |  59 ++
-> >  20 files changed, 2298 insertions(+), 1 deletion(-)
-> > ---
-> > base-commit: 668d33c9ff922c4590c58754ab064aaf53c387dd
-> > change-id: 20240405-imx95-bbm-misc-v2-b5e9d24adc42
-> >
-> > Best regards,
-> > --
-> > Peng Fan <peng.fan@nxp.com>
+> https://lore.kernel.org/all/20240802061234.njlviydzmjbsyteb@lcpd91
+> 1/
+> V2:
+>  Provider helper __scmi_clk_is_enabled for atomic and non-atomic
+> usage  Move is_prepared hook out of
+> SCMI_CLK_STATE_CTRL_SUPPORTED
+> https://lore.kernel.org/all/20240802061234.njlviydzmjbsyteb@lcpd91
+> 1/
+>=20
+>  drivers/clk/clk-scmi.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/clk/clk-scmi.c b/drivers/clk/clk-scmi.c index
+> d86a02563f6c..15510c2ff21c 100644
+> --- a/drivers/clk/clk-scmi.c
+> +++ b/drivers/clk/clk-scmi.c
+> @@ -156,13 +156,13 @@ static void scmi_clk_atomic_disable(struct
+> clk_hw *hw)
+>  	scmi_proto_clk_ops->disable(clk->ph, clk->id, ATOMIC);  }
+>=20
+> -static int scmi_clk_atomic_is_enabled(struct clk_hw *hw)
+> +static int __scmi_clk_is_enabled(struct clk_hw *hw, bool atomic)
+>  {
+>  	int ret;
+>  	bool enabled =3D false;
+>  	struct scmi_clk *clk =3D to_scmi_clk(hw);
+>=20
+> -	ret =3D scmi_proto_clk_ops->state_get(clk->ph, clk->id, &enabled,
+> ATOMIC);
+> +	ret =3D scmi_proto_clk_ops->state_get(clk->ph, clk->id, &enabled,
+> +atomic);
+>  	if (ret)
+>  		dev_warn(clk->dev,
+>  			 "Failed to get state for clock ID %d\n", clk-
+> >id); @@ -170,6 +170,16 @@ static int
+> scmi_clk_atomic_is_enabled(struct clk_hw *hw)
+>  	return !!enabled;
+>  }
+>=20
+> +static int scmi_clk_atomic_is_enabled(struct clk_hw *hw) {
+> +	return __scmi_clk_is_enabled(hw, ATOMIC); }
+> +
+> +static int scmi_clk_is_enabled(struct clk_hw *hw) {
+> +	return __scmi_clk_is_enabled(hw, NOT_ATOMIC); }
+> +
+>  static int scmi_clk_get_duty_cycle(struct clk_hw *hw, struct clk_duty
+> *duty)  {
+>  	int ret;
+> @@ -285,6 +295,8 @@ scmi_clk_ops_alloc(struct device *dev,
+> unsigned long feats_key)
+>=20
+>  	if (feats_key & BIT(SCMI_CLK_ATOMIC_SUPPORTED))
+>  		ops->is_enabled =3D scmi_clk_atomic_is_enabled;
+> +	else
+> +		ops->is_prepared =3D scmi_clk_is_enabled;
+>=20
+>  	/* Rate ops */
+>  	ops->recalc_rate =3D scmi_clk_recalc_rate;
+> --
+> 2.37.1
 
