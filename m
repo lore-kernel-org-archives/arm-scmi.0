@@ -1,70 +1,70 @@
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11013040.outbound.protection.outlook.com [52.101.67.40])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011023.outbound.protection.outlook.com [52.101.70.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60BA2A55;
-	Wed, 21 Aug 2024 01:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.67.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334932AF0D;
+	Thu, 22 Aug 2024 06:02:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.23
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724202095; cv=fail; b=Y01oLdPQc1x20lvqTtnIU/6IiM44Ixnco2iz5t3urmCh3Q3EjYybFs7MfviQoY0a0Y7WjYUAJS5tvob4gTqef6jRe7wXW+RuUxXF8YL6YjEuHYtwbjKynyERpkeDeFoBZNDguO8S4Vh6LK/lBAXYp1aekTKrpNYwp8WECf7L9WA=
+	t=1724306533; cv=fail; b=D+haUJmDS2bZ1IOo7oQcgwDlbsLlEeqTUkgy8uM6s3tSw7S7zYrulcZOjiLtXL//9ugaHLo/JbBmCJF6AwCRG9hx7Rj8KgXHzNXgVRMh1ICh8YgWrIm7JkNzJ5bzQ8QczfaIdqIwzEfZuFL5MtomY2DEE/qf4lKc0lUnLZOJov8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724202095; c=relaxed/simple;
-	bh=ud5M6HwWx/G+y2166zpzF2jJiKllFaPtbcXdRkVhkHE=;
+	s=arc-20240116; t=1724306533; c=relaxed/simple;
+	bh=6Hu8BbZN6rzsyy+yirg/AMeqAgpc++ky7pazC9z67hE=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=mr9mnLU37hbk/BwcGOuAnaULqjFSNSOt9tViYJk4qVg8tCe0JAIUaOMpY8RXhCCI5mI3evPs/71nQTF+4s9UVugug8Umh4triVoMzIPEjUPKhhuOcBk4gU7TivHmUBNcYZeqRc5ju9GFg8q9XxbQ/k9gq4sOD8VISF/LdzUq8AA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=jQwSWAwe; arc=fail smtp.client-ip=52.101.67.40
+	 Content-Type:MIME-Version; b=YyQMuDELi8g+A38HmHjiDoaKkBkmHm9ThY9P3sUp3wL7oC4nJoI4kgv3RvqLDvsWhbc2c2/bBmCaecPzfv1qABffQPSTy/5UOXlOhCnlOzrUl+/Yo6pNnSJwF6XWqjlCAiUazE3/F7PnON63zMF2B6+nQWwiUiGuTMBAIRC4Kzo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=bzJi/JdY; arc=fail smtp.client-ip=52.101.70.23
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="jQwSWAwe"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="bzJi/JdY"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Xi6zNqDtkrgyxBLPi65m/5lj4sCQqcyQ5rl5LpTSX0jQh7b7dT0x8vHH5MAUfV7e5JME8yG9nMAvvhxlHFBJRL/10qzv1asfp5G10kKFJrlnMTxeqlPSz1DnfWq7pM7zsmtR/zKFF27k0LlQSebl0kjiXxBCjiq/3OD3sAJW3WRtVYwcOKjXHKP+SXLWHF6KFnLVp6oDG7oyBOri3+kDDK4xMNhPQ9zckJObHKW+BmW/RVPk0Bcl1HRsKOLnTp20vEAKpO2senVe9fzbC7voriY8MRpicrO6jH7Co+SP4UU6EbFJ8cxUuWicKZKApgWkrMlgfeuarzlL2Wgy5WoIlQ==
+ b=qq5r54lZmA+RYRfsvlZak4gl8AEc+/ptQ2Voq3l2l5kdvXOjADqOfG5Kfnhkio1CVAc//4i+H3gMigJDGISofEKC6IZfFEhbQsBLkBVD4RriLnksBwSiMH8mNmrTgEJx6CHnkEukYf2cy5dYv5/FkbL3+iNfQYILPDyxIfOtWu4JIY2UuI6akA8n2sYRYmB1sawt9l2HVKqatGJc43Sj57XbWhB8+H69LGbJI1uxz3GgB2CYAwm0HPSBOhBp86opkVqovjEpuTH5lmzF4guywxqfuAPEQPvFwIyRs3aK8F6JlkAh4D9KFPU7cUbl4Qg+Ut2vf+XlCpoytUWg1H+PKg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZEsEwqLaugX0T16ZG701ReZvqNGhk+Qc1pbLnDFFL4Q=;
- b=oQKzt/oGFZ3+pTiuV03eYCdQSq1irBldPB9LHs+RgNVLaWjvPDf13SHEV4fl1wOVjqWIK87w6jtZVtAQXyFRReRuWoQIIpNqFGkJF4pfV2a/zy+SREIAnenoDP2ejprduhyUBW+tmcE9jt6fC2zEbYrC+TRaz8v83tyGL9mRlYzPS8nTwHnZWRCCFQAZnMzzBrmexOqJbYznpJV738O1Y+3Fi2VTWeTp+AG8iPsZBX0Bk8Wgk5QqvGWv625/SdFy+dvQ3Q+f96jmMZWeCptacmyUAuYMhBSgg8nQ7TOJ9xMlco4tvT+zk+/PlJzgoGWTUzJHkHgV7Cr2rB31sb9f5Q==
+ bh=Cnak0VoDF26RCgLMQbWfzxCCOqTd7xtYrcnhh+TKsfU=;
+ b=oji5+LDIyXKihHfyZQdO+3nIwgg2qIu1Tkba0ZIJnUg4bY3f5+wflfOTyGGl1W9tf6hIKtjq2E+67iwpCwdKofZZ43Ak8RgEzqikYEf6BGhnh+35dflcdbSCRy7YeGw8WTDIOOtiSRCck0omLsw5vMpfQF87keMA+7DOEqeC1LH6ff5AFRXBtNmxAVdvTTgPoiHBPIKdvpDiyyB2Qfezvt0fVrGxnoVfdI+rpesoU3IOmNz2aI5EoZABDwctByRUo7YljtOe4NllZF6FRA9VUjL1hfJ2qdPAUaXDMWcwsMmrg0rAVkW26BCT0wPuBU+qUm/YayX3lSZt2XQlqoBB0Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZEsEwqLaugX0T16ZG701ReZvqNGhk+Qc1pbLnDFFL4Q=;
- b=jQwSWAweXR30YnCycO8e6xNSpj/VCgcxohlAMOalnkiKSFvQc70xzpQbwx+6EpHbCTB1RrnOdrWuan37dwdYzb8qqIkYLd85gHfG41A6X4/hvXB/iJtn6Co3YLJjmc9qV9aJPHgccNLDihC+BJmiwcXmJB/jTOxn713A2nrszrC26MmXVJdd1tONOjIuWzG8XljgxblYsCndiANdYP8jodaRCjkLoi/nfERTtxOUaBMxvLHvLw6XB9ol3tbckNyqCQjHCgVuRA2mJBb+LqlRzDpLit4eG/l/xxLgG3hYunnx50I+twbxKvjKLcyt9y4oAw4EELbFHDwBH2rcoeiMPg==
+ bh=Cnak0VoDF26RCgLMQbWfzxCCOqTd7xtYrcnhh+TKsfU=;
+ b=bzJi/JdYnhc17yYKpw2s1zWPOvmqzxjZIIaNF0g3+IJ1kyEscYPP3Wf1ekW9Cw/ZYsllC4btuHfscIDMk+ED/UU8+AVhbp6zB3f0bmIWD2SddoIcltcMEhWabeg6z4gDcErTdMwAIhoKEqsf09HG/rQXgygsA5TKp8xqkfMXIQ++45ASFFX16B0xma3ZnSU1+eSd/Z32p+jtdarnoH2Xu1Z7Y84SG/VN8+BsMuWU9gxJ6xBwTcPZF3RhZF5+4BczfhCPXh1hIZTYlaucfUIK38FkH4hfo8uMgTwOotXQ+JqVCHZDlYh61nTbmiPGDhlIdp1zsCqgvqurlKt3+A4vKA==
 Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
- by PR3PR04MB7450.eurprd04.prod.outlook.com (2603:10a6:102:8a::23) with
+ by PAXPR04MB8783.eurprd04.prod.outlook.com (2603:10a6:102:20e::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.18; Wed, 21 Aug
- 2024 01:01:29 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Thu, 22 Aug
+ 2024 06:02:07 +0000
 Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
  ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630%6]) with mapi id 15.20.7897.014; Wed, 21 Aug 2024
- 01:01:29 +0000
+ ([fe80::165a:30a2:5835:9630%6]) with mapi id 15.20.7897.014; Thu, 22 Aug 2024
+ 06:02:05 +0000
 From: Peng Fan <peng.fan@nxp.com>
-To: Florian Fainelli <florian.fainelli@broadcom.com>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-CC: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>, "open list:OPEN FIRMWARE AND
- FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>, "open list:SYSTEM CONTROL & POWER/MANAGEMENT
- INTERFACE" <arm-scmi@vger.kernel.org>, "justin.chen@broadcom.com"
-	<justin.chen@broadcom.com>, "opendmb@gmail.com" <opendmb@gmail.com>,
-	"kapil.hali@broadcom.com" <kapil.hali@broadcom.com>,
-	"bcm-kernel-feedback-list@broadcom.com"
-	<bcm-kernel-feedback-list@broadcom.com>
-Subject: RE: [PATCH v3 2/2] firmware: arm_scmi: Support 'reg-io-width'
- property for shared memory
-Thread-Topic: [PATCH v3 2/2] firmware: arm_scmi: Support 'reg-io-width'
- property for shared memory
-Thread-Index: AQHa8C2aCnkHs0PaIkOBOegG7uwPcbIvc2GQgADqD4CAAIxr8A==
-Date: Wed, 21 Aug 2024 01:01:29 +0000
+To: Peng Fan <peng.fan@nxp.com>, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+	Sudeep Holla <sudeep.holla@arm.com>, Cristian Marussi
+	<cristian.marussi@arm.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo
+	<shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Dmitry Torokhov
+	<dmitry.torokhov@gmail.com>
+CC: "arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: RE: [PATCH v7 0/7] firmware: support i.MX95 SCMI BBM/MISC Extenstion
+Thread-Topic: [PATCH v7 0/7] firmware: support i.MX95 SCMI BBM/MISC Extenstion
+Thread-Index: AQHa40fEPyVCotchkEOnFP0xvgvrn7Ip1eMQgAkUKnA=
+Date: Thu, 22 Aug 2024 06:02:05 +0000
 Message-ID:
- <PAXPR04MB8459C55E5FEA010193F79C2E888E2@PAXPR04MB8459.eurprd04.prod.outlook.com>
-References: <20240816224221.3256455-1-florian.fainelli@broadcom.com>
- <20240816224221.3256455-3-florian.fainelli@broadcom.com>
- <PAXPR04MB8459322CED779885532BD852888D2@PAXPR04MB8459.eurprd04.prod.outlook.com>
- <1a486ead-3a65-4ef9-a562-c23ea7026b9e@broadcom.com>
-In-Reply-To: <1a486ead-3a65-4ef9-a562-c23ea7026b9e@broadcom.com>
+ <PAXPR04MB845947383F2F5469B04E92C4888F2@PAXPR04MB8459.eurprd04.prod.outlook.com>
+References: <20240731-imx95-bbm-misc-v2-v7-0-a41394365602@nxp.com>
+ <PAXPR04MB84591BA31D74C164E59A3B9688812@PAXPR04MB8459.eurprd04.prod.outlook.com>
+In-Reply-To:
+ <PAXPR04MB84591BA31D74C164E59A3B9688812@PAXPR04MB8459.eurprd04.prod.outlook.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -72,68 +72,68 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR04MB8459:EE_|PR3PR04MB7450:EE_
-x-ms-office365-filtering-correlation-id: 8bb24309-0490-4913-37ad-08dcc17cca59
+x-ms-traffictypediagnostic: PAXPR04MB8459:EE_|PAXPR04MB8783:EE_
+x-ms-office365-filtering-correlation-id: e4d0ae9a-2771-4c17-c22e-08dcc26ff2e4
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|7416014|376014|1800799024|38070700018;
+ BCL:0;ARA:13230040|1800799024|7416014|376014|366016|921020|38070700018;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?sUoSnddmbwuJCNOrAKxCIhSOl3I+bOwlDdjPzcfP72OEqk0WdnrAvPZm1z+S?=
- =?us-ascii?Q?mi6MM4ZxR9+H5EJGnxyhBc5pKFaW9MdE2pRwCjjsy13DW7EafLtsrGlTCrx0?=
- =?us-ascii?Q?nACB7mfVdqmZrxU749XoL9ZcgN3ihkcj/LZ2VXPDJ87lMldwRyeqTWcD09e7?=
- =?us-ascii?Q?AQ8P08GnYPbrJHH22x58clJ7brQRYipMRQAqoS9LhfYWnjWsgHhtNchX72Yp?=
- =?us-ascii?Q?ddAOWKN+3stY3GS/ztU+O1LYGzUE0xAgOrydK0tmEFpur/Yk6gU13NHJH/lM?=
- =?us-ascii?Q?BD0JESUFaXgV2ekE5DkjMVhHUNxG9Kq1noD+L2CshDanm0YEqxp9HztKSca+?=
- =?us-ascii?Q?TIzUsNetm+us24BaRvjjFyiyHNDllSCFjQ0gEVgoqiE7Sby9E3lbUurmMCo7?=
- =?us-ascii?Q?0FOs/3aWxAGe0aqmKOJW+NBSLxU7RLuoD+YEGcAYUQnLx8M/fdHbW1JqdRt8?=
- =?us-ascii?Q?zovU/knshP6rdBQ/tx6JYn1tcQFew8BZgxb9Nv4EEz0Ba102hxiYVDbU9tKs?=
- =?us-ascii?Q?/N70yJ2ZzJTL+5Jn2z1GKAq5tMcXR23r8eO9ODPv0VVQsZFZGKlljj7bxda9?=
- =?us-ascii?Q?cVkEgzFY3fkRNswpodIJYZP4FvkVaeIegxsSK3epbgXjI7Vrd44TnOwRbZx/?=
- =?us-ascii?Q?f715Xriz9w/agv5Tvpxrc6wATSZWtA754EntU2Cy+jdBX74mu81wwrXMpqtW?=
- =?us-ascii?Q?rRzDsez9idTzrhrcwDgx+TJejerJ7w31/M1e9hfpFcviTlP4XBefeJxNRYNq?=
- =?us-ascii?Q?hmDs70OtHHASokFNHHqj8RH1Y1oLTjyx/BWI4f5m2TmVOMyWkpWVbRJOGMoV?=
- =?us-ascii?Q?YxiUuPfcMTRbiH3tKYYXIz45SO4ocrUKpaYa1iUt1fWpYvAz7g6nMC7e6m8Z?=
- =?us-ascii?Q?ux4RgSYK5KGLI2Nbf1Dx+yAbqlSA514wmkbHC0ndSkpzd0d99tbemv+pw4hP?=
- =?us-ascii?Q?BwIXTrxCESiLUdofB1KUQ2TmWvvBr5qR5vYOh0fzuXVrXv7buQzxjVFKdLGL?=
- =?us-ascii?Q?1fMKu7ww/U0j5Fi9Tyw8ea+GZwHzZE8zSPyjte+4cBY0wC+wvZ5R76s+gV/u?=
- =?us-ascii?Q?FEgr67ETuqnlGZvrs0VraOQZIIoxyNff8M7BLXoCGwokp4z6/JYvCM1BDLtS?=
- =?us-ascii?Q?d/b+7CCavltXYJ1qgeHfkCcO3HBxzPPQQg0Qx9KW6+mdtGmoeNK8MXRQRjxX?=
- =?us-ascii?Q?6RHwSgzkLaqPBoLXZ7CQ6dkgIK4bQzdZMtVfiyvaFrNy0x+229Afdtk9tVh/?=
- =?us-ascii?Q?rs/ElwHWDyiCf0eZVSZTiTv6tsu7vff9Mg7kgMFb25eZPKwV/FME98GYHCIQ?=
- =?us-ascii?Q?gxzNot2KoYnA8DDNzjLnfm1Xos7hWePNd3IJ/VFtfxDZs1zjlItE0E6aiEW/?=
- =?us-ascii?Q?uSUwQHW87hfr9thwqW4zEGdj5Q+AI0d+vFmrPKtHXESymP/8Fg=3D=3D?=
+ =?us-ascii?Q?ckOQABEJ3Um8c81RJmIThktJXTV3JfS1o8qG/ueUKXGM/DAJVw3Qc9tWqFzS?=
+ =?us-ascii?Q?bjy3ikXy4EYW97qo5432zn/BkMYxRvdzb7/pXAimFgaU9ZcEq2MkEsr3YHJw?=
+ =?us-ascii?Q?8BT0kH6OAKzNXXw6/67PyGOMeFnttzOUKN9f9BPeeGvjutXr97cf5uf3lua1?=
+ =?us-ascii?Q?R+9o6u4nO1xUBX7ScweaSeQRwMECTNhhN+GMWhJHfAP+PpgQIQW5IZYWzjUa?=
+ =?us-ascii?Q?H9a9zj+ytUdwcweJkbnX3NkDlMDLxFywFffHSSaValFCtjD/auGdUSGu8sNv?=
+ =?us-ascii?Q?0AsI9ljtNJYGz7fodjax1Zf9ah2mhBZryCUQWrn42IpfEMxrdZLf1czYflKU?=
+ =?us-ascii?Q?TJWAc2KoDZfYYu7rD+AXM5mPkjp7vV176UpTQg/447tdamoGtRkJ5LYR6fG2?=
+ =?us-ascii?Q?2MTEAqf9QV7fY3ciVOvZ6K1lVb0F/8vyuEJsQe31eUxdFHCObIqsqx1UKQo8?=
+ =?us-ascii?Q?rQ2WzLO7wvtOj/e1svoieerhx/Hm49l5ZU3f9u76QmgoTNHksH3mQdgIwidw?=
+ =?us-ascii?Q?d/G4uaeMKHN1sso+mBE9pGs/T/RTKqIbCxEr6vYpHxbSNnD/cocibAjm9tWI?=
+ =?us-ascii?Q?UaAE75mIPFxfPkxuwz9rXwVnNvj4BDlBUr+Lxhsa5oXXO3hEwN/WFZPA3f+t?=
+ =?us-ascii?Q?IGfP2x4rdGSilui7CheU1C4p4g4jvMxYruMIDzTCncBBmIQ/H9Bz30ylZ9wz?=
+ =?us-ascii?Q?tZxNcivZIcD1j70TIIT5sB9ABYlIebtMv7KZ73jM5zZIOp90FAd/96whPJhJ?=
+ =?us-ascii?Q?q2SlJNOFGwLzgbp5mFHkrKIWBSHpIP5vAHg3JWRqeitTyk8UAJAHC9Irm+Kg?=
+ =?us-ascii?Q?qZuLicjig05Qyp0erG+v8GpB69GOaEMeF/IxAxw4attb4ix/7F+SvtCowWG3?=
+ =?us-ascii?Q?Y0wsfLQeeVgIXLOQDaINkj+TjsvkaBRNTBeOfA/1qz6+FwX7eelTihCo90o6?=
+ =?us-ascii?Q?AtHKc9iRT9ggRJAG5/tWGLSHdNjovr0w7hKBYmukrpBQb+tX3e6FeiiNbOJe?=
+ =?us-ascii?Q?9GxzgSHO6+QBD8DZ7zNx8WAfUT8kJ48O0jukvZmD9WWsKu4AHBsfvBjZ0Mrn?=
+ =?us-ascii?Q?yuoNo4YlXCAbcNgdHpW6cAJvlxJR4RUEkdqImKKbOmfDAr0exFl50f6b/xom?=
+ =?us-ascii?Q?6vWJlDV66IchzXuCdYZ4CMDESgSd3+gbRp1coT0qMz7KKXGYZ/q7DRS9x+6W?=
+ =?us-ascii?Q?+xvOnhbbBayA4ZV56y1TxnXVbbGFbS3f7b8biqso1g1vGWA+RxPQL8qOiq7o?=
+ =?us-ascii?Q?3S0d6YsEod3kKGiC6U/RF1vVBLIMC56ic6SgiiBE8UWkkC264ZChN+UkXSxT?=
+ =?us-ascii?Q?u+GEgatMmWLvtlPHap7zIPxyi5pCL0/ZgKuyhAKJ+aRJxgUkeAzgaP+AILb2?=
+ =?us-ascii?Q?McH6AiUSs7CY5PFadMcjzAN4slKT?=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(921020)(38070700018);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?QB6WExQ+J+unYQ/xA/cVUm3CUp8+Gdngt0ZBh56eYkV9tAJeFoStLLuuOktM?=
- =?us-ascii?Q?pWcTa2wXv4CARVg+A7xOklc1WUBfQyUE+u2mtfW9e502z7S9ZhK09yvJAaCq?=
- =?us-ascii?Q?uOaEm2+zOpmEpYHouq0uRdqRBc5PEzNdFwUNf6axZVG60R7dHerpjDpHFhwi?=
- =?us-ascii?Q?VRdvnAf55n6HOhTqw0w9vyrpuKK7002Jyz3Tf7iLHgfwcZ+bWYKYJpHTSMCE?=
- =?us-ascii?Q?RHdNpQf5BkLEvxVDuyCHTkM9ffXC/P3T/j938GN8GjGI/hY39hQ1fPfqVG6R?=
- =?us-ascii?Q?enq5VhV7p11ohlkc6qDabYGcYqVq6HQU/iCoL1Inf/gsyBbjDiYGJw8NPvdX?=
- =?us-ascii?Q?0YkTghTUGv1p5x06qK9b4RJwXtLGRRgK/G68QThKu/asPjFtgsO0JaFkPhrZ?=
- =?us-ascii?Q?3DghrOkkKWdMnDbt6SyuyEcZ/cXWuzzNkbYphBnsEv3cuxtQFHxIeUVvktvo?=
- =?us-ascii?Q?2FZqiJWYBSAJtgOdDQScJ8y7MY20m+DpNWG/8tgNzrC0kwwS8yzK9xZ6wnCs?=
- =?us-ascii?Q?i2DaIibd/i0IAhoRYrRnsmwA1F3DFh+jUxfFxQ8WQBsu4qCNoXTiIETFbd5v?=
- =?us-ascii?Q?CKxwMyQPlKMDGfyeMaWFRO5NBIdfGw/8S4/VUMCUz7yQOYDzrdcmUwpMIU6d?=
- =?us-ascii?Q?VAtppAV9yeYXF5GIBTezdY/fhTyLgNPSo9g0XGPBjIZv+M1sfT8lX3gOBXHt?=
- =?us-ascii?Q?U4HKlvnh1g7tfPBVRznUdQU41IeFYS7OuSOim6Y95d9B86YjFKFtbn7jdQVb?=
- =?us-ascii?Q?wM2X7Cfxy/OGjH1iSLwq2ghdhOI/AXyhTU+pkjwzyKiq8VZI7Ke05klJDKOj?=
- =?us-ascii?Q?hwf+yg3HjPrhXcD6nm17DghSQ8IsgjmRGQ2ALS/U0OnX4+ykuXxLypj2e9pH?=
- =?us-ascii?Q?vprnsksZLT4TJ6BQUHw3zwwd49KWIo9nmninP8twF3cVTcuvsagABgwGEnLG?=
- =?us-ascii?Q?rYsRRuJ9zg4IQ96a7KY41oOOyX5rn0sBJ17k4FTImoNE7hfISO9P8YisOIcg?=
- =?us-ascii?Q?Qw08gSE87kooN93l63GHRFRL14jFzexjapZVHus7HYdKS0Il30wrGCGcxCCc?=
- =?us-ascii?Q?rloH7TCKF2McvN3ogI1Tww+L4DdzwMBypvHig6Z2wE7n6i6ysQkMGPZ2xH6m?=
- =?us-ascii?Q?IyP4SAThFhndjW2oAyZQUZiiHQIAJev9kAurJHtClqPGDzofWNDnXloGSpa7?=
- =?us-ascii?Q?Ls4Vem02go1ENDbFDTlVnA3pJDNHcnnXY3TEctXEb2myy7IVoytN45EWQh7d?=
- =?us-ascii?Q?RqvFjRYSwjuTqmg71qcO4WrT5/e3H6PQo+sjTLoYYPFpCfZ1sFW0+62i6POC?=
- =?us-ascii?Q?t6HwUj/p4O6irWRnGtdA9FjiILJeqkmJOPfEHFxhUf7Axeq2W2vrbztVzqxp?=
- =?us-ascii?Q?5Y3XSAvxO36zrwIZ8pTivnTtVyjSnrAhDPcp+d5u2M8Bi9P8c5R5xxfEdusv?=
- =?us-ascii?Q?FSSES3iqk1TsPL4lTKrr4HuKARKYSI1pKJlPx8kNK+7idjHFgAz6X+ZrmR1w?=
- =?us-ascii?Q?r4HHuHDh9+rqug7t8cG+M7ZptS3VJCOHHQ00hWvM95HrHEE8E08bVSJmSkv0?=
- =?us-ascii?Q?S+1qCFh5ARGtuTSwGr8=3D?=
+ =?us-ascii?Q?YDON+dVDfZtjsgm/GzvFsAQB478hPjKj2LX3cYw1eN0sR5Jlu5/sI8GUWP+I?=
+ =?us-ascii?Q?lIRETRXq106xdF52zjtEmAkuFqXRax26mE/dnYvmTz6dQcr/NZtVf0fiiuvp?=
+ =?us-ascii?Q?vdMFWDcexIjnNKXdcnSaItYAKXCnxho5AbmRiLG0z88U0AqixN6Tg7XdpESI?=
+ =?us-ascii?Q?bl10ddHWQTcsYabzDWVDxm8G1gTrHZ8rgtBqBzaNXfrI+ZpVGPhDwbbglyk4?=
+ =?us-ascii?Q?0t4MHJeISuhY/j13iMr+ZxZ6FG9zeKj3Y3Jvt5nyi0PVb5rOpUc//MiSlvPN?=
+ =?us-ascii?Q?aZNwwVBVJXu0mgfQT0pYponazBUPZ8dZKpszsrt0DxpQV/vxsO8ohWq1KViJ?=
+ =?us-ascii?Q?iPdNTxvQKPyUYTkI0P02Ouqbo0BHZ17KFTo6gQB5PUH1Y6scnFN/dMsZedLc?=
+ =?us-ascii?Q?WIgYE1vaUhyvd9yjB9xKRJRwNgcpXCy6FXdEbghe2Jrjckod6DX2n9gpdZSn?=
+ =?us-ascii?Q?cx1xltt5IV7eBWDjebJR0svDF7qTDHbkL+CVEpP7mcI9avSM+lpoMl2+K4tZ?=
+ =?us-ascii?Q?VFY3aAYqfKOo57gIvWDN0RMUmoHHOyMzHEjy4sWPFVXXEPtw0qKAbFIFClbW?=
+ =?us-ascii?Q?8DJPjFQEg/VWM6VCF2S4bn68IowJnynPo4GvJoewh9Rz5Kjm70pwZf1b+B/p?=
+ =?us-ascii?Q?f6Kbr4HBsoALKCM7N0B6A2B7vc+8hay5MLlV46WkftysKu87e5i/Xo5yT/am?=
+ =?us-ascii?Q?35zR5DVK1PP/ARHRIDdJ/qBT9FCSNs3CNu/nMvt41djqY2REvfyDw0is165Z?=
+ =?us-ascii?Q?4EC/Q/j8OJKCDJybkYVzizE+NOhWUORAO4JtOnYATRGUrlFuRSd7mU9dkM2q?=
+ =?us-ascii?Q?iDQZwZdpbBJjpa10aqZATjqT9VGY/LVzfqyY57uv9ViaQMV8pb1td/Qz+s3C?=
+ =?us-ascii?Q?MW2CjDY5c/xpVdB3qJnH7UV/PvyWvGcli1aoYE2G1B1qPR/2Jc7lRFGJmZNQ?=
+ =?us-ascii?Q?btifwVPKOSgPGMbmkW0Hh0X5UXPYjZbTZOoY8l0a20/PzYRt1Ph1OEpWxkSE?=
+ =?us-ascii?Q?fF3PpT3eKc6+VnuOzB007zQVBplB0PoShkTVdap7Fg7KFstvVl+ffwOJ+yb3?=
+ =?us-ascii?Q?38J96c1/BGXWJqSjXUWxk/xAyXcDErDr845Dp0FcAu05NN7SZ/nzMDlOD2qh?=
+ =?us-ascii?Q?Y8A5SWh14uV6BbrVadMLMfMeHkbclcTVCLeZy4gE++PMt7NDJlMOwMtQKewu?=
+ =?us-ascii?Q?LRL7jm9ynGkiI7xpeLAwcKwi9K3KcSxEW3qfl5d2n4l/ceB9lZtjC0CGkXbr?=
+ =?us-ascii?Q?/wkaU5AwM6xS0+p4v931yOjFi209lk87LIpC2t+0RxEh7UHyffFpSve9jxXx?=
+ =?us-ascii?Q?CT3pDRBjZL6eKq+31K1HI2pI9XIOtn6aTYN/iQiWSLdvq4HHCmyAEVKRhd5L?=
+ =?us-ascii?Q?gD2ZH3Wow5W61ytf4paFYiVqE7ul2VLiAcoS0DW1SnKB9MrDC5mFEzvw0tD6?=
+ =?us-ascii?Q?ZfJL/m1h264HIgvHCk2u68AsRjpdmlBiSQd1IYEdc3jv0pqcJJMRRNKU5G9L?=
+ =?us-ascii?Q?bxs4gicVJfjuVzFxCI8CdkruYW6xDNLgJPz0MptvImQPueM9NNx3CNRHhVwS?=
+ =?us-ascii?Q?90bX8BXyD4ycFsxYUV8=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -145,354 +145,326 @@ MIME-Version: 1.0
 X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8bb24309-0490-4913-37ad-08dcc17cca59
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Aug 2024 01:01:29.4541
+X-MS-Exchange-CrossTenant-Network-Message-Id: e4d0ae9a-2771-4c17-c22e-08dcc26ff2e4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2024 06:02:05.1715
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xk3jarBOBkCKyl0h0tubXBpq7i6i2GyjUkYMMJL5NutCR2+1XIRjBcUarfjgFXMiXX6Kv6zoMVD3h8DwiyFBLA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR04MB7450
+X-MS-Exchange-CrossTenant-userprincipalname: 9ui03DEGkk10091hl10sUHMhJkJoJcUeZR2UXGKu2WahtfbI5qGEjirHOHXqf4SZujRkJnA+7XUrWHGAke+r8A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8783
 
-> Subject: Re: [PATCH v3 2/2] firmware: arm_scmi: Support 'reg-io-
-> width' property for shared memory
->=20
-> On 8/19/24 19:49, Peng Fan wrote:
-> >> Subject: [PATCH v3 2/2] firmware: arm_scmi: Support 'reg-io-width'
-> >> property for shared memory
-> >>
-> >> Some shared memory areas might only support a certain access
-> width,
-> >> such as 32-bit, which memcpy_{from,to}_io() does not adhere to at
-> >> least on ARM64 by making both 8-bit and 64-bit accesses to such
-> >> memory.
-> >>
-> >> Update the shmem layer to support reading from and writing to
-> such
-> >> shared memory area using the specified I/O width in the Device Tree.
-> >> The various transport layers making use of the shmem.c code are
-> >> updated accordingly to pass the I/O accessors that they store.
-> >>
-> >> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-> >> ---
-> >>   drivers/firmware/arm_scmi/common.h            | 32 ++++++-
-> >>   .../arm_scmi/scmi_transport_mailbox.c         | 13 ++-
-> >>   .../firmware/arm_scmi/scmi_transport_optee.c  | 11 ++-
-> >>   .../firmware/arm_scmi/scmi_transport_smc.c    | 11 ++-
-> >>   drivers/firmware/arm_scmi/shmem.c             | 86
-> +++++++++++++++++-
-> >> -
-> >>   5 files changed, 132 insertions(+), 21 deletions(-)
-> >>
-> >> diff --git a/drivers/firmware/arm_scmi/common.h
-> >> b/drivers/firmware/arm_scmi/common.h
-> >> index 69928bbd01c2..73bb496fac01 100644
-> >> --- a/drivers/firmware/arm_scmi/common.h
-> >> +++ b/drivers/firmware/arm_scmi/common.h
-> >> @@ -316,6 +316,26 @@ enum scmi_bad_msg {
-> >>   	MSG_MBOX_SPURIOUS =3D -5,
-> >>   };
-> >>
-> >> +/* Used for compactness and signature validation of the function
-> >> +pointers being
-> >> + * passed.
-> >> + */
-> >> +typedef void (*shmem_copy_toio_t)(volatile void __iomem *to,
-> const
-> >> void *from,
-> >> +				  size_t count);
-> >> +typedef void (*shmem_copy_fromio_t)(void *to, const volatile void
-> >> __iomem *from,
-> >> +				    size_t count);
-> >> +
-> >> +/**
-> >> + * struct scmi_shmem_io_ops  - I/O operations to read from/write
-> to
-> >> + * Shared Memory
-> >> + *
-> >> + * @toio: Copy data to the shared memory area
-> >> + * @fromio: Copy data from the shared memory area  */ struct
-> >> +scmi_shmem_io_ops {
-> >> +	shmem_copy_fromio_t fromio;
-> >> +	shmem_copy_toio_t toio;
-> >> +};
-> >> +
-> >>   /* shmem related declarations */
-> >>   struct scmi_shared_mem;
-> >>
-> >> @@ -336,13 +356,16 @@ struct scmi_shared_mem;  struct
-> >> scmi_shared_mem_operations {
-> >>   	void (*tx_prepare)(struct scmi_shared_mem __iomem
-> *shmem,
-> >>   			   struct scmi_xfer *xfer,
-> >> -			   struct scmi_chan_info *cinfo);
-> >> +			   struct scmi_chan_info *cinfo,
-> >> +			   shmem_copy_toio_t toio);
-> >>   	u32 (*read_header)(struct scmi_shared_mem __iomem
-> *shmem);
-> >>
-> >>   	void (*fetch_response)(struct scmi_shared_mem __iomem
-> *shmem,
-> >> -			       struct scmi_xfer *xfer);
-> >> +			       struct scmi_xfer *xfer,
-> >> +			       shmem_copy_fromio_t fromio);
-> >>   	void (*fetch_notification)(struct scmi_shared_mem __iomem
-> *shmem,
-> >> -				   size_t max_len, struct scmi_xfer
-> >> *xfer);
-> >> +				   size_t max_len, struct scmi_xfer
-> >> *xfer,
-> >> +				   shmem_copy_fromio_t fromio);
-> >>   	void (*clear_channel)(struct scmi_shared_mem __iomem
-> *shmem);
-> >>   	bool (*poll_done)(struct scmi_shared_mem __iomem *shmem,
-> >>   			  struct scmi_xfer *xfer);
-> >> @@ -350,7 +373,8 @@ struct scmi_shared_mem_operations {
-> >>   	bool (*channel_intr_enabled)(struct scmi_shared_mem
-> __iomem
-> >> *shmem);
-> >>   	void __iomem *(*setup_iomap)(struct scmi_chan_info *cinfo,
-> >>   				     struct device *dev,
-> >> -				     bool tx, struct resource *res);
-> >> +				     bool tx, struct resource *res,
-> >> +				     struct scmi_shmem_io_ops **ops);
-> >>   };
-> >>
-> >>   const struct scmi_shared_mem_operations
-> >> *scmi_shared_mem_operations_get(void);
-> >> diff --git a/drivers/firmware/arm_scmi/scmi_transport_mailbox.c
-> >> b/drivers/firmware/arm_scmi/scmi_transport_mailbox.c
-> >> index dc5ca894d5eb..1a2e90e5c765 100644
-> >> --- a/drivers/firmware/arm_scmi/scmi_transport_mailbox.c
-> >> +++ b/drivers/firmware/arm_scmi/scmi_transport_mailbox.c
-> >> @@ -25,6 +25,7 @@
-> >>    * @chan_platform_receiver: Optional Platform Receiver mailbox
-> >> unidirectional channel
-> >>    * @cinfo: SCMI channel info
-> >>    * @shmem: Transmit/Receive shared memory area
-> >> + * @io_ops: Transport specific I/O operations
-> >>    */
-> >>   struct scmi_mailbox {
-> >>   	struct mbox_client cl;
-> >> @@ -33,6 +34,7 @@ struct scmi_mailbox {
-> >>   	struct mbox_chan *chan_platform_receiver;
-> >>   	struct scmi_chan_info *cinfo;
-> >>   	struct scmi_shared_mem __iomem *shmem;
-> >> +	struct scmi_shmem_io_ops *io_ops;
-> >>   };
-> >>
-> >>   #define client_to_scmi_mailbox(c) container_of(c, struct
-> >> scmi_mailbox,
-> >> cl) @@ -43,7 +45,8 @@ static void tx_prepare(struct mbox_client
-> *cl,
-> >> void *m)  {
-> >>   	struct scmi_mailbox *smbox =3D client_to_scmi_mailbox(cl);
-> >>
-> >> -	core->shmem->tx_prepare(smbox->shmem, m, smbox->cinfo);
-> >> +	core->shmem->tx_prepare(smbox->shmem, m, smbox->cinfo,
-> >> +				smbox->io_ops->toio);
-> >>   }
-> >>
-> >>   static void rx_callback(struct mbox_client *cl, void *m) @@ -197,7
-> >> +200,8 @@ static int mailbox_chan_setup(struct scmi_chan_info
-> >> *cinfo, struct device *dev,
-> >>   	if (!smbox)
-> >>   		return -ENOMEM;
-> >>
-> >> -	smbox->shmem =3D core->shmem->setup_iomap(cinfo, dev, tx,
-> >> NULL);
-> >> +	smbox->shmem =3D core->shmem->setup_iomap(cinfo, dev, tx,
-> >> NULL,
-> >> +						&smbox->io_ops);
-> >>   	if (IS_ERR(smbox->shmem))
-> >>   		return PTR_ERR(smbox->shmem);
-> >>
-> >> @@ -298,7 +302,7 @@ static void mailbox_fetch_response(struct
-> >> scmi_chan_info *cinfo,  {
-> >>   	struct scmi_mailbox *smbox =3D cinfo->transport_info;
-> >>
-> >> -	core->shmem->fetch_response(smbox->shmem, xfer);
-> >> +	core->shmem->fetch_response(smbox->shmem, xfer,
-> >> +smbox->io_ops->fromio);
-> >>   }
-> >>
-> >>   static void mailbox_fetch_notification(struct scmi_chan_info
-> >> *cinfo, @@ -306,7 +310,8 @@ static void
-> >> mailbox_fetch_notification(struct scmi_chan_info *cinfo,  {
-> >>   	struct scmi_mailbox *smbox =3D cinfo->transport_info;
-> >>
-> >> -	core->shmem->fetch_notification(smbox->shmem, max_len,
-> >> xfer);
-> >> +	core->shmem->fetch_notification(smbox->shmem, max_len,
-> >> xfer,
-> >> +					smbox->io_ops->fromio);
-> >>   }
-> >>
-> >>   static void mailbox_clear_channel(struct scmi_chan_info *cinfo)
-> >> diff -- git a/drivers/firmware/arm_scmi/scmi_transport_optee.c
-> >> b/drivers/firmware/arm_scmi/scmi_transport_optee.c
-> >> index 08911f40d1ff..2be4124c6826 100644
-> >> --- a/drivers/firmware/arm_scmi/scmi_transport_optee.c
-> >> +++ b/drivers/firmware/arm_scmi/scmi_transport_optee.c
-> >> @@ -114,6 +114,7 @@ enum scmi_optee_pta_cmd {
-> >>    * @req.shmem: Virtual base address of the shared memory
-> >>    * @req.msg: Shared memory protocol handle for SCMI request
-> and
-> >>    *   synchronous response
-> >> + * @io_ops: Transport specific I/O operations
-> >>    * @tee_shm: TEE shared memory handle @req or NULL if using
-> IOMEM
-> >> shmem
-> >>    * @link: Reference in agent's channel list
-> >>    */
-> >> @@ -128,6 +129,7 @@ struct scmi_optee_channel {
-> >>   		struct scmi_shared_mem __iomem *shmem;
-> >>   		struct scmi_msg_payld *msg;
-> >>   	} req;
-> >> +	struct scmi_shmem_io_ops *io_ops;
-> >>   	struct tee_shm *tee_shm;
-> >>   	struct list_head link;
-> >>   };
-> >> @@ -350,7 +352,8 @@ static int setup_dynamic_shmem(struct
-> device
-> >> *dev, struct scmi_optee_channel *ch  static int
-> >> setup_static_shmem(struct device *dev, struct scmi_chan_info
-> *cinfo,
-> >>   			      struct scmi_optee_channel *channel)  {
-> >> -	channel->req.shmem =3D core->shmem->setup_iomap(cinfo, dev,
-> >> true, NULL);
-> >> +	channel->req.shmem =3D core->shmem->setup_iomap(cinfo, dev,
-> >> true, NULL,
-> >> +						      &channel-
-> >>> io_ops);
-> >>   	if (IS_ERR(channel->req.shmem))
-> >>   		return PTR_ERR(channel->req.shmem);
-> >>
-> >> @@ -465,7 +468,8 @@ static int scmi_optee_send_message(struct
-> >> scmi_chan_info *cinfo,
-> >>   		ret =3D invoke_process_msg_channel(channel,
-> >>   						 core->msg-
-> >>> command_size(xfer));
-> >>   	} else {
-> >> -		core->shmem->tx_prepare(channel->req.shmem, xfer,
-> >> cinfo);
-> >> +		core->shmem->tx_prepare(channel->req.shmem, xfer,
-> >> cinfo,
-> >> +					channel->io_ops->toio);
-> >>   		ret =3D invoke_process_smt_channel(channel);
-> >>   	}
-> >>
-> >> @@ -484,7 +488,8 @@ static void
-> scmi_optee_fetch_response(struct
-> >> scmi_chan_info *cinfo,
-> >>   		core->msg->fetch_response(channel->req.msg,
-> >>   					  channel->rx_len, xfer);
-> >>   	else
-> >> -		core->shmem->fetch_response(channel->req.shmem,
-> >> xfer);
-> >> +		core->shmem->fetch_response(channel->req.shmem,
-> >> xfer,
-> >> +					    channel->io_ops->fromio);
-> >>   }
-> >>
-> >>   static void scmi_optee_mark_txdone(struct scmi_chan_info *cinfo,
-> >> int ret, diff --git a/drivers/firmware/arm_scmi/scmi_transport_smc.c
-> >> b/drivers/firmware/arm_scmi/scmi_transport_smc.c
-> >> index c6c69a17a9cc..04e715ec1570 100644
-> >> --- a/drivers/firmware/arm_scmi/scmi_transport_smc.c
-> >> +++ b/drivers/firmware/arm_scmi/scmi_transport_smc.c
-> >> @@ -45,6 +45,7 @@
-> >>    * @irq: An optional IRQ for completion
-> >>    * @cinfo: SCMI channel info
-> >>    * @shmem: Transmit/Receive shared memory area
-> >> + * @io_ops: Transport specific I/O operations
-> >>    * @shmem_lock: Lock to protect access to Tx/Rx shared memory
-> area.
-> >>    *		Used when NOT operating in atomic mode.
-> >>    * @inflight: Atomic flag to protect access to Tx/Rx shared memory
-> >> area.
-> >> @@ -60,6 +61,7 @@ struct scmi_smc {
-> >>   	int irq;
-> >>   	struct scmi_chan_info *cinfo;
-> >>   	struct scmi_shared_mem __iomem *shmem;
-> >> +	struct scmi_shmem_io_ops *io_ops;
-> >>   	/* Protect access to shmem area */
-> >>   	struct mutex shmem_lock;
-> >>   #define INFLIGHT_NONE	MSG_TOKEN_MAX
-> >> @@ -144,7 +146,8 @@ static int smc_chan_setup(struct
-> scmi_chan_info
-> >> *cinfo, struct device *dev,
-> >>   	if (!scmi_info)
-> >>   		return -ENOMEM;
-> >>
-> >> -	scmi_info->shmem =3D core->shmem->setup_iomap(cinfo, dev,
-> >> tx, &res);
-> >> +	scmi_info->shmem =3D core->shmem->setup_iomap(cinfo, dev,
-> >> tx, &res,
-> >> +						    &scmi_info-
-> >>> io_ops);
-> >>   	if (IS_ERR(scmi_info->shmem))
-> >>   		return PTR_ERR(scmi_info->shmem);
-> >>
-> >> @@ -229,7 +232,8 @@ static int smc_send_message(struct
-> scmi_chan_info
-> >> *cinfo,
-> >>   	 */
-> >>   	smc_channel_lock_acquire(scmi_info, xfer);
-> >>
-> >> -	core->shmem->tx_prepare(scmi_info->shmem, xfer, cinfo);
-> >> +	core->shmem->tx_prepare(scmi_info->shmem, xfer, cinfo,
-> >> +				scmi_info->io_ops->toio);
-> >>
-> >>   	if (scmi_info->cap_id !=3D ULONG_MAX)
-> >>   		arm_smccc_1_1_invoke(scmi_info->func_id,
-> >> scmi_info->cap_id, 0, @@ -253,7 +257,8 @@ static void
-> >> smc_fetch_response(struct scmi_chan_info *cinfo,  {
-> >>   	struct scmi_smc *scmi_info =3D cinfo->transport_info;
-> >>
-> >> -	core->shmem->fetch_response(scmi_info->shmem, xfer);
-> >> +	core->shmem->fetch_response(scmi_info->shmem, xfer,
-> >> +				    scmi_info->io_ops->fromio);
-> >>   }
-> >>
-> >>   static void smc_mark_txdone(struct scmi_chan_info *cinfo, int ret,
-> >> diff --git a/drivers/firmware/arm_scmi/shmem.c
-> >> b/drivers/firmware/arm_scmi/shmem.c
-> >> index 01d8a9398fe8..aded5f1cd49f 100644
-> >> --- a/drivers/firmware/arm_scmi/shmem.c
-> >> +++ b/drivers/firmware/arm_scmi/shmem.c
-> >> @@ -34,9 +34,67 @@ struct scmi_shared_mem {
-> >>   	u8 msg_payload[];
-> >>   };
-> >>
-> >> +static inline void shmem_memcpy_fromio32(void *to,
-> >> +					 const volatile void __iomem
-> >> *from,
-> >> +					 size_t count)
-> >> +{
-> >> +	while (count) {
-> >> +		*(u32 *)to =3D __raw_readl(from);
-> >> +		from +=3D 4;
-> >> +		to +=3D 4;
-> >> +		count -=3D 4;
-> >
-> > This may not have issue, considering the 'count % 4' will be 0 and
-> > 'from' is 4 bytes aligned.
->=20
-> Correct, this cannot possibly happen today by virtue of msg->payload
-> being naturally aligned on a 4 bytes boundary.
->=20
-> >
-> > But I think it maybe better to add check if 'count' and 'from'
-> > are not 4 bytes aligned.
->=20
-> Humm, what would be the fallback, or should we just WARN()?
+Hi Sudeep,
 
-This is just to avoid potential issues if there is change in future spec
-That some entries are not 4 bytes aligned. I maybe over thinking
-here.
+> Subject: RE: [PATCH v7 0/7] firmware: support i.MX95 SCMI BBM/MISC
+> Extension
 
-A "WARN" is ok from my view.
+With Cristian's transport patchset applied, there a minor conflict in Makef=
+ile
+with this patchset. Please let me know if I need to send v8 to address
+the Makefile conflict or you could help.
 
-Regards,
+Thanks,
 Peng.
+
+>=20
+> Hi Sudeep,
+>=20
+> > Subject: [PATCH v7 0/7] firmware: support i.MX95 SCMI BBM/MISC
+> > Extension
+>=20
+> Would you please give a look on patch [1-4]/7?
+> Cristian has gave his R-b, are the patches good for you to pick up?
+>=20
+> Thanks,
+> Peng.
+>=20
+> >
+> > i.MX95 System Manager Firmware source:
+> >
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
+> gith
+> > ub.com%2Fnxp-
+> &data=3D05%7C02%7Cpeng.fan%40nxp.com%7C1002bc37426b4344192
+> 5
+> >
+> 08dcbde5c496%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%
+> 7C638594041757
+> >
+> 286225%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJ
+> QIjoiV2luMzIiLCJ
+> >
+> BTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7C%7C%7C&sdata=3DId8fggn%2
+> B%2B8NBRYzEHSr
+> > LK3GYSDX8bA3%2FNHPibH5xuEk%3D&reserved=3D0
+> > imx/imx-sm To generate html from the repo: make html
+> >
+> > i.MX95 System Manager Firmware support vendor extension
+> protocol:
+> > - Battery Backed Module(BBM) Protocol
+> >   This protocol is intended provide access to the battery-backed
+> module.
+> >   This contains persistent storage (GPR), an RTC, and the ON/OFF
+> > button.
+> >   The protocol can also provide access to similar functions
+> > implemented via
+> >   external board components. The BBM protocol provides functions to:
+> >
+> >   - Describe the protocol version.
+> >   - Discover implementation attributes.
+> >   - Read/write GPR
+> >   - Discover the RTCs available in the system.
+> >   - Read/write the RTC time in seconds and ticks
+> >   - Set an alarm (per LM) in seconds
+> >   - Get notifications on RTC update, alarm, or rollover.
+> >   - Get notification on ON/OFF button activity.
+> >
+> > - MISC Protocol for misc settings
+> >   This includes controls that are misc settings/actions that must be
+> >   exposed from the SM to agents. They are device specific and are
+> > usually
+> >   define to access bit fields in various mix block control modules,
+> >   IOMUX_GPR, and other GPR/CSR owned by the SM.
+> >   This protocol supports the following functions:
+> >
+> >   - Describe the protocol version.
+> >   - Discover implementation attributes.
+> >   - Set/Get a control.
+> >   - Initiate an action on a control.
+> >   - Obtain platform (i.e. SM) build information.
+> >   - Obtain ROM passover data.
+> >   - Read boot/shutdown/reset information for the LM or the system.
+> >
+> > This patchset is to support the two protocols and users that use the
+> > protocols. The upper protocol infomation is also included in patch 1
+> >
+> > Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> >
+> > Changes in v7:
+> > - Just correct R-b tag from Rob to drop quotes "", and rebased
+> > - Link to v6:
+> >
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
+> lore
+> > .kernel.org%2Fr%2F20240718-imx95-bbm-misc-v2-
+> &data=3D05%7C02%7Cpeng.fan%
+> >
+> 40nxp.com%7C1002bc37426b4344192508dcbde5c496%7C686ea1d3
+> bc2b4c6fa92cd99
+> >
+> c5c301635%7C0%7C0%7C638594041757299262%7CUnknown%7CT
+> WFpbGZsb3d8eyJWIjo
+> >
+> iMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D
+> %7C0%7C%7C%
+> >
+> 7C&sdata=3DIelY7nn8UonmziY%2FTKQy0V5F68zDmX3fRJeS%2FNYxlRA%
+> 3D&reserved=3D0
+> > v6-0-18f008e16e9d@nxp.com
+> >
+> > Changes in v6:
+> > - Add R-b from Cristian for patch 2,3,4,5,6
+> > - Add a new function parameter 'bool enable' to rtc_alarm_set in
+> patch
+> > 2
+> > - Drop dev_err per RTC maintainer, move devm_rtc_register to
+> function
+> >   end in patch 6
+> > - Address Cristian's comment to documentation. Also moved the
+> >   documentation to patch 3, which adds the imx.rst under
+> >   drivers/firmware/arm_scmi/imx
+> > - Add remove hook to cancel_delayed_work_sync in patch 7
+> > - Link to v5:
+> >
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
+> lore
+> > .kernel.org%2Fr%2F20240621-imx95-bbm-misc-v2-
+> &data=3D05%7C02%7Cpeng.fan%
+> >
+> 40nxp.com%7C1002bc37426b4344192508dcbde5c496%7C686ea1d3
+> bc2b4c6fa92cd99
+> >
+> c5c301635%7C0%7C0%7C638594041757307547%7CUnknown%7CT
+> WFpbGZsb3d8eyJWIjo
+> >
+> iMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D
+> %7C0%7C%7C%
+> >
+> 7C&sdata=3DTIgALwKaM0bL3%2F8%2BH5TURHjK4KM6Qadpr64dUEbla6
+> M%3D&reserved=3D0
+> > v5-0-b85a6bf778cb@nxp.com
+> >
+> > Changes in v5:
+> > - Collected missing comments in v1, I not intend to miss any, and
+> sorry
+> >   if I make something wrong.
+> > - Update the documentation per Cristian's comments. Not sure we
+> need a
+> > new directory for firmware stuff, not firmware-guide direcotyr.
+> > - Added R-b for patch 3 "firmware: arm_scmi: add initial support for
+> > i.MX BBM protocol"
+> > - For patch 4, added comments in scmi_imx_misc_ctrl_validate_id,
+> use
+> >   num_sources in scmi_protocol_events, move
+> > scmi_imx_misc_protocol_init
+> >   near init, use get_max_msg_size and drop MISC_MAX_VAL.
+> > - Separate the sm-bbm.c into rtc and key drivers with
+> >   each has its own notifiy callback, put the driver in rtc and input
+> >   directory, handle error return, add kconfig for each driver, use
+> >   to_delayed_work, use READ/WRITE_ONCE, still keep ops as private,
+> >   device_init_wakeup set false if failure.
+> > - For patch 5, Add kconfig for sm-misc.c. Only support one instance,
+> > so add a check
+> >   ops in probe.
+> > - Link to v4:
+> >
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
+> lore
+> > .kernel.org%2Fr%2F20240524-imx95-bbm-misc-v2-
+> &data=3D05%7C02%7Cpeng.fan%
+> >
+> 40nxp.com%7C1002bc37426b4344192508dcbde5c496%7C686ea1d3
+> bc2b4c6fa92cd99
+> >
+> c5c301635%7C0%7C0%7C638594041757313869%7CUnknown%7CT
+> WFpbGZsb3d8eyJWIjo
+> >
+> iMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D
+> %7C0%7C%7C%
+> >
+> 7C&sdata=3DNLUX8pWiyfLJXd9tLkWZHW9HxB00gVnKpNqGphH6PZk%3
+> D&reserved=3D0
+> > v4-0-dc456995d590@nxp.com
+> >
+> > Changes in v4:
+> > - Rebased to next-20240520
+> > - Added vendor/sub-vendor, currently the sub-vendor is "i.MX95 EVK",
+> >   this may not be proper, I will check with firmware owner on this to
+> >   seen any update. please still help review other parts of the patchset=
+.
+> > - Added constrain value in binding doc, change the property name
+> from
+> >   nxp,wakeup-sources to nxp,ctrl-ids to match firmware definition.
+> > - Put i.MX code under new directory imx/
+> > - Change the misc event from three to one, the code in previous
+> > patchset
+> >   was wrong.
+> > - Link to v3:
+> >
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
+> lore
+> > .kernel.org%2Fr%2F20240412-imx95-bbm-misc-v2-
+> &data=3D05%7C02%7Cpeng.fan%
+> >
+> 40nxp.com%7C1002bc37426b4344192508dcbde5c496%7C686ea1d3
+> bc2b4c6fa92cd99
+> >
+> c5c301635%7C0%7C0%7C638594041757319735%7CUnknown%7CT
+> WFpbGZsb3d8eyJWIjo
+> >
+> iMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D
+> %7C0%7C%7C%
+> >
+> 7C&sdata=3DDsX6rHSn9UHxg00XUXdioRTDKikM9dlGWtyMOWSKQqc%3
+> D&reserved=3D0
+> > v3-0-4380a4070980@nxp.com
+> >
+> > Changes in v3:
+> > - Update cover letter and patch commit log to include more
+> > information.
+> > - Add documentation for BBM and MISC protocols under
+> >   Documentation/firmware-guide/nxp. Not sure if this is a good place.
+> > - Fix the bindings, hope I have addressed the issues.
+> >   Drop imx,scmi.yaml.
+> >   Add nxp,imx95-scmi.yaml for NXP vendor protocol properties.
+> >   Add constraints, add nxp prefix for NXP vendor properties.
+> >   Use anyOf in arm,scmi.yaml to ref vendor yaml.
+> > - Use cpu_to_le32 per Cristian
+> > - Link to v2:
+> >
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
+> lore
+> > .kernel.org%2Fr%2F20240405-imx95-bbm-misc-v2-
+> &data=3D05%7C02%7Cpeng.fan%
+> >
+> 40nxp.com%7C1002bc37426b4344192508dcbde5c496%7C686ea1d3
+> bc2b4c6fa92cd99
+> >
+> c5c301635%7C0%7C0%7C638594041757325573%7CUnknown%7CT
+> WFpbGZsb3d8eyJWIjo
+> >
+> iMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D
+> %7C0%7C%7C%
+> >
+> 7C&sdata=3DxCKP6hjdqJIppJkmJsNhfZa85df%2BDYR%2B%2FawL6qQI5Xc
+> %3D&reserved
+> > =3D0
+> > v2-0-9fc9186856c2@nxp.com
+> >
+> > Changes in v2:
+> > - Sorry for late update since v1.
+> > - Add a new patch 1
+> > - Address imx,scmi.yaml issues
+> > - Address comments for imx-sm-bbm.c and imx-sm-misc.c
+> > - I not add vendor id since related patches not landed in linux-next.
+> > - Link to v1:
+> >
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
+> lore
+> > .kernel.org%2Fr%2F20240202-imx95-bbm-misc-v1-0-
+> &data=3D05%7C02%7Cpeng.fa
+> >
+> n%40nxp.com%7C1002bc37426b4344192508dcbde5c496%7C686ea1
+> d3bc2b4c6fa92cd
+> >
+> 99c5c301635%7C0%7C0%7C638594041757331366%7CUnknown%7C
+> TWFpbGZsb3d8eyJWI
+> >
+> joiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3
+> D%7C0%7C%7
+> >
+> C%7C&sdata=3DV5SX0eUuQo5nYcQD44C%2FSnq9M9cc2TlpeuoO2A2Mh
+> Ss%3D&reserved=3D0
+> > 3cb743020933@nxp.com
+> >
+> > ---
+> > Peng Fan (7):
+> >       dt-bindings: firmware: add i.MX95 SCMI Extension protocol
+> >       firmware: arm_scmi: add initial support for i.MX BBM protocol
+> >       firmware: arm_scmi: add initial support for i.MX MISC protocol
+> >       firmware: arm_scmi: add NXP i.MX95 SCMI documentation
+> >       firmware: imx: add i.MX95 MISC driver
+> >       rtc: support i.MX95 BBM RTC
+> >       input: keyboard: support i.MX95 BBM module
+> >
+> >  .../devicetree/bindings/firmware/arm,scmi.yaml     |   5 +-
+> >  .../bindings/firmware/nxp,imx95-scmi.yaml          |  43 +
+> >  drivers/firmware/arm_scmi/Kconfig                  |   2 +
+> >  drivers/firmware/arm_scmi/Makefile                 |   1 +
+> >  drivers/firmware/arm_scmi/imx/Kconfig              |  23 +
+> >  drivers/firmware/arm_scmi/imx/Makefile             |   3 +
+> >  drivers/firmware/arm_scmi/imx/imx-sm-bbm.c         | 379
+> +++++++++
+> >  drivers/firmware/arm_scmi/imx/imx-sm-misc.c        | 315 ++++++++
+> >  drivers/firmware/arm_scmi/imx/imx95.rst            | 886
+> > +++++++++++++++++++++
+> >  drivers/firmware/imx/Kconfig                       |  11 +
+> >  drivers/firmware/imx/Makefile                      |   1 +
+> >  drivers/firmware/imx/sm-misc.c                     | 119 +++
+> >  drivers/input/keyboard/Kconfig                     |  11 +
+> >  drivers/input/keyboard/Makefile                    |   1 +
+> >  drivers/input/keyboard/imx-sm-bbm-key.c            | 236 ++++++
+> >  drivers/rtc/Kconfig                                |   8 +
+> >  drivers/rtc/Makefile                               |   1 +
+> >  drivers/rtc/rtc-imx-sm-bbm.c                       | 162 ++++
+> >  include/linux/firmware/imx/sm.h                    |  33 +
+> >  include/linux/scmi_imx_protocol.h                  |  59 ++
+> >  20 files changed, 2298 insertions(+), 1 deletion(-)
+> > ---
+> > base-commit: 668d33c9ff922c4590c58754ab064aaf53c387dd
+> > change-id: 20240405-imx95-bbm-misc-v2-b5e9d24adc42
+> >
+> > Best regards,
+> > --
+> > Peng Fan <peng.fan@nxp.com>
+
