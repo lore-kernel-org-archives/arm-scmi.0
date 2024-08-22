@@ -1,76 +1,234 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CE9D148841;
-	Thu, 22 Aug 2024 11:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C900F12B72
+	for <arm-scmi@vger.kernel.org>; Thu, 22 Aug 2024 22:50:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724324594; cv=none; b=Quo3B1+t56caCze1+gZP9GN2iNyiDI94CiP2B7msqWNtgZoMC0ZeBkjMzMArLud4lq6UwlcEo+nLdKmdt844BxaSgCOQO7BoLqSr8tEUUnqC0BiPsf2wARix5a1cNUQ+PW1r+ZAMs3XRrIKbQt9iNT2gKwBIS2m9/8zYmZPKC2A=
+	t=1724367009; cv=none; b=E7GNUqWCvXOmICRI0R4feHZcIeQuxOHEgqltI/LTs8JQPja7nTnCmMYmg6W9o4Cw1Js+ZCAjY+3Xm3if/M+0zJKYNk0dEzD7Bu/sXC/baKNmC5+9/PmT7mRjYky4nKOfotO78pxATSel6SKFhlbhVVRNTCJyr/iWHqWURYVHXzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724324594; c=relaxed/simple;
-	bh=QcvlALG8K7OqmQiS0wFQWiP9IuevNmp4OpyP2LoMZfY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i/UXsYXr/L+jR5Ps8TFlfDGcMLE7fRPoWuI9gc8H9vn1rzRayRLYJjaP/eD/ZHcfd/2NLrjjV19J2+WvZqCAgieMixXjYMRrF5RV3quqQzNzSynFqQ0ObgCL51bsFRo0iSN1JOEqDY0Sp9O6lMwry3ZQC4eIYvz4bPYQmFxdcCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 015ECDA7;
-	Thu, 22 Aug 2024 04:03:39 -0700 (PDT)
-Received: from bogus (e107155-lin.cambridge.arm.com [10.1.198.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0EAFF3F58B;
-	Thu, 22 Aug 2024 04:03:08 -0700 (PDT)
-Date: Thu, 22 Aug 2024 12:03:05 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Peng Fan <peng.fan@nxp.com>
-Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Rob Herring <robh@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: Re: [PATCH v7 0/7] firmware: support i.MX95 SCMI BBM/MISC Extenstion
-Message-ID: <Zsca6aqY861q0bOm@bogus>
-References: <20240731-imx95-bbm-misc-v2-v7-0-a41394365602@nxp.com>
- <PAXPR04MB84591BA31D74C164E59A3B9688812@PAXPR04MB8459.eurprd04.prod.outlook.com>
- <PAXPR04MB845947383F2F5469B04E92C4888F2@PAXPR04MB8459.eurprd04.prod.outlook.com>
+	s=arc-20240116; t=1724367009; c=relaxed/simple;
+	bh=oYtS2rcf7OFCRH9CwmT4584HB1yPYflg6BijR7xb+2s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D0ogj4PP2KAvGNoyE3DRTG+JjLoB1dH9hqiPTXrq1p7Qwo18Gq8nij98lDYcDZhNhFTYFHV3umYlreIyKMrDHnEtVhv3HVTpTOJ6LBAAelFrRMSv7sRJPiOdrpP+NR3ksUuldfi51k9U7waX2Tvyy5noVrdeQMpmK5tYPOrffg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=cuwZamvk; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="cuwZamvk"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-6e7b121be30so939468a12.1
+        for <arm-scmi@vger.kernel.org>; Thu, 22 Aug 2024 15:50:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1724367006; x=1724971806; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=RxNjKinkqwLfidKToMeOZNU0vXvDNGFrw9+p08YBIlM=;
+        b=cuwZamvkebwLfrU/tKq/C3ukTAjgecPYa6feaiiqen1Yr4BSERqLRjd8hWmtjleMTB
+         RPx8O3NduY3xojqjVcwkuDFqxEtrcFmlU3u3nwLxkCX2h+HfeNZ08yfNl80h8sODBdYS
+         Wy5TycbkH6ULOdbfIJODb3yVJyMT/BCJg2QOk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724367006; x=1724971806;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RxNjKinkqwLfidKToMeOZNU0vXvDNGFrw9+p08YBIlM=;
+        b=SMRm/ODhAhTlWFzG9BjSp0Dn0skclqwELqpj7TT6alyimgTiAS3QuugIpR4K6cfH0Z
+         NM8tqA/GgQDI/wuWhqiQGdUPejo5xfN033IevbnEvzF7pxfX7NvvvwYwwm0CGYkeYELX
+         VPGRC1oCV2VoatvV/y3YcCBHysFatcPrOKc6lqgh86o9OhcSQf/q8qAN3nbgFs9oxnpK
+         /fTOAlpdNJRYLk2D2FTnwbn5fRY0yGXXcmi+LW6+gAgWQ3WJxDlAZtF9jEA8H9t5awkt
+         2jAylIfRN7nzOuaH+MVB5TFb6vWLTRW4KskNuzcKqgjfD4ygpV8U78Q6LEOWlfHBgTWc
+         VP/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXBo7iYIjPRdk4H5RBqH2mVF28iROzRXi7ZRMWkFn5P0vw0V1lwWyX+uFDAMai6nwC0ZCjcq4Ev0A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6/Lc0lfhFTj7Pcn5kKcnKt+/jUOxonVk14itmmApFz3LL45vz
+	paUxrUT5fkpTcLosYvp11C2q9+TBITKsXthH+S23S4krC/7b0LX+TFVfxkh59w==
+X-Google-Smtp-Source: AGHT+IHOEF0hiQab41QuNo3MnvSCcDrKTChsVdcKNB3csU17laJnFOUwO4poC/pQI2sZfvxXohbIqA==
+X-Received: by 2002:a05:6a20:4394:b0:1c6:9fe9:c425 with SMTP id adf61e73a8af0-1cc8b61b4b7mr526163637.45.1724367005761;
+        Thu, 22 Aug 2024 15:50:05 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-203855664e2sm17414465ad.30.2024.08.22.15.50.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Aug 2024 15:50:04 -0700 (PDT)
+Message-ID: <078bc5ee-e591-427b-a9fe-9386738a847f@broadcom.com>
+Date: Thu, 22 Aug 2024 15:50:03 -0700
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PAXPR04MB845947383F2F5469B04E92C4888F2@PAXPR04MB8459.eurprd04.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] firmware: arm_scmi: Support 'reg-io-width'
+ property for shared memory
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ "open list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE"
+ <arm-scmi@vger.kernel.org>, justin.chen@broadcom.com, opendmb@gmail.com,
+ kapil.hali@broadcom.com, bcm-kernel-feedback-list@broadcom.com
+References: <20240816224221.3256455-1-florian.fainelli@broadcom.com>
+ <20240816224221.3256455-3-florian.fainelli@broadcom.com>
+ <ZscW_E33YXF8Nx7r@bogus>
+Content-Language: en-US
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
+ xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
+ M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
+ JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
+ PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
+ KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
+ AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
+ IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
+ ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
+ bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
+ Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
+ tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
+ TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
+ zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
+ WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
+ IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
+ U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
+ 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
+ pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
+ MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
+ IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
+ gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
+ obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
+ N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
+ CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
+ C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
+ wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
+ EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
+ fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
+ MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
+ 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
+ 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
+In-Reply-To: <ZscW_E33YXF8Nx7r@bogus>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 22, 2024 at 06:02:05AM +0000, Peng Fan wrote:
-> Hi Sudeep,
+On 8/22/24 03:46, Sudeep Holla wrote:
+> Hi Florian,
 > 
-> > Subject: RE: [PATCH v7 0/7] firmware: support i.MX95 SCMI BBM/MISC
-> > Extension
+> Sorry for getting late to this party, I wasn't able to review this before.
+> Overall changes look correct. But my main concern is that is SCMI the right
+> place to have such IO accessors. It is better to run it through Arnd if
+> he is happy with it before I send him the pull request containing these.
+
+Sure, would definitively want more eyes to review.
+
 > 
-> With Cristian's transport patchset applied, there a minor conflict in Makefile
-> with this patchset. Please let me know if I need to send v8 to address
-> the Makefile conflict or you could help.
+> On Fri, Aug 16, 2024 at 03:42:21PM -0700, Florian Fainelli wrote:
+>> Some shared memory areas might only support a certain access width,
+>> such as 32-bit, which memcpy_{from,to}_io() does not adhere to at least
+>> on ARM64 by making both 8-bit and 64-bit accesses to such memory.
+>>
+> 
+> Is this limitation on the hardware for both read and writes ?
+
+This applies to both reads and writes. We have to make accesses on a 4 
+byte boundary and of exactly 4 bytes in size.
+
+> The reason I ask is I see arm64 does have memcpy_toio_aligned() or
+> __iowrite32_copy_full() for 32 bit aligned writes.
 > 
 
-Sorry, I previously delayed reviewing your patches for reasons mentioned
-before(non technical) and was planning to start looking at it this week.
-But I haven't so far, so go ahead and post the v8. If possible, please move
-all the imx files under a new "vendors" directory.
+That appears to work nicely on ARM64 and ARM 32-bit, thanks for the 
+suggestion! One needs to be careful that __io{read,write}32_copy takes 
+32-bit units, not bytes!
 
-	drivers/firmware/arm_scmi/vendors/imx/....
+FWIW, here is my diff between v3 and v4:
 
---
-Regards,
-Sudeep
+diff --git a/drivers/firmware/arm_scmi/common.h 
+b/drivers/firmware/arm_scmi/common.h
+index 73bb496fac01..a13f79b37c99 100644
+--- a/drivers/firmware/arm_scmi/common.h
++++ b/drivers/firmware/arm_scmi/common.h
+@@ -319,9 +319,9 @@ enum scmi_bad_msg {
+  /* Used for compactness and signature validation of the function 
+pointers being
+   * passed.
+   */
+-typedef void (*shmem_copy_toio_t)(volatile void __iomem *to, const void 
+*from,
++typedef void (*shmem_copy_toio_t)(void __iomem *to, const void *from,
+                                   size_t count);
+-typedef void (*shmem_copy_fromio_t)(void *to, const volatile void 
+__iomem *from,
++typedef void (*shmem_copy_fromio_t)(void *to, const void __iomem *from,
+                                     size_t count);
+
+  /**
+diff --git a/drivers/firmware/arm_scmi/shmem.c 
+b/drivers/firmware/arm_scmi/shmem.c
+index aded5f1cd49f..e9f30ab671a8 100644
+--- a/drivers/firmware/arm_scmi/shmem.c
++++ b/drivers/firmware/arm_scmi/shmem.c
+@@ -35,33 +35,25 @@ struct scmi_shared_mem {
+  };
+
+  static inline void shmem_memcpy_fromio32(void *to,
+-                                        const volatile void __iomem *from,
++                                        const void __iomem *from,
+                                          size_t count)
+  {
+-       while (count) {
+-               *(u32 *)to = __raw_readl(from);
+-               from += 4;
+-               to += 4;
+-               count -= 4;
+-       }
++       WARN_ON(!IS_ALIGNED((unsigned long)from, 4) ||
++               !IS_ALIGNED((unsigned long)to, 4) ||
++               count % 4);
+
+-       /* Ensure all reads from I/O have completed */
+-       rmb();
++       __ioread32_copy(to, from, count / 4);
+  }
+
+-static inline void shmem_memcpy_toio32(volatile void __iomem *to,
++static inline void shmem_memcpy_toio32(void __iomem *to,
+                                        const void *from,
+                                        size_t count)
+  {
+-       while (count) {
+-               __raw_writel(*(u32 *)from, to);
+-               from += 4;
+-               to += 4;
+-               count -= 4;
+-       }
++       WARN_ON(!IS_ALIGNED((unsigned long)to, 4) ||
++               !IS_ALIGNED((unsigned long)from, 4) ||
++               count % 4);
+
+-       /* Ensure all writes to I/O have completed */
+-       wmb();
++       __iowrite32_copy(to, from, count / 4);
+  }
+
+  static struct scmi_shmem_io_ops shmem_io_ops32 = {
+@@ -73,13 +65,13 @@ static struct scmi_shmem_io_ops shmem_io_ops32 = {
+   * pre-processor.
+   */
+  static inline void shmem_memcpy_fromio(void *to,
+-                                      const volatile void __iomem *from,
++                                      const void __iomem *from,
+                                        size_t count)
+  {
+         memcpy_fromio(to, from, count);
+  }
+
+-static inline void shmem_memcpy_toio(volatile void __iomem *to,
++static inline void shmem_memcpy_toio(void __iomem *to,
+                                      const void *from,
+                                      size_t count)
+  {
+
+-- 
+Florian
+
