@@ -1,40 +1,30 @@
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938D81C4ED8
-	for <arm-scmi@vger.kernel.org>; Tue, 27 Aug 2024 14:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E77701494AC
+	for <arm-scmi@vger.kernel.org>; Tue, 27 Aug 2024 14:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724769204; cv=none; b=Qns3KXMI9hSkIS9JspRQJe3cuEygZ6t0scMa8JCLxK7xOzVlYlbxeyVsLT+45K7uviaSz4zytMdJtX9ZaJkkYAH84hBUGfj2lPaQULBhGkfMfPoze/AI/sQZVYTBnW5PG4gskIzX6oLjN58V0H4TmlkulYZVtDrSgkZz1T0U+7A=
+	t=1724769524; cv=none; b=cU8DAdEHOMTpedwGL3+KG4nVz33S7lWJ+gPCOGAqs9alpMV0D5Bi4+tWoMYoKOQwlzKXC231YUyKk+kFho498pAVj+tl5hXVmxuckrOwPhvAnl5zbHrqjFxzvzet3ColoI1BYmoaW6k1Yx4VmDaQu7tZ5aLqMHrrjXPuNnp+LVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724769204; c=relaxed/simple;
-	bh=kw6eRbhzPA7Zv3CWuWU9FhO931fHSePK83ZX0rF4IEE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=p3MfFTFbLXK1X040+W+wvgzj/tDG+RMGqmW7+O0Ee/mi2Ks1HLTZCR1twRo4+qkGk/PM041t2S0deatRvXl1Mo68PR+E4RzmkKpUVbXCp6FzOjP8+MEMuFuGgT7LKS5j/Xjz7l7Fx9cJCYU2N+b5/sV5Rf9pHkjmT1l23W03mIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=YsTFx34P; arc=none smtp.client-ip=95.215.58.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="YsTFx34P"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1724769199;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=XWmaGsFV8+sUx0IL98EYus9x9tg6qc5lWhD4xE5HgsQ=;
-	b=YsTFx34PNk7Ga/NYjNt19CsN8uHxJDTJGmwk4VC2VD8wqw41gMqdN5xPAf6wXdOAdJJyHb
-	/KVl0xPAYKz43cJn6S89wGjU1SHV2qsiwMiOhK4JAADXH0cuvQFjlODwbK4bNPXwdF1Ift
-	bo5xJtylWC6MKUV3txwzr7oKOhQhEaY=
-From: Wen Yang <wen.yang@linux.dev>
-To: Sudeep Holla <sudeep.holla@arm.com>,
+	s=arc-20240116; t=1724769524; c=relaxed/simple;
+	bh=vw9LRa7nGeAeFYpPUwQPvZond7xRpNBZiQayn7DxBvY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=K61oHjTFx/GyzH/El9jxGzECL5GMi1P0n152Fb0A27BadzYcwj9su2FKtOEt4GW1s+bzny7kK/P0d5sYOll0J8mACfA9vpR4ziO7c/MBntRW4Gh+90e8ZDItepS+NVbju0zy5A2Ko3n/o5FKqbgJ6kCZWFbvnJN2WSeOaOa5NPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1D346DA7;
+	Tue, 27 Aug 2024 07:39:07 -0700 (PDT)
+Received: from usa.arm.com (e107155-lin.cambridge.arm.com [10.1.198.42])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 41F123F66E;
+	Tue, 27 Aug 2024 07:38:40 -0700 (PDT)
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: arm-scmi@vger.kernel.org
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
 	Cristian Marussi <cristian.marussi@arm.com>
-Cc: Wen Yang <wen.yang@linux.dev>,
-	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] firmware: arm_scmi: protect xfer->async_done with xfer->lock when changing and using it
-Date: Tue, 27 Aug 2024 22:32:37 +0800
-Message-Id: <20240827143237.10208-1-wen.yang@linux.dev>
+Subject: [PATCH 0/3] firmware: arm_scmi: Minor coding style cleanups
+Date: Tue, 27 Aug 2024 15:38:35 +0100
+Message-ID: <20240827143838.1465913-1-sudeep.holla@arm.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -42,76 +32,25 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-do_xfer_with_response() first assigns xfer->async_done to &async_response,
-then calls wait_for_completion_timeout(), and finally sets xfer->async_done
-to null.
-However, scmi_handle_response() may calls complete(xfer->async_done) while
-xfer->async_done is null, may causing a crash.
+With the recent changes in the for-next/scmi/updates, the builder raised
+few issues that are also reported by checkpatch. These patches fixes few of
+those issues.
 
-Protect xfer->async_done with xfer->lock when changing and using it,
-just like scmi_msg_response_validate().
+Sudeep Holla (3):
+  firmware: arm_scmi: Fix trivial whitespace/coding style issues
+  firmware: arm_scmi: Replace the use of of_node_put() to __free(device_node)
+  firmware: arm_scmi: Replace comma with the semicolon
 
-Signed-off-by: Wen Yang <wen.yang@linux.dev>
-Cc: Sudeep Holla <sudeep.holla@arm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>
-Cc: arm-scmi@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
----
- drivers/firmware/arm_scmi/driver.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ drivers/firmware/arm_scmi/base.c               |  4 +---
+ drivers/firmware/arm_scmi/clock.c              |  1 +
+ drivers/firmware/arm_scmi/driver.c             |  1 -
+ drivers/firmware/arm_scmi/perf.c               |  2 +-
+ drivers/firmware/arm_scmi/pinctrl.c            |  1 +
+ drivers/firmware/arm_scmi/transports/mailbox.c | 11 ++++-------
+ drivers/firmware/arm_scmi/transports/smc.c     |  4 ++--
+ 7 files changed, 10 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 66806578df5a..24ed94e3cbd4 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -1110,6 +1110,7 @@ static void scmi_handle_response(struct scmi_chan_info *cinfo,
- {
- 	struct scmi_xfer *xfer;
- 	struct scmi_info *info = handle_to_scmi_info(cinfo->handle);
-+	unsigned long flags;
- 
- 	xfer = scmi_xfer_command_acquire(cinfo, msg_hdr);
- 	if (IS_ERR(xfer)) {
-@@ -1144,7 +1145,10 @@ static void scmi_handle_response(struct scmi_chan_info *cinfo,
- 
- 	if (xfer->hdr.type == MSG_TYPE_DELAYED_RESP) {
- 		scmi_clear_channel(info, cinfo);
--		complete(xfer->async_done);
-+		spin_lock_irqsave(&xfer->lock, flags);
-+		if (xfer->async_done)
-+			complete(xfer->async_done);
-+		spin_unlock_irqrestore(&xfer->lock, flags);
- 		scmi_inc_count(info->dbg->counters, DELAYED_RESPONSE_OK);
- 	} else {
- 		complete(&xfer->done);
-@@ -1479,9 +1483,13 @@ static int do_xfer_with_response(const struct scmi_protocol_handle *ph,
- 				 struct scmi_xfer *xfer)
- {
- 	int ret, timeout = msecs_to_jiffies(SCMI_MAX_RESPONSE_TIMEOUT);
-+	unsigned long flags;
-+
- 	DECLARE_COMPLETION_ONSTACK(async_response);
- 
-+	spin_lock_irqsave(&xfer->lock, flags);
- 	xfer->async_done = &async_response;
-+	spin_unlock_irqrestore(&xfer->lock, flags);
- 
- 	/*
- 	 * Delayed responses should not be polled, so an async command should
-@@ -1503,7 +1511,10 @@ static int do_xfer_with_response(const struct scmi_protocol_handle *ph,
- 		}
- 	}
- 
-+	spin_lock_irqsave(&xfer->lock, flags);
- 	xfer->async_done = NULL;
-+	spin_unlock_irqrestore(&xfer->lock, flags);
-+
- 	return ret;
- }
- 
 -- 
-2.25.1
+2.46.0
 
