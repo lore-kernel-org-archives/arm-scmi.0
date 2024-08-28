@@ -1,61 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C06B1D2F6A;
-	Tue, 27 Aug 2024 19:11:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09F742067
+	for <arm-scmi@vger.kernel.org>; Wed, 28 Aug 2024 04:44:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724785920; cv=none; b=OK53wNOiuSIF+6sh77ZlBcDXsdT52m/D0PZ3lw8l5qdhVtXZ8x/1nPIdYeRmQ8yrU4TO57DjdZxghuK3dkCa6fiYHFkmJLp8NOG3o2+1xXRLb3QVHqhc0dYH28S0xzlKwzZUK3+Uzui+ywt0FjpOOKHCmSySaR8jMzakArM0tI0=
+	t=1724820292; cv=none; b=FObKwnMhUWPHTgTkM0UywqNssr6b2OpCgqkwBZn9UCN8HwXiBByEq+WCZuX51D8gpqxuU34rxvC7u30W+cV8aeFtDtnEaqr3EBH2/Uyor4pumbZrLDVjvKQQRzq9Ckour0Zfsmcm/finm3hMmHPs4T9ZtWMtinBPFWvZS9tuHAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724785920; c=relaxed/simple;
-	bh=Gd4PQjjdZLiFuRj4/aa/Rk20+vM/4Yx2uCwANEq7Uco=;
-	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
-	 Subject:From:Cc:To:Date; b=dyiOnk6iHKUIrukJA/+wVfypTuaKVxbznAzv6OjOh8zGe8AWVoG9XoWkg4U3O1nwVBbb/HBS9/6G5SgccfawlYxQ26lnqko+OHv7HQf6buWmEkKJgDTTbP/kleDHEQGFyUfrXdoW1GUi4osNeOniItxpLVGsHJAO0sBqQa0aReo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lvoac/7E; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724820292; c=relaxed/simple;
+	bh=XXsuTwHj0vpWAkO1DnUp2SAY3YrNQTJaQwlftrtgmRQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uRL9BMZWOlUG2PVITUEIwbJLoM1WGZItWASXhEd2LNZWV8EkB4uyN4/OobAEREdiXUUbTX1wdUJvBeXfezBu+s5v4jGo49zZXIinvOxkNViH/O6FqsqIQVuLJBd3bD3KmFYN/YYues+Dzpq8I9FnhXmJpHFuHLsehgC4Vpd8U+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=K5GAnLNg; arc=none smtp.client-ip=198.47.23.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lvoac/7E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8ADAC4AF54;
-	Tue, 27 Aug 2024 19:11:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724785919;
-	bh=Gd4PQjjdZLiFuRj4/aa/Rk20+vM/4Yx2uCwANEq7Uco=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=lvoac/7EzDXRdcRwaoDg8pXOB6bLbo+cpOjMNJMIaRkHxAxB/DbsA8gXuA/ZVQ5Cu
-	 zV7dhvq36LM9k/dm0dHa4HawSAUNjHFnQqTJlkWdA4HY2bYfGOUUa0Z6NbM+v3FwzS
-	 DIk31KzgM1LbS7lCzaVlzpxVK3qfg/R6datIRRvF7aUqgkBiufKCYgS1XjiffW/+QO
-	 F08BCnwIdgxAwlhb+FGMGboKGoJSH+DLFIHhtapTZvOjs1Tv20gwMj9d3m8B9ztPe6
-	 Dqa+9cG49ammqCQuuouzMTQJySJ2mNPtR2ojW6R1bN4AMKayUOpeFc86hKMRhPElvE
-	 wPKG5Vug7iiZg==
-Message-ID: <e45b7cef58f910e05a77d3309b9230d3.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="K5GAnLNg"
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 47S4ijs4038817;
+	Tue, 27 Aug 2024 23:44:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1724820285;
+	bh=YUO+G9+a/de4GOZ2wxKtbL35wA4lrYjjML9qJ+ULB7U=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=K5GAnLNgHwaog3WB0Qdmgew/IPHpDmlGN5GX5h8psOXgU5ds84/CuSfH0lRHDQktR
+	 dfpXyhL3zePwQBacCdi3y4NfUPZf7K9AFEtjz3q3Anxpxx2xin9gUl9DR9RZGtgg3v
+	 okPCKiJHe/72hQXFL60BlchFtjLD/4mhw2g284+s=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 47S4ijnj095124
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 27 Aug 2024 23:44:45 -0500
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 27
+ Aug 2024 23:44:44 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 27 Aug 2024 23:44:44 -0500
+Received: from localhost (lcpd911.dhcp.ti.com [172.24.227.68])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 47S4ihAQ065364;
+	Tue, 27 Aug 2024 23:44:44 -0500
+Date: Wed, 28 Aug 2024 10:14:43 +0530
+From: Dhruva Gole <d-gole@ti.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
+CC: <arm-scmi@vger.kernel.org>, Cristian Marussi <cristian.marussi@arm.com>
+Subject: Re: [PATCH 3/3] firmware: arm_scmi: Replace comma with the semicolon
+Message-ID: <20240828044443.6lyd6way3jcmyjn7@lcpd911>
+References: <20240827143838.1465913-1-sudeep.holla@arm.com>
+ <20240827143838.1465913-4-sudeep.holla@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240806145601.1184337-1-peng.fan@oss.nxp.com>
-References: <20240806145601.1184337-1-peng.fan@oss.nxp.com>
-Subject: Re: [PATCH V3] clk: scmi: add is_prepared hook
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org, d-gole@ti.com, Peng Fan <peng.fan@nxp.com>
-To: Peng Fan (OSS) <peng.fan@oss.nxp.com>, cristian.marussi@arm.com, linux-clk@vger.kernel.org, mturquette@baylibre.com, sudeep.holla@arm.com
-Date: Tue, 27 Aug 2024 12:11:57 -0700
-User-Agent: alot/0.10
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240827143838.1465913-4-sudeep.holla@arm.com>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Quoting Peng Fan (OSS) (2024-08-06 07:56:01)
-> From: Peng Fan <peng.fan@nxp.com>
->=20
-> Some clocks maybe default enabled by hardware. For clocks that don't
-> have users, that will be left in hardware default state, because prepare
-> count and enable count is zero,if there is no is_prepared hook to get
-> the hardware state. So add is_prepared hook to detect the hardware
-> state. Then when disabling the unused clocks, they can be simply
-> turned OFF to save power during kernel boot.
->=20
-> Reviewed-by: Dhruva Gole <d-gole@ti.com>
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+Hi Sudeep,
+
+On Aug 27, 2024 at 15:38:38 +0100, Sudeep Holla wrote:
+> Replace the typo comma with the semicolon. No functional change.
+> 
+> Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
 > ---
+>  drivers/firmware/arm_scmi/base.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/firmware/arm_scmi/base.c b/drivers/firmware/arm_scmi/base.c
+> index d52873523cd2..86b376c50a13 100644
+> --- a/drivers/firmware/arm_scmi/base.c
+> +++ b/drivers/firmware/arm_scmi/base.c
+> @@ -384,7 +384,7 @@ static int scmi_base_protocol_init(const struct scmi_protocol_handle *ph)
+>  	if (ret)
+>  		return ret;
+>  
+> -	rev->major_ver = PROTOCOL_REV_MAJOR(version),
+> +	rev->major_ver = PROTOCOL_REV_MAJOR(version);
 
-Applied to clk-next
+Wouldn't this have caused a compile error?? /me-is-confused/
+
+Maybe we should use Fixes: b6f20ff8bd94a .... anyway?
+
+-- 
+Best regards,
+Dhruva Gole <d-gole@ti.com>
