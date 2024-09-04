@@ -1,35 +1,63 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD0191DEFDF;
-	Wed,  4 Sep 2024 16:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C6F1E0B81;
+	Wed,  4 Sep 2024 16:59:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725466840; cv=none; b=FYyvQhpsZNbTGpODXTFM4Z1ySSAfNNqsjPgXM8p6zMOvBWoaILFwz0XF3WsYfIRkAnvO3O3Bazqj5jqaezSrPu9wr3DoovJFR0ApPwF2VyNHe5rHQPhSwRuX7J6XKzZNEguienEqFMn6nqWin3CD9W8t3eb1Yazp200qyrfPm/Y=
+	t=1725469142; cv=none; b=mZBeK+fMpOTFctpNpesmvYM2xslmJitmPAq2vM1T8mzzcrzjXcw5AgSRZdTQE0IcFblOpHQgKxByYVT2gCrrUeKVVi61eX6+RTftmWl25QlVgmrdJGHjJk0/rFLyiiamLbS80mHe9jem3LZK8zgN89xH3VD+Aih9VYF3NWjWGKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725466840; c=relaxed/simple;
-	bh=44bA6BwrJ4kjcy61z8WkXTayUCzaRUSgsnywj45YQIg=;
+	s=arc-20240116; t=1725469142; c=relaxed/simple;
+	bh=YS28tikCu5RBoFVjYN87IZvBgX8zgrwILvtnKBkBj8U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VrjbmzDmI1VoZVrqi33OkzUfAl/JnTm3gefbSg2ifKUwuKS1T8babBPILe8RjAPx/aFaOeQ9XfjRkUlk2l9Xplf7ISX2CJKeZV36b2LudIl2Yl1cf1OC391Dj01ZbxVBqBMmjilv3gY+Pm1W0Qd3antuOh444GqKqP5wkdLnHOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 57C64FEC;
-	Wed,  4 Sep 2024 09:21:04 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BF8DF3F73B;
-	Wed,  4 Sep 2024 09:20:36 -0700 (PDT)
-Date: Wed, 4 Sep 2024 17:20:34 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: Sibi Sankar <quic_sibis@quicinc.com>, cristian.marussi@arm.com,
-	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	johan@kernel.org, konradybcio@kernel.org
-Subject: Re: [PATCH V2 2/2] firmware: arm_scmi: Skip adding bad duplicates
-Message-ID: <ZtiI0u0nAUbWEAAR@pluto>
-References: <20240904031324.2901114-1-quic_sibis@quicinc.com>
- <20240904031324.2901114-3-quic_sibis@quicinc.com>
- <ZtiG7YLcnOR9IIuE@bogus>
+	 Content-Type:Content-Disposition:In-Reply-To; b=garAkECmlWh91mNDlffPXG+1yz4/D6p6unVrLTyglm7PNXpKCsiKK4GjCeu/ZU0XPvhhnidC0qZJ3ki9vGabotx1jXyNPKIBUc03nMr1yEagzLynv6AWTut4n1YX6l/L0mN2y/2ivcno6nWfAWfEEjlqOf7leI/xmLTKRl8XJ1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=yc/ysxRm; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="yc/ysxRm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=6mUT7HeH5pJhZadZ7NJVJF3DvJo0kVgsgpOmf20AEcY=; b=yc/ysxRmw1zVU7Y2RoU/tHHGxN
+	KFY/nT7odTCVp/pQStZaEb+naSYSY9V005OKBMGO9OhYd1T8EpO6o/lyIbtffnH3CD8XYELmbBoM5
+	0RY5IDDpV1KqTbFA0yNl8xZg4cuu7RDi+a9dQMTbgCRj55G6aXjoqwmlLqC3dZdQm70k=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1sltL4-006aLT-Kz; Wed, 04 Sep 2024 18:58:38 +0200
+Date: Wed, 4 Sep 2024 18:58:38 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Nikunj Kela <quic_nkela@quicinc.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, andersson@kernel.org,
+	konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, rafael@kernel.org, viresh.kumar@linaro.org,
+	herbert@gondor.apana.org.au, davem@davemloft.net,
+	sudeep.holla@arm.com, andi.shyti@kernel.org, tglx@linutronix.de,
+	will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
+	jassisinghbrar@gmail.com, lee@kernel.org, linus.walleij@linaro.org,
+	amitk@kernel.org, thara.gopinath@gmail.com, broonie@kernel.org,
+	cristian.marussi@arm.com, rui.zhang@intel.com, lukasz.luba@arm.com,
+	wim@linux-watchdog.org, linux@roeck-us.net,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-crypto@vger.kernel.org, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
+	iommu@lists.linux.dev, linux-gpio@vger.kernel.org,
+	linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-watchdog@vger.kernel.org, kernel@quicinc.com,
+	quic_psodagud@quicinc.com,
+	Praveen Talari <quic_ptalari@quicinc.com>
+Subject: Re: [PATCH v2 16/21] dt-bindings: spi: document support for SA8255p
+Message-ID: <2f11f622-1a00-4558-bde9-4871cdc3d1a6@lunn.ch>
+References: <20240828203721.2751904-1-quic_nkela@quicinc.com>
+ <20240903220240.2594102-1-quic_nkela@quicinc.com>
+ <20240903220240.2594102-17-quic_nkela@quicinc.com>
+ <sdxhnqvdbcpmbp3l7hcnsrducpa5zrgbmkykwfluhrthqhznxi@6i4xiqrre3qg>
+ <b369bd73-ce2f-4373-8172-82c0cca53793@quicinc.com>
+ <9a655c1c-97f6-4606-8400-b3ce1ed3c8bf@kernel.org>
+ <516f17e6-b4b4-4f88-a39f-cc47a507716a@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,33 +66,21 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZtiG7YLcnOR9IIuE@bogus>
+In-Reply-To: <516f17e6-b4b4-4f88-a39f-cc47a507716a@quicinc.com>
 
-On Wed, Sep 04, 2024 at 05:12:29PM +0100, Sudeep Holla wrote:
-> On Wed, Sep 04, 2024 at 08:43:24AM +0530, Sibi Sankar wrote:
-> > Ensure that the bad duplicates reported by the platform firmware doesn't
-> > get added to the opp-tables.
-> >
-> 
-> I am really interested to know if the platform firmware is presenting
-> duplicates intentionally for some unknown reasons and we are just speculating
-> it to be broken firmware or is it really broken firmware.
-> 
-> For me, it is very hard to digest something like OPP tables which is there
-> for a very long time now is not very well understood by firmware authors.
-> How many duplicates are we seeing on this platform really ? If it is
-> just one I can understand. More than one is hard to miss from the OPP
-> tables in the firmware.
-> 
-> While I am not opposing to make the driver handle these duplicates,
-> I am just worried if they are put there intentionally for reasons we
-> don't understand yet or not published.
-> 
+> Sorry, didn't realize SPI uses different subject format than other
+> subsystems. Will fix in v3. Thanks
 
-The number of duplicates reported in logs makes me suspect the same...seems
-like intentional/by_design .... but at first I stick to the general issue
-of handling bad fw replies and how to survive kernel side at first...but I
-indeed share your same concerns...
+Each subsystem is free to use its own form. e.g for netdev you will
+want the prefix [PATCH net-next v42] net: stmmac: dwmac-qcom-ethqos:
 
-Thanks,
-Cristian
+This is another reason why you should be splitting these patches per
+subsystem, and submitting both the DT bindings and the code changes as
+a two patch patchset. You can then learn how each subsystem names its
+patches.
+
+Please pick one victim subsystem and work on the patches for just that
+subsystem. Once you have them correct, you can use everything you
+learned to fixup all your other patches, one by one.
+
+	Andrew      	 
