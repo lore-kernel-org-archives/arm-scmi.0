@@ -1,83 +1,98 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E264417C990;
-	Wed,  4 Sep 2024 08:05:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA20192586;
+	Wed,  4 Sep 2024 11:29:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725437130; cv=none; b=SXNDQOSrkID8BIckM2GdpBQgqX8VtppTefpej+55bNB4cXDD8VgcBr8o5z9oJwhkWCd6CzyxHT3gyH/hSItacVbOJWJji0yErmQ9LfUsjEsNZLvy64XwMFI4LApRsS6UUCNCJj7+Cibt6Tgf0CCUfailaZAopZlUw+Dy4uD5T8M=
+	t=1725449375; cv=none; b=pbDjJoC3yxLVBEoBpDNt65YJfejWnncqW+eN6A+A2r5VdE4N+mjoFQ705e9EMRg19TrzD5WptXd6v2Y1vQ6bXaS4NPOLXa4mhZxds8K90FOwWEntkSdIoUNLhM+6HBTEg6/GW+73059e4Doyl1ZmIl3rMK7/VTirGip1RpXts2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725437130; c=relaxed/simple;
-	bh=7qgWRytiyCO7SWQTn1LaW2tQh6Df8ICaF+PLtw4lLsU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TykxNjZCZEFXfG/9o+YUYSLEZ/WLvE5inrKRJyayyzsfv2LPFP2PwyVfuU08Jc4ql9fRu6APtpVYSobzMs+s28eks5xsw7fiFaFka5TO6Scq31Apq3dBKyCZ0BObqs27fmeGRI6HSJilhAzqnymT+OcggkPAz6/MK3YH/fe+nQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EcqUN6KA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725449375; c=relaxed/simple;
+	bh=IbTO/VrN9chRHIbadlaqKaZrqY35Ivbs3FjR5xZuAkE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lvxPbgSmECfxAgpEUadbyDEZybTXkv4hbWzuk+babHyswKJWNL0eIngGG29ynyFKZ+nneUIpdh1HYr7WvCTpX7p2k1c2IjOL4lBoBuFAKHS3MPHcTEmSbLcaXiy6khInqRVGV9nYz9aVvTJlfqCp6spywVZ0b31lSKWC04Y1Jiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GlOlmIXI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EcqUN6KA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76A40C4CEC5;
-	Wed,  4 Sep 2024 08:05:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GlOlmIXI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6BB6C4CEC2;
+	Wed,  4 Sep 2024 11:29:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725437129;
-	bh=7qgWRytiyCO7SWQTn1LaW2tQh6Df8ICaF+PLtw4lLsU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EcqUN6KAi2o90T+wVIBwV8S83o3xLRsfDfxmBPLM6Y7vYtWe8O6QbMXDrr1eUD1Vh
-	 Q9D+pBdKG47gGnSpO271e/wwAFXhePE+5iuBYoZIvAjU2C4lELzZH1zwRWuP33X50p
-	 WfdrJpnATbu2S5ywHKNexualvVpNIGie/m5yB50du8GWwjEmn0Kqw+GOH//Or+xM57
-	 TauL/adJ31PdPqiykIM7786VpBpkPUUbqnvd+4oNwBuVlgA6Q8kHEI2mVO8peNX+2V
-	 fpNPpESZJndlU//p35Oi52z5jUeKfQXm7KZ8nv+Y3/SdbSCF807eVYGpt0XnqZPevD
-	 ZgjUj5Tfy7E7Q==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1sll1O-0000000054Y-1kjo;
-	Wed, 04 Sep 2024 10:05:46 +0200
-Date: Wed, 4 Sep 2024 10:05:46 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Sibi Sankar <quic_sibis@quicinc.com>
-Cc: sudeep.holla@arm.com, cristian.marussi@arm.com,
-	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	konradybcio@kernel.org
-Subject: Re: [PATCH V2 2/2] firmware: arm_scmi: Skip adding bad duplicates
-Message-ID: <ZtgU2kwBBl1q1Oh2@hovoldconsulting.com>
-References: <20240904031324.2901114-1-quic_sibis@quicinc.com>
- <20240904031324.2901114-3-quic_sibis@quicinc.com>
- <ZtgHw1RrZTZLr7Mw@hovoldconsulting.com>
+	s=k20201202; t=1725449374;
+	bh=IbTO/VrN9chRHIbadlaqKaZrqY35Ivbs3FjR5xZuAkE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=GlOlmIXI5IRmIy4MvvV51X9PeO9cBBWw1dSsdJ/A/fZNZVyUAKv8lOYlcImwOzgaQ
+	 oA7h4heWcFj2VsAb7QD6shcmnfi9Ou3EPTo4lkQU3A+XeUht+OOqFcv+0p9CDQNMKo
+	 bx802WS9+9vAMg5qThbA9bOklo8qz4px1Q1fMqgEC5ceZRM+JJ6zO0Ni0RojPJDADl
+	 VeZCfzxoUgjtHaMcubBlxXAp2vBRsgYQq6WW0OQ2UkIqbQDHoxr2Rwf/LXI+1xZSZc
+	 bV3khTAcZq1DkkjOvIp92b58eljiGp5h124ERqsM+PWfSqGEoU2XS3cpHSWwBoqf1g
+	 EZfQ9Y9s5yjhg==
+Message-ID: <d482dca4-e61b-4a94-887b-d14422243929@kernel.org>
+Date: Wed, 4 Sep 2024 13:29:29 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZtgHw1RrZTZLr7Mw@hovoldconsulting.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 1/2] firmware: arm_scmi: Ensure that the message-id
+ supports fastchannel
+To: Johan Hovold <johan@kernel.org>, Sibi Sankar <quic_sibis@quicinc.com>
+Cc: sudeep.holla@arm.com, cristian.marussi@arm.com,
+ linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ konradybcio@kernel.org
+References: <20240904031324.2901114-1-quic_sibis@quicinc.com>
+ <20240904031324.2901114-2-quic_sibis@quicinc.com>
+ <ZtgFj1y5ggipgEOS@hovoldconsulting.com>
+Content-Language: en-US
+From: Konrad Dybcio <konradybcio@kernel.org>
+In-Reply-To: <ZtgFj1y5ggipgEOS@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 04, 2024 at 09:09:56AM +0200, Johan Hovold wrote:
-> On Wed, Sep 04, 2024 at 08:43:24AM +0530, Sibi Sankar wrote:
-> > Ensure that the bad duplicates reported by the platform firmware doesn't
-> > get added to the opp-tables.
-
-> But with this patch applied, instead of the above warnings I now get two
-> *errors* at boot:
+On 4.09.2024 9:00 AM, Johan Hovold wrote:
+> On Wed, Sep 04, 2024 at 08:43:23AM +0530, Sibi Sankar wrote:
+>> Currently the perf and powercap protocol relies on the protocol domain
+>> attributes, which just ensures that one fastchannel per domain, before
+>> instantiating fastchannels for all possible message-ids. Fix this by
+>> ensuring that each message-id supports fastchannel before initialization.
 > 
-> 	[    8.952173] cpu cpu4: EM: non-increasing freq: 0
->	[    8.979460] cpu cpu8: EM: non-increasing freq: 0
+> Please include the warnings that I reported seeing on x1e80100 and that
+> this patch suppresses to the commit message:
 > 
-> Can you do something about that as well? At least make sure to highlight
-> this in the commit message as this is information that is needed to be
-> able to evaluate the patch.
+> arm-scmi firmware:scmi: Failed to get FC for protocol 13 [MSG_ID:6 / RES_ID:0] - ret:-95. Using regular messaging.
+> arm-scmi firmware:scmi: Failed to get FC for protocol 13 [MSG_ID:6 / RES_ID:1] - ret:-95. Using regular messaging.
+> arm-scmi firmware:scmi: Failed to get FC for protocol 13 [MSG_ID:6 / RES_ID:2] - ret:-95. Using regular messaging.
+>  
+>> Fixes: 6f9ea4dabd2d ("firmware: arm_scmi: Generalize the fast channel support")
+> 
+> And add:
+> 
+> Reported-by: Johan Hovold <johan+linaro@kernel.org>
+> Link: https://lore.kernel.org/lkml/ZoQjAWse2YxwyRJv@hovoldconsulting.com/
+> 
+> (or use Closes: if you prefer).
+> 
+>> Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
+>> ---
+>>
+>> v1:
+>> * add missing MSG_SUPPORTS_FASTCHANNEL definition.
+> 
+> Unfortunately, this patch breaks resume from suspend on the x1e80100 crd:
+> 
+>         [   26.919676] CPU4: Booted secondary processor 0x0000010000 [0x511f0011]
+>         [   26.960607] arm-scmi firmware:scmi: timed out in resp(caller: do_xfer+0x164/0x568)
+>         [   26.987142] cpufreq: cpufreq_online: ->get() failed
+> 
+> and then the machine hangs (mostly, I saw an nvme timeout message after a
+> while).
+> 
+> Make sure you test suspend as well as some of the warnings I reported
+> only show up during suspend.
 
-I tried running with just this patch (i.e. without patch 1/2), but then
-cpufreq fails already during boot with eight of these errors:
+Eh it looks like PERF_LEVEL_GET (msgid 8) requires the use of FC, but
+the firmware fails to inform us about it through BIT(0) in attrs..
 
-[    9.258577] cpufreq: cpufreq_online: ->get() failed	
-...
-[    9.405603] cpufreq: cpufreq_online: ->get() failed
-
-and seven of these messages:
-
-[   12.322987] energy_model: Accessing cpu4 policy failed
-...
-[   18.462780] energy_model: Accessing cpu4 policy failed
-
-Johan
+Konrad
