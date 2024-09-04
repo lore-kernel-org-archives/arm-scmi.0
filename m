@@ -1,79 +1,224 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6FD71D86CF;
-	Wed,  4 Sep 2024 12:38:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDFB1D88C0;
+	Wed,  4 Sep 2024 12:41:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725453542; cv=none; b=rxxSuA6F2YOegkhJzPGmtEJyySvKNieouqq7F8dAN9ctUmo4kOjDt2DwtvXZPCXzqX+FD5ViqIAMB6Fhl2GNGDxYI/nOyIs5guvibUwo8dqqjhREQ9CnuNXAzS6AIoZyAkFSEQuunaIabXC52Cj5t+AQHf437iQKaUp8Qm0vccY=
+	t=1725453705; cv=none; b=YyUbcdXkEbdzDQN5O7MsKElKrgjP5frkNaFexX0PNnDOYCaYrBaUgk+24rlobxazT4HaFICny6HccKkDoVrjkuG9OlHWU+1oIXuRvsxmo6s8VXFCMOl/M73BIMUz0/p8lm/OClqONiUH93cOcXbPX5DBFM/pyDbBGAn0GwD0yGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725453542; c=relaxed/simple;
-	bh=XID3dQgcBE0cBiH/qg0Sw2vAwn3NoD4jAts+rjeKbWo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BniSqidLGxZwCz4n7peopYpyRaJ0M+XY3F4OxFLmGb3a2nCufW0h6MW/zU40DbxNnmzKqiVx5kcszagSJDaA5URVIJ2Xj2h+z7oOcu6D4ZEiFpdyxgOZcoY3hnxMmS3UJcoDsDjsIhfwHIQU2ZG8nfB05s3SHOsnpEIfsqmw3i8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 249A9FEC;
-	Wed,  4 Sep 2024 05:39:25 -0700 (PDT)
-Received: from bogus (e107155-lin.cambridge.arm.com [10.1.198.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C77FE3F73B;
-	Wed,  4 Sep 2024 05:38:57 -0700 (PDT)
-Date: Wed, 4 Sep 2024 13:38:55 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Johan Hovold <johan@kernel.org>, Sibi Sankar <quic_sibis@quicinc.com>,
-	cristian.marussi@arm.com, linux-kernel@vger.kernel.org,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>
-Subject: Re: [PATCH V2 1/2] firmware: arm_scmi: Ensure that the message-id
- supports fastchannel
-Message-ID: <ZthU36Qkzwa5Ilrb@bogus>
-References: <20240904031324.2901114-1-quic_sibis@quicinc.com>
- <20240904031324.2901114-2-quic_sibis@quicinc.com>
- <ZtgFj1y5ggipgEOS@hovoldconsulting.com>
- <d482dca4-e61b-4a94-887b-d14422243929@kernel.org>
+	s=arc-20240116; t=1725453705; c=relaxed/simple;
+	bh=uN5W47xKqiofsiRvLQO9FgZG32WsSONW8PUWzSbP6NI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=TEFNLN5/eBSULhPU/9l86dgT5peHEF5hFMqeCrmuGNmAFcQcW8MC9g5flIEUBP4NFozikc9cfvVV75osRcR++Qtk8r1+EaD1aHuqlATNIdQkfY3bw+KfTNDX6RvNbnVcHcNTreDa2ivvo4V2JeORXOMtWw94zGN0sMowzrriu38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=NwSW2uSS; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="NwSW2uSS"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 484C1A6Q015388;
+	Wed, 4 Sep 2024 12:41:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	vvnHrvOk02BNsBCgS1kD4aYGDPo30suEFW3uLxKtM4c=; b=NwSW2uSSUuAG7akB
+	Q3GJEiSZMlKd963W2n9NL5Q3cctGTTLPe8zYwIrVyqOQv4Ih335M/gBDRkzkDZAi
+	b0Q7oakZt7XUYN11S9Z4KSAyd+JYGEj4yXwUKxTK3WpLJmqO+XaROd01biwIB/YN
+	eHlZZtK4xfz+SNXzr4ifPeE8Zv8xlAwq+LqBgeV1PRrWC+MuRHQgz3o1j/XT96cH
+	/OmJXQBFJiBhyUz45vrGbJ7mqeWJi4s9jaTqyfWQf9k8ibPVY0cUi8/A578sJxUA
+	VRTGzLqM5WAp91JFqIhFEnk1CebrvmaqHMya0qRA2Lte3OaPJzaW2aoS1HMPiN3L
+	Jof2aQ==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41dt69cuj5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Sep 2024 12:41:06 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 484Cf4LT023068
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 4 Sep 2024 12:41:05 GMT
+Received: from [10.110.120.207] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 4 Sep 2024
+ 05:41:01 -0700
+Message-ID: <06968d9d-0428-4fe8-8526-c91db3d9f0e7@quicinc.com>
+Date: Wed, 4 Sep 2024 05:41:01 -0700
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d482dca4-e61b-4a94-887b-d14422243929@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 15/21] dt-bindings: i2c: document support for SA8255p
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: <andersson@kernel.org>, <konradybcio@kernel.org>, <robh@kernel.org>,
+        <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <rafael@kernel.org>,
+        <viresh.kumar@linaro.org>, <herbert@gondor.apana.org.au>,
+        <davem@davemloft.net>, <sudeep.holla@arm.com>, <andi.shyti@kernel.org>,
+        <tglx@linutronix.de>, <will@kernel.org>, <robin.murphy@arm.com>,
+        <joro@8bytes.org>, <jassisinghbrar@gmail.com>, <lee@kernel.org>,
+        <linus.walleij@linaro.org>, <amitk@kernel.org>,
+        <thara.gopinath@gmail.com>, <broonie@kernel.org>,
+        <cristian.marussi@arm.com>, <rui.zhang@intel.com>,
+        <lukasz.luba@arm.com>, <wim@linux-watchdog.org>, <linux@roeck-us.net>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+        <linux-crypto@vger.kernel.org>, <arm-scmi@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-i2c@vger.kernel.org>,
+        <iommu@lists.linux.dev>, <linux-gpio@vger.kernel.org>,
+        <linux-serial@vger.kernel.org>, <linux-spi@vger.kernel.org>,
+        <linux-watchdog@vger.kernel.org>, <kernel@quicinc.com>,
+        <quic_psodagud@quicinc.com>, Praveen Talari <quic_ptalari@quicinc.com>
+References: <20240828203721.2751904-1-quic_nkela@quicinc.com>
+ <20240903220240.2594102-1-quic_nkela@quicinc.com>
+ <20240903220240.2594102-16-quic_nkela@quicinc.com>
+ <xtguaoof7iblrtd2idsa2k4ml64qkttgliyijbeqw5thkdcbx3@jnm75a4wmbqd>
+From: Nikunj Kela <quic_nkela@quicinc.com>
+In-Reply-To: <xtguaoof7iblrtd2idsa2k4ml64qkttgliyijbeqw5thkdcbx3@jnm75a4wmbqd>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: CmrIEOmtqvMg8k9u_x-TRH3ehu6PryTp
+X-Proofpoint-ORIG-GUID: CmrIEOmtqvMg8k9u_x-TRH3ehu6PryTp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-04_10,2024-09-04_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ suspectscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0 lowpriorityscore=0
+ phishscore=0 priorityscore=1501 malwarescore=0 adultscore=0 spamscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2409040095
 
-On Wed, Sep 04, 2024 at 01:29:29PM +0200, Konrad Dybcio wrote:
-> On 4.09.2024 9:00 AM, Johan Hovold wrote:
 
-[...]
+On 9/3/2024 11:31 PM, Krzysztof Kozlowski wrote:
+> On Tue, Sep 03, 2024 at 03:02:34PM -0700, Nikunj Kela wrote:
+>> Add compatible representing i2c support on SA8255p.
+>>
+>> Clocks and interconnects are being configured in Firmware VM
+>> on SA8255p, therefore making them optional.
+>>
+>> CC: Praveen Talari <quic_ptalari@quicinc.com>
+>> Signed-off-by: Nikunj Kela <quic_nkela@quicinc.com>
+>> ---
+>>  .../bindings/i2c/qcom,i2c-geni-qcom.yaml      | 33 +++++++++++++++++--
+>>  1 file changed, 31 insertions(+), 2 deletions(-)
+>>
+> I don't know what to do with this patch. Using specific compatibles next
+> to generic compatible is just wrong, although mistake was probably
+> allowing generic compatible. The patch does not explain the differences
+> in interface which would explain why devices are not compatible.
 
-> >
-> > Unfortunately, this patch breaks resume from suspend on the x1e80100 crd:
-> >
-> >         [   26.919676] CPU4: Booted secondary processor 0x0000010000 [0x511f0011]
-> >         [   26.960607] arm-scmi firmware:scmi: timed out in resp(caller: do_xfer+0x164/0x568)
-> >         [   26.987142] cpufreq: cpufreq_online: ->get() failed
-> >
-> > and then the machine hangs (mostly, I saw an nvme timeout message after a
-> > while).
-> >
-> > Make sure you test suspend as well as some of the warnings I reported
-> > only show up during suspend.
+I mentioned in the description that clocks and interconnects on this
+platform are configured in Firmware VM(over SCMI using power and perf
+domains) therefore this is not compatible with existing generic compatible.
+
+
+>  In the
+> same time my advice of separate binding was not followed, because maybe
+> these devices are compatible? But then it should be expressed...
+
+Sorry, I missed that. You want me to use 'oneOf' expression with this
+compatible?
+
+
 >
-> Eh it looks like PERF_LEVEL_GET (msgid 8) requires the use of FC, but
-> the firmware fails to inform us about it through BIT(0) in attrs..
+> You have entire commit msg to explain what and why.
+
+Will put more details in description.
+
+
+>> diff --git a/Documentation/devicetree/bindings/i2c/qcom,i2c-geni-qcom.yaml b/Documentation/devicetree/bindings/i2c/qcom,i2c-geni-qcom.yaml
+>> index 9f66a3bb1f80..b477fae734b6 100644
+>> --- a/Documentation/devicetree/bindings/i2c/qcom,i2c-geni-qcom.yaml
+>> +++ b/Documentation/devicetree/bindings/i2c/qcom,i2c-geni-qcom.yaml
+>> @@ -15,6 +15,7 @@ properties:
+>>      enum:
+>>        - qcom,geni-i2c
+>>        - qcom,geni-i2c-master-hub
+>> +      - qcom,sa8255p-geni-i2c
+>>  
+>>    clocks:
+>>      minItems: 1
+>> @@ -69,8 +70,6 @@ properties:
+>>  required:
+>>    - compatible
+>>    - interrupts
+>> -  - clocks
+>> -  - clock-names
+>>    - reg
+>>  
+>>  allOf:
+>> @@ -81,6 +80,10 @@ allOf:
+>>            contains:
+>>              const: qcom,geni-i2c-master-hub
+>>      then:
+>> +      required:
+>> +        - clocks
+>> +        - clock-names
 >
+> So it is required here?
 
-Just trying to understand things better here. So the firmware expects OSPM
-to just use FC only for PERF_LEVEL_GET and hence doesn't implement the
-default/normal channel for PERF_LEVEL_GET(I assume it returns error ?)
-but fails to set the attribute indicating FC is available for the domain.
+We are removing clocks from generic required list and enforcing rules
+for all compatibles other than sa8255p.
 
-I am not sure if that is stupid choice or there is some cost benefit in
-not implementing PERF_LEVEL_GET via normal channel if that is a fact. I
-am very much interested to know the reason either way especially if it
-is latter.
 
---
-Regards,
-Sudeep
+>> +
+>>        properties:
+>>          clocks:
+>>            minItems: 2
+>> @@ -100,7 +103,21 @@ allOf:
+>>            items:
+>>              - const: qup-core
+>>              - const: qup-config
+>> +
+>> +  - if:
+>> +      properties:
+>> +        compatible:
+>> +          contains:
+>> +            const: qcom,sa8255p-geni-i2c
+>> +    then:
+>> +      required:
+>> +        - power-domains
+>> +
+> And possible here? I assume with the same clocks? The same for
+> interconnects - same values are valid?
+
+I guess I need to put here the same description as in the cover letter
+to make it more clear. We are not using clocks and interconnects in this
+platform in Linux. Instead, sending request to Firmware VM over
+SCMI(using power and perf protocols)
+
+
+>
+>>      else:
+>> +      required:
+>> +        - clocks
+>> +        - clock-names
+> And clocks are required again?
+Explained above.
+>> +
+>>        properties:
+>>          clocks:
+>>            maxItems: 1
+> Eeee? So now all other variants have max 1 clock?
+
+I will make if block for sa8255p up so else is not applied to rest of
+the platforms.
+
+
+>
+> Nope, this wasn't ever tested on real DTS.
+
+This is tested on SA8255p DTS and I ran DT schema check on SA8775p DT as
+well.
+
+
+>
+> Best regards,
+> Krzysztof
+>
