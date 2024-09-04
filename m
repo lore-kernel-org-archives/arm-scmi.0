@@ -1,46 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0461EC01C;
-	Wed,  4 Sep 2024 07:09:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C840213B290;
+	Wed,  4 Sep 2024 07:20:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725433780; cv=none; b=WpU38/56ssHFOOB5n8ti8zEYjbC+/xKHasO2ic4xSn9sxSf+EYHCZYLjAAN4MKNHPGo9P/oXps7jBf7rGOJRQZBcJ531tt/j1Zlcit2pyV9El0ZCN2jYP2OPlxfhnVAaC2SPIINwm52VKI52mmJSIrwkJvWy2YvbsQmQ6Zx4Ecg=
+	t=1725434448; cv=none; b=sLoIq0GS2LQWsfhPGd7h3o0XKHSoCYEG2hi2JWBj4n2YWD6FPuzYdBvQ31YUsuDz+QGL29gVgqEpLYJSjHQlBzAesc3UgHqQ9POOC0KQNfsJFpuAMzpw2xL5wt0sBGMPAkXKoy5vJq3eXhPH24c6OcEYYdYxizkesiE7f3vYV5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725433780; c=relaxed/simple;
-	bh=U7ShB99LMxLCv80JBZpXfOThgO3T2QrCzDNel6QhBhA=;
+	s=arc-20240116; t=1725434448; c=relaxed/simple;
+	bh=7LNfFiXbjo7lumWI/Ys4K1KVKj5QLLQTvPgzMihTVLA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WDKD1RhHchayhFV3S6wyInPD3WUvpwBo1HnUsTZO1t3Bjl7IMgy1g+Sjlu1HdfcsBwtHHsTlgKULHn2lwLKX5htYN92hVB2PcbRtI764qdqucVDYV0GJNxTwzXFnhY+HSiEXHOJ9eK2/p16c74Kryelw+/B/eRBDSN31Rq7g80g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DO6RB7ty; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=KjamIWp3UEsBSXJKFn8i3K6voLSeN2fj96w0aeckw2ucfrCihn/mtN0Zke1YX1FnfZIjK6qSlQu45qcc1M6UxtoAVGxPE489LQdDFIAKMskMua2uWT+My97iAzrhFl3RFymewdIDHRO54c2m7KmAvErF27zPh7rkuAzKeYUCQgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LTd51cB0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DO6RB7ty"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D336C4CEC2;
-	Wed,  4 Sep 2024 07:09:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LTd51cB0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54B1CC4CEC2;
+	Wed,  4 Sep 2024 07:20:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725433779;
-	bh=U7ShB99LMxLCv80JBZpXfOThgO3T2QrCzDNel6QhBhA=;
+	s=k20201202; t=1725434448;
+	bh=7LNfFiXbjo7lumWI/Ys4K1KVKj5QLLQTvPgzMihTVLA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DO6RB7tyywf0ai1BqJXYXdF+mvcKUnltH5kHrqZzHq06+ZOHH5TY4H7VVWAL3PxVn
-	 IJEVMnMu1wpEVi/XhVUl7rvGoIKh65VSNGX3wRCqotMpE+8ZR/xHDbq12Jyj8hV/Na
-	 Hp2fUadwzUf8+k2d5XAaMvFFHVlyojlbdhQEjRLe2JNmbfqWOgwV/cpijKLYZ5cX5c
-	 ItwWToIPYDOssdqZq3nd5gI5MbhE23LtmP4d5oQ7+XmC0R4OiC0sWFygAvJGx5hRvk
-	 2Mfzj0M66qGnmygz0mhv7hGRywB4ZYPek9bT97b79V+MMrOi81Asl5QvNtaVcx6m4g
-	 TdJZZC5TVIHdA==
+	b=LTd51cB0yGAuYjeno1J2UWEv7/7gArrZ7IBToGz6QzZsNCKj+QbqAYJdMQ3/dyYRN
+	 YL/dwbAjpfUvR9VPsAYy0vHyZ4XPALgWbspaasFM9940SSFqaCf8eEF5Ho57E9YDG7
+	 gChUFcggE6rh25N63HE2IdPyeGTpwVkUtpS0TT36XIAFq947IT9352ZZtVP54I3KZS
+	 nejZ8FR6lRoDstltzzwnH148Yw110UOD4lmeLpUoZ9VQ5WAGfCw1yobjBobAnEwNj1
+	 BuXJoEzc+JKJbJvnUshTIrS3pIT6jXZBSWFRnHirTm092x0bsZdLTaAYhl6ZCHiTzC
+	 fyA6VviQS4dfw==
 Received: from johan by xi.lan with local (Exim 4.97.1)
 	(envelope-from <johan@kernel.org>)
-	id 1slk9L-0000000019G-2PP2;
-	Wed, 04 Sep 2024 09:09:56 +0200
-Date: Wed, 4 Sep 2024 09:09:55 +0200
+	id 1slkK8-000000001SQ-1Ggi;
+	Wed, 04 Sep 2024 09:21:05 +0200
+Date: Wed, 4 Sep 2024 09:21:04 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Sibi Sankar <quic_sibis@quicinc.com>
-Cc: sudeep.holla@arm.com, cristian.marussi@arm.com,
+Cc: ulf.hansson@linaro.org, sudeep.holla@arm.com, cristian.marussi@arm.com,
 	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	konradybcio@kernel.org
-Subject: Re: [PATCH V2 2/2] firmware: arm_scmi: Skip adding bad duplicates
-Message-ID: <ZtgHw1RrZTZLr7Mw@hovoldconsulting.com>
-References: <20240904031324.2901114-1-quic_sibis@quicinc.com>
- <20240904031324.2901114-3-quic_sibis@quicinc.com>
+	linux-pm@vger.kernel.org, quic_rgottimu@quicinc.com,
+	quic_kshivnan@quicinc.com
+Subject: Re: [PATCH] pmdomain: arm: Fix debugfs node creation failure
+Message-ID: <ZtgKYD87GF0fDucE@hovoldconsulting.com>
+References: <20240703110741.2668800-1-quic_sibis@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -49,56 +49,39 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240904031324.2901114-3-quic_sibis@quicinc.com>
+In-Reply-To: <20240703110741.2668800-1-quic_sibis@quicinc.com>
 
-On Wed, Sep 04, 2024 at 08:43:24AM +0530, Sibi Sankar wrote:
-> Ensure that the bad duplicates reported by the platform firmware doesn't
-> get added to the opp-tables.
+On Wed, Jul 03, 2024 at 04:37:41PM +0530, Sibi Sankar wrote:
+> The domain attributes returned by the perf protocol can end up
+> reporting identical names across domains, resulting in debugfs
+> node creation failure. Fix this duplication by appending the
+> domain-id to the domain name.
+> 
+> Logs:
+> debugfs: Directory 'NCC' with parent 'pm_genpd' already present!
+> debugfs: Directory 'NCC' with parent 'pm_genpd' already present!
+> 
+> Fixes: 2af23ceb8624 ("pmdomain: arm: Add the SCMI performance domain")
 
-Please expand on why this is an issue on Qualcomm platforms, these
-entries aren't just "bad duplicates" if IIUC.
-
-Also here, please add (examples of) the warnings I reported. During boot
-of the x1e80100 crd, I see:
-
-[    8.992956] cpu cpu4: _opp_is_duplicate: duplicate OPPs detected. Existing: freq: 3417600000, volt: 0, enabled: 1. New: freq: 3417600000, volt: 0, enabled: 1
-[    9.021940] cpu cpu4: _opp_is_duplicate: duplicate OPPs detected. Existing: freq: 3417600000, volt: 0, enabled: 1. New: freq: 3417600000, volt: 0, enabled: 1
-[    9.036171] cpu cpu8: _opp_is_duplicate: duplicate OPPs detected. Existing: freq: 3417600000, volt: 0, enabled: 1. New: freq: 3417600000, volt: 0, enabled: 1
-[    9.036177] cpu cpu8: _opp_is_duplicate: duplicate OPPs detected. Existing: freq: 3417600000, volt: 0, enabled: 1. New: freq: 3417600000, volt: 0, enabled: 1
-
-and during resume:
-
-[   85.286615] cpu cpu4: _opp_is_duplicate: duplicate OPPs detected. Existing: freq: 3417600000, volt: 0, enabled: 1. N
-ew: freq: 3417600000, volt: 0, enabled: 1
-[   85.319849] cpu cpu4: _opp_is_duplicate: duplicate OPPs detected. Existing: freq: 3417600000, volt: 0, enabled: 1. N
-ew: freq: 3417600000, volt: 0, enabled: 1
-[   85.334686] debugfs: File 'cpu5' in directory 'opp' already present!
-[   85.341399] debugfs: File 'cpu6' in directory 'opp' already present!
-[   85.348016] debugfs: File 'cpu7' in directory 'opp' already present!
-
-[   85.443093] cpu cpu8: _opp_is_duplicate: duplicate OPPs detected. Existing: freq: 3417600000, volt: 0, enabled: 1. N
-ew: freq: 3417600000, volt: 0, enabled: 1
-[   85.476595] cpu cpu8: _opp_is_duplicate: duplicate OPPs detected. Existing: freq: 3417600000, volt: 0, enabled: 1. N
-ew: freq: 3417600000, volt: 0, enabled: 1
-[   85.491645] debugfs: File 'cpu9' in directory 'opp' already present!
-[   85.498409] debugfs: File 'cpu10' in directory 'opp' already present!
-[   85.505187] debugfs: File 'cpu11' in directory 'opp' already present!
-
-Please also add:
+Please include:
 
 Reported-by: Johan Hovold <johan+linaro@kernel.org>
 Link: https://lore.kernel.org/lkml/ZoQjAWse2YxwyRJv@hovoldconsulting.com/
 
 > Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
 
-But with this patch applied, instead of the above warnings I now get two
-*errors* at boot:
+I now that this patch is being reworked, but please note that the
+following warnings that I reported are seen also with this patch:
 
-	[    8.952173] cpu cpu4: EM: non-increasing freq: 0
-        [    8.979460] cpu cpu8: EM: non-increasing freq: 0
+[    9.119117] arm-scmi firmware:scmi: Failed to add opps_by_lvl at 3417600 for NCC - ret:-16
+[    9.129146] arm-scmi firmware:scmi: Failed to add opps_by_lvl at 3417600 for NCC - ret:-16
+[    9.160328] arm-scmi firmware:scmi: Failed to add opps_by_lvl at 3417600 for NCC - ret:-16
+[    9.175229] arm-scmi firmware:scmi: Failed to add opps_by_lvl at 3417600 for NCC - ret:-16
 
-Can you do something about that as well? At least make sure to highlight
-this in the commit message as this is information that is needed to be
-able to evaluate the patch.
+which seems to suggest that the approach taken by this patch is not
+necessarily the right one.
+
+Can you please also comment on why this is an issue on x1e80100 in the
+commit message?
 
 Johan
