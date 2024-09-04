@@ -1,124 +1,83 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFFB916C84B
-	for <arm-scmi@vger.kernel.org>; Wed,  4 Sep 2024 07:55:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E264417C990;
+	Wed,  4 Sep 2024 08:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725436549; cv=none; b=T8QWY91gJ8WNNlIlSBQ4ZshtmXiUqdYVlRDeHdzA11Tht+PWXx53xJzHREHbz19SCGlyUDY+egMUO1DMdD69KNbVBeUwTUx0mc+6ZO9eIeyVxx0OURFYu4x6toJvclR80hw2y1NpU8uxDJaW+bAH8n3ENIWwPe3xM6o1qNGfwnU=
+	t=1725437130; cv=none; b=SXNDQOSrkID8BIckM2GdpBQgqX8VtppTefpej+55bNB4cXDD8VgcBr8o5z9oJwhkWCd6CzyxHT3gyH/hSItacVbOJWJji0yErmQ9LfUsjEsNZLvy64XwMFI4LApRsS6UUCNCJj7+Cibt6Tgf0CCUfailaZAopZlUw+Dy4uD5T8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725436549; c=relaxed/simple;
-	bh=aKREuGuvO5ZHE1yHZZsfwqNwpc5ngWPlAvJqmQi/mFA=;
+	s=arc-20240116; t=1725437130; c=relaxed/simple;
+	bh=7qgWRytiyCO7SWQTn1LaW2tQh6Df8ICaF+PLtw4lLsU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rCV1GY2QvWz5ApCxJDrUnrwaq1xo/qwh+l0Svko25NxEuxTjlZeDlfQLjt83/QQq81E9aSyE+hUDEQ1s+9W4zhOL8G9ke/qoxFnjnCF9G+HcKYZMnfPcy7JS1yPtoFBxeb/nb7tHChI2R/+85dZdJtz1iOPanJZ6SoN3cBz1VJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=lHJfC8NL; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=TykxNjZCZEFXfG/9o+YUYSLEZ/WLvE5inrKRJyayyzsfv2LPFP2PwyVfuU08Jc4ql9fRu6APtpVYSobzMs+s28eks5xsw7fiFaFka5TO6Scq31Apq3dBKyCZ0BObqs27fmeGRI6HSJilhAzqnymT+OcggkPAz6/MK3YH/fe+nQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EcqUN6KA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="lHJfC8NL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=aKRE
-	uGuvO5ZHE1yHZZsfwqNwpc5ngWPlAvJqmQi/mFA=; b=lHJfC8NLL5hM1d99YWjb
-	k8hDKbwT7sQf8dInSNM2O1kpA1swfRUSh15nms8BwX4XK7sQOPW/xU646LChoL7s
-	MlL6mj1/2d4+GpkSgFJnakGliodkpCyjufupzv5XqiJo4TZN0ytxUDDuqoOtWhcw
-	Ftacip61yFvUV0V9V8Eyu/o1oSEVbgN2RdE8+kWEb7GCFzV5oAi5AyzCYkfoebJA
-	/7HgHZSVS4QsdZaaMW51/42QLG8Wzrtmb4XGaKBOfOAaMiycCkPj2/JN9DPa+haG
-	ze9bm6J1gbHzupDjyCxJh3vuGJwM0K55flbm52CyxTjg8jfMmmuw6GBpIF2P5GCE
-	Gg==
-Received: (qmail 509259 invoked from network); 4 Sep 2024 09:55:35 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Sep 2024 09:55:35 +0200
-X-UD-Smtp-Session: l3s3148p1@4iHCf0YhlpwgAwDPXwdRANgvu6DX4+2c
-Date: Wed, 4 Sep 2024 09:55:35 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Nikunj Kela <quic_nkela@quicinc.com>, andersson@kernel.org,
-	konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, rafael@kernel.org, viresh.kumar@linaro.org,
-	herbert@gondor.apana.org.au, davem@davemloft.net,
-	sudeep.holla@arm.com, andi.shyti@kernel.org, tglx@linutronix.de,
-	will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
-	jassisinghbrar@gmail.com, lee@kernel.org, linus.walleij@linaro.org,
-	amitk@kernel.org, thara.gopinath@gmail.com, broonie@kernel.org,
-	cristian.marussi@arm.com, rui.zhang@intel.com, lukasz.luba@arm.com,
-	wim@linux-watchdog.org, linux@roeck-us.net,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-crypto@vger.kernel.org, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
-	iommu@lists.linux.dev, linux-gpio@vger.kernel.org,
-	linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-watchdog@vger.kernel.org, kernel@quicinc.com,
-	quic_psodagud@quicinc.com,
-	Praveen Talari <quic_ptalari@quicinc.com>
-Subject: Re: [PATCH v2 15/21] dt-bindings: i2c: document support for SA8255p
-Message-ID: <ZtgSd_SLndvLLVYF@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Nikunj Kela <quic_nkela@quicinc.com>, andersson@kernel.org,
-	konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, rafael@kernel.org, viresh.kumar@linaro.org,
-	herbert@gondor.apana.org.au, davem@davemloft.net,
-	sudeep.holla@arm.com, andi.shyti@kernel.org, tglx@linutronix.de,
-	will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
-	jassisinghbrar@gmail.com, lee@kernel.org, linus.walleij@linaro.org,
-	amitk@kernel.org, thara.gopinath@gmail.com, broonie@kernel.org,
-	cristian.marussi@arm.com, rui.zhang@intel.com, lukasz.luba@arm.com,
-	wim@linux-watchdog.org, linux@roeck-us.net,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-crypto@vger.kernel.org, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
-	iommu@lists.linux.dev, linux-gpio@vger.kernel.org,
-	linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-watchdog@vger.kernel.org, kernel@quicinc.com,
-	quic_psodagud@quicinc.com,
-	Praveen Talari <quic_ptalari@quicinc.com>
-References: <20240828203721.2751904-1-quic_nkela@quicinc.com>
- <20240903220240.2594102-1-quic_nkela@quicinc.com>
- <20240903220240.2594102-16-quic_nkela@quicinc.com>
- <7fc1e4c3-ca09-4a0a-b072-0c4f1d21e44f@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EcqUN6KA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76A40C4CEC5;
+	Wed,  4 Sep 2024 08:05:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725437129;
+	bh=7qgWRytiyCO7SWQTn1LaW2tQh6Df8ICaF+PLtw4lLsU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EcqUN6KAi2o90T+wVIBwV8S83o3xLRsfDfxmBPLM6Y7vYtWe8O6QbMXDrr1eUD1Vh
+	 Q9D+pBdKG47gGnSpO271e/wwAFXhePE+5iuBYoZIvAjU2C4lELzZH1zwRWuP33X50p
+	 WfdrJpnATbu2S5ywHKNexualvVpNIGie/m5yB50du8GWwjEmn0Kqw+GOH//Or+xM57
+	 TauL/adJ31PdPqiykIM7786VpBpkPUUbqnvd+4oNwBuVlgA6Q8kHEI2mVO8peNX+2V
+	 fpNPpESZJndlU//p35Oi52z5jUeKfQXm7KZ8nv+Y3/SdbSCF807eVYGpt0XnqZPevD
+	 ZgjUj5Tfy7E7Q==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1sll1O-0000000054Y-1kjo;
+	Wed, 04 Sep 2024 10:05:46 +0200
+Date: Wed, 4 Sep 2024 10:05:46 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Sibi Sankar <quic_sibis@quicinc.com>
+Cc: sudeep.holla@arm.com, cristian.marussi@arm.com,
+	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	konradybcio@kernel.org
+Subject: Re: [PATCH V2 2/2] firmware: arm_scmi: Skip adding bad duplicates
+Message-ID: <ZtgU2kwBBl1q1Oh2@hovoldconsulting.com>
+References: <20240904031324.2901114-1-quic_sibis@quicinc.com>
+ <20240904031324.2901114-3-quic_sibis@quicinc.com>
+ <ZtgHw1RrZTZLr7Mw@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="FHEJDPFXKqntwo2j"
-Content-Disposition: inline
-In-Reply-To: <7fc1e4c3-ca09-4a0a-b072-0c4f1d21e44f@kernel.org>
-
-
---FHEJDPFXKqntwo2j
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZtgHw1RrZTZLr7Mw@hovoldconsulting.com>
 
+On Wed, Sep 04, 2024 at 09:09:56AM +0200, Johan Hovold wrote:
+> On Wed, Sep 04, 2024 at 08:43:24AM +0530, Sibi Sankar wrote:
+> > Ensure that the bad duplicates reported by the platform firmware doesn't
+> > get added to the opp-tables.
 
-> Just to clarify to I2C maintainers:
-> This is incomplete. Missing driver changes.
+> But with this patch applied, instead of the above warnings I now get two
+> *errors* at boot:
+> 
+> 	[    8.952173] cpu cpu4: EM: non-increasing freq: 0
+>	[    8.979460] cpu cpu8: EM: non-increasing freq: 0
+> 
+> Can you do something about that as well? At least make sure to highlight
+> this in the commit message as this is information that is needed to be
+> able to evaluate the patch.
 
-Thanks, Krzysztof!
+I tried running with just this patch (i.e. without patch 1/2), but then
+cpufreq fails already during boot with eight of these errors:
 
+[    9.258577] cpufreq: cpufreq_online: ->get() failed	
+...
+[    9.405603] cpufreq: cpufreq_online: ->get() failed
 
---FHEJDPFXKqntwo2j
-Content-Type: application/pgp-signature; name="signature.asc"
+and seven of these messages:
 
------BEGIN PGP SIGNATURE-----
+[   12.322987] energy_model: Accessing cpu4 policy failed
+...
+[   18.462780] energy_model: Accessing cpu4 policy failed
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmbYEnYACgkQFA3kzBSg
-KbZVYBAAiXNxlHjbEKLTGAkGhtvJsfotjpV3nCHTOIX/wTow3SIk/EuRFp+rNX9D
-bvnB135tiFbnLkTasCvFaDoz1L5wOf3pnguvdpQAIauuzlIznrT6k//2iFhEBwKV
-FgaVWIWUvfGw6LMCubL9h54kRsAVjdMBb4pN4C0U4cQh63+3nbJYGsqgTaxVyFR8
-1vBhtghAuAT9uFYeOPgP4GsV0wm4G4far6kM9R0wdaiu/abnMT7aiIa7T2eGps1+
-N+NerB2mmf6E+XEDnK9eDRCNMUJcam4IfYVjaQzwC//aFSFdmVvvjXKfbnssf+JF
-Vfn0hqkLmMSxL37rtuVH9v1JE+QJ8yPCwNzJpey+GWDInsux2gFaEsj5y7DNaXz9
-rJl6yjzKGUEIaB3unQqDNIXOYa8t54sZOVPMiXyiwRf3n+itlcgM1UyIAhcJL62u
-khTLRb01S4AJCQU0i/tkvtxjThP+U40p/2HWHcvNIdv+FAvNwpP3Hwbr7hthVHXo
-yoOMh7BeGjoG2Kp9/5JanWIWUy4RiAVJiKKZA6wP+QQhnpRldvAbfv56htszdT8F
-epR8Zsy8YVvVQbgzZcCmFkKY5tHrkfOYaURZFpE5stum6qKUSt/asnkEsDxqkCss
-4D9DFaqxYU6zv5TvPEk8Ht4P+xoSS9D6XBET6SgXeNARud2kCSw=
-=F3tI
------END PGP SIGNATURE-----
-
---FHEJDPFXKqntwo2j--
+Johan
