@@ -1,73 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC963126C0A;
-	Wed,  4 Sep 2024 06:39:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14416A8D2;
+	Wed,  4 Sep 2024 07:00:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725431966; cv=none; b=PHk2NaPvr8e8IDESY0k5GtQiAam5sjYxBACzZoMUn7o5GP4eKYsm7QcyMFhVHQxseznEs7uRwm0GKia1ONWiDBVKQ4hlmrqgjPWScswSepcYdhhFqCQErCER1/+cIJmHNpJ01iZWnfsIAMDGiZvcenlqoauvkQ9dxhxkyyjLEaw=
+	t=1725433215; cv=none; b=R6fw8hQd3G5TfQcAuucDjheDDnj4/0oWNhkksRO1/oFsO2JSQO5F7MW8gOHNGLduQVgaA22Fo9r7sFyGYa6CoHguD08SIS+7J72RDxfq9DTrbMqqsTYFKwT2xzOiVqVyLDykibSaabX78IXi/Zu83dRNNAHfzFbOkw83+hKQ+hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725431966; c=relaxed/simple;
-	bh=ZP9TvyABzJYjITastypfyV+ucNqY9wFIJmCo4iIBo08=;
+	s=arc-20240116; t=1725433215; c=relaxed/simple;
+	bh=7MUwc0Qz0mHMQ92cWtSf9OiJINGcpduG0xrHBToFdFg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u2zvvAGIQIZcgOO/Q4EnUKfT6uR/sZDLrH14xUR8r5VmazMg/L/D7rqUBW59r9MKzksLRczv3dQXoM4feQ5KjoVkmGGGywqfZookNblM2zpm9NZw5jfWTZPsUhV4Mqo9/O+KT9F6BcKcgaeC6nzNix/vK7aa9W1LMCXB49F0HQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SrR2+7+0; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=YXgTHf0lpgZZBdG9cI+Jqwe2+EP0HAXoOuy99mzFlUrdEMU/6wrYmwWS4K1JG1HL4v5eo4IWapPtzwvGP60gxbFzOSa5BZj8+Zq18qOKPCAMezKvaBuhIw6MuI8lEo2Owxc6h+bSDUGfnJeLJvHBkZUf498PqLLYIEhqh+6P62A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PlWhKMY+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SrR2+7+0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8A69C4CEC2;
-	Wed,  4 Sep 2024 06:39:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PlWhKMY+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D98DC4CEC3;
+	Wed,  4 Sep 2024 07:00:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725431965;
-	bh=ZP9TvyABzJYjITastypfyV+ucNqY9wFIJmCo4iIBo08=;
+	s=k20201202; t=1725433214;
+	bh=7MUwc0Qz0mHMQ92cWtSf9OiJINGcpduG0xrHBToFdFg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SrR2+7+0rykbsWMW0lNInPQBuHBk4WNB2VPN69MlZKODkrcKLeXi23ntBZ3Y/Z6AM
-	 rgurIOM0+HHT/cpz1XV1CIzFSI27qUNTBmlgCu4oI2iAvBgWIFvDHYAwr5WtUW+vGo
-	 pez/LT9D47f1fHGRizhg0ufavHLDoQFkxQ6uTCI9oKDSUt9VSel2UBZYfq8ShShYfO
-	 I2mr+vwAotkryAKGJH5SVJ+Z6c7xD5CQcS61Iogtq29Ns4ZY0eyfEXwMBlg+1MX/lU
-	 +X6qrg437wxBpWwiMDYwkjq0a3SD+RhqW9xXGPLR8rZNK/TY4d3o5q51rb2j/4eFFr
-	 96Ugz5bHxhEqg==
-Date: Wed, 4 Sep 2024 08:39:21 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Nikunj Kela <quic_nkela@quicinc.com>
-Cc: andersson@kernel.org, konradybcio@kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, rafael@kernel.org, viresh.kumar@linaro.org, 
-	herbert@gondor.apana.org.au, davem@davemloft.net, sudeep.holla@arm.com, andi.shyti@kernel.org, 
-	tglx@linutronix.de, will@kernel.org, robin.murphy@arm.com, joro@8bytes.org, 
-	jassisinghbrar@gmail.com, lee@kernel.org, linus.walleij@linaro.org, amitk@kernel.org, 
-	thara.gopinath@gmail.com, broonie@kernel.org, cristian.marussi@arm.com, 
-	rui.zhang@intel.com, lukasz.luba@arm.com, wim@linux-watchdog.org, linux@roeck-us.net, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-crypto@vger.kernel.org, arm-scmi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-gpio@vger.kernel.org, linux-serial@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-watchdog@vger.kernel.org, kernel@quicinc.com, quic_psodagud@quicinc.com
-Subject: Re: [PATCH v2 19/21] dt-bindings: firmware: arm,scmi: allow multiple
- virtual instances
-Message-ID: <yl4raseujkl4ccponowaonowjpmjiybv5yd56pds6ep2lj2kow@gxoaxqyt2ask>
-References: <20240828203721.2751904-1-quic_nkela@quicinc.com>
- <20240903220240.2594102-1-quic_nkela@quicinc.com>
- <20240903220240.2594102-20-quic_nkela@quicinc.com>
+	b=PlWhKMY+y29pV2JFKEgiVv1fRmL7I6BIjNLFtnSo2ClJ0W2PC5eXWq+p5L7yDGZIT
+	 OhDNggb/1Q05WL09OIpO1g7ARtP76HSjqwNDnUxCFgPmpqMFS4fzFExYxca7WjuNgX
+	 UH3925GZYmOyM1IvdnCT5ckT/X1CHXWU69nRBVoqpIanBc40kV0n/Th6+4Ig7chcX0
+	 qvr0//Ecmn7ubYaoH9FljyNg65Lv2egcv3EyOXMVlRUtZS3dbD/KEc3BPKJsdm0vD2
+	 VyPEqLFLcOd9ZMGQwZOvZjty2l3YVbCWqtGoIG6k6/3yTJkqGL2TbKNm4TBWrkcMLC
+	 FEUERxPzRF5KQ==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1slk0F-0000000012U-0M0T;
+	Wed, 04 Sep 2024 09:00:31 +0200
+Date: Wed, 4 Sep 2024 09:00:31 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Sibi Sankar <quic_sibis@quicinc.com>
+Cc: sudeep.holla@arm.com, cristian.marussi@arm.com,
+	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	konradybcio@kernel.org
+Subject: Re: [PATCH V2 1/2] firmware: arm_scmi: Ensure that the message-id
+ supports fastchannel
+Message-ID: <ZtgFj1y5ggipgEOS@hovoldconsulting.com>
+References: <20240904031324.2901114-1-quic_sibis@quicinc.com>
+ <20240904031324.2901114-2-quic_sibis@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240903220240.2594102-20-quic_nkela@quicinc.com>
+In-Reply-To: <20240904031324.2901114-2-quic_sibis@quicinc.com>
 
-On Tue, Sep 03, 2024 at 03:02:38PM -0700, Nikunj Kela wrote:
-> This change extends scmi node name so as to allow multiple virtual
-> SCMI instances.
-> 
-> Signed-off-by: Nikunj Kela <quic_nkela@quicinc.com>
+On Wed, Sep 04, 2024 at 08:43:23AM +0530, Sibi Sankar wrote:
+> Currently the perf and powercap protocol relies on the protocol domain
+> attributes, which just ensures that one fastchannel per domain, before
+> instantiating fastchannels for all possible message-ids. Fix this by
+> ensuring that each message-id supports fastchannel before initialization.
+
+Please include the warnings that I reported seeing on x1e80100 and that
+this patch suppresses to the commit message:
+
+arm-scmi firmware:scmi: Failed to get FC for protocol 13 [MSG_ID:6 / RES_ID:0] - ret:-95. Using regular messaging.
+arm-scmi firmware:scmi: Failed to get FC for protocol 13 [MSG_ID:6 / RES_ID:1] - ret:-95. Using regular messaging.
+arm-scmi firmware:scmi: Failed to get FC for protocol 13 [MSG_ID:6 / RES_ID:2] - ret:-95. Using regular messaging.
+ 
+> Fixes: 6f9ea4dabd2d ("firmware: arm_scmi: Generalize the fast channel support")
+
+And add:
+
+Reported-by: Johan Hovold <johan+linaro@kernel.org>
+Link: https://lore.kernel.org/lkml/ZoQjAWse2YxwyRJv@hovoldconsulting.com/
+
+(or use Closes: if you prefer).
+
+> Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
 > ---
->  Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> v1:
+> * add missing MSG_SUPPORTS_FASTCHANNEL definition.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Unfortunately, this patch breaks resume from suspend on the x1e80100 crd:
 
-Best regards,
-Krzysztof
+        [   26.919676] CPU4: Booted secondary processor 0x0000010000 [0x511f0011]
+        [   26.960607] arm-scmi firmware:scmi: timed out in resp(caller: do_xfer+0x164/0x568)
+        [   26.987142] cpufreq: cpufreq_online: ->get() failed
 
+and then the machine hangs (mostly, I saw an nvme timeout message after a
+while).
+
+Make sure you test suspend as well as some of the warnings I reported
+only show up during suspend.
+
+Johan
