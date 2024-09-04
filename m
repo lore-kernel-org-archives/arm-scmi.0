@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4601441D;
-	Wed,  4 Sep 2024 13:24:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1FDF1DB55E;
+	Wed,  4 Sep 2024 13:57:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725456279; cv=none; b=TYiZEJgQbe8VKIBQ6JL3TyFvN7pWohxe3sDbUZEdgMLJC7MnLxdgWjp/W2qjacWtQDMVzFyNjLa408jwiknJZ+DDC7jEzpWtom6xsh8JemdYmxE5o/WNqQxvgDcNjbfRTkjwzyT5tV9Io5Xq0hZc8NrzCpAKh1NTtHy3yEvOCtc=
+	t=1725458226; cv=none; b=JOFItGdbHtA5yxu7fDaXgOHW10P5dnstwDlhWBVfO8XoF7OnPx3HMO0JEBkhrGj0lqWUoFaYatO6eIvThtyjKIY85HDvLiZLoyIxu8mc5qbDLrHVofmUnA9EnBhvTWf1eLxYgxnUWX3Z273D9ETTGO/p1t+kXpI8MQwQ3C5a3Zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725456279; c=relaxed/simple;
-	bh=VD4Uy7oAc+nT7ov65tbrV4jCOunVuSnuaZX67sZ/AD8=;
+	s=arc-20240116; t=1725458226; c=relaxed/simple;
+	bh=S8BOYJKLeSUjKhrIzHcSl/3wnnBKftTAfWhQ5hK+080=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m/k9WmPo6ukG+AyIYsZePL1fC2ZYXADdg9QaVGncD/XT68LmNvbF3TcOaVn1FjdMAujXRCXhL3gtPGnFbE1dE0q+5lGD3ADTX+/yCMhiSgeqLNDGh1evwEQoUIExOxkb7pWcY3XP5q47NirJvajzrD1SXvmhXzImeq+O3fekVxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EaZA3Zoc; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=KcGYBzFK5pHhXCpPzz4xU8xGSo2W43WHxsTrJgdM3ncT1AUFCk3yPOlfhP5dEAP+AKE7lvfapum53md6iJD+z2fMeGNDdHwCPWe2JgbcH3TVw0PfqabMWak+MZ0jJ5/KYvXyND+GQMA6JdDfkFTx/mcngUvz9QUPjrX7lMAODho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u11o0+f9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EaZA3Zoc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCF76C4CEC2;
-	Wed,  4 Sep 2024 13:24:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u11o0+f9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F3ACC4CEC2;
+	Wed,  4 Sep 2024 13:57:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725456279;
-	bh=VD4Uy7oAc+nT7ov65tbrV4jCOunVuSnuaZX67sZ/AD8=;
+	s=k20201202; t=1725458225;
+	bh=S8BOYJKLeSUjKhrIzHcSl/3wnnBKftTAfWhQ5hK+080=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=EaZA3ZocO9yeFcLWnQAMtGEkip86DBt1O5MM3Zi+MIiWlMApYGZLT71+bvGX4QX0s
-	 GzBGd9kEpW3E4pKUA6YDOPUgHm3Z81C/b18Nzgg4oT+G1LWPjiAYum78+jItZd72EO
-	 gj5xBz5Fk2ts+TNEta4t0cTkDj1paLqxjCXH040xSXtye+xXtm3faE8B8mXAIXeP0A
-	 FyKLBPpFTpPW1iJ5Ugh9taN9x2d9+U+iJNEx7VD+99J7IOCNCQLjofSBU7olyHNeaH
-	 QP+Z1eaYSJlC4gLKcNSgQB4hLoiQBfsDEE/jS43+FQ46wAXjppCl3vz+VpvLPmM3um
-	 ClLE8oJQvyGDA==
-Message-ID: <e352a836-82ef-4031-ac46-3ac7e0cb77ec@kernel.org>
-Date: Wed, 4 Sep 2024 15:24:18 +0200
+	b=u11o0+f9M05QicsrK2ig5lPfZtDg2Mz0oJOIzm/xKPPBzFzrSHcpQx0HNF2Ziq+C9
+	 pJNXZ08+Xum1upeMIXL+B+BNtBmp0SpbMAuE1dtQE+gkPMr95zxD1yXm51u6rI9k2S
+	 kllFCE/fWGoFJLB4ZCBSbewnIC6NNWYPwGUbZT4O3I/Pqz04sY8G9gvWPkWDkM0Qsr
+	 jgA82zYqoNUG1BgrQKviCADsk3JC0DWk7vm0dknOhJeopv1qU7Ic1GJvCsh9gBFj3I
+	 l/3lr9QXuDF6JgOzxTdHgOwUTA4ANBcJoIeHgAvgRAva2JznzaTAoH1KuSUUbFfdsl
+	 0TZlmzcR4yq2Q==
+Message-ID: <84adb06f-20f0-4e3d-9a6e-43e4b0d1b5ab@kernel.org>
+Date: Wed, 4 Sep 2024 15:56:59 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -35,150 +35,89 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 17/21] dt-bindings: serial: document support for
- SA8255p
-To: Nikunj Kela <quic_nkela@quicinc.com>
-Cc: andersson@kernel.org, konradybcio@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, rafael@kernel.org,
- viresh.kumar@linaro.org, herbert@gondor.apana.org.au, davem@davemloft.net,
- sudeep.holla@arm.com, andi.shyti@kernel.org, tglx@linutronix.de,
- will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
- jassisinghbrar@gmail.com, lee@kernel.org, linus.walleij@linaro.org,
- amitk@kernel.org, thara.gopinath@gmail.com, broonie@kernel.org,
- cristian.marussi@arm.com, rui.zhang@intel.com, lukasz.luba@arm.com,
- wim@linux-watchdog.org, linux@roeck-us.net, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-crypto@vger.kernel.org,
- arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-i2c@vger.kernel.org, iommu@lists.linux.dev,
- linux-gpio@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-watchdog@vger.kernel.org,
- kernel@quicinc.com, quic_psodagud@quicinc.com,
- Praveen Talari <quic_ptalari@quicinc.com>
-References: <20240828203721.2751904-1-quic_nkela@quicinc.com>
- <20240903220240.2594102-1-quic_nkela@quicinc.com>
- <20240903220240.2594102-18-quic_nkela@quicinc.com>
- <jzpx66l4tesnyszmpc3nt5h7mezbvdhtcbls5rbwlmpveb6d6y@i3jf7jsajjjd>
- <6fed4714-5239-473b-b4a0-886d83c459c3@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH V2 2/2] firmware: arm_scmi: Skip adding bad duplicates
+To: Sibi Sankar <quic_sibis@quicinc.com>, sudeep.holla@arm.com,
+ cristian.marussi@arm.com
+Cc: linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ johan@kernel.org, konradybcio@kernel.org
+References: <20240904031324.2901114-1-quic_sibis@quicinc.com>
+ <20240904031324.2901114-3-quic_sibis@quicinc.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <6fed4714-5239-473b-b4a0-886d83c459c3@quicinc.com>
+From: Konrad Dybcio <konradybcio@kernel.org>
+In-Reply-To: <20240904031324.2901114-3-quic_sibis@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 04/09/2024 14:54, Nikunj Kela wrote:
+On 4.09.2024 5:13 AM, Sibi Sankar wrote:
+> Ensure that the bad duplicates reported by the platform firmware doesn't
+> get added to the opp-tables.
 > 
-> On 9/3/2024 11:36 PM, Krzysztof Kozlowski wrote:
->> On Tue, Sep 03, 2024 at 03:02:36PM -0700, Nikunj Kela wrote:
->>> Add compatibles representing UART support on SA8255p.
->>>
->>> Clocks and interconnects are being configured in the firmware VM
->>> on SA8255p platform, therefore making them optional.
->>>
->>> CC: Praveen Talari <quic_ptalari@quicinc.com>
->>> Signed-off-by: Nikunj Kela <quic_nkela@quicinc.com>
->>> ---
->>>  .../serial/qcom,serial-geni-qcom.yaml         | 53 ++++++++++++++++---
->>>  1 file changed, 47 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/serial/qcom,serial-geni-qcom.yaml b/Documentation/devicetree/bindings/serial/qcom,serial-geni-qcom.yaml
->>> index dd33794b3534..b63c984684f3 100644
->>> --- a/Documentation/devicetree/bindings/serial/qcom,serial-geni-qcom.yaml
->>> +++ b/Documentation/devicetree/bindings/serial/qcom,serial-geni-qcom.yaml
->>> @@ -10,14 +10,13 @@ maintainers:
->>>    - Andy Gross <agross@kernel.org>
->>>    - Bjorn Andersson <bjorn.andersson@linaro.org>
->>>  
->>> -allOf:
->>> -  - $ref: /schemas/serial/serial.yaml#
->>> -
->>>  properties:
->>>    compatible:
->>>      enum:
->>>        - qcom,geni-uart
->>>        - qcom,geni-debug-uart
->>> +      - qcom,sa8255p-geni-uart
->>> +      - qcom,sa8255p-geni-debug-uart
->> Why devices are not compatible? What changed in programming model?
+> Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
+> ---
+>  drivers/firmware/arm_scmi/perf.c | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
 > 
-> The cover-letter explains what is changed for devices in this platform.
-> I will add the description in this patch too.
+> diff --git a/drivers/firmware/arm_scmi/perf.c b/drivers/firmware/arm_scmi/perf.c
+> index 2d77b5f40ca7..114c3dd70ede 100644
+> --- a/drivers/firmware/arm_scmi/perf.c
+> +++ b/drivers/firmware/arm_scmi/perf.c
+> @@ -386,9 +386,11 @@ process_response_opp(struct device *dev, struct perf_dom_info *dom,
+>  		le16_to_cpu(r->opp[loop_idx].transition_latency_us);
+>  
+>  	ret = xa_insert(&dom->opps_by_lvl, opp->perf, opp, GFP_KERNEL);
+> -	if (ret)
+> +	if (ret) {
+>  		dev_warn(dev, "Failed to add opps_by_lvl at %d for %s - ret:%d\n",
+>  			 opp->perf, dom->info.name, ret);
+> +		opp->perf = 0;
+> +	}
+>  }
+>  
+>  static inline void
+> @@ -404,9 +406,12 @@ process_response_opp_v4(struct device *dev, struct perf_dom_info *dom,
+>  		le16_to_cpu(r->opp[loop_idx].transition_latency_us);
+>  
+>  	ret = xa_insert(&dom->opps_by_lvl, opp->perf, opp, GFP_KERNEL);
+> -	if (ret)
+> +	if (ret) {
+>  		dev_warn(dev, "Failed to add opps_by_lvl at %d for %s - ret:%d\n",
+>  			 opp->perf, dom->info.name, ret);
+> +		opp->perf = 0;
+> +		return;
+> +	}
+>  
+>  	/* Note that PERF v4 reports always five 32-bit words */
+>  	opp->indicative_freq = le32_to_cpu(r->opp[loop_idx].indicative_freq);
+> @@ -871,6 +876,10 @@ static int scmi_dvfs_device_opps_add(const struct scmi_protocol_handle *ph,
+>  		else
+>  			freq = dom->opp[idx].indicative_freq * dom->mult_factor;
+>  
+> +		/* Skip all invalid frequencies reported by the firmware */
+> +		if (!freq)
+> +			continue;
 
-Many of us do not read cover letters. They don't really matter,
-especially that serial tree will not include it. Each commit must stand
-on its own.
+Maybe something like this instead? (not tested)
 
-> 
-> 
->>
->>>  
->>>    clocks:
->>>      maxItems: 1
->>> @@ -51,18 +50,49 @@ properties:
->>>        - const: sleep
->>>  
->>>    power-domains:
->>> -    maxItems: 1
->>> +    minItems: 1
->>> +    maxItems: 2
->>> +
->>> +  power-domain-names:
->> This does not match power-domains anymore.
-> 
-> Single power domain doesn't need to use power-domain-names binding as it
-> is not needed however for multiple(in this case 2), you need to provide
-> names. I will add this property to if block and only keep maxItems here.
+diff --git a/drivers/firmware/arm_scmi/perf.c b/drivers/firmware/arm_scmi/perf.c
+index 2d77b5f40ca7..530692119c79 100644
+--- a/drivers/firmware/arm_scmi/perf.c
++++ b/drivers/firmware/arm_scmi/perf.c
+@@ -431,8 +431,14 @@ iter_perf_levels_process_response(const struct scmi_protocol_handle *ph,
+ {
+        struct scmi_opp *opp;
+        struct scmi_perf_ipriv *p = priv;
++       unsigned int idx = st->desc_index + st->loop_idx;
++
++       opp = &p->perf_dom->opp[idx];
++
++       /* Avoid duplicate entries coming from buggy firmware */
++       if (idx > 0 && opp->perf && p->perf_dom->opp[idx - 1].perf)
++               return 0;
+ 
+-       opp = &p->perf_dom->opp[st->desc_index + st->loop_idx];
+        if (PROTOCOL_REV_MAJOR(p->version) <= 0x3)
+                process_response_opp(ph->dev, p->perf_dom, opp, st->loop_idx,
+                                     response);
 
-The xxx and xxx-names properties always go in sync. Otherwise we do not
-really know what is the power domain for other variants.
-
-You are allowed to be unspecific about power domain (so maxItems: 1) if
-it is obvious. You now made it non-obvious, so above flexibility does
-not apply anymore.
-
-Best regards,
-Krzysztof
-
+Konrad
