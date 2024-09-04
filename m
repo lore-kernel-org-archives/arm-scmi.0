@@ -1,103 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D6A3211;
-	Wed,  4 Sep 2024 01:50:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6252010A12;
+	Wed,  4 Sep 2024 02:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725414608; cv=none; b=P/ngmW3zT49Xqd2PnAeBwkh+ve5BVICmDE1NTYJJdge74KefuwVaHAus5pnukVrZSS2SSLiCWPVFgajGbLhQmUgfgv7Maiu2IiHL7mIEzJCKeaKEm22D8AYgHVw20feYYaYE8TzUddHTEotVZfuAFLz1TJFNODzCZo2g5GsHyL0=
+	t=1725418628; cv=none; b=VUjNEyAmadncXd8JGDpS6z2npM+yMOkRkFwxF+cFv8gcGO2ooxJolrUeHKqS/EI1h4PatheDowV/UjITEO29NbtoGX7IWD36g0ARkvEcDdD/Kxfybmu2ff+1cxWE/PRhz3n6I/RS+P19hczldpcKpVE8sZIt6jH2cvrt5qq/NtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725414608; c=relaxed/simple;
-	bh=4AQxlfwksI8M0lXuPBfgDWfUUeO7Xwm6/Q69FGEDaqE=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=Bf07VAvSoWJ+nAeiW8MfCQS4ADKdpvknOTWLeIM8dFcLjGGXZAONCiXaRg7qZNZ2BiKBX2f3e3TFVIpfhMebThfTvG/O8+fTMhxTGCR3iI+i/Qg1FonPxKcOSLwCsAI0s53+Zpasrty0f5gmxRpP7ePt9KgKuoto+FQ0/NAIxqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jsadccl/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725418628; c=relaxed/simple;
+	bh=7/f4Tq8dP6336GO+4c1FLfGwJKdvXnUPv8pWgAG+THA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=d/1Q6TXmsy8UvMMDcL2XTm3DtGMiJhCbRX/KQUCy7ZgACwxuXxh9ZlKnxCHr8uwiAdEUJwP3jGYRbwtJ42G4XWzULOxUl/SVZN5mvpYfZUcqn9qItlHNUMcbaseFXAUOERVBzg4L4CTHBOgXoY+t0tAaWTbobtNEMQP6D1D7tMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Rlwtzfse; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jsadccl/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 853F8C4CEC4;
-	Wed,  4 Sep 2024 01:50:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725414607;
-	bh=4AQxlfwksI8M0lXuPBfgDWfUUeO7Xwm6/Q69FGEDaqE=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=jsadccl/9E+PbXaq+qBmbPd7/PjPSWuCGCCzZgXrCdzxotTCt+t4Jh4/bmoJd9CVw
-	 H8TFVkWCnT6PO3N5msofWRplIEzvDa/Eg5k4rOBS65A+0zhdG8IyexgNbEl8PJPjw+
-	 IPqvsG8xcWU4KoDxTm0aKsnESTEtPBfW/2JJhC2yZ7oNtXlbcdYda/gKsGnl9kjiks
-	 zYIezEibBc9qTHTav6i6r2l9PCUv9D8lgvmxWdNEEHSR/qOB+sf1qlb4hUUhVYAkeY
-	 sRh9O478wwJmKVRY2p7fE4R/AvzwSGarhGRI5N4ZYyVZuwxFz3ZGhNiy/K7VPANfL9
-	 HopuyFoAQZ++g==
-Date: Tue, 03 Sep 2024 20:50:06 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Rlwtzfse"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 483IRNLU009415;
+	Wed, 4 Sep 2024 02:56:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=il+bJVxO9LYbn4Y9NnupTU
+	e018Tv/GvD+rSBEzCM6gU=; b=RlwtzfseAFpQWgKFzkhkeaLecXEYXk7JSq7FoT
+	XncUrTUT1ja8j5J3+zSqydYeSHBIvOdVxWahdXsWZhBGR53f84b/5XE/QaYYJHY3
+	G0k9bc2B8QYFAZNqLKl9RycwzKLQgesNTgKoMatOKdut+wqMvOhtgAfPVnUJb8Gr
+	ST6ExPTGUxOldLhnvbvvhF1hTlv/kgXTFH5iId1La9Y0Z9IeE32kwL0xeUJcd3dJ
+	t1JoDb0FGdjbJvF3EkuPGr3Xsotn1ZnjAOKiD9aHEq5Vc96zGUqPpuStwqRDujau
+	y2ptPsDZFRVoAIri4raKvSJ82EqTTns26ef5LfOCisumlFMw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41e0bhjh6m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Sep 2024 02:56:56 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4842utYa028520
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 4 Sep 2024 02:56:55 GMT
+Received: from hu-sibis-blr.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 3 Sep 2024 19:56:51 -0700
+From: Sibi Sankar <quic_sibis@quicinc.com>
+To: <sudeep.holla@arm.com>, <cristian.marussi@arm.com>
+CC: <linux-kernel@vger.kernel.org>, <arm-scmi@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-arm-msm@vger.kernel.org>, <quic_sibis@quicinc.com>,
+        <johan@kernel.org>, <konradybcio@kernel.org>
+Subject: [PATCH 0/2] firmware: arm_scmi: Misc Fixes
+Date: Wed, 4 Sep 2024 08:26:31 +0530
+Message-ID: <20240904025633.2881671-1-quic_sibis@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Nikunj Kela <quic_nkela@quicinc.com>
-Cc: devicetree@vger.kernel.org, cristian.marussi@arm.com, 
- rui.zhang@intel.com, linux-spi@vger.kernel.org, lee@kernel.org, 
- krzk+dt@kernel.org, will@kernel.org, linux-arm-msm@vger.kernel.org, 
- linus.walleij@linaro.org, joro@8bytes.org, linux-kernel@vger.kernel.org, 
- robin.murphy@arm.com, quic_psodagud@quicinc.com, conor+dt@kernel.org, 
- kernel@quicinc.com, sudeep.holla@arm.com, linux-serial@vger.kernel.org, 
- linux-i2c@vger.kernel.org, herbert@gondor.apana.org.au, 
- konradybcio@kernel.org, jassisinghbrar@gmail.com, 
- linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org, andersson@kernel.org, 
- lukasz.luba@arm.com, iommu@lists.linux.dev, linux-watchdog@vger.kernel.org, 
- broonie@kernel.org, rafael@kernel.org, davem@davemloft.net, 
- arm-scmi@vger.kernel.org, thara.gopinath@gmail.com, viresh.kumar@linaro.org, 
- linux@roeck-us.net, amitk@kernel.org, wim@linux-watchdog.org, 
- andi.shyti@kernel.org, linux-arm-kernel@lists.infradead.org, 
- tglx@linutronix.de, linux-crypto@vger.kernel.org
-In-Reply-To: <20240903220240.2594102-14-quic_nkela@quicinc.com>
-References: <20240828203721.2751904-1-quic_nkela@quicinc.com>
- <20240903220240.2594102-1-quic_nkela@quicinc.com>
- <20240903220240.2594102-14-quic_nkela@quicinc.com>
-Message-Id: <172541460656.3237041.12121704663662726692.robh@kernel.org>
-Subject: Re: [PATCH v2 13/21] dt-bindings: pinctrl: Add SA8255p TLMM
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: sAEnno2ZYcAY2NatJuUyFzY4r0FJR6Ph
+X-Proofpoint-GUID: sAEnno2ZYcAY2NatJuUyFzY4r0FJR6Ph
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-04_01,2024-09-03_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=639
+ priorityscore=1501 suspectscore=0 adultscore=0 bulkscore=0 malwarescore=0
+ spamscore=0 lowpriorityscore=0 clxscore=1011 impostorscore=0 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2409040020
 
+The series addresses a couple of kernel warnings that are required to [1]
+to land.
 
-On Tue, 03 Sep 2024 15:02:32 -0700, Nikunj Kela wrote:
-> Add compatible for TLMM block representing support on SA8255p.
-> 
-> SA8255p uses the same TLMM block as SA8775p however the ownership
-> of pins are split between Firmware VM and Linux VM on SA8255p. For
-> example, pins used by UART are owned and configured by Firmware VM
-> while pins used by ethernet are owned and configured by Linux VM.
-> Therefore, adding a sa8255p specific compatible to mark the difference.
-> 
-> Signed-off-by: Nikunj Kela <quic_nkela@quicinc.com>
-> ---
->  .../devicetree/bindings/pinctrl/qcom,sa8775p-tlmm.yaml    | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
+[1] - https://lore.kernel.org/lkml/20240612124056.39230-1-quic_sibis@quicinc.com/
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Base branch: next-20240903
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/pinctrl/qcom,sa8775p-tlmm.yaml:22:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-./Documentation/devicetree/bindings/pinctrl/qcom,sa8775p-tlmm.yaml:23:11: [warning] wrong indentation: expected 12 but found 10 (indentation)
-./Documentation/devicetree/bindings/pinctrl/qcom,sa8775p-tlmm.yaml:26:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+Sibi Sankar (2):
+  firmware: arm_scmi: Ensure that the message-id supports fastchannel
+  firmware: arm_scmi: Skip adding bad duplicates
 
-dtschema/dtc warnings/errors:
+ drivers/firmware/arm_scmi/driver.c |  9 +++++++++
+ drivers/firmware/arm_scmi/perf.c   | 13 +++++++++++--
+ 2 files changed, 20 insertions(+), 2 deletions(-)
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240903220240.2594102-14-quic_nkela@quicinc.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+-- 
+2.34.1
 
