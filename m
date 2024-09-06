@@ -1,58 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3200A22087;
-	Fri,  6 Sep 2024 07:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC27A14BF8F
+	for <arm-scmi@vger.kernel.org>; Fri,  6 Sep 2024 07:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725607982; cv=none; b=IbZI/GiLfZkQp5aaCVxQABtFolWEyZB2himTfLMlJcLIyjeBKgB3ToI+QuJWU4V/ZNYe3UpIM2bAlAQWtqK4rWiz6eiaHSz1gLnyEhPi7yw7fKAMJm4sH+7qFnUXJf4L/AEalGfC91WuZpM7Z2a8gfbtDvyZITOIhJyX1XkXC6A=
+	t=1725608343; cv=none; b=Y27Lvfc4EdYZaqmWx2eiFUFHZqgEaWdpnMoOV6ccEuqQpdeWRvX4KmxjBWzOvK6CkgeMNfnqA3pyWr6oKA3VudrVPBfixJsCOc/eulbto9GOQf393ovRZar70i4X0UC27mpmzTXuLP9pLBX+cFBdg6/HSQjmCSTJDIUt7vHebmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725607982; c=relaxed/simple;
-	bh=AB6M4h+5Wgjqeo6/50sRThvejlW9PnffRcLFdYXOE0Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kNji0uXoDIGiAfariZjU9QERv2vG5bk3UHmmO3zGtAxYb8YzPtCHF4+vuVcuV3/srTx9eVj3xpb/oW/kSJyISoGXWINdsM6cz+AbwkI4GdRYnLGNBPun7Ad9ltOJcQtNUSxQs5SEYnTEEAlwf6qgNEbCi6UVcijVYpE0rNU654o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A661C4CECA;
-	Fri,  6 Sep 2024 07:33:00 +0000 (UTC)
-Date: Fri, 6 Sep 2024 09:32:58 +0200
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Nikunj Kela <quic_nkela@quicinc.com>
-Cc: Peng Fan <peng.fan@nxp.com>, 
-	"sudeep.holla@arm.com" <sudeep.holla@arm.com>, "robh@kernel.org" <robh@kernel.org>, 
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
-	"cristian.marussi@arm.com" <cristian.marussi@arm.com>, "arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "kernel@quicinc.com" <kernel@quicinc.com>, 
-	"quic_psodagud@quicinc.com" <quic_psodagud@quicinc.com>
-Subject: Re: [PATCH v3] dt-bindings: firmware: arm,scmi: allow multiple
- virtual instances
-Message-ID: <4p6rknakoojsjunwbakwzsyyymufhvim2kctdkexcrqfcphe2a@k7epaxvxmgn3>
-References: <20240905201217.3815113-1-quic_nkela@quicinc.com>
- <PAXPR04MB84593380F220DEC7974058D9889E2@PAXPR04MB8459.eurprd04.prod.outlook.com>
- <9930c7b8-cddb-4c70-a283-8f0a09d6c30d@quicinc.com>
+	s=arc-20240116; t=1725608343; c=relaxed/simple;
+	bh=/VfN5TZBKFESX0ktdJnLpkP+3s1XJrbvW7+e2JjstSQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JMghxj7WmLQtA8pb2S+INt3F1Zm52tNx32j1kIropDG1Obe/y9f+CQ3alpnLBOlHtQXgd1ls9Bf0i0PxToiWvytTWY6vFngXyHg5U/WeIgpM1TuSqUmN2Yqqil8o2dsvuhKhaBbCL+/QvmWnYZ4TYtui9zImLt8jm9R+jos7Eio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cB0wo8oG; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cB0wo8oG"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-374c180d123so901018f8f.3
+        for <arm-scmi@vger.kernel.org>; Fri, 06 Sep 2024 00:39:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725608339; x=1726213139; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xz9IdLmzy/T20GbDRPSYjXR1GKGx3xeoUvnivTDuQzM=;
+        b=cB0wo8oGQ4gkqzsJUvwKF2bKsP3JPyJcvK8bOlIjlrk+jEwF2DTaekiQ5x9nIxU/UZ
+         HaCsFa7RX/okxuGsDJAAUa9wIbIqORlQfJwHEEqjhATDZFBZXnh4K0gjB8TM9nBNytTH
+         Lpx4ZaujIBV1Y4PChxe/m+H3cnhkvFDulli0meNFfyNDTGKB6IYEnbfb+WZVDITwgwyf
+         Mtg9oW5A2dL3K3TxhVhVOTy8lY0hnWAOlVabsmGFF1FagxFC2iQ5AdRCVdjFdzQ4DQI1
+         aRafG/lG6ZWwZAaCW2b0/DfSRhZ0jDCKGlajtSZAp+/RjNDaPd4p0xjNgqps9c0zsTCp
+         8UzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725608339; x=1726213139;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xz9IdLmzy/T20GbDRPSYjXR1GKGx3xeoUvnivTDuQzM=;
+        b=UnPSygepj/ApiuHvPmaZivtdcJ+OMxJHD2GexzlEC2xVbjxfiaDLNiEgd7X2zTRLN7
+         3jNRsj6svNSQLRG3EwivtI3bLosFUK5paKQ+NQwB4GGPcCon8P53XF6RClwkAYaO0ZIB
+         6Ykbb2FxhrmlH4rab5ECxkMcuC88ZFXdltEz20Lre4y5Yv7z1mr8XcQ/bqpMr5IJI/xK
+         htp5vAB3XjBzgis6P2MSgPD31OMTlOG3xTJ8C5A3/TyNus/ed+6AoATvJCiIuBEcsblU
+         AYe/QNCkc8pcs1YKn4E0/ByqlTQNH5vErpyPTG5GAbB+505jIPBmKEktssJBxB115jqq
+         YLPA==
+X-Forwarded-Encrypted: i=1; AJvYcCUYGuFyL+Se4sENbb85Ue4IPmnRaiyE4dRcXXr8mBU4DJoeJM2VDVPYYOULwjCD7yQrLjORuEunfQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCQ4Y++WPgNGLnnNkBqRPDkB+z7A09i3tCMCIQyQrJ9vZGWTmC
+	G8AHb8eMyF14RnqeryT+jIZ/jaUU7SfjZYaAPkx+14TRZrQgRyLN5ZD3pVQrox4=
+X-Google-Smtp-Source: AGHT+IGFHwFQ99mHOKHLLsrCtuLnOv+VrrxaTcWgKFCATGwuZhLv7Zk5Z474pGF9RhYDinH0QTPZug==
+X-Received: by 2002:a5d:5f4a:0:b0:374:c269:df79 with SMTP id ffacd0b85a97d-374c269e0d7mr16000044f8f.22.1725608338871;
+        Fri, 06 Sep 2024 00:38:58 -0700 (PDT)
+Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3749eea60e2sm21002351f8f.62.2024.09.06.00.38.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Sep 2024 00:38:58 -0700 (PDT)
+Message-ID: <64758ccf-7ad4-4490-b938-864ade9ae74c@linaro.org>
+Date: Fri, 6 Sep 2024 09:38:56 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <9930c7b8-cddb-4c70-a283-8f0a09d6c30d@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 12/21] dt-bindings: thermal: tsens: document support on
+ SA8255p
+To: Nikunj Kela <quic_nkela@quicinc.com>
+Cc: andersson@kernel.org, konradybcio@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, rafael@kernel.org,
+ viresh.kumar@linaro.org, herbert@gondor.apana.org.au, davem@davemloft.net,
+ sudeep.holla@arm.com, andi.shyti@kernel.org, tglx@linutronix.de,
+ will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
+ jassisinghbrar@gmail.com, lee@kernel.org, linus.walleij@linaro.org,
+ amitk@kernel.org, thara.gopinath@gmail.com, broonie@kernel.org,
+ cristian.marussi@arm.com, rui.zhang@intel.com, lukasz.luba@arm.com,
+ wim@linux-watchdog.org, linux@roeck-us.net, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-crypto@vger.kernel.org,
+ arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-i2c@vger.kernel.org, iommu@lists.linux.dev,
+ linux-gpio@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ kernel@quicinc.com, quic_psodagud@quicinc.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20240828203721.2751904-1-quic_nkela@quicinc.com>
+ <20240903220240.2594102-1-quic_nkela@quicinc.com>
+ <20240903220240.2594102-13-quic_nkela@quicinc.com>
+Content-Language: en-US
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20240903220240.2594102-13-quic_nkela@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 05, 2024 at 05:33:04PM -0700, Nikunj Kela wrote:
+On 04/09/2024 00:02, Nikunj Kela wrote:
+> Add compatible for sensors representing support on SA8255p.
 > 
-> On 9/5/2024 5:25 PM, Peng Fan wrote:
-> >> Subject: [PATCH v3] dt-bindings: firmware: arm,scmi: allow multiple
-> >> virtual instances
-> > Just wonder, what do you mean virtual?
-> 
-> Just a term to indicate that these are different SCMI instances within
-> the same OS. In one of the series from Cristian, he used the term
-> 'virtual SCMI instances' so I used the same term here.
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Nikunj Kela <quic_nkela@quicinc.com>
+> ---
 
-That's indeed confusing. Virtual means not a real thing...
+Applied, thanks
 
-Best regards,
-Krzysztof
 
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
