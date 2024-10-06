@@ -1,65 +1,56 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.smtp-ext.broadcom.com (relay.smtp-ext.broadcom.com [192.19.144.208])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81FCF14A4C6
-	for <arm-scmi@vger.kernel.org>; Fri,  4 Oct 2024 22:13:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83DA57F6;
+	Sun,  6 Oct 2024 04:39:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.19.144.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728079983; cv=none; b=Zl7KouoMX52/Oiqo/L0t9dJ7iHzyOjLwVvcA5N7Xm0FsAO7c7krjXySdBhwRFh6q+VfYQf4saEOlPwaAtiWIGZOBrF0hNMh8t7Rq+NQcNPULoeBc3ix5ApOgOIgmOkmhXAiOw/i+4Bw1WqjIboiAqZ8Vm6HMtRcL6WzJ2Qj+wu0=
+	t=1728189547; cv=none; b=M2FYka1uNSNt+1/vT2g3CklsOm7Lt3/8Ldx3wS5/JSeNKRlmJLe/GwGDZIcd09shVVf2tJmUOdXFe2Hadel8FHh80dv6WvuzHjnSZ66OE/74sC4G+Mt3NoOHC17ut6P+krrjuhp18nFKDhmvOyQde4UDMw8GbI7ex2DMO5upFBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728079983; c=relaxed/simple;
-	bh=bWW3mRZDjQTvHJyP7ldRvoHCrgEbmxBvlHnCe2bcXsE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dle3iP+uNTXRtd4k8P//To7BBfoaBtJiL59oa2UNLzHsEDfvKPzgz9nw9lv/8H/ya/dEY7YEl3Bei/I7XKjEm/BI4oeUI+jPz9yRD5DiRuiDURHrlcXjoqfj8KGAQmhMaGVIQD9dYtRZR8TCrVB8SjCtX6L65tPwknOH2MtxtSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=KB259b8/; arc=none smtp.client-ip=209.85.216.54
+	s=arc-20240116; t=1728189547; c=relaxed/simple;
+	bh=OgWcY174jMlqIgoQJR+RJ1sBLdOV/0eU2EwSmfEVl78=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IlUXcSocrx30L53+i+amBe2SkVQFCuZBUmiMZMtqPUlr+r1NoE7WB/2f0Z8XPI/yeRQ9G0GOkT807sgbGX3Dte2NzSet67JbvwsxCR6GVSMOJgdZa9M9x7r0l7rFiOyfhsPXjHmE0E0Fuy3ib47ujTRlHZDrCFfGY+P/nvI6ZeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=o4/xUZQ/; arc=none smtp.client-ip=192.19.144.208
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="KB259b8/"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2e07d91f78aso2006035a91.1
-        for <arm-scmi@vger.kernel.org>; Fri, 04 Oct 2024 15:13:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1728079980; x=1728684780; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z5i2tvARMEKs1BcO4Ftg1r7i2RWQdz+ikPGPGd5oFEA=;
-        b=KB259b8/+3rEAXzPIm5N+Evfnj0z0g2VXasFkstSdk4D55GafTUW+i25QHyQSC305f
-         NjjbSL8FXyc6bevkH4DBDFpq4QPNs7QUXzll397VTqH+XHDC5IQomRRdq5JNT/DatsDf
-         Aj2NJI73HoLuSbttQe6QGTDuXtyFwGLjgbDFA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728079980; x=1728684780;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z5i2tvARMEKs1BcO4Ftg1r7i2RWQdz+ikPGPGd5oFEA=;
-        b=lqgVWo3pIAb24rXlLj3hnrNJhYJhBH7dSsXi11wZoYJhjS7h2vRmQKpVEnuWf+/8Ib
-         IHwwZz8h0dEWEcjihj3T50MiW1EB4B6hrI7MQzCwHenxolzGJ3qzwf9Q1FRzePW85DJa
-         6I3OPIxt56vF0b2bjXivnExcOxFX92yowt6Ut8uA26r3iYCNE7/+bZVG2qTWibEk4KTP
-         GbB7ts0VR4GWbWHBA5nTs7aZDw9qbqagqU3EIEEbfPQXv5BVU7voNy3+4Rcqw1eIm/1j
-         vTFyQQMgsCXtBcjt2jc0W807M1b7Oz0niiVZIXtVLlDdai8chFIsTvyRSDu2K5pjDfIz
-         8S9g==
-X-Gm-Message-State: AOJu0Yz2KRcd54cUl3lqeD2UaflvleXqPjk7TKDtFoQ3n5e9qqiQmoub
-	McNiPSOFOJ6sa4MURnKRQlac2CspqDuBU/HwzVb53vgS18jrj4+AZLnc2QrzYC5J4Wm83Jo7+2j
-	hwQuskwXYmfFoBcecN5t6d11kTHnhGXMwT4CjCWrZ1MaQ8Yo00f0P3yl5bTb+K2t/oID6VUIM0F
-	2b2q093ODcrziSJJBNfe3KIL/hZNOWWNkQli44hegud1P4DBY=
-X-Google-Smtp-Source: AGHT+IEKg9l8YjuKcXZKUA+ZP6ePVAkCGioCnkA0fIpSBEqrQXBWAbJ1u+ngE0FbeYvWh5Ra6p0JIA==
-X-Received: by 2002:a17:90a:de83:b0:2d8:c17b:5018 with SMTP id 98e67ed59e1d1-2e1e62275d9mr4960982a91.11.1728079980476;
-        Fri, 04 Oct 2024 15:13:00 -0700 (PDT)
-Received: from stbirv-lnx-1.igp.broadcom.net ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7e9f6c37515sm404734a12.75.2024.10.04.15.12.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Oct 2024 15:13:00 -0700 (PDT)
-From: Justin Chen <justin.chen@broadcom.com>
-To: arm-scmi@vger.kernel.org,
-	cristian.marussi@arm.com,
-	sudeep.holla@arm.com
-Cc: linux-arm-kernel@lists.infradead.org,
-	peng.fan@nxp.com,
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="o4/xUZQ/"
+Received: from mail-lvn-it-01.lvn.broadcom.net (mail-lvn-it-01.lvn.broadcom.net [10.36.132.253])
+	by relay.smtp-ext.broadcom.com (Postfix) with ESMTP id 6C13FC0003E0;
+	Sat,  5 Oct 2024 21:33:20 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 relay.smtp-ext.broadcom.com 6C13FC0003E0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
+	s=dkimrelay; t=1728189200;
+	bh=OgWcY174jMlqIgoQJR+RJ1sBLdOV/0eU2EwSmfEVl78=;
+	h=From:To:Cc:Subject:Date:From;
+	b=o4/xUZQ/Ta5j3XqdyES9BBXAg2/4PPJY5+GjJ+mwDDoW9jO+JQg4oURrIOZvA39ZP
+	 A/zHT4BGTaWILF6v5qKS3fjCu/q6rTFEKlpnlv6HIHfjWwt7pmYCBRg3sAOTUWW68q
+	 v6SQVf6R3PNLonPS9PFOztyFl4xwvE5316Z64ccY=
+Received: from stbirv-lnx-1.igp.broadcom.net (stbirv-lnx-1.igp.broadcom.net [10.67.48.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail-lvn-it-01.lvn.broadcom.net (Postfix) with ESMTPSA id 056FC18041CAC6;
+	Sat,  5 Oct 2024 21:33:20 -0700 (PDT)
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+To: linux-arm-kernel@lists.infread.org
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
+	linux-kernel@vger.kernel.org (open list),
+	arm-scmi@vger.kernel.org (open list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE),
+	linux-arm-kernel@lists.infradead.org (moderated list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE),
+	justin.chen@broadcom.com,
+	opendmb@gmail.com,
+	kapil.hali@broadcom.com,
 	bcm-kernel-feedback-list@broadcom.com,
-	florian.fainelli@broadcom.com,
-	Justin Chen <justin.chen@broadcom.com>
-Subject: [PATCH] firmware: arm_scmi: Queue in scmi layer for mailbox implementation
-Date: Fri,  4 Oct 2024 15:12:57 -0700
-Message-Id: <20241004221257.2888603-1-justin.chen@broadcom.com>
+	Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH] firmware: arm_scmi: Give SMC transport precedence over mailbox
+Date: Sat,  5 Oct 2024 21:33:17 -0700
+Message-Id: <20241006043317.3867421-1-florian.fainelli@broadcom.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -69,76 +60,43 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The mailbox layer has its own queue. However this confuses the per
-message timeouts since the clock starts ticking the moment the messages
-get queued up. So all messages in the queue have there timeout clocks
-ticking instead of only the message inflight. To fix this, lets move the
-queue back into the SCMI layer.
+Broadcom STB platforms have for historical reasons included both
+"arm,scmi-smc" and "arm,scmi" in their SCMI Device Tree node compatible
+string.
 
-Signed-off-by: Justin Chen <justin.chen@broadcom.com>
+After the commit cited in the Fixes tag and with a kernel
+configuration that enables both the SCMI and the Mailbox transports, we
+would probe the mailbox transport, but fail to complete since we would
+not have a mailbox driver available.
+
+By keeping the SMC transport objects linked first, we can let the
+platform driver, match the compatible string and probe successfully with
+no adverse effects on platforms using the mailbox transport.
+
+Fixes: b53515fa177c ("firmware: arm_scmi: Make MBOX transport a standalone driver")
+Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
+Change-Id: I8e348e3e0deabdc5c1d596929d7f9134793f346e
 ---
- .../firmware/arm_scmi/transports/mailbox.c    | 21 +++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
+ drivers/firmware/arm_scmi/transports/Makefile | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/firmware/arm_scmi/transports/mailbox.c b/drivers/firmware/arm_scmi/transports/mailbox.c
-index 1a754dee24f7..30bc2865582f 100644
---- a/drivers/firmware/arm_scmi/transports/mailbox.c
-+++ b/drivers/firmware/arm_scmi/transports/mailbox.c
-@@ -33,6 +33,7 @@ struct scmi_mailbox {
- 	struct mbox_chan *chan_platform_receiver;
- 	struct scmi_chan_info *cinfo;
- 	struct scmi_shared_mem __iomem *shmem;
-+	struct mutex chan_lock;
- };
- 
- #define client_to_scmi_mailbox(c) container_of(c, struct scmi_mailbox, cl)
-@@ -205,6 +206,7 @@ static int mailbox_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
- 	cl->rx_callback = rx_callback;
- 	cl->tx_block = false;
- 	cl->knows_txdone = tx;
-+	mutex_init(&smbox->chan_lock);
- 
- 	smbox->chan = mbox_request_channel(cl, tx ? 0 : p2a_chan);
- 	if (IS_ERR(smbox->chan)) {
-@@ -267,11 +269,21 @@ static int mailbox_send_message(struct scmi_chan_info *cinfo,
- 	struct scmi_mailbox *smbox = cinfo->transport_info;
- 	int ret;
- 
-+	/*
-+	 * The mailbox layer has it's own queue. However the mailbox queue confuses
-+	 * the per message SCMI timeouts since the clock starts when the message is
-+	 * submitted into the mailbox queue. So when multiple messages are queued up
-+	 * the clock starts on all messages instead of only the one inflight.
-+	 */
-+	mutex_lock(&smbox->chan_lock);
-+
- 	ret = mbox_send_message(smbox->chan, xfer);
- 
- 	/* mbox_send_message returns non-negative value on success, so reset */
- 	if (ret > 0)
- 		ret = 0;
-+	else
-+		mutex_unlock(&smbox->chan_lock);
- 
- 	return ret;
- }
-@@ -281,13 +293,10 @@ static void mailbox_mark_txdone(struct scmi_chan_info *cinfo, int ret,
- {
- 	struct scmi_mailbox *smbox = cinfo->transport_info;
- 
--	/*
--	 * NOTE: we might prefer not to need the mailbox ticker to manage the
--	 * transfer queueing since the protocol layer queues things by itself.
--	 * Unfortunately, we have to kick the mailbox framework after we have
--	 * received our message.
--	 */
- 	mbox_client_txdone(smbox->chan, ret);
-+
-+	/* Release channel */
-+	mutex_unlock(&smbox->chan_lock);
- }
- 
- static void mailbox_fetch_response(struct scmi_chan_info *cinfo,
+diff --git a/drivers/firmware/arm_scmi/transports/Makefile b/drivers/firmware/arm_scmi/transports/Makefile
+index 362a406f08e6..3ba3d3bee151 100644
+--- a/drivers/firmware/arm_scmi/transports/Makefile
++++ b/drivers/firmware/arm_scmi/transports/Makefile
+@@ -1,8 +1,10 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-scmi_transport_mailbox-objs := mailbox.o
+-obj-$(CONFIG_ARM_SCMI_TRANSPORT_MAILBOX) += scmi_transport_mailbox.o
++# Keep before scmi_transport_mailbox.o to allow precedence
++# while matching the compatible.
+ scmi_transport_smc-objs := smc.o
+ obj-$(CONFIG_ARM_SCMI_TRANSPORT_SMC) += scmi_transport_smc.o
++scmi_transport_mailbox-objs := mailbox.o
++obj-$(CONFIG_ARM_SCMI_TRANSPORT_MAILBOX) += scmi_transport_mailbox.o
+ scmi_transport_optee-objs := optee.o
+ obj-$(CONFIG_ARM_SCMI_TRANSPORT_OPTEE) += scmi_transport_optee.o
+ scmi_transport_virtio-objs := virtio.o
 -- 
 2.34.1
 
