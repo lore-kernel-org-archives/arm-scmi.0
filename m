@@ -1,57 +1,61 @@
-Received: from relay.smtp-ext.broadcom.com (relay.smtp-ext.broadcom.com [192.19.144.208])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83DA57F6;
-	Sun,  6 Oct 2024 04:39:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.19.144.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A862744D;
+	Mon,  7 Oct 2024 06:07:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728189547; cv=none; b=M2FYka1uNSNt+1/vT2g3CklsOm7Lt3/8Ldx3wS5/JSeNKRlmJLe/GwGDZIcd09shVVf2tJmUOdXFe2Hadel8FHh80dv6WvuzHjnSZ66OE/74sC4G+Mt3NoOHC17ut6P+krrjuhp18nFKDhmvOyQde4UDMw8GbI7ex2DMO5upFBY=
+	t=1728281265; cv=none; b=d8a2o28xNgGzqwm2s6GS/8YwI1JG4uSAkh6IkpjzJP30npOnKx1z9pwSdFZm9AIA85h5WDuJHCACQYy8brNVOUIUufC5cI7aTya6LHRxGgsyhZOMHbVeerfAHngC6TmXcqG4Yzjc0e/pBn+FndOCeByetLDNwziPTwukn4Dotek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728189547; c=relaxed/simple;
-	bh=OgWcY174jMlqIgoQJR+RJ1sBLdOV/0eU2EwSmfEVl78=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IlUXcSocrx30L53+i+amBe2SkVQFCuZBUmiMZMtqPUlr+r1NoE7WB/2f0Z8XPI/yeRQ9G0GOkT807sgbGX3Dte2NzSet67JbvwsxCR6GVSMOJgdZa9M9x7r0l7rFiOyfhsPXjHmE0E0Fuy3ib47ujTRlHZDrCFfGY+P/nvI6ZeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=o4/xUZQ/; arc=none smtp.client-ip=192.19.144.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1728281265; c=relaxed/simple;
+	bh=aj3zl6u1lYeqGFapGSXt75jXRIhJSuMiKfjwnzRr2rE=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cn4V2+X7aqJutXaS3UROHr6ZMafuBm7aVh7Xu1kP8pjsb4gT0jrst4RR5oKPJDV2YnXf2vCIoo3VlCXRzjyzRN/iYtWdRrIrNdRprls1TomGsRzutC8+fxn/n8B+77smkKkXEz290SoT60Z4hLcCLzhrcvcvrOGb5P+gh31KQ6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=T5xH0Ys5; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="o4/xUZQ/"
-Received: from mail-lvn-it-01.lvn.broadcom.net (mail-lvn-it-01.lvn.broadcom.net [10.36.132.253])
-	by relay.smtp-ext.broadcom.com (Postfix) with ESMTP id 6C13FC0003E0;
-	Sat,  5 Oct 2024 21:33:20 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 relay.smtp-ext.broadcom.com 6C13FC0003E0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
-	s=dkimrelay; t=1728189200;
-	bh=OgWcY174jMlqIgoQJR+RJ1sBLdOV/0eU2EwSmfEVl78=;
-	h=From:To:Cc:Subject:Date:From;
-	b=o4/xUZQ/Ta5j3XqdyES9BBXAg2/4PPJY5+GjJ+mwDDoW9jO+JQg4oURrIOZvA39ZP
-	 A/zHT4BGTaWILF6v5qKS3fjCu/q6rTFEKlpnlv6HIHfjWwt7pmYCBRg3sAOTUWW68q
-	 v6SQVf6R3PNLonPS9PFOztyFl4xwvE5316Z64ccY=
-Received: from stbirv-lnx-1.igp.broadcom.net (stbirv-lnx-1.igp.broadcom.net [10.67.48.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail-lvn-it-01.lvn.broadcom.net (Postfix) with ESMTPSA id 056FC18041CAC6;
-	Sat,  5 Oct 2024 21:33:20 -0700 (PDT)
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-To: linux-arm-kernel@lists.infread.org
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
-	linux-kernel@vger.kernel.org (open list),
-	arm-scmi@vger.kernel.org (open list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE),
-	linux-arm-kernel@lists.infradead.org (moderated list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE),
-	justin.chen@broadcom.com,
-	opendmb@gmail.com,
-	kapil.hali@broadcom.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH] firmware: arm_scmi: Give SMC transport precedence over mailbox
-Date: Sat,  5 Oct 2024 21:33:17 -0700
-Message-Id: <20241006043317.3867421-1-florian.fainelli@broadcom.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="T5xH0Ys5"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4974SpjU019630;
+	Mon, 7 Oct 2024 06:07:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	zLRoZk49uyxVabf73yH4iupFA8mWSHmk562C4qtbTUY=; b=T5xH0Ys5LVkJYatq
+	BQfD13fd7l75zTn7VLFKeqE+0li4suYiRxQ1c8z/L3OAi1JbXCqE7r5WjvayIa3x
+	qmXDx8uGLbFD8YavLSkuhDf4QhP0tXD+eEyPOzG0KKeCMRk9ZJ9di+7PDdytGQdk
+	DZwMcbLa7swtj+DQQXmKxpgyoHI+/k5Q94QPIoriaB/lHziw9ZjqrIjbTGr2MqsS
+	qXZVxdVsSuBdOwLlbGoNGBQiipm+xKg13y/sTn8DFDnqX4iVAVK86XAQLsWDRQUN
+	Zr6B+eldhiktlIRB/2hNJiBgKpZiAU+ZUeb8d6F2GTOmKD57gRmMGdSsdhF4/GS/
+	PjY+rg==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 422xsnk5d1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 07 Oct 2024 06:07:26 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49767PjI011814
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 7 Oct 2024 06:07:25 GMT
+Received: from hu-sibis-blr.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Sun, 6 Oct 2024 23:07:20 -0700
+From: Sibi Sankar <quic_sibis@quicinc.com>
+To: <sudeep.holla@arm.com>, <cristian.marussi@arm.com>,
+        <ulf.hansson@linaro.org>, <jassisinghbrar@gmail.com>
+CC: <linux-kernel@vger.kernel.org>, <arm-scmi@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-arm-msm@vger.kernel.org>, <quic_sibis@quicinc.com>,
+        <johan@kernel.org>, <konradybcio@kernel.org>,
+        <linux-pm@vger.kernel.org>, <tstrudel@google.com>, <rafael@kernel.org>,
+        "Johan Hovold" <johan+linaro@kernel.org>
+Subject: [PATCH V3 1/4] firmware: arm_scmi: Ensure that the message-id supports fastchannel
+Date: Mon, 7 Oct 2024 11:36:39 +0530
+Message-ID: <20241007060642.1978049-2-quic_sibis@quicinc.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241007060642.1978049-1-quic_sibis@quicinc.com>
+References: <20241007060642.1978049-1-quic_sibis@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -59,44 +63,83 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: q3SpSnhWDpKl4HwBdXV4GEis20IQxwua
+X-Proofpoint-ORIG-GUID: q3SpSnhWDpKl4HwBdXV4GEis20IQxwua
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
+ impostorscore=0 phishscore=0 adultscore=0 lowpriorityscore=0
+ mlxlogscore=999 clxscore=1011 malwarescore=0 priorityscore=1501 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410070041
 
-Broadcom STB platforms have for historical reasons included both
-"arm,scmi-smc" and "arm,scmi" in their SCMI Device Tree node compatible
-string.
+Currently the perf and powercap protocol relies on the protocol domain
+attributes, which just ensures that one fastchannel per domain, before
+instantiating fastchannels for all possible message-ids. Fix this by
+ensuring that each message-id supports fastchannel before initialization.
 
-After the commit cited in the Fixes tag and with a kernel
-configuration that enables both the SCMI and the Mailbox transports, we
-would probe the mailbox transport, but fail to complete since we would
-not have a mailbox driver available.
-
-By keeping the SMC transport objects linked first, we can let the
-platform driver, match the compatible string and probe successfully with
-no adverse effects on platforms using the mailbox transport.
-
-Fixes: b53515fa177c ("firmware: arm_scmi: Make MBOX transport a standalone driver")
-Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-Change-Id: I8e348e3e0deabdc5c1d596929d7f9134793f346e
+Reported-by: Johan Hovold <johan+linaro@kernel.org>
+Closes: https://lore.kernel.org/lkml/ZoQjAWse2YxwyRJv@hovoldconsulting.com/
+Fixes: 6f9ea4dabd2d ("firmware: arm_scmi: Generalize the fast channel support")
+Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
 ---
- drivers/firmware/arm_scmi/transports/Makefile | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/firmware/arm_scmi/driver.c    | 9 +++++++++
+ drivers/firmware/arm_scmi/protocols.h | 2 ++
+ 2 files changed, 11 insertions(+)
 
-diff --git a/drivers/firmware/arm_scmi/transports/Makefile b/drivers/firmware/arm_scmi/transports/Makefile
-index 362a406f08e6..3ba3d3bee151 100644
---- a/drivers/firmware/arm_scmi/transports/Makefile
-+++ b/drivers/firmware/arm_scmi/transports/Makefile
-@@ -1,8 +1,10 @@
- # SPDX-License-Identifier: GPL-2.0-only
--scmi_transport_mailbox-objs := mailbox.o
--obj-$(CONFIG_ARM_SCMI_TRANSPORT_MAILBOX) += scmi_transport_mailbox.o
-+# Keep before scmi_transport_mailbox.o to allow precedence
-+# while matching the compatible.
- scmi_transport_smc-objs := smc.o
- obj-$(CONFIG_ARM_SCMI_TRANSPORT_SMC) += scmi_transport_smc.o
-+scmi_transport_mailbox-objs := mailbox.o
-+obj-$(CONFIG_ARM_SCMI_TRANSPORT_MAILBOX) += scmi_transport_mailbox.o
- scmi_transport_optee-objs := optee.o
- obj-$(CONFIG_ARM_SCMI_TRANSPORT_OPTEE) += scmi_transport_optee.o
- scmi_transport_virtio-objs := virtio.o
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index 88c5c4ff4bb6..80a9a615672a 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -56,6 +56,9 @@ static atomic_t transfer_last_id;
+ 
+ static struct dentry *scmi_top_dentry;
+ 
++static int scmi_protocol_msg_check(const struct scmi_protocol_handle *ph,
++				   u32 message_id, u32 *attributes);
++
+ /**
+  * struct scmi_xfers_info - Structure to manage transfer information
+  *
+@@ -1841,6 +1844,7 @@ scmi_common_fastchannel_init(const struct scmi_protocol_handle *ph,
+ 	int ret;
+ 	u32 flags;
+ 	u64 phys_addr;
++	u32 attributes;
+ 	u8 size;
+ 	void __iomem *addr;
+ 	struct scmi_xfer *t;
+@@ -1849,6 +1853,11 @@ scmi_common_fastchannel_init(const struct scmi_protocol_handle *ph,
+ 	struct scmi_msg_resp_desc_fc *resp;
+ 	const struct scmi_protocol_instance *pi = ph_to_pi(ph);
+ 
++	/* Check if the MSG_ID supports fastchannel */
++	ret = scmi_protocol_msg_check(ph, message_id, &attributes);
++	if (!ret && !MSG_SUPPORTS_FASTCHANNEL(attributes))
++		return;
++
+ 	if (!p_addr) {
+ 		ret = -EINVAL;
+ 		goto err_out;
+diff --git a/drivers/firmware/arm_scmi/protocols.h b/drivers/firmware/arm_scmi/protocols.h
+index aaee57cdcd55..d62c4469d1fd 100644
+--- a/drivers/firmware/arm_scmi/protocols.h
++++ b/drivers/firmware/arm_scmi/protocols.h
+@@ -31,6 +31,8 @@
+ 
+ #define SCMI_PROTOCOL_VENDOR_BASE	0x80
+ 
++#define MSG_SUPPORTS_FASTCHANNEL(x)	((x) & BIT(0))
++
+ enum scmi_common_cmd {
+ 	PROTOCOL_VERSION = 0x0,
+ 	PROTOCOL_ATTRIBUTES = 0x1,
 -- 
 2.34.1
 
