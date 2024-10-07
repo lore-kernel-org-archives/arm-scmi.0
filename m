@@ -1,197 +1,312 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64311DC73C
-	for <arm-scmi@vger.kernel.org>; Mon,  7 Oct 2024 17:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1D117740
+	for <arm-scmi@vger.kernel.org>; Mon,  7 Oct 2024 17:33:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728320871; cv=none; b=dI5QT8D+06Dso1otfA9RgqKBeLvGdLPkwrhfaAz1/S6XIbsGUh2d4N9TkpRR8gOno8hUFFuXZ4a5y2/mR8OHHekrgEX6g9timL7/Qa15unlUv3v8Cf/FCL3g1uS78qdYMlb623VRdT5cI+Th6w1HiAXy1HDaiq6uqhJbKi+4PAY=
+	t=1728322422; cv=none; b=G9kF1B06SfNHjO4+WoyzNg8IVtYHhsOupSPEad+k1Ie+jAbIo0/PObbGAZ5PZ7eUpvyEauACvtNKPuBA9wZTrjk+d+Oft2dHyYY42nkatd2rAJPBU20orsRYgqaHiQd52Pi+zwnRwQTBeKPL7qYudrKoM6BMB3b+UuD9CRkgeVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728320871; c=relaxed/simple;
-	bh=OOMuuH5IlYxEWqct0FimV+HnzWKOtW4Vj1nW5sw4X98=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=PxlO1O5XnwUVgnwwIaezktsKMUq9SQl79eRSxq2eMZk/Xcr1xMXQGUMKR6zY/uVyBliVNjwmECu6t7QYEhvvnGtsHljcPExSzc5cHg8EMOuaHqv7p2J0SrxSDL3ttf7StxVa4lGuXJHpyQYzgCRK1Wj8EO3ODsTe5ft5G2nWyGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=iG+/w1Pd; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1728322422; c=relaxed/simple;
+	bh=tUxpw6u7cL5nSjzpXGTsgJ2xlS7vW49I+aZBTX9BAcU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O+S5ecEntgvnMp9fckC62NeZny+hwcSEM775uqryY0FGQr0AomsA91D6p9pkWe+oWJDSnRF/zU7ovsqw/DZJAh8W/0k40dE3GYB/fLHl3gypTed0dwrEX3Omm7UKoGVLN9U2dY4v/Jf67cX+jzmWqTUt/tQUIB7XrDuQeXaxqL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=A0OKeE20; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="iG+/w1Pd"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2e091682cfbso3472213a91.0
-        for <arm-scmi@vger.kernel.org>; Mon, 07 Oct 2024 10:07:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A0OKeE20"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-53959a88668so5810947e87.2
+        for <arm-scmi@vger.kernel.org>; Mon, 07 Oct 2024 10:33:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1728320869; x=1728925669; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Xsz1cKkpJKzKS5NgU8P9HM5AvWEcAQxgUYBZ/hb0Eo=;
-        b=iG+/w1PdgxjyZNcJcG8GH98ZJj/iTyRWQf3/sX2v/D+WL9/RqNZnR1ktbNCqwUBsi0
-         Rh9T2xZcWfrnwr4Rah4bOTACwuus37rU2D5JBZkd0jHBoIlUiSxZKIeHUuwekxWxnBtY
-         BkCund25RwKOlBbcIdrJ8LawlpvJVdTUM8QM4=
+        d=linaro.org; s=google; t=1728322417; x=1728927217; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vnPjDrmeCMaKCaAWC5pFtxw0raHxBwjN+mo+qEzYwho=;
+        b=A0OKeE20hSV/qcMDRJ20cdWkmabe2SacwA/vHQT1/MpKtS7SOqJ1qpGJV8d018Y2Qi
+         08s2+zzNQUkwnWJe2Rr7M/HyF9lx4C+WM7fWxiLnRAl9wDac+W+S1O4BuyqdpNNODDHJ
+         GQtsXaqYqrhFidIWmwCADbC6/AJhZ9PQXNCkeRNH0afaqkfrt4MMACPYtCeL7a20imKj
+         QPYkuZ1lrdC/RWgNMpFXpUR9KTIMgKC4GtEUQXIMJOkCw2ntrP0Fqaoe3l5AbaURZdWu
+         Qj+rYKV3g13y49F45xXU7GN1JbpF2/cy75o6AGI/sVMUEjWCErfLQO7YTBimG9tmshYu
+         xU2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728320869; x=1728925669;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1Xsz1cKkpJKzKS5NgU8P9HM5AvWEcAQxgUYBZ/hb0Eo=;
-        b=YDyyzZi72aIXbtqUX3rvE7kcOEGYjwoLp6YQ5QemXn7dTWboo0twtEQW7j2uLE8CII
-         jYSMTNPq2TLPlQB0/U11nL+Pynp8sixig+Clj9MPiWtlyXeoE0SgvfloG8sK7f7gNdiE
-         aXI7jwTwbhnQajuGDeMFAMETyMbuFiXgJPOcjcteDf3xsUNIVOfGnuUaR5HBCMPzvIqM
-         eD5TVkMLytgslofzmdC5PZTiUYI1ovdLxSEl41XnzrlWamfry7z8mB71BsW0PNGdfLJc
-         ARuHlZc7XrfxmdQASKyumvqyz3+iwiupzWMHl29tvwM5hrd6Omq2lBXHNe0awVJfWX7N
-         KcIg==
-X-Forwarded-Encrypted: i=1; AJvYcCU3uqPLwpdBg4eLaDD9nwzNmcO8GWThr/2KcoEw/3T0Zynu/1SpOowzIvRs3LAhrXqusBKAjUhfJg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOZiZqlvCZjGYin8vho5XmvNgaCDPzd4GduIss6JSYrZ+Ovjyb
-	l6WRLejTlVxMpQz3EarL7S5rQvjaJvdIzi9UuToXaXifweguvCe/a1crwhrSbQ==
-X-Google-Smtp-Source: AGHT+IGafgSzyj7H334JaowYq/bSl0luswUi03Ck5xtcg5AC+8GL0Qp4QvzU6hyPq89Q2aXo/BBkdg==
-X-Received: by 2002:a17:90a:ce87:b0:2c9:649c:5e08 with SMTP id 98e67ed59e1d1-2e1e6226d7bmr13956400a91.15.1728320869018;
-        Mon, 07 Oct 2024 10:07:49 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e1e85d96bfsm7420819a91.27.2024.10.07.10.07.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Oct 2024 10:07:48 -0700 (PDT)
-Message-ID: <a4f403e8-44eb-4fb4-8696-ca8ad7962a00@broadcom.com>
-Date: Mon, 7 Oct 2024 10:07:46 -0700
+        d=1e100.net; s=20230601; t=1728322417; x=1728927217;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vnPjDrmeCMaKCaAWC5pFtxw0raHxBwjN+mo+qEzYwho=;
+        b=c7LRSUuEVt+IyzNxecZeu+eZKcd+ClnAIiRG9iIknhFZq6UOl3OqYgUgXHnK9u2JVX
+         1fdhbUEeUUj4MvO5XMjr4t+VflevaoRl5DAEtJ8ka95t9Mhgn6DY/nMs+bhqiiet1Cvc
+         a5V0CenmnZ4/dYq6uevxKW6fl5RHIpyyYNwwRn3mO3qkG4q+4Y+v62if+ZHAZMU12E9o
+         v3d9gjuyBDp/CBejnVplxJgfTrLKpp3ozoA0fN6m5PFaKoh9VE2nDF2j76qlBTyDfIVX
+         wNoTRZaz/MWT3Tt+hPKEBJXlKT9Tjv+M6uGVeYP3sxDnjOP+nb5VAwrAIMFaP4hZEk+5
+         oppw==
+X-Forwarded-Encrypted: i=1; AJvYcCWMmDQNzb9yxWnjNuAI0jewOqxh8AdWN2Jr58b2TIihy2wCUA7Pv7djZAU8QU9nx0Wc6L1WjJ2Qkw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsdwMCqFoFbl3LX1sMjReI5KXa9KDz3MUka02yaeJInOn7WV6a
+	tPEduY+w6bQsUXn19fUiIqF1w2nE9HKiiPckl1sMLti6M3WjLuJ6O8u/8gT+7wQ=
+X-Google-Smtp-Source: AGHT+IFfLhE1ASoAnxmgdVnlkdwYTU5SKFtJPZAxmsaoWd5KH+3F7EHebkIfK0aqR3vrEWcYB1k9sA==
+X-Received: by 2002:a05:6512:b8a:b0:539:94cf:e32c with SMTP id 2adb3069b0e04-539ab88d223mr6336694e87.34.1728322417290;
+        Mon, 07 Oct 2024 10:33:37 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00-89ea-67f6-92cd-b49.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:89ea:67f6:92cd:b49])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539afec8147sm901762e87.84.2024.10.07.10.33.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Oct 2024 10:33:36 -0700 (PDT)
+Date: Mon, 7 Oct 2024 20:33:35 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Sibi Sankar <quic_sibis@quicinc.com>
+Cc: sudeep.holla@arm.com, cristian.marussi@arm.com, ulf.hansson@linaro.org, 
+	jassisinghbrar@gmail.com, linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, johan@kernel.org, 
+	konradybcio@kernel.org, linux-pm@vger.kernel.org, tstrudel@google.com, rafael@kernel.org, 
+	Johan Hovold <johan+linaro@kernel.org>
+Subject: Re: [PATCH V3 3/4] pmdomain: core: Fix debugfs node creation failure
+Message-ID: <nlmz5adfxtnhgutblddlf2nlasmd5q3jpcsziaegmfvzsbkk7d@cb6e5qslk7vl>
+References: <20241007060642.1978049-1-quic_sibis@quicinc.com>
+ <20241007060642.1978049-4-quic_sibis@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-Subject: Re: [PATCH] firmware: arm_scmi: Give SMC transport precedence over
- mailbox
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-arm-kernel@lists.infread.org, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- "open list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE"
- <arm-scmi@vger.kernel.org>,
- "moderated list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE"
- <linux-arm-kernel@lists.infradead.org>, justin.chen@broadcom.com,
- opendmb@gmail.com, kapil.hali@broadcom.com,
- bcm-kernel-feedback-list@broadcom.com, Arnd Bergmann <arnd@arndb.de>
-References: <20241006043317.3867421-1-florian.fainelli@broadcom.com>
- <ZwPLgcGeUcFPvjcz@pluto>
-Content-Language: en-US
-Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
- xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
- M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
- JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
- PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
- KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
- AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
- IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
- ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
- bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
- Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
- tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
- TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
- zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
- WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
- IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
- U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
- 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
- pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
- MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
- IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
- gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
- obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
- N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
- CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
- C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
- wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
- EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
- fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
- MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
- 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
- 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <ZwPLgcGeUcFPvjcz@pluto>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241007060642.1978049-4-quic_sibis@quicinc.com>
 
-Hi Cristian,
+On Mon, Oct 07, 2024 at 11:36:41AM GMT, Sibi Sankar wrote:
+> The domain attributes returned by the perf protocol can end up
+> reporting identical names across domains, resulting in debugfs
+> node creation failure. Fix this failure by ensuring that pm domains
+> get a unique name using ida in pm_genpd_init.
 
-On October 7, 2024 4:52:33 AM PDT, Cristian Marussi 
-<cristian.marussi@arm.com> wrote:
->On Sat, Oct 05, 2024 at 09:33:17PM -0700, Florian Fainelli wrote:
->> Broadcom STB platforms have for historical reasons included both
->> "arm,scmi-smc" and "arm,scmi" in their SCMI Device Tree node compatible
->> string.
->
->Hi Florian,
->
->did not know this..
+Can we make this opt-in or opt-out? Seeing numeric suffixes next to
+well-known power domain names (e.g. those comin from RPMh or the CPU
+domains) is a bit strange. Or maybe you can limit the IDA suffix just to
+the SCMI / perf domains?
 
-It stems from us starting with a mailbox driver that did the SMC call, 
-and later transitioning to the "smc" transport proper. Our boot loader 
-provides the Device Tree blob to the kernel and we maintain 
-backward/forward compatibility as much as possible.
+> 
+> Logs: [X1E reports 'NCC' for all its scmi perf domains]
+> debugfs: Directory 'NCC' with parent 'pm_genpd' already present!
+> debugfs: Directory 'NCC' with parent 'pm_genpd' already present!
+> 
+> Reported-by: Johan Hovold <johan+linaro@kernel.org>
+> Closes: https://lore.kernel.org/lkml/ZoQjAWse2YxwyRJv@hovoldconsulting.com/
+> Fixes: 718072ceb211 ("PM: domains: create debugfs nodes when adding power domains")
+> Fix-suggested-by: Ulf Hansson <ulf.hansson@linaro.org>
 
->
->> 
->> After the commit cited in the Fixes tag and with a kernel
->> configuration that enables both the SCMI and the Mailbox transports, we
->> would probe the mailbox transport, but fail to complete since we would
->> not have a mailbox driver available.
->>
->Not sure to have understood this...
->
->...you mean you DO have the SMC/Mailbox SCMI transport drivers compiled
->into the Kconfig AND you have BOTH the SMC AND Mailbox compatibles in
->DT, BUT your platform does NOT physically have a mbox/shmem transport
->and as a consequence, when MBOX probes (at first), you see an error from
->the core like:
->
->    "arm-scmi: unable to communicate with SCMI"
->
->since it gets no reply from the SCMI server (being not connnected via
->mbox) and it bails out .... am I right ?
+Just "Suggested-by: ..."
 
-In an unmodified kernel where both the "mailbox" and "smc" transports 
-are enabled, we get the "mailbox" driver to probe first since it matched 
-the "arm,scmi" part of the compatible string and it is linked first into 
-the kernel. Down the road though we will fail the initialization with:
+> Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
+> ---
+> 
+> genpd names with ida appended:
+> power-domain-cpu0_0
+> power-domain-cpu1_1
+> ....
+> ebi_18
+> gfx_19
+> ...
+> NCC_56
+> NCC_57
+> NCC_58
+> 
+> genpd summary with ida appended:
+> domain                          status          children        performance
+>     /device                         runtime status                  managed by
+>     ------------------------------------------------------------------------------
+>     NCC_58                          on                                                 0
+>     NCC_57                          on                                                 0
+>     NCC_56                          on                                                 0
+>     ...
+>     gfx_19                          off-0                                              0
+>     ebi_18                          off-0                                              0
+>     ...
+>     power-domain-cpu1_1             off-0                                              0
+> 	genpd:0:cpu1                    suspended                   0           SW
+>     power-domain-cpu0_0             off-0                                              0
+> 	genpd:0:cpu0                    suspended                   0           SW
+> 
+>  drivers/pmdomain/core.c   | 40 ++++++++++++++++++++++++---------------
+>  include/linux/pm_domain.h |  1 +
+>  2 files changed, 26 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
+> index 5ede0f7eda09..631cb732bb39 100644
+> --- a/drivers/pmdomain/core.c
+> +++ b/drivers/pmdomain/core.c
+> @@ -7,6 +7,7 @@
+>  #define pr_fmt(fmt) "PM: " fmt
+>  
+>  #include <linux/delay.h>
+> +#include <linux/idr.h>
+>  #include <linux/kernel.h>
+>  #include <linux/io.h>
+>  #include <linux/platform_device.h>
+> @@ -23,6 +24,9 @@
+>  #include <linux/cpu.h>
+>  #include <linux/debugfs.h>
+>  
+> +/* Provides a unique ID for each genpd device */
+> +static DEFINE_IDA(genpd_ida);
+> +
+>  #define GENPD_RETRY_MAX_MS	250		/* Approximate */
+>  
+>  #define GENPD_DEV_CALLBACK(genpd, type, callback, dev)		\
+> @@ -189,7 +193,7 @@ static inline bool irq_safe_dev_in_sleep_domain(struct device *dev,
+>  
+>  	if (ret)
+>  		dev_warn_once(dev, "PM domain %s will not be powered off\n",
+> -				genpd->name);
+> +			      dev_name(&genpd->dev));
+>  
+>  	return ret;
+>  }
+> @@ -274,7 +278,7 @@ static void genpd_debug_remove(struct generic_pm_domain *genpd)
+>  	if (!genpd_debugfs_dir)
+>  		return;
+>  
+> -	debugfs_lookup_and_remove(genpd->name, genpd_debugfs_dir);
+> +	debugfs_lookup_and_remove(dev_name(&genpd->dev), genpd_debugfs_dir);
+>  }
+>  
+>  static void genpd_update_accounting(struct generic_pm_domain *genpd)
+> @@ -731,7 +735,7 @@ static int _genpd_power_on(struct generic_pm_domain *genpd, bool timed)
+>  	genpd->states[state_idx].power_on_latency_ns = elapsed_ns;
+>  	genpd->gd->max_off_time_changed = true;
+>  	pr_debug("%s: Power-%s latency exceeded, new value %lld ns\n",
+> -		 genpd->name, "on", elapsed_ns);
+> +		 dev_name(&genpd->dev), "on", elapsed_ns);
+>  
+>  out:
+>  	raw_notifier_call_chain(&genpd->power_notifiers, GENPD_NOTIFY_ON, NULL);
+> @@ -782,7 +786,7 @@ static int _genpd_power_off(struct generic_pm_domain *genpd, bool timed)
+>  	genpd->states[state_idx].power_off_latency_ns = elapsed_ns;
+>  	genpd->gd->max_off_time_changed = true;
+>  	pr_debug("%s: Power-%s latency exceeded, new value %lld ns\n",
+> -		 genpd->name, "off", elapsed_ns);
+> +		 dev_name(&genpd->dev), "off", elapsed_ns);
+>  
+>  out:
+>  	raw_notifier_call_chain(&genpd->power_notifiers, GENPD_NOTIFY_OFF,
+> @@ -1940,7 +1944,7 @@ int dev_pm_genpd_add_notifier(struct device *dev, struct notifier_block *nb)
+>  
+>  	if (ret) {
+>  		dev_warn(dev, "failed to add notifier for PM domain %s\n",
+> -			 genpd->name);
+> +			 dev_name(&genpd->dev));
+>  		return ret;
+>  	}
+>  
+> @@ -1987,7 +1991,7 @@ int dev_pm_genpd_remove_notifier(struct device *dev)
+>  
+>  	if (ret) {
+>  		dev_warn(dev, "failed to remove notifier for PM domain %s\n",
+> -			 genpd->name);
+> +			 dev_name(&genpd->dev));
+>  		return ret;
+>  	}
+>  
+> @@ -2013,7 +2017,7 @@ static int genpd_add_subdomain(struct generic_pm_domain *genpd,
+>  	 */
+>  	if (!genpd_is_irq_safe(genpd) && genpd_is_irq_safe(subdomain)) {
+>  		WARN(1, "Parent %s of subdomain %s must be IRQ safe\n",
+> -				genpd->name, subdomain->name);
+> +		     dev_name(&genpd->dev), subdomain->name);
+>  		return -EINVAL;
+>  	}
+>  
+> @@ -2088,7 +2092,7 @@ int pm_genpd_remove_subdomain(struct generic_pm_domain *genpd,
+>  
+>  	if (!list_empty(&subdomain->parent_links) || subdomain->device_count) {
+>  		pr_warn("%s: unable to remove subdomain %s\n",
+> -			genpd->name, subdomain->name);
+> +			dev_name(&genpd->dev), subdomain->name);
+>  		ret = -EBUSY;
+>  		goto out;
+>  	}
+> @@ -2264,8 +2268,13 @@ int pm_genpd_init(struct generic_pm_domain *genpd,
+>  	if (ret)
+>  		return ret;
+>  
+> +	ret = ida_alloc(&genpd_ida, GFP_KERNEL);
+> +	if (ret < 0)
+> +		return ret;
+> +	genpd->device_id = ret;
+> +
+>  	device_initialize(&genpd->dev);
+> -	dev_set_name(&genpd->dev, "%s", genpd->name);
+> +	dev_set_name(&genpd->dev, "%s_%u", genpd->name, genpd->device_id);
+>  
+>  	mutex_lock(&gpd_list_lock);
+>  	list_add(&genpd->gpd_list_node, &gpd_list);
+> @@ -2287,13 +2296,13 @@ static int genpd_remove(struct generic_pm_domain *genpd)
+>  
+>  	if (genpd->has_provider) {
+>  		genpd_unlock(genpd);
+> -		pr_err("Provider present, unable to remove %s\n", genpd->name);
+> +		pr_err("Provider present, unable to remove %s\n", dev_name(&genpd->dev));
+>  		return -EBUSY;
+>  	}
+>  
+>  	if (!list_empty(&genpd->parent_links) || genpd->device_count) {
+>  		genpd_unlock(genpd);
+> -		pr_err("%s: unable to remove %s\n", __func__, genpd->name);
+> +		pr_err("%s: unable to remove %s\n", __func__, dev_name(&genpd->dev));
+>  		return -EBUSY;
+>  	}
+>  
+> @@ -2307,9 +2316,10 @@ static int genpd_remove(struct generic_pm_domain *genpd)
+>  	genpd_unlock(genpd);
+>  	genpd_debug_remove(genpd);
+>  	cancel_work_sync(&genpd->power_off_work);
+> +	ida_free(&genpd_ida, genpd->device_id);
+>  	genpd_free_data(genpd);
+>  
+> -	pr_debug("%s: removed %s\n", __func__, genpd->name);
+> +	pr_debug("%s: removed %s\n", __func__, dev_name(&genpd->dev));
+>  
+>  	return 0;
+>  }
+> @@ -3272,12 +3282,12 @@ static int genpd_summary_one(struct seq_file *s,
+>  	else
+>  		snprintf(state, sizeof(state), "%s",
+>  			 status_lookup[genpd->status]);
+> -	seq_printf(s, "%-30s  %-30s  %u", genpd->name, state, genpd->performance_state);
+> +	seq_printf(s, "%-30s  %-30s  %u", dev_name(&genpd->dev), state, genpd->performance_state);
+>  
+>  	/*
+>  	 * Modifications on the list require holding locks on both
+>  	 * parent and child, so we are safe.
+> -	 * Also genpd->name is immutable.
+> +	 * Also the device name is immutable.
+>  	 */
+>  	list_for_each_entry(link, &genpd->parent_links, parent_node) {
+>  		if (list_is_first(&link->parent_node, &genpd->parent_links))
+> @@ -3502,7 +3512,7 @@ static void genpd_debug_add(struct generic_pm_domain *genpd)
+>  	if (!genpd_debugfs_dir)
+>  		return;
+>  
+> -	d = debugfs_create_dir(genpd->name, genpd_debugfs_dir);
+> +	d = debugfs_create_dir(dev_name(&genpd->dev), genpd_debugfs_dir);
+>  
+>  	debugfs_create_file("current_state", 0444,
+>  			    d, genpd, &status_fops);
+> diff --git a/include/linux/pm_domain.h b/include/linux/pm_domain.h
+> index b637ec14025f..738df5296ec7 100644
+> --- a/include/linux/pm_domain.h
+> +++ b/include/linux/pm_domain.h
+> @@ -163,6 +163,7 @@ struct generic_pm_domain {
+>  	atomic_t sd_count;	/* Number of subdomains with power "on" */
+>  	enum gpd_status status;	/* Current state of the domain */
+>  	unsigned int device_count;	/* Number of devices */
+> +	unsigned int device_id;		/* unique device id */
+>  	unsigned int suspended_count;	/* System suspend device counter */
+>  	unsigned int prepared_count;	/* Suspend counter of prepared devices */
+>  	unsigned int performance_state;	/* Aggregated max performance state */
+> -- 
+> 2.34.1
+> 
 
-[    1.135363] arm-scmi arm-scmi.1.auto: Using scmi_mailbox_transport
-[    1.141901] arm-scmi arm-scmi.1.auto: SCMI max-rx-timeout: 30ms
-[    1.148113] arm-scmi arm-scmi.1.auto: failed to setup channel for 
-protocol:0x10
-[    1.155828] arm-scmi arm-scmi.1.auto: error -EINVAL: failed to setup 
-channels
-[    1.163379] arm-scmi arm-scmi.1.auto: probe with driver arm-scmi 
-failed with error -22
-
-Because the platform device is now bound, and there is no mechanism to 
-return -ENODEV, we won't try another transport driver that would attempt 
-to match the other compatibility strings. That makes sense because in 
-general you specify the Device Tree precisely, and you also have a 
-tailored kernel configuration. Right now this is only an issue using 
-arm's multi_v7_defconfig and arm64's defconfig both of which that we 
-intend to keep on using for CI purposes.
-
-
->
->If this is the case, without this patch, after this error and the mbox probe
->failing, the SMC transport, instead, DO probe successfully at the end, right ?
-
-With my patch we probe the "smc" transport first and foremost and we 
-successfully initialize it, therefore we do not even try the "mailbox" 
-transport at all, which is intended.
-
->
->IOW, what is the impact without this patch, an error and a delay in the
->probe sequence till it gets to the SMC transport probe 9as second
->attempt) or worse ? (trying to understand here...)
-
-There is no recovery without the patch, we are not giving up the 
-arm_scmi platform device because there is no mechanism to return -ENODEV 
-and allow any of the subsequent transport drivers enabled to attempt to 
-take over the platform device and probe it again.
-
-Thanks!
---
-Florian
+-- 
+With best wishes
+Dmitry
