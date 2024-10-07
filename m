@@ -1,67 +1,57 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E901D1D3576
-	for <arm-scmi@vger.kernel.org>; Mon,  7 Oct 2024 13:14:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719FD1DB34C
+	for <arm-scmi@vger.kernel.org>; Mon,  7 Oct 2024 16:47:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728306852; cv=none; b=nNGlyxLirwk6SpDakwDoqN2w8CSAQZB3gqewierP84rhky1vMByHc8OryeoARH37J6P8GhHQYYnQwxcdgQ12v7dLO+vuu4IDedqY2A+NS5wxmwQHaiNmmyDK3TdlJr0wpSuH9/C4enDKQ68FLT6XOl9synZd5XpKojKZg+ROMwE=
+	t=1728319633; cv=none; b=cKGooFgO8vgxlzibMoHNUNRRTPxBOfBJ+lrbdOkmwL7YsHJFihBJttICsWxDmcHPfAOv3y0e/Ykf9MAqwpHXDPsnv1GIQa9cQ1llNv+LK0JP9uQ9jC9U9yoZi8bd2NlbCZR9OAbKcK98VHVswAmixX6LbJWffFl9Kbu0/VFwUf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728306852; c=relaxed/simple;
-	bh=aoZ6Ab2vT/zv5gBysjB0k30FjuEJ24iQqrKlS0K2iTo=;
+	s=arc-20240116; t=1728319633; c=relaxed/simple;
+	bh=2JvOXnCE8q45yOzYM4/Se7vLDg7oF4TeQX5icNd5G/Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JJxa8bLBl6cUYUkWI8+3fitUqi54CAFDd3WEtBhwnknJc0gG7gcrgMWovgKGsWeu8MPTaPPAApk+T4Yp5m2wEGxLQopT9VAcRfq7zRx2MtGbb7GQ6p1xtGdad6364bxuIU6Oh8WjLzwgtP8EKlE4NmbWqZD3zJ8lxJzRHhl+oqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com; spf=fail smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Rk7PlXyt; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=oss.qualcomm.com
+	 In-Reply-To:Content-Type; b=QeSP873GfaQXdSap6XwLneBN6T+SmHRKX5FG1c0DSD7SIRq7/xFfcPzxc+k54StUT309Etv5yqLH85pWqwC9UQoXXBmGxkQ4zOlcU/Bh0a836NERYHj5CYmo5eQcZIfDDlYJG7e6DgE+bXlOAmvXj6N5W5Wsy0S+sXBLJlqYVVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=XQQU2T1O; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Rk7PlXyt"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4974Svmh017979
-	for <arm-scmi@vger.kernel.org>; Mon, 7 Oct 2024 13:14:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	lagPHIZttZDMUwYWdXVzJKUqDahMn43dORef7ZZpNvk=; b=Rk7PlXytr1YHYGI2
-	foDnifwZQTqFUtnW+s3xpBvEczDraD02voigsUqk3CUbu2qBxoq3B8La7Zvwh8sp
-	cYb4AzRYYPWY2gmbBKAid1ycLTzf36fFt2Y1Ik74L6X6TyWiMNyZ8rWzieRU4UV8
-	ab2wn6VDw3nsloKKcHBc+LyfHDDEw14+dzGyvq0gVQdsOtTlx+AiOhCeX11zouIG
-	SlPsAPugVkMCnXTDrKb9P4SeeG8E0ALvnGAMDp5PwaCTl37ltSgKkdehXvSsw9L+
-	zMFkflejufD9edOD5YmpGoC5qWeArbhNBbNYvsFkznGwprXMFyyBsIwYaqmsEyrU
-	43MFHg==
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 422xs4c7ug-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Mon, 07 Oct 2024 13:14:09 +0000 (GMT)
-Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-5c8789e5e7bso458774a12.3
-        for <arm-scmi@vger.kernel.org>; Mon, 07 Oct 2024 06:14:09 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="XQQU2T1O"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6cb2f271043so53026216d6.0
+        for <arm-scmi@vger.kernel.org>; Mon, 07 Oct 2024 09:47:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1728319630; x=1728924430; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=S9CjsSMRTcKaZhkjpOoFNmBuBgqEpMntZNfMT8VgpNk=;
+        b=XQQU2T1OZjwquxK9ZOtH5oCvZMfEgWIWHByMH41G4SK0LSrH34snMtWjyZHQuxQgu8
+         LUp+capu++xnxrhs6XvNOHxjwE0hlpVHS4MtaOx86UGYhpKmbGtY9ysKL1zfbAJPQJ/6
+         nrsblxPeUwlal26/pyIZlgRhmnv7FDRARMT5Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728306848; x=1728911648;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lagPHIZttZDMUwYWdXVzJKUqDahMn43dORef7ZZpNvk=;
-        b=BSgiLlVHQDRN6k/F90pdS+zxDr4Z3YEJ/v4OOJ5WAsYlxIhsgQz5wRS4NsJyQEyTPY
-         2l+vDHCNDSCCKVhBx9ashdivMlDxeA27FQkXYmBkh56xRFR2zikk2iBeWDlvfkN/d3ZF
-         FQ9hYnEF6+sFbpElF20QpRc+PMKyPFjN/XkdzrQwDyTh9uRC+iO+gP9Zd7KOMCcUuvIu
-         ZnVFAo5nNawSPqfGFeItazBZb5TK1wU7Z5VCszWPVbjPIaVkr6nhZe/eReTkmFxPqshr
-         UyWA1deNKQvP1V2MAVD60uigYhf5RisspoSHyyyBvnyl2VOXsAp1G7pVMwszbSiKaQP7
-         C5qQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+truQQbnKHz1eHWWnIiMCSkpfwHpPffRJBYnocrJ/zRA4WlAQyskiduP/aCEA4MNyH0OzG+R9nQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZstmt6+hw7SgAsP1N6RxOnjqNb1vfjozeIcipf0MZLAi7myZx
-	VoEJQ5f8pCGRtJQGxiFk5TyyoN/knRwJtYhWZgdhdaUuOCTql4t0ctKwqn6qTpLyLKICwQ7WSQH
-	zepn/qI3LyTn6IrIBG96mub5oyD8C8qr1sPDdOvLaj0FmJHe/qR/5w1PYlg==
-X-Received: by 2002:a17:907:928c:b0:a7a:a33e:47cd with SMTP id a640c23a62f3a-a991bd427e1mr582896666b.8.1728306847965;
-        Mon, 07 Oct 2024 06:14:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG99yzel8woEN3MfN94DmcG3qCsQPgg06GOvsb7ccyx/jB9qBtMungcx0dHjaKg7+ABpfb/Qg==
-X-Received: by 2002:a17:907:928c:b0:a7a:a33e:47cd with SMTP id a640c23a62f3a-a991bd427e1mr582892166b.8.1728306847312;
-        Mon, 07 Oct 2024 06:14:07 -0700 (PDT)
-Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99420bcc1esm287761166b.199.2024.10.07.06.14.05
+        d=1e100.net; s=20230601; t=1728319630; x=1728924430;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S9CjsSMRTcKaZhkjpOoFNmBuBgqEpMntZNfMT8VgpNk=;
+        b=XDZTfR3fHWY2UA8JevvtlfqwYGPKyvXkFOXZcz4sdLeUuWCpghUYsyw67NZdC3wp07
+         X0v9OxZDbudMw58fekzjdOQXoVazJyzzIQHp3FlTOlq8sJux5Ihrov/un1f+s/13MywP
+         Lcf2cHiWbvci/22K2wBoaEc57rU2a6XKv+jMsK+4HjkSZvnvD/Dm+clpTceGdkiRwUh3
+         8WCqTgIj7v2KI8jPPCPDd9z4cjtarJ4O5Ojvzrg8A1+im2gCftEQV0ygpvA16NYQuW+7
+         RMHx1DLL+6UJy7RKMIjRGmgqGjDenCSWtQoia2I6MoqGtsTaji4KHWmMoTWDRKMMHFll
+         yjtg==
+X-Forwarded-Encrypted: i=1; AJvYcCWGthmFN7OEz8HChI2QoFN3wh/KoFkMlncjcdKOcjNPrAQE2xqt0v/rHQNS44rEV1wwtSxr/pwPJA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5+peQPYcn2Lv3s+9gTIbwCHu98GUp6eN3OSNzGABMyVrFlmAw
+	6HzT+VlIpWV7tchZzNamnF2BbxDGes3WtsLSECZ6rTtZPPpH1KwNTddDJv2aew==
+X-Google-Smtp-Source: AGHT+IGkzDBDte/43eYOd/aigjOKOeHrGPpTVqz8vfZIpAXJNx38FHSgFi1MXbXtmwfxAGzq41Ah1A==
+X-Received: by 2002:a05:6214:4a87:b0:6cb:b7ea:2072 with SMTP id 6a1803df08f44-6cbb7ea20a2mr28174736d6.1.1728319630398;
+        Mon, 07 Oct 2024 09:47:10 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cba475142dsm26725486d6.102.2024.10.07.09.47.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Oct 2024 06:14:07 -0700 (PDT)
-Message-ID: <d1f12236-220a-43de-a69a-12831bc8a691@oss.qualcomm.com>
-Date: Mon, 7 Oct 2024 15:14:04 +0200
+        Mon, 07 Oct 2024 09:47:09 -0700 (PDT)
+Message-ID: <17593cd5-e188-4146-8e4b-c87ce48e1140@broadcom.com>
+Date: Mon, 7 Oct 2024 09:47:06 -0700
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -69,51 +59,117 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 4/4] mailbox: qcom-cpucp: Mark the irq with
- IRQF_NO_SUSPEND flag
-To: Sibi Sankar <quic_sibis@quicinc.com>, sudeep.holla@arm.com,
-        cristian.marussi@arm.com, ulf.hansson@linaro.org,
-        jassisinghbrar@gmail.com
-Cc: linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        johan@kernel.org, konradybcio@kernel.org, linux-pm@vger.kernel.org,
-        tstrudel@google.com, rafael@kernel.org,
-        Johan Hovold <johan+linaro@kernel.org>
-References: <20241007060642.1978049-1-quic_sibis@quicinc.com>
- <20241007060642.1978049-5-quic_sibis@quicinc.com>
+Subject: Re: [PATCH] firmware: arm_scmi: Give SMC transport precedence over
+ mailbox
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: linux-arm-kernel@lists.infread.org, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ "open list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE"
+ <arm-scmi@vger.kernel.org>,
+ "moderated list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE"
+ <linux-arm-kernel@lists.infradead.org>, justin.chen@broadcom.com,
+ opendmb@gmail.com, kapil.hali@broadcom.com,
+ bcm-kernel-feedback-list@broadcom.com, Arnd Bergmann <arnd@arndb.de>
+References: <20241006043317.3867421-1-florian.fainelli@broadcom.com>
+ <ZwPeiUwT7OAgxXFl@bogus>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20241007060642.1978049-5-quic_sibis@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
+ xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
+ M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
+ JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
+ PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
+ KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
+ AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
+ IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
+ ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
+ bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
+ Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
+ tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
+ TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
+ zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
+ WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
+ IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
+ U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
+ 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
+ pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
+ MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
+ IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
+ gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
+ obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
+ N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
+ CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
+ C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
+ wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
+ EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
+ fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
+ MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
+ 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
+ 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
+In-Reply-To: <ZwPeiUwT7OAgxXFl@bogus>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: -9fDsx4ioAl3O6nUyBBWgfoIJP2XKlu0
-X-Proofpoint-GUID: -9fDsx4ioAl3O6nUyBBWgfoIJP2XKlu0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 mlxscore=0 bulkscore=0 spamscore=0 suspectscore=0
- adultscore=0 impostorscore=0 phishscore=0 mlxlogscore=999
- lowpriorityscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2409260000 definitions=main-2410070093
 
-On 7.10.2024 8:06 AM, Sibi Sankar wrote:
-> The qcom-cpucp mailbox irq is expected to function during suspend-resume
-> cycle particularly when the scmi cpufreq driver can query the current
-> frequency using the get_level message after the cpus are brought up during
-> resume. Hence mark the irq with IRQF_NO_SUSPEND flag to fix the do_xfer
-> failures we see during resume.
+On 10/7/24 06:13, Sudeep Holla wrote:
+> On Sat, Oct 05, 2024 at 09:33:17PM -0700, Florian Fainelli wrote:
+>> Broadcom STB platforms have for historical reasons included both
+>> "arm,scmi-smc" and "arm,scmi" in their SCMI Device Tree node compatible
+>> string.
+>>
 > 
-> Err Logs:
-> arm-scmi firmware:scmi: timed out in resp(caller:do_xfer+0x164/0x568)
-> cpufreq: cpufreq_online: ->get() failed
+> I assume in the same order.
+
+That is correct, in that exact order indeed.
+
 > 
-> Reported-by: Johan Hovold <johan+linaro@kernel.org>
-> Closes: https://lore.kernel.org/lkml/ZtgFj1y5ggipgEOS@hovoldconsulting.com/
-> Fixes: 0e2a9a03106c ("mailbox: Add support for QTI CPUCP mailbox controller")
-> Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
-> ---
+>> After the commit cited in the Fixes tag and with a kernel
+>> configuration that enables both the SCMI and the Mailbox transports, we
+> 
+> ^^^^^ s/SCMI/SMC ?
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Yes, this should read "SMC" here.
 
-Konrad
+> 
+>> would probe the mailbox transport, but fail to complete since we would
+>> not have a mailbox driver available.
+>>
+> 
+> I always assumed the node compatible match happens from the more specific
+> compatible(on the left) to the more generic ones(on the right) from the
+> compatible property list. Looks like that was a wrong assumption then ?
+
+This is the correct assumption, and this worked very well, and we were 
+utilizing that as long as all of the transports where "sub" entities 
+within the common and single arm_scmi platform device.
+
+When breaking up the transports into individual platform drivers, now 
+each one is responsible for matching, and if they are all built-into the 
+kernel, they are matching in the order in which they have been linked 
+into the kernel.
+
+> 
+>> By keeping the SMC transport objects linked first, we can let the
+>> platform driver, match the compatible string and probe successfully with
+>> no adverse effects on platforms using the mailbox transport.
+>>
+> 
+> I don't have strong objection to the patch itself, happy to get it merged.
+> Just curious if my understanding of the issue is correct. I think Cristian
+> has more detailed query, so just responding to that will suffice.
+
+Sounds good, thanks.
+
+> 
+>> Fixes: b53515fa177c ("firmware: arm_scmi: Make MBOX transport a standalone driver")
+>> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
+>> Change-Id: I8e348e3e0deabdc5c1d596929d7f9134793f346e
+> 
+> Spurious from internal gerrit repo ?
+
+Indeed, will post v2 with the typo you highlighted and that remove, and 
+any additional explanation Cristian deems necessary to add, thanks!
+-- 
+Florian
