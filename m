@@ -1,69 +1,70 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5F61DD534
-	for <arm-scmi@vger.kernel.org>; Mon,  7 Oct 2024 18:06:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1F0E1DDC0D
+	for <arm-scmi@vger.kernel.org>; Mon,  7 Oct 2024 18:13:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728324397; cv=none; b=SEjLBl2ezHcHt5w7zoZr7lc7EjZok1Yl2UKj0+CBMPFc+zHITBiMivG2QdiAAFFWJ8Lm1kLQCtp+37F3uCQ5xu7zaAbirDFjND9I/+/5TDbBwkd3yJQLOGqwJ7FQRKWBLkGqdudDlKUYI9AF+t1awiAR5WCr7RT2iIVVXhlloVo=
+	t=1728324828; cv=none; b=lP01mmSGuhRGbDFDXf5ys0GXuHLqaUNehhiWlU6HYhS/fe0CVnmfmz+JGAKhN41iX+nS4VkpQtVaR8BUYk3uo7WNAEvCfCznHZmda72LIwPGRDvRrStJosGl7ywi+wox3crr7D9nlfO1iSU9LJFwy2D/gsuaJdJH5g7NZMPfZr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728324397; c=relaxed/simple;
-	bh=l1N0B5TIw9N5GUQcWxZ9Vu8gzwIQEamFikyqhdqsl+c=;
+	s=arc-20240116; t=1728324828; c=relaxed/simple;
+	bh=J/nyTgKflK4raUrDZf+X4S1ynQVn4K+srV+rfsHXMvI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O80XMLXFP/W/MpfVPumFZ8vk/m0BWlz70NRduAAcbiA/fZEenyjxchhDDp7diPAx1Q7JZeHU0wLIqWDng0LAEKyogvaNFeJ2Z7/IU/U3kQPSmXOl8Cz6/c9H0AkeCvrz8Dx0ZIBq8rYsqSw6Dm0po8tu/AY1yd6c/RxTZDl92iY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gkknRJDK; arc=none smtp.client-ip=209.85.167.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=LAn7w9+6iiG7gZ7n93G8fY2VuATNtNZ8yoRoKvhqCVWGzzbMcAu4fXp3kPDiG1oxZYGgQfbTZIajWceJX6iwED1RY+C60xqjQhFx5h4olrUsjD3r2IxIKB41tw1vmIAMcMwuS8HX2m/pnd4OAr5vgMKdy1VG2KO6MisDAxHBxI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=k9qGV273; arc=none smtp.client-ip=209.85.208.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gkknRJDK"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5398df2c871so5005612e87.1
-        for <arm-scmi@vger.kernel.org>; Mon, 07 Oct 2024 11:06:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="k9qGV273"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2fac275471dso46846631fa.0
+        for <arm-scmi@vger.kernel.org>; Mon, 07 Oct 2024 11:13:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728324393; x=1728929193; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1728324824; x=1728929624; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dnAYwb+RJz5oWXIKbqMyr/0chlQtBJ7KHdObg5wk7os=;
-        b=gkknRJDK4roGYAwC5MIntinp4TrVaod4SGQ5agwpbtLb+AcExDgR3jHX67vZod2V1/
-         4Q6BtWSGtNAg/mbDrj5aAt+9JVpBC/aKBp4jY3cV1J3piSPPqK1sq2KGRbILH61+tMeS
-         K6Wz0EXzXb2V+jiHx9F8oY+lVKtvE9hzcqxMtWJDOaRJhwr15CurIY9aMxF6qNzE3XzQ
-         eLbVfIphMgEEiJzeCXIX5dlbQVsVfzog8z1zIo5UYnuctwUB/dob+5H33K9ybsodNGxC
-         GXZTV7pd7S4Gm+a19Ne8ipQEYchc2tYDULWwclzVIFtNuNfJmwhkMnEl2/NVIdfLyvJq
-         upeA==
+        bh=dWs/TQeQC1aW6jUxqPeU72e5mPSnP2I+Ma5FEsYLe7U=;
+        b=k9qGV273AyWq7t8R0DYADHzfRxR1j5R8d08H7uInXF0SnSfFJN3x521FNZhwXYQMQt
+         K3JcmJF1B/ukzrT6OmEZQbVYyQ+/a+g+krv2fk78J6fwQcz/+cc0Cc+Ga4OSlgAs+JnX
+         stacBS41azuaIdh2llMKQq/EYoNZPl/+nebMgLCCcUxvgYH0hgXikq6kfDTzUryVUZwD
+         WNXDs61l+ABeAnCfKB+Oivf25m0nFDBTlcOiKyMa2SwRhS6NTOcr1PspCv557b5lD9RX
+         sl8x//ZcIQOauW4gTVdQ6/Ywy+Sbzf+gAVjx8OmPbEFdo1b0JGkn5lYe5wbLakOMirT2
+         ZYbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728324393; x=1728929193;
+        d=1e100.net; s=20230601; t=1728324824; x=1728929624;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dnAYwb+RJz5oWXIKbqMyr/0chlQtBJ7KHdObg5wk7os=;
-        b=hop76ykpusITYDFPV1X8dvJLEqDKjjOrM0QaHS4Mhs++rRjALkLuceh+dnKty+1Pqi
-         cc/PCpLAt8eUnLu4Qn6n+5VoH80B/TW7t189LUynBxckB1LBjyZ7Dr7PC/i2WcRUXFTj
-         t4nEQNnzhDb5tFUc/x/PR+V+KmQ6vxz2a9yxZnqCdla1na/GZk9blNshSLe/OsNDNjDB
-         j8/Yowi9tRjAUBDGDKMm/9j/HhdOJyheET5WME7oCH6qL+pL9qNdJfgEWlorXXjnpgxQ
-         efBZaX/6CwnLYQ0xHRs3SiEmrVeZALWjhQNkIfE32f4BeKK0LMbMDW4bpajFxD/FhpYN
-         x62g==
-X-Forwarded-Encrypted: i=1; AJvYcCVZyFMeiwxZQ/wNplQC/20S/QdWWySlVEfR+YLsWRJ973c73m6UVLDei/81O5c1KlUOsCg87XK4gA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZnvQ2UZ8FmuOc271By3kdgZC06RY8KRyZAIddPv5LgtFbs0Yi
-	PmgL59EmglTePaUJ+bzEhhJXfbxbdaE/LSbX0IekPfKTNHH+/9lTx+89Aei5pJ4=
-X-Google-Smtp-Source: AGHT+IHHgJECRMFkEx284erMG6NzE0mdBji4FPBi9O4FJJAVL8nW6I99jneYqCTPOc37EvqBeDNtkw==
-X-Received: by 2002:a05:6512:1192:b0:539:a3eb:cfff with SMTP id 2adb3069b0e04-539ab8c1acfmr5091601e87.49.1728324393239;
-        Mon, 07 Oct 2024 11:06:33 -0700 (PDT)
+        bh=dWs/TQeQC1aW6jUxqPeU72e5mPSnP2I+Ma5FEsYLe7U=;
+        b=Y4EbJaIEVpQjX+o2M3nKu/aNbSF2eUiwaXvy/nPPdLEAQUvmpwOKD1GrKqHDAMwDnC
+         R7JG+eKbaVXUXLpLqbRxNUZpbBFI7WrrO3aNI9gaieTZ2FIo3EfZ4q1rRPLp6+kOucX4
+         xZbu+Qh8ifBSbH6yHETu2ryt78CxV0qblR5kMxEJlP9A/KuU/No3HQ/nnM+V4f+iBbbT
+         dfe+mbuDhzSdnY0GAZhrujg4q6N/MktxNBEMN+uVoH5Et5RCkHg5faxwl4qw8Esy/KWD
+         oxLgEIWk35urMn3Dh+T7ZIijAinfH7x3VkZsl1i2MX/Jiv+CXcmNeApIYR4Ul1zhAnDC
+         xU5w==
+X-Forwarded-Encrypted: i=1; AJvYcCXs+zlqqFUKW1P4y6DJTZ5WB9e3Zn68kuaVGH+ZNaj771dzYO+y4Vy3F2643qT+k/+dXPstxrqO1A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRDqxi/JLqT07XuQJwq/JyUfTspsE6wnc8EbirS25RqjGh5exU
+	BN72mPCGEtCWFRy3cLYaNJSjnfwETrp6f6c8taThrUKfedrK9ygHAMFeaK3h8oVBKjIHJJFdAgu
+	r59+MdREj
+X-Google-Smtp-Source: AGHT+IHWwkBF0ANmesECcb6qoQD4LYdB7aqOHaOOzj8+NnSzPePY1ubSt/D+0ye45Q005g94rAeFXA==
+X-Received: by 2002:a05:651c:199f:b0:2fa:c685:404a with SMTP id 38308e7fff4ca-2fb0de776c7mr1717501fa.4.1728324823886;
+        Mon, 07 Oct 2024 11:13:43 -0700 (PDT)
 Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00-89ea-67f6-92cd-b49.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:89ea:67f6:92cd:b49])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539aff1d0c8sm897824e87.130.2024.10.07.11.06.32
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2faf9ac450bsm9175271fa.49.2024.10.07.11.13.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Oct 2024 11:06:32 -0700 (PDT)
-Date: Mon, 7 Oct 2024 21:06:31 +0300
+        Mon, 07 Oct 2024 11:13:42 -0700 (PDT)
+Date: Mon, 7 Oct 2024 21:13:40 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Sibi Sankar <quic_sibis@quicinc.com>
 Cc: sudeep.holla@arm.com, cristian.marussi@arm.com, andersson@kernel.org, 
 	konrad.dybcio@linaro.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
 	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, quic_rgottimu@quicinc.com, quic_kshivnan@quicinc.com, 
-	conor+dt@kernel.org, arm-scmi@vger.kernel.org
-Subject: Re: [PATCH V4 1/5] dt-bindings: firmware: Document bindings for QCOM
- SCMI Generic Extension
-Message-ID: <rqa7g5hfsxozw6m4ke3jygijz5rp3lwu2fmqsebrjq6hsgb7nm@mxaiaddvuijk>
+	conor+dt@kernel.org, arm-scmi@vger.kernel.org, Amir Vajid <avajid@quicinc.com>
+Subject: Re: [PATCH V4 3/5] firmware: arm_scmi: vendors: Add QCOM SCMI
+ Generic Extensions
+Message-ID: <3vj55wm7j6fz32q2pynzqikl4yysno5zdlpt6zz6xylcv237ak@bwejn7zn5o3o>
 References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
- <20241007061023.1978380-2-quic_sibis@quicinc.com>
+ <20241007061023.1978380-4-quic_sibis@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -72,366 +73,351 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241007061023.1978380-2-quic_sibis@quicinc.com>
+In-Reply-To: <20241007061023.1978380-4-quic_sibis@quicinc.com>
 
-On Mon, Oct 07, 2024 at 11:40:19AM GMT, Sibi Sankar wrote:
-> Document the various memory buses that can be monitored and scaled by
-> the memory latency governor hosted by the QCOM SCMI Generic Extension
-> Protocol v1.0.
+On Mon, Oct 07, 2024 at 11:40:21AM GMT, Sibi Sankar wrote:
+> The QCOM SCMI Generic Extensions Protocol provides a generic way of
+> exposing a number of Qualcomm SoC specific features (like memory bus
+> scaling) through a mixture of pre-determined algorithm strings and
+> param_id pairs hosted on the SCMI controller.
 > 
+> Co-developed-by: Shivnandan Kumar <quic_kshivnan@quicinc.com>
+> Signed-off-by: Shivnandan Kumar <quic_kshivnan@quicinc.com>
+> Co-developed-by: Ramakrishna Gottimukkula <quic_rgottimu@quicinc.com>
+> Signed-off-by: Ramakrishna Gottimukkula <quic_rgottimu@quicinc.com>
+> Co-developed-by: Amir Vajid <avajid@quicinc.com>
+> Signed-off-by: Amir Vajid <avajid@quicinc.com>
 > Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
+> Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
 > ---
 > 
 > v3:
-> * Restructure the bindings to mimic IMX [Christian]
+> * Pick up Rb tag and fixup/re-order elements of the vendor ops [Christian]
+> * Follow naming convention and folder structure used by IMX
+> * Add missing enum in the vendor protocol and fix documentation [Konrad]
 > 
->  .../bindings/firmware/arm,scmi.yaml           |   1 +
->  .../bindings/firmware/qcom,scmi-memlat.yaml   | 246 ++++++++++++++++++
->  .../dt-bindings/firmware/qcom,scmi-memlat.h   |  22 ++
->  3 files changed, 269 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/firmware/qcom,scmi-memlat.yaml
->  create mode 100644 include/dt-bindings/firmware/qcom,scmi-memlat.h
+>  drivers/firmware/arm_scmi/Kconfig             |   1 +
+>  drivers/firmware/arm_scmi/Makefile            |   1 +
+>  .../firmware/arm_scmi/vendors/qcom/Kconfig    |  15 ++
+>  .../firmware/arm_scmi/vendors/qcom/Makefile   |   2 +
+>  .../arm_scmi/vendors/qcom/qcom-generic-ext.c  | 184 ++++++++++++++++++
+>  include/linux/scmi_qcom_protocol.h            |  39 ++++
+>  6 files changed, 242 insertions(+)
+>  create mode 100644 drivers/firmware/arm_scmi/vendors/qcom/Kconfig
+>  create mode 100644 drivers/firmware/arm_scmi/vendors/qcom/Makefile
+>  create mode 100644 drivers/firmware/arm_scmi/vendors/qcom/qcom-generic-ext.c
+>  create mode 100644 include/linux/scmi_qcom_protocol.h
 > 
-> diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> index 54d7d11bfed4..1d405f429168 100644
-> --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> @@ -24,6 +24,7 @@ description: |
+> diff --git a/drivers/firmware/arm_scmi/Kconfig b/drivers/firmware/arm_scmi/Kconfig
+> index dabd874641d0..73128442d97b 100644
+> --- a/drivers/firmware/arm_scmi/Kconfig
+> +++ b/drivers/firmware/arm_scmi/Kconfig
+> @@ -71,6 +71,7 @@ config ARM_SCMI_DEBUG_COUNTERS
 >  
->  anyOf:
->    - $ref: /schemas/firmware/nxp,imx95-scmi.yaml
-> +  - $ref: /schemas/firmware/qcom,scmi-memlat.yaml
+>  source "drivers/firmware/arm_scmi/transports/Kconfig"
+>  source "drivers/firmware/arm_scmi/vendors/imx/Kconfig"
+> +source "drivers/firmware/arm_scmi/vendors/qcom/Kconfig"
 >  
->  properties:
->    $nodename:
-> diff --git a/Documentation/devicetree/bindings/firmware/qcom,scmi-memlat.yaml b/Documentation/devicetree/bindings/firmware/qcom,scmi-memlat.yaml
+>  endif #ARM_SCMI_PROTOCOL
+>  
+> diff --git a/drivers/firmware/arm_scmi/Makefile b/drivers/firmware/arm_scmi/Makefile
+> index 9ac81adff567..58cf4d656cbb 100644
+> --- a/drivers/firmware/arm_scmi/Makefile
+> +++ b/drivers/firmware/arm_scmi/Makefile
+> @@ -12,6 +12,7 @@ scmi-module-objs := $(scmi-driver-y) $(scmi-protocols-y) $(scmi-transport-y)
+>  
+>  obj-$(CONFIG_ARM_SCMI_PROTOCOL) += transports/
+>  obj-$(CONFIG_ARM_SCMI_PROTOCOL) += vendors/imx/
+> +obj-$(CONFIG_ARM_SCMI_PROTOCOL) += vendors/qcom/
+>  
+>  obj-$(CONFIG_ARM_SCMI_PROTOCOL) += scmi-core.o
+>  obj-$(CONFIG_ARM_SCMI_PROTOCOL) += scmi-module.o
+> diff --git a/drivers/firmware/arm_scmi/vendors/qcom/Kconfig b/drivers/firmware/arm_scmi/vendors/qcom/Kconfig
 > new file mode 100644
-> index 000000000000..0e8ea6dacd6a
+> index 000000000000..5dd9e8a6b75f
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/firmware/qcom,scmi-memlat.yaml
-> @@ -0,0 +1,246 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/firmware/qcom,scmi-memlat.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/drivers/firmware/arm_scmi/vendors/qcom/Kconfig
+> @@ -0,0 +1,15 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +menu "ARM SCMI QCOM Vendor Protocols"
 > +
-> +title: Qualcomm SCMI Memory Bus nodes
+> +config QCOM_SCMI_GENERIC_EXT
+> +	tristate "Qualcomm Technologies, Inc. Qcom SCMI vendor Protocol"
+> +	depends on ARM_SCMI_PROTOCOL || COMPILE_TEST
+> +	help
+> +	  The QCOM SCMI vendor protocol provides a generic way of exposing
+> +	  a number of Qualcomm SoC specific features (like memory bus scaling)
+> +	  through a mixture of pre-determined algorithm strings and param_id
+> +	  pairs hosted on the SCMI controller.
 > +
-> +maintainers:
-> +  - Sibi Sankar <quic_sibis@quicinc.com>
-> +
-> +description:
-> +  This binding describes the various memory buses that can be monitored and scaled
-> +  by memory latency governor running on the CPU Control Processor (SCMI controller).
-> +
-> +properties:
-> +  protocol@80:
-> +    $ref: '/schemas/firmware/arm,scmi.yaml#/$defs/protocol-node'
-> +    unevaluatedProperties: false
-> +
-> +    properties:
-> +      reg:
-> +        const: 0x80
-> +
-> +    patternProperties:
-> +      '^memory-[0-9]$':
-> +        type: object
-> +        unevaluatedProperties: false
-> +        description:
-> +          The list of all memory buses that can be monitored and scaled by the
-> +          memory latency governor running on the SCMI controller.
-> +
-> +        properties:
-> +          qcom,memory-type:
-> +            $ref: /schemas/types.yaml#/definitions/uint32
-> +            enum: [0, 1, 2]
-> +            description: |
-> +              Memory Bus Identifier
-> +              0 = QCOM_MEM_TYPE_DDR
-> +              1 = QCOM_MEM_TYPE_LLCC
-> +              2 = QCOM_MEM_TYPE_DDR_QOS
-
-I'm sorry if this has been discussed and frowned upon, but can you
-squash memory type into device node?
-
-protocol@80 {
-	ddr {
-	};
-
-	llcc {
-	};
-
-	ddr-qos {
-	};
-};
-
-> +
-> +          freq-table-hz:
-> +            items:
-> +              items:
-> +                - description: Minimum frequency of the memory bus in Hz
-> +                - description: Maximum frequency of the memory bus in Hz
-
-Does it make sense for the DDR-QOS type? Can we hardcode those values
-and drop freq-table-hz from the DDR-QOS node?
-
-Also, can we drop this completely by adding one extra OPP entry with the
-minimum memory bus frequency?
-
-> +
-> +        patternProperties:
-> +          '^monitor-[0-9]$':
-> +            type: object
-> +            unevaluatedProperties: false
-> +            description:
-> +              The list of all monitors detecting the memory latency bound workloads using
-> +              various counters.
-> +
-> +            properties:
-> +              qcom,compute-type:
-> +                description:
-> +                  Monitors of type compute perform bus dvfs based on a rudimentary CPU
-> +                  frequency to memory frequency map.
-> +                type: boolean
-
-This seems to be redundant. If there is no qcom,ipm-ceil property, then
-it's qcom,compute-type, isn't it?
-
-> +
-> +              qcom,ipm-ceil:
-> +                $ref: /schemas/types.yaml#/definitions/uint32
-> +                description:
-> +                  Monitors having this property perform bus dvfs based on the same
-> +                  rudimentary table but the scaling is performed only if the calculated
-> +                  IPM (Instruction Per Misses) exceeds the given ceiling.
-> +
-> +              cpus:
-> +                $ref: /schemas/types.yaml#/definitions/phandle-array
-> +                description:
-> +                  Should be a list of phandles to CPU nodes (as described in
-> +                  Documentation/devicetree/bindings/arm/cpus.yaml).
-
-Which CPU nodes? I see that the examples list all CPUs here. Do we
-really need them?
-
-> +
-> +              operating-points-v2: true
-> +              opp-table:
-> +                type: object
-> +
-> +            required:
-> +              - cpus
-> +              - operating-points-v2
-> +
-> +            oneOf:
-> +              - required: [ 'qcom,compute-type' ]
-> +              - required: [ 'qcom,ipm-ceil' ]
-> +
-> +        required:
-> +          - qcom,memory-type
-> +          - freq-table-hz
-> +
-> +additionalProperties: true
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/firmware/qcom,scmi-memlat.h>
-> +
-> +    firmware {
-> +        scmi {
-> +            compatible = "arm,scmi";
-> +            mboxes = <&cpucp_mbox 0>, <&cpucp_mbox 2>;
-> +            mbox-names = "tx", "rx";
-> +            shmem = <&cpu_scp_lpri0>, <&cpu_scp_lpri1>;
-> +
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            protocol@80 {
-> +                reg = <0x80>;
-> +
-> +                memory-0 {
-> +                    qcom,memory-type = <QCOM_MEM_TYPE_DDR>;
-> +                    freq-table-hz = /bits/ 64 <200000000 4224000000>;
-> +
-> +                    monitor-0 {
-
-Hmm. Can we say that each memory type can have at most one IPM and one
-compute aka "passive" memlat monitor? Does it make sense to use them as
-node names and drop the extra monitor-M names?
-
-> +                        qcom,ipm-ceil = <20000000>;
-> +                        cpus = <&CPU0 &CPU1 &CPU2 &CPU3 &CPU4 &CPU5 &CPU6 &CPU7
-> +                                &CPU8 &CPU9 &CPU10 &CPU11>;
-
-Are CPU lists different between monitors? Can they be different? Can
-they be different between different memory types?
-
-> +                        operating-points-v2 = <&memory0_monitor0_opp_table>;
-> +
-> +                        memory0_monitor0_opp_table: opp-table {
-
-sensible names are better:
-
-ddr_ipm_opp_table: opp-table {
-};
-
-> +                            compatible = "operating-points-v2";
-> +
-> +                            opp-999000000 {
-> +                                opp-hz = /bits/ 64 <999000000 547000000>;
-> +                            };
-> +
-> +                            opp-1440000000 {
-> +                                opp-hz = /bits/ 64 <1440000000 768000000>;
-> +                            };
-> +
-> +                            opp-1671000000 {
-> +                                opp-hz = /bits/ 64 <1671000000 1555000000>;
-> +                            };
-> +
-> +                            opp-2189000000 {
-> +                                opp-hz = /bits/ 64 <2189000000 2092000000>;
-> +                            };
-> +
-> +                            opp-2516000000 {
-> +                                opp-hz = /bits/ 64 <2516000000 3187000000>;
-> +                            };
-> +
-> +                            opp-3860000000 {
-> +                                opp-hz = /bits/ 64 <3860000000 4224000000>;
-> +                            };
-> +                        };
-> +                    };
-> +
-> +                    monitor-1 {
-> +                        qcom,compute-type;
-> +                        cpus = <&CPU0 &CPU1 &CPU2 &CPU3 &CPU4 &CPU5 &CPU6 &CPU7
-> +                                &CPU8 &CPU9 &CPU10 &CPU11>;
-> +                        operating-points-v2 = <&memory0_monitor1_opp_table>;
-> +
-> +                        memory0_monitor1_opp_table: opp-table {
-> +                            compatible = "operating-points-v2";
-> +
-> +                            opp-1440000000 {
-> +                                    opp-hz = /bits/ 64 <1440000000 200000000>;
-> +                            };
-> +
-> +                            opp-2189000000 {
-> +                                    opp-hz = /bits/ 64 <2189000000 768000000>;
-> +                            };
-> +
-> +                            opp-2516000000 {
-> +                                    opp-hz = /bits/ 64 <2516000000 1555000000>;
-> +                            };
-> +
-> +                            opp-3860000000 {
-> +                                    opp-hz = /bits/ 64 <3860000000 4224000000>;
-> +                            };
-> +                        };
-> +                    };
-> +                };
-> +
-> +                memory-1 {
-> +                    qcom,memory-type = <QCOM_MEM_TYPE_LLCC>;
-> +                    freq-table-hz = /bits/ 64 <300000000 1067000000>;
-> +
-> +                    monitor-0 {
-> +                        qcom,ipm-ceil = <20000000>;
-> +                        cpus = <&CPU0 &CPU1 &CPU2 &CPU3 &CPU4 &CPU5 &CPU6 &CPU7
-> +                                &CPU8 &CPU9 &CPU10 &CPU11>;
-> +                        operating-points-v2 = <&memory1_monitor0_opp_table>;
-> +
-> +                        memory1_monitor0_opp_table: opp-table {
-> +                            compatible = "operating-points-v2";
-> +
-> +                            opp-999000000 {
-> +                                opp-hz = /bits/ 64 <999000000 300000000>;
-> +                            };
-> +
-> +                            opp-1440000000 {
-> +                                opp-hz = /bits/ 64 <1440000000 466000000>;
-> +                            };
-> +
-> +                            opp-1671000000 {
-> +                                opp-hz = /bits/ 64 <1671000000 600000000>;
-> +                            };
-> +
-> +                            opp-2189000000 {
-> +                                opp-hz = /bits/ 64 <2189000000 806000000>;
-> +                            };
-> +
-> +                            opp-2516000000 {
-> +                                opp-hz = /bits/ 64 <2516000000 933000000>;
-> +                            };
-> +
-> +                            opp-3860000000 {
-> +                                opp-hz = /bits/ 64 <3860000000 1066000000>;
-> +                            };
-> +                        };
-> +                    };
-> +                };
-> +
-> +                memory-2 {
-> +                    qcom,memory-type = <QCOM_MEM_TYPE_DDR_QOS>;
-> +                    freq-table-hz = /bits/ 64 <QCOM_DDR_LEVEL_AUTO QCOM_DDR_LEVEL_PERF>;
-
-This is definitely not 'frequency of the memory bys in Hz'
-
-> +
-> +                    monitor-0 {
-> +                        qcom,ipm-ceil = <20000000>;
-> +                        cpus = <&CPU0 &CPU1 &CPU2 &CPU3 &CPU4 &CPU5 &CPU6 &CPU7
-> +                                &CPU8 &CPU9 &CPU10 &CPU11>;
-> +                        operating-points-v2 = <&memory2_monitor0_opp_table>;
-> +
-> +                        memory2_monitor0_opp_table: opp-table {
-> +                            compatible = "operating-points-v2";
-> +
-> +                            opp-2189000000 {
-> +                                opp-hz = /bits/ 64 <2189000000>;
-> +                                opp-level = <QCOM_DDR_LEVEL_AUTO>;
-> +                            };
-> +
-> +                            opp-3860000000 {
-> +                                opp-hz = /bits/ 64 <3860000000>;
-> +                                opp-level = <QCOM_DDR_LEVEL_PERF>;
-> +                            };
-> +                        };
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> diff --git a/include/dt-bindings/firmware/qcom,scmi-memlat.h b/include/dt-bindings/firmware/qcom,scmi-memlat.h
+> +	  This driver defines/documents the message ID's used for this
+> +	  communication and also exposes the operations used by the clients.
+> +endmenu
+> diff --git a/drivers/firmware/arm_scmi/vendors/qcom/Makefile b/drivers/firmware/arm_scmi/vendors/qcom/Makefile
 > new file mode 100644
-> index 000000000000..7ae8d8d5623b
+> index 000000000000..6b98fabbebb8
 > --- /dev/null
-> +++ b/include/dt-bindings/firmware/qcom,scmi-memlat.h
-> @@ -0,0 +1,22 @@
-> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
+> +++ b/drivers/firmware/arm_scmi/vendors/qcom/Makefile
+> @@ -0,0 +1,2 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +obj-$(CONFIG_QCOM_SCMI_GENERIC_EXT) += qcom-generic-ext.o
+> diff --git a/drivers/firmware/arm_scmi/vendors/qcom/qcom-generic-ext.c b/drivers/firmware/arm_scmi/vendors/qcom/qcom-generic-ext.c
+> new file mode 100644
+> index 000000000000..f7cd949161df
+> --- /dev/null
+> +++ b/drivers/firmware/arm_scmi/vendors/qcom/qcom-generic-ext.c
+> @@ -0,0 +1,184 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
 > +/*
 > + * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
 > + */
-> +#ifndef __DT_BINDINGS_QCOM_SCMI_VENDOR_H
-> +#define __DT_BINDINGS_QCOM_SCMI_VENDOR
 > +
-> +/* Memory IDs */
-> +#define QCOM_MEM_TYPE_DDR	0x0
-> +#define QCOM_MEM_TYPE_LLCC	0x1
-> +#define QCOM_MEM_TYPE_DDR_QOS	0x2
+> +#include <linux/scmi_qcom_protocol.h>
 > +
-> +/*
-> + * QCOM_MEM_TYPE_DDR_QOS supports the following states.
+> +#include "../../common.h"
+> +
+> +/**
+> + * enum qcom_generic_ext_protocol_cmd - vendor specific commands supported by SCMI Qualcomm
+> + *                                      generic vendor protocol.
 > + *
-> + * %QCOM_DDR_LEVEL_AUTO:	DDR operates with LPM enabled
-> + * %QCOM_DDR_LEVEL_PERF:	DDR operates with LPM disabled
+> + * This protocol is intended as a generic way of exposing a number of Qualcomm SoC
+> + * specific features through a mixture of pre-determined algorithm string and param_id
+> + * pairs hosted on the SCMI controller.
+> + *
+> + * The QCOM SCMI Vendor Protocol has the protocol id as 0x80 and vendor id set to
+> + * Qualcomm and the implementation version set to 0x20000. The PROTOCOL_VERSION command
+> + * returns version 1.0.
+> + *
+> + * @QCOM_SCMI_SET_PARAM: message_id: 0x10 is used to set the parameter of a specific algo_str
+> + *                       hosted on QCOM SCMI Vendor Protocol. The tx len depends on the
+> + *                       algo_str used.
+> + * @QCOM_SCMI_GET_PARAM: message_id: 0x11 is used to get parameter information of a specific
+> + *                       algo_str hosted on QCOM SCMI Vendor Protocol. The tx and rx len
+> + *                       depends on the algo_str used.
+> + * @QCOM_SCMI_START_ACTIVITY: message_id: 0x12 is used to start the activity performed by
+> + *                            the algo_str.
+> + * @QCOM_SCMI_STOP_ACTIVITY: message_id: 0x13 is used to stop a pre-existing activity
+> + *                           performed by the algo_str.
+
+Drop message_id's from the definitions. They duplicate enum values.
+
 > + */
-> +#define QCOM_DDR_LEVEL_AUTO	0x0
-> +#define QCOM_DDR_LEVEL_PERF	0x1
+> +enum qcom_generic_ext_protocol_cmd {
+> +	QCOM_SCMI_SET_PARAM = 0x10,
+> +	QCOM_SCMI_GET_PARAM = 0x11,
+> +	QCOM_SCMI_START_ACTIVITY = 0x12,
+> +	QCOM_SCMI_STOP_ACTIVITY = 0x13,
+> +};
 > +
-> +#endif /* __DT_BINDINGS_QCOM_SCMI_VENDOR_H */
+> +/**
+> + * struct qcom_scmi_msg - represents the various parameters to be populated
+> + *                        for using the QCOM SCMI Vendor Protocol
+> + *
+> + * @ext_id: reserved, must be zero
+> + * @algo_low: lower 32 bits of the algo_str
+> + * @algo_high: upper 32 bits of the algo_str
+> + * @param_id: serves as token message id to the specific algo_str
+> + * @buf: serves as the payload to the specified param_id and algo_str pair
+> + */
+> +struct qcom_scmi_msg {
+> +	__le32 ext_id;
+> +	__le32 algo_low;
+> +	__le32 algo_high;
+> +	__le32 param_id;
+> +	__le32 buf[];
+> +};
+> +
+> +static int qcom_scmi_set_param(const struct scmi_protocol_handle *ph, void *buf, size_t buf_len,
+> +			       u64 algo_str, u32 param_id)
+> +{
+> +	struct scmi_xfer *t;
+> +	struct qcom_scmi_msg *msg;
+> +	int ret;
+> +
+> +	ret = ph->xops->xfer_get_init(ph, QCOM_SCMI_SET_PARAM, buf_len + sizeof(*msg), 0, &t);
+> +	if (ret)
+> +		return ret;
+> +
+> +	msg = t->tx.buf;
+> +	msg->algo_low = cpu_to_le32(lower_32_bits(algo_str));
+> +	msg->algo_high = cpu_to_le32(upper_32_bits(algo_str));
+> +	msg->param_id = cpu_to_le32(param_id);
+> +
+> +	memcpy(msg->buf, buf, t->tx.len - sizeof(*msg));
+> +
+> +	ret = ph->xops->do_xfer(ph, t);
+> +	ph->xops->xfer_put(ph, t);
+> +
+> +	return ret;
+> +}
+> +
+> +static int qcom_scmi_get_param(const struct scmi_protocol_handle *ph, void *buf, size_t buf_len,
+> +			       u64 algo_str, u32 param_id, size_t rx_size)
+> +{
+> +	struct scmi_xfer *t;
+> +	struct qcom_scmi_msg *msg;
+> +	int ret;
+> +
+> +	ret = ph->xops->xfer_get_init(ph, QCOM_SCMI_GET_PARAM, buf_len + sizeof(*msg), rx_size, &t);
+> +	if (ret)
+> +		return ret;
+> +
+> +	msg = t->tx.buf;
+> +	msg->algo_low = cpu_to_le32(lower_32_bits(algo_str));
+> +	msg->algo_high = cpu_to_le32(upper_32_bits(algo_str));
+> +	msg->param_id = cpu_to_le32(param_id);
+> +	memcpy(msg->buf, buf, t->tx.len - sizeof(*msg));
+
+Isn't it buf_len?
+
+> +
+> +	ret = ph->xops->do_xfer(ph, t);
+> +	memcpy(buf, t->rx.buf, t->rx.len);
+> +	ph->xops->xfer_put(ph, t);
+> +
+> +	return ret;
+> +}
+> +
+> +static int qcom_scmi_start_activity(const struct scmi_protocol_handle *ph, void *buf,
+> +				    size_t buf_len, u64 algo_str, u32 param_id)
+> +{
+> +	struct scmi_xfer *t;
+> +	struct qcom_scmi_msg *msg;
+> +	int ret;
+> +
+> +	ret = ph->xops->xfer_get_init(ph, QCOM_SCMI_START_ACTIVITY, buf_len + sizeof(*msg), 0, &t);
+> +	if (ret)
+> +		return ret;
+> +
+> +	msg = t->tx.buf;
+> +	msg->algo_low = cpu_to_le32(lower_32_bits(algo_str));
+> +	msg->algo_high = cpu_to_le32(upper_32_bits(algo_str));
+> +	msg->param_id = cpu_to_le32(param_id);
+> +
+> +	memcpy(msg->buf, buf, t->tx.len - sizeof(*msg));
+
+Isn't it buf_len?
+
+> +
+> +	ret = ph->xops->do_xfer(ph, t);
+> +	ph->xops->xfer_put(ph, t);
+> +
+> +	return ret;
+> +}
+> +
+> +static int qcom_scmi_stop_activity(const struct scmi_protocol_handle *ph, void *buf,
+> +				   size_t buf_len, u64 algo_str, u32 param_id)
+> +{
+> +	struct scmi_xfer *t;
+> +	struct qcom_scmi_msg *msg;
+> +	int ret;
+> +
+> +	ret = ph->xops->xfer_get_init(ph, QCOM_SCMI_STOP_ACTIVITY, buf_len + sizeof(*msg), 0, &t);
+> +	if (ret)
+> +		return ret;
+> +
+> +	msg = t->tx.buf;
+> +	msg->algo_low = cpu_to_le32(lower_32_bits(algo_str));
+> +	msg->algo_high = cpu_to_le32(upper_32_bits(algo_str));
+> +	msg->param_id = cpu_to_le32(param_id);
+> +
+> +	memcpy(msg->buf, buf, t->tx.len - sizeof(*msg));
+
+Isn't it buf_len?
+
+> +
+> +	ret = ph->xops->do_xfer(ph, t);
+> +	ph->xops->xfer_put(ph, t);
+
+Could you please extract a common helper that handles xfer for you?
+Seeing the same code 4 times is 3 times too much in my opinion.
+
+> +
+> +	return ret;
+> +}
+> +
+> +static struct qcom_generic_ext_ops qcom_proto_ops = {
+> +	.set_param = qcom_scmi_set_param,
+> +	.get_param = qcom_scmi_get_param,
+> +	.start_activity = qcom_scmi_start_activity,
+> +	.stop_activity = qcom_scmi_stop_activity,
+> +};
+> +
+> +static int qcom_generic_ext_protocol_init(const struct scmi_protocol_handle *ph)
+> +{
+> +	u32 version;
+> +
+> +	ph->xops->version_get(ph, &version);
+> +
+> +	dev_info(ph->dev, "QCOM Generic Vendor Version %d.%d\n",
+> +		 PROTOCOL_REV_MAJOR(version), PROTOCOL_REV_MINOR(version));
+
+dev_dbg, please.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct scmi_protocol qcom_generic_ext = {
+> +	.id = SCMI_PROTOCOL_QCOM_GENERIC,
+> +	.owner = THIS_MODULE,
+> +	.instance_init = &qcom_generic_ext_protocol_init,
+> +	.ops = &qcom_proto_ops,
+> +	.vendor_id = "Qualcomm",
+> +	.impl_ver = 0x20000,
+> +};
+> +module_scmi_protocol(qcom_generic_ext);
+> +
+> +MODULE_DESCRIPTION("QCOM SCMI Generic Vendor protocol");
+> +MODULE_LICENSE("GPL");
+> diff --git a/include/linux/scmi_qcom_protocol.h b/include/linux/scmi_qcom_protocol.h
+> new file mode 100644
+> index 000000000000..8f82c42e566d
+> --- /dev/null
+> +++ b/include/linux/scmi_qcom_protocol.h
+> @@ -0,0 +1,39 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * SCMI Message Protocol driver QCOM extension header
+> + *
+> + * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#ifndef _LINUX_SCMI_QCOM_PROTOCOL_H
+> +#define _LINUX_SCMI_QCOM_PROTOCOL_H
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/device.h>
+
+It doesn't look like you need those two headers.
+
+> +#include <linux/types.h>
+> +
+> +#define SCMI_PROTOCOL_QCOM_GENERIC    0x80
+> +
+> +struct scmi_protocol_handle;
+> +
+> +/**
+> + * struct qcom_generic_ext_ops - represents the various operations provided
+> + *				 by QCOM Generic Vendor Protocol
+> + *
+> + * @set_param: set parameter specified by param_id and algo_str pair.
+> + * @get_param: retrieve parameter specified by param_id and algo_str pair.
+> + * @start_activity: initiate a specific activity defined by algo_str.
+> + * @stop_activity: halt previously initiated activity defined by algo_str.
+> + */
+> +struct qcom_generic_ext_ops {
+> +	int (*set_param)(const struct scmi_protocol_handle *ph, void *buf, size_t buf_len,
+> +			 u64 algo_str, u32 param_id);
+> +	int (*get_param)(const struct scmi_protocol_handle *ph, void *buf, size_t buf_len,
+> +			 u64 algo_str, u32 param_id, size_t rx_size);
+> +	int (*start_activity)(const struct scmi_protocol_handle *ph, void *buf, size_t buf_len,
+> +			      u64 algo_str, u32 param_id);
+> +	int (*stop_activity)(const struct scmi_protocol_handle *ph, void *buf, size_t buf_len,
+> +			     u64 algo_str, u32 param_id);
+> +};
+> +
+> +#endif /* _LINUX_SCMI_QCOM_PROTOCOL_H */
 > -- 
 > 2.34.1
 > 
