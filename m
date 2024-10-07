@@ -1,138 +1,441 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F152AF00
-	for <arm-scmi@vger.kernel.org>; Mon,  7 Oct 2024 17:58:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5F61DD534
+	for <arm-scmi@vger.kernel.org>; Mon,  7 Oct 2024 18:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728323933; cv=none; b=Zt3uaysNyDO0MJlq7clajx/XwyEDh7j6WSh1YL4KTc5Ea8z3oFiOUmWrY8az5kxDJlSmpnvI/G5u/QPFQ/1NLIyE56lZaxBEZQ8haxtds8BKhVAkF/10lX7rs84RmFO4SwGMvLS6k37Qnwu8Uv0ppbyF7d+44mCsU9+u6ipet0Y=
+	t=1728324397; cv=none; b=SEjLBl2ezHcHt5w7zoZr7lc7EjZok1Yl2UKj0+CBMPFc+zHITBiMivG2QdiAAFFWJ8Lm1kLQCtp+37F3uCQ5xu7zaAbirDFjND9I/+/5TDbBwkd3yJQLOGqwJ7FQRKWBLkGqdudDlKUYI9AF+t1awiAR5WCr7RT2iIVVXhlloVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728323933; c=relaxed/simple;
-	bh=VU38pcTrdtaQbFGkcvFS8V0I9To7HMhGctgLu6o7A1o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HXYXUjmHPMMtBRdljZRDNtT+YKVfWvpdR/n6OrxcJG0ZdJKT8/sDUKl6Y3H0XMFTl0nbIoinlntw6vfYoASUJIgp185eDB5yNLSd11l0mA2JYG8Ny6P9us7/BsmAOgekiraHzKxcmZZZxgQ0Gb8HRr9RTFPOq9n/w/KMwlTvw1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=eC9U7XKW; arc=none smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1728324397; c=relaxed/simple;
+	bh=l1N0B5TIw9N5GUQcWxZ9Vu8gzwIQEamFikyqhdqsl+c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O80XMLXFP/W/MpfVPumFZ8vk/m0BWlz70NRduAAcbiA/fZEenyjxchhDDp7diPAx1Q7JZeHU0wLIqWDng0LAEKyogvaNFeJ2Z7/IU/U3kQPSmXOl8Cz6/c9H0AkeCvrz8Dx0ZIBq8rYsqSw6Dm0po8tu/AY1yd6c/RxTZDl92iY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gkknRJDK; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="eC9U7XKW"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6cb2ad51162so42719766d6.3
-        for <arm-scmi@vger.kernel.org>; Mon, 07 Oct 2024 10:58:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gkknRJDK"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5398df2c871so5005612e87.1
+        for <arm-scmi@vger.kernel.org>; Mon, 07 Oct 2024 11:06:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1728323930; x=1728928730; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NZv5qbbJUkGv24unDjpJ20uMGTPMYfnrD1RMmIDanKk=;
-        b=eC9U7XKWiENFBK/ZUZbuRA3SQ7hszKhl4Hm0bNNom2DlCAWp822/ih7OkXu+T/8qfd
-         YjU16sXxgOMQ3tqDmWJ7SVudl0HgrJ2VKXSSp7cHOOm6T5ZCUJfhvchyKGcmwdpMsIc0
-         J887WSoplB7QuTgIDGRfQeuWmOO4+2FIpJDI8=
+        d=linaro.org; s=google; t=1728324393; x=1728929193; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dnAYwb+RJz5oWXIKbqMyr/0chlQtBJ7KHdObg5wk7os=;
+        b=gkknRJDK4roGYAwC5MIntinp4TrVaod4SGQ5agwpbtLb+AcExDgR3jHX67vZod2V1/
+         4Q6BtWSGtNAg/mbDrj5aAt+9JVpBC/aKBp4jY3cV1J3piSPPqK1sq2KGRbILH61+tMeS
+         K6Wz0EXzXb2V+jiHx9F8oY+lVKtvE9hzcqxMtWJDOaRJhwr15CurIY9aMxF6qNzE3XzQ
+         eLbVfIphMgEEiJzeCXIX5dlbQVsVfzog8z1zIo5UYnuctwUB/dob+5H33K9ybsodNGxC
+         GXZTV7pd7S4Gm+a19Ne8ipQEYchc2tYDULWwclzVIFtNuNfJmwhkMnEl2/NVIdfLyvJq
+         upeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728323930; x=1728928730;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NZv5qbbJUkGv24unDjpJ20uMGTPMYfnrD1RMmIDanKk=;
-        b=ExCN4UywESzyIP9Hy3b3ZQBAmdM03TdjLrlo5penyDnWTcXORUFg/yww7FF3rHfaKB
-         Eiu7hAOkjeYAie8V/RBtQS7On25+GN6LXGFfLi0gObTonxQ3u6Fl3UHacahx2KIN3j6J
-         FghUYbS6djHq4H36O3kWgV+6SMDljenLBAoh+z6zmVU325JtqR0I6crFhcA4gfqdZJYt
-         5isgP75g5N8etB9hsgPWPOF2qqx1Bvllt6CC31OWwi7i2MP0GMKVWjaO89JFxCPNYLC7
-         duhwuvVW95K5OK1vwbqkRaraJWoh+TwYpF604GWmnJsOz2kpdKlAehsZglB9TSwo3Mgm
-         szVQ==
-X-Gm-Message-State: AOJu0Yyjv0tp+E6dK2SPL9z/BJDnqQpJB5wkIXsh8j8hrmGqXQKuzscl
-	uySUrsIzr+5W9W971eKjzeo2zlm17UDoNCa+6MqAWUmOKtAAwmvlIUAOVbksNg==
-X-Google-Smtp-Source: AGHT+IG+Fp5D/JcuEV8vkTjYnQODmiuNTAMoMah19yYazQ/VNwju3XNOspP8rkDijc8pJy/SYC2w6A==
-X-Received: by 2002:a05:6214:318b:b0:6cb:2f11:6b9 with SMTP id 6a1803df08f44-6cb9a308154mr191960916d6.23.1728323930322;
-        Mon, 07 Oct 2024 10:58:50 -0700 (PDT)
-Received: from [10.69.69.40] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cba46cd225sm27918646d6.19.2024.10.07.10.58.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Oct 2024 10:58:49 -0700 (PDT)
-Message-ID: <1ad5c4e9-9f98-40ab-afa4-a7939781e8cc@broadcom.com>
-Date: Mon, 7 Oct 2024 10:58:47 -0700
+        d=1e100.net; s=20230601; t=1728324393; x=1728929193;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dnAYwb+RJz5oWXIKbqMyr/0chlQtBJ7KHdObg5wk7os=;
+        b=hop76ykpusITYDFPV1X8dvJLEqDKjjOrM0QaHS4Mhs++rRjALkLuceh+dnKty+1Pqi
+         cc/PCpLAt8eUnLu4Qn6n+5VoH80B/TW7t189LUynBxckB1LBjyZ7Dr7PC/i2WcRUXFTj
+         t4nEQNnzhDb5tFUc/x/PR+V+KmQ6vxz2a9yxZnqCdla1na/GZk9blNshSLe/OsNDNjDB
+         j8/Yowi9tRjAUBDGDKMm/9j/HhdOJyheET5WME7oCH6qL+pL9qNdJfgEWlorXXjnpgxQ
+         efBZaX/6CwnLYQ0xHRs3SiEmrVeZALWjhQNkIfE32f4BeKK0LMbMDW4bpajFxD/FhpYN
+         x62g==
+X-Forwarded-Encrypted: i=1; AJvYcCVZyFMeiwxZQ/wNplQC/20S/QdWWySlVEfR+YLsWRJ973c73m6UVLDei/81O5c1KlUOsCg87XK4gA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZnvQ2UZ8FmuOc271By3kdgZC06RY8KRyZAIddPv5LgtFbs0Yi
+	PmgL59EmglTePaUJ+bzEhhJXfbxbdaE/LSbX0IekPfKTNHH+/9lTx+89Aei5pJ4=
+X-Google-Smtp-Source: AGHT+IHHgJECRMFkEx284erMG6NzE0mdBji4FPBi9O4FJJAVL8nW6I99jneYqCTPOc37EvqBeDNtkw==
+X-Received: by 2002:a05:6512:1192:b0:539:a3eb:cfff with SMTP id 2adb3069b0e04-539ab8c1acfmr5091601e87.49.1728324393239;
+        Mon, 07 Oct 2024 11:06:33 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00-89ea-67f6-92cd-b49.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:89ea:67f6:92cd:b49])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539aff1d0c8sm897824e87.130.2024.10.07.11.06.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Oct 2024 11:06:32 -0700 (PDT)
+Date: Mon, 7 Oct 2024 21:06:31 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Sibi Sankar <quic_sibis@quicinc.com>
+Cc: sudeep.holla@arm.com, cristian.marussi@arm.com, andersson@kernel.org, 
+	konrad.dybcio@linaro.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, quic_rgottimu@quicinc.com, quic_kshivnan@quicinc.com, 
+	conor+dt@kernel.org, arm-scmi@vger.kernel.org
+Subject: Re: [PATCH V4 1/5] dt-bindings: firmware: Document bindings for QCOM
+ SCMI Generic Extension
+Message-ID: <rqa7g5hfsxozw6m4ke3jygijz5rp3lwu2fmqsebrjq6hsgb7nm@mxaiaddvuijk>
+References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
+ <20241007061023.1978380-2-quic_sibis@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] firmware: arm_scmi: Queue in scmi layer for mailbox
- implementation
-To: Cristian Marussi <cristian.marussi@arm.com>,
- Sudeep Holla <sudeep.holla@arm.com>
-Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- peng.fan@nxp.com, bcm-kernel-feedback-list@broadcom.com,
- florian.fainelli@broadcom.com
-References: <20241004221257.2888603-1-justin.chen@broadcom.com>
- <ZwPcSmRpTGrCdt6I@bogus> <ZwPd1Z2jl0A46hEU@pluto>
-Content-Language: en-US
-From: Justin Chen <justin.chen@broadcom.com>
-In-Reply-To: <ZwPd1Z2jl0A46hEU@pluto>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241007061023.1978380-2-quic_sibis@quicinc.com>
 
-
-
-On 10/7/24 6:10 AM, Cristian Marussi wrote:
-> On Mon, Oct 07, 2024 at 02:04:10PM +0100, Sudeep Holla wrote:
->> On Fri, Oct 04, 2024 at 03:12:57PM -0700, Justin Chen wrote:
->>> The mailbox layer has its own queue. However this confuses the per
->>> message timeouts since the clock starts ticking the moment the messages
->>> get queued up. So all messages in the queue have there timeout clocks
->>> ticking instead of only the message inflight. To fix this, lets move the
->>> queue back into the SCMI layer.
->>>
->>
->> I think this has come up in the past. We have avoided adding addition
->> locking here as the mailbox layer takes care of it. Has anything changed
->> recently ?
+On Mon, Oct 07, 2024 at 11:40:19AM GMT, Sibi Sankar wrote:
+> Document the various memory buses that can be monitored and scaled by
+> the memory latency governor hosted by the QCOM SCMI Generic Extension
+> Protocol v1.0.
 > 
-> I asked for an explanation in my reply (we crossed each other mails probably)
-> since it alredy came up in the past a few times and central locking seemed not
-> to be needed...here the difference is about the reason...Justin talks about
-> message timeouts related to the queueing process..so I asked to better
-> explain the detail (and the anbomaly observed) since it still does not
-> seem to me that even in this case the lock is needed....anyway I can
-> definitely be woring of course :D
+> Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
+> ---
+> 
+> v3:
+> * Restructure the bindings to mimic IMX [Christian]
+> 
+>  .../bindings/firmware/arm,scmi.yaml           |   1 +
+>  .../bindings/firmware/qcom,scmi-memlat.yaml   | 246 ++++++++++++++++++
+>  .../dt-bindings/firmware/qcom,scmi-memlat.h   |  22 ++
+>  3 files changed, 269 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/firmware/qcom,scmi-memlat.yaml
+>  create mode 100644 include/dt-bindings/firmware/qcom,scmi-memlat.h
+> 
+> diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> index 54d7d11bfed4..1d405f429168 100644
+> --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> @@ -24,6 +24,7 @@ description: |
+>  
+>  anyOf:
+>    - $ref: /schemas/firmware/nxp,imx95-scmi.yaml
+> +  - $ref: /schemas/firmware/qcom,scmi-memlat.yaml
+>  
+>  properties:
+>    $nodename:
+> diff --git a/Documentation/devicetree/bindings/firmware/qcom,scmi-memlat.yaml b/Documentation/devicetree/bindings/firmware/qcom,scmi-memlat.yaml
+> new file mode 100644
+> index 000000000000..0e8ea6dacd6a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/firmware/qcom,scmi-memlat.yaml
+> @@ -0,0 +1,246 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/firmware/qcom,scmi-memlat.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm SCMI Memory Bus nodes
+> +
+> +maintainers:
+> +  - Sibi Sankar <quic_sibis@quicinc.com>
+> +
+> +description:
+> +  This binding describes the various memory buses that can be monitored and scaled
+> +  by memory latency governor running on the CPU Control Processor (SCMI controller).
+> +
+> +properties:
+> +  protocol@80:
+> +    $ref: '/schemas/firmware/arm,scmi.yaml#/$defs/protocol-node'
+> +    unevaluatedProperties: false
+> +
+> +    properties:
+> +      reg:
+> +        const: 0x80
+> +
+> +    patternProperties:
+> +      '^memory-[0-9]$':
+> +        type: object
+> +        unevaluatedProperties: false
+> +        description:
+> +          The list of all memory buses that can be monitored and scaled by the
+> +          memory latency governor running on the SCMI controller.
+> +
+> +        properties:
+> +          qcom,memory-type:
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +            enum: [0, 1, 2]
+> +            description: |
+> +              Memory Bus Identifier
+> +              0 = QCOM_MEM_TYPE_DDR
+> +              1 = QCOM_MEM_TYPE_LLCC
+> +              2 = QCOM_MEM_TYPE_DDR_QOS
+
+I'm sorry if this has been discussed and frowned upon, but can you
+squash memory type into device node?
+
+protocol@80 {
+	ddr {
+	};
+
+	llcc {
+	};
+
+	ddr-qos {
+	};
+};
+
+> +
+> +          freq-table-hz:
+> +            items:
+> +              items:
+> +                - description: Minimum frequency of the memory bus in Hz
+> +                - description: Maximum frequency of the memory bus in Hz
+
+Does it make sense for the DDR-QOS type? Can we hardcode those values
+and drop freq-table-hz from the DDR-QOS node?
+
+Also, can we drop this completely by adding one extra OPP entry with the
+minimum memory bus frequency?
+
+> +
+> +        patternProperties:
+> +          '^monitor-[0-9]$':
+> +            type: object
+> +            unevaluatedProperties: false
+> +            description:
+> +              The list of all monitors detecting the memory latency bound workloads using
+> +              various counters.
+> +
+> +            properties:
+> +              qcom,compute-type:
+> +                description:
+> +                  Monitors of type compute perform bus dvfs based on a rudimentary CPU
+> +                  frequency to memory frequency map.
+> +                type: boolean
+
+This seems to be redundant. If there is no qcom,ipm-ceil property, then
+it's qcom,compute-type, isn't it?
+
+> +
+> +              qcom,ipm-ceil:
+> +                $ref: /schemas/types.yaml#/definitions/uint32
+> +                description:
+> +                  Monitors having this property perform bus dvfs based on the same
+> +                  rudimentary table but the scaling is performed only if the calculated
+> +                  IPM (Instruction Per Misses) exceeds the given ceiling.
+> +
+> +              cpus:
+> +                $ref: /schemas/types.yaml#/definitions/phandle-array
+> +                description:
+> +                  Should be a list of phandles to CPU nodes (as described in
+> +                  Documentation/devicetree/bindings/arm/cpus.yaml).
+
+Which CPU nodes? I see that the examples list all CPUs here. Do we
+really need them?
+
+> +
+> +              operating-points-v2: true
+> +              opp-table:
+> +                type: object
+> +
+> +            required:
+> +              - cpus
+> +              - operating-points-v2
+> +
+> +            oneOf:
+> +              - required: [ 'qcom,compute-type' ]
+> +              - required: [ 'qcom,ipm-ceil' ]
+> +
+> +        required:
+> +          - qcom,memory-type
+> +          - freq-table-hz
+> +
+> +additionalProperties: true
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/firmware/qcom,scmi-memlat.h>
+> +
+> +    firmware {
+> +        scmi {
+> +            compatible = "arm,scmi";
+> +            mboxes = <&cpucp_mbox 0>, <&cpucp_mbox 2>;
+> +            mbox-names = "tx", "rx";
+> +            shmem = <&cpu_scp_lpri0>, <&cpu_scp_lpri1>;
+> +
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            protocol@80 {
+> +                reg = <0x80>;
+> +
+> +                memory-0 {
+> +                    qcom,memory-type = <QCOM_MEM_TYPE_DDR>;
+> +                    freq-table-hz = /bits/ 64 <200000000 4224000000>;
+> +
+> +                    monitor-0 {
+
+Hmm. Can we say that each memory type can have at most one IPM and one
+compute aka "passive" memlat monitor? Does it make sense to use them as
+node names and drop the extra monitor-M names?
+
+> +                        qcom,ipm-ceil = <20000000>;
+> +                        cpus = <&CPU0 &CPU1 &CPU2 &CPU3 &CPU4 &CPU5 &CPU6 &CPU7
+> +                                &CPU8 &CPU9 &CPU10 &CPU11>;
+
+Are CPU lists different between monitors? Can they be different? Can
+they be different between different memory types?
+
+> +                        operating-points-v2 = <&memory0_monitor0_opp_table>;
+> +
+> +                        memory0_monitor0_opp_table: opp-table {
+
+sensible names are better:
+
+ddr_ipm_opp_table: opp-table {
+};
+
+> +                            compatible = "operating-points-v2";
+> +
+> +                            opp-999000000 {
+> +                                opp-hz = /bits/ 64 <999000000 547000000>;
+> +                            };
+> +
+> +                            opp-1440000000 {
+> +                                opp-hz = /bits/ 64 <1440000000 768000000>;
+> +                            };
+> +
+> +                            opp-1671000000 {
+> +                                opp-hz = /bits/ 64 <1671000000 1555000000>;
+> +                            };
+> +
+> +                            opp-2189000000 {
+> +                                opp-hz = /bits/ 64 <2189000000 2092000000>;
+> +                            };
+> +
+> +                            opp-2516000000 {
+> +                                opp-hz = /bits/ 64 <2516000000 3187000000>;
+> +                            };
+> +
+> +                            opp-3860000000 {
+> +                                opp-hz = /bits/ 64 <3860000000 4224000000>;
+> +                            };
+> +                        };
+> +                    };
+> +
+> +                    monitor-1 {
+> +                        qcom,compute-type;
+> +                        cpus = <&CPU0 &CPU1 &CPU2 &CPU3 &CPU4 &CPU5 &CPU6 &CPU7
+> +                                &CPU8 &CPU9 &CPU10 &CPU11>;
+> +                        operating-points-v2 = <&memory0_monitor1_opp_table>;
+> +
+> +                        memory0_monitor1_opp_table: opp-table {
+> +                            compatible = "operating-points-v2";
+> +
+> +                            opp-1440000000 {
+> +                                    opp-hz = /bits/ 64 <1440000000 200000000>;
+> +                            };
+> +
+> +                            opp-2189000000 {
+> +                                    opp-hz = /bits/ 64 <2189000000 768000000>;
+> +                            };
+> +
+> +                            opp-2516000000 {
+> +                                    opp-hz = /bits/ 64 <2516000000 1555000000>;
+> +                            };
+> +
+> +                            opp-3860000000 {
+> +                                    opp-hz = /bits/ 64 <3860000000 4224000000>;
+> +                            };
+> +                        };
+> +                    };
+> +                };
+> +
+> +                memory-1 {
+> +                    qcom,memory-type = <QCOM_MEM_TYPE_LLCC>;
+> +                    freq-table-hz = /bits/ 64 <300000000 1067000000>;
+> +
+> +                    monitor-0 {
+> +                        qcom,ipm-ceil = <20000000>;
+> +                        cpus = <&CPU0 &CPU1 &CPU2 &CPU3 &CPU4 &CPU5 &CPU6 &CPU7
+> +                                &CPU8 &CPU9 &CPU10 &CPU11>;
+> +                        operating-points-v2 = <&memory1_monitor0_opp_table>;
+> +
+> +                        memory1_monitor0_opp_table: opp-table {
+> +                            compatible = "operating-points-v2";
+> +
+> +                            opp-999000000 {
+> +                                opp-hz = /bits/ 64 <999000000 300000000>;
+> +                            };
+> +
+> +                            opp-1440000000 {
+> +                                opp-hz = /bits/ 64 <1440000000 466000000>;
+> +                            };
+> +
+> +                            opp-1671000000 {
+> +                                opp-hz = /bits/ 64 <1671000000 600000000>;
+> +                            };
+> +
+> +                            opp-2189000000 {
+> +                                opp-hz = /bits/ 64 <2189000000 806000000>;
+> +                            };
+> +
+> +                            opp-2516000000 {
+> +                                opp-hz = /bits/ 64 <2516000000 933000000>;
+> +                            };
+> +
+> +                            opp-3860000000 {
+> +                                opp-hz = /bits/ 64 <3860000000 1066000000>;
+> +                            };
+> +                        };
+> +                    };
+> +                };
+> +
+> +                memory-2 {
+> +                    qcom,memory-type = <QCOM_MEM_TYPE_DDR_QOS>;
+> +                    freq-table-hz = /bits/ 64 <QCOM_DDR_LEVEL_AUTO QCOM_DDR_LEVEL_PERF>;
+
+This is definitely not 'frequency of the memory bys in Hz'
+
+> +
+> +                    monitor-0 {
+> +                        qcom,ipm-ceil = <20000000>;
+> +                        cpus = <&CPU0 &CPU1 &CPU2 &CPU3 &CPU4 &CPU5 &CPU6 &CPU7
+> +                                &CPU8 &CPU9 &CPU10 &CPU11>;
+> +                        operating-points-v2 = <&memory2_monitor0_opp_table>;
+> +
+> +                        memory2_monitor0_opp_table: opp-table {
+> +                            compatible = "operating-points-v2";
+> +
+> +                            opp-2189000000 {
+> +                                opp-hz = /bits/ 64 <2189000000>;
+> +                                opp-level = <QCOM_DDR_LEVEL_AUTO>;
+> +                            };
+> +
+> +                            opp-3860000000 {
+> +                                opp-hz = /bits/ 64 <3860000000>;
+> +                                opp-level = <QCOM_DDR_LEVEL_PERF>;
+> +                            };
+> +                        };
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> diff --git a/include/dt-bindings/firmware/qcom,scmi-memlat.h b/include/dt-bindings/firmware/qcom,scmi-memlat.h
+> new file mode 100644
+> index 000000000000..7ae8d8d5623b
+> --- /dev/null
+> +++ b/include/dt-bindings/firmware/qcom,scmi-memlat.h
+> @@ -0,0 +1,22 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
+> +/*
+> + * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +#ifndef __DT_BINDINGS_QCOM_SCMI_VENDOR_H
+> +#define __DT_BINDINGS_QCOM_SCMI_VENDOR
+> +
+> +/* Memory IDs */
+> +#define QCOM_MEM_TYPE_DDR	0x0
+> +#define QCOM_MEM_TYPE_LLCC	0x1
+> +#define QCOM_MEM_TYPE_DDR_QOS	0x2
+> +
+> +/*
+> + * QCOM_MEM_TYPE_DDR_QOS supports the following states.
+> + *
+> + * %QCOM_DDR_LEVEL_AUTO:	DDR operates with LPM enabled
+> + * %QCOM_DDR_LEVEL_PERF:	DDR operates with LPM disabled
+> + */
+> +#define QCOM_DDR_LEVEL_AUTO	0x0
+> +#define QCOM_DDR_LEVEL_PERF	0x1
+> +
+> +#endif /* __DT_BINDINGS_QCOM_SCMI_VENDOR_H */
+> -- 
+> 2.34.1
 > 
 
-Hello Cristian,
-
-Thanks for the response. I'll try to elaborate.
-
-When comparing SMC and mailbox transport, we noticed mailbox transport 
-timesout much quicker when under load. Originally we thought this was 
-the latency of the mailbox implementation, but after debugging we 
-noticed a weird behavior. We saw SMCI transactions timing out before the 
-mailbox even transmitted the message.
-
-This issue lies in the SCMI layer. drivers/firmware/arm_scmi/driver.c 
-do_xfer() function.
-
-The fundamental issue is send_message() blocks for SMC transport, but 
-doesn't block for mailbox transport. So if send_message() doesn't block 
-we can have multiple messages waiting at scmi_wait_for_message_response().
-
-SMC looks like this
-CPU #0 SCMI message 0 -> calls send_message() then calls 
-scmi_wait_for_message_response(), timesout after 30ms.
-CPU #1 SCMI message 1 -> blocks at send_message() waiting for SCMI 
-message 0 to complete.
-
-Mailbox looks like this
-CPU #0 SCMI message 0 -> calls send_message(), mailbox layer queues up 
-message, mailbox layer sees no message is outgoing and sends it. CPU 
-waits at scmi_wait_for_message_response(), timesout after 30ms
-CPU #1 SCMI message 1 -> calls send_message(), mailbox layer queues up 
-message, mailbox layer sees message pending, hold message in queue. CPU 
-waits at scmi_wait_for_message_response(), timesout after 30ms.
-
-Lets say if transport takes 25ms. The first message would succeed, the 
-second message would timeout after 5ms.
-
-Hopefully this makes sense.
-
-Justin
-
-
+-- 
+With best wishes
+Dmitry
