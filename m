@@ -1,38 +1,71 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 404071D6DA3
-	for <arm-scmi@vger.kernel.org>; Tue,  8 Oct 2024 12:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C6A1DE2AE
+	for <arm-scmi@vger.kernel.org>; Tue,  8 Oct 2024 12:10:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728389457; cv=none; b=LpY779jb0OAfBGs9jIMcXZIs/Ns6ff6uXovNGVIjBAHyOqJW+DxDE2US3H+iqGjCpHCvS/PfnEUFMi591rZQp44AT1YJhxGpCQJAjRNp87LFEDXeBxW8yTyMhGutciRyhSm9ASrv6BubgE8WhEM4yZDNZ3BWJS5epUyDS/aDhxM=
+	t=1728389458; cv=none; b=kbqulV1hF/EKQU+0v1cTNWS4BLrcm7a4x37EKvsnGN8vBdlEhO5XVqxG4B7EOlocLSqHim6qSRgrq1vL0znmIivU1H51zYeymiHJNwh24e5Z1b9LDvDMFyq/O3MctVOyTtXfqJ3DtWSpaWdzVwELWMQ6lbupGKV1TRuerxWCbYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728389457; c=relaxed/simple;
-	bh=ARrWz7aoWDl10FtzuMygengT5/d8kOhKqo/bREPDiBI=;
+	s=arc-20240116; t=1728389458; c=relaxed/simple;
+	bh=R+qpWwcAYfeoHXoaJECFIuwVXiJSoywdmJFN7YXdY5I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g5M2Edz24WkSRO2URkIY4kVHUSro4jEPzk0nMESSzmCgvAH5tBDtZEsKkjWRFA4Bh5C6o+hU5iYuD0wy9NR8ndBHT+JekL086x95fi8oLVwcFbTnDluCJuUFYkFbt2fGLTMlauF+q5Ja/tLOzyLlOvZrQNvk9Hy9/5BAS0MZz+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C0811DA7;
-	Tue,  8 Oct 2024 05:11:22 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 202D13F73F;
-	Tue,  8 Oct 2024 05:10:52 -0700 (PDT)
-Date: Tue, 8 Oct 2024 13:10:39 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Justin Chen <justin.chen@broadcom.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, peng.fan@nxp.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	florian.fainelli@broadcom.com
-Subject: Re: [PATCH] firmware: arm_scmi: Queue in scmi layer for mailbox
- implementation
-Message-ID: <ZwUhP0SYEXUKpRG-@pluto>
-References: <20241004221257.2888603-1-justin.chen@broadcom.com>
- <ZwPcSmRpTGrCdt6I@bogus>
- <ZwPd1Z2jl0A46hEU@pluto>
- <1ad5c4e9-9f98-40ab-afa4-a7939781e8cc@broadcom.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=dT+4Iw9Bd98OhvX8cRrT9vBUeD20RyaUlOk4irDZsPUvClEKINZ0Ypwn/FLJXTEMBkkGLy0EjBs3ernDy2yYygwN8aGAYyDEtgKUN0CGCs92Nu2UGZ2KSO6zDBb7ImOUU9wPHkMLLm8ptNe8zeosVzGPQgt2HDMS/v+rR340Z6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VhP3Yqcy; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VhP3Yqcy"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539973829e7so5540300e87.0
+        for <arm-scmi@vger.kernel.org>; Tue, 08 Oct 2024 05:10:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728389454; x=1728994254; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=X6rjAyv9sIYyvpctWeWeo3qeKI/L9cQNis1SHnCFRTQ=;
+        b=VhP3YqcyGSviKPpLxOJvzimZg3q9oSpJjzr0kuKPmLt4BdYpT7te5dqSpjbfMYHiGZ
+         SUBWyn1ZuFjs+rD3YZppUkaPq9bN4B5C/bOVM1r24JsdXIVUUMRX21kgVNJ6CQLM6u5T
+         j4+zL4a+q7C3++w4FeCgBcCMZAw+OY9R1ZKiVO1A0z6CpvWrbEA+slMKhHBDQNCEAmRO
+         2Z7S24h5G/U/d3p2oJKSNKN7h1dVqfJZre5plqjjoEaTXDC75x4mFQV1VjNL15myZov7
+         z0Isrov0Kc4CLhBnlCLhSQYMFOWqkAJw3lD87ExOUgdqKYVR1zYK6mla921prAdmaT/3
+         bVTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728389454; x=1728994254;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=X6rjAyv9sIYyvpctWeWeo3qeKI/L9cQNis1SHnCFRTQ=;
+        b=XpVwHzKZdzhnMJFC+DbswqOURpDn5VBtVnuzBXE82CjMJ5eJV2V1enxMiQ9lVAwB3B
+         1GEVvUaUTeRoexnf8JGAE6ML8kKaCADE76fRKBmSeRTuIF+d4Pwfk1vSKimQbHmaAzTr
+         xf/Ae+4jOXWdt/zSL6Bkk2PN7ttNgeb4HVkcGPiorAHWEkIx6VihYrehzcU2w6Ge71Uz
+         4euxb8O7u5hBsX89ZJg/qpW9+E+o3b2RG1i6sdNRG8H288viOE1wb7R1UMhFceOeXSDG
+         FY13j+P04sas7N8jrGuEj4WS/TlJi9aStBZeI4EFmdCviVjqEfRahWa0cUVz807EFyXm
+         ED6w==
+X-Forwarded-Encrypted: i=1; AJvYcCWRP6PRwnxIcYdhKpQVmpJrw1yxKPVqI29nPpmsFtcMY77hB6y8j4j4M7/jShEUxNSHadcPAvTOHw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzja05HNkLu9piZdA+ibHzZ1uDAHu9LySen+UqNHoFcup1wOVT3
+	CtDaW6RUHjc0uXBr8bo2blUAz2cXlq8y6ohkw+DRG8eeb1YIYE9WyXgfkHcuQJI=
+X-Google-Smtp-Source: AGHT+IGVgFuWo2mZ8jgAZfC0G9Eqy3rDt2mSCGU5ZGvGqx6CyOFKBMNNM5kUT+/FWupXT0IvX/2y2Q==
+X-Received: by 2002:a05:6512:ac7:b0:539:8f68:e032 with SMTP id 2adb3069b0e04-539ab9e421cmr6590174e87.43.1728389454147;
+        Tue, 08 Oct 2024 05:10:54 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539afec8297sm1175215e87.78.2024.10.08.05.10.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2024 05:10:53 -0700 (PDT)
+Date: Tue, 8 Oct 2024 15:10:51 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Sibi Sankar <quic_sibis@quicinc.com>, sudeep.holla@arm.com, 
+	cristian.marussi@arm.com, andersson@kernel.org, konrad.dybcio@linaro.org, 
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	quic_rgottimu@quicinc.com, quic_kshivnan@quicinc.com, conor+dt@kernel.org, 
+	arm-scmi@vger.kernel.org
+Subject: Re: [PATCH V4 1/5] dt-bindings: firmware: Document bindings for QCOM
+ SCMI Generic Extension
+Message-ID: <hxfg6ztpqy7qdsgzhvvapeyh2f55mj7hhuqqkz7si6g5i7nsng@xoyfwztk66aj>
+References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
+ <20241007061023.1978380-2-quic_sibis@quicinc.com>
+ <q2vuiru7sqetwqyitg7azgqg7kge622i2zgq52b55zivwtbev4@4qgzb54xjioq>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -41,96 +74,29 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1ad5c4e9-9f98-40ab-afa4-a7939781e8cc@broadcom.com>
+In-Reply-To: <q2vuiru7sqetwqyitg7azgqg7kge622i2zgq52b55zivwtbev4@4qgzb54xjioq>
 
-On Mon, Oct 07, 2024 at 10:58:47AM -0700, Justin Chen wrote:
+On Tue, Oct 08, 2024 at 08:49:27AM GMT, Krzysztof Kozlowski wrote:
+> On Mon, Oct 07, 2024 at 11:40:19AM +0530, Sibi Sankar wrote:
+> > +/*
+> > + * QCOM_MEM_TYPE_DDR_QOS supports the following states.
+> > + *
+> > + * %QCOM_DDR_LEVEL_AUTO:	DDR operates with LPM enabled
+> > + * %QCOM_DDR_LEVEL_PERF:	DDR operates with LPM disabled
+> > + */
+> > +#define QCOM_DDR_LEVEL_AUTO	0x0
+> > +#define QCOM_DDR_LEVEL_PERF	0x1
 > 
+> I could not find any driver using these. Can you point me to usage in
+> the drivers?
+
+It's well hidden. These are the raw values used for DDR_QOS memory.
+
 > 
-> On 10/7/24 6:10 AM, Cristian Marussi wrote:
-> > On Mon, Oct 07, 2024 at 02:04:10PM +0100, Sudeep Holla wrote:
-> > > On Fri, Oct 04, 2024 at 03:12:57PM -0700, Justin Chen wrote:
-> > > > The mailbox layer has its own queue. However this confuses the per
-> > > > message timeouts since the clock starts ticking the moment the messages
-> > > > get queued up. So all messages in the queue have there timeout clocks
-> > > > ticking instead of only the message inflight. To fix this, lets move the
-> > > > queue back into the SCMI layer.
-> > > > 
-> > > 
-> > > I think this has come up in the past. We have avoided adding addition
-> > > locking here as the mailbox layer takes care of it. Has anything changed
-> > > recently ?
-> > 
-> > I asked for an explanation in my reply (we crossed each other mails probably)
-> > since it alredy came up in the past a few times and central locking seemed not
-> > to be needed...here the difference is about the reason...Justin talks about
-> > message timeouts related to the queueing process..so I asked to better
-> > explain the detail (and the anbomaly observed) since it still does not
-> > seem to me that even in this case the lock is needed....anyway I can
-> > definitely be woring of course :D
-> > 
-> 
-> Hello Cristian,
+> Best regards,
+> Krzysztof
 > 
 
-Hi Justin,
-
-> Thanks for the response. I'll try to elaborate.
-> 
-> When comparing SMC and mailbox transport, we noticed mailbox transport
-> timesout much quicker when under load. Originally we thought this was the
-> latency of the mailbox implementation, but after debugging we noticed a
-> weird behavior. We saw SMCI transactions timing out before the mailbox even
-> transmitted the message.
-> 
-> This issue lies in the SCMI layer. drivers/firmware/arm_scmi/driver.c
-> do_xfer() function.
-> 
-> The fundamental issue is send_message() blocks for SMC transport, but
-> doesn't block for mailbox transport. So if send_message() doesn't block we
-> can have multiple messages waiting at scmi_wait_for_message_response().
-> 
-
-oh...yes...now I can see it...tx_prepare is really never called given
-how the mailbox subsystem de-queues messages once at time...so we end up
-waiting for a reply to some message that is still to be sent...so the
-message inflight is really NOT corrupted because the next remain pending
-until the reply in the shmem is read back , BUT the timeout will drift away
-if you multiple inflights are pending to be sent...
-
-> SMC looks like this
-> CPU #0 SCMI message 0 -> calls send_message() then calls
-> scmi_wait_for_message_response(), timesout after 30ms.
-> CPU #1 SCMI message 1 -> blocks at send_message() waiting for SCMI message 0
-> to complete.
-> 
-> Mailbox looks like this
-> CPU #0 SCMI message 0 -> calls send_message(), mailbox layer queues up
-> message, mailbox layer sees no message is outgoing and sends it. CPU waits
-> at scmi_wait_for_message_response(), timesout after 30ms
-> CPU #1 SCMI message 1 -> calls send_message(), mailbox layer queues up
-> message, mailbox layer sees message pending, hold message in queue. CPU
-> waits at scmi_wait_for_message_response(), timesout after 30ms.
-> 
-> Lets say if transport takes 25ms. The first message would succeed, the
-> second message would timeout after 5ms.
-> 
-> Hopefully this makes sense.
-
-Yes, of course, thanks, for reporting this, and taking time to
-explain...
-
-...in general the patch LGTM...I think your patch is good also because it
-could be easily backported as a fix....can you add a Fixes tag in your
-next version ?
-
-Also can you explain in more detail the issue and the solution in the commit
-message....that will help having it merged as a Fix in stables...
-
-...for the future (definitely NOT in this series) we could probably think to
-get rid of the sleeping mutex in favour of some other non-sleeping form of
-mutual exclusion around the channnel (like in SMC transport) and enable
-(optionally) Atomic transmission support AND also review if the shmem
-layer busy-waiting in txprepare is anymore needed at all...
-
-Thanks,
-Cristian
+-- 
+With best wishes
+Dmitry
