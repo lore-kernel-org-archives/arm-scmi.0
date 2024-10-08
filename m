@@ -1,57 +1,57 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B50F7580C
-	for <arm-scmi@vger.kernel.org>; Tue,  8 Oct 2024 16:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D0D21E0E0D
+	for <arm-scmi@vger.kernel.org>; Tue,  8 Oct 2024 17:49:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728404282; cv=none; b=lTtm/++HgCY2urndjFS55OzvxXDJ+TMsmuDR36t2zKl0d6kSNhJUYrnBaOytImL7RzzB1YMXayKUo138LTUzaWIHYgjPsgKnYTvbR84cXzUp6wDAU2e7OKSJ3vCHi8MydBhV23GUuc7QeYDdinve4fV1J67drzP/ua42szynYME=
+	t=1728409748; cv=none; b=Iz/OdLucXAFNF23aUt5ancXhgJySqjWH53K/2TzY8sMK+WZwkLh9UXHYa+WKNNlUj74pi3N5ItavuW3q9spxxkCHCEcVq9msg0dQ06zAdAOG2BB9bd3lmQZI9fxxQ78tZwc1xI7k4JTfDoVKl+CJk8ok8YFZ0emyJkuI2GMRaPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728404282; c=relaxed/simple;
-	bh=PanHZpXIuiX7MT5ijoJ1fuLpDLYPGgGmINwqQ2naH+I=;
+	s=arc-20240116; t=1728409748; c=relaxed/simple;
+	bh=/KF1w1wBRuHAADvZ6Jgja8NIekx9QCklwBG3hCI+kr0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g6RHMIOd82/rDoR47gaqCQ0dtDap+SP/X0eA6bg4jub73leiPHsi8hZVCRXogi6wr4hWsm/g9ROSbduOcbkud7VR1xjuerQDOaIzSngI6UvZ5InwB/WAxZvNeAtF6jjn2Dc5xwZaIEI/s9giS6ouWCfptEvdqfzcH1DM1dHyDI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=axt7gJoT; arc=none smtp.client-ip=209.85.160.172
+	 In-Reply-To:Content-Type; b=kg+2oMrRvfpH8FIUSSwWPaaFDaaub/xndWQ9K2Inu+5aePO065CfSSdiZsIgocYZygjx1W6SDca182P9cs7aM26me2ulI9Xmhegu4W1HX13jgqAX5m9/zrBe5heok93ndxp9+ZWf/wwy94j6gOb0lQTVF4IPU/AjOD0rxjQYyDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=B20MH+Sy; arc=none smtp.client-ip=209.85.222.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="axt7gJoT"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-45812fdcd0aso58896261cf.0
-        for <arm-scmi@vger.kernel.org>; Tue, 08 Oct 2024 09:18:00 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="B20MH+Sy"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7afcf50e2d0so14022285a.3
+        for <arm-scmi@vger.kernel.org>; Tue, 08 Oct 2024 10:49:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1728404279; x=1729009079; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1728409746; x=1729014546; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=KyHSO3l7jU1JiX3rNBQoK4qnbaDMR9ik8Q0ZaFIc3R4=;
-        b=axt7gJoT25Bic0eZoNm0fvGKk8V9LJuEzCk60il2IVcK4G4DHUMxuXu5LwJDNIO0JX
-         yz0h/9+dM7CbAThReGTi5Sfi/v4nDli94vYS9bBr46JVWcsWBq9mLCQksR50DPf6j8on
-         IjnnzCOTzn/q7NOKQbooPKWVb6+gpFGFpsKS0=
+        bh=G4bto6OqX2TfQ2WCYygWiJZXBSBUXWs8ZGig2kin1vA=;
+        b=B20MH+SyVnUI9u5q8FaDwIyIOA3QqwBwUjp/sxYRC/DVRgRqBPG85dkpe2vD4S5m8c
+         zRfaF0htA6QK3g6zVvIy5ZVbjnNehquPHsjTIqk/IY2e727cNughc4XhUWS5iKECJSfo
+         lh1xYH5h5k3j7Gvny2MUsoRRGuRVs/rTMoTAI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728404279; x=1729009079;
+        d=1e100.net; s=20230601; t=1728409746; x=1729014546;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KyHSO3l7jU1JiX3rNBQoK4qnbaDMR9ik8Q0ZaFIc3R4=;
-        b=SO8rcEXWL6k9ZeW5uwjY8n9uVPw7f3jhBBYNWU5ZAw1iJzB8z83naG60MBv6yRtrHG
-         C+bTfsTD5yVHtmNMCvDbIcDh/5nW/FeW2RsSL5QMUkArbQhiztmwB0QmqsLvqJlS1T1c
-         63PV2X3Dx4SWp2NfLICsGxaYNMzOu5hGUy8NED3mVQddCwrfIJTIyFFlzy8tr/D8VMzu
-         38GBXO7HHtgx/h/lj+ux5pcgV20nRKnsZpHiCybkBleRbH72IEMes7sAsSq12pblPUU0
-         ds/TWt+1Gyq0/i8Aw7T29RawubXFeuWFZxkFhmHulubFn4RVLEpbZJ/LGss2aOzz03Yy
-         MP2A==
-X-Forwarded-Encrypted: i=1; AJvYcCVIoPVjTKUCtzDciLqLkZ8Fh2GvlMVKDLPJwpD16ih4wmLo1vfXdiz+17pllFfSoRicCVgENgivRQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdV+UFoH0EuQNpRgb03BJadByz4oNyq4vBHPG+iXB5oX6y0XCd
-	clwdQoLz+0cHBwo3Lru28WznS0cSbBhAQpAqHxDQ1pcJpdvkW0LnFQ/MbVxTkQ==
-X-Google-Smtp-Source: AGHT+IERitmsX6szhCsG+OIGMgobawnUb7yldZnoAY340AKApYneXhvk5MuqCF3SqVyZ1gFVpneJwQ==
-X-Received: by 2002:ac8:5f08:0:b0:45f:3d1:24ad with SMTP id d75a77b69052e-45f08a84ca6mr11689651cf.13.1728404279078;
-        Tue, 08 Oct 2024 09:17:59 -0700 (PDT)
+        bh=G4bto6OqX2TfQ2WCYygWiJZXBSBUXWs8ZGig2kin1vA=;
+        b=Df5j7WC9ATJVCOFxIR1gVwYTHIICpBefspUGVq9qBNT/ZNdy2qnIIxlw6YRde4AfYY
+         NzwPJMdhpbSgXBKXR37f61wS9dh3DWAgAwWk2dXqVJGAgKBEcTPZCpYLk98qxr4gu+2o
+         ukb+SRKzLcwmicuP8lYssjnBTgL+YLUs+s8+qHZHwW9LPKmlpcjK2/USU8d2TugoSwEc
+         w6mJrnMvpS6EbD46WNnFOhqWceBJIu0aHw5e+1k7BKQUevs1/6IrElgE+G9eeTMspuIa
+         scCs/sDWtmcHjrtaF+UbzRQjkFdKrH0k7NPN354BsK+sNvXzmm0X2cJEnopKhA0d/BjA
+         bkEw==
+X-Forwarded-Encrypted: i=1; AJvYcCVCB5iVLakisONTjTNxn9i6nmw+Wtzwi/yDRIWnsEVOyFcsX7IG9Xw04csdCSUu9/fGmqC+Rt3mbQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzS5Gi8gRnMOhL2dGfSjBWbk1Q5c3jkNJGu1Gm7O0J0BmqYPX/p
+	a0dzNTOKzqK8jvgewkvhTdR2YeoecpOgDtuD12GuQerMwwoTFNXGBZweoMaFgA==
+X-Google-Smtp-Source: AGHT+IH6ylrbEpabA4BaGSJx+434/PYNDlVW3Txex91TG0rYeC2DKYOcG+0ZmIaI5/SdXtdvIcOJdQ==
+X-Received: by 2002:a05:620a:1983:b0:7ac:9c07:e90 with SMTP id af79cd13be357-7ae6f4217f8mr2536447585a.12.1728409746050;
+        Tue, 08 Oct 2024 10:49:06 -0700 (PDT)
 Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45f0966f1b3sm128741cf.44.2024.10.08.09.17.56
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7ae7561642esm373607885a.12.2024.10.08.10.49.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Oct 2024 09:17:58 -0700 (PDT)
-Message-ID: <71a08146-4230-4ee6-9502-573ca3e210be@broadcom.com>
-Date: Tue, 8 Oct 2024 09:17:55 -0700
+        Tue, 08 Oct 2024 10:49:05 -0700 (PDT)
+Message-ID: <ecc29852-37f4-404e-b22c-817cb7cb0cfb@broadcom.com>
+Date: Tue, 8 Oct 2024 10:49:01 -0700
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -59,27 +59,24 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] firmware: arm_scmi: Give SMC transport precedence over
+Subject: Re: [PATCH] firmware: arm_scmi: Give SMC transport precedence over
  mailbox
-To: Peng Fan <peng.fan@nxp.com>,
- "linux-arm-kernel@lists.infreadead.org"
- <linux-arm-kernel@lists.infreadead.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
- Cristian Marussi <cristian.marussi@arm.com>,
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+ linux-arm-kernel@lists.infread.org, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>,
  "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
  <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
  "open list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE"
  <arm-scmi@vger.kernel.org>,
  "moderated list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE"
- <linux-arm-kernel@lists.infradead.org>,
- "justin.chen@broadcom.com" <justin.chen@broadcom.com>,
- "opendmb@gmail.com" <opendmb@gmail.com>,
- "kapil.hali@broadcom.com" <kapil.hali@broadcom.com>,
- "bcm-kernel-feedback-list@broadcom.com"
- <bcm-kernel-feedback-list@broadcom.com>, Arnd Bergmann <arnd@arndb.de>
-References: <20241007235413.507860-1-florian.fainelli@broadcom.com>
- <PAXPR04MB845905073FFB3B0967C7263F887E2@PAXPR04MB8459.eurprd04.prod.outlook.com>
+ <linux-arm-kernel@lists.infradead.org>, justin.chen@broadcom.com,
+ opendmb@gmail.com, kapil.hali@broadcom.com,
+ bcm-kernel-feedback-list@broadcom.com, Arnd Bergmann <arnd@arndb.de>
+References: <20241006043317.3867421-1-florian.fainelli@broadcom.com>
+ <ZwPLgcGeUcFPvjcz@pluto> <a4f403e8-44eb-4fb4-8696-ca8ad7962a00@broadcom.com>
+ <ZwUuSTYkWrZYIcBM@bogus>
 Content-Language: en-US
 From: Florian Fainelli <florian.fainelli@broadcom.com>
 Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
@@ -114,92 +111,154 @@ Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
  7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
  95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <PAXPR04MB845905073FFB3B0967C7263F887E2@PAXPR04MB8459.eurprd04.prod.outlook.com>
+In-Reply-To: <ZwUuSTYkWrZYIcBM@bogus>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/7/24 19:14, Peng Fan wrote:
->> Subject: [PATCH v2] firmware: arm_scmi: Give SMC transport
->> precedence over mailbox
->>
->> Broadcom STB platforms have for historical reasons included both
->> "arm,scmi-smc" and "arm,scmi" in their SCMI Device Tree node
->> compatible string, in that order.
+On 10/8/24 06:06, Sudeep Holla wrote:
+> Hi Florian,
 > 
-> If compatible = "arm,scmi-smc", "arm,scmi", smc driver should be used.
-> or I missed something?
+> Thanks for the detailed explanation.
+> 
+> On Mon, Oct 07, 2024 at 10:07:46AM -0700, Florian Fainelli wrote:
+>> Hi Cristian,
+>>
+>> On October 7, 2024 4:52:33 AM PDT, Cristian Marussi
+>> <cristian.marussi@arm.com> wrote:
+>>> On Sat, Oct 05, 2024 at 09:33:17PM -0700, Florian Fainelli wrote:
+>>>> Broadcom STB platforms have for historical reasons included both
+>>>> "arm,scmi-smc" and "arm,scmi" in their SCMI Device Tree node compatible
+>>>> string.
+>>>
+>>> Hi Florian,
+>>>
+>>> did not know this..
+>>
+>> It stems from us starting with a mailbox driver that did the SMC call, and
+>> later transitioning to the "smc" transport proper. Our boot loader provides
+>> the Device Tree blob to the kernel and we maintain backward/forward
+>> compatibility as much as possible.
+>>
+> 
+> IIUC, you need to support old kernel with SMC mailbox driver and new SMC
+> transport within the SCMI. Is that right understanding ?
 
-That seems to indicate that the commit message was not explaining the 
-issue clearly enough. Let me try again. While we had a single arm_scmi 
-platform device/driver, we could match the above compatible string from 
-most specific to least specific, and therefore the "smc" transport would 
-be used.
-
-Once the transport drivers each got broken up and became independent, 
-and depending upon the order in which they are linked into the kernel, 
-we will have mailbox.o being the first module_platform_driver entry 
-attempt to match "arm,scmi" because that is the only entry it has in its 
-of_match table. That matching succeeds, but later down the road we will 
-fail to initialize the SCMI channel due to the lack of a suitable 
-mailbox driver and set of Device Tree properties.
-
-Because there is no fallback to try another transport, we just get stuck 
-here.
+That is correct.
 
 > 
+>>>
+>>>>
+>>>> After the commit cited in the Fixes tag and with a kernel
+>>>> configuration that enables both the SCMI and the Mailbox transports, we
+>>>> would probe the mailbox transport, but fail to complete since we would
+>>>> not have a mailbox driver available.
+>>>>
+>>> Not sure to have understood this...
+>>>
+>>> ...you mean you DO have the SMC/Mailbox SCMI transport drivers compiled
+>>> into the Kconfig AND you have BOTH the SMC AND Mailbox compatibles in
+>>> DT, BUT your platform does NOT physically have a mbox/shmem transport
+>>> and as a consequence, when MBOX probes (at first), you see an error from
+>>> the core like:
+>>>
+>>>     "arm-scmi: unable to communicate with SCMI"
+>>>
+>>> since it gets no reply from the SCMI server (being not connnected via
+>>> mbox) and it bails out .... am I right ?
 >>
->> After the commit cited in the Fixes tag and with a kernel configuration
->> that enables both the SMC and the Mailbox transports, we would
->> probe the mailbox transport, but fail to complete since we would not
->> have a mailbox driver available. With each SCMI transport being a
->> platform driver with its own set of compatible strings to match, rather
->> than an unique platform driver entry point, we no longer match from
->> most specific to least specific. There is also no simple way for the
->> mailbox driver to return -ENODEV and let another platform driver
->> attempt probing. This leads to a platform with no SCMI provider,
->> therefore all drivers depending upon SCMI resources are put on
->> deferred probe forever.
+>> In an unmodified kernel where both the "mailbox" and "smc" transports are
+>> enabled, we get the "mailbox" driver to probe first since it matched the
+>> "arm,scmi" part of the compatible string and it is linked first into the
+>> kernel. Down the road though we will fail the initialization with:
 >>
->> By keeping the SMC transport objects linked first, we can let the
->> platform driver match the compatible string and probe successfully
->> with no adverse effects on platforms using the mailbox transport.
->>
->> Fixes: b53515fa177c ("firmware: arm_scmi: Make MBOX transport a
->> standalone driver")
->> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
->> ---
->> Changes in v2:
->>
->> - removed downstream Change-Id
->> - s/SCMI/SMC in the second paragraph
->> - added details about what changed and how that affects the probing
->>
->>   drivers/firmware/arm_scmi/transports/Makefile | 6 ++++--
->>   1 file changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/firmware/arm_scmi/transports/Makefile
->> b/drivers/firmware/arm_scmi/transports/Makefile
->> index 362a406f08e6..3ba3d3bee151 100644
->> --- a/drivers/firmware/arm_scmi/transports/Makefile
->> +++ b/drivers/firmware/arm_scmi/transports/Makefile
->> @@ -1,8 +1,10 @@
->>   # SPDX-License-Identifier: GPL-2.0-only -scmi_transport_mailbox-
->> objs := mailbox.o
->> -obj-$(CONFIG_ARM_SCMI_TRANSPORT_MAILBOX) +=
->> scmi_transport_mailbox.o
->> +# Keep before scmi_transport_mailbox.o to allow precedence # while
->> +matching the compatible.
->>   scmi_transport_smc-objs := smc.o
->>   obj-$(CONFIG_ARM_SCMI_TRANSPORT_SMC) +=
->> scmi_transport_smc.o
->> +scmi_transport_mailbox-objs := mailbox.o
->> +obj-$(CONFIG_ARM_SCMI_TRANSPORT_MAILBOX) +=
+>> [    1.135363] arm-scmi arm-scmi.1.auto: Using scmi_mailbox_transport
+>> [    1.141901] arm-scmi arm-scmi.1.auto: SCMI max-rx-timeout: 30ms
+>> [    1.148113] arm-scmi arm-scmi.1.auto: failed to setup channel for
+>> protocol:0x10
 > 
-> This seems more like a hack.
+> IIUC, the DTB has mailbox nodes that are available but fail only in the setup
+> stage ? Or is it marked unavailable and we are missing some checks either
+> in SCMI or mailbox ?
 
-Yes, this is a hack, but it does not affect other platforms, and it 
-helps us continue to test stable, linux-next and any kernel, therefore 
-we would appreciate having this ability since we do provide testing for 
-stable kernels, unlike other vendors.
+We fail at scmi_chan_setup -> idr_find() returning -EINVAL. I did check 
+that returning -ENODEV, which arguably might be a somewhat more accurate 
+return code (-ENOENT being one, too) does not help us here. Cristian 
+suggested device_release_driver() which sounded like a good idea, but 
+will deadlock.
+
+The reason why we fail there is because mailbox_chan_available() returns 
+false. With fw_devlink=on Linux will parse the Device Tree, find the 
+'mboxes' property pointing to the brcm_scmi_mailbox Device Tree node and 
+puts it on a list of providers that it is waiting for.
+
+Because we are using the ARM SMC transport however, the 
+brcm_scmi_mailbox node is never backed by any driver in Linux and this 
+causes the system to fail booting since we do not have any SCMI 
+provider. At the time, because we were under pressure to get a GKI 
+kernel we decided to "break" our older downstream kernels by doing this 
+property rename and put in a patch in those kernel to treat 
+"brcm,mboxes" the same as "mboxes" where relevant, which was mostly in SCMI.
+
+Now, assuming that we revert that DT property rename, that still does 
+not really solve anything anyway, the channel is not available 
+regardless of how we shake it.
+
+> 
+> IOW, have you already explored that this -EINVAL is correct return value
+> here and can't be changed to -ENODEV ? I might be not following the failure
+> path correctly here, but I assume it is
+> 	scmi_chan_setup()
+> 	info->desc->ops->chan_setup()
+> 	mailbox_chan_setup()
+> 	mbox_request_channel()
+> 
+>> [    1.155828] arm-scmi arm-scmi.1.auto: error -EINVAL: failed to setup
+>> channels
+>> [    1.163379] arm-scmi arm-scmi.1.auto: probe with driver arm-scmi failed
+>> with error -22
+>>
+>> Because the platform device is now bound, and there is no mechanism to
+>> return -ENODEV, we won't try another transport driver that would attempt to
+>> match the other compatibility strings. That makes sense because in general
+>> you specify the Device Tree precisely, and you also have a tailored kernel
+>> configuration. Right now this is only an issue using arm's
+>> multi_v7_defconfig and arm64's defconfig both of which that we intend to
+>> keep on using for CI purposes.
+>>
+>>
+>>>
+>>> If this is the case, without this patch, after this error and the mbox probe
+>>> failing, the SMC transport, instead, DO probe successfully at the end, right ?
+>>
+>> With my patch we probe the "smc" transport first and foremost and we
+>> successfully initialize it, therefore we do not even try the "mailbox"
+>> transport at all, which is intended.
+>>
+>>>
+>>> IOW, what is the impact without this patch, an error and a delay in the
+>>> probe sequence till it gets to the SMC transport probe 9as second
+>>> attempt) or worse ? (trying to understand here...)
+>>
+>> There is no recovery without the patch, we are not giving up the arm_scmi
+>> platform device because there is no mechanism to return -ENODEV and allow
+>> any of the subsequent transport drivers enabled to attempt to take over the
+>> platform device and probe it again.
+>>
+> 
+> OK this sounds like you have already explored returning -ENODEV is not
+> an option ? It is fair enough, but just want to understand correctly.
+> I still think I am missing something.
+
+Yes, that was my first start.
+
+> 
+> I understand the bootloader maintaining backward compatibility, but
+> just want to understand better. I also wonder if the old SMC mailbox driver
+> returns -EINVAL instead of -ENODEV ? Again it is based on my assumption
+> about your backward compatibility usecase.
+
+The old SMC mailbox driver is not present in any upstream kernel, and on 
+the downstream kernels where we need it, it would be used and not return 
+an error.
 -- 
 Florian
