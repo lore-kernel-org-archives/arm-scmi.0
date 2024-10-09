@@ -1,38 +1,37 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF50538DE5;
-	Wed,  9 Oct 2024 13:46:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E57D819CC28;
+	Wed,  9 Oct 2024 14:20:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728481609; cv=none; b=SPq7gkpujA3eROVdWy9n3U6WoDBdDrQjh9QMx2XCmObdaIIRHk0UCXb1MgEVvqyFP+KNzGIN3XoYt219gBW/TyyawMd6D+c8xRpBOzmy4W/ESCmFtmwQtFuBfxOwGLfxYmuAehLiLICmvBxa3A0A/szIZkaIOe9uQ5DBRjCOTEk=
+	t=1728483640; cv=none; b=j7wLkDrLs4znNhzJ2eQf6vLHRP/Am0t5xx/GbxvZHMSKaZNfeCpSOD/Sn7vQ10oI86hW8ErheHqsJ/t8AXtKdVnLtR/rUSzDaBTu15iFPbrXKPGaHye1BHvQGcOsVod83MyaL0vQvqFMP+t7dPHrUKzbVtkFcGtivbhfdC8rGFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728481609; c=relaxed/simple;
-	bh=bLKZ5gZUn7I4XAOhOy9/2kjUpjXZpY9A0U/l2hd18XY=;
+	s=arc-20240116; t=1728483640; c=relaxed/simple;
+	bh=ARmVYoTgtZue47e90CxZTUi70TVs2cN8F4uDpE7a+OA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EBcmLWAG3Qn/rYPPBW/fX6uG9oXFGSDcFPhbIxrWgaWemRNgUayweLzfWL0Muwig/BZ1dTWn+02oe6zqJ0hAooQeSLV3m58CK3Fpk1K755T5EBUEmCtzWGZg7tED5AKwl9HGvz6hINq5N+dnQxM2xQjZJ4tDH5kKzCx0s7Dk6jg=
+	 Content-Type:Content-Disposition:In-Reply-To; b=sERbmpM2ue/AVt60htSpKbNb9SmOPmmrqKRqmAg8LSBSa0s/XJPNE9IRc58ZycEy/i40MypSaG9BEW94wijuoZtZaSGxjSjKx/IxVZ3tiE8EZnEJY/hIjVjCQOnfjkr5wPYAisRO1iuL/UfdZ7wyxYfvb5qrdT8hrj+xMt3yyeg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6E92FEC;
-	Wed,  9 Oct 2024 06:47:15 -0700 (PDT)
-Received: from bogus (e133711.arm.com [10.1.196.77])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5F65F3F58B;
-	Wed,  9 Oct 2024 06:46:44 -0700 (PDT)
-Date: Wed, 9 Oct 2024 14:46:42 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E88D2FEC;
+	Wed,  9 Oct 2024 07:21:07 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C16673F58B;
+	Wed,  9 Oct 2024 07:20:36 -0700 (PDT)
+Date: Wed, 9 Oct 2024 15:20:33 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
 To: Sibi Sankar <quic_sibis@quicinc.com>
-Cc: <cristian.marussi@arm.com>, <ulf.hansson@linaro.org>,
-	<jassisinghbrar@gmail.com>, <linux-kernel@vger.kernel.org>,
-	<arm-scmi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-arm-msm@vger.kernel.org>, <johan@kernel.org>,
-	<konradybcio@kernel.org>, <linux-pm@vger.kernel.org>,
-	<tstrudel@google.com>, <rafael@kernel.org>,
-	"Johan Hovold" <johan+linaro@kernel.org>
-Subject: Re: [PATCH V3 1/4] firmware: arm_scmi: Ensure that the message-id
- supports fastchannel
-Message-ID: <ZwaJQmO4a7cM7MFY@bogus>
-References: <20241007060642.1978049-1-quic_sibis@quicinc.com>
- <20241007060642.1978049-2-quic_sibis@quicinc.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, sudeep.holla@arm.com,
+	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	johan@kernel.org, konradybcio@kernel.org
+Subject: Re: [PATCH V2 2/2] firmware: arm_scmi: Skip adding bad duplicates
+Message-ID: <ZwaRMWG7iCEjp1Q3@pluto>
+References: <20240904031324.2901114-1-quic_sibis@quicinc.com>
+ <20240904031324.2901114-3-quic_sibis@quicinc.com>
+ <Zth7DZmkpOieSZEr@pluto>
+ <Zth9EMydkwvJ30T0@pluto>
+ <53d929a2-2f54-ac97-3184-861442e8622b@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -41,48 +40,51 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241007060642.1978049-2-quic_sibis@quicinc.com>
+In-Reply-To: <53d929a2-2f54-ac97-3184-861442e8622b@quicinc.com>
 
-On Mon, Oct 07, 2024 at 11:36:39AM +0530, Sibi Sankar wrote:
-> Currently the perf and powercap protocol relies on the protocol domain
-> attributes, which just ensures that one fastchannel per domain, before
-> instantiating fastchannels for all possible message-ids. Fix this by
-> ensuring that each message-id supports fastchannel before initialization.
+On Mon, Oct 07, 2024 at 12:30:14PM +0530, Sibi Sankar wrote:
+> 
+> 
+> On 9/4/24 21:00, Cristian Marussi wrote:
+> > On Wed, Sep 04, 2024 at 04:21:49PM +0100, Cristian Marussi wrote:
+> > > On Wed, Sep 04, 2024 at 08:43:24AM +0530, Sibi Sankar wrote:
+> > > > Ensure that the bad duplicates reported by the platform firmware doesn't
+> > > > get added to the opp-tables.
+> > > > 
+> > > 
+> > > Hi Sibi,
+> > > 
+> > > so if the idea is to make the code more robust when FW sends BAD
+> > > duplicates, you necessarily need to properly drop opps in opp_count too.
+> > > 
+> > > One other option would be to just loop with xa_for_each BUT opp_count is
+> > > used in a number of places...so first of all let's try drop count properly.
+> > > 
+> > > Can you try this patch down below, instead of your patch.
+> > > If it solves, I will send a patch (after testing it a bit more :D)
+> > 
+> > Hold on... I sent you a diff that does not apply probably on your tree due
+> > to some uncomitted local work of mine...my bad...let me resend.
+> 
+> Hey Cristian,
+> Thanks for taking time to send out the diff. I thought this would be
+> enough but there will still be a disconnect between opp_count and idx
+> of the opp we populate. Consider a case were we get to have a valid
+> opp just after duplicate opp. The opp_count will still limit us on what
+> levels we are allowed to see.
 >
 
-Looks good to me. With the minor nit below addressed,
+Ah right...indeed... I missed that the opp_count is used also to loop on the
+opps arrays and OPPs are not only accessed by xa_load....
 
-Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
+...anyway the index in the dom->opp arrauy is NOT related to index/level
+indexing, so we just have to have the bad oop dupicates also in the
+array and NOT only in the XArray...
 
-(assuming you will take this all via pmdomain or qcom soc tree)
+I am sending you, as a reply to this patch, a new version of my fix
+with just a one-line difference tthat should solve completely the issue
+also in the usecase that you describe.
 
-> Reported-by: Johan Hovold <johan+linaro@kernel.org>
-> Closes: https://lore.kernel.org/lkml/ZoQjAWse2YxwyRJv@hovoldconsulting.com/
-> Fixes: 6f9ea4dabd2d ("firmware: arm_scmi: Generalize the fast channel support")
-> Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
-> ---
->  drivers/firmware/arm_scmi/driver.c    | 9 +++++++++
->  drivers/firmware/arm_scmi/protocols.h | 2 ++
->  2 files changed, 11 insertions(+)
->
-> diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-> index 88c5c4ff4bb6..80a9a615672a 100644
-> --- a/drivers/firmware/arm_scmi/driver.c
-> +++ b/drivers/firmware/arm_scmi/driver.c
-> @@ -56,6 +56,9 @@ static atomic_t transfer_last_id;
->
->  static struct dentry *scmi_top_dentry;
->
-> +static int scmi_protocol_msg_check(const struct scmi_protocol_handle *ph,
-> +				   u32 message_id, u32 *attributes);
->
+Thanks,
+Cristian
 
-I prefer to just move the function above if possible to avoid this extra
-declaration just keep keep it consistent with other such internal/static
-function calls within this file. No hard opinion, just preference to avoid
-me thinking(or scratching my head) why only this is done different few
-months down the line.
-
---
-Regards,
-Sudeep
