@@ -1,146 +1,88 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90F501E4AE;
-	Wed,  9 Oct 2024 12:37:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF50538DE5;
+	Wed,  9 Oct 2024 13:46:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728477467; cv=none; b=FhUHJ5OZpo0/bqTCzyOQVp+TtLbA0PSXKb2gxWKPa3pbjujv7CRlhM3JBqdcFHpUSNlLBdugNNAgSManGz/vPua77P7RS6XTSapgXcFXvjAvXNZMpyxXGVh2SwAOJ4IBo7IHUI8J8zz+lRO2t4NaMVoag5vvIMDOt+PAXWsmfG0=
+	t=1728481609; cv=none; b=SPq7gkpujA3eROVdWy9n3U6WoDBdDrQjh9QMx2XCmObdaIIRHk0UCXb1MgEVvqyFP+KNzGIN3XoYt219gBW/TyyawMd6D+c8xRpBOzmy4W/ESCmFtmwQtFuBfxOwGLfxYmuAehLiLICmvBxa3A0A/szIZkaIOe9uQ5DBRjCOTEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728477467; c=relaxed/simple;
-	bh=QlJ0EzVyTCLvsGQ2C6oOHepjFhpSg9ykXkd/E+cRTnM=;
+	s=arc-20240116; t=1728481609; c=relaxed/simple;
+	bh=bLKZ5gZUn7I4XAOhOy9/2kjUpjXZpY9A0U/l2hd18XY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PUtlALIKUPAVtf8qDpUX5ar/K2bdk4cKTfZNL4aRBXi8A7UwOa0WWv1SoEFJ4txCghP+ef8ioCR8CQY5ThCAN1IqOAdkx1BZJlYDznSGcYrAXKGDnwpJcYAx7hVKCD8GGvEg8CEmWAxkia0vQAWK2uQ7fRvvgwcZiWy/kuU1cHk=
+	 Content-Type:Content-Disposition:In-Reply-To; b=EBcmLWAG3Qn/rYPPBW/fX6uG9oXFGSDcFPhbIxrWgaWemRNgUayweLzfWL0Muwig/BZ1dTWn+02oe6zqJ0hAooQeSLV3m58CK3Fpk1K755T5EBUEmCtzWGZg7tED5AKwl9HGvz6hINq5N+dnQxM2xQjZJ4tDH5kKzCx0s7Dk6jg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1C684FEC;
-	Wed,  9 Oct 2024 05:38:13 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6E92FEC;
+	Wed,  9 Oct 2024 06:47:15 -0700 (PDT)
 Received: from bogus (e133711.arm.com [10.1.196.77])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3E49A3F58B;
-	Wed,  9 Oct 2024 05:37:41 -0700 (PDT)
-Date: Wed, 9 Oct 2024 13:37:38 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5F65F3F58B;
+	Wed,  9 Oct 2024 06:46:44 -0700 (PDT)
+Date: Wed, 9 Oct 2024 14:46:42 +0100
 From: Sudeep Holla <sudeep.holla@arm.com>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-arm-kernel@lists.infread.org, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE" <arm-scmi@vger.kernel.org>,
-	"moderated list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE" <linux-arm-kernel@lists.infradead.org>,
-	justin.chen@broadcom.com, opendmb@gmail.com,
-	kapil.hali@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH] firmware: arm_scmi: Give SMC transport precedence over
- mailbox
-Message-ID: <ZwZ5EinIhUsXT83d@bogus>
-References: <20241006043317.3867421-1-florian.fainelli@broadcom.com>
- <ZwPLgcGeUcFPvjcz@pluto>
- <a4f403e8-44eb-4fb4-8696-ca8ad7962a00@broadcom.com>
- <ZwUuSTYkWrZYIcBM@bogus>
- <ecc29852-37f4-404e-b22c-817cb7cb0cfb@broadcom.com>
+To: Sibi Sankar <quic_sibis@quicinc.com>
+Cc: <cristian.marussi@arm.com>, <ulf.hansson@linaro.org>,
+	<jassisinghbrar@gmail.com>, <linux-kernel@vger.kernel.org>,
+	<arm-scmi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-arm-msm@vger.kernel.org>, <johan@kernel.org>,
+	<konradybcio@kernel.org>, <linux-pm@vger.kernel.org>,
+	<tstrudel@google.com>, <rafael@kernel.org>,
+	"Johan Hovold" <johan+linaro@kernel.org>
+Subject: Re: [PATCH V3 1/4] firmware: arm_scmi: Ensure that the message-id
+ supports fastchannel
+Message-ID: <ZwaJQmO4a7cM7MFY@bogus>
+References: <20241007060642.1978049-1-quic_sibis@quicinc.com>
+ <20241007060642.1978049-2-quic_sibis@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ecc29852-37f4-404e-b22c-817cb7cb0cfb@broadcom.com>
+In-Reply-To: <20241007060642.1978049-2-quic_sibis@quicinc.com>
 
-On Tue, Oct 08, 2024 at 10:49:01AM -0700, Florian Fainelli wrote:
-> On 10/8/24 06:06, Sudeep Holla wrote:
-
-[...]
-
-> > IIUC, you need to support old kernel with SMC mailbox driver and new SMC
-> > transport within the SCMI. Is that right understanding ?
-> 
-> That is correct.
-> 
-
-Thanks.
-
-> > IIUC, the DTB has mailbox nodes that are available but fail only in the setup
-> > stage ? Or is it marked unavailable and we are missing some checks either
-> > in SCMI or mailbox ?
-> 
-> We fail at scmi_chan_setup -> idr_find() returning -EINVAL.
-
-IIRC, the original intention of code under if(!info->desc->ops->chan_available()
-in scmi_chan_setup(), is to just handle Rx case and valid Tx missing case for
-non BASE protocols. I wonder if we can add additional check at the start of
-this if block:
-	if (tx && prot_id == SCMI_PROTOCOL_BASE)
-		return -ENODEV or -ENOENT;
-
-just to better handle your scenario. But IIUC it may not fix your issue as
-we still return success from the platform_device probing with the new
-restructuring. It is only the probe of the device we create from this one
-can be made to fail. I think I know understand the issue much better than
-before.
-
-> I did check that
-> returning -ENODEV, which arguably might be a somewhat more accurate return
-> code (-ENOENT being one, too) does not help us here. Cristian suggested
-> device_release_driver() which sounded like a good idea, but will deadlock.
+On Mon, Oct 07, 2024 at 11:36:39AM +0530, Sibi Sankar wrote:
+> Currently the perf and powercap protocol relies on the protocol domain
+> attributes, which just ensures that one fastchannel per domain, before
+> instantiating fastchannels for all possible message-ids. Fix this by
+> ensuring that each message-id supports fastchannel before initialization.
 >
 
-Cristian mentioned in private he will explore other options just in case
-we need solid alternative to address your issue.
+Looks good to me. With the minor nit below addressed,
 
-> The reason why we fail there is because mailbox_chan_available() returns
-> false. With fw_devlink=on Linux will parse the Device Tree, find the
-> 'mboxes' property pointing to the brcm_scmi_mailbox Device Tree node and
-> puts it on a list of providers that it is waiting for.
-> 
-> Because we are using the ARM SMC transport however, the brcm_scmi_mailbox
-> node is never backed by any driver in Linux and this causes the system to
-> fail booting since we do not have any SCMI provider. At the time, because we
-> were under pressure to get a GKI kernel we decided to "break" our older
-> downstream kernels by doing this property rename and put in a patch in those
-> kernel to treat "brcm,mboxes" the same as "mboxes" where relevant, which was
-> mostly in SCMI.
-> 
-> Now, assuming that we revert that DT property rename, that still does not
-> really solve anything anyway, the channel is not available regardless of how
-> we shake it.
+Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
+
+(assuming you will take this all via pmdomain or qcom soc tree)
+
+> Reported-by: Johan Hovold <johan+linaro@kernel.org>
+> Closes: https://lore.kernel.org/lkml/ZoQjAWse2YxwyRJv@hovoldconsulting.com/
+> Fixes: 6f9ea4dabd2d ("firmware: arm_scmi: Generalize the fast channel support")
+> Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
+> ---
+>  drivers/firmware/arm_scmi/driver.c    | 9 +++++++++
+>  drivers/firmware/arm_scmi/protocols.h | 2 ++
+>  2 files changed, 11 insertions(+)
+>
+> diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+> index 88c5c4ff4bb6..80a9a615672a 100644
+> --- a/drivers/firmware/arm_scmi/driver.c
+> +++ b/drivers/firmware/arm_scmi/driver.c
+> @@ -56,6 +56,9 @@ static atomic_t transfer_last_id;
+>
+>  static struct dentry *scmi_top_dentry;
+>
+> +static int scmi_protocol_msg_check(const struct scmi_protocol_handle *ph,
+> +				   u32 message_id, u32 *attributes);
 >
 
-Understood. Thanks for detailed explanation and time.
+I prefer to just move the function above if possible to avoid this extra
+declaration just keep keep it consistent with other such internal/static
+function calls within this file. No hard opinion, just preference to avoid
+me thinking(or scratching my head) why only this is done different few
+months down the line.
 
-> > 
-> > IOW, have you already explored that this -EINVAL is correct return value
-> > here and can't be changed to -ENODEV ? I might be not following the failure
-> > path correctly here, but I assume it is
-> > 	scmi_chan_setup()
-> > 	info->desc->ops->chan_setup()
-> > 	mailbox_chan_setup()
-> > 	mbox_request_channel()
-
-[...]
-
-> > OK this sounds like you have already explored returning -ENODEV is not
-> > an option ? It is fair enough, but just want to understand correctly.
-> > I still think I am missing something.
-> 
-> Yes, that was my first start.
->
-
-Now I know why that won't work or its not so trivial as we have some kind
-of redirection to address various transport dependencies and the mechanism we
-have implemented to avoid probe deferral with additional platform devices
-and associated probing make it difficult to propagate the error of DD model.
-We need that to handle the dependency better than relying on probe deferral
-which comes with its problems(like initcall level adjustments when using
-some transports like OPTEE/FFA/virtio/...). Your issue is not an issue
-in normal case 😄. Anyways, I will queue this as it is not affecting anyone
-else. Hopefully no one has any objections.
-
--- 
+--
 Regards,
 Sudeep
