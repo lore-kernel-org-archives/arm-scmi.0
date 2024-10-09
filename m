@@ -1,90 +1,155 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E57D819CC28;
-	Wed,  9 Oct 2024 14:20:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB02C127E18;
+	Wed,  9 Oct 2024 14:39:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728483640; cv=none; b=j7wLkDrLs4znNhzJ2eQf6vLHRP/Am0t5xx/GbxvZHMSKaZNfeCpSOD/Sn7vQ10oI86hW8ErheHqsJ/t8AXtKdVnLtR/rUSzDaBTu15iFPbrXKPGaHye1BHvQGcOsVod83MyaL0vQvqFMP+t7dPHrUKzbVtkFcGtivbhfdC8rGFA=
+	t=1728484772; cv=none; b=fOWaSPVO9gFW4QRRC8kdVmB2t3wi6eW0JkF7qCQzMCjzrLFzvSIgbFP/NUbwbBfCIrWiSTjOW2GZb//GKYQonylobZ7dotTkDJwnKdzl6kr/XhU0qoQt7gGjpZmic5Eq794GMYcFpE9j9PZxMVCbOGbyVIBT6C7B+BrOpNTz+0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728483640; c=relaxed/simple;
-	bh=ARmVYoTgtZue47e90CxZTUi70TVs2cN8F4uDpE7a+OA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sERbmpM2ue/AVt60htSpKbNb9SmOPmmrqKRqmAg8LSBSa0s/XJPNE9IRc58ZycEy/i40MypSaG9BEW94wijuoZtZaSGxjSjKx/IxVZ3tiE8EZnEJY/hIjVjCQOnfjkr5wPYAisRO1iuL/UfdZ7wyxYfvb5qrdT8hrj+xMt3yyeg=
+	s=arc-20240116; t=1728484772; c=relaxed/simple;
+	bh=E2Q/Z9HmKJzZCPdr6+3P8OqkCoRO4OHda0l6tZENExs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pZGmbs7ysrua32L2QgphZxoSGlrtwlE5B9wZ6llmgquE8HOHjNFkFBIKI0ZEKO+mW5jZ52Iwe9D78n46aiFw21vSeFqVgVrYCMm4RWK38dbpIwplFIA8u/SZAXEWLwRz1BArf6HeWers8EpKUSqAS9aKWdAtl4CDTwzw049fsaI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E88D2FEC;
-	Wed,  9 Oct 2024 07:21:07 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C16673F58B;
-	Wed,  9 Oct 2024 07:20:36 -0700 (PDT)
-Date: Wed, 9 Oct 2024 15:20:33 +0100
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9CB79FEC;
+	Wed,  9 Oct 2024 07:39:59 -0700 (PDT)
+Received: from pluto.guestnet.cambridge.arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 94B053F58B;
+	Wed,  9 Oct 2024 07:39:28 -0700 (PDT)
 From: Cristian Marussi <cristian.marussi@arm.com>
-To: Sibi Sankar <quic_sibis@quicinc.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, sudeep.holla@arm.com,
-	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	johan@kernel.org, konradybcio@kernel.org
-Subject: Re: [PATCH V2 2/2] firmware: arm_scmi: Skip adding bad duplicates
-Message-ID: <ZwaRMWG7iCEjp1Q3@pluto>
-References: <20240904031324.2901114-1-quic_sibis@quicinc.com>
- <20240904031324.2901114-3-quic_sibis@quicinc.com>
- <Zth7DZmkpOieSZEr@pluto>
- <Zth9EMydkwvJ30T0@pluto>
- <53d929a2-2f54-ac97-3184-861442e8622b@quicinc.com>
+To: linux-kernel@vger.kernel.org,
+	arm-scmi@vger.kernel.org
+Cc: sudeep.holla@arm.com,
+	cristian.marussi@arm.com,
+	quic_sibis@quicinc.com,
+	johan@kernel.org,
+	konradybcio@kernel.org,
+	johan+linaro@kernel.org
+Subject: [PATCH] firmware: arm_scmi: Skip opp duplicates
+Date: Wed,  9 Oct 2024 15:39:05 +0100
+Message-ID: <20241009143905.2440438-1-cristian.marussi@arm.com>
+X-Mailer: git-send-email 2.46.1
+Reply-To: 20241007060642.1978049-3-quic_sibis@quicinc.com
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <53d929a2-2f54-ac97-3184-861442e8622b@quicinc.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 07, 2024 at 12:30:14PM +0530, Sibi Sankar wrote:
-> 
-> 
-> On 9/4/24 21:00, Cristian Marussi wrote:
-> > On Wed, Sep 04, 2024 at 04:21:49PM +0100, Cristian Marussi wrote:
-> > > On Wed, Sep 04, 2024 at 08:43:24AM +0530, Sibi Sankar wrote:
-> > > > Ensure that the bad duplicates reported by the platform firmware doesn't
-> > > > get added to the opp-tables.
-> > > > 
-> > > 
-> > > Hi Sibi,
-> > > 
-> > > so if the idea is to make the code more robust when FW sends BAD
-> > > duplicates, you necessarily need to properly drop opps in opp_count too.
-> > > 
-> > > One other option would be to just loop with xa_for_each BUT opp_count is
-> > > used in a number of places...so first of all let's try drop count properly.
-> > > 
-> > > Can you try this patch down below, instead of your patch.
-> > > If it solves, I will send a patch (after testing it a bit more :D)
-> > 
-> > Hold on... I sent you a diff that does not apply probably on your tree due
-> > to some uncomitted local work of mine...my bad...let me resend.
-> 
-> Hey Cristian,
-> Thanks for taking time to send out the diff. I thought this would be
-> enough but there will still be a disconnect between opp_count and idx
-> of the opp we populate. Consider a case were we get to have a valid
-> opp just after duplicate opp. The opp_count will still limit us on what
-> levels we are allowed to see.
->
+Buggy firmware can reply with duplicated PERF opps descriptors.
 
-Ah right...indeed... I missed that the opp_count is used also to loop on the
-opps arrays and OPPs are not only accessed by xa_load....
+Ensure that the bad duplicates reported by the platform firmware doesn't
+get added to the opp-tables.
 
-...anyway the index in the dom->opp arrauy is NOT related to index/level
-indexing, so we just have to have the bad oop dupicates also in the
-array and NOT only in the XArray...
+Reported-by: Johan Hovold <johan+linaro@kernel.org>
+Closes: https://lore.kernel.org/lkml/ZoQjAWse2YxwyRJv@hovoldconsulting.com/
+Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+---
+A new version to include in this series that should address the limit case
+described by Sibi...not tested, of course :P
+---
+ drivers/firmware/arm_scmi/perf.c | 40 ++++++++++++++++++++++++--------
+ 1 file changed, 30 insertions(+), 10 deletions(-)
 
-I am sending you, as a reply to this patch, a new version of my fix
-with just a one-line difference tthat should solve completely the issue
-also in the usecase that you describe.
-
-Thanks,
-Cristian
+diff --git a/drivers/firmware/arm_scmi/perf.c b/drivers/firmware/arm_scmi/perf.c
+index 2d77b5f40ca7..32f9a9acd3e9 100644
+--- a/drivers/firmware/arm_scmi/perf.c
++++ b/drivers/firmware/arm_scmi/perf.c
+@@ -373,7 +373,7 @@ static int iter_perf_levels_update_state(struct scmi_iterator_state *st,
+ 	return 0;
+ }
+ 
+-static inline void
++static inline int
+ process_response_opp(struct device *dev, struct perf_dom_info *dom,
+ 		     struct scmi_opp *opp, unsigned int loop_idx,
+ 		     const struct scmi_msg_resp_perf_describe_levels *r)
+@@ -386,12 +386,16 @@ process_response_opp(struct device *dev, struct perf_dom_info *dom,
+ 		le16_to_cpu(r->opp[loop_idx].transition_latency_us);
+ 
+ 	ret = xa_insert(&dom->opps_by_lvl, opp->perf, opp, GFP_KERNEL);
+-	if (ret)
++	if (ret) {
+ 		dev_warn(dev, "Failed to add opps_by_lvl at %d for %s - ret:%d\n",
+ 			 opp->perf, dom->info.name, ret);
++		return ret;
++	}
++
++	return 0;
+ }
+ 
+-static inline void
++static inline int
+ process_response_opp_v4(struct device *dev, struct perf_dom_info *dom,
+ 			struct scmi_opp *opp, unsigned int loop_idx,
+ 			const struct scmi_msg_resp_perf_describe_levels_v4 *r)
+@@ -404,9 +408,11 @@ process_response_opp_v4(struct device *dev, struct perf_dom_info *dom,
+ 		le16_to_cpu(r->opp[loop_idx].transition_latency_us);
+ 
+ 	ret = xa_insert(&dom->opps_by_lvl, opp->perf, opp, GFP_KERNEL);
+-	if (ret)
++	if (ret) {
+ 		dev_warn(dev, "Failed to add opps_by_lvl at %d for %s - ret:%d\n",
+ 			 opp->perf, dom->info.name, ret);
++		return ret;
++	}
+ 
+ 	/* Note that PERF v4 reports always five 32-bit words */
+ 	opp->indicative_freq = le32_to_cpu(r->opp[loop_idx].indicative_freq);
+@@ -415,13 +421,21 @@ process_response_opp_v4(struct device *dev, struct perf_dom_info *dom,
+ 
+ 		ret = xa_insert(&dom->opps_by_idx, opp->level_index, opp,
+ 				GFP_KERNEL);
+-		if (ret)
++		if (ret) {
+ 			dev_warn(dev,
+ 				 "Failed to add opps_by_idx at %d for %s - ret:%d\n",
+ 				 opp->level_index, dom->info.name, ret);
+ 
++			/* Cleanup by_lvl too */
++			xa_erase(&dom->opps_by_lvl, opp->perf);
++
++			return ret;
++		}
++
+ 		hash_add(dom->opps_by_freq, &opp->hash, opp->indicative_freq);
+ 	}
++
++	return 0;
+ }
+ 
+ static int
+@@ -429,16 +443,22 @@ iter_perf_levels_process_response(const struct scmi_protocol_handle *ph,
+ 				  const void *response,
+ 				  struct scmi_iterator_state *st, void *priv)
+ {
++	int ret;
+ 	struct scmi_opp *opp;
+ 	struct scmi_perf_ipriv *p = priv;
+ 
+-	opp = &p->perf_dom->opp[st->desc_index + st->loop_idx];
++	opp = &p->perf_dom->opp[p->perf_dom->opp_count];
+ 	if (PROTOCOL_REV_MAJOR(p->version) <= 0x3)
+-		process_response_opp(ph->dev, p->perf_dom, opp, st->loop_idx,
+-				     response);
++		ret = process_response_opp(ph->dev, p->perf_dom, opp,
++					   st->loop_idx, response);
+ 	else
+-		process_response_opp_v4(ph->dev, p->perf_dom, opp, st->loop_idx,
+-					response);
++		ret = process_response_opp_v4(ph->dev, p->perf_dom, opp,
++					      st->loop_idx, response);
++
++	/* Skip BAD duplicates received from firmware */
++	if (ret)
++		return ret == -EBUSY ? 0 : ret;
++
+ 	p->perf_dom->opp_count++;
+ 
+ 	dev_dbg(ph->dev, "Level %d Power %d Latency %dus Ifreq %d Index %d\n",
+-- 
+2.46.1
 
