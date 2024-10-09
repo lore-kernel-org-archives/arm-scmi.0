@@ -1,199 +1,164 @@
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552B817798F
-	for <arm-scmi@vger.kernel.org>; Wed,  9 Oct 2024 19:20:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 152F01A2547
+	for <arm-scmi@vger.kernel.org>; Wed,  9 Oct 2024 19:26:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728501651; cv=none; b=FVgZTaa3Tce3QmP82CEySGPiUOiRhK1vd9CPCq1AXOEe5p1ezzzDr1MXoBzlYF7Ifs355kompwolBrF/YKMlHbJw1R18lk/x0CgiIcZWX3FkYevwyARV4bvU1sHcNk8qlJzmyYGKlgagB++EvHXOMQawTwnMFIAXAC8efCuIomE=
+	t=1728502015; cv=none; b=nIibJFDRWMdCvCKNmEYWheBNEoSjuxlnMM1AA2Vov4PdbuQuCr/ttF/xSQ3QhoWjaw8+k7b6IefJS9bASkwFaqFARJpYWCQmr+aLbvMYKeZlyoqOrvXsJ+HyGFoKMPz3j27O9kYEWUVeAeZSNUJs7eugNrG2Qx6+R8y6thLRGrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728501651; c=relaxed/simple;
-	bh=vBZeIJE3CGkBLCuRhgoME/MJ8Tqp0D9I3mEf6AZ210s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hhtNb9vR/09oy4z/CQBMvxdz7ibzjmdzf7QZ07cY1bn2fhOkE8GhZV6jfUfLAU3fq+Sszn05i8YGVWUuuiMUzUp7kXzueaOnrdZeSEU035A1BmgW0KHIjpKiLiQIktawxPaT5HrpRBEx41FD70GxkYlXtuPOlLL6UVufHCr+Ygo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=A8KAWTfp; arc=none smtp.client-ip=209.85.160.195
+	s=arc-20240116; t=1728502015; c=relaxed/simple;
+	bh=Qto6o0vKotooPWp0SLGfoeOT+2ctOt78Rzo/wCIheDk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=K5fYQRlsp3G9R5yr7QAkBGN9sZ5d+3F65yhRz2q1lWO7BxF5OKU3zfm0ACN6wD3grltLEaUCmx0hcpVBJKdWxV9Qm6bnMqTPDE5VonCUAqb/2yX/ucKYDBbD5PWPbRhcDxBljMU3h0Sd6MQSo3hScbrAicLHT0zsAPWEEUOYQ1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=Id3vkmgW; arc=none smtp.client-ip=209.85.219.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="A8KAWTfp"
-Received: by mail-qt1-f195.google.com with SMTP id d75a77b69052e-45effbc3348so1596781cf.2
-        for <arm-scmi@vger.kernel.org>; Wed, 09 Oct 2024 12:20:49 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Id3vkmgW"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6cbe3ea8e3fso1320836d6.0
+        for <arm-scmi@vger.kernel.org>; Wed, 09 Oct 2024 12:26:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1728501648; x=1729106448; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QC4iyrQCc29xqoyIK8hs1g1UmoTbdeAtwVRtUIjdovM=;
-        b=A8KAWTfpHaeNZqXjqOSL8ITRz2bTg2MyWlwqbrHewsXsjMoUha0A4AVsWlGEfoBEXW
-         WI6Q3GrqCfZsQSxJo74msMAWZ42iorR7UVz25QFgi1XQe8Aq/AOYOPrWoB/YEoFDy1xY
-         CmtZOzkDcKItvISqW3PsQ2peYvrv32NkYaF8M=
+        d=broadcom.com; s=google; t=1728502012; x=1729106812; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aFnRjeTVGGQvd1QanxRfvZGU3hZHGwK30eJuLrfs1Ro=;
+        b=Id3vkmgWcrdolH7tpsw3yyJ64zZHctSqHjA2YfxIR8sK2f2r0HqVlgnYDMBknu+1yp
+         SxL6kEEQiVJsVFX8R58AhDgJLPah8FCEsM6iHzJ5MRaU8caOVNvp5MLUn+RrhAZUj9bB
+         SR2BLqJr4aO1i2Ng6lplWVPKSL+T/JLRKtvHg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728501648; x=1729106448;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QC4iyrQCc29xqoyIK8hs1g1UmoTbdeAtwVRtUIjdovM=;
-        b=QZAF18YyWfmt/Uw8IS3rofXUXfYj6+3Zk9o5b5qChqKtMF3N2/mPMy9KVQqL5ZYTGd
-         4aAFw6U6qqb6f3a8xL1QTWEMds2vKcQUNd+PODSBmf718LEqxQh8kZG6bjMBa0fxDkID
-         PxZagIxEUSQ4fBy6ngwWdwm0ZibZelkrRw/4bo5HVJ5RgLGleLZOe8DtBa5UUE0W+uG5
-         6swLpKQGiVG64LBZKd6kxqqgu+Db2Zxcj9ARp6x4co37O9Pk56/kBgenVxZdA5X0VC2O
-         Poo7C5kNrkHQbfWY8q6hmm+UHaVJkb3y1cQy+FWZxEqIj3rwSj6GlpU8P2h9wm5Hpnz1
-         C6AQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVcea47XqYFU8rNOlpHEf9oi5Qqaj1EW9r1Bl7Dr6lw7p30em+b4v9ajOArDMNZop5ADgMfxsMH7A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpNLuZ4IWi3fjbj+T6DxHtNhh2D6NkupNyUwhUaoNq5nK/ZH1z
-	AROaWaXew/1gaK6/7FuW/VihCYudw6sEx0XpizC0T4foW03tV/BR6SiLy9+N0g==
-X-Google-Smtp-Source: AGHT+IEHkpKuLHIzweOclcuS1w+ydNVY+EW5dw1R/cdDKBZgrPXGHLcodKF5UpmacARcyrjJxiRQ5Q==
-X-Received: by 2002:a05:622a:2b09:b0:45e:f2df:2ed3 with SMTP id d75a77b69052e-45fa5f03547mr62390651cf.32.1728501648020;
-        Wed, 09 Oct 2024 12:20:48 -0700 (PDT)
-Received: from [10.69.69.40] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45da74b3f6csm49226581cf.16.2024.10.09.12.20.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Oct 2024 12:20:47 -0700 (PDT)
-Message-ID: <73c69285-57ad-4628-b72e-9cae4ebff574@broadcom.com>
-Date: Wed, 9 Oct 2024 12:20:45 -0700
+        d=1e100.net; s=20230601; t=1728502012; x=1729106812;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aFnRjeTVGGQvd1QanxRfvZGU3hZHGwK30eJuLrfs1Ro=;
+        b=YhnCRCnV11Q80/imbcZQdG05rtyGbbvBVgM8u6ZSGwaC1OY2soIY1ic/IeXSMm+/rG
+         nXmknMuQiKKLNm3GtVCbPkDluojdqMPYukyJM+wI8b2dPkFPGIDerd5pxTRIxnBtSD4r
+         jPInMqjnsYpQAHW/9cyDo4TXTrjI4Ce8Q1S9DTuoXHkGYNC/oKdN5Y3S/4QPnTyOU+wG
+         bt8Jq/SaBYGrg35YU21T/JtVoUEvvBWnm/OQKZybrvIUGsmO07nroPT5Q0lAW9o/Vm02
+         KpODa76fr2S73Ct1W8wv2zEAS2IXD4fFFt5nhY35euPHwLW/9VlMS2/fRgE743/uIyJx
+         LqFA==
+X-Gm-Message-State: AOJu0Yw+3xAS6KsfIVt4hmPH5rxCioyxtLRVJ76zxzJuKr1qJVamO2u+
+	BBtMYCICdHERHRgLocdhnNleIP2tTMSt+LKvJ8/eJCFIiis5RpMKnV1PbXGG1bBt7M2mHK7mokY
+	8LWOxP6Bsh2jAY6Vx7/4z+tkkOiBQx7Jn1uF5YoaJUo03bzR8FQfqKF7eGNXKzF0oNkHNCxwudf
+	J+N9idzmsJj0I5xhcBjbgEnESA8LM8Yr9EKUN2qgfrxh5sUwQ=
+X-Google-Smtp-Source: AGHT+IHV0WAEt5thVKS88Lh79SPoGz5dND4w2rxvfSsWAa37Kvxr15vakcbkP62eBOqPs4ChkOCKiA==
+X-Received: by 2002:a05:6214:4517:b0:6cb:e517:d1ca with SMTP id 6a1803df08f44-6cbe517d790mr8090676d6.9.1728502012446;
+        Wed, 09 Oct 2024 12:26:52 -0700 (PDT)
+Received: from stbirv-lnx-1.igp.broadcom.net ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cba46dfd5fsm48504036d6.52.2024.10.09.12.26.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Oct 2024 12:26:51 -0700 (PDT)
+From: Justin Chen <justin.chen@broadcom.com>
+To: arm-scmi@vger.kernel.org,
+	cristian.marussi@arm.com,
+	sudeep.holla@arm.com
+Cc: linux-arm-kernel@lists.infradead.org,
+	peng.fan@nxp.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	florian.fainelli@broadcom.com,
+	Justin Chen <justin.chen@broadcom.com>
+Subject: [PATCH v2] firmware: arm_scmi: Queue in scmi layer for mailbox implementation
+Date: Wed,  9 Oct 2024 12:26:37 -0700
+Message-Id: <20241009192637.1090238-1-justin.chen@broadcom.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] firmware: arm_scmi: Queue in scmi layer for mailbox
- implementation
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>, arm-scmi@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, peng.fan@nxp.com,
- bcm-kernel-feedback-list@broadcom.com, florian.fainelli@broadcom.com
-References: <20241004221257.2888603-1-justin.chen@broadcom.com>
- <ZwPcSmRpTGrCdt6I@bogus> <ZwPd1Z2jl0A46hEU@pluto>
- <1ad5c4e9-9f98-40ab-afa4-a7939781e8cc@broadcom.com> <ZwUhP0SYEXUKpRG-@pluto>
- <ZwUyNCnXmjtVbhai@bogus> <ZwU1A_R81_ed4L8o@bogus> <ZwU1m4Uj9uF2bzoE@pluto>
- <ed8b9825-c655-4712-806e-fee22f30c113@broadcom.com> <ZwY_nrvxCEkDgN8u@pluto>
-Content-Language: en-US
-From: Justin Chen <justin.chen@broadcom.com>
-In-Reply-To: <ZwY_nrvxCEkDgN8u@pluto>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+send_message() does not block in the MBOX implementation. This is
+because the mailbox layer has its own queue. However, this confuses
+the per xfer timeouts as they all start their timeout ticks in
+parallel.
 
+Consider a case where the xfer timeout is 30ms and a SCMI transaction
+takes 25ms.
 
-On 10/9/24 1:32 AM, Cristian Marussi wrote:
-> On Tue, Oct 08, 2024 at 12:23:28PM -0700, Justin Chen wrote:
->>
->>
->> On 10/8/24 6:37 AM, Cristian Marussi wrote:
->>> On Tue, Oct 08, 2024 at 02:34:59PM +0100, Sudeep Holla wrote:
->>>> On Tue, Oct 08, 2024 at 02:23:00PM +0100, Sudeep Holla wrote:
->>>>> On Tue, Oct 08, 2024 at 01:10:39PM +0100, Cristian Marussi wrote:
->>>>>> On Mon, Oct 07, 2024 at 10:58:47AM -0700, Justin Chen wrote:
->>>>>>> Thanks for the response. I'll try to elaborate.
->>>>>>>
->>>>>>> When comparing SMC and mailbox transport, we noticed mailbox transport
->>>>>>> timesout much quicker when under load. Originally we thought this was the
->>>>>>> latency of the mailbox implementation, but after debugging we noticed a
->>>>>>> weird behavior. We saw SMCI transactions timing out before the mailbox even
->>>>>>> transmitted the message.
->>>>>>>
->>>>>>> This issue lies in the SCMI layer. drivers/firmware/arm_scmi/driver.c
->>>>>>> do_xfer() function.
->>>>>>>
->>>>>>> The fundamental issue is send_message() blocks for SMC transport, but
->>>>>>> doesn't block for mailbox transport. So if send_message() doesn't block we
->>>>>>> can have multiple messages waiting at scmi_wait_for_message_response().
->>>>>>>
->>>>>>
->>>>>> oh...yes...now I can see it...tx_prepare is really never called given
->>>>>> how the mailbox subsystem de-queues messages once at time...so we end up
->>>>>> waiting for a reply to some message that is still to be sent...so the
->>>>>> message inflight is really NOT corrupted because the next remain pending
->>>>>> until the reply in the shmem is read back , BUT the timeout will drift away
->>>>>> if you multiple inflights are pending to be sent...
->>>>>>
->>>>>
->>>>> Indeed.
->>>>>
->>>>>>> SMC looks like this
->>>>>>> CPU #0 SCMI message 0 -> calls send_message() then calls
->>>>>>> scmi_wait_for_message_response(), timesout after 30ms.
->>>>>>> CPU #1 SCMI message 1 -> blocks at send_message() waiting for SCMI message 0
->>>>>>> to complete.
->>>>>>>
->>>>>>> Mailbox looks like this
->>>>>>> CPU #0 SCMI message 0 -> calls send_message(), mailbox layer queues up
->>>>>>> message, mailbox layer sees no message is outgoing and sends it. CPU waits
->>>>>>> at scmi_wait_for_message_response(), timesout after 30ms
->>>>>>> CPU #1 SCMI message 1 -> calls send_message(), mailbox layer queues up
->>>>>>> message, mailbox layer sees message pending, hold message in queue. CPU
->>>>>>> waits at scmi_wait_for_message_response(), timesout after 30ms.
->>>>>>>
->>>>>>> Lets say if transport takes 25ms. The first message would succeed, the
->>>>>>> second message would timeout after 5ms.
->>>>>>>
->>>>>>> Hopefully this makes sense.
->>>>>>
->>>>>> Yes, of course, thanks, for reporting this, and taking time to
->>>>>> explain...
->>>>>>
->>>>>> ...in general the patch LGTM...I think your patch is good also because it
->>>>>> could be easily backported as a fix....can you add a Fixes tag in your
->>>>>> next version ?
->>>>>>
->>>>>
->>>>> Are you seeing this issue a lot ? IOW, do we need this to be backported ?
->>>>>
->>
->> I wouldn't say a lot. But we are seeing it with standard use of our devices
->> running over an extended amount of time. Yes we would like this backported.
->>
->>>>>> Also can you explain in more detail the issue and the solution in the commit
->>>>>> message....that will help having it merged as a Fix in stables...
->>>>>>
->>>>>> ...for the future (definitely NOT in this series) we could probably think to
->>>>>> get rid of the sleeping mutex in favour of some other non-sleeping form of
->>>>>> mutual exclusion around the channnel (like in SMC transport) and enable
->>>>>> (optionally) Atomic transmission support AND also review if the shmem
->>>>>> layer busy-waiting in txprepare is anymore needed at all...
->>>>>>
->>>>>
->>>>> Agreed, if we are locking the channel in SCMI, we can drop the busy-waiting
->>>>> in tx_prepare and the associated details in the comment as this locking
->>>>> voids that. It is better have both the changes in the same patch to indicate
->>>>> the relation between them.
->>>>
->>>> Actually scratch that last point. The waiting in tx_prepare until the platform
->>>> marks it free for agent to use is still needed. One usecase is when agent/OS
->>>> times out but platform continues to process and eventually releases the shmem.
->>>> Sorry I completely forgot about that.
->>>>
->>>
->>> Yes indeed it is the mechanism that we avoid to reclaim forcibly anyway the shmem
->>> if the transmission times out...and we should keep that to avoid
->>> corruption of newer messages by late replies from the earlier ones that
->>> have timed out.
->>>
->>
->> Yup. I saw an interesting interaction from this. Since modifying shmem and
->> ringing the doorbell are often two different task. The modification of shmem
->> can race with processing of timed out messages from the platform. This
->> usually leads to an early ACK and spurious interrupt. Mostly harmless. We
->> did see lockups when multiple timeouts occur, but it was unclear if this was
->> an issue with the SCMI transport layer or our driver/platform.
->>
-> 
-> Are you talking about something similar to this:
-> 
-> https://lore.kernel.org/all/20231220172112.763539-1-cristian.marussi@arm.com/
-> 
-> ... reported as a side effect of a spurious IRQ on late timed-out
-> replies, it should have been fixed with the above commit in v6.8.
-> 
+0ms: Message #0 is queued in mailbox layer and sent out, then sits
+at scmi_wait_for_message_response() with a timeout of 30ms
+1ms: Message #1 is queued in mailbox layer but not sent out yet.
+Since send_message() doesn't block, it also sits at
+scmi_wait_for_message_response() with a timeout of 30ms
+...
+25ms: Message #0 is completed, txdone is called and Message #1 is
+sent out
+31ms: Message #1 times out since the count started at 1ms. Even
+though it has only been inflight for 6ms.
 
-I had these fixes and saw these warning message. With these locking 
-changes, I no longer see the lock up. Guess they were related somehow. 
-Either way, Thanks for the review. v2 incoming.
+Fixes: b53515fa177c ("firmware: arm_scmi: Make MBOX transport a standalone driver")
+Signed-off-by: Justin Chen <justin.chen@broadcom.com>
+---
 
-Justin
+Changes in v2:
 
-> Thanks,
-> Cristian
+- Added Fixes tag
+- Improved commit message to better capture the issue
+
+ .../firmware/arm_scmi/transports/mailbox.c    | 21 +++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/firmware/arm_scmi/transports/mailbox.c b/drivers/firmware/arm_scmi/transports/mailbox.c
+index 1a754dee24f7..30bc2865582f 100644
+--- a/drivers/firmware/arm_scmi/transports/mailbox.c
++++ b/drivers/firmware/arm_scmi/transports/mailbox.c
+@@ -33,6 +33,7 @@ struct scmi_mailbox {
+ 	struct mbox_chan *chan_platform_receiver;
+ 	struct scmi_chan_info *cinfo;
+ 	struct scmi_shared_mem __iomem *shmem;
++	struct mutex chan_lock;
+ };
+ 
+ #define client_to_scmi_mailbox(c) container_of(c, struct scmi_mailbox, cl)
+@@ -205,6 +206,7 @@ static int mailbox_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
+ 	cl->rx_callback = rx_callback;
+ 	cl->tx_block = false;
+ 	cl->knows_txdone = tx;
++	mutex_init(&smbox->chan_lock);
+ 
+ 	smbox->chan = mbox_request_channel(cl, tx ? 0 : p2a_chan);
+ 	if (IS_ERR(smbox->chan)) {
+@@ -267,11 +269,21 @@ static int mailbox_send_message(struct scmi_chan_info *cinfo,
+ 	struct scmi_mailbox *smbox = cinfo->transport_info;
+ 	int ret;
+ 
++	/*
++	 * The mailbox layer has it's own queue. However the mailbox queue confuses
++	 * the per message SCMI timeouts since the clock starts when the message is
++	 * submitted into the mailbox queue. So when multiple messages are queued up
++	 * the clock starts on all messages instead of only the one inflight.
++	 */
++	mutex_lock(&smbox->chan_lock);
++
+ 	ret = mbox_send_message(smbox->chan, xfer);
+ 
+ 	/* mbox_send_message returns non-negative value on success, so reset */
+ 	if (ret > 0)
+ 		ret = 0;
++	else
++		mutex_unlock(&smbox->chan_lock);
+ 
+ 	return ret;
+ }
+@@ -281,13 +293,10 @@ static void mailbox_mark_txdone(struct scmi_chan_info *cinfo, int ret,
+ {
+ 	struct scmi_mailbox *smbox = cinfo->transport_info;
+ 
+-	/*
+-	 * NOTE: we might prefer not to need the mailbox ticker to manage the
+-	 * transfer queueing since the protocol layer queues things by itself.
+-	 * Unfortunately, we have to kick the mailbox framework after we have
+-	 * received our message.
+-	 */
+ 	mbox_client_txdone(smbox->chan, ret);
++
++	/* Release channel */
++	mutex_unlock(&smbox->chan_lock);
+ }
+ 
+ static void mailbox_fetch_response(struct scmi_chan_info *cinfo,
+-- 
+2.34.1
 
