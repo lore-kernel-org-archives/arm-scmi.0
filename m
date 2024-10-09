@@ -1,161 +1,103 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6F7318DF8B
-	for <arm-scmi@vger.kernel.org>; Wed,  9 Oct 2024 08:32:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44EFE18FDCC
+	for <arm-scmi@vger.kernel.org>; Wed,  9 Oct 2024 11:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728462780; cv=none; b=Op4Slc1h35wWgI15hnDywEtHDBnWc72O0L0tUoZMkRgCGf1HVRtQ3VNh9bMLPpGZiRSkFKEFl1x5lDnTVf+xnG6061TE8BdilRi7+9oYR07G+6uIaBnncVawryxhHICDrHdKBmh27rxhi0ttWNKu4b0WRhhRrHoWNUsbZEom5vc=
+	t=1728472313; cv=none; b=pKxmGbtzp5MuwbkqFxOHcfh6a44BrmuaGMieFlmaFsdObG+dUH2zzFVQQCj7BYm+++v4YaRrxF125sDk0b0siKMVh3C5dbYyzpjHp4PyS7oXs2PZHwfGBoyRg0bOQTylCJX2+qoeEr1fuyi9LipHK9aNJiVeCLpVAbmqE092AzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728462780; c=relaxed/simple;
-	bh=sk+E1BYmwf+j1l9gJdhVvIxMs/dWHBzGjCZvFtN0lvs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mXLD81lnvrcv3JDgpzz41EnYyH5xn4ZJeMUYsPk0nGi4eyJGCO6GV1xzwlZoREW+JPCdwrzhKUCrIbtKPdbkZmdnp16hkRVP+KJoVGzgsjjUsXmbufRcO/XEFZK+43rYDQ8cuGmaaprHbyYt7w4oOFik11acx5l+j/qPrmNPfqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2B0EEFEC;
-	Wed,  9 Oct 2024 01:33:26 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 432D43F58B;
-	Wed,  9 Oct 2024 01:32:55 -0700 (PDT)
-Date: Wed, 9 Oct 2024 09:32:42 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Justin Chen <justin.chen@broadcom.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, peng.fan@nxp.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	florian.fainelli@broadcom.com
-Subject: Re: [PATCH] firmware: arm_scmi: Queue in scmi layer for mailbox
- implementation
-Message-ID: <ZwY_nrvxCEkDgN8u@pluto>
-References: <20241004221257.2888603-1-justin.chen@broadcom.com>
- <ZwPcSmRpTGrCdt6I@bogus>
- <ZwPd1Z2jl0A46hEU@pluto>
- <1ad5c4e9-9f98-40ab-afa4-a7939781e8cc@broadcom.com>
- <ZwUhP0SYEXUKpRG-@pluto>
- <ZwUyNCnXmjtVbhai@bogus>
- <ZwU1A_R81_ed4L8o@bogus>
- <ZwU1m4Uj9uF2bzoE@pluto>
- <ed8b9825-c655-4712-806e-fee22f30c113@broadcom.com>
+	s=arc-20240116; t=1728472313; c=relaxed/simple;
+	bh=zkyoiyol/ZE9sPqTK4uVntBSTJv2678Uo5yX8kEiBq0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mpovJGfH5Qa3wJ8QOjs8yvwkk4WbZgqWHOU1RtrU9pETe+nxGCM8DXBcE0Bwke84PBL1THPbCYFhGdPXrc3P3YlkN2Gx0P8dT74camCgnaRE0voEUhNl5t9UTdnDt0cBM47eoTux2votD21fAfd6P1eXksgPJRPvesPkISLtmnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nh0dJ8bq; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nh0dJ8bq"
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e290333a62cso369883276.2
+        for <arm-scmi@vger.kernel.org>; Wed, 09 Oct 2024 04:11:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728472311; x=1729077111; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zkyoiyol/ZE9sPqTK4uVntBSTJv2678Uo5yX8kEiBq0=;
+        b=nh0dJ8bqC4EQMc/3Qbf1FwWdncm+cWLSK/BrI+6m8mQ7c8E3uVL4/oMLZux7myniSc
+         rfhcSG01gVQ6i8pQtdVEoG1fC+ZA93PRdTqAVcLCO2M/nehbFiZmCH8iq4fO4oiFf9/s
+         t2/yLqG4Xuhr7/c1P4O+ptZJLIxDD14tNNs+hAj0abwm1lPVgtSiHCkVAazW06fqqPPq
+         urZ9W7D0Fmd3Eh1nebfXq/00RvsrkEZRKENQMifKqjYKFm2epCgtsKqWNlxyRNlA96j1
+         zdZHgFLLDAORR74rMsqJhz9iu3r4ORR6QZ9E8LuO4i/90DmoVJxdcKmg0uDUzFfGqESs
+         n7QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728472311; x=1729077111;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zkyoiyol/ZE9sPqTK4uVntBSTJv2678Uo5yX8kEiBq0=;
+        b=ZPDahn7f8rl8CHwCgpA1R2PkjAQxQsKD1FxC9/EJpPjdW8d+qM7oru8/fAYRih0rKC
+         mrqI9T24XvOM7W0G3i7x5Aoujagq5xgYccaieWLI5txsFivsRnQfDHyLKOaHssclWeBC
+         T9FHJwUmAaw45gko0Jmi3xTCFaObyCCQUgR1LrGw0zVU8lbWylN9qxiwa8Xh35Xkkr9L
+         dvRFYan4930JCPxsKAj+VY9rfXj+xlT3AeUUyuI5x5VHBXHviAvtJULeZA1gT+0pNabC
+         9o9dg64rgtAvms+aD6t3orHv7gG92Ro0SBp9LpGBDBEpcKXS0NQNZ66/E+nEHtkmpq3Q
+         38PA==
+X-Forwarded-Encrypted: i=1; AJvYcCWGTKMhpXltDENH27/rRyiR0N1dFcHpOVpBZ7MoaQpw+tLTvdl84R4/eVhYLtvVOraNKHAcWW2SMw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxExJ8TLLATWKUrCFPApkdn5VT84PMSaIxCv8TzwYfFyTtil7Iq
+	bj6gEFUyIYo99NVtWIyB3lqV+2KIaKJbecyAEJvgUaoM4a9jGuB7Zwi4FPwe+eRF8P6gRhAUEJJ
+	QC1Gjl9jddoHdQbKrAlmo0NPdOu0GlJEEdpjWWQ==
+X-Google-Smtp-Source: AGHT+IHuD7E8KK89qc/ZYJOshuMtFnxvbP22ktfO63zcv6l6glVmf7j+aAYtHbiv8eOva1PMvU0Zz5C/WEcPv6VWwRo=
+X-Received: by 2002:a05:6902:909:b0:e11:7474:f296 with SMTP id
+ 3f1490d57ef6-e28fe44cae7mr1770214276.19.1728472311248; Wed, 09 Oct 2024
+ 04:11:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ed8b9825-c655-4712-806e-fee22f30c113@broadcom.com>
+References: <20241007060642.1978049-1-quic_sibis@quicinc.com>
+ <20241007060642.1978049-4-quic_sibis@quicinc.com> <nlmz5adfxtnhgutblddlf2nlasmd5q3jpcsziaegmfvzsbkk7d@cb6e5qslk7vl>
+In-Reply-To: <nlmz5adfxtnhgutblddlf2nlasmd5q3jpcsziaegmfvzsbkk7d@cb6e5qslk7vl>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 9 Oct 2024 13:11:14 +0200
+Message-ID: <CAPDyKFrG1ZEOOhk1Cb=RqZ-8eeuMEFe0ACz2DGC3=qejjj7Mkw@mail.gmail.com>
+Subject: Re: [PATCH V3 3/4] pmdomain: core: Fix debugfs node creation failure
+To: Sibi Sankar <quic_sibis@quicinc.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: sudeep.holla@arm.com, cristian.marussi@arm.com, jassisinghbrar@gmail.com, 
+	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	johan@kernel.org, konradybcio@kernel.org, linux-pm@vger.kernel.org, 
+	tstrudel@google.com, rafael@kernel.org, 
+	Johan Hovold <johan+linaro@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Oct 08, 2024 at 12:23:28PM -0700, Justin Chen wrote:
-> 
-> 
-> On 10/8/24 6:37 AM, Cristian Marussi wrote:
-> > On Tue, Oct 08, 2024 at 02:34:59PM +0100, Sudeep Holla wrote:
-> > > On Tue, Oct 08, 2024 at 02:23:00PM +0100, Sudeep Holla wrote:
-> > > > On Tue, Oct 08, 2024 at 01:10:39PM +0100, Cristian Marussi wrote:
-> > > > > On Mon, Oct 07, 2024 at 10:58:47AM -0700, Justin Chen wrote:
-> > > > > > Thanks for the response. I'll try to elaborate.
-> > > > > > 
-> > > > > > When comparing SMC and mailbox transport, we noticed mailbox transport
-> > > > > > timesout much quicker when under load. Originally we thought this was the
-> > > > > > latency of the mailbox implementation, but after debugging we noticed a
-> > > > > > weird behavior. We saw SMCI transactions timing out before the mailbox even
-> > > > > > transmitted the message.
-> > > > > > 
-> > > > > > This issue lies in the SCMI layer. drivers/firmware/arm_scmi/driver.c
-> > > > > > do_xfer() function.
-> > > > > > 
-> > > > > > The fundamental issue is send_message() blocks for SMC transport, but
-> > > > > > doesn't block for mailbox transport. So if send_message() doesn't block we
-> > > > > > can have multiple messages waiting at scmi_wait_for_message_response().
-> > > > > > 
-> > > > > 
-> > > > > oh...yes...now I can see it...tx_prepare is really never called given
-> > > > > how the mailbox subsystem de-queues messages once at time...so we end up
-> > > > > waiting for a reply to some message that is still to be sent...so the
-> > > > > message inflight is really NOT corrupted because the next remain pending
-> > > > > until the reply in the shmem is read back , BUT the timeout will drift away
-> > > > > if you multiple inflights are pending to be sent...
-> > > > > 
-> > > > 
-> > > > Indeed.
-> > > > 
-> > > > > > SMC looks like this
-> > > > > > CPU #0 SCMI message 0 -> calls send_message() then calls
-> > > > > > scmi_wait_for_message_response(), timesout after 30ms.
-> > > > > > CPU #1 SCMI message 1 -> blocks at send_message() waiting for SCMI message 0
-> > > > > > to complete.
-> > > > > > 
-> > > > > > Mailbox looks like this
-> > > > > > CPU #0 SCMI message 0 -> calls send_message(), mailbox layer queues up
-> > > > > > message, mailbox layer sees no message is outgoing and sends it. CPU waits
-> > > > > > at scmi_wait_for_message_response(), timesout after 30ms
-> > > > > > CPU #1 SCMI message 1 -> calls send_message(), mailbox layer queues up
-> > > > > > message, mailbox layer sees message pending, hold message in queue. CPU
-> > > > > > waits at scmi_wait_for_message_response(), timesout after 30ms.
-> > > > > > 
-> > > > > > Lets say if transport takes 25ms. The first message would succeed, the
-> > > > > > second message would timeout after 5ms.
-> > > > > > 
-> > > > > > Hopefully this makes sense.
-> > > > > 
-> > > > > Yes, of course, thanks, for reporting this, and taking time to
-> > > > > explain...
-> > > > > 
-> > > > > ...in general the patch LGTM...I think your patch is good also because it
-> > > > > could be easily backported as a fix....can you add a Fixes tag in your
-> > > > > next version ?
-> > > > > 
-> > > > 
-> > > > Are you seeing this issue a lot ? IOW, do we need this to be backported ?
-> > > > 
-> 
-> I wouldn't say a lot. But we are seeing it with standard use of our devices
-> running over an extended amount of time. Yes we would like this backported.
-> 
-> > > > > Also can you explain in more detail the issue and the solution in the commit
-> > > > > message....that will help having it merged as a Fix in stables...
-> > > > > 
-> > > > > ...for the future (definitely NOT in this series) we could probably think to
-> > > > > get rid of the sleeping mutex in favour of some other non-sleeping form of
-> > > > > mutual exclusion around the channnel (like in SMC transport) and enable
-> > > > > (optionally) Atomic transmission support AND also review if the shmem
-> > > > > layer busy-waiting in txprepare is anymore needed at all...
-> > > > > 
-> > > > 
-> > > > Agreed, if we are locking the channel in SCMI, we can drop the busy-waiting
-> > > > in tx_prepare and the associated details in the comment as this locking
-> > > > voids that. It is better have both the changes in the same patch to indicate
-> > > > the relation between them.
-> > > 
-> > > Actually scratch that last point. The waiting in tx_prepare until the platform
-> > > marks it free for agent to use is still needed. One usecase is when agent/OS
-> > > times out but platform continues to process and eventually releases the shmem.
-> > > Sorry I completely forgot about that.
-> > > 
-> > 
-> > Yes indeed it is the mechanism that we avoid to reclaim forcibly anyway the shmem
-> > if the transmission times out...and we should keep that to avoid
-> > corruption of newer messages by late replies from the earlier ones that
-> > have timed out.
-> > 
-> 
-> Yup. I saw an interesting interaction from this. Since modifying shmem and
-> ringing the doorbell are often two different task. The modification of shmem
-> can race with processing of timed out messages from the platform. This
-> usually leads to an early ACK and spurious interrupt. Mostly harmless. We
-> did see lockups when multiple timeouts occur, but it was unclear if this was
-> an issue with the SCMI transport layer or our driver/platform.
-> 
+On Mon, 7 Oct 2024 at 19:33, Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Mon, Oct 07, 2024 at 11:36:41AM GMT, Sibi Sankar wrote:
+> > The domain attributes returned by the perf protocol can end up
+> > reporting identical names across domains, resulting in debugfs
+> > node creation failure. Fix this failure by ensuring that pm domains
+> > get a unique name using ida in pm_genpd_init.
 
-Are you talking about something similar to this:
+Thanks for working on this!
 
-https://lore.kernel.org/all/20231220172112.763539-1-cristian.marussi@arm.com/
+>
+> Can we make this opt-in or opt-out? Seeing numeric suffixes next to
+> well-known power domain names (e.g. those comin from RPMh or the CPU
+> domains) is a bit strange. Or maybe you can limit the IDA suffix just to
+> the SCMI / perf domains?
 
-... reported as a side effect of a spurious IRQ on late timed-out
-replies, it should have been fixed with the above commit in v6.8.
+I was also thinking something along the lines of this.
 
-Thanks,
-Cristian
+Another thing on top of what Dmitry suggests, could be to iterate
+through the &gpd_list and compare the existing genpd->names with the
+one that we are adding in pm_genpd_init(). In this way, we don't need
+to add the IDA to more than those that really need it.
+
+What do you think?
+
+[...]
+
+Kind regards
+Uffe
