@@ -1,46 +1,34 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7F61CB53B;
-	Thu, 10 Oct 2024 15:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45BFF1CC886;
+	Thu, 10 Oct 2024 15:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728572565; cv=none; b=gtUBj0uXgBuQho1HV4exdHLciGDRoFbVkb7Hn3msXYSAkizDSGn+r7AzEoM4mOMF2OwuLseyE/TZetwGeksQYX//0ib8+8Tg3c7aJvn34nFDazy3qTSSR7mx6x23PV0WXbgtknGvf46zEWBNSQMZA5XHac1kiqxeSCCwYL74DsM=
+	t=1728573504; cv=none; b=YLNNGwZp8WWUm0HBxMWcc9J6iXkgB8o7j4csfpJ4XMp2kNiszKfIGV4CCte4iW9baoPTWbK1fkYP2jdI8H73niFJ+Snta5Wtn6qgW3i7P3aPHSJHZuA7v871h/g56EC/2ORXXQSrnKNrLI0YGIE/PeI12j4OieVRUegSpKTRDsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728572565; c=relaxed/simple;
-	bh=bjy6e6QEhhN5c+EuFMe9xasd22I0t3FiJxHHAH6y3Do=;
+	s=arc-20240116; t=1728573504; c=relaxed/simple;
+	bh=viwaf0hIsbX8/+JoR07qZxwwVnqj0e5fG/3wM7QAPL8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JBP0mUTLfFq1EScinJefbsOYxNFzSkXQX/6JVgnv0nZlnwoqiN47rAFwGTtb9r3TP5ON5wT8fXtM96VjQ+SkbJleKt45mckHha0rLHmP8p+feTH7zb/GFJjvTe+EGK09PuH1q9IZGj5gvaz8EIxIQ1FLV3vcZh1GgOc1Ln8DIGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SVIZTJrh; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SVIZTJrh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 394A1C4CEC5;
-	Thu, 10 Oct 2024 15:02:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728572565;
-	bh=bjy6e6QEhhN5c+EuFMe9xasd22I0t3FiJxHHAH6y3Do=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SVIZTJrhzvphIu3Ftqo6erLe999jvVlPE+6ogBZaG1lsWXqNtw3gIGYdT64v+6++w
-	 W1iIadWdeURCQUaaNAPLtWuWM0iaxcJLGw3n0U0PBCe9j4ytj1KBM2szHu8dDfwsRG
-	 gIPoq8BMJLLPvZBGsgI5GXkFbr27Rf1D3WnxXSg6Igl0g3CQ785i6gsbn/lds3d/pG
-	 8fNEzco/oFh5l7kUPfmkcpvTclus8NmztH4SCraKVwDS1TUfiFj/3QHTbKsVloOK84
-	 466q3ppjnTFTdrI0xAcgjfgf8PRA9N3Ygt6ez0YSXUOonUBixicoABzhy8V7VzEmMq
-	 w/rg0Vg1LPHTA==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1syugk-0000000084s-0xnH;
-	Thu, 10 Oct 2024 17:02:50 +0200
-Date: Thu, 10 Oct 2024 17:02:50 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Sibi Sankar <quic_sibis@quicinc.com>
-Cc: sudeep.holla@arm.com, cristian.marussi@arm.com, ulf.hansson@linaro.org,
-	jassisinghbrar@gmail.com, linux-kernel@vger.kernel.org,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, konradybcio@kernel.org,
-	linux-pm@vger.kernel.org, tstrudel@google.com, rafael@kernel.org
-Subject: Re: [PATCH V3 0/4] firmware: arm_scmi: Misc Fixes
-Message-ID: <ZwfsmqInJlqkQD_3@hovoldconsulting.com>
-References: <20241007060642.1978049-1-quic_sibis@quicinc.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=VqhYYuGaB0O/IJxCfuRjDFwGtYqG/z//aoqWeSnfODaV1+1VS0DCh7LQLrmHlckNpC7rgs83KR5WTK+HTzczoxby7n4lqkBVIU80YWR666NwNzlZc2H575feLxXKN0lIbKeLo6nnk1nAVtuprusKo8byjvAdV9qyTLW101/8iqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1DB31497;
+	Thu, 10 Oct 2024 08:18:51 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2F5253F73F;
+	Thu, 10 Oct 2024 08:18:20 -0700 (PDT)
+Date: Thu, 10 Oct 2024 16:18:12 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Johan Hovold <johan@kernel.org>
+Cc: cristian.marussi@arm.com, linux-kernel@vger.kernel.org,
+	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
+	quic_sibis@quicinc.com, konradybcio@kernel.org,
+	johan+linaro@kernel.org
+Subject: Re: [PATCH] firmware: arm_scmi: Skip opp duplicates
+Message-ID: <ZwfwNCRLbjYBsSQP@pluto>
+References: <20241009143905.2440438-1-cristian.marussi@arm.com>
+ <Zwfn-kGr1yYP8Xff@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -49,19 +37,44 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241007060642.1978049-1-quic_sibis@quicinc.com>
+In-Reply-To: <Zwfn-kGr1yYP8Xff@hovoldconsulting.com>
 
-On Mon, Oct 07, 2024 at 11:36:38AM +0530, Sibi Sankar wrote:
-> The series addresses the kernel warnings reported by Johan at [1] and are
-> are required to X1E cpufreq device tree changes [2] to land.
+On Thu, Oct 10, 2024 at 04:43:06PM +0200, Johan Hovold wrote:
+> [ There appears to be something wrong with you mail setup as the patch
+>   had a bogus Reply-To header:
 > 
-> [1] - https://lore.kernel.org/lkml/ZoQjAWse2YxwyRJv@hovoldconsulting.com/
-> [2] - https://lore.kernel.org/lkml/20240612124056.39230-1-quic_sibis@quicinc.com/
+>   Reply-To: 20241007060642.1978049-3-quic_sibis@quicinc.com
+> ]
 > 
-> The following warnings remain unadressed:
-> arm-scmi arm-scmi.0.auto: Failed to add opps_by_lvl at 3417600 for NCC - ret:-16
-> arm-scmi arm-scmi.0.auto: Failed to add opps_by_lvl at 3417600 for NCC - ret:-16
 
-Are there any plans for how to address these?
+Hi Johan,
 
-Johan
+unfortunately the setup that is wrong is indeed on the other side of the
+screen (i.e. in my brain :D)...since I mistakenly added a --reply-to= instead
+of the --in-reply-to= when trying to post with git send-email this patch
+against Sibi original thread (which is the bogus message id above)
+
+Apologies...
+
+> On Wed, Oct 09, 2024 at 03:39:05PM +0100, Cristian Marussi wrote:
+> > Buggy firmware can reply with duplicated PERF opps descriptors.
+> > 
+> > Ensure that the bad duplicates reported by the platform firmware doesn't
+> > get added to the opp-tables.
+> > 
+> > Reported-by: Johan Hovold <johan+linaro@kernel.org>
+> > Closes: https://lore.kernel.org/lkml/ZoQjAWse2YxwyRJv@hovoldconsulting.com/
+> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> > ---
+> > A new version to include in this series that should address the limit case
+> > described by Sibi...not tested, of course :P
+> 
+> Thanks for the fix. This seems to do the trick and gets rid of the
+> warnings about duplicate entries on boot and resume (including the
+> debugfs errors).
+> 
+> Tested-by: Johan Hovold <johan+linaro@kernel.org>
+
+Thanks for testing !
+
+Cristian
