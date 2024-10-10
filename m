@@ -1,45 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA05E1E573E;
-	Thu, 10 Oct 2024 14:43:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5ED81CEAD8;
+	Thu, 10 Oct 2024 14:55:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728571381; cv=none; b=JGu+ZpOkovMbTHu/WdbYCYmnq0kJqpLl9E+aGYtwbx26Nynld3Nb7/ZKNFs/4eoS0oiNEZEoUkiuWbx4QENkSwHZ55ahKjIut9u9TszDYTxu7+aMoYvLM8zbA72PR5KdaHft/MiaLjOw0eHtkPkd60tUpNKVcFPmmSU9DwIAwDs=
+	t=1728572144; cv=none; b=FKTiuUzIdyIyfYxtH7HP9r0n8D8Ne+09XMXk+7V6VrmZgfMBFcuKOuJofVNd2dGvnJuBZGeYJl5ygHeFo4m4E8UycQWVEaT5m0fBEuazY26bXkPJI0SqEDlBzv4ShDCYStUrnnPDMtRwoM08b9Jbxg7Ke6V0SkgZAGCtBr0tQAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728571381; c=relaxed/simple;
-	bh=6e73heRiVIY6t99HPQu60V03l+lRLei6T7aIWoYzu3E=;
+	s=arc-20240116; t=1728572144; c=relaxed/simple;
+	bh=w5s9c0gsUyZAb1duuICYtgix8lgm5eDU7I4/CwJW6Kc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sPl8p9KWQ9gjghc1pB2sfRxHmih3LO2vmj4NFlHG818UnXw00PpOQ2qJelid8KlSP9X1Tu5A2xa7Grd8o19Hf2nynSQ6oeICJ7VfDh+QE9/AUxVexn+tQl7uE/LgZx5itc6HA9EFcGNa8ACjdxKNJcTUpifARBSwJrh+2a5a4yc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L3btxgxF; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=pbYnTdyV41+g+IaLfwtSSZs9sjIkgBV048SAtNCEcLlnsL0+GUXIJE+gZCwvX1DklIlxRlYQuclhFOFxxT/900pMf1pAs//euU1zlYTHAzUOwNJQoc6bVEp3oOt3jwkMizZFC2gF5F4RakSdluU30JWA6Y2zEXmiDWXOs6g2HIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tvL4wljr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L3btxgxF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72AA6C4CEC5;
-	Thu, 10 Oct 2024 14:43:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tvL4wljr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6876DC4CEC5;
+	Thu, 10 Oct 2024 14:55:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728571381;
-	bh=6e73heRiVIY6t99HPQu60V03l+lRLei6T7aIWoYzu3E=;
+	s=k20201202; t=1728572143;
+	bh=w5s9c0gsUyZAb1duuICYtgix8lgm5eDU7I4/CwJW6Kc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=L3btxgxFKogvIUcc7dQmuOyfXH38gMVtU+5biNRy77WYo7F1fkxjCAwp5/hfUz4jZ
-	 nh1grHRGZemFI0B+lNSXEC+TN9W7Uk8sRxR0b9DmASmbclorbrZy91GzyicmhvbFNQ
-	 JErr5WI2RYzjG6Ha5kxyBNCCTEV9f/qYxxxfw5Woy2WXVAKYZRPR2dDnbqviDPWmUK
-	 boRK7oggZd9mRJ4zfPDqjn2snpnfSUWiz2kr4AQwDqT2sUcGevIf6IhhEhTE0zXKN3
-	 BHjiM5dXMmIyNs+mAilio/QOZRVRszOvCfaCM7s+4YdocIA5pfUKZ49SQE1L6/XT23
-	 G6+kHoDO653kg==
+	b=tvL4wljrUPmcLEINB9jWM9y3BseA1V5ZXHgtB69KejDi2iJg+PscHYMxEUjmE3p54
+	 jSKKIQISe+YUh8Cm+isA+mVA9GsZaJbNTc4QuxEwdcRs9s2rPrxT4I1O8JPGqEmUTb
+	 0gMk5Yk0Ah6UquDUsxZIapMSWe8cRDVlC9a2XSNbWKmhNL1+yIKG/jQY9j84e8JIJL
+	 5d6lX6appzVPcDKIrTHzSZTNcX+Peb1CCUGgoSN9thX+nzNpNp3x0mlquCE+Q1EqnS
+	 zRI6CgCQK1mlC3KftfmnmI04vpcmm/OQgQ3JHvlxQCRGIP/zrp9cj6iuML0VM1HeSN
+	 +GghxeTXPDLew==
 Received: from johan by xi.lan with local (Exim 4.97.1)
 	(envelope-from <johan@kernel.org>)
-	id 1syuNe-000000006uX-1rTS;
-	Thu, 10 Oct 2024 16:43:06 +0200
-Date: Thu, 10 Oct 2024 16:43:06 +0200
+	id 1syuZw-000000007yi-1IRM;
+	Thu, 10 Oct 2024 16:55:48 +0200
+Date: Thu, 10 Oct 2024 16:55:48 +0200
 From: Johan Hovold <johan@kernel.org>
-To: cristian.marussi@arm.com
-Cc: linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
-	sudeep.holla@arm.com, cristian.marussi@arm.com,
-	quic_sibis@quicinc.com, konradybcio@kernel.org,
-	johan+linaro@kernel.org
-Subject: Re: [PATCH] firmware: arm_scmi: Skip opp duplicates
-Message-ID: <Zwfn-kGr1yYP8Xff@hovoldconsulting.com>
-References: <20241009143905.2440438-1-cristian.marussi@arm.com>
+To: Sibi Sankar <quic_sibis@quicinc.com>
+Cc: sudeep.holla@arm.com, cristian.marussi@arm.com, ulf.hansson@linaro.org,
+	jassisinghbrar@gmail.com, linux-kernel@vger.kernel.org,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, konradybcio@kernel.org,
+	linux-pm@vger.kernel.org, tstrudel@google.com, rafael@kernel.org,
+	Johan Hovold <johan+linaro@kernel.org>
+Subject: Re: [PATCH V3 1/4] firmware: arm_scmi: Ensure that the message-id
+ supports fastchannel
+Message-ID: <Zwfq9KYi04QkZBp1@hovoldconsulting.com>
+References: <20241007060642.1978049-1-quic_sibis@quicinc.com>
+ <20241007060642.1978049-2-quic_sibis@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -48,30 +52,26 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241009143905.2440438-1-cristian.marussi@arm.com>
+In-Reply-To: <20241007060642.1978049-2-quic_sibis@quicinc.com>
 
-[ There appears to be something wrong with you mail setup as the patch
-  had a bogus Reply-To header:
+On Mon, Oct 07, 2024 at 11:36:39AM +0530, Sibi Sankar wrote:
+> Currently the perf and powercap protocol relies on the protocol domain
+> attributes, which just ensures that one fastchannel per domain, before
+> instantiating fastchannels for all possible message-ids. Fix this by
+> ensuring that each message-id supports fastchannel before initialization.
 
-  Reply-To: 20241007060642.1978049-3-quic_sibis@quicinc.com
-]
+Perhaps you could include the error message I reported here so that
+anyone searching for that error will find this fix more easily.
 
-On Wed, Oct 09, 2024 at 03:39:05PM +0100, Cristian Marussi wrote:
-> Buggy firmware can reply with duplicated PERF opps descriptors.
-> 
-> Ensure that the bad duplicates reported by the platform firmware doesn't
-> get added to the opp-tables.
-> 
 > Reported-by: Johan Hovold <johan+linaro@kernel.org>
 > Closes: https://lore.kernel.org/lkml/ZoQjAWse2YxwyRJv@hovoldconsulting.com/
-> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> ---
-> A new version to include in this series that should address the limit case
-> described by Sibi...not tested, of course :P
+> Fixes: 6f9ea4dabd2d ("firmware: arm_scmi: Generalize the fast channel support")
+> Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
 
-Thanks for the fix. This seems to do the trick and gets rid of the
-warnings about duplicate entries on boot and resume (including the
-debugfs errors).
+Do we want this to be backported as well so that you should add a
+CC-stable tag?
+
+Either way, this does seem to address the FC errors I reported:
 
 Tested-by: Johan Hovold <johan+linaro@kernel.org>
 
