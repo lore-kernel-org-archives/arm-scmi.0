@@ -1,77 +1,57 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3D1C8F5E;
-	Fri, 11 Oct 2024 13:47:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 006D5218D7C;
+	Fri, 11 Oct 2024 14:25:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728654435; cv=none; b=hCKIjZCcYluOykxGy/byU1cxI5gotFHAUDaOsdZkGn0WNR/UQG//9pbQx1I3HhU+8CO+nO+PPPZbJ9cwsz/+YxQTHFBm8cmyCBh6Bm9HpdWdyLYqcI/FLBm6f+ATZYMKQZlvP3+Nmy4ZFKlFmIvnpaUBY1EbNAGBNQ86/RzAtt4=
+	t=1728656732; cv=none; b=JkO3hrOvBK0lVQ+HHRxD5uhDVa/FBdaDEAV0vtRbaY2m11cGqcIbZllIPAhLBGnYWmoi98u7B9Z+hB92GNHNkhnrks1Gy1sWPoxIF/xTJDK0GwXKwOKFIjAfddiyblG6LotQuOzNaQwjzu1BFz/hmNdoQHsd7QUZ/O84wGSNt3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728654435; c=relaxed/simple;
-	bh=4hWK7owCdQ8AZEtitrIBPKLbtijxQ0BNhtAY2CySHqo=;
+	s=arc-20240116; t=1728656732; c=relaxed/simple;
+	bh=Kg5c6UvEtUhEc5DMSJea3v9/rsk6G1aNDbZ0lXvgIlE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l6k+YgeaLWmMQqmMPl/RVBYat/hNUw0gK2/wAjagAh9lIp+2c8dP0qkO9cP8OxlU4wz3AJE0b8pNapKoClZe/zV8/j6S+KhWtBq5xX5jCvJ5Mer4v/OHB+unisjsdN90TIJkyDr/RUCowHz/YdI9DBln7VzccoscwoipBmRM/Ms=
+	 Content-Type:Content-Disposition:In-Reply-To; b=A2WeV880f9JHxvbtIAoTE0T9e/xX1HaoXnUOk3y/LQske7/TVYj9EK3IQsxki2FXaRTxi3unJfKqZMcOShV/upjhbDYKjnOwFgijJoazEuXGyO2b1ZpeIfXFUvk9gQeeDjfoWTYdhW94D8tYHR7iB5BfFYJk2rjMPbVQwKj50Hg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B45E2497;
-	Fri, 11 Oct 2024 06:47:42 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1524ADA7;
+	Fri, 11 Oct 2024 07:26:00 -0700 (PDT)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 82FF23F5A1;
-	Fri, 11 Oct 2024 06:47:10 -0700 (PDT)
-Date: Fri, 11 Oct 2024 14:47:07 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6C6A83F5A1;
+	Fri, 11 Oct 2024 07:25:28 -0700 (PDT)
+Date: Fri, 11 Oct 2024 15:25:25 +0100
 From: Cristian Marussi <cristian.marussi@arm.com>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: linux-arm-kernel@lists.infreadead.org, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE" <arm-scmi@vger.kernel.org>,
-	"moderated list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE" <linux-arm-kernel@lists.infradead.org>,
-	justin.chen@broadcom.com, opendmb@gmail.com,
-	kapil.hali@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v2] firmware: arm_scmi: Give SMC transport precedence
- over mailbox
-Message-ID: <ZwksW2q6-wrY_tKZ@pluto>
-References: <20241007235413.507860-1-florian.fainelli@broadcom.com>
+To: Su Hui <suhui@nfschina.com>
+Cc: sudeep.holla@arm.com, cristian.marussi@arm.com, nathan@kernel.org,
+	ndesaulniers@google.com, morbo@google.com, justinstitt@google.com,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] firmware: arm_scmi: fix the double free in
+ scmi_debugfs_common_setup()
+Message-ID: <Zwk1VUXi5BBeU9n9@pluto>
+References: <20241011104001.1546476-1-suhui@nfschina.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241007235413.507860-1-florian.fainelli@broadcom.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241011104001.1546476-1-suhui@nfschina.com>
 
-On Mon, Oct 07, 2024 at 04:54:13PM -0700, Florian Fainelli wrote:
-> Broadcom STB platforms have for historical reasons included both
-> "arm,scmi-smc" and "arm,scmi" in their SCMI Device Tree node compatible
-> string, in that order.
+On Fri, Oct 11, 2024 at 06:40:02PM +0800, Su Hui wrote:
+> Clang static checker(scan-build) warning：
+> drivers/firmware/arm_scmi/driver.c:line 2915, column 2
+> Attempt to free released memory.
 > 
-> After the commit cited in the Fixes tag and with a kernel configuration
-> that enables both the SMC and the Mailbox transports, we would probe
-> the mailbox transport, but fail to complete since we would not have a
-> mailbox driver available. With each SCMI transport being a platform
-> driver with its own set of compatible strings to match, rather than an
-> unique platform driver entry point, we no longer match from most
-> specific to least specific. There is also no simple way for the mailbox
-> driver to return -ENODEV and let another platform driver attempt
-> probing. This leads to a platform with no SCMI provider, therefore all
-> drivers depending upon SCMI resources are put on deferred probe forever.
+> When devm_add_action_or_reset() failed , scmi_debugfs_common_cleanup()
+> will run twice which caused double free of 'dbg->name'.
+> Remove the redundant scmi_debugfs_common_cleanup() to fix this problem.
 > 
-> By keeping the SMC transport objects linked first, we can let the
-> platform driver match the compatible string and probe successfully with
-> no adverse effects on platforms using the mailbox transport.
-> 
-> Fixes: b53515fa177c ("firmware: arm_scmi: Make MBOX transport a standalone driver")
-> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
 
-I was hoping to find some way to avoid this workaround....
-...but I failed :P ... so
+Oh Yes...my bad, Good Catch !
 
 LGTM.
 Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
