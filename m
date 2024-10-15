@@ -1,58 +1,67 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 712161C07CA;
-	Tue, 15 Oct 2024 12:49:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B46913F435;
+	Tue, 15 Oct 2024 13:15:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728996576; cv=none; b=j9DNk0f5N+9tCfK5XTzynvrBSFXOac3u0kmbiU/mUM2lnjfolLAHnHgWJGWCi3AXWdctv52go76vvSpW+8HTdwH0pmHSYiCTur+tQzf+Z/vLl1A40GR7T1GMWa8Qj3rY67Tf6rlWLctUK0LkdUYNe2CT678P6PYHGBNS87hbjso=
+	t=1728998117; cv=none; b=WpnDokrYcAg0GePkK3LwWdOen7XSPE90L8M0D0U01Pd+SBMobSY0OjZ1A93iTqi4jbCm1JPR4Mq2sK0F1uxogSlk3HwBKCEjjTd58TOK3SRcLA+dXSAg5ZK4Hg7E7rhY+3JD4gBXMcVHEs+e6F7GeU9p/9v+1drei+UdHerLcDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728996576; c=relaxed/simple;
-	bh=8BvFXXute3E0Aou5zajU1W75cfTVEa2qVOBZGsbdEus=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nywHWyryls9oX4q3hpLQSBmNIV/IUjhwcjZRxUWRmCSsvLvUFSe2/0wJKHXEx75S2SLfOzLI3wyBoLms6kqlZ61VJTBJrZYT+3Er2BbtJMGIqGS0kxPquV7gYFXslLPsTnCwxPUOfGHAVtg/rxVflWyYiJowyW0TK2O3n2/TziU=
+	s=arc-20240116; t=1728998117; c=relaxed/simple;
+	bh=m6H164m1q3pOtv+CZpHZglbzobwhvVqzW768djvjF6c=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mXZaELDgfTUZapyDmGkdIlMnq/4gSYtmwG6mA/EpxucJhGNZN+raGD/xwxLlUSzKHFRh6+DtElAHGj5QO9WGTXSthtu5+p/5bMnlnDz+tL7R3MNNKZ2tg7U0cymr+BKYRYjOuCxLFw8VvHrb1PT9Brdr9vkQuYCQcBLCpVorRYA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 77F5EDA7;
-	Tue, 15 Oct 2024 05:50:03 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 75C843F51B;
-	Tue, 15 Oct 2024 05:49:32 -0700 (PDT)
-Date: Tue, 15 Oct 2024 13:49:29 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Xinqi Zhang <quic_xinqzhan@quicinc.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 67B49FEC;
+	Tue, 15 Oct 2024 06:15:44 -0700 (PDT)
+Received: from usa.arm.com (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 454873F51B;
+	Tue, 15 Oct 2024 06:15:13 -0700 (PDT)
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: cristian.marussi@arm.com,
+	nathan@kernel.org,
+	ndesaulniers@google.com,
+	morbo@google.com,
+	justinstitt@google.com,
+	Su Hui <suhui@nfschina.com>
 Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	linux-arm-msm@vger.kernel.org, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] firmware: arm_scmi: fix slab-use-after-free in
- scmi_bus_notifier
-Message-ID: <Zw5k2clQgGPQfRau@pluto>
-References: <20241015-fix-arm-scmi-slab-use-after-free-v1-1-b006eba9c8df@quicinc.com>
+	arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] firmware: arm_scmi: fix the double free in scmi_debugfs_common_setup()
+Date: Tue, 15 Oct 2024 14:15:03 +0100
+Message-Id: <172899805803.948158.17513489982194163246.b4-ty@arm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241011104001.1546476-1-suhui@nfschina.com>
+References: <20241011104001.1546476-1-suhui@nfschina.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241015-fix-arm-scmi-slab-use-after-free-v1-1-b006eba9c8df@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 15, 2024 at 06:48:25PM +0800, Xinqi Zhang wrote:
-> Move release of scmi_dev->name into scmi_device_release to
-> avoid slab-use-after-free.
+On Fri, 11 Oct 2024 18:40:02 +0800, Su Hui wrote:
+> Clang static checker(scan-build) warning：
+> drivers/firmware/arm_scmi/driver.c:line 2915, column 2
+> Attempt to free released memory.
 > 
+> When devm_add_action_or_reset() failed , scmi_debugfs_common_cleanup()
+> will run twice which caused double free of 'dbg->name'.
+> Remove the redundant scmi_debugfs_common_cleanup() to fix this problem.
+> 
+> [...]
 
-Hi,
+Applied to sudeep.holla/linux (for-next/scmi/fixes), thanks!
 
-Thanks for reporting this.
+[1/1] firmware: arm_scmi: fix the double free in scmi_debugfs_common_setup()
+      https://git.kernel.org/sudeep.holla/c/39b13dce1a91
+--
+Regards,
+Sudeep
 
-Can you add a bit more of conetxt in the commit message on when this
-happens ? From the stacktrace seems related to an early chan_setup failure
-and the subsequent complete shutdown of the SCMI stack.
-
-And also a Fixes tag would be useful.
-
-Thanks,
-Cristian
