@@ -1,178 +1,240 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90DCF38F83;
-	Tue, 15 Oct 2024 16:31:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 362F418C92C;
+	Wed, 16 Oct 2024 06:14:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729009900; cv=none; b=PtjnQt+Dn9p6YXh1mwXxnrdNtrYIIqU6xwMEsDlDDcewGW7hANzPMC2QECn70EpXCDB3bYinGwPk4T4cHDfuCI19e9+tqEIa4mT1Uj+pZljDS6vnrn9xZ+Tsz5ucaF+cYIAeX/tLnD/a8L/hTM51i1eitKreW52ndkDAb6FYm8k=
+	t=1729059255; cv=none; b=I6FLV0GQ3KD0TNHUzhI8Xycx5xYoZG9ztK5vWhrdpmtoh19OtDIiH8JE6cbPB7oPOYfUcCmlpu24/Hd0zIfwevDtBeI8nac0kO5tC2FJwQUZNbfGHXfUlsvNn8/JMEeHvBNqQxlDSCosSu1e1MrKtfBWtrtyA6fKGsFxnOt9lcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729009900; c=relaxed/simple;
-	bh=bSCSYWJmJEbWZ9zVkazQwzn9JzgBDna48aN/PMASXvQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kt9i+vIXhrGUE4atgeG3XJJ+++inNXswNzgBW5ZDMXwn20Z21maj/RDVfboPL5dIdB8/WS2BYhT5DEiMTiy7d4kjTOySZCrOWJ3kJFJ4k8P/0rfpEOjv9ib3E/bZ0t5/p7nXYCMayb0LyEy07HrsUb8MgxweSIuT8qtcAuw4qyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5E30D1763;
-	Tue, 15 Oct 2024 09:32:06 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0AC9E3F71E;
-	Tue, 15 Oct 2024 09:31:33 -0700 (PDT)
-Date: Tue, 15 Oct 2024 17:31:26 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Nikunj Kela <quic_nkela@quicinc.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, etienne.carriere@foss.st.com,
-	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
-	ptosi@google.com, dan.carpenter@linaro.org,
-	souvik.chakravarty@arm.com, Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH 5/8] firmware: arm_scmi: Make SMC transport a standalone
- driver
-Message-ID: <Zw6Y3rT9LbODoZ22@pluto>
-References: <20240707002055.1835121-1-cristian.marussi@arm.com>
- <20240707002055.1835121-6-cristian.marussi@arm.com>
- <ffb76411-7119-4024-acaa-3cf40f81ed95@quicinc.com>
- <Zov3VppLHotmIO3l@pluto>
- <273d23f5-c354-43cf-8903-d07f42778c3a@quicinc.com>
- <ZowJ9m3uMfImEulE@pluto>
- <c93cb17d-8f4f-40c9-87af-e5965593b603@quicinc.com>
+	s=arc-20240116; t=1729059255; c=relaxed/simple;
+	bh=hdyDHBvxXBqMwZseRlYu7TqOeNFFBgQvasFC5gjoWHg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=tNIJr5qb8nFyDbcodkKZu4m0nKEwRTJQVTfUn6iIDMuCEpmYE+beKJKIlQSJ+wumEj9heCmG4e72dYsnVfaWU7ys4a/TiqOhn8+pxsq5bk5eq7RT8eFjQNIkBsNVLgD1QYrHGejIuKgIUP6y6171XTT1j/JsK7qirJ/mNhNrpQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=CkyT4YTJ; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="CkyT4YTJ"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49G3cMV8027176;
+	Wed, 16 Oct 2024 06:14:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=7/pBTpcop1tijS7MN1fUnG
+	E4qZwAr4Bwc8K19nB+97c=; b=CkyT4YTJRxs4NcKfdZelU7jI8gJ3cJRYrMoUNz
+	o8kpcpLRMPkTsoquF5QkjI5eJrwwlc3SBLSDc1hEp7Y/x8iBzXBaQ3UmZWIvVI6l
+	QxNlTgfyYvsQ6jP0gPdkmiH+LZ2F6tvXpZQrBVST7sJE5BKCVEIqf4lzEidcLzBk
+	Ce7dRzDrOtwokNjeifAzzvgQukeP/2LdflegkqrbErzBcoLKEUY2Fo6c+5s210EP
+	aG9Db1fT58MwqQptYKW4DQHJ8rYefS4Z80ZjvuWsA0iV+OsZ+sfFdkgBP3hK0voT
+	M0VpvBEKOf5G+MzSZLoPzkO42ztmG0nVsTlCYCfzcmyUbiDA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 429m0fbh8p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 16 Oct 2024 06:14:06 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49G6E5pA000903
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 16 Oct 2024 06:14:05 GMT
+Received: from xinqzhan-gv.ap.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 15 Oct 2024 23:14:03 -0700
+From: Xinqi Zhang <quic_xinqzhan@quicinc.com>
+Date: Wed, 16 Oct 2024 14:13:38 +0800
+Subject: [PATCH v2] firmware: arm_scmi: fix slab-use-after-free in
+ scmi_bus_notifier()
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c93cb17d-8f4f-40c9-87af-e5965593b603@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20241016-fix-arm-scmi-slab-use-after-free-v2-1-1783685ef90d@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAJFZD2cC/5WNTQ6CMBBGr0Jm7ZiWHwVX3sOwaIepTCJUWyAaw
+ t2t3MDl+5LvvRUiB+EIl2yFwItE8WOC/JAB9Wa8M0qXGHKVl1rpCp280YQBIw2C8WEszpHRuIk
+ DusCM55KLqrYFNYogaZ6B02dP3NrEvcTJh89eXPRv/UO+aNRolTqxNQ3Vnbu+ZiEZ6Uh+gHbbt
+ i/EpEJC0gAAAA==
+X-Change-ID: 20241015-fix-arm-scmi-slab-use-after-free-74e358b3c90c
+To: Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi
+	<cristian.marussi@arm.com>
+CC: <linux-arm-msm@vger.kernel.org>, <arm-scmi@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        "Xinqi Zhang" <quic_xinqzhan@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1729059243; l=4879;
+ i=quic_xinqzhan@quicinc.com; s=20241015; h=from:subject:message-id;
+ bh=hdyDHBvxXBqMwZseRlYu7TqOeNFFBgQvasFC5gjoWHg=;
+ b=fSccmVM6PJJcz2UqekVDS1hDmzoAPgWhvecbMUlDgbNrRGlg306/gRJp8T1XJPWn0mzq3M0Ya
+ yaV0Pq6t4ekAFYTX3gdRdOWzji+Gg/KQR6nmMiKgsIZWxrPEgSIp82E
+X-Developer-Key: i=quic_xinqzhan@quicinc.com; a=ed25519;
+ pk=e+mEOolV1It3rv+K/zKK83GBcQFoVe2iQO+mmOoesHg=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: pYQU5EEE5ux-nMOUwLcZJtXo2TSe0yYN
+X-Proofpoint-ORIG-GUID: pYQU5EEE5ux-nMOUwLcZJtXo2TSe0yYN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 adultscore=0 clxscore=1015 phishscore=0
+ spamscore=0 impostorscore=0 suspectscore=0 mlxlogscore=971 malwarescore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410160039
 
-On Mon, Jul 08, 2024 at 10:59:33AM -0700, Nikunj Kela wrote:
-> 
-> On 7/8/2024 8:47 AM, Cristian Marussi wrote:
-> > On Mon, Jul 08, 2024 at 08:23:56AM -0700, Nikunj Kela wrote:
-> >> On 7/8/2024 7:27 AM, Cristian Marussi wrote:
-> >>> On Sun, Jul 07, 2024 at 09:52:49AM -0700, Nikunj Kela wrote:
-> >>>> On 7/6/2024 5:20 PM, Cristian Marussi wrote:
-> >>>>> Make SCMI SMC transport a standalone driver that can be optionally
-> >>>>> loaded as a module.
-> >>>>>
-> >>>>> CC: Peng Fan <peng.fan@nxp.com>
-> >>>>> CC: Nikunj Kela <quic_nkela@quicinc.com>
-> >>>>> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> >>>>> ---
-> >>>>>  drivers/firmware/arm_scmi/Kconfig             |  4 ++-
-> >>>>>  drivers/firmware/arm_scmi/Makefile            |  2 +-
-> >>>>>  drivers/firmware/arm_scmi/common.h            |  3 --
-> >>>>>  drivers/firmware/arm_scmi/driver.c            |  5 ---
-> >>>>>  .../arm_scmi/{smc.c => scmi_transport_smc.c}  | 31 +++++++++++++++----
-> >>>>>  5 files changed, 29 insertions(+), 16 deletions(-)
-> >>>>>  rename drivers/firmware/arm_scmi/{smc.c => scmi_transport_smc.c} (89%)
-> >>>>>
+The scmi_dev->name is released prematurely in __scmi_device_destroy(),
+which causes slab-use-after-free when accessing scmi_dev->name in
+scmi_bus_notifier(). So move the release of scmi_dev->name to
+scmi_device_release() to avoid slab-use-after-free.
 
-Hi Nikunj,
+==================================================================
+BUG: KASAN: slab-use-after-free in strncmp+0xe4/0xec
+Read of size 1 at addr ffffff80a482bcc0 by task swapper/0/1
 
-> >>>>> diff --git a/drivers/firmware/arm_scmi/Kconfig b/drivers/firmware/arm_scmi/Kconfig
+CPU: 1 PID: 1 Comm: swapper/0 Not tainted 6.6.38-debug #1
+Hardware name: Qualcomm Technologies, Inc. SA8775P Ride (DT)
+Call trace:
+ dump_backtrace+0x94/0x114
+ show_stack+0x18/0x24
+ dump_stack_lvl+0x48/0x60
+ print_report+0xf4/0x5b0
+ kasan_report+0xa4/0xec
+ __asan_report_load1_noabort+0x20/0x2c
+ strncmp+0xe4/0xec
+ scmi_bus_notifier+0x5c/0x54c
+ notifier_call_chain+0xb4/0x31c
+ blocking_notifier_call_chain+0x68/0x9c
+ bus_notify+0x54/0x78
+ device_del+0x1bc/0x840
+ device_unregister+0x20/0xb4
+ __scmi_device_destroy+0xac/0x280
+ scmi_device_destroy+0x94/0xd0
+ scmi_chan_setup+0x524/0x750
+ scmi_probe+0x7fc/0x1508
+ platform_probe+0xc4/0x19c
+ really_probe+0x32c/0x99c
+ __driver_probe_device+0x15c/0x3c4
+ driver_probe_device+0x5c/0x170
+ __driver_attach+0x1c8/0x440
+ bus_for_each_dev+0xf4/0x178
+ driver_attach+0x3c/0x58
+ bus_add_driver+0x234/0x4d4
+ driver_register+0xf4/0x3c0
+ __platform_driver_register+0x60/0x88
+ scmi_driver_init+0xb0/0x104
+ do_one_initcall+0xb4/0x664
+ kernel_init_freeable+0x3c8/0x894
+ kernel_init+0x24/0x1e8
+ ret_from_fork+0x10/0x20
 
-[snip]
+Allocated by task 1:
+ kasan_save_stack+0x2c/0x54
+ kasan_set_track+0x2c/0x40
+ kasan_save_alloc_info+0x24/0x34
+ __kasan_kmalloc+0xa0/0xb8
+ __kmalloc_node_track_caller+0x6c/0x104
+ kstrdup+0x48/0x84
+ kstrdup_const+0x34/0x40
+ __scmi_device_create.part.0+0x8c/0x408
+ scmi_device_create+0x104/0x370
+ scmi_chan_setup+0x2a0/0x750
+ scmi_probe+0x7fc/0x1508
+ platform_probe+0xc4/0x19c
+ really_probe+0x32c/0x99c
+ __driver_probe_device+0x15c/0x3c4
+ driver_probe_device+0x5c/0x170
+ __driver_attach+0x1c8/0x440
+ bus_for_each_dev+0xf4/0x178
+ driver_attach+0x3c/0x58
+ bus_add_driver+0x234/0x4d4
+ driver_register+0xf4/0x3c0
+ __platform_driver_register+0x60/0x88
+ scmi_driver_init+0xb0/0x104
+ do_one_initcall+0xb4/0x664
+ kernel_init_freeable+0x3c8/0x894
+ kernel_init+0x24/0x1e8
+ ret_from_fork+0x10/0x20
 
-> >>>
-> >>>> Would it make sense to associate scmi descriptor(scmi_smc_desc) with
-> >>>> compatible as driver/platform data so we have flexibility to replicate
-> >>>> it and modify parameters such as max_timeout_ms etc. for our platform?
-> >>>>
-> >>> Mmmm...not sure to have understood, because the scmi_smc_desc is
-> >>> effecetively passed from this driver to the core via a bit of
-> >>> (questionable) magic in the mega-macro
-> >>>
-> >>> DEFINE_SCMI_TRANSPORT_DRIVER(scmi_smc, scmi_of_match, &core);
-> >>>
-> >>> ...and it will end-up being set into the dev.platform_data and then
-> >>> retrieved by the core SCMI stack driver in scmi_probe...
-> >>>
-> >>> ...OR...do you mean being able to somehow define 3 different
-> >>> scmi_smc_desc* and then associate them to the different compatibles
-> >>> and then, depending on which compatible is matched by this isame driver
-> >>> at probe time, passing the related platform-specific desc to the core...
-> >>>
-> >>> ...in this latter case I suppose I can do it by playing with the macros
-> >>> defs but maybe it is also the case to start thinking about splitting out
-> >>> configuration stuff from the transport descriptor...
-> >>>
-> >>> I'll give it a go at passing the data around, and see how it plays out
-> >>> if you confirm that this is what you meant...
-> >> Hi Cristian,
-> >>
-> > Hi,
-> >
-> >> I wanted to send a patch for review(with older driver code) that will
-> >> allow us to override transport parameters(e.g. max_timeout_ms,
-> >> max_msg_size etc.) on Qualcomm platform. There could be multiple
-> >> approaches- 1) add callbacks (similar to get_msg_size) in transport_ops
-> >> and override the default or 2) replicate the descriptors for different
-> >> compatible and change those values as needed. I was going with the
-> >> second option but then I saw your patch and thought of throwing this at
-> > :P 
-> >
-> >> you ;) I don't want you to hold your patch series for this but if you
-> >> have a better way to achieve or a preferred way between the two
-> >> mentioned before, please let me know. If you do want to add this feature
-> >> in this patch series, that would be great!
-> >>
-> > Interesting, because there is also this thread flying around from Peng:
-> >
-> > https://lore.kernel.org/linux-arm-kernel/20240703031715.379815-1-peng.fan@oss.nxp.com/
-> Thanks Cristian for the link. I was under the impression that DT binding
-> that don't describe HW are not acceptable to DT maintainer. But if this
-> patch goes through, I am fine using it. I would also like to have
-> max_msg_size(and maybe max_msg) configurable.
-> >
-> > ...which I was planning in embedding in this series; Peng's proposal is
-> > limited to timeout and based on DT (and title is a bit misleading...the
-> > series is not mailbox-only related)....
-> >
-> > ...now I am NOT saying that we should dump all configs into the DT, but
-> > just that this issue about configurability of transports is already sort
-> > of a known-problem, and it is a while that it floats in the back of my mind...
-> > i.e. the fact that the transport runtime configurations should be *somehow*
-> > independent of the transport descriptor and *somehow* configurable....so now
-> > only remains to *somehow* figure out how to do it :D
-> >
-> > ... I'll have a though and maybe cannibalize your ideas and Peng's one and then
-> > we could have a discussion around this on the list to address eveybody's needs...
-> >
-> > ...and maybe, in the meantime, you could also post your proposed series about
-> > this even though based on the old code, but as an RFC, just to make a point and
-> > detail the needs...but yeah only if it does not require a bunch of extra work from
-> > you given that it is only to be used as a basis for discussion ....
-> >
-> > ...up to you what do you prefer.
+Freed by task 1:
+ kasan_save_stack+0x2c/0x54
+ kasan_set_track+0x2c/0x40
+ kasan_save_free_info+0x38/0x5c
+ __kasan_slab_free+0xe8/0x164
+ __kmem_cache_free+0x11c/0x230
+ kfree+0x70/0x130
+ kfree_const+0x20/0x40
+ __scmi_device_destroy+0x70/0x280
+ scmi_device_destroy+0x94/0xd0
+ scmi_chan_setup+0x524/0x750
+ scmi_probe+0x7fc/0x1508
+ platform_probe+0xc4/0x19c
+ really_probe+0x32c/0x99c
+ __driver_probe_device+0x15c/0x3c4
+ driver_probe_device+0x5c/0x170
+ __driver_attach+0x1c8/0x440
+ bus_for_each_dev+0xf4/0x178
+ driver_attach+0x3c/0x58
+ bus_add_driver+0x234/0x4d4
+ driver_register+0xf4/0x3c0
+ __platform_driver_register+0x60/0x88
+ scmi_driver_init+0xb0/0x104
+ do_one_initcall+0xb4/0x664
+ kernel_init_freeable+0x3c8/0x894
+ kernel_init+0x24/0x1e8
+ ret_from_fork+0x10/0x20
 
-I am in the middle of some rework around these SCMI transport characteristics,
-(max_msg / max_msg_size) that by itself currently are not so well defined in
-terms of semantic and usage in the codebase, so I am trying to remove any
-ambiguity and fix innaccuracies. (i.e. even before any DT transport-related
-binding is introduced).
+Fixes: ee7a9c9f67c5 ("firmware: arm_scmi: Add support for multiple device per protocol")
+Signed-off-by: Xinqi Zhang <quic_xinqzhan@quicinc.com>
+---
+Changes in v2:
+- Standardize commit messages and add Fixes tags.
+- Link to v1: https://lore.kernel.org/r/20241015-fix-arm-scmi-slab-use-after-free-v1-1-b006eba9c8df@quicinc.com
+---
+ drivers/firmware/arm_scmi/bus.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-I was trying to understand better how you will use this new binding....
-...I mean, of course you will use it to describe new sizes for the shmem areas
-and the number of in-flight messages, but is this related to the RIDE platform
-setup where you use a high number of SCMI instances ?
+diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
+index 96b2e5f9a8ef0386525f9d91d2925e7e6d48ac28..157172a5f2b577ce4f04425f967f548230c1ebed 100644
+--- a/drivers/firmware/arm_scmi/bus.c
++++ b/drivers/firmware/arm_scmi/bus.c
+@@ -325,7 +325,10 @@ EXPORT_SYMBOL_GPL(scmi_driver_unregister);
+ 
+ static void scmi_device_release(struct device *dev)
+ {
+-	kfree(to_scmi_dev(dev));
++	struct scmi_device *scmi_dev = to_scmi_dev(dev);
++
++	kfree_const(scmi_dev->name);
++	kfree(scmi_dev);
+ }
+ 
+ static void __scmi_device_destroy(struct scmi_device *scmi_dev)
+@@ -338,7 +341,6 @@ static void __scmi_device_destroy(struct scmi_device *scmi_dev)
+ 	if (scmi_dev->protocol_id == SCMI_PROTOCOL_SYSTEM)
+ 		atomic_set(&scmi_syspower_registered, 0);
+ 
+-	kfree_const(scmi_dev->name);
+ 	ida_free(&scmi_bus_id, scmi_dev->id);
+ 	device_unregister(&scmi_dev->dev);
+ }
+@@ -410,7 +412,6 @@ __scmi_device_create(struct device_node *np, struct device *parent,
+ 
+ 	return scmi_dev;
+ put_dev:
+-	kfree_const(scmi_dev->name);
+ 	put_device(&scmi_dev->dev);
+ 	ida_free(&scmi_bus_id, id);
+ 	return NULL;
 
-...if it is, should I guess that you will tailor somehow all of these shmem
-areas' size to the specific/limited use of those scmi nodes ? (in terms of
-protocols and messages I mean)...
+---
+base-commit: eca631b8fe808748d7585059c4307005ca5c5820
+change-id: 20241015-fix-arm-scmi-slab-use-after-free-74e358b3c90c
 
-...or you just need more space in general so you bumped the existing shmem
-descriptors depending on the platform and you need to align max_msg_size
-accordingly to the transport needs for that platform ?
+Best regards,
+-- 
+Xinqi Zhang <quic_xinqzhan@quicinc.com>
 
-..or I am overthinking ? :D
-
-IOW what are your use-cases...so that I can try to fit them all in a general
-way (possibly)...
-
-Thanks,
-Cristian
