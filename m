@@ -1,43 +1,47 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87F12F9DF;
-	Fri, 18 Oct 2024 12:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96D020E335;
+	Fri, 18 Oct 2024 13:33:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729256238; cv=none; b=Si4lZZTmGUxpinX1NxbTdjYHnBrWQH64zKQHE4AHliRRvWCi72UNNXEQUeW5kyHiTcq5fkXeVPtqRTg+L1R0mY0g1OgwVaO6zHXLtwkTn+7DNNe3SPthIHJODrChzbtcoITwycqomX3yGlsuZe/oTu06vhbibNuzPrsz4yQf/bk=
+	t=1729258421; cv=none; b=i1mqcnC8sLAC9X2E89AXplmA5SOkOigD3p5CjXAQsIzyxMEiFZIWMzab9Y8TekyIFLa9wIv9ApZw1zVEI+1YHX6FvM/WdwO7Bp3yxfRR5AtGImYx4jXcB7Kn4QMpgV8dwhLRr4R80DomHc+GaDCA8K8qkHhLmZSuRRjbn4PFbRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729256238; c=relaxed/simple;
-	bh=u8YJsDjnXx6waZcqswFEzrNIa9LHOweKyJMecaGgmz4=;
+	s=arc-20240116; t=1729258421; c=relaxed/simple;
+	bh=nwqVYg9FZxvkSWfFuD0XeXYk+OpqSn4JaMEIAODptlw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LyO/Ngmb4+ioNL/2sfBWp0k05ND7XPV+rRp245nYOTLgKGHmIHavz0+6VvGz4RpxxjNTRBffAI6hwSu+bxt+ex1eAHQbPk6gdvw92VqCYUx7qmygBCzaeAflhQOsBfXH5ev8rm0r06RoujO/S7Hl5dLB67M0oV/xeSu9GuL7/xU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5E4A5106F;
-	Fri, 18 Oct 2024 05:57:44 -0700 (PDT)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8EBC63F7F5;
-	Fri, 18 Oct 2024 05:57:12 -0700 (PDT)
-Date: Fri, 18 Oct 2024 13:57:09 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: linux-arm-kernel@lists.infradead.org, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE" <arm-scmi@vger.kernel.org>,
-	justin.chen@broadcom.com, opendmb@gmail.com,
-	kapil.hali@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v4 2/2] firmware: arm_scmi: Support 'reg-io-width'
- property for shared memory
-Message-ID: <ZxJbJa8Q3V02yf_z@bogus>
-References: <20240827182450.3608307-1-florian.fainelli@broadcom.com>
- <20240827182450.3608307-3-florian.fainelli@broadcom.com>
- <20240903154000.GA2080277@bogus>
+	 Content-Type:Content-Disposition:In-Reply-To; b=amfEZASpmdolYqUzt6VxnSftm/SPq5ljh3hG0aJbRMzpl7CtJx1j82ZEsNwRysMGUW7pLHyTjMl0F6WxP0AzxS5+w5RFWIe189I7Kez+20pY9M++HsLkzZTNEEX0HxuDy4Unpwfn7kYBG3waSN4+9ufUCHygodUPybr3t8pMRko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Es909GmG; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Es909GmG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17F12C4CEC3;
+	Fri, 18 Oct 2024 13:33:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729258421;
+	bh=nwqVYg9FZxvkSWfFuD0XeXYk+OpqSn4JaMEIAODptlw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Es909GmGYuFgkFVb/Bhn2p7pUJOjy8hzXCeT2nmEATrjU51VIMQ2FIuBmzgXTpi1Y
+	 EW3qyiofuNHMypkZjLNNWlDpSEKOyB7tgaB4Hv19C+I+UPCJYMZ48l1Ji9P88Cpm4s
+	 XJQtNgLOGhTh/8cQg/Tg5MY9dzkLJfH7cTUunoI+4H7oNKcR/RmyBhpnL5QODtxSKk
+	 P62T1EUeXeD+Gno/lGEfnZRd+6kZUDW5AWf00+Vp1WZBXlFJrvlJ6xzoJw/SWhucBs
+	 C6ipnLWfSEWZVW7p20yhJ+5suYN2VVtaYCoQ3ThDvso6c/9+XiJiKlDUiyVJmTHeQX
+	 VXJqcGahFEgyw==
+Date: Fri, 18 Oct 2024 08:33:40 -0500
+From: Rob Herring <robh@kernel.org>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
+	james.quinlan@broadcom.com, f.fainelli@gmail.com,
+	vincent.guittot@linaro.org, etienne.carriere@st.com,
+	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
+	quic_nkela@quicinc.com, dan.carpenter@linaro.org,
+	devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 3/5] dt-bindings: firmware: arm,scmi: Introduce more
+ transport properties
+Message-ID: <20241018133340.GA72220-robh@kernel.org>
+References: <20241018080602.3952869-1-cristian.marussi@arm.com>
+ <20241018080602.3952869-4-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -46,44 +50,60 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240903154000.GA2080277@bogus>
+In-Reply-To: <20241018080602.3952869-4-cristian.marussi@arm.com>
 
-On Tue, Sep 03, 2024 at 04:40:00PM +0100, Sudeep Holla wrote:
-> On Tue, Aug 27, 2024 at 11:24:50AM -0700, Florian Fainelli wrote:
-> > Some shared memory areas might only support a certain access width,
-> > such as 32-bit, which memcpy_{from,to}_io() does not adhere to at least
-> > on ARM64 by making both 8-bit and 64-bit accesses to such memory.
-> >
-> > Update the shmem layer to support reading from and writing to such
-> > shared memory area using the specified I/O width in the Device Tree. The
-> > various transport layers making use of the shmem.c code are updated
-> > accordingly to pass the I/O accessors that they store.
-> >
+On Fri, Oct 18, 2024 at 09:06:00AM +0100, Cristian Marussi wrote:
+> Depending on specific hardware and firmware design choices, it may be
+> possible for different platforms to end up having different requirements
+> regarding the same transport characteristics.
 > 
-> This looks good to me now, much simpler. I will push this to -next soon,
-> but it won't be for v6.12. I have already sent PR for that. I want this
-> to be in -next for longer just to see if anyone has any comments and
-> doesn't break any platform(which it shouldn't anyways).
+> Introduce max-msg-size and max-msg properties to describe such platform
+> specific transport constraints, since they cannot be discovered otherwise.
 > 
-> Just hoping if anyone looks at it and have feedback once it is in -next.
-> I will apply formally at v6.12-rc1 and report back if no one complains
-> until then.
+> Cc: devicetree@vger.kernel.org
+> Cc: Rob Herring (Arm) <robh@kernel.org>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> ---
+>  .../devicetree/bindings/firmware/arm,scmi.yaml   | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 > 
+> diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> index 54d7d11bfed4..42852ed887f2 100644
+> --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> @@ -131,6 +131,22 @@ properties:
+>        be a non-zero value if set.
+>      minimum: 1
+>  
+> +  max-msg-size:
 
-Hi Florian,
+Vendor prefix needed.
 
-Just thought I will check with you if the content is -next are fine as I now
-recall I did the rebase as this patch was original posted before the rework
-of transport as modules were merged. Please confirm if you are happy with the
-rebase as you see in -next. I also had to rebase it on recent fixes that
-Justin added as there were trivial conflicts.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      An optional value, expressed in bytes, representing the maximum size
+> +      allowed for the payload of messages transmitted on this transport.
+> +      If set it is recommended to be greater or equal than the minimum size
+> +      required to support all the messages defined by the set of protocols
+> +      implemented on this platform.
 
-Another thing I wanted to check is if [1] series has any impact on this.
-IIUC no, but it would be good to give a go in terms of testing just in case
-that as well lands in -next.
+Sounds kind of broken if less than the minimum...
 
---
-Regards,
-Sudeep
+> +
+> +  max-msg:
 
-[1] https://lore.kernel.org/all/20241010123627.695191-1-jvetter@kalrayinc.com
+Vendor prefix and could be a bit more specific what this is.
+
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      An optional value representing the maximum number of concurrent in-flight
+> +      messages allowed by this transport. If set, the value should be non-zero.
+> +    minimum: 1
+> +
+>    arm,smc-id:
+>      $ref: /schemas/types.yaml#/definitions/uint32
+>      description:
+> -- 
+> 2.46.1
+> 
