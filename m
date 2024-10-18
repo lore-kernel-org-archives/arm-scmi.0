@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96D020E335;
-	Fri, 18 Oct 2024 13:33:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1874433B5;
+	Fri, 18 Oct 2024 13:37:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729258421; cv=none; b=i1mqcnC8sLAC9X2E89AXplmA5SOkOigD3p5CjXAQsIzyxMEiFZIWMzab9Y8TekyIFLa9wIv9ApZw1zVEI+1YHX6FvM/WdwO7Bp3yxfRR5AtGImYx4jXcB7Kn4QMpgV8dwhLRr4R80DomHc+GaDCA8K8qkHhLmZSuRRjbn4PFbRc=
+	t=1729258647; cv=none; b=e8Y+BgaPhGDxDWtq5qBaD2xV8tkD3Ycyl1l6giprkCzpECx+PBIXYjVag7UBkEJKgan7VGzeTZqAD0KE+UerzrNMGVJcdgXkMZMmCaMqoqufarOS/IoJSdOqe/nIa46fIPZxU/UrBcO2GtMVgF9VKQTFbbvBG3woZkUsWxAkI58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729258421; c=relaxed/simple;
-	bh=nwqVYg9FZxvkSWfFuD0XeXYk+OpqSn4JaMEIAODptlw=;
+	s=arc-20240116; t=1729258647; c=relaxed/simple;
+	bh=ULtqYgLIagmFvtNuPcNBTUlyEXuzpQb198/+we+a+7U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=amfEZASpmdolYqUzt6VxnSftm/SPq5ljh3hG0aJbRMzpl7CtJx1j82ZEsNwRysMGUW7pLHyTjMl0F6WxP0AzxS5+w5RFWIe189I7Kez+20pY9M++HsLkzZTNEEX0HxuDy4Unpwfn7kYBG3waSN4+9ufUCHygodUPybr3t8pMRko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Es909GmG; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=mL9MmCC1fy9C61mVvkvIoyAdRZIIy1B1wltMZ6kMb0xd2CuqyTk4bk1LNnh9o/DxpRUZJPd5Q5IoTmqINWk97V4Xj5cRPSQETrc4N8xHBmUABXD+HZQHGsxsC8idAiEirWkTt/otFBs5fRCAgNNOFoUPPegBtS5rqQQszPOXH4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HnTlJzU2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Es909GmG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17F12C4CEC3;
-	Fri, 18 Oct 2024 13:33:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HnTlJzU2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A9FFC4CEC6;
+	Fri, 18 Oct 2024 13:37:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729258421;
-	bh=nwqVYg9FZxvkSWfFuD0XeXYk+OpqSn4JaMEIAODptlw=;
+	s=k20201202; t=1729258646;
+	bh=ULtqYgLIagmFvtNuPcNBTUlyEXuzpQb198/+we+a+7U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Es909GmGYuFgkFVb/Bhn2p7pUJOjy8hzXCeT2nmEATrjU51VIMQ2FIuBmzgXTpi1Y
-	 EW3qyiofuNHMypkZjLNNWlDpSEKOyB7tgaB4Hv19C+I+UPCJYMZ48l1Ji9P88Cpm4s
-	 XJQtNgLOGhTh/8cQg/Tg5MY9dzkLJfH7cTUunoI+4H7oNKcR/RmyBhpnL5QODtxSKk
-	 P62T1EUeXeD+Gno/lGEfnZRd+6kZUDW5AWf00+Vp1WZBXlFJrvlJ6xzoJw/SWhucBs
-	 C6ipnLWfSEWZVW7p20yhJ+5suYN2VVtaYCoQ3ThDvso6c/9+XiJiKlDUiyVJmTHeQX
-	 VXJqcGahFEgyw==
-Date: Fri, 18 Oct 2024 08:33:40 -0500
+	b=HnTlJzU2yu/42Ov4xiyzDqMitBPnFb3mb3RnP2E08TXHZNYY9m/jshd3USob/w4bV
+	 Tno2kBF4UWTYRQUBRPGk/0IETCvs5+lFs9Tbe1aATrc13S67PtL6S57jRV/TZoL5Z4
+	 52PZQ9PJUnOYplVL4+ti67NooYHv4ff/lZ7HAAVdvP+pqDBUOGysHRgX+f8nW48H8X
+	 c5NMi1ggBySUR0Jv5Ix8oOyVlh8I747Rj0utAsEgeS1h8NJ3BGF9DgjZjuAZqjhjtw
+	 ObSGanZcKZbHHwOCa/a31Fjqn+QVmM6G4wY+nHXO/MJbHSi2PDQQu7PdoKDNDjp/75
+	 +5A1nZxUigpvQ==
+Date: Fri, 18 Oct 2024 08:37:25 -0500
 From: Rob Herring <robh@kernel.org>
 To: Cristian Marussi <cristian.marussi@arm.com>
 Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -39,7 +39,7 @@ Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Subject: Re: [PATCH 3/5] dt-bindings: firmware: arm,scmi: Introduce more
  transport properties
-Message-ID: <20241018133340.GA72220-robh@kernel.org>
+Message-ID: <20241018133725.GA77066-robh@kernel.org>
 References: <20241018080602.3952869-1-cristian.marussi@arm.com>
  <20241018080602.3952869-4-cristian.marussi@arm.com>
 Precedence: bulk
@@ -63,47 +63,10 @@ On Fri, Oct 18, 2024 at 09:06:00AM +0100, Cristian Marussi wrote:
 > Cc: devicetree@vger.kernel.org
 > Cc: Rob Herring (Arm) <robh@kernel.org>
 > Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> ---
->  .../devicetree/bindings/firmware/arm,scmi.yaml   | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> index 54d7d11bfed4..42852ed887f2 100644
-> --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> @@ -131,6 +131,22 @@ properties:
->        be a non-zero value if set.
->      minimum: 1
->  
-> +  max-msg-size:
 
-Vendor prefix needed.
+Also, you missed Conor and that not the right address for Krzysztof. Use 
+get_maintainers.pl or a tool that uses it (b4).
 
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      An optional value, expressed in bytes, representing the maximum size
-> +      allowed for the payload of messages transmitted on this transport.
-> +      If set it is recommended to be greater or equal than the minimum size
-> +      required to support all the messages defined by the set of protocols
-> +      implemented on this platform.
+Also, no need to store maintainer addresses in the commit msg.
 
-Sounds kind of broken if less than the minimum...
-
-> +
-> +  max-msg:
-
-Vendor prefix and could be a bit more specific what this is.
-
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      An optional value representing the maximum number of concurrent in-flight
-> +      messages allowed by this transport. If set, the value should be non-zero.
-> +    minimum: 1
-> +
->    arm,smc-id:
->      $ref: /schemas/types.yaml#/definitions/uint32
->      description:
-> -- 
-> 2.46.1
-> 
+Rob
