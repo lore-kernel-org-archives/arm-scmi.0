@@ -1,57 +1,57 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2021EBA07
-	for <arm-scmi@vger.kernel.org>; Mon, 21 Oct 2024 17:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0658D1E9077
+	for <arm-scmi@vger.kernel.org>; Mon, 21 Oct 2024 17:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729531204; cv=none; b=RPqg/BYTbxSw8wqRuBVBWHKX6eauZJPHplpSH2phORsIeU71/zeEld9VONtFRdwJzO5Jh2mdV6ySJIT4cQQe3hfuNy/13rm84aZ7GNN5ldhNg286hTCjqT2QIDiwPq8TVtIDFmd6pqEVOYiiLnVOko/LVmq0KN8ZRxZ7I3JCJsA=
+	t=1729531504; cv=none; b=H7xfS0B7miy13eVxgeEUmmrGZPfpK1CIjho5tDEkPfHEvjWWolDPeokq9ORXP5LgcPd09DIKMoGu0f/ZeSXRD//8xttzJq+z6pKqG8nKmCqPdcpt0bAqKoI+JYVXbIWR/Bqr4AJaClhVPkxSjEPVVgCkIA47ppvuocz//syl9uQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729531204; c=relaxed/simple;
-	bh=JWV/i5zojTJx6bQIp+jvd7rWWLcZj80OVaXS4jHHGyY=;
+	s=arc-20240116; t=1729531504; c=relaxed/simple;
+	bh=nQARAcWrfo/9LmkvGRivnzfml4EnVGsAepwTX070oRA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RkGUPiXV1EOfaXT66qlk+NH9pQ3wMA8xhSyFhiAknS2uCZDdkp8BTarJW/sAWYqpqFQLpNPbM2580kHPhso8Vt5KWlzmGEK5DIjSlMbb1xWRDufKxWgfaGS56r/ZYU/p3sCpPyUhGks1sR7LpXxohn1R8Te6Md/afTMlavo+Fxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=XIRXOy6o; arc=none smtp.client-ip=209.85.222.171
+	 In-Reply-To:Content-Type; b=H5+5dDeRZXVJ6oYUJr1lVNG8kFGsy91Lj29KM3EstNk83Svq0xT7ZXTF0TUHGO3pppfqAJxxJBz6nSf8DBvKo1UILfVqHwGErHUXVB2ksLbctxmTw+eHuiQeHA+KGEJArxDy8YdaFI5PKSfgv4sml7Unygb6bSHo8rPFC4IDJSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=gpakq6vZ; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="XIRXOy6o"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7ac83a98e5eso382567585a.0
-        for <arm-scmi@vger.kernel.org>; Mon, 21 Oct 2024 10:20:02 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="gpakq6vZ"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20cb47387ceso41717215ad.1
+        for <arm-scmi@vger.kernel.org>; Mon, 21 Oct 2024 10:25:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1729531201; x=1730136001; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1729531502; x=1730136302; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=ctC8fXiNy6wpA6bkFpNb4LVNQhiHNx14q8X5vVW7V5g=;
-        b=XIRXOy6oAydS1qXZa732cGkR930q71diIsD25Olckg9wBWpTzltIEk9efDF710fWB5
-         Y5I3anr87GIoa+rfmoR/8UuIQ9yHlY8kEWbcdM81p6VFZKOxFPxdkI3fkEo71XpkkFgJ
-         HTQucAaYrMwUb47GvoAE04+69jiRIVrWhJmhE=
+        bh=ic+5fqAmHgAWI4yHAimTZugqvKQtKtut588HcRDCks0=;
+        b=gpakq6vZRgHIGKpU1rKd6QNh4JucDxuKecD7Ndp+qipBUCcW5UPeWIL/+de3Mp0S7E
+         lgPcYTHXuf1bQE+8M80STWDT1Dmf3QU3s9jl9InTkOmd6zMlHyxvN9NZz9L1XmK4nHTP
+         H7cItNJIFdSpEJqtU+baVX9zfW9rP5kzzNM0s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729531201; x=1730136001;
+        d=1e100.net; s=20230601; t=1729531502; x=1730136302;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ctC8fXiNy6wpA6bkFpNb4LVNQhiHNx14q8X5vVW7V5g=;
-        b=JKA/xt1sxqJLvs4455YaH5vJdffWOjvJApi4Org6ZSsfTqda7j8wasFWKkFaOatdD7
-         wiHDyvu0U8tc83x75uj34MIK1vesMNiH3zWl+fC23ohkz920MgwWVG37d7aM4umdPLXt
-         fMeoU7QbgmODWbdz9KgI1+brMZ63/9qCOtQ+QixrrMUaODqovBD4uPtuK61+utwfyJzv
-         kk7Sz5YdfHNo0jYt3VekUJHYTU8g1fTt8lScuyduG2RlV4CDTW2teTwOwP+OOaePuram
-         bRhbb1tYac+kmRPGZbvPEuhZJcWZKdei4FO8fcMG9TyQwqn5Pss9cwywTE408F8D0yUH
-         FUjw==
-X-Forwarded-Encrypted: i=1; AJvYcCXyaX0Ri3inR94RUJ5LkPuecVTnyTmzNpmOgB5C5+9pZsvjH9eco1PKn2/gIzSBgyvQV6vv4I1xug==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywgsq0PV6vbTbOT4YiJ3SDTWWF//lVTvuVy2O/xkz61fayVjmVx
-	aN+Bz+cS5jFoKsb+hSD6y/uw32JitiDxFX/MuTnByuDrSqYLtK/j17TsfVaOFw==
-X-Google-Smtp-Source: AGHT+IGzW2tSYa2m++C/zBRvZuTFeit4VPfjeqE7fUScjmZlnHGxWvynb3Yf5laqjfFCytvDFtou4Q==
-X-Received: by 2002:a05:620a:4691:b0:7b1:4222:b385 with SMTP id af79cd13be357-7b175589eb5mr66421685a.11.1729531201315;
-        Mon, 21 Oct 2024 10:20:01 -0700 (PDT)
+        bh=ic+5fqAmHgAWI4yHAimTZugqvKQtKtut588HcRDCks0=;
+        b=CZGSA3Hpw4ic1f/NQziQ1lGjBa+izipjy9Nl5zYNGOKabsjspzv1HjcURfsVkvdnvr
+         0R/iKxg5maYM1yuvaVtefecMBeSXMKZuPEonOzBnpc5rhrM459fDHN6aSGGmF5iiq/uB
+         h/gf6K13zjqGmnSZutUT9559AD8IZujto6ZNi2MmVHaFr6dN252+b1QokSUO7BJ2PBA/
+         NslTQ+CklMQAhGcLIs2xK03qtwLI2GufqhYE5zW+qR8F40t+XkfKShGJwQW++MAGAp34
+         VbwnExGPzpa00DXpGpowiy31sEqnEIXwEvMvAbQrBMJea6pGDkFxo2SwAf7wpn0sF4l4
+         hW1g==
+X-Forwarded-Encrypted: i=1; AJvYcCV4PmK8mwKfnHWPHKYx6me2al7JUXlhNTi5EEq73NsyfXLyDTKO7NVIxAxnoB2ksdeuJddQLTXTkQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRoo0kbA6SwpYfG9BiUg5BM7bi2YdA38Bo+rhpWYyPY4ictz1A
+	GcBJs6KpVRFtQhCYrv5l1K0nvRiEQ7Z4m/JhEhpvWnYUlQxPHT8z/XfBZS0f2A==
+X-Google-Smtp-Source: AGHT+IFqNFifNwi9d9ISDyV5kP4tdZd4FNGcLs8ZW+bsa41pITrAJptzjTDLwRMqzhlCVmBXe3Tlrw==
+X-Received: by 2002:a17:902:d2c6:b0:20c:5909:cc48 with SMTP id d9443c01a7336-20e5a90514fmr163079455ad.40.1729531502157;
+        Mon, 21 Oct 2024 10:25:02 -0700 (PDT)
 Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6ce008ac8e6sm19444216d6.17.2024.10.21.10.19.58
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0f3754sm28341175ad.266.2024.10.21.10.25.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Oct 2024 10:20:00 -0700 (PDT)
-Message-ID: <b5c0a524-51e0-4b65-8db5-c7416837351a@broadcom.com>
-Date: Mon, 21 Oct 2024 10:19:57 -0700
+        Mon, 21 Oct 2024 10:25:01 -0700 (PDT)
+Message-ID: <8b812136-01b4-4df2-8b3c-dddf7027111c@broadcom.com>
+Date: Mon, 21 Oct 2024 10:25:00 -0700
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -59,17 +59,12 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] firmware: arm_scmi: Calculate virtio PDU max size
- dynamically
+Subject: Re: [PATCH] firmware: arm_scmi: Reject clear channel request on A2P
 To: Cristian Marussi <cristian.marussi@arm.com>,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  arm-scmi@vger.kernel.org
-Cc: sudeep.holla@arm.com, james.quinlan@broadcom.com,
- vincent.guittot@linaro.org, etienne.carriere@st.com, peng.fan@oss.nxp.com,
- michal.simek@amd.com, quic_sibis@quicinc.com, quic_nkela@quicinc.com,
- dan.carpenter@linaro.org
-References: <20241021170726.2564329-1-cristian.marussi@arm.com>
- <20241021170726.2564329-3-cristian.marussi@arm.com>
+Cc: sudeep.holla@arm.com
+References: <20241021171544.2579551-1-cristian.marussi@arm.com>
 Content-Language: en-US
 From: Florian Fainelli <florian.fainelli@broadcom.com>
 Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
@@ -104,19 +99,17 @@ Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
  7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
  95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20241021170726.2564329-3-cristian.marussi@arm.com>
+In-Reply-To: <20241021171544.2579551-1-cristian.marussi@arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/21/24 10:07, Cristian Marussi wrote:
-> SCMI virtio transport maximum PDU size is currently hardcoded at build
-> time; this will not play well with the possibile retrieval of a different
-> size at run-time.
+On 10/21/24 10:15, Cristian Marussi wrote:
+> The clear channel transport operation is supposed to be called exclusively
+> on the P2A channel from the agent, since it relinquishes the ownership of
+> the channel to the platform, after this latter has initiated some sort of
+> P2A communication.
 > 
-> Make the virtio transport derive the maximum PDU size from the max_msg_size
-> provided by the SCMI core.
-> 
-> No functional change.
+> Make sure that, if it is ever called on a A2P, is logged and ignored.
 > 
 > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 
