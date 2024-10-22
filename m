@@ -1,48 +1,48 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DCFE13AD0;
-	Tue, 22 Oct 2024 07:32:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52B713BAC6;
+	Tue, 22 Oct 2024 08:18:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729582323; cv=none; b=iKzZfuE/qlkax1mumtyXGsUuC6mCsxazVNXRUUXyCNpWKC0CfswxopI7C+Jl3huuSgthLIi2bfAA72+DV19zieETfsg9vYqBQSN4EfQn9ofz/r59cW9GRM7JwHNoIpMtZrXq2nOZxKMWbl0rjhCiwuBP31XzwaOMuAjHWFg8TYQ=
+	t=1729585129; cv=none; b=bKTqYheSOE22Z28GvaglN/PR2RdxdvjMiB++hlLeF4URURykkg+x+1RXihdK7dbEzrxOIktYoG8i1Ej2X9PxvLvZbcxuhdT87e/vf24YatRTiLsUGL9pB+zONrqrbfAlhvfrVUN5pP7XQ9c6R+0Rrus58hbpWyVtkHUJMUa54SY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729582323; c=relaxed/simple;
-	bh=/SOKiUxvhkFFzKb8lRJJtcOEWzsipI2bOCLNBLZCWWM=;
+	s=arc-20240116; t=1729585129; c=relaxed/simple;
+	bh=BV9TzmWeBO9rM0UPUyjCa7WvkzmYZx8Ef+0oZJQcH3A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=QYx8yoipjTAn5xwuXPrcii267oJ2E5sPEsmbKN1FR4Pz9KZRGy4ZwaLyxcfBLwUU566gyMa4gwyxaFHJ4IGeVLkT4DUH0HeWfkI7Zuy+XLbAm2mNaQA6bu/pLB8Gib7HCBnqx14Tp1cP7l8T6wjqDKypciCj/4b5aKWsyi4zkEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=kO8k24to; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=msxrA2sSqGv7QRV213dhO5bh8GEa+RU/y4hs8o3wNFUeDiu3v+rJFS+Ony1DIPaFdb7zvpUH4QR0h6O8F6ktsNvxUcB/dVR01/lIsqsOSSos986JDhJOwpQKVQydC7C25l2eZOt7HqVIOcBYPkV01Q87jIvDOHDWhAtCMYsLSk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=oSXSCh1k; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="kO8k24to"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49LM7660002608;
-	Tue, 22 Oct 2024 07:31:44 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="oSXSCh1k"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49LM0pVB027018;
+	Tue, 22 Oct 2024 08:18:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	O6vp5IphGSqC+dJNh2eGkFs8j8pWNxY1beFW91hPfWE=; b=kO8k24to7nCK0xgv
-	AefHliyvJuBcwLosNaBhPiLUvwTQdrdBFiH055v/3hhksy6q9LaKeGP5aAjhwr7r
-	ox4DP/s40VDvcm2D9Nq1Q5wULv/0XAhUAe3baGClP5hW0jmiWBgHwb8PuqcOR1OG
-	F47sfJwP3A0QvExlSJHJC+5HSuPZ9/0oU2JLbnaTbbAXsuAA+MJh9jn7AYcD+qoe
-	+Bdd1ja0mCQVM7rFGqRm5S9isETfdxKBOEQ+ORYMLPb2XsN2N6uiaXFytQec5tbY
-	o8s1VyzN/s6OfAEMMD6hPSyGRdhwKM8OjdOoiwVjGLh5kQRWlKC0s6pbJulu8zsL
-	EfLh3w==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42c6vxyc4y-1
+	kRQw83Mw/2mlyTSMji35IuXRaLQcBWzfspDC/E77H5s=; b=oSXSCh1kjdjf7tdD
+	YTFl1Mye/Vi1jjpEzEwv2abLFSeDYTDfKl0/SY4bINjk/WdDm6GeicEccx5yeXhC
+	I5Mn6bHR5gcy0Q+nGATbNsI0QdKU7Zg4t8MkON3k83Vg115uLjO+Bv2XSbF8dEVP
+	TP/LtKrnZJhjMUJbTxXoGZHXcjXPR452mmoNB/4ae6Pn9nD+q7wWkR2oq+UxgzOk
+	23OFW/aLEAF4NuPGKghlbCFZWb16DqzcZX6o8eCpEE8E3gh0jE7Di2H4iZzHaM/D
+	44Ugt2wtd9NLpl6qkVlu5GRtJn61/gF1NH/vkd9B0t7Z3vZwys+TKWpZpKVAMIiY
+	5La1fw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42c6rj7ffy-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 22 Oct 2024 07:31:43 +0000 (GMT)
+	Tue, 22 Oct 2024 08:18:34 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49M7Vheb023967
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49M8IXvF024358
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 22 Oct 2024 07:31:43 GMT
+	Tue, 22 Oct 2024 08:18:33 GMT
 Received: from [10.131.33.37] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 22 Oct
- 2024 00:31:38 -0700
-Message-ID: <99369331-bdb4-e714-aeb6-54e2d2c68dda@quicinc.com>
-Date: Tue, 22 Oct 2024 13:01:35 +0530
+ 2024 01:18:28 -0700
+Message-ID: <29eef87e-96f6-5105-6f7a-a8e01efcb4a3@quicinc.com>
+Date: Tue, 22 Oct 2024 13:48:25 +0530
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -54,7 +54,7 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
 Subject: Re: [PATCH V4 4/5] soc: qcom: Introduce SCMI based Memlat (Memory
  Latency) governor
 Content-Language: en-US
-To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 CC: <sudeep.holla@arm.com>, <cristian.marussi@arm.com>, <andersson@kernel.org>,
         <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
         <krzysztof.kozlowski+dt@linaro.org>, <linux-kernel@vger.kernel.org>,
@@ -64,36 +64,52 @@ CC: <sudeep.holla@arm.com>, <cristian.marussi@arm.com>, <andersson@kernel.org>,
         <arm-scmi@vger.kernel.org>, Amir Vajid <avajid@quicinc.com>
 References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
  <20241007061023.1978380-5-quic_sibis@quicinc.com>
- <20241010131812.0000566b@Huawei.com>
+ <2aycrvnvivcrqctqmweadcgenwugafdr6ub3bzkscterpenz32@bzabln2hkral>
 From: Sibi Sankar <quic_sibis@quicinc.com>
-In-Reply-To: <20241010131812.0000566b@Huawei.com>
+In-Reply-To: <2aycrvnvivcrqctqmweadcgenwugafdr6ub3bzkscterpenz32@bzabln2hkral>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: sVvX1Hy00pGlqSOALTt2tqd4j0M-zcS8
-X-Proofpoint-GUID: sVvX1Hy00pGlqSOALTt2tqd4j0M-zcS8
+X-Proofpoint-GUID: 9NubxEvzGB-pNZ3y5m23VIrTSBnHeGNY
+X-Proofpoint-ORIG-GUID: 9NubxEvzGB-pNZ3y5m23VIrTSBnHeGNY
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- clxscore=1011 malwarescore=0 mlxlogscore=999 bulkscore=0 impostorscore=0
- lowpriorityscore=0 adultscore=0 phishscore=0 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410220048
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ phishscore=0 bulkscore=0 malwarescore=0 mlxscore=0 spamscore=0
+ impostorscore=0 suspectscore=0 priorityscore=1501 clxscore=1015
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2409260000 definitions=main-2410220053
 
 
 
-On 10/10/24 17:48, Jonathan Cameron wrote:
-> On Mon, 7 Oct 2024 11:40:22 +0530
-> Sibi Sankar <quic_sibis@quicinc.com> wrote:
-> 
+On 10/7/24 23:27, Dmitry Baryshkov wrote:
+> On Mon, Oct 07, 2024 at 11:40:22AM GMT, Sibi Sankar wrote:
 >> Introduce a client driver that uses the memlat algorithm string
 >> hosted on QCOM SCMI Generic Extension Protocol to detect memory
 >> latency workloads and control frequency/level of the various
 >> memory buses (DDR/LLCC/DDR_QOS).
+> 
+> This sounds like a devfreq implementation. Please provide a reason why
+> it doesn't use existing API (even if to export the information to the
+> userspace).
+
+IIRC, you asked the same question when the RFC version of it
+was posted and I replied to it back then.
+
+https://lore.kernel.org/lkml/0adaa065-3883-ebfe-8259-05ebdbd821eb@quicinc.com/
+
+The series does not yet export any information to userspace yet
+and when it does get added in the future, it would have no way
+of populating governor node with the current way devfreq framework
+is structured. Since this series is all about just enabling basic
+support, I guess what you ask can be accomodated when we do start
+exporting this info to userspace.
+
+> 
 >>
 >> Co-developed-by: Shivnandan Kumar <quic_kshivnan@quicinc.com>
 >> Signed-off-by: Shivnandan Kumar <quic_kshivnan@quicinc.com>
@@ -102,25 +118,222 @@ On 10/10/24 17:48, Jonathan Cameron wrote:
 >> Co-developed-by: Amir Vajid <avajid@quicinc.com>
 >> Signed-off-by: Amir Vajid <avajid@quicinc.com>
 >> Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
-> I was curious. A few comments from a quick read through.
+>> ---
+>>
+>> v3:
+>> * Add missing enum in the scmi memlat driver and fix documentation [Konrad]
+>> * Add checks for max memory and monitor [Shivnandan]
+>> * Fix typo from START_TIMER -> STOP_TIMER [Shivnandan]
+>> * Make populate_physical_mask func to void [Shivnandan]
+>> * Remove unecessary zero set [Shivnandan]
+>> * Use __free(device node) in init_cpufreq-memfreqmap [Christian/Konrad]
+>> * Use sdev->dev.of_node directly [Christian]
+>> * use return dev_err_probe in multiple places [Christian]
+>>
+>>   drivers/soc/qcom/Kconfig                   |  12 +
+>>   drivers/soc/qcom/Makefile                  |   1 +
+>>   drivers/soc/qcom/qcom_scmi_memlat_client.c | 569 +++++++++++++++++++++
+>>   3 files changed, 582 insertions(+)
+>>   create mode 100644 drivers/soc/qcom/qcom_scmi_memlat_client.c
+>>
+>> diff --git a/drivers/soc/qcom/Kconfig b/drivers/soc/qcom/Kconfig
+>> index 74b9121240f8..1b6dd40d69ea 100644
+>> --- a/drivers/soc/qcom/Kconfig
+>> +++ b/drivers/soc/qcom/Kconfig
+>> @@ -295,4 +295,16 @@ config QCOM_PBS
+>>   	  This module provides the APIs to the client drivers that wants to send the
+>>   	  PBS trigger event to the PBS RAM.
+>>   
+>> +config QCOM_SCMI_MEMLAT_CLIENT
+>> +	tristate "Qualcomm Technologies Inc. SCMI client driver"
+>> +	depends on QCOM_SCMI_GENERIC_EXT || COMPILE_TEST
+>> +	help
+>> +	  This driver uses the MEMLAT (memory latency) algorithm string
+>> +	  hosted on QCOM SCMI Vendor Protocol to detect memory latency
 > 
-> Jonathan
+> How can it use the string to detect workloads? Most likely you mean something like "uses memlat extensions".
+> Also s/QCOM/Qualcomm/ in the help text.
 
-Hey Jonathan,
-
-Thanks for taking time to review the series!
-
-Will get them all addressed in the next re-spin.
-
--Sibi
+The generic vendor protocol extension works by associating algorithms to
+strings. But like you said it can be re-worded to avoid confusion.
 
 > 
+>> +	  workloads and control frequency/level of the various memory
+>> +	  buses (DDR/LLCC/DDR_QOS).
+>> +
+>> +	  This driver defines/documents the parameter IDs used while configuring
+>> +	  the memory buses.
+>> +
+>>   endmenu
+>> diff --git a/drivers/soc/qcom/Makefile b/drivers/soc/qcom/Makefile
+>> index acbca2ab5cc2..28549bb141bc 100644
+>> --- a/drivers/soc/qcom/Makefile
+>> +++ b/drivers/soc/qcom/Makefile
+>> @@ -36,6 +36,7 @@ obj-$(CONFIG_QCOM_APR) += apr.o
+>>   obj-$(CONFIG_QCOM_LLCC) += llcc-qcom.o
+>>   obj-$(CONFIG_QCOM_KRYO_L2_ACCESSORS) +=	kryo-l2-accessors.o
+>>   obj-$(CONFIG_QCOM_ICC_BWMON)	+= icc-bwmon.o
+>> +obj-$(CONFIG_QCOM_SCMI_MEMLAT_CLIENT)	+= qcom_scmi_memlat_client.o
+>>   qcom_ice-objs			+= ice.o
+>>   obj-$(CONFIG_QCOM_INLINE_CRYPTO_ENGINE)	+= qcom_ice.o
+>>   obj-$(CONFIG_QCOM_PBS) +=	qcom-pbs.o
 >> diff --git a/drivers/soc/qcom/qcom_scmi_memlat_client.c b/drivers/soc/qcom/qcom_scmi_memlat_client.c
 >> new file mode 100644
 >> index 000000000000..05198bf1f7ec
 >> --- /dev/null
 >> +++ b/drivers/soc/qcom/qcom_scmi_memlat_client.c
+>> @@ -0,0 +1,569 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
+>> + */
+>> +
+>> +#include <linux/cpu.h>
+>> +#include <linux/err.h>
+>> +#include <linux/errno.h>
+>> +#include <linux/init.h>
+>> +#include <linux/kernel.h>
+>> +#include <linux/module.h>
+>> +#include <linux/of.h>
+>> +#include <linux/platform_device.h>
+>> +#include <linux/scmi_protocol.h>
+>> +#include <linux/scmi_qcom_protocol.h>
+>> +#include <linux/units.h>
+>> +#include <dt-bindings/firmware/qcom,scmi-memlat.h>
+>> +
+>> +#define MEMLAT_ALGO_STR				0x4D454D4C4154 /* MEMLAT */
+>> +#define INVALID_IDX				0xff
+>> +#define MAX_MEMORY_TYPES			3
+>> +#define MAX_MONITOR_CNT				4
+>> +#define MAX_NAME_LEN				20
+>> +#define MAX_MAP_ENTRIES				7
+>> +#define CPUCP_DEFAULT_SAMPLING_PERIOD_MS	4
+>> +#define CPUCP_DEFAULT_FREQ_METHOD		1
+>> +
+>> +/**
+>> + * enum scmi_memlat_protocol_cmd - parameter_ids supported by the "MEMLAT" algo_str hosted
+>> + *                                 by the Qualcomm Generic Vendor Protocol on the SCMI controller.
+>> + *
+>> + * MEMLAT (Memory Latency) monitors the counters to detect memory latency bound workloads
+>> + * and scales the frequency/levels of the memory buses accordingly.
+>> + *
+>> + * @MEMLAT_SET_MEM_GROUP: initializes the frequency/level scaling functions for the memory bus.
+>> + * @MEMLAT_SET_MONITOR: configures the monitor to work on a specific memory bus.
+>> + * @MEMLAT_SET_COMMON_EV_MAP: set up common counters used to monitor the cpu frequency.
+>> + * @MEMLAT_SET_GRP_EV_MAP: set up any specific counters used to monitor the memory bus.
+>> + * @MEMLAT_IPM_CEIL: set the IPM (Instruction Per Misses) ceiling per monitor.
+>> + * @MEMLAT_SAMPLE_MS: set the sampling period for all the monitors.
+>> + * @MEMLAT_MON_FREQ_MAP: setup the cpufreq to memfreq map.
+>> + * @MEMLAT_SET_MIN_FREQ: set the max frequency of the memory bus.
+>> + * @MEMLAT_SET_MAX_FREQ: set the min frequency of the memory bus.
+>> + * @MEMLAT_START_TIMER: start all the monitors with the requested sampling period.
+>> + * @MEMLAT_STOP_TIMER: stop all the running monitors.
+>> + * @MEMLAT_SET_EFFECTIVE_FREQ_METHOD: set the method used to determine cpu frequency.
+>> + */
+>> +enum scmi_memlat_protocol_cmd {
+>> +	MEMLAT_SET_MEM_GROUP = 16,
+>> +	MEMLAT_SET_MONITOR,
+>> +	MEMLAT_SET_COMMON_EV_MAP,
+>> +	MEMLAT_SET_GRP_EV_MAP,
+>> +	MEMLAT_IPM_CEIL = 23,
+>> +	MEMLAT_SAMPLE_MS = 31,
+>> +	MEMLAT_MON_FREQ_MAP,
+>> +	MEMLAT_SET_MIN_FREQ,
+>> +	MEMLAT_SET_MAX_FREQ,
+>> +	MEMLAT_START_TIMER = 36,
+>> +	MEMLAT_STOP_TIMER,
+>> +	MEMLAT_SET_EFFECTIVE_FREQ_METHOD = 39,
+>> +};
+>> +
+>> +struct map_table {
+>> +	u16 v1;
+>> +	u16 v2;
 > 
+> Huh? Why can't it be cpufreq and memfreq with some suffix?
+
+ack
+
+> 
+>> +};
+>> +
+>> +struct map_param_msg {
+>> +	u32 hw_type;
+>> +	u32 mon_idx;
+>> +	u32 nr_rows;
+>> +	struct map_table tbl[MAX_MAP_ENTRIES];
+>> +} __packed;
+>> +
+>> +struct node_msg {
+>> +	u32 cpumask;
+>> +	u32 hw_type;
+>> +	u32 mon_type;
+>> +	u32 mon_idx;
+>> +	char mon_name[MAX_NAME_LEN];
+>> +};
+>> +
+>> +struct scalar_param_msg {
+>> +	u32 hw_type;
+>> +	u32 mon_idx;
+>> +	u32 val;
+>> +};
+>> +
+>> +enum common_ev_idx {
+>> +	INST_IDX,
+>> +	CYC_IDX,
+>> +	CONST_CYC_IDX,
+>> +	FE_STALL_IDX,
+>> +	BE_STALL_IDX,
+>> +	NUM_COMMON_EVS
+>> +};
+>> +
+>> +enum grp_ev_idx {
+>> +	MISS_IDX,
+>> +	WB_IDX,
+>> +	ACC_IDX,
+>> +	NUM_GRP_EVS
+>> +};
+>> +
+>> +#define EV_CPU_CYCLES		0
+>> +#define EV_INST_RETIRED		2
+>> +#define EV_L2_D_RFILL		5
+>> +
+>> +struct ev_map_msg {
+>> +	u32 num_evs;
+>> +	u32 hw_type;
+>> +	u32 cid[NUM_COMMON_EVS];
+>> +};
+>> +
+>> +struct cpufreq_memfreq_map {
+>> +	unsigned int cpufreq_mhz;
+>> +	unsigned int memfreq_khz;
+>> +};
+>> +
+>> +struct scmi_monitor_info {
+>> +	struct cpufreq_memfreq_map *freq_map;
+>> +	char mon_name[MAX_NAME_LEN];
+>> +	u32 mon_idx;
+>> +	u32 mon_type;
+>> +	u32 ipm_ceil;
+>> +	u32 mask;
+>> +	u32 freq_map_len;
+>> +};
+>> +
+>> +struct scmi_memory_info {
+>> +	struct scmi_monitor_info *monitor[MAX_MONITOR_CNT];
+>> +	u32 hw_type;
+>> +	int monitor_cnt;
+>> +	u32 min_freq;
+>> +	u32 max_freq;
+>> +};
+>> +
+>> +struct scmi_memlat_info {
+>> +	struct scmi_protocol_handle *ph;
+>> +	const struct qcom_generic_ext_ops *ops;
+>> +	struct scmi_memory_info *memory[MAX_MEMORY_TYPES];
+>> +	u32 cluster_info[NR_CPUS];
+>> +	int memory_cnt;
+>> +};
+>> +
 >> +static int populate_cluster_info(u32 *cluster_info)
 >> +{
 >> +	char name[MAX_NAME_LEN];
@@ -135,8 +348,7 @@ Will get them all addressed in the next re-spin.
 >> +		return -ENODEV;
 >> +
 >> +	do {
-> while(1) {
-> } >> +		snprintf(name, sizeof(name), "cluster%d", i);
+>> +		snprintf(name, sizeof(name), "cluster%d", i);
 >> +		struct device_node *c __free(device_node) = of_get_child_by_name(map, name);
 >> +		if (!c)
 >> +			break;
@@ -144,11 +356,36 @@ Will get them all addressed in the next re-spin.
 >> +		*(cluster_info + i) = of_get_child_count(c);
 >> +		i++;
 >> +	} while (1);
+> 
+> Can you use existing API from drivers/base/arch_topology.c? If not, can
+> it be extended to support your usecase?
+
+ack. But I'm pretty sure it's going to take a while for reaching such
+an agreement so I'll drop this feature during the next re-spin.
+
+> 
 >> +
 >> +	return 0;
 >> +}
 >> +
-> tic struct cpufreq_memfreq_map *init_cpufreq_memfreq_map(struct device *dev,
+>> +static void populate_physical_mask(struct device_node *np, u32 *mask, u32 *cluster_info)
+>> +{
+>> +	struct device_node *dev_phandle __free(device_node);
+>> +	int cpu, i = 0, physical_id;
+>> +
+>> +	do {
+>> +		dev_phandle = of_parse_phandle(np, "cpus", i++);
+>> +		cpu = of_cpu_node_to_id(dev_phandle);
+>> +		if (cpu != -ENODEV) {
+>> +			physical_id = topology_core_id(cpu);
+>> +			for (int j = 0; j < topology_cluster_id(cpu); j++)
+>> +				physical_id += *(cluster_info + j);
+>> +			*mask |= BIT(physical_id);
+>> +		}
+>> +	} while (dev_phandle);
+>> +}
+>> +
+>> +static struct cpufreq_memfreq_map *init_cpufreq_memfreq_map(struct device *dev,
 >> +							    struct scmi_memory_info *memory,
 >> +							    struct device_node *of_node,
 >> +							    u32 *cnt)
@@ -160,12 +397,26 @@ Will get them all addressed in the next re-spin.
 >> +	u64 rate;
 >> +
 >> +	tbl_np = of_parse_phandle(of_node, "operating-points-v2", 0);
+> 
+> Please use existing API to parse OPP tables or document a reason why it
+> can't be used.
+
+Thanks, I had them documented as opens in the coverletter. Dropped them
+since no one had any comments on it during V3. Will add them as comments
+to this driver instead.
+
+https://lore.kernel.org/lkml/20240702191440.2161623-1-quic_sibis@quicinc.com/
+
+re-copying things again:
+opp-tables are used but they don't get to be added to the scmi device
+(thus we rely on a lot of manual parsing) because the memlat client 
+driver doesn't vote on these resources clocks/interconnects/power-domain
+from the kernel and some of the resources aren't modeled in the first
+place like DDR_QOS.
+
+
+> 
 >> +	if (!tbl_np)
-> 
-> This will call the free on the uninitialzed opp_np above.
-> Note this sort of path is why the constructor and destructor should always
-> be together in the code.
-> 
 >> +		return ERR_PTR(-ENODEV);
 >> +
 >> +	len = min(of_get_available_child_count(tbl_np), MAX_MAP_ENTRIES);
@@ -178,9 +429,6 @@ Will get them all addressed in the next re-spin.
 >> +		return ERR_PTR(-ENOMEM);
 >> +
 >> +	for_each_available_child_of_node(tbl_np, opp_np) {
-> 
-> Why not scoped variant which will also solve the lifetime issue above.
-> 
 >> +		ret = of_property_read_u64_index(opp_np, "opp-hz", 0, &rate);
 >> +		if (ret < 0)
 >> +			return ERR_PTR(ret);
@@ -221,20 +469,10 @@ Will get them all addressed in the next re-spin.
 >> +	if (ret < 0) {
 >> +		dev_err_probe(&sdev->dev, ret, "failed to populate cluster info\n");
 >> +		goto err;
-> putting a node you never got?
-> 		return dev_err_probe()
-> 
-> 
 >> +	}
 >> +
 >> +	of_node_get(sdev->dev.of_node);
-> Maybe use __free(device_node) here so you can do early returns on error.
-> Will need a local variable for the return of of_node_get, but that would
-> be nice anyway to simplify some parameters belwo.
-> 
 >> +	do {
-> Might as well do while(1) {
-> }
 >> +		snprintf(name, sizeof(name), "memory-%d", info->memory_cnt);
 >> +		struct device_node *memory_np __free(device_node) =
 >> +			of_find_node_by_name(sdev->dev.of_node, name);
@@ -263,6 +501,13 @@ Will get them all addressed in the next re-spin.
 >> +			dev_err_probe(&sdev->dev, ret, "failed to read min/max freq\n");
 >> +			goto err;
 >> +		}
+> 
+> Can we get this information from the OPP table instead?
+
+we don't list all the available ddr/llcc freqs in the opp-table
+so that we can keep the table constant across platforms.
+
+> 
 >> +
 >> +		if (memory->hw_type != QCOM_MEM_TYPE_DDR_QOS) {
 >> +			memory->min_freq = memfreq[0] / HZ_PER_KHZ;
@@ -270,6 +515,12 @@ Will get them all addressed in the next re-spin.
 >> +		} else {
 >> +			memory->min_freq = memfreq[0];
 >> +			memory->max_freq = memfreq[1];
+> 
+> Why? At least invert the logic here, please. The DDR_QOS is a special
+> case, not all other kinds of memory.
+
+ack
+> 
 >> +		}
 >> +		info->memory[info->memory_cnt++] = memory;
 >> +
@@ -282,6 +533,13 @@ Will get them all addressed in the next re-spin.
 >> +				break;
 >> +
 >> +			if (memory->monitor_cnt >= MAX_MONITOR_CNT)
+> 
+> Why do you need to limit it? Is it a protocol limitation or an
+> artificial driver limitation? Can monitors be allocated dynamically?
+
+Yeah, they are limited to a max of 5 in firmware.
+
+> 
 >> +				return dev_err_probe(&sdev->dev, -EINVAL,
 >> +						     "failed to parse unsupported monitor\n");
 >> +
@@ -341,8 +599,123 @@ Will get them all addressed in the next re-spin.
 >> +
 >> +	return ret;
 >> +}
-> 
-> 
+>> +
+>> +static int configure_cpucp_common_events(struct scmi_memlat_info *info)
+>> +{
+>> +	const struct qcom_generic_ext_ops *ops = info->ops;
+>> +	u8 ev_map[NUM_COMMON_EVS];
+>> +	struct ev_map_msg msg;
+>> +
+>> +	memset(ev_map, 0xFF, NUM_COMMON_EVS);
+>> +
+>> +	msg.num_evs = NUM_COMMON_EVS;
+>> +	msg.hw_type = INVALID_IDX;
+>> +	msg.cid[INST_IDX] = EV_INST_RETIRED;
+>> +	msg.cid[CYC_IDX] = EV_CPU_CYCLES;
+>> +	msg.cid[CONST_CYC_IDX] = INVALID_IDX;
+>> +	msg.cid[FE_STALL_IDX] = INVALID_IDX;
+>> +	msg.cid[BE_STALL_IDX] = INVALID_IDX;
+>> +
+>> +	return ops->set_param(info->ph, &msg, sizeof(msg), MEMLAT_ALGO_STR,
+>> +			      MEMLAT_SET_COMMON_EV_MAP);
+>> +}
+>> +
+>> +static int configure_cpucp_grp(struct device *dev, struct scmi_memlat_info *info, int memory_index)
+>> +{
+>> +	const struct qcom_generic_ext_ops *ops = info->ops;
+>> +	struct scmi_memory_info *memory = info->memory[memory_index];
+>> +	struct ev_map_msg ev_msg;
+>> +	u8 ev_map[NUM_GRP_EVS];
+>> +	struct node_msg msg;
+>> +	int ret;
+>> +
+>> +	msg.cpumask = 0;
+>> +	msg.hw_type = memory->hw_type;
+>> +	msg.mon_type = 0;
+>> +	msg.mon_idx = 0;
+>> +	ret = ops->set_param(info->ph, &msg, sizeof(msg), MEMLAT_ALGO_STR, MEMLAT_SET_MEM_GROUP);
+>> +	if (ret < 0)
+>> +		return dev_err_probe(dev, ret, "failed to configure mem type %d\n",
+>> +				     memory->hw_type);
+>> +
+>> +	memset(ev_map, 0xFF, NUM_GRP_EVS);
+>> +	ev_msg.num_evs = NUM_GRP_EVS;
+>> +	ev_msg.hw_type = memory->hw_type;
+>> +	ev_msg.cid[MISS_IDX] = EV_L2_D_RFILL;
+>> +	ev_msg.cid[WB_IDX] = INVALID_IDX;
+>> +	ev_msg.cid[ACC_IDX] = INVALID_IDX;
+>> +	ret = ops->set_param(info->ph, &ev_msg, sizeof(ev_msg), MEMLAT_ALGO_STR,
+>> +			     MEMLAT_SET_GRP_EV_MAP);
+>> +	if (ret < 0)
+>> +		return dev_err_probe(dev, ret, "failed to configure event map for mem type %d\n",
+>> +				     memory->hw_type);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static int configure_cpucp_mon(struct device *dev, struct scmi_memlat_info *info,
+>> +			       int memory_index, int monitor_index)
+>> +{
+>> +	const struct qcom_generic_ext_ops *ops = info->ops;
+>> +	struct scmi_memory_info *memory = info->memory[memory_index];
+>> +	struct scmi_monitor_info *monitor = memory->monitor[monitor_index];
+>> +	struct scalar_param_msg scalar_msg;
+>> +	struct map_param_msg map_msg;
+>> +	struct node_msg msg;
+>> +	int ret;
+>> +	int i;
+>> +
+>> +	msg.cpumask = monitor->mask;
+>> +	msg.hw_type = memory->hw_type;
+>> +	msg.mon_type = monitor->mon_type;
+>> +	msg.mon_idx = monitor->mon_idx;
+>> +	strscpy(msg.mon_name, monitor->mon_name, sizeof(msg.mon_name));
+>> +	ret = ops->set_param(info->ph, &msg, sizeof(msg), MEMLAT_ALGO_STR, MEMLAT_SET_MONITOR);
+>> +	if (ret < 0)
+>> +		return dev_err_probe(dev, ret, "failed to configure monitor %s\n",
+>> +				     monitor->mon_name);
+>> +
+>> +	scalar_msg.hw_type = memory->hw_type;
+>> +	scalar_msg.mon_idx = monitor->mon_idx;
+>> +	scalar_msg.val = monitor->ipm_ceil;
+>> +	ret = ops->set_param(info->ph, &scalar_msg, sizeof(scalar_msg), MEMLAT_ALGO_STR,
+>> +			     MEMLAT_IPM_CEIL);
+>> +	if (ret < 0)
+>> +		return dev_err_probe(dev, ret, "failed to set ipm ceil for %s\n",
+>> +				     monitor->mon_name);
+>> +
+>> +	map_msg.hw_type = memory->hw_type;
+>> +	map_msg.mon_idx = monitor->mon_idx;
+>> +	map_msg.nr_rows = monitor->freq_map_len;
+>> +	for (i = 0; i < monitor->freq_map_len; i++) {
+>> +		map_msg.tbl[i].v1 = monitor->freq_map[i].cpufreq_mhz;
+>> +		map_msg.tbl[i].v2 = monitor->freq_map[i].memfreq_khz;
+>> +	}
+>> +	ret = ops->set_param(info->ph, &map_msg, sizeof(map_msg), MEMLAT_ALGO_STR,
+>> +			     MEMLAT_MON_FREQ_MAP);
+>> +	if (ret < 0)
+>> +		return dev_err_probe(dev, ret, "failed to configure freq_map for %s\n",
+>> +				     monitor->mon_name);
+>> +
+>> +	scalar_msg.hw_type = memory->hw_type;
+>> +	scalar_msg.mon_idx = monitor->mon_idx;
+>> +	scalar_msg.val = memory->min_freq;
+>> +	ret = ops->set_param(info->ph, &scalar_msg, sizeof(scalar_msg), MEMLAT_ALGO_STR,
+>> +			     MEMLAT_SET_MIN_FREQ);
+>> +	if (ret < 0)
+>> +		return dev_err_probe(dev, ret, "failed to set min_freq for %s\n",
+>> +				     monitor->mon_name);
+>> +
+>> +	scalar_msg.hw_type = memory->hw_type;
+>> +	scalar_msg.mon_idx = monitor->mon_idx;
+>> +	scalar_msg.val = memory->max_freq;
+>> +	ret = ops->set_param(info->ph, &scalar_msg, sizeof(scalar_msg), MEMLAT_ALGO_STR,
+>> +			     MEMLAT_SET_MAX_FREQ);
+>> +	if (ret < 0)
+>> +		dev_err_probe(dev, ret, "failed to set max_freq for %s\n", monitor->mon_name);
+>> +
+>> +	return ret;
+>> +}
 >> +
 >> +static int cpucp_memlat_init(struct scmi_device *sdev)
 >> +{
@@ -362,12 +735,6 @@ Will get them all addressed in the next re-spin.
 >> +		return PTR_ERR(ops);
 >> +
 >> +	info = devm_kzalloc(&sdev->dev, sizeof(*info), GFP_KERNEL);
-> 
-> I'd add a local variable
-> 
-> 	struct device *dev = &sdev->dev;
-> given how many uses of this you have in this function.
-> 
 >> +	if (!info)
 >> +		return -ENOMEM;
 >> +
@@ -379,54 +746,61 @@ Will get them all addressed in the next re-spin.
 >> +	info->ops = ops;
 >> +
 >> +	/* Configure common events ids */
-> As below.
 >> +	ret = configure_cpucp_common_events(info);
 >> +	if (ret < 0)
 >> +		return dev_err_probe(&sdev->dev, ret, "failed to configure common events\n");
 >> +
 >> +	for (i = 0; i < info->memory_cnt; i++) {
 >> +		/* Configure per group parameters */
-> As below.
 >> +		ret = configure_cpucp_grp(&sdev->dev, info, i);
 >> +		if (ret < 0)
 >> +			return ret;
 >> +
 >> +		for (j = 0; j < info->memory[i]->monitor_cnt; j++) {
 >> +			/* Configure per monitor parameters */
-> 
-> I'd argue this and the above comment are clear from the function names
-> so add no benefit, but not that important if you want to keep them anyway.
-> Reasoning is that if a comment isn't providing more information it
-> is an opportunity for bit rot in the longer run and bloats the code.
-> Keep them for where they add more value.
-> 
 >> +			ret = configure_cpucp_mon(&sdev->dev, info, i, j);
 >> +			if (ret < 0)
 >> +				return ret;
 >> +		}
 >> +	}
-> ...
-> 
+>> +
+>> +	/* Set loop sampling time */
+>> +	ret = ops->set_param(ph, &cpucp_sample_ms, sizeof(cpucp_sample_ms), MEMLAT_ALGO_STR,
+>> +			     MEMLAT_SAMPLE_MS);
+>> +	if (ret < 0)
+>> +		return dev_err_probe(&sdev->dev, ret, "failed to set sample_ms\n");
+>> +
+>> +	/* Set the effective cpu frequency calculation method */
+>> +	ret = ops->set_param(ph, &cpucp_freq_method, sizeof(cpucp_freq_method), MEMLAT_ALGO_STR,
+>> +			     MEMLAT_SET_EFFECTIVE_FREQ_METHOD);
+>> +	if (ret < 0)
+>> +		return dev_err_probe(&sdev->dev, ret,
+>> +				     "failed to set effective frequency calc method\n");
+>> +
+>> +	/* Start sampling and voting timer */
+>> +	ret = ops->start_activity(ph, NULL, 0, MEMLAT_ALGO_STR, MEMLAT_START_TIMER);
+>> +	if (ret < 0)
+>> +		dev_err_probe(&sdev->dev, ret, "failed to start memory group timer\n");
+>> +
+>> +	return ret;
 >> +}
 >> +
 >> +static int scmi_client_probe(struct scmi_device *sdev)
 >> +{
 >> +	return cpucp_memlat_init(sdev);
-> What is benefit of this wrapper? I'd just use cpucp_memlat_init as the probe
-> function.
+> 
+> Inline it here, please.
+
+ack.
+
+-Sibi
+
 > 
 >> +}
 >> +
 >> +static const struct scmi_device_id scmi_id_table[] = {
-> 
-> Probably name this in a fashion related to the driver given
-> maybe we'll have a namespace clash in future with such
-> a generic name.
-> 
 >> +	{ SCMI_PROTOCOL_QCOM_GENERIC, "qcom-generic-ext" },
 >> +	{ },
-> No point in comma after a 'NULL' terminator like this.
-> 
 >> +};
 >> +MODULE_DEVICE_TABLE(scmi, scmi_id_table);
 >> +
@@ -439,4 +813,7 @@ Will get them all addressed in the next re-spin.
 >> +
 >> +MODULE_DESCRIPTION("QTI SCMI client driver");
 >> +MODULE_LICENSE("GPL");
+>> -- 
+>> 2.34.1
+>>
 > 
