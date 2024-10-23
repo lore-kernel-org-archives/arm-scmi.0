@@ -1,124 +1,109 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8627A1AAE09;
-	Wed, 23 Oct 2024 10:22:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010341B4F24
+	for <arm-scmi@vger.kernel.org>; Wed, 23 Oct 2024 13:20:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729678959; cv=none; b=cfDWX5BwZCino/9oNmiLmZnjFdQ/hjDX9LQa9trbrH4uiZbIfJMGkDC8SvpbZS+1Y2L1Egw26e/yxxh+b45eCjwqSex3z/APkKW9zJHJhSbH8RtdtaxslQsNRTPtk1EormrGpzES9tvh3odrej+VhkIbhDQRUii7Zp3YJxGHkds=
+	t=1729689660; cv=none; b=SzbSN8ywB9/3fz3z2TBKAx6hFhl1NLBQNsVpyKstUerylccyC5Vj83ywA7H6muFdxPC3Zo+ZdgIgnpVAjwdMGTH4jzvE5IrFXmB9e/EjtkkrWbMEpM3eVfA7nH0WYQtraEPeHro/PCsh2Ei30C6j+ZEcD0ZXvoClVxSh9OJUZaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729678959; c=relaxed/simple;
-	bh=WI+m8vuNlmpTOqVgJzUdixEDTVbNVGvorTHg4t+0viU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QYQ4X26HE1WrDay5AajubAcTKT6B5GGP7emRdS//MZ3Yo07g8W8ZgjSaxUvUfw6v9kRmOh/YRz/4SNmRaIKbErT7ZsHbDKRoRgF6MvAK2ahfF7ldhqETLpjjaHD1j8cpwz7hRc/eqU0VPuGjcD33NLcK7I/aS6uY6M+ttfQ8F/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Re20aJTw; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1729689660; c=relaxed/simple;
+	bh=8Gv5zYotgfvO+78Ky3rG0NouXkSI+CJACE4ys8HBOWE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sXZoCyqE/WlEzRV1Z/T7avhuSXIWNp4ex61FT/74SgHPsOGOScISb3r3T3jwdWnbt+RP35/M8lDu31Sl0f99WW6aOlV6igbiwq3hi6iJbz8WNCUKb/UM9nreQqeKH36heGsBvPahWFzXWToD1Fp61hHZyqtFvDmlBZjDsMxKuyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uXYTTsNZ; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Re20aJTw"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49N9qNVG030165;
-	Wed, 23 Oct 2024 10:22:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	MORuBoaMVBNXI51FEqBKzv8TZdo2O+Xn2TIXPkaqHFk=; b=Re20aJTwjySk+VYC
-	vcPEaUwgbXbZSDFiIuR+7p4nXUXJJSUhcygOeyNeD6JgPT+vuyWnvEQdjD0ezWOb
-	1dsJKRKQt2mvdFVfmT8Qm5F3xpQUxNXTamUQ4wRtffT94q0xcJ2VxXPpuJJ/08AN
-	1E3J9zzQEBJQBYdNXNDaKndylw3Ox3TyzQaCIPqKP/UiV+oKDEwLztFc6eyhmytN
-	zCi0ciXrNMJuAIrlFxu09gIendTZXTnhDnTMHcQrEPRi3F6Fn5eFF7HbDeQROiXj
-	X6KjFU/lpO6d/4pXXPgdK7AWm/DlSdmfCTAwpqRN1A56633BWlN36zxnm+is8Kie
-	iQcCyQ==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42em3w1ujq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 23 Oct 2024 10:22:26 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49NAMQ60031976
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 23 Oct 2024 10:22:26 GMT
-Received: from hu-sibis-blr.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 23 Oct 2024 03:22:21 -0700
-From: Sibi Sankar <quic_sibis@quicinc.com>
-To: <sudeep.holla@arm.com>, <cristian.marussi@arm.com>,
-        <ulf.hansson@linaro.org>, <jassisinghbrar@gmail.com>,
-        <dmitry.baryshkov@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <arm-scmi@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>, <quic_sibis@quicinc.com>,
-        <johan@kernel.org>, <konradybcio@kernel.org>,
-        <linux-pm@vger.kernel.org>, <tstrudel@google.com>, <rafael@kernel.org>,
-        "Johan Hovold" <johan+linaro@kernel.org>,
-        Konrad Dybcio
-	<konrad.dybcio@oss.qualcomm.com>
-Subject: [PATCH V4 4/4] mailbox: qcom-cpucp: Mark the irq with IRQF_NO_SUSPEND flag
-Date: Wed, 23 Oct 2024 15:51:48 +0530
-Message-ID: <20241023102148.1698910-5-quic_sibis@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241023102148.1698910-1-quic_sibis@quicinc.com>
-References: <20241023102148.1698910-1-quic_sibis@quicinc.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uXYTTsNZ"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4315eeb2601so82106235e9.2
+        for <arm-scmi@vger.kernel.org>; Wed, 23 Oct 2024 06:20:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1729689657; x=1730294457; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UkWfUv09D9iUXWfVB7KgOzAtutIbQ7s0/zKVBfDXje8=;
+        b=uXYTTsNZmqF75TsPexwobaY+GAidt6O/yzHd0FTgT1mso8cGyz4AZ3WFkSuIJYUjxQ
+         nVL7xd2LOAscxm0AaOQKlLdHWWuTnpqOQX+bYR9ZfSZ7ITGh5snIz2OObk34FVBjtKdh
+         Cq+rS9GA/D5mSO7/5Pbs+RALa1hXqmbsYCb9GrAjBDm76sD7MMOcBVSLDlXFawU76Ssm
+         sYBz9p/1jiZNMmv3YHZpi4VY3QsT/8YeYLhT8DYPuKwEzsMElNwb0ugX1qVI7TTSObf2
+         +usoaaexA8wBjsCJIy6j2R0o27UZ25eoLHGeWjqneiQTFW+IK+IgxZp/DRdDNQclyAdz
+         Qm1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729689657; x=1730294457;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UkWfUv09D9iUXWfVB7KgOzAtutIbQ7s0/zKVBfDXje8=;
+        b=SMLAK91cpidaIb3Bb/Ujxl+f9cZQvx7z84gs1pKSM8GzQ+cn6FwMIvSaz0t0dRVozE
+         Ue5BffJizZ7CJZp2jd2yVl/ehuM92Dx5wle22Z8S/Cf2ml6yShzhp/CJ0pdg7RQXgHrM
+         P6w5OPdOBkcbAqH8R3WeV4BRo/wBrBYvqrk9JHqWe3k7N6q71Y/LLh7PAAQdCUmYn5Vu
+         fV5weiYS2bUBkUa4nZVTyZLaaBxIrAHV2a+m+1Z9lN4o0OXhjmFpWijeDbqTsXE9gSKn
+         TlLaafrJKahM1Pz/GctXcURJmFiOPYSFz5z98klMBzwvgcxDJIoQW1aDgejluB+7/ihp
+         ws6A==
+X-Forwarded-Encrypted: i=1; AJvYcCWUIGRR/1xzKHs129lL1BisSwwUUV6p10MUVtW3KiVb+davhQWnEfv7NhELNs6dBF7Wpt88y7oBJw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9mkz4cdqRaL380QbmuK5aw/MNdHvlGFR4qEoMCz1kTkQlylG6
+	ZpPafQSKmUXArlzcU0EEzniBrDRJAXnEtpaeLhJxS5X52kyZfebAqU0dKNIXCwg=
+X-Google-Smtp-Source: AGHT+IFkJC5LCeC/OCfK9E7SoXfc1mApx4rYBSl4BC0ZjGuuqRljVVpZPb0eEsRBT2XGEsXc1k04qg==
+X-Received: by 2002:a05:600c:1ca4:b0:431:5f8c:ccb9 with SMTP id 5b1f17b1804b1-431842115ddmr29502525e9.17.1729689657368;
+        Wed, 23 Oct 2024 06:20:57 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43186bfb2f5sm16424265e9.21.2024.10.23.06.20.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Oct 2024 06:20:56 -0700 (PDT)
+Date: Wed, 23 Oct 2024 16:20:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
+	james.quinlan@broadcom.com, f.fainelli@gmail.com,
+	vincent.guittot@linaro.org, etienne.carriere@st.com,
+	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
+	quic_nkela@quicinc.com
+Subject: Re: [PATCH 5/5] firmware: arm_scmi: Relocate atomic_threshold to
+ scmi_desc
+Message-ID: <842a9844-ac89-4972-9024-72ed0e08c2d3@stanley.mountain>
+References: <20241018080602.3952869-1-cristian.marussi@arm.com>
+ <20241018080602.3952869-6-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: afUr3iHjoTR4Eazlt7NI7ztIrgK-kgsA
-X-Proofpoint-GUID: afUr3iHjoTR4Eazlt7NI7ztIrgK-kgsA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- priorityscore=1501 impostorscore=0 bulkscore=0 lowpriorityscore=0
- clxscore=1015 suspectscore=0 spamscore=0 malwarescore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410230063
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241018080602.3952869-6-cristian.marussi@arm.com>
 
-The qcom-cpucp mailbox irq is expected to function during suspend-resume
-cycle particularly when the scmi cpufreq driver can query the current
-frequency using the get_level message after the cpus are brought up during
-resume. Hence mark the irq with IRQF_NO_SUSPEND flag to fix the do_xfer
-failures we see during resume.
+On Fri, Oct 18, 2024 at 09:06:02AM +0100, Cristian Marussi wrote:
+> @@ -2959,7 +2952,7 @@ static struct scmi_debug_info *scmi_debugfs_common_setup(struct scmi_info *info)
+>  			   (char **)&dbg->name);
+>  
+>  	debugfs_create_u32("atomic_threshold_us", 0400, top_dentry,
+> -			   &info->atomic_threshold);
+> +			   (u32 *)&info->desc->atomic_threshold);
 
-Err Logs:
-arm-scmi firmware:scmi: timed out in resp(caller:do_xfer+0x164/0x568)
-cpufreq: cpufreq_online: ->get() failed
+This cast is unnecessary.
 
-Reported-by: Johan Hovold <johan+linaro@kernel.org>
-Closes: https://lore.kernel.org/lkml/ZtgFj1y5ggipgEOS@hovoldconsulting.com/
-Fixes: 0e2a9a03106c ("mailbox: Add support for QTI CPUCP mailbox controller")
-Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Tested-by: Johan Hovold <johan+linaro@kernel.org>
----
+>  
+>  	debugfs_create_str("type", 0400, trans, (char **)&dbg->type);
+>  
+> @@ -3071,6 +3064,13 @@ static const struct scmi_desc *scmi_transport_setup(struct device *dev)
+>  		 trans->desc->max_rx_timeout_ms, trans->desc->max_msg_size,
+>  		 trans->desc->max_msg);
+>  
+> +	/* System wide atomic threshold for atomic ops .. if any */
+> +	if (!of_property_read_u32(dev->of_node, "atomic-threshold-us",
+> +				  &trans->desc->atomic_threshold))
+> +		dev_info(dev,
+> +			 "SCMI System wide atomic threshold set to %d us\n",
+                                                                   ^^
+%u for unsigned int.
 
-V3:
-* Pick up R-b, T-b from the list.
+> +			 trans->desc->atomic_threshold);
+> +
+>  	return trans->desc;
+>  }
 
- drivers/mailbox/qcom-cpucp-mbox.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/mailbox/qcom-cpucp-mbox.c b/drivers/mailbox/qcom-cpucp-mbox.c
-index e5437c294803..44f4ed15f818 100644
---- a/drivers/mailbox/qcom-cpucp-mbox.c
-+++ b/drivers/mailbox/qcom-cpucp-mbox.c
-@@ -138,7 +138,7 @@ static int qcom_cpucp_mbox_probe(struct platform_device *pdev)
- 		return irq;
- 
- 	ret = devm_request_irq(dev, irq, qcom_cpucp_mbox_irq_fn,
--			       IRQF_TRIGGER_HIGH, "apss_cpucp_mbox", cpucp);
-+			       IRQF_TRIGGER_HIGH | IRQF_NO_SUSPEND, "apss_cpucp_mbox", cpucp);
- 	if (ret < 0)
- 		return dev_err_probe(dev, ret, "Failed to register irq: %d\n", irq);
- 
--- 
-2.34.1
-
+regards,
+dan carpenter
