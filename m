@@ -1,194 +1,112 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854571BCA11
-	for <arm-scmi@vger.kernel.org>; Tue, 22 Oct 2024 16:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384FB15443C;
+	Wed, 23 Oct 2024 07:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729613635; cv=none; b=o9wkayM1M1tVvByEgjUeSam7jYUfCxlIgux9fuiTFgoxTnaNyXo9Nh1K3wQy/5/S1faUgLGP21LLyCuoHAbYo0wMmDlNms1eRGYHLlNlgvF5ROD+jbZWUA3krur1LpCb0LchuR7AckbIyDc+Amk7/kpI+3JGLpnuYW4fhL4UK1Q=
+	t=1729669630; cv=none; b=feB2CY6IqV2tSI4YbAn4A9HHY71NVsD9Xttv+3b46glU9cUTVdYGMCw5WS+ZgCBm57AS7C98IcoCItHM7dwodAh/sq8Lj/Dx+XV9Eno7XuF/0sqsn6CcMM2WpTYyvo/7JgmWoUMELYIxH3yrALa+sGLsIrLiAkQ/LuMKzXYVTnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729613635; c=relaxed/simple;
-	bh=MKma/UwCMV6JOUPD+vFM8aQU6nU7Rm/roXtnw3CwQ3E=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MLl/Zs0TjDXNS4B6uAQbIUm0ZCxf7vnU9BMQmtHxoOD2dg5YAFsIZj5JNP9nNFWFAg1xZHGTivNeDYUQUQs/34ZhHJYpGAMsw3OCJFmVrkMl2gFK65h/VFgEaaX8uBCyQd9GbqkexRs7xXl7JR0AnIkkK49Dwkw5Zv3kGudMJ+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WR97K5ey; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wCOyDFcr; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WR97K5ey; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wCOyDFcr; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1729669630; c=relaxed/simple;
+	bh=WxrpTfo0Ro5O/W4tKdv9AC9eL3/cEUxiZpLNJuhbvxg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=VaxbYPai244wKxjLn5f4w9L+iNKjq0nKMgOJLpPsV1voqrZ4hHPLlQWT3mVWuNtAzx5tLyNRbiD6kvcelNf7VjV+vgiGRsf1IRa7l4QejJxIt5JuKOWVrWREr2xRTa9EcqIzrMzpJMd+GQRqT9nnp0pxpMTvCWpBcHQSQejJBPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=HonOUKVH; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WR97K5ey";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wCOyDFcr";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WR97K5ey";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wCOyDFcr"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A49231FD36;
-	Tue, 22 Oct 2024 16:13:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729613631; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=no6hYSbUUYPRI235uFuMgVK2M+JVCxR2sL+EwPfnriU=;
-	b=WR97K5ey7yNujoJFGOOP0S+gVfjgXEmJL+OhW5OwN9L+J90M2udvh9Jac0KLPuRm7vrwKl
-	1YhXDr7U6oR5SLs0mP2JBbzkjZzgXAJFFsmLFSURQHMG8VirSmICCoSRpdF2zC+PpMU+gw
-	x5Fz3vAPuKMyosjReYdKwCfuJlPgjVw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729613631;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=no6hYSbUUYPRI235uFuMgVK2M+JVCxR2sL+EwPfnriU=;
-	b=wCOyDFcrcVDcGSdiKjfM8lkHfKfKiXzogrQSY3Z2bKqdcaONh7cauN388CyCw6A/wgsws6
-	MSXGMQYYPXeU+mDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WR97K5ey;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=wCOyDFcr
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729613631; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=no6hYSbUUYPRI235uFuMgVK2M+JVCxR2sL+EwPfnriU=;
-	b=WR97K5ey7yNujoJFGOOP0S+gVfjgXEmJL+OhW5OwN9L+J90M2udvh9Jac0KLPuRm7vrwKl
-	1YhXDr7U6oR5SLs0mP2JBbzkjZzgXAJFFsmLFSURQHMG8VirSmICCoSRpdF2zC+PpMU+gw
-	x5Fz3vAPuKMyosjReYdKwCfuJlPgjVw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729613631;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=no6hYSbUUYPRI235uFuMgVK2M+JVCxR2sL+EwPfnriU=;
-	b=wCOyDFcrcVDcGSdiKjfM8lkHfKfKiXzogrQSY3Z2bKqdcaONh7cauN388CyCw6A/wgsws6
-	MSXGMQYYPXeU+mDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 536D313894;
-	Tue, 22 Oct 2024 16:13:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7D/aET/PF2dOFAAAD6G6ig
-	(envelope-from <jdelvare@suse.de>); Tue, 22 Oct 2024 16:13:51 +0000
-Date: Tue, 22 Oct 2024 18:13:49 +0200
-From: Jean Delvare <jdelvare@suse.de>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>
-Subject: Re: Odd dependency on ARM_SCMI_PROTOCOL
-Message-ID: <20241022181349.19be62b9@endymion.delvare>
-In-Reply-To: <Zxe-SBfVUEiYBkes@bogus>
-References: <20241022135537.4a93c5cc@endymion.delvare>
-	<ZxeY9VhAOLp8qSkF@pluto>
-	<Zxe-SBfVUEiYBkes@bogus>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-suse-linux-gnu)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="HonOUKVH"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49MLaO2i028304;
+	Wed, 23 Oct 2024 07:46:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Reaotx7xKtV+T2RZPrLWeCnG+P8PEHmuEC+TJ6peMeI=; b=HonOUKVHf1ueTGUj
+	wc5lsgYBlorSzVqO09XmgIclsjS6ImcLzTjqYH9OecDn0LVkBjsq6G7U0upJkAlB
+	J+2630ktTy7lVBe9d9UHeUpm55ez9cnOOj8R03cYlzEnyqSw1HU8M2KsTkbh2CUT
+	KUeg4yeayVvx4m0S7cLEVlyED1eArY590gTFti46nV6pgj9c0VFmGRw3+Q3Q5S6c
+	0J/tq8CymcU77Jsj9ymYbQC4KnslqyDw8289TrbfJSmKc5ImYBH8nS4muA25cRpo
+	fbm6kZuswRpgXkNvFwkPf9YZZPBXUBygeXimXbGQdw4mx+K3m6Fn6AzTbEWIgV8X
+	5Kvgsg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42em41s9k2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 23 Oct 2024 07:46:55 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49N7ksa6015287
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 23 Oct 2024 07:46:54 GMT
+Received: from [10.131.33.37] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 23 Oct
+ 2024 00:46:50 -0700
+Message-ID: <ae5eaef9-301f-7d3f-c973-faa22ae780ee@quicinc.com>
+Date: Wed, 23 Oct 2024 13:16:47 +0530
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH V3 0/4] firmware: arm_scmi: Misc Fixes
+Content-Language: en-US
+To: Johan Hovold <johan@kernel.org>
+CC: <sudeep.holla@arm.com>, <cristian.marussi@arm.com>,
+        <ulf.hansson@linaro.org>, <jassisinghbrar@gmail.com>,
+        <linux-kernel@vger.kernel.org>, <arm-scmi@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-arm-msm@vger.kernel.org>, <konradybcio@kernel.org>,
+        <linux-pm@vger.kernel.org>, <tstrudel@google.com>, <rafael@kernel.org>
+References: <20241007060642.1978049-1-quic_sibis@quicinc.com>
+ <ZwfsmqInJlqkQD_3@hovoldconsulting.com>
+From: Sibi Sankar <quic_sibis@quicinc.com>
+In-Reply-To: <ZwfsmqInJlqkQD_3@hovoldconsulting.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: A49231FD36
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	HAS_ORG_HEADER(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[arm.com,vger.kernel.org,kernel.org,pengutronix.de,gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 3esxjgNMWNCmetCmF1sPlsELCZAde0PN
+X-Proofpoint-ORIG-GUID: 3esxjgNMWNCmetCmF1sPlsELCZAde0PN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 impostorscore=0
+ adultscore=0 bulkscore=0 malwarescore=0 mlxlogscore=862 mlxscore=0
+ spamscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410230047
 
-Hi Sudeep and Christian,
 
-On Tue, 22 Oct 2024 16:01:28 +0100, Sudeep Holla wrote:
-> On Tue, Oct 22, 2024 at 01:22:13PM +0100, Cristian Marussi wrote:
-> > On Tue, Oct 22, 2024 at 01:55:37PM +0200, Jean Delvare wrote:  
-> > > Hi all,
-> >
-> > this pre-dates me, so take this with a grain of salt, and Sudeep may
-> > have a better explanation...  
+
+On 10/10/24 20:32, Johan Hovold wrote:
+> On Mon, Oct 07, 2024 at 11:36:38AM +0530, Sibi Sankar wrote:
+>> The series addresses the kernel warnings reported by Johan at [1] and are
+>> are required to X1E cpufreq device tree changes [2] to land.
+>>
+>> [1] - https://lore.kernel.org/lkml/ZoQjAWse2YxwyRJv@hovoldconsulting.com/
+>> [2] - https://lore.kernel.org/lkml/20240612124056.39230-1-quic_sibis@quicinc.com/
+>>
+>> The following warnings remain unadressed:
+>> arm-scmi arm-scmi.0.auto: Failed to add opps_by_lvl at 3417600 for NCC - ret:-16
+>> arm-scmi arm-scmi.0.auto: Failed to add opps_by_lvl at 3417600 for NCC - ret:-16
 > 
-> Indeed, I had to dig a bit and found a patch from 2016.
+> Are there any plans for how to address these?
+
+Hey Johan,
+Sorry missed replying to this. The error implies that duplicate
+opps are reported by the SCP firmware and appear once during probe.
+This particular error can be fixed only by a firmware update and you
+should be able to test it out soon on the CRD first.
+
+"FWIW the warnings that we are addressing in this series will also get
+fixed by a firmware update but they still have to land for devices
+already out in the wild."
+
+
 > 
-> > > I noticed that the following dependency construct is used several times
-> > > throughout the kernel tree:
-> > >
-> > > depends on ARM_SCMI_PROTOCOL || (COMPILE_TEST && OF)
-> > >
-> > > Maybe I'm just missing something as I'm not familiar with SCMI, but I
-> > > can't really make sense of this. Considering that ARM_SCMI_PROTOCOL
-> > > does not depend on OF, I do not understand why it would be OK to build
-> > > these drivers under ARM_SCMI_PROTOCOL without OF, but if test-building
-> > > under COMPILE_TEST instead, then OF would suddenly be needed. Can
-> > > anyone explain the logic?
-> > >
-> > > Considering that ARM_SCMI_PROTOCOL can be enabled through COMPILE_TEST,
-> > > and OF is now available on architectures, I think this dependency is
-> > > needlessly complex and these drivers could simply use:  
-> >
-> > ... my guess is that ARM_SCMI_PROTOCOL does NOT explicitly depends on OF
-> > simply because it depends on ARM|ARM64 which have an implicit OF dependency...
-> > ....indeed in order to use the SCMI stack you need OF...
-> >
-> > ...not saying that this is right....just trying to interpret here...
-> > ...on the other side for these reasons, if you dont have OF implicitly from
-> > the arch, you cannot COMPILE_TEST the SCMI stack without OF, so the
-> > complex dependency
-> >
-> > Probably this should be done better in Kconfig...but lets see if Sudeep
-> > can correct me...
-> 
-> Commit e517dfe67480 ("firmware: scpi: add CONFIG_OF dependency") is the
-> one that I copied to SCMI as well as we wanted  COMPILE_TEST coverage on
-> SCMI as well. As per the commit, !OF will give some warnings for COMPILE_TEST
-> which the above commit addresses. It is just copy of that you see in SCMI
-> as SCMI replaced the old SCPI and is used more widely and had more framework
-> support, hence you will find it at more places than SCPI.
-> 
-> Hope that explains, happy to take a deeper look if you have or find issues
-> with the way it exists today.
-
-Thanks for the explanations. It makes sense now. That being said, I
-believe that the same dependencies would be better expressed as:
-
-depends on OF
-depends on ARM_SCMI_PROTOCOL || COMPILE_TEST
-
-because 1* the code technically needs OF to build, and 2* these
-drivers are only useful on kernels which have ARM_SCMI_PROTOCOL, unless
-build-testing. The result would be the same as what we have now, but
-the intentions would be clearer and the correctness more obvious IMHO.
-
--- 
-Jean Delvare
-SUSE L3 Support
+> Johan
