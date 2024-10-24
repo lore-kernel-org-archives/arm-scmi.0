@@ -1,136 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1447F1E501B;
-	Thu, 24 Oct 2024 13:29:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2168A18A957;
+	Thu, 24 Oct 2024 15:07:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729776553; cv=none; b=YIGL7dbE0lsXhgO/FxIfHtuOW2tUyLiqKCA+UA7lhq0y0du9OXyQr0QujOo6EZE1RAPQe2eY+23P1cD952DafviIVKDvg4DFb4hi0Jkhm5qMlFnTn3tJQSWJZo46M4HSOwh5aNV2FpfsRq87N58ZQuA7StRC59vE0Mfbs17i5g8=
+	t=1729782478; cv=none; b=l5WqTz5tc6EtPrVAt8rCjyeqKDP7w9KELFjmyA2Hlirjv/QsJe8lq38jx0eqc5wBZs4WnpJdW9owPXVdXFiYiXzgtwZc7E44ZWW0mrZ0J1/Fc4hjLaEsXW7Ie9k3M1nCHxz/0BG0x5k7q1dpGK5rD9yTpbbipUmJyMp+AWzpSN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729776553; c=relaxed/simple;
-	bh=hjwnZO/GQ8Kpe+e4WVdWEn7tIWB48Xt11zIZDjxDOCk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O4aX7gk3euE9Is4FxODm5vXfr9qNE/ID4Um1HS64e2fi2drxpoMovgrz/GQVs2n81ca8Jixo2Dnyr87vAY+1IBHbJghzUncTMOAxsfDWlFTENsUWYbZcyuKlsUfkMhqzC15kRiEemwSQXaUTtidWlaH3NCxQxhsxwiOfdhiCBk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A15qv7Cp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729782478; c=relaxed/simple;
+	bh=G/5iQPqYa/lDZoknc7Hbx360J3DWwXAFD/scyK1iRjI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jYY119JyuYS020qKyRXwIq2UgVYzw2EySriBb9JOzU8FfyAd2DnLasf1L4eVrf0FTBocOwZLT1LFT/EMMwwwfJH6HgdRd5WRc4eSpIqoaN1Q3l2Zps406cl9Rjl6XB4WeUyml7tBQA0PB2zHCjOqFdN3qS1jZ3c4lXI5CDhPSWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d2dc+NEY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A15qv7Cp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5BECC4CECC;
-	Thu, 24 Oct 2024 13:29:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d2dc+NEY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C42EDC4CEE5;
+	Thu, 24 Oct 2024 15:07:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729776552;
-	bh=hjwnZO/GQ8Kpe+e4WVdWEn7tIWB48Xt11zIZDjxDOCk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=A15qv7CpW0XdUy0tHwrOFTyiASDHaeNZCy9bWSeoGwmt2LMrJYjMMZB/mrdWHdUZl
-	 5r6daXX/q6r5R/0jAp5b/ipXIlM4WjWF56byNK64TEn/WprgW5wyj+GBTi6S9erJPS
-	 RMD7QTlR12Bc8kFd2J7/8BiS4EM18lX4MeXR5J53+ySu/10NgbOVIhXTh3qP/Ss7t7
-	 eFbDXmuKsb50GLRH5SyyJkmKMbsh0KMzebP37YeUgmM/hD4q/HoSyHS5i+SqyGltQF
-	 QG8oNEo0YhBitkyLrNMhKrd39yZ00CUQfOrWB6HKsiTjO9CG8FN8vricwVKh7eApQm
-	 rkmU4tCAFv/kA==
-Message-ID: <170597c7-b8aa-4744-a44d-db5585545704@kernel.org>
-Date: Thu, 24 Oct 2024 15:29:05 +0200
+	s=k20201202; t=1729782478;
+	bh=G/5iQPqYa/lDZoknc7Hbx360J3DWwXAFD/scyK1iRjI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d2dc+NEY8TbmlJwRn3drLG99OfJ33RUQh3pzdyCQVzheHiEaetaZCbfd+x+9ELG+Y
+	 5IhCl2SoGDNzYEP5epNZzUPSb5R+p7e7SXL5TfXdU3NIBiwj+tXZ6ndalSg+LIAk5s
+	 Byh1w86QBM03wNm8nfrV/bHQ/3ZGzSihsviTGHHcG/lewo5oY2wyoo/NonqHISWF2e
+	 vaM9pSaYN3v3nP+vOEvMVelqev+smXf1NgSjvu1/50BOt26R1NI7/RC7/bFwJSjhqO
+	 umvSpcyy1y7Juwjce96U6JKuJcxCHXhXoZcipEfroz5r28ILSJ/UuVX+LUcAuZFy+P
+	 xnsLsdTZt46cw==
+Date: Thu, 24 Oct 2024 10:07:57 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: quic_sibis@quicinc.com, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	peng.fan@oss.nxp.com, devicetree@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+	vincent.guittot@linaro.org, arm-scmi@vger.kernel.org,
+	etienne.carriere@st.com, dan.carpenter@linaro.org,
+	michal.simek@amd.com, sudeep.holla@arm.com, f.fainelli@gmail.com,
+	james.quinlan@broadcom.com, quic_nkela@quicinc.com,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 3/5] dt-bindings: firmware: arm,scmi: Introduce more
+ transport properties
+Message-ID: <172978247557.479027.5212897770192282629.robh@kernel.org>
+References: <20241021170726.2564329-1-cristian.marussi@arm.com>
+ <20241021170726.2564329-4-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V4 1/5] dt-bindings: firmware: Document bindings for QCOM
- SCMI Generic Extension
-To: Sibi Sankar <quic_sibis@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: sudeep.holla@arm.com, cristian.marussi@arm.com, andersson@kernel.org,
- konrad.dybcio@linaro.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, quic_rgottimu@quicinc.com,
- quic_kshivnan@quicinc.com, conor+dt@kernel.org, arm-scmi@vger.kernel.org
-References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
- <20241007061023.1978380-2-quic_sibis@quicinc.com>
- <q2vuiru7sqetwqyitg7azgqg7kge622i2zgq52b55zivwtbev4@4qgzb54xjioq>
- <hxfg6ztpqy7qdsgzhvvapeyh2f55mj7hhuqqkz7si6g5i7nsng@xoyfwztk66aj>
- <3765cf3d-8477-45a7-af0e-b0c78f41eaad@kernel.org>
- <0b297305-0141-208a-e414-fb7dc98317b9@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <0b297305-0141-208a-e414-fb7dc98317b9@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241021170726.2564329-4-cristian.marussi@arm.com>
 
-On 22/10/2024 09:25, Sibi Sankar wrote:
+
+On Mon, 21 Oct 2024 18:07:24 +0100, Cristian Marussi wrote:
+> Depending on specific hardware and firmware design choices, it may be
+> possible for different platforms to end up having different requirements
+> regarding the same transport characteristics.
 > 
+> Introduce max-msg-size and max-msg properties to describe such platform
+> specific transport constraints, since they cannot be discovered otherwise.
 > 
-> On 10/8/24 17:41, Krzysztof Kozlowski wrote:
->> On 08/10/2024 14:10, Dmitry Baryshkov wrote:
->>> On Tue, Oct 08, 2024 at 08:49:27AM GMT, Krzysztof Kozlowski wrote:
->>>> On Mon, Oct 07, 2024 at 11:40:19AM +0530, Sibi Sankar wrote:
->>>>> +/*
->>>>> + * QCOM_MEM_TYPE_DDR_QOS supports the following states.
->>>>> + *
->>>>> + * %QCOM_DDR_LEVEL_AUTO:	DDR operates with LPM enabled
->>>>> + * %QCOM_DDR_LEVEL_PERF:	DDR operates with LPM disabled
->>>>> + */
->>>>> +#define QCOM_DDR_LEVEL_AUTO	0x0
->>>>> +#define QCOM_DDR_LEVEL_PERF	0x1
->>>>
->>>> I could not find any driver using these. Can you point me to usage in
->>>> the drivers?
->>>
->>> It's well hidden. These are the raw values used for DDR_QOS memory.
->>
->> So not a binding? Then these should be dropped.
-> 
-> I am not sure why the term "well hidden" was even considered :(
-> The driver just reads them from dt and passes them along. If you
-> want the dt to list magic numbers 0/1 instead I can do that as well.
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> ---
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> ---
+> v1 --> v2
+> - added vendor prefix
+> - dropped warnings about resonable minimum max-msg-size
+> - clarified the intended usage of max-msg
+> - fixed Cc to include all maintainers and using correct e-mails
+> ---
+>  .../devicetree/bindings/firmware/arm,scmi.yaml    | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
 > 
 
-If these are used by FW, then it's fine, although please document it
-clearly in comment.
-
-Best regards,
-Krzysztof
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
