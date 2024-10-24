@@ -1,82 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2168A18A957;
-	Thu, 24 Oct 2024 15:07:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A380C165EED
+	for <arm-scmi@vger.kernel.org>; Thu, 24 Oct 2024 16:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729782478; cv=none; b=l5WqTz5tc6EtPrVAt8rCjyeqKDP7w9KELFjmyA2Hlirjv/QsJe8lq38jx0eqc5wBZs4WnpJdW9owPXVdXFiYiXzgtwZc7E44ZWW0mrZ0J1/Fc4hjLaEsXW7Ie9k3M1nCHxz/0BG0x5k7q1dpGK5rD9yTpbbipUmJyMp+AWzpSN8=
+	t=1729788334; cv=none; b=S+bsnY7hhzfE714EjX/eea14zwDV0A+2pC0HGZh5/BlJP9cFnrnGVM/yNkVjVYedI7zQpYrVhf+sgsme5zRd0d9cuOoIq5W6CryAGB82ZFGl5Xl3Y1QIFwwK7sghib8Q4fJFOl5z0afYtp3u9cYmfUfrd2rG+6SQ6qCAzRHpPlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729782478; c=relaxed/simple;
-	bh=G/5iQPqYa/lDZoknc7Hbx360J3DWwXAFD/scyK1iRjI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jYY119JyuYS020qKyRXwIq2UgVYzw2EySriBb9JOzU8FfyAd2DnLasf1L4eVrf0FTBocOwZLT1LFT/EMMwwwfJH6HgdRd5WRc4eSpIqoaN1Q3l2Zps406cl9Rjl6XB4WeUyml7tBQA0PB2zHCjOqFdN3qS1jZ3c4lXI5CDhPSWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d2dc+NEY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729788334; c=relaxed/simple;
+	bh=PuBgi92BKcttIA+y4NHkOgU0I7aHaLz0SHNrvVapDzk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mA/OWlDG9hl8REvw+JBACY4YIqwFenL0A5ul/heB8wNTw+0doE3UQ9wCp6RMdQ3mKQU+ApucLwJGISBWZK1YzY4JC1BAjOWyQef1C9Fxd6dhxEhrbEe1oGzCOI8kiKmCAlyT5rACCTleDR8RDkLEiYEy9yRt1YNQwvqaWCClPrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=OmNlg5OY; arc=none smtp.client-ip=209.85.161.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d2dc+NEY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C42EDC4CEE5;
-	Thu, 24 Oct 2024 15:07:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729782478;
-	bh=G/5iQPqYa/lDZoknc7Hbx360J3DWwXAFD/scyK1iRjI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d2dc+NEY8TbmlJwRn3drLG99OfJ33RUQh3pzdyCQVzheHiEaetaZCbfd+x+9ELG+Y
-	 5IhCl2SoGDNzYEP5epNZzUPSb5R+p7e7SXL5TfXdU3NIBiwj+tXZ6ndalSg+LIAk5s
-	 Byh1w86QBM03wNm8nfrV/bHQ/3ZGzSihsviTGHHcG/lewo5oY2wyoo/NonqHISWF2e
-	 vaM9pSaYN3v3nP+vOEvMVelqev+smXf1NgSjvu1/50BOt26R1NI7/RC7/bFwJSjhqO
-	 umvSpcyy1y7Juwjce96U6JKuJcxCHXhXoZcipEfroz5r28ILSJ/UuVX+LUcAuZFy+P
-	 xnsLsdTZt46cw==
-Date: Thu, 24 Oct 2024 10:07:57 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: quic_sibis@quicinc.com, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	peng.fan@oss.nxp.com, devicetree@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
-	vincent.guittot@linaro.org, arm-scmi@vger.kernel.org,
-	etienne.carriere@st.com, dan.carpenter@linaro.org,
-	michal.simek@amd.com, sudeep.holla@arm.com, f.fainelli@gmail.com,
-	james.quinlan@broadcom.com, quic_nkela@quicinc.com,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 3/5] dt-bindings: firmware: arm,scmi: Introduce more
- transport properties
-Message-ID: <172978247557.479027.5212897770192282629.robh@kernel.org>
-References: <20241021170726.2564329-1-cristian.marussi@arm.com>
- <20241021170726.2564329-4-cristian.marussi@arm.com>
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="OmNlg5OY"
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5eb70a779baso598447eaf.1
+        for <arm-scmi@vger.kernel.org>; Thu, 24 Oct 2024 09:45:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1729788330; x=1730393130; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=f73y75zaW6AU/3canr9WH6LG7dNpM3WffUu35rDYG1E=;
+        b=OmNlg5OY1aDui77WKlhCTGzrMMn6t0ko7qlROHoQ4Zvxskn4vuFLHbuYwu9RE8JVDD
+         mwODg4KDtRA29mwJcVxd08gl5KWHD734cllzrvGdhKl0vAtlsVJSieTbSDq8KOL83rTQ
+         8S1rnRYgVMECllLej6SvgRTk5n85WEhICCP1Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729788330; x=1730393130;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f73y75zaW6AU/3canr9WH6LG7dNpM3WffUu35rDYG1E=;
+        b=XOZzJr1yW5M2xYX5sH0sPhOPMBNrkLdQEOlbpiMqRxCWqHdrFShViIsKPTvhxOrAOQ
+         jVDKsEEUD5a+Nkqci7Efb955m6/deHXfaCuPj7UXC5EmhUCn1Vy8lqUXCrDiDoMXbuDw
+         yGIaROPM/cx5VJU0cRl53MY56rnh8N9WsZfs/BFdHDC8feuwZg1cO02YeaqnR1rE+IkN
+         LXnGUZ67ZRbxFeQ1dvlnkiqHn6uHVXNuv3zDtHXEFJ+oJyqxJ5JEPiR115P/s/HygUBf
+         CTFTH6ZxQoJr3KZteSTzHbMXOgD7/SSNOxkREkRtnt0HXDRZ222ptcG/th9Hzyd1pqSh
+         zqYA==
+X-Forwarded-Encrypted: i=1; AJvYcCUbHO4f4epVYENlQCTyYjm9Th5mKMHtdyWxt+umkgoiivsRtxzLBqnQVH4TGYIIq6C8Cg2gpSoXYQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyhK6jExHv+7dVMju7mfKyiJi1eBAQEyz+lLgGKEV2o+W6/3Ta3
+	dU+qSB2cRX9hpq5H7q9en2I7Q11+7PpkWqcffQtb1Hv5vRxjQrRGwusPxMCIAw==
+X-Google-Smtp-Source: AGHT+IE/HbGwQkUT+tAKJ2L6KULTYHNeWvaEjaGUUUTedIZvZ2/RkL4BkNzuGyuTJVNhZJxWkc9BUg==
+X-Received: by 2002:a05:6358:60c3:b0:1c3:8215:164c with SMTP id e5c5f4694b2df-1c3d80d4610mr516541355d.1.1729788330468;
+        Thu, 24 Oct 2024 09:45:30 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b165a5c8c0sm502434985a.84.2024.10.24.09.45.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Oct 2024 09:45:29 -0700 (PDT)
+Message-ID: <04050b73-eb16-440f-acd7-986b1f39a6c9@broadcom.com>
+Date: Thu, 24 Oct 2024 09:45:25 -0700
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241021170726.2564329-4-cristian.marussi@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/2] firmware: arm_scmi: Support 'reg-io-width'
+ property for shared memory
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ "open list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE"
+ <arm-scmi@vger.kernel.org>, justin.chen@broadcom.com, opendmb@gmail.com,
+ Florian Fainelli <f.fainelli@gmail.com>, kapil.hali@broadcom.com,
+ bcm-kernel-feedback-list@broadcom.com, Arnd Bergmann <arnd@arndb.de>
+References: <20240827182450.3608307-1-florian.fainelli@broadcom.com>
+ <20240827182450.3608307-3-florian.fainelli@broadcom.com>
+ <20240903154000.GA2080277@bogus> <ZxJbJa8Q3V02yf_z@bogus>
+ <Zxop6E83YId0et5o@bogus>
+Content-Language: en-US
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
+ xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
+ M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
+ JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
+ PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
+ KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
+ AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
+ IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
+ ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
+ bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
+ Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
+ tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
+ TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
+ zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
+ WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
+ IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
+ U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
+ 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
+ pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
+ MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
+ IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
+ gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
+ obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
+ N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
+ CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
+ C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
+ wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
+ EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
+ fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
+ MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
+ 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
+ 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
+In-Reply-To: <Zxop6E83YId0et5o@bogus>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 10/24/24 04:05, Sudeep Holla wrote:
+> Gentle ping! Not sure if my earlier email got into spam or didn't land
+> in lore/ML. Just thought of checking again.
 
-On Mon, 21 Oct 2024 18:07:24 +0100, Cristian Marussi wrote:
-> Depending on specific hardware and firmware design choices, it may be
-> possible for different platforms to end up having different requirements
-> regarding the same transport characteristics.
+You did not land in spam, just being quite busy.
+
 > 
-> Introduce max-msg-size and max-msg properties to describe such platform
-> specific transport constraints, since they cannot be discovered otherwise.
-> 
-> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> ---
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> ---
-> v1 --> v2
-> - added vendor prefix
-> - dropped warnings about resonable minimum max-msg-size
-> - clarified the intended usage of max-msg
-> - fixed Cc to include all maintainers and using correct e-mails
-> ---
->  .../devicetree/bindings/firmware/arm,scmi.yaml    | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
+> On Fri, Oct 18, 2024 at 01:57:09PM +0100, Sudeep Holla wrote:
+>> On Tue, Sep 03, 2024 at 04:40:00PM +0100, Sudeep Holla wrote:
+>>> On Tue, Aug 27, 2024 at 11:24:50AM -0700, Florian Fainelli wrote:
+>>>> Some shared memory areas might only support a certain access width,
+>>>> such as 32-bit, which memcpy_{from,to}_io() does not adhere to at least
+>>>> on ARM64 by making both 8-bit and 64-bit accesses to such memory.
+>>>>
+>>>> Update the shmem layer to support reading from and writing to such
+>>>> shared memory area using the specified I/O width in the Device Tree. The
+>>>> various transport layers making use of the shmem.c code are updated
+>>>> accordingly to pass the I/O accessors that they store.
+>>>>
+>>>
+>>> This looks good to me now, much simpler. I will push this to -next soon,
+>>> but it won't be for v6.12. I have already sent PR for that. I want this
+>>> to be in -next for longer just to see if anyone has any comments and
+>>> doesn't break any platform(which it shouldn't anyways).
+>>>
+>>> Just hoping if anyone looks at it and have feedback once it is in -next.
+>>> I will apply formally at v6.12-rc1 and report back if no one complains
+>>> until then.
+>>>
+>>
+>> Hi Florian,
+>>
+>> Just thought I will check with you if the content is -next are fine as I now
+>> recall I did the rebase as this patch was original posted before the rework
+>> of transport as modules were merged. Please confirm if you are happy with the
+>> rebase as you see in -next. I also had to rebase it on recent fixes that
+>> Justin added as there were trivial conflicts.
+>>
+>> Another thing I wanted to check is if [1] series has any impact on this.
+>> IIUC no, but it would be good to give a go in terms of testing just in case
+>> that as well lands in -next.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-
+linux-next as of today (2024-10-24) still works good on the affected 
+platform, thanks for asking!
+-- 
+Florian
