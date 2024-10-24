@@ -1,161 +1,121 @@
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A380C165EED
-	for <arm-scmi@vger.kernel.org>; Thu, 24 Oct 2024 16:45:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D73C169AE4
+	for <arm-scmi@vger.kernel.org>; Thu, 24 Oct 2024 19:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729788334; cv=none; b=S+bsnY7hhzfE714EjX/eea14zwDV0A+2pC0HGZh5/BlJP9cFnrnGVM/yNkVjVYedI7zQpYrVhf+sgsme5zRd0d9cuOoIq5W6CryAGB82ZFGl5Xl3Y1QIFwwK7sghib8Q4fJFOl5z0afYtp3u9cYmfUfrd2rG+6SQ6qCAzRHpPlI=
+	t=1729799216; cv=none; b=Xd2NYJ10IkcrdJg+U1SNogeOyJxdDisUPEffPKbuuevuhtDQKYIqZ21NMTal1lGpRXi0C2U0ORJTcyBUfatdJ1HtWQZjbytOg6SHiI//T+4EoR39pnhwTSJybdH0BhTJxjKtfnHzjxfq4gBr57X+8S17dngPSjaV1ITLICIfcow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729788334; c=relaxed/simple;
-	bh=PuBgi92BKcttIA+y4NHkOgU0I7aHaLz0SHNrvVapDzk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mA/OWlDG9hl8REvw+JBACY4YIqwFenL0A5ul/heB8wNTw+0doE3UQ9wCp6RMdQ3mKQU+ApucLwJGISBWZK1YzY4JC1BAjOWyQef1C9Fxd6dhxEhrbEe1oGzCOI8kiKmCAlyT5rACCTleDR8RDkLEiYEy9yRt1YNQwvqaWCClPrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=OmNlg5OY; arc=none smtp.client-ip=209.85.161.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1729799216; c=relaxed/simple;
+	bh=+xhS0Xv1G/J6e7Ktie/2UvMbOotjS6zFaMns8T9MYS8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GqKvf2/zkDlwg8K76hPvBgTWwuj+mWZ6ZujRJVtuaXtgw+ecTCXYMutkY41fH+Emtrgmhf2OH6RZg8KBzEDv9mGjE5PJMF3WFlgvR9tg7rUehKtM4kPu+nGbBR14FeOco9LfTPf7aFUb67YFzBrMV/UtrVx9joppHSEYNDePvUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Tm6bl7ev; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="OmNlg5OY"
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5eb70a779baso598447eaf.1
-        for <arm-scmi@vger.kernel.org>; Thu, 24 Oct 2024 09:45:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Tm6bl7ev"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-539f4d8ef84so1722165e87.0
+        for <arm-scmi@vger.kernel.org>; Thu, 24 Oct 2024 12:46:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1729788330; x=1730393130; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=f73y75zaW6AU/3canr9WH6LG7dNpM3WffUu35rDYG1E=;
-        b=OmNlg5OY1aDui77WKlhCTGzrMMn6t0ko7qlROHoQ4Zvxskn4vuFLHbuYwu9RE8JVDD
-         mwODg4KDtRA29mwJcVxd08gl5KWHD734cllzrvGdhKl0vAtlsVJSieTbSDq8KOL83rTQ
-         8S1rnRYgVMECllLej6SvgRTk5n85WEhICCP1Y=
+        d=linaro.org; s=google; t=1729799212; x=1730404012; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PI3SXZp7iH9LDmA0MnQOo/8B2Evm9XupATLCcVNXC40=;
+        b=Tm6bl7ev4IwJjSCp2ygl4V8Zotp5Bs05ryL7FprVCWutNWWc8rQTCCI9mvf1z9WqCd
+         TsyV9vA5qrNLmrOlOmyKKh56yS2PecmbgMJ3zOCqJXev9UTG3L//88WGJ2VYz2DmVtV2
+         SaVktlU3WgluN68OL8y+G+fkxgT46UlzVrAwzXxSQOPgfifOFGYZ8eO7kQHAYNE1PKA3
+         4/3Q++X2ph2ht92nR0VR0TphvwZLVfoYQZ32C4gt1Q68wtHC9008u4C1blrhj3YzzPnZ
+         ytG/T7JRgbK3BhTvel5KOhvpIZVzsqt4Akv8qPjxoLH+rc8Fm/3lMINdz6T5JpIyGqgo
+         JVgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729788330; x=1730393130;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1729799212; x=1730404012;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=f73y75zaW6AU/3canr9WH6LG7dNpM3WffUu35rDYG1E=;
-        b=XOZzJr1yW5M2xYX5sH0sPhOPMBNrkLdQEOlbpiMqRxCWqHdrFShViIsKPTvhxOrAOQ
-         jVDKsEEUD5a+Nkqci7Efb955m6/deHXfaCuPj7UXC5EmhUCn1Vy8lqUXCrDiDoMXbuDw
-         yGIaROPM/cx5VJU0cRl53MY56rnh8N9WsZfs/BFdHDC8feuwZg1cO02YeaqnR1rE+IkN
-         LXnGUZ67ZRbxFeQ1dvlnkiqHn6uHVXNuv3zDtHXEFJ+oJyqxJ5JEPiR115P/s/HygUBf
-         CTFTH6ZxQoJr3KZteSTzHbMXOgD7/SSNOxkREkRtnt0HXDRZ222ptcG/th9Hzyd1pqSh
-         zqYA==
-X-Forwarded-Encrypted: i=1; AJvYcCUbHO4f4epVYENlQCTyYjm9Th5mKMHtdyWxt+umkgoiivsRtxzLBqnQVH4TGYIIq6C8Cg2gpSoXYQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhK6jExHv+7dVMju7mfKyiJi1eBAQEyz+lLgGKEV2o+W6/3Ta3
-	dU+qSB2cRX9hpq5H7q9en2I7Q11+7PpkWqcffQtb1Hv5vRxjQrRGwusPxMCIAw==
-X-Google-Smtp-Source: AGHT+IE/HbGwQkUT+tAKJ2L6KULTYHNeWvaEjaGUUUTedIZvZ2/RkL4BkNzuGyuTJVNhZJxWkc9BUg==
-X-Received: by 2002:a05:6358:60c3:b0:1c3:8215:164c with SMTP id e5c5f4694b2df-1c3d80d4610mr516541355d.1.1729788330468;
-        Thu, 24 Oct 2024 09:45:30 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b165a5c8c0sm502434985a.84.2024.10.24.09.45.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Oct 2024 09:45:29 -0700 (PDT)
-Message-ID: <04050b73-eb16-440f-acd7-986b1f39a6c9@broadcom.com>
-Date: Thu, 24 Oct 2024 09:45:25 -0700
+        bh=PI3SXZp7iH9LDmA0MnQOo/8B2Evm9XupATLCcVNXC40=;
+        b=EDXc/sMji3beBdw2DNe13le7CAX3hh5RwBaxqoK6m1nf5epcH3rQFjJSgMatAPAMXo
+         UvhmJ2JsR/PvMo9zGPQpAH+Ridd/0+yBIQ8wLkRaskSoZM8U0OZLVH4q4ejFULud2Zt7
+         VCVnAY5/uOC4zlC9vDSY1x/6odv5QSvGmWzFWc8K394zFzfn9SoyNbOs6m0x4PU6AEm6
+         jNM9QMo+luk87q2jAXxq3qV785IMnxl+fN7eCNQfBeKyAsKubqb2kEQRiZGmIDrNcD/7
+         xRRYqOMVFfAYYO4nrMRQJw169RZrofH75U6jU3ZiXRU0zLRn5gKhxr/BchjqqZ1mdwvE
+         YX/w==
+X-Forwarded-Encrypted: i=1; AJvYcCXWBpiKzzA94PTwtq2bSrwcxTpcDXVoodzD/NoqmNT6paSOjCc8KC9gsC9BNzWJCN98iIK9B2oibQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0H7g7+3jrJyRKIpYXgBkV+A5C3zmF53qE3ToNQVTmADfR0sJn
+	YP5o+KsAMAcbuSPHZcPS5ZajsJBrWRRpxlUZ7S0It9wqP5gnzI+D1P7cDuYb+ro=
+X-Google-Smtp-Source: AGHT+IETETXmy3bVlftYj31VETRjI/RZSZyaUXBUvtgU+pcTALquMjFnjAZo0xxjEwQVBqO3LLhmzw==
+X-Received: by 2002:a05:6512:b99:b0:539:f37f:bef2 with SMTP id 2adb3069b0e04-53b1a31f29dmr4081545e87.17.1729799212192;
+        Thu, 24 Oct 2024 12:46:52 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a224319b3sm1453550e87.210.2024.10.24.12.46.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Oct 2024 12:46:50 -0700 (PDT)
+Date: Thu, 24 Oct 2024 22:46:48 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Sibi Sankar <quic_sibis@quicinc.com>, sudeep.holla@arm.com, 
+	cristian.marussi@arm.com, andersson@kernel.org, konrad.dybcio@linaro.org, 
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	quic_rgottimu@quicinc.com, quic_kshivnan@quicinc.com, conor+dt@kernel.org, 
+	arm-scmi@vger.kernel.org
+Subject: Re: [PATCH V4 1/5] dt-bindings: firmware: Document bindings for QCOM
+ SCMI Generic Extension
+Message-ID: <hc66u4jtl3ncjssmfmkzzxel4bkf74s5srml4ovrm3lrds2mvx@zsb4rfd637dp>
+References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
+ <20241007061023.1978380-2-quic_sibis@quicinc.com>
+ <q2vuiru7sqetwqyitg7azgqg7kge622i2zgq52b55zivwtbev4@4qgzb54xjioq>
+ <hxfg6ztpqy7qdsgzhvvapeyh2f55mj7hhuqqkz7si6g5i7nsng@xoyfwztk66aj>
+ <3765cf3d-8477-45a7-af0e-b0c78f41eaad@kernel.org>
+ <0b297305-0141-208a-e414-fb7dc98317b9@quicinc.com>
+ <170597c7-b8aa-4744-a44d-db5585545704@kernel.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] firmware: arm_scmi: Support 'reg-io-width'
- property for shared memory
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- "open list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE"
- <arm-scmi@vger.kernel.org>, justin.chen@broadcom.com, opendmb@gmail.com,
- Florian Fainelli <f.fainelli@gmail.com>, kapil.hali@broadcom.com,
- bcm-kernel-feedback-list@broadcom.com, Arnd Bergmann <arnd@arndb.de>
-References: <20240827182450.3608307-1-florian.fainelli@broadcom.com>
- <20240827182450.3608307-3-florian.fainelli@broadcom.com>
- <20240903154000.GA2080277@bogus> <ZxJbJa8Q3V02yf_z@bogus>
- <Zxop6E83YId0et5o@bogus>
-Content-Language: en-US
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
- xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
- M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
- JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
- PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
- KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
- AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
- IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
- ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
- bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
- Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
- tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
- TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
- zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
- WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
- IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
- U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
- 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
- pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
- MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
- IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
- gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
- obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
- N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
- CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
- C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
- wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
- EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
- fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
- MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
- 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
- 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <Zxop6E83YId0et5o@bogus>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <170597c7-b8aa-4744-a44d-db5585545704@kernel.org>
 
-On 10/24/24 04:05, Sudeep Holla wrote:
-> Gentle ping! Not sure if my earlier email got into spam or didn't land
-> in lore/ML. Just thought of checking again.
-
-You did not land in spam, just being quite busy.
-
+On Thu, Oct 24, 2024 at 03:29:05PM +0200, Krzysztof Kozlowski wrote:
+> On 22/10/2024 09:25, Sibi Sankar wrote:
+> > 
+> > 
+> > On 10/8/24 17:41, Krzysztof Kozlowski wrote:
+> >> On 08/10/2024 14:10, Dmitry Baryshkov wrote:
+> >>> On Tue, Oct 08, 2024 at 08:49:27AM GMT, Krzysztof Kozlowski wrote:
+> >>>> On Mon, Oct 07, 2024 at 11:40:19AM +0530, Sibi Sankar wrote:
+> >>>>> +/*
+> >>>>> + * QCOM_MEM_TYPE_DDR_QOS supports the following states.
+> >>>>> + *
+> >>>>> + * %QCOM_DDR_LEVEL_AUTO:	DDR operates with LPM enabled
+> >>>>> + * %QCOM_DDR_LEVEL_PERF:	DDR operates with LPM disabled
+> >>>>> + */
+> >>>>> +#define QCOM_DDR_LEVEL_AUTO	0x0
+> >>>>> +#define QCOM_DDR_LEVEL_PERF	0x1
+> >>>>
+> >>>> I could not find any driver using these. Can you point me to usage in
+> >>>> the drivers?
+> >>>
+> >>> It's well hidden. These are the raw values used for DDR_QOS memory.
+> >>
+> >> So not a binding? Then these should be dropped.
+> > 
+> > I am not sure why the term "well hidden" was even considered :(
+> > The driver just reads them from dt and passes them along. If you
+> > want the dt to list magic numbers 0/1 instead I can do that as well.
+> > 
 > 
-> On Fri, Oct 18, 2024 at 01:57:09PM +0100, Sudeep Holla wrote:
->> On Tue, Sep 03, 2024 at 04:40:00PM +0100, Sudeep Holla wrote:
->>> On Tue, Aug 27, 2024 at 11:24:50AM -0700, Florian Fainelli wrote:
->>>> Some shared memory areas might only support a certain access width,
->>>> such as 32-bit, which memcpy_{from,to}_io() does not adhere to at least
->>>> on ARM64 by making both 8-bit and 64-bit accesses to such memory.
->>>>
->>>> Update the shmem layer to support reading from and writing to such
->>>> shared memory area using the specified I/O width in the Device Tree. The
->>>> various transport layers making use of the shmem.c code are updated
->>>> accordingly to pass the I/O accessors that they store.
->>>>
->>>
->>> This looks good to me now, much simpler. I will push this to -next soon,
->>> but it won't be for v6.12. I have already sent PR for that. I want this
->>> to be in -next for longer just to see if anyone has any comments and
->>> doesn't break any platform(which it shouldn't anyways).
->>>
->>> Just hoping if anyone looks at it and have feedback once it is in -next.
->>> I will apply formally at v6.12-rc1 and report back if no one complains
->>> until then.
->>>
->>
->> Hi Florian,
->>
->> Just thought I will check with you if the content is -next are fine as I now
->> recall I did the rebase as this patch was original posted before the rework
->> of transport as modules were merged. Please confirm if you are happy with the
->> rebase as you see in -next. I also had to rebase it on recent fixes that
->> Justin added as there were trivial conflicts.
->>
->> Another thing I wanted to check is if [1] series has any impact on this.
->> IIUC no, but it would be good to give a go in terms of testing just in case
->> that as well lands in -next.
+> If these are used by FW, then it's fine, although please document it
+> clearly in comment.
 
-linux-next as of today (2024-10-24) still works good on the affected 
-platform, thanks for asking!
+If they are used by FW but they are common between all platforms, it
+should go to the driver instead of being stuffed into DT.
+
+
 -- 
-Florian
+With best wishes
+Dmitry
