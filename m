@@ -1,50 +1,46 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F1B1632F8;
-	Fri, 25 Oct 2024 13:39:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA02612B64;
+	Fri, 25 Oct 2024 13:48:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729863568; cv=none; b=TkBFC5OZVgYicRVqt/UWI7xyqfCnLZVdN+yP5KoXMt3QC7mrRgm7E9AWnmf3puaR70lBvBh/5dnFCtZ5wMRKcJSUo3s2ZgYKpRlmZeI9i0FGeop7rjOLHDKoROEctIs7qMX3PB6BpG5I0e9yHKK+9oHiBahWm7GYWb0P53f+gq8=
+	t=1729864122; cv=none; b=CfV9cM2DSwPE5qsDwefcJFonwAZ2eVCipmJD+jACrA6vpKk1KSe86tKkqmdzBAirt/Lc3b78umKJJCo7dgzZc8zb4udI9W8a5DeIZ78wCA95XSJaFkz0NB+d2br8xTCoZlHWxcdwmSDTMtHHQNr3A55yhuieeMs2QVt1Io2woA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729863568; c=relaxed/simple;
-	bh=iXshz53UY8Tw9bcTb1F+rkddkrEEDdOWrzrTbynhNCw=;
+	s=arc-20240116; t=1729864122; c=relaxed/simple;
+	bh=AWWxHlQ7+1+m8GRIlMTOKtAHKxDrjgZ5/Q1TV6hpEKA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nqn0btEsU0Of4Fsy12LiUkYRXCmdUjIsVfvyWncntUjdx2xHX0WKIscMpIZ94knSBXuVfbKaFsA9TCbikZXWQsh/6TnEJMObts8s92SM/OzAfmgwhDuhxoHHRmaFGFMiOvjg9wox9lz2ENRK9sc09UG8krEeQBpFaphUYyBkv64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EMCSnz6P; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EMCSnz6P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 237A2C4CEC3;
-	Fri, 25 Oct 2024 13:39:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729863566;
-	bh=iXshz53UY8Tw9bcTb1F+rkddkrEEDdOWrzrTbynhNCw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EMCSnz6PQUh62zSItP2OLJ+BdaD+t2T5Q2/vMO2BMIG6pl4JMh8zdB/W5Fwu0UcVa
-	 0JTDecr9LOCsDwkgy4/yq+MNyztwKV0OPv3PaoO6lKMtWwNCQ1lWkYbGVwFhBTkdBp
-	 nWZnTYOmbhoiv5gGoUk0BNU/LyNASN0jUFc90obelR6OSVPpPE6yxe9I5dHHQaXtt1
-	 c/gHx4yz3nTeNIsNgz+VD/daN/oFYe2tKATpPQrv4FfBKKKKVuDxb/kATj5V0rslV0
-	 OX+f/knTUX++MnzANgBLQ/0nS0QuQlilysAhZ/EBocV/5qC8teiu2big/tvXjZ34Jg
-	 wrmqcaHc1gPug==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1t4KXY-000000003M9-2an3;
-	Fri, 25 Oct 2024 15:39:44 +0200
-Date: Fri, 25 Oct 2024 15:39:44 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Sibi Sankar <quic_sibis@quicinc.com>
-Cc: sudeep.holla@arm.com, cristian.marussi@arm.com, ulf.hansson@linaro.org,
-	jassisinghbrar@gmail.com, dmitry.baryshkov@linaro.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=RJ8hNJBygkeW0sx6zH2I3RbpNdLS5KBj1obwUU4ixeN4zyuEIvLsN9jZ7bvguDpTISZFgqkVntbQNV4ri8V7pR6of2IleK3fP1SrMQTCJQTwWbyGqftIzxHNZn8xsUEXp2CsdIMfBEMukJ/eCAcgx6ZPjZkY1F+6qM8pxTmeQzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E8BBD339;
+	Fri, 25 Oct 2024 06:49:08 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3E1D63F71E;
+	Fri, 25 Oct 2024 06:48:37 -0700 (PDT)
+Date: Fri, 25 Oct 2024 14:48:26 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Johan Hovold <johan@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Sibi Sankar <quic_sibis@quicinc.com>, sudeep.holla@arm.com,
+	ulf.hansson@linaro.org, jassisinghbrar@gmail.com,
 	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
 	konradybcio@kernel.org, linux-pm@vger.kernel.org,
-	tstrudel@google.com, rafael@kernel.org,
-	Johan Hovold <johan+linaro@kernel.org>
-Subject: Re: [PATCH V4 1/4] firmware: arm_scmi: Ensure that the message-id
- supports fastchannel
-Message-ID: <ZxufoL3NjYs8Lyq0@hovoldconsulting.com>
-References: <20241023102148.1698910-1-quic_sibis@quicinc.com>
- <20241023102148.1698910-2-quic_sibis@quicinc.com>
+	tstrudel@google.com, rafael@kernel.org
+Subject: Re: [PATCH V3 0/4] firmware: arm_scmi: Misc Fixes
+Message-ID: <ZxuhqkDoWF8IYQxL@pluto>
+References: <20241007060642.1978049-1-quic_sibis@quicinc.com>
+ <ZwfsmqInJlqkQD_3@hovoldconsulting.com>
+ <ae5eaef9-301f-7d3f-c973-faa22ae780ee@quicinc.com>
+ <ZxkjqEmkBAsC6UkL@hovoldconsulting.com>
+ <c8e7420b-a7b4-89cd-1b6e-c1f6693c062d@quicinc.com>
+ <ik4dyfbphm7lkeipm2dbr7cmdfxewxd4jtuz2jfnscfwcyo2r4@lrin5hnsqvyd>
+ <83b635a7-fc69-7522-d985-810262500cb3@quicinc.com>
+ <CAA8EJppx1OmYnfSsMDebRRTbNb3dfAE_MM55T1SpLccP=s_K1A@mail.gmail.com>
+ <Zxty8VaMPrU3fJAN@pluto>
+ <ZxueBWB9nJ9Mt7bW@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -53,31 +49,40 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241023102148.1698910-2-quic_sibis@quicinc.com>
+In-Reply-To: <ZxueBWB9nJ9Mt7bW@hovoldconsulting.com>
 
-On Wed, Oct 23, 2024 at 03:51:45PM +0530, Sibi Sankar wrote:
-> Currently the perf and powercap protocol relies on the protocol domain
-> attributes, which just ensures that one fastchannel per domain, before
-> instantiating fastchannels for all possible message-ids. Fix this by
-> ensuring that each message-id supports fastchannel before initialization.
-
-Again, perhaps you could include the error message I reported here so
-that anyone searching for that error will find this fix more easily?
- 
-> Reported-by: Johan Hovold <johan+linaro@kernel.org>
-> Closes: https://lore.kernel.org/lkml/ZoQjAWse2YxwyRJv@hovoldconsulting.com/
-> Fixes: 6f9ea4dabd2d ("firmware: arm_scmi: Generalize the fast channel support")
-
-And, also again, should you add a CC-stable tag here to get this
-backported?
-
-> Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
-> Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
-> Tested-by: Johan Hovold <johan+linaro@kernel.org>
-> ---
+On Fri, Oct 25, 2024 at 03:32:53PM +0200, Johan Hovold wrote:
+> On Fri, Oct 25, 2024 at 11:29:05AM +0100, Cristian Marussi wrote:
 > 
-> v3:
-> * Pick up R-b, T-b from the list.
-> * Move scmi_protocol_msg_check to the top [Sudeep]
+> > > > >>> [    8.098452] arm-scmi arm-scmi.0.auto: Failed to add opps_by_lvl at 3417600 for NCC - ret:-16
+> > > > >>> [    8.109647] arm-scmi arm-scmi.0.auto: Failed to add opps_by_lvl at 3417600 for NCC - ret:-16
+> > > > >>> [    8.128970] arm-scmi arm-scmi.0.auto: Failed to add opps_by_lvl at 3417600 for NCC - ret:-16
+> > > > >>> [    8.142455] arm-scmi arm-scmi.0.auto: Failed to add opps_by_lvl at 3417600 for NCC - ret:-16
+> 
+> > I think dev_info could be an option from the SCMI perspective (as per my
+> > other mail), the important thing in these regards is to NOT go
+> > completely silent against fw anomalies...to avoid the the risk of being
+> > silently ignored .... I'll see what Sudeep thinks about...
+> 
+> I agree.
+> 
+> But could the error handling be improved to look less scary for an end
+> user by saying something about duplicate entries being ignored instead
+> perhaps?
+> 
+> Printing something at info level and with a FW_BUG ("[Firmware Bug]: ")
+> prefix as was done here:
+> 
+> 	https://lore.kernel.org/all/20230414084619.31524-1-johan+linaro@kernel.org/
+> 
+> should make it clear that this is not something for end users to worry
+> (too much) about.
 
-Johan
+Sure...and thanks for the suggestion....I will cook something up around
+this....
+
+(I am probably too used to try to scary the FW guys that I forgot there
+are also innocent bystanders like final users :P)
+
+Thanks,
+Cristian
