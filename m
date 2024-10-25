@@ -1,82 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDEDA13B584;
-	Fri, 25 Oct 2024 14:11:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15E471F80DC;
+	Fri, 25 Oct 2024 14:36:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729865489; cv=none; b=TYWDyC0GUZdZyfdLb1nxfScj7olwBpQSGD/T8IrZObNScv+cb/icSTi7Y5iRqjsQqzOwWXGU9fw9PxCGa9Y/U7dXAnFTsFx2lftzLY+KUoWyNGmDHmIKVLF0tUuWdbOPiFistC7porGtcvmcAEp04eEqj4FbHh7hR6k2y7oDoEA=
+	t=1729866965; cv=none; b=N6P4QP7pN8njj1OXmRm4J9lKcGifyuXCn0KX65CSyry/G2SAVBJO3Z0bligamgVqTfENE2bJCvhEEBaM+i5byxZfi1AntqQyOBZ9APYtsMrvokcXtxULsEOplGnwKzDNX84oo52Q/V06S2aiCQXsgGN7Pz3sJjMm9UaZhy8gVHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729865489; c=relaxed/simple;
-	bh=tm/4vbtNtiaS+JdouNTCc5kuz8nO0+9LkJM0qC0F/Rk=;
+	s=arc-20240116; t=1729866965; c=relaxed/simple;
+	bh=5FVdvt9rSkyZezJ0FrEiLOyX/LB9EgrsfJvzyaqY3Ww=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KFXTg4qs2VdM5XjjPKL1BO8dx3kf92N2WLW3ZKRUUyZOkU2sr6pU6mF5ImV4EBFDTYsTR4IdZDXarbihrEDXgtghoDrsoS9G5qSRwHrt2zm/cjh3FoVBciAVX46WV4aaIEdsNyqck4crJQtDMgfz48MLyE/QeVnUh7b78LA5EVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ffoGoGQx; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ffoGoGQx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6715DC4CECD;
-	Fri, 25 Oct 2024 14:11:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729865487;
-	bh=tm/4vbtNtiaS+JdouNTCc5kuz8nO0+9LkJM0qC0F/Rk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ffoGoGQxMqOHARMij0z0esj2E8EIeq3uVhHrdWRL2rYrbRBbAE9poea1iWcK1mVlP
-	 zVDTpfCk16r8QwbjjgLFvHIgnameRLBgtyW2bJvFi6VSaX2UpLzl9X7mbNyW4Xhd0x
-	 48VUlnWCz8z5qgENba1KwQBli/aAyvigMf+W6eQrEHl/M9kBdXRuPhOOucVBN2/W8W
-	 0Lq65v9kkQA7U2Wd8Gm1K9Z9hnp2Ky31mCwwUEqzFvLJMws9AZcvh/kGJ7wWonM1JA
-	 hWlg2dXPCOfppHzM31hZjNPADbff5oPzTRkqArvmei3BmOH8lTSM8aHbHL0Quo+Y3u
-	 I6QG6IUgy+plA==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1t4L2X-000000006JC-32je;
-	Fri, 25 Oct 2024 16:11:45 +0200
-Date: Fri, 25 Oct 2024 16:11:45 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Sibi Sankar <quic_sibis@quicinc.com>
-Cc: sudeep.holla@arm.com, cristian.marussi@arm.com, ulf.hansson@linaro.org,
-	jassisinghbrar@gmail.com, dmitry.baryshkov@linaro.org,
-	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	konradybcio@kernel.org, linux-pm@vger.kernel.org,
-	tstrudel@google.com, rafael@kernel.org,
-	Johan Hovold <johan+linaro@kernel.org>
-Subject: Re: [PATCH V4 3/4] pmdomain: core: Fix debugfs node creation failure
-Message-ID: <ZxunIcSZDoO3ph64@hovoldconsulting.com>
-References: <20241023102148.1698910-1-quic_sibis@quicinc.com>
- <20241023102148.1698910-4-quic_sibis@quicinc.com>
- <ZxuixxBzQZUdIW1c@hovoldconsulting.com>
- <72a0b7b5-4209-f969-0726-e411b5a74e01@quicinc.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=htMvlpA4jb8awdelikKYQsCgs4rFhlU7I6OvupGOctc7U+FtwOj65nQjD2C6Pqpk/h7Pbu0MxdXwXzc8Om79fFOgDGifJADuWI7WZYJ/BECtXF4HD+bBlY3EShJGvjeWmR4xyAkmWenPfBPXoi7Clb1SmqfcFqqJpUXh4ColaQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E628F339;
+	Fri, 25 Oct 2024 07:36:31 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6288E3F73B;
+	Fri, 25 Oct 2024 07:36:00 -0700 (PDT)
+Date: Fri, 25 Oct 2024 15:35:57 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
+	james.quinlan@broadcom.com, f.fainelli@gmail.com,
+	vincent.guittot@linaro.org, etienne.carriere@st.com,
+	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
+	quic_nkela@quicinc.com
+Subject: Re: [PATCH 5/5] firmware: arm_scmi: Relocate atomic_threshold to
+ scmi_desc
+Message-ID: <ZxuszZFKdJoHwiSe@pluto>
+References: <20241018080602.3952869-1-cristian.marussi@arm.com>
+ <20241018080602.3952869-6-cristian.marussi@arm.com>
+ <842a9844-ac89-4972-9024-72ed0e08c2d3@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <72a0b7b5-4209-f969-0726-e411b5a74e01@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <842a9844-ac89-4972-9024-72ed0e08c2d3@stanley.mountain>
 
-On Fri, Oct 25, 2024 at 07:36:16PM +0530, Sibi Sankar wrote:
-> On 10/25/24 19:23, Johan Hovold wrote:
+On Wed, Oct 23, 2024 at 04:20:53PM +0300, Dan Carpenter wrote:
+> On Fri, Oct 18, 2024 at 09:06:02AM +0100, Cristian Marussi wrote:
 
-> > Also seems to do the trick:
-> > 
-> > Tested-by: Johan Hovold <johan+linaro@kernel.org>
-> > 
-> > But perhaps you could consider starting enumerating the duplicate
-> > domains from 2 (or 1) instead of 0?:
-> > 
-> > NCC_1                           on                              0
-> > NCC_0                           on                              0
-> > NCC                             on                              0
+Hi Dan,
+
+thanks for having a look.
+
+> > @@ -2959,7 +2952,7 @@ static struct scmi_debug_info *scmi_debugfs_common_setup(struct scmi_info *info)
+> >  			   (char **)&dbg->name);
+> >  
+> >  	debugfs_create_u32("atomic_threshold_us", 0400, top_dentry,
+> > -			   &info->atomic_threshold);
+> > +			   (u32 *)&info->desc->atomic_threshold);
 > 
-> We are just trying to make sure node names are unique and
-> can't ensure the pd-name correctness since ida starts its
-> number generation from 0 and I didn't want to shape the
-> fix just to cater to our specific case. The firmware fix
-> will be in charge of ensuring pd-name correctness.
+> This cast is unnecessary.
 
-Ah, it's a global number space? I didn't really look at the
-implementation...
+I was indeed wondering why I added that....then I remember something
+about debugfs_create....without that (u32 *):
 
-Johan
+drivers/firmware/arm_scmi/driver.c: In function ‘scmi_debugfs_common_setup’:
+drivers/firmware/arm_scmi/driver.c:2988:28: warning: passing argument 4 of ‘debugfs_create_u32’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+                             &info->desc->atomic_threshold);
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+since the enclosing struct ->desc is const AND debugfs_create_u32 is NOT
+smart enough to expect a const when the property is R_ONLY...unless I am
+missing something.
+
+> 
+> >  
+> >  	debugfs_create_str("type", 0400, trans, (char **)&dbg->type);
+> >  
+> > @@ -3071,6 +3064,13 @@ static const struct scmi_desc *scmi_transport_setup(struct device *dev)
+> >  		 trans->desc->max_rx_timeout_ms, trans->desc->max_msg_size,
+> >  		 trans->desc->max_msg);
+> >  
+> > +	/* System wide atomic threshold for atomic ops .. if any */
+> > +	if (!of_property_read_u32(dev->of_node, "atomic-threshold-us",
+> > +				  &trans->desc->atomic_threshold))
+> > +		dev_info(dev,
+> > +			 "SCMI System wide atomic threshold set to %d us\n",
+>                                                                    ^^
+> %u for unsigned int.
+>
+
+I will fix.
+
+Thanks,
+Cristian
