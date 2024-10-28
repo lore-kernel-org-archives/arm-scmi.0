@@ -1,82 +1,98 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 115A61DC747;
-	Mon, 28 Oct 2024 12:02:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A3DD1922DD;
+	Mon, 28 Oct 2024 12:23:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730116944; cv=none; b=QOk1ljizKyl8roijiP+vF1yf9LPVttTSCU99jFzHkZAmoBLqj9mupUUjgzuVy2I/kbGPBkYG1QvGEco2srN+Dp47IPOj3wxIpifJ1udhd+KeRKLlYjrV4USiVKPEukyscoSBy7ruFda+rxsg/hKHBCUdjHkUVStInFJusAN4fMw=
+	t=1730118182; cv=none; b=RygrKmL+gtv2ouEhPki4VKbwvsmwbhhznvSPY/qkHNE85fxNg1NfXAV6+7rmrvYaGY3poBMugfDfcsQagzxlUUsLItau9dbmyhYfLil+byzZLuUvJVy73lPmaDCRt0+MHnd0JakT/roxmKdt1xYevIt75B398x8ga4pWUu9FkXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730116944; c=relaxed/simple;
-	bh=F5zUdak1Jnw75m7oOr4TBN1CMB1W8ProzjphVO1IIzE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=g8S6Cqc0yh0+ZAswLY3Uu/QyBoxyQdOg6hZd3xfP5Vv/Ov0uUFJn+X+zcEFYebjNi7e7dcVgj3mCzZSRtqUF22ixr4XPHIBA88PBw8ywS6jpoNnjtzm7yqUZuyZgwxM9Ra5oCHAt8N5JyINFlap8VjS/TViTE/ax3l5ITOWQQVQ=
+	s=arc-20240116; t=1730118182; c=relaxed/simple;
+	bh=aTCttCQyWU7h26tjaP5swvu62Isc7fQ5Wy+v6hYZyHw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U7dJ6obr/QUf4byM7D7DMMdyyEKnlx9/u6A6M7nw5ZDGZwr8qIfBaMtyc1BtN2T8s/VHmzYXPPS+bAFyBB+lLqvmnsKnS/rHlbQATxv7bFFuve26A7L4ZWzdmRB/2zHPGIjlaUl4iic/7MUZ/4X/H+Odpu/8rv/TJtfC/p806C4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 14E35497;
-	Mon, 28 Oct 2024 05:02:52 -0700 (PDT)
-Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6767D3F73B;
-	Mon, 28 Oct 2024 05:02:20 -0700 (PDT)
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org
-Cc: sudeep.holla@arm.com,
-	james.quinlan@broadcom.com,
-	f.fainelli@gmail.com,
-	vincent.guittot@linaro.org,
-	etienne.carriere@st.com,
-	peng.fan@oss.nxp.com,
-	michal.simek@amd.com,
-	quic_sibis@quicinc.com,
-	quic_nkela@quicinc.com,
-	dan.carpenter@linaro.org,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Peng Fan <peng.fan@nxp.com>
-Subject: [PATCH v3 7/7] firmware: arm_scmi: Use vendor string in max-rx-timeout-ms
-Date: Mon, 28 Oct 2024 12:01:51 +0000
-Message-ID: <20241028120151.1301177-8-cristian.marussi@arm.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241028120151.1301177-1-cristian.marussi@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BB68213D5;
+	Mon, 28 Oct 2024 05:23:29 -0700 (PDT)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5FA963F73B;
+	Mon, 28 Oct 2024 05:22:57 -0700 (PDT)
+Date: Mon, 28 Oct 2024 12:22:54 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+	quic_sibis@quicinc.com, quic_nkela@quicinc.com,
+	dan.carpenter@linaro.org, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Sudeep Holla <sudeep.holla@arm.com>, Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH v3 6/7] dt-bindings: firmware: arm,scmi: Add missing
+ vendor string
+Message-ID: <Zx-CHlAb61FWdzkA@bogus>
 References: <20241028120151.1301177-1-cristian.marussi@arm.com>
+ <20241028120151.1301177-7-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241028120151.1301177-7-cristian.marussi@arm.com>
 
-The original optional property was missing a vendor string prefix; this
-has been rectified.
+On Mon, Oct 28, 2024 at 12:01:50PM +0000, Cristian Marussi wrote:
+> Recently introduced max-rx-timeout-ms optionao property is missing a
+> vendor prefix.
+>
+> Add the vendor prefix from the original committer.
+>
 
-Fix the naming of such optional property in code too.
+It should be "arm," not "nxp," just because NXP happens to introduce that.
+It just highlight that the property is X vendor specific and here it is
+associated with SCMI and specifically Arm SCMI, so "arm,". If for some
+reason nxp or any other vendor overrides this definition and need to add
+additional property then they can add their own vendor name into that
+property.
 
-Cc: Peng Fan <peng.fan@nxp.com>
-Fixes: 1780e411ef94 ("firmware: arm_scmi: Use max-rx-timeout-ms from devicetree")
-Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
----
- drivers/firmware/arm_scmi/driver.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+If there are no objections, I can fix it up when applying.
 
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 9bc1bb7caa55..eed73000c902 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -3044,10 +3044,10 @@ static const struct scmi_desc *scmi_transport_setup(struct device *dev)
- 
- 	dev_info(dev, "Using %s\n", dev_driver_string(trans->supplier));
- 
--	ret = of_property_read_u32(dev->of_node, "max-rx-timeout-ms",
-+	ret = of_property_read_u32(dev->of_node, "nxp,max-rx-timeout-ms",
- 				   &trans->desc->max_rx_timeout_ms);
- 	if (ret && ret != -EINVAL)
--		dev_err(dev, "Malformed max-rx-timeout-ms DT property.\n");
-+		dev_err(dev, "Malformed nxp,max-rx-timeout-ms DT property.\n");
- 
- 	ret = of_property_read_u32(dev->of_node, "arm,max-msg-size",
- 				   &trans->desc->max_msg_size);
--- 
-2.47.0
+> Fixes: 3a5e6ab06eab ("dt-bindings: firmware: arm,scmi: Introduce property max-rx-timeout-ms")
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> ---
+> Note that this fixes a commit that has been merged in v6.12-rc1...so it
+> should not present any backward compatibility issue.
+> ---
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Cc: Peng Fan <peng.fan@nxp.com>
+> ---
+>  Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> index 9d6e1147f9e9..e331da4d606b 100644
+> --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> @@ -124,7 +124,7 @@ properties:
+>        atomic mode of operation, even if requested.
+>      default: 0
+>  
+> -  max-rx-timeout-ms:
+> +  nxp,max-rx-timeout-ms:
+>      description:
+>        An optional time value, expressed in milliseconds, representing the
+>        transport maximum timeout value for the receive channel. The value should
+> -- 
+> 2.47.0
+> 
 
+--
+Regards,
+Sudeep
