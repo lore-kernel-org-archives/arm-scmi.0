@@ -1,173 +1,123 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64486839E4
-	for <arm-scmi@vger.kernel.org>; Tue, 29 Oct 2024 10:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5136717A58F
+	for <arm-scmi@vger.kernel.org>; Tue, 29 Oct 2024 10:30:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730197268; cv=none; b=N7JAS3s9h/71na4kPWK4hJmvPFBVrjXV6AnLtG1SEB8Cthhom/jIqt04lyCpg41tCVjmRTMFooD+3Q9g7MLyMuuFiTxb/0mSIAf7WVJOjaaS/mrzJSYrKgFrXLc/InVywlz4wsaJNlVJdjXoEIJv2WTV5idbjXt16u6F+MgraEM=
+	t=1730197830; cv=none; b=JFjIyLCvst2lz1D6ZUUrrpJJJxHRrRJe3fahxahuQTAxmpyoxJc0i+J+z0DLMF+KN0iQBjgt33ap6ZNSzS27+jiTEgfFU9MoO/cSqOSDcNZGACY/6m5ZU68fy97GfVKVSggrmpX/xxxt+Eyj4dJBeWsF/exUhqGKaLG4VBkZk+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730197268; c=relaxed/simple;
-	bh=+zkeeFWZJ1cZV1gDPDLnpFMddY1t5CgemI2Z5BProAk=;
+	s=arc-20240116; t=1730197830; c=relaxed/simple;
+	bh=7igP9dC4TidYYyvKYaEvxysTfl4s8lHJgmNuOwHuiMA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ujE7pjR2L2FGLq7qY6ewzaw06jm40P347Vq9LL4TsJ2MNrAAH1zE9GRIpg5Z7C6NiRr/kIQHMTBP3ParimjJMAu4HSZ3yxJ/1DTLbdSOZOXjDYJmg15c5VDOart+C+/Ykf09/C45GdJjYqvIcwWhzW9QVeENBpOp73RV6uX56Co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=k6Yaq2Ln; arc=none smtp.client-ip=209.85.208.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=k42gMdwaLtFlG7YWjsEfFy8u2+Kr1ddj8vKdNvuntbp53uFAqpfqGhzbstDBNnUliye4OMCqInMc5/KG1Ot3TkZGeoAgNW1nTDJeavR2chaGn6uzfC1ov0/gVe+Wt8VsfX9fl8IiTmiPP+xwkLselnWo9vA09WAzJ3Fs3jAcpnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YQIw5M+a; arc=none smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="k6Yaq2Ln"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5c97c7852e8so7499579a12.1
-        for <arm-scmi@vger.kernel.org>; Tue, 29 Oct 2024 03:21:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YQIw5M+a"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5c984352742so5830591a12.1
+        for <arm-scmi@vger.kernel.org>; Tue, 29 Oct 2024 03:30:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730197263; x=1730802063; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=hbcZhUKsn2Os4QAM6MBjT5dIiGHw95eCh38DFQ9VwQY=;
-        b=k6Yaq2LnxKM+pN/NDgghMcA7M56zMjBtcjVVI6VeYMx96ciy/xCSOygF1iMxT6SLng
-         KjJG9HpdtdQbAtmLRi83c/UJ+Jr1S4UMJkfQISH20DFQBP6UUjkbzxoairQ4nQX+1BCq
-         pCkuyeHhkbfs5crVz0kE0SxArBJFi3DOflDUWVfadYiWmv/HDv8WxMFXSHCJE4eJOdfI
-         3L89dqOdf7YPLfT0D3ZRMIaoJhEbuLurPcmEA4eUOeF0qfJGp0bbYIEsHBjLRXeSZshc
-         HpcheEnHctUO8up7l4vSbOBYFy06Jsqa7bWodqTavwQNl/kvgOUtHhgfNDFkYymk+5Ic
-         E4SQ==
+        d=linaro.org; s=google; t=1730197824; x=1730802624; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AyWsPGaLenswLKzBFr+HGCO8emJ7A/n9EkJRzHuahVc=;
+        b=YQIw5M+aYQVDL1s5PVsLvo1OV3DOxFY+M+pPDnhn5WMjg5JW46XtKdsUayrH3UgDGO
+         iRRrZq0s/ddsVltk92rs/G845RWIf09lObHEdFpdwrZvoX9vPBtYN7FfG/SiPmiHAvh6
+         WASXWIsS1/NSNUEpSR/F1GhxJ2RUKlxBkLXQFuDltsyeoMPrFB/jK59F2Vshu/AAUmi8
+         6jcy9w6ipl4qHMfy8fsjQEuFZGRM9EiLa3ED2umdnZExuoBVJPn6o7/G0sOhx9p1S6xS
+         Jqd54G1J46FemZY4++BWN/MbYiKCGPe3nw/wO8J6vYQXIiN6t1alOLvF9crTZP2PTd7k
+         7xIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730197264; x=1730802064;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hbcZhUKsn2Os4QAM6MBjT5dIiGHw95eCh38DFQ9VwQY=;
-        b=E1LhvplexxSAKjncarUfUdU3gSR4QwVxme/MUOs8uWqoGokWKmuhTP5ohO/XQHdL9g
-         KJBfKbfMA1vJW41YZsfTWl0REI+vSOiJ/3hidgyZhxteBPIpc3dqxPz+Wa3MzCt52ObS
-         6tvj89kTqHOnvg4D6Ln5/XO+ZOUP3gAAPhViZB4GDPc19QR0T/2CK97Jcbo4UBmErJWy
-         59sISk7Cni2zjR+xWp8sNnELs4m3cBpBfa8QLD6c5Mh0rp29tp/ZVnRbSb+0L6Fq1ydL
-         TeVbTevTIP9BY/NseEFh9oDmrjPN0HC2XcCv1aNKmNvgEniL0M4vTt4byOlByvn96Fpk
-         PDZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWGTFcjZq2i7Q/RRF4ubeU19Ti2eyTUBViQCSn+rzruqvJ4B5jMBdu8lN8o8djy0lfCy343jCFPMQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9lHk7nmV0tdY9Kpqegyn0yYB5syws89uL3jfXmHzQoOTSmnz8
-	z8g9mXMZUGtPC0XEuVEncWJzwhPvevDDEuvR3EZKkNqirjsxBq2a8Pnbki3skLM=
-X-Google-Smtp-Source: AGHT+IHDlm034VqmDRFfZs23nWT+KvNVLcNT+Jgz9gLdGce2GexmDgN0eXFqpAfs8C7MqjvWYhZVzQ==
-X-Received: by 2002:a17:907:742:b0:a9a:ea4:2834 with SMTP id a640c23a62f3a-a9de5d93138mr1002091266b.33.1730197263645;
-        Tue, 29 Oct 2024 03:21:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1730197824; x=1730802624;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AyWsPGaLenswLKzBFr+HGCO8emJ7A/n9EkJRzHuahVc=;
+        b=VPOz4xkVuZfSMvsqcjeWOvn+wkHc/JvP/goufusDl7CJCkQT6qNvYAj6Y9HG3prMK+
+         mK+XWtGv+wylUrB9FjOKIu8GNiiUih3cSK7ImMS90gfHQVdfW2OLYUDEnSgLV23NUCkc
+         ZI6c6g6FYroPfDoPbMY8qRkhxRt/QzzyJB943x9DeXpTjJaaqY+NjBBpBLX3RPR/1KVH
+         +BgAp6PggAPYKyPpCDIh+W1z3pwSzIXrbY+eOEz8BQ89YHs8CaC5RjLjm6StErr5INM4
+         63iUBpCMRL7DJOGncH5F2Rm5GZ7D+GBlfbMIRikM97FvbJaF8Rq/+SUw8k2Bv5YPbxUH
+         dlFw==
+X-Forwarded-Encrypted: i=1; AJvYcCX2Y6lrdAGacanPau2zWCUthtliflZ78Vs3erYL7aM5qgR5EqFTUzDVfgYYVtQW1G8TgtH6e/FYRw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTIlMqmvJI9EVzl5/uXuY5FO/ggpOgb+iWNfOLHHKik7o2hjHd
+	4TMOU4P7WUvQTqlMe6RoURWf0FgKAQrWnpJq6y/AhwaqzEF3bMmbyzIosQFVvJI=
+X-Google-Smtp-Source: AGHT+IFLBIbS2BLWWMeqcJwwvI5hHTAZg9wXCpelBkjfJqZaqwMeXI7tp7y4aYh2UdNiYEMt2Rp83g==
+X-Received: by 2002:a17:907:96a9:b0:a9a:a88a:466c with SMTP id a640c23a62f3a-a9de632e59emr1072963866b.61.1730197824394;
+        Tue, 29 Oct 2024 03:30:24 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9b3a0834a6sm458571066b.191.2024.10.29.03.21.02
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e214152adsm78966366b.92.2024.10.29.03.30.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2024 03:21:03 -0700 (PDT)
-Date: Tue, 29 Oct 2024 13:20:58 +0300
+        Tue, 29 Oct 2024 03:30:23 -0700 (PDT)
+Date: Tue, 29 Oct 2024 13:30:20 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: girish.pathak@arm.com, arm-scmi@vger.kernel.org,
-	vincent.guittot@linaro.org,
-	Linus Walleij <linus.walleij@linaro.org>,
+To: Vincent Guittot <vincent.guittot@linaro.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, girish.pathak@arm.com,
+	arm-scmi@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>,
 	Souvik.Chakravarty@arm.com
 Subject: Re: Question about identifiers
-Message-ID: <f305d661-71e8-48c0-a6a5-4271c0436bc1@stanley.mountain>
+Message-ID: <ba9cb437-43e4-415d-853b-7847d091c512@stanley.mountain>
 References: <c5fdc171-0dc7-4c38-88e7-fcf9de7cbec2@stanley.mountain>
  <ZyCuAKfqRnuFdAwC@pluto>
+ <CAKfTPtA4VwUhiuwm7u-tm=iLFE3m365+-Z84tg6hAse3oMkxMg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZyCuAKfqRnuFdAwC@pluto>
+In-Reply-To: <CAKfTPtA4VwUhiuwm7u-tm=iLFE3m365+-Z84tg6hAse3oMkxMg@mail.gmail.com>
 
-On Tue, Oct 29, 2024 at 09:42:24AM +0000, Cristian Marussi wrote:
-> On Mon, Oct 28, 2024 at 06:09:50PM +0300, Dan Carpenter wrote:
-> > Two questions:
-> 
-> [CC: Souvik]
-> 
-> Hi Dan,
-> 
-> > 
-> > 1) In SCMI pinctrl protocol each pin, group or function has an identifier.
-> >    uint32 identifier
-> > 	Identifiers are limited to 16 bits, and the upper 16 bits of this
-> > 	field are ignored by the platform.
-> > The linux-kernel assumes that the identifiers are basically, 0 to nr_pins,
-> > 0 to nr_groups and 0 to nr_funcs.  Is that a fair assumption to make?
-> 
-> It's not an assumption really, any SCMI resource on the system, across
-> all of the protocols, is identified by a number in the *contiguos* range
-> (0... TOT_RESOURCE - 1) where TOT_RESOURCE is usually gathered with some
-> discovery initial command...looking at Pinctrl specifically in 4.11:
-> 
-> "Protocol commands take integer identifiers to describe a pin, group, or function.
-> The identifiers are sequential and start from 0."
-> 
-> Pinctrl deviates a bit from this since you have 3 different kind of
-> resources, so you have 3 different TOT_RESOURCES values to query.
-> 
-> ...maybe adding "sequential and contiguos" would have been clearer...or
-> maybe it is just that I am used to SCMI spec parlance/world so I
-> implictly interepret like this...
-> 
-> IOW, for any protocol, in general, the platform is expected to expose
-> to the agent a contiguos set of IDs numbered from zero...i.e. without
-> holes due to reason like 'resource X is not present on platform Y so
-> we'll leave a hole in the set of IDs returned at discovery time because
-> is easier than remap the physical resources to the set of IDs exposed to
-> the agent'
-> 
+No, no.  I've implemented that.  It's just that I had just implemented unique
+IDs for everything instead of 0 - nr_pins, 0 - nr_groups, and 0 - nr_funcs.
+This makes it easier.
 
-Alright.  Good.  Thanks.
+What I wasn't sure, was how to add the SCMI identifier to the device tree.  If I
+want the 5th function to handle blinking lights, I think it works like this:
 
-> > 
-> > 2)  In the spec 4.11.2.7 PINCTRL_SETTINGS_GET and 4.11.2.8
-> > PINCTRL_SETTINGS_CONFIGURE it only allows for pins and groups, not functions.
-> > Meanwhile gpio functions are functions.  That's just a mistake, right?  I've
-> > been working under the assumtion that it is.
-> > 
-> 
-> Mmm, there were a lot of discussions around functions and GPIOs (which I
-> dont recall now) and a last minute rework to some commands in that
-> regards, so that now you can use those 2 commands to (optionally) get/set
-> the selected function for a pin or group specified in the command.
-> All the other configurations are, indeed, only pertaining to pin and groups:
-> what do you think is missing around functions ?
-> 
-> Moreover, are you sure that you have the latest v3.2 spec from developer.arm.com ?
-> 
-> Since there were a lot of betaS for v3.2 cycle...with changes especially
-> around functions/gpios...so many betaS that, till last month, AFAICS, even
-> the ACS SCMI compliance suite on the tip of master (still not an official
-> release, though) was broken, since it was really implementing Pinctrl
-> testcases against an old obsolete v3.2-beta (i.e. testing non-existent/older
-> pinctrl commands...and I have fixes to upstream for this...once I'll have a
-> bit of time...)
-> 
+	firmware {
+		scmi-vio-backend {
+			compatible = "arm,scmi-virtio";
+			#address-cells = <1>;
+			#size-cells = <0>;
 
-I am using the 3.2 Spec.
+			scmi_clk0: protocol@14 {
+				reg = <0x14>;
+				#clock-cells = <1>;
+			};
 
-In PINCTRL_ATTRIBUTES it says that GPIOs are a function resource, not a group
-resource.  See the last line especially.
+			scmi_pinctrl: protocol@19 {
+				reg = <0x19>;
+				scmi_gpio: gpio {
+					compatible = "pin-control-gpio";
+					gpio-controller;
+					#gpio-cells = <2>;
+				};
+			};
 
-  Bit[17] GPIO function descriptor
+		};
 
-      Set to 0 if Bits[1:0] of the flags field in the command is set to 2, and
-      the function does not support GPIO functionality.
+		leds {
+			compatible = "gpio-leds";
 
-      Set to 1 if Bits[1:0] of the flags field in the command is set to 2, and
-      the function supports GPIO functionality.  The agent should ignore the
-      value of this bit if Bits[1:0] of flags field in the command is set to 0
-      or 1.
+			led@5 {
+                            ^
+This means the SCMI identifier?
+				label = "blink-led";
+				gpios = <&scmi_gpio 0 0>;
+				default-state = "on";
+				linux,default-trigger = "heartbeat";
+			};
+		};
+	};
 
-      This value of bit must not be 1 for more than one function associated with
-      a pin or a group.
-
-Either way, he PINCTRL_SETTINGS_GET/PINCTRL_SETTINGS_CONFIGURE need to add
-functions.  Here is how that reads now:
-
-  uint32 attributes
-  Bits[17:16]
-      Selector: Whether the identifier field refers to a
-      pin or a group.
-      0 – Pin
-      1 – Group
-      All other values are reserved for future use
+Let me re-work my test program using the correct numbering scheme and then I can
+test that.
 
 regards,
 dan carpenter
+
