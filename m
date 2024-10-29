@@ -1,154 +1,125 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAD94205144
-	for <arm-scmi@vger.kernel.org>; Tue, 29 Oct 2024 10:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4DA820C03A
+	for <arm-scmi@vger.kernel.org>; Tue, 29 Oct 2024 10:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730197928; cv=none; b=US/jONfjSw4cFIrNf8eLp8W0H03djzbCHa7mLx8ojuPUrPCxQxwKfaB0NpJisk/K4qdc7BA2PYobLg5vi39kfeQ8m3fHN91cZs4AJpq4nBL1KutIB/88O/zKtfzKVGa6GxP3D0OQA0H73ulAvATP5FTFaAXYb3qc+xOCYGAed3A=
+	t=1730198920; cv=none; b=JPrrh2jAeW4TMbmDgv483Si6VGudUCi1A9UDxNcP7Fd+7+fTyJXzkNECvrngeLNC894UKaeweRYW1YwGmdJA46ah3h3ir5Icv4f7K2RbYv4Wnairj1Upap4kQM4VEUnfdZrxjJ08h5iENjDpRmhYLKC4x1dgr47zwBpAgc3cpeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730197928; c=relaxed/simple;
-	bh=MAMwUF+JWMw0+oXTEiZFYrf0cf6bkEzr6Uhzw3fHC/w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W9W6yA++Va/GpiwOdNNXp+xkusDztVIG1HSyKkwlYA0BVEYuj0HStSItgsf30bshO0i1FUH6jeJBog5JtOfcSnF7unN+aKyTSzIJBpzVEeLcWUnSIwoPP521FkW96Y7tftD1x0sOtgOhgQGYQ8EbJ7tYyt7RhewtjtCcswndWa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A944C13D5;
-	Tue, 29 Oct 2024 03:32:34 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DCCE13F528;
-	Tue, 29 Oct 2024 03:32:03 -0700 (PDT)
-Date: Tue, 29 Oct 2024 10:32:01 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, girish.pathak@arm.com,
-	arm-scmi@vger.kernel.org, vincent.guittot@linaro.org,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Souvik.Chakravarty@arm.com
-Subject: Re: Question about identifiers
-Message-ID: <ZyC5oTomdBF0Ywfb@pluto>
-References: <c5fdc171-0dc7-4c38-88e7-fcf9de7cbec2@stanley.mountain>
- <ZyCuAKfqRnuFdAwC@pluto>
- <f305d661-71e8-48c0-a6a5-4271c0436bc1@stanley.mountain>
+	s=arc-20240116; t=1730198920; c=relaxed/simple;
+	bh=Ef6rSGdcB4pNv+XMpkpVm3OXC1vH2qvCEhT5aPx0DlU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LqrabHCMQx5h74tBW0kv7RLNw+SOXtv0MZNDNT6LAJUcAEs+fHLdLoRJ1nWFqo6f/FhUWfhKGgNj/VFTvZRbjhlpNP0r3lYP4TbWD7haW1TOgPV3+37chmCwvjffBupIzYxsq415woKqjE///Wu5DK1CHLbCOS2SbKoAmjK7uHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FtAmSWaf; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FtAmSWaf"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2e2eb9dde40so4219596a91.0
+        for <arm-scmi@vger.kernel.org>; Tue, 29 Oct 2024 03:48:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730198918; x=1730803718; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vRrbPHfeegy8R64aDXV8yu/tytzXgWtCc/rMoTdaxjo=;
+        b=FtAmSWafQDj9A7E3UvajxwdryWbIoFzT37Vv1V4+pnsF/mKgUfDcRyVbVmRhWHETNQ
+         gTHjqaHKg/QCzp57HL57z4PC5BYqiAQQyGcafshYyQWc1kw1e3vZsxLDp2uEO72/iXxv
+         dV3Xp5M+dB+Tqg99faPK6wt+nIptNseCebAbJoKBlPfVxzglqy1LgiFpwfjYiYlyKUWC
+         5/tUQ7Av3QtUnaHVJZFBQuhL7MY0kNZmnX3L9gCex4qTBDoXckYBaVDQAYDVNAPKdu2Y
+         yfS1vVG8s1Y3X9cTAsKMfnEOBu//DbOG5z5Rk2NoHdpiprDHWjztfW7P9HlYZZ74qWeH
+         t8rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730198918; x=1730803718;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vRrbPHfeegy8R64aDXV8yu/tytzXgWtCc/rMoTdaxjo=;
+        b=b5eP9nxTVyUpQMeKTH5i7mjZjZKx0xadVCYL8+UORyvFPPrJCPF7aCz1WuBxiK1JCD
+         hS060AP0FLOSY5AnYe/1OkSGxBm3SgwwpycWp0T78n5DQhi3fIqaDZKjnQ6tbfXuIgdW
+         rQlrFWJyCmHNADc/Z+3Kf54XYvqmM9UUZea3jZ/vBtzRXLuqhB4hEfOWC2hWC6gUoQIe
+         VhrMCnLS+ysL5+KzfvOCnkxc2VdU+BHhGvNEEs8t9yiXpWuj8LaR4DqxxnADw9QH7hl9
+         8x1ClShkIaCClLDwox+573r9PXtwGCgnM/jiBJWWBRioDmHJuPkUgHUeFdgpfJzFFXD8
+         tWxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXTitQdqKP/qCgdhZKRYwvHUEdDwkfvYjEXFYU5ciMYsXjh3ma7bFJJ0G2sNooAUYKSXlXGoQYN+Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1ELAHSq80C2qrsA4bxb2W1kIDvZpg4IHjdch9vDY5Xr8wWQO0
+	ufp7a5wqZ9ax4RV13y2LK9bWgg373NEtAHArXoMAVMJJclK5Dx+GkiqsrV5ZzogoYARHqHle73w
+	oBUYwduuy4/Q1hgfbyeim89ZkctOurF5ZrZia6Q==
+X-Google-Smtp-Source: AGHT+IGU8LlTOUW3W1myGoYMFOEjvi950LwtiXf0pbNMAYAIGL7Mlkl72qQyFpYACYrgfwbakwUSyQeSO0LIXxh4K1o=
+X-Received: by 2002:a17:90b:4c8d:b0:2e2:c40c:6e8a with SMTP id
+ 98e67ed59e1d1-2e8f11abed7mr12757295a91.26.1730198918003; Tue, 29 Oct 2024
+ 03:48:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f305d661-71e8-48c0-a6a5-4271c0436bc1@stanley.mountain>
+References: <c5fdc171-0dc7-4c38-88e7-fcf9de7cbec2@stanley.mountain>
+ <ZyCuAKfqRnuFdAwC@pluto> <CAKfTPtA4VwUhiuwm7u-tm=iLFE3m365+-Z84tg6hAse3oMkxMg@mail.gmail.com>
+ <ba9cb437-43e4-415d-853b-7847d091c512@stanley.mountain>
+In-Reply-To: <ba9cb437-43e4-415d-853b-7847d091c512@stanley.mountain>
+From: Vincent Guittot <vincent.guittot@linaro.org>
+Date: Tue, 29 Oct 2024 11:48:26 +0100
+Message-ID: <CAKfTPtCMR6QC8kBARjnRM35mGZP882RqmykCyqrA7gXsfAXXmw@mail.gmail.com>
+Subject: Re: Question about identifiers
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, girish.pathak@arm.com, 
+	arm-scmi@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, 
+	Souvik.Chakravarty@arm.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Oct 29, 2024 at 01:20:58PM +0300, Dan Carpenter wrote:
-> On Tue, Oct 29, 2024 at 09:42:24AM +0000, Cristian Marussi wrote:
-> > On Mon, Oct 28, 2024 at 06:09:50PM +0300, Dan Carpenter wrote:
-> > > Two questions:
-> > 
-> > [CC: Souvik]
-> > 
-> > Hi Dan,
-> > 
-> > > 
-> > > 1) In SCMI pinctrl protocol each pin, group or function has an identifier.
-> > >    uint32 identifier
-> > > 	Identifiers are limited to 16 bits, and the upper 16 bits of this
-> > > 	field are ignored by the platform.
-> > > The linux-kernel assumes that the identifiers are basically, 0 to nr_pins,
-> > > 0 to nr_groups and 0 to nr_funcs.  Is that a fair assumption to make?
-> > 
-> > It's not an assumption really, any SCMI resource on the system, across
-> > all of the protocols, is identified by a number in the *contiguos* range
-> > (0... TOT_RESOURCE - 1) where TOT_RESOURCE is usually gathered with some
-> > discovery initial command...looking at Pinctrl specifically in 4.11:
-> > 
-> > "Protocol commands take integer identifiers to describe a pin, group, or function.
-> > The identifiers are sequential and start from 0."
-> > 
-> > Pinctrl deviates a bit from this since you have 3 different kind of
-> > resources, so you have 3 different TOT_RESOURCES values to query.
-> > 
-> > ...maybe adding "sequential and contiguos" would have been clearer...or
-> > maybe it is just that I am used to SCMI spec parlance/world so I
-> > implictly interepret like this...
-> > 
-> > IOW, for any protocol, in general, the platform is expected to expose
-> > to the agent a contiguos set of IDs numbered from zero...i.e. without
-> > holes due to reason like 'resource X is not present on platform Y so
-> > we'll leave a hole in the set of IDs returned at discovery time because
-> > is easier than remap the physical resources to the set of IDs exposed to
-> > the agent'
-> > 
-> 
-> Alright.  Good.  Thanks.
-> 
-> > > 
-> > > 2)  In the spec 4.11.2.7 PINCTRL_SETTINGS_GET and 4.11.2.8
-> > > PINCTRL_SETTINGS_CONFIGURE it only allows for pins and groups, not functions.
-> > > Meanwhile gpio functions are functions.  That's just a mistake, right?  I've
-> > > been working under the assumtion that it is.
-> > > 
-> > 
-> > Mmm, there were a lot of discussions around functions and GPIOs (which I
-> > dont recall now) and a last minute rework to some commands in that
-> > regards, so that now you can use those 2 commands to (optionally) get/set
-> > the selected function for a pin or group specified in the command.
-> > All the other configurations are, indeed, only pertaining to pin and groups:
-> > what do you think is missing around functions ?
-> > 
-> > Moreover, are you sure that you have the latest v3.2 spec from developer.arm.com ?
-> > 
-> > Since there were a lot of betaS for v3.2 cycle...with changes especially
-> > around functions/gpios...so many betaS that, till last month, AFAICS, even
-> > the ACS SCMI compliance suite on the tip of master (still not an official
-> > release, though) was broken, since it was really implementing Pinctrl
-> > testcases against an old obsolete v3.2-beta (i.e. testing non-existent/older
-> > pinctrl commands...and I have fixes to upstream for this...once I'll have a
-> > bit of time...)
-> > 
-> 
-> I am using the 3.2 Spec.
-> 
-> In PINCTRL_ATTRIBUTES it says that GPIOs are a function resource, not a group
-> resource.  See the last line especially.
-> 
->   Bit[17] GPIO function descriptor
-> 
->       Set to 0 if Bits[1:0] of the flags field in the command is set to 2, and
->       the function does not support GPIO functionality.
-> 
->       Set to 1 if Bits[1:0] of the flags field in the command is set to 2, and
->       the function supports GPIO functionality.  The agent should ignore the
->       value of this bit if Bits[1:0] of flags field in the command is set to 0
->       or 1.
-> 
->       This value of bit must not be 1 for more than one function associated with
->       a pin or a group.
-> 
-> Either way, he PINCTRL_SETTINGS_GET/PINCTRL_SETTINGS_CONFIGURE need to add
-> functions.  Here is how that reads now:
-> 
->   uint32 attributes
->   Bits[17:16]
->       Selector: Whether the identifier field refers to a
->       pin or a group.
->       0 – Pin
->       1 – Group
->       All other values are reserved for future use
-> 
+On Tue, 29 Oct 2024 at 11:30, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+>
+> No, no.  I've implemented that.  It's just that I had just implemented unique
+> IDs for everything instead of 0 - nr_pins, 0 - nr_groups, and 0 - nr_funcs.
+> This makes it easier.
+>
+> What I wasn't sure, was how to add the SCMI identifier to the device tree.  If I
+> want the 5th function to handle blinking lights, I think it works like this:
+>
+>         firmware {
+>                 scmi-vio-backend {
+>                         compatible = "arm,scmi-virtio";
+>                         #address-cells = <1>;
+>                         #size-cells = <0>;
+>
+>                         scmi_clk0: protocol@14 {
+>                                 reg = <0x14>;
+>                                 #clock-cells = <1>;
+>                         };
+>
+>                         scmi_pinctrl: protocol@19 {
+>                                 reg = <0x19>;
+>                                 scmi_gpio: gpio {
+>                                         compatible = "pin-control-gpio";
+>                                         gpio-controller;
+>                                         #gpio-cells = <2>;
+>                                 };
+>                         };
+>
+>                 };
+>
+>                 leds {
+>                         compatible = "gpio-leds";
+>
+>                         led@5 {
+>                             ^
+> This means the SCMI identifier?
+>                                 label = "blink-led";
+>                                 gpios = <&scmi_gpio 0 0>;
+                                                      ^
+Doesn't this 0 mean SCMI function(-gpio) id 0 ?
 
-Well, it seems a reasonable amend in order NOT to go through the
-mappings that Vincent describes to obtain the same result...
-
-...now I sincereley dont know if this is something missing in the
-spec (since there was really no GPIO-wise usage/implementation
-of ASCMI/PINCTRL really till now ..so it could have been missed)...
-
-...OR this was done on purpose to keep down the SCP/SCMI server
-complexity... (argument this, that could be questionable I agree..)
-
-Need to know what ATG/SCP think around this...Souvik ? Girish ?
-
-Thanks,
-Cristian
+>                                 default-state = "on";
+>                                 linux,default-trigger = "heartbeat";
+>                         };
+>                 };
+>         };
+>
+> Let me re-work my test program using the correct numbering scheme and then I can
+> test that.
+>
+> regards,
+> dan carpenter
+>
