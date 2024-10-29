@@ -1,61 +1,33 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0000F185B68
-	for <arm-scmi@vger.kernel.org>; Mon, 28 Oct 2024 15:09:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E34B203708
+	for <arm-scmi@vger.kernel.org>; Tue, 29 Oct 2024 09:42:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730128198; cv=none; b=eUOdmQMYam/kLOcNDAgBj8IIdG21Y8Y1tmM5biBRaB0NpJOCJIIkLm1l9HtI4QWvrGavr0lbtCpUy2vVHHS2U6F5dCaDfMzRy6khrc9vamXkIkZlF1Xj+JM6jh2fibDuANLG4O4ATm5GrWRe2SXEwLSLVkRGPVm1R7H8xHIHckU=
+	t=1730194958; cv=none; b=L2qTXCsTdvAHx5FrqF7qpqyhSa+mruYwnC6J5bRyYMyXSp9dZlha8CCptq62Cpsldo2gGDXGA+vDxIwGdd48zfrXxqVkTdp4gzNpFsXCYrcVNpzKuewvcEkfZf3TvIjBDNttVKXjL4cQQ+KnAyjKVFJWyrh8FGvZnAWvXKvdGrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730128198; c=relaxed/simple;
-	bh=0qH9lqhiwqV3UMCSsD0WPSfXP85FtRF0mPavDqCY7IQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Dx0KnQS650HnjJdCR8L1+eWkzufR+b1QLbVZmMmSXNlJp810w0vZ5AMwI4qcC/6TbVsSxq70EmCR73NlZe5PCfZgLMpDzAfGL9c8zWpZHupDd3VKJQ7j+vqNW2WiNDruvB7247z5DnvPT1ouRl2coMi1VeA3zG7GWUY3dpxLQO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=v/WVyjwA; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="v/WVyjwA"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a9a2209bd7fso658901066b.2
-        for <arm-scmi@vger.kernel.org>; Mon, 28 Oct 2024 08:09:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730128194; x=1730732994; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=x+wn2nJgwSlfNiLZteka2BzkKVDY10u14mPT+wRXZR8=;
-        b=v/WVyjwAjybxF1LfEVzxK628/7l6mn2/lH4ytxpyuUBNrj3PWSfTwjXlcj+ilpjhQs
-         VElFdrYatCr3KBRquQOFYVm9aHwckasQ3vAN07obSzRZY8g2cdP6e8gWS6AdFNT4hkEt
-         kpDpI3guBlDhFptq+VGxQq59ZXxDxLBX4aoBglCoZYUoI4IHu+4v6OC7tR8g2NiM4mzJ
-         EPwQMbLa5oBr04hGOfOeAi5tG14ljpp+RHwmuUbDJ2k3JLgFU2R+R/F/XoevnRF82H43
-         L+ktoehrvCZLOuFrUtjA31mE1Dn9wZGfCLt5UfiI3hvneXYaX/nJ/ud3PJYzI6A8yB2+
-         /vbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730128194; x=1730732994;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x+wn2nJgwSlfNiLZteka2BzkKVDY10u14mPT+wRXZR8=;
-        b=Ooq3i9jfxKIlzsW7Zke5AmrPUYT/CDcEIYw0rcoWV0E3h+TJ0F/uXXQ8iAJkHyGJ34
-         QnGB2AGJ1vWhPVDisn0D4biHDTo2Qapk4YIhgMrZXpIvmobK4x7ktxl1IuvqyDZRxDvb
-         L901LzFDOjbMyaSU1EiOywk8Uo0PioPZBhz/VavnEyPEoCxxGLXuWAVqeGmgORSJKI/8
-         jz7eVHxp74LnidOUIAE0wPjrlqyNYWfQH0zkmbk0ECRb15D5LOHGilgnvoUck6HwakNS
-         M8z5uzW0hdlVgTCFlvoenszao9ZwXKZZtdV7LEyNoBDVabc1JE8QwsALzQZSKPXpLloE
-         qhAQ==
-X-Gm-Message-State: AOJu0Ywth/zwysO31GKpObu0ZMfHcMkfcYY3Wry28G8Tvy07FATl14si
-	PbsCBNaMNr6yUogl3iD8J6LWi2GnpGcF9nsWf9FFogrJH5PHt2OgJkl7ujwTm5Q=
-X-Google-Smtp-Source: AGHT+IFD6C3UUeH62lb6eKEXGfb0Rfooh2HRT17wzqDIuj1+KOmaE677JXOZspLO8l97+7n11Mjd+w==
-X-Received: by 2002:a17:907:3d90:b0:a9a:26dd:16bc with SMTP id a640c23a62f3a-a9de5c91003mr921220266b.5.1730128194243;
-        Mon, 28 Oct 2024 08:09:54 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9b1dec8100sm384765166b.6.2024.10.28.08.09.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2024 08:09:53 -0700 (PDT)
-Date: Mon, 28 Oct 2024 18:09:50 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: girish.pathak@arm.com, Cristian Marussi <cristian.marussi@arm.com>
-Cc: arm-scmi@vger.kernel.org, vincent.guittot@linaro.org,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: Question about identifiers
-Message-ID: <c5fdc171-0dc7-4c38-88e7-fcf9de7cbec2@stanley.mountain>
+	s=arc-20240116; t=1730194958; c=relaxed/simple;
+	bh=yMgvo+HMNVhyYEvI6ZIdLNDOmCd+i8g92yHvgJc9pRs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fsjd/ALET0xpMiqtSzDWCXF4kDD5DM2ua0I5Db+f9PGCYl1Yeic2WGFSH5eTZCMirJ30YMdeRf61YkN3nHb0UU1a0Djddr/31+3ovFgl5O+b/APH4f75M+l6fhcRpvgN8V9neL4lWsDbKB5zrS/jbsVOKdsnmJTzKEV8PlHC+T4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 36FA113D5;
+	Tue, 29 Oct 2024 02:43:03 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 694423F528;
+	Tue, 29 Oct 2024 02:42:32 -0700 (PDT)
+Date: Tue, 29 Oct 2024 09:42:24 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: girish.pathak@arm.com, Cristian Marussi <cristian.marussi@arm.com>,
+	arm-scmi@vger.kernel.org, vincent.guittot@linaro.org,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Souvik.Chakravarty@arm.com
+Subject: Re: Question about identifiers
+Message-ID: <ZyCuAKfqRnuFdAwC@pluto>
+References: <c5fdc171-0dc7-4c38-88e7-fcf9de7cbec2@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -64,21 +36,68 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <c5fdc171-0dc7-4c38-88e7-fcf9de7cbec2@stanley.mountain>
 
-Two questions:
+On Mon, Oct 28, 2024 at 06:09:50PM +0300, Dan Carpenter wrote:
+> Two questions:
 
-1) In SCMI pinctrl protocol each pin, group or function has an identifier.
-   uint32 identifier
-	Identifiers are limited to 16 bits, and the upper 16 bits of this
-	field are ignored by the platform.
-The linux-kernel assumes that the identifiers are basically, 0 to nr_pins,
-0 to nr_groups and 0 to nr_funcs.  Is that a fair assumption to make?
+[CC: Souvik]
 
-2)  In the spec 4.11.2.7 PINCTRL_SETTINGS_GET and 4.11.2.8
-PINCTRL_SETTINGS_CONFIGURE it only allows for pins and groups, not functions.
-Meanwhile gpio functions are functions.  That's just a mistake, right?  I've
-been working under the assumtion that it is.
+Hi Dan,
 
-regards,
-dan carpenter
+> 
+> 1) In SCMI pinctrl protocol each pin, group or function has an identifier.
+>    uint32 identifier
+> 	Identifiers are limited to 16 bits, and the upper 16 bits of this
+> 	field are ignored by the platform.
+> The linux-kernel assumes that the identifiers are basically, 0 to nr_pins,
+> 0 to nr_groups and 0 to nr_funcs.  Is that a fair assumption to make?
 
+It's not an assumption really, any SCMI resource on the system, across
+all of the protocols, is identified by a number in the *contiguos* range
+(0... TOT_RESOURCE - 1) where TOT_RESOURCE is usually gathered with some
+discovery initial command...looking at Pinctrl specifically in 4.11:
+
+"Protocol commands take integer identifiers to describe a pin, group, or function.
+The identifiers are sequential and start from 0."
+
+Pinctrl deviates a bit from this since you have 3 different kind of
+resources, so you have 3 different TOT_RESOURCES values to query.
+
+...maybe adding "sequential and contiguos" would have been clearer...or
+maybe it is just that I am used to SCMI spec parlance/world so I
+implictly interepret like this...
+
+IOW, for any protocol, in general, the platform is expected to expose
+to the agent a contiguos set of IDs numbered from zero...i.e. without
+holes due to reason like 'resource X is not present on platform Y so
+we'll leave a hole in the set of IDs returned at discovery time because
+is easier than remap the physical resources to the set of IDs exposed to
+the agent'
+
+> 
+> 2)  In the spec 4.11.2.7 PINCTRL_SETTINGS_GET and 4.11.2.8
+> PINCTRL_SETTINGS_CONFIGURE it only allows for pins and groups, not functions.
+> Meanwhile gpio functions are functions.  That's just a mistake, right?  I've
+> been working under the assumtion that it is.
+> 
+
+Mmm, there were a lot of discussions around functions and GPIOs (which I
+dont recall now) and a last minute rework to some commands in that
+regards, so that now you can use those 2 commands to (optionally) get/set
+the selected function for a pin or group specified in the command.
+All the other configurations are, indeed, only pertaining to pin and groups:
+what do you think is missing around functions ?
+
+Moreover, are you sure that you have the latest v3.2 spec from developer.arm.com ?
+
+Since there were a lot of betaS for v3.2 cycle...with changes especially
+around functions/gpios...so many betaS that, till last month, AFAICS, even
+the ACS SCMI compliance suite on the tip of master (still not an official
+release, though) was broken, since it was really implementing Pinctrl
+testcases against an old obsolete v3.2-beta (i.e. testing non-existent/older
+pinctrl commands...and I have fixes to upstream for this...once I'll have a
+bit of time...)
+
+Thanks,
+Cristian
