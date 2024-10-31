@@ -1,35 +1,37 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81C31194C6B;
-	Thu, 31 Oct 2024 17:16:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92C0613D24E;
+	Thu, 31 Oct 2024 17:18:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730394969; cv=none; b=rLF/i3VmqYQbZSL9o1pFQ6rwc8bONilNsjFi1TLInHztQbGWtmCi8PIcZpuN5yYf95Klgd8zDZw+MXQwHZRejuyCbLJZA9vYSbRMIpxZoOByrHzZSr6VzhQMCAloFZNN313cVgAB3BNLyK9bh0YbFdRv1WZOxFo/QubJe1vYRV0=
+	t=1730395093; cv=none; b=LJqhLDM86k7aEjzBIwT/IQEYtwlXdr7b3WXmo84iEUa1XnGhCJY/ajbTbV92hNbNWweJhwasPhzS8mOwGLWVNpFgg9lcTIen96sKJ8iS9bCC5iUk2pmr1X2o33ZB7tMIlAySLQVFJTST/aUyxcwVvr7iNe/f/kLWrzxXWKgzeoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730394969; c=relaxed/simple;
-	bh=005xkjtnlU6oyk/+0nHfJS1oRRgb6Ml20SVYLTsG7yc=;
+	s=arc-20240116; t=1730395093; c=relaxed/simple;
+	bh=ShUF7euzF4c5+RHQbM1Hhfg5H0exgLDCCvhO3Sqxf3k=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WsVzu1ThemlDdKsyipMAeL3Yw4mr2ZtqhUIF9ia8A93ghAjhfLlslob/CEnDO1IEYjrZX2sBRrgFoC6nFrFfs4Ys9VnsaLY9xir1eQ3SLkLY+iE4l5ZnYqvH44T27KFjtSnpt1AXyoPkQjHW4H7O4h92zTaYBB0IlBzeib6uvn4=
+	 MIME-Version:Content-Type; b=MEW/5U+OmvKIYafHbHN2oenB0rPDU1a+uuCEqKDwWSQvK5fofLpoR32wvRMrRR5kljsM5BxoGQ5MvnuNKTXOPhh5tm+DqBZnW4C3804v2y38lfGw3G+vnUdIGZHbp/B+YCGIgSfz8hPpZ6KRjCpD0azsD/NVisyMDIyXl4cwAhc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 23D1A1063;
-	Thu, 31 Oct 2024 10:16:35 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9B3781063;
+	Thu, 31 Oct 2024 10:18:39 -0700 (PDT)
 Received: from usa.arm.com (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 91A933F73B;
-	Thu, 31 Oct 2024 10:16:04 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D656E3F73B;
+	Thu, 31 Oct 2024 10:18:08 -0700 (PDT)
 From: Sudeep Holla <sudeep.holla@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+To: Cristian Marussi <cristian.marussi@arm.com>,
+	Xinqi Zhang <quic_xinqzhan@quicinc.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+	linux-arm-msm@vger.kernel.org,
 	arm-scmi@vger.kernel.org,
-	Cristian Marussi <cristian.marussi@arm.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>
-Subject: Re: [PATCH] firmware: arm_scmi: Reject clear channel request on A2P
-Date: Thu, 31 Oct 2024 17:16:02 +0000
-Message-Id: <173039475222.3108069.291513539121527165.b4-ty@arm.com>
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] firmware: arm_scmi: fix slab-use-after-free in scmi_bus_notifier()
+Date: Thu, 31 Oct 2024 17:18:06 +0000
+Message-Id: <173039469931.3107954.7989947902656266610.b4-ty@arm.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241021171544.2579551-1-cristian.marussi@arm.com>
-References: <20241021171544.2579551-1-cristian.marussi@arm.com>
+In-Reply-To: <20241016-fix-arm-scmi-slab-use-after-free-v2-1-1783685ef90d@quicinc.com>
+References: <20241016-fix-arm-scmi-slab-use-after-free-v2-1-1783685ef90d@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -39,20 +41,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Mon, 21 Oct 2024 18:15:44 +0100, Cristian Marussi wrote:
-> The clear channel transport operation is supposed to be called exclusively
-> on the P2A channel from the agent, since it relinquishes the ownership of
-> the channel to the platform, after this latter has initiated some sort of
-> P2A communication.
+On Wed, 16 Oct 2024 14:13:38 +0800, Xinqi Zhang wrote:
+> The scmi_dev->name is released prematurely in __scmi_device_destroy(),
+> which causes slab-use-after-free when accessing scmi_dev->name in
+> scmi_bus_notifier(). So move the release of scmi_dev->name to
+> scmi_device_release() to avoid slab-use-after-free.
 > 
-> Make sure that, if it is ever called on a A2P, is logged and ignored.
+> ==================================================================
+> BUG: KASAN: slab-use-after-free in strncmp+0xe4/0xec
+> Read of size 1 at addr ffffff80a482bcc0 by task swapper/0/1
 > 
 > [...]
 
 Applied to sudeep.holla/linux (for-next/scmi/fixes), thanks!
 
-[1/1] firmware: arm_scmi: Reject clear channel request on A2P
-      https://git.kernel.org/sudeep.holla/c/a0a18e91eb3a
+[1/1] firmware: arm_scmi: fix slab-use-after-free in scmi_bus_notifier()
+      https://git.kernel.org/sudeep.holla/c/295416091e44
 --
 Regards,
 Sudeep
