@@ -1,85 +1,97 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C2D3192580;
-	Wed,  6 Nov 2024 07:26:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6191FC7C6;
+	Wed,  6 Nov 2024 12:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730877990; cv=none; b=LCUEm0uhVPDWvy4t7NNlKzti+H9KHpBFRyz0A1fcLAw2hlax/NzYFnhckkjn5DpLHHkrSI5lTEbwDQyMM2AqpkAKdsyZzWaf4S87H3v+RDNP9cRJGreRCN0dMEfEesT365Bq47D4esisUYul6OP54/1qsPsSCNAhjJpfNxeaAcc=
+	t=1730897734; cv=none; b=Bcgmk+he5Fuw9wfYPys63jIsslTvbhONeLfDqWgfQQaI3DGlheZfTiVc5ZhaxAlT/A5StdclrIFhWKLyCw47ofVMbmaMdz37MDEGhbGXSyzTz5d0XyMZT66hupvmbWWJ/dsvCkNV/3c1uCwEGIYvF3dVUINDngT9FS2ROR2kDYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730877990; c=relaxed/simple;
-	bh=agWYiCuHzgWc5vrawK4mbYjZ0dJtAHhRDMutt9drTh8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kD1cOi8NYffpjC3XUESJjuq+3AXM+I+QlOnandA5M3sxSlScr9uBp1pJzhHlnZjuJRHMKV3XIDzyafTX+xV+OO3GF8Vp126rJ94+lHu5389GViaNQ+JgXzAlyKV+yX1MKZ0ABmnZqPWwcjMLRaNy2H3ucfEuSQazUoyomlAX8hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AD9681063;
-	Tue,  5 Nov 2024 23:26:56 -0800 (PST)
-Received: from usa.arm.com (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D06E83F66E;
-	Tue,  5 Nov 2024 23:26:24 -0800 (PST)
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org,
-	Cristian Marussi <cristian.marussi@arm.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	james.quinlan@broadcom.com,
-	f.fainelli@gmail.com,
-	vincent.guittot@linaro.org,
-	etienne.carriere@st.com,
-	peng.fan@oss.nxp.com,
-	michal.simek@amd.com,
-	quic_sibis@quicinc.com,
-	quic_nkela@quicinc.com,
-	dan.carpenter@linaro.org
-Subject: Re: [PATCH v3 0/7] Expose SCMI Transport properties
-Date: Wed,  6 Nov 2024 07:26:21 +0000
-Message-Id: <173087788054.3975719.458271006715771508.b4-ty@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241028120151.1301177-1-cristian.marussi@arm.com>
-References: <20241028120151.1301177-1-cristian.marussi@arm.com>
+	s=arc-20240116; t=1730897734; c=relaxed/simple;
+	bh=THiRwHU/ItganQsalp7zDHwVZ+vTaXjEv86N7QtU7B8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bH8urew+0Grk04gTKXMXlLzlH7HifiMwrRZ1oTWs9Zn0+5Nkj97a4vELaxa+40A9h7ZFKxiRrVPhOIBapcQgeQ+C3OWKBBMQ7YbqR1idsSDV0yeapSKVkv3TDw2Lt5t5jbTxcuBDlKrUriJis9h02EbgxhOotV3HlO+SBWXs7QQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DQQkL6aj; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DQQkL6aj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A6ADC4CECD;
+	Wed,  6 Nov 2024 12:55:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730897733;
+	bh=THiRwHU/ItganQsalp7zDHwVZ+vTaXjEv86N7QtU7B8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DQQkL6ajzVfBy7VuWlIeA14Z9c6xGyE0EjjHhJSHhqQ2Tq+PpAz5Ih5Qw5GfsvRwy
+	 nIna14Oawmgfg0q1Iv7bLgSvL1uS+kNZkVwv9no652K+qH4C1khxWhrG+NVpZmclyv
+	 WYCL5WhEGMheZcIsnr6U1DCj4GClNjsq4R+cc5ptLxT6bvkLa7AwgpFg5RjxS6zK1Y
+	 SdWrgrBJY3MxZNtGkCQmZXQzY2kWtRmAO3jR3qcm040qw7KGtUDyXz7acpYl4PoBbF
+	 2byFOOlU33Xsl85JKyyvrj8UNo/yuTj+fImQ9OSE3qnvD51FyidCU39jesLyD4EP7R
+	 pJx6Q9wJbK6oA==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1t8fZN-000000003aV-31o8;
+	Wed, 06 Nov 2024 13:55:34 +0100
+Date: Wed, 6 Nov 2024 13:55:33 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Sibi Sankar <quic_sibis@quicinc.com>
+Cc: sudeep.holla@arm.com, cristian.marussi@arm.com, andersson@kernel.org,
+	konrad.dybcio@linaro.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, quic_rgottimu@quicinc.com,
+	quic_kshivnan@quicinc.com, conor+dt@kernel.org,
+	arm-scmi@vger.kernel.org
+Subject: Re: [PATCH V4 0/5] arm_scmi: vendors: Qualcomm Generic Vendor
+ Extensions
+Message-ID: <ZytnRc94iKUfMYH0@hovoldconsulting.com>
+References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241007061023.1978380-1-quic_sibis@quicinc.com>
 
-On Mon, 28 Oct 2024 12:01:44 +0000, Cristian Marussi wrote:
-> SCMI transports are characterized by a number of properties: the values
-> assumed by some of them tightly depend on the choices taken at design
-> time and on the overall archiecture of the specific platform: things like
-> timeouts, maximum message size and number of in-flight messages are closely
-> tied to the architecture of the platform like number of SCMI agents on the
-> system, physical memory available to the SCMI server...so on and so forth.
+On Mon, Oct 07, 2024 at 11:40:18AM +0530, Sibi Sankar wrote:
+> The QCOM SCMI vendor protocol provides a generic way of exposing a
+> number of Qualcomm SoC specific features (like memory bus scaling)
+> through a mixture of pre-determined algorithm strings and param_id
+> pairs hosted on the SCMI controller. Introduce a client driver that
+> uses the memlat algorithm string hosted on QCOM SCMI Vendor Protocol
+> to detect memory latency workloads and control frequency/level of
+> the various memory buses (DDR/LLCC/DDR_QOS).
 > 
-> [...]
+> QCOM SCMI Generic Vendor protocol background:
+> It was found that a lot of the vendor protocol used internally was
+> for debug/internal development purposes that would either be super
+> SoC specific or had to be disabled because of some features being
+> fused out during production. This lead to a large number of vendor
+> protocol numbers being quickly consumed and were never released
+> either. Using a generic vendor protocol with functionality abstracted
+> behind algorithm strings gave us the flexibility of allowing such
+> functionality exist during initial development/debugging while
+> still being able to expose functionality like memlat once they have
+> matured enough. The param-ids are certainly expected to act as ABI
+> for algorithms strings like MEMLAT.
 
-Applied to sudeep.holla/linux (for-next/scmi/updates), thanks!
+I wanted to give this series a quick spin on the x1e80100 CRD, but ran
+into some issues.
 
-[1/7] firmware: arm_scmi: Account for SHMEM memory overhead
-      https://git.kernel.org/sudeep.holla/c/5c14f38893d0
-[2/7] firmware: arm_scmi: Calculate virtio PDU max size dynamically
-      https://git.kernel.org/sudeep.holla/c/3229e33311f8
-[3/7] dt-bindings: firmware: arm,scmi: Introduce more transport properties
-      https://git.kernel.org/sudeep.holla/c/5654d37268bc
-[4/7] firmware: arm_scmi: Use max_msg and max_msg_size devicetree properties
-      https://git.kernel.org/sudeep.holla/c/c091de2d383a
-[5/7] firmware: arm_scmi: Relocate atomic_threshold to scmi_desc
-      https://git.kernel.org/sudeep.holla/c/112ffc78dc8f
+First, I expected the drivers to be loaded automatically when built as
+modules, but that did not happen so something appears to be missing.
 
-(The below 2 were applied as fixes and sent for v6.12, sorry I missed
-to send confirmation earlier)
+Second, after loading the protocol and client drivers manually (in that
+order, shouldn't the client driver pull in the protocol?), I got:
 
-[6/7] dt-bindings: firmware: arm,scmi: Add missing vendor string
-      https://git.kernel.org/sudeep.holla/c/7bf46ec090b9
-[7/7] firmware: arm_scmi: Use vendor string in max-rx-timeout-ms
-      https://git.kernel.org/sudeep.holla/c/54962707f8b8
+	scmi_module: Loaded SCMI Vendor Protocol 0x80 - Qualcomm  20000
+	arm-scmi arm-scmi.0.auto: QCOM Generic Vendor Version 1.0
+	scmi-qcom-generic-ext-memlat scmi_dev.5: error -EOPNOTSUPP: failed to configure common events
+	scmi-qcom-generic-ext-memlat scmi_dev.5: probe with driver scmi-qcom-generic-ext-memlat failed with error -95
 
---
-Regards,
-Sudeep
+which seems to suggest that the firmware on my CRD does not support this
+feature. Is that the way this should be interpreted? And does that mean
+that non of the commercial laptops supports this either?
 
+Johan
