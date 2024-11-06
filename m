@@ -1,137 +1,118 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50B52204086;
-	Wed,  6 Nov 2024 20:03:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B535613C67C;
+	Wed,  6 Nov 2024 22:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730923430; cv=none; b=WhQG4/F/o1M4Ty6Vgdkt+fjcP8E4arz6hPkLWTFpVCoGZk7ZJQXiZCNcfndpXUXCco6qPL3UEHsrZfOkdcdjp+y/NlKnojWvZLB2DELMNn1MmUZb/IKdJYQLu4AzNiOqM8MsxjlaAuF1B4BBT9psyXVAVIy5myY27S7SteLa2Ec=
+	t=1730931533; cv=none; b=LwX3b7qdT7sxbYKC+ka9V7yShlo//R4m3Rnt02c+jwGtXsiJXIoLyweD0qLCY/BO+gYGKvxr7PX/zw9NjKHrXROPVcUb0n/IBCh1FfJsOVoN12U0Bre2ShiOIKDTVJE7qESYXNjGFliofG8Gc6seWq1Nl+lD3/8Nd8VVf8I7a2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730923430; c=relaxed/simple;
-	bh=ivX4CiQTotWMPINucszsfz9xCMxcsuzikA7zdx2o5fA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gP3GN2PJpIaKP6ucR6PUEa5u3Fjtms0ghV+Cf2rVw1Hs/GoCFQZ3JKeCLjQK0v3oPEOpJErwh1fyv2QZjB6gfKSzMlvqI6nle2oh2I2TgxWylsj9EDUx57r6EORdGzE9M9DgP5eGXIgqnHjL4o70rADe2lhndKjpHHRMgd/fB9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2ADD7497;
-	Wed,  6 Nov 2024 12:04:16 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 490D43F528;
-	Wed,  6 Nov 2024 12:03:43 -0800 (PST)
-Date: Wed, 6 Nov 2024 20:03:30 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: Sibi Sankar <quic_sibis@quicinc.com>, sudeep.holla@arm.com,
-	cristian.marussi@arm.com, andersson@kernel.org,
-	konrad.dybcio@linaro.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, quic_rgottimu@quicinc.com,
-	quic_kshivnan@quicinc.com, conor+dt@kernel.org,
-	arm-scmi@vger.kernel.org
-Subject: Re: [PATCH V4 0/5] arm_scmi: vendors: Qualcomm Generic Vendor
- Extensions
-Message-ID: <ZyvLktLUZOGP-LH5@pluto>
-References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
- <ZytnRc94iKUfMYH0@hovoldconsulting.com>
+	s=arc-20240116; t=1730931533; c=relaxed/simple;
+	bh=pSEqy3Dd13ARUfobgBIfnTgR9bWaIjSE0Fk3rV2AeD0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=hD6GCLGhDli3NCjkkbHRLN833jYwK9oBUYr/MzJUw2Xu0+9Mm7F0EiDDN3HoPtKwnETA+40G7ssK4vULLn3Qk8w4E/zW5bGsBZNpCGoyFinA848U7is1imGBjOulxAdl5crIcTXnoQ/+ET5sZqk9+8E8Ig9M2reX+kIKmS1TIlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=C7zBWjkK; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="C7zBWjkK"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A6AGSmr003817;
+	Wed, 6 Nov 2024 22:18:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Y6umwoYj9OreXKl0xzSlbeae+yKTlKkVh5/dhD285sY=; b=C7zBWjkKMfiX6Tju
+	b11ykT+vFfcKGfkY1jkQ6k+eWsEzydPEhGQvxcw3bxUnZHY9Lod7tvZ30vjJBsNa
+	NMBoxzrQMc0nes4nF+3nkTi6ez7ikI45MjNrHkjy4NAAlw5fwk9Rg5VFZUvnPYTt
+	zClpkiG7mDNGKWrP1fF2r8OxPRFJYz0M4Mx6nY9/padiEZy/H3wsyR9Ol1jLxXDZ
+	QCy7jCvQZpXMpvjuE12sqRtZ3NO3u48Kb7wLqY/yW/BEwkjoY0uOqLCWlhmdAwTC
+	bS2HSez2qaiDX5rPLxLzjuesN7UuCsO9JQwjzaUQeuViS1VuuQXsXFDQFHArHeUp
+	V/3k/w==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42qvg3u8w4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 06 Nov 2024 22:18:41 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4A6MIea0022910
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 6 Nov 2024 22:18:40 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 6 Nov 2024
+ 14:18:39 -0800
+Message-ID: <e77acdfe-43b9-a28b-11e4-2ffb481c4078@quicinc.com>
+Date: Wed, 6 Nov 2024 15:18:38 -0700
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZytnRc94iKUfMYH0@hovoldconsulting.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH V4 1/5] dt-bindings: firmware: Document bindings for QCOM
+ SCMI Generic Extension
+Content-Language: en-US
+To: Sibi Sankar <quic_sibis@quicinc.com>, <sudeep.holla@arm.com>,
+        <cristian.marussi@arm.com>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+        <quic_rgottimu@quicinc.com>, <quic_kshivnan@quicinc.com>,
+        <conor+dt@kernel.org>, <arm-scmi@vger.kernel.org>
+References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
+ <20241007061023.1978380-2-quic_sibis@quicinc.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20241007061023.1978380-2-quic_sibis@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: OFrehKGGJi8JVLmM8D5HdD9jI8bRk7oR
+X-Proofpoint-GUID: OFrehKGGJi8JVLmM8D5HdD9jI8bRk7oR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ lowpriorityscore=0 priorityscore=1501 clxscore=1011 mlxscore=0 spamscore=0
+ suspectscore=0 bulkscore=0 phishscore=0 adultscore=0 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411060171
 
-On Wed, Nov 06, 2024 at 01:55:33PM +0100, Johan Hovold wrote:
-> On Mon, Oct 07, 2024 at 11:40:18AM +0530, Sibi Sankar wrote:
-> > The QCOM SCMI vendor protocol provides a generic way of exposing a
-> > number of Qualcomm SoC specific features (like memory bus scaling)
-> > through a mixture of pre-determined algorithm strings and param_id
-> > pairs hosted on the SCMI controller. Introduce a client driver that
-> > uses the memlat algorithm string hosted on QCOM SCMI Vendor Protocol
-> > to detect memory latency workloads and control frequency/level of
-> > the various memory buses (DDR/LLCC/DDR_QOS).
-> > 
-> > QCOM SCMI Generic Vendor protocol background:
-> > It was found that a lot of the vendor protocol used internally was
-> > for debug/internal development purposes that would either be super
-> > SoC specific or had to be disabled because of some features being
-> > fused out during production. This lead to a large number of vendor
-> > protocol numbers being quickly consumed and were never released
-> > either. Using a generic vendor protocol with functionality abstracted
-> > behind algorithm strings gave us the flexibility of allowing such
-> > functionality exist during initial development/debugging while
-> > still being able to expose functionality like memlat once they have
-> > matured enough. The param-ids are certainly expected to act as ABI
-> > for algorithms strings like MEMLAT.
-> 
-> I wanted to give this series a quick spin on the x1e80100 CRD, but ran
-> into some issues.
-> 
-> First, I expected the drivers to be loaded automatically when built as
-> modules, but that did not happen so something appears to be missing.
-> 
+On 10/7/2024 12:10 AM, Sibi Sankar wrote:
+> diff --git a/include/dt-bindings/firmware/qcom,scmi-memlat.h b/include/dt-bindings/firmware/qcom,scmi-memlat.h
+> new file mode 100644
+> index 000000000000..7ae8d8d5623b
+> --- /dev/null
+> +++ b/include/dt-bindings/firmware/qcom,scmi-memlat.h
+> @@ -0,0 +1,22 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
+> +/*
+> + * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +#ifndef __DT_BINDINGS_QCOM_SCMI_VENDOR_H
+> +#define __DT_BINDINGS_QCOM_SCMI_VENDOR
 
-Hi Johan,
+The #define does not match the #ifndef (missing "_H")
 
-so the SCMI stack is fully modularizable as of this release, i.e.
-
- - SCMI core (scmi-core + scmi-module)
- - SCMI transports (scmi_transport_{mailbox,virtio,smc,optee}
- - optional SCMI Vendor protos
- - Std and Vendor SCMI Drivers on top of protos
-
-....on the other side the SCMI standard protocols are still embedded
-in scmi-module (or builtin) as of now...
-
-Even though, module usage is tracked by the core AND when an SCMI Vendor
-driver tries to use protocol_X, it causes protocol_X to be initialized
-(calling its protocol_init), there is NO auto-loading for SCMI Vendor
-Protocols when bult as LKM...because there were really no ask till now
-and this stuff is in general needed so very early dburing boot...so the
-usecase of all these LKM modules is just debug/test as in your case
-(or in mine frequently)....
-
-...and I am NOT saying with this that is necessarily right or must be
-stay like this...just explaining how it is now....
-
-....anyway...it is mostly trivial to add vendor/protocols autoloading
-transparently...today I was experimenting with a patch that triggers
-autoloading based on a generic common alias pattern in the form
-'scmi-protocol-0x<NN>' (with NN the specific protocol ID of course)
-that triggers the loading as soon as the SCMI Vendor driver tries to
-access the protocol during its probe...
-
-....I will post it for the next cycle once it is clean.
-(unless I am missing something else that you want to add...)
-
-> Second, after loading the protocol and client drivers manually (in that
-> order, shouldn't the client driver pull in the protocol?), I got:
-> 
-> 	scmi_module: Loaded SCMI Vendor Protocol 0x80 - Qualcomm  20000
-> 	arm-scmi arm-scmi.0.auto: QCOM Generic Vendor Version 1.0
-> 	scmi-qcom-generic-ext-memlat scmi_dev.5: error -EOPNOTSUPP: failed to configure common events
-> 	scmi-qcom-generic-ext-memlat scmi_dev.5: probe with driver scmi-qcom-generic-ext-memlat failed with error -95
-> 
-> which seems to suggest that the firmware on my CRD does not support this
-> feature. Is that the way this should be interpreted? And does that mean
-> that non of the commercial laptops supports this either?
-
-This seems like FW rejecting the command, maybe just only for the specific
-Linux OSPM agent since it is not allowed to ask for that specific setup,
-and only Sibi can shed a light here :D
-
-...but this Vendor protocol, if I am not mistaken, AFAIU, uses a bunch
-of "algo strings" coming from tokens it picks from DT and use thsoe as
-params for the set_param() VendorProtocol ops...cannot be that a bad/missing
-DT value could cause the FW to reject the command due to the params ?
-(even if the command is supported)...
-
-...just a guess ah... I have no real knowledge of this venndor proto...
-
-
-Thanks,
-Cristian
+> +
+> +/* Memory IDs */
+> +#define QCOM_MEM_TYPE_DDR	0x0
+> +#define QCOM_MEM_TYPE_LLCC	0x1
+> +#define QCOM_MEM_TYPE_DDR_QOS	0x2
+> +
+> +/*
+> + * QCOM_MEM_TYPE_DDR_QOS supports the following states.
+> + *
+> + * %QCOM_DDR_LEVEL_AUTO:	DDR operates with LPM enabled
+> + * %QCOM_DDR_LEVEL_PERF:	DDR operates with LPM disabled
+> + */
+> +#define QCOM_DDR_LEVEL_AUTO	0x0
+> +#define QCOM_DDR_LEVEL_PERF	0x1
+> +
+> +#endif /* __DT_BINDINGS_QCOM_SCMI_VENDOR_H */
 
