@@ -1,45 +1,44 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCD1917995E;
-	Wed,  6 Nov 2024 07:23:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C2D3192580;
+	Wed,  6 Nov 2024 07:26:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730877792; cv=none; b=b2sTVe+I9Bsfwmmw2w2jG54zeXsY8cjIrPP/51mwpLCwnFw5gvcgzF6Fi/DBnlxuzeUozA3ktirPNi+LvBCvo/ZY1hGjtGz4pOtPRMp+T4ZZ0o//dz+V7KRdYoLRLEaLpztjpvtrB0PyZ+pqDX9CPjaJ+/MNcmHFm+yObq9uEto=
+	t=1730877990; cv=none; b=LCUEm0uhVPDWvy4t7NNlKzti+H9KHpBFRyz0A1fcLAw2hlax/NzYFnhckkjn5DpLHHkrSI5lTEbwDQyMM2AqpkAKdsyZzWaf4S87H3v+RDNP9cRJGreRCN0dMEfEesT365Bq47D4esisUYul6OP54/1qsPsSCNAhjJpfNxeaAcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730877792; c=relaxed/simple;
-	bh=x6tAi3iztnRg7xJSW0CeMk6+NpO+0l0VjsBhfzFqZFM=;
+	s=arc-20240116; t=1730877990; c=relaxed/simple;
+	bh=agWYiCuHzgWc5vrawK4mbYjZ0dJtAHhRDMutt9drTh8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PIqL0NxQaCvUsuMNA51x3augFCLaG4TmvYuwszgay1r0hMWAE39AYzz0ix8gMVCosv8+vwgJHyB4SYdUV5LzgDKD1CMLBcwwiKyOoxcbXnVmT+f1EIbqv3S5AotPvwuWinGwx5xLabvFo0aBnDjb0i8wz3AT8wQDBQ1HD6yrLM0=
+	 MIME-Version:Content-Type; b=kD1cOi8NYffpjC3XUESJjuq+3AXM+I+QlOnandA5M3sxSlScr9uBp1pJzhHlnZjuJRHMKV3XIDzyafTX+xV+OO3GF8Vp126rJ94+lHu5389GViaNQ+JgXzAlyKV+yX1MKZ0ABmnZqPWwcjMLRaNy2H3ucfEuSQazUoyomlAX8hk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AF7671063;
-	Tue,  5 Nov 2024 23:23:39 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AD9681063;
+	Tue,  5 Nov 2024 23:26:56 -0800 (PST)
 Received: from usa.arm.com (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id AA44D3F66E;
-	Tue,  5 Nov 2024 23:23:07 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D06E83F66E;
+	Tue,  5 Nov 2024 23:26:24 -0800 (PST)
 From: Sudeep Holla <sudeep.holla@arm.com>
-To: linux-arm-kernel@lists.infradead.org,
-	Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	arm-scmi@vger.kernel.org,
-	justin.chen@broadcom.com,
-	opendmb@gmail.com,
-	kapil.hali@broadcom.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v4 0/2] Support for I/O width within ARM SCMI SHMEM
-Date: Wed,  6 Nov 2024 07:23:04 +0000
-Message-Id: <173087767267.3975373.2771980370736261734.b4-ty@arm.com>
+	Cristian Marussi <cristian.marussi@arm.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	etienne.carriere@st.com,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	quic_sibis@quicinc.com,
+	quic_nkela@quicinc.com,
+	dan.carpenter@linaro.org
+Subject: Re: [PATCH v3 0/7] Expose SCMI Transport properties
+Date: Wed,  6 Nov 2024 07:26:21 +0000
+Message-Id: <173087788054.3975719.458271006715771508.b4-ty@arm.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240827182450.3608307-1-florian.fainelli@broadcom.com>
-References: <20240827182450.3608307-1-florian.fainelli@broadcom.com>
+In-Reply-To: <20241028120151.1301177-1-cristian.marussi@arm.com>
+References: <20241028120151.1301177-1-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -49,24 +48,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, 27 Aug 2024 11:24:48 -0700, Florian Fainelli wrote:
-> We just got our hands on hardware that only supports 32-bit access width
-> to the SRAM being used. This patch series adds support for the
-> 'reg-io-width' property and allows us to specify the exact access width
-> that the SRAM supports.
-> 
-> Changes in v4:
+On Mon, 28 Oct 2024 12:01:44 +0000, Cristian Marussi wrote:
+> SCMI transports are characterized by a number of properties: the values
+> assumed by some of them tightly depend on the choices taken at design
+> time and on the overall archiecture of the specific platform: things like
+> timeouts, maximum message size and number of in-flight messages are closely
+> tied to the architecture of the platform like number of SCMI agents on the
+> system, physical memory available to the SCMI server...so on and so forth.
 > 
 > [...]
 
-(with some trivial rebasing)
-
 Applied to sudeep.holla/linux (for-next/scmi/updates), thanks!
 
-[1/2] dt-bindings: sram: Document reg-io-width property
-      https://git.kernel.org/sudeep.holla/c/14b2157a9c14
-[2/2] firmware: arm_scmi: Support 'reg-io-width' property for shared memory
-      https://git.kernel.org/sudeep.holla/c/2cd7f3db25fe
+[1/7] firmware: arm_scmi: Account for SHMEM memory overhead
+      https://git.kernel.org/sudeep.holla/c/5c14f38893d0
+[2/7] firmware: arm_scmi: Calculate virtio PDU max size dynamically
+      https://git.kernel.org/sudeep.holla/c/3229e33311f8
+[3/7] dt-bindings: firmware: arm,scmi: Introduce more transport properties
+      https://git.kernel.org/sudeep.holla/c/5654d37268bc
+[4/7] firmware: arm_scmi: Use max_msg and max_msg_size devicetree properties
+      https://git.kernel.org/sudeep.holla/c/c091de2d383a
+[5/7] firmware: arm_scmi: Relocate atomic_threshold to scmi_desc
+      https://git.kernel.org/sudeep.holla/c/112ffc78dc8f
+
+(The below 2 were applied as fixes and sent for v6.12, sorry I missed
+to send confirmation earlier)
+
+[6/7] dt-bindings: firmware: arm,scmi: Add missing vendor string
+      https://git.kernel.org/sudeep.holla/c/7bf46ec090b9
+[7/7] firmware: arm_scmi: Use vendor string in max-rx-timeout-ms
+      https://git.kernel.org/sudeep.holla/c/54962707f8b8
 
 --
 Regards,
