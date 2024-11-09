@@ -1,123 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68121F5831;
-	Fri,  8 Nov 2024 15:14:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10F323A9
+	for <arm-scmi@vger.kernel.org>; Sat,  9 Nov 2024 00:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731078843; cv=none; b=hXyXLnF1oySuE3iJQmKSgnLNIWMQ6laOPfGuD9eJmjShQnTwQDJabNjDWoOdc002tDlayHDcv/2oNDYwE+6PGO5TnpBBAvIMda0h/lN2TXGmeUcWR2HQPfTPEHqvtkGwEXe33iNguVduBOihkPEIzJ6j/hTQi6DhawFg2i8RoUU=
+	t=1731110701; cv=none; b=ohe+yQjRGv6sfYTyLP8Z5cxuAIT3lyPL67rZSTAAjmr6Q1i04M4ekrapLAQysIeA9JgjwE5xT21yyFhDR+PTNB3rl5ZTHsqQfqX+MRIHE0sXeK8DanwaORgHfFD+yHBsjz7r+E9m7N7Nk5NzyE6mM+UZypo90quuHg3oa8uhiNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731078843; c=relaxed/simple;
-	bh=D1KdnZEqwOBAkW2gdT2OYagXEMiuHefSlBOJ+Jlh4Ng=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M5yMgbhFvNWNUOCGCaYeSL5+fBLeTMDJF6esoefPICvgYYCdVdKbg6u81R1A8TDuAjXJtDgifBFSRKW0MsfL2iBkbQsJlR3+8rvNwZqdg1Tg1Hcg9lNQGUtSz1+dC3KwmvJSoDW9UQqMkPj5KHcni/kyeA3BdcOB+WAI6yr+4vY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MPU8BB2h; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731110701; c=relaxed/simple;
+	bh=M316E82Sl4S86b6qlEWBAWKUyt3a38oyo+IQt3556+k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=grYMEUWim0WAXbE3I6Ilqg12BXLJbP8Le6UvWOc9ZKX//kqwdeb+byvag1Nb8nqLMqHaReQmm7IeHnq+QsqrC5usO9reEGmr+DFk/vNuqSu+KzjzMM0z3Lon+iQlnQQj/sB/1H/mEAjMcCN4jnqzl1OuPs5cpXmcnlzS7K0pf+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FBI+Tioz; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MPU8BB2h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40592C4CECD;
-	Fri,  8 Nov 2024 15:14:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731078843;
-	bh=D1KdnZEqwOBAkW2gdT2OYagXEMiuHefSlBOJ+Jlh4Ng=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MPU8BB2hxklea4mlCBAKGkUL1VXNzNev8Gf9OaXw4U4XGqGcnoDJCLJ1RAq+pOQcF
-	 osWdPeKLF3P4DCtV+h+eH4tWiDBKObPNj7OHVMgACVScEwKOO4SFjKVCXp1JYCYukr
-	 sVx89JzBiAyqB/PODaA6dInFqMi0a03hdPBj8/4ns1ajaDltqGbsSAU8frDpbRps8H
-	 BeT7Jn/rFmDn7OQLQDMHkrVjJNEtU0+7bCU2mFY1ycXfSwpjpDIxTUWrQ62JrrQJFW
-	 UCL5yvHklEPA9Mnf5ac3fTh/r5tMZ8oGYjY2XgK/0PyB+FZcPmu72bBYpIdX7qp5ij
-	 MkxqdymErTbWw==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1t9QgX-000000005v6-0BX0;
-	Fri, 08 Nov 2024 16:14:05 +0100
-Date: Fri, 8 Nov 2024 16:14:05 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Sibi Sankar <quic_sibis@quicinc.com>, sudeep.holla@arm.com,
-	andersson@kernel.org, konrad.dybcio@linaro.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, quic_rgottimu@quicinc.com,
-	quic_kshivnan@quicinc.com, conor+dt@kernel.org,
-	arm-scmi@vger.kernel.org
-Subject: Re: [PATCH V4 0/5] arm_scmi: vendors: Qualcomm Generic Vendor
- Extensions
-Message-ID: <Zy4qvedrmkRdPR3x@hovoldconsulting.com>
-References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
- <ZytnRc94iKUfMYH0@hovoldconsulting.com>
- <ZyvLktLUZOGP-LH5@pluto>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FBI+Tioz"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2fb4fa17044so26694891fa.3
+        for <arm-scmi@vger.kernel.org>; Fri, 08 Nov 2024 16:04:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731110698; x=1731715498; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=apce7z+9/HqI56HYo2yGxuMN1Jmh3xMOBMuUWKs05Ek=;
+        b=FBI+TiozkXsfEXh3m6a0tnXXjIeHoT3tudPxolX/8ZNdKzCwXyaCW32Bklhi0/FPJQ
+         g8Z2fYbZEzYEWjQO4tjlO0y8BJvfN6CYwRR4aqbpPw4OshrsP8P84shZ1GxVXBOmjKwJ
+         bpW3fq900QSqatcRvvIj1RPQZCPTVOeu8FtwNxWunMx1BEDXG5TEtbO9IqTSOMmc1W3r
+         edX7TRcFmsCxorqcakPbBQ7RNz2MnwWTO302dkXNU3SkjrxBK3u4vN8C3kAV2m70e8fm
+         XQEhhrCoWDlT3RpaMAmjCQei0X9cWcNVKA6KF9bBudmZwbx0XQQxeayPg4reaQnOU997
+         AEkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731110698; x=1731715498;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=apce7z+9/HqI56HYo2yGxuMN1Jmh3xMOBMuUWKs05Ek=;
+        b=tBW8nVhRmAAuGxNbNw3PNUkWxNXLvJDuFIXduOnbn1abRWuR6ffSCH5AG5TefVP89n
+         AXz7WkxwZmvxlSPH3U+v9YMCVpXxb6v6vwcWxwP1WgkhZMMC6XXlHd8swDfNwMlvooA7
+         bArwXXCtKr8SqbQCKhr/oi6njDf3IBsqxndTfvXuKGswWZ1uJ6h7djeVtlnhh8qc+w5S
+         5KUGNgeQ2Y3WHUr2oUspgDiPVzZONWLIOdlWrfNmeyA1gldWTFGvLkq5OfdkHZ+2t10A
+         a6fYtTeQRQfZUBvk9gO8SYaafO5zKg+7YlPntslvqKKO0KrE0YsMQH41KpvcksEe3QJg
+         yebQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV9VvD8jLSwcBvDgW6WHCm7oYK0eT0R8GFrJaT7JyCo1pGwKc+Fwhs4qo9tu6RGkvUfyS9jSgK2fg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJRQc2Zmvbl5Get+uuc+QfjCMNnq9VdHqwodwTwnWRjcMc8KTc
+	MH6gi+Na4Ul2rulawdUySp3dRVz/wzuqpzJkKxTN2611c9/hLR1ZdvseW/vq+mpkgUcaipkokdH
+	tpa2XCVEvQ34AEn9M4Whatbp+mIu3zHqrjFmOfZGOSWWDWUINwpk=
+X-Google-Smtp-Source: AGHT+IFrw1EFKqbo5aJq9uhof44iVrZvIooJWRjeaVMEY05USiYKqGbPyqPFtl3UNMjuANsgdlutxlq+SDaLQHlCofg=
+X-Received: by 2002:a05:651c:2204:b0:2fb:8df2:13e6 with SMTP id
+ 38308e7fff4ca-2ff2028aae7mr23640861fa.26.1731110697946; Fri, 08 Nov 2024
+ 16:04:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZyvLktLUZOGP-LH5@pluto>
+References: <c5fdc171-0dc7-4c38-88e7-fcf9de7cbec2@stanley.mountain>
+ <ZyCuAKfqRnuFdAwC@pluto> <f305d661-71e8-48c0-a6a5-4271c0436bc1@stanley.mountain>
+ <8ff3c048-f1f8-4ec6-9f7d-5b3982dd45fe@arm.com> <2f80b972-ca70-4c87-b5e8-147505b2a90d@stanley.mountain>
+In-Reply-To: <2f80b972-ca70-4c87-b5e8-147505b2a90d@stanley.mountain>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sat, 9 Nov 2024 01:04:46 +0100
+Message-ID: <CACRpkdZeMtKsGVRW9Ju+d6RHPKkyvCK7jMhZpyw_Fw3RjgTk9A@mail.gmail.com>
+Subject: Re: Question about identifiers
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Souvik Chakravarty <souvik.chakravarty@arm.com>, Cristian Marussi <cristian.marussi@arm.com>, 
+	girish.pathak@arm.com, arm-scmi@vger.kernel.org, vincent.guittot@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 06, 2024 at 08:03:30PM +0000, Cristian Marussi wrote:
-> On Wed, Nov 06, 2024 at 01:55:33PM +0100, Johan Hovold wrote:
+On Fri, Nov 1, 2024 at 5:08=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro.=
+org> wrote:
 
-> > First, I expected the drivers to be loaded automatically when built as
-> > modules, but that did not happen so something appears to be missing.
+> In 4.11.2.6 PINCTRL_LIST_ASSOCIATIONS it returns:
+>
+> uint16 array[N]
+> Array of group or pin identifiers listed in numerically
+> ascending order.
+>
+> In the linux kernel, a function can only have group identifiers.  If you =
+wanted
+> to have a pin which provides a function, then you'd create a group with j=
+ust one
+> pin.
 
-> Even though, module usage is tracked by the core AND when an SCMI Vendor
-> driver tries to use protocol_X, it causes protocol_X to be initialized
-> (calling its protocol_init), there is NO auto-loading for SCMI Vendor
-> Protocols when bult as LKM...because there were really no ask till now
-> and this stuff is in general needed so very early dburing boot...so the
-> usecase of all these LKM modules is just debug/test as in your case
-> (or in mine frequently)....
-> 
-> ...and I am NOT saying with this that is necessarily right or must be
-> stay like this...just explaining how it is now....
+Since this is what e.g. Qualcomm, Apple and many other platforms do,
+I think it has been assumed that "everyone" does this.
 
-Ok, thanks for clarifying.
+However in that case, in the device trees we have often used the
+property "pins" instead of "groups".
 
-> ....anyway...it is mostly trivial to add vendor/protocols autoloading
-> transparently...today I was experimenting with a patch that triggers
-> autoloading based on a generic common alias pattern in the form
-> 'scmi-protocol-0x<NN>' (with NN the specific protocol ID of course)
-> that triggers the loading as soon as the SCMI Vendor driver tries to
-> access the protocol during its probe...
-> 
-> ....I will post it for the next cycle once it is clean.
-> (unless I am missing something else that you want to add...)
+See for example arch/arm/boot/dts/qcom/qcom-apq8060-dragonboard.dts:
 
-Sounds like that would solve the issue. I was just expecting the memlat
-client driver and its protocol dependency to be loaded automatically
-when built as modules on machines that can use them (e.g. as we don't
-want to have every vendor protocol driver built into distro kernels,
-etc).
+        /* eMMC pins, all 8 data lines connected */
+        dragon_sdcc1_pins: sdcc1-state {
+                clk-pins {
+                        pins =3D "gpio167"; /* SDC1 CLK */
+                        function =3D "sdc1";
+                        drive-strength =3D <16>;
+                        bias-disable;
+                };
+                cmd-pins {
+                        pins =3D "gpio168"; /* SDC1 CMD */
+                        function =3D "sdc1";
+                        drive-strength =3D <10>;
+                        bias-pull-up;
+                };
+                data-pins {
+                        /* SDC1 D0 to D7 */
+                        pins =3D "gpio159", "gpio160", "gpio161", "gpio162"=
+,
+                             "gpio163", "gpio164", "gpio165", "gpio166";
+                        function =3D "sdc1";
+                        drive-strength =3D <10>;
+                        bias-pull-up;
+                };
+        };
 
-> > Second, after loading the protocol and client drivers manually (in that
-> > order, shouldn't the client driver pull in the protocol?), I got:
-> > 
-> > 	scmi_module: Loaded SCMI Vendor Protocol 0x80 - Qualcomm  20000
-> > 	arm-scmi arm-scmi.0.auto: QCOM Generic Vendor Version 1.0
-> > 	scmi-qcom-generic-ext-memlat scmi_dev.5: error -EOPNOTSUPP: failed to configure common events
-> > 	scmi-qcom-generic-ext-memlat scmi_dev.5: probe with driver scmi-qcom-generic-ext-memlat failed with error -95
-> > 
-> > which seems to suggest that the firmware on my CRD does not support this
-> > feature. Is that the way this should be interpreted? And does that mean
-> > that non of the commercial laptops supports this either?
-> 
-> This seems like FW rejecting the command, maybe just only for the specific
-> Linux OSPM agent since it is not allowed to ask for that specific setup,
-> and only Sibi can shed a light here :D
-> 
-> ...but this Vendor protocol, if I am not mistaken, AFAIU, uses a bunch
-> of "algo strings" coming from tokens it picks from DT and use thsoe as
-> params for the set_param() VendorProtocol ops...cannot be that a bad/missing
-> DT value could cause the FW to reject the command due to the params ?
-> (even if the command is supported)...
-> 
-> ...just a guess ah... I have no real knowledge of this venndor proto...
+All pins have string IDs "gpionn" because they can all be used for
+GPIO. The name means nothing however because here they are
+used with function "sdc1" which means they are used for MMC/SD
+signals, but:
 
-Yeah, hopefully Sibi can shed some light on this. I'm using the DT
-patch (5/5) from this series, which according to the commit message is
-supposed to enable bus scaling on the x1e80100 platform. So I guess
-something is missing in my firmware.
+        /* Interrupt line for the KXSD9 accelerometer */
+        dragon_kxsd9_gpios: kxsd9-state {
+                pins =3D "gpio57"; /* IRQ line */
+                function =3D "gpio";
+                bias-pull-up;
+        };
 
-Johan
+Here the pin "gpio57" (which can do other stuff) is assigned the function
+"gpio" and thus turned into GPIO mode.
+
+Allwiner and Renesas does this too but has a shortcut inside the
+driver to put requested
+GPIOs into GPIO mode directly so the GPIO function never appears in
+the device trees.
+
+Yours,
+Linus Walleij
