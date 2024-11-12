@@ -1,140 +1,112 @@
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C3F2040AD
-	for <arm-scmi@vger.kernel.org>; Tue, 12 Nov 2024 15:57:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95EB620D51D;
+	Tue, 12 Nov 2024 17:20:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731427025; cv=none; b=mfxy3q9FKqKzxRj+mOBez5JNqUQzwA32fxwgBWH9B43jVAOC61eyUcYCeRyhlRZtr3zaHW39nNPRpD5CitPCSrsbhr0QhdNrT3n6xfToc9OZNYQxo/EFkUV5LlU+M1Okq5w65bsgnPVLUYwxBDVXxqEbukdUR0qC7A8Ilq5gMyw=
+	t=1731432001; cv=none; b=TzOiKcfLQQo38P1HHka3ADA45iLK4SXuF8QdKL/+f/LXLXO4MIIiRPgb8SE0vhg8Jd1uqJyWEw5H4AY/uyqzXH9gNbcMNw/CLp2OchhgNccsKLFMfbJ6uum8u6eGJssmQr0gsJBVQn/w0yN8FAvjX/AXBsiZgYjseJ+6TXeSmRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731427025; c=relaxed/simple;
-	bh=VAA1g9rl5BaF/kPLFoBaEIyM0NZnhRw8AObDrZkEUk8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mVQOkkcEs0v1agwWKtLD6M7t2TBwcr3A3ogiiq96jXcSLKYAgLAHTu0hvOfsa1h+o7aad4jzbiIyWrv0eKjXsoOTGYcZTGm6RCs50nBVQu54NJwzYWxF1WrwI938QPnET3YAATb2ERL1nU2KIOuW0yY4aDFmCjVsKf02XKZ3Q6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TWVGjLo4; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1731432001; c=relaxed/simple;
+	bh=WLVOfxqes1xc6tPBqvZff21GY8qOJvM0DeYgwViWALM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b5Y3uQPWFlN+Eu2fp9LIXufPW+vRogrbHY2KgF+z3Y5rtVHxu+TtyqYzalfnxwDGP9+JeRRBpLo4Tku6CrQGVGioezlcrqtzL5mwmp4ijJh0FD/m12OufAsthsdVlEUHG/aayZ14I12ZchDzk/YsK8ZRsNgEkEQgUAkOSlBmEQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CyZrv9MG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TWVGjLo4"
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e30d212b6b1so5434873276.0
-        for <arm-scmi@vger.kernel.org>; Tue, 12 Nov 2024 07:57:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731427022; x=1732031822; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LvLeNnoi9Q/2tIEpsYYZ7QLjjHPm2C2yqmvXawnq7e4=;
-        b=TWVGjLo437KtZ1N0ot1zyu62Sx8PpjHsiGo+8LrlwBzdvuaPjwkwn55aFkeTNWfMdo
-         nbyfMEGrnsX60ddYxvqJKEppHssAh2UGoGgxUd1P3YE3qHgwTidc58bZi1BRaUb4RS9h
-         WAWsZ/58I8+wM9xhwpVg+aCbyDBUylz+tr4MUugA4sIo/XwMlGH8t5aw6y8V3gY8AubF
-         F3wZ7eeV+TUcVP+uJ8fP7eWBxXXoCTmVn0dDfnJUd+bqPnWAohQxwJVXw+r7kbY+Occ3
-         ngNlmMr+dZa/foW8TqfyH6w9PFpGrOapgn/mMOtv9zTvLdR2y3OncvXOyr+zF4OQyfVw
-         eO5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731427022; x=1732031822;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LvLeNnoi9Q/2tIEpsYYZ7QLjjHPm2C2yqmvXawnq7e4=;
-        b=OEmUEUJfdevqaTHDTJxCe0KC1d/QfZNIQIuJBIjz41RPTgLMdgatXqtSLK0WnP/yQS
-         ckwG9tQIEGntu3n3jhIKzlpuX2n4mgfF3vxoog/Cejjt5suUaOO6MW2D9JJAUpL92svS
-         ClHKiwtVPgu4vxuRaP9F4qGcR2FF2qZyoaZfJSmdI+0wV3aGD7IDjDFPmlZWbeYfXDr9
-         kD5wyLE4YGn9aIdD1K37yg9gUoGHqyhSaksTP2qRSNXe3J+ygU33qp2jyiiNWaMW2NzM
-         7ABxEV5Nz4ptKE55IbirWGNK7jt4kEHXVXMZzreSnYkN2WnFoPLxNoNNxArWVY5scoHr
-         40JA==
-X-Forwarded-Encrypted: i=1; AJvYcCWattGxlYyuFjrQwR6UEcmv98fzpM5qalMESFjWvYZF69z6Ib0Jiwp8UhfzZTZRpf+DecjJd2p7Qw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YykgylAfl2dIRRcb+gHdgPl+a/dW4EHkzR6oiiq/pctcVd4IhVJ
-	PWoE0OOJ4FOHnVy2n9HwojuROX5CWAaHcefUB3cgDfZw4xw2UznzBtnPwArGKOBDfU2luOGP+AR
-	3dkOzVw/gP1vMdIvLJKWMeibSGVDFJyPc/QdS1g==
-X-Google-Smtp-Source: AGHT+IH5CCJQlrbtWhzwNwEuVmBy3c+bpgonBaiqCiIcyBRut8a95C/Hq3VyL3SXBBf4iw9gPiN+f3nxmL1sUxWUun4=
-X-Received: by 2002:a05:690c:c96:b0:6ea:85ee:b5d4 with SMTP id
- 00721157ae682-6eaddd86d12mr164461237b3.6.1731427022576; Tue, 12 Nov 2024
- 07:57:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CyZrv9MG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D933C4CECD;
+	Tue, 12 Nov 2024 17:20:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731432001;
+	bh=WLVOfxqes1xc6tPBqvZff21GY8qOJvM0DeYgwViWALM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CyZrv9MGookTYoVLPGHnA9463Vw96aWB1Y5hzIo/d7BXLAL8IxQOZ/Bkq/B4bwZm+
+	 RYgaIlDvET8ZTAzJjVsqboZOsB4kXJq8srd3YccdvW6zhYsqjKrZN5i04r33LkVDS1
+	 Dz/nODORvkdfTCm+dY+8q2xAFGcoW8yuL0IDB8GeyvqKZDbGJLfIvfJwAXBptKerhF
+	 LuLo0WFS9xRsMXKGProcWh7O2e9rqQCNoLmFy2f5GwR7RemNx4E6AM3UbVcjGIXIBX
+	 4ro9tWq6HRkLq5ktF8Uktj/liMiiLuOa10+2pnnsA6/zRXc40mgQOdK+W1/RRyDXXP
+	 QbRQsdiXLGWPw==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1tAuYW-000000007i6-1ILX;
+	Tue, 12 Nov 2024 18:19:56 +0100
+Date: Tue, 12 Nov 2024 18:19:56 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+	Sibi Sankar <quic_sibis@quicinc.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	jassisinghbrar@gmail.com, dmitry.baryshkov@linaro.org,
+	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	konradybcio@kernel.org, linux-pm@vger.kernel.org,
+	tstrudel@google.com, rafael@kernel.org
+Subject: Re: [PATCH V5 0/6] firmware: arm_scmi: Misc Fixes
+Message-ID: <ZzOOPJ_gI9TGadzV@hovoldconsulting.com>
+References: <20241030125512.2884761-1-quic_sibis@quicinc.com>
+ <CAPDyKFoY8CnxF7JXzkT9_WXyM-TJhW4kmTw=H8NEzch32N1_7Q@mail.gmail.com>
+ <ZyJeuVIbWkohymW5@pluto>
+ <20241106071215.jhnzcn4vkdfr3peg@bogus>
+ <CAPDyKFr-pmXEhgUgCapzQX3Hn_UAM632TaG8SdkQXaCn5-y42g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241030125512.2884761-1-quic_sibis@quicinc.com>
- <CAPDyKFoY8CnxF7JXzkT9_WXyM-TJhW4kmTw=H8NEzch32N1_7Q@mail.gmail.com>
- <ZyJeuVIbWkohymW5@pluto> <20241106071215.jhnzcn4vkdfr3peg@bogus>
-In-Reply-To: <20241106071215.jhnzcn4vkdfr3peg@bogus>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 12 Nov 2024 16:56:26 +0100
-Message-ID: <CAPDyKFr-pmXEhgUgCapzQX3Hn_UAM632TaG8SdkQXaCn5-y42g@mail.gmail.com>
-Subject: Re: [PATCH V5 0/6] firmware: arm_scmi: Misc Fixes
-To: Sudeep Holla <sudeep.holla@arm.com>, Sibi Sankar <quic_sibis@quicinc.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, johan@kernel.org, jassisinghbrar@gmail.com, 
-	dmitry.baryshkov@linaro.org, linux-kernel@vger.kernel.org, 
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, konradybcio@kernel.org, 
-	linux-pm@vger.kernel.org, tstrudel@google.com, rafael@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPDyKFr-pmXEhgUgCapzQX3Hn_UAM632TaG8SdkQXaCn5-y42g@mail.gmail.com>
 
-On Wed, 6 Nov 2024 at 08:12, Sudeep Holla <sudeep.holla@arm.com> wrote:
->
-> On Wed, Oct 30, 2024 at 04:28:41PM +0000, Cristian Marussi wrote:
-> > On Wed, Oct 30, 2024 at 05:19:39PM +0100, Ulf Hansson wrote:
-> > > On Wed, 30 Oct 2024 at 13:55, Sibi Sankar <quic_sibis@quicinc.com> wrote:
-> > > >
-> > > > The series addresses the kernel warnings reported by Johan at [1] and are
-> > > > are required to X1E cpufreq device tree changes to land.
-> > > >
-> > > > [1] - https://lore.kernel.org/lkml/ZoQjAWse2YxwyRJv@hovoldconsulting.com/
-> > > >
-> > > > Duplicate levels:
-> > > > arm-scmi arm-scmi.0.auto: Level 2976000 Power 218062 Latency 30us Ifreq 2976000 Index 10
-> > > > arm-scmi arm-scmi.0.auto: Level 3206400 Power 264356 Latency 30us Ifreq 3206400 Index 11
-> > > > arm-scmi arm-scmi.0.auto: Level 3417600 Power 314966 Latency 30us Ifreq 3417600 Index 12
-> > > > arm-scmi arm-scmi.0.auto: Failed to add opps_by_lvl at 3417600 for NCC - ret:-16
-> > > > arm-scmi arm-scmi.0.auto: Failed to add opps_by_lvl at 3417600 for NCC - ret:-16
-> > > > arm-scmi arm-scmi.0.auto: Level 4012800 Power 528848 Latency 30us Ifreq 4012800 Index 15
-> > > >
-> > > > ^^ exist because SCP reports duplicate values for the highest sustainable
-> > > > freq for perf domains 1 and 2. These are the only freqs that appear as
-> > > > duplicates and will be fixed with a firmware update. FWIW the warnings
-> > > > that we are addressing in this series will also get fixed by a firmware
-> > > > update but they still have to land for devices already out in the wild.
-> > > >
-> > > > V4:
-> > > > * Rework debugfs node creation patch [Ulf/Dmitry]
-> > > > * Reduce report level to dev_info and tag it with FW_BUG [Johan/Dmitry]
-> > > > * Add cc stable and err logs to patch 1 commit message [Johan]
-> > >
-> > > Patch4 and patch5 applied for fixes to my pmdomain tree - and by
-> > > adding a stable tag to them, thanks!
-> > >
-> > > Potentially I could help to take the other patches too, to keep things
-> > > together, but in that case I need confirmation that's okay to do so.
-> >
-> > SCMI patches in these series are all reviewed (all but one even by Sudeep)
-> > so it is really up to Sudeep preference...(who is travelling now so it could
-> > take a bit to reply)
->
-> I have added my reviewed by now.
->
-> > ...moreover I am not sure if the SCMI patches in this
-> > series could end up with wome trivial conflicts against the scmi patches
-> > already queued at
-> >
-> >       sudeep/for-next/scmi/updates
-> >
-> > (at least the perf related ones 2 and 3 probably not)
-> >
->
-> I did a quick check and no conflicts were observed. Let me know if you need
-> a branch with first 3 patches, but I need to do that today or after Sunday
-> as I will away from my computer for few more days again from tomorrow.
->
-> Let me know ASAP.
->
-> --
-> Regards,
-> Sudeep
+On Tue, Nov 12, 2024 at 04:56:26PM +0100, Ulf Hansson wrote:
+> On Wed, 6 Nov 2024 at 08:12, Sudeep Holla <sudeep.holla@arm.com> wrote:
+> > On Wed, Oct 30, 2024 at 04:28:41PM +0000, Cristian Marussi wrote:
+> > > On Wed, Oct 30, 2024 at 05:19:39PM +0100, Ulf Hansson wrote:
+> > > > On Wed, 30 Oct 2024 at 13:55, Sibi Sankar <quic_sibis@quicinc.com> wrote:
+> > > > >
+> > > > > The series addresses the kernel warnings reported by Johan at [1] and are
+> > > > > are required to X1E cpufreq device tree changes to land.
+> > > > >
+> > > > > [1] - https://lore.kernel.org/lkml/ZoQjAWse2YxwyRJv@hovoldconsulting.com/
+> > > > >
+> > > > > Duplicate levels:
+> > > > > arm-scmi arm-scmi.0.auto: Level 2976000 Power 218062 Latency 30us Ifreq 2976000 Index 10
+> > > > > arm-scmi arm-scmi.0.auto: Level 3206400 Power 264356 Latency 30us Ifreq 3206400 Index 11
+> > > > > arm-scmi arm-scmi.0.auto: Level 3417600 Power 314966 Latency 30us Ifreq 3417600 Index 12
+> > > > > arm-scmi arm-scmi.0.auto: Failed to add opps_by_lvl at 3417600 for NCC - ret:-16
+> > > > > arm-scmi arm-scmi.0.auto: Failed to add opps_by_lvl at 3417600 for NCC - ret:-16
+> > > > > arm-scmi arm-scmi.0.auto: Level 4012800 Power 528848 Latency 30us Ifreq 4012800 Index 15
+> > > > >
+> > > > > ^^ exist because SCP reports duplicate values for the highest sustainable
+> > > > > freq for perf domains 1 and 2. These are the only freqs that appear as
+> > > > > duplicates and will be fixed with a firmware update. FWIW the warnings
+> > > > > that we are addressing in this series will also get fixed by a firmware
+> > > > > update but they still have to land for devices already out in the wild.
+> > > > >
+> > > > > V4:
+> > > > > * Rework debugfs node creation patch [Ulf/Dmitry]
+> > > > > * Reduce report level to dev_info and tag it with FW_BUG [Johan/Dmitry]
+> > > > > * Add cc stable and err logs to patch 1 commit message [Johan]
 
-Sorry for the delay. I have picked up the remaining patches from this
-series. All applied for fixes and by adding stable tags to them,
-thanks!
+> Sorry for the delay. I have picked up the remaining patches from this
+> series. All applied for fixes and by adding stable tags to them,
+> thanks!
 
-Kind regards
-Uffe
+As I reported here:
+
+	https://lore.kernel.org/lkml/ZyTQ9QD1tEkhQ9eu@hovoldconsulting.com/
+
+I'm seeing a hard reset on the x1e80100 CRD and Lenovo ThinkPad T14s
+when accessing the cpufreq sysfs attributes.
+
+Sibi tracked it down to the first patch in this series ("firmware:
+arm_scmi: Ensure that the message-id supports fastchannel") and
+reverting that one indeed fixes the reset.
+
+Unfortunately this was only discussed on IRC and was never reported in
+this thread.
+
+Ulf, could you please drop the first patch again until we've figured out
+how best to handle this?
+
+Johan
