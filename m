@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72640213EFE;
-	Tue, 12 Nov 2024 10:36:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7499D21B44B;
+	Tue, 12 Nov 2024 10:36:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731407769; cv=none; b=C5XwzfLvMd/pAFysldZOLrD8fbRAIUhx7+bZutjEwJYHv57UvoX/0V4OVnZnJZnzwYEHJ4AfC7Jkp1q1Z4RmNvVdIbURwyxOlDceDBYRwX4XotUt+oO64e3M1Hy72GA5ITwDV5sv2uOIuX5d96xkdKV04JodCYrbF1mKVFRIl2M=
+	t=1731407807; cv=none; b=K1pFnYtoAhBDfcIlBl89+/5iRLgdiHgwx7P4/N+SyyynGO3c8TwUQGuv5CPo7CuIlrKPteGHLmFIdLXBkXq/OdWk0LLHdul2Lv4hGgfpZuW+OFGZTOgGFRc3HdCDwj8M7VcMhWcemAZEmw5g6pnCxPvGmqCfAscccKAav03ss1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731407769; c=relaxed/simple;
-	bh=Ja4POKk5WcUW9q+HbkxBJF753EhM3kQ/XNrIxY2J64A=;
+	s=arc-20240116; t=1731407807; c=relaxed/simple;
+	bh=hUbS/ZJ6YPF2GQ/J2PZx9O/TNmMSuETAVHSQTSDP0Ac=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GeEyHk02mVjzDQD5hIrvxa+ukHRTeu5afhqqILzhiHk0a/5oaNsKOBB7gbgpGvHXRnNPR7R+MZsqnWG2Jq9zpvzzEEZSuvEJ/bwf4nSXKjwiejtIEXZpGrAVOMPW/5U/zzJAvOcAkQSldg19XvCzmNIyoly9BYHfYUAnvxGSOq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HHOznfuB; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=uLdzv99ZIu0VLWZIsyDrT4Ow4MU/zkft7fd9iT99kkWsZS8TPgkoyHLziXxN125tqKWthR7LBqxFJpsnaXXtesuyQclFyeGGAJs/KXuTt430EAbJsMrSVGMUK9d9d1ZbYvj6OE0HNBF9szx6WTBjvROZwWALKYw8TDfc0dHLHEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dEgtbRK+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HHOznfuB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 322EFC4CED6;
-	Tue, 12 Nov 2024 10:36:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dEgtbRK+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE54EC4CED4;
+	Tue, 12 Nov 2024 10:36:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731407769;
-	bh=Ja4POKk5WcUW9q+HbkxBJF753EhM3kQ/XNrIxY2J64A=;
+	s=k20201202; t=1731407807;
+	bh=hUbS/ZJ6YPF2GQ/J2PZx9O/TNmMSuETAVHSQTSDP0Ac=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HHOznfuBi3l21PMFSXcXmloVLlTXJIlUNa7mCmSy2PALvTctkEf8Ud3ivuO2LCduq
-	 CxsknAhWVtdU5EmjxUOXBkLYMSEhmHA/ajCSRJ5SSrQ+bCigzqZNEo1YR94t+YYFY+
-	 ujBHqBRHpoHA2x9wmj7YowcwCKFh6he7kx/02EJZS773te6BZR8nk6iW+RebiG1g3C
-	 uYeAikohjDa3zEIjc457HNk4/3KWeTQs70R3xLFdvqBPJRddMpkzs6EgBJM6ab7IG8
-	 APyGs2eVtQpS1JYsb3eBR0hMNifxe5vAfB2Y1Xi8M0QiANTw19R+TJax98haVGnhQL
-	 4jKv92TZy2STQ==
+	b=dEgtbRK+PdcO7US83LifW/8L57tLy1LeXxuKxhxvcMpNgRg5yKldqdons/4FNh3Nu
+	 afgzj5slCXwleXKnYl+4EzYyNbvOk0e2zp5In/XuaqdoGi7YsxTGGqWKKyPzQ1Q5tO
+	 JUgj5tcZwA10j8PlSvc5KKH1QVzAkwer6UVV0fIp2K829bROUCHaBI1f83ZcJcEN7e
+	 0tvi8bq//+0D0t5qdoSlkN76WZaO9tb33bvHfKt+cZjoSO6yuskUN0g+7my4fwIZM5
+	 43yaFmzzif/opmw7RBBd5WNoKthNLNqhM1PqhNOZT0EiJH4m8nFxGU9nW+xk2PF+ww
+	 EU6K/fxjF9KgA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -35,12 +35,12 @@ Cc: Cristian Marussi <cristian.marussi@arm.com>,
 	Sasha Levin <sashal@kernel.org>,
 	arm-scmi@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.11 02/16] firmware: arm_scmi: Reject clear channel request on A2P
-Date: Tue, 12 Nov 2024 05:35:44 -0500
-Message-ID: <20241112103605.1652910-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 02/15] firmware: arm_scmi: Reject clear channel request on A2P
+Date: Tue, 12 Nov 2024 05:36:23 -0500
+Message-ID: <20241112103643.1653381-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241112103605.1652910-1-sashal@kernel.org>
-References: <20241112103605.1652910-1-sashal@kernel.org>
+In-Reply-To: <20241112103643.1653381-1-sashal@kernel.org>
+References: <20241112103643.1653381-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -49,7 +49,7 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.11.7
+X-stable-base: Linux 6.6.60
 Content-Transfer-Encoding: 8bit
 
 From: Cristian Marussi <cristian.marussi@arm.com>
@@ -74,7 +74,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 8 insertions(+)
 
 diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-index 4b8c5250cdb57..cd30499b2555f 100644
+index 00b165d1f502d..039f686f4580d 100644
 --- a/drivers/firmware/arm_scmi/common.h
 +++ b/drivers/firmware/arm_scmi/common.h
 @@ -163,6 +163,7 @@ void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id);
@@ -94,10 +94,10 @@ index 4b8c5250cdb57..cd30499b2555f 100644
  	struct scmi_handle *handle;
  	bool no_completion_irq;
 diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index dc09f2d755f41..80b44bd1a3f3e 100644
+index 3962683e2af9d..efa9698c876a0 100644
 --- a/drivers/firmware/arm_scmi/driver.c
 +++ b/drivers/firmware/arm_scmi/driver.c
-@@ -1034,6 +1034,11 @@ static inline void scmi_xfer_command_release(struct scmi_info *info,
+@@ -855,6 +855,11 @@ static inline void scmi_xfer_command_release(struct scmi_info *info,
  static inline void scmi_clear_channel(struct scmi_info *info,
  				      struct scmi_chan_info *cinfo)
  {
@@ -109,7 +109,7 @@ index dc09f2d755f41..80b44bd1a3f3e 100644
  	if (info->desc->ops->clear_channel)
  		info->desc->ops->clear_channel(cinfo);
  }
-@@ -2614,6 +2619,7 @@ static int scmi_chan_setup(struct scmi_info *info, struct device_node *of_node,
+@@ -2319,6 +2324,7 @@ static int scmi_chan_setup(struct scmi_info *info, struct device_node *of_node,
  	if (!cinfo)
  		return -ENOMEM;
  
