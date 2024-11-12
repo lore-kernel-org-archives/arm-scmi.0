@@ -1,98 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653FF23098C;
-	Tue, 12 Nov 2024 11:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C3F2040AD
+	for <arm-scmi@vger.kernel.org>; Tue, 12 Nov 2024 15:57:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731411575; cv=none; b=SicAf4fd6Kbx8vKS5ZzFHvSi0ovq7PB3oW/r/mNJ+INLAi8fT7/pmq7Eo/1RJo4ij765nG7OOQhMblGGTO2A9xQuQpWv11OYdryNV7iDeXLQK49Z8wMMdYxWvZHjKD0AQ2LwAihsH2xj+bBNZm7Z85d7Yw134ciqIXbeMAcnak8=
+	t=1731427025; cv=none; b=mfxy3q9FKqKzxRj+mOBez5JNqUQzwA32fxwgBWH9B43jVAOC61eyUcYCeRyhlRZtr3zaHW39nNPRpD5CitPCSrsbhr0QhdNrT3n6xfToc9OZNYQxo/EFkUV5LlU+M1Okq5w65bsgnPVLUYwxBDVXxqEbukdUR0qC7A8Ilq5gMyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731411575; c=relaxed/simple;
-	bh=LG7RZyrQQCMMftiyBGThQS+gGDQCRxNRxi5jzF0rtMU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=brWwCOwjCsznjZNN8YVHfqjz2OwY0fjMUb+i5tlRk/6ggcuH+fOLpj6CicYXSatqe1s8Yh3p+VY0wp2AMq2t62hV1RMaIp8UEWs7GsaDm8vLBbHO2WqIxQq/usCRGpBRnHmbDHX7VhyAc47O2jO/usl8DfNODsOPi2XuvsLO5Fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=vknOjlpo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731427025; c=relaxed/simple;
+	bh=VAA1g9rl5BaF/kPLFoBaEIyM0NZnhRw8AObDrZkEUk8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mVQOkkcEs0v1agwWKtLD6M7t2TBwcr3A3ogiiq96jXcSLKYAgLAHTu0hvOfsa1h+o7aad4jzbiIyWrv0eKjXsoOTGYcZTGm6RCs50nBVQu54NJwzYWxF1WrwI938QPnET3YAATb2ERL1nU2KIOuW0yY4aDFmCjVsKf02XKZ3Q6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TWVGjLo4; arc=none smtp.client-ip=209.85.219.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vknOjlpo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6627CC4CECD;
-	Tue, 12 Nov 2024 11:39:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1731411575;
-	bh=LG7RZyrQQCMMftiyBGThQS+gGDQCRxNRxi5jzF0rtMU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vknOjlpo6yb1Vp6IvyGWB9fU+5x7MozaZPEx5An53FahQpTAnNO5K4ounXAy8oTiB
-	 TMyhmIa3vhWYr8Y70CpG7AqAsJ6Muua1r2mtSVbGPeuPR0Yb5JXd60v2VL3pSHRStQ
-	 uWb9VIFmeHvu95V7xCVSAH9p70B6Adjzvh7A37xU=
-Date: Tue, 12 Nov 2024 12:39:32 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Gabriel Somlo <somlo@cmu.edu>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jay Buddhabhatti <jay.buddhabhatti@amd.com>,
-	Ronak Jain <ronak.jain@amd.com>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-	Praveen Teja Kundanala <praveen.teja.kundanala@amd.com>,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	imx@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, qemu-devel@nongnu.org,
-	linux-rpi-kernel@lists.infradead.org
-Subject: Re: [PATCH] firmware: Switch back to struct platform_driver::remove()
-Message-ID: <2024111223-gizzard-scabby-eb98@gregkh>
-References: <36974feb6035201d53384557259ec72fe311053b.1731397962.git.u.kleine-koenig@baylibre.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TWVGjLo4"
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e30d212b6b1so5434873276.0
+        for <arm-scmi@vger.kernel.org>; Tue, 12 Nov 2024 07:57:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731427022; x=1732031822; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=LvLeNnoi9Q/2tIEpsYYZ7QLjjHPm2C2yqmvXawnq7e4=;
+        b=TWVGjLo437KtZ1N0ot1zyu62Sx8PpjHsiGo+8LrlwBzdvuaPjwkwn55aFkeTNWfMdo
+         nbyfMEGrnsX60ddYxvqJKEppHssAh2UGoGgxUd1P3YE3qHgwTidc58bZi1BRaUb4RS9h
+         WAWsZ/58I8+wM9xhwpVg+aCbyDBUylz+tr4MUugA4sIo/XwMlGH8t5aw6y8V3gY8AubF
+         F3wZ7eeV+TUcVP+uJ8fP7eWBxXXoCTmVn0dDfnJUd+bqPnWAohQxwJVXw+r7kbY+Occ3
+         ngNlmMr+dZa/foW8TqfyH6w9PFpGrOapgn/mMOtv9zTvLdR2y3OncvXOyr+zF4OQyfVw
+         eO5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731427022; x=1732031822;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LvLeNnoi9Q/2tIEpsYYZ7QLjjHPm2C2yqmvXawnq7e4=;
+        b=OEmUEUJfdevqaTHDTJxCe0KC1d/QfZNIQIuJBIjz41RPTgLMdgatXqtSLK0WnP/yQS
+         ckwG9tQIEGntu3n3jhIKzlpuX2n4mgfF3vxoog/Cejjt5suUaOO6MW2D9JJAUpL92svS
+         ClHKiwtVPgu4vxuRaP9F4qGcR2FF2qZyoaZfJSmdI+0wV3aGD7IDjDFPmlZWbeYfXDr9
+         kD5wyLE4YGn9aIdD1K37yg9gUoGHqyhSaksTP2qRSNXe3J+ygU33qp2jyiiNWaMW2NzM
+         7ABxEV5Nz4ptKE55IbirWGNK7jt4kEHXVXMZzreSnYkN2WnFoPLxNoNNxArWVY5scoHr
+         40JA==
+X-Forwarded-Encrypted: i=1; AJvYcCWattGxlYyuFjrQwR6UEcmv98fzpM5qalMESFjWvYZF69z6Ib0Jiwp8UhfzZTZRpf+DecjJd2p7Qw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YykgylAfl2dIRRcb+gHdgPl+a/dW4EHkzR6oiiq/pctcVd4IhVJ
+	PWoE0OOJ4FOHnVy2n9HwojuROX5CWAaHcefUB3cgDfZw4xw2UznzBtnPwArGKOBDfU2luOGP+AR
+	3dkOzVw/gP1vMdIvLJKWMeibSGVDFJyPc/QdS1g==
+X-Google-Smtp-Source: AGHT+IH5CCJQlrbtWhzwNwEuVmBy3c+bpgonBaiqCiIcyBRut8a95C/Hq3VyL3SXBBf4iw9gPiN+f3nxmL1sUxWUun4=
+X-Received: by 2002:a05:690c:c96:b0:6ea:85ee:b5d4 with SMTP id
+ 00721157ae682-6eaddd86d12mr164461237b3.6.1731427022576; Tue, 12 Nov 2024
+ 07:57:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <36974feb6035201d53384557259ec72fe311053b.1731397962.git.u.kleine-koenig@baylibre.com>
+References: <20241030125512.2884761-1-quic_sibis@quicinc.com>
+ <CAPDyKFoY8CnxF7JXzkT9_WXyM-TJhW4kmTw=H8NEzch32N1_7Q@mail.gmail.com>
+ <ZyJeuVIbWkohymW5@pluto> <20241106071215.jhnzcn4vkdfr3peg@bogus>
+In-Reply-To: <20241106071215.jhnzcn4vkdfr3peg@bogus>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 12 Nov 2024 16:56:26 +0100
+Message-ID: <CAPDyKFr-pmXEhgUgCapzQX3Hn_UAM632TaG8SdkQXaCn5-y42g@mail.gmail.com>
+Subject: Re: [PATCH V5 0/6] firmware: arm_scmi: Misc Fixes
+To: Sudeep Holla <sudeep.holla@arm.com>, Sibi Sankar <quic_sibis@quicinc.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, johan@kernel.org, jassisinghbrar@gmail.com, 
+	dmitry.baryshkov@linaro.org, linux-kernel@vger.kernel.org, 
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, konradybcio@kernel.org, 
+	linux-pm@vger.kernel.org, tstrudel@google.com, rafael@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Nov 12, 2024 at 09:35:20AM +0100, Uwe Kleine-König wrote:
-> After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
-> return void") .remove() is (again) the right callback to implement for
-> platform drivers.
-> 
-> Convert all platform drivers below drivers/firmware to use .remove(),
-> with the eventual goal to drop struct platform_driver::remove_new(). As
-> .remove() and .remove_new() have the same prototypes, conversion is done
-> by just changing the structure member name in the driver initializer.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
-> ---
-> Hello,
-> 
-> I did a single patch for all of drivers/firmware. While I usually prefer
-> to do one logical change per patch, this seems to be overengineering
-> here as the individual changes are really trivial and shouldn't be much
-> in the way for stable backports.
-> 
-> There is no dedicated maintainer for drivers/firmware, maybe Sudeep as
-> biggest committer there can take it? Or would it be sensible to split
-> this patch?
+On Wed, 6 Nov 2024 at 08:12, Sudeep Holla <sudeep.holla@arm.com> wrote:
+>
+> On Wed, Oct 30, 2024 at 04:28:41PM +0000, Cristian Marussi wrote:
+> > On Wed, Oct 30, 2024 at 05:19:39PM +0100, Ulf Hansson wrote:
+> > > On Wed, 30 Oct 2024 at 13:55, Sibi Sankar <quic_sibis@quicinc.com> wrote:
+> > > >
+> > > > The series addresses the kernel warnings reported by Johan at [1] and are
+> > > > are required to X1E cpufreq device tree changes to land.
+> > > >
+> > > > [1] - https://lore.kernel.org/lkml/ZoQjAWse2YxwyRJv@hovoldconsulting.com/
+> > > >
+> > > > Duplicate levels:
+> > > > arm-scmi arm-scmi.0.auto: Level 2976000 Power 218062 Latency 30us Ifreq 2976000 Index 10
+> > > > arm-scmi arm-scmi.0.auto: Level 3206400 Power 264356 Latency 30us Ifreq 3206400 Index 11
+> > > > arm-scmi arm-scmi.0.auto: Level 3417600 Power 314966 Latency 30us Ifreq 3417600 Index 12
+> > > > arm-scmi arm-scmi.0.auto: Failed to add opps_by_lvl at 3417600 for NCC - ret:-16
+> > > > arm-scmi arm-scmi.0.auto: Failed to add opps_by_lvl at 3417600 for NCC - ret:-16
+> > > > arm-scmi arm-scmi.0.auto: Level 4012800 Power 528848 Latency 30us Ifreq 4012800 Index 15
+> > > >
+> > > > ^^ exist because SCP reports duplicate values for the highest sustainable
+> > > > freq for perf domains 1 and 2. These are the only freqs that appear as
+> > > > duplicates and will be fixed with a firmware update. FWIW the warnings
+> > > > that we are addressing in this series will also get fixed by a firmware
+> > > > update but they still have to land for devices already out in the wild.
+> > > >
+> > > > V4:
+> > > > * Rework debugfs node creation patch [Ulf/Dmitry]
+> > > > * Reduce report level to dev_info and tag it with FW_BUG [Johan/Dmitry]
+> > > > * Add cc stable and err logs to patch 1 commit message [Johan]
+> > >
+> > > Patch4 and patch5 applied for fixes to my pmdomain tree - and by
+> > > adding a stable tag to them, thanks!
+> > >
+> > > Potentially I could help to take the other patches too, to keep things
+> > > together, but in that case I need confirmation that's okay to do so.
+> >
+> > SCMI patches in these series are all reviewed (all but one even by Sudeep)
+> > so it is really up to Sudeep preference...(who is travelling now so it could
+> > take a bit to reply)
+>
+> I have added my reviewed by now.
+>
+> > ...moreover I am not sure if the SCMI patches in this
+> > series could end up with wome trivial conflicts against the scmi patches
+> > already queued at
+> >
+> >       sudeep/for-next/scmi/updates
+> >
+> > (at least the perf related ones 2 and 3 probably not)
+> >
+>
+> I did a quick check and no conflicts were observed. Let me know if you need
+> a branch with first 3 patches, but I need to do that today or after Sunday
+> as I will away from my computer for few more days again from tomorrow.
+>
+> Let me know ASAP.
+>
+> --
+> Regards,
+> Sudeep
 
-I'll just take it now, thanks!
+Sorry for the delay. I have picked up the remaining patches from this
+series. All applied for fixes and by adding stable tags to them,
+thanks!
 
-greg k-h
+Kind regards
+Uffe
