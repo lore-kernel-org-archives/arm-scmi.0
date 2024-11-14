@@ -1,390 +1,392 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B053214;
-	Thu, 14 Nov 2024 04:32:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4481F9ED1
+	for <arm-scmi@vger.kernel.org>; Thu, 14 Nov 2024 12:32:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731558780; cv=none; b=PDOqPXyvFEUe4x32DzhzOCRmkibPeRmGMKMO0sxd8CttttcAE52F0lnhCcVNaRV95f9ABsUTbdYBpCBmnIDbQJ+GOpAeiOq40QHke9z+7T7jwQRkLDq9Ys6aJUKYRwspnLdTZwodvkexf+lhK8cAwXw3182nvmDW3BD7PZzyRHw=
+	t=1731587580; cv=none; b=apCeaVZgYVX+HGt3Sf46zLeOlbyJq9ZGVGrbX4p5FGFSUmEzNYSO68VlSBpXgD/xyG+7yxHrxU4tpRyqPGvm/CguhoIaxaEPPVuL4WSewyy2sEDXUkbg8fQNwLJzvQvDuGcWcV3oiDmO7YvOYiiE7ZB8gE2SJNpalHncU7jckN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731558780; c=relaxed/simple;
-	bh=Q+WsITuDK1wPyUGh+qmK4hpxteOMSfbldv0ftRDiwuc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=MIFwy+4pJQi8irp9fJ3vX9YaYJslRRVjGFR4UTvLcpGfIs9kf7b3iMlywAS5xsA+ZC4zhuUtklt2CPTQYKVsfGkPobhIwb08YilTKh6jY+hZCdz9A+NRwe1TnGgGnctfm/5bfjx+PnJVT0AKFCM2av60u4q1/JeQ4DZqBlOWI7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=YXnBkCn7; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1731587580; c=relaxed/simple;
+	bh=7/tIU9o2uD+rnTUcrXFWle2j2spADixTljHDU6DhZm4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Saquk5e/IxOxAyAsrBsOMFu8bzMKPiSJIWp5Nx0rTwrY+A/cKQn0OfuX3JOGxfy2d/nmR3445FRmgNhVbM2X596oPzRHEbw0K1vrXfQJR1y19BpOEzYkF+SI0R0T67ruvrzbq66NzG1LjSrIyPpjGJ7/Vkia9ytsW/K/EupVRec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=u3k9BPvR; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="YXnBkCn7"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ADH1QFH015416;
-	Thu, 14 Nov 2024 04:32:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	yBayVBUAkz7cKc986pdQx+FDAwFxvHZ/cWI5fMaVMIo=; b=YXnBkCn7pdsCyxsJ
-	xUv6F2tG6vmTQcAWhCHBq4QcQUARbIDFc+dztKSoPfw7eM+5XXuKl7EWYasxSzuO
-	FG5SRJTELpv0N6mZbRfyNGSQLFP0GSEo/B4/VTGqX66P/bu2VjLVsnA9pw9/fJZk
-	WVpIGyYXhLgz1nyjM4xMTTw9K/uncNV69lCY6AdS6y/MFI7dYbHFW2Nqoil2ZyOe
-	rc45S34xy6MEvBZU2PjOTub+t/2XHZFRTOhX+uAGEepeUEUJuKz/CX8gEBdmKVw1
-	0uC1XqCwCiUe1/BlvYNaf69+1PPkLw54qtYDR7X2oRsUJHw0rSyDra/vHW8lhdtj
-	4J3srQ==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42vsf32q3n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Nov 2024 04:32:48 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AE4WlWl012211
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Nov 2024 04:32:47 GMT
-Received: from [10.131.33.37] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 13 Nov
- 2024 20:32:42 -0800
-Message-ID: <55fd0c34-c52c-95c5-5cd0-16fd66a4baa2@quicinc.com>
-Date: Thu, 14 Nov 2024 10:02:40 +0530
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="u3k9BPvR"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2ff550d37a6so5787491fa.0
+        for <arm-scmi@vger.kernel.org>; Thu, 14 Nov 2024 04:32:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731587577; x=1732192377; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZVLoP9XVBjH5taL4TpmDze9j1Zqat4TO/x8cVB0wKTk=;
+        b=u3k9BPvRyoy/1EBjyTrvz7ozpoz9qlSXWwhQVb+72GDcd4mQYx7vKXxiOZ6hB67X3R
+         dzSPjOZWXYAxh9vFtO6X9GHXTjmWJY203LNjKXxLILWWTrzABSp3QyXpZLPuv40VSUGc
+         RqksJTRs4vrjpi3q39ymQ+Ws5iRcW4Hndte1OAooS1geZBVw4gasGKZeVawhy0SHPraK
+         UTO1Aft+lru9mjRqAqHuEqYXYqOF6HbPLUHpNqJndh8tcawzyZs5lJglZRz9slk6doHJ
+         5xK2DX4Y90g1Wa6Wat5xNONrLhTReC4EFgK+jaiZ1b8yUxxlKtVeuQMMetyqr1mAsLgI
+         09Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731587577; x=1732192377;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZVLoP9XVBjH5taL4TpmDze9j1Zqat4TO/x8cVB0wKTk=;
+        b=FiCKVKQtaauaBGYHOz/ZoivXWaCI6PAiX7CzIDKdk/XKdkkScI0GYo9eUnribWIcjE
+         VadmKhIL7RNDYeKPzQU+0oRkvZRBd6gC1HagaMfA3CZSge7/RDgYDZwr62qe/lDUst/N
+         63yaNIA3pjokQl535P3zWW66OHIPbYP8c2vmZ3KPnAekfJykIP/vVfAZXnEy1/fZYpLj
+         wFKEZCzBjn5gauMQhdUARbhO3KBWCQAhyPlClOg8QoJthAqDz30icFJwEZkTSiL/GY0u
+         dUCAyYZg3vF1LFtUi+4e6HOvHdNnOhILkr5ghjWbuGG70lCKBJImpUASveOgw8l2iup5
+         3YEw==
+X-Forwarded-Encrypted: i=1; AJvYcCXoRb+TUPUmOK03b/pkrqyXXvHb3YK+BB79JtwK0HZmX9Xf9xdfscFPcbji6QNY8PfFLGrlabK30A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyi0dcsG0FjWjwJBQEsF+mjQfDU+MFY1YYYZPD4FutHEH0X/ohi
+	xz7U7DIhv78sT16SyZKP2WRWf/2KodOxc7CG3gEYdWwHijJ3VONqGt1ZsX+H2sk=
+X-Google-Smtp-Source: AGHT+IH7G+Tz/0L4sqitxAHMiB7SEIXBc17jR80P2FR2ol6AYyOcDIRTQh+Yj4FOWT3Pv1+2j5CZ9A==
+X-Received: by 2002:a05:651c:1589:b0:2fb:5bb8:7c24 with SMTP id 38308e7fff4ca-2ff20152825mr121200501fa.8.1731587576703;
+        Thu, 14 Nov 2024 04:32:56 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ff59764207sm1621871fa.13.2024.11.14.04.32.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Nov 2024 04:32:55 -0800 (PST)
+Date: Thu, 14 Nov 2024 14:32:52 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Sibi Sankar <quic_sibis@quicinc.com>
+Cc: myungjoo.ham@samsung.com, Kyungmin.park@samsung.com, 
+	cw00.choi@samsung.com, Viresh Kumar <viresh.kumar@linaro.org>, sudeep.holla@arm.com, 
+	cristian.marussi@arm.com, andersson@kernel.org, konrad.dybcio@linaro.org, 
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	quic_rgottimu@quicinc.com, quic_kshivnan@quicinc.com, conor+dt@kernel.org, 
+	arm-scmi@vger.kernel.org, Amir Vajid <avajid@quicinc.com>
+Subject: Re: [PATCH V4 4/5] soc: qcom: Introduce SCMI based Memlat (Memory
+ Latency) governor
+Message-ID: <34p27za5hcpubaxjuddsir2vqnqrvwyesnclu2cocvm3yhbv3r@ak7rcnp67gyd>
+References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
+ <20241007061023.1978380-5-quic_sibis@quicinc.com>
+ <2aycrvnvivcrqctqmweadcgenwugafdr6ub3bzkscterpenz32@bzabln2hkral>
+ <29eef87e-96f6-5105-6f7a-a8e01efcb4a3@quicinc.com>
+ <k4lpzxtrq3x6riyv6etxiobn7nbpczf2bp3m4oc752nhjknlit@uo53kbppzim7>
+ <ac655bdc-5ccf-c6c6-3203-659f1916c53c@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH V4 2/5] firmware: arm_scmi: Add QCOM Generic Vendor
- Protocol documentation
-Content-Language: en-US
-To: Cristian Marussi <cristian.marussi@arm.com>
-CC: <sudeep.holla@arm.com>, <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <quic_rgottimu@quicinc.com>, <quic_kshivnan@quicinc.com>,
-        <conor+dt@kernel.org>, <arm-scmi@vger.kernel.org>
-References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
- <20241007061023.1978380-3-quic_sibis@quicinc.com> <Zxd89zenQAzafGpS@pluto>
-From: Sibi Sankar <quic_sibis@quicinc.com>
-In-Reply-To: <Zxd89zenQAzafGpS@pluto>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: Ko2b0q_qKKiVCz_zzQc9CXrY443DBOOD
-X-Proofpoint-GUID: Ko2b0q_qKKiVCz_zzQc9CXrY443DBOOD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
- bulkscore=0 phishscore=0 malwarescore=0 suspectscore=0 priorityscore=1501
- clxscore=1015 mlxscore=0 spamscore=0 lowpriorityscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2411140033
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ac655bdc-5ccf-c6c6-3203-659f1916c53c@quicinc.com>
 
+On Thu, Nov 14, 2024 at 09:43:53AM +0530, Sibi Sankar wrote:
+> 
+> 
+> On 10/26/24 23:46, Dmitry Baryshkov wrote:
+> > On Tue, Oct 22, 2024 at 01:48:25PM +0530, Sibi Sankar wrote:
+> > > 
+> > > 
+> > > On 10/7/24 23:27, Dmitry Baryshkov wrote:
+> > > > On Mon, Oct 07, 2024 at 11:40:22AM GMT, Sibi Sankar wrote:
 
+> > > > 
+> > > > > +};
+> > > > > +
+> > > > > +struct map_param_msg {
+> > > > > +	u32 hw_type;
+> > > > > +	u32 mon_idx;
+> > > > > +	u32 nr_rows;
+> > > > > +	struct map_table tbl[MAX_MAP_ENTRIES];
+> > > > > +} __packed;
+> > > > > +
+> > > > > +struct node_msg {
+> > > > > +	u32 cpumask;
+> > > > > +	u32 hw_type;
+> > > > > +	u32 mon_type;
+> > > > > +	u32 mon_idx;
+> > > > > +	char mon_name[MAX_NAME_LEN];
+> > > > > +};
+> > > > > +
+> > > > > +struct scalar_param_msg {
+> > > > > +	u32 hw_type;
+> > > > > +	u32 mon_idx;
+> > > > > +	u32 val;
+> > > > > +};
+> > > > > +
+> > > > > +enum common_ev_idx {
+> > > > > +	INST_IDX,
+> > > > > +	CYC_IDX,
+> > > > > +	CONST_CYC_IDX,
+> > > > > +	FE_STALL_IDX,
+> > > > > +	BE_STALL_IDX,
+> > > > > +	NUM_COMMON_EVS
+> > > > > +};
+> > > > > +
+> > > > > +enum grp_ev_idx {
+> > > > > +	MISS_IDX,
+> > > > > +	WB_IDX,
+> > > > > +	ACC_IDX,
+> > > > > +	NUM_GRP_EVS
+> > > > > +};
+> > > > > +
+> > > > > +#define EV_CPU_CYCLES		0
+> > > > > +#define EV_INST_RETIRED		2
+> > > > > +#define EV_L2_D_RFILL		5
+> > > > > +
+> > > > > +struct ev_map_msg {
+> > > > > +	u32 num_evs;
+> > > > > +	u32 hw_type;
+> > > > > +	u32 cid[NUM_COMMON_EVS];
+> > > > > +};
+> > > > > +
+> > > > > +struct cpufreq_memfreq_map {
+> > > > > +	unsigned int cpufreq_mhz;
+> > > > > +	unsigned int memfreq_khz;
+> > > > > +};
+> > > > > +
+> > > > > +struct scmi_monitor_info {
+> > > > > +	struct cpufreq_memfreq_map *freq_map;
+> > > > > +	char mon_name[MAX_NAME_LEN];
+> > > > > +	u32 mon_idx;
+> > > > > +	u32 mon_type;
+> > > > > +	u32 ipm_ceil;
+> > > > > +	u32 mask;
+> > > > > +	u32 freq_map_len;
+> > > > > +};
+> > > > > +
+> > > > > +struct scmi_memory_info {
+> > > > > +	struct scmi_monitor_info *monitor[MAX_MONITOR_CNT];
+> > > > > +	u32 hw_type;
+> > > > > +	int monitor_cnt;
+> > > > > +	u32 min_freq;
+> > > > > +	u32 max_freq;
+> > > > > +};
+> > > > > +
+> > > > > +struct scmi_memlat_info {
+> > > > > +	struct scmi_protocol_handle *ph;
+> > > > > +	const struct qcom_generic_ext_ops *ops;
+> > > > > +	struct scmi_memory_info *memory[MAX_MEMORY_TYPES];
+> > > > > +	u32 cluster_info[NR_CPUS];
+> > > > > +	int memory_cnt;
+> > > > > +};
+> > > > > +
+> > > > > +static int populate_cluster_info(u32 *cluster_info)
+> > > > > +{
+> > > > > +	char name[MAX_NAME_LEN];
+> > > > > +	int i = 0;
+> > > > > +
+> > > > > +	struct device_node *cn __free(device_node) = of_find_node_by_path("/cpus");
+> > > > > +	if (!cn)
+> > > > > +		return -ENODEV;
+> > > > > +
+> > > > > +	struct device_node *map __free(device_node) = of_get_child_by_name(cn, "cpu-map");
+> > > > > +	if (!map)
+> > > > > +		return -ENODEV;
+> > > > > +
+> > > > > +	do {
+> > > > > +		snprintf(name, sizeof(name), "cluster%d", i);
+> > > > > +		struct device_node *c __free(device_node) = of_get_child_by_name(map, name);
+> > > > > +		if (!c)
+> > > > > +			break;
+> > > > > +
+> > > > > +		*(cluster_info + i) = of_get_child_count(c);
+> > > > > +		i++;
+> > > > > +	} while (1);
+> > > > 
+> > > > Can you use existing API from drivers/base/arch_topology.c? If not, can
+> > > > it be extended to support your usecase?
+> > > 
+> > > ack. But I'm pretty sure it's going to take a while for reaching such
+> > > an agreement so I'll drop this feature during the next re-spin.
+> > 
+> > Why? What kind of API do you actually need? The arch_topology.c simply
+> > exports a table of struct cpu_topology. Is it somehow different from
+> > what you are parsing manually?
+> 
+> yup, we had to figure out the physical id of the cpu
+> since cpus can be disabled by the bootloader using
+> status = "failed" property and we have to pass this
+> onto the cpucp memlat algorithm.
 
-On 10/22/24 15:52, Cristian Marussi wrote:
-> On Mon, Oct 07, 2024 at 11:40:20AM +0530, Sibi Sankar wrote:
->> Add QCOM System Control Management Interface (SCMI) Generic Vendor
->> Extensions Protocol documentation.
->>
-> 
-> Hi Sibi,
-> 
-> a few remarks down below.
-> 
->> Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
->> ---
->>   .../arm_scmi/vendors/qcom/qcom_generic.rst    | 210 ++++++++++++++++++
->>   1 file changed, 210 insertions(+)
->>   create mode 100644 drivers/firmware/arm_scmi/vendors/qcom/qcom_generic.rst
->>
->> diff --git a/drivers/firmware/arm_scmi/vendors/qcom/qcom_generic.rst b/drivers/firmware/arm_scmi/vendors/qcom/qcom_generic.rst
->> new file mode 100644
->> index 000000000000..1ee6dabaac23
->> --- /dev/null
->> +++ b/drivers/firmware/arm_scmi/vendors/qcom/qcom_generic.rst
->> @@ -0,0 +1,210 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +.. include:: <isonum.txt>
->> +
->> +===============================================================================
->> +QCOM System Control and Management Interface(SCMI) Vendor Protocols Extension
->> +===============================================================================
->> +
->> +:Copyright: |copy| 2024, Qualcomm Innovation Center, Inc. All rights reserved.
->> +
->> +:Author: Sibi Sankar <quic_sibis@quicinc.com>
->> +
->> +SCMI_GENERIC: System Control and Management Interface QCOM Generic Vendor Protocol
->> +==================================================================================
->> +
->> +This protocol is intended as a generic way of exposing a number of Qualcomm
->> +SoC specific features through a mixture of pre-determined algorithm string and
->> +param_id pairs hosted on the SCMI controller. It implements an interface compliant
->> +with the Arm SCMI Specification with additional vendor specific commands as
->> +detailed below.
->> +
->> +Commands:
->> +_________
->> +
->> +PROTOCOL_VERSION
->> +~~~~~~~~~~~~~~~~
->> +
->> +message_id: 0x0
->> +protocol_id: 0x80
->> +
->> ++---------------+--------------------------------------------------------------+
->> +|Return values                                                                 |
->> ++---------------+--------------------------------------------------------------+
->> +|Name           |Description                                                   |
->> ++---------------+--------------------------------------------------------------+
->> +|int32 status   |See ARM SCMI Specification for status code definitions.       |
->> ++---------------+--------------------------------------------------------------+
->> +|uint32 version |For this revision of the specification, this value must be    |
->> +|               |0x10000.                                                      |
->> ++---------------+--------------------------------------------------------------+
->> +
->> +PROTOCOL_ATTRIBUTES
->> +~~~~~~~~~~~~~~~~~~~
->> +
->> +message_id: 0x1
->> +protocol_id: 0x80
->> +
->> ++---------------+--------------------------------------------------------------+
->> +|Return values                                                                 |
->> ++------------------+-----------------------------------------------------------+
->> +|Name              |Description                                                |
->> ++------------------+-----------------------------------------------------------+
->> +|int32 status      |See ARM SCMI Specification for status code definitions.    |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 attributes |Bits[8] Set to 1.                                          |
->> +|                  |Bits[0] Set to 1.                                          |
->> ++------------------+-----------------------------------------------------------+
-> 
-> Mmmm, this does not explain so much what are those bits and what values
-> they can indeed assume :P ...
-
-lol, after a lot of rooting around figured out they
-return the number of vendor protocols available in
-the system :/
-
-Not really sure if it's adding any useful info.
-
-> 
->> +
->> +PROTOCOL_MESSAGE_ATTRIBUTES
->> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +message_id: 0x2
->> +protocol_id: 0x80
->> +
->> ++---------------+--------------------------------------------------------------+
->> +|Return values                                                                 |
->> ++------------------+-----------------------------------------------------------+
->> +|Name              |Description                                                |
->> ++------------------+-----------------------------------------------------------+
->> +|int32 status      |See ARM SCMI Specification for status code definitions.    |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 attributes |For all message id's the parameter has a value of 0.       |
->> ++------------------+-----------------------------------------------------------+
->> +
->> +QCOM_SCMI_SET_PARAM
->> +~~~~~~~~~~~~~~~~~~~
->> +
->> +message_id: 0x10
->> +protocol_id: 0x80
->> +
->> ++------------------+-----------------------------------------------------------+
->> +|Parameters                                                                    |
->> ++------------------+-----------------------------------------------------------+
->> +|Name              |Description                                                |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 ext_id     |Reserved, must be zero.                                    |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 algo_low   |Lower 32-bit value of the algorithm string.                |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 algo_high  |Upper 32-bit value of the algorithm string.                |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 param_id   |Serves as the token message id for the algorithm string    |
->> +|                  |and is used to set various parameters supported by it.     |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 buf[]      |Serves as the payload for the specified param_id and       |
->> +|                  |algorithm string pair.                                     |
->> ++------------------+-----------------------------------------------------------+
-> 
-> And what abot the size of this payload ? .. so you are relying on the
-> fact that the transport will add the total message length at that layer
-> and so the server can determine where the valid payload ends...
-> 
-> ...it means the server will have some expectations about the payload length
-> based on the param_id and will check against the received transport-advertised
-> message-length, am I right ?
-> 
-> ...BUT what if you end up with multiple versions of this protocol in the future,
-> with varying payload lengths for the same param_id...REMEMEBER that the server
-> cannot know which version of a protocol the client is running (while the client
-> can see what the server runs) UNLESS you implement also NEGOTIATE_PROTOCOL_VERSION
-> for this protocol...
-> 
-> ...so without an explicit length nor the NEGOTIATE_PROTOCOL_VERSION you wont be
-> able in the future, server-side, to be sure if you are assumnig the right payload
-> length for the right version that the client is speaking...so at the end you
-> wont be able to support multiple versions of the protocol even if the Kernel
-> can support all of those versions...do you see what I mean ?
-> 
-> I think that would be advisable to implement NEGOTIATE_PROTOCOL_VERSION
-> if you dont want to carry an explicit size in the message for this payload...
-> 
-> ...or am I missing something ?
-
-ack makes sense but we planned to make sure that the sub-strings
-used maintain abi for all their messages but like you said having
-way to negotiate protocol version will be nice to have. Will make
-sure something along the lines get implemented with the next major
-version upgrade.
-
--Sibi
+Isn't it equal to the index in the cpu_topology table?
 
 > 
->> +|Return values                                                                 |
->> ++------------------+-----------------------------------------------------------+
->> +|Name              |Description                                                |
->> ++------------------+-----------------------------------------------------------+
->> +|int32 status      |SUCCESS: if the param_id and buf[] is parsed successfully  |
->> +|                  |by the chosen algorithm string.                            |
->> +|                  |NOT_SUPPORTED: if the algorithm string does not have any   |
->> +|                  |matches.                                                   |
->> +|                  |INVALID_PARAMETERS: if the param_id and the buf[] passed   |
->> +|                  |is rejected by the algorithm string.                       |
->> ++------------------+-----------------------------------------------------------+
->> +
->> +QCOM_SCMI_GET_PARAM
->> +~~~~~~~~~~~~~~~~~~~
->> +
->> +message_id: 0x11
->> +protocol_id: 0x80
->> +
->> ++------------------+-----------------------------------------------------------+
->> +|Parameters                                                                    |
->> ++------------------+-----------------------------------------------------------+
->> +|Name              |Description                                                |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 ext_id     |Reserved, must be zero.                                    |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 algo_low   |Lower 32-bit value of the algorithm string.                |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 algo_high  |Upper 32-bit value of the algorithm string.                |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 param_id   |Serves as the token message id for the algorithm string.   |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 buf[]      |Serves as the payload and store of value for the specified |
->> +|                  |param_id and algorithm string pair.                        |
->> ++------------------+-----------------------------------------------------------+
->> +|Return values                                                                 |
->> ++------------------+-----------------------------------------------------------+
->> +|Name              |Description                                                |
->> ++------------------+-----------------------------------------------------------+
->> +|int32 status      |SUCCESS: if the param_id and buf[] is parsed successfully  |
->> +|                  |by the chosen algorithm string and the result is copied    |
->> +|                  |into buf[].                                                |
->> +|                  |NOT_SUPPORTED: if the algorithm string does not have any   |
->> +|                  |matches.                                                   |
->> +|                  |INVALID_PARAMETERS: if the param_id and the buf[] passed   |
->> +|                  |is rejected by the algorithm string.                       |
->> ++------------------+-----------------------------------------------------------+
+> > 
+> > > 
+> > > > 
+> > > > > +
+> > > > > +	return 0;
+> > > > > +}
+> > > > > +
+> > > > > +static void populate_physical_mask(struct device_node *np, u32 *mask, u32 *cluster_info)
+> > > > > +{
+> > > > > +	struct device_node *dev_phandle __free(device_node);
+> > > > > +	int cpu, i = 0, physical_id;
+> > > > > +
+> > > > > +	do {
+> > > > > +		dev_phandle = of_parse_phandle(np, "cpus", i++);
+> > > > > +		cpu = of_cpu_node_to_id(dev_phandle);
+> > > > > +		if (cpu != -ENODEV) {
+> > > > > +			physical_id = topology_core_id(cpu);
+> > > > > +			for (int j = 0; j < topology_cluster_id(cpu); j++)
+> > > > > +				physical_id += *(cluster_info + j);
+> > > > > +			*mask |= BIT(physical_id);
+> > > > > +		}
+> > > > > +	} while (dev_phandle);
+> > > > > +}
+> > > > > +
+> > > > > +static struct cpufreq_memfreq_map *init_cpufreq_memfreq_map(struct device *dev,
+> > > > > +							    struct scmi_memory_info *memory,
+> > > > > +							    struct device_node *of_node,
+> > > > > +							    u32 *cnt)
+> > > > > +{
+> > > > > +	struct device_node *tbl_np __free(device_node), *opp_np __free(device_node);
+> > > > > +	struct cpufreq_memfreq_map *tbl;
+> > > > > +	int ret, i = 0;
+> > > > > +	u32 level, len;
+> > > > > +	u64 rate;
+> > > > > +
+> > > > > +	tbl_np = of_parse_phandle(of_node, "operating-points-v2", 0);
+> > > > 
+> > > > Please use existing API to parse OPP tables or document a reason why it
+> > > > can't be used.
+> > > 
+> > > Thanks, I had them documented as opens in the coverletter. Dropped them
+> > > since no one had any comments on it during V3. Will add them as comments
+> > > to this driver instead.
+> > > 
+> > > https://lore.kernel.org/lkml/20240702191440.2161623-1-quic_sibis@quicinc.com/
+> > > 
+> > > re-copying things again:
+> > > opp-tables are used but they don't get to be added to the scmi device
+> > > (thus we rely on a lot of manual parsing) because the memlat client driver
+> > > doesn't vote on these resources clocks/interconnects/power-domain
+> > > from the kernel and some of the resources aren't modeled in the first
+> > > place like DDR_QOS.
+> > 
+> > As discussed offline, please consider extending the OPP to be able to
+> > get the struct opp_table for the particular phandle. Another option
+> > might be to change the memlat driver by having a separate device for
+> > each monitor. This way you can use existing API to parse OPP tables and
+> > to get necessary data from those tables.
 > 
-> Similarly, no payload length means you will have to code some builtin
-> check to verify the length of the message that you have received against
-> the specific version that the server is running...this is NOT so
-> problematic here as in the _SET above since the client/agent DOES know which
-> protocol version the server is running...
+> + Viresh
 > 
-> ...it is a bit odd, but indeed similar to other variable sized SCMI messages in
-> standard protocols that sports optional fields in the reply, for which, similarly
-> you have to check the version of the protocol to desume the size of the message
-> based on the presence or not of some fields...
+> Spoke with Viresh offline and he had stricter requirements
+> than what you proposed. He definitely wanted the opp-tables
+> to be assoiciated with devices at the very least and have
+> all opp parsing logic within the opp-framework. Given that
+> we have to model all these dummy devices just to add the
+> tables I'll re-check the feasibility of movign the tables
+> into the driver itself. Will move the patch series back
+> into RFC and re-post just the vendor protocol since that's
+> close to merge
+
+I don't think it's sensible to move the tables to the driver. Instead
+adding a device per monitor sounds like a better idea.
+
+> > > > > +	if (!tbl_np)
+> > > > > +		return ERR_PTR(-ENODEV);
+> > > > > +
+> > > > > +	len = min(of_get_available_child_count(tbl_np), MAX_MAP_ENTRIES);
+> > > > > +	if (len == 0)
+> > > > > +		return ERR_PTR(-ENODEV);
+> > > > > +
+> > > > > +	tbl = devm_kzalloc(dev, (len + 1) * sizeof(struct cpufreq_memfreq_map),
+> > > > > +			   GFP_KERNEL);
+> > > > > +	if (!tbl)
+> > > > > +		return ERR_PTR(-ENOMEM);
+> > > > > +
+> > > > > +	for_each_available_child_of_node(tbl_np, opp_np) {
+> > > > > +		ret = of_property_read_u64_index(opp_np, "opp-hz", 0, &rate);
+> > > > > +		if (ret < 0)
+> > > > > +			return ERR_PTR(ret);
+> > > > > +
+> > > > > +		tbl[i].cpufreq_mhz = rate / HZ_PER_MHZ;
+> > > > > +
+> > > > > +		if (memory->hw_type != QCOM_MEM_TYPE_DDR_QOS) {
+> > > > > +			ret = of_property_read_u64_index(opp_np, "opp-hz", 1, &rate);
+> > > > > +			if (ret < 0)
+> > > > > +				return ERR_PTR(ret);
+> > > > > +
+> > > > > +			tbl[i].memfreq_khz = rate / HZ_PER_KHZ;
+> > > > > +		} else {
+> > > > > +			ret = of_property_read_u32(opp_np, "opp-level", &level);
+> > > > > +			if (ret < 0)
+> > > > > +				return ERR_PTR(ret);
+> > > > > +
+> > > > > +			tbl[i].memfreq_khz = level;
+> > > > > +		}
+> > > > > +
+> > > > > +		dev_dbg(dev, "Entry%d CPU:%u, Mem:%u\n", i, tbl[i].cpufreq_mhz, tbl[i].memfreq_khz);
+> > > > > +		i++;
+> > > > > +	}
+> > > > > +	*cnt = len;
+> > > > > +
+> > > > > +	return tbl;
+> > > > > +}
+> > > > > +
+> > > > > +static int process_scmi_memlat_of_node(struct scmi_device *sdev, struct scmi_memlat_info *info)
+> > > > > +{
+> > > > > +	struct scmi_monitor_info *monitor;
+> > > > > +	struct scmi_memory_info *memory;
+> > > > > +	char name[MAX_NAME_LEN];
+> > > > > +	u64 memfreq[2];
+> > > > > +	int ret;
+> > > > > +
+> > > > > +	ret = populate_cluster_info(info->cluster_info);
+> > > > > +	if (ret < 0) {
+> > > > > +		dev_err_probe(&sdev->dev, ret, "failed to populate cluster info\n");
+> > > > > +		goto err;
+> > > > > +	}
+> > > > > +
+> > > > > +	of_node_get(sdev->dev.of_node);
+> > > > > +	do {
+> > > > > +		snprintf(name, sizeof(name), "memory-%d", info->memory_cnt);
+> > > > > +		struct device_node *memory_np __free(device_node) =
+> > > > > +			of_find_node_by_name(sdev->dev.of_node, name);
+> > > > > +
+> > > > > +		if (!memory_np)
+> > > > > +			break;
+> > > > > +
+> > > > > +		if (info->memory_cnt >= MAX_MEMORY_TYPES)
+> > > > > +			return dev_err_probe(&sdev->dev, -EINVAL,
+> > > > > +					     "failed to parse unsupported memory type\n");
+> > > > > +
+> > > > > +		memory = devm_kzalloc(&sdev->dev, sizeof(*memory), GFP_KERNEL);
+> > > > > +		if (!memory) {
+> > > > > +			ret = -ENOMEM;
+> > > > > +			goto err;
+> > > > > +		}
+> > > > > +
+> > > > > +		ret = of_property_read_u32(memory_np, "qcom,memory-type", &memory->hw_type);
+> > > > > +		if (ret) {
+> > > > > +			dev_err_probe(&sdev->dev, ret, "failed to read memory type\n");
+> > > > > +			goto err;
+> > > > > +		}
+> > > > > +
+> > > > > +		ret = of_property_read_u64_array(memory_np, "freq-table-hz", memfreq, 2);
+> > > > > +		if (ret && (ret != -EINVAL)) {
+> > > > > +			dev_err_probe(&sdev->dev, ret, "failed to read min/max freq\n");
+> > > > > +			goto err;
+> > > > > +		}
+> > > > 
+> > > > Can we get this information from the OPP table instead?
+> > > 
+> > > we don't list all the available ddr/llcc freqs in the opp-table
+> > > so that we can keep the table constant across platforms.
+> > 
+> > NO. Use opp-supported-hw to limit data to a particular platform. There
+> > is no reason to keep min/max out of the OPP table.
 > 
->> +
->> +QCOM_SCMI_START_ACTIVITY
->> +~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +message_id: 0x12
->> +protocol_id: 0x80
->> +
->> ++------------------+-----------------------------------------------------------+
->> +|Parameters                                                                    |
->> ++------------------+-----------------------------------------------------------+
->> +|Name              |Description                                                |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 ext_id     |Reserved, must be zero.                                    |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 algo_low   |Lower 32-bit value of the algorithm string.                |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 algo_high  |Upper 32-bit value of the algorithm string.                |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 param_id   |Serves as the token message id for the algorithm string    |
->> +|                  |and is generally used to start the activity performed by   |
->> +|                  |the algorithm string.                                      |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 buf[]      |Serves as the payload for the specified param_id and       |
->> +|                  |algorithm string pair.                                     |
->> ++------------------+-----------------------------------------------------------+
->> +|Return values                                                                 |
->> ++------------------+-----------------------------------------------------------+
->> +|Name              |Description                                                |
->> ++------------------+-----------------------------------------------------------+
->> +|int32 status      |SUCCESS: if the activity performed by the algorithm string |
->> +|                  |starts successfully.                                       |
->> +|                  |NOT_SUPPORTED: if the algorithm string does not have any.  |
->> +|                  |matches or if the activity is already running.             |
->> ++------------------+-----------------------------------------------------------+
->> +
-> 
-> Same consideration as above...being a SET-like operation with a variable
-> sized field in the request AND no explicit payload length, you will have
-> to derive the size from the message length BUT since you doint even have
-> implemented NEGOTIATE_PROTOCOL_VERSION in the future any kind of check
-> will become impossibe server side if you will have multiple protocols
-> with varying sizes for buf depending on the protocol version
-> 
->> +QCOM_SCMI_STOP_ACTIVITY
->> +~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +message_id: 0x13
->> +protocol_id: 0x80
->> +
->> ++------------------+-----------------------------------------------------------+
->> +|Parameters                                                                    |
->> ++------------------+-----------------------------------------------------------+
->> +|Name              |Description                                                |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 ext_id     |Reserved, must be zero.                                    |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 algo_low   |Lower 32-bit value of the algorithm string.                |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 algo_high  |Upper 32-bit value of the algorithm string.                |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 param_id   |Serves as the token message id for the algorithm string    |
->> +|                  |and is generally used to stop the activity performed by    |
->> +|                  |the algorithm string.                                      |
->> ++------------------+-----------------------------------------------------------+
->> +|uint32 buf[]      |Serves as the payload for the specified param_id and       |
->> +|                  |algorithm string pair.                                     |
->> ++------------------+-----------------------------------------------------------+
-> 
-> Same.
-> 
->> +|Return values                                                                 |
->> ++------------------+-----------------------------------------------------------+
->> +|Name              |Description                                                |
->> ++------------------+-----------------------------------------------------------+
->> +|int32 status      |SUCCESS: if the activity performed by the algorithm string |
->> +|                  |stops successfully.                                        |
->> +|                  |NOT_SUPPORTED: if the algorithm string does not have any   |
->> +|                  |matches or if the activity isn't running.                  |
->> ++------------------+-----------------------------------------------------------+
-> 
-> Thanks,
-> Cristian
+> if we are movign the opp-tables into driver data for the reasons
+> described above, this can probably stay?
+
+No. They duplicate the information that can be a part of the tables. It
+doesn't matter if the tables are in the driver or in DT.
+
+
+-- 
+With best wishes
+Dmitry
