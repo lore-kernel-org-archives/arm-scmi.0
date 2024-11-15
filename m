@@ -1,145 +1,167 @@
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5278528DA1
-	for <arm-scmi@vger.kernel.org>; Fri, 15 Nov 2024 00:38:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91431E522;
+	Fri, 15 Nov 2024 01:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731631096; cv=none; b=qhR5kUM/1eK1fRU9hTZVfza0aL7N4JY1AhPwywjKEmyDMHHjBN9BFYxSJYHqF+/GRUIYTGPVG9495ZQvQ8rhJW41jcc9v9rIX7XP6OqWPbQsgYR3NJn+SBd8kVEyDJ2Yg+3kzmw6MZ0Cl67b4j/BnyMcFQ+FMB1yEHTaGGRwe3w=
+	t=1731633345; cv=none; b=g6Arx2Ie7cEvhvuEKBk6vzPGy1CCm+LwQthZzwMZ1cUjeIPYhjYDLDMpRNuylHZnMBI5E2JlIrIILVWfrxZsFGzI5SHBawUK0PC1/J2AWi/14TrjRUawhrEkL4PObY4EEMNcjJ7OBnuFutMT10H2VczxMW277kY0daEivYgtr50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731631096; c=relaxed/simple;
-	bh=2QTg3uMImeU66RhLX3/5YsxnFUoi2i1VFQyshj8WnNg=;
-	h=Mime-Version:Subject:From:To:CC:In-Reply-To:Message-ID:Date:
-	 Content-Type:References; b=lSYTyGI0NTbsH/1OUvDudTpYiA8pOzoz4c6+TWJeVgV6J8UmdlUZC9NprHKIewaox5loqN00yJcFql1nL68wEy2ox0+OXD4Tb8e24ZYjZKO5iy+Bv6FhzR2I3LXgyXIYmpWz6q9k5XW4s9rVsM1/VOINjICxcKiuAm8RBiL1KDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=n06gKXqP; arc=none smtp.client-ip=203.254.224.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1731633345; c=relaxed/simple;
+	bh=pJF6FnthLaZDlGhslANwjiqRlQJlVEyZ1a9Jnw0V2FE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TGuL9dKl+WOnBvtl12PsBzXzkjZcwLX+El0O5O5LadbyhYeOaWWbycrho97GApSJeEcWL5noYbs5altW9gXDiANVAI1po76R4pqS1HGIHLH/eTjqbSrHL8UfXsF5iEgoylvc3zLot8i3dy9HialrxyjB11YNv6dZJN4qA2qZaOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=BR0ya8wO; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="n06gKXqP"
-Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20241115003812epoutp020a05b1f8089d7b500c714f1989315bb3~H-U3Aoi0g1983819838epoutp02X
-	for <arm-scmi@vger.kernel.org>; Fri, 15 Nov 2024 00:38:12 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20241115003812epoutp020a05b1f8089d7b500c714f1989315bb3~H-U3Aoi0g1983819838epoutp02X
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1731631092;
-	bh=2QTg3uMImeU66RhLX3/5YsxnFUoi2i1VFQyshj8WnNg=;
-	h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
-	b=n06gKXqPozK50JkoDvZxhWPYFMHiJ42WNvPnwMZN8BAK263oS3OVs3pVRKW8HHMhd
-	 ADQmtmQKRs4YIMW/2Qo6KRB1O3mRqYdTEs800lHJey/7RF4jnfadrFd72zbrtaslUN
-	 Ric0aukVmj07r38UNfFhV/UJeh/fysvD+C1nw27s=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20241115003811epcas1p2b96da2b129d9027364eef77e96486f1b~H-U2XwYY-2573625736epcas1p2C;
-	Fri, 15 Nov 2024 00:38:11 +0000 (GMT)
-Received: from epsmges1p1.samsung.com (unknown [182.195.36.144]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4XqJ5t2gq8z4x9Q2; Fri, 15 Nov
-	2024 00:38:10 +0000 (GMT)
-X-AuditID: b6c32a35-6c7ff70000023fb3-78-673697f2e2ec
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
-	epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	19.41.16307.2F796376; Fri, 15 Nov 2024 09:38:10 +0900 (KST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="BR0ya8wO"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AEHHw9A000914;
+	Fri, 15 Nov 2024 01:15:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=zh7TTW8tLIxvXk1cjlASsZ
+	hsAqj2uXJLd5tfnba2ABw=; b=BR0ya8wOwYhyS5yr9qA1PtlUHUZObw+i42OrMq
+	W3uH/AHLNjGIsnx5n39SV0EeXThRSxolsdQboeUCqZW9FTtTxAoYWCCWJ02G6LKU
+	3T1lXXZiYWNKLQuYPnRJ0ESrNNHI/xMEX3mfCJTi/fXVo8j3V54Him+ZeSKtnQes
+	Cg+eL2tnxJWOEZvjv18POh+MxE9AL3xbGOlLKpE+kr6Ad2yqh/mrm+zlXmlvs59N
+	zZNQVEx589JS9BEZd/ELBFbNgeUUMYTPaRFoS5/WbwVu4LvXxb4n+dd/zVg19akj
+	eEX/9Y5X3WB7mElmk0PhqzcKEwGu/TCV8jql2gJf8ez9WjfQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42w9sv4364-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Nov 2024 01:15:33 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AF1FXJj009013
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Nov 2024 01:15:33 GMT
+Received: from hu-sibis-blr.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 14 Nov 2024 17:15:29 -0800
+From: Sibi Sankar <quic_sibis@quicinc.com>
+To: <sudeep.holla@arm.com>, <cristian.marussi@arm.com>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <quic_rgottimu@quicinc.com>,
+        <quic_kshivnan@quicinc.com>, <quic_sibis@quicinc.com>,
+        <arm-scmi@vger.kernel.org>
+Subject: [PATCH V5 0/2] arm_scmi: vendors: Qualcomm Generic Vendor Extensions
+Date: Fri, 15 Nov 2024 06:45:13 +0530
+Message-ID: <20241115011515.1313447-1-quic_sibis@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Subject: RE: Re: [PATCH V4 4/5] soc: qcom: Introduce SCMI based Memlat
- (Memory Latency) governor
-Reply-To: myungjoo.ham@samsung.com
-Sender: MyungJoo Ham <myungjoo.ham@samsung.com>
-From: MyungJoo Ham <myungjoo.ham@samsung.com>
-To: Sibi Sankar <quic_sibis@quicinc.com>, Dmitry Baryshkov
-	<dmitry.baryshkov@linaro.org>, Kyungmin Park <Kyungmin.park@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>, Viresh Kumar <viresh.kumar@linaro.org>
-CC: "sudeep.holla@arm.com" <sudeep.holla@arm.com>,
-	"cristian.marussi@arm.com" <cristian.marussi@arm.com>,
-	"andersson@kernel.org" <andersson@kernel.org>, "konrad.dybcio@linaro.org"
-	<konrad.dybcio@linaro.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "quic_rgottimu@quicinc.com"
-	<quic_rgottimu@quicinc.com>, "quic_kshivnan@quicinc.com"
-	<quic_kshivnan@quicinc.com>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>, Amir Vajid
-	<avajid@quicinc.com>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-In-Reply-To: <ac655bdc-5ccf-c6c6-3203-659f1916c53c@quicinc.com>
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20241115003809epcms1p518df149458f3023d33ec6d87a315e8f6@epcms1p5>
-Date: Fri, 15 Nov 2024 09:38:09 +0900
-X-CMS-MailID: 20241115003809epcms1p518df149458f3023d33ec6d87a315e8f6
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 101P
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCJsWRmVeSWpSXmKPExsWy7bCmnu6n6WbpBgt/8Fps67CxOHflKrvF
-	+Sv9bBZr9p5jsjjY9pPN4vqX56wW84+cY7WYeB7I7Zi8ncWi78VDZouzTW/YLTY9vgaU2H+W
-	3eLyrjlsFp83b2G3eHl7G5tF86LfbBate4+wWyw/tYPFYuNXDwcRjzXz1jB6bFrVyeZx59oe
-	No/NS+o9Ju6p8+jbsorR4/MmuQD2qGybjNTElNQihdS85PyUzLx0WyXv4HjneFMzA0NdQ0sL
-	cyWFvMTcVFslF58AXbfMHKBvlBTKEnNKgUIBicXFSvp2NkX5pSWpChn5xSW2SqkFKTkFpgV6
-	xYm5xaV56Xp5qSVWhgYGRqZAhQnZGf8WvmcuaOOoOPdrH3sD41a2LkZODgkBE4mfvz+wdzFy
-	cQgJ7GCUuHDkPXMXIwcHr4CgxN8dwiCmsECSRNeuHJByIQEliYab+5hBbGEBfYmOB9sYQWw2
-	AV2JrRvusoCMERG4yigxc/pZMIdZ4C6bROe+q6wQy3glZrQ/ZYGwpSW2L98K1s0pYC/xb/5i
-	qLioxM3Vb9lh7PfH5jNC2CISrffOMkPYghIPfu6GiktK9N3ZywSyTEJgG6PEjiNz2CCc/YwS
-	Ux62QU3Slzgz9yTYy7wCvhI7mw6BXcQioCrR0twNDQoXiZafEHFmAXmJ7W/ngEOCWUBTYv0u
-	fYgwn8S7rz1wz+yY94QJwlaTOLR7CdQqGYnT0xdCHeohcfHDRVZI0K1mlti1MW4Co/wsRPjO
-	QrJsFsKyBYzMqxjFUguKc9NTiw0LDOFRmpyfu4kRnJy1THcwTnz7Qe8QIxMH4yFGCQ5mJRHe
-	U87G6UK8KYmVValF+fFFpTmpxYcYTYHenMgsJZqcD8wPeSXxhiaWBiZmRsYmFoZmhkrivGeu
-	lKUKCaQnlqRmp6YWpBbB9DFxcEo1MOl+iFI6bSJ5aZ7T8ou7bZ/+/ym7evZNST7DCXEVc39N
-	XNCT5+qwa/MuQc3sO2uPpL1J1K68ru7hcLpa+VH9JOmgb5vjiucaTTt3Nlx2pvdZ3g/TNunM
-	2vtHRXrDN8FPPTuenKsJ3cSVOmvBj9pjj36eLtdnb/uzJ8Fm2QYd/tt1vet/RFQ4qk/8avC+
-	dV5r39r+aJccvs+1i6J4rlmYTZ8gzOMXvMvC7hJD6Y/n/nHqmmcWd/XP+i38ZO0pxQWNgh33
-	rlp56j78POt46gbZyRb8vqXvVmhMna144YHpessbcoHyUaLTjpUsN1S8d/Sn+o0Paumdd/aa
-	q/vWX3h+zlJnp/qmwyc23T/XxXTRo0hZiaU4I9FQi7moOBEA2uwez1cEAAA=
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20241114041419epcas1p3b52bb9795ffd9efa568bb106ba268e02
-References: <ac655bdc-5ccf-c6c6-3203-659f1916c53c@quicinc.com>
-	<20241007061023.1978380-1-quic_sibis@quicinc.com>
-	<20241007061023.1978380-5-quic_sibis@quicinc.com>
-	<2aycrvnvivcrqctqmweadcgenwugafdr6ub3bzkscterpenz32@bzabln2hkral>
-	<29eef87e-96f6-5105-6f7a-a8e01efcb4a3@quicinc.com>
-	<k4lpzxtrq3x6riyv6etxiobn7nbpczf2bp3m4oc752nhjknlit@uo53kbppzim7>
-	<CGME20241114041419epcas1p3b52bb9795ffd9efa568bb106ba268e02@epcms1p5>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: zjtL2fq0-uBsnsOb6Yi41aMzSpjcu7mt
+X-Proofpoint-GUID: zjtL2fq0-uBsnsOb6Yi41aMzSpjcu7mt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ lowpriorityscore=0 impostorscore=0 adultscore=0 bulkscore=0 clxscore=1015
+ mlxlogscore=959 priorityscore=1501 phishscore=0 malwarescore=0
+ suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411150009
 
->
->Hey Dmitry,
->
->Thanks for taking time to review the series.
->
->+ Devfreq maintainers to comment (I thought you already added
->them by name)
->
->
->Hey MyungJoo/Kyungmin/Chanwoo,
->
->Can you weigh in here? Does it make sense to add a new
->class of devfreq devices that don't have governors
->associated with them just for them to export a few
->essential data to userspace? In this scenario the
->scaling algorithm is in a SCP and we just start
->them from the kernel. We do have ways to get the
->current frequency of various buses but does this
->warrant adding a new class of governor less devices?
->
->-Sibi
+The QCOM SCMI vendor protocol provides a generic way of exposing a
+number of Qualcomm SoC specific features (like memory bus scaling)
+through a mixture of pre-determined algorithm strings and param_id
+pairs hosted on the SCMI controller. Introduce a client driver that
+uses the memlat algorithm string hosted on QCOM SCMI Vendor Protocol
+to detect memory latency workloads and control frequency/level of
+the various memory buses (DDR/LLCC/DDR_QOS).
 
-If voltage/frequency is controlled by SCP
-(it's an SoC's internal hardware IP, right?),
-it's good to have a userspace governer
-with the driver not accepting updates from userspace.
+QCOM SCMI Generic Vendor protocol background:
+It was found that a lot of the vendor protocol used internally was
+for debug/internal development purposes that would either be super
+SoC specific or had to be disabled because of some features being
+fused out during production. This lead to a large number of vendor
+protocol numbers being quickly consumed and were never released
+either. Using a generic vendor protocol with functionality abstracted
+behind algorithm strings gave us the flexibility of allowing such
+functionality exist during initial development/debugging while
+still being able to expose functionality like memlat once they have
+matured enough. The param-ids are certainly expected to act as ABI
+for algorithms strings like MEMLAT.
 
-E.g., Let "target" callback not update the frequency value,
- or let "target" callback always return an error with
- a dev_err message that you don't accept frequency changes
- from userspace.
+Thanks in advance for taking time to review the series.
 
-Cheers,
-MyungJoo.
+V4:
+* Splitting the series into vendor protocol and memlat client.
+  Also the move the memlat client implementation back to RFC
+  due to multiple opens.
+* Use common xfer helper to avoid code duplication [Dmitry]
+* Update enum documentation without duplicate enum info [Dmitry]
+* Update the protol attributes doc with more information. [Cristian]
+
+V3:
+* Restructure the bindings to mimic IMX [Christian]
+* Add documentation for the qcom generic vendor protocol [Christian/Sudeep]
+* Pick up Rb tag and fixup/re-order elements of the vendor ops [Christian]
+* Follow naming convention and folder structure used by IMX
+* Add missing enum in the vendor protocol and fix documentation [Konrad]
+* Add missing enum in the scmi memlat driver and fix documentation [Konrad]
+* Add checks for max memory and monitor [Shivnandan]
+* Fix typo from START_TIMER -> STOP_TIMER [Shivnandan]
+* Make populate_physical_mask func to void [Shivnandan]
+* Remove unecessary zero set [Shivnandan]
+* Use __free(device node) in init_cpufreq-memfreqmap [Christian/Konrad]
+* Use sdev->dev.of_node directly [Christian]
+* use return dev_err_probe in multiple places [Christian]
+
+V2:
+* Drop container dvfs memlat container node. [Rob]
+* Move scmi-memlat.yaml to protocol level given that a lot of vendors might end up
+* using the same protocol number. [Rob]
+* Replace qcom,cpulist with the standard "cpus" property. [Rob]
+* Fix up compute-type/ipm-ceil required. [Rob]
+* Make driver changes to the accommodate bindings changes. [Rob]
+* Minor fixups in subjects/coverletter.
+* Minor style fixes in dts.
+
+V1:
+* Add missing bindings for the protocol. [Konrad/Dmitry]
+* Use alternate bindings. [Dmitry/Konrad]
+* Rebase on top of Cristian's "SCMI multiple vendor protocol support" series. [Cristian]
+* Add more documentation wherever possible. [Sudeep]
+* Replace pr_err/info with it's dev equivalents.
+* Mixed tabs and initialization cleanups in the memlat driver. [Konrad]
+* Commit message update for the memlat driver. [Dmitry]
+* Cleanups/Fixes suggested for the client driver. [Dmitry/Konrad/Cristian]
+* Use opp-tables instead of memfreq-tbl. [Dmitry/Konrad]
+* Detect physical cpu to deal with variants with reduced cpu count.
+* Add support for DDR_QOS mem_type.
+
+
+
+Sibi Sankar (2):
+  firmware: arm_scmi: Add QCOM Generic Vendor Protocol documentation
+  firmware: arm_scmi: vendors: Add QCOM SCMI Generic Extensions
+
+ drivers/firmware/arm_scmi/Kconfig             |   1 +
+ drivers/firmware/arm_scmi/Makefile            |   1 +
+ .../firmware/arm_scmi/vendors/qcom/Kconfig    |  15 ++
+ .../firmware/arm_scmi/vendors/qcom/Makefile   |   2 +
+ .../arm_scmi/vendors/qcom/qcom-generic-ext.c  | 139 ++++++++++++
+ .../arm_scmi/vendors/qcom/qcom_generic.rst    | 211 ++++++++++++++++++
+ include/linux/scmi_qcom_protocol.h            |  37 +++
+ 7 files changed, 406 insertions(+)
+ create mode 100644 drivers/firmware/arm_scmi/vendors/qcom/Kconfig
+ create mode 100644 drivers/firmware/arm_scmi/vendors/qcom/Makefile
+ create mode 100644 drivers/firmware/arm_scmi/vendors/qcom/qcom-generic-ext.c
+ create mode 100644 drivers/firmware/arm_scmi/vendors/qcom/qcom_generic.rst
+ create mode 100644 include/linux/scmi_qcom_protocol.h
+
+-- 
+2.34.1
+
