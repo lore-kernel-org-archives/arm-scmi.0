@@ -1,392 +1,145 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4481F9ED1
-	for <arm-scmi@vger.kernel.org>; Thu, 14 Nov 2024 12:32:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5278528DA1
+	for <arm-scmi@vger.kernel.org>; Fri, 15 Nov 2024 00:38:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731587580; cv=none; b=apCeaVZgYVX+HGt3Sf46zLeOlbyJq9ZGVGrbX4p5FGFSUmEzNYSO68VlSBpXgD/xyG+7yxHrxU4tpRyqPGvm/CguhoIaxaEPPVuL4WSewyy2sEDXUkbg8fQNwLJzvQvDuGcWcV3oiDmO7YvOYiiE7ZB8gE2SJNpalHncU7jckN4=
+	t=1731631096; cv=none; b=qhR5kUM/1eK1fRU9hTZVfza0aL7N4JY1AhPwywjKEmyDMHHjBN9BFYxSJYHqF+/GRUIYTGPVG9495ZQvQ8rhJW41jcc9v9rIX7XP6OqWPbQsgYR3NJn+SBd8kVEyDJ2Yg+3kzmw6MZ0Cl67b4j/BnyMcFQ+FMB1yEHTaGGRwe3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731587580; c=relaxed/simple;
-	bh=7/tIU9o2uD+rnTUcrXFWle2j2spADixTljHDU6DhZm4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Saquk5e/IxOxAyAsrBsOMFu8bzMKPiSJIWp5Nx0rTwrY+A/cKQn0OfuX3JOGxfy2d/nmR3445FRmgNhVbM2X596oPzRHEbw0K1vrXfQJR1y19BpOEzYkF+SI0R0T67ruvrzbq66NzG1LjSrIyPpjGJ7/Vkia9ytsW/K/EupVRec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=u3k9BPvR; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1731631096; c=relaxed/simple;
+	bh=2QTg3uMImeU66RhLX3/5YsxnFUoi2i1VFQyshj8WnNg=;
+	h=Mime-Version:Subject:From:To:CC:In-Reply-To:Message-ID:Date:
+	 Content-Type:References; b=lSYTyGI0NTbsH/1OUvDudTpYiA8pOzoz4c6+TWJeVgV6J8UmdlUZC9NprHKIewaox5loqN00yJcFql1nL68wEy2ox0+OXD4Tb8e24ZYjZKO5iy+Bv6FhzR2I3LXgyXIYmpWz6q9k5XW4s9rVsM1/VOINjICxcKiuAm8RBiL1KDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=n06gKXqP; arc=none smtp.client-ip=203.254.224.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="u3k9BPvR"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2ff550d37a6so5787491fa.0
-        for <arm-scmi@vger.kernel.org>; Thu, 14 Nov 2024 04:32:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731587577; x=1732192377; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZVLoP9XVBjH5taL4TpmDze9j1Zqat4TO/x8cVB0wKTk=;
-        b=u3k9BPvRyoy/1EBjyTrvz7ozpoz9qlSXWwhQVb+72GDcd4mQYx7vKXxiOZ6hB67X3R
-         dzSPjOZWXYAxh9vFtO6X9GHXTjmWJY203LNjKXxLILWWTrzABSp3QyXpZLPuv40VSUGc
-         RqksJTRs4vrjpi3q39ymQ+Ws5iRcW4Hndte1OAooS1geZBVw4gasGKZeVawhy0SHPraK
-         UTO1Aft+lru9mjRqAqHuEqYXYqOF6HbPLUHpNqJndh8tcawzyZs5lJglZRz9slk6doHJ
-         5xK2DX4Y90g1Wa6Wat5xNONrLhTReC4EFgK+jaiZ1b8yUxxlKtVeuQMMetyqr1mAsLgI
-         09Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731587577; x=1732192377;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZVLoP9XVBjH5taL4TpmDze9j1Zqat4TO/x8cVB0wKTk=;
-        b=FiCKVKQtaauaBGYHOz/ZoivXWaCI6PAiX7CzIDKdk/XKdkkScI0GYo9eUnribWIcjE
-         VadmKhIL7RNDYeKPzQU+0oRkvZRBd6gC1HagaMfA3CZSge7/RDgYDZwr62qe/lDUst/N
-         63yaNIA3pjokQl535P3zWW66OHIPbYP8c2vmZ3KPnAekfJykIP/vVfAZXnEy1/fZYpLj
-         wFKEZCzBjn5gauMQhdUARbhO3KBWCQAhyPlClOg8QoJthAqDz30icFJwEZkTSiL/GY0u
-         dUCAyYZg3vF1LFtUi+4e6HOvHdNnOhILkr5ghjWbuGG70lCKBJImpUASveOgw8l2iup5
-         3YEw==
-X-Forwarded-Encrypted: i=1; AJvYcCXoRb+TUPUmOK03b/pkrqyXXvHb3YK+BB79JtwK0HZmX9Xf9xdfscFPcbji6QNY8PfFLGrlabK30A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyi0dcsG0FjWjwJBQEsF+mjQfDU+MFY1YYYZPD4FutHEH0X/ohi
-	xz7U7DIhv78sT16SyZKP2WRWf/2KodOxc7CG3gEYdWwHijJ3VONqGt1ZsX+H2sk=
-X-Google-Smtp-Source: AGHT+IH7G+Tz/0L4sqitxAHMiB7SEIXBc17jR80P2FR2ol6AYyOcDIRTQh+Yj4FOWT3Pv1+2j5CZ9A==
-X-Received: by 2002:a05:651c:1589:b0:2fb:5bb8:7c24 with SMTP id 38308e7fff4ca-2ff20152825mr121200501fa.8.1731587576703;
-        Thu, 14 Nov 2024 04:32:56 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ff59764207sm1621871fa.13.2024.11.14.04.32.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Nov 2024 04:32:55 -0800 (PST)
-Date: Thu, 14 Nov 2024 14:32:52 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Sibi Sankar <quic_sibis@quicinc.com>
-Cc: myungjoo.ham@samsung.com, Kyungmin.park@samsung.com, 
-	cw00.choi@samsung.com, Viresh Kumar <viresh.kumar@linaro.org>, sudeep.holla@arm.com, 
-	cristian.marussi@arm.com, andersson@kernel.org, konrad.dybcio@linaro.org, 
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	quic_rgottimu@quicinc.com, quic_kshivnan@quicinc.com, conor+dt@kernel.org, 
-	arm-scmi@vger.kernel.org, Amir Vajid <avajid@quicinc.com>
-Subject: Re: [PATCH V4 4/5] soc: qcom: Introduce SCMI based Memlat (Memory
- Latency) governor
-Message-ID: <34p27za5hcpubaxjuddsir2vqnqrvwyesnclu2cocvm3yhbv3r@ak7rcnp67gyd>
-References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
- <20241007061023.1978380-5-quic_sibis@quicinc.com>
- <2aycrvnvivcrqctqmweadcgenwugafdr6ub3bzkscterpenz32@bzabln2hkral>
- <29eef87e-96f6-5105-6f7a-a8e01efcb4a3@quicinc.com>
- <k4lpzxtrq3x6riyv6etxiobn7nbpczf2bp3m4oc752nhjknlit@uo53kbppzim7>
- <ac655bdc-5ccf-c6c6-3203-659f1916c53c@quicinc.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="n06gKXqP"
+Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20241115003812epoutp020a05b1f8089d7b500c714f1989315bb3~H-U3Aoi0g1983819838epoutp02X
+	for <arm-scmi@vger.kernel.org>; Fri, 15 Nov 2024 00:38:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20241115003812epoutp020a05b1f8089d7b500c714f1989315bb3~H-U3Aoi0g1983819838epoutp02X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1731631092;
+	bh=2QTg3uMImeU66RhLX3/5YsxnFUoi2i1VFQyshj8WnNg=;
+	h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
+	b=n06gKXqPozK50JkoDvZxhWPYFMHiJ42WNvPnwMZN8BAK263oS3OVs3pVRKW8HHMhd
+	 ADQmtmQKRs4YIMW/2Qo6KRB1O3mRqYdTEs800lHJey/7RF4jnfadrFd72zbrtaslUN
+	 Ric0aukVmj07r38UNfFhV/UJeh/fysvD+C1nw27s=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20241115003811epcas1p2b96da2b129d9027364eef77e96486f1b~H-U2XwYY-2573625736epcas1p2C;
+	Fri, 15 Nov 2024 00:38:11 +0000 (GMT)
+Received: from epsmges1p1.samsung.com (unknown [182.195.36.144]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4XqJ5t2gq8z4x9Q2; Fri, 15 Nov
+	2024 00:38:10 +0000 (GMT)
+X-AuditID: b6c32a35-6c7ff70000023fb3-78-673697f2e2ec
+Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
+	epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	19.41.16307.2F796376; Fri, 15 Nov 2024 09:38:10 +0900 (KST)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Subject: RE: Re: [PATCH V4 4/5] soc: qcom: Introduce SCMI based Memlat
+ (Memory Latency) governor
+Reply-To: myungjoo.ham@samsung.com
+Sender: MyungJoo Ham <myungjoo.ham@samsung.com>
+From: MyungJoo Ham <myungjoo.ham@samsung.com>
+To: Sibi Sankar <quic_sibis@quicinc.com>, Dmitry Baryshkov
+	<dmitry.baryshkov@linaro.org>, Kyungmin Park <Kyungmin.park@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>, Viresh Kumar <viresh.kumar@linaro.org>
+CC: "sudeep.holla@arm.com" <sudeep.holla@arm.com>,
+	"cristian.marussi@arm.com" <cristian.marussi@arm.com>,
+	"andersson@kernel.org" <andersson@kernel.org>, "konrad.dybcio@linaro.org"
+	<konrad.dybcio@linaro.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>,
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "quic_rgottimu@quicinc.com"
+	<quic_rgottimu@quicinc.com>, "quic_kshivnan@quicinc.com"
+	<quic_kshivnan@quicinc.com>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>, Amir Vajid
+	<avajid@quicinc.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
 In-Reply-To: <ac655bdc-5ccf-c6c6-3203-659f1916c53c@quicinc.com>
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20241115003809epcms1p518df149458f3023d33ec6d87a315e8f6@epcms1p5>
+Date: Fri, 15 Nov 2024 09:38:09 +0900
+X-CMS-MailID: 20241115003809epcms1p518df149458f3023d33ec6d87a315e8f6
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 101P
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCJsWRmVeSWpSXmKPExsWy7bCmnu6n6WbpBgt/8Fps67CxOHflKrvF
+	+Sv9bBZr9p5jsjjY9pPN4vqX56wW84+cY7WYeB7I7Zi8ncWi78VDZouzTW/YLTY9vgaU2H+W
+	3eLyrjlsFp83b2G3eHl7G5tF86LfbBate4+wWyw/tYPFYuNXDwcRjzXz1jB6bFrVyeZx59oe
+	No/NS+o9Ju6p8+jbsorR4/MmuQD2qGybjNTElNQihdS85PyUzLx0WyXv4HjneFMzA0NdQ0sL
+	cyWFvMTcVFslF58AXbfMHKBvlBTKEnNKgUIBicXFSvp2NkX5pSWpChn5xSW2SqkFKTkFpgV6
+	xYm5xaV56Xp5qSVWhgYGRqZAhQnZGf8WvmcuaOOoOPdrH3sD41a2LkZODgkBE4mfvz+wdzFy
+	cQgJ7GCUuHDkPXMXIwcHr4CgxN8dwiCmsECSRNeuHJByIQEliYab+5hBbGEBfYmOB9sYQWw2
+	AV2JrRvusoCMERG4yigxc/pZMIdZ4C6bROe+q6wQy3glZrQ/ZYGwpSW2L98K1s0pYC/xb/5i
+	qLioxM3Vb9lh7PfH5jNC2CISrffOMkPYghIPfu6GiktK9N3ZywSyTEJgG6PEjiNz2CCc/YwS
+	Ux62QU3Slzgz9yTYy7wCvhI7mw6BXcQioCrR0twNDQoXiZafEHFmAXmJ7W/ngEOCWUBTYv0u
+	fYgwn8S7rz1wz+yY94QJwlaTOLR7CdQqGYnT0xdCHeohcfHDRVZI0K1mlti1MW4Co/wsRPjO
+	QrJsFsKyBYzMqxjFUguKc9NTiw0LDOFRmpyfu4kRnJy1THcwTnz7Qe8QIxMH4yFGCQ5mJRHe
+	U87G6UK8KYmVValF+fFFpTmpxYcYTYHenMgsJZqcD8wPeSXxhiaWBiZmRsYmFoZmhkrivGeu
+	lKUKCaQnlqRmp6YWpBbB9DFxcEo1MOl+iFI6bSJ5aZ7T8ou7bZ/+/ym7evZNST7DCXEVc39N
+	XNCT5+qwa/MuQc3sO2uPpL1J1K68ru7hcLpa+VH9JOmgb5vjiucaTTt3Nlx2pvdZ3g/TNunM
+	2vtHRXrDN8FPPTuenKsJ3cSVOmvBj9pjj36eLtdnb/uzJ8Fm2QYd/tt1vet/RFQ4qk/8avC+
+	dV5r39r+aJccvs+1i6J4rlmYTZ8gzOMXvMvC7hJD6Y/n/nHqmmcWd/XP+i38ZO0pxQWNgh33
+	rlp56j78POt46gbZyRb8vqXvVmhMna144YHpessbcoHyUaLTjpUsN1S8d/Sn+o0Paumdd/aa
+	q/vWX3h+zlJnp/qmwyc23T/XxXTRo0hZiaU4I9FQi7moOBEA2uwez1cEAAA=
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20241114041419epcas1p3b52bb9795ffd9efa568bb106ba268e02
+References: <ac655bdc-5ccf-c6c6-3203-659f1916c53c@quicinc.com>
+	<20241007061023.1978380-1-quic_sibis@quicinc.com>
+	<20241007061023.1978380-5-quic_sibis@quicinc.com>
+	<2aycrvnvivcrqctqmweadcgenwugafdr6ub3bzkscterpenz32@bzabln2hkral>
+	<29eef87e-96f6-5105-6f7a-a8e01efcb4a3@quicinc.com>
+	<k4lpzxtrq3x6riyv6etxiobn7nbpczf2bp3m4oc752nhjknlit@uo53kbppzim7>
+	<CGME20241114041419epcas1p3b52bb9795ffd9efa568bb106ba268e02@epcms1p5>
 
-On Thu, Nov 14, 2024 at 09:43:53AM +0530, Sibi Sankar wrote:
-> 
-> 
-> On 10/26/24 23:46, Dmitry Baryshkov wrote:
-> > On Tue, Oct 22, 2024 at 01:48:25PM +0530, Sibi Sankar wrote:
-> > > 
-> > > 
-> > > On 10/7/24 23:27, Dmitry Baryshkov wrote:
-> > > > On Mon, Oct 07, 2024 at 11:40:22AM GMT, Sibi Sankar wrote:
+>
+>Hey Dmitry,
+>
+>Thanks for taking time to review the series.
+>
+>+ Devfreq maintainers to comment (I thought you already added
+>them by name)
+>
+>
+>Hey MyungJoo/Kyungmin/Chanwoo,
+>
+>Can you weigh in here? Does it make sense to add a new
+>class of devfreq devices that don't have governors
+>associated with them just for them to export a few
+>essential data to userspace? In this scenario the
+>scaling algorithm is in a SCP and we just start
+>them from the kernel. We do have ways to get the
+>current frequency of various buses but does this
+>warrant adding a new class of governor less devices?
+>
+>-Sibi
 
-> > > > 
-> > > > > +};
-> > > > > +
-> > > > > +struct map_param_msg {
-> > > > > +	u32 hw_type;
-> > > > > +	u32 mon_idx;
-> > > > > +	u32 nr_rows;
-> > > > > +	struct map_table tbl[MAX_MAP_ENTRIES];
-> > > > > +} __packed;
-> > > > > +
-> > > > > +struct node_msg {
-> > > > > +	u32 cpumask;
-> > > > > +	u32 hw_type;
-> > > > > +	u32 mon_type;
-> > > > > +	u32 mon_idx;
-> > > > > +	char mon_name[MAX_NAME_LEN];
-> > > > > +};
-> > > > > +
-> > > > > +struct scalar_param_msg {
-> > > > > +	u32 hw_type;
-> > > > > +	u32 mon_idx;
-> > > > > +	u32 val;
-> > > > > +};
-> > > > > +
-> > > > > +enum common_ev_idx {
-> > > > > +	INST_IDX,
-> > > > > +	CYC_IDX,
-> > > > > +	CONST_CYC_IDX,
-> > > > > +	FE_STALL_IDX,
-> > > > > +	BE_STALL_IDX,
-> > > > > +	NUM_COMMON_EVS
-> > > > > +};
-> > > > > +
-> > > > > +enum grp_ev_idx {
-> > > > > +	MISS_IDX,
-> > > > > +	WB_IDX,
-> > > > > +	ACC_IDX,
-> > > > > +	NUM_GRP_EVS
-> > > > > +};
-> > > > > +
-> > > > > +#define EV_CPU_CYCLES		0
-> > > > > +#define EV_INST_RETIRED		2
-> > > > > +#define EV_L2_D_RFILL		5
-> > > > > +
-> > > > > +struct ev_map_msg {
-> > > > > +	u32 num_evs;
-> > > > > +	u32 hw_type;
-> > > > > +	u32 cid[NUM_COMMON_EVS];
-> > > > > +};
-> > > > > +
-> > > > > +struct cpufreq_memfreq_map {
-> > > > > +	unsigned int cpufreq_mhz;
-> > > > > +	unsigned int memfreq_khz;
-> > > > > +};
-> > > > > +
-> > > > > +struct scmi_monitor_info {
-> > > > > +	struct cpufreq_memfreq_map *freq_map;
-> > > > > +	char mon_name[MAX_NAME_LEN];
-> > > > > +	u32 mon_idx;
-> > > > > +	u32 mon_type;
-> > > > > +	u32 ipm_ceil;
-> > > > > +	u32 mask;
-> > > > > +	u32 freq_map_len;
-> > > > > +};
-> > > > > +
-> > > > > +struct scmi_memory_info {
-> > > > > +	struct scmi_monitor_info *monitor[MAX_MONITOR_CNT];
-> > > > > +	u32 hw_type;
-> > > > > +	int monitor_cnt;
-> > > > > +	u32 min_freq;
-> > > > > +	u32 max_freq;
-> > > > > +};
-> > > > > +
-> > > > > +struct scmi_memlat_info {
-> > > > > +	struct scmi_protocol_handle *ph;
-> > > > > +	const struct qcom_generic_ext_ops *ops;
-> > > > > +	struct scmi_memory_info *memory[MAX_MEMORY_TYPES];
-> > > > > +	u32 cluster_info[NR_CPUS];
-> > > > > +	int memory_cnt;
-> > > > > +};
-> > > > > +
-> > > > > +static int populate_cluster_info(u32 *cluster_info)
-> > > > > +{
-> > > > > +	char name[MAX_NAME_LEN];
-> > > > > +	int i = 0;
-> > > > > +
-> > > > > +	struct device_node *cn __free(device_node) = of_find_node_by_path("/cpus");
-> > > > > +	if (!cn)
-> > > > > +		return -ENODEV;
-> > > > > +
-> > > > > +	struct device_node *map __free(device_node) = of_get_child_by_name(cn, "cpu-map");
-> > > > > +	if (!map)
-> > > > > +		return -ENODEV;
-> > > > > +
-> > > > > +	do {
-> > > > > +		snprintf(name, sizeof(name), "cluster%d", i);
-> > > > > +		struct device_node *c __free(device_node) = of_get_child_by_name(map, name);
-> > > > > +		if (!c)
-> > > > > +			break;
-> > > > > +
-> > > > > +		*(cluster_info + i) = of_get_child_count(c);
-> > > > > +		i++;
-> > > > > +	} while (1);
-> > > > 
-> > > > Can you use existing API from drivers/base/arch_topology.c? If not, can
-> > > > it be extended to support your usecase?
-> > > 
-> > > ack. But I'm pretty sure it's going to take a while for reaching such
-> > > an agreement so I'll drop this feature during the next re-spin.
-> > 
-> > Why? What kind of API do you actually need? The arch_topology.c simply
-> > exports a table of struct cpu_topology. Is it somehow different from
-> > what you are parsing manually?
-> 
-> yup, we had to figure out the physical id of the cpu
-> since cpus can be disabled by the bootloader using
-> status = "failed" property and we have to pass this
-> onto the cpucp memlat algorithm.
+If voltage/frequency is controlled by SCP
+(it's an SoC's internal hardware IP, right?),
+it's good to have a userspace governer
+with the driver not accepting updates from userspace.
 
-Isn't it equal to the index in the cpu_topology table?
+E.g., Let "target" callback not update the frequency value,
+ or let "target" callback always return an error with
+ a dev_err message that you don't accept frequency changes
+ from userspace.
 
-> 
-> > 
-> > > 
-> > > > 
-> > > > > +
-> > > > > +	return 0;
-> > > > > +}
-> > > > > +
-> > > > > +static void populate_physical_mask(struct device_node *np, u32 *mask, u32 *cluster_info)
-> > > > > +{
-> > > > > +	struct device_node *dev_phandle __free(device_node);
-> > > > > +	int cpu, i = 0, physical_id;
-> > > > > +
-> > > > > +	do {
-> > > > > +		dev_phandle = of_parse_phandle(np, "cpus", i++);
-> > > > > +		cpu = of_cpu_node_to_id(dev_phandle);
-> > > > > +		if (cpu != -ENODEV) {
-> > > > > +			physical_id = topology_core_id(cpu);
-> > > > > +			for (int j = 0; j < topology_cluster_id(cpu); j++)
-> > > > > +				physical_id += *(cluster_info + j);
-> > > > > +			*mask |= BIT(physical_id);
-> > > > > +		}
-> > > > > +	} while (dev_phandle);
-> > > > > +}
-> > > > > +
-> > > > > +static struct cpufreq_memfreq_map *init_cpufreq_memfreq_map(struct device *dev,
-> > > > > +							    struct scmi_memory_info *memory,
-> > > > > +							    struct device_node *of_node,
-> > > > > +							    u32 *cnt)
-> > > > > +{
-> > > > > +	struct device_node *tbl_np __free(device_node), *opp_np __free(device_node);
-> > > > > +	struct cpufreq_memfreq_map *tbl;
-> > > > > +	int ret, i = 0;
-> > > > > +	u32 level, len;
-> > > > > +	u64 rate;
-> > > > > +
-> > > > > +	tbl_np = of_parse_phandle(of_node, "operating-points-v2", 0);
-> > > > 
-> > > > Please use existing API to parse OPP tables or document a reason why it
-> > > > can't be used.
-> > > 
-> > > Thanks, I had them documented as opens in the coverletter. Dropped them
-> > > since no one had any comments on it during V3. Will add them as comments
-> > > to this driver instead.
-> > > 
-> > > https://lore.kernel.org/lkml/20240702191440.2161623-1-quic_sibis@quicinc.com/
-> > > 
-> > > re-copying things again:
-> > > opp-tables are used but they don't get to be added to the scmi device
-> > > (thus we rely on a lot of manual parsing) because the memlat client driver
-> > > doesn't vote on these resources clocks/interconnects/power-domain
-> > > from the kernel and some of the resources aren't modeled in the first
-> > > place like DDR_QOS.
-> > 
-> > As discussed offline, please consider extending the OPP to be able to
-> > get the struct opp_table for the particular phandle. Another option
-> > might be to change the memlat driver by having a separate device for
-> > each monitor. This way you can use existing API to parse OPP tables and
-> > to get necessary data from those tables.
-> 
-> + Viresh
-> 
-> Spoke with Viresh offline and he had stricter requirements
-> than what you proposed. He definitely wanted the opp-tables
-> to be assoiciated with devices at the very least and have
-> all opp parsing logic within the opp-framework. Given that
-> we have to model all these dummy devices just to add the
-> tables I'll re-check the feasibility of movign the tables
-> into the driver itself. Will move the patch series back
-> into RFC and re-post just the vendor protocol since that's
-> close to merge
-
-I don't think it's sensible to move the tables to the driver. Instead
-adding a device per monitor sounds like a better idea.
-
-> > > > > +	if (!tbl_np)
-> > > > > +		return ERR_PTR(-ENODEV);
-> > > > > +
-> > > > > +	len = min(of_get_available_child_count(tbl_np), MAX_MAP_ENTRIES);
-> > > > > +	if (len == 0)
-> > > > > +		return ERR_PTR(-ENODEV);
-> > > > > +
-> > > > > +	tbl = devm_kzalloc(dev, (len + 1) * sizeof(struct cpufreq_memfreq_map),
-> > > > > +			   GFP_KERNEL);
-> > > > > +	if (!tbl)
-> > > > > +		return ERR_PTR(-ENOMEM);
-> > > > > +
-> > > > > +	for_each_available_child_of_node(tbl_np, opp_np) {
-> > > > > +		ret = of_property_read_u64_index(opp_np, "opp-hz", 0, &rate);
-> > > > > +		if (ret < 0)
-> > > > > +			return ERR_PTR(ret);
-> > > > > +
-> > > > > +		tbl[i].cpufreq_mhz = rate / HZ_PER_MHZ;
-> > > > > +
-> > > > > +		if (memory->hw_type != QCOM_MEM_TYPE_DDR_QOS) {
-> > > > > +			ret = of_property_read_u64_index(opp_np, "opp-hz", 1, &rate);
-> > > > > +			if (ret < 0)
-> > > > > +				return ERR_PTR(ret);
-> > > > > +
-> > > > > +			tbl[i].memfreq_khz = rate / HZ_PER_KHZ;
-> > > > > +		} else {
-> > > > > +			ret = of_property_read_u32(opp_np, "opp-level", &level);
-> > > > > +			if (ret < 0)
-> > > > > +				return ERR_PTR(ret);
-> > > > > +
-> > > > > +			tbl[i].memfreq_khz = level;
-> > > > > +		}
-> > > > > +
-> > > > > +		dev_dbg(dev, "Entry%d CPU:%u, Mem:%u\n", i, tbl[i].cpufreq_mhz, tbl[i].memfreq_khz);
-> > > > > +		i++;
-> > > > > +	}
-> > > > > +	*cnt = len;
-> > > > > +
-> > > > > +	return tbl;
-> > > > > +}
-> > > > > +
-> > > > > +static int process_scmi_memlat_of_node(struct scmi_device *sdev, struct scmi_memlat_info *info)
-> > > > > +{
-> > > > > +	struct scmi_monitor_info *monitor;
-> > > > > +	struct scmi_memory_info *memory;
-> > > > > +	char name[MAX_NAME_LEN];
-> > > > > +	u64 memfreq[2];
-> > > > > +	int ret;
-> > > > > +
-> > > > > +	ret = populate_cluster_info(info->cluster_info);
-> > > > > +	if (ret < 0) {
-> > > > > +		dev_err_probe(&sdev->dev, ret, "failed to populate cluster info\n");
-> > > > > +		goto err;
-> > > > > +	}
-> > > > > +
-> > > > > +	of_node_get(sdev->dev.of_node);
-> > > > > +	do {
-> > > > > +		snprintf(name, sizeof(name), "memory-%d", info->memory_cnt);
-> > > > > +		struct device_node *memory_np __free(device_node) =
-> > > > > +			of_find_node_by_name(sdev->dev.of_node, name);
-> > > > > +
-> > > > > +		if (!memory_np)
-> > > > > +			break;
-> > > > > +
-> > > > > +		if (info->memory_cnt >= MAX_MEMORY_TYPES)
-> > > > > +			return dev_err_probe(&sdev->dev, -EINVAL,
-> > > > > +					     "failed to parse unsupported memory type\n");
-> > > > > +
-> > > > > +		memory = devm_kzalloc(&sdev->dev, sizeof(*memory), GFP_KERNEL);
-> > > > > +		if (!memory) {
-> > > > > +			ret = -ENOMEM;
-> > > > > +			goto err;
-> > > > > +		}
-> > > > > +
-> > > > > +		ret = of_property_read_u32(memory_np, "qcom,memory-type", &memory->hw_type);
-> > > > > +		if (ret) {
-> > > > > +			dev_err_probe(&sdev->dev, ret, "failed to read memory type\n");
-> > > > > +			goto err;
-> > > > > +		}
-> > > > > +
-> > > > > +		ret = of_property_read_u64_array(memory_np, "freq-table-hz", memfreq, 2);
-> > > > > +		if (ret && (ret != -EINVAL)) {
-> > > > > +			dev_err_probe(&sdev->dev, ret, "failed to read min/max freq\n");
-> > > > > +			goto err;
-> > > > > +		}
-> > > > 
-> > > > Can we get this information from the OPP table instead?
-> > > 
-> > > we don't list all the available ddr/llcc freqs in the opp-table
-> > > so that we can keep the table constant across platforms.
-> > 
-> > NO. Use opp-supported-hw to limit data to a particular platform. There
-> > is no reason to keep min/max out of the OPP table.
-> 
-> if we are movign the opp-tables into driver data for the reasons
-> described above, this can probably stay?
-
-No. They duplicate the information that can be a part of the tables. It
-doesn't matter if the tables are in the driver or in DT.
-
-
--- 
-With best wishes
-Dmitry
+Cheers,
+MyungJoo.
