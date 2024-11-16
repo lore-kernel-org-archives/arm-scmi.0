@@ -1,136 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646D67346D;
-	Fri, 15 Nov 2024 23:06:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail-m16.yeah.net (mail-m16.yeah.net [1.95.21.14])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B232663D;
+	Sat, 16 Nov 2024 06:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=1.95.21.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731711962; cv=none; b=Zt5EgP+P8LLQ6KkbB97EIjI0QsZD1kn9RSNJsUknVjk6ov2XKG9Mr7vhkdKprYtaOFmMaQ4DquXM7pxe38H436mo/jzzr8xB6UWRTMyEQt2F5hJa2rYBzPgam4l1QXjiNRn9iTD2evim+dQRB5kOqiQ8D+lVKZq6rdy9GMuBU7g=
+	t=1731737022; cv=none; b=qTw0vMu1+rO9vR4/ypxZXnljbIRZ/fd8Xx9Sn58XZD5w3YtKG8xw5uyKCmoI6uB7PUB0YOFvp5ht4u3uhksVGYxfKQsVDzy4uOuGXOlHLrRanzvRsKF6xED8vX48dAVXf7LE3k0+iYOndtOQZCEjnV6aXVoc9LAWkUCjU/eXYiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731711962; c=relaxed/simple;
-	bh=e/qjcGC/Gz+mw55kmBF1sqB0PcOV6jBJy2tWUAT/rrA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sNGU4sMO1s+SUeTeEyBzfepF8PgLZHqygEhbuzH3Q14X2NLh4kel2kzdqCdMUjsk2sRz61gdnFRlc2sOWUN0ZbTlg/liFBNsydDlP8JF+Ng+pkXunE8VdvLF/5vRc2YAww7fHIZ527Gg8/XPVfG3kTDZjLH6RZ5XkGtqosScjok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nbpOA4J6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731737022; c=relaxed/simple;
+	bh=r4vF8IrdFMgD08hcK4U30rLGVHmU114j0pb9IOhiAkw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=prkrAwJmcUR428t/MimZKDZYRes8+N7yT/XaNFHCv3bwWM+GuLd46NgvSWgPote5pVk7PSkshyGMAxr9AMo5n/ALPMUHO/a40lL57JSBRjdu03kqhyotp0cyPDH/zRs0GijH5kLgGY243nO+IU3RhdYwHb56gDfGAuDHpixW+RQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=gpXgdBXa; arc=none smtp.client-ip=1.95.21.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nbpOA4J6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF8F9C4CECF;
-	Fri, 15 Nov 2024 23:05:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731711961;
-	bh=e/qjcGC/Gz+mw55kmBF1sqB0PcOV6jBJy2tWUAT/rrA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=nbpOA4J6ApxLj+x+T5PhlAzZATCwyQyhz9cFaeuFTriSV4jNBgkbcr+YnT33CYU8f
-	 eb8CEWGe+UYmE2Z1tYhdoNvTCMqp/8kQiVF+u4FiY0b6NUVDACoDDBTYWU4G2s+c5i
-	 4CmvxKD8UuBy1FbWwC/Tr5lR5qYs6ArlnuKhMyv+o9vfI4QT5aAEwNOT9K9xvWwCFC
-	 Q6EVTnvXodkHea6AHDiFU8u7n6qvsNnp3gJGfR54eNhE6qBSNIjR2C8nixbI9E1jIc
-	 qc2mh+B1ItHKTHebK/Fv2URc/CxqJzilq8FPBpLHWa7fz90Xj/2piDikKkbT4IPave
-	 Y30wzoHEagrsg==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Sudeep Holla <sudeep.holla@arm.com>,
-	Shawn Guo <shawnguo@kernel.org>,
+	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="gpXgdBXa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
+	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
+	Content-Type; bh=8mPwbXqgnl9XrwzwWBl68KnzBBVTshHswhakrqB5B24=;
+	b=gpXgdBXa+f7hGWMWaNsXNRxZs8DVzasNtoJ5a/rJ9woAz0YHpql6I1dHQ00UZ/
+	vXvgNeddwMcR1yDUPqFSB8tpcsbKIACXJcG0jaSqdszBoXcG6QM4nPV96wdUMaRz
+	HQAW++oNfsyaaMxINUI/feX9m31UhnngyxesoiIVtZNM4=
+Received: from dragon (unknown [])
+	by gzsmtp2 (Coremail) with SMTP id Ms8vCgAHL7rHEThnfPKpAg--.27117S3;
+	Sat, 16 Nov 2024 11:30:17 +0800 (CST)
+Date: Sat, 16 Nov 2024 11:30:15 +0800
+From: Shawn Guo <shawnguo2@yeah.net>
+To: Arnd Bergmann <arnd@kernel.org>, Peng Fan <peng.fan@nxp.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>, Shawn Guo <shawnguo@kernel.org>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
-	Mark Brown <broonie@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
+	Mark Brown <broonie@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
 	Cristian Marussi <cristian.marussi@arm.com>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
 	Fabio Estevam <festevam@gmail.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Peng Fan <peng.fan@nxp.com>,
-	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH] firmware: arm_scmi: fix i.MX build dependency
-Date: Sat, 16 Nov 2024 00:05:18 +0100
-Message-Id: <20241115230555.2435004-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
+Subject: Re: [PATCH] firmware: arm_scmi: fix i.MX build dependency
+Message-ID: <ZzgRx5BdYI3yzAGb@dragon>
+References: <20241115230555.2435004-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241115230555.2435004-1-arnd@kernel.org>
+X-CM-TRANSID:Ms8vCgAHL7rHEThnfPKpAg--.27117S3
+X-Coremail-Antispam: 1Uf129KBjvJXoW7AF47WFWUZFyxWw4UWr1ftFb_yoW8CF17pa
+	9a9FyDCFyDJr4rJF47Ar4xX3W09a9YkrWrJF4DG3y8Zrn8ZF4kKFyvgw15XFyku3savr10
+	9F48Xws8WFyqya7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jrhL8UUUUU=
+X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiEhaZZWc3+Cc7HAAAsQ
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Sat, Nov 16, 2024 at 12:05:18AM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The newly added SCMI vendor driver references functions in the
+> protocol driver but needs a Kconfig dependency to ensure it can link,
+> essentially the Kconfig dependency needs to be reversed to match the
+> link time dependency:
+> 
+> arm-linux-gnueabi-ld: sound/soc/fsl/fsl_mqs.o: in function `fsl_mqs_sm_write':
+> fsl_mqs.c:(.text+0x1aa): undefined reference to `scmi_imx_misc_ctrl_set'
+> arm-linux-gnueabi-ld: sound/soc/fsl/fsl_mqs.o: in function `fsl_mqs_sm_read':
+> fsl_mqs.c:(.text+0x1ee): undefined reference to `scmi_imx_misc_ctrl_get'
+> 
+> This however only works after changing the dependency in the SND_SOC_FSL_MQS
+> driver as well, which uses 'select IMX_SCMI_MISC_DRV' to turn on a
+> driver it depends on. This is generally a bad idea, so the best solution
+> is to change that into a dependency.
+> 
+> To allow the ASoC driver to keep building with the SCMI support, this
+> needs to be an optional dependency that enforces the link-time
+> dependency if IMX_SCMI_MISC_DRV is a loadable module but not
+> depend on it if that is disabled.
+> 
+> Fixes: 61c9f03e22fc ("firmware: arm_scmi: Add initial support for i.MX MISC protocol")
+> Fixes: 101c9023594a ("ASoC: fsl_mqs: Support accessing registers by scmi interface")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> I'm not sure this is the version we want to go with in the end, without
+> having read the code in detail, but the version in linux-next is clearly
+> wrong in multiple ways and this is the best I could come up with so far.
+> 
+> If we can agree on this approach, it needs to go through the ASoC tree
+> as that contains the 101c9023594a commit at the moment.
 
-The newly added SCMI vendor driver references functions in the
-protocol driver but needs a Kconfig dependency to ensure it can link,
-essentially the Kconfig dependency needs to be reversed to match the
-link time dependency:
+Thanks for spotting and fixing, Arnd!
 
-arm-linux-gnueabi-ld: sound/soc/fsl/fsl_mqs.o: in function `fsl_mqs_sm_write':
-fsl_mqs.c:(.text+0x1aa): undefined reference to `scmi_imx_misc_ctrl_set'
-arm-linux-gnueabi-ld: sound/soc/fsl/fsl_mqs.o: in function `fsl_mqs_sm_read':
-fsl_mqs.c:(.text+0x1ee): undefined reference to `scmi_imx_misc_ctrl_get'
+Unless Peng has objection to this change, I'm good with it.
 
-This however only works after changing the dependency in the SND_SOC_FSL_MQS
-driver as well, which uses 'select IMX_SCMI_MISC_DRV' to turn on a
-driver it depends on. This is generally a bad idea, so the best solution
-is to change that into a dependency.
-
-To allow the ASoC driver to keep building with the SCMI support, this
-needs to be an optional dependency that enforces the link-time
-dependency if IMX_SCMI_MISC_DRV is a loadable module but not
-depend on it if that is disabled.
-
-Fixes: 61c9f03e22fc ("firmware: arm_scmi: Add initial support for i.MX MISC protocol")
-Fixes: 101c9023594a ("ASoC: fsl_mqs: Support accessing registers by scmi interface")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
-I'm not sure this is the version we want to go with in the end, without
-having read the code in detail, but the version in linux-next is clearly
-wrong in multiple ways and this is the best I could come up with so far.
-
-If we can agree on this approach, it needs to go through the ASoC tree
-as that contains the 101c9023594a commit at the moment.
----
- drivers/firmware/arm_scmi/vendors/imx/Kconfig | 1 +
- drivers/firmware/imx/Kconfig                  | 1 -
- sound/soc/fsl/Kconfig                         | 2 +-
- 3 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/firmware/arm_scmi/vendors/imx/Kconfig b/drivers/firmware/arm_scmi/vendors/imx/Kconfig
-index 2883ed24a84d..a01bf5e47301 100644
---- a/drivers/firmware/arm_scmi/vendors/imx/Kconfig
-+++ b/drivers/firmware/arm_scmi/vendors/imx/Kconfig
-@@ -15,6 +15,7 @@ config IMX_SCMI_BBM_EXT
- config IMX_SCMI_MISC_EXT
- 	tristate "i.MX SCMI MISC EXTENSION"
- 	depends on ARM_SCMI_PROTOCOL || (COMPILE_TEST && OF)
-+	depends on IMX_SCMI_MISC_DRV
- 	default y if ARCH_MXC
- 	help
- 	  This enables i.MX System MISC control logic such as gpio expander
-diff --git a/drivers/firmware/imx/Kconfig b/drivers/firmware/imx/Kconfig
-index 477d3f32d99a..907cd149c40a 100644
---- a/drivers/firmware/imx/Kconfig
-+++ b/drivers/firmware/imx/Kconfig
-@@ -25,7 +25,6 @@ config IMX_SCU
- 
- config IMX_SCMI_MISC_DRV
- 	tristate "IMX SCMI MISC Protocol driver"
--	depends on IMX_SCMI_MISC_EXT || COMPILE_TEST
- 	default y if ARCH_MXC
- 	help
- 	  The System Controller Management Interface firmware (SCMI FW) is
-diff --git a/sound/soc/fsl/Kconfig b/sound/soc/fsl/Kconfig
-index 8e88830e8e57..678540b78280 100644
---- a/sound/soc/fsl/Kconfig
-+++ b/sound/soc/fsl/Kconfig
-@@ -29,8 +29,8 @@ config SND_SOC_FSL_SAI
- config SND_SOC_FSL_MQS
- 	tristate "Medium Quality Sound (MQS) module support"
- 	depends on SND_SOC_FSL_SAI
-+	depends on IMX_SCMI_MISC_DRV || !IMX_SCMI_MISC_DRV
- 	select REGMAP_MMIO
--	select IMX_SCMI_MISC_DRV if IMX_SCMI_MISC_EXT !=n
- 	help
- 	  Say Y if you want to add Medium Quality Sound (MQS)
- 	  support for the Freescale CPUs.
--- 
-2.39.5
+Shawn
 
