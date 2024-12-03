@@ -1,31 +1,40 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B0ED1FECC3;
-	Tue,  3 Dec 2024 19:36:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AB97204F8E;
+	Tue,  3 Dec 2024 20:01:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733254569; cv=none; b=cxOWnqfM0BEpZA5/yBg4d/1EjzCfLFO2qTQEb9vLL50gv4ZwKoX8vE3hArW9VyhGnjtAInNrs6W07xSbEjlPDBfpajqpPxp3Rjw06oJvU8QtpuAmq8+Jf9NiZBlTbReDVPnPekDw7eN+lESgXlN+2jhqDd+kO0IzTIR0RV6iXQQ=
+	t=1733256070; cv=none; b=lfs7vHH+d4T7p/kKHRyKFfX3T1u7WUHnUdHapCdNwbfgc0C7MvSDVzrUtSfNYl/Y7HP71J72DLUifarDErj+iQ6JJBiGAxTSDIjflmRmChLHdLUZiZTFkxwS4VL22FNj8bnKY5DrHciUlfC6M8L2mJDHYBnzSldpqtkcS8CiPqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733254569; c=relaxed/simple;
-	bh=wFSaemFvuGcgSlHagL7sx6SZgmpqWoAgDeGFJAVoAuQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G+Os9uUyfVPytQ2jHOvAmlhNZz+a7qzpwnHGGkaqA6b2GwzHRK4PX4hdDJ0F6cGb29Q//08t1Nrd6qQBj9sBgdvB+3OVsYmXgRjQYHVvxOLBMaBaNs+iAkqKCY48KwNlU5CFHvI4NKZs5bjydDjsDw272U64Pk0SURDuRq4Ema4=
+	s=arc-20240116; t=1733256070; c=relaxed/simple;
+	bh=QQnGl49LYdyAEW/QAiHWfZsffZgxKlREAeZaTDNK9iQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fKB2xrIfCihybIZLt1dlzsj5fq4jZqAhQEzQbq23R8kvg7CCE9GsiWzeHDNAWQRXWVZC6t+DKQSMwT5wvS7rhTNVBJHmHTbNVGZYpN6etOANF9eMX80abTiiLoo5afhVGLNv8/LLN4JV/KE+cEhJIuaBmSa99rbzzEXQZ8xPDDs=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 45573FEC;
-	Tue,  3 Dec 2024 11:36:33 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 67E7BFEC;
+	Tue,  3 Dec 2024 12:01:34 -0800 (PST)
 Received: from pluto.guest.local (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3CC2A3F58B;
-	Tue,  3 Dec 2024 11:36:04 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D7D5A3F5A1;
+	Tue,  3 Dec 2024 12:01:03 -0800 (PST)
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	arm-scmi@vger.kernel.org
 Cc: sudeep.holla@arm.com,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	etienne.carriere@st.com,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	quic_sibis@quicinc.com,
+	dan.carpenter@linaro.org,
+	johan+linaro@kernel.org,
 	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH] firmware: arm_scmi: Allow transport properties for multiple instances
-Date: Tue,  3 Dec 2024 19:35:44 +0000
-Message-ID: <20241203193544.3895173-1-cristian.marussi@arm.com>
+Subject: [PATCH 0/2] Add SCMI Vendor module autoload support
+Date: Tue,  3 Dec 2024 20:00:36 +0000
+Message-ID: <20241203200038.3961090-1-cristian.marussi@arm.com>
 X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -35,94 +44,35 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Default SCMI transport properties values can be overridden with devicetree
-provided descriptors; in order to support multiple SCMI instances, make the
-properties-update happen on a per-instance copy of the original transport
-descriptor.
+Hi,
 
-Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
----
- drivers/firmware/arm_scmi/common.h |  4 ++--
- drivers/firmware/arm_scmi/driver.c | 18 +++++++++---------
- 2 files changed, 11 insertions(+), 11 deletions(-)
+a tiny series to add the capability to automatically load the proper
+vendor protocol module when an SCMI driver tries to use it; while proper
+vendor protocol selection is already provided by the SCMI core, automatic
+loading of vendor protocols was not.
 
-diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-index 48b12f81141d..10ea7962323e 100644
---- a/drivers/firmware/arm_scmi/common.h
-+++ b/drivers/firmware/arm_scmi/common.h
-@@ -442,7 +442,7 @@ struct scmi_transport_core_operations {
-  */
- struct scmi_transport {
- 	struct device *supplier;
--	struct scmi_desc *desc;
-+	struct scmi_desc desc;
- 	struct scmi_transport_core_operations **core_ops;
- };
- 
-@@ -468,7 +468,7 @@ static int __tag##_probe(struct platform_device *pdev)			       \
- 	device_set_of_node_from_dev(&spdev->dev, dev);			       \
- 									       \
- 	strans.supplier = dev;						       \
--	strans.desc = &(__desc);					       \
-+	memcpy(&strans.desc, &(__desc), sizeof(strans.desc));		       \
- 	strans.core_ops = &(__core_ops);				       \
- 									       \
- 	ret = platform_device_add_data(spdev, &strans, sizeof(strans));	       \
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 1b5fb2c4ce86..eeed1689b208 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -3028,7 +3028,7 @@ static const struct scmi_desc *scmi_transport_setup(struct device *dev)
- 	int ret;
- 
- 	trans = dev_get_platdata(dev);
--	if (!trans || !trans->desc || !trans->supplier || !trans->core_ops)
-+	if (!trans || !trans->supplier || !trans->core_ops)
- 		return NULL;
- 
- 	if (!device_link_add(dev, trans->supplier, DL_FLAG_AUTOREMOVE_CONSUMER)) {
-@@ -3043,33 +3043,33 @@ static const struct scmi_desc *scmi_transport_setup(struct device *dev)
- 	dev_info(dev, "Using %s\n", dev_driver_string(trans->supplier));
- 
- 	ret = of_property_read_u32(dev->of_node, "arm,max-rx-timeout-ms",
--				   &trans->desc->max_rx_timeout_ms);
-+				   &trans->desc.max_rx_timeout_ms);
- 	if (ret && ret != -EINVAL)
- 		dev_err(dev, "Malformed arm,max-rx-timeout-ms DT property.\n");
- 
- 	ret = of_property_read_u32(dev->of_node, "arm,max-msg-size",
--				   &trans->desc->max_msg_size);
-+				   &trans->desc.max_msg_size);
- 	if (ret && ret != -EINVAL)
- 		dev_err(dev, "Malformed arm,max-msg-size DT property.\n");
- 
- 	ret = of_property_read_u32(dev->of_node, "arm,max-msg",
--				   &trans->desc->max_msg);
-+				   &trans->desc.max_msg);
- 	if (ret && ret != -EINVAL)
- 		dev_err(dev, "Malformed arm,max-msg DT property.\n");
- 
- 	dev_info(dev,
- 		 "SCMI max-rx-timeout: %dms / max-msg-size: %dbytes / max-msg: %d\n",
--		 trans->desc->max_rx_timeout_ms, trans->desc->max_msg_size,
--		 trans->desc->max_msg);
-+		 trans->desc.max_rx_timeout_ms, trans->desc.max_msg_size,
-+		 trans->desc.max_msg);
- 
- 	/* System wide atomic threshold for atomic ops .. if any */
- 	if (!of_property_read_u32(dev->of_node, "atomic-threshold-us",
--				  &trans->desc->atomic_threshold))
-+				  &trans->desc.atomic_threshold))
- 		dev_info(dev,
- 			 "SCMI System wide atomic threshold set to %u us\n",
--			 trans->desc->atomic_threshold);
-+			 trans->desc.atomic_threshold);
- 
--	return trans->desc;
-+	return &trans->desc;
- }
- 
- static int scmi_probe(struct platform_device *pdev)
+Lookup is now based on module aliases following the pattern:
+
+	scmi-protocol-0x<PROTO_ID_NN>-<VENDOR_ID>
+
+In [2/2] proper aliases are added to existing i.MX Vendor protocols...
+...could not find a better way to build the alias string automagically...
+
+...any advice is welcome in these regards...and any feedback too !
+
+Thanks,
+Cristian
+
+Cristian Marussi (2):
+  firmware: arm_scmi: Support vendor protocol modules autoloading
+  firmware: arm_scmi: Add module aliases to i.MX vendor protocols
+
+ drivers/firmware/arm_scmi/driver.c            | 56 +++++++++++++++----
+ .../arm_scmi/vendors/imx/imx-sm-bbm.c         |  5 +-
+ .../arm_scmi/vendors/imx/imx-sm-misc.c        |  5 +-
+ include/linux/scmi_imx_protocol.h             |  9 +--
+ 4 files changed, 57 insertions(+), 18 deletions(-)
+
 -- 
 2.47.0
 
