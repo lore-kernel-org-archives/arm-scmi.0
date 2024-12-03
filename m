@@ -1,109 +1,64 @@
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [96.44.175.130])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0F820B7F2;
-	Tue,  3 Dec 2024 15:34:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.44.175.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B8C1F892F;
+	Tue,  3 Dec 2024 17:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733240099; cv=none; b=LtsNsGvhJHeu81DybNV1Tnad3qIu185S17gjtYYMfeIrQgzLqokNR79DHho68oaMlUZb+lWlwVDODEDmeZQaPwV2CYF2wnfaUadLjEyHfsKQ5H3Jvd5/2zqZXM/yjgQL6zuVBNE6C5qTr8tmjuqNDsY/jYvS3CR50e9S54tAQJ8=
+	t=1733247627; cv=none; b=clwKQqPjYqUyMGa07Nl/Z2F+UdQumYdqHSYbet+yY3AFc2HvRRrAWu4UT0BeW06tlXIPuFDIU0i1tuDajIAndHLgDVIykXdTA0rUwRHbJKtKN9lILGJ73xr7jLD+ZVUCDrHno8rRAV/qaEpLrVOGMve1+tzEexzch0WGEmy65yE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733240099; c=relaxed/simple;
-	bh=L/QXZvHG42gthQ6VgZcE1FVgbBCT68wm3yek2sYu4mw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cmgqloiInue402+/BJHVxQP5t0EI7sL5NRa4fqage/DVyh26AaN6TKl97ZPjT0dlmrn+HEGkp2zFri/+e8Yo5AWz3H/ZvbDnt//uVq19D38t8ZdlC28HxIWRWzuVt2dtSjEABCNQBZOftMpJ3zXsa2H+pxD8rxU6B+G6ok+KLwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=eZ4U4tRU; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=eZ4U4tRU; arc=none smtp.client-ip=96.44.175.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
+	s=arc-20240116; t=1733247627; c=relaxed/simple;
+	bh=u56MRaRg7YVdQTfY/eotq17rGkTT8/OoRQSiqJx+cOg=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=L5a873noJAnLb5neljrwgGrLQ/q/GSmKWCE4l7lr8vj4c/dsjmbcWtqQSmChs4DHb8eOnfGP0bZIO/SCMTYK8Rzhd6VTybFV/d79NbUUxZR3uFQzS6Iee6w/ay+AozwkuCGZ6YxwFfqTRpuYhFe/vwZ0naQNvONIabIHxM6Kdbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=UV+eJsgh; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="eZ4U4tRU";
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="eZ4U4tRU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1733240096;
-	bh=L/QXZvHG42gthQ6VgZcE1FVgbBCT68wm3yek2sYu4mw=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=eZ4U4tRU1qIWP3lhCG1NFGqdlkJwbCoeHoXmlbwbm0xojoL7yxF2OmBDrwRg5sJZD
-	 yUR1Ufh9cMTmWMSk/QfvKgX3lU1FOQtEkMYCzG5HJRGBhs9c6tkPAgFURJTLia4EJE
-	 fFgUsJsyCn7Ieybkh2Zt2C6KjPseMR4k9lZkDFPA=
-Received: from localhost (localhost [127.0.0.1])
-	by bedivere.hansenpartnership.com (Postfix) with ESMTP id A95511286A94;
-	Tue, 03 Dec 2024 10:34:56 -0500 (EST)
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
- by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
- with ESMTP id Nouo1dbPKzw4; Tue,  3 Dec 2024 10:34:56 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1733240096;
-	bh=L/QXZvHG42gthQ6VgZcE1FVgbBCT68wm3yek2sYu4mw=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=eZ4U4tRU1qIWP3lhCG1NFGqdlkJwbCoeHoXmlbwbm0xojoL7yxF2OmBDrwRg5sJZD
-	 yUR1Ufh9cMTmWMSk/QfvKgX3lU1FOQtEkMYCzG5HJRGBhs9c6tkPAgFURJTLia4EJE
-	 fFgUsJsyCn7Ieybkh2Zt2C6KjPseMR4k9lZkDFPA=
-Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id F32C01286A7D;
-	Tue, 03 Dec 2024 10:34:50 -0500 (EST)
-Message-ID: <108c63c753f2f637a72c2e105ac138f80d4b0859.camel@HansenPartnership.com>
-Subject: Re: [PATCH v2 00/32] driver core: Constify API device_find_child()
- and adapt for various existing usages
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: Zijun Hu <zijun_hu@icloud.com>, Thomas =?ISO-8859-1?Q?Wei=DFschuh?=
-	 <thomas@t-8ch.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jean
- Delvare <jdelvare@suse.com>,  Guenter Roeck <linux@roeck-us.net>, Martin
- Tuma <martin.tuma@digiteqautomotive.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Andreas Noever <andreas.noever@gmail.com>, Michael
- Jamet <michael.jamet@intel.com>, Mika Westerberg
- <mika.westerberg@linux.intel.com>,  Yehezkel Bernat
- <YehezkelShB@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, Bartosz
- Golaszewski <brgl@bgdev.pl>, Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean
- <olteanv@gmail.com>,  "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Dan Williams
- <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Dave
- Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, Takashi
- Sakamoto <o-takashi@sakamocchi.jp>, Jiri Slaby <jirislaby@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, Srinivas Kandagatla
- <srinivas.kandagatla@linaro.org>, Lee Duncan <lduncan@suse.com>, Chris
- Leech <cleech@redhat.com>, Mike Christie <michael.christie@oracle.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>, Nilesh Javali
- <njavali@marvell.com>, Manish Rangankar <mrangankar@marvell.com>,
- GR-QLogic-Storage-Upstream@marvell.com, Davidlohr Bueso
- <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>, Alison
- Schofield <alison.schofield@intel.com>, Andreas Larsson
- <andreas@gaisler.com>, Stuart Yoder <stuyoder@gmail.com>, Laurentiu Tudor
- <laurentiu.tudor@nxp.com>, Jens Axboe <axboe@kernel.dk>, Sudeep Holla
- <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>, Ard
- Biesheuvel <ardb@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org,
- netdev@vger.kernel.org,  linux-pwm@vger.kernel.org, nvdimm@lists.linux.dev,
-  linux1394-devel@lists.sourceforge.net, linux-serial@vger.kernel.org, 
- linux-sound@vger.kernel.org, open-iscsi@googlegroups.com, 
- linux-scsi@vger.kernel.org, linux-cxl@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-block@vger.kernel.org, 
- arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
- linux-remoteproc@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
-Date: Tue, 03 Dec 2024 10:34:49 -0500
-In-Reply-To: <f5ea7e17-5550-4658-8f4c-1c51827c7627@icloud.com>
-References: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
-	 <g32cigmktmj4egkq2tof27el2yss4liccfxgebkgqvkil32mlb@e3ta4ezv7y4m>
-	 <9d34bd6f-b120-428a-837b-5a5813e14618@icloud.com>
-	 <2024120320-manual-jockey-dfd1@gregkh>
-	 <b9885785-d4d4-4c72-b425-3dc552651d7e@icloud.com>
-	 <8eb7c0c54b280b8eb72f82032ede802c001ab087.camel@HansenPartnership.com>
-	 <8fb887a0-3634-4e07-9f0d-d8d7c72ca802@t-8ch.de>
-	 <f5ea7e17-5550-4658-8f4c-1c51827c7627@icloud.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="UV+eJsgh"
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B3C3UdS017760;
+	Tue, 3 Dec 2024 18:40:10 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	CFvrB57kQUB9+YRdta2CSyD4T69d0dVCuOkS2SjanlQ=; b=UV+eJsghDDEF2hwb
+	M9GYd8namo9INodFNJ5/AxXsopoiw58qAQ8a8kBrT+b/6x9k4hlTrgnCvjHi5wQQ
+	WKpV+t2ABNc1RiohH5V+twdlfqDXFL/DGmf2q+vru1C1vx16JEXnU3OklCr/YeuK
+	ShR4r7eCkeuvzoTC7IgF7yLdETstQ0IISqj2zusrb5H4lwIYyrrNgf+9TREaqwhk
+	UdkfaGfTy1gjCcg8fALDhxENXiCeFWJL2Rnvy4tdtJo9zXgyIQKbNMM6uOooE7K9
+	ixExpQrFHFob21GSJeERL7MnE6kdn3qhP7itR37NQmIWlhFlc8ipkRwYgHChF8Gy
+	4oNPSQ==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 437tx26by3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 03 Dec 2024 18:40:10 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id E93B140048;
+	Tue,  3 Dec 2024 18:39:11 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3E1772359CC;
+	Tue,  3 Dec 2024 18:39:11 +0100 (CET)
+Received: from localhost (10.48.86.128) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 3 Dec
+ 2024 18:39:10 +0100
+From: Etienne Carriere <etienne.carriere@foss.st.com>
+To: <linux-kernel@vger.kernel.org>
+CC: Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi
+	<cristian.marussi@arm.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, <arm-scmi@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-clk@vger.kernel.org>,
+        Etienne
+ Carriere <etienne.carriere@foss.st.com>
+Subject: [PATCH v2 1/2] firmware: arm_scmi: get only min/max clock rates
+Date: Tue, 3 Dec 2024 18:39:07 +0100
+Message-ID: <20241203173908.3148794-2-etienne.carriere@foss.st.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20241203173908.3148794-1-etienne.carriere@foss.st.com>
+References: <20241203173908.3148794-1-etienne.carriere@foss.st.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -111,85 +66,236 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-On Tue, 2024-12-03 at 22:56 +0800, Zijun Hu wrote:
-> On 2024/12/3 22:07, Thomas Weißschuh wrote:
-> > On 2024-12-03 08:58:26-0500, James Bottomley wrote:
-> > > On Tue, 2024-12-03 at 21:02 +0800, Zijun Hu wrote:
-> > > > On 2024/12/3 20:41, Greg Kroah-Hartman wrote:
-> > > > > On Tue, Dec 03, 2024 at 08:23:45PM +0800, Zijun Hu wrote:
-> > > [...]
-> > > > > > or squash such patch series into a single patch ?
-> > > > > > 
-> > > > > > various subsystem maintainers may not like squashing way.
-> > > > > 
-> > > > > Agreed, so look into either doing it in a bisectable way if
-> > > > > at all possible.  As I don't see a full series here, I can't
-> > > > > suggest how it needs to happen :(
-> > > > > 
-> > > > 
-> > > > let me send you a full series later and discuss how to solve
-> > > > this issue.
-> > > 
-> > > It's only slightly more complex than what we normally do: modify
-> > > all instances and then change the API.  In this case you have an
-> > > additional problem because the prototype "const void *" will
-> > > cause a mismatch if a function has "void *".  The easiest way to
-> > > solve this is probably to make device_find_child a macro that
-> > > coerces its function argument to having a non const "void *" and
-> > > then passes off to the real function.  If you do that in the
-> > > first patch, then you can constify all the consumers and finally
-> > > remove the macro coercion in the last patch.
-> > 
-> > Casting function pointers like that should be detected and trapped
-> > by control flow integrity checking (KCFI).
-> > 
-> > Another possibility would be to use a macro and _Generic to
-> > dispatch to two different backing functions. See __BIN_ATTR() in
-> > include/linux/sysfs.h for an inspiration.
+Remove limitation of 16 clock rates max for discrete clock rates
+description when the SCMI firmware supports SCMI Clock protocol v2.0
+or later.
 
-That's way over complicated for this conversion: done properly there
-should be no need for _Generic() compile time type matching at all.
+Driver clk-scmi.c is only interested in the min and max clock rates.
+Get these by querying the first and last discrete rates with SCMI
+clock protocol message ID CLOCK_DESCRIBE_RATES since the SCMI
+specification v2.0 and later states that rates enumerated by this
+command are to be enumerated in "numeric ascending order" [1].
 
-> this way may fix building error issue but does not achieve our
-> purpose. our purpose is that there are only constified
-> device_find_child().
-> 
-> 
-> > This also enables an incremental migration.
-> 
-> change the API prototype from:
-> device_find_child(..., void *data_0, int (*match)(struct device *dev,
-> void *data));
-> 
-> to:
-> device_find_child(..., const void *data_0, int (*match)(struct device
-> *dev, const void *data));
-> 
-> For @data_0,  void * -> const void * is okay.
-> but for @match, the problem is function pointer type incompatibility.
-> 
-> there are two solutions base on discussions.
-> 
-> 1) squashing likewise Greg mentioned.
->    Do all of the "prep work" first, and then
->    do the const change at the very end, all at once.
-> 
-> 2)  as changing platform_driver's remove() prototype.
-> Commit: e70140ba0d2b ("Get rid of 'remove_new' relic from platform
-> driver struct")
-> 
->  introduce extra device_find_child_new() which is constified  -> use
-> *_new() replace ALL device_find_child() instances one by one -> 
-> remove device_find_child() -> rename *_new() to device_find_child()
-> once.
+Preserve the implementation that queries all discrete rates (16 rates
+max) to support SCMI firmware built on SCMI specification v1.0 [2]
+where SCMI Clock protocol v1.0 does not explicitly require rates
+described with CLOCK_DESCRIBE_RATES to be in ascending order.
 
-Why bother with the last step, which churns the entire code base again?
-Why not call the new function device_find_child_const() and simply keep
-it (it's descriptive of its function).  That way you can have a patch
-series without merging and at the end simply remove the old function.
+Link: https://developer.arm.com/documentation/den0056 [1]
+Link: https://developer.arm.com/documentation/den0056/a [2]
+Signed-off-by: Etienne Carriere <etienne.carriere@foss.st.com>
+---
+Changes since patch series v1:
+- Preserve the original implementation and keep using it for SCMI
+  Clock protocol v1.0.
 
-Regards,
+---
+ drivers/clk/clk-scmi.c            |   4 +-
+ drivers/firmware/arm_scmi/clock.c | 112 ++++++++++++++++++++++++++++--
+ include/linux/scmi_protocol.h     |   4 +-
+ 3 files changed, 110 insertions(+), 10 deletions(-)
 
-James
+diff --git a/drivers/clk/clk-scmi.c b/drivers/clk/clk-scmi.c
+index 15510c2ff21c..09ccd6cea7f2 100644
+--- a/drivers/clk/clk-scmi.c
++++ b/drivers/clk/clk-scmi.c
+@@ -244,8 +244,8 @@ static int scmi_clk_ops_init(struct device *dev, struct scmi_clk *sclk,
+ 		if (num_rates <= 0)
+ 			return -EINVAL;
+ 
+-		min_rate = sclk->info->list.rates[0];
+-		max_rate = sclk->info->list.rates[num_rates - 1];
++		min_rate = sclk->info->list.min_rate;
++		max_rate = sclk->info->list.max_rate;
+ 	} else {
+ 		min_rate = sclk->info->range.min_rate;
+ 		max_rate = sclk->info->range.max_rate;
+diff --git a/drivers/firmware/arm_scmi/clock.c b/drivers/firmware/arm_scmi/clock.c
+index 2ed2279388f0..34fde0b88098 100644
+--- a/drivers/firmware/arm_scmi/clock.c
++++ b/drivers/firmware/arm_scmi/clock.c
+@@ -223,10 +223,21 @@ scmi_clock_protocol_attributes_get(const struct scmi_protocol_handle *ph,
+ 	return ret;
+ }
+ 
++/*
++ * Support SCMI_CLOCK protocol v1.0 as described in SCMI specification v1.0
++ * that do not explicitly require clock rates described with command
++ * CLOCK_DESCRIBE_RATES to be in ascending order. The Linux legacy
++ * implementation for these clock supports a max of 16 rates.
++ * In SCMI specification v2.0 and later, rates must be in ascending order
++ * to we query only to min and max rates values.
++ */
++#define SCMI_MAX_NUM_RATES_V1		16
++
+ struct scmi_clk_ipriv {
+ 	struct device *dev;
+ 	u32 clk_id;
+ 	struct scmi_clock_info *clk;
++	u64 rates[SCMI_MAX_NUM_RATES_V1];
+ };
+ 
+ static void iter_clk_possible_parents_prepare_message(void *message, unsigned int desc_index,
+@@ -493,7 +504,7 @@ iter_clk_describe_process_response(const struct scmi_protocol_handle *ph,
+ 			break;
+ 		}
+ 	} else {
+-		u64 *rate = &p->clk->list.rates[st->desc_index + st->loop_idx];
++		u64 *rate = &p->rates[st->desc_index + st->loop_idx];
+ 
+ 		*rate = RATE_TO_U64(r->rate[st->loop_idx]);
+ 		p->clk->list.num_rates++;
+@@ -519,7 +530,7 @@ scmi_clock_describe_rates_get(const struct scmi_protocol_handle *ph, u32 clk_id,
+ 		.dev = ph->dev,
+ 	};
+ 
+-	iter = ph->hops->iter_response_init(ph, &ops, SCMI_MAX_NUM_RATES,
++	iter = ph->hops->iter_response_init(ph, &ops, ARRAY_SIZE(cpriv.rates),
+ 					    CLOCK_DESCRIBE_RATES,
+ 					    sizeof(struct scmi_msg_clock_describe_rates),
+ 					    &cpriv);
+@@ -535,10 +546,95 @@ scmi_clock_describe_rates_get(const struct scmi_protocol_handle *ph, u32 clk_id,
+ 			clk->range.min_rate, clk->range.max_rate,
+ 			clk->range.step_size);
+ 	} else if (clk->list.num_rates) {
+-		sort(clk->list.rates, clk->list.num_rates,
+-		     sizeof(clk->list.rates[0]), rate_cmp_func, NULL);
++		sort(cpriv.rates, clk->list.num_rates,
++		     sizeof(cpriv.rates[0]), rate_cmp_func, NULL);
++		clk->list.min_rate = cpriv.rates[0];
++		clk->list.max_rate = cpriv.rates[clk->list.num_rates - 1];
++	}
++
++	return ret;
++}
++
++static int scmi_clock_get_rates_bound(const struct scmi_protocol_handle *ph,
++				      u32 clk_id, struct scmi_clock_info *clk)
++{
++	struct scmi_msg_clock_describe_rates *msg;
++	const struct scmi_msg_resp_clock_describe_rates *resp;
++	unsigned int num_returned, num_remaining;
++	struct scmi_xfer *t;
++	int ret;
++
++	/* Get either the range triplet or the min rate & rates count */
++	ret = ph->xops->xfer_get_init(ph, CLOCK_DESCRIBE_RATES, sizeof(*msg), 0,
++				      &t);
++	if (ret)
++		return ret;
++
++	msg = t->tx.buf;
++	msg->id = cpu_to_le32(clk_id);
++	msg->rate_index = 0;
++
++	resp = t->rx.buf;
++
++	ret = ph->xops->do_xfer(ph, t);
++	if (ret)
++		goto out;
++
++	clk->rate_discrete = RATE_DISCRETE(resp->num_rates_flags);
++	num_returned = NUM_RETURNED(resp->num_rates_flags);
++	num_remaining = NUM_REMAINING(resp->num_rates_flags);
++
++	if (clk->rate_discrete) {
++		clk->list.num_rates = num_returned + num_remaining;
++		clk->list.min_rate = RATE_TO_U64(resp->rate[0]);
++
++		if (num_remaining) {
++			ph->xops->reset_rx_to_maxsz(ph, t);
++			msg->id = cpu_to_le32(clk_id);
++			msg->rate_index = cpu_to_le32(clk->list.num_rates - 1);
++			ret = ph->xops->do_xfer(ph, t);
++			if (!ret)
++				clk->list.max_rate = RATE_TO_U64(resp->rate[0]);
++		} else {
++			u64 max = RATE_TO_U64(resp->rate[num_returned - 1]);
++
++			clk->list.max_rate = max;
++		}
++	} else {
++		/* We expect a triplet, warn about out of spec replies ... */
++		if (num_returned != 3 || num_remaining != 0) {
++			dev_warn(ph->dev,
++				 "Out-of-spec CLOCK_DESCRIBE_RATES reply for %s - returned:%d remaining:%d rx_len:%zd\n",
++				 clk->name, num_returned, num_remaining,
++				 t->rx.len);
++
++			/*
++			 * A known quirk: a triplet is returned but
++			 * num_returned != 3, check for a safe payload
++			 * size to use returned info.
++			 */
++			if (num_remaining != 0 ||
++			    t->rx.len != sizeof(*resp) +
++					 sizeof(__le32) * 2 * 3) {
++				dev_err(ph->dev,
++					"Cannot fix out-of-spec reply !\n");
++				ret = -EPROTO;
++				goto out;
++			}
++		}
++
++		clk->range.min_rate = RATE_TO_U64(resp->rate[0]);
++		clk->range.max_rate = RATE_TO_U64(resp->rate[1]);
++		clk->range.step_size = RATE_TO_U64(resp->rate[2]);
++
++		dev_dbg(ph->dev, "Min %llu Max %llu Step %llu Hz\n",
++			clk->range.min_rate, clk->range.max_rate,
++			clk->range.step_size);
+ 	}
+ 
++out:
++	ph->xops->xfer_put(ph, t);
++
+ 	return ret;
+ }
+ 
+@@ -1089,8 +1185,12 @@ static int scmi_clock_protocol_init(const struct scmi_protocol_handle *ph)
+ 		struct scmi_clock_info *clk = cinfo->clk + clkid;
+ 
+ 		ret = scmi_clock_attributes_get(ph, clkid, cinfo, version);
+-		if (!ret)
+-			scmi_clock_describe_rates_get(ph, clkid, clk);
++		if (!ret) {
++			if (PROTOCOL_REV_MAJOR(version) >= 0x2)
++				scmi_clock_get_rates_bound(ph, clkid, clk);
++			else
++				scmi_clock_describe_rates_get(ph, clkid, clk);
++		}
+ 	}
+ 
+ 	if (PROTOCOL_REV_MAJOR(version) >= 0x3) {
+diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
+index 688466a0e816..240478bb8476 100644
+--- a/include/linux/scmi_protocol.h
++++ b/include/linux/scmi_protocol.h
+@@ -15,7 +15,6 @@
+ 
+ #define SCMI_MAX_STR_SIZE		64
+ #define SCMI_SHORT_NAME_MAX_SIZE	16
+-#define SCMI_MAX_NUM_RATES		16
+ 
+ /**
+  * struct scmi_revision_info - version information structure
+@@ -54,7 +53,8 @@ struct scmi_clock_info {
+ 	union {
+ 		struct {
+ 			int num_rates;
+-			u64 rates[SCMI_MAX_NUM_RATES];
++			u64 min_rate;
++			u64 max_rate;
+ 		} list;
+ 		struct {
+ 			u64 min_rate;
+-- 
+2.25.1
 
