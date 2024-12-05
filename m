@@ -1,109 +1,220 @@
-Received: from pv50p00im-tydg10021701.me.com (pv50p00im-tydg10021701.me.com [17.58.6.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FAFD1392
-	for <arm-scmi@vger.kernel.org>; Thu,  5 Dec 2024 13:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.6.54
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FBE016F8F5;
+	Thu,  5 Dec 2024 15:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733404768; cv=none; b=YHW3yZ3PuNXDgrbnrVtm8un8obgZD5nlZGLM01HsY3mLPHuk8n6kALaqs2cK4T8i87r94vWHgkzeYgTXddS6+H/dtHsmrtZ97EesrOqTsHc1Uc66gr/xbb8ksvl2hJRD/qdjw9VCoyl/Ys6A6VTpbsYiITABtYlsf9wl4Ock6Ic=
+	t=1733412446; cv=none; b=NzgETwXj7YglCyS/IntrguUsPbAta5Rax+uOzxU42x4ng2RikaYDNH81gQ7k3ZPE3xVkJ6++2urDadPsW6a0heVVbNSiS7QFn1Pc2OD4kBcjvilemt/1KlIVdwF4W+20NV0/vhuJOymKqggSfE8Y/jGQE3rTqCRH7PlAp6vSY1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733404768; c=relaxed/simple;
-	bh=Y8SH9YRW4Y+tbLnxz2fC5g3ZDI0vc4mItkQNyvm6VZk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O9RdXuvTy9Y+2CVX/6kT1MyIENZrao+fhjmghf5yORQ8jZEHDZCTWdAPyA8Go2A1vl8/4UY8ZQvaw7zFlwwvNCVBH2TGHeKuIUBWINgcDHTPsqd7f5kblpQvXXlW6UIZYsAhW2+1ya6vnmzxGwXvH4/hzaajrga+ZPL32mug310=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=IN6sqLn/; arc=none smtp.client-ip=17.58.6.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="IN6sqLn/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-	s=1a1hai; t=1733404763;
-	bh=DeIIq7By5hb3j6D6u79xafAimRNm6W+G83In10fjfT4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:
-	 x-icloud-hme;
-	b=IN6sqLn/x5OCaqJO4vF5gn/fcjmZc3fZlyeytDMJnKp7XQ3de7PoFnmqSe0zeC9a5
-	 vUwI0Tptt7E+4Q3DWUqdgUpD0xOI9lBpQ4RQvwZlnJGvBh2ctgzycf7q159ExifH7K
-	 a8AIRvkTNSgebMbC7lLYAk5B4kjmGYrIRQclMfECHJrJ1+KGG+jAbVUk+xSHPoDbnh
-	 1e9j8QEBXLJX5ZxwWzRD/5Q41qX+s8eZZmLJoAKcnBcHGPNxbbfWDhHq6Q/v1949Vm
-	 rVciEGx0K4GT+eFIHW+pi7hnAXPVyGUzlxkEJ6XEG1lJhoSlPxkPp1AOo8we43GZSE
-	 xVpU9Q2Rr6i5g==
-Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
-	by pv50p00im-tydg10021701.me.com (Postfix) with ESMTPSA id C58AC3A1052;
-	Thu,  5 Dec 2024 13:19:06 +0000 (UTC)
-Message-ID: <f150fd45-7f84-4036-aa0e-32bd04fbeb67@icloud.com>
-Date: Thu, 5 Dec 2024 21:19:02 +0800
+	s=arc-20240116; t=1733412446; c=relaxed/simple;
+	bh=J0H+X3H5wdZ7DGBbIMIYrC4sHcriNQKSC2EVNNyNskY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gOpZ0GXMKq9jWaG/Dre51uZeigFkI3NxUsVlAQLZItjiuJ3xXYBa9OMzv802dh3ECfPufJqGJV+BgnaO7Ej8TMvkYiDz9dF+hk/3LbK3TNiuTZx0ELYvgM4zI/4Gdo5KxV5V08o6MDx978H8qvKUqLAG/6TYA8lIr/KPuiAr/SE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 635C31063;
+	Thu,  5 Dec 2024 07:27:50 -0800 (PST)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 958453F71E;
+	Thu,  5 Dec 2024 07:27:20 -0800 (PST)
+Date: Thu, 5 Dec 2024 15:27:18 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Sibi Sankar <quic_sibis@quicinc.com>
+Cc: <cristian.marussi@arm.com>, <andersson@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>, <konrad.dybcio@linaro.org>,
+	<robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+	<devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <quic_rgottimu@quicinc.com>,
+	<quic_kshivnan@quicinc.com>, <conor+dt@kernel.org>,
+	<arm-scmi@vger.kernel.org>
+Subject: Re: [PATCH V4 1/5] dt-bindings: firmware: Document bindings for QCOM
+ SCMI Generic Extension
+Message-ID: <Z1HGVhi5xebqc4d4@bogus>
+References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
+ <20241007061023.1978380-2-quic_sibis@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/11] gpio: sim: Remove gpio_sim_dev_match_fwnode()
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- quic_zijuhu <quic_zijuhu@quicinc.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
- linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-sound@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
- linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-gpio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-serial@vger.kernel.org, netdev@vger.kernel.org
-References: <20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com>
- <20241205-const_dfc_done-v3-8-1611f1486b5a@quicinc.com>
- <7ugfaj2h3sy77jpaadco5xtjalnten3gmvozowcle3g7zcdqs4@sqf5l47onbsi>
- <ac42e652-4128-44ea-976e-5234360d8183@quicinc.com>
- <eyu7nm5hvwfqxgysnrzsvianzf7abvlovpxfo7snsxowmuuhpj@tah3gkqm5ldj>
-Content-Language: en-US
-From: Zijun Hu <zijun_hu@icloud.com>
-In-Reply-To: <eyu7nm5hvwfqxgysnrzsvianzf7abvlovpxfo7snsxowmuuhpj@tah3gkqm5ldj>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 2qHgOEYCHFJo6csSrQf0NeEl1TvG8_uZ
-X-Proofpoint-ORIG-GUID: 2qHgOEYCHFJo6csSrQf0NeEl1TvG8_uZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-05_11,2024-12-05_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=736 spamscore=0
- phishscore=0 clxscore=1011 suspectscore=0 mlxscore=0 malwarescore=0
- bulkscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2412050096
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241007061023.1978380-2-quic_sibis@quicinc.com>
 
-On 2024/12/5 18:37, Uwe Kleine-König wrote:
-> On Thu, Dec 05, 2024 at 04:37:08PM +0800, quic_zijuhu wrote:
->> On 12/5/2024 4:10 PM, Uwe Kleine-König wrote:
->>> On Thu, Dec 05, 2024 at 08:10:17AM +0800, Zijun Hu wrote:
->>>> From: Zijun Hu <quic_zijuhu@quicinc.com>
->>>>
->>>> gpio_sim_dev_match_fwnode() is a simple wrapper of device_match_fwnode()
->>>> Remvoe the unnecessary wrapper.
+On Mon, Oct 07, 2024 at 11:40:19AM +0530, Sibi Sankar wrote:
+> Document the various memory buses that can be monitored and scaled by
+> the memory latency governor hosted by the QCOM SCMI Generic Extension
+> Protocol v1.0.
 > 
-> Just spotted: s/Remvoe/Remove/
+> Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
+> ---
 > 
+> v3:
+> * Restructure the bindings to mimic IMX [Christian]
+> 
+>  .../bindings/firmware/arm,scmi.yaml           |   1 +
+>  .../bindings/firmware/qcom,scmi-memlat.yaml   | 246 ++++++++++++++++++
+>  .../dt-bindings/firmware/qcom,scmi-memlat.h   |  22 ++
+>  3 files changed, 269 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/firmware/qcom,scmi-memlat.yaml
+>  create mode 100644 include/dt-bindings/firmware/qcom,scmi-memlat.h
+> 
+> diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> index 54d7d11bfed4..1d405f429168 100644
+> --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> @@ -24,6 +24,7 @@ description: |
+>  
+>  anyOf:
+>    - $ref: /schemas/firmware/nxp,imx95-scmi.yaml
+> +  - $ref: /schemas/firmware/qcom,scmi-memlat.yaml
+>  
+>  properties:
+>    $nodename:
+> diff --git a/Documentation/devicetree/bindings/firmware/qcom,scmi-memlat.yaml b/Documentation/devicetree/bindings/firmware/qcom,scmi-memlat.yaml
+> new file mode 100644
+> index 000000000000..0e8ea6dacd6a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/firmware/qcom,scmi-memlat.yaml
+> @@ -0,0 +1,246 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/firmware/qcom,scmi-memlat.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm SCMI Memory Bus nodes
+> +
+> +maintainers:
+> +  - Sibi Sankar <quic_sibis@quicinc.com>
+> +
+> +description:
+> +  This binding describes the various memory buses that can be monitored and scaled
+> +  by memory latency governor running on the CPU Control Processor (SCMI controller).
+> +
+> +properties:
+> +  protocol@80:
+> +    $ref: '/schemas/firmware/arm,scmi.yaml#/$defs/protocol-node'
+> +    unevaluatedProperties: false
+> +
+> +    properties:
+> +      reg:
+> +        const: 0x80
+> +
+> +    patternProperties:
+> +      '^memory-[0-9]$':
+> +        type: object
+> +        unevaluatedProperties: false
+> +        description:
+> +          The list of all memory buses that can be monitored and scaled by the
+> +          memory latency governor running on the SCMI controller.
+> +
+> +        properties:
+> +          qcom,memory-type:
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+> +            enum: [0, 1, 2]
+> +            description: |
+> +              Memory Bus Identifier
+> +              0 = QCOM_MEM_TYPE_DDR
+> +              1 = QCOM_MEM_TYPE_LLCC
+> +              2 = QCOM_MEM_TYPE_DDR_QOS
+> +
+> +          freq-table-hz:
+> +            items:
+> +              items:
+> +                - description: Minimum frequency of the memory bus in Hz
+> +                - description: Maximum frequency of the memory bus in Hz
+> +
+> +        patternProperties:
+> +          '^monitor-[0-9]$':
+> +            type: object
+> +            unevaluatedProperties: false
+> +            description:
+> +              The list of all monitors detecting the memory latency bound workloads using
+> +              various counters.
+> +
+> +            properties:
+> +              qcom,compute-type:
+> +                description:
+> +                  Monitors of type compute perform bus dvfs based on a rudimentary CPU
+> +                  frequency to memory frequency map.
+> +                type: boolean
+> +
+> +              qcom,ipm-ceil:
+> +                $ref: /schemas/types.yaml#/definitions/uint32
+> +                description:
+> +                  Monitors having this property perform bus dvfs based on the same
+> +                  rudimentary table but the scaling is performed only if the calculated
+> +                  IPM (Instruction Per Misses) exceeds the given ceiling.
+> +
+> +              cpus:
+> +                $ref: /schemas/types.yaml#/definitions/phandle-array
+> +                description:
+> +                  Should be a list of phandles to CPU nodes (as described in
+> +                  Documentation/devicetree/bindings/arm/cpus.yaml).
 
-this typo error is my mistake, will correct it.
+And what exactly this list of cpu phandles represent here ?
 
->>>> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
->>>> ---
->>>>  drivers/gpio/gpio-sim.c | 7 +------
->>>
->>> I think if you move this patch before patch #4 in your series, you only
->>> have to touch this file once.
->>
->> the precondition of this change is patch #4, it will have building error
->> if moving it before #4.
->>
->> actually, we can only do simplifications with benefits brought by #4.
-> 
-> Ah I see. I thought that device_match_fwnode only got the const for the
-> 2nd parameter in patch #4.
-> 
-> Best regards
-> Uwe
+> +
+> +              operating-points-v2: true
 
+Can you elaborate why the protocol can't add a command to fetch this from
+the firmware to avoid any possible mismatch between the DT and firmware.
+
+> +              opp-table:
+> +                type: object
+> +
+> +            required:
+> +              - cpus
+> +              - operating-points-v2
+> +
+> +            oneOf:
+> +              - required: [ 'qcom,compute-type' ]
+> +              - required: [ 'qcom,ipm-ceil' ]
+> +
+> +        required:
+> +          - qcom,memory-type
+> +          - freq-table-hz
+> +
+> +additionalProperties: true
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/firmware/qcom,scmi-memlat.h>
+> +
+> +    firmware {
+> +        scmi {
+> +            compatible = "arm,scmi";
+> +            mboxes = <&cpucp_mbox 0>, <&cpucp_mbox 2>;
+> +            mbox-names = "tx", "rx";
+> +            shmem = <&cpu_scp_lpri0>, <&cpu_scp_lpri1>;
+> +
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            protocol@80 {
+> +                reg = <0x80>;
+> +
+> +                memory-0 {
+
+I am not sure if it is just me, but I find this binding hard to understand.
+Hence I thought I will look and the example and get better understanding
+instead.
+
+So these monitors are numbered ? If there were any meaningful name it would
+have been slightly better but irrespective of that I find it hard as why
+the communication with firmware is not based on index and why they are not
+part of the bindings though I see indices used in the driver.
+
+> +                    qcom,memory-type = <QCOM_MEM_TYPE_DDR>;
+
+Also I see that the type can be easily derived from the index, care to
+elaborate why the firmware expects it to be sent, if not why is that
+information needed here in the DT ?
+
+-- 
+Regards,
+Sudeep
