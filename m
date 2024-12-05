@@ -1,38 +1,55 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B656E1DA10C;
-	Thu,  5 Dec 2024 15:32:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED0C21D585;
+	Thu,  5 Dec 2024 15:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733412729; cv=none; b=a4jStvM9ZBeCwOOWLkWZiCqH2Ujqu4xQ5RGlCRdp5VjzMATFYV23101JLqU7L/5IgW7P+MSYkWwn4G3nkWz53/VsRA/MGg5fQPmsaCiUlkMh38GP8yROiMBpk09dgO3KIviDrOCwpvoxIQUXoorw7u1ZPkz9B4l5OtYEQvFxHVY=
+	t=1733413977; cv=none; b=tOFDU+f5dOULOfTM5Mr2HWTMFhsOdbRd9gMXT3xArmf053kv7X+Yn1hqO8h/Pk5UusGixPO7R1mGVA6dGSjvqOiSF2sITUT1OqWLaAvBOVQiyVc4BWHk+3hk1NTgA3zlTeXpVTx3DCu7Io6JrhO5UBgx5qfXfduC2ozaQgnLftw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733412729; c=relaxed/simple;
-	bh=fNGRTFyLlHhgN4Pb4CFh4ptW94/MwZGUclyDetcRdgA=;
+	s=arc-20240116; t=1733413977; c=relaxed/simple;
+	bh=QNI5z8VVLHR4iSqkF2o+2ppPCvhP1+pFGu66x6cXsWE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dutw9xUalKxPkhE/ZPNvsQPc1KX6VBD8gBZ3Z8JzK5/eVjiWGr6RdwjlTxtPzXdg9hA/MdBt525OwBmDTs07FF6K9IL0pdZcaqzyGmCLqvQLzGFUG6VDDSugn3OtQIsjWk+05Cawye/w9b7hCwjn8SP7d3Z+hWWzd3R3tMGPqAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 025411063;
-	Thu,  5 Dec 2024 07:32:35 -0800 (PST)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7CB383F71E;
-	Thu,  5 Dec 2024 07:32:05 -0800 (PST)
-Date: Thu, 5 Dec 2024 15:32:02 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=FkEt5GH01sVLkRvzaH5v6JcsP/Z0Gy5qCZ/XCqDHFyKoTpHu6ECUt9/A9kUpziUtzyqvlf7dg+pgrqu/L0tzVjku4csx/ST29aU4+qeojAOndqC7bFsxBAnIdsFBtXsGp2aopuxTzF2vw0LDiP5X9kRiipcpCAIfvVH56yP754M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qT4ZzauC; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qT4ZzauC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F68EC4CEDF;
+	Thu,  5 Dec 2024 15:52:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733413977;
+	bh=QNI5z8VVLHR4iSqkF2o+2ppPCvhP1+pFGu66x6cXsWE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qT4ZzauCkPbwV/SSrIePuyf2eTG5YGJfzZzwrnjzdq+XWIe1oLEip1LoRBPSjrNrP
+	 M74C4Kfm7+wMA5UfUBImGgSKeLsyrzBOHjQmBMAOKzEumJ4lSClyQVpPh4N9UIvP+m
+	 ZhqfXkwg5E5CyhTtI7fbQ7NbcHGVrXZNsftO0Ycmfk+qmcwYdDj5OSspdtUlW6dtsM
+	 yT65kLLv0B18yZwADAtSfR39ZlhtkVPySMwdRlqUAY//WxuzDM4QxY6XhtlaUxIpJX
+	 ptBmlR8csE2kPwh0gAa0hKXm5WCAK0iz4Ad1LgIBj8AswEMk3DwniU+Gm64gG0q/lY
+	 NrM4sKOnxhUFQ==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1tJE9x-000000002kQ-1W8O;
+	Thu, 05 Dec 2024 16:52:57 +0100
+Date: Thu, 5 Dec 2024 16:52:57 +0100
+From: Johan Hovold <johan@kernel.org>
 To: Sibi Sankar <quic_sibis@quicinc.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, <andersson@kernel.org>,
-	<konrad.dybcio@linaro.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <quic_rgottimu@quicinc.com>,
-	<quic_kshivnan@quicinc.com>, <arm-scmi@vger.kernel.org>
-Subject: Re: [PATCH V5 1/2] firmware: arm_scmi: Add QCOM Generic Vendor
- Protocol documentation
-Message-ID: <Z1HHciQfWL-l79YR@bogus>
-References: <20241115011515.1313447-1-quic_sibis@quicinc.com>
- <20241115011515.1313447-2-quic_sibis@quicinc.com>
- <Z1BBirNWH1eaSKtr@pluto>
- <73a16eb4-e590-92db-ee24-cc4f42a9de01@quicinc.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, sudeep.holla@arm.com,
+	andersson@kernel.org, konrad.dybcio@linaro.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, quic_rgottimu@quicinc.com,
+	quic_kshivnan@quicinc.com, conor+dt@kernel.org,
+	arm-scmi@vger.kernel.org
+Subject: Re: [PATCH V4 0/5] arm_scmi: vendors: Qualcomm Generic Vendor
+ Extensions
+Message-ID: <Z1HMWUa_QCsNA1-Q@hovoldconsulting.com>
+References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
+ <ZytnRc94iKUfMYH0@hovoldconsulting.com>
+ <ZyvLktLUZOGP-LH5@pluto>
+ <Zy4qvedrmkRdPR3x@hovoldconsulting.com>
+ <8d42682b-0fa7-3962-da12-728cfe64903b@quicinc.com>
+ <Z0BC203BhGEmXcJi@hovoldconsulting.com>
+ <d61bb7bc-d824-883a-4edd-109ae74076c1@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -41,107 +58,31 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <73a16eb4-e590-92db-ee24-cc4f42a9de01@quicinc.com>
+In-Reply-To: <d61bb7bc-d824-883a-4edd-109ae74076c1@quicinc.com>
 
-On Thu, Dec 05, 2024 at 04:37:28PM +0530, Sibi Sankar wrote:
-> 
-> 
-> On 12/4/24 17:18, Cristian Marussi wrote:
-> > On Fri, Nov 15, 2024 at 06:45:14AM +0530, Sibi Sankar wrote:
-> > > Add QCOM System Control Management Interface (SCMI) Generic Vendor
-> > > Extensions Protocol documentation.
-> > > 
-> > > Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
-> > > ---
-> > > 
-> > > v4:
-> > > * Update the protol attributes doc with more information. [Cristian]
-> > > 
-> > >   .../arm_scmi/vendors/qcom/qcom_generic.rst    | 211 ++++++++++++++++++
-> > >   1 file changed, 211 insertions(+)
-> > >   create mode 100644 drivers/firmware/arm_scmi/vendors/qcom/qcom_generic.rst
-> > > 
-> > > diff --git a/drivers/firmware/arm_scmi/vendors/qcom/qcom_generic.rst b/drivers/firmware/arm_scmi/vendors/qcom/qcom_generic.rst
-> > > new file mode 100644
-> > > index 000000000000..141bc932e30f
-> > > --- /dev/null
-> > > +++ b/drivers/firmware/arm_scmi/vendors/qcom/qcom_generic.rst
-> > > @@ -0,0 +1,211 @@
-> > > +.. SPDX-License-Identifier: GPL-2.0
-> > > +.. include:: <isonum.txt>
-> > > +
-> > > +===============================================================================
-> > > +QCOM System Control and Management Interface(SCMI) Vendor Protocols Extension
-> > > +===============================================================================
-> > > +
-> > > +:Copyright: |copy| 2024, Qualcomm Innovation Center, Inc. All rights reserved.
-> > > +
-> > > +:Author: Sibi Sankar <quic_sibis@quicinc.com>
-> > > +
-> > > +SCMI_GENERIC: System Control and Management Interface QCOM Generic Vendor Protocol
-> > > +==================================================================================
-> > > +
-> > > +This protocol is intended as a generic way of exposing a number of Qualcomm
-> > > +SoC specific features through a mixture of pre-determined algorithm string and
-> > > +param_id pairs hosted on the SCMI controller. It implements an interface compliant
-> > > +with the Arm SCMI Specification with additional vendor specific commands as
-> > > +detailed below.
-> > > +
-> > > +Commands:
-> > > +_________
-> > > +
-> > > +PROTOCOL_VERSION
-> > > +~~~~~~~~~~~~~~~~
-> > > +
-> > > +message_id: 0x0
-> > > +protocol_id: 0x80
-> > > +
-> > > ++---------------+--------------------------------------------------------------+
-> > > +|Return values                                                                 |
-> > > ++---------------+--------------------------------------------------------------+
-> > > +|Name           |Description                                                   |
-> > > ++---------------+--------------------------------------------------------------+
-> > > +|int32 status   |See ARM SCMI Specification for status code definitions.       |
-> > > ++---------------+--------------------------------------------------------------+
-> > > +|uint32 version |For this revision of the specification, this value must be    |
-> > > +|               |0x10000.                                                      |
-> > > ++---------------+--------------------------------------------------------------+
-> > > +
-> > > +PROTOCOL_ATTRIBUTES
-> > > +~~~~~~~~~~~~~~~~~~~
-> > > +
-> > > +message_id: 0x1
-> > > +protocol_id: 0x80
-> > > +
-> > > ++---------------+--------------------------------------------------------------+
-> > > +|Return values                                                                 |
-> > > ++------------------+-----------------------------------------------------------+
-> > > +|Name              |Description                                                |
-> > > ++------------------+-----------------------------------------------------------+
-> > > +|int32 status      |See ARM SCMI Specification for status code definitions.    |
-> > > ++------------------+-----------------------------------------------------------+
-> > > +|uint32 attributes |Bits[31:16] Reserved, must be to 0.                        |
-> > > +|                  |Bits[15:8] Number of agents in the system                  |
-> > > +|                  |Bits[7:0] Number of vendor protocols in the system         |
-> > > ++------------------+-----------------------------------------------------------+
-> > 
-> > Thanks of clarifing this....may I ask why number of agents is reported
-> > here too given that it is already exposed by Base protocol ?
-> > 
-> > Not really arguing about this so much, but you will end up having to maintain this
-> > on 2 different protocols fw side...or are they not 'agents' in the SCMI meaning ?
-> > 
-> > Anyway, I'm fine with it, even though you dont seem to use this
-> > anywhere.
-> 
-> We don't use it anywhere and it looks like it was just put together
-> so that this protocol is compliant to the spec :|
+On Thu, Dec 05, 2024 at 04:26:55PM +0530, Sibi Sankar wrote:
+> On 11/22/24 14:07, Johan Hovold wrote:
 
-Interesting, I need to dig and check if that is needed to be compliant.
-Even if it is required, please add a text to say it must match what std.
-BASE protocol response(IOW it just can't be random here as you don't use
-it anymore). We may decide to match and warn if required at all.
+> > I have a Lenovo ThinkPad T14s set up now so I gave this series a spin
+> > there too, and there I do *not* see the above mentioned -EOPNOSUPP error
+> > and the memlat driver probes successfully.
+> > 
+> > On the other hand, this series seems to have no effect on a kernel
+> > compilation benchmark. Is that expected?
+> 
+> I can have a look at your tree. But memlat in general
+> depends on the cpu frequency when your benchmarks max
+> the cpu's the ddr/llcc are scaled accordingly by it.
 
--- 
-Regards,
-Sudeep
+A kernel compilation should max out the CPU frequency on all cores.
+
+> > And does this mean that you should stick with the uppercase "MEMLAT"
+> > string after all? The firmware on my CRD is not the latest one, but I am
+> > using the latest available firmware for the T14s.
+> 
+> We should stick with "memlat" if we run into a device in the
+> wild that doesn't support "MEMLAT"
+
+Ok. So the updated firmware supports both strings?
+
+Johan
