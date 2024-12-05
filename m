@@ -1,157 +1,75 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B5F26AFF;
-	Thu,  5 Dec 2024 10:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC021194C6E;
+	Thu,  5 Dec 2024 10:32:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733393858; cv=none; b=WHmWM9xz3f5OZ+l4Yc0343JD6bG9E5C+i0cgkF+ozYy9j23GPsMwnm8XqrT0us4qHf7nBlLnDwEc2hy4XfT83M9r4yOYc8VA2LJrQ8/psy1uZJNZi0LY7aWb7tB8hitA+jBz6qgO4qnBXH1gUFd+OWy6zwscKJmsXDS8QLyM61k=
+	t=1733394757; cv=none; b=odTw/cSxVTm5hG+eAWWLsOaAQEXZZi1zH0tDBhiXEEQAJO0Ize0CS0oRebyXplcmqICQGn9OafiuZ2bGoDRUruZjZ9KR48y1dQc0G0qu/c5tLJLuqR7VIR1bGIetdMaUYveJEW71KPKVXiw8It7VwPbkMNptQFIv14tZKK36f7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733393858; c=relaxed/simple;
-	bh=YC7FQ1eB8fJDARyzxeuOiD3gvXNi8ZNbe51KU1Xfg2w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=YycorLizTyC5Z1eK4jXHYSmCjqiiU7aJTIMNnVq8PjTbFwYbzQogknP6UVi12KDawETOaxgwAqL/eTclgXhmym1mv760WO0SQl0k2LVsZymQK26sBoJD9SfPdaPL+LNGW0Z5tL3Z931c7+/Cv2ie8E1MKuuopxNO2JiT/1fjhL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ZX1Dx79T; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ZX1Dx79T"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B57UxGp025018;
-	Thu, 5 Dec 2024 10:17:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Dit2XdV4jZIb+L6jEF8gWfIehhTuSojBtBDYrG6sMmI=; b=ZX1Dx79TqwzKLo3U
-	mGA5Z9aJbhUDzHhKOma/mqMlGNdGK4T+gKs9uLPZC4fzgY36K4B3vkmBhCMBkeHq
-	mTu0gSs4Q3scZHRNMYB4ulS+wO+9s1RqtytgL9lVBtSRjcDFaG642qrFJL78Jphn
-	VDzKaM9OT/o4MRw9XzBvT5TZc+8WDxJPyUIW44q860ZAy/mKCOzxf1pLhurUjP0M
-	NBScpNp9P2MpuCYnmnNyTVnMjcTLdbadv82wsEc0J54ji/HclVFhetOeaqEXLEHZ
-	/HHF7/UMf6isDbsBGeQYnwG7z6vZ3XklnbA4aZFZNtEu745Ne8YHlNhKkCAJXg7u
-	M/oqDA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43aj42bvf6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Dec 2024 10:17:24 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B5AHNdU020454
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 5 Dec 2024 10:17:23 GMT
-Received: from [10.190.163.187] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 5 Dec 2024
- 02:17:17 -0800
-Message-ID: <6356241e-6bfc-c4dc-1fbd-cd92f1b236ba@quicinc.com>
-Date: Thu, 5 Dec 2024 15:47:14 +0530
+	s=arc-20240116; t=1733394757; c=relaxed/simple;
+	bh=NwnPXq6beLuD7Kx9NedivA1VklXLvPKXPufN9V5jeCA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GNR4v699Rc5slXhT8jfxAHvahi0d7eTjTObM34EEAHIPls3EdiDvwtW1puLZJwCRlRiyScgSNA1QEnBYVpmfphPE/Y3jh9xjm/r538fTa5H0f8AyEebFh/sMevYIME7/ioFHYc7LBiBhrJjEMEvyLELx1H4xoWDSmAqL09ZF95k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 23C70FEC;
+	Thu,  5 Dec 2024 02:33:00 -0800 (PST)
+Received: from usa.arm.com (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 3152F3F5A1;
+	Thu,  5 Dec 2024 02:32:29 -0800 (PST)
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Mark Brown <broonie@kernel.org>,
+	Arnd Bergmann <arnd@kernel.org>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Peng Fan <peng.fan@nxp.com>,
+	arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] firmware: arm_scmi: fix i.MX build dependency
+Date: Thu,  5 Dec 2024 10:32:25 +0000
+Message-Id: <173339471403.691669.17537976195919564595.b4-ty@arm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241115230555.2435004-1-arnd@kernel.org>
+References: <20241115230555.2435004-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH V4 4/5] soc: qcom: Introduce SCMI based Memlat (Memory
- Latency) governor
-Content-Language: en-US
-To: <myungjoo.ham@samsung.com>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@linaro.org>,
-        Kyungmin Park <Kyungmin.park@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-CC: "sudeep.holla@arm.com" <sudeep.holla@arm.com>,
-        "cristian.marussi@arm.com"
-	<cristian.marussi@arm.com>,
-        "andersson@kernel.org" <andersson@kernel.org>,
-        "konrad.dybcio@linaro.org" <konrad.dybcio@linaro.org>,
-        "robh+dt@kernel.org"
-	<robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org"
-	<krzysztof.kozlowski+dt@linaro.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org"
-	<linux-arm-msm@vger.kernel.org>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>,
-        "quic_rgottimu@quicinc.com"
-	<quic_rgottimu@quicinc.com>,
-        "quic_kshivnan@quicinc.com"
-	<quic_kshivnan@quicinc.com>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-        Amir Vajid
-	<avajid@quicinc.com>
-References: <ac655bdc-5ccf-c6c6-3203-659f1916c53c@quicinc.com>
- <20241007061023.1978380-1-quic_sibis@quicinc.com>
- <20241007061023.1978380-5-quic_sibis@quicinc.com>
- <2aycrvnvivcrqctqmweadcgenwugafdr6ub3bzkscterpenz32@bzabln2hkral>
- <29eef87e-96f6-5105-6f7a-a8e01efcb4a3@quicinc.com>
- <k4lpzxtrq3x6riyv6etxiobn7nbpczf2bp3m4oc752nhjknlit@uo53kbppzim7>
- <CGME20241114041419epcas1p3b52bb9795ffd9efa568bb106ba268e02@epcms1p5>
- <20241115003809epcms1p518df149458f3023d33ec6d87a315e8f6@epcms1p5>
-From: Sibi Sankar <quic_sibis@quicinc.com>
-In-Reply-To: <20241115003809epcms1p518df149458f3023d33ec6d87a315e8f6@epcms1p5>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: j-5sSJzGurTdnMTU9b402_166u-cHYBA
-X-Proofpoint-ORIG-GUID: j-5sSJzGurTdnMTU9b402_166u-cHYBA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
- mlxscore=0 mlxlogscore=981 lowpriorityscore=0 clxscore=1015 malwarescore=0
- priorityscore=1501 spamscore=0 adultscore=0 suspectscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2412050073
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-
-
-On 11/15/24 06:08, MyungJoo Ham wrote:
->>
->> Hey Dmitry,
->>
->> Thanks for taking time to review the series.
->>
->> + Devfreq maintainers to comment (I thought you already added
->> them by name)
->>
->>
->> Hey MyungJoo/Kyungmin/Chanwoo,
->>
->> Can you weigh in here? Does it make sense to add a new
->> class of devfreq devices that don't have governors
->> associated with them just for them to export a few
->> essential data to userspace? In this scenario the
->> scaling algorithm is in a SCP and we just start
->> them from the kernel. We do have ways to get the
->> current frequency of various buses but does this
->> warrant adding a new class of governor less devices?
->>
->> -Sibi
+On Sat, 16 Nov 2024 00:05:18 +0100, Arnd Bergmann wrote:
+> The newly added SCMI vendor driver references functions in the
+> protocol driver but needs a Kconfig dependency to ensure it can link,
+> essentially the Kconfig dependency needs to be reversed to match the
+> link time dependency:
 > 
-> If voltage/frequency is controlled by SCP
-> (it's an SoC's internal hardware IP, right?),
-> it's good to have a userspace governer
-> with the driver not accepting updates from userspace.
+> arm-linux-gnueabi-ld: sound/soc/fsl/fsl_mqs.o: in function `fsl_mqs_sm_write':
+> fsl_mqs.c:(.text+0x1aa): undefined reference to `scmi_imx_misc_ctrl_set'
+> arm-linux-gnueabi-ld: sound/soc/fsl/fsl_mqs.o: in function `fsl_mqs_sm_read':
+> fsl_mqs.c:(.text+0x1ee): undefined reference to `scmi_imx_misc_ctrl_get'
 > 
-> E.g., Let "target" callback not update the frequency value,
->   or let "target" callback always return an error with
->   a dev_err message that you don't accept frequency changes
->   from userspace.
+> [...]
 
-Thanks for the input. Will implement something similar to
-what you suggested for the next re-spin.
+Applied to sudeep.holla/linux (for-next/scmi/fixes), thanks!
 
--Sibi
+[1/1] firmware: arm_scmi: fix i.MX build dependency
+      https://git.kernel.org/sudeep.holla/c/514b2262ade4
+--
+Regards,
+Sudeep
 
-> 
-> Cheers,
-> MyungJoo.
