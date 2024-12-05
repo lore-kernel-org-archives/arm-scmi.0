@@ -1,149 +1,113 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 911A725765;
-	Thu,  5 Dec 2024 12:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from pv50p00im-zteg10021301.me.com (pv50p00im-zteg10021301.me.com [17.58.6.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A885217F33
+	for <arm-scmi@vger.kernel.org>; Thu,  5 Dec 2024 13:16:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.6.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733402402; cv=none; b=mOAa7MS5sV0/s4AdCMOSh7g91MQNcu5sfBgsB4mZvnM1Kc0NALKm3BUs7uZaGT7jbCLsrW9SZBFuUWIyWjRppY8fqOoAwOQtIwIFrZ0f7Y8Oxs6bg6gQ/3AMBazZT+HZv8WKsH6XiyjvwOlNpCHEFQxHKU9c+RFnMckTzS6AZFA=
+	t=1733404587; cv=none; b=GJp8x7srOTOSd0MV+JPP1AbYldqmBbDQzoZn5FLHRGPz1nRbj5yoeONYp1kfCv56BpF8WcSpA6mm82A4Qi8bldyvwweFvmso18YCvL3oLnSvRRqwzcNHPsyH6IRMVRRE6nytDNURvOiSgxjbRJIMG+YHvu+37q16Azc2BiZJJes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733402402; c=relaxed/simple;
-	bh=v1EqMLSlZanAzYMgZwBrTAsWBYWjrDI0vK366MbX4M0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tZcHQCKUkk/MNBhayX+/mPpuaR+bv9VCnZSMHbvlzloBKskNrCw7oZACF/M5u1M5VdDD2f97zzu1sysIKLzSGlqy4DJcHHGnecrVN4cFngCOagvTNp4iLe1rjFIx/9Wcl+lj1UZP5e2ZLGFGsgvx8DjWnlzhLPA40TR/c/74Euk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EADE91063;
-	Thu,  5 Dec 2024 04:40:26 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 040FA3F5A1;
-	Thu,  5 Dec 2024 04:39:56 -0800 (PST)
-Date: Thu, 5 Dec 2024 12:39:54 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Sibi Sankar <quic_sibis@quicinc.com>
-Cc: Shivnandan Kumar <quic_kshivnan@quicinc.com>, sudeep.holla@arm.com,
-	cristian.marussi@arm.com, andersson@kernel.org,
-	konrad.dybcio@linaro.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, quic_rgottimu@quicinc.com,
-	conor+dt@kernel.org, arm-scmi@vger.kernel.org,
-	Amir Vajid <avajid@quicinc.com>
-Subject: Re: [PATCH V4 4/5] soc: qcom: Introduce SCMI based Memlat (Memory
- Latency) governor
-Message-ID: <Z1GfGk0yQAVQKEVL@pluto>
-References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
- <20241007061023.1978380-5-quic_sibis@quicinc.com>
- <2e9614de-1a93-4e17-a10c-945c50fb3f1a@quicinc.com>
- <61ce8618-cb08-06bc-9159-4ca26d703b14@quicinc.com>
+	s=arc-20240116; t=1733404587; c=relaxed/simple;
+	bh=tn4WSJdpVgE9M2OBdZCoiMZKyp3FTNFC8afvj7cJt8o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dIzSs8XIpcfab/HoFu1hmujWt/z+/BZ8oqLYpsJYqotH5jD+lh0ihoiTqeftDXk2c5xcig1Cj/fCaiydOzUOPGKwNXwma2yTFCdNxtignX14I6Lkrk8uHvVY/wp9uzGEJrBYwWF/8e8lJzFs71vUj9uurfU6ROBdjvWVBDY5q/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=MjPupEdG; arc=none smtp.client-ip=17.58.6.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="MjPupEdG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+	s=1a1hai; t=1733404584;
+	bh=DV2DLIPPHvXQjlEWI+ismKBgnjP6WxidLPVJKGZHkhg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:
+	 x-icloud-hme;
+	b=MjPupEdG3LXOunytThOaHzAK+bVhMpwfidC4n4MdvWKwaw8FV9EPV38plq0FTVN0C
+	 xl5AJriUjHfG5OmhTjUfel+BiaQmCJ2o11t+HqLNUWEQy+m6PrJy5nTRDH5pAAFr3F
+	 J4kdsm/wsRNS1dCZBzSVcqt6FSBCyESPY4vVf8wVpfRnxrXl+Z7US8BNL1A1OPWxLK
+	 2GRk6Q02wvLPjNllCH4Kvi6WwRClOdscINadBncjANCtZiOXEyTZMT5H3N1gTMvQCq
+	 3a3ozKHsj1VnZvyfYLPMLSg23wNQ6MfFLBXVef/l3ga5iNw4NVuLybECqVK+bdE1jb
+	 2YeT4c6Wiec4A==
+Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
+	by pv50p00im-zteg10021301.me.com (Postfix) with ESMTPSA id 5F7A7500292;
+	Thu,  5 Dec 2024 13:16:16 +0000 (UTC)
+Message-ID: <d4d49b0c-7766-4f06-b098-ceee54ceeefb@icloud.com>
+Date: Thu, 5 Dec 2024 21:16:12 +0800
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 04/11] driver core: Constify API device_find_child()
+ then adapt for various usages
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ James Bottomley <James.Bottomley@hansenpartnership.com>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
+ linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-sound@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
+ linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org,
+ linux-efi@vger.kernel.org, linux-gpio@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-scsi@vger.kernel.org, open-iscsi@googlegroups.com,
+ linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
+ netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
+References: <20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com>
+ <20241205-const_dfc_done-v3-4-1611f1486b5a@quicinc.com>
+ <h4pndknfwvck5yjnbs5rdmrxkqeksfxldwj4qbjqyvdzs5cjbf@i4afsjsg3obw>
+Content-Language: en-US
+From: Zijun Hu <zijun_hu@icloud.com>
+In-Reply-To: <h4pndknfwvck5yjnbs5rdmrxkqeksfxldwj4qbjqyvdzs5cjbf@i4afsjsg3obw>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <61ce8618-cb08-06bc-9159-4ca26d703b14@quicinc.com>
+X-Proofpoint-ORIG-GUID: LL8r5U1rSRzQLinnfL26afznvBJlVJho
+X-Proofpoint-GUID: LL8r5U1rSRzQLinnfL26afznvBJlVJho
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-05_11,2024-12-05_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 clxscore=1015
+ malwarescore=0 adultscore=0 suspectscore=0 phishscore=0 mlxscore=0
+ spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2412050096
 
-On Thu, Dec 05, 2024 at 04:33:05PM +0530, Sibi Sankar wrote:
-> 
-> 
-> On 11/29/24 15:27, Shivnandan Kumar wrote:
-> > 
-> >
+On 2024/12/5 18:41, Uwe Kleine-KÃ¶nig wrote:
+> On Thu, Dec 05, 2024 at 08:10:13AM +0800, Zijun Hu wrote:
+>> diff --git a/arch/sparc/kernel/vio.c b/arch/sparc/kernel/vio.c
+>> index 07933d75ac815160a2580dce39fde7653a9502e1..1a1a9d6b8f2e8dfedefafde846315a06a167fbfb 100644
+>> --- a/arch/sparc/kernel/vio.c
+>> +++ b/arch/sparc/kernel/vio.c
+>> @@ -419,13 +419,13 @@ struct vio_remove_node_data {
+>>  	u64 node;
+>>  };
+>>  
+>> -static int vio_md_node_match(struct device *dev, void *arg)
+>> +static int vio_md_node_match(struct device *dev, const void *arg)
+>>  {
+>>  	struct vio_dev *vdev = to_vio_dev(dev);
+>> -	struct vio_remove_node_data *node_data;
+>> +	const struct vio_remove_node_data *node_data;
+>>  	u64 node;
+>>  
+>> -	node_data = (struct vio_remove_node_data *)arg;
 
-Hi Sibi,
+existing code has such cast
+>> +	node_data = (const struct vio_remove_node_data *)arg;
+>
+i just follow existing code here.
 
-some rants down below :P
- 
-> > On 10/7/2024 11:40 AM, Sibi Sankar wrote:
-> > > Introduce a client driver that uses the memlat algorithm string
-> > > hosted on QCOM SCMI Generic Extension Protocol to detect memory
-> > > latency workloads and control frequency/level of the various
-> > > memory buses (DDR/LLCC/DDR_QOS).
-> > > 
-
-[snip]
-
-> > > +    /* Set the effective cpu frequency calculation method */
-> > > +    ret = ops->set_param(ph, &cpucp_freq_method,
-> > > sizeof(cpucp_freq_method), MEMLAT_ALGO_STR,
-> > > +                 MEMLAT_SET_EFFECTIVE_FREQ_METHOD);
-> > > +    if (ret < 0)
-> > > +        return dev_err_probe(&sdev->dev, ret,
-> > > +                     "failed to set effective frequency calc method\n");
-> > > +
-> > 
-> > Hi Sibi,
-> 
-> Hey Shiv,
-> 
-> Thanks for taking time to review the series!
-> 
-> > Since the MEMLAT_SET_EFFECTIVE_FREQ_METHOD command is not supported in
-> > the legacy CPUCP firmware, it should be kept optional. This way, if the
-> > legacy firmware is used, the driver will not return an error when the
-> > CPUCP firmware returns -EOPNOTSUPP.
-> 
-> The vendor protocol with the current major/minor version is
-> expected to work as is on x1e platforms. What legacy firmware
-> are you referring to? All future SoCs that plan to adhere to
-> it are expected to maintain this abi and can decide to make
-> use of alternate mechanisms to calculating frequency based
-> on additional dt properties set.
+> You can just drop the cast here. But maybe that is better be done i a
+> separate change.
 > 
 
-Normally in the SCMI world you could leverage protocol versioning and
-the standard PROTOCOL_MESSAGE_ATTRIBUTES(0x2) command to let the agent
-investigate if the SCMI server it is speaking to implements or NOT a
-specific command and which specific version of that command is understood
-(with possibly varying size and fields)...
+agree, removing such casts may be another topic.
 
-...BUT since your vendor protocol is 'Generic' and, as it stands, it
-basically piggybacks any kind of binary payload (i.e. subcommands of
-some kind of subprotocols of yours) into the same 4 get/set/start/stop
-'Generic' ops, without even specifying the transmitted/received payload
-sizes into the message itself....all of the possible SCMI versioning
-autodiscovery and backward-compatibility capabilities happily go out of
-the window because:
+>>  	node = vio_vdev_node(node_data->hp, vdev);
+>>  
+> 
+> Best regards
+> Uwe
 
-- your versioning refers to the generic protocol and you cannot possibly
-  describe all the possible future subcommands (opaque payloads) variations
-  and/or subcommands addition/removals purely on the major/minor version, AND
-  even if you did that, NONE of such future variations will be documented
-  anywhere since you are hiding all of this inside a bunch of binary blobs
-
-- you dont even specify the payload sizes of the tx/rx 'Generic' payload
-  subcommands so it becomes even difficult for both the server and the
-  client to safely handle your 'Generic' subcommand message payloads
-
-- you cannot issue a PROTOCOL_MESSAGE_ATTRIBUTE() to see if a specific
-  subcommand is supported, because your subcommand is NOT really a protocol
-  command but it is just one of the payloads of one of the 'Generic' protocol:
-  you commmands are only set/get/start/stop (maybe some sort of hack
-  could be doen around these...bit all will be even more flaky...)
-
-- you dont implement NEGOTIATE_PROTOCOL_VERSION and so you cannot even
-  check if the SCMI server that you are speaking to will agree to
-  downgrade and 'speak' your Kernel SCMI agent (possibly older) 'Generic'
-  protocol version
-
-All of this basically defeats all of the SCMI general capabilities
-around versioning and auto-discovery when it comes to your 'Generic' vendor
-protocol, with the end result that you will have to be EXTREMELY confident
-to perfectly match and keep in sync at all times your SCMI Server(FW) and
-Client(Kernel) sides, without any possibility of coping with a such a mismatch
-on the field by using some of the fallback/downgrade mechanism that you
-threw out of the window...
-(...and sorry but looking at the above xchange about 'legacy firmware' I am
- a bit skeptic about this as of now :D)
-
-...as I said initially when reviewing this series, you can do whatever
-you want within your Vendor protocol, but abusing the SCMI Vendor extensions
-capabilities in such a way could end up bringing to the table more cons
-(the above) than pros (some supposed 'simplification')
-
-Thanks,
-Cristian
