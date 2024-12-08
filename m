@@ -1,114 +1,148 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pv50p00im-zteg10021301.me.com (pv50p00im-zteg10021301.me.com [17.58.6.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4D31C54BF
-	for <arm-scmi@vger.kernel.org>; Fri,  6 Dec 2024 20:28:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1B414658D
+	for <arm-scmi@vger.kernel.org>; Sun,  8 Dec 2024 13:19:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.6.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733516898; cv=none; b=qETdYBUfsztUuZp/dMOhGGv+KRTh/mLKAAn4ez1LtXjN5ShAavajN0QbYFqQY4eXU13PWQmrgBN2a05uG9FSFRH2Zq1zsoZ5h2uObQlum5sx13ZBnU2ri2/b7uifwRnGYp43Ovab9nJY9WUCnzTVlRz/JtxfSekmnDtEzhccMS4=
+	t=1733663956; cv=none; b=pLX3Iy7lEXOd0OIvgiXfp5uIdcSaXN1rDny/yRuKv1/yBsVGy73F9094CWal6UlXrY45WSQVkcGXw0cdEwqDqw8OW6VeKm9KHVs0AuVY+BF+goN5j7Cc65lTRVQs2UaiYxnilg8Iz9zdGdZYh7prvwW9GmbevwWJysAJa6zmOoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733516898; c=relaxed/simple;
-	bh=BwakpNluTynsNNSAFGekdUFcnrj8QO9XmxqzY/IkSxk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BefC2UnzhAQNwDpcynViX6mZibpnCzCplau6OgVubeI95oRvcf5mLeY//+i6+zz/nz4546rtIqHt0qcmWESDo0JeqfCrapytrNvA5wjUYN5JYXHnPfPX6Ji8tsT84wtyDRm1qRwDy0QkAvNn+kbZrOt56PLqq9/SC4pO4kToedo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=z2cuIrSp; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733663956; c=relaxed/simple;
+	bh=v6DuWZtu4YUnrBhocodbi8f07v2ZhN1ZLmNgHMutPlg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=n6O8ksFgn5TzkzEERv+7iu3wzero9dK+c6gvKoE5wNdowS3K1xGT2rcQqTdBvO48qFaysd3CXseUE1ssLhVdIEAX28jBtMhTOLVV2YOVBoD7w2eEzbhSIZRtHIqJzE5P4XM4/tskZbGlCwFqdPemXY5gxSjpU/howBM2bkaUkyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=nsAlKyTz; arc=none smtp.client-ip=17.58.6.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="z2cuIrSp"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-385dece873cso1234797f8f.0
-        for <arm-scmi@vger.kernel.org>; Fri, 06 Dec 2024 12:28:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733516895; x=1734121695; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NQaVE4xma2mfyf9DwEGfyp+l3xlEQFu3UABAOXDY/f0=;
-        b=z2cuIrSp+8eZvWg94gMGQaeykK7e8zZ4y5JwC2e35/4mWnX1Q9n49cU5+G+VPPk/da
-         NNDAKixylATtc9feCFpEwQi9dc1S5ud1brANGJCndRpPtzPlpOBjBz6b05HWRBXsdlDr
-         xoQwxeYGwHpl7DWYqv7rbf2UjBdLHBT3mj5PdCL7N93vuASqULx5u6kB9v8YF4KZd/DL
-         UblTLK50nMQ1S9l3snPaITbj+NrqCcpx9wkWgjGp3iySpkXtIis+5b+j5j5BMXIGPOAV
-         xSZLm4B8e2VRjlSgeT3Xc7JVVetOJhoIV1w7AlsEhoTf0+N1kLFq032bOEb1Tk4xytI/
-         I53g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733516895; x=1734121695;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NQaVE4xma2mfyf9DwEGfyp+l3xlEQFu3UABAOXDY/f0=;
-        b=Xztd25hal0jQeirM7DGtrzcyA8Jg8TAtopk8C3BKo5ir4Fj+PQxqZdokU1wG9JsUMg
-         CMQmahcFAFRt0TkH/HB6S87BaIQKpnGclzKrVfcwh20RiCX295mGhGe4mm1Mt5HZyhcR
-         p9L3k731L3IGB6YCsugr0KvBrDmIrFeUnkCIbv/6zDH58cXAoShA31wMJeItLPB417zR
-         ZHWaECHlMnTSmjTES54ZyeQOHPft6haVR9NBAX4V8X9BUeXRQ0MiNXas59SVC2RSPGi/
-         qPvwMmhtQNTkI0wcHBv9Voqfs+UxpoQR5T/pWwhQHtnxe/b6T3qQbCikx7RqVE9M9trQ
-         vlSA==
-X-Forwarded-Encrypted: i=1; AJvYcCV/2eMnLCjMJUgb2k4epKA8Yvr+dKQkBkLK0887JBI/t/Dcy4jSgUlsezFxlEEtAb7zmYiCqqq+tA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDlWI8q5eskzuwsLKodTnd6tbqC962X80aSpd6qv4nxbXvsQqP
-	6lPg2HoYGYHMvlyy6b8ayHk8O6xxFA50v32JvbcKvpAhz4gyur99cXmL9gDWKhQ=
-X-Gm-Gg: ASbGncvhwLqoKJuCutt1g406VMOQpFTC5C7A+JBUFtnaqdMiyGL4JMNxqRdaa/NPDvK
-	Y65vHcptDT5CjEH6JO0CMSEn5r3XXGkYnzn8UGmcHERdPXBSLtb4PhaIVKFD8ziuIEqcSxl047A
-	U+as4cVf1Uu64SBPlvDfxiDJEcgHXfXgPwSAKb57R4JKUJFNYggD4ALfJA2l/hcex12udO8KW9m
-	a+J8/7G/JFq04xMcK+LCqCOktbjnA4TBKN1InM63PXFFIxs8aGXiu8=
-X-Google-Smtp-Source: AGHT+IGekqBUH4G61NmWpwsXhLA6y8516RqskqF/tq8JR1N/a6IKQ5CbI54DTrqFonQGIY9zzCX1sg==
-X-Received: by 2002:a5d:5f8c:0:b0:385:f38e:c0c3 with SMTP id ffacd0b85a97d-3862b33eda1mr3932008f8f.6.1733516895327;
-        Fri, 06 Dec 2024 12:28:15 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434da0d26a3sm67425945e9.1.2024.12.06.12.28.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Dec 2024 12:28:14 -0800 (PST)
-Date: Fri, 6 Dec 2024 23:28:11 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Etienne Carriere <etienne.carriere@foss.st.com>
-Cc: linux-kernel@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] firmware: arm_scmi: round rate bisecting in
- discrete rates
-Message-ID: <7fe840af-d56d-4cb6-8d82-d42631409b2a@stanley.mountain>
-References: <20241203173908.3148794-1-etienne.carriere@foss.st.com>
- <20241203173908.3148794-3-etienne.carriere@foss.st.com>
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="nsAlKyTz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+	s=1a1hai; t=1733663951;
+	bh=B9Z7dZW7Hi3Js1z/RCEjU+3M/IjEGHpjDFHWBOHmqc4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:
+	 x-icloud-hme;
+	b=nsAlKyTzBjgFKiKK875IKrpeQ6Hv0IpX0ZWERQ6ck5xVT3yTVHF/ma0+sMayke7RA
+	 Mgepn7kdGl4f4KMgfy/ymh+QBWxBeS7/1xqjrAX4SI9iGKKSkpp5xcz5oH/1zd68so
+	 q8B21ej8wfHvQSmqknU2Qp3DQusSq/gzOdhHF5FFhfSN5Qste9Sq1vNahO5iwGakAp
+	 tKQIdEZWB3krUn4WgU7lFUNJY/OoKRT0xs0HLsHhvA1M3HxUyLGgZ/BUmsWP7OKH1i
+	 bCryHNz+PA1BYV/NsVSs5yT/qG6oSWCs9oJcX6JOBLUE0hNVJ8Fz0YBe04unhhDqh2
+	 KUvRd6BwJWVxw==
+Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
+	by pv50p00im-zteg10021301.me.com (Postfix) with ESMTPSA id B0625500490;
+	Sun,  8 Dec 2024 13:18:59 +0000 (UTC)
+Message-ID: <7780942a-93cd-4508-be97-fc5e5267c389@icloud.com>
+Date: Sun, 8 Dec 2024 21:18:54 +0800
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241203173908.3148794-3-etienne.carriere@foss.st.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 04/11] driver core: Constify API device_find_child()
+ then adapt for various usages
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ James Bottomley <James.Bottomley@hansenpartnership.com>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
+ linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-sound@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
+ linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org,
+ linux-efi@vger.kernel.org, linux-gpio@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-scsi@vger.kernel.org, open-iscsi@googlegroups.com,
+ linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
+ netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
+References: <20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com>
+ <20241205-const_dfc_done-v3-4-1611f1486b5a@quicinc.com>
+ <20241206135209.GA133715@workstation.local>
+Content-Language: en-US
+From: Zijun Hu <zijun_hu@icloud.com>
+In-Reply-To: <20241206135209.GA133715@workstation.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: zq6ALpvY8lzOJgSSQvNtYt-PHDnk_XXq
+X-Proofpoint-GUID: zq6ALpvY8lzOJgSSQvNtYt-PHDnk_XXq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-08_04,2024-12-06_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0 mlxscore=0
+ clxscore=1011 adultscore=0 phishscore=0 malwarescore=0 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2412080111
 
-On Tue, Dec 03, 2024 at 06:39:08PM +0100, Etienne Carriere wrote:
-> diff --git a/drivers/clk/clk-scmi.c b/drivers/clk/clk-scmi.c
-> index 09ccd6cea7f2..7bbb2ee55f4f 100644
-> --- a/drivers/clk/clk-scmi.c
-> +++ b/drivers/clk/clk-scmi.c
-> @@ -61,13 +61,20 @@ static long scmi_clk_round_rate(struct clk_hw *hw, unsigned long rate,
->  	struct scmi_clk *clk = to_scmi_clk(hw);
->  
->  	/*
-> -	 * We can't figure out what rate it will be, so just return the
-> +	 * In case we can't figure out what rate it will be when the clock
-> +	 * describes a list of discrete rates, then just return the
->  	 * rate back to the caller. scmi_clk_recalc_rate() will be called
->  	 * after the rate is set and we'll know what rate the clock is
->  	 * running at then.
->  	 */
-> -	if (clk->info->rate_discrete)
-> +	if (clk->info->rate_discrete) {
-> +		ftmp = rate;
+On 2024/12/6 21:52, Takashi Sakamoto wrote:
+> Hi,
+> 
+> On Thu, Dec 05, 2024 at 08:10:13AM +0800, Zijun Hu wrote:
+>> From: Zijun Hu <quic_zijuhu@quicinc.com>
+>>
+>> Constify the following API:
+>> struct device *device_find_child(struct device *dev, void *data,
+>> 		int (*match)(struct device *dev, void *data));
+>> To :
+>> struct device *device_find_child(struct device *dev, const void *data,
+>>                                  device_match_t match);
+>> typedef int (*device_match_t)(struct device *dev, const void *data);
+>> with the following reasons:
+>>
+>> - Protect caller's match data @*data which is for comparison and lookup
+>>   and the API does not actually need to modify @*data.
+>>
+>> - Make the API's parameters (@match)() and @data have the same type as
+>>   all of other device finding APIs (bus|class|driver)_find_device().
+>>
+>> - All kinds of existing device match functions can be directly taken
+>>   as the API's argument, they were exported by driver core.
+>>
+>> Constify the API and adapt for various existing usages by simply making
+>> various match functions take 'const void *' as type of match data @data.
+>>
+>> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
+>> ---
+>>  arch/sparc/kernel/vio.c                |  6 +++---
+>>  drivers/base/core.c                    |  6 +++---
+>>  drivers/block/sunvdc.c                 |  6 +++---
+>>  drivers/bus/fsl-mc/dprc-driver.c       |  4 ++--
+>>  drivers/cxl/core/pci.c                 |  4 ++--
+>>  drivers/cxl/core/pmem.c                |  2 +-
+>>  drivers/cxl/core/region.c              | 21 ++++++++++++---------
+>>  drivers/firewire/core-device.c         |  4 ++--
+>>  drivers/firmware/arm_scmi/bus.c        |  4 ++--
+>>  drivers/firmware/efi/dev-path-parser.c |  4 ++--
+>>  drivers/gpio/gpio-sim.c                |  2 +-
+>>  drivers/gpu/drm/mediatek/mtk_drm_drv.c |  2 +-
+>>  drivers/hwmon/hwmon.c                  |  2 +-
+>>  drivers/media/pci/mgb4/mgb4_core.c     |  4 ++--
+>>  drivers/nvdimm/bus.c                   |  2 +-
+>>  drivers/pwm/core.c                     |  2 +-
+>>  drivers/rpmsg/rpmsg_core.c             |  4 ++--
+>>  drivers/scsi/qla4xxx/ql4_os.c          |  3 ++-
+>>  drivers/scsi/scsi_transport_iscsi.c    | 10 +++++-----
+>>  drivers/slimbus/core.c                 |  8 ++++----
+>>  drivers/thunderbolt/retimer.c          |  2 +-
+>>  drivers/thunderbolt/xdomain.c          |  2 +-
+>>  drivers/tty/serial/serial_core.c       |  4 ++--
+>>  drivers/usb/typec/class.c              |  8 ++++----
+>>  include/linux/device.h                 |  4 ++--
+>>  include/scsi/scsi_transport_iscsi.h    |  4 ++--
+>>  net/dsa/dsa.c                          |  2 +-
+>>  tools/testing/cxl/test/cxl.c           |  2 +-
+>>  28 files changed, 66 insertions(+), 62 deletions(-)
+> 
+> For the changes in FireWire subsystem:
+> 
+> Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+> 
 
-No need for this assignment.
+thank you for code review and previous cooperation to achieve
+this goal (^^).
 
-> +		if (scmi_proto_clk_ops->round_rate &&
-> +		    !scmi_proto_clk_ops->round_rate(clk->ph, clk->id, &ftmp))
-> +			return ftmp;
-> +
->  		return rate;
-> +	}
->  
->  	fmin = clk->info->range.min_rate;
->  	fmax = clk->info->range.max_rate;
+> 
+> Thanks
+> 
+> Takashi Sakamoto
 
-regards,
-dan carpenter
