@@ -1,101 +1,165 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D90341547F2;
-	Mon,  9 Dec 2024 16:50:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E5E313AA2F;
+	Mon,  9 Dec 2024 17:12:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733763032; cv=none; b=P+g5bEX4bQuJ7phtKvWpHiGRtsgS85UmUywzRrk8Vx+Ir7tvfRlGuqRfmHgpQL8HJ2buA4MZwybKHbk3Yb07biMB7/6zvyCu+OpUZjAjmYLY/3rAEoXjVeHTFouxoVuKEuzRIRblp4iOGnwcgLqdI29Pii57Q3FOCvNgAptAIPA=
+	t=1733764333; cv=none; b=M6+ou6rfmSxFScQBh58IUxJEmVJLOzq/pc/AMnTD5rT8JwhH2ZRKIHzfswQ/M3Hm/ZAwgL/7m+OLyNJG8taMz5DzgOu9pf6WhAhdctPyrnxXa5gCxOFug8qzGUl84Pvs1YB/prm1R49y+MoRCpIRW9glC0ox9kpBrrUtOhRwuu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733763032; c=relaxed/simple;
-	bh=wQAJR3PGJ00qhM2mIn9A9yT4Eg8X7acxsZcv4ljCrsw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OABl95Rrew1NazhqDnHyhr+zr3awLyH34BqaP0IcLRGGj4Q6nAqpuCRLG7a4zPGq99nk4wUMYEFpaucKy3rjTDz0EcP5NiVZTk1Nbv11yD5BaseRnxgiwDu9ATmg79IRqqiM86R4iypCUVonpmaf5TdJIe9FuD+u2qy5sv+mXoo=
+	s=arc-20240116; t=1733764333; c=relaxed/simple;
+	bh=hzUyGNVfCQBZvBO5ORr/vOicfzOFSqA0ThYtXXos5fA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MRJiCnCMIx7NcMbwltKh9nA4ciDVcOmz7BFmS2v1hQQw8VY14d7pDxW8MlZa4w+eyrUBAXp47FCP7R/g+V+IP0/0C7iabYa1xB2KgbplCJ7LjB9LEB9n+cXaoB1vthH+HgCbPYQdsdS3/DdOiTkz3X2jdSXa8xWWBNArsKgsddU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3A07E175D;
-	Mon,  9 Dec 2024 08:50:58 -0800 (PST)
-Received: from pluto.guest.local (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 965393F720;
-	Mon,  9 Dec 2024 08:50:27 -0800 (PST)
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org
-Cc: sudeep.holla@arm.com,
-	james.quinlan@broadcom.com,
-	f.fainelli@gmail.com,
-	vincent.guittot@linaro.org,
-	etienne.carriere@st.com,
-	peng.fan@oss.nxp.com,
-	michal.simek@amd.com,
-	quic_sibis@quicinc.com,
-	dan.carpenter@linaro.org,
-	johan+linaro@kernel.org,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH v2 3/3] firmware: arm_scmi: Add aliases to transport modules
-Date: Mon,  9 Dec 2024 16:49:57 +0000
-Message-ID: <20241209164957.1801886-4-cristian.marussi@arm.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241209164957.1801886-1-cristian.marussi@arm.com>
-References: <20241209164957.1801886-1-cristian.marussi@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E0EE6113E;
+	Mon,  9 Dec 2024 09:12:38 -0800 (PST)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 469FA3F720;
+	Mon,  9 Dec 2024 09:12:09 -0800 (PST)
+Date: Mon, 9 Dec 2024 17:12:06 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Etienne CARRIERE - foss <etienne.carriere@foss.st.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	"Cristian Marussi" <cristian.marussi@arm.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
+Subject: Re: [PATCH v2 2/2] firmware: arm_scmi: round rate bisecting in
+ discrete rates
+Message-ID: <Z1ck5tFkb41wReZP@bogus>
+References: <20241203173908.3148794-1-etienne.carriere@foss.st.com>
+ <20241203173908.3148794-3-etienne.carriere@foss.st.com>
+ <Z1bKlOeHJFHpe9ZU@bogus>
+ <ed164b6704ab4086b2fb22ae51658f31@foss.st.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ed164b6704ab4086b2fb22ae51658f31@foss.st.com>
 
-SCMI transports when built as loadable modules should be loaded by the
-subsystem they plug into, based on the related subsystem specific aliases.
+On Mon, Dec 09, 2024 at 12:59:58PM +0000, Etienne CARRIERE - foss wrote:
+> Hello Sudeep,
+> 
+>  On Monday, December 9, 2024 11:46 AM, Sudeep Holla wrote: 
+> > On Tue, Dec 03, 2024 at 06:39:08PM +0100, Etienne Carriere wrote:
+> > > Implement clock round_rate operation for SCMI clocks that describe a
+> > > discrete rates list. Bisect into the supported rates when using SCMI
+> > > message CLOCK_DESCRIBE_RATES to optimize SCMI communication transfers.
+> > 
+> > Let me stop here and try to understand the requirement here. So you do
+> > communicate with the firmware to arrive at this round_rate ? Does the
+> > list of discreet clock rates changes at the run-time that enables the
+> > need for it. Or will the initial list just include max and min ?
+> 
+> I don't expect the list to change at run-time. The initial list is
+> expected to describe all supported rates. But because this list may
+> be big, I don't think arm_scmi/clock.c driver should store the full list
+> of all supported rates for each of the SCMI clocks. It would cost to
+> much memory. Therefore I propose to query it at runtime, when
+> needed, and bisect to lower the number of required transactions
+> between the agent and the firmware.
+>
 
-Add, where missing, the MODULE_DEVICE_TABLE() directives needed to generate
-the aliases required to enable autoloading for SCMI transports.
+Ah so, this is nothing to do with set_parent, but just an optimisation.
+This change optimises for space but some other platform may have all the
+space but the communication with SCMI platform is not good enough to make
+runtime calls like this change. How do we cater that then ?
 
-Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
----
- drivers/firmware/arm_scmi/transports/mailbox.c | 1 +
- drivers/firmware/arm_scmi/transports/smc.c     | 1 +
- drivers/firmware/arm_scmi/transports/virtio.c  | 1 +
- 3 files changed, 3 insertions(+)
+We need some spec-ed way or a unique way to identify what is best for
+the platform IMO. We can change the way you have done in this change set
+as someone else may complain in the future that it is costly to send
+such command every time a clock needs to be set. I am just guessing here
+may not be true.
 
-diff --git a/drivers/firmware/arm_scmi/transports/mailbox.c b/drivers/firmware/arm_scmi/transports/mailbox.c
-index b66df2981456..bd041c99b92b 100644
---- a/drivers/firmware/arm_scmi/transports/mailbox.c
-+++ b/drivers/firmware/arm_scmi/transports/mailbox.c
-@@ -378,6 +378,7 @@ static const struct of_device_id scmi_of_match[] = {
- 	{ .compatible = "arm,scmi" },
- 	{ /* Sentinel */ },
- };
-+MODULE_DEVICE_TABLE(of, scmi_of_match);
- 
- DEFINE_SCMI_TRANSPORT_DRIVER(scmi_mailbox, scmi_mailbox_driver,
- 			     scmi_mailbox_desc, scmi_of_match, core);
-diff --git a/drivers/firmware/arm_scmi/transports/smc.c b/drivers/firmware/arm_scmi/transports/smc.c
-index f632a62cfb3e..21abb571e4f2 100644
---- a/drivers/firmware/arm_scmi/transports/smc.c
-+++ b/drivers/firmware/arm_scmi/transports/smc.c
-@@ -301,6 +301,7 @@ static const struct of_device_id scmi_of_match[] = {
- 	{ .compatible = "qcom,scmi-smc" },
- 	{ /* Sentinel */ },
- };
-+MODULE_DEVICE_TABLE(of, scmi_of_match);
- 
- DEFINE_SCMI_TRANSPORT_DRIVER(scmi_smc, scmi_smc_driver, scmi_smc_desc,
- 			     scmi_of_match, core);
-diff --git a/drivers/firmware/arm_scmi/transports/virtio.c b/drivers/firmware/arm_scmi/transports/virtio.c
-index 41aea33776a9..cb934db9b2b4 100644
---- a/drivers/firmware/arm_scmi/transports/virtio.c
-+++ b/drivers/firmware/arm_scmi/transports/virtio.c
-@@ -921,6 +921,7 @@ static const struct virtio_device_id id_table[] = {
- 	{ VIRTIO_ID_SCMI, VIRTIO_DEV_ANY_ID },
- 	{ 0 }
- };
-+MODULE_DEVICE_TABLE(virtio, id_table);
- 
- static struct virtio_driver virtio_scmi_driver = {
- 	.driver.name = "scmi-virtio",
--- 
-2.47.0
+> > 
+> > > Parse the rate list array when the target rate fit in the bounds
+> > > of the command response for simplicity.
+> > >
+> > 
+> > I don't understand what you mean by this.
+> 
+> I meant here that we bisect into supported rates when communicating
+> with the firmware but once the firmware response provides list portion
+> when target rate fits into, we just scan into that array instead of bisecting
+> into. We could also bisect into that array but it is likely quite small
+> (<128 byte in existing SCMI transport drivers) and that would add a bit
+> more code for no much gain IMHO.
+> 
+> 
+> > 
+> > > If so some reason the sequence fails or if the SCMI driver has no
+> > > round_rate SCMI clock handler, then fallback to the legacy strategy that
+> > > returned the target rate value.
+> > >
+> > 
+> > Hmm, so we perform some extra dance but we are okay to fallback to default.
+> > I am more confused.
+> 
+> Here, I propose to preserve the exiting sequence in clk/clk-scmi.c in case
+> arm_scmi/clock.c does not implement this new round_rate SCMI clock 
+> operation (it can be the case if these 2 drivers are .ko modules, not
+> well known built-in drivers).
+>
 
+I don't think it would work if it is not built on the same kernel anyways.
+I don't work much about this use-case.
+
+> > 
+> > > Operation handle scmi_clk_determine_rate() is change to get the effective
+> > > supported rounded rate when there is no clock re-parenting operation
+> > > supported. Otherwise, preserve the implementation that assumed any
+> > > clock rate could be obtained.
+> > >
+> > 
+> > OK, no I think I am getting some idea. Is this case where the parent has
+> > changed and the describe rates can give a different result at run-time.
+> 
+> This does not deal with whether parent has changed or not. I would expect
+> the same request sent multiple times to provide the very same result. But
+> as I said above, I don't think arm_scmi/clock.c should consume a possibly
+> large array of memory to store all supported rate each of the SCMI clocks
+> (that describe discrete rates).
+>
+
+Right, my assumption was totally wrong. Thanks for confirming.
+
+> An alternate way could be to add an SCMI Clock protocol command in the
+> spec allowing agent to query a closest supported rate, in 1 shot. Maybe
+> this new command could return both rounded rate and the SCMI parent
+> clock needed to reach that rounded rate, better fitting clk_determine_rate()
+> expectations.
+>
+
+May be that would be ideal but you need to make a case for such a spec change.
+
+> > 
+> > I need to re-read the part of the spec, but we may need some clarity so
+> > that this implementation is not vendor specific. I am yet to understand this
+> > fully. I just need to make sure spec covers this aspect and anything we
+> > add here is generic solution.
+> > 
+> > I would like to avoid this extra query if not required which you seem to
+> > have made an attempt but I just want to be thorough and make sure that's
+> > what we need w.r.t the specification.
+> 
+> Sure, I indeed prefer clear and robust implementation in the long term,
+> being the one I propose here or another one.
+> 
+
+Good then, we can work towards achieving that. If you can specify how slow
+or memory hungry is it without these changes and how much this change helps
+your platform, we can take it up with spec authors and see if they are happy
+to provide some alternative to deal with this in a generic way.
+
+--
+Regards,
+Sudeep
