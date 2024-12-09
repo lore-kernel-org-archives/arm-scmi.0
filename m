@@ -1,36 +1,36 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 588F512D758;
-	Mon,  9 Dec 2024 10:33:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 855EE217739;
+	Mon,  9 Dec 2024 10:46:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733740425; cv=none; b=ieJY2abXgE2b7coKMNvopY5/ufmhayDNVTj+xqtLgUMeVZx4Qe0C2HI3PAda/NGzm5r899+iee4fLji7JV2P0XeWRktTRGlSQn1OrvVMnpICTuTTeSLcRbOQq7FhVtptBwp5tQ3GWMfIqkibOILpZH9iBGNN2lxwoqKHNmiGb3U=
+	t=1733741210; cv=none; b=oBQKi9EsUPBhRrMrG3a5B93oRJGgZKwE1FRbKvR0e5t6iX+NSYYr3c18HJt3h0VeOF7t4CTyjZbBB/cKcHyLZfAzusHE/4FVCI2oQ1pu4n4ILCTPtU1LoRf6MeRN3Fx41kxcC446D1+HLSjmt43M4KDso1/qTrbdJqXR9T0//g8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733740425; c=relaxed/simple;
-	bh=UaZ8G9DX7Of7P+UA09Bxzh2wWuKF9zAhcVH8zF55BeQ=;
+	s=arc-20240116; t=1733741210; c=relaxed/simple;
+	bh=fTFYkbL9/wsQkx54YhY2KnzAwaijQwihIUPEg/UzVAg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TA4iFH9O4uNuwYJ85SkjEoFSe7a7NOuKhdHapzJQYpAmBVOTmtigz19kEJvATYILyvlkvKRJlA1UqIGV7/2MnEs8B5r4ryS0WFYP+Zz32Adw7NYW6+n8N8pWxPfaPbytSRNtffcZmULvnYlu4SfiTHatgEnjqjd98SX9CU60GdA=
+	 Content-Type:Content-Disposition:In-Reply-To; b=bL9GnhSylfmuj9bGhmnxXwQx2WWr8hB1FIxV+GXE7OjbYWKR1xAf1KE7hNOGPAlmI5RQbyRkL1W0euPD2Q2zAPcUSA0DcWQ84G6svpm7dyO5pe/qjTTVdhQZwBL5uLxobb40BBw2JjO+iLFe+aOFpia8PRc1fF+rtrrPSWu10QQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A0EAA113E;
-	Mon,  9 Dec 2024 02:34:09 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DEC04113E;
+	Mon,  9 Dec 2024 02:47:15 -0800 (PST)
 Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 06C4C3F720;
-	Mon,  9 Dec 2024 02:33:39 -0800 (PST)
-Date: Mon, 9 Dec 2024 10:33:37 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B09D03F720;
+	Mon,  9 Dec 2024 02:46:46 -0800 (PST)
+Date: Mon, 9 Dec 2024 10:46:44 +0000
 From: Sudeep Holla <sudeep.holla@arm.com>
 To: Etienne Carriere <etienne.carriere@foss.st.com>
-Cc: <linux-kernel@vger.kernel.org>,
+Cc: <linux-kernel@vger.kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
 	Cristian Marussi <cristian.marussi@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
 	Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>, <arm-scmi@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-clk@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] firmware: arm_scmi: get only min/max clock rates
-Message-ID: <Z1bHgf_4qqZgSnDt@bogus>
+Subject: Re: [PATCH v2 2/2] firmware: arm_scmi: round rate bisecting in
+ discrete rates
+Message-ID: <Z1bKlOeHJFHpe9ZU@bogus>
 References: <20241203173908.3148794-1-etienne.carriere@foss.st.com>
- <20241203173908.3148794-2-etienne.carriere@foss.st.com>
+ <20241203173908.3148794-3-etienne.carriere@foss.st.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -39,40 +39,50 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241203173908.3148794-2-etienne.carriere@foss.st.com>
+In-Reply-To: <20241203173908.3148794-3-etienne.carriere@foss.st.com>
 
-On Tue, Dec 03, 2024 at 06:39:07PM +0100, Etienne Carriere wrote:
-> Remove limitation of 16 clock rates max for discrete clock rates
-> description when the SCMI firmware supports SCMI Clock protocol v2.0
-> or later.
+On Tue, Dec 03, 2024 at 06:39:08PM +0100, Etienne Carriere wrote:
+> Implement clock round_rate operation for SCMI clocks that describe a
+> discrete rates list. Bisect into the supported rates when using SCMI
+> message CLOCK_DESCRIBE_RATES to optimize SCMI communication transfers.
+
+Let me stop here and try to understand the requirement here. So you do
+communicate with the firmware to arrive at this round_rate ? Does the
+list of discreet clock rates changes at the run-time that enables the
+need for it. Or will the initial list just include max and min ?
+
+> Parse the rate list array when the target rate fit in the bounds
+> of the command response for simplicity.
 >
-> Driver clk-scmi.c is only interested in the min and max clock rates.
-> Get these by querying the first and last discrete rates with SCMI
-> clock protocol message ID CLOCK_DESCRIBE_RATES since the SCMI
-> specification v2.0 and later states that rates enumerated by this
-> command are to be enumerated in "numeric ascending order" [1].
+
+I don't understand what you mean by this.
+
+> If so some reason the sequence fails or if the SCMI driver has no
+> round_rate SCMI clock handler, then fallback to the legacy strategy that
+> returned the target rate value.
 >
-> Preserve the implementation that queries all discrete rates (16 rates
-> max) to support SCMI firmware built on SCMI specification v1.0 [2]
-> where SCMI Clock protocol v1.0 does not explicitly require rates
-> described with CLOCK_DESCRIBE_RATES to be in ascending order.
+
+Hmm, so we perform some extra dance but we are okay to fallback to default.
+I am more confused.
+
+> Operation handle scmi_clk_determine_rate() is change to get the effective
+> supported rounded rate when there is no clock re-parenting operation
+> supported. Otherwise, preserve the implementation that assumed any
+> clock rate could be obtained.
 >
-> Link: https://developer.arm.com/documentation/den0056 [1]
-> Link: https://developer.arm.com/documentation/den0056/a [2]
-> Signed-off-by: Etienne Carriere <etienne.carriere@foss.st.com>
-> ---
 
-[...]
+OK, no I think I am getting some idea. Is this case where the parent has
+changed and the describe rates can give a different result at run-time.
 
-> +
-> +static int scmi_clock_get_rates_bound(const struct scmi_protocol_handle *ph,
-> +				      u32 clk_id, struct scmi_clock_info *clk)
-> +{
+I need to re-read the part of the spec, but we may need some clarity so
+that this implementation is not vendor specific. I am yet to understand this
+fully. I just need to make sure spec covers this aspect and anything we
+add here is generic solution.
 
-This new function seem to have unwraped the scmi_iterator_ops(namely
-prepare_message, update_state and process_response instead of reusing them.
-Can you please explain why it wasn't possible to reuse them ?
+I would like to avoid this extra query if not required which you seem to
+have made an attempt but I just want to be thorough and make sure that's
+what we need w.r.t the specification.
 
---
+-- 
 Regards,
 Sudeep
