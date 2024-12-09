@@ -1,41 +1,40 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E5E313AA2F;
-	Mon,  9 Dec 2024 17:12:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D5991F5F6;
+	Mon,  9 Dec 2024 18:01:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733764333; cv=none; b=M6+ou6rfmSxFScQBh58IUxJEmVJLOzq/pc/AMnTD5rT8JwhH2ZRKIHzfswQ/M3Hm/ZAwgL/7m+OLyNJG8taMz5DzgOu9pf6WhAhdctPyrnxXa5gCxOFug8qzGUl84Pvs1YB/prm1R49y+MoRCpIRW9glC0ox9kpBrrUtOhRwuu4=
+	t=1733767277; cv=none; b=M2BtDRsS/tG1ZUtdW3u1uDvDSW+LXJqDxdz1l12k6XsvXsGOvtDE0cpeIEWV6N/TAdysOZfqgKOR7DSiKFU6QV21M0tJKScNVkseQILMtg3TC6xbo0i7KBhL+ZTHmVdBwjrAJAzxGVkNPHX7ZRa9aAvHctGpo52FzHLLoIxAK+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733764333; c=relaxed/simple;
-	bh=hzUyGNVfCQBZvBO5ORr/vOicfzOFSqA0ThYtXXos5fA=;
+	s=arc-20240116; t=1733767277; c=relaxed/simple;
+	bh=+iaVJMfn0BpWfZQvHC+iHLFzfPxT6r31cjn3niCeErQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MRJiCnCMIx7NcMbwltKh9nA4ciDVcOmz7BFmS2v1hQQw8VY14d7pDxW8MlZa4w+eyrUBAXp47FCP7R/g+V+IP0/0C7iabYa1xB2KgbplCJ7LjB9LEB9n+cXaoB1vthH+HgCbPYQdsdS3/DdOiTkz3X2jdSXa8xWWBNArsKgsddU=
+	 Content-Type:Content-Disposition:In-Reply-To; b=pzPdfoz5OBR0he0p/ZJFpoD5/+Z6piBdtqgo26l8Hom8x3NVAlCY49jefM4myWDssLumwLlcXi6DpLrOso8rthpVcgqPkRLlUZ2+0iKMJcjEgBAN4Cj/jI+UV90v4Q8fQ/d7TbcYpUT1yk4AMuQS6LqLaeNi8WcAzFlDg6i2nB4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E0EE6113E;
-	Mon,  9 Dec 2024 09:12:38 -0800 (PST)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 469FA3F720;
-	Mon,  9 Dec 2024 09:12:09 -0800 (PST)
-Date: Mon, 9 Dec 2024 17:12:06 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CD8141650;
+	Mon,  9 Dec 2024 10:01:42 -0800 (PST)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F373F3F720;
+	Mon,  9 Dec 2024 10:01:12 -0800 (PST)
+Date: Mon, 9 Dec 2024 18:01:00 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
 To: Etienne CARRIERE - foss <etienne.carriere@foss.st.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	"Cristian Marussi" <cristian.marussi@arm.com>,
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
 	Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
 	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
 	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
 	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] firmware: arm_scmi: round rate bisecting in
- discrete rates
-Message-ID: <Z1ck5tFkb41wReZP@bogus>
+Subject: Re: [PATCH v2 1/2] firmware: arm_scmi: get only min/max clock rates
+Message-ID: <Z1cwTWQWamv3lywB@pluto>
 References: <20241203173908.3148794-1-etienne.carriere@foss.st.com>
- <20241203173908.3148794-3-etienne.carriere@foss.st.com>
- <Z1bKlOeHJFHpe9ZU@bogus>
- <ed164b6704ab4086b2fb22ae51658f31@foss.st.com>
+ <20241203173908.3148794-2-etienne.carriere@foss.st.com>
+ <Z1bHgf_4qqZgSnDt@bogus>
+ <22ff786d1e034169be21ef7dc32c4a3a@foss.st.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -44,122 +43,74 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ed164b6704ab4086b2fb22ae51658f31@foss.st.com>
+In-Reply-To: <22ff786d1e034169be21ef7dc32c4a3a@foss.st.com>
 
-On Mon, Dec 09, 2024 at 12:59:58PM +0000, Etienne CARRIERE - foss wrote:
-> Hello Sudeep,
-> 
->  On Monday, December 9, 2024 11:46 AM, Sudeep Holla wrote: 
-> > On Tue, Dec 03, 2024 at 06:39:08PM +0100, Etienne Carriere wrote:
-> > > Implement clock round_rate operation for SCMI clocks that describe a
-> > > discrete rates list. Bisect into the supported rates when using SCMI
-> > > message CLOCK_DESCRIBE_RATES to optimize SCMI communication transfers.
-> > 
-> > Let me stop here and try to understand the requirement here. So you do
-> > communicate with the firmware to arrive at this round_rate ? Does the
-> > list of discreet clock rates changes at the run-time that enables the
-> > need for it. Or will the initial list just include max and min ?
-> 
-> I don't expect the list to change at run-time. The initial list is
-> expected to describe all supported rates. But because this list may
-> be big, I don't think arm_scmi/clock.c driver should store the full list
-> of all supported rates for each of the SCMI clocks. It would cost to
-> much memory. Therefore I propose to query it at runtime, when
-> needed, and bisect to lower the number of required transactions
-> between the agent and the firmware.
->
-
-Ah so, this is nothing to do with set_parent, but just an optimisation.
-This change optimises for space but some other platform may have all the
-space but the communication with SCMI platform is not good enough to make
-runtime calls like this change. How do we cater that then ?
-
-We need some spec-ed way or a unique way to identify what is best for
-the platform IMO. We can change the way you have done in this change set
-as someone else may complain in the future that it is costly to send
-such command every time a clock needs to be set. I am just guessing here
-may not be true.
-
-> > 
-> > > Parse the rate list array when the target rate fit in the bounds
-> > > of the command response for simplicity.
+On Mon, Dec 09, 2024 at 01:48:48PM +0000, Etienne CARRIERE - foss wrote:
+> On Monday, December 9, 2024, Sudeep Holla wrote:
+> > On Tue, Dec 03, 2024 at 06:39:07PM +0100, Etienne Carriere wrote:
+> > > Remove limitation of 16 clock rates max for discrete clock rates
+> > > description when the SCMI firmware supports SCMI Clock protocol v2.0
+> > > or later.
 > > >
-> > 
-> > I don't understand what you mean by this.
-> 
-> I meant here that we bisect into supported rates when communicating
-> with the firmware but once the firmware response provides list portion
-> when target rate fits into, we just scan into that array instead of bisecting
-> into. We could also bisect into that array but it is likely quite small
-> (<128 byte in existing SCMI transport drivers) and that would add a bit
-> more code for no much gain IMHO.
-> 
-> 
-> > 
-> > > If so some reason the sequence fails or if the SCMI driver has no
-> > > round_rate SCMI clock handler, then fallback to the legacy strategy that
-> > > returned the target rate value.
+> > > Driver clk-scmi.c is only interested in the min and max clock rates.
+> > > Get these by querying the first and last discrete rates with SCMI
+> > > clock protocol message ID CLOCK_DESCRIBE_RATES since the SCMI
+> > > specification v2.0 and later states that rates enumerated by this
+> > > command are to be enumerated in "numeric ascending order" [1].
 > > >
-> > 
-> > Hmm, so we perform some extra dance but we are okay to fallback to default.
-> > I am more confused.
-> 
-> Here, I propose to preserve the exiting sequence in clk/clk-scmi.c in case
-> arm_scmi/clock.c does not implement this new round_rate SCMI clock 
-> operation (it can be the case if these 2 drivers are .ko modules, not
-> well known built-in drivers).
->
-
-I don't think it would work if it is not built on the same kernel anyways.
-I don't work much about this use-case.
-
-> > 
-> > > Operation handle scmi_clk_determine_rate() is change to get the effective
-> > > supported rounded rate when there is no clock re-parenting operation
-> > > supported. Otherwise, preserve the implementation that assumed any
-> > > clock rate could be obtained.
+> > > Preserve the implementation that queries all discrete rates (16 rates
+> > > max) to support SCMI firmware built on SCMI specification v1.0 [2]
+> > > where SCMI Clock protocol v1.0 does not explicitly require rates
+> > > described with CLOCK_DESCRIBE_RATES to be in ascending order.
 > > >
-> > 
-> > OK, no I think I am getting some idea. Is this case where the parent has
-> > changed and the describe rates can give a different result at run-time.
-> 
-> This does not deal with whether parent has changed or not. I would expect
-> the same request sent multiple times to provide the very same result. But
-> as I said above, I don't think arm_scmi/clock.c should consume a possibly
-> large array of memory to store all supported rate each of the SCMI clocks
-> (that describe discrete rates).
->
+> > > Link: https://developer.arm.com/documentation/den0056 [1]
+> > > Link: https://developer.arm.com/documentation/den0056/a [2]
+> > > Signed-off-by: Etienne Carriere <etienne.carriere@foss.st.com>
+> > > ---
 
-Right, my assumption was totally wrong. Thanks for confirming.
-
-> An alternate way could be to add an SCMI Clock protocol command in the
-> spec allowing agent to query a closest supported rate, in 1 shot. Maybe
-> this new command could return both rounded rate and the SCMI parent
-> clock needed to reach that rounded rate, better fitting clk_determine_rate()
-> expectations.
->
-
-May be that would be ideal but you need to make a case for such a spec change.
+Hi,
 
 > > 
-> > I need to re-read the part of the spec, but we may need some clarity so
-> > that this implementation is not vendor specific. I am yet to understand this
-> > fully. I just need to make sure spec covers this aspect and anything we
-> > add here is generic solution.
+> > [...]
 > > 
-> > I would like to avoid this extra query if not required which you seem to
-> > have made an attempt but I just want to be thorough and make sure that's
-> > what we need w.r.t the specification.
+> > > +
+> > > +static int scmi_clock_get_rates_bound(const struct scmi_protocol_handle *ph,
+> > > +                                   u32 clk_id, struct scmi_clock_info *clk)
+> > > +{
+> > 
+> > This new function seem to have unwraped the scmi_iterator_ops(namely
+> > prepare_message, update_state and process_response instead of reusing them.
+> > Can you please explain why it wasn't possible to reuse them ?
 > 
-> Sure, I indeed prefer clear and robust implementation in the long term,
-> being the one I propose here or another one.
+> Since we're interested here only in min and max rates, let's query the
+> first and last rates only. This can save a bit of useless transactions between
+> agent and firmware in case there are many clocks with somewhat large
+> the discrete rate lists.
 > 
+> I though using the iterator for this specific case would add a bit more
+> complexity: it's expected to iterate (st->desc_index incremented from the
+> common scmi_iterator_run() function) whereas here I propose to send
+> only 2 messages.
 
-Good then, we can work towards achieving that. If you can specify how slow
-or memory hungry is it without these changes and how much this change helps
-your platform, we can take it up with spec authors and see if they are happy
-to provide some alternative to deal with this in a generic way.
+Yes, indeed the core iterator helpers are meant to issue a 'full scan'
+retrievieng all the resources that are returned while handling in a
+common way the underlying machinery common to all messages that, like
+DESCRIBE_RATES, could possibly return their results in chunks as a
+multi-part reply...
 
---
-Regards,
-Sudeep
+...having said that I can certainly extend the iterators to be configurable
+enough to fit this new usecase and retrieve only the desired part of the
+'scan' so that can be used for this kind of max/min query or for the
+bisection case.
+
+I would avoid to re-introduce ad-hoc code to handle these new usecases
+that do not fit into the existing iterator logic, since iterators
+were introduced to remove duplication and unify under common
+methods...and this new iterator scenario seems to me that has already 2
+usecases and certainly more protocol could want to perform similar 'lazy
+partial queries' in the future, so I'd prefer to address this in a more
+general way upfront if possible...I will think about it and post something
+next week in the form of some new iterator extensions, if it's fine for you.
+
+Thanks,
+Cristian
