@@ -1,177 +1,176 @@
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from pv50p00im-ztdg10011901.me.com (pv50p00im-ztdg10011901.me.com [17.58.6.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E609623DE8F;
-	Tue, 10 Dec 2024 10:59:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84DC3D81
+	for <arm-scmi@vger.kernel.org>; Wed, 11 Dec 2024 00:09:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.6.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733828388; cv=none; b=Abh4TkojCJlellIDPb1ucPfat2mF53WXsSbnW8q35guaK9RH6BxvMUE2hmHloAysMiK8acCnEfam60tOX/n1NGcyXwbRpjUw55Q6f5+2G881H4NFMLNy0hu6Odn56KptX3x/rCN8xYkegNXt98OMAGu+1e97g2uEDLzwYZJLkfM=
+	t=1733875751; cv=none; b=WGj49GTLwTnEe3lL4DB9pZ8Mgt70l/s7yX/S1Jv8iG/xec9nyZMWHNUwZqzt4TnLB9yp4dcVtYLgT99Q9g1pd0J8sloUxgRZfw5SlSouUUI3lk6igSvvug0Quu4Mbhf5EQURY7spc0OFI4cFDU0nkE94OTbIt0T+gjNbiLfJRSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733828388; c=relaxed/simple;
-	bh=OGhR91/Td+KLEtKRyb8Sx0ep0UWGrVXaTHWcbPGgqZ0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=NcgxgFCSiVzUmXiZ46PJlgSYGDPd57aQM++vuyC0mVq9Z48UPIC6hDMAnf0gVLmWk5YKTtM0UJ8WG+mdjri4QogZDtvd9IA0neKMxgL+6vSbiBfCr4ToMI/opq/mhywmXjJr6srSt0JAWI31aikCMglsSfjK91vCVBR0b2ss5iM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=hzZQix6Z; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1733875751; c=relaxed/simple;
+	bh=GU+BaWTDisXL7emfzpgBZTRnkPnQzCchAn1nV+GvzDA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=aBuM/x17+xnC0eQ9dkKMKMUKSBk6fxHDGyAB9vm90CYb/KyhMjeZldhm5tHXjPu1+gu94+pOLtS4PWCO6lFkHPNpnd6WVWVEmuu4PkcghBHJYbvtXxp0UQr3W4moc3oaIWazHZ3sSRjM2+7J1FcN1wy3TMRYCg+aDdKXOuP+7Io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=TRrI9jgP; arc=none smtp.client-ip=17.58.6.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="hzZQix6Z"
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BA67gMM032248;
-	Tue, 10 Dec 2024 11:59:36 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	YsJfbxvRKPhkYD3Gu1Y0Uqfw2QFPw3+5Ki1aYCTWF7o=; b=hzZQix6ZzR2cRc2a
-	Yxh+Fw5/aUCb5N7ysP3gws6H++zlJottB4m/MNK7beWQq2IRun6E0FrNjprKn6nB
-	lzGpYOrentJRtU2XTumE90hurYDu/nE2JBwliyeuS5GMv7JMQaYLEptCutsbzivT
-	Vv/ep4xEPWcsQGeGDoelVfoNNzd5O9l8mZUmBaBiidBZIX1sfVyHs559mn54NLCh
-	7tR04ROk3yJOHnAs1YjK8x6SkgnOROe8F6VX1x7xxR6OEJTJOeikxbCKYkLAX3BY
-	oz4//BKehs7gjksYcxOUUE87St+CVjQUBuEr4WcUjseu+CjqcOh3TUI/1tL6ZBKO
-	VvO8uA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 43cek1v78g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 10 Dec 2024 11:59:36 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id C79104004F;
-	Tue, 10 Dec 2024 11:58:37 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 500382444A0;
-	Tue, 10 Dec 2024 11:58:06 +0100 (CET)
-Received: from SHFDAG1NODE1.st.com (10.75.129.69) by SHFDAG1NODE3.st.com
- (10.75.129.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 10 Dec
- 2024 11:58:06 +0100
-Received: from SHFDAG1NODE1.st.com ([fe80::b848:dbeb:cd0:84a0]) by
- SHFDAG1NODE1.st.com ([fe80::b848:dbeb:cd0:84a0%13]) with mapi id
- 15.01.2507.037; Tue, 10 Dec 2024 11:58:06 +0100
-From: Etienne CARRIERE - foss <etienne.carriere@foss.st.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-CC: Sudeep Holla <sudeep.holla@arm.com>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        "arm-scmi@vger.kernel.org"
-	<arm-scmi@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>,
-        "linux-clk@vger.kernel.org"
-	<linux-clk@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] firmware: arm_scmi: get only min/max clock rates
-Thread-Topic: [PATCH v2 1/2] firmware: arm_scmi: get only min/max clock rates
-Thread-Index: AQHbRapDJ7ccjxlxv0mHV7BZdhy65bLdr4SAgAA7caGAAEGOAIABK5nx
-Date: Tue, 10 Dec 2024 10:58:05 +0000
-Message-ID: <80ea462fbe044781bb4b1e7a80ab8b80@foss.st.com>
-References: <20241203173908.3148794-1-etienne.carriere@foss.st.com>
- <20241203173908.3148794-2-etienne.carriere@foss.st.com>
- <Z1bHgf_4qqZgSnDt@bogus>
- <22ff786d1e034169be21ef7dc32c4a3a@foss.st.com>,<Z1cwTWQWamv3lywB@pluto>
-In-Reply-To: <Z1cwTWQWamv3lywB@pluto>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="TRrI9jgP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+	s=1a1hai; t=1733875747;
+	bh=CjAhm0T8eabtTbWzEl56h8D/MJjBFmQj5LVqz+i6m/0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:
+	 x-icloud-hme;
+	b=TRrI9jgPRZLkzXZqlbksM2a1UEkJXKYRysRTzr18jNqnNAL5LBmjgtrNTVCiQ7zM5
+	 Mr2u8dkC+/+V17h+FyPa5mlKV7wUr6+36AfbXqarAGf4pzonKnBDcjtswVv4N9TzEu
+	 zj5ECcV9nRkzuNfPL/dDBwg/EWD1j7SiDh8rWulypBf/N3+oAHcNlPloUBghQEHJ29
+	 DJ0mavrO6MBTMeMT18Qgv3sJSrvpQYFGODCOv5BBu9X06thbTc4kvlHYnvp8MXSfy0
+	 urWDJFk+fFZ3dsoxPSKspmSbHgZvo6d4uCMfCJ/6XfToj0I3LqrZahZBK2tmyKTGkV
+	 dkYj7xRMjP9uA==
+Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
+	by pv50p00im-ztdg10011901.me.com (Postfix) with ESMTPSA id D49D93A03BB;
+	Wed, 11 Dec 2024 00:08:55 +0000 (UTC)
+From: Zijun Hu <zijun_hu@icloud.com>
+Subject: [PATCH v4 00/11] driver core: Constify API device_find_child()
+Date: Wed, 11 Dec 2024 08:08:02 +0800
+Message-Id: <20241211-const_dfc_done-v4-0-583cc60329df@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOLXWGcC/2XOzWoDIRQF4FcZXNfgHR2jWfU9Sgn+XJu7GE10O
+ rSEvHvMBAoly3PgfJwra1gJGzsMV1ZxpUYl96DeBhZOLn8hp9gzG8WoYBTAQ8ltOcYUjrFk5M5
+ h2ANK79GxPjpXTPSzgR+fPZ+oLaX+bv4Kj3ajhIEXagUuuI1mQpmsksG/X74pUA67UGb2wFb5B
+ /Qv0wsgOwAaIIEy2k/uP3B73qvY20bL8yPzrmGH5pmWwxBilAK9B2+T1DDZqHUSxngNDnHUCrW
+ yce86drsD+D+VdzsBAAA=
+X-Change-ID: 20241201-const_dfc_done-aaec71e3bbea
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ James Bottomley <James.Bottomley@HansenPartnership.com>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>, 
+ Zijun Hu <zijun_hu@icloud.com>, linux-kernel@vger.kernel.org, 
+ nvdimm@lists.linux.dev, linux-sound@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-block@vger.kernel.org, 
+ linux-cxl@vger.kernel.org, linux1394-devel@lists.sourceforge.net, 
+ arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-hwmon@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, 
+ netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>, 
+ Alison Schofield <alison.schofield@intel.com>, 
+ Takashi Sakamoto <o-takashi@sakamocchi.jp>
+X-Mailer: b4 0.14.2
+X-Proofpoint-ORIG-GUID: -alI-XRJ5CvcRnQBKSq5z98wt7DybGq1
+X-Proofpoint-GUID: -alI-XRJ5CvcRnQBKSq5z98wt7DybGq1
 X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+ engine=ICAP:2.0.272,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-10_13,2024-12-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 bulkscore=0 phishscore=0
+ suspectscore=0 mlxscore=0 spamscore=0 mlxlogscore=999 clxscore=1015
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2412100174
+X-Apple-Remote-Links: v=1;h=KCk=;charset=UTF-8
 
-On Monday, December 9, 2024, Cristian Marussi wrote:
-> On Mon, Dec 09, 2024 at 01:48:48PM +0000, Etienne CARRIERE - foss wrote:
-> > On Monday, December 9, 2024, Sudeep Holla wrote:
-> > > On Tue, Dec 03, 2024 at 06:39:07PM +0100, Etienne Carriere wrote:
-> > > > Remove limitation of 16 clock rates max for discrete clock rates
-> > > > description when the SCMI firmware supports SCMI Clock protocol v2.=
-0
-> > > > or later.
-> > > >
-> > > > Driver clk-scmi.c is only interested in the min and max clock rates=
-.
-> > > > Get these by querying the first and last discrete rates with SCMI
-> > > > clock protocol message ID CLOCK_DESCRIBE_RATES since the SCMI
-> > > > specification v2.0 and later states that rates enumerated by this
-> > > > command are to be enumerated in "numeric ascending order" [1].
-> > > >
-> > > > Preserve the implementation that queries all discrete rates (16 rat=
-es
-> > > > max) to support SCMI firmware built on SCMI specification v1.0 [2]
-> > > > where SCMI Clock protocol v1.0 does not explicitly require rates
-> > > > described with CLOCK_DESCRIBE_RATES to be in ascending order.
-> > > >
-> > > > Link: https://developer.arm.com/documentation/den0056 [1]
-> > > > Link: https://developer.arm.com/documentation/den0056/a [2]
-> > > > Signed-off-by: Etienne Carriere <etienne.carriere@foss.st.com>
-> > > > ---
->=20
-> Hi,
->=20
-> > >
-> > > [...]
-> > >
-> > > > +
-> > > > +static int scmi_clock_get_rates_bound(const struct scmi_protocol_h=
-andle *ph,
-> > > > +                                   u32 clk_id, struct scmi_clock_i=
-nfo *clk)
-> > > > +{
-> > >
-> > > This new function seem to have unwraped the scmi_iterator_ops(namely
-> > > prepare_message, update_state and process_response instead of reusing=
- them.
-> > > Can you please explain why it wasn't possible to reuse them ?
-> >
-> > Since we're interested here only in min and max rates, let's query the
-> > first and last rates only. This can save a bit of useless transactions =
-between
-> > agent and firmware in case there are many clocks with somewhat large
-> > the discrete rate lists.
-> >
-> > I though using the iterator for this specific case would add a bit more
-> > complexity: it's expected to iterate (st->desc_index incremented from t=
-he
-> > common scmi_iterator_run() function) whereas here I propose to send
-> > only 2 messages.
->=20
-> Yes, indeed the core iterator helpers are meant to issue a 'full scan'
-> retrievieng all the resources that are returned while handling in a
-> common way the underlying machinery common to all messages that, like
-> DESCRIBE_RATES, could possibly return their results in chunks as a
-> multi-part reply...
->=20
-> ...having said that I can certainly extend the iterators to be configurab=
-le
-> enough to fit this new usecase and retrieve only the desired part of the
-> 'scan' so that can be used for this kind of max/min query or for the
-> bisection case.
->=20
-> I would avoid to re-introduce ad-hoc code to handle these new usecases
-> that do not fit into the existing iterator logic, since iterators
-> were introduced to remove duplication and unify under common
-> methods...and this new iterator scenario seems to me that has already 2
-> usecases and certainly more protocol could want to perform similar 'lazy
-> partial queries' in the future, so I'd prefer to address this in a more
-> general way upfront if possible...I will think about it and post somethin=
-g
-> next week in the form of some new iterator extensions, if it's fine for y=
-ou.
->=20
+This patch series is to constify the following API:
+struct device *device_find_child(struct device *dev, void *data,
+		int (*match)(struct device *dev, void *data));
+To :
+struct device *device_find_child(struct device *dev, const void *data,
+				 device_match_t match);
+typedef int (*device_match_t)(struct device *dev, const void *data);
 
-Hi Cristian,
-Thanks for looking at this. Any help here is very welcome.
+Why to constify the API?
 
-BR,
-Etienne
+- Protect caller's match data @*data which is for comparison and lookup
+  and the API does not actually need to modify @*data.
 
+- Make the API's parameters (@match)() and @data have the same type as
+  all of other device finding APIs (bus|class|driver)_find_device().
 
-> Thanks,
-> Cristian
->=20
+- All kinds of existing device matching functions can be directly taken
+  as the API's argument, they were exported by driver core.
+
+What to do?
+
+- Patches [1/11, 3/11] prepare for constifying the API.
+
+- Patch 4/11 constifies the API and adapt for its various subsystem usages.
+
+- Remaining do cleanup for several usages with benefits brought above.
+
+---
+Changes in v4:
+- Correct title and commit messages according to review comments
+- Link to v3: https://lore.kernel.org/r/20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com
+
+Changes in v3:
+- Solve build broken issue by squashing changes of various subsystem.
+- Reduce recipients to try to send out full patch serial.
+- Correct tiles and commit messages.
+- Link to v2: https://lore.kernel.org/all/20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com
+
+Changes in v2:
+- Series v1 have no code review comments and are posted a long time ago, so may ignore differences.
+- Link to v1: https://lore.kernel.org/r/20240811-const_dfc_done-v1-0-9d85e3f943cb@quicinc.com
+- Motivation link: https://lore.kernel.org/lkml/917359cc-a421-41dd-93f4-d28937fe2325@icloud.com
+
+---
+Zijun Hu (11):
+      libnvdimm: Replace namespace_match() with device_find_child_by_name()
+      slimbus: core: Constify slim_eaddr_equal()
+      bus: fsl-mc: Constify fsl_mc_device_match()
+      driver core: Constify API device_find_child() then adapt for various usages
+      driver core: Simplify API device_find_child_by_name() implementation
+      driver core: Remove match_any()
+      slimbus: core: Remove of_slim_match_dev()
+      gpio: sim: Remove gpio_sim_dev_match_fwnode()
+      driver core: Introduce an device matching API device_match_type()
+      cxl/pmem: Replace match_nvdimm_bridge() with API device_match_type()
+      usb: typec: class: Remove both cable_match() and partner_match()
+
+ arch/sparc/kernel/vio.c                |  6 +++---
+ drivers/base/core.c                    | 30 ++++++++++--------------------
+ drivers/block/sunvdc.c                 |  6 +++---
+ drivers/bus/fsl-mc/dprc-driver.c       |  8 ++++----
+ drivers/cxl/core/pci.c                 |  4 ++--
+ drivers/cxl/core/pmem.c                |  9 +++------
+ drivers/cxl/core/region.c              | 21 ++++++++++++---------
+ drivers/firewire/core-device.c         |  4 ++--
+ drivers/firmware/arm_scmi/bus.c        |  4 ++--
+ drivers/firmware/efi/dev-path-parser.c |  4 ++--
+ drivers/gpio/gpio-sim.c                |  7 +------
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c |  2 +-
+ drivers/hwmon/hwmon.c                  |  2 +-
+ drivers/media/pci/mgb4/mgb4_core.c     |  4 ++--
+ drivers/nvdimm/bus.c                   |  2 +-
+ drivers/nvdimm/claim.c                 |  9 +--------
+ drivers/pwm/core.c                     |  2 +-
+ drivers/rpmsg/rpmsg_core.c             |  4 ++--
+ drivers/scsi/qla4xxx/ql4_os.c          |  3 ++-
+ drivers/scsi/scsi_transport_iscsi.c    | 10 +++++-----
+ drivers/slimbus/core.c                 | 17 +++++------------
+ drivers/thunderbolt/retimer.c          |  2 +-
+ drivers/thunderbolt/xdomain.c          |  2 +-
+ drivers/tty/serial/serial_core.c       |  4 ++--
+ drivers/usb/typec/class.c              | 31 ++++++++++++++-----------------
+ include/linux/device.h                 |  4 ++--
+ include/linux/device/bus.h             |  1 +
+ include/scsi/scsi_transport_iscsi.h    |  4 ++--
+ net/dsa/dsa.c                          |  2 +-
+ tools/testing/cxl/test/cxl.c           |  2 +-
+ 30 files changed, 90 insertions(+), 120 deletions(-)
+---
+base-commit: cdd30ebb1b9f36159d66f088b61aee264e649d7a
+change-id: 20241201-const_dfc_done-aaec71e3bbea
+
+Best regards,
+-- 
+Zijun Hu <quic_zijuhu@quicinc.com>
+
