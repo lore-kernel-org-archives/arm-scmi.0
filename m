@@ -1,152 +1,147 @@
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from r3-11.sinamail.sina.com.cn (r3-11.sinamail.sina.com.cn [202.108.3.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46451D9353;
-	Fri, 13 Dec 2024 11:26:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E6B433C8
+	for <arm-scmi@vger.kernel.org>; Mon, 16 Dec 2024 07:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734089188; cv=none; b=g+5bX9qf4u9a6BYbWcqoA8oZKr39zz8PcsofU6Hn1utbP3LLUfM1EmwVQAGCYsYenT+ArmTgP+XR4B6NLcfMbh4jxoOCZdnynnsKjzZNP6HUWQ+uv7trna/P9ul8/JUSb+3qSt9OhCIxXsjFk3p9V7QXsI7RaNuxAbuUQMQq39c=
+	t=1734335575; cv=none; b=m2eEu1E++qj9MOdErCfQhtMdkQB9EP8uIdtWyDlcQqbeDgtZ5YHfVzn2aubDmnFGDoiI4Vs/8xZYcWT2ZMNkJou8ByP+klEGOwUMYlAVbpWVLTS/lrg8T7kDoWZknsgDW9CY6rJ6duAYbC1HWWiF9EAcwxMrxZw/iFZpULF6xk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734089188; c=relaxed/simple;
-	bh=TOvdrY6ZK03lS7952dPZDMgLr1EpXZjEA+isc/DBTlo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=sWAmj3yTcRgcHF4zSxPpKnUArLRhc2L5qwTmGX/4ChULhvLKyBzWYbg7K2xkuY93XxGvZQRTRXqrQclc9owoX4V2VWIPVe138nQQxN2MG9zOKto1XhEhPJWhjUm0iWoNxyUzUVcUyETz1VlxsDB+AvXI/hlhuzC9JUdhMLVABAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=nX0aIA0N; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="nX0aIA0N"
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BDAwCCD007389;
-	Fri, 13 Dec 2024 12:25:58 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	TOvdrY6ZK03lS7952dPZDMgLr1EpXZjEA+isc/DBTlo=; b=nX0aIA0N2vd095Qk
-	zjlywg33Qq22QUrLPcu5++yxKf46EcwbgwN8HJ0/F03UGwTT1i+veXljzaaJWbUY
-	TA1scFnKyf9MNCwLmFVlj8lwEgzhRiQjN2Q+++pihvqhkFKSYz6pU7syKvTZ0Tq2
-	1IL4rHx3eC9/hwJkFTC88vKXuxezG9Iro9d2s8fmbCu7GrDrDrUusWwK40T7z5+L
-	pjgFZKdipnq1wGlg5Xeos2S4eoC/aZSM7/5NUko6mVe+vbCTPoJ0it0hK+RpVPel
-	2W+LoK244qN08XMGNIWBg+mXZxuRnZ8b3cdTlrkj2iXDQbMkw1xOhMI3Kdj85QhB
-	J+xA7Q==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 43ffwc82gr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 13 Dec 2024 12:25:58 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 0A4F54004A;
-	Fri, 13 Dec 2024 12:25:03 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D0AC425B04F;
-	Fri, 13 Dec 2024 12:24:30 +0100 (CET)
-Received: from SHFDAG1NODE1.st.com (10.75.129.69) by SHFDAG1NODE3.st.com
- (10.75.129.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Fri, 13 Dec
- 2024 12:24:30 +0100
-Received: from SHFDAG1NODE1.st.com ([fe80::b848:dbeb:cd0:84a0]) by
- SHFDAG1NODE1.st.com ([fe80::b848:dbeb:cd0:84a0%13]) with mapi id
- 15.01.2507.037; Fri, 13 Dec 2024 12:24:30 +0100
-From: Etienne CARRIERE - foss <etienne.carriere@foss.st.com>
-To: Sudeep Holla <sudeep.holla@arm.com>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Cristian
- Marussi" <cristian.marussi@arm.com>,
-        Michael Turquette
-	<mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        "arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>,
-        "linux-clk@vger.kernel.org"
-	<linux-clk@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] firmware: arm_scmi: round rate bisecting in
- discrete rates
-Thread-Topic: [PATCH v2 2/2] firmware: arm_scmi: round rate bisecting in
- discrete rates
-Thread-Index: AQHbRapDtK1zP5F5+E+8H5T6eqOTIbLdsy4AgAAr30uAAD/MAIABMogogASvjhk=
-Date: Fri, 13 Dec 2024 11:24:30 +0000
-Message-ID: <24d1fce2660a4d8296dd7c699020932a@foss.st.com>
-References: <20241203173908.3148794-1-etienne.carriere@foss.st.com>
- <20241203173908.3148794-3-etienne.carriere@foss.st.com>
- <Z1bKlOeHJFHpe9ZU@bogus>
- <ed164b6704ab4086b2fb22ae51658f31@foss.st.com>,<Z1ck5tFkb41wReZP@bogus>,<aac4c00dc3ba4599aaa91392dac71d6d@foss.st.com>
-In-Reply-To: <aac4c00dc3ba4599aaa91392dac71d6d@foss.st.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1734335575; c=relaxed/simple;
+	bh=DaXMxJWe+maZHs011CH/Y8JkMepo5JmAYGmmAUY1iTQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ayCvK1KPyUyLLR1vo86PKeIiIvZBx/mlzwQUG4O36Tm4fCyyKT6iTYtUqouZXLKcAIDdVlvLreS5B462MnXADRgaBALICsFX3AeFacrSAbdJSTgObddWY8uWgo3r8ys2xT2nhcDzygAajUhTet0leuDAkldOHY8bAIowBWX26lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; arc=none smtp.client-ip=202.108.3.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sina.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
+X-SMAIL-HELO: localhost.localdomain
+Received: from unknown (HELO localhost.localdomain)([58.48.52.254])
+	by sina.com (10.182.253.22) with ESMTP
+	id 675FD8CA00004103; Mon, 16 Dec 2024 15:37:47 +0800 (CST)
+X-Sender: guomin_chen@sina.com
+X-Auth-ID: guomin_chen@sina.com
+Authentication-Results: sina.com;
+	 spf=none smtp.mailfrom=guomin_chen@sina.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=guomin_chen@sina.com
+X-SMAIL-MID: 8382016816123
+X-SMAIL-UIID: D0CEDDD720A14B498C74480E40F4A454-20241216-153747-1
+From: guomin_chen@sina.com
+To: Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Xinqi Zhang <quic_xinqzhan@quicinc.com>,
+	guomin chen <gchen.guomin@gmail.com>
+Cc: arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	guomin chen <guomin_chen@sina.com>
+Subject: [PATCH v2] firmware: arm_scmi: Delete the meaningless scmi_bus_id.
+Date: Mon, 16 Dec 2024 15:37:45 +0800
+Message-ID: <20241216073745.2973317-1-guomin_chen@sina.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+Content-Transfer-Encoding: 8bit
 
-On Tuesday, December 10, 2024, Etienne CARRIERE - foss wrote:
-> On Monday, December 9, 2024, Sudeep Holla wrote:
-> > On Mon, Dec 09, 2024 at 12:59:58PM +0000, Etienne CARRIERE - foss wrote=
-:
-> (...)
-> > > > I would like to avoid this extra query if not required which you se=
-em to
-> > > > have made an attempt but I just want to be thorough and make sure t=
-hat's
-> > > > what we need w.r.t the specification.
-> > >
-> > > Sure, I indeed prefer clear and robust implementation in the long ter=
-m,
-> > > being the one I propose here or another one.
-> > >
-> >
-> > Good then, we can work towards achieving that. If you can specify how s=
-low
-> > or memory hungry is it without these changes and how much this change h=
-elps
-> > your platform, we can take it up with spec authors and see if they are =
-happy
-> > to provide some alternative to deal with this in a generic way.
->=20
-> The platforms we target usually have plenty of RAM, lets say hundreds of =
-MBytes.
-> Not that much for some system but enough I guess to store a few hundreds =
-of
-> clock rates for a few dozen of clocks (few kByte of RAM).
+From: guomin chen <guomin_chen@sina.com>
 
-During last SCMI monthly meeting [1], there was a suggestion to use a lazy
-query of the full clock discrete rates list: the first time clk_round_rate(=
-)
-is requested on an SCMI clock with discrete rates, we can allocated and get
-the full rate list once in struct scmi_clock_info. It will be ease to local=
-ly bisect
-or scan into these supported rates for clk_round_rate() operations.
+Currently, scmi_bus_id is only used to set scmi_dev.id,
+which in turn sets the SCMI device name. After removing
+scmi_bus_id, it is clearer and more meaningful to directly
+use the unique tuple [Parent name,device name, protocol] to 
+set the SCMI device name.
 
-It would prevent to store the full discrete rates list for all SCMI clocks =
-when
-clk_round_rate() is queried only for a very few of them.
+Signed-off-by: guomin chen <guomin_chen@sina.com>
+---
+ drivers/firmware/arm_scmi/bus.c    | 17 +++--------------
+ drivers/firmware/arm_scmi/driver.c |  4 ++--
+ 2 files changed, 5 insertions(+), 16 deletions(-)
 
-Do you think it would be a good compromise?=20
+diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
+index 157172a5f2b5..800e8ec9357c 100644
+--- a/drivers/firmware/arm_scmi/bus.c
++++ b/drivers/firmware/arm_scmi/bus.c
+@@ -20,7 +20,6 @@
+ BLOCKING_NOTIFIER_HEAD(scmi_requested_devices_nh);
+ EXPORT_SYMBOL_GPL(scmi_requested_devices_nh);
+ 
+-static DEFINE_IDA(scmi_bus_id);
+ 
+ static DEFINE_IDR(scmi_requested_devices);
+ /* Protect access to scmi_requested_devices */
+@@ -341,7 +340,6 @@ static void __scmi_device_destroy(struct scmi_device *scmi_dev)
+ 	if (scmi_dev->protocol_id == SCMI_PROTOCOL_SYSTEM)
+ 		atomic_set(&scmi_syspower_registered, 0);
+ 
+-	ida_free(&scmi_bus_id, scmi_dev->id);
+ 	device_unregister(&scmi_dev->dev);
+ }
+ 
+@@ -349,7 +347,7 @@ static struct scmi_device *
+ __scmi_device_create(struct device_node *np, struct device *parent,
+ 		     int protocol, const char *name)
+ {
+-	int id, retval;
++	int retval;
+ 	struct scmi_device *scmi_dev;
+ 
+ 	/*
+@@ -387,20 +385,13 @@ __scmi_device_create(struct device_node *np, struct device *parent,
+ 		return NULL;
+ 	}
+ 
+-	id = ida_alloc_min(&scmi_bus_id, 1, GFP_KERNEL);
+-	if (id < 0) {
+-		kfree_const(scmi_dev->name);
+-		kfree(scmi_dev);
+-		return NULL;
+-	}
+-
+-	scmi_dev->id = id;
+ 	scmi_dev->protocol_id = protocol;
+ 	scmi_dev->dev.parent = parent;
+ 	device_set_node(&scmi_dev->dev, of_fwnode_handle(np));
+ 	scmi_dev->dev.bus = &scmi_bus_type;
+ 	scmi_dev->dev.release = scmi_device_release;
+-	dev_set_name(&scmi_dev->dev, "scmi_dev.%d", id);
++	dev_set_name(&scmi_dev->dev, "scmi_dev.%s.%s.%d", dev_name(parent),
++			scmi_dev->name, protocol);
+ 
+ 	retval = device_register(&scmi_dev->dev);
+ 	if (retval)
+@@ -413,7 +404,6 @@ __scmi_device_create(struct device_node *np, struct device *parent,
+ 	return scmi_dev;
+ put_dev:
+ 	put_device(&scmi_dev->dev);
+-	ida_free(&scmi_bus_id, id);
+ 	return NULL;
+ }
+ 
+@@ -526,7 +516,6 @@ static void __exit scmi_bus_exit(void)
+ 	 */
+ 	scmi_devices_unregister();
+ 	bus_unregister(&scmi_bus_type);
+-	ida_destroy(&scmi_bus_id);
+ }
+ module_exit(scmi_bus_exit);
+ 
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index 1b5fb2c4ce86..bbf1f05f2be3 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -2641,8 +2641,8 @@ static int scmi_chan_setup(struct scmi_info *info, struct device_node *of_node,
+ 	cinfo->max_msg_size = info->desc->max_msg_size;
+ 
+ 	/* Create a unique name for this transport device */
+-	snprintf(name, 32, "__scmi_transport_device_%s_%02X",
+-		 idx ? "rx" : "tx", prot_id);
++	snprintf(name, 32, "__scmi_transport_device_%s",
++		 idx ? "rx" : "tx");
+ 	/* Create a uniquely named, dedicated transport device for this chan */
+ 	tdev = scmi_device_create(of_node, info->dev, prot_id, name);
+ 	if (!tdev) {
+-- 
+2.47.1
 
-[1] https://linaro.atlassian.net/wiki/spaces/SCMI/overview#Meetings
-
-BR,
-Etienne
-
->=20
-> That said, thinking more and more about this, I really belive a dedicate =
-SCMI
-> clock protocol command would better fit platform needs in the long term.
->=20
-> BR,
-> Etienne
->=20
-> >
-> > --
-> > Regards,
-> > Sudeep
-> >
->=20
