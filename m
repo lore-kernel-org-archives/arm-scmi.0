@@ -1,126 +1,255 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5298C1DA309;
-	Tue, 17 Dec 2024 11:49:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41321EF0BD
+	for <arm-scmi@vger.kernel.org>; Tue, 17 Dec 2024 12:10:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734436184; cv=none; b=aJnswrqbCRolkrOD+rEdyosqc8d771h8vVbbdBhHZeXC4yjzddOtLtkoDK9Jf75tVvesE14puIqGLSU7MG7HcKX/38PF9dli9rfk+02Yvgga+YuL3QOcjQTnJn3u11Mqbah1lwtaR1Bg7gUKQ6E0cReBpKhmBwWElHLjSXbZ3N4=
+	t=1734437419; cv=none; b=ouTlqRcRbv7BpFWJY4uyDQnYXGHxq/SIeJqpCUw7ir3Il1baix5/19esXTH6pcz05ZXK9BNXeGuSAC0vtNdjt6cLt6tbqKhja/FFXjBuEKgB3ktXf5cXFk9FLojWqkgIrdNSTNJKFTvyBI18NM4656zaMN1T7Mg4zmvp47+7hw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734436184; c=relaxed/simple;
-	bh=9tVE04Aq7Fp46/wzMlSNN11Cg9p4GqW0pDy75ROiNB8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=k/l9iWqThXhnt0+fB6FLrLx0tE+EJwVh5oSZmZvIHAFT8iP2zrQ5uvzlRXRVKKjnnQ2MqxqCYx95KHMRTAzetNN7lWI5Ob4ttqY/+2bcBHxB7D44FFFYjwRIB7vdvWCIZO83+bK9stPqMq7OvD24CBbkQDPZ/LmgVor7XRQljqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=lnQfbVr3; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1734437419; c=relaxed/simple;
+	bh=ZvTDXTytGK4hoEgB+cPKFKuPAhEooAN7ZUuO0aRDvBg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fh7CiflosCqMyo3paEArbfOMgMDN81+PisqLXaB+7TK9H7Ht3vIq9GflbBRyNqXK6kNd10ahvK9fT41LSfLI6zSA3Hw5ISfgACe86eC+Q/E4DlyogjwHybzOCh3Idw98M7aui//z0ykHZcjC3FdDa4dNVOOHrvkrWcUIfd4s1Zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=r7VJYG+9; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lnQfbVr3"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BHAo2CF032295;
-	Tue, 17 Dec 2024 11:49:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	w33SI2/Ck8iDrn3EQdJPf61Xq4M1rlHUILAdfjh2xvo=; b=lnQfbVr3EHfNg6VQ
-	WFWIQRH9+cxvgtBU8GOFttKKXQBrbD2u1x6IBcC1YgaIuGsvixZsNEdyHGErSySI
-	gycznI6LcqH1/9NW3Jdzz4NlG0TgCc5l9XfiBxFpnwv46cUwNQPG0r53qraZg4O8
-	oCnU+DstOyssfykSgRSsUCRMSUib2yKBLIaibRFzrs7ORQZzX2Wrxx041IiSdf3K
-	UhhdyXA4knqgu6rOcHkcAXv2IHfFE1QoxBtqw0yBk7giN1mmKYyqAr6JjMh4dfEt
-	FZFEpj+i/xhvym3YB5JW1XZpJtJrfFoqbTLhe1ZRQscksWxwZklLV2qBE2yjKEJl
-	50iIvw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43k7w504vh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Dec 2024 11:49:33 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BHBnW7Y018266
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Dec 2024 11:49:32 GMT
-Received: from [10.190.163.187] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 17 Dec
- 2024 03:49:28 -0800
-Message-ID: <132d1404-9009-9fb5-1fb9-63eca03ce9fc@quicinc.com>
-Date: Tue, 17 Dec 2024 17:19:25 +0530
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r7VJYG+9"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-3022484d4e4so59110871fa.1
+        for <arm-scmi@vger.kernel.org>; Tue, 17 Dec 2024 04:10:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734437415; x=1735042215; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SGJtgkW0Nmj+9bOR6wvgP6qiuxfS0r3vmJTy/VNYYyI=;
+        b=r7VJYG+9YNW4C2L6sZky5MLIAe1zHbWsU1rUsfu1KOiqKQHIHudBZKppRSPPtq9AK8
+         peHnJO58nejz9JbTRsk3neBZQZbUHJI5IkD8u1IfxtZ3amuKomJOeVyPRm7BfrIHLh9g
+         /T2s+dJNnxwHyjahffl5htuzfsdHOUO5v9WODptbztTDNKOATcoi+i8tWI9rOgqERdzf
+         wGmdVGntIKObD45EQjfAXGCuQCQuvShOsS2cKuQ9bdXUxfN9CsS8RLUcpUMVuORjhF6f
+         lNqxYPVzGSj3kuCkbRDuDL9vlGv0GQt5J9ThMZEaY4pN38e3SvI+zIVye0cyJHcmFMX1
+         qXJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734437415; x=1735042215;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SGJtgkW0Nmj+9bOR6wvgP6qiuxfS0r3vmJTy/VNYYyI=;
+        b=G5TGk0B5zjMAct+xbD2LMy6WGoacDjPBTKncjSAUjLgyM8HMgydHop5KzRUeb9P5jN
+         BzlkKRuD1CLw4+Dib7UopRlXICvpgRJq77JvCMmUdKtmOkGQm9YvZwE7idD32GPHUzFD
+         ARkj1KsQby/AZrI8Hju1kJKr7VCNwYWRv2OzgePSTecj3fKjyB4gmvh/neroxgZT7Qtk
+         BNET8JnynhMX+KM3p2IKVh3TgH6A0focMDPLv9GGjRQRFPuqXmKW4Lv9WTth8czt8JrT
+         2eiDBUk7VLgHSZPCIfzazzJ1QNwcXEgueKIoHnuO3r+SpWdGLMLDdl46lghlmfrIptj0
+         SqCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV5I8RYgeK7kJ3aC/XKZq4kGjihA+ySifLOklxJhpUiCLcXJQVzaMmGjOcbc3KHlv2ezdcP3QKCWQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVE0dxRO0iuGphP95CYTcLWk51BUnRIBN8QI0Qhr25zthAh97V
+	V57E8UpzImTPyv0oQc13YnF7nRhZFEXCW2xx5br4wK6zMLZ356hwysfRB8Anj/w=
+X-Gm-Gg: ASbGncvQX0e/hzMx0NY36+Vh5/cKgTQ9ar4I5Eo9AvjrkfXd5AZOzGxhWpeDve5wNXN
+	bOXEy5y3RSuhFD5kxadqulGqhkkEI0Zx4DYhkFxni6cNk3CMzwyH47JhL0Hh1+0XmwKtZ4HUcim
+	CTXNNX/KjqZNx1yMqcp8NCsJaQyjEhSTqYQPU9aisI6f4mdwHzIs0q7K2kQwa1wC9ee8gVTxDec
+	olLxBx1etJjpYAdZGpYZIcPNEWv8rLJJvUp93WpbREUhETj7H9ZEGD3RC6+xVERp354pmazMkD7
+	LlheisfWk3dpYBUJPtHrqCcuGNtavMChKCaz
+X-Google-Smtp-Source: AGHT+IGbaAsWRmA6m2AAATXZlP1PqfEe6QwBDePHMk1dARQJ/q4HNRCc/Wnqkc8Q0vklBj+coP542A==
+X-Received: by 2002:a05:651c:504:b0:302:360e:a13b with SMTP id 38308e7fff4ca-304435690d3mr13712661fa.30.1734437415091;
+        Tue, 17 Dec 2024 04:10:15 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-303441a5a8dsm12382381fa.108.2024.12.17.04.10.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Dec 2024 04:10:14 -0800 (PST)
+Date: Tue, 17 Dec 2024 14:10:13 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Sibi Sankar <quic_sibis@quicinc.com>
+Cc: myungjoo.ham@samsung.com, Kyungmin.park@samsung.com, 
+	cw00.choi@samsung.com, Viresh Kumar <viresh.kumar@linaro.org>, sudeep.holla@arm.com, 
+	cristian.marussi@arm.com, andersson@kernel.org, konrad.dybcio@linaro.org, 
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	quic_rgottimu@quicinc.com, quic_kshivnan@quicinc.com, conor+dt@kernel.org, 
+	arm-scmi@vger.kernel.org, Amir Vajid <avajid@quicinc.com>
+Subject: Re: [PATCH V4 4/5] soc: qcom: Introduce SCMI based Memlat (Memory
+ Latency) governor
+Message-ID: <7xrvku7wfvrpxx6yvamn7so46k4dvezpebj7ctm56ufp5ajadi@jwzup6vkupvd>
+References: <2aycrvnvivcrqctqmweadcgenwugafdr6ub3bzkscterpenz32@bzabln2hkral>
+ <29eef87e-96f6-5105-6f7a-a8e01efcb4a3@quicinc.com>
+ <k4lpzxtrq3x6riyv6etxiobn7nbpczf2bp3m4oc752nhjknlit@uo53kbppzim7>
+ <ac655bdc-5ccf-c6c6-3203-659f1916c53c@quicinc.com>
+ <34p27za5hcpubaxjuddsir2vqnqrvwyesnclu2cocvm3yhbv3r@ak7rcnp67gyd>
+ <1f5258f4-7c20-5343-dec6-0847449c821b@quicinc.com>
+ <CAA8EJpoN3QSi72UUDV+=YkqySgXkiODUFJvwpBYfSmnkSotuZA@mail.gmail.com>
+ <4399f7da-9478-57c0-7405-e51dc35d90ba@quicinc.com>
+ <uwwiz2o6brn5zczbpaiajdq7yva2qpcpgzwdr26lhg4jvlwvvj@w5bkiuhdalze>
+ <d2d95756-c51d-17bb-ce12-d8ae390a3bac@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH V4 0/5] arm_scmi: vendors: Qualcomm Generic Vendor
- Extensions
-Content-Language: en-US
-To: Johan Hovold <johan@kernel.org>
-CC: Cristian Marussi <cristian.marussi@arm.com>, <sudeep.holla@arm.com>,
-        <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <quic_rgottimu@quicinc.com>, <quic_kshivnan@quicinc.com>,
-        <conor+dt@kernel.org>, <arm-scmi@vger.kernel.org>
-References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
- <ZytnRc94iKUfMYH0@hovoldconsulting.com> <ZyvLktLUZOGP-LH5@pluto>
- <Zy4qvedrmkRdPR3x@hovoldconsulting.com>
- <8d42682b-0fa7-3962-da12-728cfe64903b@quicinc.com>
- <Z0BC203BhGEmXcJi@hovoldconsulting.com>
- <d61bb7bc-d824-883a-4edd-109ae74076c1@quicinc.com>
- <Z1HMWUa_QCsNA1-Q@hovoldconsulting.com>
-From: Sibi Sankar <quic_sibis@quicinc.com>
-In-Reply-To: <Z1HMWUa_QCsNA1-Q@hovoldconsulting.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: -1IvqGh3plY--CLc2H0_xmbGxyWqzV9B
-X-Proofpoint-ORIG-GUID: -1IvqGh3plY--CLc2H0_xmbGxyWqzV9B
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 impostorscore=0
- phishscore=0 clxscore=1015 bulkscore=0 suspectscore=0 malwarescore=0
- mlxlogscore=999 adultscore=0 lowpriorityscore=0 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412170097
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d2d95756-c51d-17bb-ce12-d8ae390a3bac@quicinc.com>
 
-
-
-On 12/5/24 21:22, Johan Hovold wrote:
-> On Thu, Dec 05, 2024 at 04:26:55PM +0530, Sibi Sankar wrote:
->> On 11/22/24 14:07, Johan Hovold wrote:
+On Tue, Dec 17, 2024 at 04:35:15PM +0530, Sibi Sankar wrote:
 > 
->>> I have a Lenovo ThinkPad T14s set up now so I gave this series a spin
->>> there too, and there I do *not* see the above mentioned -EOPNOSUPP error
->>> and the memlat driver probes successfully.
->>>
->>> On the other hand, this series seems to have no effect on a kernel
->>> compilation benchmark. Is that expected?
->>
->> I can have a look at your tree. But memlat in general
->> depends on the cpu frequency when your benchmarks max
->> the cpu's the ddr/llcc are scaled accordingly by it.
 > 
-> A kernel compilation should max out the CPU frequency on all cores.
+> On 12/17/24 16:16, Dmitry Baryshkov wrote:
+> > On Tue, Dec 17, 2024 at 03:46:24PM +0530, Sibi Sankar wrote:
+> > > 
+> > > 
+> > > On 12/5/24 17:00, Dmitry Baryshkov wrote:
+> > > > On Thu, 5 Dec 2024 at 12:53, Sibi Sankar <quic_sibis@quicinc.com> wrote:
+> > > > > 
+> > > > > 
+> > > > > 
+> > > > > On 11/14/24 18:02, Dmitry Baryshkov wrote:
+> > > > > > On Thu, Nov 14, 2024 at 09:43:53AM +0530, Sibi Sankar wrote:
+> > > > > > > 
+> > > > > > > 
+> > > > > > > On 10/26/24 23:46, Dmitry Baryshkov wrote:
+> > > > > > > > On Tue, Oct 22, 2024 at 01:48:25PM +0530, Sibi Sankar wrote:
+> > > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > > On 10/7/24 23:27, Dmitry Baryshkov wrote:
+> > > > > > > > > > On Mon, Oct 07, 2024 at 11:40:22AM GMT, Sibi Sankar wrote:
+> > > > > > 
+> > > > > > > > > > 
+> > > > > > > > > > > +};
+> > > > > > > > > > > +
+> > > > > > > > > > > +struct map_param_msg {
+> > > > > > > > > > > +        u32 hw_type;
+> > > > > > > > > > > +        u32 mon_idx;
+> > > > > > > > > > > +        u32 nr_rows;
+> > > > > > > > > > > +        struct map_table tbl[MAX_MAP_ENTRIES];
+> > > > > > > > > > > +} __packed;
+> > > > > > > > > > > +
+> > > > > > > > > > > +struct node_msg {
+> > > > > > > > > > > +        u32 cpumask;
+> > > > > > > > > > > +        u32 hw_type;
+> > > > > > > > > > > +        u32 mon_type;
+> > > > > > > > > > > +        u32 mon_idx;
+> > > > > > > > > > > +        char mon_name[MAX_NAME_LEN];
+> > > > > > > > > > > +};
+> > > > > > > > > > > +
+> > > > > > > > > > > +struct scalar_param_msg {
+> > > > > > > > > > > +        u32 hw_type;
+> > > > > > > > > > > +        u32 mon_idx;
+> > > > > > > > > > > +        u32 val;
+> > > > > > > > > > > +};
+> > > > > > > > > > > +
+> > > > > > > > > > > +enum common_ev_idx {
+> > > > > > > > > > > +        INST_IDX,
+> > > > > > > > > > > +        CYC_IDX,
+> > > > > > > > > > > +        CONST_CYC_IDX,
+> > > > > > > > > > > +        FE_STALL_IDX,
+> > > > > > > > > > > +        BE_STALL_IDX,
+> > > > > > > > > > > +        NUM_COMMON_EVS
+> > > > > > > > > > > +};
+> > > > > > > > > > > +
+> > > > > > > > > > > +enum grp_ev_idx {
+> > > > > > > > > > > +        MISS_IDX,
+> > > > > > > > > > > +        WB_IDX,
+> > > > > > > > > > > +        ACC_IDX,
+> > > > > > > > > > > +        NUM_GRP_EVS
+> > > > > > > > > > > +};
+> > > > > > > > > > > +
+> > > > > > > > > > > +#define EV_CPU_CYCLES           0
+> > > > > > > > > > > +#define EV_INST_RETIRED         2
+> > > > > > > > > > > +#define EV_L2_D_RFILL           5
+> > > > > > > > > > > +
+> > > > > > > > > > > +struct ev_map_msg {
+> > > > > > > > > > > +        u32 num_evs;
+> > > > > > > > > > > +        u32 hw_type;
+> > > > > > > > > > > +        u32 cid[NUM_COMMON_EVS];
+> > > > > > > > > > > +};
+> > > > > > > > > > > +
+> > > > > > > > > > > +struct cpufreq_memfreq_map {
+> > > > > > > > > > > +        unsigned int cpufreq_mhz;
+> > > > > > > > > > > +        unsigned int memfreq_khz;
+> > > > > > > > > > > +};
+> > > > > > > > > > > +
+> > > > > > > > > > > +struct scmi_monitor_info {
+> > > > > > > > > > > +        struct cpufreq_memfreq_map *freq_map;
+> > > > > > > > > > > +        char mon_name[MAX_NAME_LEN];
+> > > > > > > > > > > +        u32 mon_idx;
+> > > > > > > > > > > +        u32 mon_type;
+> > > > > > > > > > > +        u32 ipm_ceil;
+> > > > > > > > > > > +        u32 mask;
+> > > > > > > > > > > +        u32 freq_map_len;
+> > > > > > > > > > > +};
+> > > > > > > > > > > +
+> > > > > > > > > > > +struct scmi_memory_info {
+> > > > > > > > > > > +        struct scmi_monitor_info *monitor[MAX_MONITOR_CNT];
+> > > > > > > > > > > +        u32 hw_type;
+> > > > > > > > > > > +        int monitor_cnt;
+> > > > > > > > > > > +        u32 min_freq;
+> > > > > > > > > > > +        u32 max_freq;
+> > > > > > > > > > > +};
+> > > > > > > > > > > +
+> > > > > > > > > > > +struct scmi_memlat_info {
+> > > > > > > > > > > +        struct scmi_protocol_handle *ph;
+> > > > > > > > > > > +        const struct qcom_generic_ext_ops *ops;
+> > > > > > > > > > > +        struct scmi_memory_info *memory[MAX_MEMORY_TYPES];
+> > > > > > > > > > > +        u32 cluster_info[NR_CPUS];
+> > > > > > > > > > > +        int memory_cnt;
+> > > > > > > > > > > +};
+> > > > > > > > > > > +
+> > > > > > > > > > > +static int populate_cluster_info(u32 *cluster_info)
+> > > > > > > > > > > +{
+> > > > > > > > > > > +        char name[MAX_NAME_LEN];
+> > > > > > > > > > > +        int i = 0;
+> > > > > > > > > > > +
+> > > > > > > > > > > +        struct device_node *cn __free(device_node) = of_find_node_by_path("/cpus");
+> > > > > > > > > > > +        if (!cn)
+> > > > > > > > > > > +                return -ENODEV;
+> > > > > > > > > > > +
+> > > > > > > > > > > +        struct device_node *map __free(device_node) = of_get_child_by_name(cn, "cpu-map");
+> > > > > > > > > > > +        if (!map)
+> > > > > > > > > > > +                return -ENODEV;
+> > > > > > > > > > > +
+> > > > > > > > > > > +        do {
+> > > > > > > > > > > +                snprintf(name, sizeof(name), "cluster%d", i);
+> > > > > > > > > > > +                struct device_node *c __free(device_node) = of_get_child_by_name(map, name);
+> > > > > > > > > > > +                if (!c)
+> > > > > > > > > > > +                        break;
+> > > > > > > > > > > +
+> > > > > > > > > > > +                *(cluster_info + i) = of_get_child_count(c);
+> > > > > > > > > > > +                i++;
+> > > > > > > > > > > +        } while (1);
+> > > > > > > > > > 
+> > > > > > > > > > Can you use existing API from drivers/base/arch_topology.c? If not, can
+> > > > > > > > > > it be extended to support your usecase?
+> > > > > > > > > 
+> > > > > > > > > ack. But I'm pretty sure it's going to take a while for reaching such
+> > > > > > > > > an agreement so I'll drop this feature during the next re-spin.
+> > > > > > > > 
+> > > > > > > > Why? What kind of API do you actually need? The arch_topology.c simply
+> > > > > > > > exports a table of struct cpu_topology. Is it somehow different from
+> > > > > > > > what you are parsing manually?
+> > > > > > > 
+> > > > > > > yup, we had to figure out the physical id of the cpu
+> > > > > > > since cpus can be disabled by the bootloader using
+> > > > > > > status = "failed" property and we have to pass this
+> > > > > > > onto the cpucp memlat algorithm.
+> > > > > > 
+> > > > > > Isn't it equal to the index in the cpu_topology table?
+> > > > > 
+> > > > > from what I see cpu_topology indexes remain unpopulated
+> > > > > for cpus that are disabled since get_cpu_for_node
+> > > > > ignores those?
+> > > > 
+> > > > Why do you need cpu_topology for disabled aka non-existing CPU devices?
+> > > 
+> > > sorry was out sick couldn't back earlier. We need the know
+> > > what cpus are disbled to pass on the correct mask of cpus
+> > > enabled to the SCP.
+> > 
+> > Yes. So isn't it enough to know only the enabled CPUs?
 > 
->>> And does this mean that you should stick with the uppercase "MEMLAT"
->>> string after all? The firmware on my CRD is not the latest one, but I am
->>> using the latest available firmware for the T14s.
->>
->> We should stick with "memlat" if we run into a device in the
->> wild that doesn't support "MEMLAT"
-> 
-> Ok. So the updated firmware supports both strings?
+> yes just knowing the physical index of the enabled cpus
+> should be enough.
 
+Then exiting cpu_topology is enough for your case, isn't it?
 
-Sry for the delay, was out sick. Yes the updated firmware supports both
-strings.
-
--Sibi
-
-> 
-> Johan
+-- 
+With best wishes
+Dmitry
