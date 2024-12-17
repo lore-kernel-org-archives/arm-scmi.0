@@ -1,173 +1,106 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388DF2595
-	for <arm-scmi@vger.kernel.org>; Tue, 17 Dec 2024 02:06:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9B818035
+	for <arm-scmi@vger.kernel.org>; Tue, 17 Dec 2024 02:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734401220; cv=none; b=T8xDKg1oLG6lQ1e2wcaYnG8Lv1teSDLV55peNW8YFeFL+TK7kDceG5Eq6ETgREmDIuNV3kr1Da243pg5gIYBcE5CTeElWxZO4y1D48y3uGaXUNejxbCNTutxPz/KcJWC3aQU6ymTPkZcZ0AmEGEXIb9CIHwUV64AQ2d4YJvww0o=
+	t=1734402691; cv=none; b=DZWVuxC9RtEFYgbw8mxkhUciW5zkJUNrB1LGDxBiP4/Ope8DQ4qSSo6ts7lblJM6TYxwEZ5Zn61obdMwu9iE9c3T1HoMnaKnGS3iZI945oBOozMBO/7muOWs0fD3Pi/fCZ7BUEUoTjB1r3dE3Eo091+mItPIGVegIeqGhi/oTVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734401220; c=relaxed/simple;
-	bh=UzXolnl7IR3ESiYkg+zAncx8rn0eORICVDNLoFujgX4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UcVrze9Xta8kaU3ohFgUn7+xcOCR8SKMwIIqbmz6bXQpC3/efkW+7r2Pna/iJa50Qb+4LeJEZZmALUKJJrjPWjnvrSYKlV0Yqsa3Qlf8MdpQ4KuKZ3ocKZ7QQz/Ttu7iN4JoQ6NP5MR+3rQf4G/SS/hEhJjFTDuZ9C0rhdeVpEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z3KvP8Kr; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1734402691; c=relaxed/simple;
+	bh=qwyookh0BU9GcNGzlgLJnvTp/xwxtwdzDCpadFRYUTk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZgZ2NoD7Xo1XKhNw30gPrnMMglRh1N1BoOBaxYuPqLYsNLgiyrwcKzSmmzstsbVopEZB4yUxLw4Vpjgu4w5LZcqUzA/C9wpVuINul+8zB2yFoI/2ZFmHMg8wWeg379632ibc0Zb4WyU7dAFSEjH0tmKzGDh/q/aYc2qWWeqPgW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=pf.is.s.u-tokyo.ac.jp; spf=none smtp.mailfrom=pf.is.s.u-tokyo.ac.jp; dkim=pass (2048-bit key) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.b=kqRmxd6S; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=pf.is.s.u-tokyo.ac.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=pf.is.s.u-tokyo.ac.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z3KvP8Kr"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-7fd17f231a7so2747908a12.0
-        for <arm-scmi@vger.kernel.org>; Mon, 16 Dec 2024 18:06:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.b="kqRmxd6S"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2166022c5caso37473685ad.2
+        for <arm-scmi@vger.kernel.org>; Mon, 16 Dec 2024 18:31:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734401217; x=1735006017; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EIN/h7uRleRuOPaWesWGXmjcSD2rqCCgng8WzwpjrR4=;
-        b=Z3KvP8Krz7Wqy80NmC48kp/bBRQVxS4S60waVXdo7sy+OdjcS9fs5vmdpHBWFt2jnf
-         Dn855XHpNXdQs5p1L1lEOkaDlCofIhp0NpgNS98kYz9RoJB9O2JZo+zI/hjz+QD5U7S6
-         gmjfs88u2tML2dcGdv86w5KjgiGUqoXRI8od5olHYzXkQAbO81I0VTh2QK8/ooBqvw5p
-         L5PwlKC9DlA9s3jIvKoLtz5X4VGasFV+QLoi4v8yQSKeCriHctNYEbC+dOMPfgu1aJqW
-         cGx4vkMFMPuQ9tsZ+3VyGjafW787gq8F/basuUF9WhR1Y6/F7zqGRSYQinlO3xXcrgLe
-         aTrg==
+        d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com; s=20230601; t=1734402689; x=1735007489; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bNCDP1e4WclbM1wJ769hYfuCxyfyGdZAG0VazgbZDSE=;
+        b=kqRmxd6SeW6SUyKJJjI2aCs0Fl5W6t2hFFz1Y8YarQAS4zpm64bymFA/5nl2/tI7Mx
+         cK4EndI1kXfPMUL971H2qM2a/xdMv/eqxiB9u4dGqJd2WVdHI/8ge6VjBXiOd1emcpBO
+         x92+SHLPEVYB+64bfsc0jl/QOr9TVZGIp2j5PVRah6tBxPatvGRlQJzPOe5JZpVpbTK7
+         32RvcLJD2WRcRTy6Q/c9FIp4jmE2Ilqi62MbVjORP2m5/nKgIpR0OFXYC9PNutKNg7Hn
+         iALgP1EZ0pNEWdr5/bqkhir0E2+VA4x2YHWvbgTVWcD9p+unlqyUj62wr3SqDhOCPUVw
+         pjuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734401217; x=1735006017;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EIN/h7uRleRuOPaWesWGXmjcSD2rqCCgng8WzwpjrR4=;
-        b=DJU6Al2gY+m+RXysAJQmzobMLwpo8UeiaVhT8hV9UL9VNUY+KsIPoaqUNdcyrAwMTl
-         VAWgMuPwnyRd9jZD1esY884b1gsR4ddwTTUvhS/W+nYsBnTBr77dvQziZZEi+s+y1OIA
-         hEUAHPqslskTju5sSG/EeO/aD3mb8xvtbeHQvhLZpLBE8xhUOxijJpVLgwPQUDrBn8sa
-         5VVxE5WAVYKI5539h9CDsS7t+gs0bTcdy2U0kOZZptiCdSQ9w0PuRBU0Kfb20EOMIkc8
-         jry5Z5VugUse32AlnoqAm1P6ryTbcR+3+a0mGNBtrDvlaLpzzqTdQVY19rY+W6tLQ0QN
-         Hk0A==
-X-Forwarded-Encrypted: i=1; AJvYcCX+iiawp/aaQ73OJh1viuLRZrlEULnvpuEwzAtfmk0bsXHIWqwIEJkdD28DbE8ihhLq3Zhy0cMxlA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEwJwiAydnYKK+1n+f/AgTpu20P1k1KWgIBXcODYjlVbNyKAF3
-	H9iWuKmgXB0Q5vj7bfFIjCa/1Zmtbl/Etf691nn7d3YZXqw7npdwB0HblQnJ8j9RMuLgOOfZ/J9
-	fOnBGpJw+t+fJsC/FS5YW1h6LdLcjViNhsag=
-X-Gm-Gg: ASbGnctGh9iFXnK/CjiSB3ZFBL1aIOfgN4IyIaomJW3GAPypY9AaKjPUStNrci+6oUQ
-	vMh08XAgoYT98xuNnZwJZnzzVwfKoj+Rx6Y1h
-X-Google-Smtp-Source: AGHT+IFTM+u99ByAMGYF6W0ILyoD1phxfeZM4zZP7X+sikySq+K1IeFxuV3WjGqrp+g/slaEeDRQbTQqBPtt0AYpniw=
-X-Received: by 2002:a17:90b:4b51:b0:2ee:d186:fe48 with SMTP id
- 98e67ed59e1d1-2f2900a6737mr18594263a91.28.1734401217267; Mon, 16 Dec 2024
- 18:06:57 -0800 (PST)
+        d=1e100.net; s=20230601; t=1734402689; x=1735007489;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bNCDP1e4WclbM1wJ769hYfuCxyfyGdZAG0VazgbZDSE=;
+        b=E9K4In6Co5kWg/cDvCOpTIW6CYUgPBkC0sutnd96WH3ss8x3u4+HjHgFxVVF6tRxdQ
+         tqnb8F53fyQ+3xFmEfcguxbvzSYJtpIR9igds2I4V1NrmeMkxCwKwbU6GQf1eGErpJhc
+         MJtfNgljlTGBreFRWGFw7YFmWbvSCIeLpQ/P5IqwIG+AsPWkIVzpRzhbqOoP4ZSEFNc2
+         5tum0pTF1nrTqe4LH3KxvxCbjXurZXHa4xPU5HBI0pAqVdFnhb1cNp2jSxmrbYxfx/Tl
+         C+sS0/muUzXBnH5xZrdufI4LgJ0/zM/abv/1rtNTRIxTjxvkM0TgQGUCqkIQWMVGhFuq
+         P7zg==
+X-Gm-Message-State: AOJu0YwG5pLgXN1AiSAFOy/0QyH7k06jbyakdhfS8OnBzcla2X+isEl4
+	Bew/Mvn2U0VMzq2Nh/hV8qdI7YseMnBCuSzTkCFtHHv90duXjjoz9NKQ2eZptjk=
+X-Gm-Gg: ASbGncsdWn5f+dn/ezu56HIkADiQYzS62YnknG8a9yLP2T43yMUc0Guo8xjKbcw1btE
+	KQPpG3FYWkagjcp/S2TS0GLpffBd2SC27QV7pi5X3eKctDDfPs8TeWa40zDyCpNkHsPn9p4Fejm
+	yX6VpIo4Pd6gaO+mJX1IytXd8WEPfml2FnrNLz314ECXiWXg7ocIfYFOUbU0icA9kx1ghoouY2m
+	YhmZelRW24XOfe90jWsIskwUKALCuKcsN16BDv/7J9tyLQATn/tO0aaZG02rceEw4P8mHhhuLMs
+	Oy1E
+X-Google-Smtp-Source: AGHT+IEm245nhvyaf5SjknhTo8Pi5hecbs50p2ulkBjB6Loo3wampo5G9NOf9g4Gaz1dZPoG5MzE5w==
+X-Received: by 2002:a17:902:f648:b0:216:554a:2127 with SMTP id d9443c01a7336-21892a5871emr219365535ad.41.1734402688856;
+        Mon, 16 Dec 2024 18:31:28 -0800 (PST)
+Received: from localhost.localdomain ([2001:f70:39c0:3a00:fdbb:f275:7572:b1a3])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-218a1e54062sm47927555ad.124.2024.12.16.18.31.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Dec 2024 18:31:28 -0800 (PST)
+From: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+To: sudeep.holla@arm.com,
+	cristian.marussi@arm.com
+Cc: arm-scmi@vger.kernel.org,
+	Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+Subject: [PATCH] firmware: arm_scmi: fix an OF node reference leak in scmi_txrx_setup()
+Date: Tue, 17 Dec 2024 11:31:22 +0900
+Message-Id: <20241217023122.3927401-1-joe@pf.is.s.u-tokyo.ac.jp>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241216073745.2973317-1-guomin_chen@sina.com>
- <Z1_p0nU93PHJ4Sg_@pluto> <Z1_2rxJ7TOEIOMp7@pluto> <CAEEwsfRhe4-YAwe027huSXwFfkV-O-8w1GDNf=URa9efRsXiKA@mail.gmail.com>
- <Z2AEzHc5f6TjxErs@bogus> <CAEEwsfRKVBVR+DxhkYA5atxU7+6nsaL9X8-Yoa_DqB0YKEV1zg@mail.gmail.com>
- <Z2BQe3-zl2IN_Cjj@bogus>
-In-Reply-To: <Z2BQe3-zl2IN_Cjj@bogus>
-From: gchen chen <gchen.guomin@gmail.com>
-Date: Tue, 17 Dec 2024 10:06:46 +0800
-Message-ID: <CAEEwsfSYMx6Kdf2TK3hMN_TyoqEBbQXkCk_zPb+6-i=omZU_Fg@mail.gmail.com>
-Subject: Re: [PATCH v2] firmware: arm_scmi: Delete the meaningless scmi_bus_id.
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, guomin_chen@sina.com, 
-	Xinqi Zhang <quic_xinqzhan@quicinc.com>, arm-scmi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, dan.carpenter@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Sudeep Holla <sudeep.holla@arm.com> =E4=BA=8E2024=E5=B9=B412=E6=9C=8817=E6=
-=97=A5=E5=91=A8=E4=BA=8C 00:08=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Mon, Dec 16, 2024 at 10:10:40PM +0800, gchen chen wrote:
-> > Sudeep Holla <sudeep.holla@arm.com> =E4=BA=8E2024=E5=B9=B412=E6=9C=8816=
-=E6=97=A5=E5=91=A8=E4=B8=80 18:45=E5=86=99=E9=81=93=EF=BC=9A
->
-> [...]
->
-> > >
-> > > I would like to understand the motivation behind this change. What is=
- the
-> > > goal ? Do you prefer to fetch the name and protocol id from the devic=
-e
-> > > name itself ? Is that your requirement.
-> > >
-> > hi Sudeep
-> >     Okay, the reason I want to change names like 'scmi_dev.3' to
-> > 'scmi_dev.firmware:scmi.perf.19' is because when I was migrating the
-> > SOC's kernel from v6.1 to v6.6, I found that the context for creating
-> > SCMI devices had changed (commit d3cd7c525fd2: firmware: arm_scmi:
-> > Refactor protocol device creation).
->
-> Correct. That's the beauty of Linux we can adjust the internals to enhanc=
-e
-> the features without breaking the user-space.
->
-> > This change meant that device creation shifted from being directly
-> > created through scmi_protocol_device_request during SCMI driver
-> > registration to being created via scmi_device_request_notifier.
-> > This shift results in changes to the order in which devices are created=
-,
-> > causing the ID in scmi_dev.id to drift.
-> >
->
-> What issue does this drift cause exactly ? I mean the order in which
-> the devices are created should not impact on anything if the dependency
-> on the order was not created. What was that dependency ?
->
-Yes, my issue is that the loading order of the scmi_cpufreq_drv and
-scmi_perf_domain_driver drivers causes other consumer devices to find
-the wrong SCMI device as the supplier. Since both the scmi_cpufreq_drv
-and scmi_perf_domain_driver drivers use the same device node (the same
-SCMI_PROTOCOL_PERF), device_node.fwnode.dev will only point to the
-SCMI device that was registered first.
+scmi_txrx_setup() calls scmi_chan_setup(), which increments the refcount
+of the given OF node. When the Rx channel setup fails with ENOMEM,
+scmi_chan_setup() returns the error, but does not release the OF node
+obtained in the Tx channel setup. Thus, add an of_node_put() call when
+the Rx setup fails with ENOMEM.
 
-Thanks
+This bug was found by an experimental static analysis tool that I am
+developing.
 
-> > Additionally, I encountered some cpufreq errors here=E2=80=94because bo=
-th
-> > scmi_cpufreq_drv and scmi_perf_domain_driver use the same
-> > SCMI_PROTOCOL_PERF, this results in two SCMI devices corresponding to
-> > the same device node. However, device_node.fwnode.dev only points to
-> > the first registered scmi_device, causing other consumer devices to
-> > find the wrong scmi device as the supplier. So I would find a
-> > multitude of other consumer devices waiting for meaningless device
-> > names like "scmi_dev.4" instead of meaningful names such as
-> > "scmi_dev.firmware:scmi.perf.19" or
-> > "scmi_dev.firmware:scmi.cpufreq.19".
-> >
->
-> Yes this was reported. I think most of the std protocol may not use that
-> node and need not be assigned. But I think vendor extensions are adding
-> info to the DT that may need this.
->
-> > Although I could further determine which specific driver it was by
-> > looking at the driver links under the scmi_protocol bus directory, I
-> > thought that if the logs directly displayed device names like
-> > 'scmi_dev.firmware:scmi.perf.19' instead of meaningless progressive
-> > IDs, it would be more convenient and logical, and thus more
-> > meaningful.
-> >
->
-> If the issue you encountered render your platform into boot issues ?
-> If so I would like to know what exactly happened. If not, I can think of
-> alternate solution if possible.
->
-> > > From the commit log, I get a sense that you looked at the code and th=
-ought
-> > > of possible improvement but when we mentioned the limitation you just
-> > > improvised by adding parent name. Do you expect any userspace to pars=
-e
-> > > the name as that will end up being ABI and we can't break it. I need
-> > > real motive to be explained here in detail.
-> > >
-> > I did not use userspace tools to parse this SCMI device name; I simply
-> > wanted the name to reflect the possible logic of the device.
-> > I did not remove scmi_dev.id (This scmi_device structure has not
-> > changed.=EF=BC=89; I just no longer assign values to it using scmi_bus_=
-id, so
-> > it should not affect the kernel ABI (kABI).
->
-> I understand the change, just not the possible impact w.r.t user-space.
->
-> --
-> Regards,
-> Sudeep
+Fixes: be9ba1f7f9e0 ("firmware: arm_scmi: Make Rx chan_setup fail on memory errors")
+Signed-off-by: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+---
+ drivers/firmware/arm_scmi/driver.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index 1b5fb2c4ce86..5d8f877d75f3 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -2700,7 +2700,9 @@ scmi_txrx_setup(struct scmi_info *info, struct device_node *of_node,
+ 	if (!ret) {
+ 		/* Rx is optional, report only memory errors */
+ 		ret = scmi_chan_setup(info, of_node, prot_id, false);
+-		if (ret && ret != -ENOMEM)
++		if (ret == -ENOMEM)
++			of_node_put(of_node);
++		else if (ret)
+ 			ret = 0;
+ 	}
+ 
+-- 
+2.34.1
+
