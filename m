@@ -1,27 +1,27 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B769B1F6666;
-	Tue, 17 Dec 2024 14:45:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F2D01F890F;
+	Tue, 17 Dec 2024 17:59:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734446736; cv=none; b=mwv68H2vkcy/sXwClqiaJNWMNfP9c+yPArEQ8JdeUj5qXBviG/i84REDpQCao378Pljlf8YCHXvQnKyNwvmXVfd+YIylypakEzQDZ9e8Yhym+By5+TzFTlaUQ6KtgrCckF0UkEYjO6vchGi8NFCrCPlXFem3GNka+cU3LcL4mq8=
+	t=1734458398; cv=none; b=gjcXioMC+/9iHmuqjGJKcqxP5c6R/ePi3I7RaT9HGg1HwFsXTBeBKFm1P+2RKbPoMtRS9e/TwA++p7/jCgd6WkjdiD6rNdMGAxRy7AGQwOt1dD6W06nfdlQtoUZLOsDGYXRhzkn1vy6CiJJwi+5PW8ZENWAGnZYTO+D4pTYDr+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734446736; c=relaxed/simple;
-	bh=IAwqtMs7TqeoxBD46ND3JggXmA/k0dq0HPg7U+aaru4=;
+	s=arc-20240116; t=1734458398; c=relaxed/simple;
+	bh=q1wnIV+XUCsIOA06WG9udBt0E7fj0Mo8pgtgHjlTPKs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PV7iIL9KBYOT/ZB0ZRYNb8jNTS/7D7PtcDQQEqsPMPRGKqc1YfmE29Tae1UzL/JfRDnj3gRz44fWS8l06467DNNWfEBNsBb3+7GBnYx4P6SfhmA5NciPFpY0BetCRgCF4BfeoGR8AT0WqhPP/SIeaQQN+JecKWVBSeXaWmL6vzc=
+	 Content-Type:Content-Disposition:In-Reply-To; b=eGIA8AS1Paf+MVvsZH+Szrhw64ttoSxE2loCoaOSNuCUv9JjfgctT+los13pREgHokzFp0nDjnHBdunpmpXzBOR47TWAoNCux7ftzrEgdzulHY5hdXrodFOgFFKVzguq2F6WWWbiUSI646VjjZEm1X8t4Ewxb0uCOSBKxm1JKbQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 360D21063;
-	Tue, 17 Dec 2024 06:46:02 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D59123F58B;
-	Tue, 17 Dec 2024 06:45:31 -0800 (PST)
-Date: Tue, 17 Dec 2024 14:45:24 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B0A4BFEC;
+	Tue, 17 Dec 2024 10:00:22 -0800 (PST)
+Received: from bogus (unknown [10.57.92.83])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1A6C13F7B4;
+	Tue, 17 Dec 2024 09:59:50 -0800 (PST)
+Date: Tue, 17 Dec 2024 17:59:34 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
 To: Sibi Sankar <quic_sibis@quicinc.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>, Johan Hovold <johan@kernel.org>,
+Cc: Johan Hovold <johan@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
 	Cristian Marussi <cristian.marussi@arm.com>, andersson@kernel.org,
 	konrad.dybcio@linaro.org, robh+dt@kernel.org,
 	krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
@@ -31,7 +31,7 @@ Cc: Sudeep Holla <sudeep.holla@arm.com>, Johan Hovold <johan@kernel.org>,
 	arm-scmi@vger.kernel.org
 Subject: Re: [PATCH V4 0/5] arm_scmi: vendors: Qualcomm Generic Vendor
  Extensions
-Message-ID: <Z2GOLFqnexEalBx_@pluto>
+Message-ID: <20241217175934.GC2016149@bogus>
 References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
  <ZytnRc94iKUfMYH0@hovoldconsulting.com>
  <ZyvLktLUZOGP-LH5@pluto>
@@ -97,9 +97,6 @@ On Tue, Dec 17, 2024 at 05:55:35PM +0530, Sibi Sankar wrote:
 > > examining each of the interface details in depth and at lengths.
 > > 
 > 
-
-Hi Sibi,
-
 > Hey Sudeep,
 > 
 > Thanks for taking time to review the series.
@@ -109,50 +106,64 @@ Hi Sibi,
 > 
 > ^^ is largely untrue, a lot of finger pointing and a gross
 > misrepresentation of reality :/
-> 
-> The only major problem that X1E perf protocol has is a firmware
+>
+
+Sorry if I was not clear, I just said I don't have confidence yet and if
+the firmware is stable, then it is just the impression I have arrived based
+on the discussions.
+
 > crash in the LEVEL_GET regular message implementation. This
 > pretty much went unnoticed because of messaging in perf implementation
-> in kernel. Given the fastchannel implementation isn't mandatory
+> in kernel.
+
+OK, is there any scope to improve in your opinion ? Please suggest and
+discuss or post a patch to have separate discussion.
+
+> Given the fastchannel implementation isn't mandatory
 > according to spec, the kernel clearly says it switches to
 > regular messaging when it clearly doesn't do that and uses
-> stale data structures instead. This ensured that level get regular
-> messaging never got tested.
+> stale data structures instead.
 
-You claimed this a couple of times here and on IRC, but sincerely,
-looking at the fastchannel implementation in SCMI core and Perf, I could
-not track down where this could have happened in the recent code
-(i.e. with or without your recent, welcomed, patches...)
+Interesting, it sounds like a bug. Please provide details or patch to
+fix the bug. That would probably fix it on whatever platform we are
+concerned here.
 
-When FC initialization fails and bailout it says:
-	
-	"Failed to get FC for protocol %X [MSG_ID:%u / RES_ID:%u] - ret:%d. Using regular messaging."
+> This ensured that level get regular messaging never got tested.
+>
 
-... and it clears any gathered address for that FC, so that in __scmi_perf_level_get()
-you end up skipping the FC machinery and use messaging
+You seem to point at this bug several time now, we need to get it fixed,
+but we need to understand it first if you want us to fix it or as mentioned
+before you can as well post the patch.
 
-	if (dom->fc_info && dom->fc_info[PERF_FC_LEVEL].get_addr) {
-		...
-	}
+> We pretty much have been good upstream citizens, finding bugs and
+> sending fixes wherever we can. We clearly don't deserve such a hostile
+> stance.
+>
 
-	return scmi_perf_msg_level_get(ph, dom->id, level, poll);
+Not sure what made you think we are hostile towards your contributions.
+We just need a maintainable solution merged upstream and we are working
+towards the same. The documents written as part of this series is not
+there yet to help me understand the protocol yet. I have asked questions
+and answer to those can be made part of the next version to improve it
+IMO.
 
-Now this is done ONLY for the FC that specifically failed
-initialization, i.e. identified by the tuple PROTO_ID/MSG_ID/RES_ID
-(as stated in the noisy message above where MSG_ID is specified) NOT for
-all Fastchannel, so you can have an FC successfully initialized only on
-the GET but failing in the SET, so only the GET FC will be used.
+> > I will briefly mention my suspicion here. This Lenovo ThinkPad T14s being
+> > primarily targeting other OS using ACPI might have just implemented what is
+> > required for ACPI CPPC which conveniently doesn't have to discover lot of
+> > fastchannel details since they are supplied in the tables straight away.
+> > But that also would mean it could be not fully compliant to SCMI spec.
+>
+> Not fully compliant to the spec? I am pretty sure this series would
+> have been shot down completely and NAKd on the list by you if that
+> was the case lol.
+>
 
-I dont really understand how the Kernel was misbehaving and using
-instead stale data, neither, if this was the case, I can see where this
-issue would have been fixed.
+Honestly I am still trying to make any sense out of this vendor protocols.
+The documents produced as part of this series doesn't help me understand
+the same and that is my main feedback so far on this thread. I haven't
+looked at the code yet so I can't comment on the same as I first need
+to understand the vendor protocol document/specification.
 
-To be clear, I am not really interested in throwing an argument here, but
-I sincerely dont see where the alleged problem was and how was fixed (kernel
-side), so I fear it could be still there, hidden maybe by a change in the
-platform fw.
-
-Apologies if I missed something along the history of this..
-
-Thanks,
-Cristian
+-- 
+Regards,
+Sudeep
