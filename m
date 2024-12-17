@@ -1,113 +1,257 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B042E628
-	for <arm-scmi@vger.kernel.org>; Tue, 17 Dec 2024 10:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0427D13CFB6;
+	Tue, 17 Dec 2024 11:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734432633; cv=none; b=JDNAiy1x2NpXzrTwz+sWybsfoK/kpOvPvD7CsS5DnTPhX8ltRiuDAdg57yvnIu7bT5s19MJ2ieAlNTzq41fOt12EwCk1pQ/IKdlz649KpywRld9gGX3P25L1pNfKJ9h5pzSlBP/46XIJ0Qs2WkZb+A19QALJkYBt+jiHF2V/1lw=
+	t=1734433538; cv=none; b=Y5Nwf8NarNNtS4sc5EpmpH3TgScI76oLytiqzbp0jM8C/es+lXsvMtPFC2PrpPjBfPTSBkJWwTmVZqRyrDfDh2V2DaSaaBy5tHzSIx9tkzMoWTs99LeH6+IzkF09bELJ/fF0c3XGc7IZVnevgMMYfGp4fWEk7k7ImKIlI+1MJco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734432633; c=relaxed/simple;
-	bh=/K+6iQ97D4aQYEqjFaog8Tw1ziqaUmh+aRZ81PoOjZ4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bGIy8X3nISSjfXah7P4hl5wGTewVzgdC8qhNDqmFRxA1BIkB5BUxoPRAuqNRhwmjRLqt0TBSL+PdrDp7U6u02T6DN1KAHgbTDecmBldbWPUAWMTtSnAPXzU+VE5y2kfQ7YOfiXdG2IsGO9hxkwgfHFGa4Z8+RC+sgtATK2olZI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LOy20Zdz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734433538; c=relaxed/simple;
+	bh=dMEVdtEk/vvX96breW0rUJnUNEuJHqVN+3kUzXYr3XY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=meJmJxg1z5ITp+Ge5lkTceXcLBsdPy+T5oS/NT0pISGPQXFyaFh3fEeoVO3IvI7qNA/vTy4eCkjRiuoh8CFOFBz85P3dFVgvwmlVHUjY66yGyBBg51wFEsVa2tWA80p0ex0r2Zsnq3GY25yM3+00oHq8X9DhOIN30klUQcgnwXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ffwprWTe; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LOy20Zdz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53EB8C4CED3;
-	Tue, 17 Dec 2024 10:50:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734432633;
-	bh=/K+6iQ97D4aQYEqjFaog8Tw1ziqaUmh+aRZ81PoOjZ4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LOy20ZdzfROPgpdUzwqPJF8zEODhNy13gpJJ72KANC1S73M1N9If0vVQJ9Wo0xFyo
-	 Smd1p/uuUDFkUadXZXUkIukWhupXnBMt0L/CKEnmKPgnxUX0QIaQFr7cT1tz/ZQZJH
-	 sPjgJ7Rqxqg/2Ks+KVnF7HNnilLC8Y1G9yYY2Dw6liEbJ7TdprdGB/87kabdk9AFeE
-	 CVhaKRdX1a1+yyXy8ngp0OQ5lB6TgO58AzGkNPdaD7txv0Sf/dOMkRwjfjUDwYXcRv
-	 wa4MVifywzcZNOS/clCsPAmYyrmfeF1CUTo+vBeB0tgdnNJMF0QA/LaEfcOqFUxxCp
-	 lDhNcNiniv+Tw==
-Message-ID: <4c4d130b-3fd0-4339-a005-23472c82625a@kernel.org>
-Date: Tue, 17 Dec 2024 11:50:27 +0100
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ffwprWTe"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BH7siLt002322;
+	Tue, 17 Dec 2024 11:05:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	/UXKDXVDX1Jr3lbD6ieJ253sAb0OMF93Ugn30UZBS30=; b=ffwprWTe1PhbIQVY
+	aac7Asw8SSMcAoJ50ZNq87Am2RwIOru6MR5KIeRT2J/5i90EvuBTocYH1e+ZkoKT
+	BYqfha8QQNHYHg0El4TfZ2ySI87izPECWbOjrdhRZ5/wxdSTYWO2ZYBwuZYbzTfS
+	cD9yVYi9MZqDATvYqTw9HG14Fzp9usUL+ZoC9RfIV84beL3PovXGkTHVpMhR9GD2
+	Sqxxc2hlDuHc6M9wgOaGFF43Wy4MR276ODckrpuqaSn56mM1W/1UwM0ymPqg67u9
+	sNdLL7VJsPdsFPGkGHjBAndPO4Unjgs0AxeFMMFY7We9wh0qXMTy5lbCyMEBgcu2
+	kK3R3w==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43k5aw8gn6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 11:05:24 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BHB5N0r020092
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 11:05:23 GMT
+Received: from [10.190.163.187] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 17 Dec
+ 2024 03:05:17 -0800
+Message-ID: <d2d95756-c51d-17bb-ce12-d8ae390a3bac@quicinc.com>
+Date: Tue, 17 Dec 2024 16:35:15 +0530
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] firmware: arm_scmi: fix an OF node reference leak in
- scmi_txrx_setup()
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-Cc: sudeep.holla@arm.com, cristian.marussi@arm.com, arm-scmi@vger.kernel.org
-References: <20241217023122.3927401-1-joe@pf.is.s.u-tokyo.ac.jp>
- <77ed017b-c5c9-4a41-aaf5-e0447c102260@stanley.mountain>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH V4 4/5] soc: qcom: Introduce SCMI based Memlat (Memory
+ Latency) governor
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <77ed017b-c5c9-4a41-aaf5-e0447c102260@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <myungjoo.ham@samsung.com>, <Kyungmin.park@samsung.com>,
+        <cw00.choi@samsung.com>, Viresh Kumar <viresh.kumar@linaro.org>,
+        <sudeep.holla@arm.com>, <cristian.marussi@arm.com>,
+        <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+        <quic_rgottimu@quicinc.com>, <quic_kshivnan@quicinc.com>,
+        <conor+dt@kernel.org>, <arm-scmi@vger.kernel.org>,
+        Amir Vajid <avajid@quicinc.com>
+References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
+ <20241007061023.1978380-5-quic_sibis@quicinc.com>
+ <2aycrvnvivcrqctqmweadcgenwugafdr6ub3bzkscterpenz32@bzabln2hkral>
+ <29eef87e-96f6-5105-6f7a-a8e01efcb4a3@quicinc.com>
+ <k4lpzxtrq3x6riyv6etxiobn7nbpczf2bp3m4oc752nhjknlit@uo53kbppzim7>
+ <ac655bdc-5ccf-c6c6-3203-659f1916c53c@quicinc.com>
+ <34p27za5hcpubaxjuddsir2vqnqrvwyesnclu2cocvm3yhbv3r@ak7rcnp67gyd>
+ <1f5258f4-7c20-5343-dec6-0847449c821b@quicinc.com>
+ <CAA8EJpoN3QSi72UUDV+=YkqySgXkiODUFJvwpBYfSmnkSotuZA@mail.gmail.com>
+ <4399f7da-9478-57c0-7405-e51dc35d90ba@quicinc.com>
+ <uwwiz2o6brn5zczbpaiajdq7yva2qpcpgzwdr26lhg4jvlwvvj@w5bkiuhdalze>
+From: Sibi Sankar <quic_sibis@quicinc.com>
+In-Reply-To: <uwwiz2o6brn5zczbpaiajdq7yva2qpcpgzwdr26lhg4jvlwvvj@w5bkiuhdalze>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: HWL7CnOmVvV-Xc3fGs1jW_pYC-xN7X_w
+X-Proofpoint-GUID: HWL7CnOmVvV-Xc3fGs1jW_pYC-xN7X_w
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
+ priorityscore=1501 mlxscore=0 mlxlogscore=999 lowpriorityscore=0
+ adultscore=0 clxscore=1015 suspectscore=0 malwarescore=0 impostorscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412170091
 
-On 17/12/2024 06:51, Dan Carpenter wrote:
-> On Tue, Dec 17, 2024 at 11:31:22AM +0900, Joe Hattori wrote:
->> scmi_txrx_setup() calls scmi_chan_setup(), which increments the refcount
->> of the given OF node. When the Rx channel setup fails with ENOMEM,
->> scmi_chan_setup() returns the error, but does not release the OF node
->> obtained in the Tx channel setup. Thus, add an of_node_put() call when
->> the Rx setup fails with ENOMEM.
->>
->> This bug was found by an experimental static analysis tool that I am
->> developing.
->>
-> 
-> No, the patch is wrong.
-> 
-There are more patches like this without understanding the OF
-drop/retain reference behavior. I suggest careful review of all results
-of this "static analysis tool".
 
-Best regards,
-Krzysztof
+
+On 12/17/24 16:16, Dmitry Baryshkov wrote:
+> On Tue, Dec 17, 2024 at 03:46:24PM +0530, Sibi Sankar wrote:
+>>
+>>
+>> On 12/5/24 17:00, Dmitry Baryshkov wrote:
+>>> On Thu, 5 Dec 2024 at 12:53, Sibi Sankar <quic_sibis@quicinc.com> wrote:
+>>>>
+>>>>
+>>>>
+>>>> On 11/14/24 18:02, Dmitry Baryshkov wrote:
+>>>>> On Thu, Nov 14, 2024 at 09:43:53AM +0530, Sibi Sankar wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 10/26/24 23:46, Dmitry Baryshkov wrote:
+>>>>>>> On Tue, Oct 22, 2024 at 01:48:25PM +0530, Sibi Sankar wrote:
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On 10/7/24 23:27, Dmitry Baryshkov wrote:
+>>>>>>>>> On Mon, Oct 07, 2024 at 11:40:22AM GMT, Sibi Sankar wrote:
+>>>>>
+>>>>>>>>>
+>>>>>>>>>> +};
+>>>>>>>>>> +
+>>>>>>>>>> +struct map_param_msg {
+>>>>>>>>>> +        u32 hw_type;
+>>>>>>>>>> +        u32 mon_idx;
+>>>>>>>>>> +        u32 nr_rows;
+>>>>>>>>>> +        struct map_table tbl[MAX_MAP_ENTRIES];
+>>>>>>>>>> +} __packed;
+>>>>>>>>>> +
+>>>>>>>>>> +struct node_msg {
+>>>>>>>>>> +        u32 cpumask;
+>>>>>>>>>> +        u32 hw_type;
+>>>>>>>>>> +        u32 mon_type;
+>>>>>>>>>> +        u32 mon_idx;
+>>>>>>>>>> +        char mon_name[MAX_NAME_LEN];
+>>>>>>>>>> +};
+>>>>>>>>>> +
+>>>>>>>>>> +struct scalar_param_msg {
+>>>>>>>>>> +        u32 hw_type;
+>>>>>>>>>> +        u32 mon_idx;
+>>>>>>>>>> +        u32 val;
+>>>>>>>>>> +};
+>>>>>>>>>> +
+>>>>>>>>>> +enum common_ev_idx {
+>>>>>>>>>> +        INST_IDX,
+>>>>>>>>>> +        CYC_IDX,
+>>>>>>>>>> +        CONST_CYC_IDX,
+>>>>>>>>>> +        FE_STALL_IDX,
+>>>>>>>>>> +        BE_STALL_IDX,
+>>>>>>>>>> +        NUM_COMMON_EVS
+>>>>>>>>>> +};
+>>>>>>>>>> +
+>>>>>>>>>> +enum grp_ev_idx {
+>>>>>>>>>> +        MISS_IDX,
+>>>>>>>>>> +        WB_IDX,
+>>>>>>>>>> +        ACC_IDX,
+>>>>>>>>>> +        NUM_GRP_EVS
+>>>>>>>>>> +};
+>>>>>>>>>> +
+>>>>>>>>>> +#define EV_CPU_CYCLES           0
+>>>>>>>>>> +#define EV_INST_RETIRED         2
+>>>>>>>>>> +#define EV_L2_D_RFILL           5
+>>>>>>>>>> +
+>>>>>>>>>> +struct ev_map_msg {
+>>>>>>>>>> +        u32 num_evs;
+>>>>>>>>>> +        u32 hw_type;
+>>>>>>>>>> +        u32 cid[NUM_COMMON_EVS];
+>>>>>>>>>> +};
+>>>>>>>>>> +
+>>>>>>>>>> +struct cpufreq_memfreq_map {
+>>>>>>>>>> +        unsigned int cpufreq_mhz;
+>>>>>>>>>> +        unsigned int memfreq_khz;
+>>>>>>>>>> +};
+>>>>>>>>>> +
+>>>>>>>>>> +struct scmi_monitor_info {
+>>>>>>>>>> +        struct cpufreq_memfreq_map *freq_map;
+>>>>>>>>>> +        char mon_name[MAX_NAME_LEN];
+>>>>>>>>>> +        u32 mon_idx;
+>>>>>>>>>> +        u32 mon_type;
+>>>>>>>>>> +        u32 ipm_ceil;
+>>>>>>>>>> +        u32 mask;
+>>>>>>>>>> +        u32 freq_map_len;
+>>>>>>>>>> +};
+>>>>>>>>>> +
+>>>>>>>>>> +struct scmi_memory_info {
+>>>>>>>>>> +        struct scmi_monitor_info *monitor[MAX_MONITOR_CNT];
+>>>>>>>>>> +        u32 hw_type;
+>>>>>>>>>> +        int monitor_cnt;
+>>>>>>>>>> +        u32 min_freq;
+>>>>>>>>>> +        u32 max_freq;
+>>>>>>>>>> +};
+>>>>>>>>>> +
+>>>>>>>>>> +struct scmi_memlat_info {
+>>>>>>>>>> +        struct scmi_protocol_handle *ph;
+>>>>>>>>>> +        const struct qcom_generic_ext_ops *ops;
+>>>>>>>>>> +        struct scmi_memory_info *memory[MAX_MEMORY_TYPES];
+>>>>>>>>>> +        u32 cluster_info[NR_CPUS];
+>>>>>>>>>> +        int memory_cnt;
+>>>>>>>>>> +};
+>>>>>>>>>> +
+>>>>>>>>>> +static int populate_cluster_info(u32 *cluster_info)
+>>>>>>>>>> +{
+>>>>>>>>>> +        char name[MAX_NAME_LEN];
+>>>>>>>>>> +        int i = 0;
+>>>>>>>>>> +
+>>>>>>>>>> +        struct device_node *cn __free(device_node) = of_find_node_by_path("/cpus");
+>>>>>>>>>> +        if (!cn)
+>>>>>>>>>> +                return -ENODEV;
+>>>>>>>>>> +
+>>>>>>>>>> +        struct device_node *map __free(device_node) = of_get_child_by_name(cn, "cpu-map");
+>>>>>>>>>> +        if (!map)
+>>>>>>>>>> +                return -ENODEV;
+>>>>>>>>>> +
+>>>>>>>>>> +        do {
+>>>>>>>>>> +                snprintf(name, sizeof(name), "cluster%d", i);
+>>>>>>>>>> +                struct device_node *c __free(device_node) = of_get_child_by_name(map, name);
+>>>>>>>>>> +                if (!c)
+>>>>>>>>>> +                        break;
+>>>>>>>>>> +
+>>>>>>>>>> +                *(cluster_info + i) = of_get_child_count(c);
+>>>>>>>>>> +                i++;
+>>>>>>>>>> +        } while (1);
+>>>>>>>>>
+>>>>>>>>> Can you use existing API from drivers/base/arch_topology.c? If not, can
+>>>>>>>>> it be extended to support your usecase?
+>>>>>>>>
+>>>>>>>> ack. But I'm pretty sure it's going to take a while for reaching such
+>>>>>>>> an agreement so I'll drop this feature during the next re-spin.
+>>>>>>>
+>>>>>>> Why? What kind of API do you actually need? The arch_topology.c simply
+>>>>>>> exports a table of struct cpu_topology. Is it somehow different from
+>>>>>>> what you are parsing manually?
+>>>>>>
+>>>>>> yup, we had to figure out the physical id of the cpu
+>>>>>> since cpus can be disabled by the bootloader using
+>>>>>> status = "failed" property and we have to pass this
+>>>>>> onto the cpucp memlat algorithm.
+>>>>>
+>>>>> Isn't it equal to the index in the cpu_topology table?
+>>>>
+>>>> from what I see cpu_topology indexes remain unpopulated
+>>>> for cpus that are disabled since get_cpu_for_node
+>>>> ignores those?
+>>>
+>>> Why do you need cpu_topology for disabled aka non-existing CPU devices?
+>>
+>> sorry was out sick couldn't back earlier. We need the know
+>> what cpus are disbled to pass on the correct mask of cpus
+>> enabled to the SCP.
+> 
+> Yes. So isn't it enough to know only the enabled CPUs?
+
+yes just knowing the physical index of the enabled cpus
+should be enough.
+
+> 
+> 
