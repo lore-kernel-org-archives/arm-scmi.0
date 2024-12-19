@@ -1,45 +1,58 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F2D01F890F;
-	Tue, 17 Dec 2024 17:59:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849CF221478;
+	Thu, 19 Dec 2024 10:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734458398; cv=none; b=gjcXioMC+/9iHmuqjGJKcqxP5c6R/ePi3I7RaT9HGg1HwFsXTBeBKFm1P+2RKbPoMtRS9e/TwA++p7/jCgd6WkjdiD6rNdMGAxRy7AGQwOt1dD6W06nfdlQtoUZLOsDGYXRhzkn1vy6CiJJwi+5PW8ZENWAGnZYTO+D4pTYDr+Y=
+	t=1734604650; cv=none; b=OLSR4/LiSsJLQMUVXq2dtF/0/cf1Y7TgRWDkOvRp7ZFBNYcHfQHB2O/XmsQsyVylMoceqqIpy5QeOVBtw8WnwpbzlzKvi5mCJbB47AE2gAucql/SmmQ1qu54Y7rLKVrFh0mJQgUeRDdfvytVsryGSe4dxH0DbA7UyQqLhlAAczk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734458398; c=relaxed/simple;
-	bh=q1wnIV+XUCsIOA06WG9udBt0E7fj0Mo8pgtgHjlTPKs=;
+	s=arc-20240116; t=1734604650; c=relaxed/simple;
+	bh=6NtTS3sFBKTuhe+YrFYJjIB7PeX5OysvL/IIYf8a964=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eGIA8AS1Paf+MVvsZH+Szrhw64ttoSxE2loCoaOSNuCUv9JjfgctT+los13pREgHokzFp0nDjnHBdunpmpXzBOR47TWAoNCux7ftzrEgdzulHY5hdXrodFOgFFKVzguq2F6WWWbiUSI646VjjZEm1X8t4Ewxb0uCOSBKxm1JKbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B0A4BFEC;
-	Tue, 17 Dec 2024 10:00:22 -0800 (PST)
-Received: from bogus (unknown [10.57.92.83])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1A6C13F7B4;
-	Tue, 17 Dec 2024 09:59:50 -0800 (PST)
-Date: Tue, 17 Dec 2024 17:59:34 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=jH5aRJjSq2Q8m9oplot+IYyyd+TM4MsHdeUbMo0z3+UoazHKJkGHMhODJVV4R6t410CvZvm5NPiwAQqQeok1TZNMoV2O0xGSYkPDsPl8x6/BZqZCPZE4g0c47Vs0UW9XHy9d1mxy5yDVT9B0Bi1OQwCnuGjX+7UBn86KslrJkFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nSzDAU+H; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nSzDAU+H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 184B0C4CED0;
+	Thu, 19 Dec 2024 10:37:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734604650;
+	bh=6NtTS3sFBKTuhe+YrFYJjIB7PeX5OysvL/IIYf8a964=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nSzDAU+HqyERLsxyx3tZBNRur3PX7/DH8uv9Fpzuq4hQlJ9wE2jv4yLtUgfx5rnDI
+	 +L0RvXFLDuUdFu7tUinxgfzFVWB/a1EXCdy3t8JOafqaeMLXgJB9CKLT3aUVO3Uc57
+	 weaGduU7CW427tXzwZkbaokDGw1tRh3RnTnPTMaoOWzyBy12FYH/0KM8kTLdiUDuXV
+	 h22oGMfLRMWV/iYrINSxXPv+M8pqgQZHwC55zVMKxBxSwXtSMydib5gjudjCt5yikj
+	 rB2W8QWckzJNiITHvlA+jXKLa/zH8loNuhGgJNbhH+IOjMmu4+fnFXbjz0o+JDAUp2
+	 o8dEXEQJtmo5Q==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1tODuQ-000000001mQ-2Z6I;
+	Thu, 19 Dec 2024 11:37:34 +0100
+Date: Thu, 19 Dec 2024 11:37:34 +0100
+From: Johan Hovold <johan@kernel.org>
 To: Sibi Sankar <quic_sibis@quicinc.com>
-Cc: Johan Hovold <johan@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>, andersson@kernel.org,
-	konrad.dybcio@linaro.org, robh+dt@kernel.org,
+Cc: Cristian Marussi <cristian.marussi@arm.com>, sudeep.holla@arm.com,
+	andersson@kernel.org, konrad.dybcio@linaro.org, robh+dt@kernel.org,
 	krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, quic_rgottimu@quicinc.com,
 	quic_kshivnan@quicinc.com, conor+dt@kernel.org,
-	arm-scmi@vger.kernel.org
+	arm-scmi@vger.kernel.org,
+	Ettore Chimenti <ettore.chimenti@linaro.org>
 Subject: Re: [PATCH V4 0/5] arm_scmi: vendors: Qualcomm Generic Vendor
  Extensions
-Message-ID: <20241217175934.GC2016149@bogus>
+Message-ID: <Z2P3bh04xXsreBF7@hovoldconsulting.com>
 References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
  <ZytnRc94iKUfMYH0@hovoldconsulting.com>
  <ZyvLktLUZOGP-LH5@pluto>
  <Zy4qvedrmkRdPR3x@hovoldconsulting.com>
  <8d42682b-0fa7-3962-da12-728cfe64903b@quicinc.com>
  <Z0BC203BhGEmXcJi@hovoldconsulting.com>
- <Z1HceQegfMl07qj_@bogus>
- <d313e40b-fa8f-a534-5037-98536ee25044@quicinc.com>
+ <d61bb7bc-d824-883a-4edd-109ae74076c1@quicinc.com>
+ <Z1HMWUa_QCsNA1-Q@hovoldconsulting.com>
+ <132d1404-9009-9fb5-1fb9-63eca03ce9fc@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -48,122 +61,61 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d313e40b-fa8f-a534-5037-98536ee25044@quicinc.com>
+In-Reply-To: <132d1404-9009-9fb5-1fb9-63eca03ce9fc@quicinc.com>
 
-On Tue, Dec 17, 2024 at 05:55:35PM +0530, Sibi Sankar wrote:
-> 
-> 
-> On 12/5/24 22:31, Sudeep Holla wrote:
-> > On Fri, Nov 22, 2024 at 09:37:47AM +0100, Johan Hovold wrote:
-> > > On Thu, Nov 14, 2024 at 09:52:12AM +0530, Sibi Sankar wrote:
-> > > > On 11/8/24 20:44, Johan Hovold wrote:
-> > > 
-> > > > > > On Wed, Nov 06, 2024 at 01:55:33PM +0100, Johan Hovold wrote:
-> > > 
-> > > > > > > Second, after loading the protocol and client drivers manually (in that
-> > > > > > > order, shouldn't the client driver pull in the protocol?), I got:
-> > > > > > > 
-> > > > > > > 	scmi_module: Loaded SCMI Vendor Protocol 0x80 - Qualcomm  20000
-> > > > > > > 	arm-scmi arm-scmi.0.auto: QCOM Generic Vendor Version 1.0
-> > > > > > > 	scmi-qcom-generic-ext-memlat scmi_dev.5: error -EOPNOTSUPP: failed to configure common events
-> > > > > > > 	scmi-qcom-generic-ext-memlat scmi_dev.5: probe with driver scmi-qcom-generic-ext-memlat failed with error -95
-> > > > > > > 
-> > > > > > > which seems to suggest that the firmware on my CRD does not support this
-> > > > > > > feature. Is that the way this should be interpreted? And does that mean
-> > > > > > > that non of the commercial laptops supports this either?
-> > > 
-> > > > > Yeah, hopefully Sibi can shed some light on this. I'm using the DT
-> > > > > patch (5/5) from this series, which according to the commit message is
-> > > > > supposed to enable bus scaling on the x1e80100 platform. So I guess
-> > > > > something is missing in my firmware.
-> > > > 
-> > > > Nah, it's probably just because of the algo string used.
-> > > > The past few series used caps MEMLAT string instead of
-> > > > memlat to pass the tuneables, looks like all the laptops
-> > > > havn't really switched to it yet. Will revert back to
-> > > > using to lower case memlat so that all devices are
-> > > > supported. Thanks for trying the series out!
-> > > 
-> > > I have a Lenovo ThinkPad T14s set up now so I gave this series a spin
-> > > there too, and there I do *not* see the above mentioned -EOPNOSUPP error
-> > > and the memlat driver probes successfully.
-> > > 
-> > > On the other hand, this series seems to have no effect on a kernel
-> > > compilation benchmark. Is that expected?
-> > > 
+On Tue, Dec 17, 2024 at 05:19:25PM +0530, Sibi Sankar wrote:
+> On 12/5/24 21:22, Johan Hovold wrote:
+> > On Thu, Dec 05, 2024 at 04:26:55PM +0530, Sibi Sankar wrote:
+> >> On 11/22/24 14:07, Johan Hovold wrote:
 > > 
-> > Hijacking this thread to rant about state of firmware implementation on
-> > this platform that gives me zero confidence in merging any of these without
-> > examining each of the interface details in depth and at lengths.
+> >>> I have a Lenovo ThinkPad T14s set up now so I gave this series a spin
+> >>> there too, and there I do *not* see the above mentioned -EOPNOSUPP error
+> >>> and the memlat driver probes successfully.
+> >>>
+> >>> On the other hand, this series seems to have no effect on a kernel
+> >>> compilation benchmark. Is that expected?
+> >>
+> >> I can have a look at your tree. But memlat in general
+> >> depends on the cpu frequency when your benchmarks max
+> >> the cpu's the ddr/llcc are scaled accordingly by it.
 > > 
+> > A kernel compilation should max out the CPU frequency on all cores.
+
+Answering my own question here; bwmon should scale the buses for
+benchmarks like kernel compilations so I guess the non-existing impact
+of memlat is expected here.
+
+Ettore helped me run some further benchmarks, including cachebench, but
+also saw no positive (or negative) effect with this series running on an
+X1E CRD (with recent firmware).
+
+Do you have any suggestions of benchmarks to run where the effect of
+memlat should show up? What have you been using for testing?
+
+I did measure a possibly slightly higher (idle) power consumption with
+memlat, but I guess that is also expected given the intended more
+aggressive ramping of the bus clocks.
+
+These are the branches (and configs; johan_defconfig) we've used for
+testing:
+
+	https://github.com/jhovold/linux/tree/wip/x1e80100-6.13-rc3
+	https://github.com/jhovold/linux/tree/wip/x1e80100-6.13-rc3-memlat
+
+> >>> And does this mean that you should stick with the uppercase "MEMLAT"
+> >>> string after all? The firmware on my CRD is not the latest one, but I am
+> >>> using the latest available firmware for the T14s.
+> >>
+> >> We should stick with "memlat" if we run into a device in the
+> >> wild that doesn't support "MEMLAT"
+> > 
+> > Ok. So the updated firmware supports both strings?
 > 
-> Hey Sudeep,
-> 
-> Thanks for taking time to review the series.
-> 
-> > Also I see the standard protocol like PERF seem to have so many issues which
-> > adds to my no confidence. I can't comment on that thread for specific reasons.
-> 
-> ^^ is largely untrue, a lot of finger pointing and a gross
-> misrepresentation of reality :/
->
+> Sry for the delay, was out sick. Yes the updated firmware supports both
+> strings.
 
-Sorry if I was not clear, I just said I don't have confidence yet and if
-the firmware is stable, then it is just the impression I have arrived based
-on the discussions.
+No worries, hope you're feeling better.
 
-> crash in the LEVEL_GET regular message implementation. This
-> pretty much went unnoticed because of messaging in perf implementation
-> in kernel.
+I noticed that the firmware on the T14s indeed accepts both strings.
 
-OK, is there any scope to improve in your opinion ? Please suggest and
-discuss or post a patch to have separate discussion.
-
-> Given the fastchannel implementation isn't mandatory
-> according to spec, the kernel clearly says it switches to
-> regular messaging when it clearly doesn't do that and uses
-> stale data structures instead.
-
-Interesting, it sounds like a bug. Please provide details or patch to
-fix the bug. That would probably fix it on whatever platform we are
-concerned here.
-
-> This ensured that level get regular messaging never got tested.
->
-
-You seem to point at this bug several time now, we need to get it fixed,
-but we need to understand it first if you want us to fix it or as mentioned
-before you can as well post the patch.
-
-> We pretty much have been good upstream citizens, finding bugs and
-> sending fixes wherever we can. We clearly don't deserve such a hostile
-> stance.
->
-
-Not sure what made you think we are hostile towards your contributions.
-We just need a maintainable solution merged upstream and we are working
-towards the same. The documents written as part of this series is not
-there yet to help me understand the protocol yet. I have asked questions
-and answer to those can be made part of the next version to improve it
-IMO.
-
-> > I will briefly mention my suspicion here. This Lenovo ThinkPad T14s being
-> > primarily targeting other OS using ACPI might have just implemented what is
-> > required for ACPI CPPC which conveniently doesn't have to discover lot of
-> > fastchannel details since they are supplied in the tables straight away.
-> > But that also would mean it could be not fully compliant to SCMI spec.
->
-> Not fully compliant to the spec? I am pretty sure this series would
-> have been shot down completely and NAKd on the list by you if that
-> was the case lol.
->
-
-Honestly I am still trying to make any sense out of this vendor protocols.
-The documents produced as part of this series doesn't help me understand
-the same and that is my main feedback so far on this thread. I haven't
-looked at the code yet so I can't comment on the same as I first need
-to understand the vendor protocol document/specification.
-
--- 
-Regards,
-Sudeep
+Johan
