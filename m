@@ -1,121 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849CF221478;
-	Thu, 19 Dec 2024 10:37:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24C327735;
+	Mon, 23 Dec 2024 07:31:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734604650; cv=none; b=OLSR4/LiSsJLQMUVXq2dtF/0/cf1Y7TgRWDkOvRp7ZFBNYcHfQHB2O/XmsQsyVylMoceqqIpy5QeOVBtw8WnwpbzlzKvi5mCJbB47AE2gAucql/SmmQ1qu54Y7rLKVrFh0mJQgUeRDdfvytVsryGSe4dxH0DbA7UyQqLhlAAczk=
+	t=1734939061; cv=none; b=Q+aVccCRnfyQwoF1jwyurHa17OdnZ9NjvXJDNOy9YQyV77h4DxEah9c8lmEhz/XqveXoTop3EepqvHB/0GlWwtlhtdLGD+INRygN9gafC1EslQPbiJ9e9FW96866ach+HZ+xbbGoJJt2rXwR4zL7oL+MpH0BnF3QGE/+i8BDzT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734604650; c=relaxed/simple;
-	bh=6NtTS3sFBKTuhe+YrFYJjIB7PeX5OysvL/IIYf8a964=;
+	s=arc-20240116; t=1734939061; c=relaxed/simple;
+	bh=Ygk6uUQxjvnjtMIv4tWwERicS++4MRefCsHhXVHUsRo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jH5aRJjSq2Q8m9oplot+IYyyd+TM4MsHdeUbMo0z3+UoazHKJkGHMhODJVV4R6t410CvZvm5NPiwAQqQeok1TZNMoV2O0xGSYkPDsPl8x6/BZqZCPZE4g0c47Vs0UW9XHy9d1mxy5yDVT9B0Bi1OQwCnuGjX+7UBn86KslrJkFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nSzDAU+H; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=VZOjLR8mFzjAThfHaAqh3fQIrKm7MFq92wGYLUcAkHb6NtzZkzl+1sLUF64jab/tGfrMrwdmxtFfv+idAPmOoYpG+r2V7+jYKHyHxLWwJo/aercL/2bci/cZJcbPqrSOdmj8gEft9rpfC37NNpP2M5T381lFVYwET0MjB34MviE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UwUNEdpV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nSzDAU+H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 184B0C4CED0;
-	Thu, 19 Dec 2024 10:37:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UwUNEdpV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6BFCC4CED4;
+	Mon, 23 Dec 2024 07:30:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734604650;
-	bh=6NtTS3sFBKTuhe+YrFYJjIB7PeX5OysvL/IIYf8a964=;
+	s=k20201202; t=1734939060;
+	bh=Ygk6uUQxjvnjtMIv4tWwERicS++4MRefCsHhXVHUsRo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nSzDAU+HqyERLsxyx3tZBNRur3PX7/DH8uv9Fpzuq4hQlJ9wE2jv4yLtUgfx5rnDI
-	 +L0RvXFLDuUdFu7tUinxgfzFVWB/a1EXCdy3t8JOafqaeMLXgJB9CKLT3aUVO3Uc57
-	 weaGduU7CW427tXzwZkbaokDGw1tRh3RnTnPTMaoOWzyBy12FYH/0KM8kTLdiUDuXV
-	 h22oGMfLRMWV/iYrINSxXPv+M8pqgQZHwC55zVMKxBxSwXtSMydib5gjudjCt5yikj
-	 rB2W8QWckzJNiITHvlA+jXKLa/zH8loNuhGgJNbhH+IOjMmu4+fnFXbjz0o+JDAUp2
-	 o8dEXEQJtmo5Q==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1tODuQ-000000001mQ-2Z6I;
-	Thu, 19 Dec 2024 11:37:34 +0100
-Date: Thu, 19 Dec 2024 11:37:34 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Sibi Sankar <quic_sibis@quicinc.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, sudeep.holla@arm.com,
-	andersson@kernel.org, konrad.dybcio@linaro.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, quic_rgottimu@quicinc.com,
-	quic_kshivnan@quicinc.com, conor+dt@kernel.org,
-	arm-scmi@vger.kernel.org,
-	Ettore Chimenti <ettore.chimenti@linaro.org>
-Subject: Re: [PATCH V4 0/5] arm_scmi: vendors: Qualcomm Generic Vendor
- Extensions
-Message-ID: <Z2P3bh04xXsreBF7@hovoldconsulting.com>
-References: <20241007061023.1978380-1-quic_sibis@quicinc.com>
- <ZytnRc94iKUfMYH0@hovoldconsulting.com>
- <ZyvLktLUZOGP-LH5@pluto>
- <Zy4qvedrmkRdPR3x@hovoldconsulting.com>
- <8d42682b-0fa7-3962-da12-728cfe64903b@quicinc.com>
- <Z0BC203BhGEmXcJi@hovoldconsulting.com>
- <d61bb7bc-d824-883a-4edd-109ae74076c1@quicinc.com>
- <Z1HMWUa_QCsNA1-Q@hovoldconsulting.com>
- <132d1404-9009-9fb5-1fb9-63eca03ce9fc@quicinc.com>
+	b=UwUNEdpVksa3VeJ8fBbfU5ZM7cveMPPtJwrh5dBwK0gEoqVYDdF0NbABXvUPIJWBw
+	 xCqUqJSqJL6xtKZr6qQ7jAhuhWd71QCPd5TxS1HecY9J/hvR45WyJpacDQHEAg8Nxb
+	 2n3UaUf++ISc2NX01EI862mzeWJQXkc5aNu91d3n3AsdRCNSN+HKnHjEJRyLACr5nh
+	 BOO26q4g07K6IBNRx5aV7gSAqtRZNsSUNg+1F39wB4XcAaYzRqeyumIAvWSZFAj19D
+	 3ux6IHIQ91x+ZZx51WabplqJyaEEdtdtBHP6L6K1CKNx6HfC+4KG2P1qz8+vVZVY4x
+	 5cGLrZr9Tq1ag==
+Date: Mon, 23 Dec 2024 08:30:57 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Zijun Hu <zijun_hu@icloud.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	James Bottomley <James.Bottomley@hansenpartnership.com>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>, 
+	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, linux-sound@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-block@vger.kernel.org, linux-cxl@vger.kernel.org, 
+	linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-mediatek@lists.infradead.org, linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, netdev@vger.kernel.org, 
+	Zijun Hu <quic_zijuhu@quicinc.com>, Alison Schofield <alison.schofield@intel.com>, 
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Subject: Re: [PATCH v4 04/11] driver core: Constify API device_find_child()
+ then adapt for various usages
+Message-ID: <mrix3q75mawxszrp25yzpsrvenlxx7bihfzyfdcnp7egubvxpf@lzp7fcaxwquc>
+References: <20241211-const_dfc_done-v4-0-583cc60329df@quicinc.com>
+ <20241211-const_dfc_done-v4-4-583cc60329df@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2ziq55rb3fq2bwkl"
 Content-Disposition: inline
-In-Reply-To: <132d1404-9009-9fb5-1fb9-63eca03ce9fc@quicinc.com>
+In-Reply-To: <20241211-const_dfc_done-v4-4-583cc60329df@quicinc.com>
 
-On Tue, Dec 17, 2024 at 05:19:25PM +0530, Sibi Sankar wrote:
-> On 12/5/24 21:22, Johan Hovold wrote:
-> > On Thu, Dec 05, 2024 at 04:26:55PM +0530, Sibi Sankar wrote:
-> >> On 11/22/24 14:07, Johan Hovold wrote:
-> > 
-> >>> I have a Lenovo ThinkPad T14s set up now so I gave this series a spin
-> >>> there too, and there I do *not* see the above mentioned -EOPNOSUPP error
-> >>> and the memlat driver probes successfully.
-> >>>
-> >>> On the other hand, this series seems to have no effect on a kernel
-> >>> compilation benchmark. Is that expected?
-> >>
-> >> I can have a look at your tree. But memlat in general
-> >> depends on the cpu frequency when your benchmarks max
-> >> the cpu's the ddr/llcc are scaled accordingly by it.
-> > 
-> > A kernel compilation should max out the CPU frequency on all cores.
 
-Answering my own question here; bwmon should scale the buses for
-benchmarks like kernel compilations so I guess the non-existing impact
-of memlat is expected here.
+--2ziq55rb3fq2bwkl
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 04/11] driver core: Constify API device_find_child()
+ then adapt for various usages
+MIME-Version: 1.0
 
-Ettore helped me run some further benchmarks, including cachebench, but
-also saw no positive (or negative) effect with this series running on an
-X1E CRD (with recent firmware).
+Hello,
 
-Do you have any suggestions of benchmarks to run where the effect of
-memlat should show up? What have you been using for testing?
+On Wed, Dec 11, 2024 at 08:08:06AM +0800, Zijun Hu wrote:
+>  drivers/pwm/core.c                     |  2 +-
 
-I did measure a possibly slightly higher (idle) power consumption with
-memlat, but I guess that is also expected given the intended more
-aggressive ramping of the bus clocks.
+Acked-by: Uwe Kleine-K=F6nig <ukleinek@kernel.org> # for drivers/pwm
 
-These are the branches (and configs; johan_defconfig) we've used for
-testing:
+Best regards
+Uwe
 
-	https://github.com/jhovold/linux/tree/wip/x1e80100-6.13-rc3
-	https://github.com/jhovold/linux/tree/wip/x1e80100-6.13-rc3-memlat
+--2ziq55rb3fq2bwkl
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> >>> And does this mean that you should stick with the uppercase "MEMLAT"
-> >>> string after all? The firmware on my CRD is not the latest one, but I am
-> >>> using the latest available firmware for the T14s.
-> >>
-> >> We should stick with "memlat" if we run into a device in the
-> >> wild that doesn't support "MEMLAT"
-> > 
-> > Ok. So the updated firmware supports both strings?
-> 
-> Sry for the delay, was out sick. Yes the updated firmware supports both
-> strings.
+-----BEGIN PGP SIGNATURE-----
 
-No worries, hope you're feeling better.
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdpEa8ACgkQj4D7WH0S
+/k4bUAgAh9LrZmd2eRZtQQDD7RKfHIeOmRCpwZcKO4VAM76QCcEzfVerUpZH2Emh
+tkSaCY38C9pM9hE0HsXsYV6zg/MBAVCwiVGbn+rgTAVtuiDiI8ygmP7cdzKnk7Ke
++l0xcXunQPwe3UHEzAvvPiu57dMcQ6h8732mqwqWrRh43gPAWdpAgktFqFLPCRQf
+1sOslGEFNX866KAUqB1jjxQSZjq0v0dXyd20GSu7yjzm7s1JzRG+msGCSSxv0vRT
+SWDRWVHepQ1AT5THBbY6xaXnaiwoTbnv6NCw4WFz8OHbBtIb6Fm7UUE1PNTnZM0t
+qDtxzk9rG0eZFX23d+rXwSg2JlM3VQ==
+=zwtk
+-----END PGP SIGNATURE-----
 
-I noticed that the firmware on the T14s indeed accepts both strings.
-
-Johan
+--2ziq55rb3fq2bwkl--
