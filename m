@@ -1,79 +1,145 @@
-Received: from ssh247.corpemail.net (ssh247.corpemail.net [210.51.61.247])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42F421A23A9;
-	Mon, 30 Dec 2024 09:32:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.51.61.247
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C06222AD31;
+	Tue, 31 Dec 2024 18:08:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735551131; cv=none; b=d/DJwy+2El2Cwj6yCzD/J1F85ZMyVPTAW/d+ziPpWbZjroWlZJVzmwsfTRmPThBunEmn8jzmTZrNq4SyBNVwgwUesmO3S/GyhVF1iCpJy2D/RHGdADAJxWrdPpTlkCeX79EmzPG4EBZzX50yaj+lPZ0tz6jADzgYL+AAK/CAo4I=
+	t=1735668487; cv=none; b=TP6Ib9MmD7lX8d9yXzL8J8zO4M2l74EbUyjlOV1sSD47JA0xcjUfo0FDjC9COJ+hcHjV4JlXFSg/g1983mZV/KPajCHRKIehHATqPpmGIlWk0c/MKiaJwlXfW7LackawfcmwPuMDEI8+sbaJJaUV0wojkgOEUpAYzeA2Xb1rl6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735551131; c=relaxed/simple;
-	bh=6z0eFfOZs7BdJIGqDGcwfBjGyNn+VEE09uPh+kDNBHY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RA7ApbVIzkNWPrtJLrf23RWDz2IJrHenjrEufNhVnZmN7bDhmGxdZrOOhhyahoP34N3sUsi/kTCL1r0uxKfxt1MIRjtOs0NieMgm3BPeG69L+ID7zYqQf/k+Iskx24LoU6IfPQN7EjzBH/lZBsA4hPevtyfpdpxLRIGrowFWf2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com; spf=pass smtp.mailfrom=inspur.com; arc=none smtp.client-ip=210.51.61.247
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inspur.com
-Received: from ssh247.corpemail.net
-        by ssh247.corpemail.net ((D)) with ASMTP (SSL) id BNL00002;
-        Mon, 30 Dec 2024 17:32:02 +0800
-Received: from jtjnmail201607.home.langchao.com (10.100.2.7) by
- jtjnmail201602.home.langchao.com (10.100.2.2) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 30 Dec 2024 17:32:02 +0800
-Received: from localhost.localdomain (10.94.16.130) by
- jtjnmail201607.home.langchao.com (10.100.2.7) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 30 Dec 2024 17:32:01 +0800
-From: Charles Han <hanchunchao@inspur.com>
-To: <sudeep.holla@arm.com>, <cristian.marussi@arm.com>, <rafael@kernel.org>,
-	<viresh.kumar@linaro.org>
-CC: <arm-scmi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Charles Han
-	<hanchunchao@inspur.com>
-Subject: [PATCH] cpufreq: scpi: Prevent null pointer dereference in scpi_cpufreq_get_rate()
-Date: Mon, 30 Dec 2024 17:31:59 +0800
-Message-ID: <20241230093159.258813-1-hanchunchao@inspur.com>
-X-Mailer: git-send-email 2.31.1
+	s=arc-20240116; t=1735668487; c=relaxed/simple;
+	bh=asG8QUsAcpivCII00hEuLDTjwAoR6SlLqH18zpcB2v0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tuz4W27ULLtSrBQODhbhTZAxduQR0Aokqn/fj0/7c6ln/U+1JqaNqvAOn16F21TbucQV51DJHUtptyIBt0KhCvvUOKFkcZVou/Ga/9WSSqkDclyGEFquRYxfpdVB2wdSrEi0m+B5C4kOCp8qN+DiqJ7WTrylM9kgP1hqnkdfCo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 307581063;
+	Tue, 31 Dec 2024 10:08:32 -0800 (PST)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 80B523F673;
+	Tue, 31 Dec 2024 10:08:01 -0800 (PST)
+Date: Tue, 31 Dec 2024 18:07:53 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Dong Aisheng <aisheng.dong@nxp.com>,
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+	Jacky Bai <ping.bai@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, imx@lists.linux.dev,
+	Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH 1/4] firmware: arm_scmi: bus: Bypass setting fwnode for
+ scmi cpufreq
+Message-ID: <Z3Qy-br-wVCLpo7Q@pluto>
+References: <20241225-scmi-fwdevlink-v1-0-e9a3a5341362@nxp.com>
+ <20241225-scmi-fwdevlink-v1-1-e9a3a5341362@nxp.com>
+ <20241227151306.jh2oabc64xd54dms@bogus>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: Jtjnmail201615.home.langchao.com (10.100.2.15) To
- jtjnmail201607.home.langchao.com (10.100.2.7)
-tUid: 20241230173202c6988a2345bca3e4352598e577134bd2
-X-Abuse-Reports-To: service@corp-email.com
-Abuse-Reports-To: service@corp-email.com
-X-Complaints-To: service@corp-email.com
-X-Report-Abuse-To: service@corp-email.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241227151306.jh2oabc64xd54dms@bogus>
 
-cpufreq_cpu_get_raw() may return NULL if the cpu is not in
-policy->cpus cpu mask and it will cause null pointer dereference.
-Prevent null pointer dereference in scpi_cpufreq_get_rate().
+On Fri, Dec 27, 2024 at 03:13:06PM +0000, Sudeep Holla wrote:
+> On Wed, Dec 25, 2024 at 04:20:44PM +0800, Peng Fan (OSS) wrote:
+> > From: Peng Fan <peng.fan@nxp.com>
+> >
+> > Two drivers scmi_cpufreq.c and scmi_perf_domain.c both use
+> > SCMI_PROTCOL_PERF protocol, but with different name, so two scmi devices
+> > will be created. But the fwnode->dev could only point to one device.
+> >
+> > If scmi cpufreq device created earlier, the fwnode->dev will point to
+> > the scmi cpufreq device. Then the fw_devlink will link performance
+> > domain user device(consumer) to the scmi cpufreq device(supplier).
+> > But actually the performance domain user device, such as GPU, should use
+> > the scmi perf device as supplier. Also if 'cpufreq.off=1' in bootargs,
+> > the GPU driver will defer probe always, because of the scmi cpufreq
+> > device not ready.
+> >
+> > Because for cpufreq, no need use fw_devlink. So bypass setting fwnode
+> > for scmi cpufreq device.
+> >
 
-Fixes: 343a8d17fa8d ("cpufreq: scpi: remove arm_big_little dependency")
-Signed-off-by: Charles Han <hanchunchao@inspur.com>
----
- drivers/cpufreq/scpi-cpufreq.c | 3 +++
- 1 file changed, 3 insertions(+)
+Hi,
 
-diff --git a/drivers/cpufreq/scpi-cpufreq.c b/drivers/cpufreq/scpi-cpufreq.c
-index cd89c1b9832c..c888ed3a0de9 100644
---- a/drivers/cpufreq/scpi-cpufreq.c
-+++ b/drivers/cpufreq/scpi-cpufreq.c
-@@ -30,6 +30,9 @@ static struct scpi_ops *scpi_ops;
- static unsigned int scpi_cpufreq_get_rate(unsigned int cpu)
- {
- 	struct cpufreq_policy *policy = cpufreq_cpu_get_raw(cpu);
-+	if (unlikely(!policy))
-+		return 0;
-+
- 	struct scpi_data *priv = policy->driver_data;
- 	unsigned long rate = clk_get_rate(priv->clk);
- 
--- 
-2.31.1
+> > Fixes: 96da4a99ce50 ("firmware: arm_scmi: Set fwnode for the scmi_device")
+> > Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> > ---
+> >  drivers/firmware/arm_scmi/bus.c | 15 ++++++++++++++-
+> >  1 file changed, 14 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
+> > index 157172a5f2b577ce4f04425f967f548230c1ebed..12190d4dabb65484543044b4424fbe3b67245466 100644
+> > --- a/drivers/firmware/arm_scmi/bus.c
+> > +++ b/drivers/firmware/arm_scmi/bus.c
+> > @@ -345,6 +345,19 @@ static void __scmi_device_destroy(struct scmi_device *scmi_dev)
+> >  	device_unregister(&scmi_dev->dev);
+> >  }
+> >
+> > +static int
+> > +__scmi_device_set_node(struct scmi_device *scmi_dev, struct device_node *np,
+> > +		       int protocol, const char *name)
+> > +{
+> > +	/* cpufreq device does not need to be supplier from devlink perspective */
+> > +	if ((protocol == SCMI_PROTOCOL_PERF) && !strcmp(name, "cpufreq"))
+> > +		return 0;
+> >
+> 
+> This is just a assumption based on current implementation. What happens
+> if this is needed. Infact, it is used in the current implementation to
+> create a dummy clock provider, so for sure with this change that will
+> break IMO.
 
+I agree with Sudeep on this: if you want to exclude some SCMI device from the
+fw_devlink handling to address the issues with multiple SCMI devices
+created on the same protocol nodes, cant we just flag this requirement here and
+avoid to call device_link_add in driver:scmi_set_handle(), instead of
+killing completely any possibility of referencing phandles (and having
+device_link_add failing as a consequence of having a NULL supplier)
+
+i.e. something like:
+
+@bus.c
+------
+static int
+__scmi_device_set_node(struct scmi_device *scmi_dev, struct device_node *np,
+		       int protocol, const char *name)
+{
+	if ((protocol == SCMI_PROTOCOL_PERF) && !strcmp(name, "cpufreq"))
+		scmi_dev->avoid_devlink = true;
+
+	device_set_node(&scmi_dev->dev, of_fwnode_handle(np));
+	....
+
+
+and @driver.c
+-------------
+
+static void scmi_set_handle(struct scmi_device *scmi_dev)
+{
+	scmi_dev->handle = scmi_handle_get(&scmi_dev->dev);
+	if (scmi_dev->handle && !scmi_dev->avoid_devlink)
+		scmi_device_link_add(&scmi_dev->dev, scmi_dev->handle->dev);
+}
+
+.... so that you can avoid fw_devlink BUT keep the device_node NON-null
+for the device.
+
+This would mean also restoring the pre-existing explicit blacklisting in
+pinctrl-imx to avoid issues when pinctrl subsystem searches by
+device_node...
+
+..or I am missing something ?
+
+Thanks,
+Cristian
