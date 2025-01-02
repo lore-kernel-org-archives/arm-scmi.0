@@ -1,106 +1,220 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2047.outbound.protection.outlook.com [40.107.22.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A84189B8B
-	for <arm-scmi@vger.kernel.org>; Thu,  2 Jan 2025 05:00:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735794017; cv=none; b=GzwHvRmYFsFlqAt0XgnrciFvMzumJ2zlNwUSXpduSK2ATB8v1/xT4sRbfgaXlcjuu5nrbv0qhLS8hMAmNojGzqbYKNu6dzWLiOLkWY2WEqN3+CTgJwJbSTuNnD+sshLK+GW3SLMwgL/Hnb5sOqJ7aujiUaKFy/bRVPz0DJzjtNo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735794017; c=relaxed/simple;
-	bh=PUPDyZt8sb+oTvcqxQxTqbwlTwIcia/v4J4Ku2kpjJk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cbPS4LxU6cD9TtudsBZcfkuvGPd2J1xq8bz8m9OOhXbk8HVkoT4dA3xAXkUEd7oaiHvpHfrYF6xoJFxB2f7dDmFrNqBAi2sO9HmNelG0uSAQRXbs1g7sMARZ5nAk3WMXdXVqXo02tkC1CQbS8aiwhxCesw9RYUBUA3tCpuha+n4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ut4qRH38; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16D818E379;
+	Thu,  2 Jan 2025 07:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1735801880; cv=fail; b=s4H7fXFFERnECwctOZEduq0ph9186ARUBNoPULHB3ABNLTam6gfJkbgjCxcgRsnzw1Lfh5tumjzaLZNJR6YMZA2WYWMtPAqyBTo+e50RBgXn7NsGuxbyjumdFbr1BeLeBXikaAB2si32NLLPSozvaftDQ8njRsgcZQzDNvrDm3g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1735801880; c=relaxed/simple;
+	bh=HSAiekX2+I9FKNLT/Vlqonbm5MHQ/t4vd5HD8LH0sOg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=t27GtSJxIfgF3qhFz04ZSSCYUci+BrNEeA0hXO1I1bCyb8kzzefGGqzcReoaYeiaVnAErWdJsZRi0wink4XrPtSX0Yhbj2PWBwUHzeedLxjja3qJa32Eli3y1a2T4+h31chTcND/8rHeOpMbXbb9jxGpTxvweVbu/x5tLnWXLWI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Z+ZzeSds; arc=fail smtp.client-ip=40.107.22.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ut4qRH38"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2156e078563so129155815ad.2
-        for <arm-scmi@vger.kernel.org>; Wed, 01 Jan 2025 21:00:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1735794013; x=1736398813; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=A/1bp2PcKf40TQFroshO2jGmCGJEJGNa02FuKdy+K6Y=;
-        b=ut4qRH38FQyX7SgfJXIKJnUgmMG/Kr2ifjXBRtErJvubD77m5zB7eKvbfpxmbtAheW
-         QPl5PeSko/GL3zAZ6fzDq/LFv3/ETui6j/A2C4ErYwsSClvXLykxRLxaFEKzSriqGzBs
-         esFsnLvRRe/wP/cthykEbqGhRxXbhjAMMyxjFL9c25jr7b9uvXMEHimbyWRL7Ge4VXwt
-         gkzUVAj4OdyV3zSQ1hAobgbVIGc2N1uX7+4l0jxkLc/p8or/xGcESka1hp3Zhir/4L1x
-         CmxuasaGXh5335wLt+lVnLm+C9/ioD922SakNkR8XVypbmHcQzH+BcK4J6c1FiecjS2+
-         b9Ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735794013; x=1736398813;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A/1bp2PcKf40TQFroshO2jGmCGJEJGNa02FuKdy+K6Y=;
-        b=K3Isy9cOQSCCCwRu0IR+FSJnMn2O4dGZq+q0H6IRte7xwBJh81qZ4aqVnmQmodHMPD
-         3scqfXW2tI+EA5FGEjB2fxPGlJ+hUPgU0e0mBYbyUBtdloMTMZtgp+SvyxZjlkemeLmT
-         V9M1nRzAXz+ebj2XyHnGycZwL7LMSHNavLtLkjXxQtEYpmmsrNlrP/IG/jwL/yEcnzha
-         HY11TaV4Aj95BK5qoSUYAU95QKQTZdWZh2ogKComuNaBH0JQIj63ZDo1VyW8wCI0Ks+b
-         /z9Af8iZsbTdUwHoQGpPo4CNALxo/dldVvQVJ2iIE6nEPdKqkU0chMZyC4O8rXqGX6mn
-         Cx0w==
-X-Forwarded-Encrypted: i=1; AJvYcCWb/3ufnNFmQKVl6C1rv47p4jHhILGJExadyddMpBzLgbYGDK3RAy3QP0CBqF+uL7hgTcztTG5mAg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzpn8GmYXrHZhw1CAAIrgp+HuIiQupGL99kwOGyib02jXatne4q
-	wjjggY9NCW/g9ThFMmSQbzBCYmAG3cBfWd/M09Ry4h3JQ99vGBZKEnz5sNqqhpk=
-X-Gm-Gg: ASbGnctFEDg+l8wdBJDmzyYFxrn3AIm9rXHO9unuWLT0f2P7AaU8DqXBkqjvVONr/SA
-	uWefeYSfPJL+MciAcGcfYa87JrT0aIQ8bW7fDnrVfT0JNJqxnKYv2UVFzq/P+Ja5utIpEi26X8x
-	b9LHxGocePkKfZ5906lG4WYi8aMcfn5xtyBTh4Gp7d6AxO1vwLwisDpkf7Wa8J18CIkszqtMc3t
-	W6AcDrtCYUWEgc1OByF56W7ksNMcx6ESf57ZTXh39zCz/p5teyXdu7PJT8=
-X-Google-Smtp-Source: AGHT+IGwZt2JFNHPzwT3nkSeMpu8p2mdONKKDTn9PLQBRw9qGtDV66wcfRl5C8C59VP/9aAWObVl+g==
-X-Received: by 2002:a05:6a20:7f8a:b0:1e3:e6f3:6372 with SMTP id adf61e73a8af0-1e5e07bc390mr63987273637.27.1735794013408;
-        Wed, 01 Jan 2025 21:00:13 -0800 (PST)
-Received: from localhost ([122.172.84.139])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-842b821da93sm17980901a12.38.2025.01.01.21.00.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jan 2025 21:00:12 -0800 (PST)
-Date: Thu, 2 Jan 2025 10:30:10 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Charles Han <hanchunchao@inspur.com>
-Cc: sudeep.holla@arm.com, cristian.marussi@arm.com, rafael@kernel.org,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] cpufreq: scpi: Prevent null pointer dereference in
- scpi_cpufreq_get_rate()
-Message-ID: <20250102050010.gnvf42r3v2ey7mww@vireshk-i7>
-References: <20241230093159.258813-1-hanchunchao@inspur.com>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Z+ZzeSds"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lNvps7TMFKQYI8aTnElGGnJyZCRjCG04Mm0OYrEC8TfUZyl9CTSuJZHFStRMSdqGSQNwZQzLuAC798m9GiTwtKvWfSu96lWhn2a6DsIxM6LYB2PWDbc4ZPfBVUqVBoSiEoXnLc4GFg3MgHilBMOh3XtrcYHzb5uIu8Pticb2as+5zXUtFveQQKRZ6LdDqDkJUpQ+lfHBIEJ4/fGCiet0viT93zgXE+UQCg1FC5ajU2Xtsby7btqAFeOXBDeqLKh/eSiCbtk7SsK1zTM5qoobDnwE7DMxhusrx+9jhnBJKSResjeGLZA+OO0DxtsXeatqzUyuIV/biyxGyR3lGf4cnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dyBHUTTjhiRyY1QEm+t8VD8Udc8lfm9m090e09VSlEE=;
+ b=bJR9FxK0bJm61bbWpvc6h/594O8sLTA/GpLrKSrxK0huW56SoP8a/4Yl6cGvLhX+C4QXfQwgImlvuBFzyb/8vjY2/OiwUBH1AwoeO0cSea3CsTRXKChiGX2bEBS+CWZi5LmdjRYoJVzojrTzExkMR4mixmnJslN8T64XPX5VWW022pUcha/ApVdDjjSx9ObKqDk80eDpq01Uc6PZTklHTY/EZmGHRC21y6coD8vSvxe1emZF69JUI2yUIS0ZgQKaXseAHz/lXxVXHnfffVrSakKB4RDhQ+Ov85lQ+M7FsZH31ftOllVHk2yDPJDVHjNLD8rN2JjN/g3qMkk9Q4GZAg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dyBHUTTjhiRyY1QEm+t8VD8Udc8lfm9m090e09VSlEE=;
+ b=Z+ZzeSds5NZRJyJ1utLQ34VA9DbVn3EqpAgXgltR0u+oewG+fJgbKre9oBaaYTT5+Ro5BGq6qAeS6xQeayUDJ3O/qLCkiAID7j5u9cs2X1X+9GFaJkiSzgEi2HTT+eWR0WcWxB5qPPr56+cRZ3jEi26WlXuxAfCs5EKB2ck5FwekUGkTelxXZplKV+8C+Iu2uV7Z90UAtFQsSDIKV65S1iAhUk1vB92aC3mfVVi+WW9dBP/uhYVrc36QKJd+FYhLI9vfjMBBqI0/uZ/QOcGhPeN9XkY38WY7LeiP8ZrRiU+ygRKFeAIyuraH3AOZgFNdTIijNXGqUXIaB7mEE1wQ9Q==
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
+ by DU2PR04MB9180.eurprd04.prod.outlook.com (2603:10a6:10:2f7::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.12; Thu, 2 Jan
+ 2025 07:11:11 +0000
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630%5]) with mapi id 15.20.8314.012; Thu, 2 Jan 2025
+ 07:11:10 +0000
+From: Peng Fan <peng.fan@nxp.com>
+To: Cristian Marussi <cristian.marussi@arm.com>, Sudeep Holla
+	<sudeep.holla@arm.com>
+CC: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Saravana Kannan <saravanak@google.com>, Linus
+ Walleij <linus.walleij@linaro.org>, Aisheng Dong <aisheng.dong@nxp.com>,
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Jacky
+ Bai <ping.bai@nxp.com>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>, "arm-scmi@vger.kernel.org"
+	<arm-scmi@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-gpio@vger.kernel.org"
+	<linux-gpio@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>
+Subject: RE: [PATCH 3/4] pinctrl: scmi: Check fwnode instead of machine
+ compatible
+Thread-Topic: [PATCH 3/4] pinctrl: scmi: Check fwnode instead of machine
+ compatible
+Thread-Index: AQHbVqYByDmo46CC9ECxtF7WL2F1nbL6Oy0AgAZ4RACAAmmysA==
+Date: Thu, 2 Jan 2025 07:11:10 +0000
+Message-ID:
+ <PAXPR04MB8459FB7E038A50D5E570640C88142@PAXPR04MB8459.eurprd04.prod.outlook.com>
+References: <20241225-scmi-fwdevlink-v1-0-e9a3a5341362@nxp.com>
+ <20241225-scmi-fwdevlink-v1-3-e9a3a5341362@nxp.com>
+ <20241227153020.hl6lysid75yquca7@bogus> <Z3Q1bKMynWGfUkPr@pluto>
+In-Reply-To: <Z3Q1bKMynWGfUkPr@pluto>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAXPR04MB8459:EE_|DU2PR04MB9180:EE_
+x-ms-office365-filtering-correlation-id: 75b45d52-0920-4c59-5f81-08dd2afca2e0
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|1800799024|7416014|366016|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?YPnHdowxCUJvR+aCeiqImIAM8ShTPGONNC0VUv4iiQ9pBEWqF56WQfpl0RaD?=
+ =?us-ascii?Q?oT5L4Z+C+3SCgWLYlklEk4LD27jpODUoUb1KtmTcKCI9ZjnroXFYh5bK4IGn?=
+ =?us-ascii?Q?Xa3OtSpmAk8K0tWZeIXsRqTyGwrHmAuyNUpYRGZJ12u9KihLUzAtEar3Mccs?=
+ =?us-ascii?Q?BRfbDlIoSd1B/f4weFhoX4+hRHAKaFSa647sTL86V6gBp5EKhptLBYZJL84h?=
+ =?us-ascii?Q?xX/hJdgcZgMMdmNKJvssd3ZlqAOKbjmLqTP6dI9SYol7ygYHZ0l/GXDRte2e?=
+ =?us-ascii?Q?w5YJKtq658fTIQoFi32Ica0mDusS+7MyZxZn2z62zu2ZhCU960t7rTecMxkO?=
+ =?us-ascii?Q?LW76dgOygpccUJy1atiqJGwO69O90XdOBm+9SwhsFCVKlNh5985YrZAjzUJ1?=
+ =?us-ascii?Q?aj8yAlMG397kaYDlO/19CN5bUqpMw9O0yEi7y9QiH/ZytWGw+4mp4jNh+/Lp?=
+ =?us-ascii?Q?2RHGlr0dQ8ljC2ldKsRJLJfNrf+zT3akAgh3w9OBp441sTmnlleBW5y8zfXb?=
+ =?us-ascii?Q?sW5lnRDvA2cyaXKKf7OgJYHVufKPZY/UTjHny3X+d2wRYnPO2iix5o8wD7zd?=
+ =?us-ascii?Q?LfQf/OH2qbp4q4jIYC5pPLoUrF0B9byyOf6+whsTaSJrkomuqEmq0VYm4hh0?=
+ =?us-ascii?Q?vJrdkJ5mTLw6RYWWB97VX7hVC1rdtxgiGU2hVxZlUzVl/kPZTbaJVpinU8wu?=
+ =?us-ascii?Q?3TIr4OfSVIqq/XCCxg5cuWOpUputA8E1Lp0kKAUlAp7OdlRfF7UgzVT11Jm5?=
+ =?us-ascii?Q?0yMZ3M0MP24docafdX3pk13eP/l6Guz6WFinYBoQHNoW8cT1taW3c78wCPht?=
+ =?us-ascii?Q?RiLr8KDQlTvvuWraIcA4hi9V0S3uL7XvZnWmMxBMXzngMAkbEF3ceCDII7Hu?=
+ =?us-ascii?Q?o5GVIMUqPRJnOvbFXxHmSV5607qWGsWPDofppc6GWD10MQNUxWS2iAGYgMIf?=
+ =?us-ascii?Q?+fXCb7PzwqBGZr+W/xuTmQB6B6LRfzPc/+zRHXd5CqlzaDeuEV4WP05z1bAQ?=
+ =?us-ascii?Q?gsflnWyUODs2i+V5rQz9xZaXNngBmnyMgaCgEMOEdTIkT2RVgXsSebIj3EB4?=
+ =?us-ascii?Q?cuj1+RzSQys+neM7WIV4YBHTT+PziAj4qDsWZg8RQekiL282H8UUR2Kk80R8?=
+ =?us-ascii?Q?e3Bmg1hiYYBO+tSPF+FOwZ3XZIK0Z3FJJ4e54GUVpdnIfGqUZB87y0qEYtIo?=
+ =?us-ascii?Q?J3rUENSGUE7PBtjxbwkaZRFLPxRpLpBaUS8XgieulodF95NjGmrSYNZbImcC?=
+ =?us-ascii?Q?v0BQGo6PuIgD1ppnJFS8z2dp5ngaoHSL5Ab8BPfpvXP6P7xP5na9Ai6mhkdo?=
+ =?us-ascii?Q?aMUrJu0QjV6/2MfKEgNc0t8VGX0ZladjwZYSK2gvRTuo40o6QhUU5xfBOmWg?=
+ =?us-ascii?Q?dBajxfJ91QLF2c7ZTfQgrGv1BJDjocB/XFARD1Qa1K/honu7WtIZYul1vgEi?=
+ =?us-ascii?Q?qWtpPztq/Te8J1NYAuK65RIytKqAiyEc?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?Rhs33q2Q6GceQTgex7pG5W4HP6Ilgt9Q2cCkaw0ZcoKSQxlBk7ZsEBEiaqyy?=
+ =?us-ascii?Q?8vQD52bae2eo/R2oEgyWTQCVLbhJH4RhW+Mg8b9k5xer4E7b67UrVv/g0rBP?=
+ =?us-ascii?Q?dm7SxFWVDOk7lnsQZ4/QxMlkAD0N02Ymw/WJTD8m5ff92r/RH6VqiI1gbMSI?=
+ =?us-ascii?Q?pB1IM2EDl7MEyPKJ8u4mdro36ybfW0cPQ0rTeNnvTQwVuM6+XcQ3+ZFZA4wK?=
+ =?us-ascii?Q?pjNz9aKsRHsUa/Kf1mmHQ/VHn9EXsYSHV6iudWgi+968+/euluMDtOThd0TJ?=
+ =?us-ascii?Q?GGRDJ7EcY2ilu45FX39GfadIpXXZHum8j0uCSDZtdpyz48WN7mBFqYJ+Rw/d?=
+ =?us-ascii?Q?MtQ0GkVosEGcYacTagCBCZUSDuWGDHdz87BZw1zJrC//7CeXPUo85EQo6FS/?=
+ =?us-ascii?Q?JT0pyI6fS+M2hLUJuPTRcjqxHH3KOUfWW4OLqiDNqh5yAL2hLvKPfPFiEqz8?=
+ =?us-ascii?Q?zCUbm06eQ24ERmILrwTYNmc3XT1YHB8Gf1qm8ZfG3Hx9kO78aaw/WBKp3cRV?=
+ =?us-ascii?Q?GQlLXV4wU/JWs1zztFfGldOT0IOtsG+hq1ahi515SE5touFKqVKKOM0Ln5p0?=
+ =?us-ascii?Q?l65McLrk1K2S/rtiBDg6HYivkYkjwaMEwqFg7RIIzcVQt16jbZX4HsrjBTg5?=
+ =?us-ascii?Q?DHWZdtytbeQJqAq8MKOvpJmEepoILYZBKmPtVK7NELT45DiwmWY3ocADCJve?=
+ =?us-ascii?Q?4ZysKVMj7h2/9MNI5wlgoy5k3FEWWbvxsw86yAk8/b9OOqaX5RLsuEW3mEex?=
+ =?us-ascii?Q?AG1rMP7SnFN+neP6KBhfidvaqvGL9XPFMct8NJU81TJ8xFOtOmifg0IV8AGS?=
+ =?us-ascii?Q?Rgm4xi8dM6q5JrJGA7hxEhUoR+NjBwQ5vqhibUybVln59w+8TjFP6KzUPpek?=
+ =?us-ascii?Q?SsHWNTsve/lPH1sVsR2BYdMBfZk/+qJMnQ2846GZt2b0tArqd/4h0DyoxMef?=
+ =?us-ascii?Q?KodGq/5cpsA7gUa9ETk5Lf6f8XHHtJi+hr/W2In87ivkAfiFfX9h/oP4S4FY?=
+ =?us-ascii?Q?pkWynhA61EfRpuz+kTCdp94IDnJ3SRuHBNX5gP9O8RzYmLh7zZU3zI4iRb69?=
+ =?us-ascii?Q?cfdiylo24kWg1dDX1RhmNOyPQW7HR9B/nzV8c5a1lbDVGQVW3OZ0TlJASPJW?=
+ =?us-ascii?Q?U50lMn09vuDAx4zz1iyHX0D/eT3qwrmyNz6CfkEkIUxkitfMpajRbHJZd8VJ?=
+ =?us-ascii?Q?ft9YRY3jRkQtR2uKZsVsCZh1v5d6li3Z8KSvAqzwLV6/YybfkPWIjULvvXlg?=
+ =?us-ascii?Q?Al+UzbKywhuJdtDY22GCoJoZ9dmbMEInHLCpUWmgj/UPlVrXUjLXeFFyGZE4?=
+ =?us-ascii?Q?XKvX27vjuh9TBNggy9ze5XeNzB+Xkx00lpXAZLV7pOUhDAom44bhCEwFtAhf?=
+ =?us-ascii?Q?Vs1DEjgTvtFL0/3WMoiSwwE93g3LNQU+ZmRjGl9YSJTQXnyfTV/g0pB/285y?=
+ =?us-ascii?Q?r0tckiMONHA4exrhmZyWvmQnq5pPRVyL2lGphSNKl1nDJ6KNzcRvcaHU7xfi?=
+ =?us-ascii?Q?FTKTpLb+1udw6QoPqm9SZw5hh6HvAwxOvlUxn7HXGr5OS9yb2lRV1nAyr6Jw?=
+ =?us-ascii?Q?vdD+ALVsk+gRQCHgAVs=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241230093159.258813-1-hanchunchao@inspur.com>
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 75b45d52-0920-4c59-5f81-08dd2afca2e0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jan 2025 07:11:10.8967
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Fcm8daHhih76fgzla7f0Bt7mW6zDbF61Cv/FMnxw0fCmwZYiZ1Mj23zgONDh3jTkKacSy2+X7TXX/izVV8VCtw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB9180
 
-On 30-12-24, 17:31, Charles Han wrote:
-> cpufreq_cpu_get_raw() may return NULL if the cpu is not in
-> policy->cpus cpu mask and it will cause null pointer dereference.
-> Prevent null pointer dereference in scpi_cpufreq_get_rate().
-> 
-> Fixes: 343a8d17fa8d ("cpufreq: scpi: remove arm_big_little dependency")
-> Signed-off-by: Charles Han <hanchunchao@inspur.com>
-> ---
->  drivers/cpufreq/scpi-cpufreq.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/cpufreq/scpi-cpufreq.c b/drivers/cpufreq/scpi-cpufreq.c
-> index cd89c1b9832c..c888ed3a0de9 100644
-> --- a/drivers/cpufreq/scpi-cpufreq.c
-> +++ b/drivers/cpufreq/scpi-cpufreq.c
-> @@ -30,6 +30,9 @@ static struct scpi_ops *scpi_ops;
->  static unsigned int scpi_cpufreq_get_rate(unsigned int cpu)
->  {
->  	struct cpufreq_policy *policy = cpufreq_cpu_get_raw(cpu);
-> +	if (unlikely(!policy))
-> +		return 0;
-> +
->  	struct scpi_data *priv = policy->driver_data;
->  	unsigned long rate = clk_get_rate(priv->clk);
+> Subject: Re: [PATCH 3/4] pinctrl: scmi: Check fwnode instead of
+> machine compatible
+>=20
+> On Fri, Dec 27, 2024 at 03:30:20PM +0000, Sudeep Holla wrote:
+> > On Wed, Dec 25, 2024 at 04:20:46PM +0800, Peng Fan (OSS) wrote:
+> > > From: Peng Fan <peng.fan@nxp.com>
+> > >
+> > > For the platform that not compatible with scmi pinctrl device, the
+> > > fwnode will not be set, so checking fwnode will make code simpler
+> > > and easy to maintain.
+> > >
+> > > Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> > > ---
+> > >  drivers/pinctrl/pinctrl-scmi.c | 7 +------
+> > >  1 file changed, 1 insertion(+), 6 deletions(-)
+> > >
+> > > diff --git a/drivers/pinctrl/pinctrl-scmi.c
+> > > b/drivers/pinctrl/pinctrl-scmi.c index
+> > >
+> df4bbcd7d1d59ac2c8ddc320dc10d702ad1ed5b2..aade6df77dbb2c391
+> 741e77c0a
+> > > ac3f029991e4bb 100644
+> > > --- a/drivers/pinctrl/pinctrl-scmi.c
+> > > +++ b/drivers/pinctrl/pinctrl-scmi.c
+> > > @@ -505,11 +505,6 @@ static int pinctrl_scmi_get_pins(struct
+> scmi_pinctrl *pmx,
+> > >  	return 0;
+> > >  }
+> > >
+> > > -static const char * const scmi_pinctrl_blocklist[] =3D {
+> > > -	"fsl,imx95",
+> > > -	NULL
+> > > -};
+> > > -
+> > >  static int scmi_pinctrl_probe(struct scmi_device *sdev)  {
+> > >  	int ret;
+> > > @@ -521,7 +516,7 @@ static int scmi_pinctrl_probe(struct
+> scmi_device *sdev)
+> > >  	if (!sdev->handle)
+> > >  		return -EINVAL;
+> > >
+> > > -	if (of_machine_compatible_match(scmi_pinctrl_blocklist))
+> > > +	if (!dev->fwnode)
+> >
+> > I would prefer to see the blocklist to be explicit here rather than
+> > implicitly hiding it away with this change set.
+>=20
+> Using a flag to inhibit device_link_add as said early in the series this
+> could be dropped and kept as is, I suppose.
 
-The check needs to be made after all the variable definitions.
+Since the list will expand to include more i.MX9[X] chips, I was
+thinking to drop the list to avoid update the list every time
+we add a new SoC. We may need to use a machine
+saying "fsl,imx9-sm" or else.
 
--- 
-viresh
+I will give a check on a flag. Thanks for suggestion.
+
+Thanks,
+Peng.
+
+>=20
+> Thanks,
+> Cristian
+
