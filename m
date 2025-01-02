@@ -1,72 +1,206 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD1E8610D;
-	Thu,  2 Jan 2025 15:37:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79A15C2C8;
+	Thu,  2 Jan 2025 17:07:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735832263; cv=none; b=l/gh327Eo4TMWnToP5oIOT3b4KHAlRUuNTEe7eEGbP0cXPUNM3A1vnzvUSgXcnbkOszpxModJmoIPlN/2FDf5kogIZrqwDLMsHQDJ1Ieh667BfZvijt8GAAMgfsjTAOxZ9vaCEDp+qcJIMo4c7Kr7XiWlo81rQs43798l4PMllE=
+	t=1735837634; cv=none; b=gxHjIB+7OKUT2Yo8X0SjbWZSsLXlEAeQx8YRDXdIQdfLcOn3Qtt2/K0HGPaoqE4G1TGpSEULPYlbRIW5BiiupNfjR/Bh2JuGhShJWDzkEqS6UQc2pdPoB1eMA2n067YwPnIc/0eI/9GqEsioOO/fKvx66v+Q2OzZ0PWRGUbM5Ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735832263; c=relaxed/simple;
-	bh=eC8Om47sihQkbFhWQIOCVNf9fGcy6IT1X9aqM3mfLkA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AdELMYXNHOKmHFQyHOsQZX4yQsk+4X8ElDuVolcvLKp1boH3RZV0HvQxdXud2la5/KKnYonDEkgtCEYp6fvQXIDuuuSgdTEcMsX0aHmXE6kPUH1Ex13sEIH8NfaOQveGRptJR6tY+b5LcsreWfJG8H4dKh2XB45Zy4PTnOXKxD0=
+	s=arc-20240116; t=1735837634; c=relaxed/simple;
+	bh=6yUdC46m8RGq2qReGCelQ4EVCtuq5yBzpLoyphZO7Dw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kab16SJVbJTRCkNHQYhc4nErx1lkNtBjN18/Vgi78NDLl7RY8AP4LdK4wF2rAMkrC1ft3pvJltTDcgflhxclkcQ5wnYm6CLcjQNl2PwiFfE63EByTyZ9Tyaa9XcukCAJ3PKYic4568uSyswXVl/amO1dmGAO61130vU6ouV774U=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5016F11FB;
-	Thu,  2 Jan 2025 07:38:08 -0800 (PST)
-Received: from usa.arm.com (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 16C5A3F59E;
-	Thu,  2 Jan 2025 07:37:37 -0800 (PST)
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org,
-	Cristian Marussi <cristian.marussi@arm.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	james.quinlan@broadcom.com,
-	f.fainelli@gmail.com,
-	vincent.guittot@linaro.org,
-	etienne.carriere@st.com,
-	peng.fan@oss.nxp.com,
-	michal.simek@amd.com,
-	quic_sibis@quicinc.com,
-	dan.carpenter@linaro.org,
-	johan+linaro@kernel.org
-Subject: Re: [PATCH 0/3] Add SCMI Vendor module autoload support
-Date: Thu,  2 Jan 2025 15:37:30 +0000
-Message-Id: <173583220044.2167015.12505379511834560492.b4-ty@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241209164957.1801886-1-cristian.marussi@arm.com>
-References: <20241209164957.1801886-1-cristian.marussi@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 16B8411FB;
+	Thu,  2 Jan 2025 09:07:40 -0800 (PST)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8FE8E3F673;
+	Thu,  2 Jan 2025 09:07:08 -0800 (PST)
+Date: Thu, 2 Jan 2025 17:06:57 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Peng Fan <peng.fan@nxp.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	"Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Aisheng Dong <aisheng.dong@nxp.com>,
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+	Jacky Bai <ping.bai@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>
+Subject: Re: [PATCH 1/4] firmware: arm_scmi: bus: Bypass setting fwnode for
+ scmi cpufreq
+Message-ID: <Z3bHsUMvajaOOhgO@pluto>
+References: <20241225-scmi-fwdevlink-v1-0-e9a3a5341362@nxp.com>
+ <20241225-scmi-fwdevlink-v1-1-e9a3a5341362@nxp.com>
+ <20241227151306.jh2oabc64xd54dms@bogus>
+ <Z3Qy-br-wVCLpo7Q@pluto>
+ <PAXPR04MB8459AB05EEC7107D500A826688142@PAXPR04MB8459.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <PAXPR04MB8459AB05EEC7107D500A826688142@PAXPR04MB8459.eurprd04.prod.outlook.com>
 
-On Mon, 09 Dec 2024 16:49:54 +0000, Cristian Marussi wrote:
-> a tiny series to add the capability to automatically load the proper
-> vendor protocol module when an SCMI driver tries to use it; while proper
-> vendor protocol selection is already provided by the SCMI core, automatic
-> loading of vendor protocols was not.
->
-> Lookup is now based on module aliases following the pattern:
->
-> [...]
+On Thu, Jan 02, 2025 at 07:38:06AM +0000, Peng Fan wrote:
+> > Subject: Re: [PATCH 1/4] firmware: arm_scmi: bus: Bypass setting
+> > fwnode for scmi cpufreq
+> > 
+> > On Fri, Dec 27, 2024 at 03:13:06PM +0000, Sudeep Holla wrote:
+> > > On Wed, Dec 25, 2024 at 04:20:44PM +0800, Peng Fan (OSS) wrote:
+> > > > From: Peng Fan <peng.fan@nxp.com>
+> > > >
+> > > > Two drivers scmi_cpufreq.c and scmi_perf_domain.c both use
+> > > > SCMI_PROTCOL_PERF protocol, but with different name, so two
+> > scmi
+> > > > devices will be created. But the fwnode->dev could only point to
+> > one device.
+> > > >
+> > > > If scmi cpufreq device created earlier, the fwnode->dev will point
+> > > > to the scmi cpufreq device. Then the fw_devlink will link
+> > > > performance domain user device(consumer) to the scmi cpufreq
+> > device(supplier).
+> > > > But actually the performance domain user device, such as GPU,
+> > should
+> > > > use the scmi perf device as supplier. Also if 'cpufreq.off=1' in
+> > > > bootargs, the GPU driver will defer probe always, because of the
+> > > > scmi cpufreq device not ready.
+> > > >
+> > > > Because for cpufreq, no need use fw_devlink. So bypass setting
+> > > > fwnode for scmi cpufreq device.
+> > > >
+> > 
+> > Hi,
+> > 
+> > > > Fixes: 96da4a99ce50 ("firmware: arm_scmi: Set fwnode for the
+> > > > scmi_device")
+> > > > Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> > > > ---
+> > > >  drivers/firmware/arm_scmi/bus.c | 15 ++++++++++++++-
+> > > >  1 file changed, 14 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/firmware/arm_scmi/bus.c
+> > > > b/drivers/firmware/arm_scmi/bus.c index
+> > > >
+> > 157172a5f2b577ce4f04425f967f548230c1ebed..12190d4dabb654845
+> > 43044b442
+> > > > 4fbe3b67245466 100644
+> > > > --- a/drivers/firmware/arm_scmi/bus.c
+> > > > +++ b/drivers/firmware/arm_scmi/bus.c
+> > > > @@ -345,6 +345,19 @@ static void __scmi_device_destroy(struct
+> > scmi_device *scmi_dev)
+> > > >  	device_unregister(&scmi_dev->dev);
+> > > >  }
+> > > >
+> > > > +static int
+> > > > +__scmi_device_set_node(struct scmi_device *scmi_dev, struct
+> > device_node *np,
+> > > > +		       int protocol, const char *name) {
+> > > > +	/* cpufreq device does not need to be supplier from devlink
+> > perspective */
+> > > > +	if ((protocol == SCMI_PROTOCOL_PERF) && !strcmp(name,
+> > "cpufreq"))
+> > > > +		return 0;
+> > > >
+> > >
+> > > This is just a assumption based on current implementation. What
+> > > happens if this is needed. Infact, it is used in the current
+> > > implementation to create a dummy clock provider, so for sure with
+> > this
+> > > change that will break IMO.
+> > 
+> > I agree with Sudeep on this: if you want to exclude some SCMI device
+> > from the fw_devlink handling to address the issues with multiple SCMI
+> > devices created on the same protocol nodes, cant we just flag this
+> > requirement here and avoid to call device_link_add in
+> > driver:scmi_set_handle(), instead of killing completely any possibility of
+> > referencing phandles (and having device_link_add failing as a
+> > consequence of having a NULL supplier)
+> > 
+> > i.e. something like:
+> > 
+> > @bus.c
+> > ------
+> > static int
+> > __scmi_device_set_node(struct scmi_device *scmi_dev, struct
+> > device_node *np,
+> > 		       int protocol, const char *name) {
+> > 	if ((protocol == SCMI_PROTOCOL_PERF) && !strcmp(name,
+> > "cpufreq"))
+> > 		scmi_dev->avoid_devlink = true;
+> > 
+> > 	device_set_node(&scmi_dev->dev, of_fwnode_handle(np));
+> > 	....
+> > 
+> > 
+> > and @driver.c
+> > -------------
+> > 
+> > static void scmi_set_handle(struct scmi_device *scmi_dev) {
+> > 	scmi_dev->handle = scmi_handle_get(&scmi_dev->dev);
+> > 	if (scmi_dev->handle && !scmi_dev->avoid_devlink)
+> > 		scmi_device_link_add(&scmi_dev->dev, scmi_dev-
+> > >handle->dev); }
+> > 
+> > .... so that you can avoid fw_devlink BUT keep the device_node NON-
+> > null for the device.
+> > 
+> > This would mean also restoring the pre-existing explicit blacklisting in
+> > pinctrl-imx to avoid issues when pinctrl subsystem searches by
+> > device_node...
+> > 
+> > ..or I am missing something ?
+> 
+> link_ret = device_links_check_suppliers(dev); to check fw_devlink
+> is before "ret = driver_sysfs_add(dev);" which
+> issue bus notify.
+> 
+> The link is fw_devlink, the devlink is created in 'device_add'
+>         if (dev->fwnode && !dev->fwnode->dev) {                                                     
+>                 dev->fwnode->dev = dev;                                                             
+>                 fw_devlink_link_device(dev);                                                        
+>         }
+> The check condition is fwnode.
+> 
+> I think scmi_dev->avoid_devlink not help here.
+> 
 
-Applied to sudeep.holla/linux (for-next/scmi/updates), thanks!
+Ah right...my bad, the issue comes from the device_links created by
+fw_devlink indirectly while walking the phandles backrefs...still...
+...cant we keep the device_node reference while keep on dropping the
+fw_node as you did:
 
-[1/3] firmware: arm_scmi: Support vendor protocol modules autoloading
-      https://git.kernel.org/sudeep.holla/c/54cf6e786caa
-[2/3] firmware: arm_scmi: Add module aliases to i.MX vendor protocols
-      https://git.kernel.org/sudeep.holla/c/d4cc8912cbff
-[3/3] firmware: arm_scmi: Add aliases to transport modules
-      https://git.kernel.org/sudeep.holla/c/3f3f0e53e9ae
---
-Regards,
-Sudeep
+ 	if ((protocol == SCMI_PROTOCOL_PERF) && !strcmp(name, "cpufreq")) {
+		scmi_dev->dev.of_node = np;
+ 		return 0;
+	}
+ 
+ 	device_set_node(&scmi_dev->dev, of_fwnode_handle(np));
+ 	....
+
+...so that the fw_devlink machinery is disabled but still we create a
+device with an underlying related device_node that can be referred in a
+phandle.
+
+I wonder also if it was not even more clean to DO initialize fw_devlink
+instead, BUT add some of the existent fw_devlink/devlink flags to inhibit
+all the checks...but I am not familiar with fw_devlink so much and I
+have not experimented in these regards...so I may have just said
+something unfeasible.
+
+Thanks,
+Cristian
 
