@@ -1,134 +1,145 @@
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2055.outbound.protection.outlook.com [40.107.22.55])
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2053.outbound.protection.outlook.com [40.107.249.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B132475EC
-	for <arm-scmi@vger.kernel.org>; Wed, 15 Jan 2025 12:31:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677AE161321;
+	Wed, 15 Jan 2025 18:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.249.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736944273; cv=fail; b=M4DGRQ/nKUdO6SrNgvxzN9zf5ym8GixwGz+MxDbYQuOqWOp8can5Ef8gZOX2HDHwZsr4WIsE0tqLFrPLcUqUfg15pgufkPiTyH7WxyxnrIGygM1OHuBukNI/A5R3GFQtZHE1JcKUfufXpSIYqJxHtJjyCOE9viI3Q90FG9Wenkg=
+	t=1736966572; cv=fail; b=fuKaowYi5JzzJ3aOA2tWDh5AYlr2ReK6N3hDkLn/A3Urvgp0vOQkdrF9O7RVJIEqH3YIHduiIp8+VB5EzBqLp/t/Cs3WjFEDLMWbjDSMXIdAoOMD1UYJB/o69kk8KK5ELenO/h56an5emQaBKLjlKklmYuXpNRy1PMcgkoE31rk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736944273; c=relaxed/simple;
-	bh=/qG3nJkzp80IXmrvKKpXS5JCy1/qkvsxwev+N9c8wNE=;
+	s=arc-20240116; t=1736966572; c=relaxed/simple;
+	bh=3OEA9BjhfcRXSQbfKmWqSbccQUkoZ4Y9H3ltNSB8zGw=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=RE92uDOLL4HPSn2yTmE6Obwkxh5eTj0hmcO6D1H7aE7CNdStn8RuUXAgjEtJqnCYBOmkvn7iyKIPifj0EIeVnJw06ZWbPPmY0uY/qaEsDyMskYw/rp39POTFyBfS9Gt7FGoY0Rwp+WQAMKOGeaz4vwZxlajb9gHOtXDUvoNE1BI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=X9GbN8bn; arc=fail smtp.client-ip=40.107.22.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 Content-Type:MIME-Version; b=dswRPayEHplH4XN4QH1+KemY6MLktz04K+OX5YTUUE34CYDeXu5qU32HkgvZapnLSEsD4d/UJlLs4DntpPDWUCBfba9tA0TNe7LSfPuGmxsiacz1SK6f8G9NGdqvsctTOWr14dHw0ac7NQkhxGyjOxcxWbRd+lWeMjICdGTMJ/c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=hhhG36ii; arc=fail smtp.client-ip=40.107.249.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="X9GbN8bn"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="hhhG36ii"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EDo8p6d+J/arT/FgYr+yA7x68pD6We5oSTmH52d0a+qgJgTw1kxGhIIP/72X+IUn8E93vd8wnvPhPr/2m8cVTBW/V57wO8UGlIbJd/EIDHkZ0KQ7XKcUPA29qEdP1uY+4U4vKorV9EKoxyEI/xMLoJLJi24SUEtlcPC/P6CxKLbXP+xMpzP960JDQxfpDXx1aUq99loji3rgyPRTB2FW0BkygOw65orMQ+j4e+2mfN3w0XempQYIqT5Q7g+SXCZB6egyGh3IW1ffX2RgLIA56nDXWJ+gVvs0/1QLIER4PQj5sxSTyi43MBohdVK+gGGpY/YCEU/JeaqveLO6ea3MOA==
+ b=HkRU5ZAoc2g4XA4wMp/t/xI3TfO79FS2vEp0GcjoiOHBr2vCB4cwAn3X0wbP792J0ozY5ZraTrAjk2wx3d1gmGsekbCN1MwjeyGukXsBKcWUcvUaTje1QUhcEc2UBMeCBcAoiG4xlmIWE3YUSba1sJvhN9PDsxvLSxbRL1SNbLPKcj8/zCpa1+bGW4CJf6KksZCLcyQrbs7VKW0MJXnbLsWSzVzhduE8sES1qiV8aN7h3PBf4VLuLHqxLHv+lkrP/4t6FuEdJJxOcD2+NgTZQPnwgaKvLQeU3AEmjtMljhWDVPBIEW9i/+KbgXTShY/mEFLXZIVok95LeqI/d+m8fw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=grnkv4fspu4soBcdFSG7OryjtQxO3TJDYTSv1rfc6ZQ=;
- b=QxBZv5u2sxxI5CUvuyKlOV+dOUl0eKLVevwOWfZaF7NX4q44nAEbrp67dhRpNxXkAdeF7mTnDuNP+5ejRnSJRYrCZrmW+EWkr5P0q0EaYnmVKBGtkqANYjDVeKIrJ8ZjSunpXm87mEkcS0JYEngvi1MLRJGxQiQVCex/eNJa/BVsGeNFZ6vn0eD4FeUNFtfMXsfQ4BbOHEcW24Kw4mksNH1/awLH2jPoDqoSdwL3qCLXFQK8vQW/T9GBf7b5N3OaXUFjf3gJrjXvb9Je7T2nbaOD6277VjVOoh3OD9mHt089KClMBAxtRfZmSFkuz5Z73fLkHm8fOtJ4Oalp3I+8hg==
+ bh=6q+jxp4q8tx9J14pB+uRYl8vMY07O5psov60gu/O/JU=;
+ b=ldmLspnnSuDPSKSTkY/Y4t/+z5slaAuF2c6wGKdNct/3mzzeTFJQoSrwsp4CZtAhckfG3ID7ZN3V/DpMSrKra3tZ1g+VO9GNlnsG+6krqbqOABfYHH7KDy9wJqLhJ1bTjcTsIGWHrgFdlaj6kRNpK8wwiHqX0EaroA3iWkaL2g930Sb3N27kCIt7Q1o3OYxfFmmDvbny2UsOyGtWKc8u7PXuBYexlPad5ha0v46UwuMjsQ3mD5/Ca8+wjxUu+8CYn+0+35ALafJbaf31UrAo4EtWXLeVQ9qLgYN0UpoYYHBiKkrCWMRDHlMFHNnLJedNtCnWZERIc/oKoixjpqpGjA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=grnkv4fspu4soBcdFSG7OryjtQxO3TJDYTSv1rfc6ZQ=;
- b=X9GbN8bns33WPyKNerNt+njcXeE2904+StpoQUNdQ3c8ePtRe7AIlnx71AWBwP/AIw8p29sahvHyoAQJp9PRKUsG4Jgueyhr+dlrGBW+GK9tkUansAKBW4MAsiFVLMBIHnbf1SMu/3K0HlsN3SucQ36/xyy397cFirPZdjs3RNo=
-Received: from GV2PR08MB7955.eurprd08.prod.outlook.com (2603:10a6:150:7f::21)
- by PAWPR08MB10923.eurprd08.prod.outlook.com (2603:10a6:102:470::13) with
+ bh=6q+jxp4q8tx9J14pB+uRYl8vMY07O5psov60gu/O/JU=;
+ b=hhhG36iiJjy0xkaGK/jyWiKucVmjRqhNrHFpH4uqfjutw0rzQbZ8s6+O0ehnGsn0IYSvaj36cXdtCDY2+P5WCCKtncaxNeDOCAVAy0WIKttZM/Ug+rES2P+7FF6TCbHPM7INhSd3SRd9asEdhfdgKQD7wXcQjBjixyuH97a1cKMmJRatkR8ZukwHvviCaP1lpxuCkWc9Mh5eSJSuAXPpCxpltutmXjtBqdn5L4roY5+96VSLPgaEJBG0p1QiDvyLFTyrp1C0KvpvUqVIPMfllyigwn4Qoka971s26HYEzEPJmCHA/ZmzIo9FN2TZATyD8SarhTI/6DGawECAWDAymA==
+Received: from PA4PR04MB9485.eurprd04.prod.outlook.com (2603:10a6:102:27d::18)
+ by DU0PR04MB9441.eurprd04.prod.outlook.com (2603:10a6:10:359::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Wed, 15 Jan
- 2025 12:31:05 +0000
-Received: from GV2PR08MB7955.eurprd08.prod.outlook.com
- ([fe80::360d:c6b4:e158:bc33]) by GV2PR08MB7955.eurprd08.prod.outlook.com
- ([fe80::360d:c6b4:e158:bc33%5]) with mapi id 15.20.8356.010; Wed, 15 Jan 2025
- 12:31:05 +0000
-From: Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-CC: "arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>
-Subject: Re: [bug report] SCP: memory corruption in
- scmi_pin_control_list_associations_handler()
-Thread-Topic: [bug report] SCP: memory corruption in
- scmi_pin_control_list_associations_handler()
-Thread-Index: AQHbZzeV+CDngrTrbUCYNR9U12+rHLMXpDaPgAAbeICAAAHc0Q==
-Date: Wed, 15 Jan 2025 12:31:04 +0000
+ 2025 18:42:46 +0000
+Received: from PA4PR04MB9485.eurprd04.prod.outlook.com
+ ([fe80::81e8:f7bb:dbd0:b0dd]) by PA4PR04MB9485.eurprd04.prod.outlook.com
+ ([fe80::81e8:f7bb:dbd0:b0dd%5]) with mapi id 15.20.8335.017; Wed, 15 Jan 2025
+ 18:42:46 +0000
+From: Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+CC: Sudeep Holla <sudeep.holla@arm.com>, Peng Fan <peng.fan@nxp.com>, "Peng
+ Fan (OSS)" <peng.fan@oss.nxp.com>, "ulf.hansson@linaro.org"
+	<ulf.hansson@linaro.org>, "arm-scmi@vger.kernel.org"
+	<arm-scmi@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-pm@vger.kernel.org"
+	<linux-pm@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [EXT] Re: [PATCH] pmdomain: arm: scmi_pm_domain: Initialize state
+ as off
+Thread-Topic: [EXT] Re: [PATCH] pmdomain: arm: scmi_pm_domain: Initialize
+ state as off
+Thread-Index:
+ AQHbZa+EYgINd2mhkUSyLwfM7XAfOLMUuHsAgAAaEzCAACEAAIAAJ0wAgAFKc4CAAAqJcIABIL4AgACYcvA=
+Date: Wed, 15 Jan 2025 18:42:46 +0000
 Message-ID:
- <GV2PR08MB7955D7A98C34CF18520E691BEB192@GV2PR08MB7955.eurprd08.prod.outlook.com>
-References: <Z4eMsp1jo4zlNmpb@stanley.mountain>
- <GV2PR08MB795595222CD06A1F5B60CD0FEB192@GV2PR08MB7955.eurprd08.prod.outlook.com>
- <3b098d5e-5978-4160-9cb0-16cfccbd9bb1@stanley.mountain>
-In-Reply-To: <3b098d5e-5978-4160-9cb0-16cfccbd9bb1@stanley.mountain>
+ <PA4PR04MB9485CC9D9925BB5D23EA629092192@PA4PR04MB9485.eurprd04.prod.outlook.com>
+References: <20250110061346.2440772-1-peng.fan@oss.nxp.com>
+ <Z4TreQ5bA9qiMTgC@bogus>
+ <PAXPR04MB8459F33BCC84CCA8F49F3B60881F2@PAXPR04MB8459.eurprd04.prod.outlook.com>
+ <Z4UZ2Au7KSFMibDW@bogus>
+ <PA4PR04MB94855052830C8F4874237BA6921F2@PA4PR04MB9485.eurprd04.prod.outlook.com>
+ <Z4VLZgAWR7ugDl7W@bogus>
+ <PA4PR04MB9485E9C126E48A088D7E399B921F2@PA4PR04MB9485.eurprd04.prod.outlook.com>
+ <Z4aBkezSWOPCXcUh@bogus>
+ <PA4PR04MB9485507CCC21354B5ED55C3792182@PA4PR04MB9485.eurprd04.prod.outlook.com>
+ <Z4d8nrJy-h9EwzsJ@pluto>
+In-Reply-To: <Z4d8nrJy-h9EwzsJ@pluto>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
-msip_labels:
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
+ header.d=none;dmarc=none action=none header.from=nxp.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: GV2PR08MB7955:EE_|PAWPR08MB10923:EE_
-x-ms-office365-filtering-correlation-id: 48cd43dc-e7e8-491a-78fc-08dd35607acc
-x-checkrecipientrouted: true
-nodisclaimer: true
+x-ms-traffictypediagnostic: PA4PR04MB9485:EE_|DU0PR04MB9441:EE_
+x-ms-office365-filtering-correlation-id: ba24aab2-2566-472c-2dc0-08dd3594677f
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|376014|1800799024|38070700018|7053199007;
 x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?Qb9h+FMwa7hyrTTyNAcLhIvVjU6eABQ2NV5lzqjLLWAUaOgVLVx0J3Rgnt?=
- =?iso-8859-1?Q?RsBCXsu7lPLHsEUQ0xHsttCTSGxHu8/7CpXNo6d0IQp6Yo8rqRenB2vYaG?=
- =?iso-8859-1?Q?KeVPfA5mRX4AlZnrxzo6DCBdY4/x/mDKeqwXLr8NlUpO3DOPZnJCzJf0Jl?=
- =?iso-8859-1?Q?uJOQSpZwgkqYcboMi3l5aqwSsJl6TPhOHz5u9yTkPC3Odw930guxW3lMok?=
- =?iso-8859-1?Q?IVT+HV5TETbAYcrrdQX3Gq+jCC0/ignmVSMWvrQ2DH+aT3kYWdwR8Z6dVp?=
- =?iso-8859-1?Q?9vw6PmGjVQU7acg5GRNBCskpz4Flny6kfSHG097Olyr2f+4STH6ApPQKE0?=
- =?iso-8859-1?Q?NykOW7pLXqBEohYSSlUUrtl2PmZzpzGoiZgVaBuUZt0wEB0YJvVGKulxoD?=
- =?iso-8859-1?Q?hNVAO7gzcRHXYrNPDncGisqh1Ei6P3gcY3YV9WVULPz+X7N+R0yz+ccGm1?=
- =?iso-8859-1?Q?xaQGux9ntnb477yfz1ypOZ1aA63n0HsrJvopK4KqFnD5PRnrIfoWVIQgmT?=
- =?iso-8859-1?Q?2taJHYZPmuqTCSO/tZDVG0fXUlyNYfaL8P7WGpDdhzJpVsfOXuJEciwh6C?=
- =?iso-8859-1?Q?CDFHwAksywAEidUH5Sy7rtMr2qYjOJAfqYfIEVNKgz883DQx34bYUqKJ8q?=
- =?iso-8859-1?Q?KPFGDVwRkuv6xL1NIcltmsszknpNhfDybdqY19hdfhNnwhuYwGgZWzqMhj?=
- =?iso-8859-1?Q?HxRPigR3NS1XPg1vr2WU9qtKuOavOcaK3ULsO+qmqZDvOh/fGKwH+sI2Ar?=
- =?iso-8859-1?Q?aApWMqPBCtkWz64iAppl3QjvSO+q/IjxpFC8Pk175BfN1CJY3MntuxDaGe?=
- =?iso-8859-1?Q?p5WWkbaN1NVd7TIcAlOISLqp/YpaNDiauXHeA7Cu65mBHRR5GfwLbvSVj0?=
- =?iso-8859-1?Q?b4y6QY/oBxSJn5fM/wmSYU5e7yJzc9ATqp8QAeXWizkirOWa9Hlzrj72S1?=
- =?iso-8859-1?Q?wgy60fU5J160wszsile8OhKj8IiuPeyNUJ5o8lJYzjOKAUxHnqaOch/bCG?=
- =?iso-8859-1?Q?iDqDG5alLkz1MDTBmWBqbl4La3JT2Pty63DVeteHe+27vYW8g0xJc9wdJg?=
- =?iso-8859-1?Q?emTmZobcl3wwuELNFZWtD3hPVAAVJCSTKTIwCDKzsaIN6KibGMQJnW+8a4?=
- =?iso-8859-1?Q?3A59Ehp3fNasCPhbdZMUpM2kp97ogoyt7f1E+PIpjSDzHuXYJ+VOvlJcbO?=
- =?iso-8859-1?Q?/W9Bf3YN9+Iw1c/RBO2Q8ZjCjH1pd+WSqtpHS+DnFlGZJPa/6+lzaCNp5a?=
- =?iso-8859-1?Q?XNSRm60hYaepR16k1FKKsApJbQUDBqtwio5094I0MBSckj5xtvRse0M5Oe?=
- =?iso-8859-1?Q?eAg8tynIiZ2NABxCWZgXaQBq4kwRUlaYvVppi0Kej5OSh9TrHlnyAInlS+?=
- =?iso-8859-1?Q?gWooRQQAK7IKW1MdWrteMS3JY6f3jwaShZTCInx32asa1Fr74UttlADVua?=
- =?iso-8859-1?Q?vV4eIFnMnBusGDljMEHmq6pwwcb2K9i87dfEkPu49Li2xuiHdL/skWo9sT?=
- =?iso-8859-1?Q?GHa5ICYysBvKx39NCcUuq8?=
+ =?us-ascii?Q?98VIpBOXm4fjCSXNDMIa+WQmpKFmiqGNLHoaUvXP8wQouuWloYSFX4bt3AQy?=
+ =?us-ascii?Q?mja5dXYXyWaeT6XeAICV+KN7wrzfv3caE2Wr5RvbSaqNJ/cou4gmYdB6E4rn?=
+ =?us-ascii?Q?EkWOlhR4Wojk1kItEcyCSwYK8N3b5bTeKe/g4EohLhA5Ejgm3wZ/ZCu6mdbj?=
+ =?us-ascii?Q?dIBfJnpfEVlmTnAabrO6pM1h1fNGAg0HzxsQ0/hQPrLTQeecA0T9fZAnQO/2?=
+ =?us-ascii?Q?+gCAG1Pzhtv2XtTmuLve1PIKs225Pio4dn/UaEEx6T2BttHncnxONzU9UVId?=
+ =?us-ascii?Q?fcLzGBgJbXwE+/OXD3TmoRuUQxgipUnyAiZNx/wwsGZfQnqxwVukPdWPGyXs?=
+ =?us-ascii?Q?qbNdlKs2Rk8OO15PmL1zg8+kHTIp8aQH2yRW2Rm4XT7SF539nMBXfukOUbky?=
+ =?us-ascii?Q?vcMKkE/+XPdsYsuz/TjToKybh08zTnwNyjGKRBRQ/lNMNWS6GUtSJWljK37+?=
+ =?us-ascii?Q?qheFykK+Dmw5AHI00CenNa1eReDw1cEQrn/vv9u5UxEjfmAozbkFh3oOa3Pj?=
+ =?us-ascii?Q?sOFWY6ei73Mxi1v5/MpyiX2qNPmPzYliaDIAOwFpNEyKUZmEr9Baod2JRGXk?=
+ =?us-ascii?Q?lzIeG5R6ZpLbYn2JxdWrGs/4TRgtZr5mGvz1JQIetJvck2ZTDYOzbbJjR63c?=
+ =?us-ascii?Q?+PJbEKFUCYtWDS8oTTCiS6nc7s3qWjzxhMb5vV/ys0cArvvfm2bQZl4DSiQ0?=
+ =?us-ascii?Q?mBYVJDw7kpOAFhcB5Kp4kmmEWLb20ZnS7IfwQSP2Qte3tOCabyLp6HGogBEI?=
+ =?us-ascii?Q?oExpDNt4pi3OtKMSowvYfGOewrG7NMxK/TMj4L2StwN8/s9nqdSJEkNtRzX9?=
+ =?us-ascii?Q?zCLmemDIOJMgXoQ5FO3hiUSMCYBo4e4fJghxDqsgsiuJ3BNEf1qUouAWRBlr?=
+ =?us-ascii?Q?1iOOOuFvaT1pl438iRKRV7YfCMdOpVgWV+X1R0wU3N/3lj6iBsC0mdJrw3Iw?=
+ =?us-ascii?Q?DFhBejbdzfoNTuHvasRcxEw85efKCfSgvdxFnHDQgx8h4sYJN2p2H7gYKhRU?=
+ =?us-ascii?Q?FNRDi8FncIa8x8k/VgH1u0SEjUfI0KN8EkTJaQdG8vpgRc/TzOOfe0TEJ+sD?=
+ =?us-ascii?Q?QGyXtoqbIPcQ5HvfdzG1tcFHY4BpsafI+MKpPNfkzwr5gch4VdlEWeAepdZs?=
+ =?us-ascii?Q?4w3bQr9EnlWND3TIq4dPXlrVa5+NIrLmpzj+w8QyDFjGHearrB6vtWVl0wvY?=
+ =?us-ascii?Q?HbkZvU9scHnwRd3UAIPWdq/ZZTpTqDbctXMtKGrT90Itx/CsQzZnjAaV9pJ/?=
+ =?us-ascii?Q?UYyPCqA3qteLZ4YJzOJUZWhNR8C+NUpMusUKiDvZ4us6FoTDh5Jpe5Jlpe2+?=
+ =?us-ascii?Q?uYK8lhVb72C40/ujEWiGdoqqWlspD9YHHAPlo/CM4ouZuaXjNjv3SLXRm50k?=
+ =?us-ascii?Q?eMAmJTJxamZtBB9k2fyxtFbEvq77uBSqL3cjYWHXjRsoYH5yvJQCMNI9Dtz+?=
+ =?us-ascii?Q?Bq9v4qxtKUjuUj6KtvfIoIe8cnOWatKn?=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR08MB7955.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9485.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018)(7053199007);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?ve2ZBXmU7lgR6MH7rTdX7maTyg0tvY65zMVaM0TsGidsokTTgxthws7sYa?=
- =?iso-8859-1?Q?jV4ds4XzrGQcdYgn1eBnoG/ErQsFMZFagaHwQgfmAovZINJecxsoqY3nYS?=
- =?iso-8859-1?Q?RhquGZZWhbmgF/Wpag6qojyZKuPsbtChIXwoST9NW5MyHCrmunPvOzH8+/?=
- =?iso-8859-1?Q?ZYubZzxTGV1h1rH50MB9YSET6TUZ5a3Zk1Z9g56F1xIj0Y96yEGI6IlwdH?=
- =?iso-8859-1?Q?3eJrmkVhTewZ8DRLt4D9RldmkPhO5/nE/X6QgXlVpE3iYDOoWC+tT2HHUy?=
- =?iso-8859-1?Q?0PERFFO5vUIou3JqrTh3qW6hg23ZLcEM+kJQ226BIcuyre5oR98JszgM2b?=
- =?iso-8859-1?Q?dYnQ3nhTAhdC3AAJ1H838xQLiJL4oN/b3soF8zP9Zjv410z1kcA/YFJ4wS?=
- =?iso-8859-1?Q?M9ofDKY9DcGS4K3mF1pvRHjWeCi2D3bwK5sj3WK9WeKPpbMustL6IAMOvX?=
- =?iso-8859-1?Q?S1wZC5ReSR28vDdgjvu5VCXaBBiXYYWLIh6K1BuPOnlo1SAKF0WmeaN2/z?=
- =?iso-8859-1?Q?KGZcmCg9IotGGJKitjEI0DNGFvrVTV2A8lDPQwyDVOGm7YrmHRCD3kAR3U?=
- =?iso-8859-1?Q?kMWPI2WrX1urXPVRcmvjPoqLJIFhAr+RsoZUl4JGUni7j34ftpanZ2z7VT?=
- =?iso-8859-1?Q?hQWHB1Q1iptNZHUr/U8laRD1LVW4OMAG9z0WtbfnopCSlFB6H0pVIrO7SO?=
- =?iso-8859-1?Q?LcXLm1H2CwQA9h9NdJbWj3SIfOzAGhTBo0UTILWb7c6rVuOu942NrBP9RX?=
- =?iso-8859-1?Q?EQz7ySLsYegv92Y7R0iJfqtKo9ArnGnPBPmNgJRrneskAWcpBfQVqr25ko?=
- =?iso-8859-1?Q?Fpy9Neo3bvnwg6iosRI4Yzp057XTExr0xt5jh058wQ/ddxZs6BnPSXqI8N?=
- =?iso-8859-1?Q?MdRCsJW2WJlUGghnn7B74193EQGi/g+xYdFiuR0WyDY66YyHYxR7Qw2mha?=
- =?iso-8859-1?Q?4NYByab76JqkaF0W+XtzpDF80fvQpTdxU/V328L69tO4kqxqTRB5C5FfsO?=
- =?iso-8859-1?Q?6/hZLnqbGJZJsOz0zJp+NrXv1PBWWKfHJBj4ruN/17QZYlu2M8NqKmA2h2?=
- =?iso-8859-1?Q?hddtaSKKCyWOuyB8LG3UsQ/0ph8Y3JoxlTTUYfuaZXvfm+YulTNBvXnjiB?=
- =?iso-8859-1?Q?DOQI71kZBs/6mBVbWPvHpJN7noFzN+ZmSE3Ae6MgDb6YYbJgg3/jFEC9/X?=
- =?iso-8859-1?Q?obcbtZ/Cg45AYux3Olu2fXPn5U7HSGpi8g7Njq1FIcgA36PsgYkLbVHj4c?=
- =?iso-8859-1?Q?ZatutC3DOenrk0vJ9hF7h0jutJZZPrL6KUkRg+pZHdAdiB4xxJLjg9/XTm?=
- =?iso-8859-1?Q?uKeOnGb6IhyU8MWRjJO+FNBNo+x3klGIK+llTaupMhM+FzLO3JcJX/NTiD?=
- =?iso-8859-1?Q?66wox/PJ6sw/mWDvIfkmt4vGL7u5C1fmlMVyxVFM5yaCNG9mprUFp9DC85?=
- =?iso-8859-1?Q?1NOP2Quw4FM7VlWu+98vQTYKzu0UnuE6z0S+81ZnpRXEm8Sg4Lk6IU5poi?=
- =?iso-8859-1?Q?K3UvkuhkNffk+Vav4sP9PgwD/4PzvVi1VvkrHEeEE5d0EWh39FS8AV5Gf3?=
- =?iso-8859-1?Q?BWvQwB2JucTWAf1ppdl4GmDT2XLJehDmYAxMzoVvH4jXPB8sRsY2TDUoL1?=
- =?iso-8859-1?Q?W/gwy0Lr5xxbwZbcLuJQr7eH3TzEFY7Och?=
-Content-Type: text/plain; charset="iso-8859-1"
+ =?us-ascii?Q?BhG2N+9Rl4otbn4kALqikHcDo/SQFqscReolsCFZBI963EyWo/mZV93X+k70?=
+ =?us-ascii?Q?f7mpcB5h9EGNU9uFjt6HCn7DT3x/jswtYoq+no6gZZwlKxYJd8Ogv7Xz1uhp?=
+ =?us-ascii?Q?fllynxvra5hBQXWboAbKVZOWgk9EUucrc2p/ZXV70FuWxRJ5CcUOxb+AU5bi?=
+ =?us-ascii?Q?qkFzmK9B2FfVCmrm6lGL2tBRApqfVYTsYsrG7pOe2Fg2gHqfGpA+OVwDxOsZ?=
+ =?us-ascii?Q?iGyHQgkZNQsJSIpnlTzm/YtqQ0zWXLgJL77zWPsM2GgOuNrOotU71XxKnKzL?=
+ =?us-ascii?Q?sKnnz3oBZ2aEaoFOmhD6KEmDi3h8KwEw2B8udo8ChNtME8WDeGA78H6cffXB?=
+ =?us-ascii?Q?35WtmWqHuiHXnWq+ihIU/IMy/VB+aVhGxHC4cTr7BmwSd6AkK6dpR7lFqSNj?=
+ =?us-ascii?Q?J+MgZVQXdRyw9Vuc/3ou9h/OryZkRqIDDKIGznZmCdU2BHq1dumkkpz7G3QF?=
+ =?us-ascii?Q?fnckEbv2teSAUi0Stvf03BqhX0iNrUN0Pec4WRUHYixvNs4+oJD4+iJfFiLI?=
+ =?us-ascii?Q?+6xprXqdrO1Wld7sNEYT4J8ihvtdMRqkRNPAd9FHSqcGwKhj2CcVOSDtZgaI?=
+ =?us-ascii?Q?CP5TbZv0Xw9fEdo+Q9CFzGMDEpghiWyGud5Zwt6SOQ3haWWIo30ZMIDGSNBo?=
+ =?us-ascii?Q?FWKReiLuG//5saz3nSQ/KzSzJjX6Xfc6AtdIvIhw0JESKrzN797ZDlguYYh/?=
+ =?us-ascii?Q?278x9Of4tlYgLjWNjbDdhYWOJeP8PJO+3xpnC1DiRc1VOdBuFOnFqT3Ix9lu?=
+ =?us-ascii?Q?wWsTtFLS4YWbnmh81CeRgzA1Zf9pyK9bp5K7pd/VjclpsDPHckfD+pZ8te2y?=
+ =?us-ascii?Q?KnSC6utHqveFUe0Qp7olI1Uz1LuqPqLjE9uzhcsmQHToWFfEU/yt6g+rUFI+?=
+ =?us-ascii?Q?c12w3mRBrzpvbaLb9/K0DI5R9EIMtf9RMPOERHpb5KCQQNe0rsscCbcYeWT9?=
+ =?us-ascii?Q?edMX2jhn0O5kvdJoIB+qu0J5dJKIk73DjFAPpGyW9i5ORxdH93n4zsm6Nab1?=
+ =?us-ascii?Q?UwpAYgWZe4BeBW2FoErbBB/hNEGuNPbRgZSgSYDJ2YNWX1stDAD4B0ZKeLBR?=
+ =?us-ascii?Q?3/2xtRAa0i/++W0S9q/dl+N1GBHXeTeA4ezf1nuDvV5Bx75MM+/SesdMkhkI?=
+ =?us-ascii?Q?kv2sD097lFkD9dkS7WfxY8/JiB9mPiHQG/RcbcsqVAcZiIh7w6ecFvlL6adS?=
+ =?us-ascii?Q?JQfswuxnTnBHfIuBde+HmtpqGtUhSsgnsi8ocQ+F4GurN+uTMyIqrHO4moVY?=
+ =?us-ascii?Q?gKq8KJfzw56Ufk0nxNJPWhKB59yPmKn2AAEEgNepK73ocId6N/hjm7aWfBwr?=
+ =?us-ascii?Q?m/5sddYy8+hiSigdMvMyVKfi+hd0aepg+4H+7jTZcVmoXZJVhT52aD6QvOqq?=
+ =?us-ascii?Q?uw4JZIEZVEMdglEpuSCwugLPszfgXYaIo9TiEsfl9OHmtK/IItubA7nDPLuC?=
+ =?us-ascii?Q?mzMD08Wl2Fp2zVVUKIU0g2r4HaRhxeeOCiWLFq/D4WjKJO9u098GbhmRT8BL?=
+ =?us-ascii?Q?LfI+VQZOqfOfdq8UfMgwU++JgX39fUD6NXWkvkt7koHrGbjaFxSrD8kWnm8i?=
+ =?us-ascii?Q?0QLE4wo94iFWZiuGezHnHtafgnSrF/F0MwjGlgB3Z6+agXqP9jqid4unbcBg?=
+ =?us-ascii?Q?Dw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -136,100 +147,158 @@ List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: arm.com
+X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR08MB7955.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 48cd43dc-e7e8-491a-78fc-08dd35607acc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2025 12:31:04.6470
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9485.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba24aab2-2566-472c-2dc0-08dd3594677f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2025 18:42:46.3893
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aid8KOVPTLZnvr0PXt1coTQww6oHyrXdrKyOSmUUjkqMG61zkUDHSMmT5cluMPS/3x2oGBGSqqWxLtHcmf+OWg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB10923
+X-MS-Exchange-CrossTenant-userprincipalname: r2tv+yPQ8QkZR9LJWNtW4M+5agCK+nAUEbCTJ5MGWHNFBEgzEVr5nUIhqNMfgtuBgm1QDxiCqNowWf7xuu551duitTSUcqifi4rc9nypKek=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR04MB9441
 
-Hello Dan,
+Hi Cristian,
 
-the name of the variable may be tricky. I agree its current name is payload=
-_size but it would be better to change its name into payload_offset or some=
-thing else.
-the write_payload function using  fwk_str_memcpy which is implementing memo=
-ry copy. it makes a copy of the payload into payload address + offset.
+Regards,
+Ranjani Vaidyanathan
 
-> Ideally this code would write sizeof(return_values) bytes to the start
-> of the buffer and do the transfer.  But we're not passing
-> sizeof(return_values) as a parameter.
-this means that the actual response size will depend on the status of the r=
-esponse if it is successful we will send the whole buffer, otherwise we wil=
-l send just the error code as a return value.
+-----Original Message-----
+From: Cristian Marussi [mailto:cristian.marussi@arm.com]=20
+Sent: Wednesday, January 15, 2025 3:15 AM
+To: Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>; Peng Fan <peng.fan@nxp.com>; Peng =
+Fan (OSS) <peng.fan@oss.nxp.com>; cristian.marussi@arm.com; ulf.hansson@lin=
+aro.org; arm-scmi@vger.kernel.org; linux-arm-kernel@lists.infradead.org; li=
+nux-pm@vger.kernel.org; linux-kernel@vger.kernel.org
+Subject: Re: [EXT] Re: [PATCH] pmdomain: arm: scmi_pm_domain: Initialize st=
+ate as off
 
-I am not sure if it is clear for you otherwise let's plan a meeting and let=
- me clarify more.
+Caution: This is an external email. Please take care when clicking links or=
+ opening attachments. When in doubt, report the message using the 'Report t=
+his email' button
 
-regards,
-khaled Ahmed
 
-________________________________________
-From: Dan Carpenter <dan.carpenter@linaro.org>
-Sent: Wednesday, January 15, 2025 12:14 PM
-To: Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>
-Cc: arm-scmi@vger.kernel.org <arm-scmi@vger.kernel.org>
-Subject: Re: [bug report] SCP: memory corruption in scmi_pin_control_list_a=
-ssociations_handler()
-
-On Wed, Jan 15, 2025 at 11:15:25AM +0000, Khaled Ali Ahmed wrote:
-> Hi Dan,
+On Tue, Jan 14, 2025 at 04:09:13PM +0000, Ranjani Vaidyanathan wrote:
+> Hello Sudeep,
 >
-> write_payload API is a helpful function and can lead to easier and
-> more effective implementation, while we ask the Transport to set an
-> object into a certain offset in a service_id buffer, the main reason
-> for that is that we don't know if we will continue the loop
-> successfully or not.
+> Comments below.
 >
-> after that, we should call respond which will trigger the Transport
-> that the buffer now is completed and please respond whenever you are
-> ready.
+> Regards,
+> Ranjani Vaidyanathan
 >
-> regarding the previous description, I encourage you to use write_payload
-> whenever you can.
+> -----Original Message-----
+> From: Sudeep Holla [mailto:sudeep.holla@arm.com]
+> Sent: Tuesday, January 14, 2025 9:24 AM
+> To: Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>
+> Cc: Peng Fan <peng.fan@nxp.com>; Peng Fan (OSS)=20
+> <peng.fan@oss.nxp.com>; cristian.marussi@arm.com; Sudeep Holla=20
+> <sudeep.holla@arm.com>; ulf.hansson@linaro.org;=20
+> arm-scmi@vger.kernel.org; linux-arm-kernel@lists.infradead.org;=20
+> linux-pm@vger.kernel.org; linux-kernel@vger.kernel.org
+> Subject: Re: [EXT] Re: [PATCH] pmdomain: arm: scmi_pm_domain:=20
+> Initialize state as off
+>
+> Caution: This is an external email. Please take care when clicking=20
+> links or opening attachments. When in doubt, report the message using=20
+> the 'Report this email' button
+>
+>
+> Hi Ranjani,
+>
+> On Mon, Jan 13, 2025 at 07:54:06PM +0000, Ranjani Vaidyanathan wrote:
+> > Hello Sudeep,
+> >
+> > Will try to explain the situation we are facing.
+> > 1. We have multiple agents running, Agent-A is booted up first=20
+> > before Linux is booted and powers up a shared power domain PD-X.
+> > 2. Linux boots and gets the power state of PD-X. And its already ON.
+> > And then PD -X is initialized with a default ON state.
+> > 3. When the driver that needs PD-X  is probed, Linux sees that the=20
+> > power domain status is ON and never makes an SCMI call to power up=20
+> > the PD-X for Linux Agent.
+> > 4. Agent-A now is shutdown/suspends. Linux will crash because the=20
+> > platform disables PD-X because it has no other requests for PD-X.
+> >
+>
+> Thanks for the detailed explanation. I understand the issue now.
+>
+> I would like to discuss if the below alternative approach works for you.
+> We can debate the pros and cons. I see with the approach in this patch pr=
+oposed by Peng we would avoid querying and setting genpd all together durin=
+g the genpd initialisation which is good. But if there are any genpd left o=
+n by the platform or bootloader(same agent), it will not get turned off whe=
+n Linux tries to turn off the unused genpds(IIRC this could be the reason f=
+or the current state of code). While your platform may find sending those c=
+ommands unnecessary, there was some usecase where SCMI platform kept all re=
+sources ON by default for faster boot and expects OSPM to turn off unused r=
+esources. So we need to support both the cases. I hope my below patch shoul=
+d suffice.
+>
+> [RV] Linux can still make the call to disable unused power domains, even =
+if it never explicitly made a request to power it on. The platform will agg=
+regate the request from all agents and will power off the resource if no ot=
+her agent has enabled it. From Linux point of view it has disabled all unus=
+ed power domains.
+> Your patch below may also work, but feels like a workaround to artificial=
+ly (for lack of a better word) enable a resource. And also makes unnecessar=
+y SCMI calls (expensive) for every resource immaterial of it power state (m=
+aybe can be improved by a conditional check).
 >
 
-I get how it could be nice, but it doesn't work.  I am looking
-at transport_write_payload() in particular.
+...sincerely, both of these solutions seem to me hacks/workarounds to count=
+eract the fundamental issue that derives from having allowed (IMPDEF) to im=
+plement the get operations to return the real physical state of a resource =
+instead of its virtual per-agent state as maintained by the platform, while=
+, at the same time, having allowed to implement the set-operations to opera=
+te in a 'virtual-fashion'...
 
->    385          status =3D scmi_pin_control_ctx.scmi_api->write_payload(
->    386              service_id, payload_size, &object_id, sizeof(object_i=
-d));
+...so, when Peng's patch forcibly set the state to OFF on genpd init, you a=
+re indeed artificially forcing the kernel internal state to align with what=
+ would have been the virtual-per-agent state of the resource in your specif=
+ic particular configuration....
+[RV] Perhaps it's a hack. But at boot the state should look like OFF, the a=
+gent should explicitly request those it needs to be ON.=20
 
-In this code we're writing sizeof(object_id) bytes to the middle of the
-buffer.  Nothing in transport_write_payload() is saving the "size" so we
-don't record which bytes have been written to.
+...on the other side Sudeep's proposed patch tries really to play the same =
+trick, just on the other way around, by instead forcibly/artificially align=
+ing the state on the platform side by issuing a redundant ON request to bum=
+p the refcount and take hold of that resource from the Kernel agent point o=
+f view...
 
->    397      return scmi_pin_control_ctx.scmi_api->respond(
->    398          service_id,
->    399          (return_values.status =3D=3D SCMI_SUCCESS) ? (void *)&ret=
-urn_values :
->    400                                                   (void *)&return_=
-values.status,
->    401          (return_values.status =3D=3D SCMI_SUCCESS) ? payload_size=
- :
->    402                                                   sizeof(return_va=
-lues.status));
+... but Peng's proposed patch will broke immediately the moment you have in=
+stead a system with an SCMI-capable bootloader that instead left the resour=
+ce ON for the Kernel to inherit, since the kernel will now forcibly see thi=
+s anyway as OFF, and so you wont be ever be able to switch that resource RE=
+ALLY OFF in the future, if ever needed, because the bootloader/Kernel agent=
+ will never see it as ON in genPD, since, at least in the genPD case, AFAIC=
+S correct me if wrong, there is no callback to peek at the real state later=
+ on:
+so, after the initialization value has been chosen at genpd_init time, genP=
+d subsystem maintains the PD state on its own based on the issued ON/OFF ge=
+nPD requests, so your forced-initial-OFF-state will be, in this specific al=
+ternative scenario, wrong and forever.
+[
+[RV] SCMI-capable bootloader and Linux should be the same logical machine (=
+different agents). And the platform maintains the state per logical machine=
+. So if Linux tries to power off a state that was left powered ON by the bo=
+otloader it should bbe able to.
 
-Ideally this code would write sizeof(return_values) bytes to the start
-of the buffer and do the transfer.  But we're not passing
-sizeof(return_values) as a parameter.
+...I think at least Sudeep's solution could survive this scenario because i=
+t is more general and can cope with both scenarios
 
-Instead, in this code we're passing "payload_size", which is the total
-number of bytes.  So it does the equivalent to
-memcpy(channel_ctx->out->buffer, &return_values, payload_size).  That is
-a read overflow of the return_values struct and it scribbles over the
-data that we copied earlier with the transport_write_payload().
+I know this phys-vs-virtual state is a lost battle at this point, but the I=
+MPDEF possible scenarios that derive from this choice now have to be suppor=
+ted kernel-side as best as we can both ways...with the additional headache =
+that, from the Kernel agent perspective, we cannot infer what kind of IMPDE=
+F get_state is implemented by the platform we are talking to AND various di=
+fferent subsystem in the Linux kernel handle this "initial-state-matter" in=
+ different ways (e.g. see  clocks subsystem)
+[RV] True agree. It would have been good if we had an attribute(s) to defin=
+e what state the platform returns as part of the SCMI API. Perhaps the plat=
+form can return both the agent and physical state.=20
 
-regards,
-dan carpenter
-IMPORTANT NOTICE: The contents of this email and any attachments are confid=
-ential and may also be privileged. If you are not the intended recipient, p=
-lease notify the sender immediately and do not disclose the contents to any=
- other person, use it for any purpose, or store or copy the information in =
-any medium. Thank you.
+Thanks
+Cristian
+
