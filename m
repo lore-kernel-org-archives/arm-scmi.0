@@ -1,110 +1,123 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 986FF20F968;
-	Wed, 15 Jan 2025 11:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51D229A5
+	for <arm-scmi@vger.kernel.org>; Wed, 15 Jan 2025 12:14:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736941177; cv=none; b=n+Ue3pd+dxWUcjeRYktkgELGXSsW3xELEZBCXiNVeT/UdPc+T0j4RgKrWpP5yh8N5JXw1PgDCwv8Csu9zQphxmH0BjLhZDGoVanldJu6IwzEQ6mv50h7u4PqwANeWeTEN+0ZOuYgjWjopjKBrlu/A18QpGW5WX60+6ME7wpAqHQ=
+	t=1736943290; cv=none; b=ezglKuA1ijOzAWX/dH7WmwnI+FN9Q5FH6MKaUFRSoCXBwK0bWAFVMNaFTPy/7ACScd9K/3yps5mmpfE4YVYyHCI6LnZs16pWvuMhYMUYknxHZahQAIfPtWjag+3P70rP6ebLW0V+60xdkwSrVC+vBCMMqyQ9B/SOCOWOmPn1SbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736941177; c=relaxed/simple;
-	bh=fU9LjpnWlPykGUfJlYWRMdEruVigf7TQ5gejulzm53g=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dT78UGC6kHeOFGdY3eCuSB4Jck1923GpG71F9iPXdtGrnDvDSKz+QZ9+QKXEvk88/SMDGafjW3EnX8qWt0Di/P42j5r1OWN3m28tbvEohNuR+/nzZaOPO4rr/ZpzHdhxld1rKkiulKPmmMHKhsbmvWWHbou/8ueBmslsgpW7LlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4AC6512FC;
-	Wed, 15 Jan 2025 03:40:03 -0800 (PST)
-Received: from usa.arm.com (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C75EF3F63F;
-	Wed, 15 Jan 2025 03:39:33 -0800 (PST)
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: arm-scmi@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>,
-	Peng Fan <peng.fan@nxp.com>
-Subject: [PATCH] pmdomain: arm: scmi_pm_domain: Send an explicit request to set the current state
-Date: Wed, 15 Jan 2025 11:39:31 +0000
-Message-Id: <20250115113931.1181309-1-sudeep.holla@arm.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1736943290; c=relaxed/simple;
+	bh=GGBi3dQpAlZWyQyPb1N312ERdMLTRtLjiRyGTQVUtVA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AaLET5dqWLyeVZWkaG1C84XFZ/P+iIikuzagoyw+2+cgyIUuEIJRoFfyBBII3BgJd6kNkk8IV2rkgmPZOZV+9ULUM58A8DrLuByaPLvWHnx5KQNT3PW1WJg1N9IKjfOlDBC2n/6tjDZ3Hzz21usaUyRjmD1+nl1PR4syZ/cYLvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=utdrxezD; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="utdrxezD"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-aa66c1345caso180242366b.3
+        for <arm-scmi@vger.kernel.org>; Wed, 15 Jan 2025 04:14:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736943287; x=1737548087; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=w5TTCaUa0LAPxlj+dDgnj3DEeFReNEc3gkBFPCAg3tg=;
+        b=utdrxezDSwn8VDsSJMB+/oYHQLk751J5iY2ALlLBxlLgixymETiqscRAtdGp7mZgkU
+         iHmvudu8d2IUx0zc87lnTlkMvfnTlEAQZnwwWf0Jh2c2Ku+BPktwsb7g3FNWwYvYsxyl
+         L7F3JLqLDPSV21gn6FezJiB2MchE+1jZ9srC9u2bXH+dFiQOAhbIBF1zPN2nUAZHgVvK
+         b3i02NzwEerLSNXya09fKAnEhhWdBp2/1aRtA1hdnzia3YZ2UtPXpWqNcqUps2g5E700
+         VHsiSzYrxluUA9fy1AcZyphZhCYH3EsUlLHUxWu4fMtSu27VaTA4yd9JKXHnFxtrjwrU
+         UmbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736943287; x=1737548087;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w5TTCaUa0LAPxlj+dDgnj3DEeFReNEc3gkBFPCAg3tg=;
+        b=HHxa9u2qGJ5qo2WSlyWY1Z9VcG4U/PL/omunlNb+RWMgLmBNvPHO27LVSTrM/yedsf
+         Mfwj+Zhefp+HhD26grqftZQJzC7+VTVc2R7gBF9dg1YRuWwB6MthmwLqJ53isCvd4geC
+         cyBpElkjmnQXvCl7kjeGWRCmUp4a+vcPLcKZG6wPmrKQNxjRgbvGy29NM6vl1eFkP1yn
+         IjFWHEX47SVM/fYqVR5QC5MMk8v5WqtCguqBIlS4/Kap2nJtzqk8rhmusEg3ml2nFW1e
+         HBMFNoTmGD5aXkNOqebTPKVhXWkrQEV/89pHsiW8l32rWk7jd9Wy3EX46Hh4MSrx6DT6
+         xCpw==
+X-Gm-Message-State: AOJu0YzwkofMWEzj4UtWvMgvaaxjPJTKUMozfKZTfAGSwwHskh2QY1kK
+	OLHNIGFYdGV0QIjfjjC96kMLkYR7jw6iCEwjPqJhFg/tpXtH5ES/ci6wrb0UJJJtvAYsQrlmxgG
+	L
+X-Gm-Gg: ASbGnct8y3nyurRgVAezbCjT2ux99Pvc6zlzZUcRa4fGBgx9s//QXjCgoBoX9SVMVQg
+	rM7BlsjIccU+tadZelK5z6PIvYfWY6nLk4F1xvgtsX/fQ84Lkfs6mHBZ1+nh0TkIAUvjvBNdo7A
+	LYiJ1Nyq3fxcdCNdXCqaBxL0rxFymqZ3VQhVHEudpbKdAzaPvrlRtuUv56n8VddVgM/lmH+0axn
+	k8MMyXZno5Lh7WDGoYEVMhmO5PlnaZFtmZluxDMrGdmnleOnuSebZNg5Hgn1A==
+X-Google-Smtp-Source: AGHT+IELmNPBRZF/QBmUQiDZ99fWBsqMUVWC97bSL7c9jzotcNUv/RJPDbb/Mc9VJ5aJl81MG9mnpA==
+X-Received: by 2002:a17:907:2d24:b0:aa6:90f1:a9bb with SMTP id a640c23a62f3a-ab2ab6c6738mr2910599866b.24.1736943286972;
+        Wed, 15 Jan 2025 04:14:46 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c95b09b2sm755465366b.146.2025.01.15.04.14.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jan 2025 04:14:46 -0800 (PST)
+Date: Wed, 15 Jan 2025 15:14:43 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>
+Cc: "arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>
+Subject: Re: [bug report] SCP: memory corruption in
+ scmi_pin_control_list_associations_handler()
+Message-ID: <3b098d5e-5978-4160-9cb0-16cfccbd9bb1@stanley.mountain>
+References: <Z4eMsp1jo4zlNmpb@stanley.mountain>
+ <GV2PR08MB795595222CD06A1F5B60CD0FEB192@GV2PR08MB7955.eurprd08.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <GV2PR08MB795595222CD06A1F5B60CD0FEB192@GV2PR08MB7955.eurprd08.prod.outlook.com>
 
-On a system with multiple active SCMI agents, one agent(other than OSPM/
-Linux or bootloader) would request to turn on a shared power domain
-before the Linux boots/initialise the genpds. So when the Linux boots
-and gets the power state as already ON, it just registers the genpd with
-a default ON state.
+On Wed, Jan 15, 2025 at 11:15:25AM +0000, Khaled Ali Ahmed wrote:
+> Hi Dan,
+> 
+> write_payload API is a helpful function and can lead to easier and
+> more effective implementation, while we ask the Transport to set an
+> object into a certain offset in a service_id buffer, the main reason
+> for that is that we don't know if we will continue the loop
+> successfully or not.
+>
+> after that, we should call respond which will trigger the Transport
+> that the buffer now is completed and please respond whenever you are
+> ready.
+> 
+> regarding the previous description, I encourage you to use write_payload
+> whenever you can.
+> 
 
-However, when the driver that needs this shared power domain is probed
-genpd sees that the power domain status is ON and never makes any SCMI
-call to power it up which is correct. But, since Linux didn't make an
-explicit request to turn on the shared power domain, the SCMI platform
-firmware will not know if the OSPM agent is actively using it.
+I get how it could be nice, but it doesn't work.  I am looking
+at transport_write_payload() in particular.
 
-Suppose the other agent that requested the shared power domain to be
-powered ON requests to power it OFF as it no longer needs it, the SCMI
-platform firmware needs to turn it off if there are no active users of
-it which in the above scenaro is the case.
+>    385          status = scmi_pin_control_ctx.scmi_api->write_payload(
+>    386              service_id, payload_size, &object_id, sizeof(object_id));
 
-As a result of SCMI platform firmware turning off the resource, OSPM/
-Linux will crash the moment as it expects the shared power domain to be
-powered ON.
+In this code we're writing sizeof(object_id) bytes to the middle of the
+buffer.  Nothing in transport_write_payload() is saving the "size" so we
+don't record which bytes have been written to.
 
-Send an explicit request to set the current state when setting up the
-genpd power domains so that OSPM registers its vote in the power domain
-state with the SCMI platform firmware.
+>    397      return scmi_pin_control_ctx.scmi_api->respond(
+>    398          service_id,
+>    399          (return_values.status == SCMI_SUCCESS) ? (void *)&return_values :
+>    400                                                   (void *)&return_values.status,
+>    401          (return_values.status == SCMI_SUCCESS) ? payload_size :
+>    402                                                   sizeof(return_values.status));
 
-The other option is to not read the state and set the genpds as default
-OFF, but it can't handle the scenario on certain platforms where SCMI
-platform keeps all the power domains turned ON by default for faster boot
-(or any other such variations) and expect the OSPM to turn off the unused
-domains if power saving is required.
+Ideally this code would write sizeof(return_values) bytes to the start
+of the buffer and do the transfer.  But we're not passing
+sizeof(return_values) as a parameter.
 
-Cc: Ulf Hansson <ulf.hansson@linaro.org>
-Link: https://lore.kernel.org/all/Z4aBkezSWOPCXcUh@bogus
-Reported-by: Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>
-Reported-by: Peng Fan <peng.fan@nxp.com>
-Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
----
- drivers/pmdomain/arm/scmi_pm_domain.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Instead, in this code we're passing "payload_size", which is the total
+number of bytes.  So it does the equivalent to
+memcpy(channel_ctx->out->buffer, &return_values, payload_size).  That is
+a read overflow of the return_values struct and it scribbles over the
+data that we copied earlier with the transport_write_payload().
 
-Hi Ulf,
-
-We need your feedback or suggestions for better solution on this matter.
-Let us know if we can do something better with the genpd's help to resolve
-this issue.
-
-Regards,
-Sudeep
-
-diff --git a/drivers/pmdomain/arm/scmi_pm_domain.c b/drivers/pmdomain/arm/scmi_pm_domain.c
-index a7784a8bb5db..86b531e15b85 100644
---- a/drivers/pmdomain/arm/scmi_pm_domain.c
-+++ b/drivers/pmdomain/arm/scmi_pm_domain.c
-@@ -96,6 +96,14 @@ static int scmi_pm_domain_probe(struct scmi_device *sdev)
- 			continue;
- 		}
- 
-+		/*
-+		 * Register the explicit power on request to the firmware so
-+		 * that it is tracked as used by OSPM agent and not
-+		 * accidentally turned off with OSPM's knowledge
-+		 */
-+		if (state == SCMI_POWER_STATE_GENERIC_ON)
-+			power_ops->state_set(ph, i, state);
-+
- 		scmi_pd->domain = i;
- 		scmi_pd->ph = ph;
- 		scmi_pd->name = power_ops->name_get(ph, i);
--- 
-2.34.1
+regards,
+dan carpenter
 
