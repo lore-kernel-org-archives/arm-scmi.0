@@ -1,46 +1,65 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AAFC1EBFE8;
-	Wed, 15 Jan 2025 09:15:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ACAF1E7C16
+	for <arm-scmi@vger.kernel.org>; Wed, 15 Jan 2025 10:23:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736932523; cv=none; b=Ud/XPp8G7dBZwjolckWzK3zZIQ+rdoVUeqGJMaB4WkrlbVE0p43NljIJchQhXB57oXf42QXNSGfHSt3q1+5l3Yf2g4ZgNYRiWXRAfsgV1lvqCSI2J5kkaeNxKm4oXBSLsP5HFCZIZpDMP75QDoP0vTzXKMviG2rJSXHXN/bcesQ=
+	t=1736936634; cv=none; b=AaGVPLigdtEeuIJaKmMvnHfn8nsgGQVTLwkH4/OA9XriOBXVEW2hkv5uFHO4bri3qBlJ7SRA1+kijk0hE5Ah/VfsqZjY2spoIqfQ9He8x84d370hOZKg+AmeVsuR5Sn8hGp5p3O6hXjUza5PgNP/lkip0Bg6vWtknLY6/su3z/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736932523; c=relaxed/simple;
-	bh=L3mwxvUzQv16jk5DRpOsgk8RDtoolyGpzWWfW5zeRcI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NO8eGF25NjaWhbOcp5cVf9VFRxQNsjafgADcXMOg0UVojV0t/vaJ7FSWgOa1zQlu0B+aBNlNfPhZ4tAvLr4btP92qWPxqF+IqBjj8JqMAGfnWeHhYZet1ULORXj9dP2jt8vcxn9XkaAKiLTFdEECdWZE6aLDrwTRz3ZuXvzZ6S8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A92EC12FC;
-	Wed, 15 Jan 2025 01:15:47 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E06743F77D;
-	Wed, 15 Jan 2025 01:15:17 -0800 (PST)
-Date: Wed, 15 Jan 2025 09:15:10 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>, Peng Fan <peng.fan@nxp.com>,
-	"Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-	"cristian.marussi@arm.com" <cristian.marussi@arm.com>,
-	"ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
-	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [EXT] Re: [PATCH] pmdomain: arm: scmi_pm_domain: Initialize
- state as off
-Message-ID: <Z4d8nrJy-h9EwzsJ@pluto>
-References: <20250110061346.2440772-1-peng.fan@oss.nxp.com>
- <Z4TreQ5bA9qiMTgC@bogus>
- <PAXPR04MB8459F33BCC84CCA8F49F3B60881F2@PAXPR04MB8459.eurprd04.prod.outlook.com>
- <Z4UZ2Au7KSFMibDW@bogus>
- <PA4PR04MB94855052830C8F4874237BA6921F2@PA4PR04MB9485.eurprd04.prod.outlook.com>
- <Z4VLZgAWR7ugDl7W@bogus>
- <PA4PR04MB9485E9C126E48A088D7E399B921F2@PA4PR04MB9485.eurprd04.prod.outlook.com>
- <Z4aBkezSWOPCXcUh@bogus>
- <PA4PR04MB9485507CCC21354B5ED55C3792182@PA4PR04MB9485.eurprd04.prod.outlook.com>
+	s=arc-20240116; t=1736936634; c=relaxed/simple;
+	bh=aUC4qFVQKiLOyaTvuP1OmDPNLIoiWg60XjyQYi8xfGE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=meCWwwlnasVc9f2qOBY8IMnwD91DSRr/Y9+H3j5eWoTt04OQqOjsl0VWUm5VNYMvkTYYLC+5TQD0Q62EGBskIlisIY/loE7udk2kbwXPl4gwYpxqehjLktnykyc+Vw2y9+BrV4173kB02XHH8yLDfGmyNfsWwGtr4etMZ9X7k3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nso73RhA; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nso73RhA"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5d3cf094768so11298929a12.0
+        for <arm-scmi@vger.kernel.org>; Wed, 15 Jan 2025 02:23:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736936630; x=1737541430; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0w/at+4EbUycRrIa7IiF/HsXL0UzAxkhc8RC9oWlF18=;
+        b=nso73RhAv2iDGmOLkFJ0tqTcJwtGXIGaCYnPpDREnwegAZClEqleTHAkkIzke/FVtj
+         4x083IHBTR90/uJXfqbqnKQm4EpVyn4LHaH2rb000KPu5Eyx4wGiMrkjyzV8utYThy9w
+         pcQ8OYjuRFHEZZN6uzX/yvhcR5cgzMDcvXDeQJe5cSFiSet7zTA9v4wFBoL93Jr5jd9V
+         FXcAvaII/NMl0ZhrMqCE5XiXfOfnAkBfzw1jIn+rctH/p8oHyICJNkepUXKRfjGyJhPv
+         m9ZE5EpYAh120YHXSwfuJ5ccS6GY77KN65YnQBVIw4z5YRaX9Mc5aogULzCV6QgEdd92
+         sRYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736936630; x=1737541430;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0w/at+4EbUycRrIa7IiF/HsXL0UzAxkhc8RC9oWlF18=;
+        b=lafmQxsbPK+gnvmVmyBW4IHZtcl3YQ65Bt+NFYQxl2T/y05dpr+Gf79SCZhw1Fsx7V
+         EvuqE+VKWXID1322JtQLLq9bSIX+tbCmD1oxt6cVuMSzQ0afah91hndG1tGe98PqR8xQ
+         CGHoV56QyflUVa5sY25OaZoEC8iNOroAdeatCwlfzvGIEk8MK7qF5UBVbTR6+IU3609B
+         m0t4PvtHkPJJEhmkcm6lP8TneioCzaGjIN1IVjK+iob+OT8YgrlNYbfO5lYY0vmdD5IR
+         ffj0YqGEBbZx6bMc3fV15FEFLGY32HALvTYwJjSPYZZXP9y7lkqLitm21Oq+43mC8ATa
+         2yUQ==
+X-Gm-Message-State: AOJu0YzCUPmEg7iaWI8dilp6NNt+uvzJawGNztQvvueUmmvmCKhfImwr
+	nwLJ9pga9tyWoGtTq+HQCjizbxAoCQIrEPwuiO/U9bvDMwGyOLm7z++eYfZNML4=
+X-Gm-Gg: ASbGncvqKHjKgQ94AHrJzRqHyewB+iEEFRYjTmaoucMZOmoOaISO8HNEEc4pgMIWH8R
+	p6iQjpEBS+2igh2udinNO62ma1otklLD6MLH/oY+vEuqBsgpEvDBGdQT+mIOZRzYHd8mJnQOawB
+	SmIG51vMit35wPtOatl7V8ggOUpdsyxHKQZOfUq/Qt0YzJZnl+ToMFPVe6PcG9RO9CcIS/aKMqM
+	VrEJdVXBqxUj6iyUtblBpqQDZAQq0ujdsr8yYJDkZ0zRbDaxdLgUyvASZ2ImA==
+X-Google-Smtp-Source: AGHT+IHu4CVPRf+xzoCevsUM3ypGTYXt7GGx1KRA73S/eBvKJmq2Oi97K7pWp3PvxJR5KbuTHWi8Ag==
+X-Received: by 2002:a05:6402:440a:b0:5da:1544:7733 with SMTP id 4fb4d7f45d1cf-5da15447abfmr688882a12.9.1736936630389;
+        Wed, 15 Jan 2025 02:23:50 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d99008c294sm7259402a12.15.2025.01.15.02.23.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jan 2025 02:23:49 -0800 (PST)
+Date: Wed, 15 Jan 2025 13:23:46 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>
+Cc: "arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>
+Subject: [bug report] SCP: memory corruption in
+ scmi_pin_control_list_associations_handler()
+Message-ID: <Z4eMsp1jo4zlNmpb@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -49,92 +68,124 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PA4PR04MB9485507CCC21354B5ED55C3792182@PA4PR04MB9485.eurprd04.prod.outlook.com>
 
-On Tue, Jan 14, 2025 at 04:09:13PM +0000, Ranjani Vaidyanathan wrote:
-> Hello Sudeep,
-> 
-> Comments below.
-> 
-> Regards,
-> Ranjani Vaidyanathan
-> 
-> -----Original Message-----
-> From: Sudeep Holla [mailto:sudeep.holla@arm.com] 
-> Sent: Tuesday, January 14, 2025 9:24 AM
-> To: Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>
-> Cc: Peng Fan <peng.fan@nxp.com>; Peng Fan (OSS) <peng.fan@oss.nxp.com>; cristian.marussi@arm.com; Sudeep Holla <sudeep.holla@arm.com>; ulf.hansson@linaro.org; arm-scmi@vger.kernel.org; linux-arm-kernel@lists.infradead.org; linux-pm@vger.kernel.org; linux-kernel@vger.kernel.org
-> Subject: Re: [EXT] Re: [PATCH] pmdomain: arm: scmi_pm_domain: Initialize state as off
-> 
-> Caution: This is an external email. Please take care when clicking links or opening attachments. When in doubt, report the message using the 'Report this email' button
-> 
-> 
-> Hi Ranjani,
-> 
-> On Mon, Jan 13, 2025 at 07:54:06PM +0000, Ranjani Vaidyanathan wrote:
-> > Hello Sudeep,
-> >
-> > Will try to explain the situation we are facing.
-> > 1. We have multiple agents running, Agent-A is booted up first before 
-> > Linux is booted and powers up a shared power domain PD-X.
-> > 2. Linux boots and gets the power state of PD-X. And its already ON. 
-> > And then PD -X is initialized with a default ON state.
-> > 3. When the driver that needs PD-X  is probed, Linux sees that the 
-> > power domain status is ON and never makes an SCMI call to power up the 
-> > PD-X for Linux Agent.
-> > 4. Agent-A now is shutdown/suspends. Linux will crash because the 
-> > platform disables PD-X because it has no other requests for PD-X.
-> >
-> 
-> Thanks for the detailed explanation. I understand the issue now.
-> 
-> I would like to discuss if the below alternative approach works for you.
-> We can debate the pros and cons. I see with the approach in this patch proposed by Peng we would avoid querying and setting genpd all together during the genpd initialisation which is good. But if there are any genpd left on by the platform or bootloader(same agent), it will not get turned off when Linux tries to turn off the unused genpds(IIRC this could be the reason for the current state of code). While your platform may find sending those commands unnecessary, there was some usecase where SCMI platform kept all resources ON by default for faster boot and expects OSPM to turn off unused resources. So we need to support both the cases. I hope my below patch should suffice.
-> 
-> [RV] Linux can still make the call to disable unused power domains, even if it never explicitly made a request to power it on. The platform will aggregate the request from all agents and will power off the resource if no other agent has enabled it. From Linux point of view it has disabled all unused power domains. 
-> Your patch below may also work, but feels like a workaround to artificially (for lack of a better word) enable a resource. And also makes unnecessary SCMI calls (expensive) for every resource immaterial of it power state (maybe can be improved by a conditional check). 
-> 
+I'm not sure how scmi_api->write_payload() is supposed to work and
+I'm getting memory corruption in scmi_pin_control_list_associations_handler().
 
-...sincerely, both of these solutions seem to me hacks/workarounds to
-counteract the fundamental issue that derives from having allowed (IMPDEF)
-to implement the get operations to return the real physical state of a
-resource instead of its virtual per-agent state as maintained by the platform,
-while, at the same time, having allowed to implement the set-operations to
-operate in a 'virtual-fashion'...
+module/scmi_pin_control/src/mod_scmi_pin_control.c
+   309  static int scmi_pin_control_list_associations_handler(
+   310      fwk_id_t service_id,
+   311      const uint32_t *payload)
+   312  {
+   313      const struct scmi_pin_control_list_associations_a2p *parameters;
+   314      uint32_t payload_size;
+   315      uint16_t identifiers_count;
+   316      uint16_t total_number_of_associations;
+   317      uint16_t remaining_associations;
+   318      uint16_t identifier_index;
+   319      size_t buffer_allowed_identifiers;
+   320      uint16_t mapped_identifier;
+   321  
+   322      int status;
+   323  
+   324      struct scmi_pin_control_list_associations_p2a return_values = {
+   325          .status = (int32_t)SCMI_GENERIC_ERROR,
+   326          .flags = 0,
+   327      };
+   328  
+   329      payload_size = (uint32_t)sizeof(return_values);
+   330  
+   331      parameters = (const struct scmi_pin_control_list_associations_a2p *)payload;
+   332  
+   333      status = map_identifier(parameters->identifier, &mapped_identifier);
+   334  
+   335      if (status != FWK_SUCCESS) {
+   336          return_values.status = SCMI_NOT_FOUND;
+   337          goto exit;
+   338      }
+   339  
+   340      status = scmi_pin_control_ctx.pinctrl_api->get_total_number_of_associations(
+   341          mapped_identifier, parameters->flags, &total_number_of_associations);
+   342      if (status != FWK_SUCCESS) {
+   343          return_values.status = SCMI_NOT_FOUND;
+   344          goto exit;
+   345      }
+   346  
+   347      if (parameters->index >= total_number_of_associations) {
+   348          return_values.status = SCMI_NOT_FOUND;
+   349          goto exit;
+   350      }
+   351  
+   352      remaining_associations = total_number_of_associations - parameters->index;
+   353  
+   354      status = number_of_elements_allowed_in_payload(
+   355          service_id,
+   356          sizeof(struct scmi_pin_control_list_associations_p2a),
+   357          sizeof(uint16_t),
+   358          (size_t *)&buffer_allowed_identifiers);
+   359      if (status != FWK_SUCCESS) {
+   360          goto exit;
+   361      }
+   362  
+   363      identifiers_count = (uint16_t)FWK_MIN(
+   364          buffer_allowed_identifiers, remaining_associations);
+   365  
+   366      return_values.flags = identifiers_count;
+   367      return_values.flags |= SHIFT_LEFT_BY_POS(
+   368          (remaining_associations - identifiers_count),
+   369          NUM_OF_REMAINING_ELEMENTS_POS);
+   370  
+   371      for (identifier_index = 0; identifier_index < identifiers_count;
+   372           identifier_index++) {
+   373          uint16_t object_id;
+   374  
+   375          status = scmi_pin_control_ctx.pinctrl_api->get_list_associations(
+   376              mapped_identifier,
+   377              parameters->flags,
+   378              (parameters->index + identifier_index),
+   379              &object_id);
+   380          if (status != FWK_SUCCESS) {
+   381              return_values.status = SCMI_NOT_FOUND;
+   382              goto exit;
+   383          }
+   384  
+   385          status = scmi_pin_control_ctx.scmi_api->write_payload(
+   386              service_id, payload_size, &object_id, sizeof(object_id));
 
-...so, when Peng's patch forcibly set the state to OFF on genpd init, you
-are indeed artificially forcing the kernel internal state to align with
-what would have been the virtual-per-agent state of the resource in your
-specific particular configuration....
+This code writes the u16 object id to the correct place.  It happens
+in transport_write_payload()
 
-...on the other side Sudeep's proposed patch tries really to play the same
-trick, just on the other way around, by instead forcibly/artificially aligning
-the state on the platform side by issuing a redundant ON request to bump the
-refcount and take hold of that resource from the Kernel agent point of view...
+   387          if (status != FWK_SUCCESS) {
+   388              goto exit;
+   389          }
+   390  
+   391          payload_size += (uint32_t)sizeof(object_id);
+   392      }
+   393  
+   394      return_values.status = (int32_t)SCMI_SUCCESS;
+   395  
+   396  exit:
+   397      return scmi_pin_control_ctx.scmi_api->respond(
+   398          service_id,
+   399          (return_values.status == SCMI_SUCCESS) ? (void *)&return_values :
+   400                                                   (void *)&return_values.status,
+   401          (return_values.status == SCMI_SUCCESS) ? payload_size :
 
-... but Peng's proposed patch will broke immediately the moment you have
-instead a system with an SCMI-capable bootloader that instead left the
-resource ON for the Kernel to inherit, since the kernel will now forcibly
-see this anyway as OFF, and so you wont be ever be able to switch that resource
-REALLY OFF in the future, if ever needed, because the bootloader/Kernel agent
-will never see it as ON in genPD, since, at least in the genPD case, AFAICS
-correct me if wrong, there is no callback to peek at the real state later on:
-so, after the initialization value has been chosen at genpd_init time, genPd
-subsystem maintains the PD state on its own based on the issued ON/OFF genPD
-requests, so your forced-initial-OFF-state will be, in this specific alternative
-scenario, wrong and forever.
+But this payload_size will overwrite it again with data from beyond
+the end of the return_values struct.  I don't really understand how
+write payload is supposed to work.  Maybe we need to create a different
+type of ->done() function pointer so that we could call ->write_payload()
+in a loop and then call ->done() to actually send the data?
 
-...I think at least Sudeep's solution could survive this scenario
-because it is more general and can cope with both scenarios
+For now, I've just removed the ->write_payload() and done send the
+response using ->respond() with an allocated buffer and that solves
+my issues.
 
-I know this phys-vs-virtual state is a lost battle at this point, but the
-IMPDEF possible scenarios that derive from this choice now have to be supported
-kernel-side as best as we can both ways...with the additional headache that,
-from the Kernel agent perspective, we cannot infer what kind of IMPDEF get_state
-is implemented by the platform we are talking to AND various different
-subsystem in the Linux kernel handle this "initial-state-matter" in
-different ways (e.g. see  clocks subsystem)
+regards,
+dan carpenter
 
-Thanks
-Cristian
+   402                                                   sizeof(return_values.status));
+   403  }
+
+
 
