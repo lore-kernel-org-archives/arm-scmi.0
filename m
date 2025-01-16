@@ -1,34 +1,33 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B69022CA0D;
-	Thu, 16 Jan 2025 16:27:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5B558635B;
+	Thu, 16 Jan 2025 16:29:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737044864; cv=none; b=IUwZyLtgnclcnxH5oiHMlfZekPmU1O+tUSMqQmM8YkTU2/4d7YC/nXmX8Vo4X6DDKCzIESoyKa5WcQkw4zf4wL8msruFUiH9dLL+Kar+1OxQ3lItVzl+K/G7yTYvVjpO90I0FjfLCrTMwc0FPjHsrUzqkn/YNIbeuHQw9JSyKiE=
+	t=1737044970; cv=none; b=lVbFMZjTsS6q8g7uhcZoXT/3RkVakQnweTJX+R56sMDl7HUMpL8jq6+KyF89MNHD3TCYoB96572BUCp4u/+1fJLYC2VkeUfcQhm8G4U6oebtS1gXO8KePdqF4SQoCTNQj4qOxGNlR+VQqYyyuD7CpSK4OP9wdBa7KVZGckuvCiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737044864; c=relaxed/simple;
-	bh=o0erlLK1NLCr2aDLz7jk+zGn8qGKRBoCvoEtZ3J6G9I=;
+	s=arc-20240116; t=1737044970; c=relaxed/simple;
+	bh=CGIav0E83RUbfKK7U/4dppNEaAQ9rTIVebK8bo2gu/s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t1bU08VQ0bwkELGLuQ7eChTYpAXCfZpfjml5VZt1EfeUbVLzwpBmu66QTZz5GVSe9khhGhEZD2fClkK2M1vP3GgSfRzB/SSEeOluEVPZTHSpFJhDTxBGwjyuo0snhFMQL2Z3EmEVxreVWAORwh37qYJhL24mei3ELiNhJ2+G05g=
+	 Content-Type:Content-Disposition:In-Reply-To; b=lDIAMSv+oW14qG5PDuorYJD2Ktz1NhY9YGoPjIDJBnk3FnROG61t/qaecc32qVX62Dbj47gDjrOQm0JlBVb5c+TcI88CCUg9qOer8NxP5Az/kdqg0RlegIhJWfVcC69Ddf26BX3eNCH7sQdP73n+fWsuiJ8dtY1/F/r7UgGSt3o=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 90AC81007;
-	Thu, 16 Jan 2025 08:28:08 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 285FB3F673;
-	Thu, 16 Jan 2025 08:27:39 -0800 (PST)
-Date: Thu, 16 Jan 2025 16:27:36 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 951BD1007;
+	Thu, 16 Jan 2025 08:29:56 -0800 (PST)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 39DB03F673;
+	Thu, 16 Jan 2025 08:29:27 -0800 (PST)
+Date: Thu, 16 Jan 2025 16:29:24 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
 To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Sudeep Holla <sudeep.holla@arm.com>, arm-scmi@vger.kernel.org,
-	linux-pm@vger.kernel.org,
+Cc: arm-scmi@vger.kernel.org, linux-pm@vger.kernel.org,
 	Cristian Marussi <cristian.marussi@arm.com>,
 	Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>,
 	Peng Fan <peng.fan@nxp.com>
 Subject: Re: [PATCH] pmdomain: arm: scmi_pm_domain: Send an explicit request
  to set the current state
-Message-ID: <Z4kzeLB6p6e45bhk@pluto>
+Message-ID: <Z4kz5MvjSCK6KTT0@bogus>
 References: <20250115113931.1181309-1-sudeep.holla@arm.com>
  <CAPDyKFrrdkBAPBw5JOv5HLnOj2L=6ZjE+O7h8N3MFC64ebcNEg@mail.gmail.com>
 Precedence: bulk
@@ -81,8 +80,6 @@ On Thu, Jan 16, 2025 at 04:54:44PM +0100, Ulf Hansson wrote:
 > > Reported-by: Peng Fan <peng.fan@nxp.com>
 > > Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
 > 
-HI Ulf,
-
 > I read up on the discussion and it looks like there is not really a
 > simple solution here.
 > 
@@ -90,20 +87,61 @@ HI Ulf,
 > power-domain powered-on for the kernel, the additional call to
 > ->state_set() *could* bump the usagecount in the SCMI FW, forever
 > leaving the power-domain on.
+>
+
+IIUC, the refcount in firmware differs from the one in the kernel. It is
+refcount per agent i.e. it is really just a kind of boolean to indicate if
+the agent is active user of the resource. So if the bootloader and the Linux
+being the same agent request to be turned on without a request to turn off
+doesn't mean the refcount is set to 2 and Linux needs to turn off twice.
+This is just my opinion and understanding.
+
+> I guess this problem only exists for power-domains being shared across
+> scmi agents. Perhaps some kind of configuration flag can help us to
+> determine what to do?
+>
+
+While I can't disagree, there is also a thought that OS shouldn't be aware
+of that detail for equally valid reasons. I am not sure if we can get that
+added in the spec.
+
+> > ---
+> >  drivers/pmdomain/arm/scmi_pm_domain.c | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> >
+> > Hi Ulf,
+> >
+> > We need your feedback or suggestions for better solution on this matter.
+> > Let us know if we can do something better with the genpd's help to resolve
+> > this issue.
 > 
+> At initialization, genpd tries to get the correct state of the HW. If
+> the power-domain is on, genpd believes that it will stay on until it
+> requests it to be powered-off.
+>
 
-TWell, in theory, this should NOT be the case in the SCMI world since
-the resource accounting is supposed to happen per-agent...so multiple
-ONs from the same agent should be only accounted as ONE request from
-agent_A, because the assumption is that multiple requests from the same
-agent wouldl have already been filtered out from within the agent
-frameowrks itself, like genPD of CLock...so the platform really takes
-care tro harmonize access between shared resources from multiple
-different agents.
+Agreed and it is right. I don't think that should change.
 
-Now, I fear also, though, that all of the above is IMPDEF and only a
-reccomendation, even though the (few) systems I aware of follow this
-per-agent-accounting approach.
+> That said, I know we have FW's that aren't capable of informing us
+> about the power-domain's current state. For this, I (and Abel Vesa)
+> have been exploring how to introduce an "unknown-default" power-state,
+> which would mean that genpd would request on or off the first time
+> there is a transition of the genpd's power-state. This is on my TODO
+> list, perhaps that is something that can help here too?
+>
 
-Thanks,
-Cristian
+Ah interesting. But I still can't get my head around how this fits with
+in with the existing 2 extreme use cases. One where f/w leaves everything
+on to speed up boot(which is fair requirement) and one where OS is expected
+to turn on when it needs a resource(which is ideal but may impact boot time
+loads of power domains needs to be turned on.
+
+IIUC if we initialise it to unknown state, we will issue ON request when
+we use the resource in the kernel and OFF when we are trying to power off
+unused on. It may defer the request to the firmware and is move this hack
+away from the genpd provider driver into core to deal with this "unknown"
+state. Sounds not bad to me if it is feasible to implement.
+
+--
+Regards,
+Sudeep
