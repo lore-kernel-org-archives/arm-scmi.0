@@ -1,147 +1,350 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5B558635B;
-	Thu, 16 Jan 2025 16:29:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737044970; cv=none; b=lVbFMZjTsS6q8g7uhcZoXT/3RkVakQnweTJX+R56sMDl7HUMpL8jq6+KyF89MNHD3TCYoB96572BUCp4u/+1fJLYC2VkeUfcQhm8G4U6oebtS1gXO8KePdqF4SQoCTNQj4qOxGNlR+VQqYyyuD7CpSK4OP9wdBa7KVZGckuvCiY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737044970; c=relaxed/simple;
-	bh=CGIav0E83RUbfKK7U/4dppNEaAQ9rTIVebK8bo2gu/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lDIAMSv+oW14qG5PDuorYJD2Ktz1NhY9YGoPjIDJBnk3FnROG61t/qaecc32qVX62Dbj47gDjrOQm0JlBVb5c+TcI88CCUg9qOer8NxP5Az/kdqg0RlegIhJWfVcC69Ddf26BX3eNCH7sQdP73n+fWsuiJ8dtY1/F/r7UgGSt3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 951BD1007;
-	Thu, 16 Jan 2025 08:29:56 -0800 (PST)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 39DB03F673;
-	Thu, 16 Jan 2025 08:29:27 -0800 (PST)
-Date: Thu, 16 Jan 2025 16:29:24 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: arm-scmi@vger.kernel.org, linux-pm@vger.kernel.org,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH] pmdomain: arm: scmi_pm_domain: Send an explicit request
- to set the current state
-Message-ID: <Z4kz5MvjSCK6KTT0@bogus>
-References: <20250115113931.1181309-1-sudeep.holla@arm.com>
- <CAPDyKFrrdkBAPBw5JOv5HLnOj2L=6ZjE+O7h8N3MFC64ebcNEg@mail.gmail.com>
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11011000.outbound.protection.outlook.com [52.101.65.0])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C071F957;
+	Fri, 17 Jan 2025 01:22:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.0
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737076960; cv=fail; b=UHG+YXs4JV9FkIIlgFmoELTU5EYO3H3BXb9NaK2MoOE2xVh0lecFu9X+zeYhWT59cLgIPJmXnQU6EMUPWuVR1FJvxNkIcOwausTYsq7p7oQp2yPGe4nGLpRtyE+8OldtX3vt8x4NI/dvDCSPvo/vwAztR/HmtSzksUVOhqN1p9k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737076960; c=relaxed/simple;
+	bh=yVQFJC00s6icS4I8EfSKquneUxMqcUuLbTukDAMipEQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=I8KN02xcTTWV0N16nFLNOl4/KYBbql3yQjiGyuREOEjom3ad6UpA+x1s17WoBrKnu58ICQEV2lhmLh1VHFtlgStXscIEsCWlp03z5qdc6SihX7u9tvxSQVUTtHytLNYr63LS8epsU2Tl2yFLhf8E6bxDjlFFu9Uj4AUVVaMYcsM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=QrvlXRzr; arc=fail smtp.client-ip=52.101.65.0
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="QrvlXRzr"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fslgZs1LFEWtW0XFO47B15ZDpHBmWYFz+rX1X07Zzm+gYHi/1IbTp7lG8RaGKaNwTgeR1+TJIxhwqEmofJ0L+VF9Ledn+ysKPBwUxRCaUjtqwSANy7jYipAa5goY2AE3hZAX7ChOIT+g4TIPKKiiBQ5VPDSPyfsYAPspWKe7KxkhjG8o1a5MyrAvnlDfIIVXJFYS/WVo1viIKqZQMtApL6avh7jT5ytz1FXyxaVm/pkbOZKSdlAFpgnEwDTwnnzFiJU2ngd8mbIE/F1kt1fQloUub5Ej8fDGg2XesCrsIIQujBhfp+xVIMsEbVxBbfb7ZTMFeFafYr+sXUyjOulSrw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vz9GPEy5qE3nVcHJwYbF8UoBRO+4CTUgGX0dFJtwQUM=;
+ b=AnxcLKIxL0VedxUvz44YddrysKjuGu7OKNqLPG1knRavLeDVDPNbg7vp+B2aLylNlGBEzLb+Z4GG279PMVgjdjKOTy2cFAHwRjp04MQQVIxwxO7tlw2/MKSaerDx+LrNOGXfLlvhbvc+jif5sOkHt9zi9hvKjHaiEPlwbitIhFTfQpvNIT72ADp0/gJekg2aw0TBAZgTru1ReouDm0Ab5++9YlBJ7G0rmGzC+WP7I3Oij3DEB6YyolGknWZgkIVSZST/AASDgE+RqAnRQBsptaDB4E08BAjggyEa/KF4ig1MOEIEZkPQ7BnztC56UgSROWIzkZEyM/8YjiAml3M6tA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vz9GPEy5qE3nVcHJwYbF8UoBRO+4CTUgGX0dFJtwQUM=;
+ b=QrvlXRzrsAixvLsveQfFKFmQ6j8laQPs5zVG+FWOg87rvb0OrOUKZjEeyADBs3sxfn7fYG3f2Z8L5yUBtOjP+J31G3wOfdJRatNVzqpHNko+zt1yTMKhsY5jvra48oApHn02CFVGroRgX3ouNVmt4aA0OdgUwHZ/y8mA+TIMo5+hx+h0ZfkjI17Y/ZzrBWCTGmpFJ+oFxVIb+XeDPQR9ngfwrvT4PG3j0ZP37jKDOnbhANeCQKCbRsp794euM9PKiPFVQk+H1uy2zI7Ww26cpzptblQTg0d/Ej8EG2qWS7CB+DXfIa/XO+yqaDv8CHriWxu1WjEUhuY2qk2kclknKQ==
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
+ by AS8PR04MB8675.eurprd04.prod.outlook.com (2603:10a6:20b:42a::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.14; Fri, 17 Jan
+ 2025 01:22:34 +0000
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630%5]) with mapi id 15.20.8356.014; Fri, 17 Jan 2025
+ 01:22:34 +0000
+From: Peng Fan <peng.fan@nxp.com>
+To: Cristian Marussi <cristian.marussi@arm.com>, Ranjani Vaidyanathan
+	<ranjani.vaidyanathan@nxp.com>
+CC: Sudeep Holla <sudeep.holla@arm.com>, "Peng Fan (OSS)"
+	<peng.fan@oss.nxp.com>, "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-pm@vger.kernel.org"
+	<linux-pm@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [EXT] Re: [PATCH] pmdomain: arm: scmi_pm_domain: Initialize state
+ as off
+Thread-Topic: [EXT] Re: [PATCH] pmdomain: arm: scmi_pm_domain: Initialize
+ state as off
+Thread-Index:
+ AQHbYybo8rOmeh/en0qIMyX2XTiTxLMUhkWAgAARnlCAACWpAIAAHG8AgAAepACAACrhAIABRt+AgAAMoYCAAR6lAIAAnpYAgAFqFQCAAJa0MA==
+Date: Fri, 17 Jan 2025 01:22:33 +0000
+Message-ID:
+ <PAXPR04MB84592FD305C1B0B29B526E7C881B2@PAXPR04MB8459.eurprd04.prod.outlook.com>
+References: <Z4TreQ5bA9qiMTgC@bogus>
+ <PAXPR04MB8459F33BCC84CCA8F49F3B60881F2@PAXPR04MB8459.eurprd04.prod.outlook.com>
+ <Z4UZ2Au7KSFMibDW@bogus>
+ <PA4PR04MB94855052830C8F4874237BA6921F2@PA4PR04MB9485.eurprd04.prod.outlook.com>
+ <Z4VLZgAWR7ugDl7W@bogus>
+ <PA4PR04MB9485E9C126E48A088D7E399B921F2@PA4PR04MB9485.eurprd04.prod.outlook.com>
+ <Z4aBkezSWOPCXcUh@bogus>
+ <PA4PR04MB9485507CCC21354B5ED55C3792182@PA4PR04MB9485.eurprd04.prod.outlook.com>
+ <Z4d8nrJy-h9EwzsJ@pluto>
+ <PA4PR04MB9485CC9D9925BB5D23EA629092192@PA4PR04MB9485.eurprd04.prod.outlook.com>
+ <Z4kxYvR9XxldCpk-@pluto>
+In-Reply-To: <Z4kxYvR9XxldCpk-@pluto>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAXPR04MB8459:EE_|AS8PR04MB8675:EE_
+x-ms-office365-filtering-correlation-id: f2e0ee2c-26d0-42ba-0f4f-08dd36956b97
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|376014|366016|7053199007|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?1URtf66tcb50MojO+KcZ0qUVlYF8ClR2T33AQkQWcnXKUmJ7wU43tzJBitPY?=
+ =?us-ascii?Q?ivrGNnYinDk8/EV0PQxEEnRsGdmy+O/RWW7vRu+olPtcMt4b0BLwEMfXB6vY?=
+ =?us-ascii?Q?eek5cO4NMNjXKxDWjGHvRkggLNDnYaAimZrw/MaR05U8SSqIY65AbmqCBOzp?=
+ =?us-ascii?Q?I3qBGq13iwdJD5E9i3avOpfLtOddo4nx8pofOYPtwLybFABVPzXzPUk6Np06?=
+ =?us-ascii?Q?a5tjP8FZmBK823c5O6aHU0NN4EL0dkNSeEoz7jpJiP9ArhDKE7DRQbihmp45?=
+ =?us-ascii?Q?DP51hNqO3FKFxuqLhwi30wStdmSDzPXrV0WqY6hd11DgnEfvmEvTJ61TTPuO?=
+ =?us-ascii?Q?8gv09qAwuLtb/C6rXG8Srgn4axAynDIhr/bV8MB33uIh1lVRdEZlHSRVwJwM?=
+ =?us-ascii?Q?3grrFFz7O4dVO+gjwOosWSd2UAKXwnM7gkf5RPwGejh7hdCtqMP/wCpgMUOe?=
+ =?us-ascii?Q?mSPidemeV6j6ELrIg/VNTbsHoZvfJLlTIfQK0Yr55mpd0ls28RlE4cxa/Ba4?=
+ =?us-ascii?Q?p9rMCQ1wnE6y12EGcfnI8WW0aiIVQoeOztSRVctUJHl4gl2cOvSrWKlXhMw2?=
+ =?us-ascii?Q?DFtJHYdyvhkFsvUmPxvEEexQWUN51eyRHXVpiEL6Du4plyL5tLvVLHUQ0l/x?=
+ =?us-ascii?Q?R9pZX2GfPyjQgtvCu3XUUkviTCZuyRExsS0hwn7nWXlZywF59nr8fT3Z02CM?=
+ =?us-ascii?Q?yF5wGP6QVmmKjafid4bZqT3/FkSBcKe7QzJxKFrArZ42zW0LnPfWEIYiga0Q?=
+ =?us-ascii?Q?RD3zW/9Napa8ExyHnK3xmav7F4dhgouHmBQGdzCDducNIO3h2XTXbKMKWn1m?=
+ =?us-ascii?Q?RwIYlKCF6POyzTWEIJR3VPOYDypVstNoR5IKdo+GN93gzNrXAfz5GBYcntnt?=
+ =?us-ascii?Q?ywWAF/VJKJ6oo2j2rprs7wsCCnVeqLvUHpgg3MLUxhKpHhWByWTLzUL2TUJ0?=
+ =?us-ascii?Q?Jr+R+I0xBbK7JfJb+3nqv5wteVi3IbGN6Btle8E44GBwQ4xBotSpk/Iu7eIc?=
+ =?us-ascii?Q?TBpHnL2FtLtKnlGfJn2Cea1JFrU1QLGqAssyLmhEUqhrptmHh+Qs3jx/42W0?=
+ =?us-ascii?Q?ihkV0d1iN+8e/14uPO1EgmxtkA9vKs3EJJR0tWSpvP7/ssGo732cgkn1F+OF?=
+ =?us-ascii?Q?1pFWnHWExa15uVtT6XWIxwINIRijUmJNlS47Wajzbo9rhNOcYode3pb60HTF?=
+ =?us-ascii?Q?ZzKmTtIorU2NKCwQXNFU3rzq0RyxzjCBv1h9d7tF7iphjogE3sk/eb0uzgGy?=
+ =?us-ascii?Q?mU1+psleHlxEjJ9Gf2BcRjaV1cUJlEXISq0PEeYS1UVqrOTjWE47UUQp68p+?=
+ =?us-ascii?Q?ARZylIHf2gOh/077fcRMi5oRGrQNNdtVJv2nsruzFDgUp7nLyb5CZkV+wK3Z?=
+ =?us-ascii?Q?KvIEe8WDdCAbv6+Vr9vRMDc4eRPgiQARk7iTesrJopTYLgwVVJ52ZKJgo2zN?=
+ =?us-ascii?Q?REY2Z7QdNi9woV1qa31lztbRphKnsifZ?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7053199007)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?EOZuO3KmiieZbQrenxSoLdPIqvlMkBEqz9LfKao2/utWrqAYCArhIRMEXgwu?=
+ =?us-ascii?Q?qXZx6BX42MO9oTCRPKgl3C+dw785cv2bq6BBZa/fd5glAX/pdMQMXW1/f120?=
+ =?us-ascii?Q?6Xk5NdJtkdqLSM0sBDAxlqV4LZ06jmU6o9wOIo5uItnkw3MrBWzCTMkRpUeb?=
+ =?us-ascii?Q?ZZTrkVOeBmSTkMWneGDpV5C/PVBtWkGnVmpHnJQD1JSb70WpFTZD+A9mspnP?=
+ =?us-ascii?Q?fP7SV8P8pljed2J1ZS58oNtK11fPd6cUvlBMx0qbpKaRSlPPWG9w3QXMhAVr?=
+ =?us-ascii?Q?qsiQaqvB4SO/ZuZVDdmykJWnTFSHm6wrUDDgW2FX/hNcTJtFAR/jMCkCUZfl?=
+ =?us-ascii?Q?t36oUvm2364baB4CcaKiJFE+pddBE7H2DrhZ6iDeLSdrM8MLp31p1mXHWtjk?=
+ =?us-ascii?Q?yIfs/XB/Bgc34dLHkxF2yMs/gDsKPukh+NIHJx/tTVYGX0ypLbw3N3hT6H+J?=
+ =?us-ascii?Q?41qD8U/rahrd4ECpAHRyX2srahdAfEISkhRwGwdEt2gy68OYIsEMnHQ2gej/?=
+ =?us-ascii?Q?iN5v9AcYkPf8BZ2iZxlyIyc8Sz+roIEqHMzuDmquo2nBD4Jz2kcqff0BhQ/9?=
+ =?us-ascii?Q?VGem+HlRCyq+unsi5m8InIbULvM7a2txNTDhZA+A1UBlmF53Jau3juuA52fx?=
+ =?us-ascii?Q?r99TWhlZ9JedrCBnSnDylkPSTrdAcQTGTTEkneBB7qZudxmPfbVXNpui6/Bd?=
+ =?us-ascii?Q?cGiR6x+zPqtkqUtpEi12JdOV89qDP0zqEY4wEmHnnwOgu14m2QHHf09czXuJ?=
+ =?us-ascii?Q?FUzqOLwbMIeQkdRDI+hCLR0cB5tofvE0ESV7M4JZ3jg6RzvRel6Zg1jtQoLI?=
+ =?us-ascii?Q?uprNxnjk+HsQWkqzHVSa8tdWsfSIrUDL7iFuiu6K7NhN+9nHBxMIvThPeQl9?=
+ =?us-ascii?Q?ACoIIWN5u4WTYVEVsSOApgCNbJWsZbFwrjAZqj4YoHE1o5jYrsViUC5LamUo?=
+ =?us-ascii?Q?HZvqFmRMFYUTgwzNMqtKJUdJziMZZcy48NS0XUk6p1o4Ohww8hLYJdbPn7nF?=
+ =?us-ascii?Q?SfBkCG7NbLbzaNjCInpVRotB+cKL6hY/Oh9DvOn28Y8wZDlnDJYOkoMoqT0f?=
+ =?us-ascii?Q?T6AUnlLzS41VYAtGboJPVfmQ9hKCNScKb4StjHJptaTjbqnxHLfJ1BDO2OLa?=
+ =?us-ascii?Q?Ev/LEq9LAm7cthdCCF9/s+p3Gq31SqvKe9TZkrGVMRu5Y90cYr2OJqtJcrBV?=
+ =?us-ascii?Q?iAll+HSP6u0BK17qr+nnfmHZ1MIzuBsKjyij3vXnd4rxeGQHhTtIbq4Dvmqu?=
+ =?us-ascii?Q?b5R0LWxwoQM2lJAAEMyi3PqRntDX4GW5mN5UC9Hwf1KGvZvYszuGdH8jiahC?=
+ =?us-ascii?Q?s8FR3Eb3PqAyZ3XMRO+EprY8sVdnApYzpGC87YdY9QbdgiA27FEtexqlroYH?=
+ =?us-ascii?Q?dmdeRdAbhQ11gOBqJALoLBSF3ZLUgw6zNKUfDhJwvbfY4eMQtS4cRx/EhQD4?=
+ =?us-ascii?Q?bHc2zXjprJUQZOi8vALR5D6Dau3pRsy/2XgjEkazHivC2DhVhi2qtaW26M3F?=
+ =?us-ascii?Q?7UDjEXgqchV6hsLDz6S/zIe/wqeaZRaN2n/OiBoTNFd2Pa+PeKwOtB9Q4WhX?=
+ =?us-ascii?Q?qrShBQvT4kyCCWDBBBs=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPDyKFrrdkBAPBw5JOv5HLnOj2L=6ZjE+O7h8N3MFC64ebcNEg@mail.gmail.com>
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2e0ee2c-26d0-42ba-0f4f-08dd36956b97
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jan 2025 01:22:33.9319
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: XPAyorikhBbjLdDIHfpM8umgKvq8LP4fXRj8IEDV0iyOe+nCkemPv2B3uaFAaZg2GSDnhXR+82vrJZ0Yla3iEA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8675
 
-On Thu, Jan 16, 2025 at 04:54:44PM +0100, Ulf Hansson wrote:
-> On Wed, 15 Jan 2025 at 12:39, Sudeep Holla <sudeep.holla@arm.com> wrote:
+> Subject: Re: [EXT] Re: [PATCH] pmdomain: arm: scmi_pm_domain:
+> Initialize state as off
+>=20
+> On Wed, Jan 15, 2025 at 06:42:46PM +0000, Ranjani Vaidyanathan
+> wrote:
+> > Hi Cristian,
 > >
-> > On a system with multiple active SCMI agents, one agent(other than OSPM/
-> > Linux or bootloader) would request to turn on a shared power domain
-> > before the Linux boots/initialise the genpds. So when the Linux boots
-> > and gets the power state as already ON, it just registers the genpd with
-> > a default ON state.
+> > Regards,
+> > Ranjani Vaidyanathan
 > >
-> > However, when the driver that needs this shared power domain is probed
-> > genpd sees that the power domain status is ON and never makes any SCMI
-> > call to power it up which is correct. But, since Linux didn't make an
-> > explicit request to turn on the shared power domain, the SCMI platform
-> > firmware will not know if the OSPM agent is actively using it.
+> > -----Original Message-----
+> > From: Cristian Marussi [mailto:cristian.marussi@arm.com]
+> > Sent: Wednesday, January 15, 2025 3:15 AM
+> > To: Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>
+> > Cc: Sudeep Holla <sudeep.holla@arm.com>; Peng Fan
+> <peng.fan@nxp.com>;
+> > Peng Fan (OSS) <peng.fan@oss.nxp.com>; cristian.marussi@arm.com;
+> > ulf.hansson@linaro.org; arm-scmi@vger.kernel.org;
+> > linux-arm-kernel@lists.infradead.org; linux-pm@vger.kernel.org;
+> > linux-kernel@vger.kernel.org
+> > Subject: Re: [EXT] Re: [PATCH] pmdomain: arm: scmi_pm_domain:
+> > Initialize state as off
 > >
-> > Suppose the other agent that requested the shared power domain to be
-> > powered ON requests to power it OFF as it no longer needs it, the SCMI
-> > platform firmware needs to turn it off if there are no active users of
-> > it which in the above scenaro is the case.
+> > Caution: This is an external email. Please take care when clicking
+> > links or opening attachments. When in doubt, report the message
+> using
+> > the 'Report this email' button
 > >
-> > As a result of SCMI platform firmware turning off the resource, OSPM/
-> > Linux will crash the moment as it expects the shared power domain to be
-> > powered ON.
 > >
-> > Send an explicit request to set the current state when setting up the
-> > genpd power domains so that OSPM registers its vote in the power domain
-> > state with the SCMI platform firmware.
+> > On Tue, Jan 14, 2025 at 04:09:13PM +0000, Ranjani Vaidyanathan
+> wrote:
+> > > Hello Sudeep,
+> > >
+> > > Comments below.
+> > >
+> > > Regards,
+> > > Ranjani Vaidyanathan
+> > >
+> > > -----Original Message-----
+> > > From: Sudeep Holla [mailto:sudeep.holla@arm.com]
+> > > Sent: Tuesday, January 14, 2025 9:24 AM
+> > > To: Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>
+> > > Cc: Peng Fan <peng.fan@nxp.com>; Peng Fan (OSS)
+> > > <peng.fan@oss.nxp.com>; cristian.marussi@arm.com; Sudeep
+> Holla
+> > > <sudeep.holla@arm.com>; ulf.hansson@linaro.org;
+> > > arm-scmi@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
+> > > linux-pm@vger.kernel.org; linux-kernel@vger.kernel.org
+> > > Subject: Re: [EXT] Re: [PATCH] pmdomain: arm: scmi_pm_domain:
+> > > Initialize state as off
+> > >
+> > > Caution: This is an external email. Please take care when clicking
+> > > links or opening attachments. When in doubt, report the message
+> > > using the 'Report this email' button
+> > >
+> > >
+> > > Hi Ranjani,
+> > >
+> > > On Mon, Jan 13, 2025 at 07:54:06PM +0000, Ranjani Vaidyanathan
+> wrote:
+> > > > Hello Sudeep,
+> > > >
+> > > > Will try to explain the situation we are facing.
+> > > > 1. We have multiple agents running, Agent-A is booted up first
+> > > > before Linux is booted and powers up a shared power domain PD-
+> X.
+> > > > 2. Linux boots and gets the power state of PD-X. And its already
+> ON.
+> > > > And then PD -X is initialized with a default ON state.
+> > > > 3. When the driver that needs PD-X  is probed, Linux sees that the
+> > > > power domain status is ON and never makes an SCMI call to
+> power up
+> > > > the PD-X for Linux Agent.
+> > > > 4. Agent-A now is shutdown/suspends. Linux will crash because
+> the
+> > > > platform disables PD-X because it has no other requests for PD-X.
+> > > >
+> > >
+> > > Thanks for the detailed explanation. I understand the issue now.
+> > >
+> > > I would like to discuss if the below alternative approach works for
+> you.
+> > > We can debate the pros and cons. I see with the approach in this
+> patch proposed by Peng we would avoid querying and setting genpd all
+> together during the genpd initialisation which is good. But if there are
+> any genpd left on by the platform or bootloader(same agent), it will
+> not get turned off when Linux tries to turn off the unused genpds(IIRC
+> this could be the reason for the current state of code). While your
+> platform may find sending those commands unnecessary, there was
+> some usecase where SCMI platform kept all resources ON by default
+> for faster boot and expects OSPM to turn off unused resources. So we
+> need to support both the cases. I hope my below patch should suffice.
+> > >
+> > > [RV] Linux can still make the call to disable unused power domains,
+> even if it never explicitly made a request to power it on. The platform
+> will aggregate the request from all agents and will power off the
+> resource if no other agent has enabled it. From Linux point of view it
+> has disabled all unused power domains.
+> > > Your patch below may also work, but feels like a workaround to
+> artificially (for lack of a better word) enable a resource. And also make=
+s
+> unnecessary SCMI calls (expensive) for every resource immaterial of it
+> power state (maybe can be improved by a conditional check).
+> > >
 > >
-> > The other option is to not read the state and set the genpds as default
-> > OFF, but it can't handle the scenario on certain platforms where SCMI
-> > platform keeps all the power domains turned ON by default for faster boot
-> > (or any other such variations) and expect the OSPM to turn off the unused
-> > domains if power saving is required.
+> > ...sincerely, both of these solutions seem to me hacks/workarounds
+> to counteract the fundamental issue that derives from having allowed
+> (IMPDEF) to implement the get operations to return the real physical
+> state of a resource instead of its virtual per-agent state as maintained
+> by the platform, while, at the same time, having allowed to implement
+> the set-operations to operate in a 'virtual-fashion'...
 > >
-> > Cc: Ulf Hansson <ulf.hansson@linaro.org>
-> > Link: https://lore.kernel.org/all/Z4aBkezSWOPCXcUh@bogus
-> > Reported-by: Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>
-> > Reported-by: Peng Fan <peng.fan@nxp.com>
-> > Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
-> 
-> I read up on the discussion and it looks like there is not really a
-> simple solution here.
-> 
-> In principle if a boot-loader wants to do a handover and leave the
-> power-domain powered-on for the kernel, the additional call to
-> ->state_set() *could* bump the usagecount in the SCMI FW, forever
-> leaving the power-domain on.
->
-
-IIUC, the refcount in firmware differs from the one in the kernel. It is
-refcount per agent i.e. it is really just a kind of boolean to indicate if
-the agent is active user of the resource. So if the bootloader and the Linux
-being the same agent request to be turned on without a request to turn off
-doesn't mean the refcount is set to 2 and Linux needs to turn off twice.
-This is just my opinion and understanding.
-
-> I guess this problem only exists for power-domains being shared across
-> scmi agents. Perhaps some kind of configuration flag can help us to
-> determine what to do?
->
-
-While I can't disagree, there is also a thought that OS shouldn't be aware
-of that detail for equally valid reasons. I am not sure if we can get that
-added in the spec.
-
-> > ---
-> >  drivers/pmdomain/arm/scmi_pm_domain.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
+> > ...so, when Peng's patch forcibly set the state to OFF on genpd init,
+> you are indeed artificially forcing the kernel internal state to align wi=
+th
+> what would have been the virtual-per-agent state of the resource in
+> your specific particular configuration....
+> > [RV] Perhaps it's a hack. But at boot the state should look like OFF,
+> the agent should explicitly request those it needs to be ON.
 > >
-> > Hi Ulf,
+>=20
+> Yes it is what I am saying, it should see it OFF in this system config, a=
+nd
+> that would be the case on a platform that returns virtual per-agent
+> states:
+> forcing GENPD to see as it as off just mimics the same, but breaks other
+> cases as I mentioned.
+>=20
+> > ...on the other side Sudeep's proposed patch tries really to play the
+> same trick, just on the other way around, by instead forcibly/artificiall=
+y
+> aligning the state on the platform side by issuing a redundant ON
+> request to bump the refcount and take hold of that resource from the
+> Kernel agent point of view...
 > >
-> > We need your feedback or suggestions for better solution on this matter.
-> > Let us know if we can do something better with the genpd's help to resolve
-> > this issue.
-> 
-> At initialization, genpd tries to get the correct state of the HW. If
-> the power-domain is on, genpd believes that it will stay on until it
-> requests it to be powered-off.
->
+> > ... but Peng's proposed patch will broke immediately the moment
+> you have instead a system with an SCMI-capable bootloader that
+> instead left the resource ON for the Kernel to inherit, since the kernel
+> will now forcibly see this anyway as OFF, and so you wont be ever be
+> able to switch that resource REALLY OFF in the future, if ever needed,
+> because the bootloader/Kernel agent will never see it as ON in genPD,
+> since, at least in the genPD case, AFAICS correct me if wrong, there is
+> no callback to peek at the real state later on:
+> > so, after the initialization value has been chosen at genpd_init time,
+> genPd subsystem maintains the PD state on its own based on the
+> issued ON/OFF genPD requests, so your forced-initial-OFF-state will be,
+> in this specific alternative scenario, wrong and forever.
+> > [
+> > [RV] SCMI-capable bootloader and Linux should be the same logical
+> machine (different agents). And the platform maintains the state per
+> logical machine. So if Linux tries to power off a state that was left
+> powered ON by the bootloader it should bbe able to.
+>=20
+> In the SCMI world there are agents, i.e. clients issuing requests to the
+> platform AND the platform identifies such agents from the channel
+> they speak from. Not sure what you mean by logical machine.
+>=20
+> In the case of an SCMI-aware bootloader like UBoot, that dies and
+> relinquishes all the resources to the Kernel during the boot, that means
+> that the Kernel should be configured to simply re-use the same SCMI
+> channels as UBoot, so that it will be seen as the same agent
+> (transparently) from the platform: in such a scenario the Kernel will
+> transparently inherit all the per-agent current interrnal state...
+>=20
+> ...IOW if an SCMI/Uboot was holding res_X, the Kernel will result as
+> holding the same res_X "by inheritance" from the platform point of
+> view, since the Kernel would have assumed the role of the UBoot agent
+> from the platfom point of view, since it is using the same channels as
+> UBoot.
+>=20
+> Why you should consider Uboot a diffrent agent, if it runs in NS-world
+> too and does not survive the Kernel boot ?
 
-Agreed and it is right. I don't think that should change.
+Per my understanding, Kernel itself should not count on bootloader
+settings, kernel should try to configure all it could do as much as
+possible, kernel is not aware what bootloader might be used or
+what settings bootloader could set or run in what state.
 
-> That said, I know we have FW's that aren't capable of informing us
-> about the power-domain's current state. For this, I (and Abel Vesa)
-> have been exploring how to introduce an "unknown-default" power-state,
-> which would mean that genpd would request on or off the first time
-> there is a transition of the genpd's power-state. This is on my TODO
-> list, perhaps that is something that can help here too?
->
-
-Ah interesting. But I still can't get my head around how this fits with
-in with the existing 2 extreme use cases. One where f/w leaves everything
-on to speed up boot(which is fair requirement) and one where OS is expected
-to turn on when it needs a resource(which is ideal but may impact boot time
-loads of power domains needs to be turned on.
-
-IIUC if we initialise it to unknown state, we will issue ON request when
-we use the resource in the kernel and OFF when we are trying to power off
-unused on. It may defer the request to the firmware and is move this hack
-away from the genpd provider driver into core to deal with this "unknown"
-state. Sounds not bad to me if it is feasible to implement.
-
---
 Regards,
-Sudeep
+Peng.
+
+>=20
+> This, at least, is my understannding after bunch of past talk with ATG.
+>=20
+> And this is the scenario that I fear would fail with Peng's patch.
+>=20
+> Thanks,
+> Cristian
