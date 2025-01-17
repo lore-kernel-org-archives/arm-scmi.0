@@ -1,56 +1,55 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881401FAC55
-	for <arm-scmi@vger.kernel.org>; Fri, 17 Jan 2025 11:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD691F754C
+	for <arm-scmi@vger.kernel.org>; Fri, 17 Jan 2025 11:18:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737112318; cv=none; b=c0koX3RIVDh4l+IVD9XcaA55vVi5GnwGV1Xg1MsfuMT98dnf+ZOPMnpxvhskQZnIwF6BHH5CyP7kICkW6bWSF++FlC+2a97rXXfFffmiTOJfHt9itEvnkpwc412yOH3IXtjQzFd0JrmEXc1mP9ifRtPQSrna9c4eox71VvWPoiE=
+	t=1737112697; cv=none; b=uVGLGqbOVgywau4IrBxuWrmkg4TTurY7yvRsH7H/jTzgjn6RA3VubTWwgQBN1i497jgFxReutCb4sUUrMX/4wubAMZ+xnvrsd7N3XCfIWO0RmuQOUSCUGxdIABTtnDW4Qo2lW+qwaY7I60TXjTLw+j9gfjvhwcM3icODl3dQJ0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737112318; c=relaxed/simple;
-	bh=zevm7p92+PYP4xW+UuLYMkuGU5R3+hH8gMsxCikm76Q=;
+	s=arc-20240116; t=1737112697; c=relaxed/simple;
+	bh=bzvW4EAU0qKLolmQ8kHlU1hznSllKDG/I1jwpw8SfQE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Q6wkpO3EXLBJ7sQayYoAvjUNoeQWWc9lxYn3fh/CjN0QAGpYYHwZ1V7KLCLBRkRjlGt4RRlMAFnAdbtumgGJDBwbtituMM5CQSBZDVc/2t+jY53WtGEK5LpoEMiGXxOThG+RtcUSIy7GovMCrBDblwv0FYupMsYJFCh175THLXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ONfiSCXV; arc=none smtp.client-ip=209.85.219.181
+	 To:Cc:Content-Type; b=EZmIxKLdhSsVjvRsvuEagOk2nflWJ9aTQahf5bXeg7YeD+EhQFDrqi7z4ULVQvXwDngPVTHGNIpMdfL4xijbbN6/wlK/kk9IcOFmhpCNuQ3XhxQoP05mz4TM+wJw9CprBOa+v/8fp7cHSKI0zkmUekdfCz9SOn0JpOmMPgFK238=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=T8Hs4kX1; arc=none smtp.client-ip=209.85.219.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ONfiSCXV"
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e461015fbd4so2999042276.2
-        for <arm-scmi@vger.kernel.org>; Fri, 17 Jan 2025 03:11:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="T8Hs4kX1"
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e4930eca0d4so3074194276.3
+        for <arm-scmi@vger.kernel.org>; Fri, 17 Jan 2025 03:18:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737112315; x=1737717115; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1737112695; x=1737717495; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zevm7p92+PYP4xW+UuLYMkuGU5R3+hH8gMsxCikm76Q=;
-        b=ONfiSCXVyLF1QJfN8SC8HLEFJ2MMxFrFb2km2iIlW9StpIyejqCthYexP4yZVf5yxD
-         4CJ63Mi9ODtyqaKySyKnkXGTpmSzeRyFQ8kp3FICZ7rAWHI1jIrn0zyJqaM4SAkEr1rB
-         GZbrtPOZkn+fKXpk2Swhjwb+oYr1rjMsd+zjJwB8lrczt1TDsM0+3lnX1UayEr20++vY
-         TCIvzKDPY/Q1TMefZWCBPjEvTbRYz3WazlwvTzHodPG0sz7S0GI38zqHwzXFRQKvnNDF
-         pXDvdphflmTt/7mHfxvNuqvPU8HbwB62kKRs9zk+BT1zjMYicHLHZ5NtJIgYGhKkOOjz
-         tQ3g==
+        bh=TB/Qn3zo0NJioy2yY8z56ftG4qCd5/SxIPc8JAZsEUY=;
+        b=T8Hs4kX1f7rminhao8Vu+T2Qyf2Eg4ff1Lum+HMqTmhBvU96Lj8ZlJAnzOqBdvmArk
+         zNefSdh1faygivIwejAfdTSSZQAth5+Q+denyTUTrOyxmo9mTbrK7tiPMZebN+8tbK3c
+         7NBYjs/XXsR+u1VWpLQYuzcAi8WI6adkaOnZWpJ4equt4hxc4IrAQGu9e/gqDn4NaGZQ
+         W0TZ4/ot7pVaKjdzsZg5/QNRzirTINPvGM/uyYHKXgaysGrPqrTNKErPspGYn7RMF+bO
+         ynVQHU+deiIIUP9AWd6/pqpl7Rnb6yZsL/k744uVspV6NgZc5np5T82IQ0saF2BEshxH
+         TN6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737112315; x=1737717115;
+        d=1e100.net; s=20230601; t=1737112695; x=1737717495;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zevm7p92+PYP4xW+UuLYMkuGU5R3+hH8gMsxCikm76Q=;
-        b=Z+Io2gT37m96b9mWkRUkcSkt/RhDbdsqT4zkSQ/W5HQtdqTppf+JjorBEDPUCd39fu
-         FVKvdnJM7yi6yN8XTAtwS06J+gsz8DAU/tJhJ9Gp6+7Hb2mNkG7FQj+KOeZww5tn33wi
-         SIUBvcDwpu4ER8CxpxYl/NEKNJzb0RofiI05EG+r6fONeDvFl9pCSjirHHz2S8TWiGpk
-         HtVoa/qi5eUQh2UM7yjJv8coL78V+v2wQaXruehW4BT+Bv7/QQrE4ZDZey8ANp9InMBx
-         Zer8QDJWI/3mX93z0UH7qpdKOq3htpXn12logvqNbyLzBYNhcP9lzpRA8Mx9zjm+AHH9
-         igyg==
-X-Forwarded-Encrypted: i=1; AJvYcCVd4elHLtOQ7ENYFP0xzzIH/j4D2ashwE5fXiB7VRAbnuAsLh2yHM012riBMUAchKu7D3XsBSUVZw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxIwIYTwlRqw1YiWcd4LFVFzmKOLl+nd30RnO+P3MiPhQrILgMa
-	N6FrlP61INNlsHPeSnnI3Gw0VYaF/lAQWGQZphAZTfIJLDK0bUc2nZXUZMAAoVSLGBnbS7+7N7+
-	0Y3lqXZ73zrOLLd4YsCgCEnohIQ6cVYJOoYUJOw==
-X-Gm-Gg: ASbGncsAw6Lc59VQI5K9hYo+dVg8G3m8VWfRRZriRWdhfdOPpC7HnVzwbQF4VwECu0f
-	5sSWVvr7owJFS7PgP+t/pt9UPa+owTvy+npjVEOg=
-X-Google-Smtp-Source: AGHT+IFmDnLX7knNpPRkwb4MMSQEX/jiOKeWH5IpM+7Da8s1eEqAMaHpNzNx0ibYxiZmdRml+pkpwWUwAndwGUe55LU=
-X-Received: by 2002:a05:690c:4d02:b0:6ef:4a1f:36aa with SMTP id
- 00721157ae682-6f6eb684195mr17400657b3.20.1737112315562; Fri, 17 Jan 2025
- 03:11:55 -0800 (PST)
+        bh=TB/Qn3zo0NJioy2yY8z56ftG4qCd5/SxIPc8JAZsEUY=;
+        b=dfjFpK1wBfUtOl/LF6qqw+9PScKPihafLdE8BK/Ta2Efpv1kZqJKBVuMbrGFxCaMtx
+         LoQUISJtqfmEhUvYejmgg79rgvtc7CsW2UBHJe7aRSLRs2GeF//X6jlzzgyWsgigTYwH
+         8kcvu5MdEa2oZz6ehamwVJawHKXDoQI339tNwncGlwAwQm4KuZ6fqwURQp3CAnKk7EXu
+         UPt+XVeLxXR23KIVQvKUbKGGdv8t4USv8DMM2eKxjsl4Dn8WyepHFJVchL1Ry5EHuFdv
+         BDLzxVO6KWrRUFe872L3MLyMXDoDDKwLLhrdWWmEOAAg15odvnyFg/JhGVe/aph3UisD
+         /Tgg==
+X-Gm-Message-State: AOJu0YxpbLAYxViskS69zrjrRKfRfU4DVFv5lQLWkUmtDUWuNwGKIHDU
+	4HQzwrwkPUhtPx4zMJyJ+Oazaro0fxUDF8g8ZjYWd5CU2RG3N/hhbTI3Joc+oJClysAW46T4Mit
+	hvyhtOQwG5y9R+Y/vCIie82d2UUzYv5GjCAlTtw==
+X-Gm-Gg: ASbGncudft2KCeIngqUtJpNTvF2G8D/F2iL8rfLV1wxu/khiai2jB7SPPtWDC0a69Ys
+	9bYTyGZQmCFI6FZs3BuNoCdGsdleTb6pkKn1j6Ac=
+X-Google-Smtp-Source: AGHT+IG7ZhWGWT7mNVj/qn/vvAV+YPcm8SpcQ42x5ZTwtOsgQdVXdchj0b54RlqT/qw3z231h0F06HHp1U70evipNG8=
+X-Received: by 2002:a05:690c:7345:b0:6f6:d01c:af18 with SMTP id
+ 00721157ae682-6f6eb677b94mr15324937b3.11.1737112694916; Fri, 17 Jan 2025
+ 03:18:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -58,21 +57,21 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250115113931.1181309-1-sudeep.holla@arm.com>
- <CAPDyKFrrdkBAPBw5JOv5HLnOj2L=6ZjE+O7h8N3MFC64ebcNEg@mail.gmail.com> <Z4kzeLB6p6e45bhk@pluto>
-In-Reply-To: <Z4kzeLB6p6e45bhk@pluto>
+ <CAPDyKFrrdkBAPBw5JOv5HLnOj2L=6ZjE+O7h8N3MFC64ebcNEg@mail.gmail.com> <Z4kz5MvjSCK6KTT0@bogus>
+In-Reply-To: <Z4kz5MvjSCK6KTT0@bogus>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 17 Jan 2025 12:11:19 +0100
-X-Gm-Features: AbW1kvZ2eEtEciPTUgcumTMRDldQor00UGeUX30RlnvTHMSfzGlUG4ZxEewCYVg
-Message-ID: <CAPDyKFoZG5UULRnhanpn3mYF5_37ouXY356M3tjf425MXSY+gg@mail.gmail.com>
+Date: Fri, 17 Jan 2025 12:17:39 +0100
+X-Gm-Features: AbW1kvbS2Uj3sXMZi7mmT5gF9xljbSE0gR7ZS64KJV2turIzwP407Zx5B8tOyhA
+Message-ID: <CAPDyKFohsfyQXkZfyK1gX=_gWnu6J1RwpFe7S1O4nP9vT2AC8A@mail.gmail.com>
 Subject: Re: [PATCH] pmdomain: arm: scmi_pm_domain: Send an explicit request
  to set the current state
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>, arm-scmi@vger.kernel.org, 
-	linux-pm@vger.kernel.org, Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>, 
-	Peng Fan <peng.fan@nxp.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: arm-scmi@vger.kernel.org, linux-pm@vger.kernel.org, 
+	Cristian Marussi <cristian.marussi@arm.com>, 
+	Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>, Peng Fan <peng.fan@nxp.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 16 Jan 2025 at 17:27, Cristian Marussi <cristian.marussi@arm.com> wrote:
+On Thu, 16 Jan 2025 at 17:29, Sudeep Holla <sudeep.holla@arm.com> wrote:
 >
 > On Thu, Jan 16, 2025 at 04:54:44PM +0100, Ulf Hansson wrote:
 > > On Wed, 15 Jan 2025 at 12:39, Sudeep Holla <sudeep.holla@arm.com> wrote:
@@ -114,8 +113,6 @@ On Thu, 16 Jan 2025 at 17:27, Cristian Marussi <cristian.marussi@arm.com> wrote:
 > > > Reported-by: Peng Fan <peng.fan@nxp.com>
 > > > Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
 > >
-> HI Ulf,
->
 > > I read up on the discussion and it looks like there is not really a
 > > simple solution here.
 > >
@@ -125,25 +122,70 @@ On Thu, 16 Jan 2025 at 17:27, Cristian Marussi <cristian.marussi@arm.com> wrote:
 > > leaving the power-domain on.
 > >
 >
-> TWell, in theory, this should NOT be the case in the SCMI world since
-> the resource accounting is supposed to happen per-agent...so multiple
-> ONs from the same agent should be only accounted as ONE request from
-> agent_A, because the assumption is that multiple requests from the same
-> agent wouldl have already been filtered out from within the agent
-> frameowrks itself, like genPD of CLock...so the platform really takes
-> care tro harmonize access between shared resources from multiple
-> different agents.
+> IIUC, the refcount in firmware differs from the one in the kernel. It is
+> refcount per agent i.e. it is really just a kind of boolean to indicate if
+> the agent is active user of the resource. So if the bootloader and the Linux
+> being the same agent request to be turned on without a request to turn off
+> doesn't mean the refcount is set to 2 and Linux needs to turn off twice.
+> This is just my opinion and understanding.
 >
-> Now, I fear also, though, that all of the above is IMPDEF and only a
-> reccomendation, even though the (few) systems I aware of follow this
-> per-agent-accounting approach.
-
-Thanks for clarifying! I assume I can consider this as a reviewed-by
-for $subject patch, if not please let me know.
-
+> > I guess this problem only exists for power-domains being shared across
+> > scmi agents. Perhaps some kind of configuration flag can help us to
+> > determine what to do?
+> >
 >
-> Thanks,
-> Cristian
+> While I can't disagree, there is also a thought that OS shouldn't be aware
+> of that detail for equally valid reasons. I am not sure if we can get that
+> added in the spec.
+
+Okay, it seems like $subject patch is the way forward at this moment.
+
+I have applied it for *next* to allow it to be a bit more tested
+before we decide if this is material for stable kernels too. That
+means we may have to send the patch to stable maintainers manually to
+get it applied.
 
 Kind regards
 Uffe
+
+>
+> > > ---
+> > >  drivers/pmdomain/arm/scmi_pm_domain.c | 8 ++++++++
+> > >  1 file changed, 8 insertions(+)
+> > >
+> > > Hi Ulf,
+> > >
+> > > We need your feedback or suggestions for better solution on this matter.
+> > > Let us know if we can do something better with the genpd's help to resolve
+> > > this issue.
+> >
+> > At initialization, genpd tries to get the correct state of the HW. If
+> > the power-domain is on, genpd believes that it will stay on until it
+> > requests it to be powered-off.
+> >
+>
+> Agreed and it is right. I don't think that should change.
+>
+> > That said, I know we have FW's that aren't capable of informing us
+> > about the power-domain's current state. For this, I (and Abel Vesa)
+> > have been exploring how to introduce an "unknown-default" power-state,
+> > which would mean that genpd would request on or off the first time
+> > there is a transition of the genpd's power-state. This is on my TODO
+> > list, perhaps that is something that can help here too?
+> >
+>
+> Ah interesting. But I still can't get my head around how this fits with
+> in with the existing 2 extreme use cases. One where f/w leaves everything
+> on to speed up boot(which is fair requirement) and one where OS is expected
+> to turn on when it needs a resource(which is ideal but may impact boot time
+> loads of power domains needs to be turned on.
+>
+> IIUC if we initialise it to unknown state, we will issue ON request when
+> we use the resource in the kernel and OFF when we are trying to power off
+> unused on. It may defer the request to the firmware and is move this hack
+> away from the genpd provider driver into core to deal with this "unknown"
+> state. Sounds not bad to me if it is feasible to implement.
+>
+> --
+> Regards,
+> Sudeep
