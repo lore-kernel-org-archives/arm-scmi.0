@@ -1,100 +1,149 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C201F63DB
-	for <arm-scmi@vger.kernel.org>; Fri, 17 Jan 2025 05:13:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881401FAC55
+	for <arm-scmi@vger.kernel.org>; Fri, 17 Jan 2025 11:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737090824; cv=none; b=Js1U9TDwbOYiapSaYWXYScRIeShIyjSyx0iM0dMOhBhjqtJdK/Xq3hCI7D14vfraEjHS6Zlnbxg72IjkBu52VfGs2NzgO1Jg2pDKqAeU5Y/+pRP69AFSEKASPixtZxWjgs7w60GzJccg7s4Elm2zQP8o9h/E4uz3ASB7oBDNMO8=
+	t=1737112318; cv=none; b=c0koX3RIVDh4l+IVD9XcaA55vVi5GnwGV1Xg1MsfuMT98dnf+ZOPMnpxvhskQZnIwF6BHH5CyP7kICkW6bWSF++FlC+2a97rXXfFffmiTOJfHt9itEvnkpwc412yOH3IXtjQzFd0JrmEXc1mP9ifRtPQSrna9c4eox71VvWPoiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737090824; c=relaxed/simple;
-	bh=eA2hfEiZiI/7JkZCjO5oD8P9s9LvCtYLtekjekYfD9s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R/PIxkmeiwnCpSqHckqRwMDjrlbJUb4HEQpjf4v0HFn61n2fx0Ub0/daew+yohiJIy+DsseXul6k8FBQ6RIYQAjSMcdoqM+KrpPqC3spyq6AolP1QFUbTRp6YkSAqOwRdxxx+iVz4iM703uXSQ38NBRXglQRtytkuDDlsdx+QFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oqjN89j5; arc=none smtp.client-ip=209.85.221.48
+	s=arc-20240116; t=1737112318; c=relaxed/simple;
+	bh=zevm7p92+PYP4xW+UuLYMkuGU5R3+hH8gMsxCikm76Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Q6wkpO3EXLBJ7sQayYoAvjUNoeQWWc9lxYn3fh/CjN0QAGpYYHwZ1V7KLCLBRkRjlGt4RRlMAFnAdbtumgGJDBwbtituMM5CQSBZDVc/2t+jY53WtGEK5LpoEMiGXxOThG+RtcUSIy7GovMCrBDblwv0FYupMsYJFCh175THLXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ONfiSCXV; arc=none smtp.client-ip=209.85.219.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oqjN89j5"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-385d7b4da2bso1504879f8f.1
-        for <arm-scmi@vger.kernel.org>; Thu, 16 Jan 2025 21:13:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ONfiSCXV"
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e461015fbd4so2999042276.2
+        for <arm-scmi@vger.kernel.org>; Fri, 17 Jan 2025 03:11:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737090821; x=1737695621; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eA2hfEiZiI/7JkZCjO5oD8P9s9LvCtYLtekjekYfD9s=;
-        b=oqjN89j5yDRtkk7mcet496/p5kCrRIlh5qIE7ogq2pBpxFuu3e6oVAZWaHeEk8bikU
-         /K94fmatO2n3yNVsMWI7I9qMOw3VKTbUhlq/BKt0jEeqU2+UhsO025a2+zaz86gQ46Wy
-         priud3THz3kWcW0lgJ2RhTn4euPIaDum+OLJLD8fkdSUJsoinxsyNKyPezoiHaYqLMhZ
-         87hwcrU6KNtp3p7F/s2k8n1jKuLRMIaiaqRb+LvkoMx7zMo2CsFe3fEPDeecFmNZPGe7
-         6rsvagM+U8aBgoyaf3lO0df0slLiKHC64HaI9gn7MwUBNO2x7xvxz4SiQkOTtxxhMwWs
-         a4JQ==
+        d=linaro.org; s=google; t=1737112315; x=1737717115; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zevm7p92+PYP4xW+UuLYMkuGU5R3+hH8gMsxCikm76Q=;
+        b=ONfiSCXVyLF1QJfN8SC8HLEFJ2MMxFrFb2km2iIlW9StpIyejqCthYexP4yZVf5yxD
+         4CJ63Mi9ODtyqaKySyKnkXGTpmSzeRyFQ8kp3FICZ7rAWHI1jIrn0zyJqaM4SAkEr1rB
+         GZbrtPOZkn+fKXpk2Swhjwb+oYr1rjMsd+zjJwB8lrczt1TDsM0+3lnX1UayEr20++vY
+         TCIvzKDPY/Q1TMefZWCBPjEvTbRYz3WazlwvTzHodPG0sz7S0GI38zqHwzXFRQKvnNDF
+         pXDvdphflmTt/7mHfxvNuqvPU8HbwB62kKRs9zk+BT1zjMYicHLHZ5NtJIgYGhKkOOjz
+         tQ3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737090821; x=1737695621;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eA2hfEiZiI/7JkZCjO5oD8P9s9LvCtYLtekjekYfD9s=;
-        b=acZ99xS3to0jRm6bT6CnyWBkyIc+Um4E6lpnMLnl51Zc/sMnmqW+R9ZpYZ34zTrYVi
-         R7SG5ncGhsLW3aa5yK+khG2efpsJlvOY+kW0qzbqplDB2L/fFJXlyl0QpCUVyj+mgNVq
-         UTRsTzXHIP9ruIH0caNYKxLvXBIS8aAGJusPCoUJ8/swdJlg3XTKNRxXEpctvaa8hoix
-         7L8AkOesverRRm/lqXW3+NViIKjuvVtikaXtYCRha73C2ySFZ+dM0UYZfWepWIN758Ua
-         kOOt9vwI+vHs6H9IoyXjv4D9wT9yIPLH0Ca+qQeMQU1lTIlmBGVQbckEfO2CVNcHCFIC
-         BMGA==
-X-Forwarded-Encrypted: i=1; AJvYcCXzUAGtD90jnRtiQRuTZNiUgh2y51c/FakodNC3eEmNtOZJgFLjgDqVwlD8Y0cB9UIzBmZHDmxORg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwG9dUx0PBNzSJOjMJrECp7riwdd6VDCpnlrYNBwrkfy1Ea3tEP
-	kZnYGL13u0jrMSnLh3fGGmb5QstN8Wv+DXk+iAS16k0p349FK8JMgWI6xqOwNpU=
-X-Gm-Gg: ASbGncuhB0fwdDIDLuWfyVe9ZwiDYj+xnRJXEN1ihHFbNYnLZWOcp+NFXvlRmKSJhhd
-	jcIn6G083dXr1XbA8V21rahpxR/OJleH8fkRKNBHnwGH5JZO7M3/9ZDnpQ57uLjY9Hd6i0Ggryd
-	Kq2xqxrm+pj6t6p4ET+PnhiH2KelS1q9ffYTS4jDFdVK0sjVh1PQL9T5YV6IY6yl9q6TKFMMje2
-	aXCSCEiV9JyfnyvOdCeP9twenBzBq2BAs6Z+ChUeWpEjijGKvKkYkxgAU+0ZA==
-X-Google-Smtp-Source: AGHT+IGGVebus2uYIGuuLFBd4qUm10d1iM3tfiYX430p/eyvedP+1HKhhDpD5iwKxIXhksPpV3KmRw==
-X-Received: by 2002:a5d:588a:0:b0:38a:88f8:aadd with SMTP id ffacd0b85a97d-38bf57bea5emr694186f8f.53.1737090821304;
-        Thu, 16 Jan 2025 21:13:41 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c74c4751sm79637735e9.19.2025.01.16.21.13.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jan 2025 21:13:40 -0800 (PST)
-Date: Fri, 17 Jan 2025 08:13:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>, Peng Fan <peng.fan@nxp.com>,
-	"Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-	"ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
-	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [EXT] Re: [PATCH] pmdomain: arm: scmi_pm_domain: Initialize
- state as off
-Message-ID: <345b6d8f-e5bb-4443-b385-a6b87630933d@stanley.mountain>
-References: <Z4TreQ5bA9qiMTgC@bogus>
- <PAXPR04MB8459F33BCC84CCA8F49F3B60881F2@PAXPR04MB8459.eurprd04.prod.outlook.com>
- <Z4UZ2Au7KSFMibDW@bogus>
- <PA4PR04MB94855052830C8F4874237BA6921F2@PA4PR04MB9485.eurprd04.prod.outlook.com>
- <Z4VLZgAWR7ugDl7W@bogus>
- <PA4PR04MB9485E9C126E48A088D7E399B921F2@PA4PR04MB9485.eurprd04.prod.outlook.com>
- <Z4aBkezSWOPCXcUh@bogus>
- <PA4PR04MB9485507CCC21354B5ED55C3792182@PA4PR04MB9485.eurprd04.prod.outlook.com>
- <Z4d8nrJy-h9EwzsJ@pluto>
- <PA4PR04MB9485CC9D9925BB5D23EA629092192@PA4PR04MB9485.eurprd04.prod.outlook.com>
+        d=1e100.net; s=20230601; t=1737112315; x=1737717115;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zevm7p92+PYP4xW+UuLYMkuGU5R3+hH8gMsxCikm76Q=;
+        b=Z+Io2gT37m96b9mWkRUkcSkt/RhDbdsqT4zkSQ/W5HQtdqTppf+JjorBEDPUCd39fu
+         FVKvdnJM7yi6yN8XTAtwS06J+gsz8DAU/tJhJ9Gp6+7Hb2mNkG7FQj+KOeZww5tn33wi
+         SIUBvcDwpu4ER8CxpxYl/NEKNJzb0RofiI05EG+r6fONeDvFl9pCSjirHHz2S8TWiGpk
+         HtVoa/qi5eUQh2UM7yjJv8coL78V+v2wQaXruehW4BT+Bv7/QQrE4ZDZey8ANp9InMBx
+         Zer8QDJWI/3mX93z0UH7qpdKOq3htpXn12logvqNbyLzBYNhcP9lzpRA8Mx9zjm+AHH9
+         igyg==
+X-Forwarded-Encrypted: i=1; AJvYcCVd4elHLtOQ7ENYFP0xzzIH/j4D2ashwE5fXiB7VRAbnuAsLh2yHM012riBMUAchKu7D3XsBSUVZw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIwIYTwlRqw1YiWcd4LFVFzmKOLl+nd30RnO+P3MiPhQrILgMa
+	N6FrlP61INNlsHPeSnnI3Gw0VYaF/lAQWGQZphAZTfIJLDK0bUc2nZXUZMAAoVSLGBnbS7+7N7+
+	0Y3lqXZ73zrOLLd4YsCgCEnohIQ6cVYJOoYUJOw==
+X-Gm-Gg: ASbGncsAw6Lc59VQI5K9hYo+dVg8G3m8VWfRRZriRWdhfdOPpC7HnVzwbQF4VwECu0f
+	5sSWVvr7owJFS7PgP+t/pt9UPa+owTvy+npjVEOg=
+X-Google-Smtp-Source: AGHT+IFmDnLX7knNpPRkwb4MMSQEX/jiOKeWH5IpM+7Da8s1eEqAMaHpNzNx0ibYxiZmdRml+pkpwWUwAndwGUe55LU=
+X-Received: by 2002:a05:690c:4d02:b0:6ef:4a1f:36aa with SMTP id
+ 00721157ae682-6f6eb684195mr17400657b3.20.1737112315562; Fri, 17 Jan 2025
+ 03:11:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PA4PR04MB9485CC9D9925BB5D23EA629092192@PA4PR04MB9485.eurprd04.prod.outlook.com>
+References: <20250115113931.1181309-1-sudeep.holla@arm.com>
+ <CAPDyKFrrdkBAPBw5JOv5HLnOj2L=6ZjE+O7h8N3MFC64ebcNEg@mail.gmail.com> <Z4kzeLB6p6e45bhk@pluto>
+In-Reply-To: <Z4kzeLB6p6e45bhk@pluto>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Fri, 17 Jan 2025 12:11:19 +0100
+X-Gm-Features: AbW1kvZ2eEtEciPTUgcumTMRDldQor00UGeUX30RlnvTHMSfzGlUG4ZxEewCYVg
+Message-ID: <CAPDyKFoZG5UULRnhanpn3mYF5_37ouXY356M3tjf425MXSY+gg@mail.gmail.com>
+Subject: Re: [PATCH] pmdomain: arm: scmi_pm_domain: Send an explicit request
+ to set the current state
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>, arm-scmi@vger.kernel.org, 
+	linux-pm@vger.kernel.org, Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>, 
+	Peng Fan <peng.fan@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Ranjani,
+On Thu, 16 Jan 2025 at 17:27, Cristian Marussi <cristian.marussi@arm.com> wrote:
+>
+> On Thu, Jan 16, 2025 at 04:54:44PM +0100, Ulf Hansson wrote:
+> > On Wed, 15 Jan 2025 at 12:39, Sudeep Holla <sudeep.holla@arm.com> wrote:
+> > >
+> > > On a system with multiple active SCMI agents, one agent(other than OSPM/
+> > > Linux or bootloader) would request to turn on a shared power domain
+> > > before the Linux boots/initialise the genpds. So when the Linux boots
+> > > and gets the power state as already ON, it just registers the genpd with
+> > > a default ON state.
+> > >
+> > > However, when the driver that needs this shared power domain is probed
+> > > genpd sees that the power domain status is ON and never makes any SCMI
+> > > call to power it up which is correct. But, since Linux didn't make an
+> > > explicit request to turn on the shared power domain, the SCMI platform
+> > > firmware will not know if the OSPM agent is actively using it.
+> > >
+> > > Suppose the other agent that requested the shared power domain to be
+> > > powered ON requests to power it OFF as it no longer needs it, the SCMI
+> > > platform firmware needs to turn it off if there are no active users of
+> > > it which in the above scenaro is the case.
+> > >
+> > > As a result of SCMI platform firmware turning off the resource, OSPM/
+> > > Linux will crash the moment as it expects the shared power domain to be
+> > > powered ON.
+> > >
+> > > Send an explicit request to set the current state when setting up the
+> > > genpd power domains so that OSPM registers its vote in the power domain
+> > > state with the SCMI platform firmware.
+> > >
+> > > The other option is to not read the state and set the genpds as default
+> > > OFF, but it can't handle the scenario on certain platforms where SCMI
+> > > platform keeps all the power domains turned ON by default for faster boot
+> > > (or any other such variations) and expect the OSPM to turn off the unused
+> > > domains if power saving is required.
+> > >
+> > > Cc: Ulf Hansson <ulf.hansson@linaro.org>
+> > > Link: https://lore.kernel.org/all/Z4aBkezSWOPCXcUh@bogus
+> > > Reported-by: Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>
+> > > Reported-by: Peng Fan <peng.fan@nxp.com>
+> > > Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
+> >
+> HI Ulf,
+>
+> > I read up on the discussion and it looks like there is not really a
+> > simple solution here.
+> >
+> > In principle if a boot-loader wants to do a handover and leave the
+> > power-domain powered-on for the kernel, the additional call to
+> > ->state_set() *could* bump the usagecount in the SCMI FW, forever
+> > leaving the power-domain on.
+> >
+>
+> TWell, in theory, this should NOT be the case in the SCMI world since
+> the resource accounting is supposed to happen per-agent...so multiple
+> ONs from the same agent should be only accounted as ONE request from
+> agent_A, because the assumption is that multiple requests from the same
+> agent wouldl have already been filtered out from within the agent
+> frameowrks itself, like genPD of CLock...so the platform really takes
+> care tro harmonize access between shared resources from multiple
+> different agents.
+>
+> Now, I fear also, though, that all of the above is IMPDEF and only a
+> reccomendation, even though the (few) systems I aware of follow this
+> per-agent-accounting approach.
 
-Your email is pretty hard to read when we're looking at the email
-archive or on email clients like mutt also.
-https://lore.kernel.org/all/PA4PR04MB9485CC9D9925BB5D23EA629092192@PA4PR04MB9485.eurprd04.prod.outlook.com/
+Thanks for clarifying! I assume I can consider this as a reviewed-by
+for $subject patch, if not please let me know.
 
-regards,
-dan carpenter
+>
+> Thanks,
+> Cristian
 
+Kind regards
+Uffe
