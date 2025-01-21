@@ -1,138 +1,135 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5A451EF092
-	for <arm-scmi@vger.kernel.org>; Tue, 21 Jan 2025 10:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509481D554;
+	Tue, 21 Jan 2025 12:19:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737456587; cv=none; b=qJas0LcyCAX2wQHP56drd2AfPincxZdiREnySOeuwcv6OcEZXs3mCT+fRbOUpJ0zhuC3nv79TcFv/s++lRznDwVu89hFfuCnNLhgmtgGbLHsZoN8R5qrobBkzBgspupRC9oknDA2IZu1jvR4nbeUGyM6AaDE62z61F2jMMcVVa4=
+	t=1737461956; cv=none; b=pD9/Bz4aysIW6XPHWwPDLywyoGJV3eq5N+T1okE+SwAF8wih78lS5bLWwhw4wTATcl5i3iFJPFmvL9aDQi4rKp/0/UUdNM2fwCI1xTrkMKtHpngj5cXX/50dPdE/tFqHwKjZRosVIxAh9MIOJX8sW2iZ0Lf65JJuowl6GAlrp/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737456587; c=relaxed/simple;
-	bh=NXY5M3Zr3QnqHtPce9NysTUbYhlAqGSCCxQRn4cTH/o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AsS4Ti01U9MMT3oyCvev8xXHzail1hXNylMUn1kPbPUsx+mXgw0Q/1meaZhLw44gTQ92EbBbjeAv6vBy/VPcOdNlj79Nkrc8DtL743GCkxe09M9OAz4lrAwPEgSNSrQBb7KLO+4KT/mIZjcQ45DpofMAn1PeAGmVuhhCay/ML/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9FD32106F;
-	Tue, 21 Jan 2025 02:50:12 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5EA923F66E;
-	Tue, 21 Jan 2025 02:49:43 -0800 (PST)
-Date: Tue, 21 Jan 2025 10:49:34 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Radu Rendec <rrendec@redhat.com>
-Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: Re: [RFC PATCH] firmware: arm_scmi: Support mailbox transports with
- no completion IRQ
-Message-ID: <Z497vnIasuJbVarg@pluto>
-References: <20250120212418.889385-1-rrendec@redhat.com>
+	s=arc-20240116; t=1737461956; c=relaxed/simple;
+	bh=sPesZWYC0ulEJj/gesJPmVOOyLfPgsGZKiiMssRCLcU=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=BIIoOnl1eOC7ze4x3NvELKOI0fgC8Rfysu5NS59XiOXKMNNhQ5x2SMP7J6H4XcPeeTBXKQBbMcXSJqXbWNnFRX82Pm0FezWVeTVNW8uUhe0mskhev+TdOhG4oaVUKoS5d0okybGAkBkeWcQIYGLb50txEHCarEuPQg34GaWGfWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jGxs+pk9; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jGxs+pk9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737461955; x=1768997955;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=sPesZWYC0ulEJj/gesJPmVOOyLfPgsGZKiiMssRCLcU=;
+  b=jGxs+pk9Czd0TRSNFjT4SUeyymLccvvh0CKFcZHTdxZu97ZOO1kuWSOt
+   AmMxmV1CkWT3bNQPwNK1urxn53nI2FgN1zRwLJzi6NvzQDTXhpHl5aCZe
+   NUgo70btqPNZRNXjm5pqN09cHG2dFWZNyD5dBzXDlJx9eljNM2DozFwoe
+   CGYYqfkGuVXIoV3I2oPcY02w3X19LVhuAc5tw5TaxsOxFLKK/w0CBOjZP
+   nepX2xsI3RgPQtOTPd7mf7L/mmD4YTpWjslB3NWtts/Fh8cLTeSUImhKR
+   G/xP9bJvkr1/ZieQ5dOOrJurQE0NARn9nbcbL4PThwy/o07sohsC4Feba
+   Q==;
+X-CSE-ConnectionGUID: Ndw0UAZJQg+MRYZ3bRbGDQ==
+X-CSE-MsgGUID: kNelo3TwQaCvORPfdvV2+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="38115461"
+X-IronPort-AV: E=Sophos;i="6.13,222,1732608000"; 
+   d="scan'208";a="38115461"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 04:19:14 -0800
+X-CSE-ConnectionGUID: gH3zVvHuQEysE1CEtIUNmw==
+X-CSE-MsgGUID: XYxDmMaMQhuYGVua7yV6Ig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,222,1732608000"; 
+   d="scan'208";a="111790831"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.188])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 04:19:00 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Tue, 21 Jan 2025 14:18:56 +0200 (EET)
+To: Huisong Li <lihuisong@huawei.com>
+cc: linux-hwmon@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+    linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+    arm-scmi@vger.kernel.org, Netdev <netdev@vger.kernel.org>, 
+    linux-rtc@vger.kernel.org, oss-drivers@corigine.com, 
+    linux-rdma@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+    linuxarm@huawei.com, linux@roeck-us.net, jdelvare@suse.com, 
+    kernel@maidavale.org, pauk.denis@gmail.com, james@equiv.tech, 
+    sudeep.holla@arm.com, cristian.marussi@arm.com, matt@ranostay.sg, 
+    mchehab@kernel.org, irusskikh@marvell.com, andrew+netdev@lunn.ch, 
+    davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
+    pabeni@redhat.com, saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com, 
+    louis.peens@corigine.com, hkallweit1@gmail.com, linux@armlinux.org.uk, 
+    kabel@kernel.org, W_Armin@gmx.de, Hans de Goede <hdegoede@redhat.com>, 
+    alexandre.belloni@bootlin.com, krzk@kernel.org, 
+    jonathan.cameron@huawei.com, zhanjie9@hisilicon.com, 
+    zhenglifeng1@huawei.com, liuyonglong@huawei.com
+Subject: Re: [PATCH v1 19/21] platform/x86: dell-ddv: Fix the type of 'config'
+ in struct hwmon_channel_info to u64
+In-Reply-To: <20250121064519.18974-20-lihuisong@huawei.com>
+Message-ID: <844c5097-eeb7-7275-7558-83ca4e5ee4b2@linux.intel.com>
+References: <20250121064519.18974-1-lihuisong@huawei.com> <20250121064519.18974-20-lihuisong@huawei.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250120212418.889385-1-rrendec@redhat.com>
+Content-Type: text/plain; charset=US-ASCII
 
-On Mon, Jan 20, 2025 at 04:24:18PM -0500, Radu Rendec wrote:
-> With the introduction of no_completion_irq in struct scmi_chan_info in
-> commit a690b7e6e774 ("firmware: arm_scmi: Add configurable polling mode
-> for transports") it became possible to enable polling mode by default
-> when the transport does not support completion interrupts.
+On Tue, 21 Jan 2025, Huisong Li wrote:
+
+> The type of 'config' in struct hwmon_channel_info has been fixed to u64.
+> Modify the related code in driver to avoid compiling failure.
+
+Does this mean that after applying part of your series but not yet this 
+patch, compile would fail? If so, it's unacceptable. At no point in a 
+patch series are you allowed to cause a compile failure because it hinders 
+'git bisect' that is an important troubleshooting tool.
+
+So you might have to combine changes to drivers and API if you make an 
+API change that breaks driver build until driver too is changed. Note that 
+it will impact a lot how quickly your patches can be accepted as much 
+higher level of coordination is usually required if your patch is touching 
+things all over the place, but it cannot be avoided at times. And 
+requirement of doing minimal change only will be much much higher in such 
+a large scale change.
+
+--
+ i.
+
+> Signed-off-by: Huisong Li <lihuisong@huawei.com>
+> ---
+>  drivers/platform/x86/dell/dell-wmi-ddv.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-
-Hi Radu,
-
-> Mailbox controllers on the other hand have a similar mechanism to
-> indicate if completion interrupts are available, using the txdone_irq
-> flag in struct mbox_controller. This is available since the introduction
-> of the mailbox framework in commit 2b6d83e2b8b7 ("mailbox: Introduce
-> framework for mailbox").
+> diff --git a/drivers/platform/x86/dell/dell-wmi-ddv.c b/drivers/platform/x86/dell/dell-wmi-ddv.c
+> index e75cd6e1efe6..efb2278aabb9 100644
+> --- a/drivers/platform/x86/dell/dell-wmi-ddv.c
+> +++ b/drivers/platform/x86/dell/dell-wmi-ddv.c
+> @@ -86,7 +86,7 @@ struct thermal_sensor_entry {
+>  
+>  struct combined_channel_info {
+>  	struct hwmon_channel_info info;
+> -	u32 config[];
+> +	u64 config[];
+>  };
+>  
+>  struct combined_chip_info {
+> @@ -500,7 +500,7 @@ static const struct hwmon_ops dell_wmi_ddv_ops = {
+>  
+>  static struct hwmon_channel_info *dell_wmi_ddv_channel_create(struct device *dev, u64 count,
+>  							      enum hwmon_sensor_types type,
+> -							      u32 config)
+> +							      u64 config)
+>  {
+>  	struct combined_channel_info *cinfo;
+>  	int i;
+> @@ -543,7 +543,7 @@ static struct hwmon_channel_info *dell_wmi_ddv_channel_init(struct wmi_device *w
+>  							    struct dell_wmi_ddv_sensors *sensors,
+>  							    size_t entry_size,
+>  							    enum hwmon_sensor_types type,
+> -							    u32 config)
+> +							    u64 config)
+>  {
+>  	struct hwmon_channel_info *info;
+>  	int ret;
 > 
-
-mmm...I dont think you can do this....it is a bit tricky to explain BUT
-the optional txdone_irq in the mailbox subsystem is NOT a completion
-interrupt as intended in the SCMI world, I'll try to explain why in the
-following.
-
-The SCMI mailbox transport is defined by a mailbox and an associated
-shared memory area: when an SCMI client like Linux wants to send a
-message to the server it places the message in the shmem, set the
-channel BUSY bit, and rings the doorbell to alert the other side; at 
-this point the SCMI server wakes up grab the message from the shmem,
-process it as it sees fit, places the reply back into the same shmem 
-area, clears the channnel BUSY bit, and CAN optionally ring back the
-client with the mailbox doorbell: this completion IRQ is OPTIONAL, and,
-if missing, the client will have instead to revert to polling the well
-defined channel BUSY bit in the shmem area to know when the reply from
-the server is ready.
-The end result is that the channel is kept busy until the server has
-replied, and cannot be reused until we are sure that the reply is available
-AND that the client execution path, waiting for it, has comsumed such
-expected reply message. (or times out)
-Alternatively, even if we have this completion IRQ we can decide, client
-side, to start a polling trabnsaction and dont use the completion
-IRQ...but this is another sroty.
-
-Now, in the mailbox subsystem the txdone_irq, when present is meant to
-represnt a txACK IRQ, sent automatically by the mailbox controller, when
-the transmission has completed and the issued command has been read by
-the server(usually when the server clears some specific reg): it does NOT
-assure the client that the server has processed the request and that a
-reply has been placed into the shmem area, so it is not what SCMI intend
-of a completion interrupt: it is just a mere indication that the
-transmission client->server has completed in the mailbox and that the
-mailbox channel(doorbell) is now free annd available for another
-transmission.
-
-Indeed, such TxACK, when received by the mailbox driver causes the next
-enqueued message to be sent (i.e. the doorbell to be ring), and, while
-it is certainly useful in some other context in which you could use such
-TxACK to deduce that the channel is free and available for another
-transmission, it is not enough in the SCMI world to guarantee that the
-SCMI reply has come back and has been processed by the client.
-
-From another point of view, you could say that the problem is that the
-mailbox/doorbell/TxACK is only one side of the story, the other part,
-the shared memory area used for the effective message transmission, is
-unknown to the mailbox controller and in control of the SCMI stack, so
-you cannot let the mailbox subsystem decide when to queue new messages
-on the same shared memory area used for cmds and replies.
-
-In fact, such TxACk interrupt has no practical usage in the SCMI stack
-and it is even counterproductive to have it, since it can cause the
-client to mistakenly attempt the next transmission before the previous
-one has completed, so overwriting the in-flight reply.
-(..and our busy-looping client side on the channel BUSY bit does not
-help here...)
-
-The following commit, though, needed mainly for different reasons, should
-have indeed solved also the issue with mailbox controllers having a TxACK,
-since it introduces a global channel lock that serializes and inhibits any
-further transmissions, at the SCMI layer, even on systems that has a working
-and enabled TxACK IRQ.
-
-commit da1642bc97c4ef67f347edcd493bd0a52f88777b (tag: scmi-fixes-6.12)
-Author: Justin Chen <justin.chen@broadcom.com>
-Date:   Mon Oct 14 09:07:17 2024 -0700
-
-    firmware: arm_scmi: Queue in scmi layer for mailbox implementation
-
-In general, anyway, it would be even better, if possible, not to enable
-at all such txACK IRQ at the mailbox level when such a controller is used
-for SCMI: as an example, in arm_mhuv3.c, NOT even defining the txACK in
-the DT when describimng the mailbox controller does the trick.
-
-Did you see any specific anomaly regarding the SCMI stack when using a
-mailbox controller which provides a txACK ?
-
-Sorry for the not so short mail :P ... but if I am missing something
-and you are seeing anomalies, please let us know.
-
-Thanks,
-Cristian
-
