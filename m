@@ -1,178 +1,294 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9581212D69;
-	Wed, 22 Jan 2025 14:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469BE1AF4EA
+	for <arm-scmi@vger.kernel.org>; Wed, 22 Jan 2025 21:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737556582; cv=none; b=fdCxk+IMrZKSSWPM08ZHB9UiulwVqBafOh/wY8wLxovS9pUNcCvyjrVihXIHyHAJT+9bQexrWdhr6zLnyTCU1lbUUgjaDqX25mVjInSbS0VbWDHuuOHe0fY07oZY3LSXjtQPJI4JJslok1RVEYrBrQNkzssTuemGm+Nd3jZ5YfY=
+	t=1737580255; cv=none; b=XsPxm/Zgg4LGkls8C1cafZUBPcS/EDxF7muk9K5eC4bBD/fPsVZKyC8K38a4isTw13tv3ohNkbcbrNxa9TFnhUF949MuWGPfsBf5EAMwUF7/lPFS7yqKz1GiHg/1fWLNkX/43R9p2pyQGVJYrEU/XlDj1huiB/vlCPMGsKxjq3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737556582; c=relaxed/simple;
-	bh=SMDAbuQwzc7MzSRZ8aXUBMVB6Jsmdf7IOz/yWT+L480=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bMj69AUkbuOfUTZ3m/uHsPIwcYK+ZmAyB87c6Y5gJYd1AsdhAlNPVzIUfk/ejlpiqOQQdmYK15342sQk5DDFhgcW8XzElDrqd+boAE6WUdy81ocew9XestKp8exzdsREVcGjamVhDnMz3mOZpN2BHbWRpJU+o7pC3CrBqyVhVBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SQQxuy0r; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737580255; c=relaxed/simple;
+	bh=/LPip9INyx0hMxVMYz3aL9YtG8UsdvOgoYZvWEoMCXg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JZriCdtZE7u3q/m+2FL2pw/bXYFCnKWSjpUXcH1i/B7QoMtQEc+gjhPJGrm55KWIwgFbbjhu0BQX0O4wVtGUWiwJvYyOOr26zsbkjcVDHEoLT3dm1O2Q6zD9RDfPhbaFkiY0AIXkThUgCWPkDcY7BpJHtHVvIJ/j0K2w2HbkaF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NR2Zzlu0; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SQQxuy0r"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2161eb95317so126448005ad.1;
-        Wed, 22 Jan 2025 06:36:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737556580; x=1738161380; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=MUvXvaO0Ss+nXb466/o7COpKXUbAueaXJWixHz+8ykQ=;
-        b=SQQxuy0rrY0f5yE17Bvxd4cCYwvkWqgYl66D6PC5Qsb6Vw+Px5o9uQGv5CabPHWWKX
-         wsZPi/yn96zzCSckak13j/O5HeiI7QjTjJRHHwBc2Ji7mGIoE8gGxC9Fe1k0ph0ltIHh
-         cXL38wRvZHuHSvbNz/6p7s8XoasIstJoi8LapqX4sBd4CaWQ6n9XAmtWBY9XyUcPBOcV
-         br9APH9oZZrmQiyturDVw9Y6bF3nP5OD7/RZCyz4B0JWA8igWBs+MNs1je1rKVp5DC93
-         zMHhsdMt7ABN8+7guIQxUaegGyrgINCB0ElhrBfhuvBuuuiW05wqUN9jJKpUujzhwVc4
-         2iYA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NR2Zzlu0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1737580252;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/LPip9INyx0hMxVMYz3aL9YtG8UsdvOgoYZvWEoMCXg=;
+	b=NR2Zzlu0WuLpT+p8/UXBH/H/4gTXrR4b1F/NbRDG9FLnxRGLZjD+dEk2Q6WacKUAk6bmh3
+	tjZc6YbbYEwBxZouHztc2/jWRwqpmU6RKSQq7adFt81w4nBKwwZiS32E+qZlwwtBHDTlzL
+	TC9jmE3Z6DkwjWTFezeXzNLD4lLJ9KQ=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-84-TVpxTZCFPg23GJ1VSRxQsQ-1; Wed, 22 Jan 2025 16:10:49 -0500
+X-MC-Unique: TVpxTZCFPg23GJ1VSRxQsQ-1
+X-Mimecast-MFC-AGG-ID: TVpxTZCFPg23GJ1VSRxQsQ
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-467944446a0so3248541cf.1
+        for <arm-scmi@vger.kernel.org>; Wed, 22 Jan 2025 13:10:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737556580; x=1738161380;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MUvXvaO0Ss+nXb466/o7COpKXUbAueaXJWixHz+8ykQ=;
-        b=rQdEaXGXY0F4jZpvl6UNScjWAo0yGya2w2+K7ifhYONO5DBJrRo0bV1EJtw+50NpXb
-         clknCeekRiGu484+xogAFngsT+FJACRtpougcggFYH5ezsmnQak5y+tTRFGaz3thsKA/
-         VElqxDtlT4ko6Kx+xcxRb6qs6oCClM5AP1mv9cqKkhcU0js31Hru4n6JWW4DfIwdBJ1F
-         wqWk9YIv151w8tAEBrDR8FiTUyb1IAhLtzbhCAiVgYYXw1j5Zzr098+LCwBlU4Ujyhhw
-         n9keJdJFK9OT012LISkXZ4iT64zoKZ0wAiwUCnx3OsuniaOD7tDNHGcgNhPV+7tnN2fG
-         7d0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU3KfOBiCyMppxjRiUEckMV+Q+/8CgYPgAIxoqIHPAPT4aNvvKuWPp8nLjv/gl4M7xti7EkuwWTNs5Pch4=@vger.kernel.org, AJvYcCV/LxnrqJoPbjKBK7w2z//l7YJmm/nbTcJBHAQN3e7xvfSKBMRUa5TLgjZN3Ki9HQrQZLTCuve4UzMP@vger.kernel.org, AJvYcCVC6D6U6QPN3pCNNQDeVDVWGHeF6ndlJ8RmOlaeIVADVTtI+6aYrtjj8K2yzmE902LqTA7tNFs0yQZl6w==@vger.kernel.org, AJvYcCVCqfF9/W0wdz6c4X3/LinQNekUzd5aravVvJIY2ZVo8oEl/P/elyjfptmXOYivr4vcqiSIC7JhTt3P1zs=@vger.kernel.org, AJvYcCX8+iZ9S1eg2A7Leru7pvel+B1OeJswa9yBAIXNWgP7PfG9YOnviDIWaWxeYeZZ+2MtJa98c0se@vger.kernel.org, AJvYcCXH+bJwSd7Qc8sec4/KWgeS/j0hK/By51d+qAgDvvHpm+GLahSzqTJRV4z3TAxwojOZ65cQW8RTnxlnfmddnunuKgTy1Q==@vger.kernel.org, AJvYcCXm18C5S+SAde06h7XGay4ucLK8vbTn/zf2uT/Wfv3d1d+3lhoYBEPE5N0QF+5z84lxUEIozKVVcg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywx6kzTk8V7SUVZmCm2GczSiN1hsRN7G/5Vnfu+T+RKqIZUYVAd
-	0LkFCwPhgjoQQAC7ADQcK63XiHz23oGRgPH4slFGGDbAA4/y/I/39ngqHg==
-X-Gm-Gg: ASbGncso2XhrClj/ZOaiQML1/uSrJ+j8TBo2n/1r3AT1yepKL2zdd9+sRGaTf8ReKmK
-	A7/ZcR+0zX25htVlB5dRjXhhhMTBQ2a9JbyePWwynJkxvKNBKk2oZh4wFe+ND3oWuRnR+ZiLA5Y
-	ddF98nVcvujv3vl/uOmUbUQU47Uq8k12/bWxCbAhA/2iK4dlKSIng32bZSeCmXXExvTLeKjFath
-	sEH/bUGAIXoV5fcXVkz/WMAB3CLWLwQ2K1iIoH7uz2rqDeNwe+/QA1Wwt9/hy7VnOFongj1r6im
-	PHW85dvPjFBe1dtlS0ysZDhoRWcBWoDjzRkRgBoXmvg=
-X-Google-Smtp-Source: AGHT+IE5AzrnFf/Nma9OYi02LQfUZX52yZkuUVNniayLmYZBB0ifS+2Uz1Ehi/Gv2whWoMr2zKYJnw==
-X-Received: by 2002:a17:902:c412:b0:215:ae3d:1dd7 with SMTP id d9443c01a7336-21c3540c88dmr336405415ad.19.1737556579588;
-        Wed, 22 Jan 2025 06:36:19 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21c2d3aca8asm96019665ad.130.2025.01.22.06.36.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jan 2025 06:36:18 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <4e9d0552-b565-48e0-8183-d9cb5a85c76a@roeck-us.net>
-Date: Wed, 22 Jan 2025 06:36:15 -0800
+        d=1e100.net; s=20230601; t=1737580249; x=1738185049;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/LPip9INyx0hMxVMYz3aL9YtG8UsdvOgoYZvWEoMCXg=;
+        b=i2eTkhBm6qZ60+On699Zihg+BXhjwEI07WFjKH6d6nCuTIkgTlUuRKPakU4SeyLYoY
+         HyKHAddtTqa0QVKtV5+CVAyqGqPsVUVx1lYAm5XIOsNLcZp1vTQyRq0V5cStNxrE03Qr
+         CP83SoxO6QZ17slUDXrvUyC9Hf9BYil0WKRYKOzKS62VLPRX3GE7dL5Qhea2iHEp5P/S
+         B+JZHr/nEJnsEHZZdASo9ppDxKmt/pbHVRCupwkQgT1k8W+sOl3KGn+Ohq3aazP59jQs
+         JZLj7pcl5We0+MdM9cS8o8uvz7D37brQ+hCastxfEsu/wEyBg9dDJKo79K/ZhIlbaQCE
+         ku3g==
+X-Gm-Message-State: AOJu0Yww1HN/Ld84iYvIZpkdg7vupSH0XCMFTwR3ig2s6wmLTf8PPA+G
+	ufRoxPjTMUvtSMSO0AMi9eEgl6rGW9iwuIDx+PfKH6drCDUmhbB1mBni7L7ELTq5mbNjWw/8JR1
+	Jaek60xX9HA+Fz1OvDQ1bYGTsf3WqFQhL2b14XKGhrQc6+03cGOJDACFV
+X-Gm-Gg: ASbGncs1XDHLBk754N0p0SCnd/Gm9r6/urLcZgtgsPnMffBsxefydcNGsJF7drPVlNc
+	aSgKbsfstB55pmts3ZI2FOZg5wvRhOxukpv1w2v43rqNIi1M+2+H0B1/swRr9mzusiYJDa0+2P9
+	dmCua+/tXiD3nuHfqpNN8HMenO28/O61+jJ7g8+Ex/LmTRJ3WuRYdN7Yomhg451JNpICZAkoTe7
+	2k4E8i5u8FtfLG/8I94Tq1JNj0BfFStWL9rBuR54uKwUcs3Ik1ApnP3qxsLZoi/K9yHLMfBfnEe
+	szfL5slD0buhD03g/9dJ9ybIg25Mn+0oxujihMa9cdi4erzi27rOWSfnmhnTKA==
+X-Received: by 2002:a05:622a:145:b0:467:7109:c783 with SMTP id d75a77b69052e-46e12ad54d5mr330823331cf.3.1737580249253;
+        Wed, 22 Jan 2025 13:10:49 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEIx94YBqc4qrrHCRZNRccCQJQGXTMRVaSSjkJYJ/5qoiU2LazPB321YR2OOYrONvFimVvXCQ==
+X-Received: by 2002:a05:622a:145:b0:467:7109:c783 with SMTP id d75a77b69052e-46e12ad54d5mr330822951cf.3.1737580248848;
+        Wed, 22 Jan 2025 13:10:48 -0800 (PST)
+Received: from thinkpad-p1.localdomain (pool-174-112-193-187.cpe.net.cable.rogers.com. [174.112.193.187])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-46e102ec2d9sm67756121cf.12.2025.01.22.13.10.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jan 2025 13:10:48 -0800 (PST)
+Message-ID: <4ba9c0d259e35960425ff278d20446a133853238.camel@redhat.com>
+Subject: Re: [RFC PATCH] firmware: arm_scmi: Support mailbox transports with
+ no completion IRQ
+From: Radu Rendec <rrendec@redhat.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Sudeep
+ Holla <sudeep.holla@arm.com>
+Date: Wed, 22 Jan 2025 16:10:47 -0500
+In-Reply-To: <Z5DhE3-SGOP9O4NZ@pluto>
+References: <20250120212418.889385-1-rrendec@redhat.com>
+	 <Z497vnIasuJbVarg@pluto>
+	 <5806bbd198bc4361a41e06a02f93a157bd8eb7e8.camel@redhat.com>
+	 <Z5DhE3-SGOP9O4NZ@pluto>
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 00/21] hwmon: Fix the type of 'config' in struct
- hwmon_channel_info to u64
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- "lihuisong (C)" <lihuisong@huawei.com>, linux-hwmon@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org,
- netdev@vger.kernel.org, linux-rtc@vger.kernel.org, oss-drivers@corigine.com,
- linux-rdma@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linuxarm@huawei.com, jdelvare@suse.com, kernel@maidavale.org,
- pauk.denis@gmail.com, james@equiv.tech, sudeep.holla@arm.com,
- cristian.marussi@arm.com, matt@ranostay.sg, mchehab@kernel.org,
- irusskikh@marvell.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, saeedm@nvidia.com,
- leon@kernel.org, tariqt@nvidia.com, louis.peens@corigine.com,
- hkallweit1@gmail.com, linux@armlinux.org.uk, kabel@kernel.org,
- W_Armin@gmx.de, hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com,
- alexandre.belloni@bootlin.com, jonathan.cameron@huawei.com,
- zhanjie9@hisilicon.com, zhenglifeng1@huawei.com, liuyonglong@huawei.com
-References: <20250121064519.18974-1-lihuisong@huawei.com>
- <870c6b3e-d4f9-4722-934e-00e9ddb84e2e@kernel.org>
- <d42bf49b-e71b-d31e-2784-379076ebf370@huawei.com>
- <4959c2c0-564a-4e3c-9650-228dede9a1f9@kernel.org>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <4959c2c0-564a-4e3c-9650-228dede9a1f9@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: KYGuNxtJzQJiLkvxfUvMvCHyau5X-ggU5-C7cEGqR10_1737580249
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 1/21/25 23:51, Krzysztof Kozlowski wrote:
-> On 21/01/2025 09:14, lihuisong (C) wrote:
->>
->> 在 2025/1/21 15:47, Krzysztof Kozlowski 写道:
->>> On 21/01/2025 07:44, Huisong Li wrote:
->>>> The hwmon_device_register() is deprecated. When I try to repace it with
->>>> hwmon_device_register_with_info() for acpi_power_meter driver, I found that
->>>> the power channel attribute in linux/hwmon.h have to extend and is more
->>>> than 32 after this replacement.
->>>>
->>>> However, the maximum number of hwmon channel attributes is 32 which is
->>>> limited by current hwmon codes. This is not good to add new channel
->>>> attribute for some hwmon sensor type and support more channel attribute.
->>>>
->>>> This series are aimed to do this. And also make sure that acpi_power_meter
->>>> driver can successfully replace the deprecated hwmon_device_register()
->>>> later.
->>> Avoid combining independent patches into one patch bomb. Or explain the
->>> dependencies and how is it supposed to be merged - that's why you have
->>> cover letter here.
->> These patches having a title ('Use HWMON_CHANNEL_INFO macro to simplify
->> code') are also for this series.
->> Or we need to modify the type of the 'xxx_config' array in these patches.
->> If we directly use the macro HWMON_CHANNEL_INFO, the type of 'config'
->> has been modifyed in patch 1/21 and these driver don't need to care this
->> change.
-> 
-> None of above addresses my concern. I am dropping the series from my
-> inbox/to-review box.
-> 
+Hi Cristian,
 
-If you need help with that, and if it wasn't obvious:
+On Wed, 2025-01-22 at 12:14 +0000, Cristian Marussi wrote:
+> On Tue, Jan 21, 2025 at 09:19:37PM -0500, Radu Rendec wrote:
+>=20
+> > On Tue, 2025-01-21 at 10:49 +0000, Cristian Marussi wrote:
+> > > mmm...I dont think you can do this....it is a bit tricky to explain B=
+UT
+> > > the optional txdone_irq in the mailbox subsystem is NOT a completion
+> > > interrupt as intended in the SCMI world, I'll try to explain why in t=
+he
+> > > following.
+>=20
+> [snip]
+>=20
+> > > Sorry for the not so short mail :P ... but if I am missing something
+> > > and you are seeing anomalies, please let us know.
+> >=20
+> > No need to apologize, and many thanks for taking the time to explain
+> > everything in such detail. Much appreciated! What you explained makes
+> > perfect sense, and now I clearly understand why the changes I proposed
+> > would not work.
+> >=20
+> > I have quite the opposite problem. I'm using a mailbox controller that
+> > does *not* provide a txACK interrupt (or any kind of interrupt for that
+> > matter), and the problem is that SCMI transfers do not complete because
+> > scmi_wait_for_reply() times out.
+>=20
+> Do you mean a unidirectional mailbox controller (like ARM MHUv3) that
+> allow for bidirectionality ONLY if you effectively use a pair of them,
+> one for each direction ?
 
-NACK for the series
+Yes, that's what I meant. But I had a very distorted understanding of
+how that worked, and now it's much clearer after reading your email,
+looking at arm,scmi.yaml and staring more at the code :) Please see
+further details below.
 
-Guenter
+
+[snip]
+
+> > Since xfer->hdr.poll_completion defaults to false, I looked at what
+> > could trigger the completion that scmi_wait_for_reply() waits on, in
+> > the case of a mailbox transport. The way it's set up is quite
+> > convoluted but if I'm reading the code correctly:
+> > =C2=A0* core->rx_callback (in mailbox.c) is set to scmi_rx_callback()
+> > =C2=A0* chan->cl->rx_callback is set to rx_callback() (in mailbox.c)
+> > Therefore, the (reverse) call path leading to completion would be:
+> > complete(&xfer->done)
+> > scmi_handle_response()
+> > scmi_rx_callback()
+> > rx_callback()
+> > mbox_chan_received_data()
+> >=20
+> > If I understand correctly, mbox_chan_received_data() is supposed to be
+> > called by the mailbox provider driver when the mailbox receives data
+> > e.g. the SCMI server rings the bell to indicate completion. But doesn't
+> > this mean that the completion notification (through mailbox doorbell)
+> > is expected to be implemented by default?
+>=20
+> Nope because when the SCMI client requires a polling transaction, beside
+> the busy-looping on the channel BUSY bit on its side, it will also ask
+> for a polling transaction by setting the proper bit in the channel flags
+> (as detailed in spec chap 5.1) of the shmem area, so that the server will
+> know that the completion IRQ, even if existing is NOT required for that
+> transaction: in any case, polling or not, the server will clear the chann=
+el
+> BUSY bit when it is done, since that is the mechanism that is used by the
+> client and server to pass back and forth the 'ownership' of the channel.
+> [BIG RED WARNING: I never remember if the channel bit I blabbed about
+> above is defined as a BUSY bit or as a FREE bit....so the logic could be
+> reversed.]
+>=20
+> The above backtrace is only for the IRQ path...if you are polling, you
+> are indeed busy looping inside scmi_wait_for_reply() and if you dont get
+> a timeout (or an out of order invalid reply) the reply if picked up at
+> the end of the poll loop by a fetch_reponse() inside that same
+> wait_for_reply....since polling anyway is meant to pick up Delayed
+> Responses OR notification that does on the P2A channel (RX in the SCMI
+> stack) which needs to have an associated IRQ to work at all.
+>=20
+> Beside your scenario of a system lacking a completion IRQ, polling
+> transactions can be asked for a speficic SCMI command at will like to
+> issue a clock_enable(), so polling is generally working as far as I know
+> and tested....you can easily test that also by just enaboing
+> force_polling flag in the transport desc (for testing/debug purposes
+> only)
+
+I'm sorry, I didn't phrase the question very well. Polling does work as
+expected, and it was clearly proven by the fact that I actually got the
+SCMI communication working with the patch I sent initially - because it
+was forcing the polling mode (even though the patch itself was wrong
+and had no practical value).
+
+The backtrace I mentioned is clearly for the IRQ path. What I was
+getting at was that it seems to be the only way for the completion to
+be completed. And since in the default configuration (with the default
+flags) scmi_wait_for_reply() takes the second branch, where it waits
+for that completion, it means that by default the completion IRQ needs
+to exist for the kernel to know that the transfer has been replied to.
+
+What I really meant to ask was this: does it mean that in the default
+configuration (with the default flags) the completion IRQ is required?
+And I think you already answered, indirectly :)
+
+> > Now I get that the mailbox layer has no knowledge of the client layer
+> > (SCMI in this case) and that the txACK IRQ in the mailbox layer is not
+> > meaningful or useful to the SCMI layer. But in my (uneducated) opinion,
+> > there should still be a way to set the no_completion_irq flag in struct
+> > scmi_chan_info to true for the mailbox transport, for the case when the
+> > SCMI server does not implement the completion notification. Perhaps
+> > through the device tree?
+>=20
+> As I said, the flag is NOT settable, since it was a scenario that was
+> never needed....but you are right.. you will have to somehow set that
+> flag to handle this kind of setup.
+>=20
+> Now, I was hoping to be able to somehow handle this with the existing
+> bindings, because if you look at 'mboxes' definition in:
+>=20
+> =C2=A0 Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+>=20
+> ..you will see that we try to handle all the possible combinations of
+> mailbox controller types implicitly by deducing the kind of controller
+> by the combination of the number of defined shmem/mbox. (this is because
+> unfortunately we cannot rely on naming for backward compatibility issue
+> since mbox names was NOT required prop from the start).
+
+That makes perfect sense, and the description in arm,scmi.yaml (which I
+should have looked at in the first place) was a real eye opener. Thanks
+for that!!
+
+> So, I would have loved to be able to deduce in mailbox_chan_setup() that
+> in a specific configuration there is no completion interrupt and set
+> accordingly the no_completion_irq flag using the existing bindings....
+>=20
+> ...but seems to me that it is not possible since there is the assumption
+> that unidirectional mailbox are always used in pair to provide a completi=
+on
+> IRQ....and we run out of possibilities to exploit this implicit info
+> (again because we address the most common case with the current bindings)
+
+True, but maybe the assumption is wrong. In the scenario I'm describing
+there are 2 shmem areas and only one unidirectional mailbox for Tx. The
+Rx mailbox does not exist because there is no completion IRQ, and the
+only way you can implement a Rx mailbox is through an IRQ. So in theory
+you could infer this configuration from a "1 mbox / 2 shmem" setup,
+which is not one of the currently supported combinations. But it would
+probably not scale well for the more general case.
+
+> At the end, yes I think we should be able to describe this particular HW
+> configuration somehow, so a new binding could be the answer, since this
+> is exactly HW description, the tricky part would be to add something
+> that can cope well with all the above existing implict combinations
+> (maybe is not a great issue eh .... I have not though about it...)
+>=20
+> ...BUT...before all of this, just to be paranoid, I would check to make
+> sure that your HW is really unidirectional in nature and not that, instea=
+d,
+> is a bidirectional mailbox controller, where the SCMI server is really no=
+t
+> taking care to ring the doorbell back ? (which usually is the same
+> doorbell used in the client->server direction)
+
+I think you nailed it. Looking at the mailbox driver implementation
+(which actually has an IRQ handler that calls mbox_chan_received_data)
+and the way the SCMI configuration is described in the device tree, I
+think that's exactly the case. And the completion IRQ doesn't work
+either because the SCMI server doesn't trigger it or there is a problem
+with the IRQ plumbing along the way.
+
+Unfortunately, because the mailboxes can be either unidirectional or
+bidirectional and they are not necessarily mapped 1:1 to the SCMI
+channels, it can be very confusing for the uninitiated eye (like
+myself). If I had known everything I know now, it would have been
+pretty obvious from the beginning that there was something wrong with
+the SCMI server (or completion IRQ routing).
+
+> (I ignore which server implementation you use...so just to make sure...)
+
+Unfortunately the mailbox driver is not upstream (which is always a sad
+thing), and that's why I didn't mention what it was. It's also based on
+a 5.10.x kernel but simple enough that it compiles cleanly with the
+latest upstream. With everything I have learned, now I can tell that
+ironically the driver itself seems to be OK. For what it's worth, the
+BSP kernel where this comes from includes an ugly hack that changes the
+initialization of xfer->hdr.poll_completion to true instead of false to
+force polling mode and cope with the broken completion IRQ :-/
+
+> > Now it's my turn to apologize for a long email :) Hopefully it makes
+> > sense and it's clear now what problem I'm trying to solve. Thanks again
+> > for all the input provided so far, and I'm looking forward to some more
+> > answers.
+>=20
+> ... better stop apologizing here and now, given the average payload size
+> of these recent mail exchanges :P
+
+Fair enough :) Instead, let me thank you, again, for your time and
+patience, and for all the detailed information you have provided.
+
+--=20
+Best regards,
+Radu
 
