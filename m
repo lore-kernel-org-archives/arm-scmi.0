@@ -1,138 +1,412 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DD828EC;
-	Wed, 22 Jan 2025 07:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7F3153824
+	for <arm-scmi@vger.kernel.org>; Wed, 22 Jan 2025 08:48:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737532303; cv=none; b=Hb0kUGyP8TwVgbVo2Jx4W6ccuBIA9Q55O7wBCKuIil+O0LvsBN5GERtWqjfmZdfbqoVkoFK/wJpQSw38rZqSO2xvyzSVN69+z3MrQ9GnGLoRKwkothy/ncQrTFz7LPqWpBjlJck87M/L4pcfMFqD6Zu4QqKWohWTjQ+xQeKWFK4=
+	t=1737535741; cv=none; b=qZn/cJqQq67YyLERSYSCmDiFwdLDS64ppvZ8ugRzYuitsJ/mUw/jLxhDVJf6YKUiHwy0wXWHZWDjjspHP8LgG1BUJzrMCzWZPFhWQ+N4vQaDq6oyMNMT8VXpRs+BZ+wWcFZ2Mr07F8vt8oVMoVsyvbSAsd+49X022b5Ws2RHkoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737532303; c=relaxed/simple;
-	bh=msNhgHEYXHG3C130zRedQp0KghXab41wBWaPBjnjDiA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d5pctgH1SASXGm6Fv5NXX2gOOtWUx/e8fFT23qwSAsrzBBMd/c5k5n/0dXlJHhg6WKQF+pcdB0Cq6nXzGfXfGuHyfZ+l/MAxNIMsnKay5a4//oZeZFT68Xv7P0SpmeSSM2f7ES+zMTMetmb+3aEvwP6KlviEes6yso+42EKIHro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OcHKa0ET; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737535741; c=relaxed/simple;
+	bh=8PHIgrQZeo8GwWqLbADYlL7NlWtuwVKaha55ZI/7k8o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uexPya/2QeYKekGagAlEs0c2e1F3A4ISf1T+wQu8Drx+mXhR+1gO/ufc/WhC7O+JsiXg9oLH44jJPLz2VRz9qyApYfQ79FIoXZCxXiYixtbgTBQMCymfAqpPz3SBwTYwGFrv7ySvmHvuXCNLF/xJM2TEd3ZD1X2roupmWsWPtw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fFXywIu9; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OcHKa0ET"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 011E4C4CED6;
-	Wed, 22 Jan 2025 07:51:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737532302;
-	bh=msNhgHEYXHG3C130zRedQp0KghXab41wBWaPBjnjDiA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OcHKa0ETgCGkBiVXh/ew2CBSZ99NvZ+uQdhJ8DMLYKfBvzvEZepe2h7xvvdMSfhmX
-	 9rwz3hSzhhRQRIhlYetOiiLol4uTtJHw0KZi0caUOTMkgzsVGkiYu+63DwtdUi+S4F
-	 Ao18BpYEpYV7V/RIRUVRioefdSufwF4MM2NW+IoXoeuXRBVvb943wXvTEZRUIYop9w
-	 vbyRGUNCsGNcNQh0it/CpQ0OG+km+Pb+ipu+lt4U7B0pjZE7UAbUWDUT/8cNQnC3ol
-	 Q9s0M5jbx6nQd0XRm8bKDkl5g5txdIQ/jE+Xf3sjQwbjW+6eNPTrhpJQkdi5rUE2Aw
-	 0TuLx/coAVXVQ==
-Message-ID: <4959c2c0-564a-4e3c-9650-228dede9a1f9@kernel.org>
-Date: Wed, 22 Jan 2025 08:51:29 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fFXywIu9"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4361f664af5so75806335e9.1
+        for <arm-scmi@vger.kernel.org>; Wed, 22 Jan 2025 00:48:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1737535736; x=1738140536; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ahcAYxKCW2/TnZTsjnNnWROYjAukoakSCPj81fATNcw=;
+        b=fFXywIu9Z8+LYdq9VjFb+W7mimd1Zu80S7c2qZWDo0bUjBIcI+D+9Ldvy0mBVbSzQq
+         0PIfqrZcxEdol3LvuzlBtufLi+xt+/yy/BFbxJk4wUGwx6eWHCNALS9erl+HHbswJA7G
+         oI1WX1y4Su+WMWSPxWtycpnofnuWfD8Cdwv9DN5w0oKhVHhL8wtrDkyiOS0BqNjfYUJa
+         Kz1jFIuih25KDXzYY+zMeaSk9UtvBd9oPw0mqTTRKnNdN5wJsCx3twF09umGOlpgUkku
+         GK1BUtz5XDsZHVqtGCGCMgiNnnO9wA4murO42ctNIo2OAvZz1W6encY1tReWQ9Nw05yu
+         dQtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737535736; x=1738140536;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ahcAYxKCW2/TnZTsjnNnWROYjAukoakSCPj81fATNcw=;
+        b=SZVTJUAtZ+uS90XQ9Z+ebgW5oKro74RX4JOszVZyaeY7VOCCX1rI1BL1W2Z6EbjDmQ
+         TCdNB34NmAlrzPAgeaVCq8UgRxgvP7ojRz0ojKOphRV3pvr9EvOspmH7xQC6FFP6wPiq
+         dYCeBeaIXGgtLcBm/kkoiLMik8KnZX+BBqJWqaN/BLK8+MQniCDdHQVUC8mo8AwJ20wc
+         dqSLEjhcOQlYU+WUTpu10M+g5caNZwbgboDv2nY60k+7lJuIbRXRjEMOhlWGmCFb9aLq
+         4hvhy3qKyPpcltXChYBShgskaHcmtDcmYduJZZtj2k2cz6ogqOukF8mC8J4k07zr/TxM
+         hsWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVjhJ4kw+JUYExFFY8m5h7qTlsaQ9P64Wd3nIhgRi/VrlsnrAe3n/yhsqdN6V+Psz7EgC92OrpwlA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTYu7HhLuaNhe1beNvt2EjBCU3dXWPJzFLKFY0Q6qJQdUOxFMb
+	d1rC04EkONKerA5x6LKJNp/j6yrJgjGcvrv/c8JylaJ6TfSkGafvPxny54Aiir0=
+X-Gm-Gg: ASbGncuQ4sZxKbbL0JO5DqgxqJUwY+gMJ8F3yItrLllQakMKWrqiaLwmIl+dyPACwYj
+	yuzQPXughJLhsrM5gBMFJmcvVTmu157BxUCG6nHnIbpnToHGnMdUQSWlKBrsHiLukqSzOGjZzrf
+	nCbdQPnWVGVgwHVfHUSDu1lOOBO8XVd38LiQrDMGcF1Z+ewNYD90G4AzAaUm19a6rzlfe2+Eg26
+	tVi4NlLpm7VWmgCp8XZ8KGgXFIxdsEGHtMvjNtOFMW6rdEYu1ZiUt1iZX5ddsCpYN50eHJw1gI=
+X-Google-Smtp-Source: AGHT+IHq3PpoCGSQdzJWDJkxvFTv6ixwaU5LzRSfdsLCE0QsOxCCYnY482OJuMYLEl9P4UbO7C0N0g==
+X-Received: by 2002:a05:600c:458a:b0:436:faeb:2a18 with SMTP id 5b1f17b1804b1-438913bed3fmr178285215e9.6.1737535735986;
+        Wed, 22 Jan 2025 00:48:55 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438b1d904cbsm12331605e9.1.2025.01.22.00.48.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jan 2025 00:48:55 -0800 (PST)
+Date: Wed, 22 Jan 2025 11:48:52 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, linux-kernel@vger.kernel.org,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev, Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH 2/5] firmware: arm_scmi: imx: Add i.MX95 CPU Protocol
+Message-ID: <3b9a7392-8ebe-4d43-a111-68bb6d2f93b6@stanley.mountain>
+References: <20250121-imx-lmm-cpu-v1-0-0eab7e073e4e@nxp.com>
+ <20250121-imx-lmm-cpu-v1-2-0eab7e073e4e@nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 00/21] hwmon: Fix the type of 'config' in struct
- hwmon_channel_info to u64
-To: "lihuisong (C)" <lihuisong@huawei.com>, linux-hwmon@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org,
- netdev@vger.kernel.org, linux-rtc@vger.kernel.org, oss-drivers@corigine.com,
- linux-rdma@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linuxarm@huawei.com, linux@roeck-us.net, jdelvare@suse.com,
- kernel@maidavale.org, pauk.denis@gmail.com, james@equiv.tech,
- sudeep.holla@arm.com, cristian.marussi@arm.com, matt@ranostay.sg,
- mchehab@kernel.org, irusskikh@marvell.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com,
- louis.peens@corigine.com, hkallweit1@gmail.com, linux@armlinux.org.uk,
- kabel@kernel.org, W_Armin@gmx.de, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, alexandre.belloni@bootlin.com,
- jonathan.cameron@huawei.com, zhanjie9@hisilicon.com,
- zhenglifeng1@huawei.com, liuyonglong@huawei.com
-References: <20250121064519.18974-1-lihuisong@huawei.com>
- <870c6b3e-d4f9-4722-934e-00e9ddb84e2e@kernel.org>
- <d42bf49b-e71b-d31e-2784-379076ebf370@huawei.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <d42bf49b-e71b-d31e-2784-379076ebf370@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250121-imx-lmm-cpu-v1-2-0eab7e073e4e@nxp.com>
 
-On 21/01/2025 09:14, lihuisong (C) wrote:
+On Tue, Jan 21, 2025 at 11:08:12PM +0800, Peng Fan (OSS) wrote:
+> From: Peng Fan <peng.fan@nxp.com>
 > 
-> 在 2025/1/21 15:47, Krzysztof Kozlowski 写道:
->> On 21/01/2025 07:44, Huisong Li wrote:
->>> The hwmon_device_register() is deprecated. When I try to repace it with
->>> hwmon_device_register_with_info() for acpi_power_meter driver, I found that
->>> the power channel attribute in linux/hwmon.h have to extend and is more
->>> than 32 after this replacement.
->>>
->>> However, the maximum number of hwmon channel attributes is 32 which is
->>> limited by current hwmon codes. This is not good to add new channel
->>> attribute for some hwmon sensor type and support more channel attribute.
->>>
->>> This series are aimed to do this. And also make sure that acpi_power_meter
->>> driver can successfully replace the deprecated hwmon_device_register()
->>> later.
->> Avoid combining independent patches into one patch bomb. Or explain the
->> dependencies and how is it supposed to be merged - that's why you have
->> cover letter here.
-> These patches having a title ('Use HWMON_CHANNEL_INFO macro to simplify 
-> code') are also for this series.
-> Or we need to modify the type of the 'xxx_config' array in these patches.
-> If we directly use the macro HWMON_CHANNEL_INFO, the type of 'config' 
-> has been modifyed in patch 1/21 and these driver don't need to care this 
-> change.
+> This protocol allows an agent to start, stop a CPU or set reset vector. It
+> is used to manage auxiliary CPUs in an LM (e.g. additional cores in an AP
+> cluster).
+> 
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
+>  drivers/firmware/arm_scmi/vendors/imx/Kconfig      |  13 +-
+>  drivers/firmware/arm_scmi/vendors/imx/Makefile     |   1 +
+>  drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c | 283 +++++++++++++++++++++
+>  include/linux/scmi_imx_protocol.h                  |  10 +
+>  4 files changed, 306 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/firmware/arm_scmi/vendors/imx/Kconfig b/drivers/firmware/arm_scmi/vendors/imx/Kconfig
+> index 1a936fc87d2350e2a21bccd45dfbeebfa3b90286..9070522510e4d3f3d7276a7581f8676006d20f90 100644
+> --- a/drivers/firmware/arm_scmi/vendors/imx/Kconfig
+> +++ b/drivers/firmware/arm_scmi/vendors/imx/Kconfig
+> @@ -12,6 +12,17 @@ config IMX_SCMI_BBM_EXT
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called imx-sm-bbm.
+>  
+> +config IMX_SCMI_CPU_EXT
+> +	tristate "i.MX SCMI CPU EXTENSION"
+> +	depends on ARM_SCMI_PROTOCOL || (COMPILE_TEST && OF)
+> +	default y if ARCH_MXC
+> +	help
+> +	  This enables i.MX System CPU Protocol to manage cpu
+> +	  start, stop and etc.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called imx-sm-cpu.
+> +
+>  config IMX_SCMI_LMM_EXT
+>  	tristate "i.MX SCMI LMM EXTENSION"
+>  	depends on ARM_SCMI_PROTOCOL || (COMPILE_TEST && OF)
+> @@ -21,7 +32,7 @@ config IMX_SCMI_LMM_EXT
+>  	  manage Logical Machines boot, shutdown and etc.
+>  
+>  	  To compile this driver as a module, choose M here: the
+> -	  module will be called imx-sm-lmm.
+> +	  module will be called imx-sm-cpu.
+>  
 
-None of above addresses my concern. I am dropping the series from my
-inbox/to-review box.
+It's supposed to be called imx-sm-lmm.
 
-Best regards,
-Krzysztof
+>  config IMX_SCMI_MISC_EXT
+>  	tristate "i.MX SCMI MISC EXTENSION"
+> diff --git a/drivers/firmware/arm_scmi/vendors/imx/Makefile b/drivers/firmware/arm_scmi/vendors/imx/Makefile
+> index f39a99ccaf9af757475e8b112d224669444d7ddc..e3a5ea46345c89da1afae25e55698044672b7c28 100644
+> --- a/drivers/firmware/arm_scmi/vendors/imx/Makefile
+> +++ b/drivers/firmware/arm_scmi/vendors/imx/Makefile
+> @@ -1,4 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  obj-$(CONFIG_IMX_SCMI_BBM_EXT) += imx-sm-bbm.o
+> +obj-$(CONFIG_IMX_SCMI_CPU_EXT) += imx-sm-cpu.o
+>  obj-$(CONFIG_IMX_SCMI_LMM_EXT) += imx-sm-lmm.o
+>  obj-$(CONFIG_IMX_SCMI_MISC_EXT) += imx-sm-misc.o
+> diff --git a/drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c b/drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..e3f294c2cb69a5b5a916d55984f4a63539937d02
+> --- /dev/null
+> +++ b/drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c
+> @@ -0,0 +1,283 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * System control and Management Interface (SCMI) NXP CPU Protocol
+> + *
+> + * Copyright 2025 NXP
+> + */
+> +
+> +#include <linux/bits.h>
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/scmi_protocol.h>
+> +#include <linux/scmi_imx_protocol.h>
+> +
+> +#include "../../protocols.h"
+> +#include "../../notify.h"
+> +
+> +#define SCMI_PROTOCOL_SUPPORTED_VERSION		0x10000
+> +
+> +enum scmi_imx_cpu_protocol_cmd {
+> +	SCMI_IMX_CPU_ATTRIBUTES	= 0x3,
+> +	SCMI_IMX_CPU_START = 0x4,
+> +	SCMI_IMX_CPU_STOP = 0x5,
+> +	SCMI_IMX_CPU_RESET_VECTOR_SET = 0x6,
+> +	SCMI_IMX_CPU_INFO_GET = 0xC,
+> +};
+> +
+> +struct scmi_imx_cpu_info {
+> +	u32 nr_cpu;
+> +};
+> +
+> +#define SCMI_IMX_CPU_PROTO_ATTR_NUM_CPUS(x)  ((x) & 0xFFFF)
+> +struct scmi_msg_imx_cpu_protocol_attributes {
+> +	__le32 attributes;
+> +};
+> +
+> +struct scmi_msg_imx_cpu_attributes_out {
+> +	__le32 attributes;
+> +#define	CPU_MAX_NAME	16
+> +	u8 name[CPU_MAX_NAME];
+
+char is always unsigned in the kernel these days but strings should
+still always be char.  Same thing in patch 1, there were a couple u8
+names.
+
+> +};
+> +
+> +struct scmi_imx_cpu_reset_vector_set_in {
+> +	__le32 cpuid;
+> +#define	CPU_VEC_FLAGS_RESUME	BIT(31)
+> +#define	CPU_VEC_FLAGS_START	BIT(30)
+> +#define	CPU_VEC_FLAGS_BOOT	BIT(29)
+> +	__le32 flags;
+> +	__le32 resetvectorlow;
+> +	__le32 resetvectorhigh;
+> +};
+> +
+> +struct scmi_imx_cpu_info_get_out {
+> +#define	CPU_RUN_MODE_START	0
+> +#define	CPU_RUN_MODE_HOLD	1
+> +#define	CPU_RUN_MODE_STOP	2
+> +#define	CPU_RUN_MODE_SLEEP	3
+> +	__le32 runmode;
+> +	__le32 sleepmode;
+> +	__le32 resetvectorlow;
+> +	__le32 resetvectorhigh;
+> +};
+> +
+> +static int scmi_imx_cpu_validate_cpuid(const struct scmi_protocol_handle *ph,
+> +				       u32 cpuid)
+> +{
+> +	struct scmi_imx_cpu_info *info = ph->get_priv(ph);
+> +
+> +	if (cpuid >= info->nr_cpu)
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+> +static int scmi_imx_cpu_start(const struct scmi_protocol_handle *ph, u32 cpuid)
+> +{
+> +	struct scmi_xfer *t;
+> +	int ret;
+> +
+> +	ret = scmi_imx_cpu_validate_cpuid(ph, cpuid);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ph->xops->xfer_get_init(ph, SCMI_IMX_CPU_START, sizeof(u32),
+> +				      0, &t);
+> +	if (ret)
+> +		return ret;
+> +
+> +	put_unaligned_le32(cpuid, t->tx.buf);
+> +	ret = ph->xops->do_xfer(ph, t);
+> +
+> +	ph->xops->xfer_put(ph, t);
+> +
+> +	return ret;
+> +}
+> +
+> +static int scmi_imx_cpu_stop(const struct scmi_protocol_handle *ph, u32 cpuid)
+> +{
+> +	struct scmi_xfer *t;
+> +	int ret;
+> +
+> +	ret = scmi_imx_cpu_validate_cpuid(ph, cpuid);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ph->xops->xfer_get_init(ph, SCMI_IMX_CPU_STOP, sizeof(u32),
+> +				      0, &t);
+> +	if (ret)
+> +		return ret;
+> +
+> +	put_unaligned_le32(cpuid, t->tx.buf);
+> +	ret = ph->xops->do_xfer(ph, t);
+> +
+> +	ph->xops->xfer_put(ph, t);
+> +
+> +	return ret;
+> +}
+> +
+> +static int scmi_imx_cpu_reset_vector_set(const struct scmi_protocol_handle *ph,
+> +					 u32 cpuid, u64 vector, bool start,
+> +					 bool boot, bool resume)
+> +{
+> +	struct scmi_imx_cpu_reset_vector_set_in *in;
+> +	struct scmi_xfer *t;
+> +	int ret;
+> +
+> +	ret = scmi_imx_cpu_validate_cpuid(ph, cpuid);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ph->xops->xfer_get_init(ph, SCMI_IMX_CPU_RESET_VECTOR_SET, sizeof(*in),
+> +				      0, &t);
+> +	if (ret)
+> +		return ret;
+> +
+> +	in = t->tx.buf;
+> +	in->cpuid = cpu_to_le32(cpuid);
+> +	in->flags = start ? CPU_VEC_FLAGS_START : 0;
+> +	in->flags |= boot ? CPU_VEC_FLAGS_BOOT : 0;
+> +	in->flags |= resume ? CPU_VEC_FLAGS_BOOT : 0;
+
+s/CPU_VEC_FLAGS_BOOT/CPU_VEC_FLAGS_RESUME/
+
+> +	in->resetvectorlow = cpu_to_le32(lower_32_bits(vector));
+> +	in->resetvectorhigh = cpu_to_le32(upper_32_bits(vector));
+> +	ret = ph->xops->do_xfer(ph, t);
+> +
+> +	ph->xops->xfer_put(ph, t);
+> +
+> +	return ret;
+> +}
+> +
+> +static int scmi_imx_cpu_started(const struct scmi_protocol_handle *ph, u32 cpuid,
+> +				bool *started)
+> +{
+> +	struct scmi_imx_cpu_info_get_out *out;
+> +	struct scmi_xfer *t;
+> +	int ret;
+> +
+> +	*started = false;
+> +	ret = scmi_imx_cpu_validate_cpuid(ph, cpuid);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ph->xops->xfer_get_init(ph, SCMI_IMX_CPU_INFO_GET, sizeof(u32),
+> +				      0, &t);
+> +	if (ret)
+> +		return ret;
+> +
+> +	put_unaligned_le32(cpuid, t->tx.buf);
+> +	ret = ph->xops->do_xfer(ph, t);
+> +	if (!ret) {
+> +		out = t->rx.buf;
+> +		if ((out->runmode == CPU_RUN_MODE_START) ||
+> +		    (out->runmode == CPU_RUN_MODE_SLEEP))
+> +			*started = true;
+> +	}
+> +
+> +	ph->xops->xfer_put(ph, t);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct scmi_imx_cpu_proto_ops scmi_imx_cpu_proto_ops = {
+> +	.cpu_reset_vector_set = scmi_imx_cpu_reset_vector_set,
+> +	.cpu_start = scmi_imx_cpu_start,
+> +	.cpu_started = scmi_imx_cpu_started,
+> +	.cpu_stop = scmi_imx_cpu_stop,
+> +};
+> +
+> +static int scmi_imx_cpu_protocol_attributes_get(const struct scmi_protocol_handle *ph,
+> +						struct scmi_imx_cpu_info *info)
+> +{
+> +	struct scmi_msg_imx_cpu_protocol_attributes *attr;
+> +	struct scmi_xfer *t;
+> +	int ret;
+> +
+> +	ret = ph->xops->xfer_get_init(ph, PROTOCOL_ATTRIBUTES, 0,
+> +				      sizeof(*attr), &t);
+> +	if (ret)
+> +		return ret;
+> +
+> +	attr = t->rx.buf;
+> +
+> +	ret = ph->xops->do_xfer(ph, t);
+> +	if (!ret) {
+> +		info->nr_cpu = SCMI_IMX_CPU_PROTO_ATTR_NUM_CPUS(attr->attributes);
+> +		dev_info(ph->dev, "i.MX SM CPU: %d cpus\n",
+> +			 info->nr_cpu);
+
+This can fit in 80 characters:
+
+		dev_info(ph->dev, "i.MX SM CPU: %d cpus\n", info->nr_cpu);
+
+> +	}
+> +
+> +	ph->xops->xfer_put(ph, t);
+> +
+> +	return ret;
+> +}
+> +
+> +static int scmi_imx_cpu_attributes_get(const struct scmi_protocol_handle *ph,
+> +				       u32 cpuid, struct scmi_imx_cpu_info *info)
+
+No need to pass the "info" pointer.
+
+> +{
+> +	struct scmi_msg_imx_cpu_attributes_out *out;
+> +	struct scmi_xfer *t;
+> +	int ret;
+> +
+> +	ret = ph->xops->xfer_get_init(ph, SCMI_IMX_CPU_ATTRIBUTES, sizeof(u32), 0, &t);
+> +	if (ret)
+> +		return ret;
+> +
+> +	put_unaligned_le32(cpuid, t->tx.buf);
+> +	ret = ph->xops->do_xfer(ph, t);
+> +	if (!ret) {
+> +		out = t->rx.buf;
+> +		dev_info(ph->dev, "i.MX CPU: name: %s\n", out->name);
+> +	} else {
+> +		dev_err(ph->dev, "i.MX cpu: Failed to get info of cpu(%u)\n", cpuid);
+> +	}
+> +
+> +	ph->xops->xfer_put(ph, t);
+> +
+> +	return ret;
+> +}
+> +
+> +
+
+Multiple blank lines (checkpatch.pl --strict).
+
+> +static int scmi_imx_cpu_protocol_init(const struct scmi_protocol_handle *ph)
+> +{
+
+regards,
+dan carpenter
+
