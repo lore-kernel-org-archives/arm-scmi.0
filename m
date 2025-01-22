@@ -1,237 +1,184 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C425018035
-	for <arm-scmi@vger.kernel.org>; Wed, 22 Jan 2025 02:19:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A73354764;
+	Wed, 22 Jan 2025 02:34:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737512387; cv=none; b=CYQi4YZuc9zXdSK9J8XdWJnVXLjSruFe3aE7pQnqaAg7RLSaw9nF19cNypMSpnKCbZRrPTaWTjSe9eNNr4DhZLIaDKaWaMyAgSNnRVVZ3x/rMkkFVOzH7EyzDRo1UJ373cwZcveaeeIoLyxm4Nl65H2en2biJYSKWPCHnoDAydI=
+	t=1737513258; cv=none; b=aLBQh6w/ulWuP2PIlyFuiy6KEAPi4qNoY6OB6ddNbglelZvlGKFoFIRngjUeuMcGWJ14d2N4UHEO3+NgTmqKcG4YsMCtgxlm+DJQASyNjY5uVsVkQiwnBV+cD7Hvrh0q0PL9dtNRAe/AS8K1vLD5BZNRvz2jXeuwY/p6kLOFXW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737512387; c=relaxed/simple;
-	bh=NKeEWaTJEZ1J2asH6x19pyuNluVDF1tOkAmKt3SbCG4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Xrg5Dk4+Ai1pLbTfvUlmSLU/ATFacwtvQqW+PEfMG2KmuVXoOLrGoCv1X5vpUIjkcvQUFEkQ3VuOP2H3/m0DAzOcAIx152acvHCEIXVsBwUxwLh2lxJbK/h3bs0rApM0abVkaOVCzxxaQWrcHF7TMNLevB2oiTnzhQ9t1ey46GI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bUIRYr1X; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bUIRYr1X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1737512382;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NKeEWaTJEZ1J2asH6x19pyuNluVDF1tOkAmKt3SbCG4=;
-	b=bUIRYr1X/ka/VPFKIJb/7aj89vYQ2c4PlyLv3oifhbPBN6lHCPPhxQ0BgvWCjdmGia8e8k
-	e31F7MmHTvEoH9Wpgx6PpAwsz6mZJhDnPOiB23qJLfrimMnGMDEIlI8gSURg+sYoxbiTM4
-	P/WuM6UpOhU36Pcb3PG7JuB87lUo4t0=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-5-gU6Gwqj-O6qxLCJXS14pNg-1; Tue, 21 Jan 2025 21:19:40 -0500
-X-MC-Unique: gU6Gwqj-O6qxLCJXS14pNg-1
-X-Mimecast-MFC-AGG-ID: gU6Gwqj-O6qxLCJXS14pNg
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7b6ef813ed1so918268085a.3
-        for <arm-scmi@vger.kernel.org>; Tue, 21 Jan 2025 18:19:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737512380; x=1738117180;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NKeEWaTJEZ1J2asH6x19pyuNluVDF1tOkAmKt3SbCG4=;
-        b=GK7seDrVxLCwVHGBqJShs+C9ajRBAa7oESEBUOpOGXQU7es95/qnS53OGVUbibRIe+
-         UM82oa8zPCLEsT45NC/xe3/pS30PwbdXbx7I1yxDl2Mvzphu0VBqGFG2lKdausgCKT7s
-         xnFopvpe0kqgl8gPB3X5s3DRKa3AGHhPJUrffAwpbLYa4BQqYAXBWIxFygBTsebdpEJE
-         eyV6Z8RI4zlZAQqyPCCvc+WyD9zQAnA2r4o/s823CYGps0mTSCJqGVHvQT31786Cmt8e
-         3YhCMqXph0CBXLuo1FWAj/3w5pOba/2Ut7unfAuI2Y+XtL97oMenziPIeBb7H1FjxlRy
-         Vz+w==
-X-Gm-Message-State: AOJu0Yx6R+g0Zd4SrVZN6CIoSuZ/ZvDZdBygWBdCQ8mwNJcYqO6nnNXv
-	JYDhrZn6C4cV2fKY+O8nIIWf6IpbfY1YJBz8cITUKpgg4pRX/M9yLYEAwr/maGX9PEVWPTsiTfF
-	uY9dOEDpiuogfK27TD/EMxVnoQaHQvYEJIokVq97VNEBfpAxy7U1HUq5ildTEFGJ+
-X-Gm-Gg: ASbGncsgvUpFRycbP4pCUdtUKiUtubIsdS252ZzdWgba1cukbi+/2ETfpo+V/Ty9i4w
-	oyBWAkZhuDPAvVLOoDJZ0wNF1F1RJ6xZVMzmZx5zzbKdkvyjLowU8XcnRVmWokCaHDHoeT5fU7E
-	mQWhJo3LsSs3DVX9PVqzab0IwDB7ZacENste/LEkj83vzWmRGndEr2yNMmY02BjkQK9aHSOVcnk
-	QQAwC8Ezn2JE4HKAAwcq8DItV1KYDf6GIoHU1AkIwm2EwzKs5qd1N1qyhXRSaMT/EM4ublmRtLr
-	OPZaXYvDnnhwAPvjPwD+DIu1xU558yNJwWzbS1nDoi9iUFl9UtXNlDkHsCMpTQ==
-X-Received: by 2002:a05:620a:4502:b0:7b1:5089:485b with SMTP id af79cd13be357-7be632102e9mr2979975685a.3.1737512380043;
-        Tue, 21 Jan 2025 18:19:40 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE9onwWcyrIQrU+TRJMaLSNiHmIkK3L+iFdf8eGlCFxbDM16pBrTkhh5yoEhN1H2eh1gZpTzg==
-X-Received: by 2002:a05:620a:4502:b0:7b1:5089:485b with SMTP id af79cd13be357-7be632102e9mr2979973085a.3.1737512379677;
-        Tue, 21 Jan 2025 18:19:39 -0800 (PST)
-Received: from thinkpad-p1.localdomain (pool-174-112-193-187.cpe.net.cable.rogers.com. [174.112.193.187])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7be6148055bsm617909985a.43.2025.01.21.18.19.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jan 2025 18:19:38 -0800 (PST)
-Message-ID: <5806bbd198bc4361a41e06a02f93a157bd8eb7e8.camel@redhat.com>
-Subject: Re: [RFC PATCH] firmware: arm_scmi: Support mailbox transports with
- no completion IRQ
-From: Radu Rendec <rrendec@redhat.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Sudeep
- Holla <sudeep.holla@arm.com>
-Date: Tue, 21 Jan 2025 21:19:37 -0500
-In-Reply-To: <Z497vnIasuJbVarg@pluto>
-References: <20250120212418.889385-1-rrendec@redhat.com>
-	 <Z497vnIasuJbVarg@pluto>
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
+	s=arc-20240116; t=1737513258; c=relaxed/simple;
+	bh=ahL/0Ai3hbmd4fgtPdz9MFVO3eMVv9sVRtU0Vxotbj0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Ku3gTH4DA7GtVTZ38PtKPQWLK5O3nXAGHk29a2rGOtwxlHwXzQ/7TOphRQoLcyJlqB4Pc8Y7Gy43BXmizTzyZ0OjSYxA7N/4RkzRrGap3bak3Bnrkw/+z7Pl3JrfbDozUIP8aUtZSeIKho/fQeg6G1iSZhhHFfxQAQQa5AYX9JE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Yd7PV04n7zRln3;
+	Wed, 22 Jan 2025 10:31:42 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0615818006C;
+	Wed, 22 Jan 2025 10:34:12 +0800 (CST)
+Received: from kwepemn100009.china.huawei.com (7.202.194.112) by
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 22 Jan 2025 10:34:11 +0800
+Received: from [10.67.121.59] (10.67.121.59) by kwepemn100009.china.huawei.com
+ (7.202.194.112) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 22 Jan
+ 2025 10:34:09 +0800
+Message-ID: <9575c823-4f77-8037-a4be-075b2e35d6f1@huawei.com>
+Date: Wed, 22 Jan 2025 10:34:08 +0800
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 8Hg3JbRHb52LiLlaSqOHrIVhHxx2s05HDBaNzCSo5AA_1737512380
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v1 00/21] hwmon: Fix the type of 'config' in struct
+ hwmon_channel_info to u64
+To: Armin Wolf <W_Armin@gmx.de>
+CC: <linux-hwmon@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<arm-scmi@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<linux-rtc@vger.kernel.org>, <oss-drivers@corigine.com>,
+	<linux-rdma@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
+	<linuxarm@huawei.com>, <linux@roeck-us.net>, <jdelvare@suse.com>,
+	<kernel@maidavale.org>, <pauk.denis@gmail.com>, <james@equiv.tech>,
+	<sudeep.holla@arm.com>, <cristian.marussi@arm.com>, <matt@ranostay.sg>,
+	<mchehab@kernel.org>, <irusskikh@marvell.com>, <andrew+netdev@lunn.ch>,
+	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <saeedm@nvidia.com>, <leon@kernel.org>,
+	<tariqt@nvidia.com>, <louis.peens@corigine.com>, <hkallweit1@gmail.com>,
+	<linux@armlinux.org.uk>, <kabel@kernel.org>, <hdegoede@redhat.com>,
+	<ilpo.jarvinen@linux.intel.com>, <alexandre.belloni@bootlin.com>,
+	<krzk@kernel.org>, <jonathan.cameron@huawei.com>, <zhanjie9@hisilicon.com>,
+	<zhenglifeng1@huawei.com>, <liuyonglong@huawei.com>
+References: <20250121064519.18974-1-lihuisong@huawei.com>
+ <03b138e9-688f-4ebc-bd01-3d54fd20e525@gmx.de>
+From: "lihuisong (C)" <lihuisong@huawei.com>
+In-Reply-To: <03b138e9-688f-4ebc-bd01-3d54fd20e525@gmx.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemn100009.china.huawei.com (7.202.194.112)
 
-Hi Cristian,
 
-On Tue, 2025-01-21 at 10:49 +0000, Cristian Marussi wrote:
-> mmm...I dont think you can do this....it is a bit tricky to explain BUT
-> the optional txdone_irq in the mailbox subsystem is NOT a completion
-> interrupt as intended in the SCMI world, I'll try to explain why in the
-> following.
->=20
-> The SCMI mailbox transport is defined by a mailbox and an associated
-> shared memory area: when an SCMI client like Linux wants to send a
-> message to the server it places the message in the shmem, set the
-> channel BUSY bit, and rings the doorbell to alert the other side; at=20
-> this point the SCMI server wakes up grab the message from the shmem,
-> process it as it sees fit, places the reply back into the same shmem=20
-> area, clears the channnel BUSY bit, and CAN optionally ring back the
-> client with the mailbox doorbell: this completion IRQ is OPTIONAL, and,
-> if missing, the client will have instead to revert to polling the well
-> defined channel BUSY bit in the shmem area to know when the reply from
-> the server is ready.
-> The end result is that the channel is kept busy until the server has
-> replied, and cannot be reused until we are sure that the reply is availab=
-le
-> AND that the client execution path, waiting for it, has comsumed such
-> expected reply message. (or times out)
-> Alternatively, even if we have this completion IRQ we can decide, client
-> side, to start a polling trabnsaction and dont use the completion
-> IRQ...but this is another sroty.
->=20
-> Now, in the mailbox subsystem the txdone_irq, when present is meant to
-> represnt a txACK IRQ, sent automatically by the mailbox controller, when
-> the transmission has completed and the issued command has been read by
-> the server(usually when the server clears some specific reg): it does NOT
-> assure the client that the server has processed the request and that a
-> reply has been placed into the shmem area, so it is not what SCMI intend
-> of a completion interrupt: it is just a mere indication that the
-> transmission client->server has completed in the mailbox and that the
-> mailbox channel(doorbell) is now free annd available for another
-> transmission.
->=20
-> Indeed, such TxACK, when received by the mailbox driver causes the next
-> enqueued message to be sent (i.e. the doorbell to be ring), and, while
-> it is certainly useful in some other context in which you could use such
-> TxACK to deduce that the channel is free and available for another
-> transmission, it is not enough in the SCMI world to guarantee that the
-> SCMI reply has come back and has been processed by the client.
->=20
-> From another point of view, you could say that the problem is that the
-> mailbox/doorbell/TxACK is only one side of the story, the other part,
-> the shared memory area used for the effective message transmission, is
-> unknown to the mailbox controller and in control of the SCMI stack, so
-> you cannot let the mailbox subsystem decide when to queue new messages
-> on the same shared memory area used for cmds and replies.
->=20
-> In fact, such TxACk interrupt has no practical usage in the SCMI stack
-> and it is even counterproductive to have it, since it can cause the
-> client to mistakenly attempt the next transmission before the previous
-> one has completed, so overwriting the in-flight reply.
-> (..and our busy-looping client side on the channel BUSY bit does not
-> help here...)
->=20
-> The following commit, though, needed mainly for different reasons, should
-> have indeed solved also the issue with mailbox controllers having a TxACK=
-,
-> since it introduces a global channel lock that serializes and inhibits an=
-y
-> further transmissions, at the SCMI layer, even on systems that has a work=
-ing
-> and enabled TxACK IRQ.
->=20
-> commit da1642bc97c4ef67f347edcd493bd0a52f88777b (tag: scmi-fixes-6.12)
-> Author: Justin Chen <justin.chen@broadcom.com>
-> Date:=C2=A0=C2=A0 Mon Oct 14 09:07:17 2024 -0700
->=20
-> =C2=A0=C2=A0=C2=A0 firmware: arm_scmi: Queue in scmi layer for mailbox im=
-plementation
->=20
-> In general, anyway, it would be even better, if possible, not to enable
-> at all such txACK IRQ at the mailbox level when such a controller is used
-> for SCMI: as an example, in arm_mhuv3.c, NOT even defining the txACK in
-> the DT when describimng the mailbox controller does the trick.
->=20
-> Did you see any specific anomaly regarding the SCMI stack when using a
-> mailbox controller which provides a txACK ?
->=20
-> Sorry for the not so short mail :P ... but if I am missing something
-> and you are seeing anomalies, please let us know.
-
-No need to apologize, and many thanks for taking the time to explain
-everything in such detail. Much appreciated! What you explained makes
-perfect sense, and now I clearly understand why the changes I proposed
-would not work.
-
-I have quite the opposite problem. I'm using a mailbox controller that
-does *not* provide a txACK interrupt (or any kind of interrupt for that
-matter), and the problem is that SCMI transfers do not complete because
-scmi_wait_for_reply() times out.
-
-I tracked this down to xfer->hdr.poll_completion being false, and
-therefore scmi_wait_for_reply() taking the second branch, where it
-calls wait_for_completion_timeout(). Looking at do_xfer(),
-xfer->hdr.poll_completion is set to true if is_polling_enabled()
-returns true, and one of the conditions for this to happen is that the
-no_completion_irq flag in struct scmi_chan_info is set to true. But it
-defaults to false, and in my case there is nothing there to set it to
-true. This is what led me to the RFC patch I sent.
-
-Even if now that you explained it I understand why the txACK interrupt
-is different from the SCMI message having been processed and replied, I
-still fail to understand how it's all supposed to work for the mailbox
-transport case where the completion IRQ (which you said was optional)
-is indeed *not* implemented.
-
-Since xfer->hdr.poll_completion defaults to false, I looked at what
-could trigger the completion that scmi_wait_for_reply() waits on, in
-the case of a mailbox transport. The way it's set up is quite
-convoluted but if I'm reading the code correctly:
- * core->rx_callback (in mailbox.c) is set to scmi_rx_callback()
- * chan->cl->rx_callback is set to rx_callback() (in mailbox.c)
-Therefore, the (reverse) call path leading to completion would be:
-complete(&xfer->done)
-scmi_handle_response()
-scmi_rx_callback()
-rx_callback()
-mbox_chan_received_data()
-
-If I understand correctly, mbox_chan_received_data() is supposed to be
-called by the mailbox provider driver when the mailbox receives data
-e.g. the SCMI server rings the bell to indicate completion. But doesn't
-this mean that the completion notification (through mailbox doorbell)
-is expected to be implemented by default?
-
-Now I get that the mailbox layer has no knowledge of the client layer
-(SCMI in this case) and that the txACK IRQ in the mailbox layer is not
-meaningful or useful to the SCMI layer. But in my (uneducated) opinion,
-there should still be a way to set the no_completion_irq flag in struct
-scmi_chan_info to true for the mailbox transport, for the case when the
-SCMI server does not implement the completion notification. Perhaps
-through the device tree?
-
-Now it's my turn to apologize for a long email :) Hopefully it makes
-sense and it's clear now what problem I'm trying to solve. Thanks again
-for all the input provided so far, and I'm looking forward to some more
-answers.
-
---=20
-Best regards,
-Radu
-
+在 2025/1/21 22:12, Armin Wolf 写道:
+> Am 21.01.25 um 07:44 schrieb Huisong Li:
+>
+>> The hwmon_device_register() is deprecated. When I try to repace it with
+>> hwmon_device_register_with_info() for acpi_power_meter driver, I 
+>> found that
+>> the power channel attribute in linux/hwmon.h have to extend and is more
+>> than 32 after this replacement.
+>>
+>> However, the maximum number of hwmon channel attributes is 32 which is
+>> limited by current hwmon codes. This is not good to add new channel
+>> attribute for some hwmon sensor type and support more channel attribute.
+>>
+>> This series are aimed to do this. And also make sure that 
+>> acpi_power_meter
+>> driver can successfully replace the deprecated hwmon_device_register()
+>> later.
+>
+> Hi,
+>
+> what kind of new power attributes do you want to add to the hwmon API?
+The attributes you list is right.
+>
+> AFAIK the acpi-power-meter driver supports the following attributes:
+>
+>     power1_accuracy            -> HWMON_P_ACCURACY
+>     power1_cap_min            -> HWMON_P_CAP_MIN
+>     power1_cap_max            -> HWMON_P_CAP_MAX
+>     power1_cap_hyst            -> HWMON_P_CAP_HYST
+>     power1_cap            -> HWMON_P_CAP
+>     power1_average            -> HWMON_P_AVERAGE
+>     power1_average_min        -> HWMON_P_AVERAGE_MIN
+>     power1_average_max        -> HWMON_P_AVERAGE_MAX
+>     power1_average_interval        -> HWMON_P_AVERAGE_INTERVAL
+>     power1_average_interval_min    -> HWMON_P_AVERAGE_INTERVAL_MIN
+>     power1_average_interval_max    -> HWMON_P_AVERAGE_INTERVAL_MAX
+>     power1_alarm            -> HWMON_P_ALARM
+>     power1_model_number
+>     power1_oem_info
+>     power1_serial_number
+>     power1_is_battery
+>     name                -> handled by hwmon core
+>
+> The remaining attributes are in my opinion not generic enough to add 
+> them to the generic
+> hwmon power attributes. I think you should implement them as a 
+> attribute_group which can
+> be passed to hwmon_device_register_with_info() using the 
+> "extra_groups" parameter.
+>
+This is a good idea. Thanks.
+>
+>>
+>> Huisong Li (21):
+>>    hwmon: Fix the type of 'config' in struct hwmon_channel_info to u64
+>>    media: video-i2c: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    net: aquantia: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    net: nfp: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    net: phy: marvell: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    net: phy: marvell10g: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    rtc: ab-eoz9: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    rtc: ds3232: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    w1: w1_therm: w1: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    net: phy: aquantia: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    hwmon: (asus_wmi_sensors) Fix type of 'config' in struct
+>>      hwmon_channel_info to u64
+>>    hwmon: (hp-wmi-sensors) Fix type of 'config' in struct
+>>      hwmon_channel_info to u64
+>>    hwmon: (mr75203) Fix the type of 'config' in struct 
+>> hwmon_channel_info
+>>      to u64
+>>    hwmon: (pwm-fan) Fix the type of 'config' in struct 
+>> hwmon_channel_info
+>>      to u64
+>>    hwmon: (scmi-hwmon) Fix the type of 'config' in struct
+>>      hwmon_channel_info to u64
+>>    hwmon: (tmp401) Fix the type of 'config' in struct hwmon_channel_info
+>>      to u64
+>>    hwmon: (tmp421) Fix the type of 'config' in struct hwmon_channel_info
+>>      to u64
+>>    net/mlx5: Fix the type of 'config' in struct hwmon_channel_info to 
+>> u64
+>>    platform/x86: dell-ddv: Fix the type of 'config' in struct
+>>      hwmon_channel_info to u64
+>>    hwmon: (asus-ec-sensors) Fix the type of 'config' in struct
+>>      hwmon_channel_info to u64
+>>    hwmon: (lm90) Fix the type of 'config' in struct 
+>> hwmon_channel_info to
+>>      u64
+>>
+>>   drivers/hwmon/asus-ec-sensors.c               |   6 +-
+>>   drivers/hwmon/asus_wmi_sensors.c              |   8 +-
+>>   drivers/hwmon/hp-wmi-sensors.c                |   6 +-
+>>   drivers/hwmon/hwmon.c                         |   4 +-
+>>   drivers/hwmon/lm90.c                          |   4 +-
+>>   drivers/hwmon/mr75203.c                       |   6 +-
+>>   drivers/hwmon/pwm-fan.c                       |   4 +-
+>>   drivers/hwmon/scmi-hwmon.c                    |   6 +-
+>>   drivers/hwmon/tmp401.c                        |   4 +-
+>>   drivers/hwmon/tmp421.c                        |   2 +-
+>>   drivers/media/i2c/video-i2c.c                 |  12 +-
+>>   .../ethernet/aquantia/atlantic/aq_drvinfo.c   |  14 +-
+>>   .../net/ethernet/mellanox/mlx5/core/hwmon.c   |   8 +-
+>>   .../net/ethernet/netronome/nfp/nfp_hwmon.c    |  40 +--
+>>   drivers/net/phy/aquantia/aquantia_hwmon.c     |  32 +-
+>>   drivers/net/phy/marvell.c                     |  24 +-
+>>   drivers/net/phy/marvell10g.c                  |  24 +-
+>>   drivers/platform/x86/dell/dell-wmi-ddv.c      |   6 +-
+>>   drivers/rtc/rtc-ab-eoz9.c                     |  24 +-
+>>   drivers/rtc/rtc-ds3232.c                      |  24 +-
+>>   drivers/w1/slaves/w1_therm.c                  |  12 +-
+>>   include/linux/hwmon.h                         | 300 +++++++++---------
+>>   22 files changed, 205 insertions(+), 365 deletions(-)
+>>
+> .
