@@ -1,212 +1,565 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F725212B1A
-	for <arm-scmi@vger.kernel.org>; Wed, 22 Jan 2025 12:14:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8A45212B1F;
+	Wed, 22 Jan 2025 12:14:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737548068; cv=none; b=Wf6jhZYnOaPCYxzK5wnZgRNUAh6Ewbe0p9mupgshTxF+faXm8WIMDh4ld7huF8S24yxsOmNtJdCS/hFj79U+8y9ibA12x8Bk/mxcfnosk31yVRb9qtn9Qo9c+pXHN+afbdAhv0/B9Kj/BGv2xmtiMS+OHoRm8JGbrsrTpAq86Vk=
+	t=1737548091; cv=none; b=mFfEYX2F1uvUefbalP5Xa3Z/FOROwnLoxFQzmEJSXoQk/Phqgfn3kzXrJWXtAQfMsvQBe4SVJLqt8BiGYY+3BCqtJdV1HuPoJKjI5yWaootN3+xqh/r84H6dYN/ZdjSTKS57cYECW+PSIxC6zAv/2a9pfvTxEEog8IWGXH2QmHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737548068; c=relaxed/simple;
-	bh=8bDNFcP1fWq8S/nVG5SKs4jvU4KPF+S/Menl8yTgoLM=;
+	s=arc-20240116; t=1737548091; c=relaxed/simple;
+	bh=/kHv5CzDxTj2bf3cpAjNKraBhwFQz8Nn8HsEKhNiqqU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NwNIUPBdvQdIryFhEqTMReXSXfx37Nx+XgFdAHN4/gbGqUQIn6CecUYssjv3BzAfEU5yGNWBbIG6zthDONtZ9DEJAJZZ2V0S+yeBC280VesNaaUq3Xdw9z1mB+Qq3YJTQNAQ4hJDvboXYfSUBVGhLqZGEc+sLg3wYDW74D5AEMk=
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y4GuStO+v9Leq1eUhy8eUufg0Ommn5dJqMObHmrwOAc+FHB8ubQowaJAY0jTpSZcE8Zyz03cOKW5bRovkjaYNMOEr/WYOH/cvYuMXvgAa5/zESOEYC5JKnViNW+CGPt9jt1fSE+eoKJkRPZ4n9Y0mTHrPbpLsw0AdeRqhLx8Hjc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F05F51007;
-	Wed, 22 Jan 2025 04:14:53 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9151E3F738;
-	Wed, 22 Jan 2025 04:14:24 -0800 (PST)
-Date: Wed, 22 Jan 2025 12:14:11 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Radu Rendec <rrendec@redhat.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Sudeep Holla <sudeep.holla@arm.com>
-Subject: Re: [RFC PATCH] firmware: arm_scmi: Support mailbox transports with
- no completion IRQ
-Message-ID: <Z5DhE3-SGOP9O4NZ@pluto>
-References: <20250120212418.889385-1-rrendec@redhat.com>
- <Z497vnIasuJbVarg@pluto>
- <5806bbd198bc4361a41e06a02f93a157bd8eb7e8.camel@redhat.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6A3D1007;
+	Wed, 22 Jan 2025 04:15:16 -0800 (PST)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 037F63F738;
+	Wed, 22 Jan 2025 04:14:45 -0800 (PST)
+Date: Wed, 22 Jan 2025 12:14:43 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, <linux-kernel@vger.kernel.org>,
+	<arm-scmi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<imx@lists.linux.dev>, Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH 3/5] firmware: arm_scmi: imx: Add LMM and CPU
+ documentation
+Message-ID: <Z5DhM1VLv2uCCVwT@bogus>
+References: <20250121-imx-lmm-cpu-v1-0-0eab7e073e4e@nxp.com>
+ <20250121-imx-lmm-cpu-v1-3-0eab7e073e4e@nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <5806bbd198bc4361a41e06a02f93a157bd8eb7e8.camel@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250121-imx-lmm-cpu-v1-3-0eab7e073e4e@nxp.com>
 
-On Tue, Jan 21, 2025 at 09:19:37PM -0500, Radu Rendec wrote:
-> Hi Cristian,
+On Tue, Jan 21, 2025 at 11:08:13PM +0800, Peng Fan (OSS) wrote:
+> From: Peng Fan <peng.fan@nxp.com>
 > 
+> Add i.MX95 Logical Machine Management and CPU Protocol documentation.
+>
 
-Hi,
+Please make this the first patch when you need to respin this(which is
+clearly not yet 😁)
 
-> On Tue, 2025-01-21 at 10:49 +0000, Cristian Marussi wrote:
-> > mmm...I dont think you can do this....it is a bit tricky to explain BUT
-> > the optional txdone_irq in the mailbox subsystem is NOT a completion
-> > interrupt as intended in the SCMI world, I'll try to explain why in the
-> > following.
-
-[snip]
-
-> > Sorry for the not so short mail :P ... but if I am missing something
-> > and you are seeing anomalies, please let us know.
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
+>  drivers/firmware/arm_scmi/vendors/imx/imx95.rst | 692 ++++++++++++++++++++++++
+>  1 file changed, 692 insertions(+)
 > 
-> No need to apologize, and many thanks for taking the time to explain
-> everything in such detail. Much appreciated! What you explained makes
-> perfect sense, and now I clearly understand why the changes I proposed
-> would not work.
-> 
-> I have quite the opposite problem. I'm using a mailbox controller that
-> does *not* provide a txACK interrupt (or any kind of interrupt for that
-> matter), and the problem is that SCMI transfers do not complete because
-> scmi_wait_for_reply() times out.
-> 
+> diff --git a/drivers/firmware/arm_scmi/vendors/imx/imx95.rst b/drivers/firmware/arm_scmi/vendors/imx/imx95.rst
+> index b2dfd6c46ca2f5f12f0475c24cb54c060e9fa421..384d4f9c27e489a9c54cdde79c9f03a6f5979630 100644
+> --- a/drivers/firmware/arm_scmi/vendors/imx/imx95.rst
+> +++ b/drivers/firmware/arm_scmi/vendors/imx/imx95.rst
+> @@ -32,6 +32,419 @@ port, and deploy the SM on supported processors.
+>  The SM implements an interface compliant with the Arm SCMI Specification
+>  with additional vendor specific extensions.
+>  
+> +SCMI_LMM: System Control and Management Logical Machine Management Vendor Protocol
+> +==================================================================================
+> +
+> +This protocol is intended for boot, shutdown, and reset of other logical
+> +machines (LM). It is usually used to allow one LM to manager another used
+> +as an offload or accelerator engine.
 
-Do you mean a unidirectional mailbox controller (like ARM MHUv3) that
-allow for bidirectionality ONLY if you effectively use a pair of them,
-one for each direction ?
+The above statement is very hard to parse. Can it be
+"
+It is usually used to allow one LM(e.g. OSPM) to manage another LM which
+is usually an offload or accelerator engine.
+"
+if I understood it correctly ?
 
-> I tracked this down to xfer->hdr.poll_completion being false, and
-> therefore scmi_wait_for_reply() taking the second branch, where it
-> calls wait_for_completion_timeout(). Looking at do_xfer(),
-> xfer->hdr.poll_completion is set to true if is_polling_enabled()
-> returns true, and one of the conditions for this to happen is that the
-> no_completion_irq flag in struct scmi_chan_info is set to true. But it
-> defaults to false, and in my case there is nothing there to set it to
-> true. This is what led me to the RFC patch I sent.
-> 
-> Even if now that you explained it I understand why the txACK interrupt
-> is different from the SCMI message having been processed and replied, I
-> still fail to understand how it's all supposed to work for the mailbox
-> transport case where the completion IRQ (which you said was optional)
-> is indeed *not* implemented.
-> 
+> Notifications from this protocol can
+> +also be used to manage a communication link to another LM. The LMM protocol
+> +provides functions to:
+> +
+> +- Describe the protocol version.
+> +- Discover implementation attributes.
+> +- Discover the LMs defined in the system.
+> +- Boot an LM.
+> +- Shut down an LM.
+> +- Reset an LM.
+> +- Wake an LM from suspend.
+> +- Suspend an LM (gracefully).
+> +- Request a graceful shutdown or reset of an LM.
 
-Well...the answer here is easy...it is not supposed to work :P
+Does that mean above "Shut down an LM" and "Reset an LM" are forced ones ?
 
-...I introduced no_completion_irq to centralize message handling into the
-SCMI core instead to leave it to the individual transports, BUT we did
-that because it was needed by the SMC transport which originally had NO
-completion IRQs by default, but that, later, was evolved to have an
-optionally defined completion IRQ too.
-You'll see that the no_completion_irq flag is set there based on the
-actual DT description (or lack there of)
+> +- Allow an agent to forcibly power down or reset an LM.
 
-On the other side, mailbox HW (that we had at least) originally were
-just bidirectional in nature (like ARM MHUv1 MHUv2) and only recently
-with ARM MHUv3 we had to support unidirectional HW, BUT, again, in our
-setup the unidirectional MHUv3 mboxes HW were anyway used in pair, so
-as to achieve bidirectionality in any case, so again the case of
-no_completion_irq on mailboxes was still not needed.
+How is this different from the above ?
 
-> Since xfer->hdr.poll_completion defaults to false, I looked at what
-> could trigger the completion that scmi_wait_for_reply() waits on, in
-> the case of a mailbox transport. The way it's set up is quite
-> convoluted but if I'm reading the code correctly:
->  * core->rx_callback (in mailbox.c) is set to scmi_rx_callback()
->  * chan->cl->rx_callback is set to rx_callback() (in mailbox.c)
-> Therefore, the (reverse) call path leading to completion would be:
-> complete(&xfer->done)
-> scmi_handle_response()
-> scmi_rx_callback()
-> rx_callback()
-> mbox_chan_received_data()
-> 
-> If I understand correctly, mbox_chan_received_data() is supposed to be
-> called by the mailbox provider driver when the mailbox receives data
-> e.g. the SCMI server rings the bell to indicate completion. But doesn't
-> this mean that the completion notification (through mailbox doorbell)
-> is expected to be implemented by default?
+> +- Read boot/shutdown/reset information for an LM.
+> +- Get notifications when an LM boots or shuts down.
+> +
+> +Commands:
+> +_________
+> +
+> +PROTOCOL_VERSION
+> +~~~~~~~~~~~~~~~~
+> +
+> +message_id: 0x0
+> +protocol_id: 0x80
+> +
+> ++---------------+--------------------------------------------------------------+
+> +|Return values                                                                 |
+> ++---------------+--------------------------------------------------------------+
+> +|Name           |Description                                                   |
+> ++---------------+--------------------------------------------------------------+
+> +|int32 status   | See ARM SCMI Specification for status code definitions.      |
+> ++---------------+--------------------------------------------------------------+
+> +|uint32 version | For this revision of the specification, this value must be   |
+> +|               | 0x10000.                                                     |
+> ++---------------+--------------------------------------------------------------+
+> +
+> +PROTOCOL_ATTRIBUTES
+> +~~~~~~~~~~~~~~~~~~~
+> +
+> +message_id: 0x1
+> +protocol_id: 0x80
+> +
+> ++------------------+-----------------------------------------------------------+
+> +|Return values                                                                 |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
+> +|int32 status      | See ARM SCMI Specification for status code definitions.   |
+> ++------------------+-----------------------------------------------------------+
+> +|uint32 attributes |Protocol attributes:                                       |
+> +|                  |Bits[31:8] Reserved, must be zero.                         |
+> +|                  |Bits[7:0] Number of Logical Machines                       |
+> ++------------------+-----------------------------------------------------------+
+> +
+> +PROTOCOL_MESSAGE_ATTRIBUTES
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +message_id: 0x2
+> +protocol_id: 0x80
+> +
+> ++------------------+-----------------------------------------------------------+
+> +|Return values                                                                 |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
+> +|int32 status      |SUCCESS: in case the message is implemented and available  |
+> +|                  |to use.                                                    |
+> +|                  |NOT_FOUND: if the message identified by message_id is      |
+> +|                  |invalid or not implemented                                 |
+> ++------------------+-----------------------------------------------------------+
+> +|uint32 attributes |Flags that are associated with a specific function in the  |
+> +|                  |protocol. For all functions in this protocol, this         |
+> +|                  |parameter has a value of 0                                 |
+> ++------------------+-----------------------------------------------------------+
+> +
+> +LMM_ATTRIBUTES
+> +~~~~~~~~~~~~~~
+> +
+> +message_id: 0x3
+> +protocol_id: 0x80
+> +
+> ++------------------+-----------------------------------------------------------+
+> +|Parameters                                                                    |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
+> +|uint32 lmid       |ID of the Logical Machine                                  |
+> ++------------------+-----------------------------------------------------------+
+> +|Return values                                                                 |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
 
-Nope because when the SCMI client requires a polling transaction, beside
-the busy-looping on the channel BUSY bit on its side, it will also ask
-for a polling transaction by setting the proper bit in the channel flags
-(as detailed in spec chap 5.1) of the shmem area, so that the server will
-know that the completion IRQ, even if existing is NOT required for that
-transaction: in any case, polling or not, the server will clear the channel
-BUSY bit when it is done, since that is the mechanism that is used by the
-client and server to pass back and forth the 'ownership' of the channel.
-[BIG RED WARNING: I never remember if the channel bit I blabbed about
-above is defined as a BUSY bit or as a FREE bit....so the logic could be
-reversed.]
+Where are the actual attributes returned ?
 
-The above backtrace is only for the IRQ path...if you are polling, you
-are indeed busy looping inside scmi_wait_for_reply() and if you dont get
-a timeout (or an out of order invalid reply) the reply if picked up at
-the end of the poll loop by a fetch_reponse() inside that same
-wait_for_reply....since polling anyway is meant to pick up Delayed
-Responses OR notification that does on the P2A channel (RX in the SCMI
-stack) which needs to have an associated IRQ to work at all.
+> +|int32 status      |SUCCESS: if valid attributes are returned.                 |
+> +|                  |NOT_FOUND: if lmId not points to a valid logical machine.  |
+> +|                  |DENIED: if the agent does not have permission to get info  |
+> +|                  |for the LM specified by lmid.                              |
+> ++------------------+-----------------------------------------------------------+
+> +
+> +LMM_BOOT
+> +~~~~~~~~
+> +
+> +message_id: 0x4
+> +protocol_id: 0x80
+> +
+> ++------------------+-----------------------------------------------------------+
+> +|Parameters                                                                    |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
+> +|uint32 lmid       |ID of the Logical Machine                                  |
+> ++------------------+-----------------------------------------------------------+
+> +|Return values                                                                 |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
+> +|int32 status      |SUCCESS: if LM successfully booted.                        |
+> +|                  |NOT_FOUND: if lmId not points to a valid logical machine.  |
+> +|                  |INVALID_PARAMETERS: if lmId is same as the caller.         |
+> +|                  |DENIED: if the agent does not have permission to manage the|
+> +|                  |the LM specified by lmid.                                  |
+> ++------------------+-----------------------------------------------------------+
+> +
 
-Beside your scenario of a system lacking a completion IRQ, polling
-transactions can be asked for a speficic SCMI command at will like to
-issue a clock_enable(), so polling is generally working as far as I know
-and tested....you can easily test that also by just enaboing
-force_polling flag in the transport desc (for testing/debug purposes
-only)
+Is this synchronous boot ? When will the notifications be used then ?
 
-> 
-> Now I get that the mailbox layer has no knowledge of the client layer
-> (SCMI in this case) and that the txACK IRQ in the mailbox layer is not
-> meaningful or useful to the SCMI layer. But in my (uneducated) opinion,
-> there should still be a way to set the no_completion_irq flag in struct
-> scmi_chan_info to true for the mailbox transport, for the case when the
-> SCMI server does not implement the completion notification. Perhaps
-> through the device tree?
+> +LMM_RESET
+> +~~~~~~~~~
+> +
+> +message_id: 0x5
+> +protocol_id: 0x80
+> +
+> ++------------------+-----------------------------------------------------------+
+> +|Parameters                                                                    |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
+> +|uint32 lmid       |ID of the Logical Machine                                  |
+> ++------------------+-----------------------------------------------------------+
+> +|uint32 flags      |Reset flags:                                               |
+> +|                  |Bits[31:1] Reserved, must be zero.                         |
+> +|                  |Bit[0] Graceful request:                                   |
+> +|                  |Set to 1 if the request is a graceful request.             |
+> +|                  |Set to 0 if the request is a forceful request.             |
 
-As I said, the flag is NOT settable, since it was a scenario that was
-never needed....but you are right.. you will have to somehow set that
-flag to handle this kind of setup.
 
-Now, I was hoping to be able to somehow handle this with the existing
-bindings, because if you look at 'mboxes' definition in:
+Ah so you have flag here then. I wonder why you need separate command then ?
 
-  Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> ++------------------+-----------------------------------------------------------+
+> +|Return values                                                                 |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
+> +|int32 status      |SUCCESS: if LM successfully resets.                        |
+> +|                  |NOT_FOUND: if lmId not points to a valid logical machine.  |
+> +|                  |INVALID_PARAMETERS: if lmId is same as the caller.         |
+> +|                  |DENIED: if the agent does not have permission to manage the|
+> +|                  |the LM specified by lmid.                                  |
+> ++------------------+-----------------------------------------------------------+
+> +
 
-..you will see that we try to handle all the possible combinations of
-mailbox controller types implicitly by deducing the kind of controller
-by the combination of the number of defined shmem/mbox. (this is because
-unfortunately we cannot rely on naming for backward compatibility issue
-since mbox names was NOT required prop from the start).
+Again, is this done synchronously ?
 
-So, I would have loved to be able to deduce in mailbox_chan_setup() that
-in a specific configuration there is no completion interrupt and set
-accordingly the no_completion_irq flag using the existing bindings....
+> +LMM_SHUTDOWN
+> +~~~~~~~~~~~~
+> +
+> +message_id: 0x6
+> +protocol_id: 0x80
+> +
+> ++------------------+-----------------------------------------------------------+
+> +|Parameters                                                                    |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
+> +|uint32 lmid       |ID of the Logical Machine                                  |
+> ++------------------+-----------------------------------------------------------+
+> +|uint32 flags      |Reset flags:                                               |
+> +|                  |Bits[31:1] Reserved, must be zero.                         |
+> +|                  |Bit[0] Graceful request:                                   |
+> +|                  |Set to 1 if the request is a graceful request.             |
+> +|                  |Set to 0 if the request is a forceful request.             |
+> ++------------------+-----------------------------------------------------------+
+> +|Return values                                                                 |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
+> +|int32 status      |SUCCESS: if LM successfully shutdowns.                     |
+> +|                  |NOT_FOUND: if lmId not points to a valid logical machine.  |
+> +|                  |INVALID_PARAMETERS: if lmId is same as the caller.         |
+> +|                  |DENIED: if the agent does not have permission to manage the|
+> +|                  |the LM specified by lmid.                                  |
+> ++------------------+-----------------------------------------------------------+
+> +
 
-...but seems to me that it is not possible since there is the assumption
-that unidirectional mailbox are always used in pair to provide a completion
-IRQ....and we run out of possibilities to exploit this implicit info
-(again because we address the most common case with the current bindings)
+Ditto, sync ?
 
-At the end, yes I think we should be able to describe this particular HW
-configuration somehow, so a new binding could be the answer, since this
-is exactly HW description, the tricky part would be to add something
-that can cope well with all the above existing implict combinations
-(maybe is not a great issue eh .... I have not though about it...)
+> +LMM_WAKE
+> +~~~~~~~~
+> +
+> +message_id: 0x7
+> +protocol_id: 0x80
+> +
+> ++------------------+-----------------------------------------------------------+
+> +|Parameters                                                                    |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
+> +|uint32 lmid       |ID of the Logical Machine                                  |
+> ++------------------+-----------------------------------------------------------+
+> +|Return values                                                                 |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
+> +|int32 status      |SUCCESS: if LM successfully wakes.                         |
+> +|                  |NOT_FOUND: if lmId not points to a valid logical machine.  |
+> +|                  |INVALID_PARAMETERS: if lmId is same as the caller.         |
+> +|                  |DENIED: if the agent does not have permission to manage the|
+> +|                  |the LM specified by lmid.                                  |
+> ++------------------+-----------------------------------------------------------+
+> +
 
-...BUT...before all of this, just to be paranoid, I would check to make
-sure that your HW is really unidirectional in nature and not that, instead,
-is a bidirectional mailbox controller, where the SCMI server is really not
-taking care to ring the doorbell back ? (which usually is the same
-doorbell used in the client->server direction)
+Ditto, sync ?
 
-(I ignore which server implementation you use...so just to make sure...)
+> +LMM_SUSPEND
+> +~~~~~~~~~~~
+> +
+> +message_id: 0x8
+> +protocol_id: 0x80
+> +
+> ++------------------+-----------------------------------------------------------+
+> +|Parameters                                                                    |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
+> +|uint32 lmid       |ID of the Logical Machine                                  |
+> ++------------------+-----------------------------------------------------------+
+> +|Return values                                                                 |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
+> +|int32 status      |SUCCESS: if LM successfully suspends.                      |
+> +|                  |NOT_FOUND: if lmId not points to a valid logical machine.  |
+> +|                  |INVALID_PARAMETERS: if lmId is same as the caller.         |
+> +|                  |DENIED: if the agent does not have permission to manage the|
+> +|                  |the LM specified by lmid.                                  |
+> ++------------------+-----------------------------------------------------------+
+> +
 
-> 
-> Now it's my turn to apologize for a long email :) Hopefully it makes
-> sense and it's clear now what problem I'm trying to solve. Thanks again
-> for all the input provided so far, and I'm looking forward to some more
-> answers.
-> 
+Ditto, sync ?
 
-... better stop apologizing here and now, given the average payload size
-of these recent mail exchanges :P
+> +LMM_NOTIFY
+> +~~~~~~~~~~
+> +
+> +message_id: 0x9
+> +protocol_id: 0x80
+> +
+> ++------------------+-----------------------------------------------------------+
+> +|Parameters                                                                    |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
+> +|uint32 lmid       |ID of the Logical Machine                                  |
+> ++------------------+-----------------------------------------------------------+
+> +|uint32 flags      |Notification flags:                                        |
+> +|                  |Bits[31:3] Reserved, must be zero.                         |
+> +|                  |Bit[3] Wake (resume) notification:                         |
+> +|                  |Set to 1 to send notification.                             |
+> +|                  |Set to 0 if no notification.                               |
+> +|                  |Bit[2] Suspend (sleep) notification:                       |
+> +|                  |Set to 1 to send notification.                             |
+> +|                  |Set to 0 if no notification.                               |
+> +|                  |Bit[1] Shutdown (off) notification:                        |
+> +|                  |Set to 1 to send notification.                             |
+> +|                  |Set to 0 if no notification.                               |
+> +|                  |Bit[0] Boot (on) notification:                             |
+> +|                  |Set to 1 to send notification.                             |
+> +|                  |Set to 0 if no notification                                |
 
-Thanks,
-Cristian
+How about reset ?
+
+> ++------------------+-----------------------------------------------------------+
+> +|Return values                                                                 |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
+> +|int32 status      |SUCCESS: if the notification state successfully updated.   |
+> +|                  |NOT_FOUND: if lmId not points to a valid logical machine.  |
+> +|                  |INVALID_PARAMETERS: if input attributes flag specifies     |
+> +|                  |unsupported or invalid configurations.                     |
+> +|                  |DENIED: if the agent does not have permission to request   |
+> +|                  |the notification.                                          |
+> ++------------------+-----------------------------------------------------------+
+> +
+> +LMM_RESET_REASON
+> +~~~~~~~~~~~~~~~~
+> +
+> +message_id: 0xA
+> +protocol_id: 0x80
+> +
+> ++---------------------+--------------------------------------------------------+
+> +|Parameters                                                                    |
+> ++---------------------+--------------------------------------------------------+
+> +|Name                 |Description                                             |
+> ++---------------------+--------------------------------------------------------+
+> +|uint32 lmid          |ID of the Logical Machine                               |
+> ++---------------------+--------------------------------------------------------+
+> +|Return values                                                                 |
+> ++---------------------+--------------------------------------------------------+
+> +|Name                 |Description                                             |
+> ++---------------------+--------------------------------------------------------+
+> +|int32 status         |SUCCESS: if LM successfully suspends.                   |
+> +|                     |NOT_FOUND: if lmId not points to a valid logical machine|
+> +|                     |DENIED: if the agent does not have permission to request|
+> +|                     |the reset reason.                                       |
+> ++---------------------+--------------------------------------------------------+
+> +|uint32 bootflags     |Boot reason flags. This parameter has the format:       |
+> +|                     |Bits[31] Valid.                                         |
+> +|                     |Set to 1 if the entire reason is valid.                 |
+> +|                     |Set to 0 if the entire reason is not valid.             |
+> +|                     |Bits[30:29] Reserved, must be zero.                     |
+> +|                     |Bit[28] Valid origin:                                   |
+
+Valid with origin ID perhaps ?
+
+> +|                     |Set to 1 if the origin field is valid.                  |
+> +|                     |Set to 0 if the origin field is not valid.              |
+> +|                     |Bits[27:24] Origin.                                     |
+> +|                     |Bit[23] Valid err ID:                                   |
+> +|                     |Set to 1 if the error ID field is valid.                |
+> +|                     |Set to 0 if the error ID field is not valid.            |
+> +|                     |Bits[22:8] Error ID.                                    |
+> +|                     |Bit[7:0] Reason                                         |
+
+Reasons definitions are Platform specific ?
+
+> ++---------------------+--------------------------------------------------------+
+> +|uint32 shutdownflags |Shutdown reason flags. This parameter has the format:   |
+> +|                     |Bits[31] Valid.                                         |
+> +|                     |Set to 1 if the entire reason is valid.                 |
+> +|                     |Set to 0 if the entire reason is not valid.             |
+> +|                     |Bits[30:29] Number of valid extended info words.        |
+> +|                     |Bit[28] Valid origin:                                   |
+> +|                     |Set to 1 if the origin field is valid.                  |
+> +|                     |Set to 0 if the origin field is not valid.              |
+> +|                     |Bits[27:24] Origin.                                     |
+> +|                     |Bit[23] Valid err ID:                                   |
+> +|                     |Set to 1 if the error ID field is valid.                |
+> +|                     |Set to 0 if the error ID field is not valid.            |
+> +|                     |Bits[22:8] Error ID.                                    |
+> +|                     |Bit[7:0] Reason                                         |
+
+Again nothing for reset ? Do you expect reset to be forceful shutdown and
+boot in which case both the above are set ?
+
+> ++---------------------+--------------------------------------------------------+
+> +|uint32 extinfo[0,20] |Array of extended info words                            |
+
+What are these ?
+
+> ++---------------------+--------------------------------------------------------+
+> +
+> +LMM_POWER_ON
+> +~~~~~~~~~~~~
+> +
+> +message_id: 0xB
+> +protocol_id: 0x80
+> +
+> ++------------------+-----------------------------------------------------------+
+> +|Parameters                                                                    |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
+> +|uint32 lmid       |ID of the Logical Machine                                  |
+> ++------------------+-----------------------------------------------------------+
+> +|Return values                                                                 |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
+> +|int32 status      |SUCCESS: if LM successfully suspends.                      |
+
+/me confused. Is it suspend(which is already defined) ? Or reset(again already
+defined) ?
+
+> +|                  |NOT_FOUND: if lmId not points to a valid logical machine.  |
+> +|                  |INVALID_PARAMETERS: if lmId is same as the caller.         |
+> +|                  |DENIED: if the agent does not have permission to manage the|
+> +|                  |the LM specified by lmid.                                  |
+> ++------------------+-----------------------------------------------------------+
+> +
+> +NEGOTIATE_PROTOCOL_VERSION
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +message_id: 0x10
+> +protocol_id: 0x80
+> +
+> ++--------------------+---------------------------------------------------------+
+> +|Parameters                                                                    |
+> ++--------------------+---------------------------------------------------------+
+> +|Name                |Description                                              |
+> ++--------------------+---------------------------------------------------------+
+> +|uint32 version      |The negotiated protocol version the agent intends to use |
+> ++--------------------+---------------------------------------------------------+
+> +|Return values                                                                 |
+> ++--------------------+---------------------------------------------------------+
+> +|Name                |Description                                              |
+> ++--------------------+---------------------------------------------------------+
+> +|int32 status        |SUCCESS: if the negotiated protocol version is supported |
+> +|                    |by the platform. All commands, responses, and            |
+> +|                    |notifications post successful return of this command must|
+> +|                    |comply with the negotiated version.                      |
+> +|                    |NOT_SUPPORTED: if the protocol version is not supported. |
+> ++--------------------+---------------------------------------------------------+
+> +
+> +Notifications
+> +_____________
+> +
+> +LMM_EVENT
+> +~~~~~~~~~
+> +
+> +message_id: 0x0
+> +protocol_id: 0x80
+> +
+> ++------------------+-----------------------------------------------------------+
+> +|Parameters                                                                    |
+> ++------------------+-----------------------------------------------------------+
+> +|Name              |Description                                                |
+> ++------------------+-----------------------------------------------------------+
+> +|uint32 lmid       |Identifier for the LM that caused the transition.          |
+> ++------------------+-----------------------------------------------------------+
+> +|uint32 eventlm    |Identifier for the LM the event is for.                    |
+> ++------------------+-----------------------------------------------------------+
+> +|uint32 flags      |LM events:                                                 |
+> +|                  |Bits[31:3] Reserved, must be zero.                         |
+> +|                  |Bit[3] Wake (resume) event:                                |
+> +|                  |1 LM has awakened.                                         |
+> +|                  |0 not a wake event.                                        |
+> +|                  |Bit[2] Suspend (sleep) event:                              |
+> +|                  |1 LM has suspended.                                        |
+> +|                  |0 not a suspend event.                                     |
+> +|                  |Bit[1] Shutdown (off) event:                               |
+> +|                  |1 LM has shutdown.                                         |
+> +|                  |0 not a shutdown event.                                    |
+> +|                  |Bit[0] Boot (on) event:                                    |
+> +|                  |1 LM has booted.                                           |
+> +|                  |0 not a boot event.                                        |
+> ++------------------+-----------------------------------------------------------+
+> +
+>  SCMI_BBM: System Control and Management BBM Vendor Protocol
+>  ==============================================================
+>  
+> @@ -436,6 +849,285 @@ protocol_id: 0x81
+>  |                  |0 no button change detected.                               |
+>  +------------------+-----------------------------------------------------------+
+>  
+> +SCMI_CPU: System Control and Management CPU Vendor Protocol
+> +==============================================================
+> +
+> +This protocol allows an agent to start or stop a CPU. It is used to manage
+> +auxiliary CPUs in an LM (e.g. additional cores in an AP cluster), The CPU
+> +protocol provides functions to:
+> +
+
+Additional CPU in AP cluster ? That sounds alarming. Why not use PSCI ?
+Also what other CPUs are we talking here. In general I would like to
+explore the possibility of collapsing this with LM protocol. CPUs within
+LM is LM's responsibility to bring up. And CPU can be seen as an LM for
+sake of this vendor protocol. I am not get into details here yet before
+I can understand what these CPUs are really in the system and why we need
+this.
+
+-- 
+Regards,
+Sudeep
