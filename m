@@ -1,152 +1,191 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667A02010E1
-	for <arm-scmi@vger.kernel.org>; Thu, 23 Jan 2025 13:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E6D155A59;
+	Thu, 23 Jan 2025 19:41:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737637462; cv=none; b=Y5WADLa9OKUj65oJhUlFAJ/6z8rhHVZr5BrqstAK1cZJsWJ5nzmk6RbzjwQlwewLmRwK+wasGtZUWImPyYgLfjLwhMIPR/PH1Lrtt2dksfVihBVeUCUzp5TiLKsHvja6AVW8ebFGVMzm0hotZnZEQf2mpPfb60YwY9t2/hQkEho=
+	t=1737661268; cv=none; b=CPyl1xjhZ8cmjQm08UUuT8atB2puCqPvlY7KgHwDLkBQAWrlOnDU5SYf+wUPU2GRzJAfEAEbKuZ+gFAIdlWAWsjXttd2mNgUVg5pd3ktSD6X4FLSF3HIBsOkVm2IeIaKWXYxAuqqSxQ4MmmSzoI6u8H0Bzew3CZqU9ThYPvUo54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737637462; c=relaxed/simple;
-	bh=Vdzu+Fwt06yiMZfjE+22PPXLLqoNKYmCMWOlFKYGS6I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RqgEaUO0/XpzwAZYPLRcY9TIbvsLae5WIo5LtXAUK/wPJ2garVuN1kRBxMBNnwt0B/TWj9ZTQaLhceuHVNTq9DFgcL/Ck2MKkBDUckX7UU2g5WnKZt+NBHTgu74GpXsvpkjJk3oF/dIMXyC7zDpsPKi+nWJP25KllrD5C4pSB+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FdEYTTYD; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1737661268; c=relaxed/simple;
+	bh=FzgMlZoMTVJxW0DtNfnaS6A9Ohe9wUCQbfRzCAOE11Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=d5yJkdbMzFBUwiURHwk7H15e7CcavO9ccgEtONlvHTpgX5OF+wmkTKw3jbhpUdf31yie+grKV4kqZrDeVtRlDBmAa7Oo60UNBt/4vdX1DDs4R65hHvCDOLL4YuyVuZE1yZO3BIbodlV/9xy1Eijn+HI5LoOEoU1Cr8wB5FG4nMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GE9Gsa7i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FdEYTTYD"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-436a39e4891so5840995e9.1
-        for <arm-scmi@vger.kernel.org>; Thu, 23 Jan 2025 05:04:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737637457; x=1738242257; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cl9194DFZdwJ8whugEX9MZlsEcPw/nky6ZU9/dikYFM=;
-        b=FdEYTTYDEvniTcg2CeNDFuMCP8sA5IQQm4JVQyPUHDf0Rn49AmAORdaJKWnDRexbit
-         s9FmLHg2XPaY6dRoWLY1fuewXkOHQuKCrzL7DM8ziTZHVVpmu+t3i1XQ6dLujnY4pDSv
-         VbPQ3FrnBCF+PtYXTdzasMk/bR2Hhbv1X5j92SQxrfhhXLTZ4xgVaAJ+NsDZfY1iFAW1
-         ebfsvmg+r5awbAPdhoNHTaPK9pq1YwUmH5JfJHgrF31/x/NEXIUu0vLid8brb6xrPCum
-         jowWsZt2AcbRb5YcFd33e12i5Gm4poGVk2CDaGRCDWRhndVbbk+csA2PtGvYnk7D1WDJ
-         bHVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737637458; x=1738242258;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cl9194DFZdwJ8whugEX9MZlsEcPw/nky6ZU9/dikYFM=;
-        b=VkfslKBM7dXjvWDfGfxVRc0h0NTP8pqMA7QO7/0+1PzrdXZUO9iQoIWWc0xXSz7EIS
-         cBVSr963umhXqBNJrO1OWKI98eR+ua61ayqe+BP7ascE6Wl3DnRmuOroyDFypsKn9Wg3
-         Qikm7JECn027RcajrzJO6twEkzdYdzBHqQZJSqDxG0srzNwf4nmSVnSlY1zhl6urwfZ6
-         wdS4hFwmAEjPBb8ppxhcjEq6tlMDHLQBAuXmMVkKU8tSXjUYz1Suq66oWZ+gDyNUKKjC
-         r7uJikBErWlGrBg/vOiae3dQvDupT9uBU184IfDUXNI6HcbhNKaeDnIYbcMkwLtRw1tM
-         W9yA==
-X-Forwarded-Encrypted: i=1; AJvYcCX6b0gOH4aFvdsLvMtpmewM6TiqW30T8tYbz7Nnyw7mj1zgwEOXnTHLBdz2/rrDIYPNRScCM1ISwg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPxbapW/5/Oo/4As141M0+OofdMJs1rvHZ1wyFrcuGAdy256wt
-	muN0AAECIjp4oh9hT3e4JKOIt8CObMOs65g7sm5fIfnzJvZbaGmhNDYDM4Izsh4=
-X-Gm-Gg: ASbGncuqVnI9mD5wEyEER4AGfV6hxYHcBKrmZD8hfVwI4B5ynUqAVFahOPzjSjAvl+X
-	VkG/m8C/H9Hd+HThyj8VMGDukHbMHu/GN+X1xoO8P+k+ODc8X/90jDLnYykepK6ZFlHCJM4aCK0
-	OpJAJh1+fwehM3nFV20iCumX3rMfHstWbpCnblYL1Kje1+fzOuomHNgvlcP6aADpxkY39uqKshX
-	HHd+qTAY1hwoiqMiZ6JiE5T6JUDpaBWwMDNfyJKaNKQxf/uYiNhpCc2BD59W3GZx/3VOBIIqWxa
-	vW4Kj+TuP77mUpyKabvf
-X-Google-Smtp-Source: AGHT+IFfMaV0Ij3T3tldLauIZsdbGiEdyirSW5JG2BohSSJNY2hQK3fqNX1SRxOVtDQ4hJ9zH+XqLQ==
-X-Received: by 2002:a05:600c:3d06:b0:434:eb73:b0c0 with SMTP id 5b1f17b1804b1-438913c7e31mr266934345e9.5.1737637457469;
-        Thu, 23 Jan 2025 05:04:17 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438b31afa30sm64090025e9.20.2025.01.23.05.04.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jan 2025 05:04:16 -0800 (PST)
-Date: Thu, 23 Jan 2025 16:04:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: zuoqian <zuoqian113@gmail.com>,
-	Ionela Voinescu <ionela.voinescu@arm.com>, rafael@kernel.org,
-	viresh.kumar@linaro.org, cristian.marussi@arm.com,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] cpufreq: scpi: compare against frequency instead of rate
-Message-ID: <8ebf8f26-c3d9-43c0-b417-ce3131a84eb4@stanley.mountain>
-References: <20250123075321.4442-1-zuoqian113@gmail.com>
- <ad11dfc1-5e88-4421-b427-3955d4220133@stanley.mountain>
- <Z5IzMhTOhtujyH0n@bogus>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GE9Gsa7i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36B1EC4CEE8;
+	Thu, 23 Jan 2025 19:41:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737661268;
+	bh=FzgMlZoMTVJxW0DtNfnaS6A9Ohe9wUCQbfRzCAOE11Y=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=GE9Gsa7iiU444KpkYxrogoBdZowGSjkyO0k7laPoPcoq6g3XxCe0poALteq4R4Zph
+	 tZ3ytakM0acv90IqA3t/Tq+HIhgvttRHrxIMc4+ftcYx59CQekJex95lkIBya9MuSj
+	 e8hgK78Mvi+bBQYrsrlD41mZ7vaA3+PkczkIp5mOMTvpFuEkiNLQOfTC7I53w3Jpp9
+	 jdf7sxICX3pGKHys55ON+N8sg3msEwZ1hAbYoGP7MqRskWyhGBaMTolzt8pF6nm7po
+	 ccEaxXFbs1MchzhtSnnv0PMPk6yc1GTQLhaCumG8Mkicq84A+N5GxqwlpPfo2bFwbT
+	 FHvlAO5Y9gebg==
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3eb6b16f1a0so381760b6e.3;
+        Thu, 23 Jan 2025 11:41:08 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU2bTlj6IVKbuv5x4EDSvIGRNanZEIUIV4SY+QkTaO6HwK/WZwL9jHwYBs2fQujagHbv5Fl4Rk7vg==@vger.kernel.org, AJvYcCU7V9C0oHkHsOVNWQeSvds5ZB8Zn8ipMme4T/huVg9TUgBRpKr+5NaHQYnojJFNhxSDxKO0U0hPJAvOgA==@vger.kernel.org, AJvYcCVEOpZpIgnhBd9S709wE8X4SLZV4MHZf38NtgUP0cnkpBGSemOkDX18VwXTl84d6J/ljVpya1xIjKbdDt4=@vger.kernel.org, AJvYcCVVLQzQuckYdqBT7vUAi4h2DLKBPW9GwDjB2JN0RIZRhPehhbHgqzYvUQNhaucAEnAgRHD+vix08Yg=@vger.kernel.org, AJvYcCWjHOipYRO8UWvtWC0574+bR1bdO46PQ11F0elZ6iqzUQ6jBBPaS+uegoI1APLmurCYvTlxEvTYyMtJpJoyzA==@vger.kernel.org, AJvYcCWvRZSXABQ8XXFzYzwIGUIWfijyPt5c52qC2wYjyR/3kBZ6j25cTQFQLXOp3FqOJAZ2d/NJY+jtGVGFOXLz@vger.kernel.org, AJvYcCXi2n6hf0bY/K155NUMwZYNdSb4z4QoAhQ5WJ/l66Ll9IDc4xZiDjtLYJ3IZNNJyuE8vAbh2izAid/i6g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQydVp45kHcUik6JLwug7mf4qMP/UNhJLmvII6DDCas2muRxJR
+	P6p1l0vK1GhRheXmhwqox3of9az6GWpA1DrW6Z45Oq3mnm3J6cpe3dalQ6GO/OjcjoEFinLpvUQ
+	33Gsjx+lEXpCZAMR8typKsusTkT8=
+X-Google-Smtp-Source: AGHT+IFEZLpokzQrSZWtE1aUlhzheSpv16W1XbXdM7wOE5P8c+MPFR4VPEp6oVT06Ebj/5DfcgalM7sIG87OhMAknWU=
+X-Received: by 2002:a05:6808:309c:b0:3ea:519e:cc71 with SMTP id
+ 5614622812f47-3f19fd7beb4mr15987065b6e.39.1737661267410; Thu, 23 Jan 2025
+ 11:41:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z5IzMhTOhtujyH0n@bogus>
+References: <cover.1737631669.git.viresh.kumar@linaro.org>
+In-Reply-To: <cover.1737631669.git.viresh.kumar@linaro.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 23 Jan 2025 20:40:56 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0gQDxb0-a5HiEa0vyWCGz01esQBy1fJ4vNXDZJ=GW1W+Q@mail.gmail.com>
+X-Gm-Features: AWEUYZmJBrMCqL-riW-i0DlJyFI1cRh2mxShaIBztS2B8ipvq-I9aavy-zqQjVc
+Message-ID: <CAJZ5v0gQDxb0-a5HiEa0vyWCGz01esQBy1fJ4vNXDZJ=GW1W+Q@mail.gmail.com>
+Subject: Re: [PATCH 00/33] cpufreq: manage common sysfs attributes from core
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Cristian Marussi <cristian.marussi@arm.com>, 
+	Fabio Estevam <festevam@gmail.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Hector Martin <marcan@marcan.st>, Huacai Chen <chenhuacai@kernel.org>, 
+	Jiaxun Yang <jiaxun.yang@flygoat.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Kevin Hilman <khilman@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Markus Mayer <mmayer@broadcom.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Naveen N Rao <naveen@kernel.org>, 
+	Nicholas Piggin <npiggin@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+	Sudeep Holla <sudeep.holla@arm.com>, Sven Peter <sven@svenpeter.dev>, 
+	Thierry Reding <thierry.reding@gmail.com>, WANG Xuerui <kernel@xen0n.name>, linux-pm@vger.kernel.org, 
+	Vincent Guittot <vincent.guittot@linaro.org>, arm-scmi@vger.kernel.org, 
+	asahi@lists.linux.dev, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-mips@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-tegra@vger.kernel.org, 
+	loongarch@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 23, 2025 at 12:16:50PM +0000, Sudeep Holla wrote:
-> (for some reason I don't have the original email)
-> 
-> On Thu, Jan 23, 2025 at 02:12:14PM +0300, Dan Carpenter wrote:
-> > On Thu, Jan 23, 2025 at 07:53:20AM +0000, zuoqian wrote:
-> > > The CPU rate from clk_get_rate() may not be divisible by 1000
-> > > (e.g., 133333333). But the rate calculated from frequency is always
-> > > divisible by 1000 (e.g., 133333000).
-> > > Comparing the rate causes a warning during CPU scaling:
-> > > "cpufreq: __target_index: Failed to change cpu frequency: -5".
-> > > When we choose to compare frequency here, the issue does not occur.
-> > > 
-> > > Signed-off-by: zuoqian <zuoqian113@gmail.com>
-> > > ---
-> > >  drivers/cpufreq/scpi-cpufreq.c | 5 +++--
-> > >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/cpufreq/scpi-cpufreq.c b/drivers/cpufreq/scpi-cpufreq.c
-> > > index cd89c1b9832c..3bff4bb5ab4a 100644
-> > > --- a/drivers/cpufreq/scpi-cpufreq.c
-> > > +++ b/drivers/cpufreq/scpi-cpufreq.c
-> > > @@ -39,8 +39,9 @@ static unsigned int scpi_cpufreq_get_rate(unsigned int cpu)
-> > >  static int
-> > >  scpi_cpufreq_set_target(struct cpufreq_policy *policy, unsigned int index)
-> > >  {
-> > > -	u64 rate = policy->freq_table[index].frequency * 1000;
-> > 
-> > policy->freq_table[index].frequency is a u32 so in this original
-> > calculation, even though "rate" is declared as a u64, it can't actually
-> > be more than UINT_MAX.
-> >
-> 
-> Agreed and understood.
-> 
-> > > +	unsigned long freq = policy->freq_table[index].frequency;
-> > >  	struct scpi_data *priv = policy->driver_data;
-> > > +	u64 rate = freq * 1000;
-> >
-> > So you've fixed this by casting policy->freq_table[index].frequency
-> > to unsigned long, which fixes the problem on 64bit systems but it still
-> > remains on 32bit systems.  It would be better to declare freq as a u64.
-> >
-> 
-> Just trying to understand if that matters. freq is in kHz as copied
-> from policy->freq_table[index].frequency and we compare it with
-> kHZ below as the obtained clock rate is divided by 1000. What am I
-> missing ? If it helps, it can be renamed as freq_in_khz and even keep
-> it as "unsigned int" as in struct cpufreq_frequency_table.
-> 
+On Thu, Jan 23, 2025 at 12:38=E2=80=AFPM Viresh Kumar <viresh.kumar@linaro.=
+org> wrote:
+>
+> Hello,
+>
+> Most of the drivers add available and boost frequencies related attribute=
+s. This
+> patch series tries to avoid duplication and simplify driver's code by man=
+aging
+> these from core code.
+>
+> A quick search revealed that only the drivers that set the
+> policy->freq_table field, enable these attributes. Which makes sense as
+> well, since the show_available_freqs() helper works only if the
+> freq_table is present.
+>
+> In order to simplify drivers, create the relevant sysfs files forcefully
+> from cpufreq core.
+>
+> Pushed here:
+>
+> git://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git cpufreq/core=
+-attr
 
+Acked-by: Rafael J. Wysocki <rafael@kernel.org>
 
-I misunderstood the integer overflow bug because I read too much into the
-fact that "rate" was declared as a u64.  It would have been fine to
-declare it as a unsigned long.  The cpufreq internals don't support
-anything more than ULONG_MAX.  I have heard someone say that new systems
-are bumping up against the 4GHz limit but presumably that would only be
-high end 64bit systems, not old 32bit system.
+for the series.
 
-The ->freq_table[] frequency is in kHz so a u32 is fine.  I guess if we
-get frequencies of a THz then we'll have to update that.  But when we
-convert to Hz then we need a cast to avoid an integer overflow for systems
-which are over the 4GHz boundary.
+Thanks!
 
-	unsigned long rate = (unsigned long)khz * 1000;
-
-The second bug is that we need to compare kHz instead of Hz and that's
-straight forward.
-
-regards,
-dan carpenter
-
+> --
+> Viresh
+>
+> Viresh Kumar (33):
+>   cpufreq: Always create freq-table related sysfs file
+>   cpufreq: dt: Stop setting cpufreq_driver->attr field
+>   cpufreq: acpi: Stop setting common freq attributes
+>   cpufreq: apple: Stop setting cpufreq_driver->attr field
+>   cpufreq: bmips: Stop setting cpufreq_driver->attr field
+>   cpufreq: brcmstb: Stop setting common freq attributes
+>   cpufreq: davinci: Stop setting cpufreq_driver->attr field
+>   cpufreq: e_powersaver: Stop setting cpufreq_driver->attr field
+>   cpufreq: elanfreq: Stop setting cpufreq_driver->attr field
+>   cpufreq: imx6q: Stop setting cpufreq_driver->attr field
+>   cpufreq: kirkwood: Stop setting cpufreq_driver->attr field
+>   cpufreq: longhaul: Stop setting cpufreq_driver->attr field
+>   cpufreq: loongson: Stop setting cpufreq_driver->attr field
+>   cpufreq: mediatek: Stop setting cpufreq_driver->attr field
+>   cpufreq: omap: Stop setting cpufreq_driver->attr field
+>   cpufreq: p4: Stop setting cpufreq_driver->attr field
+>   cpufreq: pasemi: Stop setting cpufreq_driver->attr field
+>   cpufreq: pmac: Stop setting cpufreq_driver->attr field
+>   cpufreq: powernow: Stop setting cpufreq_driver->attr field
+>   cpufreq: powernv: Stop setting common freq attributes
+>   cpufreq: qcom: Stop setting cpufreq_driver->attr field
+>   cpufreq: qoriq: Stop setting cpufreq_driver->attr field
+>   cpufreq: sc520_freq: Stop setting cpufreq_driver->attr field
+>   cpufreq: scmi: Stop setting cpufreq_driver->attr field
+>   cpufreq: scpi: Stop setting cpufreq_driver->attr field
+>   cpufreq: sh: Stop setting cpufreq_driver->attr field
+>   cpufreq: spear: Stop setting cpufreq_driver->attr field
+>   cpufreq: speedstep: Stop setting cpufreq_driver->attr field
+>   cpufreq: tegra: Stop setting cpufreq_driver->attr field
+>   cpufreq: vexpress: Stop setting cpufreq_driver->attr field
+>   cpufreq: virtual: Stop setting cpufreq_driver->attr field
+>   cpufreq: Remove cpufreq_generic_attrs
+>   cpufreq: Stop checking for duplicate available/boost freq attributes
+>
+>  drivers/cpufreq/acpi-cpufreq.c         |  1 -
+>  drivers/cpufreq/apple-soc-cpufreq.c    |  8 --------
+>  drivers/cpufreq/bmips-cpufreq.c        |  1 -
+>  drivers/cpufreq/brcmstb-avs-cpufreq.c  |  1 -
+>  drivers/cpufreq/cpufreq-dt.c           |  8 --------
+>  drivers/cpufreq/cpufreq.c              | 15 +++++++++++++++
+>  drivers/cpufreq/davinci-cpufreq.c      |  1 -
+>  drivers/cpufreq/e_powersaver.c         |  1 -
+>  drivers/cpufreq/elanfreq.c             |  1 -
+>  drivers/cpufreq/freq_table.c           |  8 --------
+>  drivers/cpufreq/imx6q-cpufreq.c        |  1 -
+>  drivers/cpufreq/kirkwood-cpufreq.c     |  1 -
+>  drivers/cpufreq/longhaul.c             |  1 -
+>  drivers/cpufreq/loongson2_cpufreq.c    |  1 -
+>  drivers/cpufreq/loongson3_cpufreq.c    |  1 -
+>  drivers/cpufreq/mediatek-cpufreq-hw.c  |  1 -
+>  drivers/cpufreq/mediatek-cpufreq.c     |  1 -
+>  drivers/cpufreq/omap-cpufreq.c         |  1 -
+>  drivers/cpufreq/p4-clockmod.c          |  1 -
+>  drivers/cpufreq/pasemi-cpufreq.c       |  1 -
+>  drivers/cpufreq/pmac32-cpufreq.c       |  1 -
+>  drivers/cpufreq/pmac64-cpufreq.c       |  1 -
+>  drivers/cpufreq/powernow-k6.c          |  1 -
+>  drivers/cpufreq/powernow-k7.c          |  1 -
+>  drivers/cpufreq/powernow-k8.c          |  1 -
+>  drivers/cpufreq/powernv-cpufreq.c      |  2 --
+>  drivers/cpufreq/qcom-cpufreq-hw.c      |  7 -------
+>  drivers/cpufreq/qoriq-cpufreq.c        |  1 -
+>  drivers/cpufreq/sc520_freq.c           |  1 -
+>  drivers/cpufreq/scmi-cpufreq.c         |  8 --------
+>  drivers/cpufreq/scpi-cpufreq.c         |  1 -
+>  drivers/cpufreq/sh-cpufreq.c           |  1 -
+>  drivers/cpufreq/spear-cpufreq.c        |  1 -
+>  drivers/cpufreq/speedstep-centrino.c   |  1 -
+>  drivers/cpufreq/speedstep-ich.c        |  1 -
+>  drivers/cpufreq/speedstep-smi.c        |  1 -
+>  drivers/cpufreq/tegra186-cpufreq.c     |  1 -
+>  drivers/cpufreq/tegra194-cpufreq.c     |  1 -
+>  drivers/cpufreq/vexpress-spc-cpufreq.c |  1 -
+>  drivers/cpufreq/virtual-cpufreq.c      |  1 -
+>  include/linux/cpufreq.h                |  1 -
+>  41 files changed, 15 insertions(+), 75 deletions(-)
+>
+> --
+> 2.31.1.272.g89b43f80a514
+>
