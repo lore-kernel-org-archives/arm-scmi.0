@@ -1,106 +1,102 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7595F20C486;
-	Thu, 23 Jan 2025 08:41:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6DD186A
+	for <arm-scmi@vger.kernel.org>; Thu, 23 Jan 2025 10:38:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737621693; cv=none; b=PPP+Y/U6U2d2vT/aYXFi7peQ0L4aS6NQmNAlpeSTbktUK0lFGpT+trbVlqtTL8wKnByV3c0p2M5s3BknGJbPvbU6+cGbZ5TAyKuAQXSOqi4gzDzpJhe23/ypqQq7oeCOqZCgICFsQvkqg72dqC7oFADB6rkFy5T0p+plLXTU06c=
+	t=1737628718; cv=none; b=TFLTq7vShZtMD29W+kGntS1f59BYmIE1RJWkHRuKNOwWM5pzHSYFMsbkm7DpKqphKQLUq4B47ETjEe/MR0WsCNUkb4U7+k4eTdrObjjB+FOL7kmsEwbE7u7mBLAKlUwm7Dzi8dt/AGV0kP9At2y/S2a8ehQOKt5Ld+DrTxoqysA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737621693; c=relaxed/simple;
-	bh=62I6oA7eOCgQ+FxGm/QnqfQXIXepJ/0mn3YRReJf6Hw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=am467GPaKI03nYpQ694YUGjKrXChTqz5rkzw6GB4/8dqw7NtFhlXB725ZDG4VvDJcDFbDDu1t+G3UqYHoKVYIMDjSR9+hNik1QMmQHa9DNDsbP9ZilJxzNraDZkVq8Wkezva3bV4JrVcXN1lrDTp80Qzf4u6NnkBd8+76buqEEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IAzl8Ugr; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737628718; c=relaxed/simple;
+	bh=A9fAgGirtBaSIPilBJ6/5sb4jYusvk9H39Lk83vbIuo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jDfkjTmE12J82tK10tBVHGVo4STyxQcPMNeHRPZJNY36+DmGF846JItwDa3/TX3jcF5ZH3LcraxHv30k8EHXbmeId6bdbJQPRMm4yZi7lP1e7aDEt6XKsZVxSOvEO+f6HXBQ5AQOauqkuHu3WBciwUX+7yAVyHOr7caafIdD7BM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Wb4+S/1O; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IAzl8Ugr"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-aab6fa3e20eso114391066b.2;
-        Thu, 23 Jan 2025 00:41:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Wb4+S/1O"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-385f06d0c8eso341167f8f.0
+        for <arm-scmi@vger.kernel.org>; Thu, 23 Jan 2025 02:38:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737621689; x=1738226489; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=S2y5oYcaSI4UBJDG+9jJe3TDfvdo62ihfoVlT1vvxHQ=;
-        b=IAzl8UgrmdGwDKC65Jq3OjAFHjuegESSkqVFmCxsOfp/A370vKNwhhUZYAJe9ZMaoA
-         UxYE4/ek5PKt9JBs+3zTDBP5IkJX6/9A1eW9f4DM0mjXC8IHsfXMrjjqC/UK3T9gFMI+
-         cH+sTCzK3FjR+zYwd2MAsfdTQPPxFgpdVh6KXG0qjV4X6xDYnTMIyVMDsTXreQjp8KZD
-         YQutW7Xclg9Su/konbD4GHSC9vTOPItPKHZDCROZkEVfUXuS+BnjH8k+T+BROW8qequr
-         QLQ2+8Yetk6r1+sWmQ28KuZrq1dzixTqJEUlGG/mQ0N5I3me7U8Sid4/xKS49unrdcpK
-         K2gA==
+        d=linaro.org; s=google; t=1737628715; x=1738233515; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fYJFJJLzNzJAn7tKjvuUDrRgZAArenLWovfu+NUU020=;
+        b=Wb4+S/1OIFMO2hNUZuYMOCfZmZecklayY4Hh8PCl1KLkl8DOqnXOnn8uCQ5U59mPpT
+         PO/kJxY8zvrtfsF6qUY8OmIrCbG2nzOanW/hr0IEnk/+ePlAu7OSmh9diXfN0sxa3+Hj
+         mjJHLt692hPYfETlFipFdM4tl08ZB3ZKzxFF4a8182IbPPVC8FPfgL31BnsP+V7/LLnV
+         p5mk9KLVDQdR3IrEn6VYtA0pVoljqdBbqmPZ6dkliawPW6mATmtY2WdjmCNiLtBWFlcL
+         O0UzbC7s4oNk6HXcm8NppDIzAvjn5/mUb43ZhxWMaDfSHPInJHZ6Zp/ED46TVpsFgxRp
+         vLpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737621689; x=1738226489;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S2y5oYcaSI4UBJDG+9jJe3TDfvdo62ihfoVlT1vvxHQ=;
-        b=nIe+Lrru3hznfs1hKsDuK69kMqyTrg/KH8+HQ1qioU/Lo3cbb1CnxqqT8n6JkZSt+e
-         m7dj+YQNiPaRmjaWfnN67RAVuemgwovpf3ZylUJLJmBQIRwL/tYIaTynStOGLM3DvYTq
-         DTEAicokpaAXJLK6hvMcc2z8s9x8zZynm6z/YEkf6s/7bpDw5ww15riTb1vFYYMSS3Kq
-         RfroLHylpyEHiVLe+Dxcg46aPql3A1o6Jh0jpo84uDi9exES1s8LUASeQYj29Etwd5pC
-         YieDwV3q+ieygZHcM+7MwQ0yj+MRHauEmFj1L+rQvpLxSdvja82R/eFcippZJm7HOs2h
-         mvig==
-X-Forwarded-Encrypted: i=1; AJvYcCUTlywGk86D932BTIVU6j3LW8gcMhJJHzCKpBZF6xYklAx2Z4crHLZTIo10c9VNPvLZpYoN9kvJ3eKDRrs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSp8pCWOpWRW9GI5gY1HTpJGwPi1Ix2KocNNwSgbGjonN8Gd/4
-	Ha2ZpqOxkzg7oPo52UnyBlsZ6j74u6mciRaN/n5pCfePsuSN12orOHupUUgDoErWbQ==
-X-Gm-Gg: ASbGncubLI1CW61iSNCslLaw/rV08xQpj+y+bbwrDL08Sri1shEskImt/WdyKVRclQf
-	IvQ9Wj198D3o6YD+6eo+ZZgBouz1pPpzJltWlv8qbEtRMDeu6s1X64FsOltqpYXGC5dTrQKXv3U
-	jSxKqQ1hP3dCwbHH6uC22TuEegi7KjH2OV7bhZ8lMG8LaXiNpcQA1XFFTgUF5RWwKUQ7i7WQdlb
-	JoF4OHCgYX+kiLscRfuHlOAMITkshY9sJHnzrv58NhlJfBtxHVyVIMNkLqbEGaerad729bf0ZkO
-	JSe2
-X-Google-Smtp-Source: AGHT+IFkaVPaBMvB5rcbN4hV/EU/dcj7Ws/sBuVzb+rJj8kAP/ApwFVhsti25NHx4pZGYU+LgV4BtQ==
-X-Received: by 2002:a17:906:ae86:b0:ab6:32d2:16dc with SMTP id a640c23a62f3a-ab632d21aa0mr1028215166b.11.1737621688285;
-        Thu, 23 Jan 2025 00:41:28 -0800 (PST)
-Received: from linux.lan ([218.76.62.144])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384f223f3sm1031867766b.116.2025.01.23.00.41.20
+        d=1e100.net; s=20230601; t=1737628715; x=1738233515;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fYJFJJLzNzJAn7tKjvuUDrRgZAArenLWovfu+NUU020=;
+        b=Vl4eQJsvA7ikbKhzHtcQPktGkEBu7YNE1O0y+2bTi2vrwUky8LEsORdSr5DskSvz1L
+         mdz8GjMa66B+qpeW5rIx4stZUAAhi/cXGX+No6GiyghA7fu+/9L4WUZISoKH+cw8XtN9
+         zOu977925aLtPA0vN3zSBnhwbi1654Uza4YaqYD88Dehve0gmazFzR6+F/ykY/uw+ZYy
+         Yjdyf2lXjlCTBELJ4kzOPfUckRsMTviEwT8edieFGfDZ38PDorN0BBxWUKcxJEYun3eb
+         w8HBsS20AuvzCMHvXlxuCMCd9IhIRk8nVDWQMcNukElSYTna5vym9l52hJ8g/wKx0/e8
+         xtuA==
+X-Forwarded-Encrypted: i=1; AJvYcCWRUlue0Y2BHfI+3g8pxgSjyABmY1l+OmQ9VTeMaR3bLocmoJ3RkiKf+3uNzwiDITz9K43r3JuEsA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4Let5f63mF2R9P6TNMSPAwneTy57jsBwfz7BEVdh6TgI1niYw
+	TgOg+/yTb0LLCGf1sKDaMhkE29o5gYKo7i7vOWPAyotBwv6GQqI/JeD+j5SwTqE=
+X-Gm-Gg: ASbGncvVLQToWNzmumRFcBT4YVq0iViFwSOml5faGSbwnI//HV6gzVeGy1DNkwieDqa
+	khKfDHT3vixSFeUQR+Gkhj80ZKDU6nNYy0OHY3Kt3hvYH06spOlS4dbkZ5zsOovDgE1tC0cbcbN
+	cldlg8fwXXcpxugBiADqjDCLMGtDA+kIfphf2yUGWMujzTUTt3EopaZfpvhSPZoww1FkUFScgL2
+	+FTC/y156QYicS9fU4ObBjilqKx4ePYY0FTeiASG478F6pBFNUlOB+InqM7LiirUizPuNeK9VTY
+	QKBSWAuWFQ==
+X-Google-Smtp-Source: AGHT+IFVka4iqlv+f8wHSLTkHDxtLa2dS7V4LAO7Kbt+oHZUKJl3kcd38xxqwMLxo7Hl7A2K9Dihww==
+X-Received: by 2002:a05:6000:188c:b0:38b:ed6f:f012 with SMTP id ffacd0b85a97d-38bf566e472mr23216204f8f.9.1737628714689;
+        Thu, 23 Jan 2025 02:38:34 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438b319f6absm57036035e9.12.2025.01.23.02.38.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jan 2025 00:41:27 -0800 (PST)
-From: jack21 <jackhuang021@gmail.com>
-To: sudeep.holla@arm.com,
-	cristian.marussi@arm.com
-Cc: arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+        Thu, 23 Jan 2025 02:38:34 -0800 (PST)
+Date: Thu, 23 Jan 2025 13:38:30 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: jack21 <jackhuang021@gmail.com>
+Cc: sudeep.holla@arm.com, cristian.marussi@arm.com,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Huangjie <huangjie1663@phytium.com.cn>
-Subject: [PATCH] dirvers: scmi: poll again when transfer reach timeout
-Date: Thu, 23 Jan 2025 16:33:24 +0800
-Message-Id: <20250123083323.2363749-1-jackhuang021@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [PATCH] dirvers: scmi: poll again when transfer reach timeout
+Message-ID: <f0fbc4cf-21ae-4332-8842-73f0467d16ff@stanley.mountain>
+References: <20250123083323.2363749-1-jackhuang021@gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250123083323.2363749-1-jackhuang021@gmail.com>
 
-From: Huangjie <huangjie1663@phytium.com.cn>
+s/dirvers/drivers/
 
-spin_until_cond() not really hold a spin lock, possible timeout may occur
-in preemption kernel when preempted after spin_until_cond().
+On Thu, Jan 23, 2025 at 04:33:24PM +0800, jack21 wrote:
+> From: Huangjie <huangjie1663@phytium.com.cn>
+> 
+> spin_until_cond() not really hold a spin lock, possible timeout may occur
+> in preemption kernel when preempted after spin_until_cond().
+> 
+> We check status again when reach timeout is reached to prevent incorrect
+> jugement of timeout.
+> 
 
-We check status again when reach timeout is reached to prevent incorrect
-jugement of timeout.
+I suspect the real issue is that we exit the spin loop when
+try_wait_for_completion(&xfer->done) is true.  Probably we should add
+that as a Fixes tag?:
 
-Signed-off-by: Huangjie <huangjie1663@phytium.com.cn>
----
- drivers/firmware/arm_scmi/driver.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Fixes: ed7c04c1fea3 ("firmware: arm_scmi: Handle concurrent and out-of-order messages")
 
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 1b5fb2c4ce86..10b049fe5fd0 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -1246,7 +1246,8 @@ static int scmi_wait_for_reply(struct device *dev, const struct scmi_desc *desc,
- 
- 			spin_until_cond(scmi_xfer_done_no_timeout(cinfo,
- 								  xfer, stop));
--			if (ktime_after(ktime_get(), stop)) {
-+			if (ktime_after(ktime_get(), stop) &&
-+			    !info->desc->ops->poll_done(cinfo, xfer)) {
- 				dev_err(dev,
- 					"timed out in resp(caller: %pS) - polling\n",
- 					(void *)_RET_IP_);
--- 
-2.34.1
+Btw, the scmi_xfer_done_no_timeout() has a confusing name, because it
+does timeout.  Was the "_no" an accident?
+
+regards,
+dan carpenter
 
