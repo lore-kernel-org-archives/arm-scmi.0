@@ -1,139 +1,213 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CEFE20E009
-	for <arm-scmi@vger.kernel.org>; Thu, 23 Jan 2025 11:12:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C20A20E337
+	for <arm-scmi@vger.kernel.org>; Thu, 23 Jan 2025 11:38:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737630742; cv=none; b=YYtylile4ZfFz2t4+pERHSaYZv+ENClQcL1WuFHkxj77ZhDfqS8e8PqUCvDJvEBi5T8cPflsuY5xCNLo8quvy2jlDa7oOvlxTbnfKni3weZj190J3S4rXOk0s70UlG/Czjm6ySdEgN8mQWK77XgXV2yQWLgOczuGOWIBpYV0Tcg=
+	t=1737632283; cv=none; b=Tsf1Dt8JGgQDGLmp3npFAmrHs1b4IgtI7RiH29tSLQWi4k41Xh7LKQwkARF/Jvq53Up0chxpWDoowM9YYuMosD3zsfjw5AGmfrQ0TwCfpTbRRIaPI9PM5yoTfcvOcPch7+15YL0QIp/HUfArcywPuTLXcNzEl7jZaCWf2GEeMzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737630742; c=relaxed/simple;
-	bh=4bqdqaqoRBmiz1tlNvw3LlwQw5yawGiciwSgedzynzs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sV5Q3Wva98aDdxFmNuXynK4IKvlAEHxFGukBtf4XuEiWSsJdy3xPbr0Vty3nvebRWg1F7dXvZH3PtfeJVCDTJa3lCOR6p517BYwsm1OPTLzTyiB1pLA+ixaBmJM58G7Pacb5Yu0Ifv9+ZoCzVdk3NJb7leZi3fixvD7/RDubpGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KwyJVDmN; arc=none smtp.client-ip=209.85.221.42
+	s=arc-20240116; t=1737632283; c=relaxed/simple;
+	bh=1elHtZeKz6sg8Ec3OUJiSdayZG26nY1iLQravuemXyc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kFoDXUDd7ajqavycH0qeirzRrAoUC+VsndgOXNs9XkbZFlIJued20cDGtP+yPFQ9HaJkBuZhRh07oz4VdQp6zsbdtAr62Zqzotji5696izZqWAynWAGlNmXNblZmdN++4B3HJhcWlbBcRNVyfqw8a/qiF5INafKuODN1e/Yy2oM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m1XJP3g8; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KwyJVDmN"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-385eed29d17so380748f8f.0
-        for <arm-scmi@vger.kernel.org>; Thu, 23 Jan 2025 03:12:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m1XJP3g8"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2ef28f07dbaso1191055a91.2
+        for <arm-scmi@vger.kernel.org>; Thu, 23 Jan 2025 03:38:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737630739; x=1738235539; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ScXAOgZXW83Gqjl3thNs/+nZmT78yMbe9xCFOetszKo=;
-        b=KwyJVDmNm4AacVP6TMbOUsbeGcp4gCVP4zdgaQZpolOLxtR5waTWLOtiOgx265H7DQ
-         /4n+5egYc3zx/hslKLt2GMvPt6nNP52eAgm0KorfNmq8TxspdwVlHZNcYtXfh8plkIaI
-         3fmg/t/Eu4/56Z9FzcU0L1p5audT5x7DEW7R4Kabq3JbgfII9dN9o52Z1excQMrIC/Hl
-         u7YpYEOba97sojTXJJK4cb7USndOGOMEqW7JjFeS93YD2qZ3mm9pPXb3a1fYjeF3vvyp
-         4z+AxrB+alT+C3IXXuyjTuR2lDXVn4tPi3Is+TWgiKow9VV6VropcZoGZYg7/u7rbxA3
-         NrZw==
+        d=linaro.org; s=google; t=1737632281; x=1738237081; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=G5e0D4ceKro9Yb8N26UgxQagAkkEg3LLRP/2T93ftQc=;
+        b=m1XJP3g8AzZ+JeuIq516eVik7b+vYL/DqXlz1JIXdBftZgozqxIxxIdWj4ASSnF3KB
+         12OlgDhHktPFBSdLAL0l0hIBNIl126IlS8f4I3hg3nvZa5h5fOKB9yUxN+pNHtDZgqDB
+         0d6kRXrxqDWoUY4YoWL95lElfifjOAdRCDB2W6XTB8DAy3PGVFQ2N/zY3LYnu7/GlVSw
+         wJSbrxeCkPpJIyTPuvjx8W8mznwaexFyvMKg6Ueg9f4KSur9/RYXg8oas4g7YM55wYIb
+         rB5ZgyOuohcQ4oevLgyTJS/VZ1/dQ7cMFOBOaNR0TrsuiteCCdTMv/QeXduRLpOWhgtd
+         /W0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737630739; x=1738235539;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ScXAOgZXW83Gqjl3thNs/+nZmT78yMbe9xCFOetszKo=;
-        b=xImdF6j8VAsNnt/49ESzjWtjhBaueFnMb31sF5AYyee0GTp9cTuLOQpxbjtdZnWofC
-         Fi9xb2mCxA4z/5L9vOizo7Xc64PjaGvqvUAXposRoPUNRbekqCCL9S0Ix63jU81NvADN
-         hsCzDqxefxL/jok4Lf3eR2igsNZLgLDx2j//Ado5wlIW8aJ0jl0UcHW9/LIpCrjr00Wc
-         VsmtAMX5HKWO8869AArVA7xMYSoyFMw4CYJrRkTlAA7e731LXAU0tZEB4RWFKuazjshU
-         Su1n3v9OZGNvW+uiHhDec7i2oC1L8nFwp3cGY+15A6zC/g8ilezxr8CLQ48ucz2OGgAa
-         ix4A==
-X-Forwarded-Encrypted: i=1; AJvYcCWwpBiUUe0mWe8lIr5kw4Byo1grOA05K2qE3Pal97mfThYbp4Z4SFGmhi2zL7h5PN2exRxTlWPc/g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YySfW3/soKBbhtBhGL+1AQLRJKeSkxUuhORxNSsuBJ1jz6ExXe0
-	IDqnW70YLrmstRRa/x12h3qIqHnrz36CbSop8Rm32CKbjXqfxlPCrb+qUwNR6ks=
-X-Gm-Gg: ASbGncsVVpp1Nw2xuvLg+zoIIl5kWmRmqHn3GUI+QsMKwYNbs9O7hwXiTO5LYnDmbQJ
-	GJwIV1LAND5ioinzQHBR5eq4v9q/tMgstiMS+ar0yVRZuYzIVjo0wm1IEtgYImBfj7Bt2cr0BoM
-	we4OiiBtY3Wa2FfJCgEUgwHGT1+pdEkd8NqqHPR6D78p1M5L/P9Mwo6TKQY3R/nG5GkV2YCbj0j
-	kMLFXhNrDYbb+1xaiG1N8UM1RkdyAcEYn2GJBaHb/B+L0px1nJUQtOijvPk/vaYWE185YdwbMCR
-	nerg1aK15A==
-X-Google-Smtp-Source: AGHT+IGTjg5cb3hrIHI+2Cx43xQLT48/6W5YSS8YYVdSRsOlyfnn/x4sEOrUIHztwV+B3Orib4yu3w==
-X-Received: by 2002:a5d:5f4d:0:b0:38a:614b:8632 with SMTP id ffacd0b85a97d-38bf57a6969mr27614248f8f.39.1737630738817;
-        Thu, 23 Jan 2025 03:12:18 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf3275595sm19117151f8f.67.2025.01.23.03.12.17
+        d=1e100.net; s=20230601; t=1737632281; x=1738237081;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G5e0D4ceKro9Yb8N26UgxQagAkkEg3LLRP/2T93ftQc=;
+        b=pk03SqXIBpNJfm/odvWpzOEFQw33LVfWZzgV7u9kS/rNaFiwx6vEtDyya6BpMo8Yzs
+         3SLkJlZDbWDe8DFIVVIoCWzLAsNTPgbaVti9pkEBu26zkxEgWQdfT8AZdgfW0aQGdu36
+         Q+ZCVmz4zdb543QxnYoomXHW914OFBq1hixTNWRgvLSDOT/6KVP+riVF+KjO4/o6P2di
+         tNaLdEna8M7e6RVu3iGvfG5sm+xOcsQGSqD9PB29xJtumbO+/mMC0lFVb7840F4ZyMku
+         JpWP/Xo9WFwijH11LZ9hX03T53f8+XUiRULuMgOz3mMdfYmD4egORI+8Th6NZXRuayqi
+         Qs/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX0PpZ7/2TaSNpHDzE64RAVXOmSEwoTVLYXootg5ARwJZBKQpDDHCnHOo152ueRJvMM8PxArgw6qw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx93gpy124MpGsZ9aeKIANTKWJjuU5r6Ds3mxkwDgMxMozczYje
+	hUxT8SzzxIxEkhTMwcggJ8EiPIUDB4NLRpPGVAoKc60h0r5+Gky+6IrzsDpt4qM=
+X-Gm-Gg: ASbGncvgzrZjq/R74iIB6cDAsewvJGLOf8MpUyMcqNQF7r87xxPoNk42pSla6u9iGNU
+	+EUpAtgkXcmMKgNXcZ6P6v+RByoJXw/5gG5ePVQj6PVdeDe645CIsfqY71TsmwIi7vGFt/pMgY4
+	W1lqv+dmleq5xa0H9eRrEOAyBTDfYYz2+/DWQS4aWnPV6NlWUuKt47f6A3BlPWBMf2/BOPklTLD
+	FhY5yuiGRbMsqUzjac7CrESpRVp32YpVNVcUx71jdaO03GiEHY9sUOb6w7PrqhyickK+F3YYHFC
+	xO2NWOQ=
+X-Google-Smtp-Source: AGHT+IGtsIzzGfAcKL/PEpiuES32TcQcp9F7OLmJOeJMP9wYjML8Ng6LAzORWCaFKdsDKOmTsmrEHA==
+X-Received: by 2002:a17:90b:5206:b0:2f4:f7f8:fc8b with SMTP id 98e67ed59e1d1-2f782d4ed77mr37302192a91.27.1737632280204;
+        Thu, 23 Jan 2025 03:38:00 -0800 (PST)
+Received: from localhost ([122.172.84.139])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f7e6a5e2b2sm3705966a91.3.2025.01.23.03.37.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jan 2025 03:12:18 -0800 (PST)
-Date: Thu, 23 Jan 2025 14:12:14 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: zuoqian <zuoqian113@gmail.com>,
-	Ionela Voinescu <ionela.voinescu@arm.com>
-Cc: sudeep.holla@arm.com, rafael@kernel.org, viresh.kumar@linaro.org,
-	cristian.marussi@arm.com, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] cpufreq: scpi: compare against frequency instead of rate
-Message-ID: <ad11dfc1-5e88-4421-b427-3955d4220133@stanley.mountain>
-References: <20250123075321.4442-1-zuoqian113@gmail.com>
+        Thu, 23 Jan 2025 03:37:59 -0800 (PST)
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Hector Martin <marcan@marcan.st>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kevin Hilman <khilman@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Markus Mayer <mmayer@broadcom.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Naveen N Rao <naveen@kernel.org>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	WANG Xuerui <kernel@xen0n.name>
+Cc: linux-pm@vger.kernel.org,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	arm-scmi@vger.kernel.org,
+	asahi@lists.linux.dev,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-mips@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-tegra@vger.kernel.org,
+	loongarch@lists.linux.dev
+Subject: [PATCH 00/33] cpufreq: manage common sysfs attributes from core
+Date: Thu, 23 Jan 2025 17:05:36 +0530
+Message-Id: <cover.1737631669.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250123075321.4442-1-zuoqian113@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 23, 2025 at 07:53:20AM +0000, zuoqian wrote:
-> The CPU rate from clk_get_rate() may not be divisible by 1000
-> (e.g., 133333333). But the rate calculated from frequency is always
-> divisible by 1000 (e.g., 133333000).
-> Comparing the rate causes a warning during CPU scaling:
-> "cpufreq: __target_index: Failed to change cpu frequency: -5".
-> When we choose to compare frequency here, the issue does not occur.
-> 
-> Signed-off-by: zuoqian <zuoqian113@gmail.com>
-> ---
->  drivers/cpufreq/scpi-cpufreq.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/cpufreq/scpi-cpufreq.c b/drivers/cpufreq/scpi-cpufreq.c
-> index cd89c1b9832c..3bff4bb5ab4a 100644
-> --- a/drivers/cpufreq/scpi-cpufreq.c
-> +++ b/drivers/cpufreq/scpi-cpufreq.c
-> @@ -39,8 +39,9 @@ static unsigned int scpi_cpufreq_get_rate(unsigned int cpu)
->  static int
->  scpi_cpufreq_set_target(struct cpufreq_policy *policy, unsigned int index)
->  {
-> -	u64 rate = policy->freq_table[index].frequency * 1000;
+Hello,
 
-policy->freq_table[index].frequency is a u32 so in this original
-calculation, even though "rate" is declared as a u64, it can't actually
-be more than UINT_MAX.
+Most of the drivers add available and boost frequencies related attributes. This
+patch series tries to avoid duplication and simplify driver's code by managing
+these from core code.
 
-> +	unsigned long freq = policy->freq_table[index].frequency;
->  	struct scpi_data *priv = policy->driver_data;
-> +	u64 rate = freq * 1000;
+A quick search revealed that only the drivers that set the
+policy->freq_table field, enable these attributes. Which makes sense as
+well, since the show_available_freqs() helper works only if the
+freq_table is present.
 
-So you've fixed this by casting policy->freq_table[index].frequency
-to unsigned long, which fixes the problem on 64bit systems but it still
-remains on 32bit systems.  It would be better to declare freq as a u64.
+In order to simplify drivers, create the relevant sysfs files forcefully
+from cpufreq core.
 
-We keep fixing and then breaking this as undocumented parts of larger
-patches.  :P  It should really be done by itself and the Fixes tag would
-point to:
-Fixes: 1a0419b0db46 ("cpufreq: move invariance setter calls in cpufreq core")
+Pushed here:
 
->  	int ret;
->  
->  	ret = clk_set_rate(priv->clk, rate);
-> @@ -48,7 +49,7 @@ scpi_cpufreq_set_target(struct cpufreq_policy *policy, unsigned int index)
->  	if (ret)
->  		return ret;
->  
-> -	if (clk_get_rate(priv->clk) != rate)
-> +	if (clk_get_rate(priv->clk) / 1000 != freq)
+git://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git cpufreq/core-attr
 
+--
+Viresh
 
-Sure, I don't know this code well but your commit message seems reasonable.
-Add a Fixes tag for this line.
+Viresh Kumar (33):
+  cpufreq: Always create freq-table related sysfs file
+  cpufreq: dt: Stop setting cpufreq_driver->attr field
+  cpufreq: acpi: Stop setting common freq attributes
+  cpufreq: apple: Stop setting cpufreq_driver->attr field
+  cpufreq: bmips: Stop setting cpufreq_driver->attr field
+  cpufreq: brcmstb: Stop setting common freq attributes
+  cpufreq: davinci: Stop setting cpufreq_driver->attr field
+  cpufreq: e_powersaver: Stop setting cpufreq_driver->attr field
+  cpufreq: elanfreq: Stop setting cpufreq_driver->attr field
+  cpufreq: imx6q: Stop setting cpufreq_driver->attr field
+  cpufreq: kirkwood: Stop setting cpufreq_driver->attr field
+  cpufreq: longhaul: Stop setting cpufreq_driver->attr field
+  cpufreq: loongson: Stop setting cpufreq_driver->attr field
+  cpufreq: mediatek: Stop setting cpufreq_driver->attr field
+  cpufreq: omap: Stop setting cpufreq_driver->attr field
+  cpufreq: p4: Stop setting cpufreq_driver->attr field
+  cpufreq: pasemi: Stop setting cpufreq_driver->attr field
+  cpufreq: pmac: Stop setting cpufreq_driver->attr field
+  cpufreq: powernow: Stop setting cpufreq_driver->attr field
+  cpufreq: powernv: Stop setting common freq attributes
+  cpufreq: qcom: Stop setting cpufreq_driver->attr field
+  cpufreq: qoriq: Stop setting cpufreq_driver->attr field
+  cpufreq: sc520_freq: Stop setting cpufreq_driver->attr field
+  cpufreq: scmi: Stop setting cpufreq_driver->attr field
+  cpufreq: scpi: Stop setting cpufreq_driver->attr field
+  cpufreq: sh: Stop setting cpufreq_driver->attr field
+  cpufreq: spear: Stop setting cpufreq_driver->attr field
+  cpufreq: speedstep: Stop setting cpufreq_driver->attr field
+  cpufreq: tegra: Stop setting cpufreq_driver->attr field
+  cpufreq: vexpress: Stop setting cpufreq_driver->attr field
+  cpufreq: virtual: Stop setting cpufreq_driver->attr field
+  cpufreq: Remove cpufreq_generic_attrs
+  cpufreq: Stop checking for duplicate available/boost freq attributes
 
-Fixes: 343a8d17fa8d ("cpufreq: scpi: remove arm_big_little dependency")
+ drivers/cpufreq/acpi-cpufreq.c         |  1 -
+ drivers/cpufreq/apple-soc-cpufreq.c    |  8 --------
+ drivers/cpufreq/bmips-cpufreq.c        |  1 -
+ drivers/cpufreq/brcmstb-avs-cpufreq.c  |  1 -
+ drivers/cpufreq/cpufreq-dt.c           |  8 --------
+ drivers/cpufreq/cpufreq.c              | 15 +++++++++++++++
+ drivers/cpufreq/davinci-cpufreq.c      |  1 -
+ drivers/cpufreq/e_powersaver.c         |  1 -
+ drivers/cpufreq/elanfreq.c             |  1 -
+ drivers/cpufreq/freq_table.c           |  8 --------
+ drivers/cpufreq/imx6q-cpufreq.c        |  1 -
+ drivers/cpufreq/kirkwood-cpufreq.c     |  1 -
+ drivers/cpufreq/longhaul.c             |  1 -
+ drivers/cpufreq/loongson2_cpufreq.c    |  1 -
+ drivers/cpufreq/loongson3_cpufreq.c    |  1 -
+ drivers/cpufreq/mediatek-cpufreq-hw.c  |  1 -
+ drivers/cpufreq/mediatek-cpufreq.c     |  1 -
+ drivers/cpufreq/omap-cpufreq.c         |  1 -
+ drivers/cpufreq/p4-clockmod.c          |  1 -
+ drivers/cpufreq/pasemi-cpufreq.c       |  1 -
+ drivers/cpufreq/pmac32-cpufreq.c       |  1 -
+ drivers/cpufreq/pmac64-cpufreq.c       |  1 -
+ drivers/cpufreq/powernow-k6.c          |  1 -
+ drivers/cpufreq/powernow-k7.c          |  1 -
+ drivers/cpufreq/powernow-k8.c          |  1 -
+ drivers/cpufreq/powernv-cpufreq.c      |  2 --
+ drivers/cpufreq/qcom-cpufreq-hw.c      |  7 -------
+ drivers/cpufreq/qoriq-cpufreq.c        |  1 -
+ drivers/cpufreq/sc520_freq.c           |  1 -
+ drivers/cpufreq/scmi-cpufreq.c         |  8 --------
+ drivers/cpufreq/scpi-cpufreq.c         |  1 -
+ drivers/cpufreq/sh-cpufreq.c           |  1 -
+ drivers/cpufreq/spear-cpufreq.c        |  1 -
+ drivers/cpufreq/speedstep-centrino.c   |  1 -
+ drivers/cpufreq/speedstep-ich.c        |  1 -
+ drivers/cpufreq/speedstep-smi.c        |  1 -
+ drivers/cpufreq/tegra186-cpufreq.c     |  1 -
+ drivers/cpufreq/tegra194-cpufreq.c     |  1 -
+ drivers/cpufreq/vexpress-spc-cpufreq.c |  1 -
+ drivers/cpufreq/virtual-cpufreq.c      |  1 -
+ include/linux/cpufreq.h                |  1 -
+ 41 files changed, 15 insertions(+), 75 deletions(-)
 
-regards,
-dan carpenter
-
+-- 
+2.31.1.272.g89b43f80a514
 
