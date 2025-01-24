@@ -1,175 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDECC1D79A6;
-	Fri, 24 Jan 2025 04:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BD0218ADC
+	for <arm-scmi@vger.kernel.org>; Fri, 24 Jan 2025 08:58:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737691907; cv=none; b=h9vuwKkKrwcXp5ujTcFPeHFWIiwFtB7thnVUqjHYlvf4Vfkj60UmMsZYCmlJ19d3g1rDfh8M5WPajjbz4NK5ptLj8aaCRXgRC3DgsXQNqMAjOHkauXiPxs6RwSgSlorShbfau2227ObXuTzds1cbAn3+15e0TDaCTGeK9ucVh6k=
+	t=1737709112; cv=none; b=PsViE9Efm67YaXzmX4qmd34pG04Gvaauo+QMcR1Ng62Kb4+a2wX0ypys5P9FrX1kHZJJ4bebcOdePmtkya/qWa4s0hURsrc9Ke+tFt7MVbv/Pfc4hhu1FyYlIv+wE9t8bT4K56RChQRMvnJrynq5iamMHDjmQ79FNubSWH6PiRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737691907; c=relaxed/simple;
-	bh=jCliCqH9ud0GLTM7b/xWwloQkS4OyN5sqqdPDtXblVo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BRnj5SgyZikskRLK1ZsXQ2VL+dajoOGJ3FVhP3jdbjhTur4qyZ5BTdmmXaEst6qZOPHLOEcZfe78LgaoTG0EEduJ045u/7o6Rsthhfsma6otOkUGrV5CvnR7Mzt99sqwkTEQ6OZlKLtLHgZV4n8qjd8ptO18huYWrdzSKw9h3II=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TEXIIFTG; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1737709112; c=relaxed/simple;
+	bh=fNI4UdDtZI4AVcTD8TnjHEnynSXd6Y+lcwnBOlUgb0k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KBNTsyaVw3uE4q55GMbiosx1CfZDsfoO05WiYaPnQk7BNFgnahMtgRUZxwmPOAPVl+vWUX8TSQBX2prvEQnALYApqwNGVwe9Ko7PvN/7zeYb+1Kx3SeAbT3pTV125ucBfC4ecchMziTLHyULctb7662glkTL0G/oNNcwoi2AL4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qiupq5x5; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TEXIIFTG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737691906; x=1769227906;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jCliCqH9ud0GLTM7b/xWwloQkS4OyN5sqqdPDtXblVo=;
-  b=TEXIIFTGxPm3I0iVcV//7jzPWaE9taisYXpe+gODeDbBV8yn5bQF50W7
-   16RULUo/lCFLl7BVWZEoXpZ3hbJB4fmBk1Us+/pybTjMoJs3UiTkfQv6H
-   DvFg3W4uFEGfOjXfAB8HbUpzS/o6dJZl1W/JzZAAb+ujFdTC3K5kwwVqr
-   EilOZ7RGdsNP8cf8+eDd2ld9XYvdKK06lj7FySe8NhJUIF4a0NBNKiVxl
-   F64u6FwL/y3VWSR71eY/O3DYYA4vIQRKWcFVdlqm2gvfuS26ftQH+uE0C
-   NZiP5ML30kA5XGD7i+wUXg1fehbgR5WAP8yFM/QDK+qcD37OyDHsFF3Cx
-   A==;
-X-CSE-ConnectionGUID: zsujpGGjS2Gj9xzZZEY5Iw==
-X-CSE-MsgGUID: g7xTcvjfT32F87KyiutTeQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="37475490"
-X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; 
-   d="scan'208";a="37475490"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 20:11:44 -0800
-X-CSE-ConnectionGUID: NOpEyIMyQP2jMN0VJml8TQ==
-X-CSE-MsgGUID: QoqUchVYRu+8UvM4RR+nfg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="112623071"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 23 Jan 2025 20:11:41 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tbB2g-000c8B-1f;
-	Fri, 24 Jan 2025 04:11:38 +0000
-Date: Fri, 24 Jan 2025 12:11:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qiupq5x5"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2161eb94cceso22475465ad.2
+        for <arm-scmi@vger.kernel.org>; Fri, 24 Jan 2025 00:58:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1737709110; x=1738313910; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a4AqRX4jgpQUQupuoQFqpmYTbRVzBhfX6O9GAy7aKKQ=;
+        b=qiupq5x5QB9lQevzihRGuBXv0IfAAG2rlaNizZukib61T7eXb9WMGdVg8sHx3prPyF
+         pyALGugpO90wpX+VaZdylLtGFOvcgTro9iWGcc0WHV6/lrgkQZW0N2/o1YVYtaudmZxT
+         ftm0jDg57UibfG6PZfifqu7fLPSSGy7P83EOarbhJwSpqCEn5DC5qU13poN99eJINn0e
+         idbknwz4Dn8uwZ+tuCKNgGPwaiD8hEh8ikaLCFO+kPyaDMxMtgjLsm7vIx0FI/XGXGx1
+         CjNeU1oUtS06Rc8zc4t9RYL+Xf9unljTMXzuL8AqMOSU311AbW1urLdye61TVSungj2H
+         GTUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737709110; x=1738313910;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a4AqRX4jgpQUQupuoQFqpmYTbRVzBhfX6O9GAy7aKKQ=;
+        b=gashCrRO/m479Xcxega2ILpXpYkx1xIxU0924rBtpDqLUvvnss8F1px7KW3AG17xiY
+         iiP0vkOxjRg5ZAbIvJues34K2U6QGEcFlehyTS0FjJvKT1j0No08fQLAC5PjRzYosUnO
+         mrQbi6q2b7vcQuv3Lt8HSJr57uezqyRxneaLln6+jU7QkdUu7kGaC93RYKRseLYhWYaO
+         nvV4DU3LMNWjGJH1+eiOfznqyDWCCWoMKN5ErMYgfIs3EGGrNGd+4R/8oOTBUMlZh6jf
+         IdJKgp6tImrDNh+H2Pdek0smjZiJLjUIFiCVpvKN3DnJ2xfcoqL05OQ8w+eBFfSgCh6P
+         VmAA==
+X-Forwarded-Encrypted: i=1; AJvYcCUchVsCLlnylUY2JsSatNxBh4/H8eAA1fHnpC+95hT+tq6KyNvIbfcc3ITFvuJ9PZ+91X0PgSMTWw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yze/jhPLuiD8Xtc7FRtsPj1kuxlSrwJ7I6rJBcN/5Nuy8oBiMc0
+	9v6RQOpMhtyW2W1kFaRaQaFmC0cwoRJldkyBr9aT/KWYT05x8LCfsHC0FvFTwzw=
+X-Gm-Gg: ASbGncsNU1vqB8qABDGhPO7jA+IMtWTiwlsAM1BojgWwuVOFDaFdPzBqjCBQCwI8A6B
+	Imswj88gSfo/BiTAWKPIIqK5rRRcg0gA7wDoEybo3UVR6Ie6BO+XkU3tR1Ub7vBzVuENeCuBfnq
+	PkTSR1fFqts89nuuJAT7aToSeYSudLYzWwrIfv1X/cY6ZF5lWj/h1vaz4ffFH1jWJyBNcQE7xhi
+	QsjiTHhRpcW9JaIf/cCo8jp9+5LHrXho62H3P20X8Zhq2kjNSwU7iD8gMES0vCkRaOXCED/jEWr
+	dOQByGo=
+X-Google-Smtp-Source: AGHT+IGaLv3P86dnfhfsz8clY+KvPxRH7m/1Pd0NzNkAaLxjGYIDOwn76y4qMRrSSuP3v13w1OIdqA==
+X-Received: by 2002:a17:903:320e:b0:217:9172:2ce1 with SMTP id d9443c01a7336-21c35544407mr480084755ad.22.1737709110054;
+        Fri, 24 Jan 2025 00:58:30 -0800 (PST)
+Received: from localhost ([122.172.84.139])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21da3d9e1b2sm11621015ad.17.2025.01.24.00.58.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jan 2025 00:58:29 -0800 (PST)
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
 	Cristian Marussi <cristian.marussi@arm.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev, Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH 2/5] firmware: arm_scmi: imx: Add i.MX95 CPU Protocol
-Message-ID: <202501241148.0CI9mBP5-lkp@intel.com>
-References: <20250121-imx-lmm-cpu-v1-2-0eab7e073e4e@nxp.com>
+	"Gautham R. Shenoy" <gautham.shenoy@amd.com>,
+	Hector Martin <marcan@marcan.st>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Huang Rui <ray.huang@amd.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Naveen N Rao <naveen@kernel.org>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Perry Yuan <perry.yuan@amd.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	WANG Xuerui <kernel@xen0n.name>
+Cc: linux-pm@vger.kernel.org,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Lifeng Zheng <zhenglifeng1@huawei.com>,
+	arm-scmi@vger.kernel.org,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	loongarch@lists.linux.dev
+Subject: [PATCH 00/15] cpufreq: simplify boost handling
+Date: Fri, 24 Jan 2025 14:28:04 +0530
+Message-Id: <cover.1737707712.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250121-imx-lmm-cpu-v1-2-0eab7e073e4e@nxp.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Peng,
+Hello,
 
-kernel test robot noticed the following build warnings:
+The boost feature can be controlled at two levels currently, driver
+level (applies to all policies) and per-policy.
 
-[auto build test WARNING on 0907e7fb35756464aa34c35d6abb02998418164b]
+Currently most of the drivers enables driver level boost support from the
+per-policy ->init() callback, which isn't really efficient as that gets called
+for each policy and then there is online/offline path too where this gets done
+unnecessarily.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan-OSS/firmware-arm_scmi-imx-Add-i-MX95-LMM-protocol/20250121-231254
-base:   0907e7fb35756464aa34c35d6abb02998418164b
-patch link:    https://lore.kernel.org/r/20250121-imx-lmm-cpu-v1-2-0eab7e073e4e%40nxp.com
-patch subject: [PATCH 2/5] firmware: arm_scmi: imx: Add i.MX95 CPU Protocol
-config: arm64-randconfig-r122-20250124 (https://download.01.org/0day-ci/archive/20250124/202501241148.0CI9mBP5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250124/202501241148.0CI9mBP5-lkp@intel.com/reproduce)
+Also it is possible to have a scenario where not all cpufreq policies support
+boost frequencies. And letting sysfs (or other parts of the kernel) enable boost
+feature for that policy isn't correct.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501241148.0CI9mBP5-lkp@intel.com/
+Simplify and cleanup handling of boost to solve these issues.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:139:19: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] flags @@     got unsigned long @@
-   drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:139:19: sparse:     expected restricted __le32 [usertype] flags
-   drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:139:19: sparse:     got unsigned long
->> drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:140:19: sparse: sparse: invalid assignment: |=
-   drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:140:19: sparse:    left side has type restricted __le32
-   drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:140:19: sparse:    right side has type unsigned long
-   drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:141:19: sparse: sparse: invalid assignment: |=
-   drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:141:19: sparse:    left side has type restricted __le32
-   drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:141:19: sparse:    right side has type unsigned long
->> drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:173:25: sparse: sparse: restricted __le32 degrades to integer
-   drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c:205:32: sparse: sparse: restricted __le32 degrades to integer
+Pushed here:
 
-vim +139 drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c
+git://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git cpufreq/boost
 
-   119	
-   120	static int scmi_imx_cpu_reset_vector_set(const struct scmi_protocol_handle *ph,
-   121						 u32 cpuid, u64 vector, bool start,
-   122						 bool boot, bool resume)
-   123	{
-   124		struct scmi_imx_cpu_reset_vector_set_in *in;
-   125		struct scmi_xfer *t;
-   126		int ret;
-   127	
-   128		ret = scmi_imx_cpu_validate_cpuid(ph, cpuid);
-   129		if (ret)
-   130			return ret;
-   131	
-   132		ret = ph->xops->xfer_get_init(ph, SCMI_IMX_CPU_RESET_VECTOR_SET, sizeof(*in),
-   133					      0, &t);
-   134		if (ret)
-   135			return ret;
-   136	
-   137		in = t->tx.buf;
-   138		in->cpuid = cpu_to_le32(cpuid);
- > 139		in->flags = start ? CPU_VEC_FLAGS_START : 0;
- > 140		in->flags |= boot ? CPU_VEC_FLAGS_BOOT : 0;
-   141		in->flags |= resume ? CPU_VEC_FLAGS_BOOT : 0;
-   142		in->resetvectorlow = cpu_to_le32(lower_32_bits(vector));
-   143		in->resetvectorhigh = cpu_to_le32(upper_32_bits(vector));
-   144		ret = ph->xops->do_xfer(ph, t);
-   145	
-   146		ph->xops->xfer_put(ph, t);
-   147	
-   148		return ret;
-   149	}
-   150	
-   151	static int scmi_imx_cpu_started(const struct scmi_protocol_handle *ph, u32 cpuid,
-   152					bool *started)
-   153	{
-   154		struct scmi_imx_cpu_info_get_out *out;
-   155		struct scmi_xfer *t;
-   156		int ret;
-   157	
-   158		*started = false;
-   159		ret = scmi_imx_cpu_validate_cpuid(ph, cpuid);
-   160		if (ret)
-   161			return ret;
-   162	
-   163		ret = ph->xops->xfer_get_init(ph, SCMI_IMX_CPU_INFO_GET, sizeof(u32),
-   164					      0, &t);
-   165		if (ret)
-   166			return ret;
-   167	
-   168		put_unaligned_le32(cpuid, t->tx.buf);
-   169		ret = ph->xops->do_xfer(ph, t);
-   170		if (!ret) {
-   171			out = t->rx.buf;
-   172			if ((out->runmode == CPU_RUN_MODE_START) ||
- > 173			    (out->runmode == CPU_RUN_MODE_SLEEP))
-   174				*started = true;
-   175		}
-   176	
-   177		ph->xops->xfer_put(ph, t);
-   178	
-   179		return ret;
-   180	}
-   181	
+Rebased over few dependencies from PM tree, will push to the arm-cpufreq tree
+after merge window is closed.
+
+Viresh Kumar (15):
+  cpufreq: staticize cpufreq_boost_trigger_state()
+  cpufreq: Export cpufreq_boost_set_sw()
+  cpufreq: Introduce policy->boost_supported flag
+  cpufreq: acpi: Set policy->boost_supported
+  cpufreq: amd: Set policy->boost_supported
+  cpufreq: cppc: Set policy->boost_supported
+  cpufreq: Restrict enabling boost on policies with no boost frequencies
+  cpufreq: apple: Set .set_boost directly
+  cpufreq: loongson: Set .set_boost directly
+  cpufreq: powernv: Set .set_boost directly
+  cpufreq: scmi: Set .set_boost directly
+  cpufreq: dt: Set .set_boost directly
+  cpufreq: qcom: Set .set_boost directly
+  cpufreq: staticize policy_has_boost_freq()
+  cpufreq: Remove cpufreq_enable_boost_support()
+
+ drivers/cpufreq/acpi-cpufreq.c      |  3 +++
+ drivers/cpufreq/amd-pstate.c        |  4 ++--
+ drivers/cpufreq/apple-soc-cpufreq.c | 10 +---------
+ drivers/cpufreq/cppc_cpufreq.c      |  9 +--------
+ drivers/cpufreq/cpufreq-dt.c        | 14 +-------------
+ drivers/cpufreq/cpufreq.c           | 30 ++++++++++++-----------------
+ drivers/cpufreq/freq_table.c        |  7 +++++--
+ drivers/cpufreq/loongson3_cpufreq.c | 10 +---------
+ drivers/cpufreq/powernv-cpufreq.c   |  5 +----
+ drivers/cpufreq/qcom-cpufreq-hw.c   |  7 +------
+ drivers/cpufreq/scmi-cpufreq.c      | 11 +----------
+ include/linux/cpufreq.h             | 20 ++++++-------------
+ 12 files changed, 35 insertions(+), 95 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.31.1.272.g89b43f80a514
+
