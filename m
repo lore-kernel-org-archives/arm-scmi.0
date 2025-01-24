@@ -1,161 +1,172 @@
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD71F219A80;
-	Fri, 24 Jan 2025 09:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90AD61CEEAA
+	for <arm-scmi@vger.kernel.org>; Fri, 24 Jan 2025 10:51:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737711728; cv=none; b=LYUjRd8FkeRPwoVQFbNlwMz+ycbwQnlWsZ5xYh0mfAl8/ifkU15sHIcLiQ89PR9bUaX9o/Y2g/bVUQ2qOga8F/jeU/nlbxQgsPzcS0x1F5DAzMl8cxhpwqO6B4xmWPczxdOULtG8eX33pjD6llICMUpAJ0B35M7l5IoUDr6sLY4=
+	t=1737715914; cv=none; b=fZi+KD558s/S2MVDDcP+bTiD3pv1ERGMg7KWIHTUjhhWmi4sHjRIHVnz/vvpoCY+e8SWeG5snN5x1nii/jyo9XofjWMudkdbU4M3cfmRzMGs8SONVVstxDGasXKXhZp7u9HQR1pNhkqNYeo9KpbGmYEnuz/w4cBr0ZMq9eYAkB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737711728; c=relaxed/simple;
-	bh=HiaSOjvay0PDEU6IvhGDA9srpEJb+zcTJ9i8VAYmvDs=;
-	h=Message-ID:From:To:CC:Subject:Date:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=YljquxsmHZNiuNnzztlDBFXxgLAg5tZRldfpUbDq/MN/lVmbY6DjULUzBMOXtg0vawuIcOvpd7wSEZQDkCgjExv2fvxMHIPVrlKtq3QmgdwBWcidruy7TJitnGLGn6DrN5iTfZHH1PzPRx97W/WYzNIxQE2J6CDyQfv/NsUk0sE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PLsDizuc; arc=none smtp.client-ip=209.85.166.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737715914; c=relaxed/simple;
+	bh=B/1l3tdtCZ9PRYzReDHc6UkLBAY6SnrhKfJIycn3/Gk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aYGMz/NR/DI0ZUIoshxydLMHUr0daS+xUM0aXB8BD+DQNULv/5nkAo4poqN33I7x+X+VPpLYacvOD2n5zrR++Pi7/pSagOAFIcaxDw3VVZyQQkorK7I+7tiwB+9UbnxgEnMhUbL01lHTUbDK+YsoRhaNU760AWMpn1me3EKnkKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DAm09OYU; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PLsDizuc"
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-3a9cdcec53fso13394735ab.1;
-        Fri, 24 Jan 2025 01:42:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DAm09OYU"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-38633b5dbcfso2160195f8f.2
+        for <arm-scmi@vger.kernel.org>; Fri, 24 Jan 2025 02:51:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737711726; x=1738316526; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:content-id:msip_labels
-         :content-language:accept-language:in-reply-to:references:date
-         :thread-index:thread-topic:subject:cc:to:from:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HiaSOjvay0PDEU6IvhGDA9srpEJb+zcTJ9i8VAYmvDs=;
-        b=PLsDizucOvMKawPnWMjqcxbs9c1GZLzHU1yEmLwp86OYAEfEtkd9tKkyJOOHxfW7ac
-         5X3PUhda1pLqoaadHhcFB8sxYUxD3UrpsxKeb6hJApZnyLeQgqEcsJVLWP24S13Zs6G7
-         WYuhMIlW4tGSZKmqQ36A7l4dqN9llqj1MKUIPseak/PJXjuekwi7m7m+Ssr6lnqmaaHR
-         Um1Ce+D0FzpHZhe42xtWM3U8zHP1xzSKcdfQJT179yYSHgQO7aV9xua+icCQiC13aCxc
-         8Inp4K4oqDV9gOsIMKGx7l8FUcyMO67WQQRnGdBM/EGltHeHM2TkRf8hVeUzBex7wlf/
-         lfXA==
+        d=linaro.org; s=google; t=1737715911; x=1738320711; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tGTlLozxCo1nf43/X/aagzssis+Atz8YpkZYRRrzAY0=;
+        b=DAm09OYUCJHkxonVXjZalcz4Xfmevxg5Zqdd/kDgJiSewZk0pNGS1IbP8eJB6eJ4Ma
+         O1hHqlFwuq2Qvix0WsrUozye7A66428W2sKreu9KbB1FlRbwI+2zT+vauhd/V+nzT9Un
+         nEY+rQkcxiNL4J179N7U1U48CuPqTsQ6mAAbzNIwzldnar0zWrWt3q7wMP/AFwGERHcl
+         p8Q3f7NjNLpwVg/ca08EAEXt98gXXWTdYssTNeP5rItQzWOtk3mC/IzO3lzhl4zGVqNg
+         R9/S2ylg3PtjeoFNGMW929K10yFPuS7/nliMPEvQrnxyDU/7ZuhYt2Q0rF7itsMv0HiR
+         5LKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737711726; x=1738316526;
-        h=mime-version:content-transfer-encoding:content-id:msip_labels
-         :content-language:accept-language:in-reply-to:references:date
-         :thread-index:thread-topic:subject:cc:to:from:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HiaSOjvay0PDEU6IvhGDA9srpEJb+zcTJ9i8VAYmvDs=;
-        b=EtbyTTJOTGOLhqvBdQQObZtI17bVhV0kpk3PUX93qW1aUxdObdvsMTHWD8htXPeKeK
-         RRXPm7lM8qFJPB7X9ZxJ69+6fQwzpDm5IVfTXkkmgWo5S1vCvC6ViiyMRvdzaDlrQrb6
-         L5paVeuvLByVemlvnwL0D7lY5ObpGfUqWwDLFpVLXj+MP7gDaSAqBCgHPuy+ehpulX54
-         Gau5NN77PV9ExbrvwY83yyDL8YpcrkMp6i/qvTuqgZBn78QUaNbUMDGqiAZy/eDKgGgZ
-         QIk729SYKgn5lqDmxP4FEtX/m6qZfICGUK60+VXIkGGS8FyfMVvV0V6CJvOONklETOrU
-         dOFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUuBfegEhp87u3Ifo1Wevg5pBBa/JU5EAfFey4qAYE2i99iiF9sZ2pV+c/AqPGNR1It0dXm948rynI=@vger.kernel.org, AJvYcCV34O/NXZFACCWm56I9sjD35v5JZ0ypB5zWQLYQOrAHhu86l7G4+y6TFxR7VphmB/Bm+zt20BEiI4FKY9Jo@vger.kernel.org, AJvYcCWkrJC2MIXB9MfGkrW63gFKL2b+mio/iWz3EglI2c6kOlBkXHdpIrvQ5CmsE1LvNz22qNuku/XTfQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwIx/yHvRzzNLBD7CXBuvUUgkq0ZLVMkBJPX5OxvVrFLEnYz+H
-	lgs/Fp2+5VOW4KtRW3r9h6PviaQlMCyGB0tAxp7Nfqj4EuuWogcIaUhFpn8Gnqs=
-X-Gm-Gg: ASbGncslt4aPN1oCKm2rKVcii3qXU03dyKv11bv8jgvpP6tZD1BR1tnztVP7wHtAxWO
-	X59iIWPXsXSYh4dxpbb50azW7EO2XvTVqli9C5MyxCWj5y03zRdO4QhEzvZpxhYFoA6B3gXXBJp
-	DZT48RTLvFpRNL0QcHZVpdMx2LBQKjH3TrIqDjsRThizRz9rEe8GIlkZyiToLIROYywsdz7466b
-	1INmB85vR+HRdRoTWr0FiBO/DGHX+M2inbuCi7AH2PNyZ7cly/snC4g/FyIqYWpGFteTLj3/T6Y
-	iT4KclG8Y72hkPiLFrpNYmCrDIGx0YAZMy9OPmyJbGRK7kluA+WZFQJDswtZE1HCzZk=
-X-Google-Smtp-Source: AGHT+IGPe4dH5t61pJCPEVfqud58UJpTXEmd8lE5AaqTQQZAHJ3kvJz0t72oV4bVGYoL13iA4wBmPA==
-X-Received: by 2002:a05:6e02:12ec:b0:3ce:afa6:93cf with SMTP id e9e14a558f8ab-3cf74495d71mr198873785ab.17.1737711725772;
-        Fri, 24 Jan 2025 01:42:05 -0800 (PST)
-Received: from AS8PR05MB8006.eurprd05.prod.outlook.com ([2603:1026:c03:646a::5])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4ec1db6c462sm465754173.92.2025.01.24.01.42.03
+        d=1e100.net; s=20230601; t=1737715911; x=1738320711;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tGTlLozxCo1nf43/X/aagzssis+Atz8YpkZYRRrzAY0=;
+        b=GdR3lb+mimAZoX9WAWGBtS0yv4YMyzGtyyHrICrAJIJwCqtHSyj6W8CZf+8Wk0Q3uQ
+         iU9eGSYgNrqFFaBgBHLo8gZwKSopbZ3bA0O77jFyxLA6J+79wZbVuNAH2j7DYFm74o71
+         8T1AtbGHde5V4Xuq7cTajQEhOSpLJofNtOfAE2gd31LZ8NKe9xj/9BXc2lI+NZr6PAZk
+         7Peae0DULIFWbSASpcv4ZCpU/aF/KSf3RBCjvP7uy0/nlh4M0YA70KQRJjHDBlaadzTt
+         wdLw88fXPrTN7J75yirHXOUjybwhcE0nU3sQubRRlNElhDTog2wz8ZZ6eGSYuRJlHrqu
+         ilvA==
+X-Forwarded-Encrypted: i=1; AJvYcCVWffoa0BgOSQ8+mr1fJ174eU4qowghVmM1zppYJc0EkfVgtiwctk0gOnOJuia8nNhavVIHxn/wwA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzsx+TEj9ibq1C5Gem2zttZ4sMUPzOZNOk5KHAPkkOV1IVmcNAy
+	UAxfdNdxVOB5Fn/gBk+Fv95tcxz/3Thl4cbRwCaYar+vnkSbHs03BOdE4onDXhHCIAvNv0vGMGr
+	L
+X-Gm-Gg: ASbGnctvTtrqafaQ/M68+PGfBngBQJWiF8qVJ/0DOPPmOSLZTOz2Su3g7um5ocyc/Zn
+	pENv60l+gOjqRMteeVARoUcdxTWrF1H5J33K9kAO1AtM25MTBQY1PgpLNnUdu4UzZEEsGjaBKCg
+	AvmLQ//iUuSGOTjcqvh5iowcZaIWAtegXCO7kTgdLG4HtSGQW4V5VaEJWGTwYP35oyQKOTTteyi
+	K9BOL7bUpBbKGRJOTjq2ps1TTofl3LqkLonoktrult+0KUBHP/3AfA04eiWBu3uTmP7xGp7SEzj
+	26Le6wzWZQ==
+X-Google-Smtp-Source: AGHT+IFYQo9jNiHBgOR8bRaxcWjkfxh6Y7QIEImm5C6fb5pC+YqVIPsrpJEhp0PabuCFZK+cqqd41g==
+X-Received: by 2002:a05:6000:2a6:b0:385:eb7c:5d0f with SMTP id ffacd0b85a97d-38bf566a239mr28879962f8f.26.1737715909296;
+        Fri, 24 Jan 2025 02:51:49 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a1c418esm2332243f8f.95.2025.01.24.02.51.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jan 2025 01:42:05 -0800 (PST)
-Message-ID: <6793606d.050a0220.a73fe.0803@mx.google.com>
-X-Google-Original-Message-ID: 6.8
-From: zuoqian <zuoqian113@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-CC: Sudeep Holla <sudeep.holla@arm.com>, Ionela Voinescu
-	<ionela.voinescu@arm.com>, "rafael@kernel.org" <rafael@kernel.org>,
+        Fri, 24 Jan 2025 02:51:48 -0800 (PST)
+Date: Fri, 24 Jan 2025 13:51:44 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: zuoqian <zuoqian113@gmail.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+	Ionela Voinescu <ionela.voinescu@arm.com>,
+	"rafael@kernel.org" <rafael@kernel.org>,
 	"viresh.kumar@linaro.org" <viresh.kumar@linaro.org>,
 	"cristian.marussi@arm.com" <cristian.marussi@arm.com>,
 	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-pm@vger.kernel.org"
-	<linux-pm@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH] cpufreq: scpi: compare against frequency instead of rate
-Thread-Topic: [PATCH] cpufreq: scpi: compare against frequency instead of rate
-Thread-Index: ATNxLTEzzjf736TYkxRUUnZFlp+LHjNkMjQxbnl0VHo0MzE0Njg4ODg4
-X-MS-Exchange-MessageSentRepresentingType: 1
-Date: Fri, 24 Jan 2025 09:42:01 +0000
+Message-ID: <d7e5ba38-046f-49ff-8201-409756218e75@stanley.mountain>
 References: <20250123075321.4442-1-zuoqian113@gmail.com>
  <ad11dfc1-5e88-4421-b427-3955d4220133@stanley.mountain>
  <Z5IzMhTOhtujyH0n@bogus>
  <8ebf8f26-c3d9-43c0-b417-ce3131a84eb4@stanley.mountain>
-In-Reply-To: <8ebf8f26-c3d9-43c0-b417-ce3131a84eb4@stanley.mountain>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-Exchange-Organization-SCL: -1
-X-MS-TNEF-Correlator:
-X-MS-Exchange-Organization-RecordReviewCfmType: 0
-msip_labels:
-Content-Type: text/plain; charset="gb2312"
-Content-ID: <62F0EB0C10D4AF4A92DE832A2CEA22B1@1>
-Content-Transfer-Encoding: base64
+ <6793606d.050a0220.a73fe.0803@mx.google.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6793606d.050a0220.a73fe.0803@mx.google.com>
 
-T24gVGh1LCBKYW4gMjMsIDIwMjUgYXQgMDQ6MDQ6MTNQTSArMDMwMCwgRGFuIENhcnBlbnRlciB3
-cm90ZToKPiBPbiBUaHUsIEphbiAyMywgMjAyNSBhdCAxMjoxNjo1MFBNICswMDAwLCBTdWRlZXAg
-SG9sbGEgd3JvdGU6Cj4gPiAoZm9yIHNvbWUgcmVhc29uIEkgZG9uJ3QgaGF2ZSB0aGUgb3JpZ2lu
-YWwgZW1haWwpCj4gPiAKPiA+IE9uIFRodSwgSmFuIDIzLCAyMDI1IGF0IDAyOjEyOjE0UE0gKzAz
-MDAsIERhbiBDYXJwZW50ZXIgd3JvdGU6Cj4gPiA+IE9uIFRodSwgSmFuIDIzLCAyMDI1IGF0IDA3
-OjUzOjIwQU0gKzAwMDAsIHp1b3FpYW4gd3JvdGU6Cj4gPiA+ID4gVGhlIENQVSByYXRlIGZyb20g
-Y2xrX2dldF9yYXRlKCkgbWF5IG5vdCBiZSBkaXZpc2libGUgYnkgMTAwMAo+ID4gPiA+IChlLmcu
-LCAxMzMzMzMzMzMpLiBCdXQgdGhlIHJhdGUgY2FsY3VsYXRlZCBmcm9tIGZyZXF1ZW5jeSBpcyBh
-bHdheXMKPiA+ID4gPiBkaXZpc2libGUgYnkgMTAwMCAoZS5nLiwgMTMzMzMzMDAwKS4KPiA+ID4g
-PiBDb21wYXJpbmcgdGhlIHJhdGUgY2F1c2VzIGEgd2FybmluZyBkdXJpbmcgQ1BVIHNjYWxpbmc6
-Cj4gPiA+ID4gImNwdWZyZXE6IF9fdGFyZ2V0X2luZGV4OiBGYWlsZWQgdG8gY2hhbmdlIGNwdSBm
-cmVxdWVuY3k6IC01Ii4KPiA+ID4gPiBXaGVuIHdlIGNob29zZSB0byBjb21wYXJlIGZyZXF1ZW5j
-eSBoZXJlLCB0aGUgaXNzdWUgZG9lcyBub3Qgb2NjdXIuCj4gPiA+ID4gCj4gPiA+ID4gU2lnbmVk
-LW9mZi1ieTogenVvcWlhbiA8enVvcWlhbjExM0BnbWFpbC5jb20+Cj4gPiA+ID4gLS0tCj4gPiA+
-ID4gIGRyaXZlcnMvY3B1ZnJlcS9zY3BpLWNwdWZyZXEuYyB8IDUgKysrLS0KPiA+ID4gPiAgMSBm
-aWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPiA+ID4gPiAKPiA+
-ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9jcHVmcmVxL3NjcGktY3B1ZnJlcS5jIGIvZHJpdmVy
-cy9jcHVmcmVxL3NjcGktY3B1ZnJlcS5jCj4gPiA+ID4gaW5kZXggY2Q4OWMxYjk4MzJjLi4zYmZm
-NGJiNWFiNGEgMTAwNjQ0Cj4gPiA+ID4gLS0tIGEvZHJpdmVycy9jcHVmcmVxL3NjcGktY3B1ZnJl
-cS5jCj4gPiA+ID4gKysrIGIvZHJpdmVycy9jcHVmcmVxL3NjcGktY3B1ZnJlcS5jCj4gPiA+ID4g
-QEAgLTM5LDggKzM5LDkgQEAgc3RhdGljIHVuc2lnbmVkIGludCBzY3BpX2NwdWZyZXFfZ2V0X3Jh
-dGUodW5zaWduZWQgaW50IGNwdSkKPiA+ID4gPiAgc3RhdGljIGludAo+ID4gPiA+ICBzY3BpX2Nw
-dWZyZXFfc2V0X3RhcmdldChzdHJ1Y3QgY3B1ZnJlcV9wb2xpY3kgKnBvbGljeSwgdW5zaWduZWQg
-aW50IGluZGV4KQo+ID4gPiA+ICB7Cj4gPiA+ID4gLQl1NjQgcmF0ZSA9IHBvbGljeS0+ZnJlcV90
-YWJsZVtpbmRleF0uZnJlcXVlbmN5ICogMTAwMDsKPiA+ID4gCj4gPiA+IHBvbGljeS0+ZnJlcV90
-YWJsZVtpbmRleF0uZnJlcXVlbmN5IGlzIGEgdTMyIHNvIGluIHRoaXMgb3JpZ2luYWwKPiA+ID4g
-Y2FsY3VsYXRpb24sIGV2ZW4gdGhvdWdoICJyYXRlIiBpcyBkZWNsYXJlZCBhcyBhIHU2NCwgaXQg
-Y2FuJ3QgYWN0dWFsbHkKPiA+ID4gYmUgbW9yZSB0aGFuIFVJTlRfTUFYLgo+ID4gPgo+ID4gCj4g
-PiBBZ3JlZWQgYW5kIHVuZGVyc3Rvb2QuCj4gPiAKPiA+ID4gPiArCXVuc2lnbmVkIGxvbmcgZnJl
-cSA9IHBvbGljeS0+ZnJlcV90YWJsZVtpbmRleF0uZnJlcXVlbmN5Owo+ID4gPiA+ICAJc3RydWN0
-IHNjcGlfZGF0YSAqcHJpdiA9IHBvbGljeS0+ZHJpdmVyX2RhdGE7Cj4gPiA+ID4gKwl1NjQgcmF0
-ZSA9IGZyZXEgKiAxMDAwOwo+ID4gPgo+ID4gPiBTbyB5b3UndmUgZml4ZWQgdGhpcyBieSBjYXN0
-aW5nIHBvbGljeS0+ZnJlcV90YWJsZVtpbmRleF0uZnJlcXVlbmN5Cj4gPiA+IHRvIHVuc2lnbmVk
-IGxvbmcsIHdoaWNoIGZpeGVzIHRoZSBwcm9ibGVtIG9uIDY0Yml0IHN5c3RlbXMgYnV0IGl0IHN0
-aWxsCj4gPiA+IHJlbWFpbnMgb24gMzJiaXQgc3lzdGVtcy4gIEl0IHdvdWxkIGJlIGJldHRlciB0
-byBkZWNsYXJlIGZyZXEgYXMgYSB1NjQuCj4gPiA+Cj4gPiAKPiA+IEp1c3QgdHJ5aW5nIHRvIHVu
-ZGVyc3RhbmQgaWYgdGhhdCBtYXR0ZXJzLiBmcmVxIGlzIGluIGtIeiBhcyBjb3BpZWQKPiA+IGZy
-b20gcG9saWN5LT5mcmVxX3RhYmxlW2luZGV4XS5mcmVxdWVuY3kgYW5kIHdlIGNvbXBhcmUgaXQg
-d2l0aAo+ID4ga0haIGJlbG93IGFzIHRoZSBvYnRhaW5lZCBjbG9jayByYXRlIGlzIGRpdmlkZWQg
-YnkgMTAwMC4gV2hhdCBhbSBJCj4gPiBtaXNzaW5nID8gSWYgaXQgaGVscHMsIGl0IGNhbiBiZSBy
-ZW5hbWVkIGFzIGZyZXFfaW5fa2h6IGFuZCBldmVuIGtlZXAKPiA+IGl0IGFzICJ1bnNpZ25lZCBp
-bnQiIGFzIGluIHN0cnVjdCBjcHVmcmVxX2ZyZXF1ZW5jeV90YWJsZS4KPiA+IAo+IAo+IAo+IEkg
-bWlzdW5kZXJzdG9vZCB0aGUgaW50ZWdlciBvdmVyZmxvdyBidWcgYmVjYXVzZSBJIHJlYWQgdG9v
-IG11Y2ggaW50byB0aGUKPiBmYWN0IHRoYXQgInJhdGUiIHdhcyBkZWNsYXJlZCBhcyBhIHU2NC4g
-IEl0IHdvdWxkIGhhdmUgYmVlbiBmaW5lIHRvCj4gZGVjbGFyZSBpdCBhcyBhIHVuc2lnbmVkIGxv
-bmcuICBUaGUgY3B1ZnJlcSBpbnRlcm5hbHMgZG9uJ3Qgc3VwcG9ydAo+IGFueXRoaW5nIG1vcmUg
-dGhhbiBVTE9OR19NQVguICBJIGhhdmUgaGVhcmQgc29tZW9uZSBzYXkgdGhhdCBuZXcgc3lzdGVt
-cwo+IGFyZSBidW1waW5nIHVwIGFnYWluc3QgdGhlIDRHSHogbGltaXQgYnV0IHByZXN1bWFibHkg
-dGhhdCB3b3VsZCBvbmx5IGJlCj4gaGlnaCBlbmQgNjRiaXQgc3lzdGVtcywgbm90IG9sZCAzMmJp
-dCBzeXN0ZW0uCj4gCj4gVGhlIC0+ZnJlcV90YWJsZVtdIGZyZXF1ZW5jeSBpcyBpbiBrSHogc28g
-YSB1MzIgaXMgZmluZS4gIEkgZ3Vlc3MgaWYgd2UKPiBnZXQgZnJlcXVlbmNpZXMgb2YgYSBUSHog
-dGhlbiB3ZSdsbCBoYXZlIHRvIHVwZGF0ZSB0aGF0LiAgQnV0IHdoZW4gd2UKPiBjb252ZXJ0IHRv
-IEh6IHRoZW4gd2UgbmVlZCBhIGNhc3QgdG8gYXZvaWQgYW4gaW50ZWdlciBvdmVyZmxvdyBmb3Ig
-c3lzdGVtcwo+IHdoaWNoIGFyZSBvdmVyIHRoZSA0R0h6IGJvdW5kYXJ5Lgo+IAo+IAl1bnNpZ25l
-ZCBsb25nIHJhdGUgPSAodW5zaWduZWQgbG9uZylraHogKiAxMDAwOwo+IAo+IFRoZSBzZWNvbmQg
-YnVnIGlzIHRoYXQgd2UgbmVlZCB0byBjb21wYXJlIGtIeiBpbnN0ZWFkIG9mIEh6IGFuZCB0aGF0
-J3MKPiBzdHJhaWdodCBmb3J3YXJkLgo+IAo+IHJlZ2FyZHMsCj4gZGFuIGNhcnBlbnRlcgo+CgpU
-aGFuayB5b3UgZm9yIHlvdXIgdmFsdWFibGUgZmVlZGJhY2suSSB3aWxsIG1ha2UgdGhlIGNoYW5n
-ZXMgdG8gdGhlIHBhdGNoIGFuZCAKcmVzdWJtaXQgaXQsIGluY2x1ZGluZyByZW5hbWluZyBmcmVx
-IGFuZCBrZWVwaW5nIGl0IGFzIGFuICJ1bnNpZ25lZCBpbnQiLgoKUmVnYXJkcywKWnVvcWlhbgo=
+On Fri, Jan 24, 2025 at 09:42:01AM +0000, zuoqian wrote:
+> On Thu, Jan 23, 2025 at 04:04:13PM +0300, Dan Carpenter wrote:
+> > On Thu, Jan 23, 2025 at 12:16:50PM +0000, Sudeep Holla wrote:
+> > > (for some reason I don't have the original email)
+> > > 
+> > > On Thu, Jan 23, 2025 at 02:12:14PM +0300, Dan Carpenter wrote:
+> > > > On Thu, Jan 23, 2025 at 07:53:20AM +0000, zuoqian wrote:
+> > > > > The CPU rate from clk_get_rate() may not be divisible by 1000
+> > > > > (e.g., 133333333). But the rate calculated from frequency is always
+> > > > > divisible by 1000 (e.g., 133333000).
+> > > > > Comparing the rate causes a warning during CPU scaling:
+> > > > > "cpufreq: __target_index: Failed to change cpu frequency: -5".
+> > > > > When we choose to compare frequency here, the issue does not occur.
+> > > > > 
+> > > > > Signed-off-by: zuoqian <zuoqian113@gmail.com>
+> > > > > ---
+> > > > >  drivers/cpufreq/scpi-cpufreq.c | 5 +++--
+> > > > >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/cpufreq/scpi-cpufreq.c b/drivers/cpufreq/scpi-cpufreq.c
+> > > > > index cd89c1b9832c..3bff4bb5ab4a 100644
+> > > > > --- a/drivers/cpufreq/scpi-cpufreq.c
+> > > > > +++ b/drivers/cpufreq/scpi-cpufreq.c
+> > > > > @@ -39,8 +39,9 @@ static unsigned int scpi_cpufreq_get_rate(unsigned int cpu)
+> > > > >  static int
+> > > > >  scpi_cpufreq_set_target(struct cpufreq_policy *policy, unsigned int index)
+> > > > >  {
+> > > > > -	u64 rate = policy->freq_table[index].frequency * 1000;
+> > > > 
+> > > > policy->freq_table[index].frequency is a u32 so in this original
+> > > > calculation, even though "rate" is declared as a u64, it can't actually
+> > > > be more than UINT_MAX.
+> > > >
+> > > 
+> > > Agreed and understood.
+> > > 
+> > > > > +	unsigned long freq = policy->freq_table[index].frequency;
+> > > > >  	struct scpi_data *priv = policy->driver_data;
+> > > > > +	u64 rate = freq * 1000;
+> > > >
+> > > > So you've fixed this by casting policy->freq_table[index].frequency
+> > > > to unsigned long, which fixes the problem on 64bit systems but it still
+> > > > remains on 32bit systems.  It would be better to declare freq as a u64.
+> > > >
+> > > 
+> > > Just trying to understand if that matters. freq is in kHz as copied
+> > > from policy->freq_table[index].frequency and we compare it with
+> > > kHZ below as the obtained clock rate is divided by 1000. What am I
+> > > missing ? If it helps, it can be renamed as freq_in_khz and even keep
+> > > it as "unsigned int" as in struct cpufreq_frequency_table.
+> > > 
+> > 
+> > 
+> > I misunderstood the integer overflow bug because I read too much into the
+> > fact that "rate" was declared as a u64.  It would have been fine to
+> > declare it as a unsigned long.  The cpufreq internals don't support
+> > anything more than ULONG_MAX.  I have heard someone say that new systems
+> > are bumping up against the 4GHz limit but presumably that would only be
+> > high end 64bit systems, not old 32bit system.
+> > 
+> > The ->freq_table[] frequency is in kHz so a u32 is fine.  I guess if we
+> > get frequencies of a THz then we'll have to update that.  But when we
+> > convert to Hz then we need a cast to avoid an integer overflow for systems
+> > which are over the 4GHz boundary.
+> > 
+> > 	unsigned long rate = (unsigned long)khz * 1000;
+> > 
+> > The second bug is that we need to compare kHz instead of Hz and that's
+> > straight forward.
+> > 
+> > regards,
+> > dan carpenter
+> >
+> 
+> Thank you for your valuable feedback.I will make the changes to the patch and 
+> resubmit it, including renaming freq and keeping it as an "unsigned int".
+
+If you keep it as unsigned int then you will need to add a cast when you
+do the "* 1000" multiplication.  Please make freq and rate both unsigned
+longs.
+
+regards,
+dan carpenter
+
