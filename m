@@ -1,122 +1,89 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27374524C
-	for <arm-scmi@vger.kernel.org>; Mon, 27 Jan 2025 03:32:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700E3BA42
+	for <arm-scmi@vger.kernel.org>; Mon, 27 Jan 2025 06:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737948761; cv=none; b=bZ/ttFhd/AjFI3SGYiysRGZ9vl282dODjoyFAjtb4e3ES0w8Mw0jPmHeVZ5fCOS9GV9aEA/WDSfSNa4x+RSLskfYS7p4AwWuBPDfTLk+xwss2I5uPTCDoO/z97Sf9vl6zEoGQnk6k+y60V7SWNR6Mr0XnDMtFKONzfxLk8CbWpM=
+	t=1737958723; cv=none; b=PC2R1J5e8yQ/yrRp/ChPssNOxm1+TDg/4zxAF1l8f6ncFKuLJLwr83tSP55tnnKvJKPD2w9jAgOb4Paowt4TM6BVFnwbHA6Fh88VZZSYX9KJRDOOGQc3EFIbaezUpn7XuyG6XL+EuGHChFtauarK+GCa43qlZ/+zFz+k5IZHuqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737948761; c=relaxed/simple;
-	bh=YiJT9WQLqKtxa/sdK0/rOM1AOUebCQeiyhpJpoFR/Tc=;
+	s=arc-20240116; t=1737958723; c=relaxed/simple;
+	bh=XAd8n52BBxOMyfHtR7xwx4+brbQgz1XmQ50DzqsGEak=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r4z/pbnf6Vek+Jqa3Yhw4EW4d3NGHRcSTDkoAF6MhgxdAPNf7XlzKuBLI9OaTt9aPoEet31V2jJhUCwi2bLcl7XlWpjVzhcaNvKogddarJCCQQ351ogMWWcRyqV5kp7qtQbfx4WUck/6sknYqxrUdovGR/cgJ/jQPzCSZ9rUMuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZAqet0LH; arc=none smtp.client-ip=209.85.214.181
+	 Content-Type:Content-Disposition:In-Reply-To; b=uuK9I8Fv2qQBqnVscwzMvGdHu/9HuzXA1zSWLIZ+vx9AJe93VX4+WoRgvBMqSLAX1YbD6A9vPmE9LxrV3VRLeeqwH3RAIGhElLs20AqPnyMoE8OxDuqcDeTSqCfZ8VR8B35JwlNC2LtLCrjOZrd6epDzVu7+QYwOCtq8XhLZG9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ASOvp3Pw; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZAqet0LH"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21670dce0a7so81606185ad.1
-        for <arm-scmi@vger.kernel.org>; Sun, 26 Jan 2025 19:32:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ASOvp3Pw"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-385ddcfc97bso3521729f8f.1
+        for <arm-scmi@vger.kernel.org>; Sun, 26 Jan 2025 22:18:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737948759; x=1738553559; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=HSKBdkcHUpmfLPk161Kn0rx+ur3BhotIfl5VOt/amok=;
-        b=ZAqet0LHUa30eTqQWmMJWS5o7pqk7XjmbInvdfASe7jTIVmT9RUUZdlfn7AuizIocN
-         aw3r9b98/WxEepu6sn8rtapuPvIPTElvnLCh88Q3VE1GuFXFlweA/vm46e7ye17k+nlP
-         dDsf2GV1zccoJ952/ojgRt6JW34ce3yD0ewoBKgUv9lQS1VTE7McUY+RfkT4BcS3e2TR
-         qX8MEykYK3h67TVidyyBeks8Tt65sJ+9B7ilPoUNG6g9UTPdc5QRG3X1BnyiXlEi6I6Z
-         VpmNWvZFs8o4+ndeDosKRiTpf1OkiOr3kj4IYOo2ffxWTzovxRiqWiQW2zxjlHfwUJzF
-         c0Sg==
+        d=linaro.org; s=google; t=1737958719; x=1738563519; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=l6JIU8E8ACVtZ15qfbCmjhyH/1YQFjlEda1Tq+6/hDI=;
+        b=ASOvp3Pwz0EzHFDfjt8PLiTmXv0K5XoDQdqHqltr2qZRBanx5noCK2kDIqz0fizm0f
+         yE/TaXZwOtJm9TBqmYgLaodPvjUZT8ybkyhG4PeSEzrTm5iuVNRCdQfxBNQgUEHO+f1N
+         f2dumzOHCxw6FKJpdnEw8IkOXgpnxCr/3L4XcVLdA1N1p85vUOomDFovBm9TtmhKwaX2
+         epBkQeY+7upDq0/B989FKEqx6ljExF7CPthmgPret4rxSlo2/GUCmZH+VkQ/xj6UmrmN
+         qE+VJuWL+o0g41XHq05IxvPoAkoX5VCQjWJOTS1SBbshsv867RAnJsJRG1Z9o7JhLOWS
+         MDJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737948759; x=1738553559;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HSKBdkcHUpmfLPk161Kn0rx+ur3BhotIfl5VOt/amok=;
-        b=aibIaLj4l79n54PeEmxM62IYvO68OGyiNTuK2X+82ujMpiTaeRTwc86pCoHO6ad5rj
-         Ha57M6mi1J0uF28zB6zVy46V0qk3qx7VN+8AxU52t8/ovbfRwFC79wU0umJ4x6ha427w
-         4klCy4D7N6fAm/nDU1kZyp8DAM4uBpel1d3EYPtZO71MMHL/ZnL1wSJTkxmYjkB/CcMI
-         +gg7CI5ly8q1g1vnb2wS/7cMijaBI8uVenJOAx94eYfJmbgFkR8Fk4Da5RXtIbjagPsA
-         8uf5atb7FGqrNTl/EWMnpLrx5LrbwFjzWMfpzZ2WBQ1xzmGzrGucF2+uWaK4mJKXZ1jd
-         4GBA==
-X-Forwarded-Encrypted: i=1; AJvYcCWvVSUri10+XgjOc5vD7GM4FhYqOAnWY7EaZbaYYnMh/iM9lfq7VHmP9qUFQafFyG1+rNUaKlJd9Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyf48GMq2PVXWgeRrNskWaLbsbee4mHlvQhP/EDQEKgtCZMmKgB
-	0gckyfjWtVZBvyw8z+0W+s+8xL2K3qJXnsfyRxGJh/GEtAcniJPbash0e3AE9Tc=
-X-Gm-Gg: ASbGnctg6Qbq3vWbQ16pTN5mMO8sEQrGYUfcQlmwAXRz+UqHt5a9iiV2Cfh0KFYHNkN
-	m21FeAjq7duvqltSkiO/SbtJ9D0Q6ompZMPiDgh6rb0H7Ekn94N0CQ1zIsAXmNoFF6xgMUZsye7
-	vIVrLg3mcSDox3i85EyZU2fnvZx5S6xmXgO/sc7NTOZ7hscUrC4j9RTsBYk492NRGMoEEzsgWHw
-	ZCbR0q8YMLlrHWDFrWvD8kLLITjR/M793tc+ifvO9HCMO/MmrlCGSE9a/u99mmrUIGgcwE39q5C
-	yX39BeI=
-X-Google-Smtp-Source: AGHT+IHvgBNK3NhwKI9n5fMBriq7FLdQFhDFQyHQaZNGZxzhpW+eaG60WMmG2z8DBaIbsP1G1cn9Zg==
-X-Received: by 2002:a05:6a20:728d:b0:1db:eead:c588 with SMTP id adf61e73a8af0-1eb215ec4b9mr65731325637.29.1737948759394;
-        Sun, 26 Jan 2025 19:32:39 -0800 (PST)
-Received: from localhost ([122.172.84.139])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ac496bbd01esm5342591a12.71.2025.01.26.19.32.38
+        d=1e100.net; s=20230601; t=1737958719; x=1738563519;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l6JIU8E8ACVtZ15qfbCmjhyH/1YQFjlEda1Tq+6/hDI=;
+        b=mdb0pSU7Y7N9/U/UP0RO0OElbyvm0K4bqUVzFoxf/9Lq9Vn5fubzT1gXDZ9u1fAlWT
+         rY0sBue9M6OJUqEQTSCqNSV5tVidH3/oZ+ifJVrFVnLddLoTRgw/VdlT4Rj+AeBYlo/x
+         fYjJTLYM/jrV7PWnp8ODtXLR8jNUuDPRI9LwsqUVZoqKjZNHxmkxR2MR0ytKXCIj3wK4
+         hiLr7rieNzTGuH0JiyoMS0oXykKHmJFuRU9DNViUGaSmX+mRXrCNO35oOYKWbEzVE12f
+         vSOTBvE8AlO6l5lTAHMYWXAnNVUpn3NLJfAH+9upjzidhczJcAL540RzD4xSw6mc6Rdc
+         bHNg==
+X-Gm-Message-State: AOJu0Yyqkr96/DozWac2gt6te2UsM5Yg/Z3qfn4cgexGfnSHQymjIiWe
+	rFgXe4hIRhHYGGch5dziu95/ow02v+ylqWGlHS1fK4TaLGVQjXOq6vdus794CIw=
+X-Gm-Gg: ASbGncuOes2ihHVJ5wLUepXrwW+FIRYMP7Y5MVSRtDou2OXrzqtTYKRqeD0G1XA73hL
+	tVg+tcCOlYLMuewFjGggSA0cTBsj71mvCzfA+FuQ+AGFZmt9UO33NAoa/m8rY9qmvdMGhEzjiiD
+	epV2JcStlDDi5R3wHkA326fziFYXMvvHytuRqQYzvFw+qtmFtokGP/USLgXvMcn/KlCZhV4g3wu
+	ALuQj/H5JAV5itE7AOabLHceqBM1h16upo/uE6mrbinutRO0G9VLpdpE3VOUw/YK//syVyJEYFE
+	MzyuFV186A==
+X-Google-Smtp-Source: AGHT+IEC7h9TF1gYWxcSqhEDbxVeBw48C9qByGcpOriEcI163ECEjHmra1s31tkOTQjUfatKh3w6dg==
+X-Received: by 2002:a5d:5848:0:b0:385:f527:be6d with SMTP id ffacd0b85a97d-38bf57b7fb2mr34002926f8f.36.1737958719204;
+        Sun, 26 Jan 2025 22:18:39 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a17d6f8sm9863010f8f.28.2025.01.26.22.18.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jan 2025 19:32:38 -0800 (PST)
-Date: Mon, 27 Jan 2025 09:02:28 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	"Gautham R. Shenoy" <gautham.shenoy@amd.com>,
-	Hector Martin <marcan@marcan.st>,
-	Huacai Chen <chenhuacai@kernel.org>, Huang Rui <ray.huang@amd.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Naveen N Rao <naveen@kernel.org>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Perry Yuan <perry.yuan@amd.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Sven Peter <sven@svenpeter.dev>, WANG Xuerui <kernel@xen0n.name>,
-	linux-pm@vger.kernel.org,
+        Sun, 26 Jan 2025 22:18:38 -0800 (PST)
+Date: Mon, 27 Jan 2025 09:18:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>
+Cc: "arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
-	Lifeng Zheng <zhenglifeng1@huawei.com>, arm-scmi@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev
-Subject: Re: [PATCH 00/15] cpufreq: simplify boost handling
-Message-ID: <20250127033228.abeqhrxoprqw5b4e@vireshk-i7>
-References: <cover.1737707712.git.viresh.kumar@linaro.org>
- <CAJZ5v0jYSZQKkLN-TO_h0AazhHZtHgpavTnnAscLPYLmjX3LaA@mail.gmail.com>
+	Girish Pathak <Girish.Pathak@arm.com>
+Subject: Re: [PATCH SCP] module/scmi_pin_control: Fix ->write_payload()
+ memory corruption
+Message-ID: <a27c3603-19fd-4eac-bef9-87de0bd1bf90@stanley.mountain>
+References: <ec49918a-595c-4755-8b1b-f0351e63de1f@stanley.mountain>
+ <DB4PR08MB7960497670EA3B3C77101E27EBEC2@DB4PR08MB7960.eurprd08.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0jYSZQKkLN-TO_h0AazhHZtHgpavTnnAscLPYLmjX3LaA@mail.gmail.com>
+In-Reply-To: <DB4PR08MB7960497670EA3B3C77101E27EBEC2@DB4PR08MB7960.eurprd08.prod.outlook.com>
 
-On 24-01-25, 12:05, Rafael J. Wysocki wrote:
-> On Fri, Jan 24, 2025 at 9:58 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
-> >
-> > Hello,
-> >
-> > The boost feature can be controlled at two levels currently, driver
-> > level (applies to all policies) and per-policy.
-> >
-> > Currently most of the drivers enables driver level boost support from the
-> > per-policy ->init() callback, which isn't really efficient as that gets called
-> > for each policy and then there is online/offline path too where this gets done
-> > unnecessarily.
-> >
-> > Also it is possible to have a scenario where not all cpufreq policies support
-> > boost frequencies. And letting sysfs (or other parts of the kernel) enable boost
-> > feature for that policy isn't correct.
-> >
-> > Simplify and cleanup handling of boost to solve these issues.
+On Mon, Jan 27, 2025 at 02:08:43AM +0000, Khaled Ali Ahmed wrote:
+> Hello Dan,
 > 
-> I guess this depends on the previous series?
+> I'd like to update the scmi_pin_control.c regarding your proposed implementation.
+> 
 
-Yes my series and the boost related patches in your tree.
+Great, thanks.
 
--- 
-viresh
+regards,
+dan carpenter
+
