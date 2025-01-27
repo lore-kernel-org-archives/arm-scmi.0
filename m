@@ -1,89 +1,144 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700E3BA42
-	for <arm-scmi@vger.kernel.org>; Mon, 27 Jan 2025 06:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9212AE97;
+	Mon, 27 Jan 2025 07:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737958723; cv=none; b=PC2R1J5e8yQ/yrRp/ChPssNOxm1+TDg/4zxAF1l8f6ncFKuLJLwr83tSP55tnnKvJKPD2w9jAgOb4Paowt4TM6BVFnwbHA6Fh88VZZSYX9KJRDOOGQc3EFIbaezUpn7XuyG6XL+EuGHChFtauarK+GCa43qlZ/+zFz+k5IZHuqE=
+	t=1737963770; cv=none; b=Lf0AdkEDjo9HR7OK70F8pREttUi1VbCRY6AS0krUsjErboZJERairGi8XWB1zAiCZ8iGva8dn7HcJjEyQ3Khq1HANG1cn0CW7nPhvmKJs9QTIvK5AiCfw8ZnQkcJsOkASMsVA6ivdhtM0+chCLjTfe0fM4BTdM4NB8Tu2wkwI4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737958723; c=relaxed/simple;
-	bh=XAd8n52BBxOMyfHtR7xwx4+brbQgz1XmQ50DzqsGEak=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uuK9I8Fv2qQBqnVscwzMvGdHu/9HuzXA1zSWLIZ+vx9AJe93VX4+WoRgvBMqSLAX1YbD6A9vPmE9LxrV3VRLeeqwH3RAIGhElLs20AqPnyMoE8OxDuqcDeTSqCfZ8VR8B35JwlNC2LtLCrjOZrd6epDzVu7+QYwOCtq8XhLZG9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ASOvp3Pw; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1737963770; c=relaxed/simple;
+	bh=aIqnWZ8NSvlj83SaDa04/QPb9wxsdmjf4gvmkd5sQ1g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j0JmdOf6BR4l3o3z2t0Wyfn/Z/1N7cR6a28f3/hTdn3MEK2fHCi8fHEOktEFZGTWBwUYrV5Nfv/37tbD6M2z1Byih1pegUy4Nj1/5Qc3hkqPY3nul257h8ZaNsKYuSKexy02HmqkR3VaRuIFgoBY32he2tr0Pn4VvaZeLG71ZzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kv61wQIF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ASOvp3Pw"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-385ddcfc97bso3521729f8f.1
-        for <arm-scmi@vger.kernel.org>; Sun, 26 Jan 2025 22:18:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737958719; x=1738563519; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=l6JIU8E8ACVtZ15qfbCmjhyH/1YQFjlEda1Tq+6/hDI=;
-        b=ASOvp3Pwz0EzHFDfjt8PLiTmXv0K5XoDQdqHqltr2qZRBanx5noCK2kDIqz0fizm0f
-         yE/TaXZwOtJm9TBqmYgLaodPvjUZT8ybkyhG4PeSEzrTm5iuVNRCdQfxBNQgUEHO+f1N
-         f2dumzOHCxw6FKJpdnEw8IkOXgpnxCr/3L4XcVLdA1N1p85vUOomDFovBm9TtmhKwaX2
-         epBkQeY+7upDq0/B989FKEqx6ljExF7CPthmgPret4rxSlo2/GUCmZH+VkQ/xj6UmrmN
-         qE+VJuWL+o0g41XHq05IxvPoAkoX5VCQjWJOTS1SBbshsv867RAnJsJRG1Z9o7JhLOWS
-         MDJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737958719; x=1738563519;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l6JIU8E8ACVtZ15qfbCmjhyH/1YQFjlEda1Tq+6/hDI=;
-        b=mdb0pSU7Y7N9/U/UP0RO0OElbyvm0K4bqUVzFoxf/9Lq9Vn5fubzT1gXDZ9u1fAlWT
-         rY0sBue9M6OJUqEQTSCqNSV5tVidH3/oZ+ifJVrFVnLddLoTRgw/VdlT4Rj+AeBYlo/x
-         fYjJTLYM/jrV7PWnp8ODtXLR8jNUuDPRI9LwsqUVZoqKjZNHxmkxR2MR0ytKXCIj3wK4
-         hiLr7rieNzTGuH0JiyoMS0oXykKHmJFuRU9DNViUGaSmX+mRXrCNO35oOYKWbEzVE12f
-         vSOTBvE8AlO6l5lTAHMYWXAnNVUpn3NLJfAH+9upjzidhczJcAL540RzD4xSw6mc6Rdc
-         bHNg==
-X-Gm-Message-State: AOJu0Yyqkr96/DozWac2gt6te2UsM5Yg/Z3qfn4cgexGfnSHQymjIiWe
-	rFgXe4hIRhHYGGch5dziu95/ow02v+ylqWGlHS1fK4TaLGVQjXOq6vdus794CIw=
-X-Gm-Gg: ASbGncuOes2ihHVJ5wLUepXrwW+FIRYMP7Y5MVSRtDou2OXrzqtTYKRqeD0G1XA73hL
-	tVg+tcCOlYLMuewFjGggSA0cTBsj71mvCzfA+FuQ+AGFZmt9UO33NAoa/m8rY9qmvdMGhEzjiiD
-	epV2JcStlDDi5R3wHkA326fziFYXMvvHytuRqQYzvFw+qtmFtokGP/USLgXvMcn/KlCZhV4g3wu
-	ALuQj/H5JAV5itE7AOabLHceqBM1h16upo/uE6mrbinutRO0G9VLpdpE3VOUw/YK//syVyJEYFE
-	MzyuFV186A==
-X-Google-Smtp-Source: AGHT+IEC7h9TF1gYWxcSqhEDbxVeBw48C9qByGcpOriEcI163ECEjHmra1s31tkOTQjUfatKh3w6dg==
-X-Received: by 2002:a5d:5848:0:b0:385:f527:be6d with SMTP id ffacd0b85a97d-38bf57b7fb2mr34002926f8f.36.1737958719204;
-        Sun, 26 Jan 2025 22:18:39 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a17d6f8sm9863010f8f.28.2025.01.26.22.18.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jan 2025 22:18:38 -0800 (PST)
-Date: Mon, 27 Jan 2025 09:18:35 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>
-Cc: "arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Girish Pathak <Girish.Pathak@arm.com>
-Subject: Re: [PATCH SCP] module/scmi_pin_control: Fix ->write_payload()
- memory corruption
-Message-ID: <a27c3603-19fd-4eac-bef9-87de0bd1bf90@stanley.mountain>
-References: <ec49918a-595c-4755-8b1b-f0351e63de1f@stanley.mountain>
- <DB4PR08MB7960497670EA3B3C77101E27EBEC2@DB4PR08MB7960.eurprd08.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kv61wQIF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF08DC4CED2;
+	Mon, 27 Jan 2025 07:42:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737963769;
+	bh=aIqnWZ8NSvlj83SaDa04/QPb9wxsdmjf4gvmkd5sQ1g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Kv61wQIF65ae5uXTDGFxzXby3iGGij7165vsmlQMe7gWJnvVFhEpWMjbA0q7NVTo8
+	 B5LAtME87khYni+7t5UAf+8MrQhbx4Xuqqtsox5VAXBHrgbmcG69G0Xe8GOCVvoo3G
+	 i6MXGQRg414BxRQeui4euf3oqbo/S37V5+RyQ7Ue5Hj4IHszioVpHzJDbgpqUKOSPT
+	 m5XX1PkZbPC9VZQzy0G4C4WNth51MAXQY0axei+jGm5qL2HnGBAJlCRnEDptG4UCn4
+	 7WBxc0ign6mbRUxlkCp2tfjscFiuW7lVjcqcFkC5TejzTYkMVd/PmKuhno5VIINXhw
+	 mAX7SL9LtuDow==
+Message-ID: <74663d9d-364e-4db3-b18a-1068e2845215@kernel.org>
+Date: Mon, 27 Jan 2025 08:42:41 +0100
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DB4PR08MB7960497670EA3B3C77101E27EBEC2@DB4PR08MB7960.eurprd08.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] clk: Support spread spectrum and use it in clk-scmi
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ Cristian Marussi <cristian.marussi@arm.com>, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Rob Herring <robh@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev,
+ Peng Fan <peng.fan@nxp.com>
+References: <20250124-clk-ssc-v1-0-2d39f6baf2af@nxp.com>
+ <CABGWkvpj2bYyqiOp4D9Ss2aWOnoR7BxqDOGpXdRusq=aWu9BEA@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <CABGWkvpj2bYyqiOp4D9Ss2aWOnoR7BxqDOGpXdRusq=aWu9BEA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 27, 2025 at 02:08:43AM +0000, Khaled Ali Ahmed wrote:
-> Hello Dan,
+On 25/01/2025 13:58, Dario Binacchi wrote:
+> On Fri, Jan 24, 2025 at 2:19 PM Peng Fan (OSS) <peng.fan@oss.nxp.com> wrote:
+>>
+>> - Introduce clk_set_spread_spectrum to set the parameters for enabling
+>>   spread spectrum of a clock.
+>> - Parse 'assigned-clock-sscs' and configure it by default before using the
+>>   clock. The pull request for this property is at [1]
+>>   This property is parsed before parsing clock rate.
+>>
+>> - Enable this feature for clk-scmi on i.MX95.
+>>   This may not the best, since checking machine compatibles.
+>>   I am thinking to provide an API scmi_get_vendor_info, then driver
+>>   could use it for OEM stuff, such as
+>>   if (scmi_get_vendor_info returns NXP_IMX)
+>>       ops->set_spread_spectrum = scmi_clk_set_spread_spectrum_imx;
+>>
 > 
-> I'd like to update the scmi_pin_control.c regarding your proposed implementation.
+> I wonder if your solution is truly generic or merely a generalization
+> of your use case, which seems significantly simpler compared to what
+
+Please come with specific arguments why this is not generic enough, not
+just FUD. Does it fit your case? If not, what would had to be changed?
+These are the comments needed to actually work on generic solution.
+
+> happens on the i.MX8M platform, as discussed in thread
+> https://lore.kernel.org/lkml/PAXPR04MB8459537D7D2A49221D0E890D88E32@PAXPR04MB8459.eurprd04.prod.outlook.com/,
+> or on the STM32F platform, where parameters are not written directly
+> to registers but are instead used in calculations involving the
+> parent_rate and the PLL divider, for example.
 > 
+> I am the author of the patches that introduced spread spectrum
+> management for the AM33x and STM32Fx platforms, as well as the
+> series, still pending acceptance, for the i.MX8M.
+> From my perspective, this functionality varies significantly
+> from platform to platform, with key differences that must be
+> considered.
 
-Great, thanks.
+So what exactly varies? Come with specifics.
 
-regards,
-dan carpenter
+To me look addressing exactly the same.
 
+Best regards,
+Krzysztof
