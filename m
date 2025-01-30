@@ -1,159 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3882113632B;
-	Tue, 28 Jan 2025 20:25:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A0637483;
+	Thu, 30 Jan 2025 13:07:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738095931; cv=none; b=CEpJgBLF/4O05SeY0orMM4xEitz+42R5m2OdkgYNQoV366OCfdfKkvivN9kwcdTWia1I+N85lWX9T40rojiwZyKnLVj8/Jga0t97r6hxEB00GlYTaUNcNZxbT39yBQ+N8z9HOOjF9acZ9wHY/7mKCgkEOqSbPHsJFS05/oKA3Xk=
+	t=1738242469; cv=none; b=IY33v0Il69IuUp55P61p8dtL2EyQx6SG540248Rhriyo3fLrCBe8YoPvXhZVF2Up5bTRVxx8LfxubrZ7wyGpCF1RPEew2Al9tJf74aoj08hMGacDXOqcxtkLzfQXFH09bm10h90kuZDTN8LauBl/qkU4INUDpJvtdG/tzmxwPWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738095931; c=relaxed/simple;
-	bh=vsE8IFVrzUvktukSA+TorUfPU/BVdbA/l2O5s9pg3UQ=;
-	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
-	 Subject:From:Cc:To:Date; b=iqd3mvfXVMnzvCZ2Nbuvfcbb2l6bubKKkVQBTyLG9qNaw6o42swG+fyv9csPIUKTIFMRbxHLdHsadjAHD9QDychVHVplupbLrgdjohO8eB/MLfHMym1OcKi7YDobg2GN9vfUrccfuMipuWjohGSQNOgA/zDeCmi3hi8ZGsf0dY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WfeGp7x7; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WfeGp7x7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AD4BC4CED3;
-	Tue, 28 Jan 2025 20:25:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738095930;
-	bh=vsE8IFVrzUvktukSA+TorUfPU/BVdbA/l2O5s9pg3UQ=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=WfeGp7x7LRpK0MQbXzwGZNO+zX9Z2ydtAlj60oBAqLR6E6fHVLnmXpMKevOBWJ9cq
-	 UnPvWNvMo/e+cu/PWf9rYx+UhMQFWknRd43z0stLEqYt9sxT1idroeB9f2wJp25dai
-	 CHOWfedXslPW+L70bOJDBV5r9afQNlDBvFwXuMFAJyKzfOH7YzAUPAP271XJiDC8gb
-	 4RTPupnAsqpxoerFDjlPA1B+WULohj4NS0NB7AdCHt2MJBV97AsP6DgcluJEEQg6qw
-	 b5rO++8Y/bzk9BqbpgJEIF2TF/r8+CV6y65dJKvlw0cmLItjYAN3oXb+QvsVxw471A
-	 KS47V0T+5GAkA==
-Message-ID: <ff801714249c492abc3781da55675a38.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1738242469; c=relaxed/simple;
+	bh=Xl56z502L2AwFcIudvqF0uPEmOqfZYAQcbPBE6EBMFk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hcF6JKMTRc50PaY0J7DIdcRfjS6U/WMtELQr5ZD0hcgHNjMoZys8AvSS+4bnuZPkJezEDgRfXPVZgjS2a9Jri9+KsB3L9UMINnrxMlianhRT2le05aSqkZCSFpkzKC2fNE63q+JaeDcgovr2rORNpJMiyQYZ0FPjkaiLrEI9giI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DDA58497;
+	Thu, 30 Jan 2025 05:08:09 -0800 (PST)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A885A3F63F;
+	Thu, 30 Jan 2025 05:07:42 -0800 (PST)
+Date: Thu, 30 Jan 2025 13:07:35 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc: sudeep.holla@arm.com, cristian.marussi@arm.com,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>
+Subject: Re: [PATCH V1] firmware: arm_scmi: Optimize the iteration of
+ scmi_requested_devices
+Message-ID: <Z5t5l9MXsAzg5VIp@pluto>
+References: <20250107052004.762817-1-peng.fan@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250124-clk-ssc-v1-1-2d39f6baf2af@nxp.com>
-References: <20250124-clk-ssc-v1-0-2d39f6baf2af@nxp.com> <20250124-clk-ssc-v1-1-2d39f6baf2af@nxp.com>
-Subject: Re: [PATCH 1/3] clk: Introduce clk_set_spread_spectrum
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Dario Binacchi <dario.binacchi@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev, Peng Fan <peng.fan@nxp.com>
-To: Cristian Marussi <cristian.marussi@arm.com>, Michael Turquette <mturquette@baylibre.com>, Peng Fan (OSS) <peng.fan@oss.nxp.com>, Russell King <linux@armlinux.org.uk>, Sudeep Holla <sudeep.holla@arm.com>
-Date: Tue, 28 Jan 2025 12:25:28 -0800
-User-Agent: alot/0.12.dev1+gaa8c22fdeedb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250107052004.762817-1-peng.fan@oss.nxp.com>
 
-Quoting Peng Fan (OSS) (2025-01-24 06:25:17)
-> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> index cf7720b9172ff223d86227aad144e15375ddfd86..a4fe4a60f839244b736e3c275=
-1eeb38dc4577b1f 100644
-> --- a/drivers/clk/clk.c
-> +++ b/drivers/clk/clk.c
-> @@ -2790,6 +2790,45 @@ int clk_set_max_rate(struct clk *clk, unsigned lon=
-g rate)
->  }
->  EXPORT_SYMBOL_GPL(clk_set_max_rate);
-> =20
-> +int clk_set_spread_spectrum(struct clk *clk, unsigned int modfreq,
-> +                           unsigned int spreadpercent, unsigned int meth=
-od,
-> +                           bool enable)
-> +{
-> +       struct clk_spread_spectrum clk_ss;
-> +       struct clk_core *core;
-> +       int ret =3D 0;
+On Tue, Jan 07, 2025 at 01:20:04PM +0800, Peng Fan (OSS) wrote:
+> From: Peng Fan <peng.fan@nxp.com>
+> 
+> scmi_requested_devices is organized in IDR based link lists, so only
+> need to search the link lists when there is a match protocol_id.
 
-The assignment looks unnecessary.
+Hi,
 
-> +
-> +       if (!clk || !clk->core)
+while the original implementation of this loop was awful (my bad), I think
+this optiomization indeed NOW changes the logic of the checks....
 
-How do you not have clk->core?
+...you can have number of proto_id/name pairs describing requested devices
+and the idea of the logic in this loop was to catch ANY duplicate name across
+ANY of the protocol list as stated in the function Dox:
 
-> +               return 0;
-> +
-> +       clk_ss.modfreq =3D modfreq;
-> +       clk_ss.spreadpercent =3D spreadpercent;
-> +       clk_ss.method =3D method;
-> +       clk_ss.enable =3D enable;
-> +
-> +       clk_prepare_lock();
-> +
-> +       core =3D clk->core;
+---
+ * This helper let an SCMI driver request specific devices identified by the     
+ * @id_table to be created for each active SCMI instance.                        
+ *                                                                               
+ * The requested device name MUST NOT be already existent for any protocol;      
+ * at first the freshly requested @id_table is annotated in the IDR table        
+ * @scmi_requested_devices and then the requested device is advertised to any    
+ * registered party via the @scmi_requested_devices_nh notification chain.       
+---
 
-Why do we need to get the core under the lock?
+The 'awfulness' of the original loop was that it was trying to do 2
+things at once:
 
-> +
-> +       if (core->prepare_count) {
+- loop all the lists in the IDR for ALL protocols looking for a
+  duplicate name anywhere, and FAIL if ANY found
 
-Why does prepare count matter?
+  ... WHILE at the same time:
 
-> +               ret =3D -EBUSY;
-> +               goto fail;
+- save the head of the protocol list_head matching the requested
+  id_table->protocol, if any already existing, so as not to have to scan
 
-We just left without releasing the lock.
+So, indeed the original loop was meant to be an optimization, even
+though probably unreadable....
 
-> +       }
-> +
-> +       ret =3D clk_pm_runtime_get(core);
-> +       if (ret)
-> +               goto fail;
+... having said that, I cannot really recall WHY I decided to avoid ANY
+kind of duplicate naming given that teh match happen by proto_id/name...
 
-We just left without releasing the lock.
+....maybe just for clarity ? not sure...even what the effects could be
+of having such duplicated names across protocols...
 
-> +
-> +       if (core->ops->set_spread_spectrum)
-> +               ret =3D core->ops->set_spread_spectrum(core->hw, &clk_ss);
-> +
-> +       clk_pm_runtime_put(core);
-> +       clk_prepare_unlock();
-> +fail:
-> +       return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(clk_set_spread_spectrum);
-> +
-> diff --git a/include/linux/clk.h b/include/linux/clk.h
-> index b607482ca77e987b9344c38f25ebb5c8d35c1d39..49a7f7eb8b03233e11cd3b927=
-68896c4e45c4e7c 100644
-> --- a/include/linux/clk.h
-> +++ b/include/linux/clk.h
-> @@ -858,6 +858,21 @@ int clk_set_rate(struct clk *clk, unsigned long rate=
-);
->   */
->  int clk_set_rate_exclusive(struct clk *clk, unsigned long rate);
-> =20
-> +/**
-> + * clk_set_spread_spectrum - set the spread spectrum for a clock
-> + * @clk: clock source
-> + * @modfreq: modulation freq
-> + * @spreadpercent: modulation percentage
-> + * @method: down spread, up spread, center spread or else
-
-Did we get cut off?
-
-> + * @enable: enable or disable
-
-Isn't 'disable' equal to spread_percent of zero?
-
-> + *
-> + * Configure the spread spectrum parameters for a clock.
-> + *
-> + * Returns success (0) or negative errno.
-> + */
-> +int clk_set_spread_spectrum(struct clk *clk, unsigned int modfreq,
-
-Does this need to be a consumer API at all? Usually SSC is figured out
-when making a board and you have to pass some certification testing
-because some harmonics are interfering. Is the DT property sufficient
-for now and then we can do it when the driver probes in the framework?
-
-> +                           unsigned int spreadpercent, unsigned int meth=
-od,
-
-I'd assume 'method' would be some sort of enum?
-
-> +                           bool enable);
->  /**
->   * clk_has_parent - check if a clock is a possible parent for another
->   * @clk: clock source
+Thanks,
+Cristian
