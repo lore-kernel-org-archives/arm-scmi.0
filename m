@@ -1,34 +1,36 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A0637483;
-	Thu, 30 Jan 2025 13:07:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F6FC1B87E9;
+	Fri, 31 Jan 2025 14:10:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738242469; cv=none; b=IY33v0Il69IuUp55P61p8dtL2EyQx6SG540248Rhriyo3fLrCBe8YoPvXhZVF2Up5bTRVxx8LfxubrZ7wyGpCF1RPEew2Al9tJf74aoj08hMGacDXOqcxtkLzfQXFH09bm10h90kuZDTN8LauBl/qkU4INUDpJvtdG/tzmxwPWo=
+	t=1738332631; cv=none; b=BLYWlfqe7q5WVAnNvYxkYYMenVKAfCf5+HbUO8RkewPx+dwkRKPJmChL6X3Sy1ZhhciJHqDxm4a74/jPqZ3f0kFgxvmnmf5DN1/jtyGQrUR0pnhTspNP5puC+5rjhfg0NsdOgPc7OR5OE8qCypYP7fw7zh7rnGxHCqmtNoQgxhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738242469; c=relaxed/simple;
-	bh=Xl56z502L2AwFcIudvqF0uPEmOqfZYAQcbPBE6EBMFk=;
+	s=arc-20240116; t=1738332631; c=relaxed/simple;
+	bh=TEJ45fNosp7BpOTPhXbzgXwToXVydxose2bLKPWbZBI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hcF6JKMTRc50PaY0J7DIdcRfjS6U/WMtELQr5ZD0hcgHNjMoZys8AvSS+4bnuZPkJezEDgRfXPVZgjS2a9Jri9+KsB3L9UMINnrxMlianhRT2le05aSqkZCSFpkzKC2fNE63q+JaeDcgovr2rORNpJMiyQYZ0FPjkaiLrEI9giI=
+	 Content-Type:Content-Disposition:In-Reply-To; b=jkcKoRHaq3A5Y2z8ldxURafl60eYTiR+GuzepMUmOmNOms8B/a0akcbibs/qDQ7WnbwdP1870K7+DRI+oSbglHxM3JGc7hD/y2VBz7wAw8MMXmjC72sU8hQMqtfFaHBSs2nRp6uiE6iuUf+Ngf8IMKyN46fbGd3ElldssD6cimA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DDA58497;
-	Thu, 30 Jan 2025 05:08:09 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A885A3F63F;
-	Thu, 30 Jan 2025 05:07:42 -0800 (PST)
-Date: Thu, 30 Jan 2025 13:07:35 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: sudeep.holla@arm.com, cristian.marussi@arm.com,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BD346497;
+	Fri, 31 Jan 2025 06:10:53 -0800 (PST)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E411E3F63F;
+	Fri, 31 Jan 2025 06:10:26 -0800 (PST)
+Date: Fri, 31 Jan 2025 14:10:24 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, <arm-scmi@vger.kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	<linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, Peng Fan <peng.fan@nxp.com>,
 	Dan Carpenter <dan.carpenter@linaro.org>
 Subject: Re: [PATCH V1] firmware: arm_scmi: Optimize the iteration of
  scmi_requested_devices
-Message-ID: <Z5t5l9MXsAzg5VIp@pluto>
+Message-ID: <Z5zZ0BnEVKL-vZGa@bogus>
 References: <20250107052004.762817-1-peng.fan@oss.nxp.com>
+ <Z5t5l9MXsAzg5VIp@pluto>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -37,52 +39,21 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250107052004.762817-1-peng.fan@oss.nxp.com>
+In-Reply-To: <Z5t5l9MXsAzg5VIp@pluto>
 
-On Tue, Jan 07, 2025 at 01:20:04PM +0800, Peng Fan (OSS) wrote:
-> From: Peng Fan <peng.fan@nxp.com>
-> 
-> scmi_requested_devices is organized in IDR based link lists, so only
-> need to search the link lists when there is a match protocol_id.
+On Thu, Jan 30, 2025 at 01:07:35PM +0000, Cristian Marussi wrote:
+>
+> ... having said that, I cannot really recall WHY I decided to avoid ANY
+> kind of duplicate naming given that teh match happen by proto_id/name...
+>
+> ....maybe just for clarity ? not sure...even what the effects could be
+> of having such duplicated names across protocols...
+>
 
-Hi,
+Looking at scmi_dev_match_id(), it should be fine even if the names are
+duplicated across protocols. We must just not allow duplicates within a
+protocol IMO. I will push a patch to handle it soon.
 
-while the original implementation of this loop was awful (my bad), I think
-this optiomization indeed NOW changes the logic of the checks....
-
-...you can have number of proto_id/name pairs describing requested devices
-and the idea of the logic in this loop was to catch ANY duplicate name across
-ANY of the protocol list as stated in the function Dox:
-
----
- * This helper let an SCMI driver request specific devices identified by the     
- * @id_table to be created for each active SCMI instance.                        
- *                                                                               
- * The requested device name MUST NOT be already existent for any protocol;      
- * at first the freshly requested @id_table is annotated in the IDR table        
- * @scmi_requested_devices and then the requested device is advertised to any    
- * registered party via the @scmi_requested_devices_nh notification chain.       
----
-
-The 'awfulness' of the original loop was that it was trying to do 2
-things at once:
-
-- loop all the lists in the IDR for ALL protocols looking for a
-  duplicate name anywhere, and FAIL if ANY found
-
-  ... WHILE at the same time:
-
-- save the head of the protocol list_head matching the requested
-  id_table->protocol, if any already existing, so as not to have to scan
-
-So, indeed the original loop was meant to be an optimization, even
-though probably unreadable....
-
-... having said that, I cannot really recall WHY I decided to avoid ANY
-kind of duplicate naming given that teh match happen by proto_id/name...
-
-....maybe just for clarity ? not sure...even what the effects could be
-of having such duplicated names across protocols...
-
-Thanks,
-Cristian
+--
+Regards,
+Sudeep
