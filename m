@@ -1,59 +1,101 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F6FC1B87E9;
-	Fri, 31 Jan 2025 14:10:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFA9725761
+	for <arm-scmi@vger.kernel.org>; Fri, 31 Jan 2025 14:18:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738332631; cv=none; b=BLYWlfqe7q5WVAnNvYxkYYMenVKAfCf5+HbUO8RkewPx+dwkRKPJmChL6X3Sy1ZhhciJHqDxm4a74/jPqZ3f0kFgxvmnmf5DN1/jtyGQrUR0pnhTspNP5puC+5rjhfg0NsdOgPc7OR5OE8qCypYP7fw7zh7rnGxHCqmtNoQgxhE=
+	t=1738333118; cv=none; b=dszCrjq3UizgldXhaMU32MScpGrasZBUtfJA9yc8weR3i9H0JitNJeZu1/Wf9w3rvuHG4UXbxnNvxUwwizLZvlndEMRfTCh0TLdejE95SFa99OC9CHa+hmOkFtt7Ki13VYTEalXVn12x/wwu/N94e/FfPOtvWQho5oNc2LikQp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738332631; c=relaxed/simple;
-	bh=TEJ45fNosp7BpOTPhXbzgXwToXVydxose2bLKPWbZBI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jkcKoRHaq3A5Y2z8ldxURafl60eYTiR+GuzepMUmOmNOms8B/a0akcbibs/qDQ7WnbwdP1870K7+DRI+oSbglHxM3JGc7hD/y2VBz7wAw8MMXmjC72sU8hQMqtfFaHBSs2nRp6uiE6iuUf+Ngf8IMKyN46fbGd3ElldssD6cimA=
+	s=arc-20240116; t=1738333118; c=relaxed/simple;
+	bh=A08MysSihKZmB1Gf0I7sxM9EmKHWktwre3xp728iMUw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Rg80Am4fQsYZlbJ9oxIY2sZjXGZ93pPlJ8uPPNRIGz8SMjPP/xk/Fck6VJsHAO5Tn3NSSHq9b9RIOioGeaJuUdg8Z9ppZrnMuI8614tOs7MJAF5tHnwcqCCzO0mPLq7/Z0PY6WQXCwrzt3WpMyyfGgX8G4lucloXAZ58HefH/fY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BD346497;
-	Fri, 31 Jan 2025 06:10:53 -0800 (PST)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E411E3F63F;
-	Fri, 31 Jan 2025 06:10:26 -0800 (PST)
-Date: Fri, 31 Jan 2025 14:10:24 +0000
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0832D497;
+	Fri, 31 Jan 2025 06:18:56 -0800 (PST)
+Received: from usa.arm.com (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 515163F63F;
+	Fri, 31 Jan 2025 06:18:29 -0800 (PST)
 From: Sudeep Holla <sudeep.holla@arm.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, <arm-scmi@vger.kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, Peng Fan <peng.fan@nxp.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [PATCH V1] firmware: arm_scmi: Optimize the iteration of
- scmi_requested_devices
-Message-ID: <Z5zZ0BnEVKL-vZGa@bogus>
-References: <20250107052004.762817-1-peng.fan@oss.nxp.com>
- <Z5t5l9MXsAzg5VIp@pluto>
+To: arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Xinqi Zhang <quic_xinqzhan@quicinc.com>,
+	Peng Fan <peng.fan@nxp.com>,
+	Guomin Chen <guomin_chen@sina.com>
+Subject: [PATCH 1/3] firmware: arm_scmi: Relax duplicate name constraint across protocol ids
+Date: Fri, 31 Jan 2025 14:18:20 +0000
+Message-Id: <20250131141822.514342-1-sudeep.holla@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z5t5l9MXsAzg5VIp@pluto>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 30, 2025 at 01:07:35PM +0000, Cristian Marussi wrote:
->
-> ... having said that, I cannot really recall WHY I decided to avoid ANY
-> kind of duplicate naming given that teh match happen by proto_id/name...
->
-> ....maybe just for clarity ? not sure...even what the effects could be
-> of having such duplicated names across protocols...
->
+Currently in scmi_protocol_device_request(), no duplicate scmi device
+name is allowed across any protocol. However scmi_dev_match_id() first
+matches the protocol id and then the name. So, there is no strict
+requirement to keep this scmi device name unique across all the protocols.
 
-Looking at scmi_dev_match_id(), it should be fine even if the names are
-duplicated across protocols. We must just not allow duplicates within a
-protocol IMO. I will push a patch to handle it soon.
+Relax the constraint on the duplicate name across the protocols and
+inhibit only within the same protocol id.
 
---
-Regards,
-Sudeep
+Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
+---
+ drivers/firmware/arm_scmi/bus.c | 19 ++++++-------------
+ 1 file changed, 6 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
+index a3386bf36de5..8acf33ccfd21 100644
+--- a/drivers/firmware/arm_scmi/bus.c
++++ b/drivers/firmware/arm_scmi/bus.c
+@@ -42,7 +42,7 @@ static atomic_t scmi_syspower_registered = ATOMIC_INIT(0);
+  * This helper let an SCMI driver request specific devices identified by the
+  * @id_table to be created for each active SCMI instance.
+  *
+- * The requested device name MUST NOT be already existent for any protocol;
++ * The requested device name MUST NOT be already existent for this protocol;
+  * at first the freshly requested @id_table is annotated in the IDR table
+  * @scmi_requested_devices and then the requested device is advertised to any
+  * registered party via the @scmi_requested_devices_nh notification chain.
+@@ -52,7 +52,6 @@ static atomic_t scmi_syspower_registered = ATOMIC_INIT(0);
+ static int scmi_protocol_device_request(const struct scmi_device_id *id_table)
+ {
+ 	int ret = 0;
+-	unsigned int id = 0;
+ 	struct list_head *head, *phead = NULL;
+ 	struct scmi_requested_dev *rdev;
+ 
+@@ -67,19 +66,13 @@ static int scmi_protocol_device_request(const struct scmi_device_id *id_table)
+ 	}
+ 
+ 	/*
+-	 * Search for the matching protocol rdev list and then search
+-	 * of any existent equally named device...fails if any duplicate found.
++	 * Find the matching protocol rdev list and then search of any
++	 * existent equally named device...fails if any duplicate found.
+ 	 */
+ 	mutex_lock(&scmi_requested_devices_mtx);
+-	idr_for_each_entry(&scmi_requested_devices, head, id) {
+-		if (!phead) {
+-			/* A list found registered in the IDR is never empty */
+-			rdev = list_first_entry(head, struct scmi_requested_dev,
+-						node);
+-			if (rdev->id_table->protocol_id ==
+-			    id_table->protocol_id)
+-				phead = head;
+-		}
++	phead = idr_find(&scmi_requested_devices, id_table->protocol_id);
++	if (phead) {
++		head = phead;
+ 		list_for_each_entry(rdev, head, node) {
+ 			if (!strcmp(rdev->id_table->name, id_table->name)) {
+ 				pr_err("Ignoring duplicate request [%d] %s\n",
+-- 
+2.34.1
+
