@@ -1,269 +1,245 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC6A2080CD
-	for <arm-scmi@vger.kernel.org>; Wed,  5 Feb 2025 11:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220172288C3
+	for <arm-scmi@vger.kernel.org>; Wed,  5 Feb 2025 12:02:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738754392; cv=none; b=AcfMXwM/TeCW41GP4fKQml9sxNHWgXfWgDFgotx2uqPzi6LNpaqjyFENq/rNjfe3+YNA2GBkuZPt4iMXwAfkLLa1AlficdzdHlSJ/gib0QBqrB1f6XR/UVFqackG5EJpBUgTxCNhCoT/W4RmmwEZsNwjwC99F0bAa6Dp4gdqpHg=
+	t=1738756959; cv=none; b=kR5DKIDsz8KgNau7s60gvNPDVNQZlsQb5TZX/RZAH5c0m/I5UqmdUImNLJoscmS8w3K/9hiZSlD1pRo01j2hjIcHAswXjB+2WYh0aINCcYouFiYuOvVw+2VvMU57MIvDO4kOUninyJIbJTl+IhyjdOGB9qpeCdr+09EsdgHSIq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738754392; c=relaxed/simple;
-	bh=dJo1EFPa8YIIvRHpglzURkC0J+HnvcqX6wYnRedJIaI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EIifRyH/SQ3uySHEwZsUptOzjEVymrjR0Sy0CVfjQA6T9Iod/dsTkrxcZ89M6+WXQ0ECQx3PU9vrXGHzpNDUg3ua3quojehDB5i1svra+gk7JLCb8w3I2afedJQT6Gf2a4y5lx8xe1YvQTHqb0T5SrPlFYTgM8CWtAV7Yn30dRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=Xrh+SFJp; arc=none smtp.client-ip=209.85.128.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="Xrh+SFJp"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6efc58fae20so47911957b3.0
-        for <arm-scmi@vger.kernel.org>; Wed, 05 Feb 2025 03:19:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1738754389; x=1739359189; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ybYhgoqvdEUqCkpSu+wLe1vUmUBCbbPBzWxAddTN9tM=;
-        b=Xrh+SFJppWV7y83/qCJ4hweRLAh4Dw2/UPYmOf9jEiHl3P7Qzde8elYv5ZqCaeBSJx
-         wL3/ZCULPS8//wvF6LD3O75sLMEy3vLTeNlowMsAxnTUBJFqvAoO8uBUsOj3mOr3Ertp
-         cgW2Zd01ygVGJJqJhXEqBsVERo915eM/ZJ1dw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738754389; x=1739359189;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ybYhgoqvdEUqCkpSu+wLe1vUmUBCbbPBzWxAddTN9tM=;
-        b=J9xfJUUGl4RfF3Ic2Kt40SvCe6kjIeRXlHMq5+8jYZash3WUSSGwD1S/JZH7UlMbhd
-         dCxzQQ+2oAa5NRD3iDwGWlz/UaNs/vzZNWjNOuo0hnwakyLRwjtpTI1oYsqNfSH5CZ+P
-         cVinTMOTEWii3Q/oJkcnhSaUYkSKhlK6pgdLKRY2tJyjkcUn7sYEzmwSkthMUgqXp6FD
-         jaTfnvro1fCKzyzKkB2wPHUkOIIOKEYCjLT/n7imhUiUmecVxiDC1kCKCS4QKuKcOmL0
-         x1hK05JhYULhy74sdqHqlTbSQZYN8M1pspGJHG5nhk9VUI16/ib/0MMm3JRfshIHrivv
-         NrNA==
-X-Forwarded-Encrypted: i=1; AJvYcCUj3aXhH/Sxtm9uRE3r2w18d/Vr+hQ/HXeKL/ryia+RMjm6BasTt60JKj3c5y+O5RqibVlYDME4rQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVMyWUtOka30L2ZQSgs0FgiRB+fKG0HzzIk1rRbkVceRJtS5HD
-	f0Lpo4hYQejqavLJcbhvFaj8ZaUwPx2nNepIwAumTP15j1mA6eYvb654KKAQhuC3SRSU6P38H3D
-	ynctf57XfTG6wdTnbT+hgMsBFLE2u/lmUH9YzlA==
-X-Gm-Gg: ASbGncv9AXXHhF3b9ZWxyXY25OKveQ97w/bAlUTGbkzqCg4MXceUQtDkj0zJckn1MjN
-	kftnlc1dai9LcuimHFEZjSgo/vVF3YPs4zsanz8Z3DR+w49rtKr4qEtbeWX1SPhenx1a3bB8=
-X-Google-Smtp-Source: AGHT+IHrHyVnC3ucjf5CnroJR9CV5ZcoEk66TZwNGhnQNhqYfAzUhk+K50MujLR1SniK7HjaTQcDJUvQT8Lporl78yk=
-X-Received: by 2002:a05:690c:7407:b0:6f7:409c:f645 with SMTP id
- 00721157ae682-6f989e3acdemr19242597b3.4.1738754389549; Wed, 05 Feb 2025
- 03:19:49 -0800 (PST)
+	s=arc-20240116; t=1738756959; c=relaxed/simple;
+	bh=agqfF/moWRFKv9gbK1sBe2qFqcKmhT34Jw/CPToM4sU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m4ff6wszAI1e0N8+21sVtmJPSvn7rDi4BoXDzSyDwKxvxD8QnuJtCSul6jo/ot/mLj2e0nS3kFf/OVO16p+UJYJpESpaH1N+OKXo3COWu6qpjWJOPphZytDRqcJerCSt9W8JAIeoEwKywquFrxR2PlUVBL8tfZFZW3WrnrUA+mE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1tfe6j-0006Bx-19; Wed, 05 Feb 2025 13:02:17 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1tfe6i-003d20-0M;
+	Wed, 05 Feb 2025 13:02:16 +0100
+Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1tfe6h-00FWfW-39;
+	Wed, 05 Feb 2025 13:02:15 +0100
+Date: Wed, 5 Feb 2025 13:02:15 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Abel Vesa <abelvesa@kernel.org>, Rob Herring <robh@kernel.org>,
+	Peng Fan <peng.fan@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	imx@lists.linux.dev, Fabio Estevam <festevam@gmail.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzk@kernel.org>, arm-scmi@vger.kernel.org,
+	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+	Shawn Guo <shawnguo@kernel.org>, linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 1/4] clk: Introduce clk_hw_set_spread_spectrum
+Message-ID: <20250205120215.if3egfj6vbnynwl3@pengutronix.de>
+References: <20250205-clk-ssc-v2-0-fa73083caa92@nxp.com>
+ <20250205-clk-ssc-v2-1-fa73083caa92@nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250205-clk-ssc-v2-0-fa73083caa92@nxp.com> <20250205-clk-ssc-v2-3-fa73083caa92@nxp.com>
-In-Reply-To: <20250205-clk-ssc-v2-3-fa73083caa92@nxp.com>
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Date: Wed, 5 Feb 2025 12:19:38 +0100
-X-Gm-Features: AWEUYZl4J7MiWYs5V1DsV6zpiNupetaeRUoMIlCCJYHJv9tWjHggrdqzDtOIt9g
-Message-ID: <CABGWkvqXf0ZmJKofrbahB5N5uer6ye6Q4s_PXz_Z61vG2pMu=g@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] clk: imx: pll14xx: support spread spectrum clock generation
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, Sudeep Holla <sudeep.holla@arm.com>, 
-	Cristian Marussi <cristian.marussi@arm.com>, Abel Vesa <abelvesa@kernel.org>, 
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev, Peng Fan <peng.fan@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250205-clk-ssc-v2-1-fa73083caa92@nxp.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: arm-scmi@vger.kernel.org
 
 Hi Peng,
 
-On Wed, Feb 5, 2025 at 10:51=E2=80=AFAM Peng Fan (OSS) <peng.fan@oss.nxp.co=
-m> wrote:
->
+On 25-02-05, Peng Fan (OSS) wrote:
 > From: Peng Fan <peng.fan@nxp.com>
->
-> Add support for spread spectrum clock (SSC) generation to the pll14xxx
-> driver.
->
-> Co-developed-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> 
+> Add clk_hw_set_spread_spectrum to configure a clock to enable spread
+> spectrum feature. set_spread_spectrum ops is added for clk drivers to
+> have their own hardware specific implementation.
+> 
 > Signed-off-by: Peng Fan <peng.fan@nxp.com>
-
-It doesn=E2=80=99t seem right to me.
-You can=E2=80=99t take 90% of my patch, where the SSC management was actual=
-ly
-implemented,
-add 10%, and consider yourself the author of the patch.
-Please correct it in version 3.
-
-Thanks and regards,
-Dario
-
 > ---
->  drivers/clk/imx/clk-pll14xx.c | 66 +++++++++++++++++++++++++++++++++++++=
-++++++
->  1 file changed, 66 insertions(+)
->
-> diff --git a/drivers/clk/imx/clk-pll14xx.c b/drivers/clk/imx/clk-pll14xx.=
-c
-> index f290981ea13bdba3602af7aa44aaadfe0b78dcf9..3bdce762a9d651a6fb048dcbf=
-58db396af9d3aaf 100644
-> --- a/drivers/clk/imx/clk-pll14xx.c
-> +++ b/drivers/clk/imx/clk-pll14xx.c
-> @@ -20,6 +20,8 @@
->  #define GNRL_CTL       0x0
->  #define DIV_CTL0       0x4
->  #define DIV_CTL1       0x8
-> +#define SSCG_CTRL      0xc
+>  drivers/clk/clk.c            | 34 ++++++++++++++++++++++++++++++++++
+>  include/linux/clk-provider.h | 32 ++++++++++++++++++++++++++++++++
+>  include/linux/clk.h          | 22 ++++++++++++++++++++++
+>  3 files changed, 88 insertions(+)
+> 
+> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> index cf7720b9172ff223d86227aad144e15375ddfd86..e11f9615e683af52c719d4c8419bd30f369f301b 100644
+> --- a/drivers/clk/clk.c
+> +++ b/drivers/clk/clk.c
+> @@ -2790,6 +2790,40 @@ int clk_set_max_rate(struct clk *clk, unsigned long rate)
+>  }
+>  EXPORT_SYMBOL_GPL(clk_set_max_rate);
+>  
+> +int clk_hw_set_spread_spectrum(struct clk_hw *hw, unsigned int modfreq,
+> +			       unsigned int spreaddepth, enum clk_ssc_method method,
+> +			       bool enable)
+> +{
+> +	struct clk_spread_spectrum clk_ss;
+> +	struct clk_core *core;
+> +	int ret;
 > +
->  #define LOCK_STATUS    BIT(31)
->  #define LOCK_SEL_MASK  BIT(29)
->  #define CLKE_MASK      BIT(11)
-> @@ -31,15 +33,26 @@
->  #define KDIV_MASK      GENMASK(15, 0)
->  #define KDIV_MIN       SHRT_MIN
->  #define KDIV_MAX       SHRT_MAX
-> +#define SSCG_ENABLE    BIT(31)
-> +#define MFREQ_CTL_MASK GENMASK(19, 12)
-> +#define MRAT_CTL_MASK  GENMASK(9, 4)
-> +#define SEL_PF_MASK    GENMASK(1, 0)
->
->  #define LOCK_TIMEOUT_US                10000
->
-> +enum imx_pll14xx_ssc_mod_type {
-> +       IMX_PLL14XX_SSC_DOWN_SPREAD,
-> +       IMX_PLL14XX_SSC_UP_SPREAD,
-> +       IMX_PLL14XX_SSC_CENTER_SPREAD,
+> +	if (!hw)
+> +		return 0;
+> +
+> +	core = hw->core;
+> +
+> +	clk_ss.modfreq = modfreq;
+> +	clk_ss.spreaddepth = spreaddepth;
+> +	clk_ss.method = method;
+> +	clk_ss.enable = enable;
+> +
+> +	clk_prepare_lock();
+> +
+> +	ret = clk_pm_runtime_get(core);
+> +	if (ret)
+> +		goto fail;
+> +
+> +	if (core->ops->set_spread_spectrum)
+> +		ret = core->ops->set_spread_spectrum(hw, &clk_ss);
+> +
+> +	clk_pm_runtime_put(core);
+> +
+> +fail:
+> +	clk_prepare_unlock();
+> +	return ret;
+> +}
+> +
+>  /**
+>   * clk_get_parent - return the parent of a clk
+>   * @clk: the clk whose parent gets returned
+> diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
+> index 2e6e603b749342931c0d0693c3e72b62c000791b..ac0270cc9ec133954b1f8dcffed015723bd1ff5d 100644
+> --- a/include/linux/clk-provider.h
+> +++ b/include/linux/clk-provider.h
+> @@ -84,6 +84,28 @@ struct clk_duty {
+>  	unsigned int den;
+>  };
+>  
+> +/* Aligned with dtschema/schemas/clock/clock.yaml */
+> +enum clk_ssc_method {
+> +	CLK_SSC_CENTER_SPREAD,
+> +	CLK_SSC_UP_SPREAD,
+> +	CLK_SSC_DOWN_SPREAD,
 > +};
 > +
->  struct clk_pll14xx {
->         struct clk_hw                   hw;
->         void __iomem                    *base;
->         enum imx_pll14xx_type           type;
->         const struct imx_pll14xx_rate_table *rate_table;
->         int rate_count;
-> +       struct clk_spread_spectrum      ssc_conf;
->  };
->
->  #define to_clk_pll14xx(_hw) container_of(_hw, struct clk_pll14xx, hw)
-> @@ -349,6 +362,42 @@ static int clk_pll1416x_set_rate(struct clk_hw *hw, =
-unsigned long drate,
->         return 0;
->  }
->
-> +static void clk_pll1443x_enable_ssc(struct clk_hw *hw, unsigned long par=
-ent_rate,
-> +                                   unsigned int pdiv, unsigned int mdiv)
-> +{
-> +       struct clk_pll14xx *pll =3D to_clk_pll14xx(hw);
-> +       struct clk_spread_spectrum *conf =3D &pll->ssc_conf;
-> +       u32 sscg_ctrl, mfr, mrr, mod_type;
+> +/**
+> + * struct clk_spread_spectrum - Structure encoding spread spectrum of a clock
+> + *
+> + * @modfreq:		Modulation frequency
+> + * @spreadpercent:	Modulation percent
+> + * @method:		Modulation method
+> + * @enable:		Modulation enable or disable
+> + */
+> +struct clk_spread_spectrum {
+> +	unsigned int modfreq;
+> +	unsigned int spreaddepth;
+
+Please use per mil as unit since I noticed that 0.x% is a common value
+too.
+
+Regards,
+  Marco
+
+
+> +	enum clk_ssc_method method;
+> +	bool enable;
+> +};
 > +
-> +       sscg_ctrl =3D readl_relaxed(pll->base + SSCG_CTRL);
-> +       sscg_ctrl &=3D
-> +               ~(SSCG_ENABLE | MFREQ_CTL_MASK | MRAT_CTL_MASK | SEL_PF_M=
-ASK);
-> +
-> +       mfr =3D parent_rate / (conf->modfreq * pdiv * (1 << 5));
-> +       mrr =3D ((conf->spreaddepth / 100) * mdiv * (1 << 6)) / (100 * mf=
-r);
-> +
-> +       switch (conf->method) {
-> +       case CLK_SSC_CENTER_SPREAD:
-> +               mod_type =3D IMX_PLL14XX_SSC_CENTER_SPREAD;
-> +               break;
-> +       case CLK_SSC_UP_SPREAD:
-> +               mod_type =3D IMX_PLL14XX_SSC_UP_SPREAD;
-> +               break;
-> +       case CLK_SSC_DOWN_SPREAD:
-> +               mod_type =3D IMX_PLL14XX_SSC_DOWN_SPREAD;
-> +               break;
-> +       default:
-> +               mod_type =3D IMX_PLL14XX_SSC_DOWN_SPREAD;
-> +               break;
-> +       }
-> +
-> +       sscg_ctrl |=3D SSCG_ENABLE | FIELD_PREP(MFREQ_CTL_MASK, mfr) |
-> +               FIELD_PREP(MRAT_CTL_MASK, mrr) |
-> +               FIELD_PREP(SEL_PF_MASK, mod_type);
-> +
-> +       writel_relaxed(sscg_ctrl, pll->base + SSCG_CTRL);
-> +}
-> +
->  static int clk_pll1443x_set_rate(struct clk_hw *hw, unsigned long drate,
->                                  unsigned long prate)
+>  /**
+>   * struct clk_ops -  Callback operations for hardware clocks; these are to
+>   * be provided by the clock implementation, and will be called by drivers
+> @@ -178,6 +200,11 @@ struct clk_duty {
+>   *		separately via calls to .set_parent and .set_rate.
+>   *		Returns 0 on success, -EERROR otherwise.
+>   *
+> + * @set_spread_spectrum: Configure the modulation frequency, modulation percentage
+> + *		and method. This callback is optional for clocks that does not
+> + *		support spread spectrum feature or no need to enable this feature.
+> + *		Returns 0 on success, -EERROR otherwise.
+> + *
+>   * @recalc_accuracy: Recalculate the accuracy of this clock. The clock accuracy
+>   *		is expressed in ppb (parts per billion). The parent accuracy is
+>   *		an input parameter.
+> @@ -255,6 +282,8 @@ struct clk_ops {
+>  	int		(*set_rate_and_parent)(struct clk_hw *hw,
+>  				    unsigned long rate,
+>  				    unsigned long parent_rate, u8 index);
+> +	int		(*set_spread_spectrum)(struct clk_hw *hw,
+> +					       struct clk_spread_spectrum *clk_ss);
+>  	unsigned long	(*recalc_accuracy)(struct clk_hw *hw,
+>  					   unsigned long parent_accuracy);
+>  	int		(*get_phase)(struct clk_hw *hw);
+> @@ -1404,6 +1433,9 @@ void clk_hw_get_rate_range(struct clk_hw *hw, unsigned long *min_rate,
+>  			   unsigned long *max_rate);
+>  void clk_hw_set_rate_range(struct clk_hw *hw, unsigned long min_rate,
+>  			   unsigned long max_rate);
+> +int clk_hw_set_spread_spectrum(struct clk_hw *hw, unsigned int modfreq,
+> +			       unsigned int spreaddepth, enum clk_ssc_method method,
+> +			       bool enable);
+>  
+>  static inline void __clk_hw_set_clk(struct clk_hw *dst, struct clk_hw *src)
 >  {
-> @@ -370,6 +419,9 @@ static int clk_pll1443x_set_rate(struct clk_hw *hw, u=
-nsigned long drate,
->                 writel_relaxed(FIELD_PREP(KDIV_MASK, rate.kdiv),
->                                pll->base + DIV_CTL1);
->
-> +               if (pll->ssc_conf.enable)
-> +                       clk_pll1443x_enable_ssc(hw, prate, rate.pdiv, rat=
-e.mdiv);
-> +
->                 return 0;
->         }
->
-> @@ -410,6 +462,9 @@ static int clk_pll1443x_set_rate(struct clk_hw *hw, u=
-nsigned long drate,
->         gnrl_ctl &=3D ~BYPASS_MASK;
->         writel_relaxed(gnrl_ctl, pll->base + GNRL_CTL);
->
-> +       if (pll->ssc_conf.enable)
-> +               clk_pll1443x_enable_ssc(hw, prate, rate.pdiv, rate.mdiv);
-> +
->         return 0;
+> diff --git a/include/linux/clk.h b/include/linux/clk.h
+> index b607482ca77e987b9344c38f25ebb5c8d35c1d39..49a7f7eb8b03233e11cd3b92768896c4e45c4e7c 100644
+> --- a/include/linux/clk.h
+> +++ b/include/linux/clk.h
+> @@ -858,6 +858,21 @@ int clk_set_rate(struct clk *clk, unsigned long rate);
+>   */
+>  int clk_set_rate_exclusive(struct clk *clk, unsigned long rate);
+>  
+> +/**
+> + * clk_set_spread_spectrum - set the spread spectrum for a clock
+> + * @clk: clock source
+> + * @modfreq: modulation freq
+> + * @spreadpercent: modulation percentage
+> + * @method: down spread, up spread, center spread or else
+> + * @enable: enable or disable
+> + *
+> + * Configure the spread spectrum parameters for a clock.
+> + *
+> + * Returns success (0) or negative errno.
+> + */
+> +int clk_set_spread_spectrum(struct clk *clk, unsigned int modfreq,
+> +			    unsigned int spreadpercent, unsigned int method,
+> +			    bool enable);
+>  /**
+>   * clk_has_parent - check if a clock is a possible parent for another
+>   * @clk: clock source
+> @@ -1088,6 +1103,13 @@ static inline int clk_set_rate_exclusive(struct clk *clk, unsigned long rate)
+>  	return 0;
 >  }
->
-> @@ -465,6 +520,16 @@ static void clk_pll14xx_unprepare(struct clk_hw *hw)
->         writel_relaxed(val, pll->base + GNRL_CTL);
->  }
->
-> +static int clk_pll1443x_set_spread_spectrum(struct clk_hw *hw,
-> +                                           struct clk_spread_spectrum *c=
-lk_ss)
+>  
+> +static inline int clk_set_spread_spectrum(struct clk *clk, unsigned int modfreq,
+> +					  unsigned int spreadpercent,
+> +					  unsigned int method, bool enable)
 > +{
-> +       struct clk_pll14xx *pll =3D to_clk_pll14xx(hw);
-> +
-> +       memcpy(&pll->ssc_conf, clk_ss, sizeof(pll->ssc_conf));
-> +
-> +       return 0;
+> +	return 0;
 > +}
 > +
->  static const struct clk_ops clk_pll1416x_ops =3D {
->         .prepare        =3D clk_pll14xx_prepare,
->         .unprepare      =3D clk_pll14xx_unprepare,
-> @@ -485,6 +550,7 @@ static const struct clk_ops clk_pll1443x_ops =3D {
->         .recalc_rate    =3D clk_pll14xx_recalc_rate,
->         .round_rate     =3D clk_pll1443x_round_rate,
->         .set_rate       =3D clk_pll1443x_set_rate,
-> +       .set_spread_spectrum =3D clk_pll1443x_set_spread_spectrum,
->  };
->
->  struct clk_hw *imx_dev_clk_hw_pll14xx(struct device *dev, const char *na=
-me,
->
-> --
+>  static inline long clk_round_rate(struct clk *clk, unsigned long rate)
+>  {
+>  	return 0;
+> 
+> -- 
 > 2.37.1
->
-
-
---=20
-
-Dario Binacchi
-
-Senior Embedded Linux Developer
-
-dario.binacchi@amarulasolutions.com
-
-__________________________________
-
-
-Amarula Solutions SRL
-
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-
-T. +39 042 243 5310
-info@amarulasolutions.com
-
-www.amarulasolutions.com
+> 
+> 
+> 
