@@ -1,151 +1,94 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2371F1FF5F4
-	for <arm-scmi@vger.kernel.org>; Thu,  6 Feb 2025 08:02:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897EB13F43A
+	for <arm-scmi@vger.kernel.org>; Thu,  6 Feb 2025 09:07:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738828931; cv=none; b=GfTEWD/eEO24vYoXicV8EE5AkgQac6mCcxpOln0G8N8/sqZbmJD4JqOt+19LemRzP8GFlPNtEFRuHTqHWK+1r/19oOwhMmbeXnAyE3VhFkschr+dhtOUxwrR14iaXMO2JEGLicfJNMaXCyzWq8eXOQSaftNAGEhrzWcUw6gFPlk=
+	t=1738832873; cv=none; b=De1nZ0O8hKm56D3DaBuhEebwOkqycP1Z7mU24NnvZC4BH+JvUg1bc8j2scs/Gv9XfrHhtDHnAoe/PJFtatl7nC4VJci1L7CeV4FdvRKedA0ZYmBh70zE+teP2D1FyKjzNsOchjjlgNRjjM8FjY1bynWQ8eAgL7ANo/amtQQzQVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738828931; c=relaxed/simple;
-	bh=Z4nnfybTEaNZ5Db2rmvJ9oxd3OSrK7LFETmYdjxSSAo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W3u4yIaOAUWzC8F+a1WcvZRbiRSSVwfIpW203DzBvApNTeuY98Fgb57P80rsew/eeVeqlxG/tmtt6vRjVKO9Hc3KRxJhghC5ErLZfYV4lJCWScjWYj/gmeQYHHCqTu1O7BkYtKZrL6QJcpyHwKntpdouvwT9RTPuPrOhvbrbp/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UrQqRqrY; arc=none smtp.client-ip=209.85.128.53
+	s=arc-20240116; t=1738832873; c=relaxed/simple;
+	bh=USBL3Bi8iE9n2Sl7YVwR873K49AsaDipUTVzCmvsvW0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=huD7ra3gmkyhdAQicmz4G2aBhjq6EzxxcuOXhctQ3Fwp/fAhO5ce1kAdbNVZQM5pYnNqfn98JHWYfY3QRKLHXOfTQrw/BELAJ/4MxhRYnImdwlj4/WSyRqJPdISxScuGCiAoMUJGCbCoAsa0ljegbKWiwkTuF6nJvG/E5+t5msY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TTeVRmYG; arc=none smtp.client-ip=209.85.208.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UrQqRqrY"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4361e89b6daso3269165e9.3
-        for <arm-scmi@vger.kernel.org>; Thu, 06 Feb 2025 00:02:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TTeVRmYG"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-307325f2436so6000531fa.0
+        for <arm-scmi@vger.kernel.org>; Thu, 06 Feb 2025 01:07:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738828928; x=1739433728; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nPXgxL3/vPlBnnI2Yfl6MiqQiCTLYqV9DTTBZ0YDUTk=;
-        b=UrQqRqrYt1Lj/xIs/hRVnIUwVU9zHE8u4V2pgntdTg6uCsI/hvjWdUX78myakrhFNh
-         N1Uxv36toURLn35CMNyr7odZabqCEEXB0b4gkJ2U4Jtrt1azM4qYHHPnMrgqcx3GMieG
-         GdfSlxEoQAjZRWV0yCsneTOLDH+wlFT5KuzS78mJa0TuaruwQNXC8A1tg+r7t0GQ5O1I
-         /MsePEh9xj25Ydz9Afj4beXb7+0I7SJoI/3zBSO7SnZUfoLWzMIYznrtZgticYJiwdwu
-         clQDa1PrF9BUs/yCda0dVut6PxPEKZaKcvXAmoA+8F/S8MZL8k/aZla4OmgKj1r6SuIB
-         Zfzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738828928; x=1739433728;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1738832868; x=1739437668; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nPXgxL3/vPlBnnI2Yfl6MiqQiCTLYqV9DTTBZ0YDUTk=;
-        b=JAzDazCi0Y4Iolh2+m1G8fjmJ8AkZbb7pPwSeuJ7gwWfzOaQRAFG3adn7HqMoYpJ09
-         wf1RLNb67N7s7ESJmvUtleYoAnak+3M6gtChAV1N5dl6f3drh5D9n8oaklk/BKCrfyWe
-         Xi+LMelwym2C448NjmY+gO7ikjJisOjwozmIsZBxEUFuZ632bbAuue7cNv0QUVeIxKN4
-         p9HhHefnuS0i/uZ4Pocd0vs77OvTLpFlrchZ5ZujS5dHiusPsrbsHtURv1XCG0kNAZfy
-         xAq9TIYgWUreao2Oyy02+pPwuyJw+QluDDyRN73VMj/2TvFgasBq9V+0a/maL30Vlz44
-         w2sg==
-X-Forwarded-Encrypted: i=1; AJvYcCV4BcKGoQ9ozIh/8DZNUX5EsNmL7M5eW/FQmieOaf8YrXVvYTvplyCDjMJQuUu7NkXex+J7kR6fyQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9htUeMu3V4us/biO0vseUA2MBi90ahpien6BgU3zwTDOeLKF4
-	sBj3jZEKJjIEWr06I+/8a2xpBVsjUEfw882dTu+EecD6XPiCxIxuOaWN4FsC7yU=
-X-Gm-Gg: ASbGncujeSdVRwaodgYfUbMFMKnNe5Oek7FUehjTQvvPfuBaz+Ly8U+tDXfPuUiv8C7
-	8FLohO8NCLM/lY+dKfuiZfBTE4p/aqExW7SP5QeMkgnavsT9f6C/qcVL8vHE6I9u8tHqJmrA+fZ
-	iDFR/0U2Zr28FR69bZeGLhefbPvjlnn98SsLlBe+M/b6N7V9B2LoZR5CkUbbwd8YYlzqravOhps
-	MGWrLK3WsZ2o6/JH35G9EhFqr70mpJxKwknEax35TScSoMBToWxWrBxRQyjTenht0XynDLiW5PH
-	zFR7FF01Uk5MyMpFpC2J
-X-Google-Smtp-Source: AGHT+IEWof4zjE60RbTVNnoMwQe4mseAM8axdA44ewFLN78LsrMf1OHW5JZiuHAT9VHpIyLKYwWl9g==
-X-Received: by 2002:a05:6000:1a8b:b0:38c:5b9e:ab83 with SMTP id ffacd0b85a97d-38db48caa3bmr5083926f8f.40.1738828928370;
-        Thu, 06 Feb 2025 00:02:08 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4391dfd7d7asm10502945e9.36.2025.02.06.00.02.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2025 00:02:07 -0800 (PST)
-Date: Thu, 6 Feb 2025 11:02:04 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, imx@lists.linux.dev,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v2 2/4] firmware: arm_scmi: Add machine_allowlist and
- machine_blocklist
-Message-ID: <230612a4-92ee-4acc-85bf-f1c47dc3c35b@stanley.mountain>
-References: <20250120-scmi-fwdevlink-v2-0-3af2fa37dbac@nxp.com>
- <20250120-scmi-fwdevlink-v2-2-3af2fa37dbac@nxp.com>
+        bh=USBL3Bi8iE9n2Sl7YVwR873K49AsaDipUTVzCmvsvW0=;
+        b=TTeVRmYG9yuGvQjpU85pWYUsAw4BWCBqf1IocAjyPXizPIbBjl1rwxJR2hWwRKCioe
+         XDdGVDgR5Yc6RQkrsiDb/SPhVypwgiriFLKvT3R8yKlGavjj5RCaPi9BST9TZpUpvItj
+         IDUSemjHvxnbm7kLFUbV3lz2Ee7F8pxNLBZVs+oY/ih47WKbsru5ilxLFjDMMeJdXR4Q
+         Tu4EgVoJZ2OGyJV5jevlCUefNh1RoYz6B7anDynHT64MtVtEtizFq6XRxAPhzoahG6ly
+         W552pMWU5aC4Iq0r9kxYSxI0pJL2CGPYw7EAAA9DZstwhQ33lPFLqrWc51DxxBh67J6B
+         ltuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738832868; x=1739437668;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=USBL3Bi8iE9n2Sl7YVwR873K49AsaDipUTVzCmvsvW0=;
+        b=kXQwOcBPq9Pbc0l7PvkCMLrtXnAjSM3zUr8SL6VO34Cld5JVd1SLW/YWEu3Zn1LQdV
+         IanAGbmtFfR+ZP1EA06P8gSE6FRleeCk13sPq+/D0T99CdmVoreRv5foqwrxzcOh/WcX
+         eTJwQcnWQ68NMq3JTnmB6rVY9vSA9A8oTxDOeOpvBeSKcV0VyRmAF8PBKaUGHxrwhMve
+         cS/R+tmF/8vmXsrWAvRFwHVWhtHfsLCHJiXZ8SWK8SaiGCdP8RTSr288vj4Vm4q+Zd8W
+         tOKCDcNFKi+UoHmMUeewPWaGDtd/w5/mIVocJMjI21Bu9xhx4NK0z4Q9a9uoRct8hoFD
+         WQqw==
+X-Forwarded-Encrypted: i=1; AJvYcCVNBYGylKSs9SCLVrQxSFc1G/el0GDysbz9a+A6ZuX0UoshditUMSujljD+F8N+6Kys04nKDbyvxw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5RkNYq6kAY4y54nMbCdQsVlrVOZBW1Omt834TMlBlAezwUuid
+	2ENhSYt9P3tCx7uWkEORwf9j5K7WCrN6jDDy8V3VnkM5eeKJYS39XudQ27RFVqVwlPx8/se+TFa
+	1qOQbZ6FlkmziiVDL+AsmwfirPSgfxBQsO4H/ww==
+X-Gm-Gg: ASbGncvyeHBCcRnoOfq2yYgg3dQcBVTRAsPhG3q6f5SOU93qgVheXA195n7JJ4WCOdr
+	WCtR0WaSNuSvRpnb8HFFsjkR5H4IGobomHnx0bEPhND5uKxnk+LVEo2MLOP35FoQYGLPvhuo=
+X-Google-Smtp-Source: AGHT+IFMvokVoCNJp7A3lkxgigywWrPi05v98IDrumPEAYrql6H51kRCzThn+r8IlTxIEYbaKMGx7LiQg6tGfTHRK7I=
+X-Received: by 2002:a2e:a917:0:b0:300:1c9a:80ce with SMTP id
+ 38308e7fff4ca-307cf385308mr20165081fa.33.1738832868506; Thu, 06 Feb 2025
+ 01:07:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250120-scmi-fwdevlink-v2-2-3af2fa37dbac@nxp.com>
+References: <20250120-scmi-fwdevlink-v2-0-3af2fa37dbac@nxp.com> <PAXPR04MB845925677F9AB860552A421988F42@PAXPR04MB8459.eurprd04.prod.outlook.com>
+In-Reply-To: <PAXPR04MB845925677F9AB860552A421988F42@PAXPR04MB8459.eurprd04.prod.outlook.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 6 Feb 2025 10:07:37 +0100
+X-Gm-Features: AWEUYZk9rGC_78qVqTxr81SNDU-6p5M6XpnmcdwLF8h4Nn9OhqhPBv8W52Ra8WI
+Message-ID: <CACRpkdZ1zBkagd478Ee+JAUWrXF1z-Hts=dH+_jgT3Vi26W84g@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] scmi: Bypass set fwnode and introduce allow/block
+ list to address devlink issue
+To: Peng Fan <peng.fan@nxp.com>
+Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, Sudeep Holla <sudeep.holla@arm.com>, 
+	Cristian Marussi <cristian.marussi@arm.com>, Saravana Kannan <saravanak@google.com>, 
+	Aisheng Dong <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 20, 2025 at 03:13:30PM +0800, Peng Fan (OSS) wrote:
-> From: Peng Fan <peng.fan@nxp.com>
-> 
-> There are two cases:
-> pinctrl-scmi.c and pinctrl-imx-scmi.c, both use SCMI_PROTOCOL_PINCTRL.
-> If both drivers are built in, and the scmi device with name "pinctrl-imx"
-> is created earlier, and the fwnode device points to the scmi device,
-> non-i.MX platforms will never have the pinctrl supplier ready.
-> 
-> Vendor A use 0x80 for feature X, Vendor B use 0x80 for feature Y.
-> With both drivers built in, two scmi devices will be created, and both
-> drivers will be probed. On A's patform, feature Y probe may fail, vice
-> verus.
-> 
-> Introduce machine_allowlist and machine_blocklist to allow or block
-> the creation of scmi devices to address above issues.
-> 
-> machine_blocklist is non-vendor protocols, but vendor has its own
-> implementation. Saying need to block pinctrl-scmi.c on i.MX95.
-> machine_allowlist is for vendor protocols. Saying vendor A drivers only
-> allow vendor A machine, vendor B machines only allow vendor B machine.
-> 
+On Tue, Feb 4, 2025 at 4:31=E2=80=AFAM Peng Fan <peng.fan@nxp.com> wrote:
 
-I think patches 2-4 should be combined into one patch.  This commit
-message is a bit confusing.  I don't really understand how the
-"fwnode device points to the scmi device".  I understand vaguely
-what that means but in terms of code, I couldn't point to it.
+> > Subject: [PATCH v2 0/4] scmi: Bypass set fwnode and introduce
+> > allow/block list to address devlink issue
+>
+> Any comments on this patchset?
 
-> Vendor A use 0x80 for feature X, Vendor B use 0x80 for feature Y.
-> With both drivers built in, two scmi devices will be created, and both
-> drivers will be probed. On A's patform, feature Y probe may fail, vice
-> verus.
+The pinctrl changes look OK to me so for those 2 patches:
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
+in case you want to merge it through some other tree.
 
-You're describing the code before.  Is it a problem that only one driver
-is probed successfully?  I thought that would be fine.  What's the
-problem?
-
-It should have a Fixes tag.
-Fixes: b755521fd6eb ("pinctrl: imx: support SCMI pinctrl protocol for i.MX95")
-
-Here is my suggestion for a commit message:
-
-  We have two drivers, pinctrl-scmi.c which is generic and
-  pinctrl-imx-scmi.c which is for IMX hardware.  They do the same
-  thing.  Both provide support for the SCMI_PROTOCOL_PINCTRL protocol.
-
-  If you have a kernel with both modules built in then they way it
-  was designed to work is that the probe() functions would only
-  allow the appropriate driver to probe.  Unfortunately, what happens
-  is that <vague>there is an issue earlier in the process so the
-  fwnode device points to the wrong driver.</vague>  This means that
-  even though the correct driver is probed it still wants to use
-  whichever driver was loaded first so if the driver you want came
-  second then it won't work.
-
-  To fix this, move the checking for which driver to use into the
-  scmi_protocol_device_request() function.
-
-  Now both drivers will be probed but only one will be used?
-
-regards,
-dan carpenter
-
+Yours,
+Linus Walleij
