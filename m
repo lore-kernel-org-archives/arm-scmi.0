@@ -1,62 +1,62 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9D12248AD
-	for <arm-scmi@vger.kernel.org>; Thu,  6 Feb 2025 11:31:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C27222C321
+	for <arm-scmi@vger.kernel.org>; Thu,  6 Feb 2025 11:40:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738841487; cv=none; b=qxZQy9Fcoip9Jr2bPTnqLCegeeN/pFj400d1Q0GOxXJT39Dd5UTVDezJS7ph5tLUoygu64yvO7Zmg6oiUH85msa3F/iPw2XnDHTGb/v5i8xXn1gEhVJq39miUJk1JypR88lOnWePRd/fk834DOOISlDpQ8Kvo1K+TjMdlXt5lqA=
+	t=1738842019; cv=none; b=Z9eedl9HAzTITro4CwqwPlSxRJAJ12F/togabzKoCVnFbGYub7vL4smn7wutbfk5BFW29liozTGe5+Y+90hOMYAKjsmboo7h5c+xKKFikYTinY/CN1Ddc32OFR9yEL+QMeB/OJ3cNftHcuI64WM/Ixe0ovCBOAF51iKcXIIVMxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738841487; c=relaxed/simple;
-	bh=zkGa5WERNlcjx9M1T5UZoFwgT0eWSaHUBpVHYuBMcKY=;
+	s=arc-20240116; t=1738842019; c=relaxed/simple;
+	bh=JwrnIDxa7fiK9DOXokfhuwLBPcCS07LencS6UDbMmbM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E22fOHwtENdvNfjHoyL1pFRkH7E+xQhk92DJnNnmUbzyUs9Wr2m6dhvx5XDEUJXJi67eBHVHFXyHpf071KpB0vAmulBlbUf7UYQtRjWUloAPMBe1REtN4qjxQD1s33ZJJu1/gEwe6psz++UHp8MnaH8PtrydpI2kc7aBdtFOVKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tzaMsSzv; arc=none smtp.client-ip=209.85.128.44
+	 Content-Type:Content-Disposition:In-Reply-To; b=mDEbiqtbeqWkr9HRmMYAxGpIMZyaas4ou7d1xBigjATwq2AEpcRCdV7zZzXxlhk6J6XjTTrVyq8oKb6nBzzvhxcvLFtWhKEIGQxpvG1ufV2Gow3nOobQ8zobjvIHwW5SUimW1DXpNBpHvh4JHohZdgHUjg5FzCiLTAjY4rTpac0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ERGVUPfd; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tzaMsSzv"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4363ae65100so8735835e9.0
-        for <arm-scmi@vger.kernel.org>; Thu, 06 Feb 2025 03:31:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ERGVUPfd"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-38da6dde4c0so327373f8f.1
+        for <arm-scmi@vger.kernel.org>; Thu, 06 Feb 2025 03:40:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738841483; x=1739446283; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1738842014; x=1739446814; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oCI1ZBTo4CXvGl9Bx83X1jcDkmWE56kdXG7He5kgffs=;
-        b=tzaMsSzvxHK88gKeBut+8lVTlpUXmExyLGu7Y4BC1fHp205y9bAzJkO2pn73BmfCcA
-         /Y2gcuHR25JsIqW0b9QesD3U5/ssCY3tleGBqE/aBAMRm2UVxLek960vrDNae7qftnUs
-         3iWFwe3Bi0oSFiobSPvY5ci33X0Ei5s7DUThV5F3wcvAahan97nptEVdu539MDH838BU
-         6Jd2PHNfrNtG7cPRcKEt6FFgkwAZFTtBevG1wo6/dxS84JYuCWAS7vkqrfvfaiovyTrE
-         jPDSTUwteTDDGbzwrBFeBkN1e5UPhVXCu9o1Rbfr8eBreNOTnJNYarlpUjbR/7kCmbLh
-         EPYw==
+        bh=RKka8q8Has39PLR0Yd8RpCT4IAmN7UpWKg6ZilU2jFU=;
+        b=ERGVUPfd5717HiKZFuAUGPIxRt0qdPYNkojYyoouiXbzrvYxtiJ9f53ZENtnk3xf3g
+         ZavxoJLU+77BkKgbD/VleN228CftFaqR9EigNCmsy+sXxxkESaV4LbYB+7ePHgVdqGof
+         hgAtvQztdvjibJmSfdpVvwwuUPtTlFwXhv7EgTOl2IhDfpEPEkaDQ3mFEHPrMy8CZXkV
+         vxg8SG/wzsiYQJ6UIjurpMPC3ktzRI3fBC9lHSS9qEBiIunldKZopxCIYUnjZiSiJTvZ
+         1p8M94O1Ki5Z4qw6WqqrsZwdMvRVleTf934rjGSrzRFe8mJcAHI4tLIJJWNCx09p8eru
+         5lIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738841483; x=1739446283;
+        d=1e100.net; s=20230601; t=1738842014; x=1739446814;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oCI1ZBTo4CXvGl9Bx83X1jcDkmWE56kdXG7He5kgffs=;
-        b=XtA1RHjlxFHubnPgmaLOD4fic5A3JsYEWCJ+amDumS5r/8Gg2wChkgIpiXw2EFq0jM
-         q9fRbvw+sIBD5W3AIPmgT0AsgVEt3OQoQBombMo4U2vlCTQBXk+HC9Lkm7iGseu/LTp/
-         hebBr47QrAtBgdykI/EYGLCKPQIF021ItFmxocJuDg+Gbw1igB4ZtMwFRmzWLU4KtoLQ
-         65R9XzmVfKD7/vHLTheRqz4suNH7WQeOAJ16xlM+IkvyK5QZh2wIA3X2/2Ni3ns3yCz5
-         XreXG9SsJH7VEd0TM7EFJezSXX/D3GtxmNroQ0Q0LEEdYXPBN07NTuHiz5z44FHg9Kr8
-         9BmA==
-X-Forwarded-Encrypted: i=1; AJvYcCV6wSIGiLJBi9Fus8QEn7UJ4vXw7Uqyj2Bknjr0xbHY35qHwjvExmFf8zFgEIK2CRUUJ7k3kL59hQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YysOnCy5C1Dfpe02zDfB+1qKWi36vqllcPbTiNw1CT5Maywn+g2
-	SZ0GBxUyLhofLRhMLiyi9iPLiLBzGPScyX8lKdKYqMtldt05N6TyTPgv+3f417k=
-X-Gm-Gg: ASbGncuEgzo3KZ+mECuiAJn3a5t3NghS7KnYa6LCP4X+9jMqy2QN5FkIniyXVqMXayV
-	5C3y8IlK+wuDrV4gVxVVRw9jm31Ex8ZoTNusrLZZ4euFCtK6LvDTAsRrFDN6TnpHCCCxc/nSWGy
-	jPFuRUxWtHIGQ9WiiqaiuBnkhC1qwPEIn222acjZocNwFE1OwFy7OlZEP7vaBtaM5Zg/eQI0otk
-	3ATDlwY6DFEQkvJk2yQYwlGB4szMo/kg7kzGYAST4S+tBIQjt9Hi8aE3VtaQSWvFTIykK72p5cM
-	TkEWSNv5xttFmSEBCcEJ
-X-Google-Smtp-Source: AGHT+IH7D8euabfcrwCOQjtY+IXcdW/axRayM6NaqPRFSLZQPDH+rc/cv5/qoeqeWWI69RXkq3ju1g==
-X-Received: by 2002:a05:600c:1d1e:b0:434:f5c0:329f with SMTP id 5b1f17b1804b1-4390d43e471mr72311885e9.14.1738841483532;
-        Thu, 06 Feb 2025 03:31:23 -0800 (PST)
+        bh=RKka8q8Has39PLR0Yd8RpCT4IAmN7UpWKg6ZilU2jFU=;
+        b=SBzEIy9uOyjcxq9xdw6ra0O+NT/BVHBc7v9H+y60irlR5sHHK/DAsMwi19ISNwsc/X
+         A+FewbudEpRtf057PNnrO2R88oseEEkondAV9RUjNeTcdU2M67zjwn1I0oft5fBV+mr3
+         Bzj8yDlmEYNEqige8XwyXNYi3/uK3sjR7JVZaYXBYdbMl859P+bLdEckf6HKaV0mbZ2b
+         Y5jgl52KT5KW/ZRhDLguvjaC3ZEQSUrb/es8zsh1T0k2LBvJKS9E+0BkB3Yrn8nk/BbR
+         zx4drrbjcw49tdy85m6WXDtINyl3hNHOh9RpQgpdsyw45zqsbqGuo1P8T7FSbLWKCaZJ
+         zIYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXrILCneOJrZivgTvmLmniM1DBgJno/MVWioW3Hq1TmyMqiQvYymHnxj/P1U76e5qS74So3iesw8A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJGtkwL2fKY7H7a+tTn0il/MkHEVoEGbrBUKaR+LlF/lc1oFbx
+	dyS0Axk2yiMBvW/BQbF/TecRhUJ6YupxzXeiusm4cJvEGK/4hFQNXKPtqUckQo4=
+X-Gm-Gg: ASbGncsb/s0OJVH9d8OyNEeXalIdzhgD7YsqhbPDTITw2lWiNFg3Np2BPL5000oPmNr
+	KoNGGg3jaxJC4Vaadlu9qLSLez2vu/gt5FuWo0O+CjPuFlSQxKRX99YSidOQB3hHxPlhE92XmG+
+	8Acs5XlJQzjq32CGsSq5vNSZQaopoQDFv7Lz9UlHW9slhb9XXD0vAqZNaTKP8p0qvREbkTF9UxI
+	QtlA8BANsy/4Bnv4PQLMHxHoa5o/7uHFjegsGgTwGAZiszeJaeFUYG4zAYUBVsj0vddQe0XKKeV
+	g3UEQp7P7bl6XRXDnw/F
+X-Google-Smtp-Source: AGHT+IHK7xN1+O0lC7SA+Z4hYlZwlXq1mhwhsAv5rC/JniJV62KNS95+EeAeYIVWA7BzbT+PnwAdWQ==
+X-Received: by 2002:a5d:588c:0:b0:38d:b6e6:4445 with SMTP id ffacd0b85a97d-38db6e647bamr3919617f8f.24.1738842014402;
+        Thu, 06 Feb 2025 03:40:14 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4390d96517dsm52528035e9.20.2025.02.06.03.31.22
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4390d9334e7sm52136505e9.6.2025.02.06.03.40.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2025 03:31:23 -0800 (PST)
-Date: Thu, 6 Feb 2025 14:31:19 +0300
+        Thu, 06 Feb 2025 03:40:14 -0800 (PST)
+Date: Thu, 6 Feb 2025 14:40:11 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Peng Fan <peng.fan@oss.nxp.com>
 Cc: Sudeep Holla <sudeep.holla@arm.com>,
@@ -71,13 +71,13 @@ Cc: Sudeep Holla <sudeep.holla@arm.com>,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	linux-gpio@vger.kernel.org, imx@lists.linux.dev,
 	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v2 1/4] firmware: arm_scmi: Bypass setting fwnode for
- scmi cpufreq
-Message-ID: <e20415aa-517c-4e72-a1c3-9c02769c1149@stanley.mountain>
+Subject: Re: [PATCH v2 2/4] firmware: arm_scmi: Add machine_allowlist and
+ machine_blocklist
+Message-ID: <15f20562-d5f3-4432-94e1-06c8174bf3c1@stanley.mountain>
 References: <20250120-scmi-fwdevlink-v2-0-3af2fa37dbac@nxp.com>
- <20250120-scmi-fwdevlink-v2-1-3af2fa37dbac@nxp.com>
- <7a29ec8f-fef8-4f1c-a2eb-16a63f2b820c@stanley.mountain>
- <20250206105218.GA22527@localhost.localdomain>
+ <20250120-scmi-fwdevlink-v2-2-3af2fa37dbac@nxp.com>
+ <230612a4-92ee-4acc-85bf-f1c47dc3c35b@stanley.mountain>
+ <20250206110508.GB22527@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -86,43 +86,80 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250206105218.GA22527@localhost.localdomain>
+In-Reply-To: <20250206110508.GB22527@localhost.localdomain>
 
-On Thu, Feb 06, 2025 at 06:52:20PM +0800, Peng Fan wrote:
-> On Wed, Feb 05, 2025 at 03:45:00PM +0300, Dan Carpenter wrote:
-> >On Mon, Jan 20, 2025 at 03:13:29PM +0800, Peng Fan (OSS) wrote:
-> >> diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
-> >> index 2c853c84b58f530898057e4ab274ba76070de05e..7850eb7710f499888d32aebf5d99df63db8bfa26 100644
-> >> --- a/drivers/firmware/arm_scmi/bus.c
-> >> +++ b/drivers/firmware/arm_scmi/bus.c
-> >> @@ -344,6 +344,21 @@ static void __scmi_device_destroy(struct scmi_device *scmi_dev)
-> >>  	device_unregister(&scmi_dev->dev);
-> >>  }
-> >>  
-> >> +static int
-> >> +__scmi_device_set_node(struct scmi_device *scmi_dev, struct device_node *np,
-> >> +		       int protocol, const char *name)
-> >> +{
-> >> +	/* cpufreq device does not need to be supplier from devlink perspective */
-> >> +	if ((protocol == SCMI_PROTOCOL_PERF) && !strcmp(name, "cpufreq")) {
+On Thu, Feb 06, 2025 at 07:05:08PM +0800, Peng Fan wrote:
+> Hi Dan,
+> 
+> On Thu, Feb 06, 2025 at 11:02:04AM +0300, Dan Carpenter wrote:
+> >On Mon, Jan 20, 2025 at 03:13:30PM +0800, Peng Fan (OSS) wrote:
+> >> From: Peng Fan <peng.fan@nxp.com>
+> >> 
+> >> There are two cases:
+> >> pinctrl-scmi.c and pinctrl-imx-scmi.c, both use SCMI_PROTOCOL_PINCTRL.
+> >> If both drivers are built in, and the scmi device with name "pinctrl-imx"
+> >> is created earlier, and the fwnode device points to the scmi device,
+> >> non-i.MX platforms will never have the pinctrl supplier ready.
+> >> 
+> >> Vendor A use 0x80 for feature X, Vendor B use 0x80 for feature Y.
+> >> With both drivers built in, two scmi devices will be created, and both
+> >> drivers will be probed. On A's patform, feature Y probe may fail, vice
+> >> verus.
+> >> 
+> >> Introduce machine_allowlist and machine_blocklist to allow or block
+> >> the creation of scmi devices to address above issues.
+> >> 
+> >> machine_blocklist is non-vendor protocols, but vendor has its own
+> >> implementation. Saying need to block pinctrl-scmi.c on i.MX95.
+> >> machine_allowlist is for vendor protocols. Saying vendor A drivers only
+> >> allow vendor A machine, vendor B machines only allow vendor B machine.
+> >> 
 > >
-> >I don't love this...  It seems like an hack.  Could we put a flag
-> >somewhere instead?  Perhaps in scmi_device?  (I'm just saying that
-> >because that's what we're passing to this function).
+> >I think patches 2-4 should be combined into one patch.  This commit
 > 
-> This means when creating scmi_device, a flag needs to be set which requires
-> to extend scmi_device_id to include a flag entry or else.
-> 
-> As below in scmi-cpufreq.c
-> { SCMI_PROTOCOL_PERF, "cpufreq", SCMI_FWNODE_NO }
+> They are in different subsystems, so I separate them.
 > 
 
-Yeah, I like that.
+I mean if the i.MX driver prevents the generic driver from working then
+we need a Fixes tag.  It really makes it simpler to understand and backport
+if they're sent as one patch.  Normally we would collect Acks from the
+maintainers who're involved and but still do it as one patch.
 
--	if ((protocol == SCMI_PROTOCOL_PERF) && !strcmp(name, "cpufreq")) {
-+	if (scmi_dev->flags & SCMI_FWNODE_NO) {
+> >message is a bit confusing.  I don't really understand how the
+> >"fwnode device points to the scmi device".  I understand vaguely
+> >what that means but in terms of code, I couldn't point to it.
+> 
+> Sorry for not being clear.
+> 
+> The devlink framework will take i.MX as pinctrl provider, because the
+> fwnode is occupied by i.MX pinctrl scmi device which is created earlier
+> than generic pinctrl scmi device.
+> 
 
-Or we could do something like "if (scmi_dev->no_fwnode) {"
+Ah.  Got it.  Thanks.
+
+> >
+> >> Vendor A use 0x80 for feature X, Vendor B use 0x80 for feature Y.
+> >> With both drivers built in, two scmi devices will be created, and both
+> >> drivers will be probed. On A's patform, feature Y probe may fail, vice
+> >> verus.
+> >
+> >You're describing the code before.  Is it a problem that only one driver
+> >is probed successfully?  I thought that would be fine.  What's the
+> >problem?
+> 
+> VendorA 0x80
+> VendorB 0x80
+> 
+> If both drivers runs into probe, VenderB 0x80 driver may crash VendorA firmware
+> if the firmware not designed well.
+> 
+> Not big issue. I just think we should block the probe.
+> 
+
+This is a theoretical issue for now.  I would just leave it out of the
+commit message because it's kind of confusing and it might not even happen
+in real life.
 
 regards,
 dan carpenter
