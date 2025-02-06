@@ -1,212 +1,374 @@
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2072.outbound.protection.outlook.com [40.107.104.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677A822FDF9;
-	Thu,  6 Feb 2025 13:08:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.104.72
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738847309; cv=fail; b=p3PnxeISBBi2i4oehbVqiL4DdUXTHTBLFSO9KIUXWnUMCBTJyUoYtoq9YMMedkjYdVLIO4JNlsfy/fJHU2hred2Gh59mG8ONt/ojmBjmChQpphcVwiNxfirL/0q3575ETrJJGFcjsrsgLiqmQ33A4gaQp0Tc0wE00hTJJ3f78p4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738847309; c=relaxed/simple;
-	bh=UpZ8v9jE2+lvfRrY0ip5J7NpM1SdhQcMlmmQbD03138=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=QQKxt3H9dR3NTvz8t8mKfen1imCMG7vo+W+MSHEKTzwfSk2I8xEXww+Kj6LUs+38DlwqBQR89OlPvJdyoAfY7PHGp1kxWI0CtDmWaRQCjN+xohzaZr4QNXW20BqNqAo9v3lY7JW97iWbBAjLYggyQFnrVSrz4tgiaQ7VCMnEoTI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=O8v7+lnz; arc=fail smtp.client-ip=40.107.104.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35CA31EDA2D
+	for <arm-scmi@vger.kernel.org>; Thu,  6 Feb 2025 15:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738855922; cv=none; b=gpB6Tup8nKFyHkJRqYJCkhaLjuKxNW6iFUxEo/fPU0FpEPfeESI7oi4ROQMfCnmvXkHrF94evrDMbLMeFlTjvgfdMSGpxsOUflmwXqWWjZmppyTJwjXQzgjzoOlH6WOVUKrMiD8hP8RwnzDQa21h608Cevncf2QBEGsDN25cJXs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738855922; c=relaxed/simple;
+	bh=ncAPF7rrerkEjN9nNIYfemcUfjRmvB1hGOhegNOaz7I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=P/Mq2KXbIw9/h20qtoYVgnJdg3Lo8UMVf+9oN1m+R37ng2lhyTQyT3HZv7jn9S5Wq/hb14T7aGkAxUH6HOSvCs/w3RffY9syiTxCZHCgiLHcQzLzvcXwwFlJ/w0mDqFPVII7zjRb1SfR3fikiSoVDJQFFKZBfelc8TMboZkP/y4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=QGCOJGVc; arc=none smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="O8v7+lnz"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=reHjL/IV3GIm/vzjS65p+wpe904mkl+f51z4jbvPH9wLverBOboqEY4zQ5XwaQ+Rk2IdsLJW2Ho8/KPBLz35pQHJHvIbhlaNzuXCOMex9jF6Dg1/cSkxfe/EK8Pw8IOXJt9iovml9VpCTARnrX5T6YrROY9tdxNzyxj+vGBmKRK2lNRHrWdI69rmeQ3UDZa3qUGnqQ/JyHw4EUyIhrAD15Zz5iZ+gtckrzAQuBaBUC+LsinMcJk6RpzkwUY2mtk31lzayeg+8zSV69kAx211xzdR9/+2//sdJoUPktn7Z7Dvjh1PDeT8bwisB6UGSVeV5vMVyBr4tZXmAGOh1MP1Dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tBr+x8TajH2jshWtVs/9PiFNw5sctSg7xkZozBvvKTk=;
- b=BovSLaQKf6TcFCRHdR4+Ul1cViayXIpJigdWaEHGiRNbgZ3qk7WPBwwDb9ABp51pckuHpFQlhkxQ8IUSHsSQQn5oA02dDTprQS7arBR3Su0cs3IoZt1dU/6PPu4BUCbTK3oynQWiS0Nd76bH09qJwm+OgDdGUUQ/FvHsnkVX3+phMjKg3IOppK0DqGKEsOmwi8oEZaIc1CeFeuMALw9VkQ+u37AnQf5/+5obylDkjTLqoqJNw+spmO1DKmRUEVYH4ZBCQsclvqXJ1cyUVeVftsOBmT4m+yXpmX9H5XbksjPdVCvksKHypImks4OTuvx4ky8eGJ9g/ItG+0imILqtWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tBr+x8TajH2jshWtVs/9PiFNw5sctSg7xkZozBvvKTk=;
- b=O8v7+lnzBRpN+zGBiJmND34Oym5hColTTifZLXPVg7QkrxpCXoxEr9S62l7WYiWYIJrZ1EikjqizbZv9jQWR/FZspoP7APnE9GLXAxLpxPyKoL7gTzDq+BmupeJmCMtZgk5g2GB3VZfuaYMlOZwBt+IJg8/RTaEzPLwNbXZXGbuKyK0lWG6QWDPV8fVV1EoylFoCi/Cwl2iLQ12XBqAqBYjP+KvFkV2kpz5jQxfQ3eXAbksql3PdI4zyrdiH8vpwfSG+58kECm8lmx9DHgyYPi666hY6PvK0EI+PXjiEGzKR8Zs9/KgRTKmo/psNIffmjYlBZ0djs30fQIvuwty/OQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
- by AM7PR04MB7143.eurprd04.prod.outlook.com (2603:10a6:20b:112::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.24; Thu, 6 Feb
- 2025 13:08:24 +0000
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630%3]) with mapi id 15.20.8422.010; Thu, 6 Feb 2025
- 13:08:24 +0000
-Date: Thu, 6 Feb 2025 22:15:05 +0800
-From: Peng Fan <peng.fan@oss.nxp.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, imx@lists.linux.dev,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v2 2/4] firmware: arm_scmi: Add machine_allowlist and
- machine_blocklist
-Message-ID: <20250206141505.GC27490@localhost.localdomain>
-References: <20250120-scmi-fwdevlink-v2-0-3af2fa37dbac@nxp.com>
- <20250120-scmi-fwdevlink-v2-2-3af2fa37dbac@nxp.com>
- <230612a4-92ee-4acc-85bf-f1c47dc3c35b@stanley.mountain>
- <20250206110508.GB22527@localhost.localdomain>
- <15f20562-d5f3-4432-94e1-06c8174bf3c1@stanley.mountain>
- <119bdeb3-f1d4-4f35-bff3-190eccc7c325@stanley.mountain>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <119bdeb3-f1d4-4f35-bff3-190eccc7c325@stanley.mountain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: SG3P274CA0014.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::26)
- To PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="QGCOJGVc"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6f7440444efso8964277b3.2
+        for <arm-scmi@vger.kernel.org>; Thu, 06 Feb 2025 07:31:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google; t=1738855919; x=1739460719; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kSEjI0/PhbFe1xLIAMNstyhshP1bNC0F9pZ0DzpzpJE=;
+        b=QGCOJGVcYMe/I4OY9Knfe5T2pcI1NMLa1VCIAIGYbomILGV2kqHcTIAnb/50EDKrPk
+         H1gVsmw7AvdFsoCMchz9HySu0cd7OgacJahifyvPJCjPPT3+RJHyXcxpJJ1xbdXP2MCW
+         7Ur7T9MkW8hXwCRTG722YBMvak61XwqawozgI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738855919; x=1739460719;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kSEjI0/PhbFe1xLIAMNstyhshP1bNC0F9pZ0DzpzpJE=;
+        b=D5qrw4XmCGK/AltFoBuzZtASbw3XAXBBRJ1SomeLtcliafksDZYpD7fNXXAZoBQpEg
+         VEddgg4zdyrBoAV/lad2qwzEHz2lyD3/PgHKiewStADWt3fuq2P7xkgFJciyEEbLcyB7
+         5rCwAh2ic4Itdn3b/RximRe6BtUAlQNUiCii5c4CVLVndzev5oUMlNM5ofPWkJgWjiH5
+         gRGcwXReHYya3N9RizZlQWAA4KX/xr/19wzV2OYeN1buWTCWIcZ9nRP/gIUoWG87efjJ
+         YO8yrqBSecp0PWZ5zrFq35s8iLVIaILYWqBNpkxZbN74fFzPk/A+popGzhXj3BR1DfDC
+         5grQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXqG7fVfUu29Mp6vgHGFTa5M52eH/W2ULtYh4GFjNzwzULxeGTg/zNvKwUK54R4LDE/l6kyACsUrw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6ouXwyEnGVfBoEAJTw62+osUOKCBx37Aeb1enjqF7UokXV38F
+	TRnBI1WjNjyqQi+sfKohpJrqYrNT2xL+uKjJp7Ykl3+ABs0iNvp/oaKKWdHRjmcpSNz9daoGDrV
+	Uab2ir4CWjzYRShd83dmK+3nvHV9WEHXCNGv79w==
+X-Gm-Gg: ASbGnctXbZxuUjSeTww0wE6/XhuC+ZPXvS9qGuKoJ7aBKr6zDLf+cRLQAHjwljRhBH9
+	5xbiYqHZqXZ5/Cm3htiDhAtlm1mO91DyFYN85AuXDVzQ69yq7GJuBXyI2fvvt47+zzXLDAyY=
+X-Google-Smtp-Source: AGHT+IFBR4yKWi12OxeMKiZJ7mNefCRGP6DMSE17bw0bh1mSFoEoNgEKrlLuvfsnGxNrudo9/TnSwafSOEZjwfBjbM8=
+X-Received: by 2002:a05:690c:691:b0:6f9:87da:b763 with SMTP id
+ 00721157ae682-6f989e2f6a4mr64301617b3.12.1738855919056; Thu, 06 Feb 2025
+ 07:31:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|AM7PR04MB7143:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc190715-24cb-40a0-b2be-08dd46af56ab
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|7416014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?vzLu215Fr2BUtUysBNbFaCgYxpTiyYgVgFovB8G0+2NH8txSPdY3d/6xccu8?=
- =?us-ascii?Q?c4GtTQNgv2084EdoA1tdDSKfH+yCaM5jjA2NsjK8rFeKLhIURnSNehsl9XKo?=
- =?us-ascii?Q?qqQFHt50BTUsr8pUpvX+ZHPuJdQI9CIHHI0V2y0EJD5ZBuV444T9c/NpdZDQ?=
- =?us-ascii?Q?tHAb/FlHeyVTAf/B0iyZlNTiLbtiWIRIP5MNEIQhSNICd/sxhx5vo09WJAqj?=
- =?us-ascii?Q?Lx+EQeixPZj+1GdrzCtm3fHVgcqrYAk0+1Dtt+fdAqtbQkrJxYpynYIBTjsd?=
- =?us-ascii?Q?1K6wHFWe/+eBUlIL1pkkRWB/ZhJLLLlhNhTX44Hz/7MILwgPwxYsSGx4Ac/F?=
- =?us-ascii?Q?sqhKXoNFbRJpvuKsz1Ejp56FjKAFjlIhJODG8eXkRbBLKQRw8WKGHLyHitSi?=
- =?us-ascii?Q?64I/Od0jDAuqudikE3ICpV84g2fC6kMeABP/uQ4lhCby/TCWhRHzU9CBt3dw?=
- =?us-ascii?Q?YrGqmjbCJwmFGucSzRCg7VkegonjvsYYU4QZ/moG3TLoKdU2XXS5oJvTZzp5?=
- =?us-ascii?Q?MxYGcSAE1eJJAs2Xy5jcHtPFFpDUlqRkmCW9/ru57p5C5WHUjSKmG/8k3ka+?=
- =?us-ascii?Q?gROV7iu8TugekBvplY7Vg94+eezC7kPWXb5Jmpp3nhqeRdTIJXOq53KSY6Mp?=
- =?us-ascii?Q?CV5ftVdLZDIHuKaHEUEPxwunVLn9599mev9SD+92fKWEOfoFkHB6xyhtVhar?=
- =?us-ascii?Q?J5Immy1T0RwtueQOvu2DtV1str9xbFhUtPbRYGfbL6W+LR2wK1GOj/rBWGtd?=
- =?us-ascii?Q?WxSO1xoYpcUmJ6XJo5ttl+sGai9K4yiFi+2SBkigp1TsOoMDcDAlLHZy/N8S?=
- =?us-ascii?Q?KeB08HvliKO8puoarQnMBu6ZB6fuixapd1NCUnCP5e4Mg33pZLOlfD9xfANe?=
- =?us-ascii?Q?FxVb8EK6uL4nk9knmIueD5a2vkJtorfesm7uSJmqmcrzT/f44KuYtVL2RkXN?=
- =?us-ascii?Q?nB/BgiPgQADATmcb6Hm3w3Y5OSM+fAWmbTimDCIpYXrkLBPVLx7VR19Bm091?=
- =?us-ascii?Q?69q8HsGds3Iyq2SfuC/KKpZ9mLT5lto7WFmil43PsMU64hJLqQlAGy9nMJ06?=
- =?us-ascii?Q?5ZEpILe2wpEd1glbjvhIIrg1VqUWcvI0K0IAac6i/rZ0nzJN60Qv0FH7zXyX?=
- =?us-ascii?Q?4I3bW2fBuUrP1w2OT+8pIAk2jNM7WVwEXwVvCHLJYOl73uumqOjMHEycwTmX?=
- =?us-ascii?Q?BDJ35ACWapTEuxJJub8ETmqHzbnxawott0dQn2UNv8hx+pYtZ9ZAUKe3X28d?=
- =?us-ascii?Q?KvsKS40ujlQAkBMT7KA2Vig9tdgZSJZczeaFXnKLdLl6p0RCP+dwa8ttbRkR?=
- =?us-ascii?Q?yHpokJNz5PK55dyjUl3oH7PQkVMD8/4OqV/v+X0o7K60lLZO7HD6OKATPGIX?=
- =?us-ascii?Q?UKuJpFb1GfcyZ83QRBlmBsdELsjrUWdi6zOBQNPAoa7mUaDbz4B1vwve4iZ6?=
- =?us-ascii?Q?zDsedDJNWofy5pKw62vGxZIYXO+18p8B?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(7416014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Tl6lG9INAXsGi1kGkJ5eK5vM6aVFdTCnHf+FeOSnAfkMF4UTOuYZ7LS7a9tR?=
- =?us-ascii?Q?CpfVaMxltul0rdmhxi6BkNIsLKxjNdftcQeQeJI05A5rV0DZcAcwKKelsDIy?=
- =?us-ascii?Q?RNvfNg9eKs6ShMSUUm69TYsFm3IceNyv09Z1F+wB8FFLEqJwvihyQBSMJPtL?=
- =?us-ascii?Q?YtHy4sFWoFdlQ0cIFUdKQVEWzPyKIbmYROOl+aAeY+Njf5v+OBO6Kax+f8Ai?=
- =?us-ascii?Q?q1SEPIvWF6CILt+dbbDLspdXFOuApx2ex2urrNWE40qbgBacw3ldO5BzsXjk?=
- =?us-ascii?Q?QcM2EpzsD6Vb4IvvwtwG2nplg9qInz8xeP+joUlMbNSErSDjMoLCpd6PGYGp?=
- =?us-ascii?Q?5qNgfnoV/oNwjeHl6cGrUAQ3FTFc0dmNPcXe5vVkoKPeHbV6lTnA8Il7ET16?=
- =?us-ascii?Q?ulJG4opfKbZnWeHuVmZI4vMnXhWaxvEWZIF8e1OZ+mrs6xF6jz2pQrrwDBDj?=
- =?us-ascii?Q?IahoBz8DQ0XnqJbIn8Us9K1XyJC8yYGkLyWpY4KcmegCGsvpBw8ZCe3pHks0?=
- =?us-ascii?Q?KkliEKCAh2qcoMMUhmPsTZi45K+juWHDsM52qDSS4nntHx6KjE8yyQ8VO0CI?=
- =?us-ascii?Q?63ZWddimxsiExGNEe+V02VyGBdPNzxUeTjrDDowiOnp0Nb6O+/xe7+V009vz?=
- =?us-ascii?Q?ekjwBaeoQ4AvlVKXzIqeHa/5GXLL7lN9QyppWhO6gff4BZV5BprtNmHb3yp1?=
- =?us-ascii?Q?naFhKUQTC1F4bSbpBwxl5jHZKqmn4ncHCf9W6LlNgO7fwU67vL7hurp5SGdL?=
- =?us-ascii?Q?zEmVq+Wj0YljdfDPmf3vwYmyJ8CISv6Ejo+sguinp2ej+2H+NhQRMy8UnxnN?=
- =?us-ascii?Q?PcOV05LJ+qEESsDo/4nSbmPoSkjflzvrF2T/zc0ifN60H9yQIiwWhgbxlJxj?=
- =?us-ascii?Q?zfQBjoh6YsfikD7qCNpw7tHiTqUr6WxKxrcriLg2dUsczgpk2egnyjS8VypU?=
- =?us-ascii?Q?gpAYVgKdwRnQGsHbMgAXzOk04ARL6UA0gIvs2BUifzqmf89G+f3sXY5rNTFb?=
- =?us-ascii?Q?Q2AAfjCjrD4r/ZcmHuRu7lwj2sHqFDidjH+bz63EVAXoK2FwSVrRpCIkSgmD?=
- =?us-ascii?Q?Uik37IwydsRCc0aXJ1KDU9kXzGlMfdIXIzLEgexhepvQg5ZodTja6uF4o5YK?=
- =?us-ascii?Q?rvO/UE27JWS/2fsUzrPRTEGZb6e+xp5vBvtSOY9Bqau0OWeKzB9mrPMYki4+?=
- =?us-ascii?Q?J+iS8SqXVfP6pzNQ3xG6UG86oPMOM3l1ZO2ZzagwYV+v16zH+akHI+o234ge?=
- =?us-ascii?Q?Zi5Fd+DiwPEYn6YPF1TCTabpocv6OK2rPROvIrh0xUlAovabE10hsbgw4xkI?=
- =?us-ascii?Q?rVGstiKZk5IBil0jZr28SZ7PfqJkiVfgIvMcyFNTdEajFKCkUChNb8A4V8Ex?=
- =?us-ascii?Q?n56KSzhMU8XE/lx/6vuW0s8PW92uKSh3925DR7BKdoROTg0Gvu7Hasj2Mx2X?=
- =?us-ascii?Q?0nu4Jhq57JDEVLVesQt/APfUDSxQL4bU/B5MbR8EyomSeBPHD4FwLTOH7qt1?=
- =?us-ascii?Q?++IqRqfkrQkBvIWZOWWIK5d9KiwDFQ0DobfMKybgvyalLGSXRu1hdrUhonh3?=
- =?us-ascii?Q?rhtL8G0bmCXpsr0XtU164zuxGsU13lb5YF5jfiJd?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc190715-24cb-40a0-b2be-08dd46af56ab
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2025 13:08:24.4953
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zfVZNHr4WXNSC/NfSx+tkxbcwp9K+qlkwGnfi8DZF3ZdiaY/y0D1HwR2RMqmWRySeksZoNH5tTzn8VpOnPu0Ag==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB7143
+References: <20250205-clk-ssc-v2-0-fa73083caa92@nxp.com> <20250205-clk-ssc-v2-3-fa73083caa92@nxp.com>
+ <CABGWkvqXf0ZmJKofrbahB5N5uer6ye6Q4s_PXz_Z61vG2pMu=g@mail.gmail.com> <PAXPR04MB8459F1CE0E8049355ADC9F3C88F62@PAXPR04MB8459.eurprd04.prod.outlook.com>
+In-Reply-To: <PAXPR04MB8459F1CE0E8049355ADC9F3C88F62@PAXPR04MB8459.eurprd04.prod.outlook.com>
+From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Date: Thu, 6 Feb 2025 16:31:46 +0100
+X-Gm-Features: AWEUYZnQk9hBdobcOkaoMUgqLWtL6CPT5MwibT2ZdKB14CAL3v3eIVCfdwwIt1Y
+Message-ID: <CABGWkvrKe6az5XR=MvdMwBOfeXqd5yPoF4Yf4pqyyGPD4Kpvpg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] clk: imx: pll14xx: support spread spectrum clock generation
+To: Peng Fan <peng.fan@nxp.com>
+Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Russell King <linux@armlinux.org.uk>, 
+	Sudeep Holla <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>, 
+	Abel Vesa <abelvesa@kernel.org>, 
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, "imx@lists.linux.dev" <imx@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 06, 2025 at 02:46:27PM +0300, Dan Carpenter wrote:
->On Thu, Feb 06, 2025 at 02:40:11PM +0300, Dan Carpenter wrote:
->> On Thu, Feb 06, 2025 at 07:05:08PM +0800, Peng Fan wrote:
->> > Hi Dan,
->> > 
->> > On Thu, Feb 06, 2025 at 11:02:04AM +0300, Dan Carpenter wrote:
->> > >On Mon, Jan 20, 2025 at 03:13:30PM +0800, Peng Fan (OSS) wrote:
->> > >> From: Peng Fan <peng.fan@nxp.com>
->> > >> 
->> > >> There are two cases:
->> > >> pinctrl-scmi.c and pinctrl-imx-scmi.c, both use SCMI_PROTOCOL_PINCTRL.
->> > >> If both drivers are built in, and the scmi device with name "pinctrl-imx"
->> > >> is created earlier, and the fwnode device points to the scmi device,
->> > >> non-i.MX platforms will never have the pinctrl supplier ready.
->> > >> 
->> > >> Vendor A use 0x80 for feature X, Vendor B use 0x80 for feature Y.
->> > >> With both drivers built in, two scmi devices will be created, and both
->> > >> drivers will be probed. On A's patform, feature Y probe may fail, vice
->> > >> verus.
->> > >> 
->> > >> Introduce machine_allowlist and machine_blocklist to allow or block
->> > >> the creation of scmi devices to address above issues.
->> > >> 
->> > >> machine_blocklist is non-vendor protocols, but vendor has its own
->> > >> implementation. Saying need to block pinctrl-scmi.c on i.MX95.
->> > >> machine_allowlist is for vendor protocols. Saying vendor A drivers only
->> > >> allow vendor A machine, vendor B machines only allow vendor B machine.
->> > >> 
->> > >
->> > >I think patches 2-4 should be combined into one patch.  This commit
->> > 
->> > They are in different subsystems, so I separate them.
->> > 
->> 
->> I mean if the i.MX driver prevents the generic driver from working then
->> we need a Fixes tag.  It really makes it simpler to understand and backport
->> if they're sent as one patch.  Normally we would collect Acks from the
->> maintainers who're involved and but still do it as one patch.
->> 
+Hi Peng,
+
+On Thu, Feb 6, 2025 at 1:53=E2=80=AFAM Peng Fan <peng.fan@nxp.com> wrote:
 >
->Wait.  Just to be clear.  Does PATCH 1/4 fix that bug so that when both
->are built-in then the generic driver works?  This is in some ways an
->alternative way to fix the same bug as well as being a cleanup?
+> > Subject: Re: [PATCH v2 3/4] clk: imx: pll14xx: support spread spectrum
+> > clock generation
+> >
+> > Hi Peng,
+> >
+> > On Wed, Feb 5, 2025 at 10:51=E2=80=AFAM Peng Fan (OSS)
+> > <peng.fan@oss.nxp.com> wrote:
+> > >
+> > > From: Peng Fan <peng.fan@nxp.com>
+> > >
+> > > Add support for spread spectrum clock (SSC) generation to the
+> > pll14xxx
+> > > driver.
+> > >
+> > > Co-developed-by: Dario Binacchi
+> > <dario.binacchi@amarulasolutions.com>
+> > > Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> > > Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> >
+> > It doesn=E2=80=99t seem right to me.
+> > You can=E2=80=99t take 90% of my patch, where the SSC management was
+> > actually implemented, add 10%, and consider yourself the author of
+> > the patch.
+> > Please correct it in version 3.
+>
+> Ah. But if you look into the patches, 10% is not accurate
+> per lines I change.
+> you could see more changes compared with your patch
+> https://lore.kernel.org/all/20250118124044.157308-18-dario.binacchi@amaru=
+lasolutions.com/.
+>
+> 1. Use set_spread_spectrm ops
+> 2. Use clk_spread_spectrum to replace imx_pll14xx_ssc
+> 3. Drop imx_clk_pll14xx_ssc_parse_dt and clk_pll14xx_ssc_mod_type. This o=
+ne would
+>  count over 50% changes.
+>
+> The logic that I only did minor update is the function
+> clk_pll1443x_enable_ssc with switching to use clk_spread_sectrum
 
-patch 1/4 is not related to the pinctrl stuff. It could be a standalone
-patch, I put it in this patchset, just because all are related to fwdevlink.
+Sorry if I miscounted the lines, but here we are not considering who
+actually implemented
+the algorithmic part of the SSC management and all the time spent
+testing the code on more
+than one platform/board with each submission of the series for all 9 versio=
+ns.
 
-Thanks,
-Peng
+[1] https://lore.kernel.org/all/20250118124044.157308-18-dario.binacchi@ama=
+rulasolutions.com/
+
+Your changes, which are unnecessary for the clk-scmi.c changes, only
+serve to support the
+DT binding `assigned-clock-sscs`, which, as Krzysztof also reiterated:
+
+https://github.com/devicetree-org/dt-schema/pull/154
+
+you should have proposed during the review of series [1]. You are the
+NXP reviewer.
 
 >
->regards,
->dan carpenter
+> If you think it is not fair, I could drop this patch in V3 and leave it t=
+o you to handle.
+> I take this patch in the patchset, mainly to ease your work and make
+
+Sorry for quoting Krzysztof again, but:
+"Three months iMX8 patchsets, multiple reviews and no single comment
+from you till January!"
+
+So please, if you really want to ease my work, then remove this patch
+from this series and resume
+reviewing series [1].
+
+Thanks and regards,
+Dario
+
+> assigned-clock-sscs moving forward, considering SCMI spec needs update
+> (clk-scmi.c changes will not land soon).
 >
+> Regards
+> Peng.
+>
+> >
+> > Thanks and regards,
+> > Dario
+> >
+> > > ---
+> > >  drivers/clk/imx/clk-pll14xx.c | 66
+> > > +++++++++++++++++++++++++++++++++++++++++++
+> > >  1 file changed, 66 insertions(+)
+> > >
+> > > diff --git a/drivers/clk/imx/clk-pll14xx.c
+> > > b/drivers/clk/imx/clk-pll14xx.c index
+> > >
+> > f290981ea13bdba3602af7aa44aaadfe0b78dcf9..3bdce762a9d651a6fb
+> > 048dcbf58d
+> > > b396af9d3aaf 100644
+> > > --- a/drivers/clk/imx/clk-pll14xx.c
+> > > +++ b/drivers/clk/imx/clk-pll14xx.c
+> > > @@ -20,6 +20,8 @@
+> > >  #define GNRL_CTL       0x0
+> > >  #define DIV_CTL0       0x4
+> > >  #define DIV_CTL1       0x8
+> > > +#define SSCG_CTRL      0xc
+> > > +
+> > >  #define LOCK_STATUS    BIT(31)
+> > >  #define LOCK_SEL_MASK  BIT(29)
+> > >  #define CLKE_MASK      BIT(11)
+> > > @@ -31,15 +33,26 @@
+> > >  #define KDIV_MASK      GENMASK(15, 0)
+> > >  #define KDIV_MIN       SHRT_MIN
+> > >  #define KDIV_MAX       SHRT_MAX
+> > > +#define SSCG_ENABLE    BIT(31)
+> > > +#define MFREQ_CTL_MASK GENMASK(19, 12) #define
+> > MRAT_CTL_MASK
+> > > +GENMASK(9, 4)
+> > > +#define SEL_PF_MASK    GENMASK(1, 0)
+> > >
+> > >  #define LOCK_TIMEOUT_US                10000
+> > >
+> > > +enum imx_pll14xx_ssc_mod_type {
+> > > +       IMX_PLL14XX_SSC_DOWN_SPREAD,
+> > > +       IMX_PLL14XX_SSC_UP_SPREAD,
+> > > +       IMX_PLL14XX_SSC_CENTER_SPREAD, };
+> > > +
+> > >  struct clk_pll14xx {
+> > >         struct clk_hw                   hw;
+> > >         void __iomem                    *base;
+> > >         enum imx_pll14xx_type           type;
+> > >         const struct imx_pll14xx_rate_table *rate_table;
+> > >         int rate_count;
+> > > +       struct clk_spread_spectrum      ssc_conf;
+> > >  };
+> > >
+> > >  #define to_clk_pll14xx(_hw) container_of(_hw, struct clk_pll14xx, hw=
+)
+> > > @@ -349,6 +362,42 @@ static int clk_pll1416x_set_rate(struct
+> > clk_hw *hw, unsigned long drate,
+> > >         return 0;
+> > >  }
+> > >
+> > > +static void clk_pll1443x_enable_ssc(struct clk_hw *hw, unsigned
+> > long parent_rate,
+> > > +                                   unsigned int pdiv, unsigned int
+> > > +mdiv) {
+> > > +       struct clk_pll14xx *pll =3D to_clk_pll14xx(hw);
+> > > +       struct clk_spread_spectrum *conf =3D &pll->ssc_conf;
+> > > +       u32 sscg_ctrl, mfr, mrr, mod_type;
+> > > +
+> > > +       sscg_ctrl =3D readl_relaxed(pll->base + SSCG_CTRL);
+> > > +       sscg_ctrl &=3D
+> > > +               ~(SSCG_ENABLE | MFREQ_CTL_MASK | MRAT_CTL_MASK |
+> > > + SEL_PF_MASK);
+> > > +
+> > > +       mfr =3D parent_rate / (conf->modfreq * pdiv * (1 << 5));
+> > > +       mrr =3D ((conf->spreaddepth / 100) * mdiv * (1 << 6)) / (100 =
+*
+> > > + mfr);
+> > > +
+> > > +       switch (conf->method) {
+> > > +       case CLK_SSC_CENTER_SPREAD:
+> > > +               mod_type =3D IMX_PLL14XX_SSC_CENTER_SPREAD;
+> > > +               break;
+> > > +       case CLK_SSC_UP_SPREAD:
+> > > +               mod_type =3D IMX_PLL14XX_SSC_UP_SPREAD;
+> > > +               break;
+> > > +       case CLK_SSC_DOWN_SPREAD:
+> > > +               mod_type =3D IMX_PLL14XX_SSC_DOWN_SPREAD;
+> > > +               break;
+> > > +       default:
+> > > +               mod_type =3D IMX_PLL14XX_SSC_DOWN_SPREAD;
+> > > +               break;
+> > > +       }
+> > > +
+> > > +       sscg_ctrl |=3D SSCG_ENABLE | FIELD_PREP(MFREQ_CTL_MASK,
+> > mfr) |
+> > > +               FIELD_PREP(MRAT_CTL_MASK, mrr) |
+> > > +               FIELD_PREP(SEL_PF_MASK, mod_type);
+> > > +
+> > > +       writel_relaxed(sscg_ctrl, pll->base + SSCG_CTRL); }
+> > > +
+> > >  static int clk_pll1443x_set_rate(struct clk_hw *hw, unsigned long
+> > drate,
+> > >                                  unsigned long prate)  { @@ -370,6
+> > > +419,9 @@ static int clk_pll1443x_set_rate(struct clk_hw *hw,
+> > unsigned long drate,
+> > >                 writel_relaxed(FIELD_PREP(KDIV_MASK, rate.kdiv),
+> > >                                pll->base + DIV_CTL1);
+> > >
+> > > +               if (pll->ssc_conf.enable)
+> > > +                       clk_pll1443x_enable_ssc(hw, prate, rate.pdiv,
+> > > + rate.mdiv);
+> > > +
+> > >                 return 0;
+> > >         }
+> > >
+> > > @@ -410,6 +462,9 @@ static int clk_pll1443x_set_rate(struct
+> > clk_hw *hw, unsigned long drate,
+> > >         gnrl_ctl &=3D ~BYPASS_MASK;
+> > >         writel_relaxed(gnrl_ctl, pll->base + GNRL_CTL);
+> > >
+> > > +       if (pll->ssc_conf.enable)
+> > > +               clk_pll1443x_enable_ssc(hw, prate, rate.pdiv,
+> > > + rate.mdiv);
+> > > +
+> > >         return 0;
+> > >  }
+> > >
+> > > @@ -465,6 +520,16 @@ static void clk_pll14xx_unprepare(struct
+> > clk_hw *hw)
+> > >         writel_relaxed(val, pll->base + GNRL_CTL);  }
+> > >
+> > > +static int clk_pll1443x_set_spread_spectrum(struct clk_hw *hw,
+> > > +                                           struct clk_spread_spectru=
+m
+> > > +*clk_ss) {
+> > > +       struct clk_pll14xx *pll =3D to_clk_pll14xx(hw);
+> > > +
+> > > +       memcpy(&pll->ssc_conf, clk_ss, sizeof(pll->ssc_conf));
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > >  static const struct clk_ops clk_pll1416x_ops =3D {
+> > >         .prepare        =3D clk_pll14xx_prepare,
+> > >         .unprepare      =3D clk_pll14xx_unprepare,
+> > > @@ -485,6 +550,7 @@ static const struct clk_ops clk_pll1443x_ops
+> > =3D {
+> > >         .recalc_rate    =3D clk_pll14xx_recalc_rate,
+> > >         .round_rate     =3D clk_pll1443x_round_rate,
+> > >         .set_rate       =3D clk_pll1443x_set_rate,
+> > > +       .set_spread_spectrum =3D clk_pll1443x_set_spread_spectrum,
+> > >  };
+> > >
+> > >  struct clk_hw *imx_dev_clk_hw_pll14xx(struct device *dev, const
+> > char
+> > > *name,
+> > >
+> > > --
+> > > 2.37.1
+> > >
+> >
+> >
+> > --
+> >
+> > Dario Binacchi
+> >
+> > Senior Embedded Linux Developer
+> >
+> > dario.binacchi@amarulasolutions.com
+> >
+> > __________________________________
+> >
+> >
+> > Amarula Solutions SRL
+> >
+> > Via Le Canevare 30, 31100 Treviso, Veneto, IT
+> >
+> > T. +39 042 243 5310
+> > info@amarulasolutions.com
+> >
+> > https://eur01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2F
+> > www.amarulasolutions.com%2F&data=3D05%7C02%7Cpeng.fan%40nxp.
+> > com%7Cbeaf5bdcc6694a5a1a1708dd45d701db%7C686ea1d3bc2b4c6
+> > fa92cd99c5c301635%7C0%7C0%7C638743511953067272%7CUnkno
+> > wn%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDA
+> > wMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C
+> > %7C%7C&sdata=3DUFgy1bS7QJ7qenzKFTkPBNfOGn0V89CGR9NLOBka0U
+> > 8%3D&reserved=3D0
+
+
+
+--=20
+
+Dario Binacchi
+
+Senior Embedded Linux Developer
+
+dario.binacchi@amarulasolutions.com
+
+__________________________________
+
+
+Amarula Solutions SRL
+
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+
+T. +39 042 243 5310
+info@amarulasolutions.com
+
+www.amarulasolutions.com
