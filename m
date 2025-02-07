@@ -1,82 +1,133 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174F01917D0;
-	Fri,  7 Feb 2025 01:39:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58FF2417F5
+	for <arm-scmi@vger.kernel.org>; Fri,  7 Feb 2025 08:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738892400; cv=none; b=hVWpcpBu4x+HrXinUPiPuhdXZsasIxZzadtlgVCdCydN/o9Rfd24o4wrVnc5vvNMEUf296S4wbIP2FlDdehIfp5TeelqbWhv9EKt1ol057axSuwhSi1m1LR/7MBOOxAJgCu6frW+7kSxAfbOHJ1g1CCK/2PT0+d481epQLxU4vU=
+	t=1738916679; cv=none; b=RPoF5o5jKSCxKMkSIgIbPuqxXyB8fow0l8fcHEOc6tW26bDU0ycJO9VuaCK2hv6wcN0W2FNue16B42yC7TbG8AY47vCQB4EcEzGHKrdF4hBofe6Fz4BMty8u3yax9W0QxrGqtVExqxOdWf9puIyDfkgxHsE+R5HubTRXbCAuNOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738892400; c=relaxed/simple;
-	bh=txYL5vHk4cRuMflmnp/SyGG+L6ZQPYHZeWaTctmwH0k=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rKsc6/xjvBnG8dhjws9ZekLgfo6i8lBJY/2eo/vFUOpzYsSCjSeJ1L7harNqL64MQQV9B1zJPHvM6WSN18rr4tLjJl8M7BxzIOvrTqcOVtjsOOr2ASYChjLmbc4Fpsew5olnHDRwQiWUVZ7NdgI2vyVL58WMLcivh+z+ab/j7s0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.48])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4YpxPN4fb4z11Pg3;
-	Fri,  7 Feb 2025 09:35:36 +0800 (CST)
-Received: from kwepemf500003.china.huawei.com (unknown [7.202.181.241])
-	by mail.maildlp.com (Postfix) with ESMTPS id F249D180064;
-	Fri,  7 Feb 2025 09:39:56 +0800 (CST)
-Received: from huawei.com (10.175.112.208) by kwepemf500003.china.huawei.com
- (7.202.181.241) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 7 Feb
- 2025 09:39:54 +0800
-From: Zhang Zekun <zhangzekun11@huawei.com>
-To: <robh@kernel.org>, <saravanak@google.com>, <justin.chen@broadcom.com>,
-	<florian.fainelli@broadcom.com>, <andrew+netdev@lunn.ch>, <kuba@kernel.org>,
-	<o.rempel@pengutronix.de>, <kory.maincent@bootlin.com>,
-	<jacopo+renesas@jmondi.org>, <kieran.bingham+renesas@ideasonboard.com>,
-	<laurent.pinchart+renesas@ideasonboard.com>, <maddy@linux.ibm.com>,
-	<mpe@ellerman.id.au>, <npiggin@gmail.com>, <olteanv@gmail.com>,
-	<davem@davemloft.net>, <taras.chornyi@plvision.eu>, <edumazet@google.com>,
-	<pabeni@redhat.com>, <sudeep.holla@arm.com>, <cristian.marussi@arm.com>
-CC: <arm-scmi@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
-	<linux-media@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <chenjun102@huawei.com>,
-	<zhangzekun11@huawei.com>
-Subject: [PATCH 9/9] regulator: scmi: Use of_find_node_by_name_balanced() to find device_node
-Date: Fri, 7 Feb 2025 09:31:17 +0800
-Message-ID: <20250207013117.104205-10-zhangzekun11@huawei.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20250207013117.104205-1-zhangzekun11@huawei.com>
+	s=arc-20240116; t=1738916679; c=relaxed/simple;
+	bh=kI4Fyn7CvsZ6t9HvUQsul7UYVpT9ozBs0hE2VBctCOQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PvB+6ThLMG1RMClOMu1GqCeSazpJJlgfkoLtDUYIgYCG6HIvGLSSUdX8mGfS3pwZgitJRBYKEpKxwehovioFQ2EWdUuXInzXegqLfEHXKoeEX91xgd2SGiFObwaCwMGoxV2baYWDcaEaDNlDQspNVqP73gOP48FHeABi46qH5zA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tgJep-0000UF-AY; Fri, 07 Feb 2025 09:24:15 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tgJek-003whN-2j;
+	Fri, 07 Feb 2025 09:24:10 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tgJek-001cd8-2G;
+	Fri, 07 Feb 2025 09:24:10 +0100
+Date: Fri, 7 Feb 2025 09:24:10 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Zhang Zekun <zhangzekun11@huawei.com>
+Cc: robh@kernel.org, saravanak@google.com, justin.chen@broadcom.com,
+	florian.fainelli@broadcom.com, andrew+netdev@lunn.ch,
+	kuba@kernel.org, kory.maincent@bootlin.com,
+	jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
+	laurent.pinchart+renesas@ideasonboard.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, npiggin@gmail.com, olteanv@gmail.com,
+	davem@davemloft.net, taras.chornyi@plvision.eu, edumazet@google.com,
+	pabeni@redhat.com, sudeep.holla@arm.com, cristian.marussi@arm.com,
+	arm-scmi@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-media@vger.kernel.org, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, chenjun102@huawei.com
+Subject: Re: [PATCH 1/9] of: Add warpper function
+ of_find_node_by_name_balanced()
+Message-ID: <Z6XDKi_V0BZSdCeL@pengutronix.de>
 References: <20250207013117.104205-1-zhangzekun11@huawei.com>
+ <20250207013117.104205-2-zhangzekun11@huawei.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemf500003.china.huawei.com (7.202.181.241)
+In-Reply-To: <20250207013117.104205-2-zhangzekun11@huawei.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: arm-scmi@vger.kernel.org
 
-Instead of directly using of_node_get() before of_find_node_by_name()
-to balance the refcount of the device_node, using wraper function
-of_find_node_by_name_balanced() to make code logic a bit simplier.
+On Fri, Feb 07, 2025 at 09:31:09AM +0800, Zhang Zekun wrote:
+> There are many drivers use of_find_node_by_name() with a not-NULL
+> device_node pointer, and a number of callers would require a call to
+> of_node_get() before using it. There are also some drivers who forget
+> to call of_node_get() which would cause a ref count leak[1]. So, Add a
+> wraper function for of_find_node_by_name(), drivers may use this function
+> to call of_find_node_by_name() with the refcount already balanced.
+> 
+> [1] https://lore.kernel.org/all/20241024015909.58654-1-zhangzekun11@huawei.com/
 
-Signed-off-by: Zhang Zekun <zhangzekun11@huawei.com>
----
- drivers/regulator/scmi-regulator.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Hi Zhang Zekun,
 
-diff --git a/drivers/regulator/scmi-regulator.c b/drivers/regulator/scmi-regulator.c
-index 9df726f10ad1..11f75c13bdf0 100644
---- a/drivers/regulator/scmi-regulator.c
-+++ b/drivers/regulator/scmi-regulator.c
-@@ -339,8 +339,7 @@ static int scmi_regulator_probe(struct scmi_device *sdev)
- 	 * plausible SCMI Voltage Domain number, all belonging to this SCMI
- 	 * platform instance node (handle->dev->of_node).
- 	 */
--	of_node_get(handle->dev->of_node);
--	np = of_find_node_by_name(handle->dev->of_node, "regulators");
-+	np = of_find_node_by_name_balanced(handle->dev->of_node, "regulators");
- 	for_each_child_of_node_scoped(np, child) {
- 		ret = process_scmi_regulator_of_node(sdev, ph, child, rinfo);
- 		/* abort on any mem issue */
+thank you for working on this issue!
+
+First of all, let's take a step back and analyze the initial problem.
+Everything following is only my opinion...
+
+The main issue I see is that the current API - of_find_node_by_name -
+modifies the refcount of its input by calling of_node_put(from) as part
+of its search. Typically, a "find" function is expected to treat its
+input as read-only. That is, when you pass an object into such a
+function, you expect its reference count to remain unchanged unless
+ownership is explicitly transferred. In this case, lowering the refcount
+on the input node is counterintuitive and already lead to unexpected
+behavior and subtle bugs.
+
+To address this, the workaround introduces a wrapper function,
+of_find_node_by_name_balanced, which first increments the input’s
+refcount (via of_node_get()) before calling the original function. While
+this "balances" the refcount change, the naming remains problematic from
+my perspective. The "_balanced" suffix isn’t part of our common naming
+conventions (traditions? :)). Most drivers expect that a function
+starting with "find" will not alter the reference count of its input.
+The term "balanced" doesn’t clearly convey that the input's refcount is
+being explicitly managed - it instead obscures the underlying behavior,
+leaving many developers confused about what guarantees the API provides.
+
+In my view, a more natural solution would be to redesign the API so that
+it doesn’t modify the input object’s refcount at all. Instead, it should
+solely increase the refcount of the returned node (if found) for safe
+asynchronous usage. This approach would align with established
+conventions where "find" implies no side effects on inputs or output,
+and a "get" indicates that the output comes with an extra reference. For
+example, a function named of_get_node_by_name would clearly signal that
+only the returned node is subject to a refcount increase while leaving
+the input intact.
+
+Thus, while the current workaround "balances" the reference count, it
+doesn't address the underlying design flaw. The naming still suggests a
+"find" function that should leave the input untouched, which isn’t the
+case here. A redesign of the API - with both the behavior and naming
+aligned to common expectations - would be a clearer and more robust
+solution.
+
+Nevertheless, it is only my POV, and the final decision rests with the
+OpenFirmware framework maintainers.
+
+Best Regards,
+Oleksij
 -- 
-2.22.0
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
