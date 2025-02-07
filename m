@@ -1,136 +1,118 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167A61DED6B;
-	Fri,  7 Feb 2025 11:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91D271E1A33;
+	Fri,  7 Feb 2025 13:14:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738927722; cv=none; b=KJKmCEhxnBk8TljPdcveaUnrPUgkgI5mpD0Jgwok2zD29nzpoRgaRXs8uX4W8ItcbKrGjqeHHAqA/ugRA/uSQcKCslOy1oi+ccVzOp5XJqi82WJHiZKlSCx3jHiwfkz83f6TxcNB/fzfrgDx8fNpB2uq52ks6QTf2Ptt7OOFTXY=
+	t=1738934095; cv=none; b=XzQtAyGTotTVvDlI9jyNM0L/0Dook+pI9C70mxOyVHdwhi7Idt/i45hCvYvQmwGnLOYNTzIudPjw2r5mh1hrvgc/9Kgyzrn8KAq1lVdkm4yFwne2mj+H2kp5wjzNLut2BKC8R0QYwn7qlVPxoSMoegT6CXF1HiDNztPyjxBs/5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738927722; c=relaxed/simple;
-	bh=rE6lHm65mg1GEw5D+xuDHshi7zGvNb59fTyiTc+SPsE=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
-	 In-Reply-To:Content-Type; b=RVTq9dpHcXvEJeBzYxVIFzE31rODai/+7UgbGYbykRb0kpuyQxBn0YwXQpbSIBGCNu8KB3rGXgcoDAKfiTzIjK2rVgMaA7vMR7ultPDdwnSdHMj64bf9bGqbY27Rzi6zK1WuQundR7VbnJlmIPrs0Cw95XIvxxgGOOLMAlUSXp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.194])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4YqBST5ps2z11Pm5;
-	Fri,  7 Feb 2025 19:24:09 +0800 (CST)
-Received: from kwepemf500003.china.huawei.com (unknown [7.202.181.241])
-	by mail.maildlp.com (Postfix) with ESMTPS id A6F821400D5;
-	Fri,  7 Feb 2025 19:28:30 +0800 (CST)
-Received: from [10.174.176.82] (10.174.176.82) by
- kwepemf500003.china.huawei.com (7.202.181.241) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 7 Feb 2025 19:28:28 +0800
-Message-ID: <80b1c21c-096b-4a11-b9d7-069c972b146a@huawei.com>
-Date: Fri, 7 Feb 2025 19:28:23 +0800
+	s=arc-20240116; t=1738934095; c=relaxed/simple;
+	bh=OW7OP/NQ49fQv/lKJd6pSJwjF7WpKW61USJQD2CXCbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fU0rzIEQMzjKA/liA8WBmureVKtkXo7cGXnK2nFcB/oY+H4BlWPeLZ7xdbonGSlmfLujWQyeCFYMvksfY4g2XkKv/l9air5I0b0s14w3I/Huj5i+kX8q51XB0/ZlrUhsIHKu575OyUSwj6kKyoD4mjYoELDY46exyiMckWJzrZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A3F50113E;
+	Fri,  7 Feb 2025 05:15:15 -0800 (PST)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7FE453F63F;
+	Fri,  7 Feb 2025 05:14:49 -0800 (PST)
+Date: Fri, 7 Feb 2025 13:14:46 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Peng Fan <peng.fan@oss.nxp.com>
+Cc: Peng Fan <peng.fan@nxp.com>,
+	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Abel Vesa <abelvesa@kernel.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>
+Subject: Re: [PATCH v2 3/4] clk: imx: pll14xx: support spread spectrum clock
+ generation
+Message-ID: <Z6YHRlxJG4V56wrZ@bogus>
+References: <20250205-clk-ssc-v2-0-fa73083caa92@nxp.com>
+ <20250205-clk-ssc-v2-3-fa73083caa92@nxp.com>
+ <CABGWkvqXf0ZmJKofrbahB5N5uer6ye6Q4s_PXz_Z61vG2pMu=g@mail.gmail.com>
+ <PAXPR04MB8459F1CE0E8049355ADC9F3C88F62@PAXPR04MB8459.eurprd04.prod.outlook.com>
+ <CABGWkvrKe6az5XR=MvdMwBOfeXqd5yPoF4Yf4pqyyGPD4Kpvpg@mail.gmail.com>
+ <Z6TgesTZklGvmI56@bogus>
+ <20250207112622.GB14860@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: "zhangzekun (A)" <zhangzekun11@huawei.com>
-Subject: Re: [PATCH 1/9] of: Add warpper function
- of_find_node_by_name_balanced()
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-CC: <robh@kernel.org>, <saravanak@google.com>, <justin.chen@broadcom.com>,
-	<florian.fainelli@broadcom.com>, <andrew+netdev@lunn.ch>, <kuba@kernel.org>,
-	<kory.maincent@bootlin.com>, <jacopo+renesas@jmondi.org>,
-	<kieran.bingham+renesas@ideasonboard.com>,
-	<laurent.pinchart+renesas@ideasonboard.com>, <maddy@linux.ibm.com>,
-	<mpe@ellerman.id.au>, <npiggin@gmail.com>, <olteanv@gmail.com>,
-	<davem@davemloft.net>, <taras.chornyi@plvision.eu>, <edumazet@google.com>,
-	<pabeni@redhat.com>, <sudeep.holla@arm.com>, <cristian.marussi@arm.com>,
-	<arm-scmi@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
-	<linux-media@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <chenjun102@huawei.com>
-References: <20250207013117.104205-1-zhangzekun11@huawei.com>
- <20250207013117.104205-2-zhangzekun11@huawei.com>
- <Z6XDKi_V0BZSdCeL@pengutronix.de>
-In-Reply-To: <Z6XDKi_V0BZSdCeL@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemf500003.china.huawei.com (7.202.181.241)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250207112622.GB14860@localhost.localdomain>
 
+On Fri, Feb 07, 2025 at 07:26:22PM +0800, Peng Fan wrote:
+> Hi Sudeep,
+>
+> V2 is actually 2 weeks after V1. So after addressing the comments
+> from Stephen and Dan, also updated clk-scmi.c to use a non-vendor
+> changes, I posted out V2.
+>
 
+Sure, but as I said you posted on the very first day of the merge window.
+So 2 weeks just cover the end of merge window.
 
-在 2025/2/7 16:24, Oleksij Rempel 写道:
-> On Fri, Feb 07, 2025 at 09:31:09AM +0800, Zhang Zekun wrote:
->> There are many drivers use of_find_node_by_name() with a not-NULL
->> device_node pointer, and a number of callers would require a call to
->> of_node_get() before using it. There are also some drivers who forget
->> to call of_node_get() which would cause a ref count leak[1]. So, Add a
->> wraper function for of_find_node_by_name(), drivers may use this function
->> to call of_find_node_by_name() with the refcount already balanced.
->>
->> [1] https://lore.kernel.org/all/20241024015909.58654-1-zhangzekun11@huawei.com/
-> 
-> Hi Zhang Zekun,
-> 
-> thank you for working on this issue!
-> 
-> First of all, let's take a step back and analyze the initial problem.
-> Everything following is only my opinion...
-> 
-> The main issue I see is that the current API - of_find_node_by_name -
-> modifies the refcount of its input by calling of_node_put(from) as part
-> of its search. Typically, a "find" function is expected to treat its
-> input as read-only. That is, when you pass an object into such a
-> function, you expect its reference count to remain unchanged unless
-> ownership is explicitly transferred. In this case, lowering the refcount
-> on the input node is counterintuitive and already lead to unexpected
-> behavior and subtle bugs.
-> 
-> To address this, the workaround introduces a wrapper function,
-> of_find_node_by_name_balanced, which first increments the input’s
-> refcount (via of_node_get()) before calling the original function. While
-> this "balances" the refcount change, the naming remains problematic from
-> my perspective. The "_balanced" suffix isn’t part of our common naming
-> conventions (traditions? :)). Most drivers expect that a function
-> starting with "find" will not alter the reference count of its input.
-> The term "balanced" doesn’t clearly convey that the input's refcount is
-> being explicitly managed - it instead obscures the underlying behavior,
-> leaving many developers confused about what guarantees the API provides.
-> 
-> In my view, a more natural solution would be to redesign the API so that
-> it doesn’t modify the input object’s refcount at all. Instead, it should
-> solely increase the refcount of the returned node (if found) for safe
-> asynchronous usage. This approach would align with established
-> conventions where "find" implies no side effects on inputs or output,
-> and a "get" indicates that the output comes with an extra reference. For
-> example, a function named of_get_node_by_name would clearly signal that
-> only the returned node is subject to a refcount increase while leaving
-> the input intact.
-> 
-> Thus, while the current workaround "balances" the reference count, it
-> doesn't address the underlying design flaw. The naming still suggests a
-> "find" function that should leave the input untouched, which isn’t the
-> case here. A redesign of the API - with both the behavior and naming
-> aligned to common expectations - would be a clearer and more robust
-> solution.
-> 
-> Nevertheless, it is only my POV, and the final decision rests with the
-> OpenFirmware framework maintainers.
-> 
-> Best Regards,
-> Oleksij
+> 2 days, this is just after got Cristian's comments. Then I posted V2.
+> I try to follow your working style on handling scmi patches, but seems you are
+> not active, so I mainly count on Cristian's comments and update patches.
+>
 
-Hi, Oleksij,
+Yes, his comments were for more discussions internally and externally.
+Not to churn up another patch set.
 
-Thanks for your review. I think redesign the API would be a fundamental 
-way to fix this issue, but it would cause impact for current users who 
-knows the exact functionality of of_find_node_by_name(), which need to 
-put the "from" before calling it (I can't make the assumption that all 
-of drivers calling of_find_node_by_name() with a not-NULL "from" 
-pointer, but not calling of_node_get() before is misuse). The basic idea 
-for adding a new function is try not to impact current users. For users 
-who are confused about the "_balanced" suffix,the comments of 
-of_find_node_by_name() explains why this interface exists.
+> The i.MX pll patches in V2 is orthogonal to clk scmi, I did not expect
+> complains. But ...
+>
 
-Thanks,
-Zekun
+Sorry if I overlooked, but with not all the platform specific
+knowledge it is just too much info to consume at once. Again it is
+fine if you don't make it hard but churning newer versions. So please
+give time.
+
+> In my view, maintainers have patchwork to maintain patches. patches send
+> out in merge window will not be reviewed in short time or surely not
+> picked up, I understand this. patches could just be marked new in patchwork.
+> If new version is out, old version just marked as not apply.
+
+Though I don't use patchwork(probably I should not your problem).
+However, sometimes I see all versions to understand the changes and
+evolution sometimes. And it just gets hard if there are too many
+versions in short duration.
+
+> And I use b4 to manage patchset, and each revision has changelog.
+>
+
+Good.
+
+> Indeed I not track merge window since I am not maintainer role. I was
+> not aware this would introduce complain (: I will track the cycle
+> in following days.
+>
+
+I don't say it is a must. But good if you manage to.
+
+I will look at all the pending patches from you soon, give me until
+middle of next week.
+
+--
+Regards,
+Sudeep
