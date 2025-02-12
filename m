@@ -1,45 +1,56 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E46AE208978;
-	Wed, 12 Feb 2025 10:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88AB7230D0E;
+	Wed, 12 Feb 2025 17:01:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739357304; cv=none; b=LlLXyddMUNuiFGbKTfDeJDpkY0lfkDIFQfsDLpechVXNNeOwPKClxQ8X3lZ8+Am/nxINIAWtLYiJwCBZFY+fEFhYFBxyRKfOkcxPt7LzHUp9qDkYqbPcK7Ow+AeitqOZgoWepE+W7HCKPn8VsCEpxnE9a/VxAs4n/uKmb0/IDH8=
+	t=1739379713; cv=none; b=poV2W822BScs5LHaPanEocXRO2Q9f0u4Dtpi921UtWkLCa4Jd/RsJtvwS3mt66TWL9eAPpLi0jNtwt3YsQrvaLhLz2vwZ5Jfy60nVv+7bUkVlKidGAFXhKpGMQJIGrG+SXxg0EiUIFk+9X0oL6B4NDsbz1BBgWba65vX+a3GujM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739357304; c=relaxed/simple;
-	bh=9IF2oBk6bHBAt4J0R6POr79YolbpRn/EuqK+TJfK6W4=;
+	s=arc-20240116; t=1739379713; c=relaxed/simple;
+	bh=f7bsZrSCJK8cknmuE7idaLw1uF5TvWN0yXycVuabkyw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hIsivXhUKDGrhZzVhhAChcSRDqgPyQx8/99YfKnUwRtSDc3P9d4iUhSjnmLTpJINXJ825yb1StdO3vC3IcaKq2zJ/CDRcGOkq9WqaOeBEc6iHQOPhK2o9nun2oazDbjKXKivru9aodYUljChL7hGA+i40gR+9vzBV5jqCskBApY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4DC6512FC;
-	Wed, 12 Feb 2025 02:48:43 -0800 (PST)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 714193F6A8;
-	Wed, 12 Feb 2025 02:48:19 -0800 (PST)
-Date: Wed, 12 Feb 2025 10:48:16 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Peng Fan <peng.fan@oss.nxp.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=QuMzUSF92C+WMX45heSKjXNzrvwWdkQokQ6EK7mKaso7hKD4qbefj5ZLjyGKODlTVbFxLvVXZgVRV8x6BrmrjJDg7Vw5RTE18GR25/X7v25PysqEmQ88ApyxhWe/ZPk6o06m1kHp4XUBzaT4ta68jHe4pVyqV4GMvIcTvKed6L4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nkvwUDIq; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nkvwUDIq"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E03B344288;
+	Wed, 12 Feb 2025 17:01:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1739379708;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tIDxvtWqr76y3j2xTfmMPHMycoVkae0xjT2IX/8T/vg=;
+	b=nkvwUDIqCe5vB1DWqOwWLRbo3G8bL56ZprANHyRUp5ixVPfrcZDZKNSDVsnm30aWHbQ7uB
+	9B0ccFJj5lVDXxVwVjujlSkasHJoCDbOGwcGx+xA+H+537/jhg6I1RyZPtvei+cSdUxZdh
+	gUCehJBOYUxyQYAZ6HmWDKSel+pcwdK0q3maBtTnsuirFim4qt7mM8qVYOtElUN4QAAQ3C
+	emWcl0uAYO6RDmKcqM9v3ScmmJJrsmAETCEisnh6JvZbsp6PAJvBRBJc87VNaN3YOXwnSL
+	OO733W4m3sMViJX2HBMUEw1sy0F8jX+wPpN/Eed4oKwyexv+PmjWzqTnYIapIQ==
+Date: Wed, 12 Feb 2025 18:01:47 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: Peng Fan <peng.fan@oss.nxp.com>, Peng Fan <peng.fan@nxp.com>,
+	"cristian.marussi@arm.com" <cristian.marussi@arm.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>, <arm-scmi@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-	<imx@lists.linux.dev>, Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH 1/4] firmware: arm_scmi: bus: Bypass setting fwnode for
- scmi cpufreq
-Message-ID: <Z6x8cNyDt8rJ73_B@bogus>
-References: <20241225-scmi-fwdevlink-v1-0-e9a3a5341362@nxp.com>
- <20241225-scmi-fwdevlink-v1-1-e9a3a5341362@nxp.com>
- <Z6uFMW94QNpFxQLK@bogus>
- <20250212070120.GD15796@localhost.localdomain>
+	Fabio Estevam <festevam@gmail.com>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>
+Subject: Re: [PATCH 0/4] rtc/scmi: Support multiple RTCs
+Message-ID: <20250212170147ee6863dc@mail.local>
+References: <20250120-rtc-v1-0-08c50830bac9@nxp.com>
+ <20250120102117538ef59b@mail.local>
+ <PAXPR04MB8459968DFDE5979802CC034A88E62@PAXPR04MB8459.eurprd04.prod.outlook.com>
+ <Z6uCCeG2d395ZGDS@bogus>
+ <20250212063532.GB15796@localhost.localdomain>
+ <Z6x7TBSjBFBxGo77@bogus>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -48,51 +59,63 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250212070120.GD15796@localhost.localdomain>
+In-Reply-To: <Z6x7TBSjBFBxGo77@bogus>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeggeegfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheptehlvgigrghnughrvgcuuegvlhhlohhnihcuoegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeegieduueethefhkeegjeevfefhiedujeeuhffgleejgfejgeekueejuefgheeggfenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmegukeejvgemudgsudgsmeeltdekgeemtggtfhgtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmegukeejvgemudgsudgsmeeltdekgeemtggtfhgtpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedufedprhgtphhtthhopehsuhguvggvphdrhhholhhlrgesrghrmhdrtghomhdprhgtphhtthhopehpvghnghdrfhgrnhesohhsshdrnhigphdrtghomhdprhgtphhtthhopehpvghnghdrf
+ hgrnhesnhigphdrtghomhdprhgtphhtthhopegtrhhishhtihgrnhdrmhgrrhhushhsihesrghrmhdrtghomhdprhgtphhtthhopehshhgrfihnghhuoheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshdrhhgruhgvrhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepkhgvrhhnvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopehfvghsthgvvhgrmhesghhmrghilhdrtghomh
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-On Wed, Feb 12, 2025 at 03:01:20PM +0800, Peng Fan wrote:
-> On Tue, Feb 11, 2025 at 05:13:21PM +0000, Sudeep Holla wrote:
-> >On Wed, Dec 25, 2024 at 04:20:44PM +0800, Peng Fan (OSS) wrote:
-> >> From: Peng Fan <peng.fan@nxp.com>
-> >> 
-> >> Two drivers scmi_cpufreq.c and scmi_perf_domain.c both use
-> >> SCMI_PROTCOL_PERF protocol, but with different name, so two scmi devices
-> >> will be created. But the fwnode->dev could only point to one device.
-> >> 
-> >> If scmi cpufreq device created earlier, the fwnode->dev will point to
-> >> the scmi cpufreq device. Then the fw_devlink will link performance
-> >> domain user device(consumer) to the scmi cpufreq device(supplier).
-> >> But actually the performance domain user device, such as GPU, should use
-> >> the scmi perf device as supplier. Also if 'cpufreq.off=1' in bootargs,
-> >> the GPU driver will defer probe always, because of the scmi cpufreq
-> >> device not ready.
-> >> 
-> >> Because for cpufreq, no need use fw_devlink. So bypass setting fwnode
-> >> for scmi cpufreq device.
-> >>
+On 12/02/2025 10:43:24+0000, Sudeep Holla wrote:
+> On Wed, Feb 12, 2025 at 02:35:32PM +0800, Peng Fan wrote:
+> > On Tue, Feb 11, 2025 at 04:59:53PM +0000, Sudeep Holla wrote:
+> > >On Tue, Jan 21, 2025 at 02:31:55PM +0000, Peng Fan wrote:
+> > >> 
+> > >> It is the i.MX SCMI Protocol exports two RTCs using one protocol.
+> > >> 
+> > >> Two RTC devices are created, but share one parent device.
+> > >> 
+> > >> Do you mean each RTC device should have a unique parent device?
+> > >>
+> > >
+> > >Can you point where is this check for unique parent ? I am not so familiar
+> > >with RTC but I couldn't find myself with quick search.
+> > 
+> > The RTC ops takes the rtc parent as input parameter
+> > https://elixir.bootlin.com/linux/v6.13.2/source/drivers/rtc/interface.c#L94
+> > "err = rtc->ops->read_time(rtc->dev.parent, tm);"
+> > 
+> > So in the rtc device driver, there is no way to know which rtc it is just
+> > from the parent device.
 > >
-> >Not 100% sure if above is correct. See:
-> >
-> >Commit 8410e7f3b31e ("cpufreq: scmi: Fix OPP addition failure with a dummy clock provider")
-> >
-> >Am I missing something ?
 > 
-> Could we update juno-scmi.dtsi to use ?
+> If that is the expectation, you could create a platform or normal device
+> per instance of RTC on your platform and slap them as parent device.
+
+This would seem like the proper solution, why not using an MFD or
+auxiliary bus ?
+
 > 
->  &A53_0 {
-> -       clocks = <&scmi_dvfs 1>;
-> +       power-domains = <&scmi_perf x>;
-> +       power-domain-names = "perf";
->  };
->
+> IIUC on any pure DT based system, a device node exists per RTC and hence
+> platform device associated with it. And the RTC devices are created with
+> parent pointing to unique platform device.
+> 
+> > However i.MX SCMI BBM exports two RTCs(id: 0, id: 1), so to make it work for
+> > current RTC framework, we could only pick one RTC and pass the id to BBM
+> > server side.
+> >
+> > I am not sure whether Alexandre wanna me to update the code following each
+> > parent could only support one RTC or else.
+> >
 
-We can, but I retained it so that the clocks property support can be still
-validated until it is removed. I think there are few downstream users of
-it. It is not just the DTS files you need to look at when dealing with
-such things. It is the bindings that matter. Until bindings are not
-deprecated and made obsolete, support must exist even if you modify the
-only user in the upstream DT.
+I want you to keep your changes local to your driver. I already stated
+back in 2018 that you were on your own with the imx-sc driver and that I
+don't like seeing multiple abstractions for existing RTCs. What is the
+actual use case behind needing to access both RTCs using Linux?
+Shouldn't this be handled on your firmware side?
 
---
-Regards,
-Sudeep
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
