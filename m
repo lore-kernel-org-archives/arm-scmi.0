@@ -1,135 +1,133 @@
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5951B20E717;
-	Thu, 13 Feb 2025 10:06:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C3F227E8C;
+	Thu, 13 Feb 2025 11:26:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739441180; cv=none; b=ZZeLkj3sEIfdf6/G3RtYcv1Kyp8pLvjjjnmL0OgZP90IxOpVbwTYIFjOsFiqgLsnW5knmb994uqoOGBX3iAvZnn//QDOHDATsl35S8RP2f4W47z1xVX7E0YrglFQWRiwTmpArAC+A+WtPGv3TmuqJORHqVftUjq7ID8tY7iwUig=
+	t=1739445977; cv=none; b=rM04/yEJGXuqd/kgdJfkgUVcfpQtgPw78AebFNCxW4I0rHiF3Yrmuc9kSfCQmXkiSQmddwl7ijmuSY7HhjfmwhIM8/94HD2SLJ4MKvKkeSSAjtrJV/iJ5/KkuKcb3VhxKw2RvdNqeOenI84uH7Qglt9PEHu9QnrOqd0w1FSBvWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739441180; c=relaxed/simple;
-	bh=T1BdMlO7VJaJKDxI8etm5Q6HJrt/8gfc9adcoeDYceo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KGwKsvqjYI/vxQLjXzwTaiAP+HZsRYUY1vdPKhqVPf722rWdhWIdFiWC4k4Ws87CT4qkk1+p3isS9llqYj83XFoGsm0p/4XzCdlLdYP/QPO1eueSfuHRyqdiMVKRF3gPPjx704Wvaunja4VIX4SKV21vvd2cIvrZGDIJAoo1EI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-86712bc0508so223221241.2;
-        Thu, 13 Feb 2025 02:06:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739441176; x=1740045976;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5ET9GwN+uLjDsvjU0KoNteKFJwQHfNy0LS4Dkz43P3s=;
-        b=Ca+M329fsIdv/BiirchHDP7bZkiUwxhWMOnc0yeoyzPBdycc5gyEH23mpQwZ/QtNjT
-         Pg9NICtB7xw8xl4RVQ73lyW9NLZvUpef7bMfDLFimx9yhr2gHtXY8P/qvixEhs1Hpogd
-         43sxcN/I8/q+yORrdU9h3s5iiZHuKbdgRuLVRrexBToHzmzZiiwh7TPqlrPscQrccoTt
-         yVQ3y0SbWEW1y5AMMwYjHVqIymWlst+sFzXEfsgoxiAvXJJIZ1E/zReeUZER1DSY2Q61
-         srYtnTwckvdP3/uUmZlCOiOYxqGXW0zPrbPe4oc3yKMzdU/jw3AgphQP3PxQs08SIc4I
-         9OYA==
-X-Forwarded-Encrypted: i=1; AJvYcCVB9aESpdvFhtRoTfxTTFqt5KHjgef+gihYhUOdTimzzIxYH4IAWGO+xvS/S3UG6N55PJOGRL75IA==@vger.kernel.org, AJvYcCVqXXChvCKyJcJ37ZX7YXvkJTtGK3T79hlY2slt+zV4mVaQGDHkejG+dSehiaeALbhcpTyOGq5na7Wb@vger.kernel.org, AJvYcCVspMsVd74xHACDqlLHNPO3G+DEWSZF26wvAlz2hdxE/E4LlPVP0iNUNNtQSAovrh1kgT5OESK1ZYOnrzM8@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPAQx7Uqwwd52ohN14mLrzRCjNULIsHfrmskOI8FsZXMNZO6+x
-	JmOrjcyemFKHE7kP9q865zM44qrnHTT9PEk/ciERJGkbf5Z0NAoZq5o9k8NMKSY=
-X-Gm-Gg: ASbGnctsPCCBrCBohKibuXIij2/kVHZxNefx/CNsgGWR1dNL+aOM6VC6kWOtPPlgtgg
-	DDXoqOciMC3TzxftX8SCyt9D9WVCvA6Y0G+VcHICiZseU2iCW7+4vdIIqwsl0bTYnzEjW5j9Jda
-	T4r8qgjWDLDRJeg5sj+6qD4JNNjQ2izHfS8/H0am1DIvtxKr97qrShylhcxU+PKQqOMcUQ9N+tY
-	T/ONEV92pJ+0h45dkJMW86l5fSPQ3P6QsDHO73rGJjL/rLHFlfhrUPc8hf3G+ALxYIi7bprFH5+
-	o1cEhL3WopwX+8Er/BJ8CXLzq59d4Kf8b3p5+QQRSPasCnOkA6jEVA==
-X-Google-Smtp-Source: AGHT+IGfNX90gCBdtZkdzhWrKS8JhWviOfIzc4W2sfpPM9ktet7w2YDVHo5/tEOjsvI+xoFCWKt2Tg==
-X-Received: by 2002:a05:6102:4410:b0:4bb:5d61:1252 with SMTP id ada2fe7eead31-4bbf231517emr6577066137.23.1739441175984;
-        Thu, 13 Feb 2025 02:06:15 -0800 (PST)
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-868e857f2desm136820241.10.2025.02.13.02.06.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Feb 2025 02:06:14 -0800 (PST)
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-4bbb9a50baeso128476137.0;
-        Thu, 13 Feb 2025 02:06:14 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU168t336kiCfJUaXrT7fnCP427bbjJWlrBmWNYfly0Zb6Es4X704hAIKTyhK1/hpvzMgBic04ZobXi@vger.kernel.org, AJvYcCXcbnE15I4ZljSvXuP0EPBI/qpslXzSKYGPGZI0utKfcVLY5POyXg7NUFgfo1lO5g/m7Rwcmo3ZIQ==@vger.kernel.org, AJvYcCXx43eomOVokwZyR7Xh665mFUAKhwoEntkRuI1bMD1FTjfYrkw/GP9dSl7GNrkTK9/GiydBvIcjdBXHm6gN@vger.kernel.org
-X-Received: by 2002:a05:6102:3f94:b0:4b6:18b3:a4db with SMTP id
- ada2fe7eead31-4bbf21c8337mr7301506137.8.1739441174414; Thu, 13 Feb 2025
- 02:06:14 -0800 (PST)
+	s=arc-20240116; t=1739445977; c=relaxed/simple;
+	bh=a76uEsEM5QEz1KJiDQYQrLivs/y81VdE+BXmBQrGiJo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qStXQ6+jZ99muCH8m2VLZv6rWjVu4nccV1LEodU/LORQTOyYPBnK794HkxHbWgk1pJaj0X0Z2Gm6DXzjjVGDny8zkf7UyhjGXTrQjyEDyHrPu7DeQYobwObLgM5p/Uu8D/XnpRy6bR+XsmwW0M2AcevpcCs+/V34odPkEXVwbdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ClNjhBiU; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ClNjhBiU"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3BB9B204A5;
+	Thu, 13 Feb 2025 11:26:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1739445966;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rUZkMEvJv2/Nc54eZXgalM3L01O0l7yfmrIgB7KhrLk=;
+	b=ClNjhBiU7bSJ2LVuVj3MhNmAjBfG5wdPHJR51Gst5UBx+tZo172PGsyFbW/ciciZ5Ih2te
+	bePvC1qsSkNduxfr6W2DMo1Dt4H+HMBdal9tgCTfPZYTl2b58SxaQirU3X3n6M4xtEQCD+
+	T+hsOlT+VbYJhcyn+1jF6QAkreHWn1IBAqbaTUQoclk1OT8TQEJppckzb5IrHgVzqrShBu
+	Jn+PgHEuATNkPCv84wny9UR0TyAaZbYr+hQVZEpEti6Rj4Qb7z6XDU2tjEiwPZci7Oo52p
+	alAUavb9fHcqfoqu0H/IITUwRgmvh4ftAnpzdYt83jle9DuCOCTbgP0pgl2VJQ==
+Date: Thu, 13 Feb 2025 12:26:05 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Peng Fan <peng.fan@oss.nxp.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>, Peng Fan <peng.fan@nxp.com>,
+	"cristian.marussi@arm.com" <cristian.marussi@arm.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>
+Subject: Re: [PATCH 0/4] rtc/scmi: Support multiple RTCs
+Message-ID: <202502131126057bac6f7a@mail.local>
+References: <20250120-rtc-v1-0-08c50830bac9@nxp.com>
+ <20250120102117538ef59b@mail.local>
+ <PAXPR04MB8459968DFDE5979802CC034A88E62@PAXPR04MB8459.eurprd04.prod.outlook.com>
+ <Z6uCCeG2d395ZGDS@bogus>
+ <20250212063532.GB15796@localhost.localdomain>
+ <Z6x7TBSjBFBxGo77@bogus>
+ <20250212170147ee6863dc@mail.local>
+ <20250213033033.GA21937@localhost.localdomain>
+ <20250213082032315c4327@mail.local>
+ <20250213105257.GA29804@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250205-clk-ssc-v2-0-fa73083caa92@nxp.com> <20250205-clk-ssc-v2-1-fa73083caa92@nxp.com>
-In-Reply-To: <20250205-clk-ssc-v2-1-fa73083caa92@nxp.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 13 Feb 2025 11:06:01 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWn+sKiC1B4MF1vHwS2ArFYQXGzpYi2EcsyERPSCc9bvQ@mail.gmail.com>
-X-Gm-Features: AWEUYZlvlExVgKAlPqcQ55dSJRN4GqYY50RVEAwpoHERFHUH_dWoi8JrSM7k46E
-Message-ID: <CAMuHMdWn+sKiC1B4MF1vHwS2ArFYQXGzpYi2EcsyERPSCc9bvQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] clk: Introduce clk_hw_set_spread_spectrum
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, Sudeep Holla <sudeep.holla@arm.com>, 
-	Cristian Marussi <cristian.marussi@arm.com>, Abel Vesa <abelvesa@kernel.org>, 
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev, Peng Fan <peng.fan@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250213105257.GA29804@localhost.localdomain>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegieeihecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheptehlvgigrghnughrvgcuuegvlhhlohhnihcuoegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeegieduueethefhkeegjeevfefhiedujeeuhffgleejgfejgeekueejuefgheeggfenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmegukeejvgemudgsudgsmeeltdekgeemtggtfhgtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmegukeejvgemudgsudgsmeeltdekgeemtggtfhgtpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedufedprhgtphhtthhopehpvghnghdrfhgrnhesohhsshdrnhigphdrtghomhdprhgtphhtthhopehsuhguvggvphdrhhholhhlrgesrghrmhdrtghomhdprhgtphhtthhopehpvghnghdrf
+ hgrnhesnhigphdrtghomhdprhgtphhtthhopegtrhhishhtihgrnhdrmhgrrhhushhsihesrghrmhdrtghomhdprhgtphhtthhopehshhgrfihnghhuoheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshdrhhgruhgvrhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepkhgvrhhnvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopehfvghsthgvvhgrmhesghhmrghilhdrtghomh
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-Hi Peng,
+On 13/02/2025 18:52:57+0800, Peng Fan wrote:
+> On Thu, Feb 13, 2025 at 09:20:32AM +0100, Alexandre Belloni wrote:
+> >On 13/02/2025 11:30:33+0800, Peng Fan wrote:
+> >> >> IIUC on any pure DT based system, a device node exists per RTC and hence
+> >> >> platform device associated with it. And the RTC devices are created with
+> >> >> parent pointing to unique platform device.
+> >> >> 
+> >> >> > However i.MX SCMI BBM exports two RTCs(id: 0, id: 1), so to make it work for
+> >> >> > current RTC framework, we could only pick one RTC and pass the id to BBM
+> >> >> > server side.
+> >> >> >
+> >> >> > I am not sure whether Alexandre wanna me to update the code following each
+> >> >> > parent could only support one RTC or else.
+> >> >> >
+> >> >
+> >> >I want you to keep your changes local to your driver. I already stated
+> >> >back in 2018 that you were on your own with the imx-sc driver and that I
+> >> >don't like seeing multiple abstractions for existing RTCs. What is the
+> >> >actual use case behind needing to access both RTCs using Linux?
+> >> >Shouldn't this be handled on your firmware side?
+> >> 
+> >> The firmware exports two RTCs, RTC0 could be handled by Linux, RTC1
+> >> could only be read by Linux and configuable by M7 per current i.MX95 EVK
+> >> firmware.
+> >
+> >This doesn't answer the main question, why is this useful? Where is the
+> >time of RTC1 coming from and why would linux set a different time on
+> >RTC0 ? Can't the firwmare just set the same time on both RTC0 and RTC1?
+> 
+> To current i.MX95 EVK SCMI firmware, RTC0 is SoC internal RTC, RTC1 is
+> board level RTC which is more acurrate.
+> 
+> There are safety island in i.MX95, M7 safety core is assigned owner of
+> RTC1. Linux non-safety is assigned owner of RTC0, but Linux could read RTC1
+> time, Linux not able to set alarm of RTC1.
+> 
+> I need ask firmware developer to see whether RTC1 time could be synced to
+> RTC0 from firmware level. But considering RTC1 is more accurate, should we
+> use RTC1?
+> 
+> The current firmware design is RTC0 is always there and exported, because
+> it is SoC internal RTC. RTC1 is board level one, it could be optional per
+> board design and firmware design.
+> 
+> The firmware could update to only export RTC1 if no safety need it,
+> but this needs big change to the firmware BBM part, I need check with
+> firmware developer. But things may not change.
+> 
+> >What would someone do if RTC0 and RTC1 don't agree on the time?
+> 
+> RTC1 is more accurate if it is there.
+> 
 
-On Wed, 5 Feb 2025 at 10:51, Peng Fan (OSS) <peng.fan@oss.nxp.com> wrote:
-> From: Peng Fan <peng.fan@nxp.com>
->
-> Add clk_hw_set_spread_spectrum to configure a clock to enable spread
-> spectrum feature. set_spread_spectrum ops is added for clk drivers to
-> have their own hardware specific implementation.
->
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+Well, yes, you have your answer here, if the firmware knows RTC1 is more
+accurate and will be your source of truth, then simply use this one.
 
-Thanks for your patch!
-
-> --- a/include/linux/clk-provider.h
-> +++ b/include/linux/clk-provider.h
-> @@ -84,6 +84,28 @@ struct clk_duty {
->         unsigned int den;
->  };
->
-> +/* Aligned with dtschema/schemas/clock/clock.yaml */
-> +enum clk_ssc_method {
-> +       CLK_SSC_CENTER_SPREAD,
-> +       CLK_SSC_UP_SPREAD,
-> +       CLK_SSC_DOWN_SPREAD,
-> +};
-> +
-> +/**
-> + * struct clk_spread_spectrum - Structure encoding spread spectrum of a clock
-> + *
-> + * @modfreq:           Modulation frequency
-> + * @spreadpercent:     Modulation percent
-
-E.g. Renesas R-Car V4M also supports 0.5%, 1.5%, and 2.5%.
-
-> + * @method:            Modulation method
-> + * @enable:            Modulation enable or disable
-> + */
-> +struct clk_spread_spectrum {
-> +       unsigned int modfreq;
-> +       unsigned int spreaddepth;
-> +       enum clk_ssc_method method;
-> +       bool enable;
-
-Do you envision a use case for having a separate enable flag?
-The alternative would be to add an extra enum value above:
-
-    CLK_SSC_NO_SPREAD = 0,
-
-Gr{oetje,eeting}s,
-
-                        Geert
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
