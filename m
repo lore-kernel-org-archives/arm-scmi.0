@@ -1,52 +1,51 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F29EB1C5F0C;
-	Wed, 19 Feb 2025 10:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03F61DE88C;
+	Wed, 19 Feb 2025 21:46:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739960276; cv=none; b=lVtBISD1xTVzPqEdx2t+3pAbEEkyHOxSP/XNLJ/g5MnOMx8+yRQkSVi3rMz+u06SA2AftHkexNicOkv2yR5pqbL9BsffoV820aYCRhlexSA5J9pp66hTJqkddrLn8ZfEFW8bbpxXpvSZJDTSAZK29eW6E3Zb1OPF1kOX2/4vIAc=
+	t=1740001570; cv=none; b=dyy+I7ZOk3VZcyhRTftZzqwRfTK2oyP7jkUai9i/nedbcQ24j26z9uDpvQmZIbcEp+pDmr4ZZHMP6Hu13CC5FppYxt1Hm+i0b/G5yfXrrVb/TxXWyWpQTfhBqSuHYY8Mo+BP1hSooustgyLjel8ycCfc8/u5qu18CUDm4Wg0Zio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739960276; c=relaxed/simple;
-	bh=DuYlt34xD1e3j0IA7LTc8PQr3bNRl2dT3bWTNzleND4=;
+	s=arc-20240116; t=1740001570; c=relaxed/simple;
+	bh=V7MoC2zW7sWj9u+pbh19DBSYNN547r5t17dp94udUps=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qPEiFgh2hYc1HaiOLlNu2zbS3ayULu/kPb/P339XU3itBnR6/SKpaKJ/EO8KgcxdNVB1G6VZTAD8uHYSGt7iFPueOlSGzSU6mGDRoD+e9y3igxwDzEPk5h2CGQJgmkUSi166+3GMFXoMKo0Mr/XhBTpA2o/mFksQqO8IxPOXxd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D3CCD1682;
-	Wed, 19 Feb 2025 02:18:10 -0800 (PST)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A6503F6A8;
-	Wed, 19 Feb 2025 02:17:49 -0800 (PST)
-Date: Wed, 19 Feb 2025 10:17:46 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Peng Fan <peng.fan@oss.nxp.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=RZSy13OKR/gugrC995z0ojctWYmEdrZVaMP16IhRzd6jFgbBq7t2JVu8ciIPWqAtSis643XUczD4GTcxHw/03kWVdk3vIm+i8sh6v21GyMk9rgfgY0A37f7MPa8WxC+TTlzPIl9idtojgk4Z478W06gFiyEtAm/qlwY7w9N4SN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q4uNK/QF; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q4uNK/QF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8AEFC4CED1;
+	Wed, 19 Feb 2025 21:46:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740001570;
+	bh=V7MoC2zW7sWj9u+pbh19DBSYNN547r5t17dp94udUps=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Q4uNK/QFChz31+NC+j93t7UkCweE7BJU+8DRtb5qgKMD17V9p+kNw2zDIIO1vcf4V
+	 7blwlLDwnpnB5h3WQw8/R1wV+Z4BBR1gTWNuWT3e2X2QVzYwjVah/M5hA7uckzcEwX
+	 WjAfPnV+wUDh70Nr6UHgVwTqA1LFuis5Be73wYFNK5+F8dPRMKLX0ZM3NYaQZAVLGO
+	 p2Ntz7KzCdvedb7XHLHJmdNQsGgax8m/NF3ynNcTpJv+utMaBoqsIhqEcZ3frnR39k
+	 /zVKGzlZimahEhGWr4De65FYDeOA5ReS7PPHrku4HCIy076XjZEKIcjLso0NLjNaOH
+	 lJ/qVSgQcUz3A==
+Date: Wed, 19 Feb 2025 15:46:08 -0600
+From: Rob Herring <robh@kernel.org>
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>, <arm-scmi@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-	<imx@lists.linux.dev>, Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH 1/4] firmware: arm_scmi: bus: Bypass setting fwnode for
- scmi cpufreq
-Message-ID: <Z7Wvyn1QJQMVigf9@bogus>
-References: <20241225-scmi-fwdevlink-v1-0-e9a3a5341362@nxp.com>
- <20241225-scmi-fwdevlink-v1-1-e9a3a5341362@nxp.com>
- <Z6uFMW94QNpFxQLK@bogus>
- <20250212070120.GD15796@localhost.localdomain>
- <Z6x8cNyDt8rJ73_B@bogus>
- <CAGETcx87Stfkru9gJrc1sf=PtFGLY7=jrfFaCzK5Z4hq+2TCzg@mail.gmail.com>
- <Z65U2SMwSiOFYC0v@pluto>
- <20250218010949.GB22580@nxa18884-linux>
- <Z7Rf9GPdO2atP89Z@bogus>
- <20250218133619.GA22647@nxa18884-linux>
+	Fabio Estevam <festevam@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	devicetree@vger.kernel.org, Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH v2 2/7] dt-bindings: firmware: Add i.MX95 SCMI LMM and
+ CPU protocol
+Message-ID: <20250219214608.GA3003788-robh@kernel.org>
+References: <20250212-imx-lmm-cpu-v2-0-3aee005968c1@nxp.com>
+ <20250212-imx-lmm-cpu-v2-2-3aee005968c1@nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -55,63 +54,63 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250218133619.GA22647@nxa18884-linux>
+In-Reply-To: <20250212-imx-lmm-cpu-v2-2-3aee005968c1@nxp.com>
 
-On Tue, Feb 18, 2025 at 09:36:19PM +0800, Peng Fan wrote:
-> On Tue, Feb 18, 2025 at 10:24:52AM +0000, Sudeep Holla wrote:
-> >On Tue, Feb 18, 2025 at 09:09:49AM +0800, Peng Fan wrote:
-> >> A potential solution is not using reg in the protocol nodes. Define nodes
-> >> as below:
-> >> devperf {
-> >> 	compatible ="arm,scmi-devperf";
-> >> }
-> >>
-> >> cpuperf {
-> >> 	compatible ="arm,scmi-cpuperf";
-> >> }
-> >>
-> >> pinctrl {
-> >> 	compatible ="arm,scmi-pinctrl";
-> >> }
-> >>
-> >> The reg is coded in driver.
-> >>
-> >> But the upper requires restruction of scmi framework.
-> >>
-> >> Put the above away, could we first purse a simple way first to address
-> >> the current bug in kernel? Just as I prototyped here:
-> >> https://github.com/MrVan/linux/tree/b4/scmi-fwdevlink-v2
-> >>
-> >
-> >Good luck getting these bindings merged. I don't like it as it is pushing
-> >software policy or issues into to the devicetree. What we have as SCMI
-> >binding is more than required for a firmware interface IMO. So, you are
->
-> Would you mind share more info on other cases that SCMI not as firmware
-> interface?
->
-> >on your own to get these bindings approved as I am not on board with
-> >these but if you convince DT maintainers, I will have a look at it then
-> >to see if we can make that work really.
->
-> The issues are common to SCMI, not i.MX specific.
-> I just propose potential solutions. You are the SCMI maintainer, there
-> is no chance to get bindings approved without you.
->
+On Wed, Feb 12, 2025 at 03:40:24PM +0800, Peng Fan (OSS) wrote:
+> From: Peng Fan <peng.fan@nxp.com>
+> 
+> Add i.MX SCMI Extension protocols bindings for:
+> - Logic Machine Management(LMM) Protocol
+>   intended for boot, shutdown, and reset of other logical machines (LM).
+>   It is usually used to allow one LM to manager another used as an offload
+>   or accelerator engine..
+> - CPU Protocol.
+>   allows an agent to start or stop a CPU. It is used to manage auxiliary
+>   CPUs in an LM (e.g. additional cores in an AP cluster).
+> 
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
+>  .../devicetree/bindings/firmware/nxp,imx95-scmi.yaml     | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/firmware/nxp,imx95-scmi.yaml b/Documentation/devicetree/bindings/firmware/nxp,imx95-scmi.yaml
+> index 1a95010a546b14b1d3d97aa990c0305a551f2620..75f63819285b191a815dc4287e34d299983b1c40 100644
+> --- a/Documentation/devicetree/bindings/firmware/nxp,imx95-scmi.yaml
+> +++ b/Documentation/devicetree/bindings/firmware/nxp,imx95-scmi.yaml
+> @@ -11,6 +11,14 @@ maintainers:
+>    - Peng Fan <peng.fan@nxp.com>
+>  
+>  properties:
+> +  protocol@80:
+> +    $ref: '/schemas/firmware/arm,scmi.yaml#/$defs/protocol-node'
+> +    unevaluatedProperties: false
 
-I am not blocking you. What I mentioned is I don't agree that DT can be used
-to resolve this issue, but I don't have time or alternate solution ATM. So
-if you propose DT based solution and the maintainers agree for the proposed
-bindings I will take a look and help you to make that work. But I will raise
-any objections I may have if the proposal has issues mainly around the
-compatibility and ease of maintenance.
+Please add 'description' to these to say what the protocol is.
 
-> No more ideas from me. Leave this to you in case you have better solution.
->
-
-Unfortunately no, I don't have one. I haven't had time to sit and explore
-the issue and think of any solution yet.
-
---
-Regards,
-Sudeep
+> +
+> +    properties:
+> +      reg:
+> +        const: 0x80
+> +
+>    protocol@81:
+>      $ref: '/schemas/firmware/arm,scmi.yaml#/$defs/protocol-node'
+>      unevaluatedProperties: false
+> @@ -19,6 +27,14 @@ properties:
+>        reg:
+>          const: 0x81
+>  
+> +  protocol@82:
+> +    $ref: '/schemas/firmware/arm,scmi.yaml#/$defs/protocol-node'
+> +    unevaluatedProperties: false
+> +
+> +    properties:
+> +      reg:
+> +        const: 0x82
+> +
+>    protocol@84:
+>      $ref: '/schemas/firmware/arm,scmi.yaml#/$defs/protocol-node'
+>      unevaluatedProperties: false
+> 
+> -- 
+> 2.37.1
+> 
