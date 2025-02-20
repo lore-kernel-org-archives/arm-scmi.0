@@ -1,498 +1,161 @@
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2060.outbound.protection.outlook.com [40.107.20.60])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF601F0E27
-	for <arm-scmi@vger.kernel.org>; Thu, 20 Feb 2025 09:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.20.60
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740045589; cv=fail; b=ewyDM6n+N5oTmr2z9DDpQnCPhxlclKZdCMZ4B8187805EcVeZCX7359Tz7Ipy2hi2nFLhGecUNyXsjltW8RwwjKSBquPKLQceva4er8tEkUaA9WTnLgrroPYYDUotGjMyCUIIlgQyvYQ6jknrBJX0qxnGMFGAkwG93A2ZiW9ClQ=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740045589; c=relaxed/simple;
-	bh=u3D4Mlp4+C6mkGfYvHchoFfmVqwKUzfdKE2bYdYQJrU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=CUjwMakXe7vG2P37WBF6IDct/AMB88jospyNL8C2dvvtU5qUhBC9S6A43gV2tR72nRFN0DakORPCvUcI4ht1wKQnKl8rGGE1sDAftJcRxK3lpxXew/KPN9HI9Ejo0QBM4UKpY+f5FRg91a4fy5ecuJrQCzSF4DywpfIvktH6vYY=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ZJtnSFMm; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ZJtnSFMm; arc=fail smtp.client-ip=40.107.20.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ZJtnSFMm";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ZJtnSFMm"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=JIuAAWrWewKIg+10UnrdZycZicXU/YUoDIezMzsIqwS50V4msQMMLBYeMsbC9G+HlfK/07ELAu1hONTN8QTq9ltjfgxBHtIBR9F0mv+roNrRl3Vg4HN3Gf4am3lotU4qZUPtUNG3iG15rjsCX6Sv9/Yq5KKpm84oj4+FaRvR56rKSlijWrwzZZxOmmXVa3pn9orMOwkJkWw7bk+gO8JbVcK31vEBLuU9kihUudUaK7o8reauhAvKbAD+s2RdIqM2AXwePczBAtnoJv9/lko/AVkOWkeo0ZfXFh0KH+oKkZjMstYz2A1bjyGyYQdABWVzv6JCLovfRw1fnaGWdP9hSg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JSIyQ+dSgs0tAg6+pECwxztTG7r4XaBS5BKixmsQ8Pc=;
- b=VfZl+JCGiByk8Fw4AVUmGI2HChwvW7Z2w8zsTOstXPPipDa5dtywl0iz8ZW2D2o5IMUnEi54drfbkZNOHLC7dW7gAwZt4dyjV2Cgep13J/t0MR+ZU7Ra8qNoAK5E8tVNDm/v8DFuZL6vkw140JlHe4t98uRT2HKTJwXStE4Eiopsn0vyH1oSsFAa/mwnm1+syujFlaLeYboqKJjI+4oE5GHapTKcr+5s0pKfmfxcV/vuenpgR+K7ta5bNJ+hx2Z7RmbcDifhQHEkX/oMUBfeN0ahMoVWJseL9jn1iDBcnNocxU9MQ7DG6m83czqECD9f4wpWHlS645f+eJfRKkMFKA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JSIyQ+dSgs0tAg6+pECwxztTG7r4XaBS5BKixmsQ8Pc=;
- b=ZJtnSFMm3cWCDR5h4XgDcS8wzY8ntY71kPVsiuQIAdcweS0yWEbfUAgajrRHNAZdyyseVsxiI7q+Z6Fz+Dg+gGX+862NIq70C4uRWAi7ZkgRnXNoVr229aJCxHc1nzYT4nAvrE0gRe/nhWgiwBsS6yjNfVbOu/iVG6DE05ZUELY=
-Received: from CWLP123CA0179.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:19b::18)
- by DU4PR08MB11053.eurprd08.prod.outlook.com (2603:10a6:10:570::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.14; Thu, 20 Feb
- 2025 09:59:43 +0000
-Received: from AMS0EPF00000199.eurprd05.prod.outlook.com
- (2603:10a6:400:19b:cafe::21) by CWLP123CA0179.outlook.office365.com
- (2603:10a6:400:19b::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8466.15 via Frontend Transport; Thu,
- 20 Feb 2025 09:59:43 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AMS0EPF00000199.mail.protection.outlook.com (10.167.16.245) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8466.11
- via Frontend Transport; Thu, 20 Feb 2025 09:59:41 +0000
-Received: ("Tessian outbound e6618df50830:v567"); Thu, 20 Feb 2025 09:59:41 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: be36abe7851b4760
-X-TessianGatewayMetadata: Juuhw8MBgoYcK85lFil0dJ5kNu3KbD/1X9nSkHoobw2oHjLLarJID8SYX9dYWniOnkkHqdgtIQgfXpoVqOK+zg2/xGjSTEkFYNNLfk+G7Z9ZsYsUpyZ6+2j0qvvxHdu2s1r0TTXISQqvhufwuM6ysoa0X82jjMK8V0PqP50N9vw=
-X-CR-MTA-TID: 64aa7808
-Received: from L1df76f99333c.2
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 5683E743-894E-42B7-BDEE-9F502BD2DD33.1;
-	Thu, 20 Feb 2025 09:59:34 +0000
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id L1df76f99333c.2
-    (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-    Thu, 20 Feb 2025 09:59:34 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eMI0c/l6kSRmQ4EBSCJO1w255psa4Hwvz8zVpH5of20yf0cpZ0F2WRjrb604u3q5wmnU4q8/rP2MuzrU1ZcmDaT6YrCXEuV1IdMSu80BjNTdjScPXAozgGOyAN7nFKe8e6VXwY0t/gh4NEGaxxcWaXLiCJ/nzO15fWqD0SKWpAeveD2pvZHn52C1LoO8TB4A+MZGB6xKEIdXXezxnv/i1Stt24tgZO2Dk+n02tU6YjXMa9Dt+L5gdWj0VYQAAhj5yET3fnLKY0PgLnFSosAXbp5XD0KAYHzvzec9X7GB+y5pOQHwENcpvPVxbfCJc84YODNDLFBQcBr0/zYn7QI5Xg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JSIyQ+dSgs0tAg6+pECwxztTG7r4XaBS5BKixmsQ8Pc=;
- b=Y8v7s95puDl01lD2IShfzENASW4iybJAi13TkIl6McgC05ERg46wtiZC3WtI3C8cYulUpmYjv1nQ/AFBMQh9TIRY5fR8gGzPqiLRZI9RfltA8c9CA/GDCju6mG3xtbpK+FWCTgG3wUGm5rC79VJp5u39+7HDicmTjJdORl0A/h9HSH6iQBPeN9oIN/o+8uVof30jU0tbuHpxp3GZcJ+VI9BPGarpC3nht1Yc3LziXEglI4ktWA2JY/DLTkKqENgy0abG2ewyHvR69QJNjzwy3/Gww0txkEkej/qfGfuwU7Y1qzUieNBjeaqYnBZjbmjQXvu/0tTswrAIM++dhqWutw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JSIyQ+dSgs0tAg6+pECwxztTG7r4XaBS5BKixmsQ8Pc=;
- b=ZJtnSFMm3cWCDR5h4XgDcS8wzY8ntY71kPVsiuQIAdcweS0yWEbfUAgajrRHNAZdyyseVsxiI7q+Z6Fz+Dg+gGX+862NIq70C4uRWAi7ZkgRnXNoVr229aJCxHc1nzYT4nAvrE0gRe/nhWgiwBsS6yjNfVbOu/iVG6DE05ZUELY=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from PAVPR08MB9401.eurprd08.prod.outlook.com (2603:10a6:102:302::19)
- by DB5PR08MB10312.eurprd08.prod.outlook.com (2603:10a6:10:3c1::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.15; Thu, 20 Feb
- 2025 09:59:32 +0000
-Received: from PAVPR08MB9401.eurprd08.prod.outlook.com
- ([fe80::db4b:1ab2:a259:4d4d]) by PAVPR08MB9401.eurprd08.prod.outlook.com
- ([fe80::db4b:1ab2:a259:4d4d%3]) with mapi id 15.20.8466.015; Thu, 20 Feb 2025
- 09:59:32 +0000
-Message-ID: <81580b24-e11c-40c4-a709-5ad0feab8841@arm.com>
-Date: Thu, 20 Feb 2025 09:59:30 +0000
-User-Agent: Mozilla Thunderbird
-Subject: Re: POWER_DOMAIN_ATTRIBUTES in SCMI
-To: Peng Fan <peng.fan@oss.nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Vincent Guittot <vincent.guittot@linaro.org>
-Cc: Sudeep Holla <sudeep.holla@arm.com>, Peng Fan <peng.fan@nxp.com>,
- "cristian.marussi@arm.com" <cristian.marussi@arm.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- "arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
- Chuck Cannon <chuck.cannon@nxp.com>
-References: <PAXPR04MB8459E8D1A82DE43C08B6C26788FE2@PAXPR04MB8459.eurprd04.prod.outlook.com>
- <Z7Rjyy7_Jg66vqCf@bogus> <20250218130823.GA17099@nxa18884-linux>
- <CAKfTPtBd14wM2st62m3tnkQOZgBTUmxpjZXghMVff-Yg7wCVDg@mail.gmail.com>
- <CAPDyKFq9QHw==2WqcThC5mjMy8ALqmZ_hKxt2QsZJ1q-qixLfA@mail.gmail.com>
- <20250218163146.GB15753@nxa18884-linux>
- <Z7aZPt5a0P53VL1N@NXL53680.wbi.nxp.com>
-Content-Language: en-GB
-From: Souvik Chakravarty <souvik.chakravarty@arm.com>
-In-Reply-To: <Z7aZPt5a0P53VL1N@NXL53680.wbi.nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO0P123CA0006.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:354::8) To PAVPR08MB9401.eurprd08.prod.outlook.com
- (2603:10a6:102:302::19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4AD71EE7C6;
+	Thu, 20 Feb 2025 10:31:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740047519; cv=none; b=P71DJb4zuuc6akjegZk53SqnX8mzZbHthJMFh6XmeUtsxvjb3GkP4H3KFeGdf64gW/ODhNs3LmiH+IAhkPFgVovTs1dCqxcPR5aMnVDxZ4+l83oY2O0QLDVNLkNW5Quma+D1iyz5ywMxwyEXjfupp9YFPcIg5D3GIvpSvkn8BO8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740047519; c=relaxed/simple;
+	bh=EoE8bMHv7xu0prvb8E0epB/K/6l0shvsMw5QSn1M2s4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D8BPmiZJO3S1rOon0zYt1JRfAsvkONRUbeIJN9QyyLOyh4wFT+5q7DSDUNPB/wr5MyG2Iu6vn4WoYOyRJXOq1OhqdjvyO/PHEOd2SsEFC0s2fFgBhpgNYNqqGA9dmRDuj0bPfdDS7k+61YXc8rQ8/szdWHXAaXIQAydq/3aLF3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66793C4CED1;
+	Thu, 20 Feb 2025 10:31:52 +0000 (UTC)
+Message-ID: <6dc1e10e-9c40-4da3-b0e0-72bdc9daa827@xs4all.nl>
+Date: Thu, 20 Feb 2025 11:31:50 +0100
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	PAVPR08MB9401:EE_|DB5PR08MB10312:EE_|AMS0EPF00000199:EE_|DU4PR08MB11053:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2eda59da-3605-4a30-45a0-08dd51954ba9
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|366016|1800799024|376014|7053199007;
-X-Microsoft-Antispam-Message-Info-Original:
- =?utf-8?B?S1liMTE4ZFM5N0EveDJGY01qMUhWSUZKK2pUempubmRNenYveFFobHFwalNs?=
- =?utf-8?B?WWxTK2t6Z0I0Ly9GUjY1WnZGeUhRV2R1ZUxibUYxRjNBTnJSVlZRYk1iRWto?=
- =?utf-8?B?T0FGMGp6SHFhMStWcHdzRTJwcWJLeXliS3RrT2ZqUmord3NwK0dUREsrMU5K?=
- =?utf-8?B?S1VsaW9LSEtWcGMrbzU1ZlVIZ2ZJamU5c1R1MlVKekw0OTFKam9wcFJZeC9W?=
- =?utf-8?B?VEdzUUNqb2VzemVRY203bGJSOTVZZXdhVWU4elVFT3l0Zkg2VGpNeHdLd0Qx?=
- =?utf-8?B?NTdyRXBESzlvdDJUMDZQUWtrNi9OY3lDK3ZnK0JtckpJVFRKT1dMQXVQM050?=
- =?utf-8?B?dTRCdTExdWNSM0dNbmwwcmtxa0R5N2dob3djeXhmYjArOFVlMGpGM2IzdVhS?=
- =?utf-8?B?SEM3QkxXc2NRc3M2K21MM2hvTDN1TzBUSXhPWlNkYXlxc1NYelVoS3A5Nm9x?=
- =?utf-8?B?MUNlaFNuTGozb1FLTnFiczBNZ1c1Y1VtQlVXbEJVQTNpOFcwN0JzUEJqckJW?=
- =?utf-8?B?VUVlS3dVdTBWRkw4UVZrZnFFTUQrcDk3TUg5NFQwcXAxOGpTWjRtS3RWZWJn?=
- =?utf-8?B?WkRiZ1doMWJjMUhvbGx2Z1VKWkFrZTBXcThHZUUzUnFyczY2cW8vWWVnYjM4?=
- =?utf-8?B?SURNYWFTNndWUEZURHZPQUZZbXpWd2pkYWtLREpER2xqOFdCTms5N0Z2ME1N?=
- =?utf-8?B?aklBdS9rR3BWNGNQNHBibzRMQkZXaWJlaWNkcmdIaEE0b2FHdGlRditUZGRw?=
- =?utf-8?B?bHVGZE9UdStCMkZ1M29zZEd0UGpZcmhFTGI3SVExZGp4QW1UOVh4VnJteFRp?=
- =?utf-8?B?bTlIblBBVTAwNTVscTZPYXk0UU1nZndHUW1ncDB4MEhTcW5aZGJZWmtIYTlR?=
- =?utf-8?B?cFpvNG04Zzk1OUFkdXZJSldPQTJKMWxZUU5GRVBNdUllcWZ5Rit0ejNqODdP?=
- =?utf-8?B?OWloZzhyT3R0ZTdJYXUyZmlXL01zMjNBTk55TXZyQ3J5citDTTZ5ZkVGUmJ2?=
- =?utf-8?B?aTVoQnZ1MEJGZndnYkx4ZmUzRStZVzhyZHpwcGI5S1QzZjhKODVUZzc2YVhK?=
- =?utf-8?B?RU9ia2lFS0VSSkRFaHJhWUxyNitCdVBoNG1CWWpRT29WeTgyZzRBYzZsY2tK?=
- =?utf-8?B?LzFEU3piRXRVWklYTHFrL1F1bjVsb1BBNDJWYmt3THhlUnNIWW9JcndEVkYv?=
- =?utf-8?B?QVoxVmVwWTlXUTRkQlBxOE54dzdJWmJmdVVRWitxanRBZ1RiemVLWk1CejJZ?=
- =?utf-8?B?QzhybWdweTE0dWVPZ0NhZUtYVnl6ak9TTGhrNXpHU2syekEzVmNVR2RESk8x?=
- =?utf-8?B?VE1YdC9TOE5ZSFF5ZUF4SW9kczRxaVBJek4yRzk5bEs2dzRqU2kxZVRlZGJV?=
- =?utf-8?B?aWIvSEdMc3Rhdy9LVHRtaHV4b0ZyZ05uVnhJNCswZlRjdGM3ODEzZk9laEhC?=
- =?utf-8?B?ajlSZUNxY1NEUUloWExnc2k0S3d6SUNpVXZqUDNyY0loT2I2dXJDQUtEa1Z3?=
- =?utf-8?B?azVjNmtrSFpScjdHNnhVRXZXckMrM2xFRWh5OEx1TUhkUVhzNnlBQVRtTnV4?=
- =?utf-8?B?Q05JMUdhV2hpRDVZckRyNC9rK1dlbGFEajh0REpkYk9kUmFGVmdHd0swa2Ro?=
- =?utf-8?B?Unlhd29jTFZzYmpoc2hUenU2Wnp6UENCOUlqbGpGRDVjY0tOZmNBKzVRTnhV?=
- =?utf-8?B?MzlIeFVOK2lXczBNQStYS09iOWRKUmRuNnNhMEcyN2RqdEFlT0FBa1A0Tm9s?=
- =?utf-8?B?UlhLaXpXdTQzRCtQcEE1bHBtYVZjcE9keEk0dzJhcGxpbjBPVElFcE1ISzBr?=
- =?utf-8?B?UXRLV2ZXV3RhVVFwMUtnb3pDZG53MUFGWUhHenRLNU9qN012VVcxUkxybHRp?=
- =?utf-8?Q?i3LmiMGotQDFO?=
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAVPR08MB9401.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5PR08MB10312
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-SkipListedInternetSender:
- ip=[2603:10a6:102:302::19];domain=PAVPR08MB9401.eurprd08.prod.outlook.com
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- AMS0EPF00000199.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	8e81ef4a-2855-410c-01a9-08dd519545d7
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|14060799003|36860700013|82310400026|1800799024|35042699022;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Z0ZWbHc4TWtmTkRzekEvSkR0T0xqNEVSR1NaTFd0SFFoQktNdWhyZ2tsS2do?=
- =?utf-8?B?VFA1OCtHY0VyRDF4SmM5R0hNT2NndVAyRTFURGcyZ0I2SURaWlc1bW5MWXkx?=
- =?utf-8?B?Q2lYNEVEeW5xNEJ2eXRIaCtzZUMwUzFkOEk2MDFSblp6YlFCd0I5L1VEZzA1?=
- =?utf-8?B?dzFJcjhqN2FhUE5tYmROaGE0VENiTnFkYkI2YngvWHhFdnZ2UE5OanVtQ3My?=
- =?utf-8?B?MjNHb1pPRzJOeDRVMFRFcUFyaTV2VHB6RGpMY1Y0VWRVVXp3N05ydFNXeXlv?=
- =?utf-8?B?Tlo1SS9kTmVLNjhwellabWhueXJNT1EyZ1RUeWo0bjUzMjZTQ2MzQU9RK3My?=
- =?utf-8?B?V3lMOWZnT2pMRG52WWxpeCt5ZFZ2U0lETXZBa1VTZDlqMEprQzBENGlKT0d0?=
- =?utf-8?B?aVZWNlRlOVY1MlhoMFhsK0FXV3FxdmJnakRxSFlWYk1VU1NOQ0Y0T1ROSUR5?=
- =?utf-8?B?TDJQSnJXTDRZQWFnT0hTMzJ4Q2Qva2RualBudE12dFNEZklidVN3M1dwZVdh?=
- =?utf-8?B?bkpJQk5Bak9QYmNqSjhmcHNJZCtmQ3l0cVRxRi8rNitHUVY5dGh3UkhPT1hC?=
- =?utf-8?B?V3NmdHBIVUJiMzgrQmpLUE1vcHRnSFJ4cm9TSVUwZnl1bkgwZXRXTDY1anRX?=
- =?utf-8?B?SFJHL21UV0U1di9vdnRwM2dsN29DTDdpMEloMG5IVTZsdlZXa1ZlcTg0U052?=
- =?utf-8?B?NHJhUFdEbndpYjBUeUhTUWRYN0cyWXhadUQ3WEFnK1VWVE14TlZidW1WZGRj?=
- =?utf-8?B?am50U0w3TVJvTHU1SVpqcEY2S0tnRC8xNExRMnUxN1V1MWJxclphT2pjQmJO?=
- =?utf-8?B?aHlyM0lrcXZYb3lKdG9QcWJrZ053ZWhFVEpIcjRuNHRxaFJPbmI4V3A2aUhR?=
- =?utf-8?B?KzJOQ2ZoMmpvZ3EzamY2WktPS3daaUQ3RzBkVkY5TFhXNXZPLzBnTDZjVjRB?=
- =?utf-8?B?Z1N0dVR4aTczTFpCSWdnT2RXOVhzeG1BMm9nSjFEcEZYOWxKSWZzZmY3MWFG?=
- =?utf-8?B?NEJsUFJiZjBEUzhzYTZJcld1QTFjS0duVE5RVFFwSWdDS3Y2L0FYTXhSdC9y?=
- =?utf-8?B?ajBSbkkyNlYyaHBBYjFWZm9EbVVCNHpLUTNGUTQrNXl3dThzeEZkdnBFU2hl?=
- =?utf-8?B?UEYxQ0pLN0EyTEdvUjh0a3NSbnF6YkJTc1l6T2k5QllTN1paeFpuZ0xTb25X?=
- =?utf-8?B?cWlLdVcxN3ZYZjhmOTVRTWppOUJRRVdzdEJNR3BKcWY1cTQ4bGg5RnQzRnRk?=
- =?utf-8?B?K3ZhZDFkaU51bmVtTGx6YlJuT1Z0elBxRllnZlZNZVNBN0NMNm1xdlRCZzc5?=
- =?utf-8?B?RDl0Q1JTTUxvc0tlbWhFMnVxa0oySzJydE5XWmFZdFNHdEF3eHJmUVFFTnA2?=
- =?utf-8?B?SGhHUm5EckNIenYzVkNkK3V5ZGtGankxamJHZmpmZEhHNkRuRzRQcDRDVldo?=
- =?utf-8?B?Q2xoamxYZVpDVzI1MFpTNXZZVTZDTjdRQ2hGVmV2VVBYSXVwcEcrZ1drUHVJ?=
- =?utf-8?B?TlVMVGZrODZvdHVRLzBPcHhBZWFEQjBzc2JhR0N4QXpNRXdDbW4wMzdpK1Fj?=
- =?utf-8?B?RmcwL1dFWXNkMlR4L1N2bEs0Y3NPZlBVMVBpbVFjZEpOUnBnWG9CT1p2RkRt?=
- =?utf-8?B?R2kzUTJqRW5sNnlKSnJEWlZVM280WnpEa0tJb2ZaWDdJMzBiRlZaNFNoQnBK?=
- =?utf-8?B?b1lLV0lNZWRlZmx0dE1tTkdPbkptM1lQWDlpeHZEMWxCLy8yb09VK2xrWmhO?=
- =?utf-8?B?a3hmZGFMbUVaYUFWNjUzR3ZDbzlHVUlKbFFTdkFqSFk3eVpmaDViNVlKYUZR?=
- =?utf-8?B?VFdqcnRBMHliMFJuYkh3QUFJKzRlNElLeU91cThETTgrSmV0ZC9EK3lURGJZ?=
- =?utf-8?B?L2N0aVk3TTNjRlJsY0ZjdTc4Ui9BaW1YQjdDTG5USEMzSHUrSUxWSGtHc1R4?=
- =?utf-8?B?UGFkckNrTU4rbG90OVEzWFpxaGRqT1B5RXVrdlRyOUZZdEFUNXIzS2xnbG50?=
- =?utf-8?Q?sNfxZxIvFhgMcklQwWjwS04Tu3dZVM=3D?=
-X-Forefront-Antispam-Report:
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:64aa7808-outbound-1.mta.getcheckrecipient.com;CAT:NONE;SFS:(13230040)(376014)(14060799003)(36860700013)(82310400026)(1800799024)(35042699022);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2025 09:59:41.7058
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2eda59da-3605-4a30-45a0-08dd51954ba9
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AMS0EPF00000199.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR08MB11053
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 04/12] driver core: Constify API device_find_child()
+ and adapt for various usages
+To: Zijun Hu <zijun_hu@icloud.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>,
+ James Bottomley <James.Bottomley@HansenPartnership.com>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
+ linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-sound@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
+ linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org,
+ linux-efi@vger.kernel.org, linux-gpio@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-serial@vger.kernel.org, netdev@vger.kernel.org,
+ Zijun Hu <quic_zijuhu@quicinc.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Takashi Sakamoto <o-takashi@sakamocchi.jp>
+References: <20241224-const_dfc_done-v5-0-6623037414d4@quicinc.com>
+ <20241224-const_dfc_done-v5-4-6623037414d4@quicinc.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20241224-const_dfc_done-v5-4-6623037414d4@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Some quick thoughts below to keep this architecturally consistent.
+On 24/12/2024 14:05, Zijun Hu wrote:
+> From: Zijun Hu <quic_zijuhu@quicinc.com>
+> 
+> Constify the following API:
+> struct device *device_find_child(struct device *dev, void *data,
+> 		int (*match)(struct device *dev, void *data));
+> To :
+> struct device *device_find_child(struct device *dev, const void *data,
+>                                  device_match_t match);
+> typedef int (*device_match_t)(struct device *dev, const void *data);
+> with the following reasons:
+> 
+> - Protect caller's match data @*data which is for comparison and lookup
+>   and the API does not actually need to modify @*data.
+> 
+> - Make the API's parameters (@match)() and @data have the same type as
+>   all of other device finding APIs (bus|class|driver)_find_device().
+> 
+> - All kinds of existing device match functions can be directly taken
+>   as the API's argument, they were exported by driver core.
+> 
+> Constify the API and adapt for various existing usages.
+> 
+> BTW, various subsystem changes are squashed into this commit to meet
+> 'git bisect' requirement, and this commit has the minimal and simplest
+> changes to complement squashing shortcoming, and that may bring extra
+> code improvement.
+> 
+> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+> Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+> Acked-by: Uwe Kleine-König <ukleinek@kernel.org> # for drivers/pwm
+> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
 
-On 20/02/2025 02:53, Peng Fan wrote:
-> Hi Ulf, Vincent
->
-> On Wed, Feb 19, 2025 at 12:31:46AM +0800, Peng Fan wrote:
->> On Tue, Feb 18, 2025 at 04:02:58PM +0100, Ulf Hansson wrote:
->>> On Tue, 18 Feb 2025 at 14:57, Vincent Guittot
->>> <vincent.guittot@linaro.org> wrote:
->>>>
->>>> On Tue, 18 Feb 2025 at 13:03, Peng Fan <peng.fan@oss.nxp.com> wrote:
->>>>>
->>>>> On Tue, Feb 18, 2025 at 10:41:15AM +0000, Sudeep Holla wrote:
->>>>>> On Fri, Feb 14, 2025 at 09:20:27AM +0000, Peng Fan wrote:
->>>>>>> All,
->>>>>>>
->>>>>>> Previously I posted a patch to linux to set all power domains
->>>>>>> with "GENPD_FLAG_ACTIVE_WAKEUP" set in
->>>>>>> drivers/pmdomain/arm/scmi_pm_domain.c
->>>>>>
->>>>>> Yes, I remember ACK-ing that and now I am thinking why =F0=9F=98=84.
->>>>>> The description of the flag GENPD_FLAG_ACTIVE_WAKEUP says:
->>>>>> "Instructs genpd to keep the PM domain powered on, in case any of it=
-s
->>>>>> attached devices is used in the wakeup path to serve system wakeups.=
-"
->>>>>>
->>>>>> Does that mean all the SCMI power domains remain powered on with thi=
-s
->>>>>> flag ? If so, that sounds wrong to me. I hope it is not the case and=
- it
->>>>>> is effective only if the device attached is wakeup source.
->>>>>
->>>>> Only when the device is setup wakeup source, the genpd framework
->>>>> will take this flag as keeping power domain on.
->>>>>
->>>>> Without this flag, even if the device setup as wakeup source, the
->>>>> device's power domain will still be powered off.
->>>>>
->>>>>>
->>>>>>> But in the end we find that some power domains
->>>>>>> could be in off state while it still could wakeup
->>>>>>> the system. And we have a downstream patch
->>>>>>> +               if (!strcmp(scmi_pd->name, "hsio_top"))
->>>>>>> +                       scmi_pd->genpd.flags =3D 0;
->>>>>>>
->>>>>>
->>>>>> There you go, so you simply rushed some solution upstream to carry l=
-ess
->>>>>> patches downstream but this time you got bitten again. Sorry, but I =
-am
->>>>>> seeing a pattern from you here and I don't really like that.
->>>>>
->>>>> I not wanna to argue here.
->>>>> I DO care reputation. If I do something wrong, I will improve.
->>>>>
->>>>>>
->>>>>>> So I am wondering to extend the attributes of SCMI spec,
->>>>>>> Saying In SCMI spec(DEN0056E)
->>>>>>> 4.3.2.5 POWER_DOMAIN_ATTRIBUTES
->>>>>>> Page 44 of 210:
->>>>>>>
->>>>>>> Bit[26]: If set to 1, the power domain could
->>>>>>> wakeup the system with power state
->>>>>>> set as off.
->>>>>>>
->>>>>>
->>>>>> This is not what the above flag is all about. It just instructs genp=
-d
->>>>>> to keep the power domain ON as the device attached to it could be a =
-wakeup
->>>>>> source. They are not one and the same. If the device is marked wakeu=
-p in
->>>>>> the DT and it is both wakeup capable and is enabled, it shouldn't re=
-quest
->>>>>> the power domain to be powered off when suspending. Why is that not
->>>>>> sufficient here ? What am I missing ? I am interested in knowing it =
-as
->>>>>> it is important to fix the issue you are trying to address here.
->>>>>
->>>>> The flag must be set if the power domain needs to keep power on to ha=
-ve
->>>>> the wakeup capability.
->>>>>
->>>>> But in some case, a power domain no need to keep power on and it stil=
-l
->>>>> have wakeup capability from hardware perspective.
->>>>>
->>>>> For example usb phy in i.MX95, its power domain is off, but it could =
-still
->>>>> wakeup the SoC. But with the GENPD_FLAG_ACTIVE_WAKEUP set, the power =
-domain
->>>>> will not be powered off, so more power consumption in suspended state=
-.
->>>>
->>>> This probably means that the wakeup mechanism is not in the same power
->>>> domain but in another one that is kept on while the device is
->>>> suspended and the main power domain is off. Do you have more details
->>>> about this wakeup source that works with powerdomain being off ?
->>>> I vaguely remember some old discussions about inband/outband wakeup
->>>> source settings for devices which enable drivers to specify if the
->>>> wakeup source is in or out of the power domain and if we should keep
->>>> it on or not. But I can't remember the details; Ulf should have more
->>>> details
->>>
->>> Vincent, you have a great memory! :-)
->>>
->>> Indeed I tried to post a series (I can dig it up, if you want?) that
->>> allowed the driver to instruct upper layers, such as buses and PM
->>> domains whether the wakeup is managed in-band or out-band.
->>>
->>> An example could be an SDIO irq, being re-routed from a regular DATA
->>> line that is managed by the SDIO/MMC controller to a GPIO pin during
->>> system suspend. Another similar use-case with a potential similar
->>> wake-up configuration, is waking up from a UART console.
->>>
->>> My point is, the SDIO/MMC controller could be configured as a wakeup
->>> source, while it's actually the GPIO pin that is managing the wakeup.
->>> In this case, typically the GPIO irq can be managed from an always-on
->>> logic/PMIC, which means there is no reason to keep the PM domain
->>> powered-on for the SDIO/MMC controller during system suspend.
->>>
->>> At the moment we don't have any way to express this kind of
->>> configuration, I think.
->>
->> Thanks for sharing detailed example.
->>
->> typec chips using gpio to wakeup system should also be the same.
->>
->>>
->>>>
->>>>>
->>>>> So I am requesting extending spec to give agents the information whet=
-her
->>>>> the power domain could wakeup HW system in powered off state.
->>>>
->>>> I tend to agree with Sudeep that it doesn't make sense to say that a
->>>> power domain can be off but the powered devices can still wakeup the
->>>> system. It usually means that the wakeup is not powered by the main
->>>> power domain
->>>
->>> I tend to agree. In general, I think we should always use
->>> GENPD_FLAG_ACTIVE_WAKEUP, but we are lacking a way to inform genpd
->>> (and other upper layers) that the wakeup-irq is managed out-band,
->>> which means genpd can still be powered-off.
->>
->> ok. Would you plan to work on the feature? If you not have time,
->> I could do this, but need your guidance on the design.
->
-> Not sure whether you have time to work on this or not.
->
-> More info for i.MX case:
-> The i.MX95 usb wakeup logic is in an always on power domain. So when
-> usb controller is powered down, usb could still do remote wakeup.
-> There is no dedicated out band wakeup-irq in my case.
+<snip>
 
-There are 2 ways to wakeup a device:
-a) The device is powered by one or more PDs, one or more of which needs
-to be kept ON to trigger the wakeup.
-b) The device is powered by one or more PDs, but none of them are
-required to trigger a wakeup. The device wake is derived from an out of
-band logic which is kept powered ON (either transparently to OS, or via
-another PD which does NOT belong to the device).
+> diff --git a/drivers/media/pci/mgb4/mgb4_core.c b/drivers/media/pci/mgb4/mgb4_core.c
+> index bc63dc81bcae0d20924174be74b93a2139d5879f..697d50bedfe285d74c702efde61e510df87c1229 100644
+> --- a/drivers/media/pci/mgb4/mgb4_core.c
+> +++ b/drivers/media/pci/mgb4/mgb4_core.c
+> @@ -123,7 +123,7 @@ static const struct hwmon_chip_info temp_chip_info = {
+>  };
+>  #endif
+>  
+> -static int match_i2c_adap(struct device *dev, void *data)
+> +static int match_i2c_adap(struct device *dev, const void *data)
+>  {
+>  	return i2c_verify_adapter(dev) ? 1 : 0;
+>  }
+> @@ -139,7 +139,7 @@ static struct i2c_adapter *get_i2c_adap(struct platform_device *pdev)
+>  	return dev ? to_i2c_adapter(dev) : NULL;
+>  }
+>  
+> -static int match_spi_adap(struct device *dev, void *data)
+> +static int match_spi_adap(struct device *dev, const void *data)
+>  {
+>  	return to_spi_device(dev) ? 1 : 0;
+>  }
 
-It would be good to ensure that whatever solution we craft here
-acknowledges and works for both these cases, as they are subtly different.
+Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
 
 Regards,
-Souvik
 
-
->
-> I draft a prototype. Would you please give a look whether this is feasibl=
-e?
-> 1. Add a new API device_set/get_out_band_wakeup with a new bool out_band_=
-wakeup
->     defined in dev_pm_info
-> 2. Drivers could use device_set_out_band_wakeup to set the bool
-> 3. pm core suspend/resume will check the bool to decide continue do
->     power operation or bypass.
->
-> Thanks,
-> Peng.
->
-> Draft code below:
->
-> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
-> index 9b2f28b34bb5..fa0d93c9078e 100644
-> --- a/drivers/pmdomain/core.c
-> +++ b/drivers/pmdomain/core.c
-> @@ -1450,7 +1450,8 @@ static int genpd_finish_suspend(struct device *dev,
->          if (ret)
->                  return ret;
->
-> -       if (device_wakeup_path(dev) && genpd_is_active_wakeup(genpd))
-> +       if (device_wakeup_path(dev) && genpd_is_active_wakeup(genpd) &&
-> +           !device_get_out_band_wakeup(dev))
->                  return 0;
->
->           if (genpd->dev_ops.stop && genpd->dev_ops.start &&
-> @@ -1505,7 +1506,8 @@ static int genpd_finish_resume(struct device *dev,
->        if (IS_ERR(genpd))
->               return -EINVAL;
->
-> -       if (device_wakeup_path(dev) && genpd_is_active_wakeup(genpd))
-> +       if (device_wakeup_path(dev) && genpd_is_active_wakeup(genpd) &&
-> +           !device_get_out_band_wakeup(dev))
->                 return resume_noirq(dev);
->
-> In include/linux/pm_wakeup.h
->
-> +static inline void device_set_out_band_wakeup(struct device *dev, bool c=
-apable)
-> +{
-> +       dev->power.out_band_wakeup =3D capable;
-> +}
-> +
-> +static inline bool device_get_out_band_wakeup(struct device *dev)
-> +{
-> +       return dev->power.out_band_wakeup;
-> +}
->
->>
->> Thanks,
->> Peng.
->>
->>>
->>>>
->>>>>
->>>>>>
->>>>>>> This is just an idea in my mind, I not
->>>>>>> write code to verify, just wanna to see
->>>>>>> any comments from your side.
->>>>>>>
->>>>>>
->>>>>> I wonder if we need to revert GENPD_FLAG_ACTIVE_WAKEUP flag enabling=
- on
->>>>>> all SCMI power domains if that is not solving the problem you though=
-t it
->>>>>> would.
->>>>>
->>>>> Revert the flag will cause a power domain not able to wakeup SoC if t=
-he
->>>>> power domain needs power state on to have wakeup capability.
->>>>>
->>>>> I am not sure other vendor's SoC design. To i.MX95, without this flag=
- set,
->>>>> the NETC will lose wakeup on LAN capability.
->>>>>
->>>>> Regards,
->>>>> Peng.
->>>>>
->>>>>>
->>>>>> --
->>>>>> Regards,
->>>>>> Sudeep
->>>>>>
->>>>>
->>>
->>> Kind regards
->>> Uffe
->>>
-IMPORTANT NOTICE: The contents of this email and any attachments are confid=
-ential and may also be privileged. If you are not the intended recipient, p=
-lease notify the sender immediately and do not disclose the contents to any=
- other person, use it for any purpose, or store or copy the information in =
-any medium. Thank you.
+	Hans
