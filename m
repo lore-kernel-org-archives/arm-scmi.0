@@ -1,48 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9351E258CC2;
-	Wed, 26 Feb 2025 08:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49F7E224259
+	for <arm-scmi@vger.kernel.org>; Wed, 26 Feb 2025 09:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740560109; cv=none; b=R/sogeEZxrxVFGsSO7EMpyi8eCuHXUXAnd/ikjwk3x6L8wOrB6vDwShxcy6fNmIAk2rJnOPIGUzpIzAlMJgfYxxWBy3XfF6g4UMuWqDUEyosR6EqYFS6yvr4wf+y9q+WcnLLKU3hiRXi2jNlzEkg+rOe6HvcDdBQPNcX7T6vMq8=
+	t=1740562296; cv=none; b=R2aBm62fnCtPmstdshBZIVfr415J1cKJu8/JW8O+fXPPZYxlwW+DtdP6yl8QrVHDYUZ29aCksizdxhUGxsEFX+7OPCvIMjeCY3Sb9agicitq5aBLX3bmhWTWo7Ec1Op4l+TP4eBeXFbk+SCPJCib7PmCCncPF4XWx20O4ztgtSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740560109; c=relaxed/simple;
-	bh=k9Imo4Ndb+Av6okiCY/htILEn6oyEwrXzbQnbAjSjo4=;
+	s=arc-20240116; t=1740562296; c=relaxed/simple;
+	bh=zSnFh/V954vG228E4AT3oDsfE5dsUPzc5tASUg1o6qU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ITcamPqDTfIX8u1fe3xDxYvL8L/plxI6fhxQDm1875MerY5nFfZSx5SbFynMB5DyhrRotkaDp4YkGRM9jYzaApveoNI5IFl7xOrD+WeUDGCbP9o5mVnyomnWD0BiQCLJhxvAAfjN7qJJIayQw4coDsqKSQnXYXphkV4HhVMUZMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mVDJWhkL; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=C7eci1kx2ypUV47v82+UhKUAZPi6gbCrPTWMM2Xyn9Xd7Bqc4/htsAMg8411xCDai8FhnMmjEq0wkUpIEM4BARt7MH6yMPcKSeVD/MHFyNWy0TQDNZaYZvrns5VRce5WOwD22xxCMCmr8ghOZb5avtgreQoXlvDV/NPaOumGGVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tOt7FKBy; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mVDJWhkL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01663C4CED6;
-	Wed, 26 Feb 2025 08:55:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740560109;
-	bh=k9Imo4Ndb+Av6okiCY/htILEn6oyEwrXzbQnbAjSjo4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mVDJWhkLl84U3eyL0yjbQXFgShXMKq3Ay6Mog2dflRLeJZVCBeTBR+E9F43TEA5iP
-	 wSN1Foc7A2kFeeM5JFDWbAbEPhtch38XJQKpb0POGXr0rHq+yWxFd74TN6LBUy9yac
-	 eXBzIfoIPpGBFqgorhgz8jVDVot8nifzXyFOU2KbOXy3c0o2Ix/HvjvGWE9WsQviKz
-	 iajrmmlAW0TY0/le6hESGZBTfxSJ/I2q3V9oPzsMntmRkLAJ1+LwK33W6s0GF+6yK6
-	 C3NtvikLi2Z+zRNhFjoSxAev4RpXFtyghSuZQdEYxnZdvh+se/tRh4JfZkWZJqKJbe
-	 rbJIlfRH0Tw8w==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1tnDCL-000000007d2-0AyI;
-	Wed, 26 Feb 2025 09:55:21 +0100
-Date: Wed, 26 Feb 2025 09:55:21 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Sibi Sankar <quic_sibis@quicinc.com>
-Cc: sudeep.holla@arm.com, cristian.marussi@arm.com,
-	dmitry.baryshkov@linaro.org, maz@kernel.org,
-	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	konradybcio@kernel.org
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tOt7FKBy"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5e04cb346eeso10894538a12.2
+        for <arm-scmi@vger.kernel.org>; Wed, 26 Feb 2025 01:31:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740562292; x=1741167092; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=U7HLSyA6mw5885Yw/vt1qQCOh4p9cGkmIlOUNwXfUDY=;
+        b=tOt7FKByCkKf0E0aQ3zW4McoHvqK9QDVsUSGhNSwoiRGn5tHKPumTAZBZjyTZfb5g/
+         XgTFuCjg2n7MGaVHxvU7gxTimaxoTeKqqyoFWFilYhA9DCunUZnUkm4kxkVATnkjpqEl
+         hd+ctLup1C2RyIvvGGsVbVdHxSnMwcYqzfSnSatynApeeNBSAfX5WKv1vAvXTmDZbBa6
+         EfzRuGxYOONBjQLvsPi8Isxy5ebkLGmG94bIF3hH8WbdE9p90vXfqLpS9xWNQutEv4tF
+         uJVRlk9zakZuebFx7oYRhgvHkhrTiGRaOk7wSeAj7qZ+8sZQwLWNxYK50/SPiqC+KWPT
+         F0MA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740562292; x=1741167092;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U7HLSyA6mw5885Yw/vt1qQCOh4p9cGkmIlOUNwXfUDY=;
+        b=MWNqRF62rytm71VDMDJI9SnOp+u+c1MlcnHuyuv3c9JTF1UEMsj6TdJndbKYHT9XIT
+         mH2DcW0tYwNbi8HNSAEJostGUHuQlOd7J+vM3bzCrN68EMSJyRgJHnoZnSM1HLy2Obl1
+         jqLljCOXcTypjlOhnK8ig79ksPMbCv9qpsRtXp7mr49MkdPZ391g8Vl1ao5VOx4sAqIu
+         f4PlOOTR/IcP30ba/y7E2rUR6deW3X59TSGqNzNb/GFLCf8sBfE34dta7ZlV2jMaMhaW
+         PUDwU9TepRjqktqdvbF+FKtK9Zs5yQc1qO4xozb65FgRQC0fygPkBlvlL+4GsVwTE+8T
+         DOPw==
+X-Forwarded-Encrypted: i=1; AJvYcCUfD3CfVqlw4zwFdRclW5ej+kDhPG/lREcv/Kcibf4/eNTgZYEqHQU2wl2QvXdS9NubUSQklOcTCg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3WqnDFzyiTGF3o7LBz18jfaYHefy9T92rBEK8zuVRv16tFAEu
+	BuAVVClVfWsFGBdAZYUGU3+nNbPDYc9/lyQGs9+lfU5sEU7xfX5/LY5+ipx7kl8=
+X-Gm-Gg: ASbGncvibqpD6jK1MIdWQvQKHth8fLKQ9rim9RZXZgCQOG2TTGgzV7lyMGj4dWnBecS
+	KYfcZy1URlXgro+VafRruGFp1hV50kmyRnl8Q9bNPBo/ihafb5d1gfuCM/722Ud2npdGia28Lvv
+	pKW3VhnhUd6K1UdQkTwMLLQCty5/rDT5uU96phZM9Lxem551Rjw8rmgbu4IKfYhr2qvr3pTCeke
+	VG1NiXnf1TCYc208FeQx7EH+Y6lClYhIYjsEn6UuqvIy7A4J6dwL1Ng7wIZnyMncSknutgb3Jo8
+	hY6oq3ia1Gn6uGnYH3Sbc4giswUDBEo=
+X-Google-Smtp-Source: AGHT+IHOlwVgMQ+XjHmskbWK3r145DW/sQyZFjaekImQ2FOuF7PWx//irvpWADdBWiQERIVywycnfQ==
+X-Received: by 2002:a17:906:f58d:b0:abb:6259:477e with SMTP id a640c23a62f3a-abc09e37f41mr2064332066b.55.1740562292322;
+        Wed, 26 Feb 2025 01:31:32 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abed2010f74sm288418966b.121.2025.02.26.01.31.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Feb 2025 01:31:31 -0800 (PST)
+Date: Wed, 26 Feb 2025 12:31:27 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Sibi Sankar <quic_sibis@quicinc.com>, sudeep.holla@arm.com,
+	cristian.marussi@arm.com, dmitry.baryshkov@linaro.org,
+	maz@kernel.org, linux-kernel@vger.kernel.org,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, konradybcio@kernel.org
 Subject: Re: [RFC V6 2/2] firmware: arm_scmi: Add quirk to bypass SCP fw bug
-Message-ID: <Z77W-fKBUqAALZKJ@hovoldconsulting.com>
+Message-ID: <759226e1-05aa-4ca2-b2f5-7f1a84dc427f@stanley.mountain>
 References: <20250226024338.3994701-1-quic_sibis@quicinc.com>
  <20250226024338.3994701-3-quic_sibis@quicinc.com>
  <Z77M5iXHQsdMptWm@hovoldconsulting.com>
+ <Z77W-fKBUqAALZKJ@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -51,47 +78,61 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z77M5iXHQsdMptWm@hovoldconsulting.com>
+In-Reply-To: <Z77W-fKBUqAALZKJ@hovoldconsulting.com>
 
-On Wed, Feb 26, 2025 at 09:12:23AM +0100, Johan Hovold wrote:
-> On Wed, Feb 26, 2025 at 08:13:38AM +0530, Sibi Sankar wrote:
-
-> >  scmi_common_fastchannel_init(const struct scmi_protocol_handle *ph,
-> >  			     u8 describe_id, u32 message_id, u32 valid_size,
-> >  			     u32 domain, void __iomem **p_addr,
-> > -			     struct scmi_fc_db_info **p_db, u32 *rate_limit)
-> > +			     struct scmi_fc_db_info **p_db, u32 *rate_limit,
-> > +			     bool skip_check)
+On Wed, Feb 26, 2025 at 09:55:21AM +0100, Johan Hovold wrote:
+> On Wed, Feb 26, 2025 at 09:12:23AM +0100, Johan Hovold wrote:
+> > On Wed, Feb 26, 2025 at 08:13:38AM +0530, Sibi Sankar wrote:
 > 
-> This does not look like it will scale.
-
-After taking a closer look, perhaps it needs to be done along these
-lines.
-
-But calling the parameter 'force' or similar as Dan suggested should
-make it more readable.
-
+> > >  scmi_common_fastchannel_init(const struct scmi_protocol_handle *ph,
+> > >  			     u8 describe_id, u32 message_id, u32 valid_size,
+> > >  			     u32 domain, void __iomem **p_addr,
+> > > -			     struct scmi_fc_db_info **p_db, u32 *rate_limit)
+> > > +			     struct scmi_fc_db_info **p_db, u32 *rate_limit,
+> > > +			     bool skip_check)
+> > 
+> > This does not look like it will scale.
 > 
-> >  {
-> >  	int ret;
-> >  	u32 flags;
-> > @@ -1919,7 +1920,7 @@ scmi_common_fastchannel_init(const struct scmi_protocol_handle *ph,
-> >  
-> >  	/* Check if the MSG_ID supports fastchannel */
-> >  	ret = scmi_protocol_msg_check(ph, message_id, &attributes);
-> > -	if (!ret && !MSG_SUPPORTS_FASTCHANNEL(attributes))
-> > +	if (!ret && !MSG_SUPPORTS_FASTCHANNEL(attributes) && !skip_check)
+> After taking a closer look, perhaps it needs to be done along these
+> lines.
 > 
-> Why can't you just make sure that the bit is set in attributes as I
-> suggested? That seems like it should allow for a minimal implementation
-> of this.
+> But calling the parameter 'force' or similar as Dan suggested should
+> make it more readable.
+> 
+> > 
+> > >  {
+> > >  	int ret;
+> > >  	u32 flags;
+> > > @@ -1919,7 +1920,7 @@ scmi_common_fastchannel_init(const struct scmi_protocol_handle *ph,
+> > >  
+> > >  	/* Check if the MSG_ID supports fastchannel */
+> > >  	ret = scmi_protocol_msg_check(ph, message_id, &attributes);
+> > > -	if (!ret && !MSG_SUPPORTS_FASTCHANNEL(attributes))
+> > > +	if (!ret && !MSG_SUPPORTS_FASTCHANNEL(attributes) && !skip_check)
+> > 
+> > Why can't you just make sure that the bit is set in attributes as I
+> > suggested? That seems like it should allow for a minimal implementation
+> > of this.
+> 
+> My idea here was that you could come up with some way of abstracting
+> this so that you did not have to update every call site. Not sure how
+> feasible that is.
+> 
 
-My idea here was that you could come up with some way of abstracting
-this so that you did not have to update every call site. Not sure how
-feasible that is.
+I'm having a hard time finding your email.
 
-> >  		return;
-> >  
-> >  	if (!p_addr) {
+Why does the scmi_proto_helpers_ops struct even exist?  We could just
+call all these functions directly.  Do we have plans to actually create
+different implementations?
 
-Johan
+If we got rid of the scmi_proto_helpers_ops struct then we could just
+rename scmi_common_fastchannel_init() to __scmi_common_fastchannel_init()
+and create a default wrapper around it and a _forced() wrapper.
+
+Some other potentially stupid ideas in the spirit of brainstorming are
+that we could add a quirks parameter which takes a flag instead of a
+bool.  Or we could add a quirks flag to the scmi_protocol_handle struct.
+
+regards,
+dan carpenter
+
