@@ -1,40 +1,37 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD46213A3F2;
-	Thu, 27 Feb 2025 08:34:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62306227599;
+	Thu, 27 Feb 2025 09:12:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740645297; cv=none; b=RuCk0ofke7CRG5LX0hoJzgtLC0x/ZpXprK3o+di20ULEkkMF/zBOVjXMlOPP6IK4/V+NJso9GW2R3/5HEwxkzlbrLWruNq9ZkD3sVDz8DL8t3ED+GCTm/arK59FgHNTHOHpRvRt/C/wRWIHmji25NQhsqPiKKmnxLvcnehA8a4E=
+	t=1740647545; cv=none; b=Ff4ZjdYwh6HzSUN9gkdcaW3ntb4navV8XM+K46Kd6bow5Q0vh8wzocuE74ttSpBQeJklWQ5cHEAOPOPXZe0ecvO5/jlelHO5G0hg13I5CViSnuaTvgEs6t/yWv7+int4qVLj+DOb/KlfQPETMkA6+C6GshJenEfH7u2TiKS/PW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740645297; c=relaxed/simple;
-	bh=5ZLeqmdkLwQ5NBO+s0wVpWR+KwHTu+P2L07dgmrQd08=;
+	s=arc-20240116; t=1740647545; c=relaxed/simple;
+	bh=l/ugFLJaIKamHn5kr0KvgF8RGwpPoaLUQqqZx88pHY4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tjIJVwEegfMYzh9yvU0kcjtrpOv0YQgVyMfWpge0cDpX0JBlXlkCR50f9T1axpkx7s8e1netx6Nv81Kez8kBQIVgdmgQNcLp/RYGVbY7QGLHSWvVme9pnn/dHW4GjCPNeVaCe8NhJ7GatEoWmGltjR6KPDCcP/Djmk3X7yvv664=
+	 Content-Type:Content-Disposition:In-Reply-To; b=ePNvnAg49+CvK2ghBgYd5dxdpUuRL/vufix7mOjO1lxESZ1CT9AKALN91RlPVmkWeBlFMkDOfqYMhpd8VzhiIg4FpCeVp+UzZb/tv4F4Dr8ndqYHW5rgfDqFGQsAEQfSfB8QOSCfD7l3J432qZjb855OvanLymW/CecDf3BxulE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A80172C1C;
-	Thu, 27 Feb 2025 00:35:10 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 719873F6A8;
-	Thu, 27 Feb 2025 00:34:53 -0800 (PST)
-Date: Thu, 27 Feb 2025 08:34:44 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	Sibi Sankar <quic_sibis@quicinc.com>, sudeep.holla@arm.com,
-	cristian.marussi@arm.com, dmitry.baryshkov@linaro.org,
-	maz@kernel.org, linux-kernel@vger.kernel.org,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, konradybcio@kernel.org
-Subject: Re: [RFC V6 2/2] firmware: arm_scmi: Add quirk to bypass SCP fw bug
-Message-ID: <Z8AjhHsVT9ZQTtZX@pluto>
-References: <20250226024338.3994701-1-quic_sibis@quicinc.com>
- <20250226024338.3994701-3-quic_sibis@quicinc.com>
- <Z77M5iXHQsdMptWm@hovoldconsulting.com>
- <Z77W-fKBUqAALZKJ@hovoldconsulting.com>
- <759226e1-05aa-4ca2-b2f5-7f1a84dc427f@stanley.mountain>
- <Z77l1NflYXTnRyg0@hovoldconsulting.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 145782BCA;
+	Thu, 27 Feb 2025 01:12:39 -0800 (PST)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 88B543F6A8;
+	Thu, 27 Feb 2025 01:12:21 -0800 (PST)
+Date: Thu, 27 Feb 2025 09:12:18 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Peng Fan <peng.fan@oss.nxp.com>
+Cc: Rob Herring <robh@kernel.org>, <cristian.marussi@arm.com>,
+	<saravanak@google.com>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+	<arm-scmi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	Peng Fan <peng.fan@nxp.com>
+Subject: Re: [RFC] dt-bindings: firmware: scmi: Introduce compatible string
+Message-ID: <Z8AscmP2O_HjEnsL@bogus>
+References: <20250226094456.2351571-1-peng.fan@oss.nxp.com>
+ <20250226160945.GA2505223-robh@kernel.org>
+ <Z79NOeyWzfRio8qs@bogus>
+ <20250227031551.GC11411@nxa18884-linux>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -43,110 +40,49 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z77l1NflYXTnRyg0@hovoldconsulting.com>
+In-Reply-To: <20250227031551.GC11411@nxa18884-linux>
 
-On Wed, Feb 26, 2025 at 10:58:44AM +0100, Johan Hovold wrote:
-> On Wed, Feb 26, 2025 at 12:31:27PM +0300, Dan Carpenter wrote:
-> > On Wed, Feb 26, 2025 at 09:55:21AM +0100, Johan Hovold wrote:
-> > > On Wed, Feb 26, 2025 at 09:12:23AM +0100, Johan Hovold wrote:
-> > > > On Wed, Feb 26, 2025 at 08:13:38AM +0530, Sibi Sankar wrote:
-> > > 
-> > > > >  scmi_common_fastchannel_init(const struct scmi_protocol_handle *ph,
-> > > > >  			     u8 describe_id, u32 message_id, u32 valid_size,
-> > > > >  			     u32 domain, void __iomem **p_addr,
-> > > > > -			     struct scmi_fc_db_info **p_db, u32 *rate_limit)
-> > > > > +			     struct scmi_fc_db_info **p_db, u32 *rate_limit,
-> > > > > +			     bool skip_check)
-> > > > 
-> > > > This does not look like it will scale.
-> > > 
-
-Hi,
-
-> > > After taking a closer look, perhaps it needs to be done along these
-> > > lines.
-> > > 
-> > > But calling the parameter 'force' or similar as Dan suggested should
-> > > make it more readable.
-> > > 
-> > > > >  {
-> > > > >  	int ret;
-> > > > >  	u32 flags;
-> > > > > @@ -1919,7 +1920,7 @@ scmi_common_fastchannel_init(const struct scmi_protocol_handle *ph,
-> > > > >  
-> > > > >  	/* Check if the MSG_ID supports fastchannel */
-> > > > >  	ret = scmi_protocol_msg_check(ph, message_id, &attributes);
-> > > > > -	if (!ret && !MSG_SUPPORTS_FASTCHANNEL(attributes))
-> > > > > +	if (!ret && !MSG_SUPPORTS_FASTCHANNEL(attributes) && !skip_check)
-> > > > 
-> > > > Why can't you just make sure that the bit is set in attributes as I
-> > > > suggested? That seems like it should allow for a minimal implementation
-> > > > of this.
-> > > 
-> > > My idea here was that you could come up with some way of abstracting
-> > > this so that you did not have to update every call site. Not sure how
-> > > feasible that is.
-> > 
-> > I'm having a hard time finding your email.
+On Thu, Feb 27, 2025 at 11:15:51AM +0800, Peng Fan wrote:
+> On Wed, Feb 26, 2025 at 05:19:53PM +0000, Sudeep Holla wrote:
+> >On Wed, Feb 26, 2025 at 10:09:45AM -0600, Rob Herring wrote:
+> >> On Wed, Feb 26, 2025 at 05:44:56PM +0800, Peng Fan (OSS) wrote:
+> >> > Quote Sudeep's reply"
+> >> > I am not blocking you. What I mentioned is I don't agree that DT can be used
+> >> > to resolve this issue, but I don't have time or alternate solution ATM. So
+> >> > if you propose DT based solution and the maintainers agree for the proposed
+> >> > bindings I will take a look and help you to make that work. But I will raise
+> >> > any objections I may have if the proposal has issues mainly around the
+> >> > compatibility and ease of maintenance.
+> >> > "
+> >>
+> >> This all looks to me like SCMI has failed to provide common interfaces.
+> >>
+> >
+> >We can look into this if having such common interface can solve this problem.
+> >
+> >> I'm indifferent. If everyone involved thinks adding compatibles will
+> >> solve whatever the issues are, then it's going to be fine with me
+> >> (other than the issue above). It doesn't seem like you have that, so I
+> >> don't know that I'd keep going down this path.
+> >
+> >Sorry if I was ambiguous with my stance as quoted above. For me, 2 devices
+> >pointing to the same node seems implementation issue rather than fixing/
+> >working around by extending DT bindings like this $subject patch is
+> >attempting.
+> >
+> >If you disagree with that and think 2 devices in the kernel shouldn't
+> >point to the same device tree node, then yes I see this is right approach
+> >to take. ATM I don't know which is correct and what are other developer's
+> >include DT maintainer opinion on this. I just didn't like the way Peng
+> >was trying to solve it with some block/allow list which wouldn't have
+> >fixed the issue or just created new ones.
 > 
-> 	https://lore.kernel.org/lkml/Z4Dt8E7C6upVtEGV@hovoldconsulting.com/
->  
-> > Why does the scmi_proto_helpers_ops struct even exist?  We could just
-> > call all these functions directly.  Do we have plans to actually create
-> > different implementations?
-> > 
-> > If we got rid of the scmi_proto_helpers_ops struct then we could just
-> > rename scmi_common_fastchannel_init() to __scmi_common_fastchannel_init()
-> > and create a default wrapper around it and a _forced() wrapper.
-> > 
-> > Some other potentially stupid ideas in the spirit of brainstorming are
-> > that we could add a quirks parameter which takes a flag instead of a
-> > bool.  Or we could add a quirks flag to the scmi_protocol_handle struct.
+> With compatible string, no need block/allow list anymore I think.
 > 
-> Something like that, yes. :) I didn't try to implement it, but it seems
-> like it should be possible implement this is a way that keeps the quirk
-> handling isolated.
->
 
-I hope next week to have a better look at this, in tne meantime just a
-few considerations....
+I completely understand that, I was referring to your earlier alternative
+solution to this $subject approach. Sorry if that was evidently clear.
 
-Sooner or later we should have introduced some sort of quirk framework
-in SCMI to deal systematically with potentially out-of-spec FW, but as
-in the name, it should be some sort of framework where you have a table of
-quirks, related activation conditions and a few very well isolated points
-where the quirks are placed and take action if enabled...this does not
-seem the case here where instead an ad-hoc param is added to the function
-that needs to be quirked...this does not scale and will make the codebase
-a mess IMHO...
-
-Last but not least, these quirks 'activations' in the SCMI world should
-be driven mainly by the VENDOR/SUB-VENDOR/IMPLEMENTATION_VERS triple and
-only as a last resort by a platform compatible match...because the
-IMPLEMENTATION_VERSION, exposed by the FW and gathered via SCMI Base
-protocol, is completely under the vendor control so it can, and should, be
-used to identify broken FW-versions...indeed all the distinct SCMI protocols
-are anyway versioned elsewhere according to the spec, so there is no need to
-repeat SCMI protocol version here..I mean it is an IMPLEMENTATION version
-
-As an example on a JUNO the SCP reference FW reports:
-
-arm-scmi arm-scmi.1.auto: SCMI Protocol v2.0 'arm:arm' Firmware version 0x20f0000
-
-where the FW version represent something like the FW release tag, I think...not
-really sure about the menaing our FW gys give to it, BUT definitely it is not
-a bare copy of the SCMI protocol version...
-
-So...
-...does the platfom-to-be-quirked at hand properly use the IMPLEMENTATION_VERSION
-flag in a sensible way ?
-IOW does that change between a bad and good (or less bad :D) version ?
-Because shooting with the platform 'compatible-gun' should be the last resort
-if all of the above does NOT happen in this beloved fw...
-
-Anyway, after all of this babbling, I know, talk is cheap :D...so now I will shut
-up and see if I can prototype something generic to deal with quirks, possibly
-next week...
-
-Thanks,
-Cristian
+-- 
+Regards,
+Sudeep
