@@ -1,79 +1,53 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A471552E0
-	for <arm-scmi@vger.kernel.org>; Mon,  3 Mar 2025 08:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53AC91F4174;
+	Mon,  3 Mar 2025 10:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740989006; cv=none; b=Z9hDOxPPb85o6ljnASzm6au9QBAUmNqlpR3msHvXatYEod2j4QdYq+lR+DIbMewN+qOu0c/H/Yjh9eVt6bn2mxVme05iml1DKa38Mkpu1ZqpGisxUhzlDxpty2z+mB7KrntOyPTj+JDZx9AXK0J3KV4QZ6hEO8vYAy+JD6alkQY=
+	t=1740999238; cv=none; b=TxIxOZ3OL9+FCcsfp9huwT8Qt/yGkGqH9PFCxz0alt2DNdQXF+mftAwGx/XDJMZlA1G726Kt05JVjgUJEuPRtl0GGRWMGUeTBwqhP/TlztuWEEyxyS2htN+uDeinb2BMWGPMXACFrFGoJtENu/cu0As2UHlmX21lba4gJ9lJagU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740989006; c=relaxed/simple;
-	bh=jXmABgKlTV2rT+eRZ9rrvS2Qs32wSTbnbdHdyY3i1zI=;
+	s=arc-20240116; t=1740999238; c=relaxed/simple;
+	bh=x9DafxnZjhibXkXWWLnjj9HDJzQbEq4SqW+dqvT9BE0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lYL2oI/0nawxXT/vT0QDJVot3EzXRyLMf7w0Cl6oW9O7ZaozLuZE7qGeQuLZal/Tn+qfJDK53RX4ClcwZCt85w0cjzTi7sp0lueVupj0tQOz/i2WBM6+1Wwh8Ax43BcNR/2RnKACC+QuVPBwX0JzYi9XuV4DjOlND6Dqh/vp6xk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qw4KkNK3; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=LayTcC4whr+lsILUhN978RZWMyR7eEXUfflMEpIa66X3ZkYgxZX7Csi6aVzUtUE9b7dtKbRz4/KYsUK488CS8uqvqTTK48wzi3ZKjPFlDZ0N15ZxWa+kisoi50fAfS0nMcGges60Jv+0Ci4W+euYzoxh8qiRUKfrzsQ1jkUfp1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bsZj4rsm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qw4KkNK3"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5e56b229d60so492130a12.0
-        for <arm-scmi@vger.kernel.org>; Mon, 03 Mar 2025 00:03:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740989003; x=1741593803; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=L/kOfm+NCxRWU3KiubFOyYUQosuGisbp/XscJHpDiwI=;
-        b=qw4KkNK39YKUf3BeGHAcfRXZoWAhW4zvxMF/3RstXU/gmsOdO5I1kxey0L9liwXCNt
-         3klQAZSP5No7NUOvzdi4KdhZjXTFD7+cn19gSdJi/hA46S5UmrTjSxjL9RS9b2q/a7KV
-         vEbcW32gK0Gm9nA+bvBH2v8u0wlB3Jw6w0QlO4nXHFyY6tRlCXYmCZwvtDGWRzaSa9JS
-         yN+rOjDqxnvjRXv3TommK6PeSaDOHW60d3vigc/Qoq6DC6eP1/07J8r3aOQDBxN6CfVb
-         8TaDnJh3Mg4i3ik3V4AtTZr3Ne89cosBKIPxkFUfkf119BKRkLBHoJcv8RTiZPI7s2Lx
-         rTTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740989003; x=1741593803;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L/kOfm+NCxRWU3KiubFOyYUQosuGisbp/XscJHpDiwI=;
-        b=gDVObRmV3QbOM3TdwPisGNKamoRcSp+JYd0ec3zqacOtn8xs+QLyaZLPFJ5btIhDoV
-         99XQx9QPNQNJHZVIvEDmpyNYJIyaNH+NBK6loieoJ6eSmmUsTWm3JXLDGuVO+7DgIaJX
-         bVDdFx9Zh3UoxM1qWdCYpWVF+9ap/wA0x6cmXJtLWoPEMZ3n5E3CMNxNMqH/xkwxpydU
-         btzOvhvdJun7SdCoYJwY4ccwmeclIYK9WUBzLUZto3Q9yJlmUGJTSYeL70SeSI7SLb1e
-         ZJHblJlVRAXj75RevpaMQS13WX95fl7Z5JwCvquzxaodWILCB+9O9oa4pEfAvLGciy/U
-         HaOA==
-X-Forwarded-Encrypted: i=1; AJvYcCV8y5A3SoclGadWy1hZFACha0WEMFMMaZcGMVaWaH9WptsVSHQ03YbTDBhVL2KcWfCB3lQgACNolQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUdSlKCQGqQJmuI3/lsJTesHhIq342OXLB01ZsqZA4WBg+buSR
-	hndjsLLdMhTaylKrh6myXBAhBwmcm1x0aV1p7ZDMdhA6bYIpb4fT9fIKJ0agFsQ=
-X-Gm-Gg: ASbGnctlg4+3x62CEcvv9mCKrm2CxBpERJBUmcqvBQ1x1sT7vm5oIU457iPJzcbCi2K
-	GqymnrRnFzv59UcYQgvm0BB82+GGaTy6y4Du7LdY3C89Z4avs36675BSOzpaDvq6hq8MGtcm2IZ
-	MwIbegkXsPu8rbRq2ST/mrGB8VF99VnnLtA/z8vRQRucMIR2+1Kq4qpn23a3nxEZOK2uO6HmFiN
-	EvgQvuJE1zNnd9k3NlQPGQkpaBvQqclL+pXrEc3yt7qQ/6xPY8t3CSq/C5UDAcBHygGsyFwa0qT
-	eS+XpB3YecPAFxxc1w8a2CWwl+RfdaJK/k+Y3rDBAYXXGQt1AQ==
-X-Google-Smtp-Source: AGHT+IHSJwyoyFbSkRa1UEg1HQ8PZPp0oWijLI/xxUyJmjC4df5Zae4YdAsynhyaSb+1Hid60bmPNw==
-X-Received: by 2002:a17:907:7f26:b0:ab7:f853:1445 with SMTP id a640c23a62f3a-abf26883e80mr1335907866b.26.1740989002624;
-        Mon, 03 Mar 2025 00:03:22 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abf0c6ee730sm764757766b.104.2025.03.03.00.03.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Mar 2025 00:03:22 -0800 (PST)
-Date: Mon, 3 Mar 2025 11:03:18 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev, devicetree@vger.kernel.org,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v3 3/7] firmware: arm_scmi: imx: Add i.MX95 LMM protocol
-Message-ID: <2c8e8e93-4ce7-4260-94bd-eabba0b7732d@stanley.mountain>
-References: <20250303-imx-lmm-cpu-v3-0-7695f6f61cfc@nxp.com>
- <20250303-imx-lmm-cpu-v3-3-7695f6f61cfc@nxp.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bsZj4rsm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8B62C4CED6;
+	Mon,  3 Mar 2025 10:53:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740999237;
+	bh=x9DafxnZjhibXkXWWLnjj9HDJzQbEq4SqW+dqvT9BE0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bsZj4rsmU/F1Q2BWq6kCpwkZDU8bVlA5ZeliPJWlRLGcHiBIqoXbE5TfGDzBOhBwc
+	 p8JrexXMSUL9Npt1IJkXoFZIXS/Xzpca/ZXIXmIcbJbBjLhIY9eqJdnAty/xT6cdJS
+	 ZXZR6JMTUGw1nGuLhCJT7vdxC66+OnAhbhg/rABx3SxOc5PrPYPP5wpEcCBFXoetOT
+	 GfiJcw2UwoDGJgYm0Z+rlVUwrAfT+oAzbbx8mxcsmqtjUirh9c+An1ud6YpVTgwgW6
+	 4F6WSjW8PBqOYFoOo7R3wf7ms0edgoSoPZJ5B7pucS4y2HSYxT13CeyYeHDnWlEyjQ
+	 6GzZwpJ/dD7Cw==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1tp3Qm-000000004Ws-0yFQ;
+	Mon, 03 Mar 2025 11:53:52 +0100
+Date: Mon, 3 Mar 2025 11:53:52 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	Sibi Sankar <quic_sibis@quicinc.com>, sudeep.holla@arm.com,
+	dmitry.baryshkov@linaro.org, maz@kernel.org,
+	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	konradybcio@kernel.org
+Subject: Re: [RFC V6 2/2] firmware: arm_scmi: Add quirk to bypass SCP fw bug
+Message-ID: <Z8WKQJcPTQDIXaKD@hovoldconsulting.com>
+References: <20250226024338.3994701-1-quic_sibis@quicinc.com>
+ <20250226024338.3994701-3-quic_sibis@quicinc.com>
+ <Z77M5iXHQsdMptWm@hovoldconsulting.com>
+ <Z77W-fKBUqAALZKJ@hovoldconsulting.com>
+ <759226e1-05aa-4ca2-b2f5-7f1a84dc427f@stanley.mountain>
+ <Z77l1NflYXTnRyg0@hovoldconsulting.com>
+ <Z8AjhHsVT9ZQTtZX@pluto>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -82,42 +56,88 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250303-imx-lmm-cpu-v3-3-7695f6f61cfc@nxp.com>
+In-Reply-To: <Z8AjhHsVT9ZQTtZX@pluto>
 
-On Mon, Mar 03, 2025 at 10:53:24AM +0800, Peng Fan (OSS) wrote:
-> +static int scmi_imx_lmm_attributes(const struct scmi_protocol_handle *ph,
-> +				   u32 lmid, struct scmi_imx_lmm_info *info)
-> +{
-> +	struct scmi_msg_imx_lmm_attributes_out *out;
-> +	struct scmi_xfer *t;
-> +	int ret;
-> +
-> +	ret = ph->xops->xfer_get_init(ph, SCMI_IMX_LMM_ATTRIBUTES, sizeof(u32), 0, &t);
-> +	if (ret)
-> +		return ret;
-> +
-> +	put_unaligned_le32(lmid, t->tx.buf);
-> +	ret = ph->xops->do_xfer(ph, t);
-> +	if (!ret) {
-> +		out = t->rx.buf;
-> +		info->lmid = le32_to_cpu(out->lmid);
-> +		info->state = le32_to_cpu(out->state);
-> +		info->errstatus = le32_to_cpu(out->errstatus);
-> +		strscpy(info->name, out->name);
-> +		dev_dbg(ph->dev, "i.MX LMM: Logical Machine(%d), name: %s\n",
-> +			info->lmid, out->name);
+Hi Cristian,
 
-Print info->name instead of out->name.
+On Thu, Feb 27, 2025 at 08:34:44AM +0000, Cristian Marussi wrote:
+> On Wed, Feb 26, 2025 at 10:58:44AM +0100, Johan Hovold wrote:
 
-> +	} else {
-> +		dev_err(ph->dev, "i.MX LMM: Failed to get info of Logical Machine(%u)\n", lmid);
-> +	}
-> +
-> +	ph->xops->xfer_put(ph, t);
-> +
-> +	return ret;
-> +}
+> > Something like that, yes. :) I didn't try to implement it, but it seems
+> > like it should be possible implement this is a way that keeps the quirk
+> > handling isolated.
+> 
+> I hope next week to have a better look at this, in tne meantime just a
+> few considerations....
+> 
+> Sooner or later we should have introduced some sort of quirk framework
+> in SCMI to deal systematically with potentially out-of-spec FW, but as
+> in the name, it should be some sort of framework where you have a table of
+> quirks, related activation conditions and a few very well isolated points
+> where the quirks are placed and take action if enabled...this does not
+> seem the case here where instead an ad-hoc param is added to the function
+> that needs to be quirked...this does not scale and will make the codebase
+> a mess IMHO...
 
-regards,
-dan carpenter
+Sounds good. At least we have a good understanding now of how this
+particular firmware is broken so it would be great if you could use
+this as a test case for the implementation.
 
+In summary, we need to force the use of a fast channel for
+PERF_LEVEL_GET on these machines, or possibly fall back to the current
+behaviour of only using the domain attribute to determine whether the
+fast channels should be initialised.
+
+The latter may allow for a less intrusive implementation even if we'd
+still see:
+
+	arm-scmi arm-scmi.0.auto: Failed to get FC for protocol 13 [MSG_ID:6 / RES_ID:0] - ret:-95. Using regular messaging.
+	arm-scmi arm-scmi.0.auto: Failed to get FC for protocol 13 [MSG_ID:6 / RES_ID:1] - ret:-95. Using regular messaging.
+	arm-scmi arm-scmi.0.auto: Failed to get FC for protocol 13 [MSG_ID:6 / RES_ID:2] - ret:-95. Using regular messaging.
+
+when not supported for all messages (e.g. with the current firmware).
+
+> Last but not least, these quirks 'activations' in the SCMI world should
+> be driven mainly by the VENDOR/SUB-VENDOR/IMPLEMENTATION_VERS triple and
+> only as a last resort by a platform compatible match...because the
+> IMPLEMENTATION_VERSION, exposed by the FW and gathered via SCMI Base
+> protocol, is completely under the vendor control so it can, and should, be
+> used to identify broken FW-versions...indeed all the distinct SCMI protocols
+> are anyway versioned elsewhere according to the spec, so there is no need to
+> repeat SCMI protocol version here..I mean it is an IMPLEMENTATION version
+> 
+> As an example on a JUNO the SCP reference FW reports:
+> 
+> arm-scmi arm-scmi.1.auto: SCMI Protocol v2.0 'arm:arm' Firmware version 0x20f0000
+> 
+> where the FW version represent something like the FW release tag, I think...not
+> really sure about the menaing our FW gys give to it, BUT definitely it is not
+> a bare copy of the SCMI protocol version...
+> 
+> So...
+> ...does the platfom-to-be-quirked at hand properly use the IMPLEMENTATION_VERSION
+> flag in a sensible way ?
+> IOW does that change between a bad and good (or less bad :D) version ?
+
+I guess only Sibi and Qualcomm can answer that. Both machines I have
+that suffer from this report:
+
+	arm-scmi arm-scmi.0.auto: SCMI Protocol v2.0 'Qualcomm:' Firmware version 0x20000
+
+and I'm not sure if any fixed firmware has made it out to the vendors
+yet or if the version was bumped when this was fixed.
+
+On the other hand, perhaps forcing fast channel initialisation for
+PERF_LEVEL_GET on all 'Qualcomm' firmware would work (i.e. only based on
+VENDOR).
+
+> Because shooting with the platform 'compatible-gun' should be the last resort
+> if all of the above does NOT happen in this beloved fw...
+> 
+> Anyway, after all of this babbling, I know, talk is cheap :D...so now I will shut
+> up and see if I can prototype something generic to deal with quirks, possibly
+> next week...
+
+Much appreciated, thanks.
+
+Johan
