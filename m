@@ -1,92 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A4B204695;
-	Tue,  4 Mar 2025 14:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6CCA27F4DA;
+	Tue,  4 Mar 2025 15:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741099431; cv=none; b=ly68vcM3L7LbF268FcewsgJjOCiA3LW7ULQZ26V2wxpwKJfMq0tGuDRIaUCp1FzcitSxBiADAAuo/arQx8NUtDMOUNIF+kwsMYXu6kMYzygyIQgFPYLm0aGUFoWHtrkOh2P+CIgNrH7nkxgZtbHYcFHicshaHuGLCs2oPgTuA1E=
+	t=1741102120; cv=none; b=Y2g1jwDRlAxDFB2Em5T2zQoF11xcSVrQbkj+SnkURsWcgcNeeCXdZi0ud6eWaT6sjAg0cFoUKcYuSziHe/V7DZAlQk2x8R+zwYD25mheNFqtBcrxgXJNp3QUAz5n9mn11N2XaMoSbjWt2SodtZDwTDoxS0p+bfd42Uf2kpbUU90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741099431; c=relaxed/simple;
-	bh=XfSqRqYZsA+MUDEbRTfs5BMwtTnxrzx+0E/tO5qxzN0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=B+7S24h2bTA2uEv31j7F/L136I0jX5N5HktXaMTEvNrpZLA7gkl15ZrnZmN6v+Q0em32ZKaOV0Dt4rmrTQC8pJ5xgeHtdeGxiYG6O2iJyCZwoIehwvqomZcokTugGRU9KpEiYUBMDQM4VeWXmmEsUmXSLkSxxwpKv33HQlkjvhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R5GulmQ+; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R5GulmQ+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9B20C4CEED;
-	Tue,  4 Mar 2025 14:43:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741099430;
-	bh=XfSqRqYZsA+MUDEbRTfs5BMwtTnxrzx+0E/tO5qxzN0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=R5GulmQ+RL2iHOx2ATwQmKj/WdX6qgMFdeAbidKuBl8ZTCQo5UMrIKuC5y6h6MKMR
-	 bTBnvkBtU6K0yzZoSrWrCm5SSduKh/c/mYh7xFrut/IOCCdEV8H8X20YyX0/NCtBU3
-	 Mmq/613fgsVeVu52eMAUkHZ3g7THAsWyZlbf3wnKZOFG5rUgJHgjhwUzGvP1SylqDI
-	 2guAncPF+1nBF1cjhjki7w9ebw/L5Rq/K7xBYc1Y//7cMDhwX2FyiBrrpidjA/2x5n
-	 6ALc3bxyFvwHaibCCWfygsGYwxG2Bey40wnUrDu6v4eOZzlarpt9zG6PYnczEyDquj
-	 smzsF8NIBm8Yg==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>
-Cc: soc@lists.linux.dev,
-	Arnd Bergmann <arnd@arndb.de>,
-	Luke Parkin <luke.parkin@arm.com>,
-	Peng Fan <peng.fan@nxp.com>,
-	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	s=arc-20240116; t=1741102120; c=relaxed/simple;
+	bh=xc4FEz4bXKZ8lIctaMZAYMrMWNeamvFBp6wijgRXR3Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fM24qd9suDBE2I0cqZq/YzFVEYPeHITtZ/7ZRb4bl3nMaOLe40rZXk7VIS86R8XeWXKHTivfYrkd7lzHzFtU6ZASXqxKFmteX3u115mAQSBJtMcrqKq2TLrsasEh+PHjHPKSD0+r/Jpqz8MyZ18ms9FGi/bI6zpPdKekzhpUA9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9D2A72B;
+	Tue,  4 Mar 2025 07:28:50 -0800 (PST)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 399773F66E;
+	Tue,  4 Mar 2025 07:28:35 -0800 (PST)
+Date: Tue, 4 Mar 2025 15:28:32 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, soc@lists.linux.dev,
+	Sudeep Holla <sudeep.holla@arm.com>, Arnd Bergmann <arnd@arndb.de>,
+	Luke Parkin <luke.parkin@arm.com>, Peng Fan <peng.fan@nxp.com>,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] firmware: arm_scmi: use ioread64() instead of ioread64_hi_lo()
-Date: Tue,  4 Mar 2025 15:43:34 +0100
-Message-Id: <20250304144346.1025658-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
+Subject: Re: [PATCH] firmware: arm_scmi: use ioread64() instead of
+ ioread64_hi_lo()
+Message-ID: <Z8ccIBTgn6n7CYXh@bogus>
+References: <20250304144346.1025658-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250304144346.1025658-1-arnd@kernel.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hi Arnd,
 
-The scmi_common_fastchannel_db_ring() function calls either ioread64()
-or ioread64_hi_lo() depending on whether it is compiler for 32-bit
-or 64-bit architectures.
+On Tue, Mar 04, 2025 at 03:43:34PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The scmi_common_fastchannel_db_ring() function calls either ioread64()
+> or ioread64_hi_lo() depending on whether it is compiler for 32-bit
+> or 64-bit architectures.
+> 
+> The same logic is used to define ioread64() itself in the
+> linux/io-64-nonatomic-hi-lo.h header file, so the special case
+> is not really needed.
+> 
+> The behavior here should not change at all.
 
-The same logic is used to define ioread64() itself in the
-linux/io-64-nonatomic-hi-lo.h header file, so the special case
-is not really needed.
+LGTM. I just sent PR for v6.15 this morning. Either I can redo PR with
+this included or you can just apply this directly. I am fine either way.
+If you go for the latter approach,
 
-The behavior here should not change at all.
+Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
 
-Fixes: 6f9ea4dabd2d ("firmware: arm_scmi: Generalize the fast channel support")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/firmware/arm_scmi/driver.c | 10 ----------
- 1 file changed, 10 deletions(-)
+If you prefer me to send updated PR, let me know. I don't want to create
+confusion by recalling by PR and sending an updated one without consulting
+you.
 
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 60050da54bf2..1c75a4c9c371 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -1997,17 +1997,7 @@ static void scmi_common_fastchannel_db_ring(struct scmi_fc_db_info *db)
- 	else if (db->width == 4)
- 		SCMI_PROTO_FC_RING_DB(32);
- 	else /* db->width == 8 */
--#ifdef CONFIG_64BIT
- 		SCMI_PROTO_FC_RING_DB(64);
--#else
--	{
--		u64 val = 0;
--
--		if (db->mask)
--			val = ioread64_hi_lo(db->addr) & db->mask;
--		iowrite64_hi_lo(db->set | val, db->addr);
--	}
--#endif
- }
- 
- /**
--- 
-2.39.5
-
+--
+Regards,
+Sudeep
