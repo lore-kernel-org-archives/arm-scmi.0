@@ -1,174 +1,106 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2585243362
-	for <arm-scmi@vger.kernel.org>; Wed,  5 Mar 2025 12:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A692624C062;
+	Wed,  5 Mar 2025 17:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741176003; cv=none; b=DP9vQkf2h/41yITZ3VJwqi8U2+tY+ICfdf7Sp7tdVLdSv8L/JTIzGfTDh72XMptZp6k37vZ6LIn24aNU9+xg/u2b2xtQqBUqJfY1KxKUIDz+aIWD1pQkua00xQLy7+Y8JGLgpbHH8u5YHT3Vb8e1ON9PMZVCFDTI6ql4npC89/Q=
+	t=1741194630; cv=none; b=V8s2FUtHOzd3JL2DmAsl2iuo4S9RjSHqY/E8cQd9iGQE9a7h3MmfDpsWsC1aZ74Nrt5vj25jcMLk6QsPhmZEmj2JTAe/AL6GvBds2+OvShtqQV5hPt5IRpySt6MV9vfakk9i9xQPJn/C53DjsrzHifGuU2vWzvb1eCoQxv+UXLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741176003; c=relaxed/simple;
-	bh=S3yywfLU2jBCwtpObciQg//2fXcEYPd0gB20atqKbaU=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=K5orH1h3ZA729GdT2vnNgD7fXZ1Ou5cm1kCIBlBBgpM0mAWiDktWs5YrKvHnTYfneYrobIchfrkv77Awj7YYfTHZGRCa4PMzrnBX0lABYrYT0DVGs3E6MBfrLNz7rvpMGibXg9yyb42oeGytMly4U6cqa+EF4ROiswRy6K9Ro9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oT2aPgLB; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oT2aPgLB"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-43935e09897so48925475e9.1
-        for <arm-scmi@vger.kernel.org>; Wed, 05 Mar 2025 04:00:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1741176000; x=1741780800; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=nxrQLrve5ZYCaqi57EKV0xP1vwlYg25qE1yTCds7PDM=;
-        b=oT2aPgLBlGo1m3kzcC3jwe/CEDX2GOuttRzRHWcHcPZcZOvlG5xwXu3cMXj9om0MIl
-         oBUhmY+bmJNX1/A1P4/XHp7/Rt+dvxK+HFtAQu9S2UTKSSgSHZ5pqHvahDWC17eDy2GV
-         KUep/6hAWUpq/vckqJhquWZs1pe0dnHiBpDGQRGTSB68q+5HPb00fh4ua0+cbrS40hyi
-         vkDLebGQdbnbUbM/Jf6/ANcfZpUUopDoioB/rfGeEdNfAVdFKrDdaVffzSvg2jII0sxQ
-         tUwAjLoSPyQZq49HI1L9Vvf1P2Vd2WVkbwXFlS+FchSgWzo5B5xAWnHVHecTaI2GWx+b
-         SGPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741176000; x=1741780800;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nxrQLrve5ZYCaqi57EKV0xP1vwlYg25qE1yTCds7PDM=;
-        b=sulge17L1AeZmb4jfdhdl1RGUa4+p1JVRbSPp9TIPbGzVPhe3R1HEMP84Whd5SFo3t
-         f2luvjhmkSkNQBdBJYGNfIhgzxSqhsOoW5U4rZJYWDmDyKxbSMMLHC0kPP2hzeBV3/Ih
-         3sy/BGqyXRBumWPB/NeSvPZ8IUVLrnp/4fqUtcYeA03VX8CbGZ2/y4SNGGMgbl3bzwZv
-         mv88AUYDOcaGmM9zE81Q53ZPKDzGy+EQ3MYlN9Q95wgjvh2bmsxixUACzrWRU+tzURK0
-         syc+7XOlUESta8tdjV+nwUJD+cOPhv5T/uvO0ibKInUo0cfLxPOfJW32tow67pLkrvsp
-         nIGA==
-X-Forwarded-Encrypted: i=1; AJvYcCU43BuvPiFNBF8yo+Ma1KiSNM8qDIvwp3fIgSD5Lk6p0FRpZq/AkkSYlOnAqGpTAqH2bgMuNnt1Gw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzIjMLta6+YgpwQp70HiCnzNzIwbPyQ5kZj+/iHKSaGD+3WyNx
-	X2P4mGnpsCQKR1zJoCLCzBwt1hTnC0dFyzbTdONsbzslS5EAeOdEO9C7MQjcGpZLM4SBUE/oNFQ
-	UC/cLR8aZdOXxZg==
-X-Google-Smtp-Source: AGHT+IEp4F4FRlg80to2EP2sY+4qO0ru8U+D3wg9quZRpyNms8E1gnkZpcYcpd3+IIhL0cRuubq1VuG2e9urz9g=
-X-Received: from wmqa15.prod.google.com ([2002:a05:600c:348f:b0:43b:bfff:e091])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:4fd2:b0:43b:d025:76a6 with SMTP id 5b1f17b1804b1-43bd298fcfdmr22365455e9.15.1741176000162;
- Wed, 05 Mar 2025 04:00:00 -0800 (PST)
-Date: Wed, 5 Mar 2025 11:59:58 +0000
+	s=arc-20240116; t=1741194630; c=relaxed/simple;
+	bh=c7Q5onhWsSDWAX2jLrf0Ra38TOsQ0z+XcvaFQ0m/W/I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RJ0ScUqB5fwKf59KOQQuSUtOgCrdP08v0SO/M9fHzvuVD60kE58MyX3UYTQf5b+Bb69993JaS1qm57a2rcGHgoGCHw+tQuvNV5y98uyaY/+FnuEJVHKSeHp+DtlEs9+CuA5QzMmkzC6ca0nQb+jT0JemcNCFBfxXtDddhsPBAFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EF9EEFEC;
+	Wed,  5 Mar 2025 09:10:39 -0800 (PST)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BD4223F66E;
+	Wed,  5 Mar 2025 09:10:25 -0800 (PST)
+Date: Wed, 5 Mar 2025 17:10:16 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [Bug report] Memory leak in scmi_device_create
+Message-ID: <Z8iFeEWq16pNQdMa@pluto>
+References: <Z8g8vhS9rqQ_ez48@google.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Message-ID: <Z8g8vhS9rqQ_ez48@google.com>
-Subject: [Bug report] Memory leak in scmi_device_create
-From: Alice Ryhl <aliceryhl@google.com>
-To: Sudeep Holla <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z8g8vhS9rqQ_ez48@google.com>
 
-Dear SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE (SCPI/SCMI) Message
-Protocol drivers maintainers,
+On Wed, Mar 05, 2025 at 11:59:58AM +0000, Alice Ryhl wrote:
+> Dear SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE (SCPI/SCMI) Message
+> Protocol drivers maintainers,
+> 
+> I flashed a v6.13-rc3 kernel onto a Rock5B board and noticed the
+> following output in my terminal:
+> 
+> [  687.694465] kmemleak: 4 new suspected memory leaks (see /sys/kernel/debug/kmemleak)
+> 
+> It seems that there is a memory leak for devices created with
+> scmi_device_create.
+> 
+`
+Hi Alice,
 
-I flashed a v6.13-rc3 kernel onto a Rock5B board and noticed the
-following output in my terminal:
+thanks for this report.
 
-[  687.694465] kmemleak: 4 new suspected memory leaks (see /sys/kernel/debug/kmemleak)
+> This was with a kernel running v6.13-rc3, but as far as I can tell, no
+> relevant changes have landed since v6.13-rc3. My tree *does* include
+> commit 295416091e44 ("firmware: arm_scmi: Fix slab-use-after-free in
+> scmi_bus_notifier()"). I've only seen this kmemleak report once, so it's
+> not happening consistently.
+> 
+> See below for the full kmemleak report.
+> 
+> Alice
+> 
+> $ sudo cat /sys/kernel/debug/kmemleak
+> unreferenced object 0xffffff8106c86000 (size 2048):
+>   comm "swapper/0", pid 1, jiffies 4294893094
+>   hex dump (first 32 bytes):
+>     02 00 00 00 10 00 00 00 c0 01 bc 03 81 ff ff ff  ................
+>     60 67 ba 03 81 ff ff ff 18 60 c8 06 81 ff ff ff  `g.......`......
+>   backtrace (crc feae9680):
+>     [<00000000197aa008>] kmemleak_alloc+0x34/0xa0
+>     [<0000000056fe02c9>] __kmalloc_cache_noprof+0x1e0/0x450
+>     [<00000000a8b3dfe1>] __scmi_device_create+0xb4/0x2b4
+>     [<000000008714917b>] scmi_device_create+0x40/0x194
+>     [<000000001818f3cf>] scmi_chan_setup+0x144/0x3b8
+>     [<00000000970bad38>] scmi_probe+0x584/0xa78
+>     [<000000002600d2fd>] platform_probe+0xbc/0xf0
+>     [<00000000f6f556b4>] really_probe+0x1b8/0x520
+>     [<00000000eed93d59>] __driver_probe_device+0xe0/0x1d8
+>     [<00000000d613b754>] driver_probe_device+0x6c/0x208
+>     [<00000000187a9170>] __driver_attach+0x168/0x328
+>     [<00000000e3ff1834>] bus_for_each_dev+0x14c/0x178
+>     [<00000000984a3176>] driver_attach+0x34/0x44
+>     [<00000000fc35bf2a>] bus_add_driver+0x1bc/0x358
+>     [<00000000747fce19>] driver_register+0xc0/0x1a0
+>     [<0000000081cb8754>] __platform_driver_register+0x40/0x50
+> unreferenced object 0xffffff8103bc01c0 (size 32):
 
-It seems that there is a memory leak for devices created with
-scmi_device_create.
+I could not reproduce on my setup, even though I run a system with
+all the existent SCMI protocols (and related drivers) enabled (and
+so a lot of device creations) and a downstream test driver that causes
+even more SCMI devices to be created/destroyed at load/unload.
 
-This was with a kernel running v6.13-rc3, but as far as I can tell, no
-relevant changes have landed since v6.13-rc3. My tree *does* include
-commit 295416091e44 ("firmware: arm_scmi: Fix slab-use-after-free in
-scmi_bus_notifier()"). I've only seen this kmemleak report once, so it's
-not happening consistently.
+Coming down the path from scmi_chan_setup(), it seems something around
+transport devices creation, but it is not obvious to me where the leak
+could hide....
 
-See below for the full kmemleak report.
+...any particular setup on your side ? ...using LKMs, loading/unloading,
+any usage pattern that could help me reproduce ?
 
-Alice
-
-$ sudo cat /sys/kernel/debug/kmemleak
-unreferenced object 0xffffff8106c86000 (size 2048):
-  comm "swapper/0", pid 1, jiffies 4294893094
-  hex dump (first 32 bytes):
-    02 00 00 00 10 00 00 00 c0 01 bc 03 81 ff ff ff  ................
-    60 67 ba 03 81 ff ff ff 18 60 c8 06 81 ff ff ff  `g.......`......
-  backtrace (crc feae9680):
-    [<00000000197aa008>] kmemleak_alloc+0x34/0xa0
-    [<0000000056fe02c9>] __kmalloc_cache_noprof+0x1e0/0x450
-    [<00000000a8b3dfe1>] __scmi_device_create+0xb4/0x2b4
-    [<000000008714917b>] scmi_device_create+0x40/0x194
-    [<000000001818f3cf>] scmi_chan_setup+0x144/0x3b8
-    [<00000000970bad38>] scmi_probe+0x584/0xa78
-    [<000000002600d2fd>] platform_probe+0xbc/0xf0
-    [<00000000f6f556b4>] really_probe+0x1b8/0x520
-    [<00000000eed93d59>] __driver_probe_device+0xe0/0x1d8
-    [<00000000d613b754>] driver_probe_device+0x6c/0x208
-    [<00000000187a9170>] __driver_attach+0x168/0x328
-    [<00000000e3ff1834>] bus_for_each_dev+0x14c/0x178
-    [<00000000984a3176>] driver_attach+0x34/0x44
-    [<00000000fc35bf2a>] bus_add_driver+0x1bc/0x358
-    [<00000000747fce19>] driver_register+0xc0/0x1a0
-    [<0000000081cb8754>] __platform_driver_register+0x40/0x50
-unreferenced object 0xffffff8103bc01c0 (size 32):
-  comm "swapper/0", pid 1, jiffies 4294893094
-  hex dump (first 32 bytes):
-    5f 5f 73 63 6d 69 5f 74 72 61 6e 73 70 6f 72 74  __scmi_transport
-    5f 64 65 76 69 63 65 5f 72 78 5f 31 30 00 ff ff  _device_rx_10...
-  backtrace (crc 8dab7ca7):
-    [<00000000197aa008>] kmemleak_alloc+0x34/0xa0
-    [<00000000500dbc08>] __kmalloc_node_track_caller_noprof+0x234/0x528
-    [<000000004990eea4>] kstrdup+0x48/0x80
-    [<00000000ad4d2923>] kstrdup_const+0x30/0x3c
-    [<00000000e9d3bdc3>] __scmi_device_create+0xd4/0x2b4
-    [<000000008714917b>] scmi_device_create+0x40/0x194
-    [<000000001818f3cf>] scmi_chan_setup+0x144/0x3b8
-    [<00000000970bad38>] scmi_probe+0x584/0xa78
-    [<000000002600d2fd>] platform_probe+0xbc/0xf0
-    [<00000000f6f556b4>] really_probe+0x1b8/0x520
-    [<00000000eed93d59>] __driver_probe_device+0xe0/0x1d8
-    [<00000000d613b754>] driver_probe_device+0x6c/0x208
-    [<00000000187a9170>] __driver_attach+0x168/0x328
-    [<00000000e3ff1834>] bus_for_each_dev+0x14c/0x178
-    [<00000000984a3176>] driver_attach+0x34/0x44
-    [<00000000fc35bf2a>] bus_add_driver+0x1bc/0x358
-unreferenced object 0xffffff8103ba6760 (size 16):
-  comm "swapper/0", pid 1, jiffies 4294893094
-  hex dump (first 16 bytes):
-    73 63 6d 69 5f 64 65 76 2e 32 00 03 81 ff ff ff  scmi_dev.2......
-  backtrace (crc ccc21b9a):
-    [<00000000197aa008>] kmemleak_alloc+0x34/0xa0
-    [<00000000500dbc08>] __kmalloc_node_track_caller_noprof+0x234/0x528
-    [<00000000cdc440a0>] kvasprintf+0x90/0x11c
-    [<00000000500fc732>] kvasprintf_const+0x98/0x138
-    [<0000000030e28143>] kobject_set_name_vargs+0x68/0x104
-    [<00000000f15f6ece>] dev_set_name+0x6c/0x98
-    [<00000000c1f76eb4>] __scmi_device_create+0x17c/0x2b4
-    [<000000008714917b>] scmi_device_create+0x40/0x194
-    [<000000001818f3cf>] scmi_chan_setup+0x144/0x3b8
-    [<00000000970bad38>] scmi_probe+0x584/0xa78
-    [<000000002600d2fd>] platform_probe+0xbc/0xf0
-    [<00000000f6f556b4>] really_probe+0x1b8/0x520
-    [<00000000eed93d59>] __driver_probe_device+0xe0/0x1d8
-    [<00000000d613b754>] driver_probe_device+0x6c/0x208
-    [<00000000187a9170>] __driver_attach+0x168/0x328
-    [<00000000e3ff1834>] bus_for_each_dev+0x14c/0x178
-unreferenced object 0xffffff810637c800 (size 512):
-  comm "swapper/0", pid 1, jiffies 4294893094
-  hex dump (first 32 bytes):
-    00 00 00 00 ad 4e ad de ff ff ff ff 00 00 00 00  .....N..........
-    ff ff ff ff ff ff ff ff 00 1e ee 83 c0 ff ff ff  ................
-  backtrace (crc 732b3ae6):
-    [<00000000197aa008>] kmemleak_alloc+0x34/0xa0
-    [<0000000056fe02c9>] __kmalloc_cache_noprof+0x1e0/0x450
-    [<0000000026a3cb30>] device_add+0x54/0x570
-    [<00000000e515c343>] device_register+0x20/0x30
-    [<0000000042008204>] __scmi_device_create+0x184/0x2b4
-    [<000000008714917b>] scmi_device_create+0x40/0x194
-    [<000000001818f3cf>] scmi_chan_setup+0x144/0x3b8
-    [<00000000970bad38>] scmi_probe+0x584/0xa78
-    [<000000002600d2fd>] platform_probe+0xbc/0xf0
-    [<00000000f6f556b4>] really_probe+0x1b8/0x520
-    [<00000000eed93d59>] __driver_probe_device+0xe0/0x1d8
-    [<00000000d613b754>] driver_probe_device+0x6c/0x208
-    [<00000000187a9170>] __driver_attach+0x168/0x328
-    [<00000000e3ff1834>] bus_for_each_dev+0x14c/0x178
-    [<00000000984a3176>] driver_attach+0x34/0x44
-    [<00000000fc35bf2a>] bus_add_driver+0x1bc/0x358
+Thanks,
+Cristian
