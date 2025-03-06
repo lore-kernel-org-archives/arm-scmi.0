@@ -1,100 +1,233 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9140320ADC7
-	for <arm-scmi@vger.kernel.org>; Thu,  6 Mar 2025 11:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67BA72054E7
+	for <arm-scmi@vger.kernel.org>; Thu,  6 Mar 2025 11:09:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741258882; cv=none; b=tQdp5uxN2ivxJLZvTwfhLNfUZtxHCVnibd2z9u9wmp7lfhM/vt7P1knHf6hL2LvVkABJUMPSoV8NyIQnsf4XwSnZFaZdigOXxDQdma6ePARA20IEBcKDzOhVkSX21QSpyxGNGPKYrVZuJAlNxKL2y2biZzyHAb4Axej5wFC/BJU=
+	t=1741259379; cv=none; b=BU/IbPa9PRQNdFgrWTw2mGrbr75HiykMNDvkzvDswWvxMoVdaHOF8OCwA2Xv0KOjW2XxWoLwqDQOM8oDR68WbOufs0WOufcfbwKuyscbZ7ZDY17mxbRs6MQ5LzKb6wNkp0/8oQJY/3u7mcEiG9B8lYnILWzbWsjDXe9ywfFj6Fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741258882; c=relaxed/simple;
-	bh=fF0AHv0s3S+dBIkriG8rfycx3SWlry9DEa+eTSo1+Js=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cvmy9qG3yNrvB8PC2N9tJ8m4nPT8wGkCuyFHvzPswFkdIs2oL6T2UlWE0lk0Vzs0tOmIMV76wMWRwIh9LpEtP6zjZJFJ46m/GH3lAnkNbvkQpQSNckNjl+GMTIDhwCIbSfvY2Yvj3VpOaRRuyDO7WRpkRE6Q9D+ce1GRlh+78L0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zXIN1VTT; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1741259379; c=relaxed/simple;
+	bh=pNwD/jCtSIx93BC08iWoA2Gl7Ec0p86LPlXEVkGvFZI=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=LIQJpaaxGppGZ1BBWVPtHuv9736pXwzTMQ7S7ztZZlO5R3y6BExMRobtVz80GvbUgDnQ7Wu3Vv4CsG3CW6rG02viouDLsc3+u3N6VFEGOj0LUAD09fFUq6DwzLpGyrfkcguiEoah2zk7b9aOAGQWKI4d1y6rQVsTHy1uiUqzXrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iFi/bRhc; arc=none smtp.client-ip=209.85.221.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zXIN1VTT"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-390dd362848so394694f8f.3
-        for <arm-scmi@vger.kernel.org>; Thu, 06 Mar 2025 03:01:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iFi/bRhc"
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-390f7db84faso525763f8f.2
+        for <arm-scmi@vger.kernel.org>; Thu, 06 Mar 2025 03:09:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741258878; x=1741863678; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ufdypkJNjHswejxJubFk9kEYQm8Yr9F5qH7/Hz14nEU=;
-        b=zXIN1VTTTw2CqhlyeLaxW2YtNmml+KoAPBVDknget7P290ejT0JEnNHLL7EXWAAiZ6
-         4EL5IuZaHbIa3vqd+28Jj1QonSHkoKmlar+A5usyq8JYvmQ6Auc7dfrWREYuzhBMbsq+
-         nuBrDnWuRI9bVxIElm5sng4eLCNBFgQHmA8NqE/haxyRoryNZWfFHRZ13mkH1a/YQpA2
-         J5EhZWW9iCXryUjorLglIKbGcACMgrDgPu8xl09Hxvp0vj7NS5bn5l8rIfpUm4dwzgj3
-         mM1LJLGoJ0OQqqezJ9Gm8kzArwWubH9cw08PJkMvhCTtK/Svm0TEtWgTxeM65yWp0iB9
-         KPVA==
+        d=google.com; s=20230601; t=1741259376; x=1741864176; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/dFYrb2sW0Ny4BYm+P6FPy8/gogBw8ybwCYFPW/5Wfc=;
+        b=iFi/bRhcWL1uTWVB9DO+gCMUGIALNdgJWob/mBx7a4p2pW2898d71bJE37r4Yue30u
+         2AqLSz5FUliDpL5cbQafeOWOwPogGXrXQ4Ka8D5hjr07gZojbDZm9B1KsVF8p+O9gN3e
+         J63PfztOfmsRu0UqT0/89eh0JAE1uKgMN7yxLHDDr0cL0E91GSdQXMqoPgpW/x6IP2Ot
+         LHIq5BqxWlPk3ye+PBESx7RLVVz6LPYg0HZlnyiCxfpvUOXj3yHQZHBEbHXLqQmcDM6A
+         rVIKbUHsg7Id9f+dKPvoGEU3BbH7cMY6ydnAZ1+Z99/7yymJdOv85q6Fy1psvcf+/oHh
+         Qkug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741258878; x=1741863678;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ufdypkJNjHswejxJubFk9kEYQm8Yr9F5qH7/Hz14nEU=;
-        b=IpODDt+Xdk8alNVeGEkYISBWhC343xAOelKG26d1WpWoHhLkacTL76iveUHGE5C1Yx
-         AtsU70Z4GD/aj3phTHdjLviwrXWx7Ry+/qjEP/S/ZHVLADYZMSfxC3RdZZ0U5T37FhAO
-         mR2HlUyKTpI17LVh8xU6TPH2Ph6D/VGhCLn+o/pdxGvkAumJO8S2MNVYTr0bVlVWqzNh
-         EEYVw0V3ArPfbVva4vmJ0qkjwA2NfhUXFklzC1kv1ktBL3zP8Didv1lN+j5tC3nFJv+j
-         naFE4kYlzPut655lZHmyRbfkcOGndiYtVG8AiuCBBDn9qo8lCVnHLA1cpXQX2Une3wsG
-         zAEA==
-X-Forwarded-Encrypted: i=1; AJvYcCVPOmxbAQrupZMAdN4A7XsiJN7EQVt9bMiG3LekXmRrDiQ8J4ave8r8n1b43Ul9mn/7ji5sBQCRzw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+PrYDJNXlH5z8Lq/6sIMkZfS1Rwf9Te1m1sj1pem/MZHv54PU
-	bUzXvam66q3benB21yVaNSrNR2OUSBtQGNX7n8dUKojL6LMDsiIjAS3O3fj1myI=
-X-Gm-Gg: ASbGncv09LWVIaZFq0zHWiAXA8lFGzm33oZyP5dIEjIY1HOEycUK8zBP7eUi1pUK8Bu
-	sAQrf62XFMO39ubw6TUC7BvPJcjdM38rrUW6iGSlDqasT/IQyay18hcBhc25T8uBwxsVBx/fReR
-	nrg1OM3q+5p9y1Qp4yQe43nTKjXXL397GRKoSwNSoGCCneusOseIRMA3S291w73boTmk8b8SPZI
-	76hWDy1UChzpn5OtR3u4YO+50g67rhuiICBVTAXviuWN01NXOUadXHbH2rz/pbR7V6fh49udKpy
-	x1g4AP8xNvfAGua/BMLB8WQHSGuk4ynwxQLuWVDzJBLRVjTIeA==
-X-Google-Smtp-Source: AGHT+IFaNI6+FuJB441Zt0saVFEq17tskKV/m1XJhXDsSDNyn2Dt0uqOjvxwn86BlqWjcXdpYtDX5A==
-X-Received: by 2002:a5d:64a2:0:b0:390:ee01:68fa with SMTP id ffacd0b85a97d-3911f741aa8mr5660504f8f.24.1741258877759;
-        Thu, 06 Mar 2025 03:01:17 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43bdd8c327fsm16444235e9.13.2025.03.06.03.01.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Mar 2025 03:01:17 -0800 (PST)
-Date: Thu, 6 Mar 2025 14:01:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: zuoqian <zuoqian113@gmail.com>
-Cc: sudeep.holla@arm.com, cristian.marussi@arm.com, rafael@kernel.org,
-	viresh.kumar@linaro.org, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Subject: Re: [PATCH v2] cpufreq: scpi: compare kHz instead of Hz
-Message-ID: <c6b8aa98-b5d3-4fc4-9f5d-4bf2471c3d6a@stanley.mountain>
-References: <20250123075321.4442-1-zuoqian113@gmail.com>
- <20250125084950.1680-1-zuoqian113@gmail.com>
+        d=1e100.net; s=20230601; t=1741259376; x=1741864176;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/dFYrb2sW0Ny4BYm+P6FPy8/gogBw8ybwCYFPW/5Wfc=;
+        b=ZqbsljbqeoJJk8xqL09XUDK+8Iqneg/jgIPZc6SYnwScmOsW0hGxuMZGaIl686D+KF
+         fd3K2MoHjwNN0iBePLSd1Tjxv8tKIlmcN+z++RxgTQH+M5Eob8BHQMfimyNu+IoDQA6s
+         RmT1EGbnJOA0TB6FaHmCKUKC8PwqvEj3ab8FvgHIvB0YktNoqHauua5JXDBwrh7k6OyZ
+         BMm4vH5xxDm/g4VyYTfP432zYTtYbrcyh73PzMY321oQEFORcm/5FGzQTXRfoFrJZw5/
+         VnemL+xvDqp1IY1FuA8/6ZmHX5xq6a4iMDc9cIVWv+NSugFYJU7l0v4Aj6STYWlxRx1y
+         V+XA==
+X-Forwarded-Encrypted: i=1; AJvYcCWl+uIKDRGv1+pueW4yO9qAZnveo6DAQLBGboN7gqRxnKCswozHOUsCLTI3H3TNCbYvcWDSLfBKBw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwL7I0UTX34OLZnrQC4PR05Inf5xAvN8DevCG2L71FK2ul3eiaA
+	9Troe6jJU14SwbCN/mCo6Yw1cb5ZL470oS1ApasWLMeFPvXBXtOa/l9Vap3KUKjwMVBQXDh/4B3
+	BCYqd7+EZunjA5w==
+X-Google-Smtp-Source: AGHT+IGQlRF5ezfZt1wPiVd1C9EMKt6NF+Jo3FrWA4EBhp3pS1use0qAKsHwAt88E/Nw+wGskfdJ4hSuXHpuJoA=
+X-Received: from wrbef7.prod.google.com ([2002:a05:6000:2187:b0:38f:451d:8e9b])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a5d:47a4:0:b0:391:1473:2a08 with SMTP id ffacd0b85a97d-3911f724cd6mr5943042f8f.7.1741259375699;
+ Thu, 06 Mar 2025 03:09:35 -0800 (PST)
+Date: Thu, 6 Mar 2025 11:09:33 +0000
+In-Reply-To: <Z8iFeEWq16pNQdMa@pluto>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250125084950.1680-1-zuoqian113@gmail.com>
+Mime-Version: 1.0
+References: <Z8g8vhS9rqQ_ez48@google.com> <Z8iFeEWq16pNQdMa@pluto>
+Message-ID: <Z8mCbc2Z2QGd3f8M@google.com>
+Subject: Re: [Bug report] Memory leak in scmi_device_create
+From: Alice Ryhl <aliceryhl@google.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>, linux-arm-kernel@lists.infradead.org, 
+	arm-scmi@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-On Sat, Jan 25, 2025 at 08:49:49AM +0000, zuoqian wrote:
-> The CPU rate from clk_get_rate() may not be divisible by 1000
-> (e.g., 133333333). But the rate calculated from frequency(kHz) is
-> always divisible by 1000 (e.g., 133333000).
-> Comparing the rate causes a warning during CPU scaling:
-> "cpufreq: __target_index: Failed to change cpu frequency: -5".
-> When we choose to compare kHz here, the issue does not occur.
+On Wed, Mar 05, 2025 at 05:10:16PM +0000, Cristian Marussi wrote:
+> On Wed, Mar 05, 2025 at 11:59:58AM +0000, Alice Ryhl wrote:
+> > Dear SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE (SCPI/SCMI) Message
+> > Protocol drivers maintainers,
+> > 
+> > I flashed a v6.13-rc3 kernel onto a Rock5B board and noticed the
+> > following output in my terminal:
+> > 
+> > [  687.694465] kmemleak: 4 new suspected memory leaks (see /sys/kernel/debug/kmemleak)
+> > 
+> > It seems that there is a memory leak for devices created with
+> > scmi_device_create.
+> > 
+> `
+> Hi Alice,
 > 
-> Fixes: 343a8d17fa8d ("cpufreq: scpi: remove arm_big_little dependency")
-> Signed-off-by: zuoqian <zuoqian113@gmail.com>
-> ---
-> V1 -> V2: rename freq to freq_khz, change rate to unsigned long, and
-> update patch summary.
+> thanks for this report.
+> 
+> > This was with a kernel running v6.13-rc3, but as far as I can tell, no
+> > relevant changes have landed since v6.13-rc3. My tree *does* include
+> > commit 295416091e44 ("firmware: arm_scmi: Fix slab-use-after-free in
+> > scmi_bus_notifier()"). I've only seen this kmemleak report once, so it's
+> > not happening consistently.
+> > 
+> > See below for the full kmemleak report.
+> > 
+> > Alice
+> > 
+> > $ sudo cat /sys/kernel/debug/kmemleak
+> > unreferenced object 0xffffff8106c86000 (size 2048):
+> >   comm "swapper/0", pid 1, jiffies 4294893094
+> >   hex dump (first 32 bytes):
+> >     02 00 00 00 10 00 00 00 c0 01 bc 03 81 ff ff ff  ................
+> >     60 67 ba 03 81 ff ff ff 18 60 c8 06 81 ff ff ff  `g.......`......
+> >   backtrace (crc feae9680):
+> >     [<00000000197aa008>] kmemleak_alloc+0x34/0xa0
+> >     [<0000000056fe02c9>] __kmalloc_cache_noprof+0x1e0/0x450
+> >     [<00000000a8b3dfe1>] __scmi_device_create+0xb4/0x2b4
+> >     [<000000008714917b>] scmi_device_create+0x40/0x194
+> >     [<000000001818f3cf>] scmi_chan_setup+0x144/0x3b8
+> >     [<00000000970bad38>] scmi_probe+0x584/0xa78
+> >     [<000000002600d2fd>] platform_probe+0xbc/0xf0
+> >     [<00000000f6f556b4>] really_probe+0x1b8/0x520
+> >     [<00000000eed93d59>] __driver_probe_device+0xe0/0x1d8
+> >     [<00000000d613b754>] driver_probe_device+0x6c/0x208
+> >     [<00000000187a9170>] __driver_attach+0x168/0x328
+> >     [<00000000e3ff1834>] bus_for_each_dev+0x14c/0x178
+> >     [<00000000984a3176>] driver_attach+0x34/0x44
+> >     [<00000000fc35bf2a>] bus_add_driver+0x1bc/0x358
+> >     [<00000000747fce19>] driver_register+0xc0/0x1a0
+> >     [<0000000081cb8754>] __platform_driver_register+0x40/0x50
+> > unreferenced object 0xffffff8103bc01c0 (size 32):
+> 
+> I could not reproduce on my setup, even though I run a system with
+> all the existent SCMI protocols (and related drivers) enabled (and
+> so a lot of device creations) and a downstream test driver that causes
+> even more SCMI devices to be created/destroyed at load/unload.
+> 
+> Coming down the path from scmi_chan_setup(), it seems something around
+> transport devices creation, but it is not obvious to me where the leak
+> could hide....
+> 
+> ...any particular setup on your side ? ...using LKMs, loading/unloading,
+> any usage pattern that could help me reproduce ?
 
-Thanks!
+I looked into this a bit more, and actually it does happen consistently.
+It's just that kmemleak doesn't report it until 10 minutes after
+booting, so I did not notice it.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+As for my setup, well, I boot the kernel over pxe and the rootfs is
+mounted over NFSv4. The memory leak happens even if I don't do anything
+at all - I just boot and wait. The device is a Radxa Rock5B.
 
-regards,
-dan carpenter
+Not sure what other information there is to give.
 
+I tried again with v6.14-rc5, and I still got the leak:
+
+user@rk3588-ci:~$ sudo cat /sys/kernel/debug/kmemleak
+unreferenced object 0xffffff81068c0000 (size 2048):
+  comm "swapper/0", pid 1, jiffies 4294893128
+  hex dump (first 32 bytes):
+    02 00 00 00 10 00 00 00 40 a3 7a 03 81 ff ff ff  ........@.z.....
+    60 c8 79 03 81 ff ff ff 18 00 8c 06 81 ff ff ff  `.y.............
+  backtrace (crc 60df30fb):
+    kmemleak_alloc+0x34/0xa0
+    __kmalloc_cache_noprof+0x1e0/0x450
+    __scmi_device_create+0xb4/0x2b4
+    scmi_device_create+0x40/0x194
+    scmi_chan_setup+0x144/0x3b8
+    scmi_probe+0x51c/0x9fc
+    platform_probe+0xbc/0xf0
+    really_probe+0x1b8/0x520
+    __driver_probe_device+0xe0/0x1d8
+    driver_probe_device+0x6c/0x208
+    __driver_attach+0x168/0x328
+    bus_for_each_dev+0x14c/0x178
+    driver_attach+0x34/0x44
+    bus_add_driver+0x1bc/0x358
+    driver_register+0xc0/0x1a0
+    __platform_driver_register+0x40/0x50
+unreferenced object 0xffffff81037aa340 (size 32):
+  comm "swapper/0", pid 1, jiffies 4294893128
+  hex dump (first 32 bytes):
+    5f 5f 73 63 6d 69 5f 74 72 61 6e 73 70 6f 72 74  __scmi_transport
+    5f 64 65 76 69 63 65 5f 72 78 5f 31 30 00 ff ff  _device_rx_10...
+  backtrace (crc 8dab7ca7):
+    kmemleak_alloc+0x34/0xa0
+    __kmalloc_node_track_caller_noprof+0x234/0x528
+    kstrdup+0x48/0x80
+    kstrdup_const+0x30/0x3c
+    __scmi_device_create+0xd4/0x2b4
+    scmi_device_create+0x40/0x194
+    scmi_chan_setup+0x144/0x3b8
+    scmi_probe+0x51c/0x9fc
+    platform_probe+0xbc/0xf0
+    really_probe+0x1b8/0x520
+    __driver_probe_device+0xe0/0x1d8
+    driver_probe_device+0x6c/0x208
+    __driver_attach+0x168/0x328
+    bus_for_each_dev+0x14c/0x178
+    driver_attach+0x34/0x44
+    bus_add_driver+0x1bc/0x358
+unreferenced object 0xffffff810379c860 (size 16):
+  comm "swapper/0", pid 1, jiffies 4294893128
+  hex dump (first 16 bytes):
+    73 63 6d 69 5f 64 65 76 2e 32 00 03 81 ff ff ff  scmi_dev.2......
+  backtrace (crc ccc21b9a):
+    kmemleak_alloc+0x34/0xa0
+    __kmalloc_node_track_caller_noprof+0x234/0x528
+    kvasprintf+0x90/0x11c
+    kvasprintf_const+0x98/0x138
+    kobject_set_name_vargs+0x68/0x104
+    dev_set_name+0x6c/0x98
+    __scmi_device_create+0x17c/0x2b4
+    scmi_device_create+0x40/0x194
+    scmi_chan_setup+0x144/0x3b8
+    scmi_probe+0x51c/0x9fc
+    platform_probe+0xbc/0xf0
+    really_probe+0x1b8/0x520
+    __driver_probe_device+0xe0/0x1d8
+    driver_probe_device+0x6c/0x208
+    __driver_attach+0x168/0x328
+    bus_for_each_dev+0x14c/0x178
+unreferenced object 0xffffff8105be7400 (size 512):
+  comm "swapper/0", pid 1, jiffies 4294893128
+  hex dump (first 32 bytes):
+    00 00 00 00 ad 4e ad de ff ff ff ff 00 00 00 00  .....N..........
+    ff ff ff ff ff ff ff ff c0 b4 f0 83 c0 ff ff ff  ................
+  backtrace (crc 7b92a969):
+    kmemleak_alloc+0x34/0xa0
+    __kmalloc_cache_noprof+0x1e0/0x450
+    device_add+0x54/0x570
+    device_register+0x20/0x30
+    __scmi_device_create+0x184/0x2b4
+    scmi_device_create+0x40/0x194
+    scmi_chan_setup+0x144/0x3b8
+    scmi_probe+0x51c/0x9fc
+    platform_probe+0xbc/0xf0
+    really_probe+0x1b8/0x520
+    __driver_probe_device+0xe0/0x1d8
+    driver_probe_device+0x6c/0x208
+    __driver_attach+0x168/0x328
+    bus_for_each_dev+0x14c/0x178
+    driver_attach+0x34/0x44
+    bus_add_driver+0x1bc/0x358
