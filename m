@@ -1,321 +1,292 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B317C22AE7C;
-	Mon, 10 Mar 2025 18:08:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741630111; cv=none; b=HsdXboKdrrJX+d7LtoRd4smQDbXOB5BdoWJnRZsdXV5N/ddQPyRJ9CVGICveVKRDzahThE2ZeHcA45hcgA9013pAZGqTmdKIcwfSGA2kKE6HUrAQET7LieAbq8gxG6sajEvj4jY0b1pJLXIbZz6uVXlYE/6Zj7rPgeoN18uMbpY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741630111; c=relaxed/simple;
-	bh=3QoDKJ2jdA4Jo7YpO2FWqrnftt8JeDxs6ksYF0O93QA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kHjZLVmiGAO/Pdm42SmmUb5ngxFuEnAHtgjd0p0ClLDbfItiNKa9YhEEJYLTIWChVSFnqOWbd7L0+A9t1uam1hgG10T972pg6qPr3S9T5hfXjZ6qQuHPAkt8BB10TxzIEfQfR5GxWIucsm4F0HfyYWm19tPRLQLlr7DOm9aYKRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5D60F1516;
-	Mon, 10 Mar 2025 11:08:40 -0700 (PDT)
-Received: from pluto.guest.local (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 07A5B3F673;
-	Mon, 10 Mar 2025 11:08:27 -0700 (PDT)
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org
-Cc: sudeep.holla@arm.com,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH] firmware: arm_scmi: Add polling support to raw mode
-Date: Mon, 10 Mar 2025 18:08:11 +0000
-Message-ID: <20250310180811.1463539-1-cristian.marussi@arm.com>
-X-Mailer: git-send-email 2.47.0
+Received: from EUR03-VI1-obe.outbound.protection.outlook.com (mail-vi1eur03on2045.outbound.protection.outlook.com [40.107.103.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C6C1E9B20;
+	Tue, 11 Mar 2025 08:36:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.103.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741682180; cv=fail; b=cAngS+P5UQB27mEfaVrSA8sevtxO6ytG2rOtjHrCAcmMUTFrc+wz1RLiiLVnIn1W9O17I9Ak9X5hHQ2X0ZNwJ3FKmDqu97TJS4wpRlWHpxGtnjTafgxXwJrlSrxzuTf8TOu5CgaCeYwvt9tylwXTR6+/tzpPQoorCXbh9xd6jF8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741682180; c=relaxed/simple;
+	bh=J9uENvNYDf7j0+WnEeneS0DP8Vr5erkic0ORQwy1r/4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=CKKSZb/E83yJ+IlA7QLH/izEvDenUX59ANMUNq0GoR9jg66JIcl0KQraNgUkoPgn5+5MHwNJvsWMLdjTBkE1kqBlbUFLVqgHENFlcVVGbztS3eCQDaTo3DMENw/71qSvriJrdv68iDibJ8R4xOLR6YyRnOBkB22OEedZK1VRgd4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=BancPEqz; arc=fail smtp.client-ip=40.107.103.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="BancPEqz"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OlyYKjQA9FzvT1jBhu8hVpMjqIwASdK9dYz8AWOHJSvMMhgWEimOQSk+3yU83CL6jOWnsNvumlyAbI1eNjbqaob7rE2LHQh0WQRnN/naSELXbqAU05rVMaVZS+LLSUBHfyJ+mAcsyUVpGtGr+BBUSDecr8cjxkkkvMn6VOEiFpiQgEif6emH/JkJ6e29AufVAKOGYTk1FVZseOGHGMZNrCM5EHSK+eB0BmTKqquEsepbJ5bl8jXChZM0rQRnbQs69J2T8cj/xZvdnZemHsR/oM30Y/XmuRM19NB2eFCLmpsLSSthFd+1oIw5SmacHhUEOMn0aaToXvG6Q+TocXfoAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J9uENvNYDf7j0+WnEeneS0DP8Vr5erkic0ORQwy1r/4=;
+ b=qSG/oQAjx/P5W3bFxeLZjSbajkZhMyTr2SskRY5OIBjGkShGl7rpbJW5eW2mjkoHtV/LE0rNQmBVK3krwFT6kxgYfgG0av/B5Fef3SfbHC1zI9BnFwKpUMRpg0ShLhw5TJADgF0kJrFjYsySTmpQXRVzpxNxadO0APppBUZQf4rBhgNpVlxwN99e5Phmhz3SWHotg61k0FqSzDj7O1RG4HLFjhntTgw4txuEsRai3ruixeS+LFGQ4psxhDuETjnLFpAcJDOgBAAO75M8ONSPGzE2EkYvsJlQXYR0KdDq76Q0I3KCbKwGi6P7JgbHK87fwaN+UWrC74aoztM7lKgHsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=J9uENvNYDf7j0+WnEeneS0DP8Vr5erkic0ORQwy1r/4=;
+ b=BancPEqzzs3mFFAv2qTw/3n1Lcyw71PvJtrIJESvRw3t9P49O0ABnGAfH66+pvnYPeo8J36C+D8dh0rR/bzWOuBcLJDOczvdbJf7cXzPdfcOLgkb6cdK7kkcZMYfvTRqVJxExLgfy6xP9ReYv+BX1ZBY4CJyw0tUtb8nDuil2jb10NpVGlg/p+YQahDkZeIwRTU47qHIRSaQqbwIrc0S8HtuPEXGCFgRKw0rKq9ZKXO1HbjW1/3PhhF5LS0E3yXeXa/oUL/pVeiSO565DhLBZmJUiPoRZP8UdS6Lv8r4SQSqLkxozmTetdFIX7SYsACwrHGW6xYQ0Rce5fBPey2paQ==
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
+ by DUZPR04MB9948.eurprd04.prod.outlook.com (2603:10a6:10:4dd::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Tue, 11 Mar
+ 2025 08:36:14 +0000
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630%4]) with mapi id 15.20.8511.026; Tue, 11 Mar 2025
+ 08:36:14 +0000
+From: Peng Fan <peng.fan@nxp.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
+CC: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, Cristian Marussi
+	<cristian.marussi@arm.com>, Saravana Kannan <saravanak@google.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij
+	<linus.walleij@linaro.org>, Aisheng Dong <aisheng.dong@nxp.com>, Fabio
+ Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Jacky Bai
+	<ping.bai@nxp.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha
+ Hauer <s.hauer@pengutronix.de>, "arm-scmi@vger.kernel.org"
+	<arm-scmi@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-gpio@vger.kernel.org"
+	<linux-gpio@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>
+Subject: RE: [PATCH 1/4] firmware: arm_scmi: bus: Bypass setting fwnode for
+ scmi cpufreq
+Thread-Topic: [PATCH 1/4] firmware: arm_scmi: bus: Bypass setting fwnode for
+ scmi cpufreq
+Thread-Index:
+ AQHbVqX7U3UKEfrBUUq6t/L7CeKKLbNCozSAgADnVgCAAD9nAIABZDqAgADO7oCABpk3gIAAmxUAgAA1fYCAAVrcAIAA9kwAgBzYYICAABSfQIAAFXCAgAAcjQCAATyK0A==
+Date: Tue, 11 Mar 2025 08:36:13 +0000
+Message-ID:
+ <PAXPR04MB8459EA5C7898393E51C246AD88D12@PAXPR04MB8459.eurprd04.prod.outlook.com>
+References:
+ <CAGETcx87Stfkru9gJrc1sf=PtFGLY7=jrfFaCzK5Z4hq+2TCzg@mail.gmail.com>
+ <Z65U2SMwSiOFYC0v@pluto> <20250218010949.GB22580@nxa18884-linux>
+ <Z7Rf9GPdO2atP89Z@bogus> <20250218133619.GA22647@nxa18884-linux>
+ <Z7Wvyn1QJQMVigf9@bogus> <Z7Z-ZnztmvUxWoQJ@NXL53680.wbi.nxp.com>
+ <Z86w3ZRS6T2MvV3X@bogus>
+ <DB9PR04MB84614FBF96E7BC0D125D97F688D62@DB9PR04MB8461.eurprd04.prod.outlook.com>
+ <Z87UJdhiTWhssnbl@bogus> <Z87sGF_jHKau_FMe@bogus>
+In-Reply-To: <Z87sGF_jHKau_FMe@bogus>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAXPR04MB8459:EE_|DUZPR04MB9948:EE_
+x-ms-office365-filtering-correlation-id: 80fca4bb-d1e5-4529-5fdb-08dd6077c8a1
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|7416014|366016|1800799024|13003099007|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?TJWkU+qMVXn1xJVgd5DK0PnNsLZjjzYVitko8K5pqWU7ZX60JR6lfRr3qfSG?=
+ =?us-ascii?Q?BxXL7hvQbwNSJ4EzleI1xgNUbVD2nSA7/BouqRAIU98tFFRa04j32H6yDDiH?=
+ =?us-ascii?Q?MNBw+Hwlxz/Zw/wbkKrzgtYTsLiFPblLxomzCXrgHonUChefE8etG02vhMlU?=
+ =?us-ascii?Q?/4BuDm6Y4HrNJ8ENfqOCdR5TftKtScPhi83z7H0sqqPuX//jdkf/u0wekNix?=
+ =?us-ascii?Q?oW7D4yuXLlAZcBOT0RD8nVxhL+s/eB/V3VZ3Vyhgmgmp6oBWdJZydi+KQgBU?=
+ =?us-ascii?Q?cUsjf0BhX38FWq8uSYhKGhNTwYsRoM3Wn2j2ZKUVfOmAEZ8GZO34YZ474nzl?=
+ =?us-ascii?Q?wBqetVDV0uUw3ExBdNeL3kVQyj0UXaJFusgFOUrZ0BSnID/lKsrEkaqNvYGV?=
+ =?us-ascii?Q?uOm6aZvNCqFQMzUARHxNYOiAcYSgP4z70IraTmoMRr3nxxYHjljDhz3xW7S5?=
+ =?us-ascii?Q?quLOzNmWtuMkU1vXY3knUvuUEE+ZEilj+/6DqTRof7jQglXcusXlcsi6cVu+?=
+ =?us-ascii?Q?lmtXyDVfgUyxOl15KcVoxSk5rCICb9c9jXpoGXEugZaQ8yoUoEiE997j6BVh?=
+ =?us-ascii?Q?XRz67vyPIFJgZlHGm7qFQh8e7YvbPI/8ypsziIe3RnPAonqr49aHDzPfA8MX?=
+ =?us-ascii?Q?1OUF0zs2N5ewak+gjfYS7wdrLDt/4P7IV5T0vt1HEgSS5fZrqpcHsDQlBDNP?=
+ =?us-ascii?Q?bM4g/zqg989Z1BVUuoTX1V6OSix6wDlVDOvgRqTPZdRt2FBodg2k7CNL+tEG?=
+ =?us-ascii?Q?ewrrY5gEd+yR4thlWFuqc3C47CF69PmdhddvQrurB7z3I3nV5gxadW8seGZh?=
+ =?us-ascii?Q?ZF0645SMWu7R1eEIX2ZVHfodhrTpb7e1LZi3z6mC9ixYA84RRNjQYPDrmG0g?=
+ =?us-ascii?Q?jBbDPZHbZBEIjuG/5juOoPeJa7d/lygM7m5xlkWTdlKdUgOa0W4VRKi//qb1?=
+ =?us-ascii?Q?dNPl5hNWbOfIFTgADIQBe6Hfo4CrfrPbZrv5HjtFSeBdhjsIowhqUeEGxpLt?=
+ =?us-ascii?Q?f713YbawhXCPQBpoFKbA/4v+QwFfxcaclUKBJaysRpNCKQ0401NJku+XL2Si?=
+ =?us-ascii?Q?Mm6j+aaJfjcXKAVfamqZfzfF0ntjroJrUL5lPYlVo+XjEZ1HQlSKLTY50ZUM?=
+ =?us-ascii?Q?5pF09FLodPnig0YGoEAQFowK02x/UD6KusB0Ot2d5dpLgY7hvc0S2tyGa2+u?=
+ =?us-ascii?Q?Cf8mn5iEbNXM9BB0sIogT35FoKd2ZxB15sx9S7rBls6Ts5cyEOICJgmF+4V7?=
+ =?us-ascii?Q?U/3SqlOFX0/l1fVYogIw+OeqbfGaYlthccAVm+xLDc/a0kPstADRc5Mmdyf0?=
+ =?us-ascii?Q?uV3dy2+MV6Ht7sNtFrLYk9WxFKBo1oSTWM/8+3wTMmI+S6sbJWkYAvt+/Qdw?=
+ =?us-ascii?Q?ZMjnRB7KUekDic8g6RmIZhR6vjNO?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(13003099007)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?YbMjyadvXz/Xutw+2DsFLgzBy896MnQTGvM4Nms/yAxaA4s/YTx+uuKYURN9?=
+ =?us-ascii?Q?L0dYmqA7EL36NzCqvW/sLmR2TT167DKQ97T28fYsngdLeSNLVDUiMSFAjkjp?=
+ =?us-ascii?Q?gBH1VvId8ug/GyjoV0xVcQvkxxNsKwdKEyDrYguJnfujbMAIEM+fPJ4QoTen?=
+ =?us-ascii?Q?0nmjSzVNJaT7gXezcW8xlXMXTCieXZjFx2xqhm6/Bff1S3NzT3jbfw32mb9F?=
+ =?us-ascii?Q?w/yQYZZKRCujAvQx3tSiS5jCKdTuDd2mdC/5JvHteFxRd1Kl7A7gtBDVANcK?=
+ =?us-ascii?Q?Cg0BeTpMjgybGyn81866vMGVyxgxp2SPexTKlYOTYFGwfkqCPh82hELzFqkb?=
+ =?us-ascii?Q?uYgcw4tnonQx3EAMWTv0WurCWjyaefmrzazd++UP4IDdbcMVGBgKvJ0MlohL?=
+ =?us-ascii?Q?MH1GPcbvmFpjn7ApBs5jRwxD13rZkCc7n2wfBRMsc6OOUA8FDHFVE/8U8z/R?=
+ =?us-ascii?Q?R4a27qwQVb9pF/gFdJdihtxMHx0TBNCMOJ8+gEMmt5cktMBl1QwP7EKIqqQl?=
+ =?us-ascii?Q?YhV3NZeRatgV93OhFlFroWTaacW+wY8/by2tYMYi29dsCYCRDCMMelChInvA?=
+ =?us-ascii?Q?PoZuqgSoFqFcywFHRu2dZ5b7u2DVmuICW+YYqaX1zTJDsqy2FYU7wdTUIXy8?=
+ =?us-ascii?Q?owZ3vWPeUBFBRDjpHlajDsGC2AI/vygx7KtOekeCvd0JXyDS0HyDJSJEL6P+?=
+ =?us-ascii?Q?RzaglqmN5rz2SxQnv4P64jyURJ4mPVgKZF6bXEl92hqsSylGjLW2nr4GYpc+?=
+ =?us-ascii?Q?yDvjrHhOJr2XuJBnTD8ah7Gwo5t/NhV4g30TAvV65WjuhNj1m0G1esUW+Pc5?=
+ =?us-ascii?Q?6Qjj49+SUfiS8W55KNo8KfJM0kBSwVRhN6YQbcuEZPpbU6OdkXVJ8NddkmyD?=
+ =?us-ascii?Q?0fMdSkffAC6ve/TjrsAmco0Be/n23D39Mk9TsBQqwvSq7/ZW5MyD3LCa3ygO?=
+ =?us-ascii?Q?26sFq1o/OyPaWKYur8q+QF4zVFC/yU1LNOtGGVdt4RlXQPrmdwAnyC2UCL3g?=
+ =?us-ascii?Q?WouFjPFLjWOxT73IpgKZCAyTvVw3UJaKa4IvpQ1BWeb4t9L/pxR7snM0Sf+o?=
+ =?us-ascii?Q?qMDHlPiePxS74McxoNSkQCyqlVqpudnPeK358mZj07wUt1tCCoFZOpKsrs8d?=
+ =?us-ascii?Q?NsjjhTid3u8lnNhHWXM/k2SlJep2Y5Ii7Rfsv8x+JJRwXN5Qdopw2zrz7mAM?=
+ =?us-ascii?Q?0qGePL0alCAXdMd4qozXn13Yr4axwdpLwCSaztZSX2xDxNyhQXsK+g89ECah?=
+ =?us-ascii?Q?exMH8VUECn4oBFs6E0COo/Tq3R12g58JWwK7V3XYk/k/R6xI41FQbLrL8uxl?=
+ =?us-ascii?Q?ysw/mwVMOSDPYpYzB0aOgXKsugjqm8pBtzyO+v/uzvo3MS1CFDfic+c/++W3?=
+ =?us-ascii?Q?UVJDMFdFW5LqZHSuSUVSWj6+hiF70onc0zcK2hp9Kd5r1SeM9Qc+xtfuO5bc?=
+ =?us-ascii?Q?mnL9r4ZSilHUnWFfo76YU/t+YZJwcWJa6AaROAOwNZja/9Zjv+yb4VzFANeI?=
+ =?us-ascii?Q?oOXHTW6r4kxYj/7GBJHjhHPtrn4Tqx0g/Lhh2X5DlF1SEpLhXjKciHgdwuO1?=
+ =?us-ascii?Q?01hUTizuprdtMOhG4VI=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80fca4bb-d1e5-4529-5fdb-08dd6077c8a1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Mar 2025 08:36:13.9501
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: e3gt/B5Q1bbP0a8nY+n3ts1xgvrYVt8YTwTcOLMRVoJgwgDL4x2BwfYLQm55JkWz3LEdWaL1WLFISt81zRAkUg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUZPR04MB9948
 
-Provide a couple of additional debugfs entries to enable polling-mode on
-the waiting path of injected messages: message_poll will cause the system
-to poll while waiting for the reply, while message_poll_async will send an
-asynchronous message, as usual, and will use polling mode for the immediate
-synchronous part of the async command.
+> Subject: Re: [PATCH 1/4] firmware: arm_scmi: bus: Bypass setting
+> fwnode for scmi cpufreq
+>=20
+> On Mon, Mar 10, 2025 at 11:59:33AM +0000, Sudeep Holla wrote:
+> > On Mon, Mar 10, 2025 at 10:45:44AM +0000, Peng Fan wrote:
+> > > > Subject: Re: [PATCH 1/4] firmware: arm_scmi: bus: Bypass setting
+> > > > fwnode for scmi cpufreq
+> > > >
+> > > > On Thu, Feb 20, 2025 at 08:59:18AM +0800, Peng Fan wrote:
+> > > > >
+> > > > > Sorry, if I misunderstood.
+> > > > >
+> > > > > I will give a look on this and propose a RFC.
+> > > > >
+> > > > > DT maintainers may ask for a patchset including binding change
+> > > > > and driver changes to get a whole view on the compatible stuff.
+> > > > >
+> > > > > BTW, Cristian, Saravana if you have any objections/ideas or
+> > > > > would
+> > > > take
+> > > > > on this effort, please let me know.
+> > > > >
+> > > >
+> > > > Can you point me to the DTS with which you are seeing this issue ?
+> > > > I am trying to reproduce the issue but so far not successful. I
+> > > > did move to power-domains for CPUFreq on Juno. IIUC all we
+> need is
+> > > > both cpufreq and performance genpd drivers in the kernel and
+> then
+> > > > GPU using perf genpd fails with probe deferral right ? I need
+> > > > pointers to reproduce the issue so that I can check if what I have
+> > > > cooked up as a solution really works.
+> > >
+> > > This is in downstream tree:
+> > >
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
+> gi
+> > > thub.com%2Fnxp-imx%2Flinux-imx%2Fblob%2Flf-
+> 6.6.y%2Farch%2Farm64%2Fbo
+> > >
+> ot%2Fdts%2Ffreescale%2Fimx95.dtsi%23L2971&data=3D05%7C02%7Cpe
+> ng.fan%40
+> > >
+> nxp.com%7C72778d531e944c7214ca08dd5fd95012%7C686ea1d3bc2
+> b4c6fa92cd99
+> > >
+> c5c301635%7C0%7C0%7C638772109152491267%7CUnknown%7CT
+> WFpbGZsb3d8eyJFb
+> > >
+> XB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOI
+> joiTWFpb
+> > >
+> CIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DnHFiE5qD7NpmdGmj
+> SUL0mIdOq8P4W
+> > > ErqVq8xE%2Fb3WM0%3D&reserved=3D0
+> > >
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
+> gi
+> > > thub.com%2Fnxp-imx%2Flinux-imx%2Fblob%2Flf-
+> 6.6.y%2Farch%2Farm64%2Fbo
+> > >
+> ot%2Fdts%2Ffreescale%2Fimx95.dtsi%23L3043&data=3D05%7C02%7Cpe
+> ng.fan%40
+> > >
+> nxp.com%7C72778d531e944c7214ca08dd5fd95012%7C686ea1d3bc2
+> b4c6fa92cd99
+> > >
+> c5c301635%7C0%7C0%7C638772109152521215%7CUnknown%7CT
+> WFpbGZsb3d8eyJFb
+> > >
+> XB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOI
+> joiTWFpb
+> > >
+> CIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DM4LJumL6y9bQ%2FL
+> ocPvlNiMnCFtO
+> > > vODYNrC0DGbbydxY%3D&reserved=3D0
+> > >
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
+> gi
+> > > thub.com%2Fnxp-imx%2Flinux-imx%2Fblob%2Flf-
+> 6.6.y%2Farch%2Farm64%2Fbo
+> > >
+> ot%2Fdts%2Ffreescale%2Fimx95.dtsi%23L80&data=3D05%7C02%7Cpeng
+> .fan%40nx
+> > >
+> p.com%7C72778d531e944c7214ca08dd5fd95012%7C686ea1d3bc2b4
+> c6fa92cd99c5
+> > >
+> c301635%7C0%7C0%7C638772109152541725%7CUnknown%7CTWF
+> pbGZsb3d8eyJFbXB
+> > >
+> 0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoi
+> TWFpbCI
+> > >
+> sIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DVpxcGrB6Dnr9yCO%2F
+> wl8sEw1LYSlX5
+> > > nPHqnlJ5mKm%2B7A%3D&reserved=3D0
+> > >
+> > > we are using "power-domains" property for cpu perf and gpu/vpu
+> perf.
+> > >
+> > > If cpufreq.off=3D1 is set in bootargs, the vpu/gpu driver will defer
+> probe.
+> > >
+> >
+> > OK, does the probe of these drivers get called or they don't as the
+> > driver core doesn't allow that ? I just have a dummy driver for mali
+> > on Juno which just does dev_pm_domain_attach_list() in the probe
+> and
+> > it seem to succeed even when cpufreq.off=3D1 is passed. I see
+> > scmi-cpufreq failing with -ENODEV as expected.
+> >
+> > I need to follow the code and check if I can somehow reproduce. Also
+> > are you sure this is not with anything in the downstream code ? Also
+> > have you tried this with v6.14-rc* ? Are you sure all the fw_devlink
+> > code is backported in the tree you pointed me which is v6.6-stable ?
+> >
+>=20
+> I even tried the above branch, but no luck. The above is neither latest
+> stable version nor pure stable. It has few extra patches backported
+> though IIUC. Anyways any pointers to enable me to reproduce the
+> issue would be much appreciated.
 
-Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
----
-Not sure if it is not better to unify all these common read/write entrypoint
-into one single function that decide what to do based on the a strcmp of its
-own filepath....seems still cleaner using these stupid wrappers to
-diffrentiate between message_poll/message_poll_async etc etc
----
- Documentation/ABI/testing/debugfs-scmi-raw | 91 ++++++++++++++++++++++
- drivers/firmware/arm_scmi/driver.c         |  3 +-
- drivers/firmware/arm_scmi/raw_mode.c       | 72 +++++++++++++++--
- 3 files changed, 160 insertions(+), 6 deletions(-)
+I will setup test based latest linux-next and share results. Please wait.
 
-diff --git a/Documentation/ABI/testing/debugfs-scmi-raw b/Documentation/ABI/testing/debugfs-scmi-raw
-index 97678cc9535c..5847b96b3896 100644
---- a/Documentation/ABI/testing/debugfs-scmi-raw
-+++ b/Documentation/ABI/testing/debugfs-scmi-raw
-@@ -31,6 +31,42 @@ Description:	SCMI Raw asynchronous message injection/snooping facility; write
- 		(receiving an EOF at each message boundary).
- Users:		Debugging, any userspace test suite
- 
-+What:		/sys/kernel/debug/scmi/<n>/raw/message_poll
-+Date:		June 2025
-+KernelVersion:	6.16
-+Contact:	cristian.marussi@arm.com
-+Description:	SCMI Raw message injection/snooping facility using polling mode;
-+		write a complete SCMI command message (header included) in
-+		little-endian binary format to have it sent to the configured
-+		backend SCMI server for instance <n>, using polling mode on
-+		the reception path. (if transport is polling capable)
-+		Any subsequently received response can be read from this same
-+		entry if it arrived within the configured timeout.
-+		Each write to the entry causes one command request to be built
-+		and sent while the replies are read back one message at time
-+		(receiving an EOF at each message boundary).
-+Users:		Debugging, any userspace test suite
-+
-+What:		/sys/kernel/debug/scmi/<n>/raw/message_poll_async
-+Date:		June 2025
-+KernelVersion:	6.16
-+Contact:	cristian.marussi@arm.com
-+Description:	SCMI Raw asynchronous message injection/snooping facility using
-+		polling-mode; write a complete SCMI asynchronous command message
-+		(header included) in little-endian binary format to have it sent
-+		to the configured backend SCMI server for instance <n>, using
-+		polling-mode on the reception path of the immediate part of the
-+		asynchronous command. (if transport is polling capable)
-+		Any subsequently received response can be read from this same
-+		entry if it arrived within the configured timeout.
-+		Any additional delayed response received afterwards can be read
-+		from this same entry too if it arrived within the configured
-+		timeout.
-+		Each write to the entry causes one command request to be built
-+		and sent while the replies are read back one message at time
-+		(receiving an EOF at each message boundary).
-+Users:		Debugging, any userspace test suite
-+
- What:		/sys/kernel/debug/scmi/<n>/raw/errors
- Date:		March 2023
- KernelVersion:	6.3
-@@ -115,3 +151,58 @@ Description:	SCMI Raw asynchronous message injection/snooping facility; write
- 		exist only if the transport is configured to have more than
- 		one default channel.
- Users:		Debugging, any userspace test suite
-+
-+
-+What:		/sys/kernel/debug/scmi/<n>/raw/channels/<m>/message_poll
-+Date:		June 2025
-+KernelVersion:	6.16
-+Contact:	cristian.marussi@arm.com
-+Description:	SCMI Raw message injection/snooping facility using polling mode;
-+		write a complete SCMI command message (header included) in
-+		little-endian binary format to have it sent to the configured
-+		backend SCMI server for instance <n> through the <m> transport
-+		channel, using polling mode on the reception path.
-+		(if transport is polling capable)
-+		Any subsequently received response can be read from this same
-+		entry if it arrived on channel <m> within the configured
-+		timeout.
-+		Each write to the entry causes one command request to be built
-+		and sent while the replies are read back one message at time
-+		(receiving an EOF at each message boundary).
-+		Channel identifier <m> matches the SCMI protocol number which
-+		has been associated with this transport channel in the DT
-+		description, with base protocol number 0x10 being the default
-+		channel for this instance.
-+		Note that these per-channel entries rooted at <..>/channels
-+		exist only if the transport is configured to have more than
-+		one default channel.
-+Users:		Debugging, any userspace test suite
-+
-+What:		/sys/kernel/debug/scmi/<n>/raw/channels/<m>/message_poll_async
-+Date:		June 2025
-+KernelVersion:	6.16
-+Contact:	cristian.marussi@arm.com
-+Description:	SCMI Raw asynchronous message injection/snooping facility using
-+		polling-mode; write a complete SCMI asynchronous command message
-+		(header included) in little-endian binary format to have it sent
-+		to the configured backend SCMI server for instance <n> through
-+		the <m> transport channel, using polling mode on the reception
-+		path of the immediate part of the asynchronous command.
-+		(if transport is polling capable)
-+		Any subsequently received response can be read from this same
-+		entry if it arrived on channel <m> within the configured
-+		timeout.
-+		Any additional delayed response received afterwards can be read
-+		from this same entry too if it arrived within the configured
-+		timeout.
-+		Each write to the entry causes one command request to be built
-+		and sent while the replies are read back one message at time
-+		(receiving an EOF at each message boundary).
-+		Channel identifier <m> matches the SCMI protocol number which
-+		has been associated with this transport channel in the DT
-+		description, with base protocol number 0x10 being the default
-+		channel for this instance.
-+		Note that these per-channel entries rooted at <..>/channels
-+		exist only if the transport is configured to have more than
-+		one default channel.
-+Users:		Debugging, any userspace test suite
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index e6cf83950875..bf2dc200604e 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -1190,7 +1190,8 @@ static void scmi_handle_response(struct scmi_chan_info *cinfo,
- 		 * RX path since it will be already queued at the end of the TX
- 		 * poll loop.
- 		 */
--		if (!xfer->hdr.poll_completion)
-+		if (!xfer->hdr.poll_completion ||
-+		    xfer->hdr.type == MSG_TYPE_DELAYED_RESP)
- 			scmi_raw_message_report(info->raw, xfer,
- 						SCMI_RAW_REPLY_QUEUE,
- 						cinfo->id);
-diff --git a/drivers/firmware/arm_scmi/raw_mode.c b/drivers/firmware/arm_scmi/raw_mode.c
-index 7cc0d616b8de..3d543b1d8947 100644
---- a/drivers/firmware/arm_scmi/raw_mode.c
-+++ b/drivers/firmware/arm_scmi/raw_mode.c
-@@ -671,11 +671,13 @@ static int scmi_do_xfer_raw_start(struct scmi_raw_mode_info *raw,
-  * @len: Length of the message in @buf.
-  * @chan_id: The channel ID to use.
-  * @async: A flag stating if an asynchronous command is required.
-+ * @poll: A flag stating if a polling transmission is required.
-  *
-  * Return: 0 on Success
-  */
- static int scmi_raw_message_send(struct scmi_raw_mode_info *raw,
--				 void *buf, size_t len, u8 chan_id, bool async)
-+				 void *buf, size_t len, u8 chan_id,
-+				 bool async, bool poll)
- {
- 	int ret;
- 	struct scmi_xfer *xfer;
-@@ -684,6 +686,16 @@ static int scmi_raw_message_send(struct scmi_raw_mode_info *raw,
- 	if (ret)
- 		return ret;
- 
-+	if (poll) {
-+		if (is_transport_polling_capable(raw->desc)) {
-+			xfer->hdr.poll_completion = true;
-+		} else {
-+			dev_err(raw->handle->dev,
-+				"Failed to send RAW message - Polling NOT supported\n");
-+			return -EINVAL;
-+		}
-+	}
-+
- 	ret = scmi_do_xfer_raw_start(raw, xfer, chan_id, async);
- 	if (ret)
- 		scmi_xfer_raw_put(raw->handle, xfer);
-@@ -801,7 +813,7 @@ static ssize_t scmi_dbg_raw_mode_common_read(struct file *filp,
- static ssize_t scmi_dbg_raw_mode_common_write(struct file *filp,
- 					      const char __user *buf,
- 					      size_t count, loff_t *ppos,
--					      bool async)
-+					      bool async, bool poll)
- {
- 	int ret;
- 	struct scmi_dbg_raw_data *rd = filp->private_data;
-@@ -831,7 +843,7 @@ static ssize_t scmi_dbg_raw_mode_common_write(struct file *filp,
- 	}
- 
- 	ret = scmi_raw_message_send(rd->raw, rd->tx.buf, rd->tx_size,
--				    rd->chan_id, async);
-+				    rd->chan_id, async, poll);
- 
- 	/* Reset ppos for next message ... */
- 	rd->tx_size = 0;
-@@ -875,7 +887,8 @@ static ssize_t scmi_dbg_raw_mode_message_write(struct file *filp,
- 					       const char __user *buf,
- 					       size_t count, loff_t *ppos)
- {
--	return scmi_dbg_raw_mode_common_write(filp, buf, count, ppos, false);
-+	return scmi_dbg_raw_mode_common_write(filp, buf, count, ppos,
-+					      false, false);
- }
- 
- static __poll_t scmi_dbg_raw_mode_message_poll(struct file *filp,
-@@ -964,7 +977,8 @@ static ssize_t scmi_dbg_raw_mode_message_async_write(struct file *filp,
- 						     const char __user *buf,
- 						     size_t count, loff_t *ppos)
- {
--	return scmi_dbg_raw_mode_common_write(filp, buf, count, ppos, true);
-+	return scmi_dbg_raw_mode_common_write(filp, buf, count, ppos,
-+					      true, false);
- }
- 
- static const struct file_operations scmi_dbg_raw_mode_message_async_fops = {
-@@ -976,6 +990,40 @@ static const struct file_operations scmi_dbg_raw_mode_message_async_fops = {
- 	.owner = THIS_MODULE,
- };
- 
-+static ssize_t scmi_dbg_raw_mode_message_poll_write(struct file *filp,
-+						    const char __user *buf,
-+						    size_t count, loff_t *ppos)
-+{
-+	return scmi_dbg_raw_mode_common_write(filp, buf, count, ppos,
-+					      false, true);
-+}
-+
-+static const struct file_operations scmi_dbg_raw_mode_message_poll_fops = {
-+	.open = scmi_dbg_raw_mode_open,
-+	.release = scmi_dbg_raw_mode_release,
-+	.read = scmi_dbg_raw_mode_message_read,
-+	.write = scmi_dbg_raw_mode_message_poll_write,
-+	.poll = scmi_dbg_raw_mode_message_poll,
-+	.owner = THIS_MODULE,
-+};
-+
-+static ssize_t scmi_dbg_raw_mode_message_poll_async_write(struct file *filp,
-+							  const char __user *buf,
-+							  size_t count, loff_t *ppos)
-+{
-+	return scmi_dbg_raw_mode_common_write(filp, buf, count, ppos,
-+					      true, true);
-+}
-+
-+static const struct file_operations scmi_dbg_raw_mode_message_poll_async_fops = {
-+	.open = scmi_dbg_raw_mode_open,
-+	.release = scmi_dbg_raw_mode_release,
-+	.read = scmi_dbg_raw_mode_message_read,
-+	.write = scmi_dbg_raw_mode_message_poll_async_write,
-+	.poll = scmi_dbg_raw_mode_message_poll,
-+	.owner = THIS_MODULE,
-+};
-+
- static ssize_t scmi_test_dbg_raw_mode_notif_read(struct file *filp,
- 						 char __user *buf,
- 						 size_t count, loff_t *ppos)
-@@ -1199,6 +1247,12 @@ void *scmi_raw_mode_init(const struct scmi_handle *handle,
- 	debugfs_create_file("message_async", 0600, raw->dentry, raw,
- 			    &scmi_dbg_raw_mode_message_async_fops);
- 
-+	debugfs_create_file("message_poll", 0600, raw->dentry, raw,
-+			    &scmi_dbg_raw_mode_message_poll_fops);
-+
-+	debugfs_create_file("message_poll_async", 0600, raw->dentry, raw,
-+			    &scmi_dbg_raw_mode_message_poll_async_fops);
-+
- 	debugfs_create_file("notification", 0400, raw->dentry, raw,
- 			    &scmi_dbg_raw_mode_notification_fops);
- 
-@@ -1230,6 +1284,14 @@ void *scmi_raw_mode_init(const struct scmi_handle *handle,
- 			debugfs_create_file_aux_num("message_async", 0600, chd,
- 					    raw, channels[i],
- 					    &scmi_dbg_raw_mode_message_async_fops);
-+
-+			debugfs_create_file_aux_num("message_poll", 0600, chd,
-+						    raw, channels[i],
-+						    &scmi_dbg_raw_mode_message_poll_fops);
-+
-+			debugfs_create_file_aux_num("message_poll_async", 0600,
-+						    chd, raw, channels[i],
-+						    &scmi_dbg_raw_mode_message_poll_async_fops);
- 		}
- 	}
- 
--- 
-2.47.0
-
+Thanks,
+Peng.
+>=20
+> --
+> Regards,
+> Sudeep
