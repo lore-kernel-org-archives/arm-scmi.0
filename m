@@ -1,91 +1,82 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E88AB23F38C;
-	Wed, 12 Mar 2025 11:28:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B10021D63FF
+	for <arm-scmi@vger.kernel.org>; Wed, 12 Mar 2025 11:40:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741778940; cv=none; b=KzfvP8mBmbTfPEmh9OqNzZhjLlgSbuelj+1gsu4OORRWzdGQm2ZNqkpjJdt9QvHObpdq/0kyc97KRSh6Trg3RJvri1ozHPf8QIwRiJBbL4bvsFqYoCT4j1I5XAlWpzVVH9hY6IQBqk5S3j7Ab7aEdq564ZJcqoisnqxb+hBwh5s=
+	t=1741779646; cv=none; b=IxmtUkztn2D04A6qGz45SU37mi54qjTwq7WiXHXaltMDJM5pxV1Yrndl8bTO6OZV2crudHviXbhJVrV+d9z3KRK6bGncaWxzxmEE3z9CqjpRW60tU5Lnhmrvnmm6XZ31Mvd5jFkbFltEHCoBOZjzQKDayrRF2d1sFa1A3nbhIjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741778940; c=relaxed/simple;
-	bh=X5+GB3yUeu0AMb3m1p/GP6GJgAjCm9u72uZGthp/DlM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a+i8CYa7TpQ3ZLNs5AKBpKP/BCGxuFGr+SS1czHQEYOcZdR39pR5fv7bWjKGTlWrcKzTssFaI4ugvLZpOsSYXRYIcEsZqlNV+Bv+rZxcVKi4OnXeinQmEpob3Vmmm56NQuCnkx+rar5tDf38A3scevLIbm/SchQzGejxKigxM/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
+	s=arc-20240116; t=1741779646; c=relaxed/simple;
+	bh=VUNxvcijs9An1927oTqaVDUsqXThCsE8zDBbKNgPFgM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Ilrmie2QG9tMISv/uvHiCx2WOJitGybRUv25Xj80QwbqWab5cmxLyePGREdqOZh7HGeHutroMqdaqwOogFExhU8CYRYdqDoe1cxd4MFgRtIss5kIuz1CzkgKub8RkuDOjNgJstSKURTllWIyeIuBnTkuwnxkkskTiay+xJlyH+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 25A46152B;
-	Wed, 12 Mar 2025 04:29:09 -0700 (PDT)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 962C83F694;
-	Wed, 12 Mar 2025 04:28:55 -0700 (PDT)
-Date: Wed, 12 Mar 2025 11:28:52 +0000
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D05D6152B;
+	Wed, 12 Mar 2025 04:40:53 -0700 (PDT)
+Received: from e133711.arm.com (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5C24F3F694;
+	Wed, 12 Mar 2025 04:40:42 -0700 (PDT)
 From: Sudeep Holla <sudeep.holla@arm.com>
-To: Peng Fan <peng.fan@nxp.com>
-Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Aisheng Dong <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>
-Subject: Re: [PATCH 1/4] firmware: arm_scmi: bus: Bypass setting fwnode for
- scmi cpufreq
-Message-ID: <Z9Fv9JPdF5OWUHfk@bogus>
-References: <Z7Wvyn1QJQMVigf9@bogus>
- <Z7Z-ZnztmvUxWoQJ@NXL53680.wbi.nxp.com>
- <Z86w3ZRS6T2MvV3X@bogus>
- <DB9PR04MB84614FBF96E7BC0D125D97F688D62@DB9PR04MB8461.eurprd04.prod.outlook.com>
- <Z87UJdhiTWhssnbl@bogus>
- <Z87sGF_jHKau_FMe@bogus>
- <PAXPR04MB8459EA5C7898393E51C246AD88D12@PAXPR04MB8459.eurprd04.prod.outlook.com>
- <PAXPR04MB8459A73179FFF0ED0C9A51E488D12@PAXPR04MB8459.eurprd04.prod.outlook.com>
- <Z9AdICiyaCmzKh-N@bogus>
- <Z9FnZzBQuZ1j5k3I@bogus>
+Subject: [PATCH 0/3] firmware: arm_scmi: Minor cleanups in the scmi bus
+ layer
+Date: Wed, 12 Mar 2025 11:40:23 +0000
+Message-Id: <20250312-b4-scmi_minor_cleanup-v1-0-c62c6cb4111a@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z9FnZzBQuZ1j5k3I@bogus>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKhy0WcC/w3HwQqAIAwA0F+JnRN0KUg/I7VWDXKFUhfp3+vdX
+ oPKRbjC2DUo/EiVU/+4vgPaJ93YyPIf0GKwg0Mze1MpS8qiZ0l08KT3ZeIaA2Jc/BAI3vcD8t8
+ TpFcAAAA=
+X-Change-ID: 20250312-b4-scmi_minor_cleanup-8f85228d435c
+To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Sudeep Holla <sudeep.holla@arm.com>, 
+ Cristian Marussi <cristian.marussi@arm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1011; i=sudeep.holla@arm.com;
+ h=from:subject:message-id; bh=VUNxvcijs9An1927oTqaVDUsqXThCsE8zDBbKNgPFgM=;
+ b=owEBbQKS/ZANAwAIAQBBurwxfuKYAcsmYgBn0XK5c2BTNGTOLzPFitGsESmr3eas1w0PoAFTS
+ P2CaUUEA5qJAjMEAAEIAB0WIQS6ceUSBvMeskPdk+EAQbq8MX7imAUCZ9FyuQAKCRAAQbq8MX7i
+ mPirEADMhHNWzclWqfmuECTJMpazKJaamjNSYgWYtIuDM+D5yLkZo1rWPPon5pNfEVB2jRI+3lP
+ eQmmwPe0kOPXKZpOpzLDXvrNU4gwO9TOUhWWCSuPC8sU2qU3IVZ2OKi7zfJSciItezoEjY9PdSb
+ p0IRf/wNNJPfBz5EF+7Lkdkw41nokJmsd2DUDZnKE3UyEhqNu/dg7xRRHtvh02yJnG1Bi+q3r+F
+ zLzGlJfNuvHgpXPq/NAvTQzdYmQKXmR6MhN6Gm8u1TWIXkFCFlHlVObb/b5DA65jFZxdPGeVpJa
+ cm8awJXBQYZEVN61Jrf6PhZSfx5svTbuTkhN/igaD6r47GQ1x+ebMIO66fOU1J8Vc9aE27zgR5o
+ MbSRs0m42FHjVAfrUqSqVX66t+9/3mjd2B3hNsvVjbEjOhhplZJTJeNnSBgj3Ze0QwdIBD02Y2B
+ SQHIQKDGyFh5zh6/xUoec1mBGNn0pm/1rqPQPNI6fyHwZlt/x1htFmRn6ZzqDvyPEaZwynUi9TI
+ Yv5BsUNxKXbYxBqef6niiB95rCuXCFHSTMOj2RoI1E8imjPMXxxrZcWg3eoxo++21qXmeIvEXsL
+ fp+G/HKpf2yjEjXmiA231T3dzx/bLK0OeNfIbEilkSokI+LkNSOy1RL5L+stN18O5o/kFO8Ikf6
+ IvSKZEa/DPV3DwA==
+X-Developer-Key: i=sudeep.holla@arm.com; a=openpgp;
+ fpr=7360A21742ADF5A11767C1C139CFD4755FE2D5B4
 
-On Wed, Mar 12, 2025 at 10:52:23AM +0000, Sudeep Holla wrote:
-> On Tue, Mar 11, 2025 at 11:23:12AM +0000, Sudeep Holla wrote:
-> > On Tue, Mar 11, 2025 at 11:12:45AM +0000, Peng Fan wrote:
-> > >
-> > > So it is clear that wrong fw_devlink is created, it is because scmi cpufreq device is
-> > > created earlier and when device_add, the below logic makes the fwnode pointer points
-> > > to scmi cpufreq device.
-> > >         if (dev->fwnode && !dev->fwnode->dev) {
-> > >                 dev->fwnode->dev = dev;
-> > >                 fw_devlink_link_device(dev);
-> > >         }
-> > >
-> >
-> > Thanks, looks like simple way to reproduce the issue. I will give it a try.
-> >
-> 
-> I could reproduce but none of my solution solved the problem completely
-> or properly. And I don't like the DT proposal you came up with. I am
-> not inclined to just drop this fwnode setting in the scmi devices and
-> just use of_node.
->
+These cleanup centralizes error logging for SCMI device creation into a
+single helper function, _scmi_device_create(), consolidates the device
+matching logic into a single function, and ensures that devices must
+have a name for registration, removing support for unnamed devices while
+matching the devices and drivers for probing.
 
-Sorry for the typo that changes the meaning: s/not/now
+Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
+---
+Sudeep Holla (3):
+      firmware: arm_scmi: Ensure scmi_devices are always matched by name as well
+      firmware: arm_scmi: Refactor device matching logic to eliminate duplication
+      firmware: arm_scmi: Refactor error logging from SCMI device creation to single helper
 
-I meant "I am now inclined ..", until we figure out a way to make this
-work with devlinks properly.
+ drivers/firmware/arm_scmi/bus.c    | 75 ++++++++++++++++++++------------------
+ drivers/firmware/arm_scmi/driver.c |  8 +---
+ 2 files changed, 40 insertions(+), 43 deletions(-)
+---
+base-commit: 80e54e84911a923c40d7bee33a34c1b4be148d7a
+change-id: 20250312-b4-scmi_minor_cleanup-8f85228d435c
 
+Best regards,
 -- 
 Regards,
 Sudeep
+
