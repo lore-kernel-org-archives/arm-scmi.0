@@ -1,37 +1,37 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B52632505AC;
-	Tue, 11 Mar 2025 11:23:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0F8723BD18;
+	Wed, 12 Mar 2025 10:52:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741692200; cv=none; b=O+UXQzvmqcWYZ3nRpJ3jlsD0iCZ3KkaXbO+slR6/5t30W65vVGz9nDhrXNeCae10i1zxRlTRtCxEeN03C5XeJ/3pohBPI30Y+7TfC6xhFuQjdeJp+KWvMCrzZbrvuY86yIUiiS9vOrZeaq+M58X5O9l9ZF1a1sV+RfRJwVmOaww=
+	t=1741776751; cv=none; b=HjBT78ueomYsWpE/5avzFoBqQhWeQ+C7rFYtwiRj3xMOmULM+IRGoyzpDOxsleJCqDT97MgPXZJGHYiSgsBeKlMaDrprkLGG3Ou3SR7L7KyQjcUBuejD6YX1bhoANlOFElO8OU5OkqNaNBY8bTvwUwfoZZMOmisbVvWmozMkHxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741692200; c=relaxed/simple;
-	bh=ZpalmG4T9OY6m/3LwzKKa9/c72xUEFW6lIUVnjnmeAs=;
+	s=arc-20240116; t=1741776751; c=relaxed/simple;
+	bh=OQO01dbBKNI3Cu+axMDEKWJ+YCTB6DThiDmi4U2btuM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RRv3FNU/rXWQk8Zf+9WFbIvyd3Cdjd67AieqnWSQYrgc1P2/+anUQjMGt83b6uqcwdvn+Q+0/9L10d2lJAArp4TSWv8AjwtRMzF2TUBqH/HslynWF27EIY2vQdQyY/gFY0h0lxA1rVSvlr29Gs8gmc9etbjVPfLzoM3yugga0WE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bs+whJWPEHUwikL5xkXWsUDAFYJ7n1l6y5awixKtAWOqz4zt1HBnjRUPH+ERqZ7fskFda0LuZfmIh3HuUHl/cRv1oPH1iEVmKO+MRNsDy/VYYdkioIr91hH7npewVbXhusUeXNNiJc5vrqGwrKQJUzBi0RgyDJcBCoDXR3QHe5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E6DFB152B;
-	Tue, 11 Mar 2025 04:23:28 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 22DF71515;
+	Wed, 12 Mar 2025 03:52:40 -0700 (PDT)
 Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D9EC73F673;
-	Tue, 11 Mar 2025 04:23:14 -0700 (PDT)
-Date: Tue, 11 Mar 2025 11:23:12 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6CF123F694;
+	Wed, 12 Mar 2025 03:52:26 -0700 (PDT)
+Date: Wed, 12 Mar 2025 10:52:23 +0000
 From: Sudeep Holla <sudeep.holla@arm.com>
 To: Peng Fan <peng.fan@nxp.com>
 Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
 	Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
 	Saravana Kannan <saravanak@google.com>,
-	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Linus Walleij <linus.walleij@linaro.org>,
 	Aisheng Dong <aisheng.dong@nxp.com>,
-	"Fabio Estevam" <festevam@gmail.com>,
-	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+	Jacky Bai <ping.bai@nxp.com>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	"Sascha Hauer" <s.hauer@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
 	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
 	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
@@ -39,9 +39,8 @@ Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
 	"imx@lists.linux.dev" <imx@lists.linux.dev>
 Subject: Re: [PATCH 1/4] firmware: arm_scmi: bus: Bypass setting fwnode for
  scmi cpufreq
-Message-ID: <Z9AdICiyaCmzKh-N@bogus>
-References: <Z7Rf9GPdO2atP89Z@bogus>
- <20250218133619.GA22647@nxa18884-linux>
+Message-ID: <Z9FnZzBQuZ1j5k3I@bogus>
+References: <20250218133619.GA22647@nxa18884-linux>
  <Z7Wvyn1QJQMVigf9@bogus>
  <Z7Z-ZnztmvUxWoQJ@NXL53680.wbi.nxp.com>
  <Z86w3ZRS6T2MvV3X@bogus>
@@ -50,6 +49,7 @@ References: <Z7Rf9GPdO2atP89Z@bogus>
  <Z87sGF_jHKau_FMe@bogus>
  <PAXPR04MB8459EA5C7898393E51C246AD88D12@PAXPR04MB8459.eurprd04.prod.outlook.com>
  <PAXPR04MB8459A73179FFF0ED0C9A51E488D12@PAXPR04MB8459.eurprd04.prod.outlook.com>
+ <Z9AdICiyaCmzKh-N@bogus>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -58,46 +58,28 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PAXPR04MB8459A73179FFF0ED0C9A51E488D12@PAXPR04MB8459.eurprd04.prod.outlook.com>
+In-Reply-To: <Z9AdICiyaCmzKh-N@bogus>
 
-On Tue, Mar 11, 2025 at 11:12:45AM +0000, Peng Fan wrote:
-> Based on linux-next, I added below node:
+On Tue, Mar 11, 2025 at 11:23:12AM +0000, Sudeep Holla wrote:
+> On Tue, Mar 11, 2025 at 11:12:45AM +0000, Peng Fan wrote:
+> >
+> > So it is clear that wrong fw_devlink is created, it is because scmi cpufreq device is
+> > created earlier and when device_add, the below logic makes the fwnode pointer points
+> > to scmi cpufreq device.
+> >         if (dev->fwnode && !dev->fwnode->dev) {
+> >                 dev->fwnode->dev = dev;
+> >                 fw_devlink_link_device(dev);
+> >         }
+> >
 >
-> +
-> +               test@4f000000 {
-> +                       compatible = "fsl,imx-test";
-> +                       power-domains = <&scmi_devpd IMX95_PD_VPU>, <&scmi_perf IMX95_PERF_VPU>;
-> +                       power-domain-names = "vpumix", "vpuperf";
-> +               };
->
-> I not write a driver for it, so just check devlink information from sysfs interface.
->
-> From below sys directory, this test device takes scmi_dev.4 and scmi_dev.3 as supplier.
-> root@imx95evk:/sys/bus/platform/devices/soc:test@4f000000# ls
-> driver_override  of_node  subsystem                          supplier:scmi_protocol:scmi_dev.4  waiting_for_supplier
-> modalias         power    supplier:scmi_protocol:scmi_dev.3  uevent
->
-> Checking scmi_dev.4 below, it is scmi cpufreq, not the scmi perf device.
-> scmi_dev.3 is correct, it is genpd.
->
-> root@imx95evk:/sys/bus/platform/devices/soc:test@4f000000# cat /sys/bus/scmi_protocol/devices/scmi_dev.4/modalias
-> scmi_dev.4:13:cpufreq
-> root@imx95evk:/sys/bus/platform/devices/soc:test@4f000000# cat /sys/bus/scmi_protocol/devices/scmi_dev.3/modalias
-> scmi_dev.3:11:genpd
-> root@imx95evk:/sys/bus/platform/devices/soc:test@4f000000#
->
->
-> So it is clear that wrong fw_devlink is created, it is because scmi cpufreq device is
-> created earlier and when device_add, the below logic makes the fwnode pointer points
-> to scmi cpufreq device.
->         if (dev->fwnode && !dev->fwnode->dev) {
->                 dev->fwnode->dev = dev;
->                 fw_devlink_link_device(dev);
->         }
+> Thanks, looks like simple way to reproduce the issue. I will give it a try.
 >
 
-Thanks, looks like simple way to reproduce the issue. I will give it a try.
+I could reproduce but none of my solution solved the problem completely
+or properly. And I don't like the DT proposal you came up with. I am
+not inclined to just drop this fwnode setting in the scmi devices and
+just use of_node.
 
---
+-- 
 Regards,
 Sudeep
