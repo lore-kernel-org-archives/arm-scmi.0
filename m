@@ -1,27 +1,27 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A726821C175
-	for <arm-scmi@vger.kernel.org>; Mon, 17 Mar 2025 10:31:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 864C0133987
+	for <arm-scmi@vger.kernel.org>; Mon, 17 Mar 2025 10:31:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742207515; cv=none; b=KCSaRbIsFIxQcVUPTIIsvBsP1BEzOQC1Ixs4zHJWqdtiMKA4F8lquOr4F7eJsSu1NaaPAP4NT/Jq3qShyfs99i16hXuqXRRScUKmI3V8HrXRbbLd2ermab0z7BI1j0+cWhuvYXFauNeKBAm8svu+6BFVQftzG5dO9+kjnUvJE1I=
+	t=1742207516; cv=none; b=P8cgtRLNm6mHDoEmqIem6Q3FHB+X+pEnhGWGiW9/Xv9TDjJQr/+3Ul1QXSze/jidfWSiedPm1jj0f0sP6u7+YKFnkrdlVJ24HbJJi5NizdFyYzmJo9JI9Pwai9JPnjytqrArwdSRhxBl83xFf8OmY2EluAAImhFenvM5PmaewHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742207515; c=relaxed/simple;
-	bh=IUn41wpwB6Ut021pQ0AAYrXTN0TJ/XChzgyacyEtQ34=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RAlkhkCGUJsoWpstv5rJIrqSV6+sbL6+UxSzlkwDUXwuwRB7jnNgA5q2SvVM6JHjcE8Q1crDXTc0GheNk+6l4moelrTeJ+tnmclnvZ/6mV+wkCaDX6PVpXAAWBg/oANI4O+Qq90sG+Ohqq/MB/1qbMtgvM5YFn5Y5wRxexAxfDE=
+	s=arc-20240116; t=1742207516; c=relaxed/simple;
+	bh=WbYcwPFa1V2cCGxOBvupgDD2HrO3B51Gf6RHdYRG7bU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=WXhC5sTc53v4xVbRUDtBSCmTDAISIyuY4dLQMMoaa2cefheUyMW1SMSINv3MGn+wSqEH/qUNVf//hJgvJEd3Nsoxyld/wqEo+cNDE3OhQX2DHONLXiyTT96YFSjl8fsR44dk0CNSAPQnP7lMg9cVxypk+LiW64cugvw+dum4mOI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CD36C13D5;
-	Mon, 17 Mar 2025 03:32:01 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D3A45169E;
+	Mon, 17 Mar 2025 03:32:02 -0700 (PDT)
 Received: from e133711.arm.com (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2E7813F673;
-	Mon, 17 Mar 2025 03:31:52 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 352E73F673;
+	Mon, 17 Mar 2025 03:31:53 -0700 (PDT)
 From: Sudeep Holla <sudeep.holla@arm.com>
-Subject: [PATCH v2 0/5] firmware: arm_scmi: Minor cleanups in the scmi bus
- layer
-Date: Mon, 17 Mar 2025 10:31:20 +0000
-Message-Id: <20250317-b4-scmi_minor_cleanup-v2-0-f4be99bd9864@arm.com>
+Date: Mon, 17 Mar 2025 10:31:21 +0000
+Subject: [PATCH v2 1/5] firmware: arm_scmi: Ensure scmi_devices are always
+ matched by name as well
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -30,63 +30,66 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPn512cC/4WMQQrCMBAAv1L2bCTZJiV48h8iJd1Gu2ASSTQgJ
- X83+AFPwxxmdig+sy9wGnbIvnLhFLvgYQDaXLx7wWt3QIlGjgrFokWhwHPgmPJMD+/i+ynszRp
- Eu+rREPR24/JK+fPbVtVx+XeoSkhBE9JEi1ZKubPL4UgpwLW19gWkmlv0qAAAAA==
-X-Change-ID: 20250312-b4-scmi_minor_cleanup-8f85228d435c
+Message-Id: <20250317-b4-scmi_minor_cleanup-v2-1-f4be99bd9864@arm.com>
+References: <20250317-b4-scmi_minor_cleanup-v2-0-f4be99bd9864@arm.com>
+In-Reply-To: <20250317-b4-scmi_minor_cleanup-v2-0-f4be99bd9864@arm.com>
 To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Cc: Sudeep Holla <sudeep.holla@arm.com>, 
  Cristian Marussi <cristian.marussi@arm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1616; i=sudeep.holla@arm.com;
- h=from:subject:message-id; bh=IUn41wpwB6Ut021pQ0AAYrXTN0TJ/XChzgyacyEtQ34=;
- b=owEBbQKS/ZANAwAIAQBBurwxfuKYAcsmYgBn1/oXaDGN0xKyCAakLAoBoWCVwZiExl6isfuWO
- OQjILk4GcKJAjMEAAEIAB0WIQS6ceUSBvMeskPdk+EAQbq8MX7imAUCZ9f6FwAKCRAAQbq8MX7i
- mClYEACvKqWTyVSt/b39v3moa7E010DqEePFSkO7uiDpd8PlKxTx6DglEENRaXtVBTVawTmx2ZA
- 6bNaDfrnSyS1rplH/OPPkamMsGpKb5E8UkpcSkdTRnbXp+YhTJWEX5VJRw+IaGmpaaPI0Ax3F3J
- 22ri1p1SIVCp9qPNhx+hdFBmbBVm2aEnGWioJaZqe1q39Mvev6hmWkkWkBBq0UQdHfcFCGsR/Y4
- iIai5nu9EduHuXLLtGiWOHFjqm3RU6fVdZy0GrP3xcrbcz8Dcn/0QwuUJ3ZSc6vWmu7xPXyWoL3
- YBR3xUtDZPrbgHLAmzkA2qPfnYvWhpa88WLbKQ9b+DOrbRQUSD5JXfM+MLK2eJz2zi9jAkEdO2v
- Pmg6ggORd5l9rTJgrsS6ST5M0nqOPGJnaIY6d/YrOnQMbV/aDY2C7cXd+Y6YkwTIeYDIm41QZj6
- K0jP+zxz6eRKlV+jY/oj2AGmJb16ockfUUFIxS3u+mZpUpkdyYBSaO5ugs12rDVW9/qTgqVWrVJ
- LrIlRZiaHYT8eTSn4ztoWwxy+paAJtNdJhozKkB26As5WXcE0bs3ixSkRh2EfCidaYwAGvrCNVH
- 8UKFOfFDFiuDKx17KSDp/ki5S/HtO2xuJsoG1qaxZAGvhpbRG+oqr2SZEyyR5XLHr0g336eY793
- i8QxJFCuGMVz7tg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1346; i=sudeep.holla@arm.com;
+ h=from:subject:message-id; bh=WbYcwPFa1V2cCGxOBvupgDD2HrO3B51Gf6RHdYRG7bU=;
+ b=owEBbQKS/ZANAwAIAQBBurwxfuKYAcsmYgBn1/oXaCG+TDZZOhTJY9TOzNiRDmh/ASClooXQS
+ ULvaQc4/RGJAjMEAAEIAB0WIQS6ceUSBvMeskPdk+EAQbq8MX7imAUCZ9f6FwAKCRAAQbq8MX7i
+ mDlcD/91WvfqsEDo8QCGDSrZP0K5rqejcpFZa1tHSr8VIDVtwcPHu7663QvlQvroM1N2tX+Ktk2
+ xBpVmOVwD+fW+hgbPyo6h1DegKGCJtr4LVcZEsWxvNwlCpbQh6QVo3Fa9+d/o+qIf5DaVR17lud
+ H3rNbLrzV0h1ZyHZJEPKlBj3HKwtiQLMQVXzsq9isyceXlYhqA06AFE9oDjWsItf0VmAqdPqpHR
+ MdaA5VXOweATiNwoONMmE1j67BzBLmW9zg2E/DIxd8/5O0ACOSGFyswqqPHF1A9AiF7ewFxPPpx
+ vKHkysRwFMWAMZ9s8wqjqhnyrvSy9xNytGd55d1B8pF9kdc3fZ879z9MkaJHc+09pTEa5azo3zv
+ 9WyvR9wIPnYKcMkYt+LFoP89jNwKWbr3zzf2osdZ6KfJq/iwk+ie2v+0hzfXrt8Wk9zGoDY6NfU
+ whaJa358FDrHscdlDCAiPRM4wsggk/Bs9v4hQVIkgcapBkB2KvXufFo3m3+QvIgrawIg7cZzfT0
+ IuMDJFvpAtzDBp9MXdzaZc+WAc3QhFwj4IQDBL+YungCViVlDuAfem6EIzdfzKghNauE2EYoijJ
+ Ix5kvOvm/Wzkr8sED/BiMahO+CdKOXUZm9bNjtr+KiWHyQgUkTcSYc/9mROtuTb6xIjt92Wo/af
+ LwY/K6iJPZHg3/A==
 X-Developer-Key: i=sudeep.holla@arm.com; a=openpgp;
  fpr=7360A21742ADF5A11767C1C139CFD4755FE2D5B4
 
-These cleanup centralizes error logging for SCMI device creation into a
-single helper function, _scmi_device_create(), consolidates the device
-matching logic into a single function, and ensures that devices must
-have a name for registration, removing support for unnamed devices while
-matching the devices and drivers for probing. It ensures the transport
-devices are excluded from the bus matching and the correct assignment
-of parent device for the arm-scmi platform device created in the
-transport drivers.
+Currently, devices without a name in the id_table cannot register drivers,
+and no scmi_device is created without a name via scmi_device_create().
+However, the function __scmi_device_create() allows devices with no name,
+which are then labeled as "unknown."
+
+Removes support for matching scmi_device instances without a name,
+ensuring consistency across the driver registration and probing process.
 
 Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
 ---
-Changes in v2:
-- Added exclusion of transport devices from bus matching
-- Added correct assignment of parent to arm-scmi platform device
-- Link to v1: https://lore.kernel.org/r/20250312-b4-scmi_minor_cleanup-v1-0-c62c6cb4111a@arm.com
+ drivers/firmware/arm_scmi/bus.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
----
-Sudeep Holla (5):
-      firmware: arm_scmi: Ensure scmi_devices are always matched by name as well
-      firmware: arm_scmi: Refactor device matching logic to eliminate duplication
-      firmware: arm_scmi: Refactor error logging from SCMI device creation to single helper
-      firmware: arm_scmi: Assign correct parent to arm-scmi platform device
-      firmware: arm_scmi: Exclude transport devices from bus matching
+diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
+index a3386bf36de508d312e2c4fa2e27ba62ba3776a0..050a5ff5dc96a7df58edff5faeb8c1ec6228b97d 100644
+--- a/drivers/firmware/arm_scmi/bus.c
++++ b/drivers/firmware/arm_scmi/bus.c
+@@ -214,13 +214,10 @@ scmi_dev_match_id(struct scmi_device *scmi_dev, const struct scmi_driver *scmi_d
+ 	if (!id)
+ 		return NULL;
+ 
+-	for (; id->protocol_id; id++)
+-		if (id->protocol_id == scmi_dev->protocol_id) {
+-			if (!id->name)
+-				return id;
+-			else if (!strcmp(id->name, scmi_dev->name))
+-				return id;
+-		}
++	for (; id->protocol_id && id->name; id++)
++		if (id->protocol_id == scmi_dev->protocol_id &&
++		    !strcmp(id->name, scmi_dev->name))
++			return id;
+ 
+ 	return NULL;
+ }
 
- drivers/firmware/arm_scmi/bus.c    | 79 ++++++++++++++++++++------------------
- drivers/firmware/arm_scmi/common.h |  1 +
- drivers/firmware/arm_scmi/driver.c | 13 ++-----
- 3 files changed, 46 insertions(+), 47 deletions(-)
----
-base-commit: 80e54e84911a923c40d7bee33a34c1b4be148d7a
-change-id: 20250312-b4-scmi_minor_cleanup-8f85228d435c
 -- 
-Regards,
-Sudeep
+2.34.1
 
