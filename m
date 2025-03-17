@@ -1,91 +1,141 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C21D222594
-	for <arm-scmi@vger.kernel.org>; Mon, 17 Mar 2025 10:31:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21F7EED6
+	for <arm-scmi@vger.kernel.org>; Mon, 17 Mar 2025 10:51:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742207522; cv=none; b=tUYr+4NLkSKOI/u3nmot1URKRQE5AT0pnGeGZ7/xSht6eFTIlYdTyf8Pxczxuf4CiG97rRN38PCm82DhMrQC6X4+InwkZRdi+tIfsSw4vaHGXRIYRByKzfHtvlb6kMy6YRTyPhHwF9ECmJF+b3CWYicuEEyIjOy2Xn3CKCDDCCM=
+	t=1742208692; cv=none; b=lBeudy9AgipPO5Oxdnd+z1oVw4moDDgckseEX//1hMqbDRNcK5mTx5j7RtrX4h5vQ0GvzhX0rzmKvgHeKlJmYQo4EX70K0QGd5aXnhgmJXKif6BWZ4Zcqd3/zffzNYITN5528VPAYcmGQNnT6VFL/nyLq+LEqNjLL7W4TAezZqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742207522; c=relaxed/simple;
-	bh=mZZiNnV+dVw+v9KoptYJu4F6GYbaOFq2eVdf689ZBD4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NflYQNJsMhIfo55vFi6NRH5WqNwgTspbJx2403Ru/ckiswk6De03mfEc1/vmXrzt1kjtecbtXoaVBOQN040Q16/cvQG9oJUrcsrJ34iT6ovMW1Bvt+juQyaMb3YxkTbgGU1hPWBP/lM2S4vc1tkkqDfMeFIr8vaTGdQ+gVRaPL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E854F2576;
-	Mon, 17 Mar 2025 03:32:05 -0700 (PDT)
-Received: from e133711.arm.com (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4982B3F673;
-	Mon, 17 Mar 2025 03:31:56 -0700 (PDT)
-From: Sudeep Holla <sudeep.holla@arm.com>
-Date: Mon, 17 Mar 2025 10:31:24 +0000
-Subject: [PATCH v2 4/5] firmware: arm_scmi: Assign correct parent to
- arm-scmi platform device
+	s=arc-20240116; t=1742208692; c=relaxed/simple;
+	bh=sHAOrNAdc7cHSKBLIXrku3gX9BKF70mjya/yJWNqFBE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=esZdifmcNK91rNImu6K12vrOalG1gL6mAvallvFdzV0vi7SzGAJ86a1qMYw3FNpHeAe1+Uyh1S2Jk4Y/zJSIeVSPZ5Y7+jw5yWyFj5SEY+tIoExC/4k+3VeoULTcUfd8yLTGoNjH9gf8wlKyeavuA0YxO5vZZ1L7rCJol5bg5xU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C1yzDE2t; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C1yzDE2t"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6f6ae4846c7so41803197b3.1
+        for <arm-scmi@vger.kernel.org>; Mon, 17 Mar 2025 03:51:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1742208690; x=1742813490; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3DL02opBJ2GOeQ6pVsKBzjcKKbv+jea7dqaSnTubtI4=;
+        b=C1yzDE2tDhMxxE8RXBDFWu8xkiUX43JsGPLdcGDunE2jMGeJGJpmwR65hphBOhlOvR
+         Jvbtvm7eVafYH7v1/khw8pdMRWAgFdbNJBrW3UrlUig27WHjOiTBM+3pSMrXOJpGY/6Q
+         Ff5lJriYZAGSpFt71/praDE7ZLaCQUugyXQ4daLDcfd7j4r1MMbpyDYC+Gtww4u8PuEN
+         Xx/ZLhd+b902zpK7CwtB/b4fKbw4/Zvl6o2C/Jn3ARxI8WQYzahLFz6Kq28nzlxqUkqD
+         Qy5MXyUmCCvExzw7BcZV5QuhNTfF/ROV6OM+JEHfKf80xcMqCvDo2IYsAAZOXglcV+4l
+         X8KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742208690; x=1742813490;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3DL02opBJ2GOeQ6pVsKBzjcKKbv+jea7dqaSnTubtI4=;
+        b=MeE1/2mC9pMfw5IxiXxIm8qWn+gVPf1oFTM2nnilQ5AP4JnWXs3vj8C8n2Z764gA4g
+         TwBmy8iFamVZfXyHDMhtdYqKATjgSjndCCeC31mwBL/lfEo/G3FUoAvhUt49DG7vLyCi
+         s/W5CZbDtGppxMunzffDPGukG3a7qOXgnBBIteUAStiN9uyEOh3oCBFT1abnIpz4nwCp
+         snEEQ+83uFF7ltvwrNvhYbhLtRz9wcgV+PwjCvha95sUJuzegHaZmqGznq3nzm/8A++z
+         Pw0a+iASbRHaCSfRiHx29GYkg700zs+JrqwpgtxpBxYKtGsPrbeASsIdQ82ut7Nfl2Z4
+         TYkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV0K6wRWgeGLFhwnnx7s+jJ3XyxyfU15Yzhy8mPenBOe9AKT2IbrA63WPi2y/DWLZ6+54B+z5mpHg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoU7jSj09lamEaproQ+P/Jf1MzMmqRZWZTRIQtgom6MjtcyOy2
+	3A8ocgAOLS47EmSkKhhsQdhxjGPB1ZxVXceBC9Wfw1s/AU+PTNpl7ktr8+yMb2jymjTP0gtiskD
+	+vBhR3wVivrphhsDGkLND4wH6pEOKI4Br5JdW/A==
+X-Gm-Gg: ASbGnctOdv4vRxFUBF651VZ+igtRMdVKk9vcsZdOXTvm/L/HVQQAY4MLFvjfQ+y0M0F
+	82u/HvBdb+3CHmgbhExK06p4ZWCviZmZiEg36OiztRQsdg/+wl41elLkT+S90ZMhdbAwRQ5iwfY
+	P4CXXlmqiuvxnLe2YjnoopYuxhf2Q=
+X-Google-Smtp-Source: AGHT+IG8URJqqSBqONhuu8sYybucoSHmc+ZFyad25qn1SExsn3bIptprwg9F2pyuFSIv1SCLh33c21bFXaSGx6o+e0U=
+X-Received: by 2002:a05:690c:7003:b0:6ff:1f58:7ce2 with SMTP id
+ 00721157ae682-6ff45f43340mr166246127b3.12.1742208689959; Mon, 17 Mar 2025
+ 03:51:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250317-b4-scmi_minor_cleanup-v2-4-f4be99bd9864@arm.com>
-References: <20250317-b4-scmi_minor_cleanup-v2-0-f4be99bd9864@arm.com>
-In-Reply-To: <20250317-b4-scmi_minor_cleanup-v2-0-f4be99bd9864@arm.com>
-To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc: Sudeep Holla <sudeep.holla@arm.com>, 
- Cristian Marussi <cristian.marussi@arm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1404; i=sudeep.holla@arm.com;
- h=from:subject:message-id; bh=mZZiNnV+dVw+v9KoptYJu4F6GYbaOFq2eVdf689ZBD4=;
- b=owEBbQKS/ZANAwAIAQBBurwxfuKYAcsmYgBn1/oXyNMrXg9MnZVuIKmNMGEYZ4lnH674QgePH
- UGbz08fcQmJAjMEAAEIAB0WIQS6ceUSBvMeskPdk+EAQbq8MX7imAUCZ9f6FwAKCRAAQbq8MX7i
- mGU1D/sHfBvDC7UistySWK57S4vengY/pgahfQwNwjYmXCgjIqLNZPi4MQfhiA+gsTy2cR+ZjAN
- jcJa1FxtzTUZvuGli502xsMomnHpcPaLUwptgXxxOfwy3dsxK9fxUTNodN0Cw/iq/+JTr1zfV9T
- 0MMMWgODB2KcuSfBR/BjgXZAuDfgSTZmqPYDtH2MB7N3dim8tSI1gC/zKvphLusxCGglkOVQTDH
- 5axyAgB84u4ZFyRZn1h7/epyWEE9MUzrf/3M2gkOQreGCcWPJyyxPYWRZ66vauw0gfmtL42wTuG
- HDoEcs8gk6XKdRfof7iXLT4HdHqWkYtv52sOPT78xzcZ/ZkXdZODHozJe1Ac6VhUK9Hwx+rnSgQ
- OzzWBjfYvn4LRGLuoilv0PTSjEiQWnsRvdQmkjQ9U+oSgZBloSDLc8iRq8RgEsyquere6sn3laq
- +zjD35IOARKxj0m2gwhZuVylyecbr8C1H+cr5kTHt4HSFGWCFzYF3LoenEJjRKWnP5tu/T2xJU/
- ehFrT/11fF4l3cZ1G26IZy9ZSlnavPJDPWrCJcstv6Pl1nTtZqm5a22t+TFo78SS5ncZqfbA3TF
- wvyX37/oy3UXj4fyFZgSycCwww3a6IP5QdG4lKjxPEXT/Hz82M36MJ2pvmlTTx8OFiRoTcX6DJS
- wSUhgD5WxGJMeLQ==
-X-Developer-Key: i=sudeep.holla@arm.com; a=openpgp;
- fpr=7360A21742ADF5A11767C1C139CFD4755FE2D5B4
+References: <20250314095851.443979-1-sudeep.holla@arm.com>
+In-Reply-To: <20250314095851.443979-1-sudeep.holla@arm.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 17 Mar 2025 11:50:54 +0100
+X-Gm-Features: AQ5f1Joaio6_TwbptUke6Aww5lNg-_7Fjau5OFgPk2QOhZDZNiKgiWIAn887rF4
+Message-ID: <CAPDyKFqhvJnth4ASfnfj5xTkM625m-rAidZ3zdy01CzkB7e1Ng@mail.gmail.com>
+Subject: Re: [PATCH] pmdomain: arm: scmi_pm_domain: Remove redundant state verification
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: linux-pm@vger.kernel.org, arm-scmi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, Peng Fan <peng.fan@nxp.com>, 
+	Cristian Marussi <cristian.marussi@arm.com>, 
+	Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
 
-With the decoupling of transport drivers from the SCMI core, the
-"arm-scmi" platform device is now created dynamically from the probed
-transport driver.
+On Fri, 14 Mar 2025 at 10:58, Sudeep Holla <sudeep.holla@arm.com> wrote:
+>
+> Currently, scmi_pd_power() explicitly verifies whether the requested
+> power state was applied by calling state_get(). While this check could
+> detect failures where the state was not properly updated, ensuring
+> correctness is the responsibility of the SCMI firmware.
+>
+> Removing this redundant state_get() call eliminates an unnecessary
+> round-trip to the firmware, improving efficiency. Any mismatches
+> between the requested and actual states should be handled by the SCMI
+> firmware, which must return a failure if state_set() is unsuccessful.
+>
+> Additionally, in some cases, checking the state after powering off a
+> domain may be unreliable or unsafe, depending on the firmware
+> implementation.
+>
+> This patch removes the redundant verification, simplifying the function
+> without compromising correctness.
+>
+> Cc: Peng Fan <peng.fan@nxp.com>
+> Cc: Ulf Hansson <ulf.hansson@linaro.org>
+> Cc: Cristian Marussi <cristian.marussi@arm.com>
+> Reported-and-tested-by: Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>
+> Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
 
-Currently, this "arm-scmi" platform device is added to the root of
-the platform bus since no parent is assigned. However, the transport
-platform device, created from the "firmware:scmi" node in the device
-tree, should be considered its parent.
+Applied for next, thanks!
 
-Ensure that the parent device is correctly set for the "arm-scmi"
-platform device, aligning it with the correct transport hierarchy.
-This will be more useful on systems with multiple transport and/or
-SCMI firmware instances as the hierarchy is maintained correctly.
+Kind regards
+Uffe
 
-Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
----
- drivers/firmware/arm_scmi/common.h | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-index 10ea7962323e43e03e7c5636c56d707803d4ea55..dab758c5fdea3aa34188ef7d424ba8a43ada46d8 100644
---- a/drivers/firmware/arm_scmi/common.h
-+++ b/drivers/firmware/arm_scmi/common.h
-@@ -475,6 +475,7 @@ static int __tag##_probe(struct platform_device *pdev)			       \
- 	if (ret)							       \
- 		goto err;						       \
- 									       \
-+	spdev->dev.parent = dev;					       \
- 	ret = platform_device_add(spdev);				       \
- 	if (ret)							       \
- 		goto err;						       \
-
--- 
-2.34.1
-
+> ---
+>  drivers/pmdomain/arm/scmi_pm_domain.c | 11 ++---------
+>  1 file changed, 2 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/pmdomain/arm/scmi_pm_domain.c b/drivers/pmdomain/arm/scmi_pm_domain.c
+> index 86b531e15b85..2a213c218126 100644
+> --- a/drivers/pmdomain/arm/scmi_pm_domain.c
+> +++ b/drivers/pmdomain/arm/scmi_pm_domain.c
+> @@ -24,8 +24,7 @@ struct scmi_pm_domain {
+>
+>  static int scmi_pd_power(struct generic_pm_domain *domain, bool power_on)
+>  {
+> -       int ret;
+> -       u32 state, ret_state;
+> +       u32 state;
+>         struct scmi_pm_domain *pd = to_scmi_pd(domain);
+>
+>         if (power_on)
+> @@ -33,13 +32,7 @@ static int scmi_pd_power(struct generic_pm_domain *domain, bool power_on)
+>         else
+>                 state = SCMI_POWER_STATE_GENERIC_OFF;
+>
+> -       ret = power_ops->state_set(pd->ph, pd->domain, state);
+> -       if (!ret)
+> -               ret = power_ops->state_get(pd->ph, pd->domain, &ret_state);
+> -       if (!ret && state != ret_state)
+> -               return -EIO;
+> -
+> -       return ret;
+> +       return power_ops->state_set(pd->ph, pd->domain, state);
+>  }
+>
+>  static int scmi_pd_power_on(struct generic_pm_domain *domain)
+> --
+> 2.34.1
+>
