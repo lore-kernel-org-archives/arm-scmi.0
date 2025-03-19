@@ -1,56 +1,41 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26ED128FD;
-	Tue, 18 Mar 2025 15:40:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 441EC1AB50D;
+	Wed, 19 Mar 2025 09:54:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742312459; cv=none; b=LjrugoYeDZ5PTDn1sLFeD9KIFfsMuT+sVLnzTT4rCDAaSIYXG9iyTOkBIT5/fgr3gm89OecnqQITHAl8P18rxhqh/QqmuWb9eaN7fJ7fO939j/mX5VMhykY2gIgkP91Ky51ai3r9cpnu7yBtdBG2cjSbU3nuW9ydE3fzNZyWW/s=
+	t=1742378059; cv=none; b=KXpDx67leCfjaa/xF9wqT7E131g773Q8MKLqdahE1PVrdUoopyfITzg7S2TSnfR7fgGonK6XiFPkmyCOCrwh1C8Y7NHj1gqf6CrtrcrrSL5HpbpSfkZLZI+zqs1AP0AwqA7cVo393AGKg06TMZ6eKbt5t/2Dd6UdaZ0li863yAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742312459; c=relaxed/simple;
-	bh=8XU+uzlDIVHp8KPdPZ+SQ58qTW7pc8uMOtHULNZO6zY=;
+	s=arc-20240116; t=1742378059; c=relaxed/simple;
+	bh=AnOGRXGgrFFLR8eD2QPQt4D1N8CkEu7pT4SS6OlZHVU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pLmLFxgWWuQPgenn3iubBoo0Ah65lf1zlHhxJd9KYYpmKQ1YRZA6fKHu2QxJf95fueT+oYw3Zb3cU/gDyfg5QmISthyTGEiVQAvdYJGt4ET4zuMHdXKSxcoXDLry1B+dICUkQmJaJ6DQy3bLH9GrnbZYJQx4O/K+2q+MtKQzGXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GaRF461u; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GaRF461u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 867C7C4CEDD;
-	Tue, 18 Mar 2025 15:40:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742312458;
-	bh=8XU+uzlDIVHp8KPdPZ+SQ58qTW7pc8uMOtHULNZO6zY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GaRF461uLgkFESqexYg+JyYJMVoKk5NVmQR7HipojvNON3b7EmXQ/MgTOZZXIrj/n
-	 TklI1rzC65IMk6/Bh4u0wwQfRquGxxdKAqbzvqiEv1QLeU2poojlDmVtE+yK0krYag
-	 DY4pcVj6FJa9zOduwD346Hp5rLoKkgldHkPSjCSbkg1o6uFIn4Rny07ogHt0dJn4Ww
-	 NuLMpvLTwcCrmknhC2aHFplU/4nsaOR7L1TVrYhhC6KdeAgrF1m5Dq1ShyjJIlJJYZ
-	 h+LSeTYbOfu5mEQL7x5NYVGru0KQ40gOO4rSIdm0yED7zr5CHi2bNvvnnh3x0NzziO
-	 v3B0EFuEDtgBg==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1tuZ3q-000000006vp-47Uz;
-	Tue, 18 Mar 2025 16:40:59 +0100
-Date: Tue, 18 Mar 2025 16:40:58 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	Sibi Sankar <quic_sibis@quicinc.com>, sudeep.holla@arm.com,
-	dmitry.baryshkov@linaro.org, maz@kernel.org,
-	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	konradybcio@kernel.org
-Subject: Re: [RFC V6 2/2] firmware: arm_scmi: Add quirk to bypass SCP fw bug
-Message-ID: <Z9mUCmQW7L3yx7qt@hovoldconsulting.com>
-References: <20250226024338.3994701-1-quic_sibis@quicinc.com>
- <20250226024338.3994701-3-quic_sibis@quicinc.com>
- <Z77M5iXHQsdMptWm@hovoldconsulting.com>
- <Z77W-fKBUqAALZKJ@hovoldconsulting.com>
- <759226e1-05aa-4ca2-b2f5-7f1a84dc427f@stanley.mountain>
- <Z77l1NflYXTnRyg0@hovoldconsulting.com>
- <Z8AjhHsVT9ZQTtZX@pluto>
- <Z8WKQJcPTQDIXaKD@hovoldconsulting.com>
- <Z9kr5ABbqO27_BM-@hovoldconsulting.com>
- <Z9l1L1WICMYXSoIu@pluto>
+	 Content-Type:Content-Disposition:In-Reply-To; b=JFnJO1kYCDdxLKYmfD7jUBvwvrTRZ2kh+uVidG5zBcisbeRu9G2rbQBn4MFLGc0vqVHQF2RlBDyns9aK13l9QJY4M3Sdyg6na+SocOAiRnU4dK/56ovHW/lr7KDcUgPxsUscZAYcMdR5vp+W3nSNyCJ2AeauIBOVUj4K3Xqr7CQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B1DCD13D5;
+	Wed, 19 Mar 2025 02:54:25 -0700 (PDT)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DC4AC3F694;
+	Wed, 19 Mar 2025 02:54:14 -0700 (PDT)
+Date: Wed, 19 Mar 2025 09:54:12 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Peng Fan <peng.fan@oss.nxp.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	<linux-kernel@vger.kernel.org>, <arm-scmi@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <imx@lists.linux.dev>,
+	<devicetree@vger.kernel.org>, Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH v3 0/7] firmware: scmi/imx: Add i.MX95 LMM/CPU Protocol
+Message-ID: <Z9qURBnqtvbNoZ7K@bogus>
+References: <20250303-imx-lmm-cpu-v3-0-7695f6f61cfc@nxp.com>
+ <20250318082804.GA1326@nxa18884-linux>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -59,42 +44,21 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z9l1L1WICMYXSoIu@pluto>
+In-Reply-To: <20250318082804.GA1326@nxa18884-linux>
 
-On Tue, Mar 18, 2025 at 01:29:19PM +0000, Cristian Marussi wrote:
-> On Tue, Mar 18, 2025 at 09:16:36AM +0100, Johan Hovold wrote:
-
-> > Have you made any progress on the quirk framework prototyping?
+On Tue, Mar 18, 2025 at 04:28:04PM +0800, Peng Fan wrote:
+> Hi Sudeep, Cristian
 > 
-> I have not forgot, tried a few things, but nothing really to post as of
-> now...dont wnat to rush either .... I was hoping to push something out at
-> the end of this next merge window...
+> On Mon, Mar 03, 2025 at 10:53:21AM +0800, Peng Fan (OSS) wrote:
+> >i.MX95 System Manager(SM) implements Logical Machine Management(LMM) and
+> >CPU protocol to manage Logical Machine(LM) and CPUs(eg, M7).
 > 
-> > Do you need any input from Sibi on the protocol versioning for that?
+> Any comments?
+> I am thinking to address comments and post v4 after 6.15 merge window close.
 > 
-> No I am fine, I am planning anyway for something generic enough to be
-> easy then to plug your own quirks separately...
 
-Sounds good, thanks.
+Sure I will take a look later this week or next week.
 
-> > We'd really like to enable cpufreq on this platform and ideally in 6.15.
-> > I think that should be possible given that we now understand in what
-> > ways the firmware is broken and what is needed to handle it even if we
-> > still need to decide on how best to implement this.
-> 
-> v6.15 seems hard/impossible even using the original Sibi patch 
-> given the usual upstreaming-timeline of the SCMI stack where everything has
-> to be usually reviewed and accepted by rc4/rc5.....so both Sibi initial
-> patch and my own babbling were alreaady sort of late.
-
-Yes, sorry, I wasn't referring to Sibi's SCMI patches, but the
-devicetree changes needed to enable cpufreq on these platforms (that
-will go through the qcom tree).
-
-It may be a little late for that too, but with an understanding of the
-problem and a quirk implementation around the corner, we could enable
-cpufreq as long as we make sure that Sibi's per-channel FC fix (that
-addresses the FC warnings) is not merged without the quirk in place (to
-avoid the crashes).
-
-Johan
+-- 
+Regards,
+Sudeep
