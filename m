@@ -1,47 +1,35 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05D2CEAD7;
-	Wed,  2 Apr 2025 15:30:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C0551426C;
+	Wed,  2 Apr 2025 16:06:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743607838; cv=none; b=i8SEtNtE1XXidfzL47FwDSslr780JiDMeQy/XFqaqQCIqe0D5Jj+HGRmUgZrMy/ToONk/KG0EAFdcRWA0KhUzZT3sykpan8X5+CAYBRWdho6wMCSRQIipo2TLpdM4RoY0xC875YIYEx1ANNABiLo5BXUBA5jBFXC5kjWohpjneU=
+	t=1743609967; cv=none; b=czgVRcCgDfdkuwXj4LjAXKItvtGE+RzlVbg5APaYslUhcXPeLp8BiSARWCFdYIbEeQcAROmajUoOD/reZZ84gW+mkt0QyI+D2b3SsEo/SXd32d/nO+cBGJ+lCJN0psZ9E6CEhkm7u8Mkw265sY84YIwiySG0dEpUx9fjx9d9nk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743607838; c=relaxed/simple;
-	bh=50ulFjUqXwgfIP0/hz3Pe+E09PZpugkbNUnxMO3Zl9g=;
+	s=arc-20240116; t=1743609967; c=relaxed/simple;
+	bh=Pjo9Cn3e3o3jc1zq/ExObbxuNm1gy3B7kVBUhAVhiPY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kX9a3rN0qCDnVNM3wzZduTDoUtTjT9yaQi6of+1ZSNQ4WOmpUGaGemP1qhdJDTXvvvSQZ47Od3Kr7kzzueTxBY+DjLai4WaNjzZDy6cGba2QqEzhfGTju9CFNH7M9GDFSSJKOXXIJN2VlcwhcO1ycYuDgwOuyKMBE37MW7kan2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=p+joM/+Nr/24R0HsOkk9ptLdKEyDPZGy7FQ3zg5YJRdxkB9XkBoFEvDEX7GbaGS180rRTTTiaCHxjZ+xELt6mYvoDNq+Xko5RrBGRI7isOh+9umDtPzNO+VuKlSokFykJ6EBr14LiOR8oIeJjG8kgzVAv7swJKqtgUnCNK/o/e8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 27D3A106F;
-	Wed,  2 Apr 2025 08:30:38 -0700 (PDT)
-Received: from bogus (unknown [10.57.41.33])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3E9943F694;
-	Wed,  2 Apr 2025 08:30:32 -0700 (PDT)
-Date: Wed, 2 Apr 2025 16:30:29 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Peng Fan <peng.fan@oss.nxp.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
-	devicetree@vger.kernel.org, Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v3 1/7] firmware: arm_scmi: imx: Add LMM and CPU
- documentation
-Message-ID: <20250402-pastoral-screeching-panda-da4a45@sudeepholla>
-References: <20250303-imx-lmm-cpu-v3-0-7695f6f61cfc@nxp.com>
- <20250303-imx-lmm-cpu-v3-1-7695f6f61cfc@nxp.com>
- <20250401-quantum-coyote-of-admiration-bf1b68@sudeepholla>
- <20250402123503.GA23033@nxa18884-linux>
- <20250402-acoustic-analytic-guan-d3cda5@sudeepholla>
- <20250402161037.GC23033@nxa18884-linux>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 63940106F;
+	Wed,  2 Apr 2025 09:06:08 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E0CAE3F63F;
+	Wed,  2 Apr 2025 09:06:03 -0700 (PDT)
+Date: Wed, 2 Apr 2025 17:05:55 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: Matthew Bystrin <dev.mbstr@gmail.com>, arm-scmi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>, Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH] firmware: arm_scmi: add timeout in
+ do_xfer_with_response()
+Message-ID: <Z-1gY8mQLznSg5Na@pluto>
+References: <20250402104254.149998-1-dev.mbstr@gmail.com>
+ <20250402-hidden-unyielding-carp-7ee32d@sudeepholla>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -50,85 +38,55 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250402161037.GC23033@nxa18884-linux>
+In-Reply-To: <20250402-hidden-unyielding-carp-7ee32d@sudeepholla>
 
-On Thu, Apr 03, 2025 at 12:10:37AM +0800, Peng Fan wrote:
-> Hi Sudeep,
+On Wed, Apr 02, 2025 at 11:59:47AM +0100, Sudeep Holla wrote:
+> On Wed, Apr 02, 2025 at 01:42:54PM +0300, Matthew Bystrin wrote:
+> > Add timeout argument to do_xfer_with_response() with subsequent changes
+> > in corresponding drivers. To maintain backward compatibility use
+> > previous hardcoded timeout value.
+> > 
+
+Hi Matthew, Sudeep,
+
+this is something I had my eyes on since a while and never get back to
+it....so thanks for looking at this first of all...
+
+> > According to SCMI specification [1] there is no defined timeout for
+> > delayed messages in the interface. While hardcoded 2 seconds timeout
+> > might be good enough for existing protocol drivers, moving it to the
+> > function argument may be useful for vendor-specific protocols with
+> > different timing needs.
+> > 
 > 
-> On Wed, Apr 02, 2025 at 12:46:14PM +0100, Sudeep Holla wrote:
-> >On Wed, Apr 02, 2025 at 08:35:03PM +0800, Peng Fan wrote:
-> >> Hi Sudeep,
-> >> 
-> >> Thanks for reviewing the patch.
-> >> 
-> >> For comments that I am not very clear, I marked with [TODO] for easily
-> >> jump to.
-> >> 
-> >> On Tue, Apr 01, 2025 at 03:15:46PM +0100, Sudeep Holla wrote:
-> >> >On Mon, Mar 03, 2025 at 10:53:22AM +0800, Peng Fan (OSS) wrote:
-> >> >> From: Peng Fan <peng.fan@nxp.com>
-> >> >> 
-> >> >> Add i.MX95 Logical Machine Management and CPU Protocol documentation.
-> >> >> 
-> >> >> Signed-off-by: Peng Fan <peng.fan@nxp.com>
-> >> >> ---
-> >> >>  drivers/firmware/arm_scmi/vendors/imx/imx95.rst | 801 ++++++++++++++++++++++++
-> >> >>  1 file changed, 801 insertions(+)
-> >> >> 
-> >> >> diff --git a/drivers/firmware/arm_scmi/vendors/imx/imx95.rst b/drivers/firmware/arm_scmi/vendors/imx/imx95.rst
-> >> >> index b2dfd6c46ca2f5f12f0475c24cb54c060e9fa421..74326bf2ea8586282a735713e0ab7eb90ccce8ff 100644
-> >> >> --- a/drivers/firmware/arm_scmi/vendors/imx/imx95.rst
-> >> >> +++ b/drivers/firmware/arm_scmi/vendors/imx/imx95.rst
-> >
-> >> >> +
-> >> >> +PROTOCOL_MESSAGE_ATTRIBUTES
-> >> >> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >> >> +
-> >> >> +message_id: 0x2
-> >> >> +protocol_id: 0x80
-> >> >> +This command is mandatory.
-> >> >> +
-> >> >
-> >> >For completeness add parameters here for message_id as in the spec as it is
-> >> >referred in the returned value and seems incomplete without it.
-> >> 
-> >> [TODO]
-> >> Sorry, I may not get your point here. You mean below format?
-> >> 
-> >> +------------------+-----------------------------------------------------------+
-> >> |message_id: 0x2
-> >> |protocol_id: 0x80
-> >> |This command is mandatory.
-> >> +------------------+-----------------------------------------------------------+
-> >> |Return values                                                                 |
-> >> +------------------+-----------------------------------------------------------+
-> >> |Name              |Description                                                |
-> >> +------------------+-----------------------------------------------------------+
-> >> |int32 status      |SUCCESS: in case the message is implemented and available  |
-> >> |                  |to use.                                                    |
-> >> |                  |NOT_FOUND: if the message identified by message_id is      |
-> >> |                  |invalid or not implemented                                 |
-> >> +------------------+-----------------------------------------------------------+
-> >> |uint32 attributes |Flags that are associated with a specific function in the  |
-> >> |                  |protocol. For all functions in this protocol, this         |
-> >> 
-> >> message_id is not put in the table, but it is list above just below
-> >> the protocol name. I would prefer to keep current layout and align with
-> >> the MISC and BBM protocol.
-> >>
-> >
-> >I meant why is the input parameter message_id not described in the table,
-> >but is referred in the return values. For completeness, just add it even
-> >though it may match the SCMI spec in terms of input parameter.
+> Please post this patch along with the vendor specific protocols mentioned
+> above and with the reasoning as why 2s is not sufficient.
+
+Ack on this, it would be good to understand why a huge 2 secs is not
+enough...and also...
+
 > 
-> I will add below only for PROTOCOL_MESSAGE_ATTRIBUTES which refer message_id
-> in the return values. Please raise if you have concern.
+> Also instead of churning up existing users/usage, we can explore to had
+> one with this timeout as alternative if you present and convince the
+> validity of your use-case and the associated timing requirement.
 > 
 
-Ignore this. I see even existing BBM and MISC follow the same pattern for
-standard protocol commands(0x0-0x2). We can fix them all at once if it
-needs to be in the future. For now, it should be fine as is.
+...with the proposed patch (and any kind of alternative API proposed
+by Sudeep) the delayed response timeout becomes a parameter of the method
+do_xfer_with_response() and so, as a consequence, this timoeut becomes
+effectively configurable per-transaction, while usually a timeout is
+commonly configurable per-channel, so valid as a whole for any protocol
+on that channel across the whole platform, AND optionally describable as
+different from the default standard value via DT props (like max-rx-timeout).
 
--- 
-Regards,
-Sudeep
+Is this what we want ? (a per-transaction configurable timeout ?)
+
+If not, it could be an option to make instead this a per-channel optional
+new DT described property so that you can configure globally a different
+delayed timeout.
+
+If yes, how this new parameter is meant to be used/configured/chosen ?
+on a per-protocol/command basis, unrelated to the specific platform we run on ?
+ 
+Thanks,
+Cristian
