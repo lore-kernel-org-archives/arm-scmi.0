@@ -1,35 +1,50 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C0551426C;
-	Wed,  2 Apr 2025 16:06:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047921991C1;
+	Thu,  3 Apr 2025 08:15:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743609967; cv=none; b=czgVRcCgDfdkuwXj4LjAXKItvtGE+RzlVbg5APaYslUhcXPeLp8BiSARWCFdYIbEeQcAROmajUoOD/reZZ84gW+mkt0QyI+D2b3SsEo/SXd32d/nO+cBGJ+lCJN0psZ9E6CEhkm7u8Mkw265sY84YIwiySG0dEpUx9fjx9d9nk0=
+	t=1743668107; cv=none; b=s9io7dR4m7DXSe3kVWpH/vyXfV9l0QHfk472XfEe4CX7Yff7ve2cowsLekVmmJLICbnfsf4TjlkAOF/jTa4F8dCzDc1MOlpOWcDJJZxO4wLwPo778i/T2mx3w0DAPUUUhmCSVSoHN3qhgOlHAxtFRRDJvgM/t3lk2TmBEydpGVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743609967; c=relaxed/simple;
-	bh=Pjo9Cn3e3o3jc1zq/ExObbxuNm1gy3B7kVBUhAVhiPY=;
+	s=arc-20240116; t=1743668107; c=relaxed/simple;
+	bh=d60uPl3O2WNH5zTqvohDJrR3czaNKY19sBaIVAZLdEo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p+joM/+Nr/24R0HsOkk9ptLdKEyDPZGy7FQ3zg5YJRdxkB9XkBoFEvDEX7GbaGS180rRTTTiaCHxjZ+xELt6mYvoDNq+Xko5RrBGRI7isOh+9umDtPzNO+VuKlSokFykJ6EBr14LiOR8oIeJjG8kgzVAv7swJKqtgUnCNK/o/e8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 63940106F;
-	Wed,  2 Apr 2025 09:06:08 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E0CAE3F63F;
-	Wed,  2 Apr 2025 09:06:03 -0700 (PDT)
-Date: Wed, 2 Apr 2025 17:05:55 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: Matthew Bystrin <dev.mbstr@gmail.com>, arm-scmi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>, Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH] firmware: arm_scmi: add timeout in
- do_xfer_with_response()
-Message-ID: <Z-1gY8mQLznSg5Na@pluto>
-References: <20250402104254.149998-1-dev.mbstr@gmail.com>
- <20250402-hidden-unyielding-carp-7ee32d@sudeepholla>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kuip9jl+3cCXqK0qGKFk1VUPHrovfGqgQGtVIa2H3b4kErsxoQNlcp11RAH+WBhKrjpaWOxV7060AzJV05gF6lZ/qNZBLi5f4knGmNxksJqxqVtKZkB0WtMhq0fFod9W/CKE1k4/l3shKFMfd491rkvMfZ9D2DC96FHn7CH0Rpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LFNiwOUs; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LFNiwOUs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73B46C4CEE3;
+	Thu,  3 Apr 2025 08:15:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743668106;
+	bh=d60uPl3O2WNH5zTqvohDJrR3czaNKY19sBaIVAZLdEo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LFNiwOUsMEPYtNg5Bx6D9qMpJC7DlLB4iItNbA4oWNdMZ1GvKPtq2zq5VLKCdHSGj
+	 EVzfidldRIQpWsLv6FhFTspFjE541FQSpDquAwIUk2JXUrNIQ/Qw1zif6wDi0/4BkG
+	 7Qz697KSheeDzgcWYUJAwXb+kCnhw9eornzE3S+Hqr8o2siesRjz95sx8RzqCGhhYd
+	 0rA46zwyb9d7h5BEejUNDhJsdRLhS1f38bZ2ahnWmjZICj1iT33Lel/9PfsGZCX+wz
+	 vo+94QV8+2XIMg/6nu0zkMGvO7rHi9CoEzIl0j1oJWpzn8p2dqNyVd1Z6jQWt73fcB
+	 trbAPoHObZ/aw==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1u0FjC-000000006t4-3pw4;
+	Thu, 03 Apr 2025 10:15:10 +0200
+Date: Thu, 3 Apr 2025 10:15:10 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
+	james.quinlan@broadcom.com, f.fainelli@gmail.com,
+	vincent.guittot@linaro.org, peng.fan@oss.nxp.com,
+	michal.simek@amd.com, quic_sibis@quicinc.com,
+	dan.carpenter@linaro.org, maz@kernel.org, stable@vger.kernel.org,
+	Johan Hovold <johan+linaro@kernel.org>
+Subject: Re: [RFC PATCH 1/3] firmware: arm_scmi: Ensure that the message-id
+ supports fastchannel
+Message-ID: <Z-5Dji5dbDsKXZE_@hovoldconsulting.com>
+References: <20250401122545.1941755-1-cristian.marussi@arm.com>
+ <20250401122545.1941755-2-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,55 +53,39 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250402-hidden-unyielding-carp-7ee32d@sudeepholla>
+In-Reply-To: <20250401122545.1941755-2-cristian.marussi@arm.com>
 
-On Wed, Apr 02, 2025 at 11:59:47AM +0100, Sudeep Holla wrote:
-> On Wed, Apr 02, 2025 at 01:42:54PM +0300, Matthew Bystrin wrote:
-> > Add timeout argument to do_xfer_with_response() with subsequent changes
-> > in corresponding drivers. To maintain backward compatibility use
-> > previous hardcoded timeout value.
-> > 
-
-Hi Matthew, Sudeep,
-
-this is something I had my eyes on since a while and never get back to
-it....so thanks for looking at this first of all...
-
-> > According to SCMI specification [1] there is no defined timeout for
-> > delayed messages in the interface. While hardcoded 2 seconds timeout
-> > might be good enough for existing protocol drivers, moving it to the
-> > function argument may be useful for vendor-specific protocols with
-> > different timing needs.
-> > 
+On Tue, Apr 01, 2025 at 01:25:43PM +0100, Cristian Marussi wrote:
+> From: Sibi Sankar <quic_sibis@quicinc.com>
 > 
-> Please post this patch along with the vendor specific protocols mentioned
-> above and with the reasoning as why 2s is not sufficient.
-
-Ack on this, it would be good to understand why a huge 2 secs is not
-enough...and also...
-
+> Currently the perf and powercap protocol relies on the protocol domain
+> attributes, which just ensures that one fastchannel per domain, before
+> instantiating fastchannels for all possible message-ids. Fix this by
+> ensuring that each message-id supports fastchannel before initialization.
 > 
-> Also instead of churning up existing users/usage, we can explore to had
-> one with this timeout as alternative if you present and convince the
-> validity of your use-case and the associated timing requirement.
+> Logs:
+> scmi: Failed to get FC for protocol 13 [MSG_ID:6 / RES_ID:0] - ret:-95. Using regular messaging.
+> scmi: Failed to get FC for protocol 13 [MSG_ID:6 / RES_ID:1] - ret:-95. Using regular messaging.
+> scmi: Failed to get FC for protocol 13 [MSG_ID:6 / RES_ID:2] - ret:-95. Using regular messaging.
 > 
+> CC: stable@vger.kernel.org
+> Reported-by: Johan Hovold <johan+linaro@kernel.org>
+> Closes: https://lore.kernel.org/lkml/ZoQjAWse2YxwyRJv@hovoldconsulting.com/
+> Fixes: 6f9ea4dabd2d ("firmware: arm_scmi: Generalize the fast channel support")
+> Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
+> [Cristian: Modified the condition checked to establish support or not]
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> ---
+> Since PROTOCOL_MESSAGE_ATTRIBUTES, used to check if message_id is supported,
+> is a mandatory command, it cannot fail so we must bail-out NOT only if FC was
+> not supported for that command but also if the query fails as a whole; so the
+> condition checked for bailing out is modified to:
+> 
+> 	if (ret || !MSG_SUPPORTS_FASTCHANNEL(attributes)) {
+> 
+> Removed also Tested-by and Reviewed-by tags since I modified the logic.
 
-...with the proposed patch (and any kind of alternative API proposed
-by Sudeep) the delayed response timeout becomes a parameter of the method
-do_xfer_with_response() and so, as a consequence, this timoeut becomes
-effectively configurable per-transaction, while usually a timeout is
-commonly configurable per-channel, so valid as a whole for any protocol
-on that channel across the whole platform, AND optionally describable as
-different from the default standard value via DT props (like max-rx-timeout).
+This still works as intended:
 
-Is this what we want ? (a per-transaction configurable timeout ?)
-
-If not, it could be an option to make instead this a per-channel optional
-new DT described property so that you can configure globally a different
-delayed timeout.
-
-If yes, how this new parameter is meant to be used/configured/chosen ?
-on a per-protocol/command basis, unrelated to the specific platform we run on ?
- 
-Thanks,
-Cristian
+Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
+Tested-by: Johan Hovold <johan+linaro@kernel.org>
