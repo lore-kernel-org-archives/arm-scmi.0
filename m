@@ -1,49 +1,35 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D63124290E;
-	Thu,  3 Apr 2025 08:25:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C34BB245002;
+	Thu,  3 Apr 2025 08:59:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743668717; cv=none; b=h5viU+pzF6lCKd6pJfRMKzPrbQ9BGLbby5Ll03Y1aDAEhnlDaXuBTWzugael+g29A4itTX5tSxKtAz907aGJ7k1BlOnVYcWQwz0o2P1a4nyrXi71S4yjadxsTErdlw4TRiAl6miqtQKjKR231AgxHKwsOaf4P22acXtMCqy9kbw=
+	t=1743670784; cv=none; b=Baiz3/3aBn/6wC2W6ES08Uq+gD2PR5vk83UQSNt4ojiQjHabqpFyPsFG49J0oiDdwhMys3GuvyGDlyS+WVnY35/xJGrT6BjhUO4+nHyBCCfe0GpNlQiyDV2eIxuEJ2wwIWfIcs9QS4181ntZYSjD42onw6AJGWcPJWyviKcAids=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743668717; c=relaxed/simple;
-	bh=W2GXp//p/lyuftqtpov8Pw3eTDvdK9rmsYuGvtyrxpM=;
+	s=arc-20240116; t=1743670784; c=relaxed/simple;
+	bh=QPaUiwAtSIjOX5erc2n6DHnB4qcme2fPnAwrOEI2TJQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ITyJpaauGutqrTWVYg+IlBn+nnbWq0eQKsRtKWWBmRWr6loYtK0D8x7IC+cLJ9ihBqnZZmFnV+YjIsh//gSZvKf+J2GvvCHZLB2UB2LxPPchiqpYsxI4GYZKaOuqwyOdXi4ijXEt/w5FcXMSTLms4oBrLOhmiWIiI4JLcYtvlCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JMjtYpqM; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JMjtYpqM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95F6DC4CEE3;
-	Thu,  3 Apr 2025 08:25:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743668716;
-	bh=W2GXp//p/lyuftqtpov8Pw3eTDvdK9rmsYuGvtyrxpM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JMjtYpqMUn0oZ4P/Y4Smk3o+lWbC/knZQSwyjheBq5wGC0wmQ6Yx3+wtz0e7EEelX
-	 VSrBFnBzZ3julRuM78hF0MhjTQ4AUv6hweaGE6KMkt9Qr31tC593ltRz51wttaEGwu
-	 WDmTfEigYH41o8GhZHXqIKa8WCoI/4QyfhQVQkSHQfspAXCoTNeHKhBlrwjFj3P1f9
-	 H6oiTUIUQvhG9vWolXusW/Pth7woOu1w55QO5odOShuMo/vghEFCCvIMSaT37PfLu5
-	 bBA3wgIzq0i9Hc0cO1LLy/16yISa17qwNtkFW50ebtfkrPJul0TlRDezXfRqx85B+c
-	 NDEvRzH/YFpuw==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1u0Ft3-00000000757-0kce;
-	Thu, 03 Apr 2025 10:25:21 +0200
-Date: Thu, 3 Apr 2025 10:25:21 +0200
-From: Johan Hovold <johan@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=e87+oR/pbPBzquP3OLxmov92Dq2m7d3ThWV/e8baV2er6zX4fPM506Tr1S4LgCCyLNw6CsDb+tTbaPNfVRaAF96MHfM7NlA4E4BcUbytmD/GQE3b4vqIMLxEJj7IdNBk2LqElL7AvQVfMtLnosEhizSAdgRXa+chGphjaeMbNjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8716E106F;
+	Thu,  3 Apr 2025 01:59:44 -0700 (PDT)
+Received: from bogus (unknown [10.57.41.33])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB72B3F63F;
+	Thu,  3 Apr 2025 01:59:40 -0700 (PDT)
+Date: Thu, 3 Apr 2025 09:59:38 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
 To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, peng.fan@oss.nxp.com,
-	michal.simek@amd.com, quic_sibis@quicinc.com,
-	dan.carpenter@linaro.org, maz@kernel.org
-Subject: Re: [RFC PATCH 3/3] [NOT FOR UPSTREAM] firmware: arm_scmi: quirk:
- Ignore FC bit in attributes
-Message-ID: <Z-5F8eTaZB2gLTNs@hovoldconsulting.com>
-References: <20250401122545.1941755-1-cristian.marussi@arm.com>
- <20250401122545.1941755-4-cristian.marussi@arm.com>
+Cc: Matthew Bystrin <dev.mbstr@gmail.com>, arm-scmi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Philipp Zabel <p.zabel@pengutronix.de>, Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH] firmware: arm_scmi: add timeout in
+ do_xfer_with_response()
+Message-ID: <20250403-discreet-tangerine-mink-d5faaf@sudeepholla>
+References: <20250402104254.149998-1-dev.mbstr@gmail.com>
+ <20250402-hidden-unyielding-carp-7ee32d@sudeepholla>
+ <Z-1gY8mQLznSg5Na@pluto>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -52,89 +38,63 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250401122545.1941755-4-cristian.marussi@arm.com>
+In-Reply-To: <Z-1gY8mQLznSg5Na@pluto>
 
-On Tue, Apr 01, 2025 at 01:25:45PM +0100, Cristian Marussi wrote:
-> Some platform misreported the support of FastChannel when queried: ignore
-> that bit on selected platforms.
+On Wed, Apr 02, 2025 at 05:05:55PM +0100, Cristian Marussi wrote:
+> On Wed, Apr 02, 2025 at 11:59:47AM +0100, Sudeep Holla wrote:
+> > On Wed, Apr 02, 2025 at 01:42:54PM +0300, Matthew Bystrin wrote:
+> > > Add timeout argument to do_xfer_with_response() with subsequent changes
+> > > in corresponding drivers. To maintain backward compatibility use
+> > > previous hardcoded timeout value.
+> > > 
 > 
-> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> ---
-> Match features has to be set-up properly before upstreaming this.
-> Ideally the out-of-spec firmware should be matched with a quirk matching
-> pattern based on Vendor/SubVendor/ImplVersion....but it is NOT clear if the
-> platform at hand will ship with future fixed firmwares where the ImplVersion
-> field is properly handled.
-> If we cannot be sure about that, we should fallback to a compatible match.
-> ---
->  drivers/firmware/arm_scmi/driver.c | 8 ++++++++
->  drivers/firmware/arm_scmi/quirks.c | 3 +++
->  drivers/firmware/arm_scmi/quirks.h | 3 +++
->  3 files changed, 14 insertions(+)
+> Hi Matthew, Sudeep,
 > 
-> diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-> index 4266ef852c48..212456305bc9 100644
-> --- a/drivers/firmware/arm_scmi/driver.c
-> +++ b/drivers/firmware/arm_scmi/driver.c
-> @@ -1904,6 +1904,13 @@ struct scmi_msg_resp_desc_fc {
->  	__le32 db_preserve_hmask;
->  };
+> this is something I had my eyes on since a while and never get back to
+> it....so thanks for looking at this first of all...
+> 
+> > > According to SCMI specification [1] there is no defined timeout for
+> > > delayed messages in the interface. While hardcoded 2 seconds timeout
+> > > might be good enough for existing protocol drivers, moving it to the
+> > > function argument may be useful for vendor-specific protocols with
+> > > different timing needs.
+> > > 
+> > 
+> > Please post this patch along with the vendor specific protocols mentioned
+> > above and with the reasoning as why 2s is not sufficient.
+> 
+> Ack on this, it would be good to understand why a huge 2 secs is not
+> enough...and also...
+> 
+> > 
+> > Also instead of churning up existing users/usage, we can explore to had
+> > one with this timeout as alternative if you present and convince the
+> > validity of your use-case and the associated timing requirement.
+> > 
+> 
+> ...with the proposed patch (and any kind of alternative API proposed
+> by Sudeep) the delayed response timeout becomes a parameter of the method
+> do_xfer_with_response() and so, as a consequence, this timoeut becomes
+> effectively configurable per-transaction, while usually a timeout is
+> commonly configurable per-channel, so valid as a whole for any protocol
+> on that channel across the whole platform, AND optionally describable as
+> different from the default standard value via DT props (like max-rx-timeout).
+> 
+> Is this what we want ? (a per-transaction configurable timeout ?)
+> 
+> If not, it could be an option to make instead this a per-channel optional
+> new DT described property so that you can configure globally a different
+> delayed timeout.
+> 
+> If yes, how this new parameter is meant to be used/configured/chosen ?
+> on a per-protocol/command basis, unrelated to the specific platform we run on ?
 >  
-> +#define QUIRK_PERF_FC_FORCE						\
-> +	({								\
-> +		if (pi->proto->id == SCMI_PROTOCOL_PERF ||		\
-> +		    message_id == 0x5 /* PERF_LEVEL_GET */)		\
 
-This should be logical AND and PERF_LEVEL_GET is 0x8 (currently
-fastchannel is enabled for all PERF messages).
++1 on all the points above. I agree this must be per transport. If it is
+per message then you need to think why it needs to sync command. Why can't
+it be changed to async or use notification. I am waiting to see the usage
+in your vendor protocols to understand it in more detail.
 
-> +			attributes |= BIT(0);				\
-> +	})
-> +
->  static void
->  scmi_common_fastchannel_init(const struct scmi_protocol_handle *ph,
->  			     u8 describe_id, u32 message_id, u32 valid_size,
-> @@ -1924,6 +1931,7 @@ scmi_common_fastchannel_init(const struct scmi_protocol_handle *ph,
->  
->  	/* Check if the MSG_ID supports fastchannel */
->  	ret = scmi_protocol_msg_check(ph, message_id, &attributes);
-> +	SCMI_QUIRK(perf_level_get_fc_force, QUIRK_PERF_FC_FORCE);
-
-This is cool and I assume can be used to minimise overhead in hot paths.
-Perhaps you can have concerns about readability and remembering to
-update the quirk implementation if the code here changes.
-
-Does it even get compile tested if SCMI_QUIRKS is disabled?
-
->  	if (ret || !MSG_SUPPORTS_FASTCHANNEL(attributes)) {
->  		dev_dbg(ph->dev,
->  			"Skip FC init for 0x%02X/%d  domain:%d - ret:%d\n",
-> diff --git a/drivers/firmware/arm_scmi/quirks.c b/drivers/firmware/arm_scmi/quirks.c
-> index 83798bc3b043..78d51bd0e5b5 100644
-> --- a/drivers/firmware/arm_scmi/quirks.c
-> +++ b/drivers/firmware/arm_scmi/quirks.c
-> @@ -70,6 +70,8 @@ struct scmi_quirk {
->  	__DEFINE_SCMI_QUIRK_ENTRY(_qn, _comp, _ven, _sub, _impl)
->  
->  /* Global Quirks Definitions */
-> +DEFINE_SCMI_QUIRK(perf_level_get_fc_force,
-> +		  "your-bad-compatible", NULL, NULL, 0x0);
-
-At first I tried matching on the SoC (fallback) compatible without
-success until I noticed you need to put the primary machine compatible
-here. For the SoC at hand, that would mean adding 10 or so entries since
-all current commercial devices would be affected by this.
-
-Matching on vendor and protocol works.
-
->  /*
->   * Quirks Pointers Array
-> @@ -78,6 +80,7 @@ struct scmi_quirk {
->   * defined quirks descriptors.
->   */
->  static struct scmi_quirk *scmi_quirks_table[] = {
-> +	__DECLARE_SCMI_QUIRK_ENTRY(perf_level_get_fc_force),
->  	NULL
->  };
-
-Johan
+-- 
+Regards,
+Sudeep
