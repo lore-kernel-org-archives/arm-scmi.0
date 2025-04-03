@@ -1,165 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F3DF242914;
-	Thu,  3 Apr 2025 10:05:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA1B253348;
+	Thu,  3 Apr 2025 19:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743674726; cv=none; b=E9Qrf9UpT8UEhgwiRs+RffdIJWMv0NreV0rZV6LbSMk7BdG+r7V+TORK0vKyWl3ZO97ft5xddOfTHZvvsmdskXC88Kw8dJz6TuqL94rlzZtHdcxjAL/rGf6j0fsCR1LzC9kVcEtSlpZMrGBIo5ODFWFqQawnKzO3jsNdjOOysdA=
+	t=1743709822; cv=none; b=aZ8Q+ZeuDmzXhJUCFDdA2jP5gt+k4/s20cv2CBveFvGU1T/GJnEsU0ATWWowIA56S1FbZG81wxjzYtmBKTarf+q+YB5x8heY4+xfslksDnFEJ8k4H/byAt9ictdqDCC9WGmXi+wePjQKXKe/1t6BXu3EIbgQGXBNiN0Gius1lAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743674726; c=relaxed/simple;
-	bh=VZJ6WOI/SuQ08FQpls6TmDhOFgJH3ksO9l4DB+vGrAA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ux7wl0A4OHGkpj7CXQQQTFyzUKZ57L3OBBqaXXH5QC+kFJUFWa0fZrCY0rlUrBkZ/HYvqExq6IDeldvNqxjReSV14w/YfRG1er1/2xSdbE+29mTnjPhdp0xQJO3m5zHEh3b5vqEXTzeXEV3/4A4T1LvVSUZZ0xuNJjW84YN02ug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fA/pQvnl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743709822; c=relaxed/simple;
+	bh=sDhnJrOGyLnuo7pL9+BliU/HmsIdSk89KdW0N95fEoU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=oK/vEn3z5yQHohq3Yg3mqAi3JJPbDkAnXeTkYihhwAVy4jRZsfPd4NJgEW7o4ViDAp75VwugxsWHJwicODD5+3OMjMbwUHYY2E6saZ3WOFWcFzMwPd9NVbvnTbPclM3HCWGV7Csfw0AIPXa/F5dkbD2m+sTaB4gg+eKtS8fYAkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B3Ywh70F; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fA/pQvnl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E361C4CEE3;
-	Thu,  3 Apr 2025 10:05:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743674725;
-	bh=VZJ6WOI/SuQ08FQpls6TmDhOFgJH3ksO9l4DB+vGrAA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fA/pQvnlYR5k7TApr2skxozgAc4nIZwluPOEp9LbXP5aYaORp55ZlrSbC3e4OEHW0
-	 eTTMRGXdOOSJ+vbOAwGjpDLJY628FUmxzWibffIv2OxW9KbW8DNJ8f/j2f6Cqf38H3
-	 FwuP+YMOnNxYdFkDijgH7K4pKKskaigCHwN0evcvLPUFBBzhKRtMvnFYDnjlIbv3/8
-	 8Yu4/tM+6kSeT0D7BjHN1x6it/KqXwdS4nPuVH6pnLWXsKKUCCUVs0nZpHxaz+H/ge
-	 r3YGR0/wVcPo/dQtj1iLanajdYXtJY6nEGwEwZ6O7DyrFekjXSpOu4CqXgPGvNdLLx
-	 /JrjbijUFJzEA==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1u0HRy-000000000iG-1BL8;
-	Thu, 03 Apr 2025 12:05:30 +0200
-Date: Thu, 3 Apr 2025 12:05:30 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, peng.fan@oss.nxp.com,
-	michal.simek@amd.com, quic_sibis@quicinc.com,
-	dan.carpenter@linaro.org, maz@kernel.org
-Subject: Re: [RFC PATCH 3/3] [NOT FOR UPSTREAM] firmware: arm_scmi: quirk:
- Ignore FC bit in attributes
-Message-ID: <Z-5daoJn22XTprwk@hovoldconsulting.com>
-References: <20250401122545.1941755-1-cristian.marussi@arm.com>
- <20250401122545.1941755-4-cristian.marussi@arm.com>
- <Z-5F8eTaZB2gLTNs@hovoldconsulting.com>
- <Z-5QGXj0wXMvtasf@pluto>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B3Ywh70F"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-30bf8632052so11103781fa.0;
+        Thu, 03 Apr 2025 12:50:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743709819; x=1744314619; darn=vger.kernel.org;
+        h=in-reply-to:references:user-agent:to:from:subject:cc:message-id
+         :date:content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tiT2BZFLvjpYhgjv3NWjjKZqqKvHJampIoV0mL2vGD4=;
+        b=B3Ywh70FSO5dHkz4E78ZOhw0k/Goi06fE+WOOxNU3UaXiwTBJ4b3sh0jRqI5jHNXU4
+         qwqLMUH9fGss9DWLeS2sGt8FHb8/NvIQ2dnG95upwPeMaeMSYy2WO8aXOBF//YcEBVrx
+         tiacr0EvkvrxVXeakwDhW+TEYzHtTF7dFrYm17BFidd5c6R8fT3ju3peO1i87l+SvxYv
+         EIoqHh4bqmcY9kf4f4e+LznUKAa0g4Amhwt6U1BJ8BAvBg9J+jrHgh1cnbR//g4rXjuS
+         b1HX2OD2kGZ6vXpHD5v7FCyv6+aH7SZASUEPRTWu0K/AJqclResiI6hSDtLFmiQKkdyP
+         KIWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743709819; x=1744314619;
+        h=in-reply-to:references:user-agent:to:from:subject:cc:message-id
+         :date:content-transfer-encoding:mime-version:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tiT2BZFLvjpYhgjv3NWjjKZqqKvHJampIoV0mL2vGD4=;
+        b=jRsZ4Siiw//Y/+Y6rGUXjdK6AFgD6zpVwq5ODH1u224W4akAi47oIrJxlA7hfZ60TH
+         wpuHCcGowSRsKWJYiMRh5p05Bxi6RyGHm++yzwE6Eh/FZOJ7tIq7DQEW0OpbEdL3VNnt
+         OR0/yLk9JZ5aB12O5I9V2cErzJOVNnwd33flptDo3kBTZKT3x4wohm3mYhMV+S3JTMf5
+         LFOK6NHt2M+ghD1ku0dvSQLOf2M8nRcBdtKv2k7lNx/a3W9u2I7qu20xjSmUOIiCh3AL
+         pNsKktn682lQkyHvGdUoedvSDkrn/vl5gDz/XQ/0QedSvxT4IpCFb2Ih/IUukUMhwNWr
+         mpdg==
+X-Forwarded-Encrypted: i=1; AJvYcCVHuWvTtmjJI439Uasqax61rXFK5nwh+jfPuTgi/TFFCbmxZsi5R0tVPp+tZ7w+kQbgyZ8i7b7dvzwP2QA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJhOrmtd83AR/CDVN2SKtm20iK1s0ztmYsX9g2Ow9Fn5dtRhaE
+	Ue0ElE8EyypWL1cZ/RwX7GBhGLRVNdajqB2nSgA4LSjLs7rqHDrS
+X-Gm-Gg: ASbGncuW8S062Drho0gCIugjE5edBKKja+bMWL7PLSMJ5mh91tiEOOO9QH1bkW6JvNy
+	hxO04L5xOLUgg4+cEOjOITL6LKv1b808m+1Ls28ShPUAVFHT3wYHA9+duCzvF1lXt5m6MjhiA7j
+	fqVuFmgDDY2iWHobm/h2EN4CFgSDnTgbQLD4YbZD50f003VbY38KWXQQum/WGyk19kfqDAz5IvT
+	dOVMmKN5CNRc6KRuvmdugwRpCgvdZcJy9YU5xcr0ocd3zD3ah8oDA75KIbb9ICHu3dkfMVfTsVl
+	BvILhsVLM2n9Ec/hH1H7yIuk7KQktk9LcbROCAo=
+X-Google-Smtp-Source: AGHT+IGrorQ5FuPYZrThDMKqggO+30FvVsrfYRiJVo3DlRU9IYpzcb8iazeM0Ji9ePXvEuZWbPYtLw==
+X-Received: by 2002:a05:651c:3232:b0:30b:ee67:2ba5 with SMTP id 38308e7fff4ca-30f0a11e9f1mr2353721fa.13.1743709818547;
+        Thu, 03 Apr 2025 12:50:18 -0700 (PDT)
+Received: from localhost ([89.250.166.11])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30f0314b94fsm3141731fa.60.2025.04.03.12.50.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Apr 2025 12:50:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z-5QGXj0wXMvtasf@pluto>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 03 Apr 2025 22:50:17 +0300
+Message-Id: <D8X9JJGPGDNL.1OTKIJODRFKNN@gmail.com>
+Cc: <arm-scmi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, "Philipp Zabel"
+ <p.zabel@pengutronix.de>, "Peng Fan" <peng.fan@nxp.com>
+Subject: Re: [PATCH] firmware: arm_scmi: add timeout in
+ do_xfer_with_response()
+From: "Matthew Bystrin" <dev.mbstr@gmail.com>
+To: "Cristian Marussi" <cristian.marussi@arm.com>, "Sudeep Holla"
+ <sudeep.holla@arm.com>
+User-Agent: aerc/0.18.2
+References: <20250402104254.149998-1-dev.mbstr@gmail.com>
+ <20250402-hidden-unyielding-carp-7ee32d@sudeepholla>
+ <Z-1gY8mQLznSg5Na@pluto>
+In-Reply-To: <Z-1gY8mQLznSg5Na@pluto>
 
-On Thu, Apr 03, 2025 at 10:08:41AM +0100, Cristian Marussi wrote:
-> On Thu, Apr 03, 2025 at 10:25:21AM +0200, Johan Hovold wrote:
-> > On Tue, Apr 01, 2025 at 01:25:45PM +0100, Cristian Marussi wrote:
- 
-> > > +#define QUIRK_PERF_FC_FORCE						\
-> > > +	({								\
-> > > +		if (pi->proto->id == SCMI_PROTOCOL_PERF ||		\
-> > > +		    message_id == 0x5 /* PERF_LEVEL_GET */)		\
-> > 
-> > This should be logical AND and PERF_LEVEL_GET is 0x8 (currently
-> > fastchannel is enabled for all PERF messages).
-> 
-> ...right...not sure how I botched this condition completely...my bad...
-> (even the comment is wrong :P...)
+Hi Sudeep, Cristian,
 
-The PERF_LEVEL_GET comment? That one is correct, right? :)
+Thanks for having a look on the patch.
 
-> > > +			attributes |= BIT(0);				\
-> > > +	})
-> > > +
-> > >  static void
-> > >  scmi_common_fastchannel_init(const struct scmi_protocol_handle *ph,
-> > >  			     u8 describe_id, u32 message_id, u32 valid_size,
-> > > @@ -1924,6 +1931,7 @@ scmi_common_fastchannel_init(const struct scmi_protocol_handle *ph,
-> > >  
-> > >  	/* Check if the MSG_ID supports fastchannel */
-> > >  	ret = scmi_protocol_msg_check(ph, message_id, &attributes);
-> > > +	SCMI_QUIRK(perf_level_get_fc_force, QUIRK_PERF_FC_FORCE);
-> > 
-> > This is cool and I assume can be used to minimise overhead in hot paths.
-> > Perhaps you can have concerns about readability and remembering to
-> > update the quirk implementation if the code here changes.
-> 
-> My main aim here was to be able to define the quirk code as much as
-> possible in the proximity of where it is used...so that is clear what it
-> does and dont get lost in some general common table....and the macro was
-> a way to uniform the treatment of the static keys...
-> 
-> ...but I am still not sure if all of these macros just degrade visibility
-> and we could get rid of them...would be really cool to somehow break the
-> build if the code "sorrounding" the SCMI_QUIRK changes and you dont update
-> (somehow) the quirk too...so as to be sure that the quirk is taking care of
-> and maintained...but I doubt that is feasible, because, really, how do you
-> even deternine which code changes are in proximity enough to the quirk to
-> justify a break...same block ? same functions ? you cannot really know
-> semantically where some changes can impact this part of the code...
-> ..I supppose reviews and testing is the key and the only possible answer
-> to this..
+Cristian Marussi, Apr 02, 2025 at 19:05:
+> > Please post this patch along with the vendor specific protocols mention=
+ed
+> > above and with the reasoning as why 2s is not sufficient.
+>
+> Ack on this, it would be good to understand why a huge 2 secs is not
+> enough...and also...
 
-Yeah, it goes both ways. Getting the quirk implementation out of the way
-makes it easier to follow the normal flow, but also makes it a bit
-harder to review the quirk. Your implementation may be a good trade-off.
+I've been working on firmware update using SCMI vendor/platform-specific
+extension on FPGA prototype, so not posted it initially. I'm open to share =
+the
+details if needed, but need some extra time for preparations. For now I'm
+posting a brief description of the extension. It has 2 commands:
 
-> > Does it even get compile tested if SCMI_QUIRKS is disabled?
-> 
-> It evaluates to nothing when CONFIG_ARM_SCMI_QUIRKS is disabled...
-> ...so maybe I could add a Kconfig dep on COMPILE_TEST ....if this is what
-> you mean..
+- Obtain firmware version number.
+- Update firmware. Firmware image is placed into shared physically contiguo=
+us
+  memory, Agent sends to platform micro controller (PuC) physical address a=
+nd
+  size of the update image to start update procedure. After update is compl=
+eted
+  (successfully or not) PuC sends delayed response.
 
-Perhaps there's some way to get the quirk code always compiled but
-discarded when CONFIG_ARM_SCMI_QUIRKS is disabled (e.g. by using
-IS_ENABLED() in the macro)?
+	Agent ----     start update         ---> Platform uC
+	Agent <--- update procedure started ---- Platform uC
+	...
+	Agent <--- (async) update completed ---- Platform uC
 
-CONFIG_ARM_SCMI_QUIRKS may also need to be enabled by default as it can
-be hard to track down random crashes to a missing quirk.
+I've faced timeout problem with the async completion response. And update c=
+an't
+be done faster than 10s due to SPI flash write speed limit.
 
-> > >  /* Global Quirks Definitions */
-> > > +DEFINE_SCMI_QUIRK(perf_level_get_fc_force,
-> > > +		  "your-bad-compatible", NULL, NULL, 0x0);
-> > 
-> > At first I tried matching on the SoC (fallback) compatible without
-> > success until I noticed you need to put the primary machine compatible
-> > here. For the SoC at hand, that would mean adding 10 or so entries since
-> > all current commercial devices would be affected by this.
-> > 
-> 
-> Ah right...I tested on a number of combinations BUT assumed only one
-> compatible was to be found...you can potentially add dozens of this
-> definitions for a number of platforms associating the same quirk to all
-> of them and let the match logic enabling only the proper on...BUT this
-> clearly does NOT scale indeed and you will have to endlessly add new
-> platform if fw does NOT get fixed ever...
-> 
-> > Matching on vendor and protocol works.
-> > 
-> 
-> That is abosutely the preferred way, BUT the match should be on
-> Vendor/SubVendor/ImplVersion ... if the platform properly uses
-> ImplementationVersion to differentiate between firmware builds...
+Why not to use notifications?
 
-We don't seem to have a subvendor here and if IIUC the version has not
-been bumped (yet) after fixing the FC issue.
+First of all, semantics. IIUC notifications can be sent by PuC in any time.=
+ This
+is not suitable for updates, because procedure is initiated by an agent, no=
+t by
+a platform.
 
-> ...if not you will end up applying the quirk on ANY current and future
-> FW from this Vendor...maybe not an issue in this case...BUT they should
-> seriously thinking about using ImplementationVersion properly in their
-> future FW releases...especially if, as of now, no new fixed FW release
-> has ever been released...
+Secondly, code implementing  notification waiting duplicates delayed respon=
+se
+code. I had implemented it as a proof-of-concept before I prepared this pat=
+ch.
 
-Right, in this case it would probably be OK.
+> > Also instead of churning up existing users/usage, we can explore to had
+> > one with this timeout as alternative if you present and convince the
+> > validity of your use-case and the associated timing requirement.
+> >=20
+>
+> ...with the proposed patch (and any kind of alternative API proposed
+> by Sudeep) the delayed response timeout becomes a parameter of the method
+> do_xfer_with_response() and so, as a consequence, this timoeut becomes
+> effectively configurable per-transaction, while usually a timeout is
+> commonly configurable per-channel,
 
-But what if the version is bumped for some other reason (e.g. before a
-bug has been identified)? Then you'd currently need an entry for each
-affected revision or does the implementation assume it applies to
-anything <= ImplVersion? Do we want to add support for version ranges?
+Totally agree, usually it is. And that's why I didn't change do_xfer() call=
+.
+Here is the thing I want to pay attention to.
 
-Johan
+Let's focus on delayed responses. I think delayed response timeout should n=
+ot be
+defined by transport but rather should be defined by _function_ PuC providi=
+ng.
+And of course platform and transport could influence on the timeout value.
+
+> so valid as a whole for any protocol
+> on that channel across the whole platform, AND optionally describable as
+> different from the default standard value via DT props (like max-rx-timeo=
+ut).
+>
+> Is this what we want ? (a per-transaction configurable timeout ?)
+>
+> If not, it could be an option to make instead this a per-channel optional
+> new DT described property so that you can configure globally a different
+> delayed timeout.
+
+Taking into account my previous comment, I don't think that having a per-ch=
+annel
+timeout for delayed response would solve the problem in the right way. What
+about having a per-protocol timeout at least?
+
+> If yes, how this new parameter is meant to be used/configured/chosen ?
+> on a per-protocol/command basis, unrelated to the specific platform we ru=
+n on ?
+
+As delayed timeout is IMO should be defined by PuC services (in other words=
+ by
+command), new parameter can be set directly in the driver. If we talking ab=
+out
+per-protocol solution, using DT is also a good approach.
+
+> Thanks,
+> Cristian
+
+Sudeep, hope I also answered your comments from the last email as well.
+
+Thanks,
+Matthew
