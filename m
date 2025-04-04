@@ -1,186 +1,441 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA1B253348;
-	Thu,  3 Apr 2025 19:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7A21C84BB;
+	Fri,  4 Apr 2025 13:22:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743709822; cv=none; b=aZ8Q+ZeuDmzXhJUCFDdA2jP5gt+k4/s20cv2CBveFvGU1T/GJnEsU0ATWWowIA56S1FbZG81wxjzYtmBKTarf+q+YB5x8heY4+xfslksDnFEJ8k4H/byAt9ictdqDCC9WGmXi+wePjQKXKe/1t6BXu3EIbgQGXBNiN0Gius1lAY=
+	t=1743772972; cv=none; b=X8hsnlfeSJs9e10qt7txT/pk3bXmNNddNPJv7DTOhbCoJglkT9Mq+uMJ4+TYzf6PLeW0y3uvuWl04cQvW0+6JJXUK8LjtTkYOtAaTdcmRfh+yQR4VzbRSzAiYquKeTv1U9YwNZbTl+p7DOA5Tnyc8S3KUmxTpOOWUb+MNYtBIcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743709822; c=relaxed/simple;
-	bh=sDhnJrOGyLnuo7pL9+BliU/HmsIdSk89KdW0N95fEoU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=oK/vEn3z5yQHohq3Yg3mqAi3JJPbDkAnXeTkYihhwAVy4jRZsfPd4NJgEW7o4ViDAp75VwugxsWHJwicODD5+3OMjMbwUHYY2E6saZ3WOFWcFzMwPd9NVbvnTbPclM3HCWGV7Csfw0AIPXa/F5dkbD2m+sTaB4gg+eKtS8fYAkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B3Ywh70F; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743772972; c=relaxed/simple;
+	bh=6tCety+7MCZ2oIjk+aK6YsUrGpITWdMlAUUYhFIP0dg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SEgwk3RpaB9UFQSX6sVzDDRXXwQIh6HqxES9GJrynS+wNdUlk24GZ3fyKg4JRE3+dKBdaizDpvQd4uTw0gq9rONYO44adkfoWdAiih1BpgC2Cxi/mJDqLpgmj99NThpmMNzGIf0WyJ05a0wCt1IDAlPEgUtZeCU6r2kCQyRYFQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NvhR6ncN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B3Ywh70F"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-30bf8632052so11103781fa.0;
-        Thu, 03 Apr 2025 12:50:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743709819; x=1744314619; darn=vger.kernel.org;
-        h=in-reply-to:references:user-agent:to:from:subject:cc:message-id
-         :date:content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tiT2BZFLvjpYhgjv3NWjjKZqqKvHJampIoV0mL2vGD4=;
-        b=B3Ywh70FSO5dHkz4E78ZOhw0k/Goi06fE+WOOxNU3UaXiwTBJ4b3sh0jRqI5jHNXU4
-         qwqLMUH9fGss9DWLeS2sGt8FHb8/NvIQ2dnG95upwPeMaeMSYy2WO8aXOBF//YcEBVrx
-         tiacr0EvkvrxVXeakwDhW+TEYzHtTF7dFrYm17BFidd5c6R8fT3ju3peO1i87l+SvxYv
-         EIoqHh4bqmcY9kf4f4e+LznUKAa0g4Amhwt6U1BJ8BAvBg9J+jrHgh1cnbR//g4rXjuS
-         b1HX2OD2kGZ6vXpHD5v7FCyv6+aH7SZASUEPRTWu0K/AJqclResiI6hSDtLFmiQKkdyP
-         KIWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743709819; x=1744314619;
-        h=in-reply-to:references:user-agent:to:from:subject:cc:message-id
-         :date:content-transfer-encoding:mime-version:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=tiT2BZFLvjpYhgjv3NWjjKZqqKvHJampIoV0mL2vGD4=;
-        b=jRsZ4Siiw//Y/+Y6rGUXjdK6AFgD6zpVwq5ODH1u224W4akAi47oIrJxlA7hfZ60TH
-         wpuHCcGowSRsKWJYiMRh5p05Bxi6RyGHm++yzwE6Eh/FZOJ7tIq7DQEW0OpbEdL3VNnt
-         OR0/yLk9JZ5aB12O5I9V2cErzJOVNnwd33flptDo3kBTZKT3x4wohm3mYhMV+S3JTMf5
-         LFOK6NHt2M+ghD1ku0dvSQLOf2M8nRcBdtKv2k7lNx/a3W9u2I7qu20xjSmUOIiCh3AL
-         pNsKktn682lQkyHvGdUoedvSDkrn/vl5gDz/XQ/0QedSvxT4IpCFb2Ih/IUukUMhwNWr
-         mpdg==
-X-Forwarded-Encrypted: i=1; AJvYcCVHuWvTtmjJI439Uasqax61rXFK5nwh+jfPuTgi/TFFCbmxZsi5R0tVPp+tZ7w+kQbgyZ8i7b7dvzwP2QA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJhOrmtd83AR/CDVN2SKtm20iK1s0ztmYsX9g2Ow9Fn5dtRhaE
-	Ue0ElE8EyypWL1cZ/RwX7GBhGLRVNdajqB2nSgA4LSjLs7rqHDrS
-X-Gm-Gg: ASbGncuW8S062Drho0gCIugjE5edBKKja+bMWL7PLSMJ5mh91tiEOOO9QH1bkW6JvNy
-	hxO04L5xOLUgg4+cEOjOITL6LKv1b808m+1Ls28ShPUAVFHT3wYHA9+duCzvF1lXt5m6MjhiA7j
-	fqVuFmgDDY2iWHobm/h2EN4CFgSDnTgbQLD4YbZD50f003VbY38KWXQQum/WGyk19kfqDAz5IvT
-	dOVMmKN5CNRc6KRuvmdugwRpCgvdZcJy9YU5xcr0ocd3zD3ah8oDA75KIbb9ICHu3dkfMVfTsVl
-	BvILhsVLM2n9Ec/hH1H7yIuk7KQktk9LcbROCAo=
-X-Google-Smtp-Source: AGHT+IGrorQ5FuPYZrThDMKqggO+30FvVsrfYRiJVo3DlRU9IYpzcb8iazeM0Ji9ePXvEuZWbPYtLw==
-X-Received: by 2002:a05:651c:3232:b0:30b:ee67:2ba5 with SMTP id 38308e7fff4ca-30f0a11e9f1mr2353721fa.13.1743709818547;
-        Thu, 03 Apr 2025 12:50:18 -0700 (PDT)
-Received: from localhost ([89.250.166.11])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30f0314b94fsm3141731fa.60.2025.04.03.12.50.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Apr 2025 12:50:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NvhR6ncN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23BC2C4CEDD;
+	Fri,  4 Apr 2025 13:22:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743772971;
+	bh=6tCety+7MCZ2oIjk+aK6YsUrGpITWdMlAUUYhFIP0dg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NvhR6ncNjduUxWMiNY3Fz+1fGc7EQrmoJKjqc/511m46chCnJlihRqlbiGOh7X1QM
+	 TOXqykOWWiOys3J+UGNjjC7qugWU4pAzTXa+kjjbqaSIC7xtxb/WCgkwIWM9YMGfTc
+	 6L9lzeTDaWLuInxd3pzMI9WyuRdxO3UhWJVZHssLKRwmol1c45Pno1YIVdRq8ravVf
+	 FL6hNjohrraPUoAHvzAlnY5K8sqmMvDnjdjSS24JkzVd7w7voGFcn3ys0N0Xpj+lhO
+	 V02o3mN6yy8qTw8HISxe1fuisRI1+M8SWF6ClFIXWj1cg3x+GGXfbUU9yn2IHH9CM7
+	 1358sP5Xh+VTg==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1u0h0b-000000006DC-0tWM;
+	Fri, 04 Apr 2025 15:22:57 +0200
+Date: Fri, 4 Apr 2025 15:22:57 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
+	james.quinlan@broadcom.com, f.fainelli@gmail.com,
+	vincent.guittot@linaro.org, peng.fan@oss.nxp.com,
+	michal.simek@amd.com, quic_sibis@quicinc.com,
+	dan.carpenter@linaro.org, maz@kernel.org
+Subject: Re: [RFC PATCH 0/3] Introduce SCMI Quirks framework
+Message-ID: <Z-_dMev0v6P4UJ_i@hovoldconsulting.com>
+References: <20250401122545.1941755-1-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 03 Apr 2025 22:50:17 +0300
-Message-Id: <D8X9JJGPGDNL.1OTKIJODRFKNN@gmail.com>
-Cc: <arm-scmi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, "Philipp Zabel"
- <p.zabel@pengutronix.de>, "Peng Fan" <peng.fan@nxp.com>
-Subject: Re: [PATCH] firmware: arm_scmi: add timeout in
- do_xfer_with_response()
-From: "Matthew Bystrin" <dev.mbstr@gmail.com>
-To: "Cristian Marussi" <cristian.marussi@arm.com>, "Sudeep Holla"
- <sudeep.holla@arm.com>
-User-Agent: aerc/0.18.2
-References: <20250402104254.149998-1-dev.mbstr@gmail.com>
- <20250402-hidden-unyielding-carp-7ee32d@sudeepholla>
- <Z-1gY8mQLznSg5Na@pluto>
-In-Reply-To: <Z-1gY8mQLznSg5Na@pluto>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250401122545.1941755-1-cristian.marussi@arm.com>
 
-Hi Sudeep, Cristian,
+Hi Cristian,
 
-Thanks for having a look on the patch.
+On Tue, Apr 01, 2025 at 01:25:42PM +0100, Cristian Marussi wrote:
 
-Cristian Marussi, Apr 02, 2025 at 19:05:
-> > Please post this patch along with the vendor specific protocols mention=
-ed
-> > above and with the reasoning as why 2s is not sufficient.
->
-> Ack on this, it would be good to understand why a huge 2 secs is not
-> enough...and also...
+> with the increasing adoption of SCMI across arm64 ecosystems, we have to
+> start considering how to deal and take care of out-of-spec SCMI firmware
+> platforms that are actively deployed in the wild, in a consistent manner.
+> 
+> This small series introduces a simple framework, based on static_keys,
+> that allows a user to:
+> 
+> - define a quirk and its matching conditions; quirks can match based on:
+> 
+>   	compatible / Vendor_ID / Sub_Vendor_ID / ImplVersion
+> 
+>   from the longest matching sequence down to the shortest.
+> 
+>   When the SCMI core stack boots it will enable the matching quirks
+>   depending on the information gathered from the platform via Base
+>   protocol: any NULL/0 match condition is ignored during matching and is
+>   interpreted as ANY, so you can decide to match on a very specific
+>   combination of compatibles and FW versions OR simply on a compatible.
+> 
+> - define a quirk code-block: simply a block of code, meant to play the
+>   magic quirk trick, defined in the proximity of where it will be used
+>   and gated by an implicit quirk static-key associated with the defined
+>   quirk
 
-I've been working on firmware update using SCMI vendor/platform-specific
-extension on FPGA prototype, so not posted it initially. I'm open to share =
-the
-details if needed, but need some extra time for preparations. For now I'm
-posting a brief description of the extension. It has 2 commands:
+> Any feedback and testing is very much welcome.
 
-- Obtain firmware version number.
-- Update firmware. Firmware image is placed into shared physically contiguo=
-us
-  memory, Agent sends to platform micro controller (PuC) physical address a=
-nd
-  size of the update image to start update procedure. After update is compl=
-eted
-  (successfully or not) PuC sends delayed response.
+I'm hitting the below lockdep splat when running with this series and
+the FC quirk enabled.
 
-	Agent ----     start update         ---> Platform uC
-	Agent <--- update procedure started ---- Platform uC
-	...
-	Agent <--- (async) update completed ---- Platform uC
+Johan
 
-I've faced timeout problem with the async completion response. And update c=
-an't
-be done faster than 10s due to SPI flash write speed limit.
 
-Why not to use notifications?
+[    8.399581] ======================================================
+[    8.399582] WARNING: possible circular locking dependency detected
+[    8.399583] 6.14.0 #103 Not tainted
+[    8.399584] ------------------------------------------------------
+[    8.399584] kworker/u49:5/165 is trying to acquire lock:
+[    8.399586] ffff65d004d36320 (&info->protocols_mtx){+.+.}-{4:4}, at: scmi_get_protocol_instance+0x4c/0x5c0
+[    8.399596] 
+               but task is already holding lock:
+[    8.399596] ffff65d00a895348 (&ni->pending_mtx){+.+.}-{4:4}, at: __scmi_event_handler_get_ops+0x70/0x47c
+[    8.399600] 
+               which lock already depends on the new lock.
 
-First of all, semantics. IIUC notifications can be sent by PuC in any time.=
- This
-is not suitable for updates, because procedure is initiated by an agent, no=
-t by
-a platform.
+[    8.399601] 
+               the existing dependency chain (in reverse order) is:
+[    8.399601] 
+               -> #4 (&ni->pending_mtx){+.+.}-{4:4}:
+[    8.399603]        __mutex_lock+0xa8/0x514
+[    8.399606]        mutex_lock_nested+0x24/0x30
+[    8.399608]        __scmi_event_handler_get_ops+0x70/0x47c
+[    8.399610]        scmi_notifier_register+0x58/0x29c
+[    8.399612]        scmi_cpufreq_init+0x30c/0x4d0
+[    8.399615]        cpufreq_online+0x610/0xb58
+[    8.399616]        cpufreq_add_dev+0xcc/0xe4
+[    8.399618]        subsys_interface_register+0xfc/0x118
+[    8.399622]        cpufreq_register_driver+0x178/0x2ec
+[    8.399623]        scmi_cpufreq_probe+0x88/0x11c
+[    8.399625]        scmi_dev_probe+0x28/0x3c
+[    8.399626]        really_probe+0xc0/0x38c
+[    8.399627]        __driver_probe_device+0x7c/0x160
+[    8.399629]        driver_probe_device+0x40/0x110
+[    8.399630]        __device_attach_driver+0xbc/0x158
+[    8.399631]        bus_for_each_drv+0x84/0xe0
+[    8.399633]        __device_attach+0xa8/0x1d4
+[    8.399634]        device_initial_probe+0x14/0x20
+[    8.399636]        bus_probe_device+0xb0/0xb4
+[    8.399637]        device_add+0x57c/0x784
+[    8.399639]        device_register+0x20/0x30
+[    8.399641]        __scmi_device_create.part.0+0xf0/0x224
+[    8.399642]        scmi_device_create+0x184/0x1c8
+[    8.399644]        scmi_create_protocol_devices+0x50/0xb4
+[    8.399646]        scmi_probe+0x854/0x91c
+[    8.399647]        platform_probe+0x68/0xd8
+[    8.399649]        really_probe+0xc0/0x38c
+[    8.399650]        __driver_probe_device+0x7c/0x160
+[    8.399651]        driver_probe_device+0x40/0x110
+[    8.399653]        __device_attach_driver+0xbc/0x158
+[    8.399654]        bus_for_each_drv+0x84/0xe0
+[    8.399656]        __device_attach+0xa8/0x1d4
+[    8.399657]        device_initial_probe+0x14/0x20
+[    8.399658]        bus_probe_device+0xb0/0xb4
+[    8.399659]        device_add+0x57c/0x784
+[    8.399661]        platform_device_add+0x110/0x274
+[    8.399663]        scmi_mailbox_probe+0xcc/0x110
+[    8.399664]        platform_probe+0x68/0xd8
+[    8.399666]        really_probe+0xc0/0x38c
+[    8.399667]        __driver_probe_device+0x7c/0x160
+[    8.399668]        driver_probe_device+0x40/0x110
+[    8.399669]        __device_attach_driver+0xbc/0x158
+[    8.399671]        bus_for_each_drv+0x84/0xe0
+[    8.399673]        __device_attach+0xa8/0x1d4
+[    8.399674]        device_initial_probe+0x14/0x20
+[    8.399675]        bus_probe_device+0xb0/0xb4
+[    8.399676]        deferred_probe_work_func+0xa0/0xf4
+[    8.399677]        process_one_work+0x20c/0x610
+[    8.399682]        worker_thread+0x23c/0x378
+[    8.399684]        kthread+0x13c/0x20c
+[    8.399685]        ret_from_fork+0x10/0x20
+[    8.399687] 
+               -> #3 (&policy->rwsem){+.+.}-{4:4}:
+[    8.399689]        down_write+0x50/0xe8
+[    8.399690]        cpufreq_online+0x5cc/0xb58
+[    8.399692]        cpufreq_add_dev+0xcc/0xe4
+[    8.399693]        subsys_interface_register+0xfc/0x118
+[    8.399695]        cpufreq_register_driver+0x178/0x2ec
+[    8.399697]        scmi_cpufreq_probe+0x88/0x11c
+[    8.399699]        scmi_dev_probe+0x28/0x3c
+[    8.399700]        really_probe+0xc0/0x38c
+[    8.399701]        __driver_probe_device+0x7c/0x160
+[    8.399702]        driver_probe_device+0x40/0x110
+[    8.399704]        __device_attach_driver+0xbc/0x158
+[    8.399705]        bus_for_each_drv+0x84/0xe0
+[    8.399707]        __device_attach+0xa8/0x1d4
+[    8.399708]        device_initial_probe+0x14/0x20
+[    8.399709]        bus_probe_device+0xb0/0xb4
+[    8.399710]        device_add+0x57c/0x784
+[    8.399712]        device_register+0x20/0x30
+[    8.399714]        __scmi_device_create.part.0+0xf0/0x224
+[    8.877044]        scmi_device_create+0x184/0x1c8
+[    8.882444]        scmi_create_protocol_devices+0x50/0xb4
+[    8.888617]        scmi_probe+0x854/0x91c
+[    8.893302]        platform_probe+0x68/0xd8
+[    8.898172]        really_probe+0xc0/0x38c
+[    8.902943]        __driver_probe_device+0x7c/0x160
+[    8.908525]        driver_probe_device+0x40/0x110
+[    8.913933]        __device_attach_driver+0xbc/0x158
+[    8.919608]        bus_for_each_drv+0x84/0xe0
+[    8.924657]        __device_attach+0xa8/0x1d4
+[    8.929708]        device_initial_probe+0x14/0x20
+[    8.935124]        bus_probe_device+0xb0/0xb4
+[    8.940178]        device_add+0x57c/0x784
+[    8.944870]        platform_device_add+0x110/0x274
+[    8.950370]        scmi_mailbox_probe+0xcc/0x110
+[    8.955699]        platform_probe+0x68/0xd8
+[    8.960582]        really_probe+0xc0/0x38c
+[    8.965375]        __driver_probe_device+0x7c/0x160
+[    8.970971]        driver_probe_device+0x40/0x110
+[    8.976390]        __device_attach_driver+0xbc/0x158
+[    8.982076]        bus_for_each_drv+0x84/0xe0
+[    8.987148]        __device_attach+0xa8/0x1d4
+[    8.992212]        device_initial_probe+0x14/0x20
+[    8.997637]        bus_probe_device+0xb0/0xb4
+[    9.002699]        deferred_probe_work_func+0xa0/0xf4
+[    9.008480]        process_one_work+0x20c/0x610
+[    9.013783]        worker_thread+0x23c/0x378
+[    9.018775]        kthread+0x13c/0x20c
+[    9.023223]        ret_from_fork+0x10/0x20
+[    9.028031] 
+               -> #2 (subsys mutex#2){+.+.}-{4:4}:
+[    9.035379]        __mutex_lock+0xa8/0x514
+[    9.040197]        mutex_lock_nested+0x24/0x30
+[    9.045366]        subsys_interface_register+0x50/0x118
+[    9.051338]        cpufreq_register_driver+0x178/0x2ec
+[    9.057223]        scmi_cpufreq_probe+0x88/0x11c
+[    9.062585]        scmi_dev_probe+0x28/0x3c
+[    9.067497]        really_probe+0xc0/0x38c
+[    9.072317]        __driver_probe_device+0x7c/0x160
+[    9.077941]        driver_probe_device+0x40/0x110
+[    9.083392]        __device_attach_driver+0xbc/0x158
+[    9.089104]        bus_for_each_drv+0x84/0xe0
+[    9.094199]        __device_attach+0xa8/0x1d4
+[    9.099292]        device_initial_probe+0x14/0x20
+[    9.104749]        bus_probe_device+0xb0/0xb4
+[    9.109843]        device_add+0x57c/0x784
+[    9.114582]        device_register+0x20/0x30
+[    9.119585]        __scmi_device_create.part.0+0xf0/0x224
+[    9.125750]        scmi_device_create+0x184/0x1c8
+[    9.131210]        scmi_create_protocol_devices+0x50/0xb4
+[    9.137380]        scmi_probe+0x854/0x91c
+[    9.142118]        platform_probe+0x68/0xd8
+[    9.147091]        really_probe+0xc0/0x38c
+[    9.151924]        __driver_probe_device+0x7c/0x160
+[    9.157556]        driver_probe_device+0x40/0x110
+[    9.163014]        __device_attach_driver+0xbc/0x158
+[    9.168733]        bus_for_each_drv+0x84/0xe0
+[    9.173836]        __device_attach+0xa8/0x1d4
+[    9.178932]        device_initial_probe+0x14/0x20
+[    9.184381]        bus_probe_device+0xb0/0xb4
+[    9.189478]        device_add+0x57c/0x784
+[    9.194213]        platform_device_add+0x110/0x274
+[    9.199758]        scmi_mailbox_probe+0xcc/0x110
+[    9.205172]        platform_probe+0x68/0xd8
+[    9.210097]        really_probe+0xc0/0x38c
+[    9.214930]        __driver_probe_device+0x7c/0x160
+[    9.220558]        driver_probe_device+0x40/0x110
+[    9.226017]        __device_attach_driver+0xbc/0x158
+[    9.231739]        bus_for_each_drv+0x84/0xe0
+[    9.236838]        __device_attach+0xa8/0x1d4
+[    9.241937]        device_initial_probe+0x14/0x20
+[    9.247396]        bus_probe_device+0xb0/0xb4
+[    9.252490]        deferred_probe_work_func+0xa0/0xf4
+[    9.258298]        process_one_work+0x20c/0x610
+[    9.263631]        worker_thread+0x23c/0x378
+[    9.268644]        kthread+0x13c/0x20c
+[    9.273118]        ret_from_fork+0x10/0x20
+[    9.277954] 
+               -> #1 (cpu_hotplug_lock){++++}-{0:0}:
+[    9.285522]        percpu_down_read.constprop.0+0x54/0x168
+[    9.291789]        cpus_read_lock+0x10/0x1c
+[    9.296770]        static_key_enable+0x18/0x34
+[    9.301961]        scmi_quirks_enable+0xec/0x19c
+[    9.307327]        scmi_base_protocol_init+0x374/0x4ec
+[    9.313232]        scmi_get_protocol_instance+0x198/0x5c0
+[    9.319411]        scmi_probe+0x3cc/0x91c
+[    9.324156]        platform_probe+0x68/0xd8
+[    9.329083]        really_probe+0xc0/0x38c
+[    9.333918]        __driver_probe_device+0x7c/0x160
+[    9.339557]        driver_probe_device+0x40/0x110
+[    9.345020]        __device_attach_driver+0xbc/0x158
+[    9.350753]        bus_for_each_drv+0x84/0xe0
+[    9.355858]        __device_attach+0xa8/0x1d4
+[    9.360964]        device_initial_probe+0x14/0x20
+[    9.366425]        bus_probe_device+0xb0/0xb4
+[    9.371532]        device_add+0x57c/0x784
+[    9.376273]        platform_device_add+0x110/0x274
+[    9.381824]        scmi_mailbox_probe+0xcc/0x110
+[    9.387193]        platform_probe+0x68/0xd8
+[    9.392121]        really_probe+0xc0/0x38c
+[    9.397017]        __driver_probe_device+0x7c/0x160
+[    9.402656]        driver_probe_device+0x40/0x110
+[    9.408113]        __device_attach_driver+0xbc/0x158
+[    9.413892]        bus_for_each_drv+0x84/0xe0
+[    9.418997]        __device_attach+0xa8/0x1d4
+[    9.424096]        device_initial_probe+0x14/0x20
+[    9.429561]        bus_probe_device+0xb0/0xb4
+[    9.434663]        deferred_probe_work_func+0xa0/0xf4
+[    9.440483]        process_one_work+0x20c/0x610
+[    9.445767]        worker_thread+0x23c/0x378
+[    9.450786]        kthread+0x13c/0x20c
+[    9.455318]        ret_from_fork+0x10/0x20
+[    9.460153] 
+               -> #0 (&info->protocols_mtx){+.+.}-{4:4}:
+[    9.468090]        __lock_acquire+0x1344/0x20e8
+[    9.473371]        lock_acquire+0x1c8/0x354
+[    9.478295]        __mutex_lock+0xa8/0x514
+[    9.483129]        mutex_lock_nested+0x24/0x30
+[    9.488375]        scmi_get_protocol_instance+0x4c/0x5c0
+[    9.494464]        scmi_protocol_acquire+0x10/0x24
+[    9.500014]        __scmi_event_handler_get_ops+0x1c0/0x47c
+[    9.506367]        scmi_notifier_register+0x58/0x29c
+[    9.512096]        scmi_cpufreq_init+0x30c/0x4d0
+[    9.517471]        cpufreq_online+0x610/0xb58
+[    9.522580]        cpufreq_add_dev+0xcc/0xe4
+[    9.527602]        subsys_interface_register+0xfc/0x118
+[    9.533614]        cpufreq_register_driver+0x178/0x2ec
+[    9.539526]        scmi_cpufreq_probe+0x88/0x11c
+[    9.544897]        scmi_dev_probe+0x28/0x3c
+[    9.549825]        really_probe+0xc0/0x38c
+[    9.554656]        __driver_probe_device+0x7c/0x160
+[    9.560297]        driver_probe_device+0x40/0x110
+[    9.565764]        __device_attach_driver+0xbc/0x158
+[    9.571494]        bus_for_each_drv+0x84/0xe0
+[    9.576601]        __device_attach+0xa8/0x1d4
+[    9.581710]        device_initial_probe+0x14/0x20
+[    9.587178]        bus_probe_device+0xb0/0xb4
+[    9.592282]        device_add+0x57c/0x784
+[    9.597085]        device_register+0x20/0x30
+[    9.602095]        __scmi_device_create.part.0+0xf0/0x224
+[    9.608269]        scmi_device_create+0x184/0x1c8
+[    9.613786]        scmi_create_protocol_devices+0x50/0xb4
+[    9.619965]        scmi_probe+0x854/0x91c
+[    9.624718]        platform_probe+0x68/0xd8
+[    9.629647]        really_probe+0xc0/0x38c
+[    9.634486]        __driver_probe_device+0x7c/0x160
+[    9.640125]        driver_probe_device+0x40/0x110
+[    9.645593]        __device_attach_driver+0xbc/0x158
+[    9.651328]        bus_for_each_drv+0x84/0xe0
+[    9.656437]        __device_attach+0xa8/0x1d4
+[    9.661541]        device_initial_probe+0x14/0x20
+[    9.667006]        bus_probe_device+0xb0/0xb4
+[    9.672161]        device_add+0x57c/0x784
+[    9.676913]        platform_device_add+0x110/0x274
+[    9.682467]        scmi_mailbox_probe+0xcc/0x110
+[    9.687843]        platform_probe+0x68/0xd8
+[    9.692770]        really_probe+0xc0/0x38c
+[    9.697607]        __driver_probe_device+0x7c/0x160
+[    9.703250]        driver_probe_device+0x40/0x110
+[    9.708718]        __device_attach_driver+0xbc/0x158
+[    9.714454]        bus_for_each_drv+0x84/0xe0
+[    9.719568]        __device_attach+0xa8/0x1d4
+[    9.724670]        device_initial_probe+0x14/0x20
+[    9.730193]        bus_probe_device+0xb0/0xb4
+[    9.735302]        deferred_probe_work_func+0xa0/0xf4
+[    9.741128]        process_one_work+0x20c/0x610
+[    9.746414]        worker_thread+0x23c/0x378
+[    9.751437]        kthread+0x13c/0x20c
+[    9.755912]        ret_from_fork+0x10/0x20
+[    9.760746] 
+               other info that might help us debug this:
 
-Secondly, code implementing  notification waiting duplicates delayed respon=
-se
-code. I had implemented it as a proof-of-concept before I prepared this pat=
-ch.
+[    9.770784] Chain exists of:
+                 &info->protocols_mtx --> &policy->rwsem --> &ni->pending_mtx
 
-> > Also instead of churning up existing users/usage, we can explore to had
-> > one with this timeout as alternative if you present and convince the
-> > validity of your use-case and the associated timing requirement.
-> >=20
->
-> ...with the proposed patch (and any kind of alternative API proposed
-> by Sudeep) the delayed response timeout becomes a parameter of the method
-> do_xfer_with_response() and so, as a consequence, this timoeut becomes
-> effectively configurable per-transaction, while usually a timeout is
-> commonly configurable per-channel,
+[    9.784150]  Possible unsafe locking scenario:
 
-Totally agree, usually it is. And that's why I didn't change do_xfer() call=
-.
-Here is the thing I want to pay attention to.
+[    9.791482]        CPU0                    CPU1
+[    9.796815]        ----                    ----
+[    9.802092]   lock(&ni->pending_mtx);
+[    9.806468]                                lock(&policy->rwsem);
+[    9.813262]                                lock(&ni->pending_mtx);
+[    9.820230]   lock(&info->protocols_mtx);
+[    9.824981] 
+                *** DEADLOCK ***
 
-Let's focus on delayed responses. I think delayed response timeout should n=
-ot be
-defined by transport but rather should be defined by _function_ PuC providi=
-ng.
-And of course platform and transport could influence on the timeout value.
-
-> so valid as a whole for any protocol
-> on that channel across the whole platform, AND optionally describable as
-> different from the default standard value via DT props (like max-rx-timeo=
-ut).
->
-> Is this what we want ? (a per-transaction configurable timeout ?)
->
-> If not, it could be an option to make instead this a per-channel optional
-> new DT described property so that you can configure globally a different
-> delayed timeout.
-
-Taking into account my previous comment, I don't think that having a per-ch=
-annel
-timeout for delayed response would solve the problem in the right way. What
-about having a per-protocol timeout at least?
-
-> If yes, how this new parameter is meant to be used/configured/chosen ?
-> on a per-protocol/command basis, unrelated to the specific platform we ru=
-n on ?
-
-As delayed timeout is IMO should be defined by PuC services (in other words=
- by
-command), new parameter can be set directly in the driver. If we talking ab=
-out
-per-protocol solution, using DT is also a good approach.
-
-> Thanks,
-> Cristian
-
-Sudeep, hope I also answered your comments from the last email as well.
-
-Thanks,
-Matthew
+[    9.832879] 11 locks held by kworker/u49:5/165:
+[    9.838145]  #0: ffff65d000010948 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work+0x190/0x610
+[    9.849165]  #1: ffff800081eb3dd0 (deferred_probe_work){+.+.}-{0:0}, at: process_one_work+0x1b8/0x610
+[    9.859312]  #2: ffff65d0010b48f8 (&dev->mutex){....}-{4:4}, at: __device_attach+0x38/0x1d4
+[    9.868580]  #3: ffff65d001e758f8 (&dev->mutex){....}-{4:4}, at: __device_attach+0x38/0x1d4
+[    9.877839]  #4: ffff65d004d36460 (&info->devreq_mtx){+.+.}-{4:4}, at: scmi_create_protocol_devices+0x3c/0xb4
+[    9.888790]  #5: ffffc981b6c603c8 (scmi_requested_devices_mtx){+.+.}-{4:4}, at: scmi_device_create+0xc8/0x1c8
+[    9.899701]  #6: ffff65d0092ca8f8 (&dev->mutex){....}-{4:4}, at: __device_attach+0x38/0x1d4
+[    9.909022]  #7: ffffc981b6af2148 (cpu_hotplug_lock){++++}-{0:0}, at: cpus_read_lock+0x10/0x1c
+[    9.918629]  #8: ffff65d0009ee518 (subsys mutex#2){+.+.}-{4:4}, at: subsys_interface_register+0x50/0x118
+[    9.929143]  #9: ffff65d011fc3b80 (&policy->rwsem){+.+.}-{4:4}, at: cpufreq_online+0x5cc/0xb58
+[    9.938832]  #10: ffff65d00a895348 (&ni->pending_mtx){+.+.}-{4:4}, at: __scmi_event_handler_get_ops+0x70/0x47c
+[    9.949921] 
+               stack backtrace:
+[    9.956066] CPU: 0 UID: 0 PID: 165 Comm: kworker/u49:5 Not tainted 6.14.0 #103
+[    9.956068] Hardware name: Qualcomm CRD, BIOS 6.0.241007.BOOT.MXF.2.4-00534.1-HAMOA-1 10/ 7/2024
+[    9.956069] Workqueue: events_unbound deferred_probe_work_func
+[    9.956071] Call trace:
+[    9.956072]  show_stack+0x18/0x24 (C)
+[    9.956074]  dump_stack_lvl+0x90/0xd0
+[    9.956077]  dump_stack+0x18/0x24
+[    9.956078]  print_circular_bug+0x298/0x37c
+[    9.956080]  check_noncircular+0x15c/0x170
+[    9.956081]  __lock_acquire+0x1344/0x20e8
+[    9.956082]  lock_acquire+0x1c8/0x354
+[    9.956083]  __mutex_lock+0xa8/0x514
+[    9.956084]  mutex_lock_nested+0x24/0x30
+[    9.956085]  scmi_get_protocol_instance+0x4c/0x5c0
+[    9.956087]  scmi_protocol_acquire+0x10/0x24
+[    9.956089]  __scmi_event_handler_get_ops+0x1c0/0x47c
+[    9.956091]  scmi_notifier_register+0x58/0x29c
+[    9.956093]  scmi_cpufreq_init+0x30c/0x4d0
+[    9.956095]  cpufreq_online+0x610/0xb58
+[    9.956096]  cpufreq_add_dev+0xcc/0xe4
+[    9.956098]  subsys_interface_register+0xfc/0x118
+[    9.956100]  cpufreq_register_driver+0x178/0x2ec
+[    9.956101]  scmi_cpufreq_probe+0x88/0x11c
+[    9.956103]  scmi_dev_probe+0x28/0x3c
+[    9.956104]  really_probe+0xc0/0x38c
+[    9.956105]  __driver_probe_device+0x7c/0x160
+[    9.956107]  driver_probe_device+0x40/0x110
+[    9.956108]  __device_attach_driver+0xbc/0x158
+[    9.956109]  bus_for_each_drv+0x84/0xe0
+[    9.956111]  __device_attach+0xa8/0x1d4
+[    9.956112]  device_initial_probe+0x14/0x20
+[    9.956113]  bus_probe_device+0xb0/0xb4
+[    9.956114]  device_add+0x57c/0x784
+[    9.956116]  device_register+0x20/0x30
+[    9.956118]  __scmi_device_create.part.0+0xf0/0x224
+[    9.956120]  scmi_device_create+0x184/0x1c8
+[    9.956121]  scmi_create_protocol_devices+0x50/0xb4
+[    9.956123]  scmi_probe+0x854/0x91c
+[    9.956124]  platform_probe+0x68/0xd8
+[    9.956126]  really_probe+0xc0/0x38c
+[    9.956127]  __driver_probe_device+0x7c/0x160
+[    9.956128]  driver_probe_device+0x40/0x110
+[    9.956129]  __device_attach_driver+0xbc/0x158
+[    9.956131]  bus_for_each_drv+0x84/0xe0
+[    9.956133]  __device_attach+0xa8/0x1d4
+[    9.956134]  device_initial_probe+0x14/0x20
+[    9.956135]  bus_probe_device+0xb0/0xb4
+[    9.956136]  device_add+0x57c/0x784
+[    9.956138]  platform_device_add+0x110/0x274
+[    9.956140]  scmi_mailbox_probe+0xcc/0x110
+[    9.956141]  platform_probe+0x68/0xd8
+[    9.956142]  really_probe+0xc0/0x38c
+[    9.956144]  __driver_probe_device+0x7c/0x160
+[    9.956145]  driver_probe_device+0x40/0x110
+[    9.956146]  __device_attach_driver+0xbc/0x158
+[    9.956147]  bus_for_each_drv+0x84/0xe0
+[    9.956149]  __device_attach+0xa8/0x1d4
+[    9.956151]  device_initial_probe+0x14/0x20
+[    9.956152]  bus_probe_device+0xb0/0xb4
+[    9.956153]  deferred_probe_work_func+0xa0/0xf4
+[    9.956154]  process_one_work+0x20c/0x610
+[    9.956156]  worker_thread+0x23c/0x378
+[    9.956157]  kthread+0x13c/0x20c
+[    9.956159]  ret_from_fork+0x10/0x20
