@@ -1,116 +1,98 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978131A3AB8;
-	Sat,  5 Apr 2025 09:23:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B496C22AE7F;
+	Mon,  7 Apr 2025 09:06:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743845011; cv=none; b=MBSyFLFCBoxcRWAJhN3OOqyILPjpM4Ehm+OBP7FmvTfvQYfMPLk5WEMELWM0B2Xhyc2zCs3BD9eSwJzw7dXZOemzbpya/s+T6TbH6V9jhwFKMaaQRns+JwtR5x7HEx69/I4QZmRoqCCm0BBDSFH7YhBttC5TApoNRq55J/HMtsI=
+	t=1744016797; cv=none; b=L/dYbOA15KlDFS6YJDv0f1q9dA8tEcyFU+jEfNJLLfU7Yn90s41PaVMxBbXn2lnxijYCdpIPVblNEfY2SilIYSmMTZcDa8w7R6OZKQN31/hGaWKkO0o7O/L+IgvMLBQ/45JNfe6UowKn/4EMLUg0TQwd9Echysm3caFlAfi32ZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743845011; c=relaxed/simple;
-	bh=l3+rGK2EFAZmkTGpdYet06mG0e1irydAi/hOwEmj2Ao=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WNs6QymYVSW74ZVt+0tCyiEFXvjpkS4LUTBiUVeQSyKzZqIFDJ6kVe1JlbA58J8hohHey+gn6375sPvP9yp+vv0m3AMrKFNbWA70tE2ubDtHwOYz5o1Pso+5TNVn2bo47TzN8W3dzgZVbRtUK7/Ufd/eGzMrtKyOuu0XUM/7fEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N6wHf0+Z; arc=none smtp.client-ip=209.85.215.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744016797; c=relaxed/simple;
+	bh=Xe9yKMk7Eypr5knTG3yOuK/cqx3Z7cmsTjnuVuhrHUY=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=nLLWMn3dGHnr2udHiKlv7U1Prn9wEMa+JGxDVbrayLbQftB3W2FdM974os5iJxyY1fX0sbBBhmAcOYA1CL0Qjx3TH2j4e9IBsjSw65pgt27t4XaO/nicoVkmhW43FGjjsuHUAyWavrsqZg4Kp+OBntE4zaTQHoJqlojJ0AZFneU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=X1LdVyns; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N6wHf0+Z"
-Received: by mail-pg1-f193.google.com with SMTP id 41be03b00d2f7-ad5236e6fd6so2572456a12.0;
-        Sat, 05 Apr 2025 02:23:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743845009; x=1744449809; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wugxhQvHKc30SDsT4EaI/HEENSsFdBpwWD0zIT6tInY=;
-        b=N6wHf0+Z3/nBgvtClpWUf25eUpq/AgryuGzTbXdCJ7/kEIINZ/UUrUT0y5KYMFIOn7
-         NqI3XKzxl5mLDWM53P5WKj6B+YApZ5McyCZMYiLTltTXjIxrZfqlsslLLpG8+AyFgZfP
-         /aqQXCEYV7toZlJfAXKIQYLH1YiI4dP8PSBoRonkPsNf5F7YI/7tL/WyUtfM3MRZSXdk
-         PgpXAblCc8aklzqnCAUMMlsePnmsj7fYxPgXTGfrwffJ1kdbNfYYv/1fzwfzSQ6eT16R
-         QRgM7xQymncFDVMrAR0/dsTBBuM0mI6qIucWjY0Vb5JdyRP2kJhn5nnhK7lXAQ4CpOAf
-         ORXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743845009; x=1744449809;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wugxhQvHKc30SDsT4EaI/HEENSsFdBpwWD0zIT6tInY=;
-        b=CIi/Jt8KV2IYz9qSOaeZv6RXsp4u5UJy4Hi9yi5t9Uf/F3DfVoQIIpxAAMrswwLI+f
-         UHxdjXnUcXy/3wOd5hghohyHoPTK57lP4ns/PMlYiRSwZypLyKJvcRTuZcA4v4S0PSZc
-         yWazSCDl02jjPfX6SE+Lq3ISDWrB1ex5g/mkPSbqR13tcUTN3t1UV77LbqzVeSDJ7OMx
-         NfNwYonBVhN8EaKU+5UtxungpuOrinbriwkWeH+ORtG4Hn3wZJKoEsZSxYom3gWKtsp6
-         M1UBuszv6yqYMWqMXH53zxikZZmNYCNcN86tU9MZkp23HxkTNg/p1F1LefAdWWu3iqG5
-         eefw==
-X-Forwarded-Encrypted: i=1; AJvYcCXOcT6qquy0ePSBty0IXhxmac0OViRInZdsG5JKwk2/sYwSK6VnjKuMshe0Jly2Sg4rIWnc+lAQUqI=@vger.kernel.org, AJvYcCXdp+P0pOfu+QeqFrv2/vgJqOAN1WtHSWByIogK+IQsvn0lMoJHrtXFLRQg2bkZPJj+T5D7NqHBB+RKdCrp@vger.kernel.org, AJvYcCXzLLuIay9Bn2kDtXY0876CLc61c+SRixL2RoIHgIpMC8LOYSB4KQfjz8SqcFHXnM8Iv8JMu7nSyw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzex7qQ6CnpyRIH0RIjNjBaKyjMtn8KLTXwxT7Qhfp2Um3Yv6BV
-	mHCQCfxiUrqYHQ82xKWwHEMLRbQ4dLTVO0NVQPpTXbvWlb5AwimJ
-X-Gm-Gg: ASbGncugovxnAK9ykNpg80cAk0Xr8Xyn1B14duMgUfm6xzgHoyLm9C35L3k9saOYpLK
-	3Ews8XGyHF1Z2jqL0zNlGV/iRktueGYWv9u9TS3YJ/qNBhzahj0ufF419tBR/CTvl0GQJ+LFEGt
-	fL3odoX+F7vhwP48Wes2nxcbUXIzjUUMJBeD4Dg8ZUyiLuxOfyBPQzufMFsQDxq8pPKa/jWsYkU
-	D6yUdRz4PLISdOQkr9c3u6DZzcHt55FhqwPHNggcNljIgiAUSC2Bu5lVMxoV0/ViWXiQ840Dv9O
-	8rpVu4zlduySyeL0dCgZx4uQYHBwCXFRB7w/j3QXQ4r6YfKvW5MwzsSQaCYpp3HBRSQ2
-X-Google-Smtp-Source: AGHT+IHkhHsjr2gLT8Ve1Sx3IQ03TqNe2hZ/KEE0KQj7rKla0oR9QG4GMVxeSmrYPKbVJrqgOXLaQg==
-X-Received: by 2002:a17:90b:50c4:b0:2ff:6a5f:9b39 with SMTP id 98e67ed59e1d1-306a47f2ca5mr10316513a91.18.1743845008573;
-        Sat, 05 Apr 2025 02:23:28 -0700 (PDT)
-Received: from henry.localdomain ([223.72.104.41])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3057cb91b9esm5139782a91.45.2025.04.05.02.23.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Apr 2025 02:23:28 -0700 (PDT)
-From: Henry Martin <bsdhenrymartin@gmail.com>
-To: sudeep.holla@arm.com,
-	rafael@kernel.org,
-	viresh.kumar@linaro.org
-Cc: cristian.marussi@arm.com,
-	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Henry Martin <bsdhenrymartin@gmail.com>
-Subject: [PATCH v1] cpufreq: scpi: Fix null-ptr-deref in scpi_cpufreq_get_rate()
-Date: Sat,  5 Apr 2025 17:23:14 +0800
-Message-Id: <20250405092314.76297-1-bsdhenrymartin@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="X1LdVyns"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1744016771; x=1744621571; i=markus.elfring@web.de;
+	bh=Xe9yKMk7Eypr5knTG3yOuK/cqx3Z7cmsTjnuVuhrHUY=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=X1LdVynsvT7LMZUL48PGjcF5QfwADAOJBci+gK0YQC+mYO+Oth4dixt7C/us06Fg
+	 izM1kujfXxr00vRFMmoCjSSjSzQNQPpi3Q5Uf7TzQyO9RbeJqq2kOQtXbrCpNwhi1
+	 OByikFCOXyimwXnMfGeOE4MsOyDuAAuJPbZSOPtc2z9kDBeeybCIdfu8iJXJLxT3K
+	 JYVgAl/IVVe2rQTLaKPt2A/g4guNKVcoVXhyDdhHTVMC5A9nO6F0Kz2/1Df6skXDs
+	 hyytHJmajV+hbatfDGBEW83/d4J5h9ON1il13hOgwfJHA1xs/qsXpLTKoUVAwNMUR
+	 jyCeTIdRPihqgurNDA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.93.4]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MCol0-1tsx0M3nIO-000KwN; Mon, 07
+ Apr 2025 11:06:10 +0200
+Message-ID: <e8e785a8-5f8f-4ea2-a150-2837f47b4472@web.de>
+Date: Mon, 7 Apr 2025 11:06:08 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: Henry Martin <bsdhenrymartin@gmail.com>, linux-pm@vger.kernel.org,
+ arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Sudeep Holla
+ <sudeep.holla@arm.com>, Viresh Kumar <viresh.kumar@linaro.org>
+References: <20250405092314.76297-1-bsdhenrymartin@gmail.com>
+Subject: Re: [PATCH] cpufreq: scpi: Fix null-ptr-deref in
+ scpi_cpufreq_get_rate()
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250405092314.76297-1-bsdhenrymartin@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:Hy+PR5k1xY84cSBOrA+CeAth7lHjF5yH3qIF6tQorjq8ujw9unB
+ Ks4IChpY96tqaRD6pGhUjBBs7AD/6yfZH4xvKnUQos26x9FfQu93Gd0XdE89tMqvo0YPdcR
+ VDNRT6zLixpOmCXyHpEuRlwGTQ+kxaz2YwER1KLPLm8MUEqfggXWCP9yivXFoymxsgDOsRm
+ GXoMf51AyhgIEgfCsmzAg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Vr4ssYFlXBA=;CwpOnPasjk7LIzSK0EdCunmDOsF
+ CmFnhsW9Fwns8jYe0WBp01axpuwv73QwaF2JzHNiIxidoEmo4nEXlfrsN+mLINpCu60C3wwNb
+ +42cmsxOkKM4rIScVM7n7VH3grZZI8CWCNyxaCrGa9PqwKZsiP9QpjQn0u3XsrDt436yY4q/B
+ J0dQd4DJoHQ1ODnOBTP2jMipcHhP1QaVABQCEetLZjfQjBBlScsr/XrhyIosWpSt8K0mOg9cr
+ I/U/+/ELHTlRgiREvA2bvT08A32NrAdDOU1U4JjjJUwp1gDm1z0bPsSsbpe7Nnpeb0rKbSuj9
+ cylTuhl1bnNPklWyJY44CtfgXIyqjMYki2exg/a7KwBSGUvz3a1XBhPBID6T9gSm8zWwG+Dk0
+ j3AyDrCZIUpuJDx2NIXj3BJyJQ1W5q8R+Cu6lyu4PjHjh4sPYeFokygpwWS4kasn9SH8n3gNb
+ stG2PM6JhJLklptT1OZ56+tWoO7b1bRiuvHLu+pYvr00/naqUUVJCzoD/mER626JVLFvaNHvv
+ gGuZJD0+jpmtliv4AVA/0ESFeI2kmAPeMlJ/Su+MLLM6qKyBIHTW2VrwvhPT8R08UClh3GlWU
+ gHA/K6gxErMGyuStkatD91valEW2Bh3tSB/cVkmHfTWP29QGNMYhmP0/ToLzHrU17FfCOJ/n2
+ VS+iKsa00P9NRFq5vZ1FPDdkRzLcm3rrowIFJFHiF2LJj2WQ6j94c5LByIhLHPgWYPSnKsETZ
+ L0BtPF8JYyZrKY4/hKuDUErdpiKoaneLohoZfUyVgFwvIY08JXtzCzObAWmHZA3k+f+CANXGh
+ s4lSGes3w9L2iqUHi40kr+cBK456TWWX//zVT/IoPh7NpGBrVro7viyCzRLNI55i4cSfif4wb
+ VyL7y+ngIGlzmIYHinuddbT9Tg3hFjeWBdu81RnnPxrKgzBEhkGRap6p2uznca2l4NHAo+Bka
+ 4e4KpyUMPhLgs3jDPL0SPgoxrdg85bt04niJw4s2lyr0rJ6geh/qkBiAX9/Zwa71Cs17gvw/B
+ VlPZSHQTZ5N4+aiWyGxUBk0aaYWoIzvPbdhWzM9tOgEiu1YVXSM4olXRhECHTUazM3WEBvxFP
+ uCF4prVBaHsxDFePgW4N7wIPewTI5/prYKgwd8MV1YasTs6e44Y4N4fXczGx2yp77FgwE4QPJ
+ mEzJR0elzo4fFqxinahkKUuZ02TCgup3nHySV+ZGeROXW8CPkENQoBUabmpAId+1ytrLxU0e1
+ IJ7mHKesEhboV2IaeCGmjGpWmw92A46GzRkFntHldoZfff5GGuHQWGijMRvko5suAfndd7v2E
+ 2o1Xveuh6AwSXqeDVOPBLJnkiLsj3fZTFscGuthYUJ3BgZeeCbWiuGn8Ch3I138ZoJtZ4vfBg
+ KDyjZ2y8rrF0iUEqgu+YPtg69zUa8WyK6jeqyVmeSMa+MfWSiRlmQuT0Agm0SCwlYkcgONBAZ
+ N8UudDLTplOwSFjDVO73Z9lnf+U8BkfscSghwVOmOS/DVRK6D
 
-cpufreq_cpu_get_raw() can return NULL when the target CPU is not present
-in the policy->cpus mask. scpi_cpufreq_get_rate() does not check for
-this case, which results in a NULL pointer dereference.
+> cpufreq_cpu_get_raw() can return NULL when the target CPU is not present
+> in the policy->cpus mask. scpi_cpufreq_get_rate() does not check for
+> this case, which results in a NULL pointer dereference.
 
-Fixes: 343a8d17fa8d ("cpufreq: scpi: remove arm_big_little dependency")
-Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
----
- drivers/cpufreq/scpi-cpufreq.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+See also once more:
+https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.15-rc1#n94
 
-diff --git a/drivers/cpufreq/scpi-cpufreq.c b/drivers/cpufreq/scpi-cpufreq.c
-index 17cda84f00df..8f0da2a86e4b 100644
---- a/drivers/cpufreq/scpi-cpufreq.c
-+++ b/drivers/cpufreq/scpi-cpufreq.c
-@@ -29,9 +29,16 @@ static struct scpi_ops *scpi_ops;
- 
- static unsigned int scpi_cpufreq_get_rate(unsigned int cpu)
- {
--	struct cpufreq_policy *policy = cpufreq_cpu_get_raw(cpu);
--	struct scpi_data *priv = policy->driver_data;
--	unsigned long rate = clk_get_rate(priv->clk);
-+	struct cpufreq_policy *policy;
-+	struct scpi_data *priv;
-+	unsigned long rate;
-+
-+	policy = cpufreq_cpu_get_raw(cpu);
-+	if (!policy)
-+		return 0;
-+
-+	priv = policy->driver_data;
-+	rate = clk_get_rate(priv->clk);
- 
- 	return rate / 1000;
- }
--- 
-2.34.1
 
+Can any other summary phrase variant become more desirable accordingly?
+
+Regards,
+Markus
