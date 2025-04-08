@@ -1,128 +1,135 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838A92690C0
-	for <arm-scmi@vger.kernel.org>; Tue,  8 Apr 2025 10:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C933818E75A;
+	Tue,  8 Apr 2025 14:38:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744108616; cv=none; b=TYC+sJX6utx3osEecFM0+r++w2kSe4XwAr9zibnjDyHlm80EMDodryTuDjgZagAQoklwYgYxEZIJBSyY+3IFE62jFV0IavW6OeYyRWgyDP6xn4nWdGUI9aigOV2xK048Q/XlDRX45Fgv0g1ku5MLcawxBuHO2K+Hix1pdMQBpY8=
+	t=1744123102; cv=none; b=aQMXV2Qy8h+4TKG+Dq+jeSpEre8oSSQcFUBL5KgQ0tTLpS91Vgj3aNtLk3bfv7P1hwMFuszjUuB7y5WV6ol6+39+m22153T6zbFcltyHWV0IGkjoyfUzgEq2PfeHNnKnCshKF7MMf9VOy7DC2w0CUKyB7g4BJ+eynRyNQI+BdPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744108616; c=relaxed/simple;
-	bh=wkOLFAUzhjnbM7Ikoz425nbv5U7OazSzqi4J4cwO0c4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iidBHau3upeA9Z26/2tbcioqIKixTiQTLnvWsyQBVo2y5m2nditu99ZmsomaBQkWZIcTYnBRW55fwmZ1RBlV0iRQNTKCooISDhhPTkIu+zkjV90K/RlbaMW9uUtlwAukh2092HaDGz6s36x780ANsPE42Ek9DfcQE09q3+RI7uA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QGbUdO+d; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1744123102; c=relaxed/simple;
+	bh=4602jiZbb6y/68K9OMjhxQx5fW+hJyFyiR+Ly6hKoVU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=loFJjcwXoLRN7pExktKuohTzqjERAhQWdMM5uIxc7XKGEQLUwtCxrE6P/Est2ZGhQUQLCck/xnMLHodT2YwmoM5Akyeur1ZEysR08SF/dEt8dDPIA/5VCJLoD7baqLkRv4hnRvNLoWkfIaTYSLfTuBsirU3fsWHufHkterBzJHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OlcnOx2v; arc=none smtp.client-ip=209.85.208.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QGbUdO+d"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43edecbfb94so34272705e9.1
-        for <arm-scmi@vger.kernel.org>; Tue, 08 Apr 2025 03:36:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OlcnOx2v"
+Received: by mail-lj1-f195.google.com with SMTP id 38308e7fff4ca-3061513d353so62999311fa.2;
+        Tue, 08 Apr 2025 07:38:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744108613; x=1744713413; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+9PU6RaqZLEW0CeiqDaSWQKAtYrOqL2T0FLR0/1tl5g=;
-        b=QGbUdO+dSWRXM2e6nVSk+Mwme5UF3zAVge4E5ayQeAYptnv7sRzjgY8OTs5XT9Z14t
-         SGmCUWYwmmorT5dCtxvvRM/qRoy6xoIjJa+avOGQsDgmkyko+H7AmuX+tBJuMC1mui2q
-         81Ne+U+Qd2J2cpOzTKSag3HyEmWcG5okx2JCX9J1/igCl7kh26aZ/80vMb06p5OQr5v6
-         qmqGjFpyfZJ9nj7RBdKxeordFJhqQHMNZ7s55pgmrwdOlpf0/Yhfjr/3wbQQDwHhP4Nc
-         XyYQJoZFsOsgnS+uGdyiNuleURlz7A/xsZMmbbmvjjgbqByxvppIu6gpM8RMS7ta+62X
-         eGqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744108613; x=1744713413;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1744123099; x=1744727899; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+9PU6RaqZLEW0CeiqDaSWQKAtYrOqL2T0FLR0/1tl5g=;
-        b=PJOWIciRrWI056avRplj+PEJ1oTfz+pib0rUgPdwWRk7NaoTbOUXF7Qk9b/3tRUjvc
-         wlE8ZRJyj2mcWeFe2k5ZTUSTAFMlvV1qmbLmqw1g3J8Z+PpPWeDJmCSEnjfPrr56s+FK
-         d4LCXV8a1JEaAVK3fV6Xr7AuBK0Z0Zw/n/k3blmMvAqNn5qiSo20cLAGqoH20VhKpiRp
-         7jofsqqhwr2bstSSoP0gvOSKmvzH7XNRXKVtcCCas4i5US1t2U3JPZSCm+hhdOiTHp8A
-         QxPqd2bTFiCoKiMO13niSZbXNgxKVFcPuvczTharyCaPIHTBipz7DxVveXpD1ONMXLDe
-         k0cg==
-X-Forwarded-Encrypted: i=1; AJvYcCU/ae2wFC5Xc9slp5h8rA31ja6Xj3wOcusfp+xGjDNRTwqbJtnpc2zVQk4FbyaFdfxyksiiK76YOQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRdQPpDieBp8ztkLOzz5IPyEJK1G6MrSc+IGotKGoS7ejn+PsV
-	uN57XXm8P+BuUJhyfA91B0w2dI23yOywJ1bzk6VnFVoJ7zjRQ3K0ngSfHvQAN5g=
-X-Gm-Gg: ASbGncvE16pOKt+kfBNJHiyHoELfhxQ47K2NymYChZz3wWVzItnmuIdiidKlNXP5bHr
-	pL/PqaBhUaPHZzwKpejO1A8e3nHYJwOTegve7cTKKBuv//UQSUk7GcsLhWm7U3WnTkMIirAZQrS
-	N8tBfFfSFUl/idEOiBydnFs5P5LfGhZg0xhDP7PAU5eW4rJ0ifuLOSZkIyHTeKsEYRC8EDg6hmU
-	i8tMK/IOCGd7LGHoFbc9OR6PMJXeUWAlCk/qBkWgRKIjx6TFXGL/m/JO/G2A/251CMQ2xsSGjjv
-	uL0S/bFQyWhnu0fs23tlNx+YfYxhciBXXW8I+Gt1clUweWnAFA==
-X-Google-Smtp-Source: AGHT+IE5t903o03RamYyBBOUOtT0lEmSesMlodjULwqDkGqsFvnjjqyphRtizxEDeFR7TGxXwDEjLA==
-X-Received: by 2002:a05:6000:1863:b0:38d:e6b6:508b with SMTP id ffacd0b85a97d-39d07ad4e86mr13874685f8f.9.1744108612851;
-        Tue, 08 Apr 2025 03:36:52 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43ec3429f67sm163443095e9.7.2025.04.08.03.36.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 03:36:52 -0700 (PDT)
-Date: Tue, 8 Apr 2025 12:21:56 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev, devicetree@vger.kernel.org,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v4 3/7] firmware: arm_scmi: imx: Add i.MX95 LMM protocol
-Message-ID: <b85cd7c9-1747-4f8d-82e5-5bf734263566@stanley.mountain>
-References: <20250408-imx-lmm-cpu-v4-0-4c5f4a456e49@nxp.com>
- <20250408-imx-lmm-cpu-v4-3-4c5f4a456e49@nxp.com>
+        bh=6Q7bxwJNCvq8bg2MwJK2kdA3pNJuhT9mZBUaAlfBwAA=;
+        b=OlcnOx2vpR2pJDp1fnpJBxNlbRZD7BuTFoNzlz8SYDVcg91vKGCp3Q8n9DDeJ9Vwp3
+         SuxSA8dYgaDOsLt1W4o1CzEFVpzP1tQNnAHpFONXufqhvUyJIfmWymK7YOw44kq6UNfr
+         b91aADNRKx1cjrmzJytIVF3icMZeuQKVfi7BbEvI4jbFh9bB7Nls6rAuZhW5R6jedr05
+         CQ2hEThP2+I1BRJBUZ4aYpoXuGMxuKaFKsJfJlft31tb4mYAHcjXHEZ/LTwtt6zQHnZ/
+         n8pAhwrafOVuhd9cWATbaXD3Ua7i1Ej12Bgy5PITwfiqQJUn331OsYh0BG6ZXzOafO4S
+         Qu9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744123099; x=1744727899;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6Q7bxwJNCvq8bg2MwJK2kdA3pNJuhT9mZBUaAlfBwAA=;
+        b=DEcTmeGKRdSJgAvvPqNQ80ezljJmcZw/nqR3vXbk7JPIW9t+fHD5YclYlXhlU4GSUU
+         Yl1FECyF0EUDKwP9QJkexsmCpeWbf5FQBRYnYvSjnkJ2IKA39raF53XjJJGB3chp/KXh
+         cdm6exXmmNQsHX4jU85N6zTmA94R80fLEh9Lfyfv6hCYqGGwWPI4Hx12XqXqIhLTFlfQ
+         dnZAJw/D3SCJHmGHm0HTZ45RD9wxOemsunYta3OJoLbJv5B8KjnjXr1ZbJegdXlx25rg
+         lSBUEnypr/GW7Kinee11fat19oRZvLcQSuOBmFQ1yZ5GMCpiqxFKCO9alRzVpWXFCJ/0
+         1Ijw==
+X-Forwarded-Encrypted: i=1; AJvYcCURm5+S2py6OWrm2pPJBDQ2O/qFTBfuQ1J5/shDy/SPkMvKbp55mg98EOJCqnYME1prrOln1iQvgA==@vger.kernel.org, AJvYcCUvMEkZ9oitalBIyl6FliPVZcTJgpKrr7eRdEIVoJAJChecbrgNxXw9PO7slN03rnFo4XvLO6Do4m4=@vger.kernel.org, AJvYcCXqpd+/2MEgrJzcb36LnPZ6evEZ5cTJFpF1UpN9x4IjFK0Bmp8PfzrkDvmA+ZL8BCyHLmM6gAbSg+Q5AsRg@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpAvdLYaC0XE7bqRjZqSVMxRMtPPk2sDCo8Yv3jFWXakwmTYRq
+	FVAod8VeZWuWxrn+VDEaX3NgzM4HNCV/zv/5pIWhNVYCzuOOeuSyF82cT2gRQMCjHCfRztt6Ml7
+	Fg+av+H7kr79xDqSWkgJHW6e2H4vBXGlo
+X-Gm-Gg: ASbGncvSZ9pSsCoJd0ylZUDpEbq6snLuqiCaaHbOtRXDj6H9wW5DueKAKaAD5awj8ul
+	p27pm1+FDlZQiPdvKMBVZjCWNBOA86t7P1ujghLhZktVjUKH6njN04+VkGr9ufxGTTgbQF4uuZg
+	M7Omf6Wd0pk/juzOr7ot6DvL2bWQ==
+X-Google-Smtp-Source: AGHT+IHU10fpaX9Y+BK0PT1SISRH+YFkz7nb8FFJqSdolPlNMzG1qkWD7zj329MmOVdStqbKBKnJK+oXqDOOT6sYTtk=
+X-Received: by 2002:a05:651c:1442:b0:30c:6f3a:dce9 with SMTP id
+ 38308e7fff4ca-30f1650c370mr35717131fa.10.1744123098278; Tue, 08 Apr 2025
+ 07:38:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250408-imx-lmm-cpu-v4-3-4c5f4a456e49@nxp.com>
+References: <20250405055447.73925-1-bsdhenrymartin@gmail.com>
+ <20250407-wondrous-turtle-of-foundation-e92250@sudeepholla> <20250408055505.oked4a3drsym46wz@vireshk-i7>
+In-Reply-To: <20250408055505.oked4a3drsym46wz@vireshk-i7>
+From: henry martin <bsdhenrymartin@gmail.com>
+Date: Tue, 8 Apr 2025 22:38:07 +0800
+X-Gm-Features: ATxdqUGy8OGeNNfaWbovLbK4n8MBpz3d2_OV8hx-iHgIR4LNXqu-6gTdwL3S9-4
+Message-ID: <CAEnQdOo8CUe5Xpdo=qkCtv-E9gs-BvxUAgVa1Hvptp-2iFX0_w@mail.gmail.com>
+Subject: Re: [PATCH v1] cpufreq: scmi: Fix null-ptr-deref in scmi_cpufreq_get_rate()
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: Sudeep Holla <sudeep.holla@arm.com>, cristian.marussi@arm.com, rafael@kernel.org, 
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 08, 2025 at 04:44:27PM +0800, Peng Fan (OSS) wrote:
-> From: Peng Fan <peng.fan@nxp.com>
-> 
-> Add Logical Machine Management(LMM) protocol which is intended for boot,
-> shutdown, and reset of other logical machines (LM). It is usually used to
-> allow one LM to manager another used as an offload or accelerator engine.
-> 
-> Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
-> ---
->  drivers/firmware/arm_scmi/vendors/imx/Kconfig      |  11 +
->  drivers/firmware/arm_scmi/vendors/imx/Makefile     |   1 +
->  drivers/firmware/arm_scmi/vendors/imx/imx-sm-lmm.c | 262 +++++++++++++++++++++
->  include/linux/scmi_imx_protocol.h                  |  32 +++
->  4 files changed, 306 insertions(+)
-> 
-> diff --git a/drivers/firmware/arm_scmi/vendors/imx/Kconfig b/drivers/firmware/arm_scmi/vendors/imx/Kconfig
-> index a01bf5e47301d2f93c9bfc7eebc77e083ea4ed75..1a936fc87d2350e2a21bccd45dfbeebfa3b90286 100644
-> --- a/drivers/firmware/arm_scmi/vendors/imx/Kconfig
-> +++ b/drivers/firmware/arm_scmi/vendors/imx/Kconfig
-> @@ -12,6 +12,17 @@ config IMX_SCMI_BBM_EXT
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called imx-sm-bbm.
->  
-> +config IMX_SCMI_LMM_EXT
-> +	tristate "i.MX SCMI LMM EXTENSION"
-> +	depends on ARM_SCMI_PROTOCOL || (COMPILE_TEST && OF)
-> +	default y if ARCH_MXC
-> +	help
-> +	  This enables i.MX System Logical Machine Protocol to
-> +	  manage Logical Machines boot, shutdown and etc.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called imx-sm-lmm.
-> +
+> How about `if (unlikely(!policy))` instead ?
+Agreed, unlikely() makes sense here since the NULL check is for an
+exceptional case.
+I'll update all relevant patches accordingly.
 
-Remind me again what happens if you have both the default and the
-extension modules enabled?
+> Henry, this change applies to all the patches you have sent. Also please =
+send
+> them as a single series, as they are related changes.
+Noted. I=E2=80=99ll consolidate the patches into a single series with a pro=
+per
+cover letter and
+resend them shortly.
 
-regards,
-dan carpenter
-
+Viresh Kumar <viresh.kumar@linaro.org> =E4=BA=8E2025=E5=B9=B44=E6=9C=888=E6=
+=97=A5=E5=91=A8=E4=BA=8C 13:55=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On 07-04-25, 12:30, Sudeep Holla wrote:
+> > On Sat, Apr 05, 2025 at 01:54:47PM +0800, Henry Martin wrote:
+> > > cpufreq_cpu_get_raw() can return NULL when the target CPU is not pres=
+ent
+> > > in the policy->cpus mask. scmi_cpufreq_get_rate() does not check for
+> > > this case, which results in a NULL pointer dereference.
+> > >
+> > > Add NULL check after cpufreq_cpu_get_raw() to prevent this issue.
+> > >
+> > > Fixes: 99d6bdf33877 ("cpufreq: add support for CPU DVFS based on SCMI=
+ message protocol")
+> > > Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
+> > > ---
+> > >  drivers/cpufreq/scmi-cpufreq.c | 10 ++++++++--
+> > >  1 file changed, 8 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/cpufreq/scmi-cpufreq.c b/drivers/cpufreq/scmi-cp=
+ufreq.c
+> > > index c310aeebc8f3..c735f39245bf 100644
+> > > --- a/drivers/cpufreq/scmi-cpufreq.c
+> > > +++ b/drivers/cpufreq/scmi-cpufreq.c
+> > > @@ -37,11 +37,17 @@ static struct cpufreq_driver scmi_cpufreq_driver;
+> > >
+> > >  static unsigned int scmi_cpufreq_get_rate(unsigned int cpu)
+> > >  {
+> > > -   struct cpufreq_policy *policy =3D cpufreq_cpu_get_raw(cpu);
+> > > -   struct scmi_data *priv =3D policy->driver_data;
+> > > +   struct cpufreq_policy *policy;
+> > > +   struct scmi_data *priv;
+> > >     unsigned long rate;
+> > >     int ret;
+> > >
+> > > +   policy =3D cpufreq_cpu_get_raw(cpu);
+> > > +   if (!policy)
+> >
+> > How about `if (unlikely(!policy))` instead ?
+>
+> Henry, this change applies to all the patches you have sent. Also please =
+send
+> them as a single series, as they are related changes.
+>
+> --
+> viresh
