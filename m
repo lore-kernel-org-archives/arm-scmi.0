@@ -1,123 +1,98 @@
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5B51EB194;
-	Tue,  8 Apr 2025 15:04:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB2C17C91;
+	Tue,  8 Apr 2025 19:23:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744124666; cv=none; b=smOkkuvSwcVpjXsqELiVO5B79R+ZtKSdX2pjK0ZgmwNjZMvjhredsWbojilLxfwnKVCQVwg+/a786ZG0Q6Az5G5WAwiy+a0rWAzUkwUurIX2gwN6qsQdCr1cltXjmmRHVOoUL6zcah9V5gkvyI99/xVWq3X5c4IKjs+qyMcwCZs=
+	t=1744140232; cv=none; b=gayLfNzEuOkL/Cl/s7uynY2mHCAUCgkhbCs1XVv6WriOMEr+rLDDwhmNDQwL4PN1GthevJBKpkDYw8fkB8pxmtsJoyOfwBxjGQ+wLnuHni4da+GTzL0sv0ISAvyegQULUyvHSro7ztVAMBO43Pe2vvDtPexfjPh01sgt8nqQbd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744124666; c=relaxed/simple;
-	bh=0idBfCTzKenTxIiSwgSu/KdenyNnfTy6Efd7dSG2ssA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=YO5rqUwwPAfNx/7IwFva8lsOM2WU2r96iZJ5+CEcyRPDaEoZxxR50n9Y623iAEgpSVbRcTM/i0dtXUYbWhivKK6UI3Ti70vCheDsOCVsonN7roT881lGJyJBzJ7UffktSM2fC5iVrjQ31n4xGk8W0tU/+8uK5vIlPtSBuz2gQBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kti8LqJJ; arc=none smtp.client-ip=209.85.210.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744140232; c=relaxed/simple;
+	bh=njXDunu8UU/gaBoTYCsC/ZawgbQ2Yst9LDw4Ej6ukIc=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=GlTTM4ItEoXktfXEFqY6+TBoCb8PVrmmzA0jqfdXl56lBcOYgde8QmwIlpKeCwql00LsFSRs0JsGsrsMqicYPkx2YgVDqEBC2b3PSMkMrOuOdBIo0s6WWHtZV43UQ1t0/fMQhZcoUq0h/Rj/jM5AixVJztVi5UzsFYnQIf8FHF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=poz33RYU; arc=none smtp.client-ip=217.72.192.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kti8LqJJ"
-Received: by mail-pf1-f195.google.com with SMTP id d2e1a72fcca58-7399838db7fso5134960b3a.0;
-        Tue, 08 Apr 2025 08:04:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744124663; x=1744729463; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hW0uMB23s6rTN+79K6wuOhxoVdGvng8abYobjgd2dY0=;
-        b=Kti8LqJJze+WRxQ1rmG31G9KAtsEOF2oSivBpKHgAsE8cnV16wdW1tw6QTyUkc4npZ
-         UN65CsEkICj6nR+s5l1XhYbx1CEgV9a3SsddDg1bEML6t63R3VcPQac2rehXVVuizGdQ
-         MBkMCpyFp/CJRKN+D0y1i/fS5yigH/NENkupU7+EtgTfVsnLR1J0bkkKowD1rDTPbvJk
-         2utHrp8+iju1Wq/3Nb9hCLq+lVnMD5yIY44NgTHnJ3ejSJUotvN0gAOLfYZ0gamX+wQ/
-         5Z2JyIKUdnJyF27x1V/hAMcaXhlG077nWme9TXYkKLtwYj5Dzhn+xuWDAqs9IyZM/Me1
-         R5Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744124663; x=1744729463;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hW0uMB23s6rTN+79K6wuOhxoVdGvng8abYobjgd2dY0=;
-        b=OwK/vTDCp5x1kFskCkQkZMt2IufC8yssXszTjuhslWFJ7gG1SNtcpJkKraIs3Wgq2g
-         oAUzn1/770WhfpjhRZBg9LcLLYYY0hIEUMCV3DdjGBmyLSVza6LhcVpS9jqr3zWJxtX7
-         TE4qw5cfBu/1fltqqM9hR/xHiQR0wU7zepif5IooR21gMHKgo6X6lN8B04U9gzT2RcTX
-         0/Zqkhg26eOvLgFgHebevpBq95U30jSvxCQAN6bwQdTn8q6ULokzMrRw+mwkib+1Btdv
-         PKgH94FFmivUWZNC+LY8iJPnC4fmaikuk8DvuiBtzh4kpjc2/eHTa0EkYs8OQ+I13nmG
-         cvVg==
-X-Forwarded-Encrypted: i=1; AJvYcCW/88P7nQzSZd7eAmRGIxUoM0JiKv6y8MK4uRKpqSQcK0d+JUNnzEKY+kLtniqLq+en4KvlpiiYQxfu2JA=@vger.kernel.org, AJvYcCW7ZwFfrLCdE9mhSowBw4NFdSp8Vci6GlIhK+PLGxSNRUQG5BjuwusybuM+gPY+sl4P9tunuBsbDZ8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+UznuYE/FZwCkMnbWpIhwAeBC5RmGsnvAiQbJepYv0Moby2Qp
-	lZohrCSoeHOnYvGO2g/SvRY7gBVP1Z+cjNrNT4EuUxfmI07rlzuF
-X-Gm-Gg: ASbGnctl/X6bN/IIbiTchp2Oo6O753pdvVWAAx5ApNXkDzPQRdFc572Z0Q2FcZciCSJ
-	UGxAhT4RPK5Nlmuma9KfQLo5khQ7ubXu3SLRYJfWIoTQjK+j+mWM+9axFRVZXpl4rTsWRitgwn+
-	tfol3sox6B6CdZAK8O88YjcwKfgo5TSxJuRxPTT5Xl8/e4PSKxK4bWy2Dqmj4AgZP3FeNlXVj+r
-	IrV9ocb0c4A9X190zZZXrKMXqbn1JsEXWMS8Q//fczU0aZeBnsls18ALck1p+1Jioym9QTM7UMi
-	9YYSttmwll19KgPtp85Z9KwIukqNoA6Ou1FkhTzBL0IaGEHu8mOfLJ6RHkLkhaKH+zcFCZ45xFC
-	mwdzWhw==
-X-Google-Smtp-Source: AGHT+IFcrw32IadEZbTZ2yTefdbGLJ4deVn8ImGq3fcHBOxM9j/Ojp5mMqxmgwQ1EbK8z0e1SyOJQw==
-X-Received: by 2002:aa7:875a:0:b0:736:b3cb:5db with SMTP id d2e1a72fcca58-73b9d4019ddmr4916731b3a.11.1744124663010;
-        Tue, 08 Apr 2025 08:04:23 -0700 (PDT)
-Received: from henry.localdomain ([111.202.148.133])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-739d9ea097asm11068474b3a.90.2025.04.08.08.04.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 08:04:22 -0700 (PDT)
-From: Henry Martin <bsdhenrymartin@gmail.com>
-To: sudeep.holla@arm.com,
-	cristian.marussi@arm.com,
-	rafael@kernel.org,
-	viresh.kumar@linaro.org
-Cc: arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Henry Martin <bsdhenrymartin@gmail.com>
-Subject: [PATCH v2 2/2] cpufreq: scpi: Fix null-ptr-deref in scpi_cpufreq_get_rate()
-Date: Tue,  8 Apr 2025 23:03:54 +0800
-Message-Id: <20250408150354.104532-3-bsdhenrymartin@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250408150354.104532-1-bsdhenrymartin@gmail.com>
-References: <20250408150354.104532-1-bsdhenrymartin@gmail.com>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="poz33RYU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1744140216; x=1744745016; i=markus.elfring@web.de;
+	bh=ORupiyOALZSaNO8QGxFuqMgWPsdK6vWbY5xqB7+FD4g=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=poz33RYUkIlroB64JgZAmjwnKgWt6wwNTRNFJm/r46hUuPziJrW/pAIB+xY9fxw5
+	 EGrGjdwbC8PGcBpGKkTmQf864VfCa5bWzJPC4tSGz24u7dzHvH7d5r412AcLgM43Q
+	 MuM2aSUY/wozg0wFojwvcCOk7QvnV9b7KbaGpgqfbi727b8FxC9gypZof24FqL0gA
+	 EwAp2vDqUwaSGmF+Fb1uR+1iYWqIf3yG6T2LSluJ3YGyJ0QOcOTwjn2xuzk+SMTiU
+	 g5/RaniUPh+SXeN0//TWDi69ksMxlv+v+1/HlXucjKf+l6qoFmiv1Os9bo/qhWv32
+	 0XhOKPGbHulo+JuWLQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.70.41]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MQgl2-1tfaow2U3q-00KORa; Tue, 08
+ Apr 2025 21:23:36 +0200
+Message-ID: <0558b7f7-8c69-4664-afc6-bae4fdc6f071@web.de>
+Date: Tue, 8 Apr 2025 21:23:35 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: Henry Martin <bsdhenrymartin@gmail.com>, arm-scmi@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Sudeep Holla
+ <sudeep.holla@arm.com>, Viresh Kumar <viresh.kumar@linaro.org>
+References: <20250408150354.104532-1-bsdhenrymartin@gmail.com>
+Subject: Re: [PATCH v2 0/2] cpufreq: scmi/scpi: Fix NULL pointer dereference
+ in get_rate()
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250408150354.104532-1-bsdhenrymartin@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:u6uFVW+ak15/uxBv+EyE+kavakv+ju2yYmazNaogRVKiCXjwIcx
+ EcVxW4Pj6WLQTxQtX2FFlS5b3rD7YK2TjwSuySlbDy+ov3KNlK+SuK4sLTBGj97qjo3pxmV
+ /ZSIBQZxHOODq/I5u/6evY1BS4JJ1tcYBhllVw8j9t/Z4Jc20RL9G2K+Pz3CY7eg0YriQMC
+ tX9xZnoZY1jQ1tG89hYbQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:+CIQkeTljWY=;Pnys6I1QlDPG6ZGflL/7mdQAKbH
+ v3OY17uA/UeJkYP3ncV2ZDzO84Q8w/J1VuTtc5jKnzoFMFeSFpTtHd4Ll18QOR0Xf0dXDSwNY
+ UzCbc5C7/frB9IQ2LIua/tBDMi7ilUjEDuftfoAuul2vPsbPWmhUdfLT4Z96lnBsOdxuvi1qy
+ QxEBKVKxp6EZ7tcHX7IQuk7wFUCwOIFTkeKEx9tIjCn+kiHiOqI8Y5mGB0ztJauExjG3HpL/m
+ AplLRoF1jADfOKFFAgztzXLgjLMPVbcpi5L+c26No5QLfC+xLD5sk8iR0fP3Oy1jsmzQ+Pt5T
+ 7TdS8NCajChL6j8l0fow+d1swEwZrVE/I7TxP+spKlM9+GLdOeQZgpR2F7L9RIgDVESO8Pfgn
+ TEvJEWreon/3sc5D+5dTT3cSWc9jEVn0/OmKGt1MizxbB4ryt4DlYr/wPkcgM1ItS3ElaNxph
+ mhXwjeJdEbHRpKZs3BjrUNPbdbPMeatpvmAvgVZfP+vql97bFB2Kjb3WALotk3yoBQGAlYo0+
+ o5b/l/4h4lLrH89TtH4pxx2xGYssu3jyClSAy43kh43/dph/J0N2Xmgo29rUrggEWFhmFwRIQ
+ eiZW6HmR7yhzOYPi1f0L6+lrdtJEDwNdcBPu5R7ZBNPQorYb+xgPT3pyVcm5xNcjkWKSF+kFJ
+ l26hawZGHLFVNGIAdbYniFrKhvGB4qV4mkRvnQvkSz17wh+7jSZTc3TmwkByPALErfQheLp7P
+ RuBxgEhWpKclzR0cTqfaYaO0Nr7yRBpnDpd/G3UQcgfmxKiosExGZkWAoGlBIE2BQK20kzH4H
+ m5/TX+7B4ktlJgUYRTqsd69YGiRJ15/9ErR19RFUTHsV1vfZlnA7HqeWHnt7RzjBb/bDwGf0M
+ H9W/yEYHSN+LlOAGgluks6XzGa1iKs6d0krfdQkKIQitFmuCLCXID+NbROt20vZfBE2240pxX
+ yHHJ69xcPMbarOfH+egFF6t2ZP1LQ+DSSyVWaqjlcQTdV2Hxj4Fw3G5HBGUdE3Kd4vZr9ZOlh
+ 31weAWMY/XHAyex63z8H4hpCRqNwdo6rkaXxzBd/ImksS7R9XBLwbTPA0lQl+GVOcixDP0srj
+ WG1CBDo7dKsJCFATHG+FS+pPm3FH9y0yhdYWhDrM6aiWwAkl0/afpzKn6xckDCK7nzxXSsGR2
+ 1tXH8eTrnNqM/jxzOlzUry2zXxOBStY3ml+BwVFGlW+IFoI/B98JYx0kSCegc6w9ZHlqAbvPZ
+ APbsHyfFki52ilFk6LyHZOx3BxnG9Izj8EqX4CoSKFnYJ2cJ47CJ2HwGbPEO1teVElj3cm4Ia
+ nkmh7b7x7Z/aQrrFCViL+YF4td7OYARAVOQH2n5TUBEM1ZY2ARV/I4eErldUI1go7csqboh4J
+ X06Go6wmsMrgB5Kk0v6JNtzFUuDI8o7ylETHKozZHEl1FnvkM3N0IE7OGT3EirYWXfGBgzpHm
+ 7DLsdclVnCUXEpGgDK6iDCbabI6MUkBdRdwLg0Kf6FU8JFu0D9/k0XSPAnPjxqgbKQ6/b7A==
 
-cpufreq_cpu_get_raw() can return NULL when the target CPU is not present
-in the policy->cpus mask. scpi_cpufreq_get_rate() does not check for
-this case, which results in a NULL pointer dereference.
+> This series fixes potential NULL pointer dereferences in scmi_cpufreq_ge=
+t_rate()
+> and scpi_cpufreq_get_rate() when cpufreq_cpu_get_raw() returns NULL.
+>
+> Henry Martin (2):
+>   cpufreq: scmi: Fix null-ptr-deref in scmi_cpufreq_get_rate()
+>   cpufreq: scpi: Fix null-ptr-deref in scpi_cpufreq_get_rate()
 
-Fixes: 343a8d17fa8d ("cpufreq: scpi: remove arm_big_little dependency")
-Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
----
-V1 -> V2: Use `if (unlikely(!policy))` instead of `if (!policy)`
+Can any other summary phrase variants become more desirable accordingly?
 
- drivers/cpufreq/scpi-cpufreq.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/cpufreq/scpi-cpufreq.c b/drivers/cpufreq/scpi-cpufreq.c
-index 17cda84f00df..dcbb0ae7dd47 100644
---- a/drivers/cpufreq/scpi-cpufreq.c
-+++ b/drivers/cpufreq/scpi-cpufreq.c
-@@ -29,9 +29,16 @@ static struct scpi_ops *scpi_ops;
- 
- static unsigned int scpi_cpufreq_get_rate(unsigned int cpu)
- {
--	struct cpufreq_policy *policy = cpufreq_cpu_get_raw(cpu);
--	struct scpi_data *priv = policy->driver_data;
--	unsigned long rate = clk_get_rate(priv->clk);
-+	struct cpufreq_policy *policy;
-+	struct scpi_data *priv;
-+	unsigned long rate;
-+
-+	policy = cpufreq_cpu_get_raw(cpu);
-+	if (unlikely(!policy))
-+		return 0;
-+
-+	priv = policy->driver_data;
-+	rate = clk_get_rate(priv->clk);
- 
- 	return rate / 1000;
- }
--- 
-2.34.1
-
+Regards,
+Markus
