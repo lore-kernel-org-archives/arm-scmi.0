@@ -1,98 +1,89 @@
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB2C17C91;
-	Tue,  8 Apr 2025 19:23:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D199253343;
+	Tue,  8 Apr 2025 20:22:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744140232; cv=none; b=gayLfNzEuOkL/Cl/s7uynY2mHCAUCgkhbCs1XVv6WriOMEr+rLDDwhmNDQwL4PN1GthevJBKpkDYw8fkB8pxmtsJoyOfwBxjGQ+wLnuHni4da+GTzL0sv0ISAvyegQULUyvHSro7ztVAMBO43Pe2vvDtPexfjPh01sgt8nqQbd4=
+	t=1744143763; cv=none; b=VBLoZOBvly3lpyPUjsY2RtcZvb2m5X1bJRGxouXsk3eMCwVoo48AZlOSJT6QCAzm2C0GjQcPOBBPHGU29+R2QB7WKcAtn382vwql3cG3t5zullmD/sDwTHgLzKMBHp8bd+uQFYl5WiDpGgRIxTCghM1ON2LJRoxY5ztWL9sSifs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744140232; c=relaxed/simple;
-	bh=njXDunu8UU/gaBoTYCsC/ZawgbQ2Yst9LDw4Ej6ukIc=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=GlTTM4ItEoXktfXEFqY6+TBoCb8PVrmmzA0jqfdXl56lBcOYgde8QmwIlpKeCwql00LsFSRs0JsGsrsMqicYPkx2YgVDqEBC2b3PSMkMrOuOdBIo0s6WWHtZV43UQ1t0/fMQhZcoUq0h/Rj/jM5AixVJztVi5UzsFYnQIf8FHF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=poz33RYU; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1744143763; c=relaxed/simple;
+	bh=/2PhItbELP7eMh95bPxosKKzR83AiznaQ3sfxM2Oy2U=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=CmDQ3b74lB0/uE4EbsPX44E/CWQcYeFegzim6fAgt15pEMLdSy57JM2aNhDi6Y5D6lO03/9I9BzHwTnZ49SWQOWssEGbuiMADRypYCr4XAZeFUtMutop9Qck9r7HXjLHPw9ngBwCBTGHYfwyTXlxINCbWEjSYAm4iSJpK25hWCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MQ+A61jb; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="poz33RYU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1744140216; x=1744745016; i=markus.elfring@web.de;
-	bh=ORupiyOALZSaNO8QGxFuqMgWPsdK6vWbY5xqB7+FD4g=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=poz33RYUkIlroB64JgZAmjwnKgWt6wwNTRNFJm/r46hUuPziJrW/pAIB+xY9fxw5
-	 EGrGjdwbC8PGcBpGKkTmQf864VfCa5bWzJPC4tSGz24u7dzHvH7d5r412AcLgM43Q
-	 MuM2aSUY/wozg0wFojwvcCOk7QvnV9b7KbaGpgqfbi727b8FxC9gypZof24FqL0gA
-	 EwAp2vDqUwaSGmF+Fb1uR+1iYWqIf3yG6T2LSluJ3YGyJ0QOcOTwjn2xuzk+SMTiU
-	 g5/RaniUPh+SXeN0//TWDi69ksMxlv+v+1/HlXucjKf+l6qoFmiv1Os9bo/qhWv32
-	 0XhOKPGbHulo+JuWLQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.70.41]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MQgl2-1tfaow2U3q-00KORa; Tue, 08
- Apr 2025 21:23:36 +0200
-Message-ID: <0558b7f7-8c69-4664-afc6-bae4fdc6f071@web.de>
-Date: Tue, 8 Apr 2025 21:23:35 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MQ+A61jb"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-54993c68ba0so6837766e87.2;
+        Tue, 08 Apr 2025 13:22:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744143759; x=1744748559; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/2PhItbELP7eMh95bPxosKKzR83AiznaQ3sfxM2Oy2U=;
+        b=MQ+A61jbz/ju6NDWfrKJ1ZSUIYEoO4YaNbNUsbWIl1cXZ8e3MbI/1YNZ6R9KLkXY08
+         TDaskfx8AcCUcebWghVyV4/3Q5+ZodCU7fJMceaCZy2hKFQTx1vwOfbGnVprGaN2+dLT
+         tlF0LyQQMLrNavCooegOyZXyimMtT+z38lRUI3wiZuIodXO4mV5OMjbMif1hjzlnc04/
+         5Z+hxCUk5zEQaSCM5/4VmIq2N+jnhR14+diN88zlE2+Y1pHX/laURzej+QAYyC2ZIzVa
+         eQtL+Kxh55gjrakZ+WaeNUjXn3Y6JCN1+SByeG7kIXWKGtcusqBRVb/AqQE5B6Hg1BAi
+         E2pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744143759; x=1744748559;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=/2PhItbELP7eMh95bPxosKKzR83AiznaQ3sfxM2Oy2U=;
+        b=Dgnq0N1Yue2njLUZDmes8rcJQB+DqdRYHnDCnm2Gcpz4/6s0sp/SR8uqfC7JgW5Je2
+         oXCMMepVTfEJXqXd2JcuOWRazgKh/3EdvQPGuEajmYPrByjCCj0Pap2CR7U1e+IPRRy1
+         KhVBFB1CKi2YjmURLizj9TcFpq08GS70u7GZs/8mTMH0+B0JXo45xAL45Y4srh2q26Dg
+         Gdy9e+sEWnMLEn4pX+OCm/aj7HONxzQv9pWzbkydLS0h4UCnMmr//emkYBWLn7AISfMM
+         0dn042E6fCH26qGo6zFp91qKKaf87v7rVPAz4B6yurWxakKULTy2krSL63um5DUusXoo
+         DjQg==
+X-Forwarded-Encrypted: i=1; AJvYcCUApHfFgF/EeBwR7sYnTc3z9j0cEcqaCimjQObTKEePSfd9ohBnbEVpcwWDoo3F2t5Mx8TC2Bb5qozrI7Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwljY5USoqUNW48ewQHdUIhLGeoZBuu0GH36fCoLZS3VWkVDiU9
+	BUC8AC7P4/s9C/YoIz+q0hzB84pnnFvmv4p00DjtdZavm1vdV3SN
+X-Gm-Gg: ASbGncvhnPvAVTwmJ2tDIHjq22HukheB4aIhwdMqZ0DeG8LBgDx7A0Pe9nK1K649niD
+	N7i0eLxA/zd2SZoIlXcqrZY1V6aKslJPNuIoz9dBfp87Vg4ZNl005WAyp+JziqogKWEPU3flHNN
+	m1Ve9iFCU11d6q9gYq/PIzpNsuZXXbiSxy0c2AFTGbtgirn7082RXQqOtpunulHNyZGF9RZ6RAL
+	SDf8PViXEjMdBA5/QCZoT9EvQjcbP9+n27t+n0+CFDv7XAewAZ5KW462vJaYnd1Ojp98OZY/ryU
+	t+tGCjz1x22Z4fnOENZ1tRFFy4IKtpL1pk46WNhgb3ktmjLrsZn6Jui3hnHh3Kk64/w6Kp1I
+X-Google-Smtp-Source: AGHT+IE+GtFsM+TEtdlTod1fEyMExFuepsJ5N5fnlnm4b5K91VEAvAY0T73f591ltRk0GgRe8mlXwg==
+X-Received: by 2002:a05:6512:3e1f:b0:545:2e5d:f3f3 with SMTP id 2adb3069b0e04-54c437b9ac5mr98397e87.46.1744143759275;
+        Tue, 08 Apr 2025 13:22:39 -0700 (PDT)
+Received: from localhost (5cfcd77c.dynamic.mv.ru. [92.252.215.124])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54c1e65ce3esm1596758e87.166.2025.04.08.13.22.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Apr 2025 13:22:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Henry Martin <bsdhenrymartin@gmail.com>, arm-scmi@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Cristian Marussi <cristian.marussi@arm.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Sudeep Holla
- <sudeep.holla@arm.com>, Viresh Kumar <viresh.kumar@linaro.org>
-References: <20250408150354.104532-1-bsdhenrymartin@gmail.com>
-Subject: Re: [PATCH v2 0/2] cpufreq: scmi/scpi: Fix NULL pointer dereference
- in get_rate()
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250408150354.104532-1-bsdhenrymartin@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:u6uFVW+ak15/uxBv+EyE+kavakv+ju2yYmazNaogRVKiCXjwIcx
- EcVxW4Pj6WLQTxQtX2FFlS5b3rD7YK2TjwSuySlbDy+ov3KNlK+SuK4sLTBGj97qjo3pxmV
- /ZSIBQZxHOODq/I5u/6evY1BS4JJ1tcYBhllVw8j9t/Z4Jc20RL9G2K+Pz3CY7eg0YriQMC
- tX9xZnoZY1jQ1tG89hYbQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:+CIQkeTljWY=;Pnys6I1QlDPG6ZGflL/7mdQAKbH
- v3OY17uA/UeJkYP3ncV2ZDzO84Q8w/J1VuTtc5jKnzoFMFeSFpTtHd4Ll18QOR0Xf0dXDSwNY
- UzCbc5C7/frB9IQ2LIua/tBDMi7ilUjEDuftfoAuul2vPsbPWmhUdfLT4Z96lnBsOdxuvi1qy
- QxEBKVKxp6EZ7tcHX7IQuk7wFUCwOIFTkeKEx9tIjCn+kiHiOqI8Y5mGB0ztJauExjG3HpL/m
- AplLRoF1jADfOKFFAgztzXLgjLMPVbcpi5L+c26No5QLfC+xLD5sk8iR0fP3Oy1jsmzQ+Pt5T
- 7TdS8NCajChL6j8l0fow+d1swEwZrVE/I7TxP+spKlM9+GLdOeQZgpR2F7L9RIgDVESO8Pfgn
- TEvJEWreon/3sc5D+5dTT3cSWc9jEVn0/OmKGt1MizxbB4ryt4DlYr/wPkcgM1ItS3ElaNxph
- mhXwjeJdEbHRpKZs3BjrUNPbdbPMeatpvmAvgVZfP+vql97bFB2Kjb3WALotk3yoBQGAlYo0+
- o5b/l/4h4lLrH89TtH4pxx2xGYssu3jyClSAy43kh43/dph/J0N2Xmgo29rUrggEWFhmFwRIQ
- eiZW6HmR7yhzOYPi1f0L6+lrdtJEDwNdcBPu5R7ZBNPQorYb+xgPT3pyVcm5xNcjkWKSF+kFJ
- l26hawZGHLFVNGIAdbYniFrKhvGB4qV4mkRvnQvkSz17wh+7jSZTc3TmwkByPALErfQheLp7P
- RuBxgEhWpKclzR0cTqfaYaO0Nr7yRBpnDpd/G3UQcgfmxKiosExGZkWAoGlBIE2BQK20kzH4H
- m5/TX+7B4ktlJgUYRTqsd69YGiRJ15/9ErR19RFUTHsV1vfZlnA7HqeWHnt7RzjBb/bDwGf0M
- H9W/yEYHSN+LlOAGgluks6XzGa1iKs6d0krfdQkKIQitFmuCLCXID+NbROt20vZfBE2240pxX
- yHHJ69xcPMbarOfH+egFF6t2ZP1LQ+DSSyVWaqjlcQTdV2Hxj4Fw3G5HBGUdE3Kd4vZr9ZOlh
- 31weAWMY/XHAyex63z8H4hpCRqNwdo6rkaXxzBd/ImksS7R9XBLwbTPA0lQl+GVOcixDP0srj
- WG1CBDo7dKsJCFATHG+FS+pPm3FH9y0yhdYWhDrM6aiWwAkl0/afpzKn6xckDCK7nzxXSsGR2
- 1tXH8eTrnNqM/jxzOlzUry2zXxOBStY3ml+BwVFGlW+IFoI/B98JYx0kSCegc6w9ZHlqAbvPZ
- APbsHyfFki52ilFk6LyHZOx3BxnG9Izj8EqX4CoSKFnYJ2cJ47CJ2HwGbPEO1teVElj3cm4Ia
- nkmh7b7x7Z/aQrrFCViL+YF4td7OYARAVOQH2n5TUBEM1ZY2ARV/I4eErldUI1go7csqboh4J
- X06Go6wmsMrgB5Kk0v6JNtzFUuDI8o7ylETHKozZHEl1FnvkM3N0IE7OGT3EirYWXfGBgzpHm
- 7DLsdclVnCUXEpGgDK6iDCbabI6MUkBdRdwLg0Kf6FU8JFu0D9/k0XSPAnPjxqgbKQ6/b7A==
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 08 Apr 2025 23:22:38 +0300
+Message-Id: <D91JD15NY3Y0.23E428W332D@gmail.com>
+Cc: <arm-scmi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, "Philipp Zabel"
+ <p.zabel@pengutronix.de>, "Peng Fan" <peng.fan@nxp.com>
+Subject: Re: [PATCH] firmware: arm_scmi: add timeout in
+ do_xfer_with_response()
+From: "Matthew Bystrin" <dev.mbstr@gmail.com>
+To: "Cristian Marussi" <cristian.marussi@arm.com>, "Sudeep Holla"
+ <sudeep.holla@arm.com>
+X-Mailer: aerc 0.18.2
+References: <20250402104254.149998-1-dev.mbstr@gmail.com>
+ <20250402-hidden-unyielding-carp-7ee32d@sudeepholla>
+ <Z-1gY8mQLznSg5Na@pluto> <D8X9JJGPGDNL.1OTKIJODRFKNN@gmail.com>
+In-Reply-To: <D8X9JJGPGDNL.1OTKIJODRFKNN@gmail.com>
 
-> This series fixes potential NULL pointer dereferences in scmi_cpufreq_ge=
-t_rate()
-> and scpi_cpufreq_get_rate() when cpufreq_cpu_get_raw() returns NULL.
->
-> Henry Martin (2):
->   cpufreq: scmi: Fix null-ptr-deref in scmi_cpufreq_get_rate()
->   cpufreq: scpi: Fix null-ptr-deref in scpi_cpufreq_get_rate()
+Sudeep, Cristian,
 
-Can any other summary phrase variants become more desirable accordingly?
+Gentle ping.
 
-Regards,
-Markus
+Best regards,
+Matthew
