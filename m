@@ -1,37 +1,38 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A73032638BE;
-	Tue,  8 Apr 2025 10:23:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02A1D268FCB;
+	Tue,  8 Apr 2025 10:24:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744107790; cv=none; b=HggIoW9LZdXOOuRocdMpHe8SqXJWmQ7Y2evaU5XQb9CsNtoA5hOD0uArj20ay6+RU9o7yRFDDB7RLBoy8kyhSYhzwXkwPzYIHo9ZTKBUz7mRde+EEOsMPg9EgnSIQBSlDtrhl0vc1QJkqcrNB5Pt0UUmORU92VpPzFsRApL43uk=
+	t=1744107854; cv=none; b=iRj+H7tT+gOEB6ZIY60OwotlxYiW1nSauyl74wKzw79YPvnTbDq4/kP+TwLqHkL2eI2THyDjG914jiypgcY1z4cD6vE1f5Y9/y5gXM99oCefXTjLOWZ3y4NxfEBoN+npAlxDeTeWWW1fcox5Hk7ir8t2pRGF/EQbtDuqT86vG2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744107790; c=relaxed/simple;
-	bh=UlAake58lNKR4VqIytCSnvRT5MZc+kUagi9rZVCeArs=;
+	s=arc-20240116; t=1744107854; c=relaxed/simple;
+	bh=gtWIzfgt/GXFjVQlntGWbVt80yuWJ2ncZZYmKlDInXA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rBx5DjU8+e/RqusDOaCMW8KlyQYVtVT76h9HTLDjmMCi5/Q6Pm/FbQjZkM6KKO0oasOejwbyx21FoyAsz2wm9NytSOIBqJlYKhJM8aVOYHR72yo5SI/NAwLt5wMqAzl3rVqsPMfxKJR33VrgmXfrCYEBRSh+KNqRXuTQ8v6OfIc=
+	 MIME-Version:Content-Type; b=BdijV15ldY/awC4OSOmn76UFEzZRE9yLJlmQ/yGdg7a6GxyVZ3RUPjrJoAdBErLKhPSQACSgblLbUxFSiOtO2ARX31H01qHUXDpI1appnqurwEfbmqISgShDjUJwxGNQ+lijzSPvpyBoSOn4oSiSQMN46rYZH1O8jMaJpswQE7Q=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BF6DE1688;
-	Tue,  8 Apr 2025 03:23:08 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3A4B61688;
+	Tue,  8 Apr 2025 03:24:13 -0700 (PDT)
 Received: from usa.arm.com (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 934C93F6A8;
-	Tue,  8 Apr 2025 03:23:06 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E03173F6A8;
+	Tue,  8 Apr 2025 03:24:10 -0700 (PDT)
 From: Sudeep Holla <sudeep.holla@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	arm-scmi@vger.kernel.org,
 	Cristian Marussi <cristian.marussi@arm.com>
 Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH] firmware: arm_scmi: Balance device refcount when destroying devices
-Date: Tue,  8 Apr 2025 11:23:03 +0100
-Message-Id: <174410775216.2544674.4482099310313665654.b4-ty@arm.com>
+	dan.carpenter@linaro.org,
+	Huangjie <huangjie1663@phytium.com.cn>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] firmware: arm_scmi: Fix timeout checks on polling path
+Date: Tue,  8 Apr 2025 11:24:06 +0100
+Message-Id: <174410781232.2545069.2779905512336783485.b4-ty@arm.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250306185447.2039336-1-cristian.marussi@arm.com>
-References: <20250306185447.2039336-1-cristian.marussi@arm.com>
+In-Reply-To: <20250310175800.1444293-1-cristian.marussi@arm.com>
+References: <20250310175800.1444293-1-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -41,22 +42,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 06 Mar 2025 18:54:47 +0000, Cristian Marussi wrote:
-> Using device_find_child() to lookup the proper SCMI device to destroy
-> causes an unbalance in device refcount, since device_find_child() calls an
-> implicit get_device(): this, in turns, inhibits the call of the provided
-> release methods upon devices destruction.
+On Mon, 10 Mar 2025 17:58:00 +0000, Cristian Marussi wrote:
+> Polling mode transactions wait for a reply busy-looping without holding a
+> spinlock, but currently the timeout checks are based only on elapsed time:
+> as a result we could hit a false positive whenever our busy-looping thread
+> is pre-empted and scheduled out for a time greater than the polling
+> timeout.
 > 
-> As a consequence, one of the structures that is not freed properly upon
-> destruction is the internal struct device_private dev->p populated by the
-> drivers subsystem core.
+> Change the checks at the end of the busy-loop to make sure that the polling
+> wasn't indeed successful or an out-of-order reply caused the polling to be
+> forcibly terminated.
 > 
 > [...]
 
 Applied to sudeep.holla/linux (for-next/scmi/fixes), thanks!
 
-[1/1] firmware: arm_scmi: Balance device refcount when destroying devices
-      https://git.kernel.org/sudeep.holla/c/9ca67840c0dd
+[1/1] firmware: arm_scmi: Fix timeout checks on polling path
+      https://git.kernel.org/sudeep.holla/c/c23c03bf1faa
 --
 Regards,
 Sudeep
