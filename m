@@ -1,109 +1,82 @@
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com [209.85.208.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2232725A2C7;
-	Wed,  9 Apr 2025 12:40:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.193
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61008218EA2;
+	Wed,  9 Apr 2025 13:21:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744202430; cv=none; b=a4ohYf/7F8gES6NkURHtOahobu+gEav1Tx2oQgfccRZURbkWwqjQ32ZYiN+1uMVn8vT+vjy6Vj6fMRUd3NSrqQRvr12sTPw4nX3I4AYEp+0f2kQJ+lu2mLJUU6ByzcYOSP2I8ltmA0DY/MroHqJ+3T5Y6b3iwQzQ70Xof0RrNrU=
+	t=1744204897; cv=none; b=fdk3l0fqpqusa32X1wY0X9ELQTQwi3bV1U2EjN0SH9LKPVvqOfip9cDAkEwrAqVSzFQiSX9hGwnx9SE/T4q36DkY7LdwU4Yp0SP9hoXsNzA1hOdpcKoJtwsBC60/IU9YgnVB0g5D1MOXS30QSluPuSham12nYKikLqQjOtO5PgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744202430; c=relaxed/simple;
-	bh=MgzTuHYI4UmC3fqcBItcn74v49a1rM9SvhzQvrF6Hss=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kDuUYVabTtBe1y4ZCMigpYnCbFQYVFnQh3M0YrSvalE5YqklQEfo3tmWC3SoN+msZXj3JVSDL23zppgEMGWu8ujar/hghxVq5+OApFgWiGiAWkx1V/kHbDtpzG4oi8nIY9/ixvkeDP4+7XyS86gUYFla0RE4PP68rIhQ7VI9Q2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ITZ7WTs3; arc=none smtp.client-ip=209.85.208.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ITZ7WTs3"
-Received: by mail-lj1-f193.google.com with SMTP id 38308e7fff4ca-30bfc8faef9so63153941fa.1;
-        Wed, 09 Apr 2025 05:40:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744202427; x=1744807227; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MgzTuHYI4UmC3fqcBItcn74v49a1rM9SvhzQvrF6Hss=;
-        b=ITZ7WTs3WNt/Ywh28L97Ulyvxb3RlYF7IJBD2VHs+4lCc/OjwR8wcBUEOhRhA5U8mS
-         LR+MxGDCtSxO5xKYJFQxsbzHu4uwklfnSYsLQUh1edS6LKsvdTQilYBWUx2wGHehblGv
-         Wph+HukaBJ6K8Nx2O45qt2b8U/VFkkyGQvpDfIVyuGMEaMv+RyzQhCBo/3G8V2RNtNwL
-         W0Wu7ays+mN/Fn0GwjNJVVRSN14zF5kuRoW8axfc9igzXSgq2kSuYO47vBObtTc//Y+E
-         uh7ol4MN9bG6F9DlkFqKxlzEe/xYSISlcvEcRWClkIXGeBvTCoIqWwjmZtw7mIdZkFf0
-         sheA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744202427; x=1744807227;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MgzTuHYI4UmC3fqcBItcn74v49a1rM9SvhzQvrF6Hss=;
-        b=N/3Os1GyAnhZ3OHKci5aUDuqcdW7rt0eZVtA6YbYePiZcyKbuoxaEMi3YcdWkmPKfJ
-         0GPs/pOz93RFd5psxD7AoQ1q0c+xsHyVk8ekGAhy1K1MSQ4rHVkoDJtEaBhqpN8HkwzY
-         Usq6fElHWe5z13acUONERIqWyBJWfM3ldxexpmnc08WBYY5Izx0Wbwb6Kbuuex/034+2
-         WTa58quO62nCr6g6lcQgLwz+iTyKRVIBSC8usC/w4JKn9pF8zL4D77TPj2yjG+twrpHN
-         Ac8jbHLj1rwljClk+Ce/78AlWLgM3Fz5Rl5JT7Q46mThDs+H4Iw5LLsI8XRzxNys4Xs1
-         EuQw==
-X-Forwarded-Encrypted: i=1; AJvYcCU0JH76iElIYIbT5k+OehIEt8j68IEMZrQ1OtFHqch5bpmALPYWHNlQX0BDqEA1FpLQPd9pSR/oipQ=@vger.kernel.org, AJvYcCWMrI3lprd7rHvjd6BZrG3/OeIdzrouk4FnsOL6BKlvvKp/ysWnlSl63tneU99eswsEuFLhBgCrcXi9CHlJ@vger.kernel.org, AJvYcCWPgt4RuikO6V4LMjw0C4GM21P6znzkk6KDTAG823IIrTNsD43clng420R9YMZ1MNYQW/YP/MexIA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1AcEu+KvvLQ2oBWXkEcU49Ok0pbak6zrtO3S1eb0Jtd06sOio
-	/VJ2uiPbjw2Meivb1i60haFZf6jAsX4i+rZ/dM34y105LlrBD8ivba59dOf3ATOh7Ee+b2aLsG4
-	eb+lVdvy/Zvvj8k4Z9tlc5uDB5+c=
-X-Gm-Gg: ASbGncvph8Pqb0LRWhLtUMsK1GVCh8ewKi04SOPkRVvnYjpnrtz5zz7C6HwhPuVSFmQ
-	Uo2cpwS28gQxqfshlRjJfMP9cStrx+NHDLJJikjfWO5dsmnWRbAXr6BRXj2SO5s32NlTBbG3y/a
-	67atejNvJDdi98wZ5wqTsmbw==
-X-Google-Smtp-Source: AGHT+IEaNKg3tEK+ftLM1o2sum0aaJx+lvdbNATu/ADIsB6bKVblLteROIO/hxkPHNChjpDjGBoqBy7PxCbTeETlzVM=
-X-Received: by 2002:a05:651c:2220:b0:30d:e104:a943 with SMTP id
- 38308e7fff4ca-30f4507af4cmr7485621fa.39.1744202426703; Wed, 09 Apr 2025
- 05:40:26 -0700 (PDT)
+	s=arc-20240116; t=1744204897; c=relaxed/simple;
+	bh=zr4G9PuRlvn1Iebs/Po3WpTXgWWeStxGqrwJOl40BRI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SFPh46Y77s4uIcuTrQgtGLGDT6k2zb1BOsX+6nyy/uSPvsPwSU5dFIkKOi1h46Ilxe9sCDQpleUUu4cffr91p8kqVhAFn2iLlDT8JErwfApwyvL5ShSWZiCqmjz09p1Q/DYuoj/QrUtC82TaiyJuEzex7LGSN1X4jdw/7DgC7qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1541B15A1;
+	Wed,  9 Apr 2025 06:21:35 -0700 (PDT)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DCFAE3F694;
+	Wed,  9 Apr 2025 06:21:32 -0700 (PDT)
+Date: Wed, 9 Apr 2025 14:21:30 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Henry Martin <bsdhenrymartin@gmail.com>, arm-scmi@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>
+Subject: Re: [v2 0/2] cpufreq: scmi/scpi: Fix NULL pointer dereference in
+ get_rate()
+Message-ID: <20250409-glistening-hasty-ape-c9c7e9@sudeepholla>
+References: <20250408150354.104532-1-bsdhenrymartin@gmail.com>
+ <0558b7f7-8c69-4664-afc6-bae4fdc6f071@web.de>
+ <20250409-merry-gay-lemur-8288cf@sudeepholla>
+ <52aa52a5-7081-41ee-872e-f1728c06daf1@web.de>
+ <Z_Zhp38o9KiicPVw@pluto>
+ <3f5662dc-7547-4585-a396-4546fa98d34f@web.de>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250408150354.104532-1-bsdhenrymartin@gmail.com> <20250409-manipulative-tall-alligator-5e6c4a@sudeepholla>
-In-Reply-To: <20250409-manipulative-tall-alligator-5e6c4a@sudeepholla>
-From: henry martin <bsdhenrymartin@gmail.com>
-Date: Wed, 9 Apr 2025 20:40:15 +0800
-X-Gm-Features: ATxdqUFPmZ6qtNKORMOownapcwDPbW_QqjjVvOf8Je_dGx5LIfMAlL8dMmVUm2A
-Message-ID: <CAEnQdOpS8xETvQE-TuyffDXCcNDa7jNCefpjR2MNX18xAx-WOQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] cpufreq: scmi/scpi: Fix NULL pointer dereference
- in get_rate()
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: cristian.marussi@arm.com, rafael@kernel.org, viresh.kumar@linaro.org, 
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3f5662dc-7547-4585-a396-4546fa98d34f@web.de>
 
-> I think unlikely is needed even in this patch[1] and thats what Viresh
-> meant when he mention all similar changes under one series and consistent
-> change.
-Thanks for reviewing. I'll send v2 of patch[1] soon.
-
-Sudeep Holla <sudeep.holla@arm.com> =E4=BA=8E2025=E5=B9=B44=E6=9C=889=E6=97=
-=A5=E5=91=A8=E4=B8=89 19:30=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Tue, Apr 08, 2025 at 11:03:52PM +0800, Henry Martin wrote:
-> > This series fixes potential NULL pointer dereferences in scmi_cpufreq_g=
-et_rate()
-> > and scpi_cpufreq_get_rate() when cpufreq_cpu_get_raw() returns NULL.
+On Wed, Apr 09, 2025 at 02:25:52PM +0200, Markus Elfring wrote:
+> >>>> Can any other summary phrase variants become more desirable accordingly?
 > >
->
-> Acked-by: Sudeep Holla <sudeep.holla@arm.com>
->
-> I think unlikely is needed even in this patch[1] and thats what Viresh
-> meant when he mention all similar changes under one series and consistent
-> change.
->
-> Also I just happened to notice similar patches posted while ago[2][3].
-> Not sure how to handle the situation though.
->
-> --
-> Regards,
-> Sudeep
->
-> [1] https://lore.kernel.org/all/20250405061927.75485-1-bsdhenrymartin@gma=
-il.com/
-> [2] https://lore.kernel.org/all/20241230093159.258813-1-hanchunchao@inspu=
-r.com
-> [3] https://lore.kernel.org/all/20241230090137.243825-1-hanchunchao@inspu=
-r.com
+> > I agree with Sudeep, the above sentence is completely incomprehensible
+> > to me
+> 
+> Can any suggestions gain acceptance also for better summary phrases?
+> 
+> 
+> 
+> >>> This is meaningless, sorry can't parse. Ignoring it as others in the
+> >>> community are doing already.
+> >> Do you care if the term “null pointer dereference” would be used in consistent ways?
+> >
+> > ...this is more comprehensible,
+> 
+> Thanks for another bit of constructive information.
+> 
+> 
+> >                                 but again I cannot grasp what's yor advice
+> > specifically on this commit message.
+> May the usage of abbreviations be reconsidered once more also for such messages
+> (in presented update steps)?
+> 
+
+Still can't understand you. Sorry for that. Alternatively, you can do what
+I sometimes do: just write the whole commit log as you would expect and see
+if that helps. I am sure that helps, so please do that.
+
+-- 
+Regards,
+Sudeep
