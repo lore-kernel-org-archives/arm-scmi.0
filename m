@@ -1,107 +1,94 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6771615ECD7;
-	Wed,  9 Apr 2025 14:24:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C92C1EB190
+	for <arm-scmi@vger.kernel.org>; Thu, 10 Apr 2025 04:40:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744208662; cv=none; b=jBvddh6x0s9OUrzOu3vlovcM/3A6mT/sNsiA5KUQhm8XJZTOKZb1mZCc+TQBavEjL6qyB4i15Ze8/c5s74CixEQXm+jCaUortoi9fPi2soHP7DSS1NuT5BvreUyN5p+F+iOVSAAqSsRfn6y0vPBcWDDlaHigD25nHtUm38WN0Uc=
+	t=1744260033; cv=none; b=p+TmjQksWRq0X1ULCHu4o5MM7ekd97pDXYX+LY6C/eazXS86jKFKJfhBoF1c4Zd3wj5YQHThm3YpCtIyWgQVhkV6/xLl2JdV2yRuDFxPXWDtobaxd9ea411IpF4asx7iZbtdW+CqSrqLvNf4Y3ZjSk0oBFdBRlooWfkxyGJcxro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744208662; c=relaxed/simple;
-	bh=FEX86ieQtTjcsMrvm61w0FN/i4G3RKlhYgTWDNp/5kQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XqogzRjx++XaZINgQBegsUenbIVIBDGJU0PA0HhNKV/SsktlyRG1zNVjLD7GLqJlXqQIl0dCPvOagJBwo5TWBnqbpKs3NbrV8nQP8Cf3h+8LZU2SZvCsCnmQdraeS0BWRyMBupLHjk+R0Da9aHPxo4LcEzWDhLhx7w8GEkjLKVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=olLEdyb9; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1744260033; c=relaxed/simple;
+	bh=sWxyNmIBqTA+5eg4r6AJzmQjZ1/kjCXLuDHCQiD2z9s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CVnuugyjU6/r5TueDQllyUqaU4g0uV2TATb5H6MhClQaxDDqOt3hKkDPEmEeSeNW9JSHAXMA2Wh5MM+U0k3gg/TkEZdNjF1Pp23IV1+5seBLStUlLeKGn+R3ZIHJo5UapRJ1KoTH73w7fxO/fF49ee25hkMBZAyDXAv7T3pjtqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EkX5hOhl; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="olLEdyb9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1744208642; x=1744813442; i=markus.elfring@web.de;
-	bh=FEX86ieQtTjcsMrvm61w0FN/i4G3RKlhYgTWDNp/5kQ=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=olLEdyb9QhIEe2b+MMOQ4sF0MMbx/vSk6E0kv0p/w8KYLIRB+hh10n9pgxgXrCCW
-	 4L2MKYie4uGqRcHAIM/ZQhpAXAGJCcdO5mDjcGX3usmqxxv7m7mBXGg+NVwNBo5Zh
-	 s+eD8sa/OWxwPimDUTb/2x5kJyoQGrquMaX7pKmYypVYq/JlFkVo36NlEfIQG3aLA
-	 KzdzYdd8cVLBpnUn2T/gxI8ltQ+++AQjaRsJhJt0SM7CVDOs0PQHMyYU8J2t7UJ0q
-	 RZJLPe8mEIQHZnKI/PXfDCKSsjqx/aBeE/jzvSi+AhBKxtWBqEJbFgNY+BUr30k5N
-	 QHwsjl9lDp0HzE+KBA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.70.27]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MVrft-1tbP7f0J4X-00MPqE; Wed, 09
- Apr 2025 16:24:02 +0200
-Message-ID: <daf7934a-17f7-4e41-ba00-cec155437c7e@web.de>
-Date: Wed, 9 Apr 2025 16:24:01 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EkX5hOhl"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-736ab1c43c4so345344b3a.1
+        for <arm-scmi@vger.kernel.org>; Wed, 09 Apr 2025 21:40:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744260031; x=1744864831; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rG3CCHNXzkVc+H0+6PfQ3HiqfTyNzLew5Fjjk46m/4o=;
+        b=EkX5hOhlLGIODHxEPIUL5xlxnVzDher1kXi333crloEF1s+8//P3ZLRWmjKP7Kx0u4
+         wbLe6zwkFWngTIkobX6Kr/wkx592j5lJWjoyH5JcBHN3dN+QlV3VuPzvtZEY/qV7dPGB
+         pB6cUcYFYjQxXQ3OzLvIuOMrPZCeOJtDUQkgAw3TTqF02DT9cP9mOtYZFhJsV2g/U+9J
+         1HLnC2J4X8YNIa3OS8uQL5AxEEd2niLeVLo2qbLxYt8readWsoqwFZtquxYnnrwSVPat
+         CmLiNPbfiRkHUpqeuEidKGJkQPft5QfHpI4x2YUJPVlTVOLmo2SLunSFVxKsXxQYae90
+         9vsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744260031; x=1744864831;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rG3CCHNXzkVc+H0+6PfQ3HiqfTyNzLew5Fjjk46m/4o=;
+        b=qqSBmzOFnElaiydq8oK6LXZf96i7cQzDcFy+noDKv/62RtETYu1KHXQZpZhP3sVi19
+         yIszcH5mV7P75SYUwsXkgN42TzJEdZuumF5/cCNd4W+hbixgm1Mvxj3C3/grC0fnikIA
+         rHfCSdqng2nyLwN9KcFYseDdNZwMty4ECZm96JOmS88x9Hr4C82iKsXOWyM8L5bCT+if
+         CpTuPfqjScy/DZNoYxA0F/OxEFsKWh5tDzcGkPGscBiAmpEwcANYZ/gtOipLMyiN0NvB
+         NsJ6jVjQnGnth/cL8lBYXYHXAK6pbSQ6aWnPbGGNNhv2Vr1BAlrkHpJVUiqdeXro8a/F
+         nMhg==
+X-Forwarded-Encrypted: i=1; AJvYcCWPFqYFax6UmhzUSpF67A3B9Oj5EGrvnaEiQl+dSsrTEq3viroMzZsUmurjuV5eGX9WJ+kuBA2Ctg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/noNTiQouOr5GRr1aVAzl2t/6uFBq1RpHVZZdfW5wvUGVCHiK
+	J+azqcfVmF+lVUzX1h4nevrqC9X+jxW8rh+gitrD0mmcpt/kpROpgT78IxT06Qo=
+X-Gm-Gg: ASbGnctU6+ac1/0l03R/2e8sHDPAM6jsWAq/Iac2ahkKLptUAG9y8Oa4W9q1Cst9bHs
+	kXWCezfaxNM0UdMPsbxGlZwf6NInWoqKxwXs40MTbtsWidBZByowhmG08b9IabW9eDOqBspQduR
+	PFDeGst5EFkgzTcSwMAl/7lrbkAvGNsA1k3WWn00/Y+t7cXfFm1MLVEiZJS47AcIA/mmIySQzWD
+	ux7mHmftMIi3F7w/XVqGYX5Pp32u2S5eoDoaFq+BOl4VUKC0hle1NCLjIF8/cfchSW5pvcyQ250
+	JS9+lZxy+Vgdn0jUXq+sVGpKSIdf0ymuvs5q6rZSTA==
+X-Google-Smtp-Source: AGHT+IFgRbLrUZ9NDazqU3l/f+bQGBqmoIwoUvJFi0i9jATU+nvyQ6g9ESyfUs7smCpWRcGzZPw3Yg==
+X-Received: by 2002:a05:6a00:178d:b0:736:a638:7f9e with SMTP id d2e1a72fcca58-73bbee5477cmr2498194b3a.8.1744260031291;
+        Wed, 09 Apr 2025 21:40:31 -0700 (PDT)
+Received: from localhost ([122.172.83.32])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bb1e694efsm2272421b3a.164.2025.04.09.21.40.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Apr 2025 21:40:30 -0700 (PDT)
+Date: Thu, 10 Apr 2025 10:10:28 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Henry Martin <bsdhenrymartin@gmail.com>
+Cc: sudeep.holla@arm.com, cristian.marussi@arm.com, rafael@kernel.org,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] cpufreq: scmi/scpi: Fix NULL pointer dereference
+ in get_rate()
+Message-ID: <20250410044028.ancslars65llmgck@vireshk-i7>
+References: <20250408150354.104532-1-bsdhenrymartin@gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v2 0/2] cpufreq: scmi/scpi: Fix NULL pointer dereference in
- get_rate()
-To: Sudeep Holla <sudeep.holla@arm.com>,
- Cristian Marussi <cristian.marussi@arm.com>,
- Henry Martin <bsdhenrymartin@gmail.com>, arm-scmi@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc: LKML <linux-kernel@vger.kernel.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>
-References: <20250408150354.104532-1-bsdhenrymartin@gmail.com>
- <0558b7f7-8c69-4664-afc6-bae4fdc6f071@web.de>
- <20250409-merry-gay-lemur-8288cf@sudeepholla>
- <52aa52a5-7081-41ee-872e-f1728c06daf1@web.de> <Z_Zhp38o9KiicPVw@pluto>
- <3f5662dc-7547-4585-a396-4546fa98d34f@web.de>
- <20250409-glistening-hasty-ape-c9c7e9@sudeepholla>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250409-glistening-hasty-ape-c9c7e9@sudeepholla>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:t5v7mMZJZZsS+n267hBMyKvP4/+RVlchh+BOFxAknfqwRji+4RW
- GJJCwak089+mygl9TaQLJxO9SecKQ83EoLnNIHTGpv9rSZpYMCue7oc0vULqJ9F+ieswSng
- f+7k0YST3xTps3fs4RFvL63F7eSU9mXjPNa/XvLH4V1/ZscD4ROaJeAiar6rNCu9Yr24NLs
- UOVKQTdttGjcIsLTP0rkA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:HOIHOb3bGZ4=;1rP3BcuxMDYjjaUCQBgbe3i9IxE
- wM4gO39oEm9HdYKzPTnx3fUD9f3EKCGO7sUMwuU7Qp+WSJetes3zhWBpXv9lbLbcU/fjOXQ0D
- yiGMi/1DeSgyjxJdS9kcjrLdpj1DsevuYXD9rSV83BjV69c1952DNdJgyvKeNnJsQ2A9F1Qi/
- RijB94SnsfaFiJPj6piqdgOxlLkMRjAc3RcqiuHel4fALDVeC9Lt2DR8qBzsvUllU6VlLTUif
- w/g3L8YfTIcrQbWoWv89Hxj1d2mDeOmCYYMoghgEJEZ4ZSaG8QSnH9solSeS4QMy1E7XgLjBC
- 2w14jmra2DMHyD9BMR/pOKHtaZltpQQUcoB4MMur2Pt/tVvXSoIpfb3n1t1Jd7CaeS10qwsRA
- XH6hEv+5gDAIHLk9dJik7AKsXUUs/c3c9iXrgCel+T/pT62ibsSrAEPfW7VrwRQIhDiLviIaT
- xRqLv3I+ek/Dpk5E9GtQttd6SYefM+e8pCGvh/UL9zBPgKpNr0yUnSe9lWEFrh+PToa45egSw
- aEzv8F3nnexauzHHt2Y3fCrodKO8NFpP7UAEzCmbOVuLk9fWwwaVR6okh8PnuFKYxnpgjWPP5
- ccLUE8WA+K0qHr1OJ3NL7FIe9XpQ5IIahARNb8o3UcAYjqtHB5h72U/EHmiSAfl1U8GfcotKt
- VnYT9QQ74TVYlong1Pgw9fHZg0jFWygUqCbCPTvjk9Mai9/svhdflEmvM5J+ggDIUS2zDrhkY
- T8ochudKdXJ1rzDV+d3GF2q3gGrm5LiaxlSuzxnQ4+MrSULS3m1jyUIbe84JtOFFu3nhvGFO4
- PhGuATu2NExKNmbp5YBVuWrwy2EjWYMGIu83bfvnG/js933lPfGnn/BpK3MOIjSqqqw97WTWc
- 0VdDbGGkYBQdgfmcdqermzaVwCnl3pG5z9s3nI+wA+afG07MmsnIM81P6Tkeo77t3T1+8mWGf
- wE91b6jim3eE0/zfs7SzG1GLU/E3PupDO4VJFnvGOQ5IFTXmjtB/YB4blaJw3FgGHM9zS8H8q
- qLQKhltSWHqsAbTUNUpFLVOXL9JMTWE77xpcdHBI2krJDv+iEe8NH51cUJIl3PBwhFMg8itkN
- H9veGeDqDZWkytci/7eq7xeI7jyN9i6OMDRy/gukxF713zHW/UV/d5EQMRMykJ0LW6Zc7UI9X
- ap6naO/L6B5MXmzTxV6w66dn0c8dccsgA5UMtTeeEDlFCBlrG0uBc271sPwFW/n1iCt4FLQwT
- 3ltqpcxa7Ou8rx+TfUHcjZ03IjtP+AKlJbScxWRLEZDNL92XlJGYM+tkO/aylCmMuazNTxQQ2
- 6ha2SjasrUxa1eZ6UgBoATbpyzL88CryofWpBNPO8Ee9O6/q8i5wU20Zrhe4fcsmL1wezrIYw
- ifCsR77pR6BhHYL6bQbk2nA8zq+9/DocHITIfp3lTDgKKFvlQCn5UaQkHGySXiwarQSl3Kyqt
- 3weslyYFLRKXYMcHcwNTIJtPHFoMcLT+bBBPvhTUftCmEjUruqQRAldHrebKfqBwpimqB0KY5
- JzaegFLNIz5sitxTED8=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250408150354.104532-1-bsdhenrymartin@gmail.com>
 
->> May the usage of abbreviations be reconsidered once more also for such =
-messages
->> (in presented update steps)?
->
-> Still can't understand you. Sorry for that. =E2=80=A6
+On 08-04-25, 23:03, Henry Martin wrote:
+> This series fixes potential NULL pointer dereferences in scmi_cpufreq_get_rate()
+> and scpi_cpufreq_get_rate() when cpufreq_cpu_get_raw() returns NULL.
+> 
+> Henry Martin (2):
+>   cpufreq: scmi: Fix null-ptr-deref in scmi_cpufreq_get_rate()
+>   cpufreq: scpi: Fix null-ptr-deref in scpi_cpufreq_get_rate()
+> 
+>  drivers/cpufreq/scmi-cpufreq.c | 10 ++++++++--
+>  drivers/cpufreq/scpi-cpufreq.c | 13 ++++++++++---
+>  2 files changed, 18 insertions(+), 5 deletions(-)
 
-Will any communication challenges need further clarifications also accordi=
-ng to
-wordings like the following?
-* null-ptr-deref
-* null pointer dereference
+Applied. Thanks.
 
-Regards,
-Markus
+-- 
+viresh
