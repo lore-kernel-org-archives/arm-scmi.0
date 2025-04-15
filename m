@@ -1,92 +1,163 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8735027F749;
-	Tue, 15 Apr 2025 14:48:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4879429E05C;
+	Tue, 15 Apr 2025 16:45:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744728505; cv=none; b=DVKuPnPfV6e16PhOns0wLdA2QpQPY9xAVhkHF2HxsBbcf5mticJLTdeLzIrGD6AygsCGKdmatsYPxu2dTR8qX5PE/0YaacVcTu5+SJ8bBzstrki7vAxl/SKvcrlPso3gZWjUJiJ1Ubi9LJjKPby52y/l6YWwMvRgje329302YIs=
+	t=1744735512; cv=none; b=UlKX7b9WcfrvB4RZHzaF7j+i1HRstwki+8IO9FpI0B/YhLZyopOw44iF4nEeGsKv1fqwS1tzzqdTMD/urn16HoZahKyoYyx1VG8WKivco/0ayBsWe6f7djKveQNci4+0GsrdEUPgYVqa9jcrBPCmKkb1nJpgIiOXbcsXRolv8BA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744728505; c=relaxed/simple;
-	bh=dL3GBIFDMlroIuYc/uiPg97dQ44gPEpRL5p9zMC4w/A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sTTTPm7bW5gy0yXG7TZVLeva8TMrKVen7ERsCCRCXcwwZxuBpgGHJsdAYtYeKAWgaF5BDz60K3/nfMG/XPh8HKZhLqPuvZb0qJ6GKZhLp5JGabnQyU4IxRRDBkYgJvhP7k1aSaD57vnf6icZKjiBfTTgGRzsfMQDbWdf8RojaHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0DB9C15A1;
-	Tue, 15 Apr 2025 07:48:21 -0700 (PDT)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0F45B3F694;
-	Tue, 15 Apr 2025 07:48:19 -0700 (PDT)
-Date: Tue, 15 Apr 2025 15:48:17 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
+	s=arc-20240116; t=1744735512; c=relaxed/simple;
+	bh=VOnDxQaAKRWw2IKlU/+VitLZInyTZ7+P1ECUBgtIElI=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RZuEsRRD1mzZma9kYWuXXOnGDEqO3FKlx5Ki2NklR7oO9dg/5L0fnET8CKE09fOQOcaQvPE65gbo+LkvM6qsX6PSlyJqDThgziMwdxz4qKiBG7Xcbt1KCAZbB4NFam1hlWR4Q9ThiSfw9Y6Jm6VsMaed0sh5Ol55tNw4JJon9MQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Q6oA97FC; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Q6oA97FC"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53F8tCtH025071;
+	Tue, 15 Apr 2025 16:44:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=+kDB+MDxRVThD8Eyv10zNktc
+	2R/pYfeT2l4xLH5sq0c=; b=Q6oA97FCcAITogJh02z4K9O3Oh77YbOdAt0jViLC
+	GsRzb7YcHmSMJT7flsasQeNge24zxRQqa0esofn4G9vjwRyv6tikvC4UpQDKgp6W
+	I2fmDiAq2tI8tQRoOn1ZNYa/yc1a+8g052Rq90KUrbwSEGsjliOjIEaafTmL/aLz
+	pk2B12DJ9eVvPdoiYKrGixaBkDufi2YVPHNoFWggFo2uQET6Bf3UF/49lDRNmIH7
+	uQ3fLzSAiSCy8f71mE2Ig7LnHgrXcxyqRFrGom7wrPW6XxZ3kDbaknGZ9wgtFbbc
+	rizWfVdhmIDePT6lwrFM/TOT7G4j5tk0ZZ4gmT9afd1F3g==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45yg8wgu3x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Apr 2025 16:44:57 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53FGiuiK019612
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Apr 2025 16:44:56 GMT
+Received: from hu-mdtipton-lv.qualcomm.com (10.49.16.6) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 15 Apr 2025 09:44:56 -0700
+Date: Tue, 15 Apr 2025 09:44:55 -0700
+From: Mike Tipton <quic_mdtipton@quicinc.com>
 To: Peng Fan <peng.fan@oss.nxp.com>
-Cc: Peng Fan <peng.fan@nxp.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v4 5/7] firmware: imx: Add i.MX95 SCMI LMM driver
-Message-ID: <20250415-exotic-scarlet-seriema-c0e223@sudeepholla>
-References: <20250408-imx-lmm-cpu-v4-0-4c5f4a456e49@nxp.com>
- <20250408-imx-lmm-cpu-v4-5-4c5f4a456e49@nxp.com>
- <20250414-wonderful-cute-bandicoot-accb6b@sudeepholla>
- <PAXPR04MB8459195AAF65D38AFA1D4F9688B32@PAXPR04MB8459.eurprd04.prod.outlook.com>
- <20250414-tiny-classic-barnacle-5f8c8f@sudeepholla>
- <PAXPR04MB84593BB91063D13BB05BEB5988B32@PAXPR04MB8459.eurprd04.prod.outlook.com>
- <PAXPR04MB84598733FA39A7402E91DA1988B32@PAXPR04MB8459.eurprd04.prod.outlook.com>
- <20250414-ebony-slug-of-felicity-421b0f@sudeepholla>
- <20250415091016.GB10243@nxa18884-linux>
+CC: Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi
+	<cristian.marussi@arm.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Viresh
+ Kumar <viresh.kumar@linaro.org>, <arm-scmi@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-pm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] cpufreq: scmi: Skip SCMI devices that aren't used by the
+ CPUs
+Message-ID: <Z/6NB2QRvRrqwgcQ@hu-mdtipton-lv.qualcomm.com>
+References: <20250411212941.1275572-1-quic_mdtipton@quicinc.com>
+ <20250415090655.GA10243@nxa18884-linux>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20250415091016.GB10243@nxa18884-linux>
+In-Reply-To: <20250415090655.GA10243@nxa18884-linux>
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=E9TNpbdl c=1 sm=1 tr=0 ts=67fe8d09 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=3H110R4YSZwA:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=nqZ6nTEg5KUHkvYbfU8A:9 a=CjuIK1q_8ugA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: 6zJdl26a50mbWxYTiGA4Xw4GOcA4slVa
+X-Proofpoint-GUID: 6zJdl26a50mbWxYTiGA4Xw4GOcA4slVa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-15_06,2025-04-15_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ mlxscore=0 bulkscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0
+ suspectscore=0 mlxlogscore=999 spamscore=0 priorityscore=1501
+ impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504150116
 
-On Tue, Apr 15, 2025 at 05:10:16PM +0800, Peng Fan wrote:
-> On Mon, Apr 14, 2025 at 12:17:34PM +0100, Sudeep Holla wrote:
-> >On Mon, Apr 14, 2025 at 11:00:20AM +0000, Peng Fan wrote:
-> >> 
-> >> Oops, I just checked wrong Kconfig under drivers/firmware/arm_scmi/
-> >> vendors/imx
-> >> 
-> >> Build this for ARM32 i.MX is ok, I just think no need. So add
-> >> a ARM64 dependency.
-> >> 
+On Tue, Apr 15, 2025 at 05:06:55PM +0800, Peng Fan wrote:
+> On Fri, Apr 11, 2025 at 02:29:41PM -0700, Mike Tipton wrote:
+> >Currently, all SCMI devices with performance domains attempt to register
+> >a cpufreq driver, even if their performance domains aren't used to
+> >control the CPUs. The cpufreq framework only supports registering a
+> >single driver, so only the first device will succeed. And if that device
+> >isn't used for the CPUs, then cpufreq will scale the wrong domains.
 > >
-> >OK, I will drop the ARM64 dependency when applying. I also don't understand
+> >To avoid this, return early from scmi_cpufreq_probe() if the probing
+> >SCMI device isn't referenced by the CPU device phandles.
+> >
+> >This keeps the existing assumption that all CPUs are controlled by a
+> >single SCMI device.
+> >
+> >Signed-off-by: Mike Tipton <quic_mdtipton@quicinc.com>
+> >---
+> > drivers/cpufreq/scmi-cpufreq.c | 29 +++++++++++++++++++++++++++++
+> > 1 file changed, 29 insertions(+)
+> >
+> >diff --git a/drivers/cpufreq/scmi-cpufreq.c b/drivers/cpufreq/scmi-cpufreq.c
+> >index 944e899eb1be..7981a879974b 100644
+> >--- a/drivers/cpufreq/scmi-cpufreq.c
+> >+++ b/drivers/cpufreq/scmi-cpufreq.c
+> >@@ -393,6 +393,32 @@ static struct cpufreq_driver scmi_cpufreq_driver = {
+> > 	.set_boost	= cpufreq_boost_set_sw,
+> > };
+> > 
+> >+static bool scmi_dev_used_by_cpus(struct device *scmi_dev)
+> >+{
+> >+	struct device_node *scmi_np = scmi_dev->of_node;
+> >+	struct device_node *np;
+> >+	struct device *cpu_dev;
+> >+	int cpu, idx;
+> >+
+> >+	for_each_possible_cpu(cpu) {
+> >+		cpu_dev = get_cpu_device(cpu);
+> >+		if (!cpu_dev)
+> >+			continue;
+> >+
+> >+		np = cpu_dev->of_node;
+> >+
+> >+		if (of_parse_phandle(np, "clocks", 0) == scmi_np)
+> >+			return true;
+> >+
+> >+		idx = of_property_match_string(np, "power-domain-names", "perf");
+> >+
+> >+		if (of_parse_phandle(np, "power-domains", idx) == scmi_np)
+> >+			return true;
+> >+	}
+> >+
+> >+	return false;
+> >+}
+> >+
+> > static int scmi_cpufreq_probe(struct scmi_device *sdev)
+> > {
+> > 	int ret;
+> >@@ -404,6 +430,9 @@ static int scmi_cpufreq_probe(struct scmi_device *sdev)
+> > 	if (!handle)
+> > 		return -ENODEV;
+> > 
+> >+	if (!scmi_dev_used_by_cpus(dev))
+> >+		return 0;
 > 
-> Thanks for helping on this.
-> 
-> >the dependency on i.MX firmware LMM and CPU drivers in the scmi vendor
-> >protocol as the dependency should be other way around. But I see Arnd had
-> >fixed it so I will keep it as you have posted to keep them all aligned.
-> Not dig into much on this.
-> I just followed what Arnd did when I prepared the patchset to avoid
-> potential build issue as reported before.
-> 
+> Should 'return -ENOTSUPP' be used here?
+> There is no need to mark the probe success.
 
-Yes, I am keeping it based on those changes. I need to spend sometime to
-understand why it was done so and see if anything can be improved. It is
-not straightforward to understand that dependency, for me looks like it
-is in reverse direction.
+Returning -ENOTSUPP will add noise in the logs from probe failures, for
+example:
 
-Anyway I have pushed it tentatively, will let you know once it is finalised.
+    scmi-cpufreq scmi_dev.4: probe with driver scmi-cpufreq failed with error -524
 
--- 
-Regards,
-Sudeep
+These are "expected" failures, so this would be misleading. However, we
+could return -ENODEV instead which doesn't log anything by default. It
+uses a dev_dbg() in that case:
+
+    scmi-cpufreq scmi_dev.4: probe with driver scmi-cpufreq rejects match -19
+
+Returning -ENODEV seems more appropriate. I can make that change.
