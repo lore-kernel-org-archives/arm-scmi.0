@@ -1,122 +1,93 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EC4274FF8;
-	Mon, 14 Apr 2025 15:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC2F279795
+	for <arm-scmi@vger.kernel.org>; Tue, 15 Apr 2025 07:53:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744644881; cv=none; b=FFdm2W72ZEDrgzHDApEAtXXIK88ebfc2jxL5gaZpuYOQEnJDv8Ha34xPgB67knR51b+H58M34ybpMQeT9+8snFVpgRR8AHIPBtfpKTd8DyUxp1gNqgcQfglY58SqtL91uZ2n5vNBdYQAGwEmMRPYBrfsAUVqbGwl5cOALoMK2SY=
+	t=1744703628; cv=none; b=SgK7eM9SFSvz9C5Hr3QwvsMMfG5MwYMESqPLcbgi/ehc/QwxZs/XOrkJxUIaENLiIvKU1GUnYywM/qfOleMeNQdD/Mo+EBc5UxGzlNOSmaCHvcIKjvz/n9DcdswOkovRvB4wCUrUhcnNMXGn6H30rfT5cql6kDGpstw930FBtFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744644881; c=relaxed/simple;
-	bh=Rtt/iAxSFoF2/GGC3O7FCsnOpzhoYS9jRMZ4OrkIS0E=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oI2Md2By9b2+adI5J8f3d5lYz6BMQ4q3Ts1vVljXtlzPe8p6kveZ8KYkpJZwrQOi6q2PDKr7IY64d80kwa7R/wGXbproMuq9Ti+Rs2bR8n81jSQxErGlwzcNvPqcMi023iSYL0vyNqjoxitk0P0NGukkL84tRPMR47SI7+SlpJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=OeKHL6vX; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1744703628; c=relaxed/simple;
+	bh=D8NpYL/6xc4mr7rrNU+oPdbCsWAv+ESU6uE3kXfaDzI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=us64hk5kDjGp9dnSvmVLS8wmLBC8t4sV5mPiPiE+wlVghWrXt0sLyOZVCLczDtRcNXGjl37Emz9375YulbWYQym3OHY2BrPVlUJOVvbNx9YX0ic7F7pkKq1LWTsdsz1og22QXjDjiOHdpUwi/b1y2MaflyTa3l+rJ3Hw0+21flM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dChm3LZt; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="OeKHL6vX"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53E99tDl015786;
-	Mon, 14 Apr 2025 15:34:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=oVZV0AwDXeRJIVKP1ntdkFoy
-	DgbEMhaaG3s/gT1aGF0=; b=OeKHL6vXUOTAEqHdRvx07ebA6GxJAj+OUH8Gln3R
-	woSPKnmGqdx/jYw6G8ZrJcNntgDDTIFCzAO0FliOGNzHnl5OyRTZVsmXgXotQ3ZG
-	UKEVlbrLoNW9Fw2DAq+B+A3RogaJFfK7rOk2mDq1uX+BVpeXw41Fi0F0X2XoytHy
-	TK0lsSC1aHHvQw73HoqdP7QimG1q2oUC77e17OX84y+OOmWuaD3gzTj0DZErGtBo
-	b0nT9vnHMTFYCkODBae2t9w3ECAzAcZuirDcBsefzwZkFMOZsJ0o8BBy5dSyyKro
-	o5BMFwti7wXwoJplLKeVSZOyj8Wu7xEZLa056QU3qKN6bQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ygd6d1mp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 14 Apr 2025 15:34:27 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53EFYQnp004077
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 14 Apr 2025 15:34:26 GMT
-Received: from hu-mdtipton-lv.qualcomm.com (10.49.16.6) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Mon, 14 Apr 2025 08:34:26 -0700
-Date: Mon, 14 Apr 2025 08:34:25 -0700
-From: Mike Tipton <quic_mdtipton@quicinc.com>
-To: Peng Fan <peng.fan@oss.nxp.com>
-CC: Sudeep Holla <sudeep.holla@arm.com>,
-        Cristian Marussi
-	<cristian.marussi@arm.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Viresh
- Kumar <viresh.kumar@linaro.org>, <arm-scmi@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-pm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] cpufreq: scmi: Skip SCMI devices that aren't used by the
- CPUs
-Message-ID: <Z/0rAfQjxjZEAIeP@hu-mdtipton-lv.qualcomm.com>
-References: <20250411212941.1275572-1-quic_mdtipton@quicinc.com>
- <20250414083832.GA19563@nxa18884-linux>
- <20250414-splendid-clam-of-democracy-dacf96@sudeepholla>
- <20250414102813.GB19563@nxa18884-linux>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dChm3LZt"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-54954fa61c9so6406115e87.1
+        for <arm-scmi@vger.kernel.org>; Tue, 15 Apr 2025 00:53:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744703623; x=1745308423; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=STeju+4F1b95dfzySAiJo7cZAG36EwjiVO/ehg7xZ2s=;
+        b=dChm3LZtMY/5rCSraiXcD52sLsrjf6PMWauL0YKQIz7B91TLRzWYg9rOUl1iN8scxy
+         j0mNrOWInzR6IvGGxTIls5S/0jYFwihPAi7y6/FssajqdyaBl4C02nCddg6efR4JG/7O
+         pyUwXBi95e9LR6xPryrePCaahxIRGFFGBupfQ0d8e9VNZX2szxAG5ephPs10dAHnUQP9
+         FOR1/fJD7BwpLDJjEgHsJ5KVT83qRA6h2bHgr4JRkoE6ck/NSF/01TTOuIpAHg/UBO6N
+         PW875WwUG89gSNQXV/uXI0RlGxQXYCXFGGT9Nf2ds0688HYulpD1LFH7iD41rOzlKn3A
+         PcHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744703623; x=1745308423;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=STeju+4F1b95dfzySAiJo7cZAG36EwjiVO/ehg7xZ2s=;
+        b=p5EEV2FqouPDFLKzHQEpo+OuQF9ygIbrOfAuFjtnV4wPgZqODhIOaGX0Z4RfMuctvM
+         lZUGbio8oqpwj//H68UEqsLeSIX8gx67+9NTah0I1rfKbZkrbhbrIK+gZcbMRbwI+cS0
+         nR1OjT/WW9x4KZ17P823pIm0j+cRLeUnHo5Pnl5NIEDofp7m2HFq+8CiMddbEk4U1DW4
+         NsrVIVc7JAt7bzUxR9cezlqyZZ52vGxRYgQaxlYET2OJv/ZzA2m6OeUld3FYeOa0rTv1
+         0VYpFLYpWnug7CfJxYL/yEmd6ErOh6UdipgoPlo89sGluXOo20gmBzLYJe+Hzs7dZmJA
+         QiKg==
+X-Forwarded-Encrypted: i=1; AJvYcCXPNXGMOFFJD5aE9co4R8FvsWxLPKuSd2XIZtSvWOuSYuuFBwPbTUY+RiKkyuOH5Sb0h+vC86W6XA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yww1JK5rHxx3cxa6zoVM9zBT/5RVatN1Zow5uGsl5MxbBhRM96z
+	GdvOzcRGjetvrel1SwdMtJh1dGGt9/3hbGfabhb9FZYD6E5cD+YutngDRwBraegc8vLDj48O10B
+	DOeW8N560tcy1EBr8HWeg93GyWhXeKDsGk33KAA==
+X-Gm-Gg: ASbGncvqYGZuq3rWnCrrZBeNB8vNQMRt8fJ4nWx2wx/mjp/OZchksdu4uvn/hwSCNkd
+	zqr0ReUYpTAg4FEgp6aADYQIKgozb7o9VEiioBP8fL4qwKAj73Fezs1KOR5ogu5dy7Mm31zdrdK
+	syo1bWLEpRCUE7Ej451FK4aA==
+X-Google-Smtp-Source: AGHT+IFJ5QnEuy843kC3TQMpuk9QiZ+X6rbvXcL4GPOFqhedgkU8pg1nIDK1g44GiFTp9uNBiCz3X/eFYBa7DllDIzw=
+X-Received: by 2002:a2e:bccc:0:b0:308:e54d:61b1 with SMTP id
+ 38308e7fff4ca-31049aadff2mr53751861fa.34.1744703623274; Tue, 15 Apr 2025
+ 00:53:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250414102813.GB19563@nxa18884-linux>
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: Ctqw9QoNA1g2hcgJ4hfNZGubd1CKCaWV
-X-Proofpoint-GUID: Ctqw9QoNA1g2hcgJ4hfNZGubd1CKCaWV
-X-Authority-Analysis: v=2.4 cv=ANaQCy7k c=1 sm=1 tr=0 ts=67fd2b03 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=3H110R4YSZwA:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=odXGOWDWpvyb1jO9vMYA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-14_05,2025-04-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
- mlxlogscore=661 suspectscore=0 clxscore=1011 lowpriorityscore=0
- phishscore=0 impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0
- bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504140112
+References: <20250401072725.1141083-1-ping.bai@nxp.com>
+In-Reply-To: <20250401072725.1141083-1-ping.bai@nxp.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 15 Apr 2025 09:53:31 +0200
+X-Gm-Features: ATxdqUF6WJDaLjHdYSkCvv_YDIUzSOmPWDnDqBmf7i0pLM0MKIXzIz4bzkS8nS4
+Message-ID: <CACRpkdY5XdzVxbNhw-nv5EL00NNqrJLiwc0B4O6somUo1gjNxA@mail.gmail.com>
+Subject: Re: [PATCH RFC] pinctrl: freescale: Add support for imx943 pinctrl
+To: Jacky Bai <ping.bai@nxp.com>
+Cc: sudeep.holla@arm.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	cristian.marussi@arm.com, aisheng.dong@nxp.com, festevam@gmail.com, 
+	kernel@pengutronix.de, linux-gpio@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 14, 2025 at 06:28:14PM +0800, Peng Fan wrote:
-> Hi Sudeep,
-> On Mon, Apr 14, 2025 at 09:23:24AM +0100, Sudeep Holla wrote:
-> >Hi Peng,
-> >
-> >On Mon, Apr 14, 2025 at 04:38:32PM +0800, Peng Fan wrote:
-> >> Hi Mike,
-> >> On Fri, Apr 11, 2025 at 02:29:41PM -0700, Mike Tipton wrote:
-> >> >Currently, all SCMI devices with performance domains attempt to register
-> >> >a cpufreq driver,
-> >> 
-> >> The scmi cpufreq device is created based on entry
-> >> { SCMI_PROTOCOL_PERF, "cpufreq" },
-> >> 
-> >> So the scmi-cpufreq driver could only probe the upper single device.
-> >> 
-> >> How could the driver work with all SCMI devices with performance domains?
-> >> 
-> >
-> >IIUC, this is on a system with multiple SCMI servers/providers some of
-> >which don't deal with CPU performance domains at all.
-> 
-> Yeah. This sounds valid case.
-> CPU perf only needs to be managed by one server, the other server
-> also has performance domains that only for peripherals.
+Hi Jacky,
 
-Yeah, this is the case we're trying to fix.
+On Tue, Apr 1, 2025 at 9:25=E2=80=AFAM Jacky Bai <ping.bai@nxp.com> wrote:
 
-> 
-> Thanks,
-> Peng
-> 
-> >
-> >-- 
-> >Regards,
-> >Sudeep
+> Add support for i.MX943 pinctrl.
+>
+> Signed-off-by: Jacky Bai <ping.bai@nxp.com>
+(...)
+>  static const char * const scmi_pinctrl_imx_allowlist[] =3D {
+>         "fsl,imx95",
+> +       "fsl,imx94",
+
+This binding is missing upstream, can you send a patch to
+add this compatible to the right yaml file as well?
+
+Yours,
+Linus Walleij
