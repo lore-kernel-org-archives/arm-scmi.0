@@ -1,113 +1,144 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3FA2190462;
-	Tue, 15 Apr 2025 13:55:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F031F2951DD;
+	Tue, 15 Apr 2025 14:30:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744725348; cv=none; b=GaNG868/Rp1lXQhReVU7jJAL6GDPFVWCJPSYPcsnUPygiFfxdK99PDcoopU/7r1DkMEZfxCCC9WNtFHzMmAvMfHNwDSnMeUq21gHJxd2GbJypNB3hvLuaa8BtrR4GHCpv571mvBmpdHdYAPVqYRamlMGxYvhSJeEHpYwHFAthc0=
+	t=1744727409; cv=none; b=U2mQJcuSWVO0GhR1bOqVv1xsUTfOYE3eIDcU+ZQOlGftnxJ7QHPgEyimxw2KxHCEgmgiUBUHT4xyFalILRV/HEIbFMW6edmBUXQ9tx1GuOIzBaBbTQllFPRdRNLTLjkq+KGc9lUsSQW+hpjw5c+kZuhsY0/S+nRHMyVw9oneBKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744725348; c=relaxed/simple;
-	bh=8Pwn/PrH1AUchwBpOFvjOyYrEJ+1hQ8GwcrfYgMZPAs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DpLBwN7tu2ob9RiU1xVSAuH969XjQznXmhn/8ZrvgKEi/ZQy6opedprh6bd34FIe6V5sqX4EDaKzLsfIsoIiR/dX+UEiKRh8cNbRJaDJa/qAh6jKewpawNNitJOFqAkh5rIsXxHI3F7WO2pCbN4QdiAHwHn8hzHtQgFlvUGU7fI=
+	s=arc-20240116; t=1744727409; c=relaxed/simple;
+	bh=TL/0O5l7VkWKLccDE887CuH29CuZSGqDtcLv2IQQIlM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZqRew/1vDLhJYaznufX+iijBKXp17e8ywCACE4BUVGY+7QGZ9FggVXoAMtl9b7PEJlCtyW3yXKt56T8olpIjVj2wM+v63swAb/BMrhzL8WxFtnJ6p41AtY+pbwHWemJvn3XRFPIu2z3XLGJ5OwY0/LwFtCx59nFjMEmWj0+iMgM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5498115A1;
-	Tue, 15 Apr 2025 06:55:43 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C62813F694;
-	Tue, 15 Apr 2025 06:55:42 -0700 (PDT)
-Date: Tue, 15 Apr 2025 14:55:33 +0100
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2F66515A1;
+	Tue, 15 Apr 2025 07:30:04 -0700 (PDT)
+Received: from pluto.guest.local (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 892B23F694;
+	Tue, 15 Apr 2025 07:30:03 -0700 (PDT)
 From: Cristian Marussi <cristian.marussi@arm.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, peng.fan@oss.nxp.com,
-	michal.simek@amd.com, quic_sibis@quicinc.com,
-	dan.carpenter@linaro.org, maz@kernel.org
-Subject: Re: [RFC PATCH 0/3] Introduce SCMI Quirks framework
-Message-ID: <Z_5lJA74OugEbB-S@pluto>
-References: <20250401122545.1941755-1-cristian.marussi@arm.com>
- <Z-_dMev0v6P4UJ_i@hovoldconsulting.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org
+Cc: sudeep.holla@arm.com,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	quic_sibis@quicinc.com,
+	dan.carpenter@linaro.org,
+	maz@kernel.org,
+	johan@kernel.org,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [PATCH 0/4] Introduce SCMI Quirks framework
+Date: Tue, 15 Apr 2025 15:29:29 +0100
+Message-ID: <20250415142933.1746249-1-cristian.marussi@arm.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z-_dMev0v6P4UJ_i@hovoldconsulting.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 04, 2025 at 03:22:57PM +0200, Johan Hovold wrote:
-> Hi Cristian,
-> 
-> On Tue, Apr 01, 2025 at 01:25:42PM +0100, Cristian Marussi wrote:
-> 
-> > with the increasing adoption of SCMI across arm64 ecosystems, we have to
-> > start considering how to deal and take care of out-of-spec SCMI firmware
-> > platforms that are actively deployed in the wild, in a consistent manner.
-> > 
-> > This small series introduces a simple framework, based on static_keys,
-> > that allows a user to:
-> > 
-> > - define a quirk and its matching conditions; quirks can match based on:
-> > 
-> >   	compatible / Vendor_ID / Sub_Vendor_ID / ImplVersion
-> > 
-> >   from the longest matching sequence down to the shortest.
-> > 
-> >   When the SCMI core stack boots it will enable the matching quirks
-> >   depending on the information gathered from the platform via Base
-> >   protocol: any NULL/0 match condition is ignored during matching and is
-> >   interpreted as ANY, so you can decide to match on a very specific
-> >   combination of compatibles and FW versions OR simply on a compatible.
-> > 
-> > - define a quirk code-block: simply a block of code, meant to play the
-> >   magic quirk trick, defined in the proximity of where it will be used
-> >   and gated by an implicit quirk static-key associated with the defined
-> >   quirk
-> 
-> > Any feedback and testing is very much welcome.
-> 
-> I'm hitting the below lockdep splat when running with this series and
-> the FC quirk enabled.
-> 
-> Johan
-> 
-> 
-> [    8.399581] ======================================================
-> [    8.399582] WARNING: possible circular locking dependency detected
-> [    8.399583] 6.14.0 #103 Not tainted
-> [    8.399584] ------------------------------------------------------
-> [    8.399584] kworker/u49:5/165 is trying to acquire lock:
-> [    8.399586] ffff65d004d36320 (&info->protocols_mtx){+.+.}-{4:4}, at: scmi_get_protocol_instance+0x4c/0x5c0
-> [    8.399596] 
->                but task is already holding lock:
-> [    8.399596] ffff65d00a895348 (&ni->pending_mtx){+.+.}-{4:4}, at: __scmi_event_handler_get_ops+0x70/0x47c
-> [    8.399600] 
->                which lock already depends on the new lock.
-> 
-> [    8.399601] 
->                the existing dependency chain (in reverse order) is:
-> [    8.399601] 
->                -> #4 (&ni->pending_mtx){+.+.}-{4:4}:
+Hi,
 
-Hi Johan,
+with the increasing adoption of SCMI across arm64 ecosystems, we have to
+start considering how to deal and take care of out-of-spec SCMI firmware
+platforms that are actively deployed in the wild, in a consistent manner.
 
-I have reproduced this when running with LOCKDEP and quirks enabled:
-it was due to the fact that static_branch_enable() takes a cpu_lock
-internally and I was triggering all of this from Base protocol init
-which takes a number of other mutexes...
+This small series introduces a simple framework, based on static_keys,
+that allows a user to:
 
-I moved SCMI quirk initialiation after Base protocol initialization
-in scmi_probe and it is gone...and indeed was not needed anyway so
-early.
+- define a quirk and its matching conditions; quirks can match based on:
 
-I'll post a new V1 for quirks in a short while including this change.
+  	compatible / Vendor_ID / Sub_Vendor_ID / [Min_Vers, Max_Vers]
+
+  from the longest matching sequence down to the shortest.
+
+  When the SCMI core stack boots it will enable the matching quirks
+  depending on the information gathered from the platform via Base
+  protocol: any NULL match condition is ignored during matching and is
+  interpreted as ANY, so you can decide to match on a very specific
+  combination of compatibles and FW versions OR simply on a compatible.
+
+- define a quirk code-block: simply a block of code, meant to play the
+  magic quirk trick, defined in the proximity of where it will be used
+  and gated by an implicit quirk static-key associated with the defined
+  quirk
+
+Patch 1/4 in the series is really unrelated to the Quirk framework
+itself: it is a slight variation on a fix posted previously by Sibi around
+PERF FastChannels and it is included here for simplicity, since the example
+quirk provided later in this series has to be applied exactly where 1/3
+applies its modifications.
+
+Patch 2/4 introduces support for SCMI quirks: support is default-y in
+Kconfig as of this series. All the quirks found defined are stored in
+an hashtable at module initialization time.
+Since V1 the quirks are matched on ranges of ImplementationVersion if
+provided.
+
+Later on, when the SCMI core stack probes and it has retrieved basic info
+via Base protocol, all the matching quirks are enabled, which simply means
+the related underlying specific quirks static-keys are enabled.
+
+Patch 3/4 Convert a pre-existing quirk to use the Quirk framework: it is,
+though, a peculiar quirk, since it was meant to match any firmware version
+or from any vendor/sub_vendor.
+
+Patch 4/4 introduces an example Quirk for a known problem on a known
+platform as reported by Johan, Marc and Sibi, BUT note that the matching
+condition in tha patch MUST be properly completed in the patch (I was not
+sure what to use...see my comments)
+
+Still to be done:
+
+- the provided macro-salad to enable quirks definitions is certainly
+  ugly and can be done better (and checkpatch is already complaining
+  a bit...)...or maybe I should just get rid of macros
+
+- more extensive Documentation is still missing
+
+Any feedback and testing is very much welcome.
 
 Thanks,
 Cristian
+
+---
+RFC -> V1
+ - collected tags for patch 1/4
+ - Added version ranges handling for Implementation Version
+ - make Quirk frmwk default-y
+ - add COMPILE_TEST depend
+ - move quirk enabling logic out of Base protocol init to avoid possible
+   deadlocks with cpu_lock (reported LOCKDEP splat from Johan)
+ - fix Quirk matching conditions for quirk_perf_level_get_fc_force
+
+Cristian Marussi (3):
+  firmware: arm_scmi: Add Quirks framework
+  firmware: arm_scmi: quirk: Fix CLOCK_DESCRIBE_RATES triplet
+  [NOT FOR UPSTREAM] firmware: arm_scmi: quirk: Ignore FC bit in
+    attributes
+
+Sibi Sankar (1):
+  firmware: arm_scmi: Ensure that the message-id supports fastchannel
+
+ drivers/firmware/arm_scmi/Kconfig     |  13 ++
+ drivers/firmware/arm_scmi/Makefile    |   1 +
+ drivers/firmware/arm_scmi/base.c      |   1 +
+ drivers/firmware/arm_scmi/clock.c     |  49 ++---
+ drivers/firmware/arm_scmi/driver.c    | 106 +++++++----
+ drivers/firmware/arm_scmi/protocols.h |   2 +
+ drivers/firmware/arm_scmi/quirks.c    | 247 ++++++++++++++++++++++++++
+ drivers/firmware/arm_scmi/quirks.h    |  44 +++++
+ 8 files changed, 408 insertions(+), 55 deletions(-)
+ create mode 100644 drivers/firmware/arm_scmi/quirks.c
+ create mode 100644 drivers/firmware/arm_scmi/quirks.h
+
+-- 
+2.47.0
+
