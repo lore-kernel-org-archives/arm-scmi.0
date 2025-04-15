@@ -1,130 +1,92 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 364FFEAC7;
-	Tue, 15 Apr 2025 14:30:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8735027F749;
+	Tue, 15 Apr 2025 14:48:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744727419; cv=none; b=FDiGTTy3C6MF4XvQBqFh4AVk/hz6hKLNVCMrco3rQmqnClP0RfOTkXnzNA7iLFlysyTGRSmANkdTYwZ1bdxj/SB+BRhynB7CzHKVL3rJzvsN6MyySxbUI0MECB7hO0gCNN2MrrdjeF8EJPUdyhrvWXOD8wWRu+VHFcbgk/1r7jw=
+	t=1744728505; cv=none; b=DVKuPnPfV6e16PhOns0wLdA2QpQPY9xAVhkHF2HxsBbcf5mticJLTdeLzIrGD6AygsCGKdmatsYPxu2dTR8qX5PE/0YaacVcTu5+SJ8bBzstrki7vAxl/SKvcrlPso3gZWjUJiJ1Ubi9LJjKPby52y/l6YWwMvRgje329302YIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744727419; c=relaxed/simple;
-	bh=a4ZwrR1VvUBppHXUT6mwYMQSNlX5JxtCSjYaQEKueQU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BsutPdfX+MiSiR4bb1c2WSThZLkIlQHG6W086KPQqbMGnLZZPLTu2R9rOj3XpBpq9/RpJj0A9tYJMCFg9PEkifQqeh2uJJhwqaCmvW2fTrYYcuRuvbKJPVTQtn2jUbbW44Rj06A1cUo7f1INMjNoJ2wUSW9ELRHauMXfWf9LTY4=
+	s=arc-20240116; t=1744728505; c=relaxed/simple;
+	bh=dL3GBIFDMlroIuYc/uiPg97dQ44gPEpRL5p9zMC4w/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sTTTPm7bW5gy0yXG7TZVLeva8TMrKVen7ERsCCRCXcwwZxuBpgGHJsdAYtYeKAWgaF5BDz60K3/nfMG/XPh8HKZhLqPuvZb0qJ6GKZhLp5JGabnQyU4IxRRDBkYgJvhP7k1aSaD57vnf6icZKjiBfTTgGRzsfMQDbWdf8RojaHE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DED1615A1;
-	Tue, 15 Apr 2025 07:30:14 -0700 (PDT)
-Received: from pluto.guest.local (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6F3AC3F694;
-	Tue, 15 Apr 2025 07:30:14 -0700 (PDT)
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org
-Cc: sudeep.holla@arm.com,
-	james.quinlan@broadcom.com,
-	f.fainelli@gmail.com,
-	vincent.guittot@linaro.org,
-	peng.fan@oss.nxp.com,
-	michal.simek@amd.com,
-	quic_sibis@quicinc.com,
-	dan.carpenter@linaro.org,
-	maz@kernel.org,
-	johan@kernel.org,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH 4/4] [NOT FOR UPSTREAM] firmware: arm_scmi: quirk: Ignore FC bit in attributes
-Date: Tue, 15 Apr 2025 15:29:33 +0100
-Message-ID: <20250415142933.1746249-5-cristian.marussi@arm.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20250415142933.1746249-1-cristian.marussi@arm.com>
-References: <20250415142933.1746249-1-cristian.marussi@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0DB9C15A1;
+	Tue, 15 Apr 2025 07:48:21 -0700 (PDT)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0F45B3F694;
+	Tue, 15 Apr 2025 07:48:19 -0700 (PDT)
+Date: Tue, 15 Apr 2025 15:48:17 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Peng Fan <peng.fan@oss.nxp.com>
+Cc: Peng Fan <peng.fan@nxp.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v4 5/7] firmware: imx: Add i.MX95 SCMI LMM driver
+Message-ID: <20250415-exotic-scarlet-seriema-c0e223@sudeepholla>
+References: <20250408-imx-lmm-cpu-v4-0-4c5f4a456e49@nxp.com>
+ <20250408-imx-lmm-cpu-v4-5-4c5f4a456e49@nxp.com>
+ <20250414-wonderful-cute-bandicoot-accb6b@sudeepholla>
+ <PAXPR04MB8459195AAF65D38AFA1D4F9688B32@PAXPR04MB8459.eurprd04.prod.outlook.com>
+ <20250414-tiny-classic-barnacle-5f8c8f@sudeepholla>
+ <PAXPR04MB84593BB91063D13BB05BEB5988B32@PAXPR04MB8459.eurprd04.prod.outlook.com>
+ <PAXPR04MB84598733FA39A7402E91DA1988B32@PAXPR04MB8459.eurprd04.prod.outlook.com>
+ <20250414-ebony-slug-of-felicity-421b0f@sudeepholla>
+ <20250415091016.GB10243@nxa18884-linux>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250415091016.GB10243@nxa18884-linux>
 
-Some platform misreported the support of FastChannel when queried: ignore
-that bit on selected platforms.
+On Tue, Apr 15, 2025 at 05:10:16PM +0800, Peng Fan wrote:
+> On Mon, Apr 14, 2025 at 12:17:34PM +0100, Sudeep Holla wrote:
+> >On Mon, Apr 14, 2025 at 11:00:20AM +0000, Peng Fan wrote:
+> >> 
+> >> Oops, I just checked wrong Kconfig under drivers/firmware/arm_scmi/
+> >> vendors/imx
+> >> 
+> >> Build this for ARM32 i.MX is ok, I just think no need. So add
+> >> a ARM64 dependency.
+> >> 
+> >
+> >OK, I will drop the ARM64 dependency when applying. I also don't understand
+> 
+> Thanks for helping on this.
+> 
+> >the dependency on i.MX firmware LMM and CPU drivers in the scmi vendor
+> >protocol as the dependency should be other way around. But I see Arnd had
+> >fixed it so I will keep it as you have posted to keep them all aligned.
+> Not dig into much on this.
+> I just followed what Arnd did when I prepared the patchset to avoid
+> potential build issue as reported before.
+> 
 
-Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
----
-Match features has to be set-up properly before upstreaming this.
-Ideally the out-of-spec firmware should be matched with a quirk matching
-pattern based on Vendor/SubVendor/ImplVersion....but it is NOT clear if the
-platform at hand will ship with future fixed firmwares where the ImplVersion
-field is properly handled.
-If we cannot be sure about that, we should fallback to a compatible match.
+Yes, I am keeping it based on those changes. I need to spend sometime to
+understand why it was done so and see if anything can be improved. It is
+not straightforward to understand that dependency, for me looks like it
+is in reverse direction.
 
-RFC->V1
-- fix QUIRKS conditions
----
- drivers/firmware/arm_scmi/driver.c | 8 ++++++++
- drivers/firmware/arm_scmi/quirks.c | 3 +++
- drivers/firmware/arm_scmi/quirks.h | 1 +
- 3 files changed, 12 insertions(+)
+Anyway I have pushed it tentatively, will let you know once it is finalised.
 
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 1d500663004a..e38cf3c3b157 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -1904,6 +1904,13 @@ struct scmi_msg_resp_desc_fc {
- 	__le32 db_preserve_hmask;
- };
- 
-+#define QUIRK_PERF_FC_FORCE						\
-+	({								\
-+		if (pi->proto->id == SCMI_PROTOCOL_PERF &&		\
-+		    message_id == 0x8 /* PERF_LEVEL_GET */)		\
-+			attributes |= BIT(0);				\
-+	})
-+
- static void
- scmi_common_fastchannel_init(const struct scmi_protocol_handle *ph,
- 			     u8 describe_id, u32 message_id, u32 valid_size,
-@@ -1924,6 +1931,7 @@ scmi_common_fastchannel_init(const struct scmi_protocol_handle *ph,
- 
- 	/* Check if the MSG_ID supports fastchannel */
- 	ret = scmi_protocol_msg_check(ph, message_id, &attributes);
-+	SCMI_QUIRK(perf_level_get_fc_force, QUIRK_PERF_FC_FORCE);
- 	if (ret || !MSG_SUPPORTS_FASTCHANNEL(attributes)) {
- 		dev_dbg(ph->dev,
- 			"Skip FC init for 0x%02X/%d  domain:%d - ret:%d\n",
-diff --git a/drivers/firmware/arm_scmi/quirks.c b/drivers/firmware/arm_scmi/quirks.c
-index b523bd1ca49f..3e3b61a03780 100644
---- a/drivers/firmware/arm_scmi/quirks.c
-+++ b/drivers/firmware/arm_scmi/quirks.c
-@@ -87,6 +87,8 @@ struct scmi_quirk {
- 
- /* Global Quirks Definitions */
- DEFINE_SCMI_QUIRK(clock_rates_triplet_out_of_spec, NULL, NULL, NULL, NULL);
-+DEFINE_SCMI_QUIRK(perf_level_get_fc_force,
-+		  NULL, "bad-vend", NULL, "0x20000-");
- 
- /*
-  * Quirks Pointers Array
-@@ -96,6 +98,7 @@ DEFINE_SCMI_QUIRK(clock_rates_triplet_out_of_spec, NULL, NULL, NULL, NULL);
-  */
- static struct scmi_quirk *scmi_quirks_table[] = {
- 	__DECLARE_SCMI_QUIRK_ENTRY(clock_rates_triplet_out_of_spec),
-+	__DECLARE_SCMI_QUIRK_ENTRY(perf_level_get_fc_force),
- 	NULL
- };
- 
-diff --git a/drivers/firmware/arm_scmi/quirks.h b/drivers/firmware/arm_scmi/quirks.h
-index e5252ba4774b..f8a7f234b2ae 100644
---- a/drivers/firmware/arm_scmi/quirks.h
-+++ b/drivers/firmware/arm_scmi/quirks.h
-@@ -39,5 +39,6 @@ static inline void scmi_quirks_enable(struct device *dev, const char *compat,
- 
- /* Quirk delarations */
- DECLARE_SCMI_QUIRK(clock_rates_triplet_out_of_spec);
-+DECLARE_SCMI_QUIRK(perf_level_get_fc_force);
- 
- #endif /* _SCMI_QUIRKS_H */
 -- 
-2.47.0
-
+Regards,
+Sudeep
