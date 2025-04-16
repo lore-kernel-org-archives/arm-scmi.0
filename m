@@ -1,137 +1,187 @@
-Received: from mout.web.de (mout.web.de [212.227.15.3])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B371A315F;
-	Wed, 16 Apr 2025 15:50:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5147E191;
+	Wed, 16 Apr 2025 16:00:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744818627; cv=none; b=fuXusxpWvfS/5+lfGDVSyyOWxvHQ7nD+tv+7GM4QUT3OBRQgvkS2o0nOJq9BYnt89FqqcQR8Ug6MoCq4ozz3G7KzcbnSUuurLv7oBcKKmGMjlRKwL14E7Kbp0hb4D2Nyjqnh6TB8iKqqhw3X00EZQFVe0G8IVRlQCjZVwpjd+ms=
+	t=1744819242; cv=none; b=ZeReim0IdLw4hisf16MLRtnQagsKSPWkrW0ByJaiuZpKCF7zwl5iamjyqmjMuOA7hvtwaciGasI3CxnS/0DpYJIzV9Lx1dXu4OyVQqCoJWGGhNLBjbYlhH0y3TergZUKHctmAVSUgj2c0flCIi5F3EpdRkYcdKLFT8IJXjhvZu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744818627; c=relaxed/simple;
-	bh=VbPAX242xVEoTJ4PYSaK4QQjLQw0PBsChBU7Pk7xBwc=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=oTHMLUYv/DyKQSv2aDn082ZwUp0mqjKS7OlkyhnaqPpOtT3jcd7D/sRS4cF7pDY89Zzov1q/pQIoJwe0Isfa1kCyWiDFZwwN7IMvDDVd/ed06hnVXJYNuU3FRhuVzpKr8UlCMi1v1zB00WKXJeZ6+vkDCj3RxQSnOlZ62twKdZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Z1+w6gVX; arc=none smtp.client-ip=212.227.15.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1744819242; c=relaxed/simple;
+	bh=Vz6bk6YGvtsRN2ZEQVaZ0sI/BeiXUIfOnij8CvC8Fuc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=evOTF6Qw420RWZRWJAngDJvuCLT8sEV6D8QZYwil03YsPm7VRf9MO5++6jyxx16KSQb1j5qXQ2MjgLN3yyiTvaV5GoQHt3RLdcrLGSYwWJ9d+5PT6Q4qEGaL/ZIPD+iV5pCCjU8F4Of1KywkIjoTzewCVX1LLgAG8nWahCp1FtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CImHhWh7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Z1+w6gVX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1744818617; x=1745423417; i=markus.elfring@web.de;
-	bh=NYYsAFSk4SPL13LOyi6D3exP9IGS0u1UBBNKtssYwHE=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
-	 Subject:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Z1+w6gVXOebfm0i2U7g1EesZ3ixgFZeCdXVSyPPHv2QZeCLKi6gBc8wr5M8wYsRb
-	 7xArNAstabMmAoHp/iqoh77g+9/wxm1gkFRiAiKYH6zY4ztzoFB613Qqxu17FZthd
-	 A/R6UusZJkTw6UYU9wkqviU1uwhl14m6ewX1RxmjZXoDTO5AjZhlyaf0SbSZKCDug
-	 lm3yQAF/Pld+Ov0jgQQkoszU+agnuw+rji0wkYw/7ThT4T5iNtHa+lm6/zUDjDsUj
-	 5MziiycfD2mhtxnOXwxzuXjazwXNi/3jbZDd7ZL8qmdVMLIzwOKtaZ9vp/e93ZG9z
-	 3ELlQabga3n9HfBXHQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.93.13]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MREzA-1thts508g8-00Rtse; Wed, 16
- Apr 2025 17:50:17 +0200
-Message-ID: <93bac949-9356-4819-b0e9-3463056e799c@web.de>
-Date: Wed, 16 Apr 2025 17:50:16 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CImHhWh7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0B43C4CEE2;
+	Wed, 16 Apr 2025 16:00:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744819239;
+	bh=Vz6bk6YGvtsRN2ZEQVaZ0sI/BeiXUIfOnij8CvC8Fuc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CImHhWh71IJT8+4R26J6xICoE//1H58e6w3PjnHDwH2nMhUIdie79qzCkxzQ4nzDA
+	 rXzhVycoO+M1KZfnWUCNPYw8wSV7Bi8sA4vpi3izzWzIit6zbmqV60IE7zSScr/pLE
+	 e5eRoOM9KhD6tZjYZkqe06bDizHxkMRmkH+nPbLj5IKGTKRVDOwwHXL0IkXc2zAXQF
+	 vOCp2SD7Iy0mM51VxfrTJ7B5H4n+XFdVklxldigYiSEny8qOz1hv9OOJRiSH47A2W4
+	 sLXLz3NYzlJ5/R+CzQQPRnb8/5jwYGQUYKai2SIjiflg29VI6zrr/MZFZwTB7dkvZt
+	 U8fLtBQ2KXZqw==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1u55Bl-000000007DM-3BB9;
+	Wed, 16 Apr 2025 18:00:38 +0200
+Date: Wed, 16 Apr 2025 18:00:37 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
+	james.quinlan@broadcom.com, f.fainelli@gmail.com,
+	vincent.guittot@linaro.org, peng.fan@oss.nxp.com,
+	michal.simek@amd.com, quic_sibis@quicinc.com,
+	dan.carpenter@linaro.org, maz@kernel.org
+Subject: Re: [PATCH 2/4] firmware: arm_scmi: Add Quirks framework
+Message-ID: <Z__UJUKaMRoFLYLc@hovoldconsulting.com>
+References: <20250415142933.1746249-1-cristian.marussi@arm.com>
+ <20250415142933.1746249-3-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Cristian Marussi <cristian.marussi@arm.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Sudeep Holla <sudeep.holla@arm.com>
-Content-Language: en-GB
-Cc: LKML <linux-kernel@vger.kernel.org>, Chenyuan Yang
- <chenyuan0y@gmail.com>, Julia Lawall <julia.lawall@inria.fr>
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH] regulator: scmi: Replace devm_kasprintf() call by
- devm_kstrdup() in scmi_regulator_common_init()
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:dYBj2KWx0G8HSFAktsr3w1LGkI1knCTFkFXfp8ifYqYTFIU4e73
- 4mYZB1o2JEZDhvB0E+/o2t1QzxRc/zJCkBYConfdLPWDWzsqAHtTDS9t8QR9Kvff6GOKDgY
- YnQD971/45QzN6VCT5x6kKyRydmj5eL1j2QKhX4LP4mR6Ps0Y7hDVXV6hqrDIts+94okzrW
- PSTCStZFIiS6X4B2zz5Lg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:kaeKT8pXSfs=;qNL2+lwWG1bWQYIrYAVYJYH6R9Q
- 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
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250415142933.1746249-3-cristian.marussi@arm.com>
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Wed, 16 Apr 2025 17:38:11 +0200
+On Tue, Apr 15, 2025 at 03:29:31PM +0100, Cristian Marussi wrote:
+> Add a common framework to describe SCMI quirks and associate them with a
+> specific platform or a specific set of SCMI firmware versions.
+> 
+> All the matching SCMI quirks will be enabled when the SCMI core stack
+> probes and after all the needed SCMI firmware versioning information was
+> retrieved using Base protocol.
+> 
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> ---
+> RFC->V1
+> - added handling of impl_ver ranges in quirk definition
+> - make Quirks Framework default-y
+> - match on all NULL/0 too..these are quirks that apply always anywhere !
+> - depends on COMPILE_TEST too
+> - move quirk enable calling logic out of Base protocol init (triggers a
+>   LOCKDEP issues around cpu locks (cpufreq, static_branch_enable interactions..)
 
-Use a devm_kstrdup() call instead of a devm_kasprintf() call
-in this function implementation because only a single string
-should be copied.
+> +static void scmi_enable_matching_quirks(struct scmi_info *info)
+> +{
+> +	struct scmi_revision_info *rev = &info->version;
+> +	const char *compatible = NULL;
+> +	struct device_node *root;
+> +
+> +	root = of_find_node_by_path("/");
+> +	if (root) {
+> +		of_property_read_string(root, "compatible", &compatible);
 
-The source code was transformed by using the Coccinelle software.
+Looks like you still only allow matching on the most specific compatible
+string.
 
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- drivers/regulator/scmi-regulator.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+As we discussed in the RFC thread, this will result in one quirk entry
+for each machine in a SoC family in case the issue is not machine
+specific.
 
-diff --git a/drivers/regulator/scmi-regulator.c b/drivers/regulator/scmi-r=
-egulator.c
-index 9df726f10ad1..a0b39c83deb6 100644
-=2D-- a/drivers/regulator/scmi-regulator.c
-+++ b/drivers/regulator/scmi-regulator.c
-@@ -223,7 +223,7 @@ static int scmi_regulator_common_init(struct scmi_regu=
-lator *sreg)
- 		return -EOPNOTSUPP;
- 	}
-=20
--	sreg->desc.name =3D devm_kasprintf(dev, GFP_KERNEL, "%s", vinfo->name);
-+	sreg->desc.name =3D devm_kstrdup(dev, vinfo->name, GFP_KERNEL);
- 	if (!sreg->desc.name)
- 		return -ENOMEM;
-=20
-=2D-=20
-2.49.0
+> +		of_node_put(root);
+> +	}
+> +
+> +	/* Enable applicable quirks */
+> +	scmi_quirks_enable(info->dev, compatible,
+> +			   rev->vendor_id, rev->sub_vendor_id, rev->impl_ver);
+> +}
 
+> +static int scmi_quirk_range_parse(struct scmi_quirk *quirk)
+> +{
+> +	const char *last, *first = quirk->impl_ver_range;
+> +	size_t len;
+> +	char *sep;
+> +	int ret;
+> +
+> +	quirk->start_range = 0;
+> +	quirk->end_range = 0xFFFFFFFF;
+> +	len = quirk->impl_ver_range ? strlen(quirk->impl_ver_range) : 0;
+> +	if (!len)
+> +		return 0;
+> +
+> +	last = first + len - 1;
+> +	sep = strchr(quirk->impl_ver_range, '-');
+> +	if (sep)
+> +		*sep = '\0';
+> +
+> +	if (sep == first) // -X
+> +		ret = kstrtouint(first + 1, 0, &quirk->end_range);
+> +	else // X OR X- OR X-y
+> +		ret = kstrtouint(first, 0, &quirk->start_range);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (!sep)
+> +		quirk->end_range = quirk->start_range;
+> +	else if (sep != last) //x-Y
+
+nit: space after // (if you insist on using c99 comments)
+
+> +		ret = kstrtouint(sep + 1, 0, &quirk->end_range);
+> +
+> +	if (quirk->start_range > quirk->end_range)
+> +		return -EINVAL;
+> +
+> +	return ret;
+> +}
+
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * System Control and Management Interface (SCMI) Message Protocol Quirks
+> + *
+> + * Copyright (C) 2025 ARM Ltd.
+> + */
+> +#ifndef _SCMI_QUIRKS_H
+> +#define _SCMI_QUIRKS_H
+> +
+> +#include <linux/static_key.h>
+> +#include <linux/types.h>
+> +
+> +#ifdef CONFIG_ARM_SCMI_QUIRKS
+> +
+> +#define DECLARE_SCMI_QUIRK(_qn)						\
+> +	DECLARE_STATIC_KEY_FALSE(scmi_quirk_ ## _qn)
+> +
+> +#define SCMI_QUIRK(_qn, _blk)						\
+> +	do {								\
+> +		if (static_branch_unlikely(&(scmi_quirk_ ## _qn)))	\
+> +			(_blk);						\
+> +	} while (0)
+> +
+> +void scmi_quirks_initialize(void);
+> +void scmi_quirks_enable(struct device *dev, const char *compat,
+> +			const char *vend, const char *subv, const u32 impl);
+> +
+> +#else
+> +
+> +#define DECLARE_SCMI_QUIRK(_qn)
+> +#define SCMI_QUIRK(_qn, _blk)
+
+As I mentioned earlier, wouldn't it be useful to always compile the
+quirk code in order to make sure changes to surrounding code does not
+break builds where the quirks are enabled?
+
+For example, by adding something like
+
+#define SCMI_QUIRK(_qn, _blk)						\
+	do {								\
+		if (0)							\
+			(_blk);						\
+	} while (0)
+
+here?
+
+I didn't really review this in detail, but it seems to work as intended
+when matching on vendor and version:
+
+Tested-by: Johan Hovold <johan+linaro@kernel.org>
