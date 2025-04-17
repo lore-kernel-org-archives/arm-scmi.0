@@ -1,172 +1,79 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7ED9925178D;
-	Thu, 17 Apr 2025 14:42:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6472D35973;
+	Thu, 17 Apr 2025 17:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744900924; cv=none; b=UKEGMP3YGaH90gfgcjetxIzG5eNKo6UyakZEz2Owe6IfgZstwpNmQWBg0OAgwmlfD3YugHV7OOI8n3lsJaIVvEJlr9PUuKr50Bl76Du1YqseIb/JWKpMsCDZ7dPSIiVQ5gGzF8pItVWDOR5TKmeIjAcb8F4+mUkJ6YFT6bUyWyU=
+	t=1744909477; cv=none; b=ImHfDiWHQ70LtYenFmj3+uNo6CdAxtFNonVut+2O2tJneG99JGDHBfrS58z8hL1mFWOgwlwUGN9/sdqlOq6g/uNeCU4L9VtXfFb7AyOIHC79yUGwqxarx/j8ALKr5/OdTFsTIAQPSBvxN3m1L4K719ntGOTYNK82fGMxvr16CWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744900924; c=relaxed/simple;
-	bh=DCj4wV+HtaRAx/iATqsBwAlOGrZWM7b3RYCTouHM4yo=;
+	s=arc-20240116; t=1744909477; c=relaxed/simple;
+	bh=RAgSqwP6v8XUqd0sIEMCAhSCHpxuahOcrR/OC8vTJJE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KrbvgUOWqKrrePJLi7hEvnRkEmhOEfWa9OgpR8g3xStkew+wIpezInD3Xvg3Iw0rAETiVt2/yPa8V1n9bMUYl4ig9hgwgBlkDWlR5F8F8HzDJ6jaY3G5uTQBpxxoj1l3n6Lcb0+Qc8yY/sjxbXXLuMibpCEnSoldCd2lkoJKvuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 356E91515;
-	Thu, 17 Apr 2025 07:41:59 -0700 (PDT)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 61CFE3F66E;
-	Thu, 17 Apr 2025 07:41:59 -0700 (PDT)
-Date: Thu, 17 Apr 2025 15:41:56 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Johan Hovold <johan@kernel.org>, <linux-kernel@vger.kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	<linux-arm-kernel@lists.infradead.org>, <arm-scmi@vger.kernel.org>,
-	<james.quinlan@broadcom.com>, <f.fainelli@gmail.com>,
-	<vincent.guittot@linaro.org>, <peng.fan@oss.nxp.com>,
-	<michal.simek@amd.com>, <quic_sibis@quicinc.com>,
-	<dan.carpenter@linaro.org>, <maz@kernel.org>
-Subject: Re: [PATCH 2/4] firmware: arm_scmi: Add Quirks framework
-Message-ID: <20250417-teal-sidewinder-of-courtesy-d0473d@sudeepholla>
+	 Content-Type:Content-Disposition:In-Reply-To; b=mk1y/Ss4DoJhuCu5eqt9qcJDlWhbahLHBDAmVa2g77M90XCCUCRA+Tt1CQzcr7GbZLlB6xANlA7U61heAAqwVRVdcJT/fwcmIExYZtPFUc23sA8en/Qfsf2hq9rNS9/zE7nz7wOtgZEkgopV9xIDKT/J3c+N1o5z/b63vhBKsVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ePQEbWRz; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ePQEbWRz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA99AC4CEE4;
+	Thu, 17 Apr 2025 17:04:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744909476;
+	bh=RAgSqwP6v8XUqd0sIEMCAhSCHpxuahOcrR/OC8vTJJE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ePQEbWRzWefj/7Ht6qipf1HfTKXla7WSlFH3FZCWrp5rKQ0SHVy2GG8StxLrYpQ1I
+	 2BUQIDKLUacHMfI6+P7WOkAgPMPYwCf6jPNEtr2fM86ilRrqWPxyw7xZg5Bmr2Yc3u
+	 uybZlR7iTPE4RCK2neY51RGaFtOQVdRwVQSb8N7CebOZa6gIhvOMJUevncWiwlpnH8
+	 IMMzQ4P4Bl6FovKQA7ryBkS8hWACCl35WC13H8TEebi8OP2S/hncJMqhYtkfrCAguR
+	 s4EVKqXvQSg34RVUOx5rj5jXTdKyhdnzvvedgk+wRjxVASn3LJh60S754Y3AHQvclW
+	 QU3DzGsaym3Sw==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1u5SfF-000000005Ch-1biL;
+	Thu, 17 Apr 2025 19:04:37 +0200
+Date: Thu, 17 Apr 2025 19:04:37 +0200
+From: Johan Hovold <johan@kernel.org>
+To: quic_sibis@quicinc.com
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
+	james.quinlan@broadcom.com, f.fainelli@gmail.com,
+	vincent.guittot@linaro.org, peng.fan@oss.nxp.com,
+	michal.simek@amd.com, dan.carpenter@linaro.org, maz@kernel.org,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: Re: [PATCH 4/4] [NOT FOR UPSTREAM] firmware: arm_scmi: quirk: Ignore
+ FC bit in attributes
+Message-ID: <aAE0peT-Fk7TZGGo@hovoldconsulting.com>
 References: <20250415142933.1746249-1-cristian.marussi@arm.com>
- <20250415142933.1746249-3-cristian.marussi@arm.com>
- <Z__UJUKaMRoFLYLc@hovoldconsulting.com>
- <Z__cuT5IW0Sbjqpg@pluto>
- <aAC_aPHD4Ik-DW0x@hovoldconsulting.com>
- <aADhoX4Rkx8Eu_er@pluto>
+ <20250415142933.1746249-5-cristian.marussi@arm.com>
+ <Z__WyYWhelFwt-rQ@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aADhoX4Rkx8Eu_er@pluto>
+In-Reply-To: <Z__WyYWhelFwt-rQ@hovoldconsulting.com>
 
-On Thu, Apr 17, 2025 at 12:10:25PM +0100, Cristian Marussi wrote:
-> On Thu, Apr 17, 2025 at 10:44:24AM +0200, Johan Hovold wrote:
-> > On Wed, Apr 16, 2025 at 05:37:13PM +0100, Cristian Marussi wrote:
-> > > On Wed, Apr 16, 2025 at 06:00:37PM +0200, Johan Hovold wrote:
-> > > > On Tue, Apr 15, 2025 at 03:29:31PM +0100, Cristian Marussi wrote:
-> > 
-> > > > > +static void scmi_enable_matching_quirks(struct scmi_info *info)
-> > > > > +{
-> > > > > +	struct scmi_revision_info *rev = &info->version;
-> > > > > +	const char *compatible = NULL;
-> > > > > +	struct device_node *root;
-> > > > > +
-> > > > > +	root = of_find_node_by_path("/");
-> > > > > +	if (root) {
-> > > > > +		of_property_read_string(root, "compatible", &compatible);
-> > > > 
-> > > > Looks like you still only allow matching on the most specific compatible
-> > > > string.
-> > > > 
-> > > > As we discussed in the RFC thread, this will result in one quirk entry
-> > > > for each machine in a SoC family in case the issue is not machine
-> > > > specific.
+Hi Sibi,
 
-Agreed, but we can predict that. You can infer just from the current state
-of affairs. Today all machines based on soc X may need the quirk but the
-firmware may vary across machines with same SoC.
+On Wed, Apr 16, 2025 at 06:11:54PM +0200, Johan Hovold wrote:
 
-> > > 
-> > > Well, yes but the solution would be to add multiple compatible on the
-> > > same quirk line, which is definitely less cumbersome than adding
-> > > multiple quirk defs for the same quirk but does NOT scale anyway....
-> > > 
-> > > ...anyway I will add that possibility..or I am missing something more ?
-> > 
-> > I was referring to the need to match on other compatible strings than
-> > the most specific one. For the ThinkPad T14s the strings are:
-> > 
-> > 	"lenovo,thinkpad-t14s-lcd", "lenovo,thinkpad-t14s",
-> > 	"qcom,x1e78100", "qcom,x1e80100"
-> > 
-> > Here you most certainly would not want to match on
-> > "lenovo,thinkpad-t14s-lcd" but rather on "lenovo,thinkpad-t14s" or one
-> > of the SoC compatibles.
-> > 
-
-SoC compatibles is debatable but if we are sure, we can do that.
-
-> > For the FC quirk we may have to match on compatible and then a single
-> > SoC entry could cover tens of machines (and their SKU variants).
-> > 
-
-Well theoretically I agree, but even if one machine based on that SoC
-doesn't need it we need to fall back to specific compatibles. That's the
-argument IIUC as the firmwares depend to be machine specific most of
-the time and also newer machines based on the same SoC may carry fixes
-that may remove the need for the quirks.
-
-> > of_machine_is_compatible() can be used to match on any compatible
-> > string, but not sure if that fits with your current implementation.
-> > 
-
-I was thinking about the same when I looked at the code. Using it is
-more elegant IMO.
-
+> Interestingly, I'm no longer seeing the crash on x1e without the quirk
+> enabled with 6.14 and 6.15-rc2.
 > 
-> Yes I know, it will need a bit of rework on my side...the problem is
-> that anyway does not scale at all, even though matching on SoC could be
-> less cumbersome ... and the reason is that it is fundamentally wrong
-> to match SCMI Quirks on anything different from the SCMI vendor/subv/impl_ver
-> since these are fixes/workarounds against quirks that are completely Vendor
-> and fw-version specific...
+> I still hit it immediately with 6.12 and 6.13 when accessing the cpufreq
+> sysfs attributes (with patch 1/4 applied):
 > 
-
-Agree!
-
-> ...instead now we are considering using compatibles to overcome the fact
-> that the vendor probably messed (or will mess up) also the side of
-> the story related to SCMI fw versions management ... "quirking" SCMI stuff
-> on platform/sku compatibles is basically a quirk against their broken
-> fw release process...
+> 	[   30.663577] arm-scmi arm-scmi.0.auto: timed out in resp(caller: do_xfer+0x164/0x564)
 > 
+> So presumably something changed in 6.14 that masks the earlier issue
+> when falling back to regular messaging.
 
-😄
+I just realised that this was due to a local change in the 6.14 and
+6.15-rc trees I used for testing. Without it the crash still happens
+with 6.15-rc2.
 
-> ...moreover this kind of carpet-quirking that hides the issue on any possible
-> fw version gives ZERO incentives to the aforementioned vendor to fix its
-> firmware...(or it fw-release process)...
-> 
+Sorry about the noise.
 
-+1
-
-> Indeed, cross posting from your other mail thread, as of now we cannot
-> even be sure if the Vendor has somehow already updated the SCMI-related
-> firmware NEITHER we can be sure about this in the future since it has not
-> even confirmed how they are (or they will) be handling the Impl_Version field...
-> 
-> Having said that, I would add that in this specific case (FC quirk) since the
-> only way to make use of all of this SCMI stuff from the MicroZoft/ACPI world
-> is having working FCs and, since it's clear that our lovely vendor wont
-> certainly break this other lovely OS way of working with SCMI, MAYBE it could
-> be safe to just apply the quirk to this Vendor forever no matter what the
-> platform or FW version will be in the future...(so not using compats at all)
-> 
-
-🤣
-
-> ...but I will be very happy to leave all of these political/phylosophycal
-> decisions to Sudeep :P
-> 
-
-Nice! I am happy to have generic compatible if we are sure all the machines
-based on or using it needs it. We can fix it up in the future if required
-by dropping generic compatibles and add all the more specific ones if the
-generic compatible breaks(meaning it doesn't need quirk) on any of the
-machines based on it as it is always hard to predict such things.
-
-
-> Thanks,
-> Cristian
-
--- 
-Regards,
-Sudeep
+Johan
