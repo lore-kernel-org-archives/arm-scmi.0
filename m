@@ -1,93 +1,153 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD5F1EA7D6;
-	Mon, 21 Apr 2025 05:37:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC4714EC46;
+	Mon, 21 Apr 2025 19:52:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745213843; cv=none; b=mOP7YybCGQyImf1UsjS3N/WC8CgKgACqDFieUTy9tqoNRRFxNyY6CWnee9XZ40u3o1xpMgybCDowmwD+8v1CgevcSns6V687J39unAc6C43DlCtDZXPBWIEWJ3Mkfl0Ar6WAv88EFlr4KBU5ZGW+ianR3Gc9/wnUm9Rno201YCY=
+	t=1745265156; cv=none; b=JOi27BbcuL4/7fSs94KlofzAOqVGDUTz59R2iFmPC7xCnYR6Y8rlEPW7vpRPlB/GE/sWwfUfNERQPi5f2aLY6vAKo0/pOwM5Uh2CNDjEpecoXsF88IKo0t1H9toPtpSbg33g0F15qdiBzC5l+SpUeKUxM2Di8Sg4t5XkxK0eabU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745213843; c=relaxed/simple;
-	bh=2Jzy9ZC6JBUJqedz2CiWnh2u85n2GsNVxwhydMt3RGw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=OvnMhONMTNwObcHQy1NN+g0Rh7b/sIkc1AhUnPIfeZXTgeE4rBaAbVq0+S7QHnHSp3TX8Sa8BvzH9+Y1Q3TnSlOYUi4N3SZWzEFkSPn+WjUYoauPK98dEhsQbpK36B5XXObKkzhnxsoF3gwq8Un7lJTgCPvHVrTj2OaxtmI0Fig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gr+SpRcU; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745265156; c=relaxed/simple;
+	bh=CwnKBAr4cUyRwa8J2zXYMHIU8XEWi6UIPWpMk48l28s=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XAl11uC0tabVvI5Alg3UyHnDiY54aHRhKUK77d9Mxs2dv6M620lDH3Xb8yAB4yLLPZMiZnuPp4+VGb0v7pWjg1rmJnB0Ve4yG8COjXEFBN+9j10yeZJkICtZ0O6IAAVFblDd15b1RB7KuLqNgqXi02Kwl1ws/vqg3YpVVfd3Lyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=L8k2pEOj; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gr+SpRcU"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-549b159c84cso4332861e87.3;
-        Sun, 20 Apr 2025 22:37:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745213840; x=1745818640; darn=vger.kernel.org;
-        h=in-reply-to:references:user-agent:from:subject:cc:to:message-id
-         :date:content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2Jzy9ZC6JBUJqedz2CiWnh2u85n2GsNVxwhydMt3RGw=;
-        b=Gr+SpRcUlUzXdMF8qVWbYL+2zQoob/7H9b3EMD3vXl5I+wFXkrhKYERluAsoywrRYv
-         ve4cHExd1LG9hcgOGBlnSHjPPjQNxbwR/LMakpATOls741cK5NQWKV9J8+HXHnIgKQFK
-         9ELdaY173xRNkqJ3oBiCoQ06qNEt1ulW5mAzQPi6itWOfrrUJjPdHxOtVfqF08e/VQwi
-         RvSJaLBXDKc4x6YhCSqcGAGQlBaPIbA/df+Q+YQVKkb2fuxKMevBHqenpxAOFSwyitEd
-         c59drbnpSz+lsLx6LTdm6cLJEnogtNV3IQgpBCkWBw1z4y5wrOLjx5+jiixzC+gOz+mq
-         zNOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745213840; x=1745818640;
-        h=in-reply-to:references:user-agent:from:subject:cc:to:message-id
-         :date:content-transfer-encoding:mime-version:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2Jzy9ZC6JBUJqedz2CiWnh2u85n2GsNVxwhydMt3RGw=;
-        b=Vt4wY1/kTyuHsC7wPzXkxgdLKeGmG+lIzLIaJ7ehWZqyWhD9x1EgmBha7GDpaDeZQX
-         fQkFqBkKJvdlyFECDKSnKV1ypXAEhbC5dFLcOcAao0DcuUuDEaGDwNzjFALcBF86WuTN
-         8d0y6w5nQEB/QYJe3pfQes7+ngrsEuFQ2PqDfwuYO5025+KF+MqbXFZ7DFbZnAxcDjQ+
-         rcWTAKW0Wq7s9UOGzG6rhsWVTf+I5Km4HByDaVideKriPPPZTbREt32Fka7+//7ZhlhT
-         9Gl17LqVI/8zvjJKzRT+Pvyil7zs1ZSCL72aKmC3RoxH5sFqaRMTS1d171giU3zQ7y7S
-         BKPw==
-X-Forwarded-Encrypted: i=1; AJvYcCUKbvpVDgwvYOy7mFanLOszIlp6Tb0SmU1OyCvy+SNBCBl5wPhxZemjEWllxmPvy19JbQBXjKXcljS+moJO@vger.kernel.org, AJvYcCVW8ReL4E1bzt97sAlSxvOmNbm53Sev0JqcWKm4UhYq3nkz6OBjGchPXu02RTWIKn4qUcrhD/gMMQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLo8zFW2v2VrnbkYcRHg3ZOKcWr9F/XkrZlMt6vFaJT1TLvXIX
-	Cf/utdCakLY4H8RSJ/iGx+X/bjDPWcB+rDj+6fMCthkb42S/ZdUV
-X-Gm-Gg: ASbGnctQfZLvPWk4zuQKsuTCjKO0btgcitAr1sJ3/mkbNcAX5rFduajpOMwMZyrZEBK
-	gOSlvCldCsnNvB6miuBFc5PMHrjZwLQx/XmhawUn4Y58Sx1uMjQXrH5bPhelzM0d9KVaZKH6O2N
-	g+R7+9q6PF005ztYLRz8emjBnRPg0UMOU3mKuWWo7jsneOmm62QewiiaqnbD2J4mwL1sQ/MCLrD
-	OsrnIbKq/lGAwv4njh6S41pFoSGd+ic30xW1WkR0/ivtv+u5pYuHf+VHbc1kaktLMcrXjrzEmmM
-	IsDSNXw/xa3GzX073w3fcKvY8bH5qFRAFJ0=
-X-Google-Smtp-Source: AGHT+IEX5ltlPfLCluDI8+idUv9xGtQd7mdwsOJMFE8fBqKtIfiU3iJrIQi2lCu8IGFrW5vsWloWzQ==
-X-Received: by 2002:a05:6512:2346:b0:545:e19:ba1c with SMTP id 2adb3069b0e04-54d6e62cb0amr2400614e87.19.1745213839491;
-        Sun, 20 Apr 2025 22:37:19 -0700 (PDT)
-Received: from localhost ([185.53.22.18])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d6e540849sm831853e87.53.2025.04.20.22.37.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 20 Apr 2025 22:37:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="L8k2pEOj"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53LIgAah029923;
+	Mon, 21 Apr 2025 19:52:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=yOIrzqR+rXq2XrGpFo1MpR
+	tGpckguk0edcRik++A3b0=; b=L8k2pEOjkvSns7jA98WWP3/wQzJ8Lu1T6Hayrw
+	O9k7bolr1zdEm18MAS1gAiD2kns9KfteCvvLxnAEEHXvUglpTcZl7Y+oxRoal1Gc
+	37fyr5ag4+Yqz+HPmvGMWM3h49Kpb7GHAi3vt2t/UTkPmJLxpc/4AAtALxLbVQaG
+	gv7CeO55b5DfI65cmL9CTLuY569TXddt6o5gR3Eczk8RascDunAaPyJdkKS5S1jn
+	F5APOQZU1Erhnj3oqdbZBZWPIjYdfvetG44LimwbCbW44Tgb++h9wy6/otZiWaRa
+	hlwimrisNgsTFAwqtYUHatlAD0eBWcI+9i+gbEa+1TpXS2dg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46435jd628-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 21 Apr 2025 19:52:20 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53LJqJZ9013101
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 21 Apr 2025 19:52:19 GMT
+Received: from hu-mdtipton-lv.qualcomm.com (10.49.16.6) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 21 Apr 2025 12:52:19 -0700
+From: Mike Tipton <quic_mdtipton@quicinc.com>
+To: Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi
+	<cristian.marussi@arm.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        "Viresh
+ Kumar" <viresh.kumar@linaro.org>
+CC: <arm-scmi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Peng Fan
+	<peng.fan@oss.nxp.com>,
+        Mike Tipton <quic_mdtipton@quicinc.com>
+Subject: [PATCH v2] cpufreq: scmi: Skip SCMI devices that aren't used by the CPUs
+Date: Mon, 21 Apr 2025 12:52:06 -0700
+Message-ID: <20250421195206.3736128-1-quic_mdtipton@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 21 Apr 2025 08:37:18 +0300
-Message-Id: <D9C2O9CUCJT8.334ZUG6YS2XA@gmail.com>
-To: "Cristian Marussi" <cristian.marussi@arm.com>
-Cc: "Sudeep Holla" <sudeep.holla@arm.com>, <arm-scmi@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- "Philipp Zabel" <p.zabel@pengutronix.de>, "Peng Fan" <peng.fan@nxp.com>
-Subject: Re: [PATCH] firmware: arm_scmi: add timeout in
- do_xfer_with_response()
-From: "Matthew Bystrin" <dev.mbstr@gmail.com>
-User-Agent: aerc/0.18.2
-References: <20250402104254.149998-1-dev.mbstr@gmail.com>
- <20250402-hidden-unyielding-carp-7ee32d@sudeepholla>
- <Z-1gY8mQLznSg5Na@pluto> <D8X9JJGPGDNL.1OTKIJODRFKNN@gmail.com>
- <20250409-fierce-astonishing-bug-dd2adb@sudeepholla>
- <D94LGXDHGVBD.1GB1GHOWORHMU@gmail.com> <Z_zJbRH7vQ0TswGg@pluto>
-In-Reply-To: <Z_zJbRH7vQ0TswGg@pluto>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=EOYG00ZC c=1 sm=1 tr=0 ts=6806a1f4 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=3H110R4YSZwA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=z2bt77sjNeVQpZcblNcA:9
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: kyF5pzhsMiCIzvRccGShrh7q2I38hOoz
+X-Proofpoint-ORIG-GUID: kyF5pzhsMiCIzvRccGShrh7q2I38hOoz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-21_09,2025-04-21_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ mlxlogscore=999 mlxscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 phishscore=0 spamscore=0 adultscore=0 impostorscore=0
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504210155
 
-Cristian, Sudeep,
+Currently, all SCMI devices with performance domains attempt to register
+a cpufreq driver, even if their performance domains aren't used to
+control the CPUs. The cpufreq framework only supports registering a
+single driver, so only the first device will succeed. And if that device
+isn't used for the CPUs, then cpufreq will scale the wrong domains.
 
-thanks for taking your time!
+To avoid this, return early from scmi_cpufreq_probe() if the probing
+SCMI device isn't referenced by the CPU device phandles.
 
-I'll figure something out :)
+This keeps the existing assumption that all CPUs are controlled by a
+single SCMI device.
 
---=20
-Best regards,
-Matthew
+Signed-off-by: Mike Tipton <quic_mdtipton@quicinc.com>
+---
+Changes in v2:
+- Return -ENODEV instead of 0 for irrelevant devices.
+- Link to v1: https://lore.kernel.org/all/20250411212941.1275572-1-quic_mdtipton@quicinc.com/
+
+ drivers/cpufreq/scmi-cpufreq.c | 28 +++++++++++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/cpufreq/scmi-cpufreq.c b/drivers/cpufreq/scmi-cpufreq.c
+index 944e899eb1be..b558f210c342 100644
+--- a/drivers/cpufreq/scmi-cpufreq.c
++++ b/drivers/cpufreq/scmi-cpufreq.c
+@@ -393,6 +393,32 @@ static struct cpufreq_driver scmi_cpufreq_driver = {
+ 	.set_boost	= cpufreq_boost_set_sw,
+ };
+ 
++static bool scmi_dev_used_by_cpus(struct device *scmi_dev)
++{
++	struct device_node *scmi_np = scmi_dev->of_node;
++	struct device_node *np;
++	struct device *cpu_dev;
++	int cpu, idx;
++
++	for_each_possible_cpu(cpu) {
++		cpu_dev = get_cpu_device(cpu);
++		if (!cpu_dev)
++			continue;
++
++		np = cpu_dev->of_node;
++
++		if (of_parse_phandle(np, "clocks", 0) == scmi_np)
++			return true;
++
++		idx = of_property_match_string(np, "power-domain-names", "perf");
++
++		if (of_parse_phandle(np, "power-domains", idx) == scmi_np)
++			return true;
++	}
++
++	return false;
++}
++
+ static int scmi_cpufreq_probe(struct scmi_device *sdev)
+ {
+ 	int ret;
+@@ -401,7 +427,7 @@ static int scmi_cpufreq_probe(struct scmi_device *sdev)
+ 
+ 	handle = sdev->handle;
+ 
+-	if (!handle)
++	if (!handle || !scmi_dev_used_by_cpus(dev))
+ 		return -ENODEV;
+ 
+ 	scmi_cpufreq_driver.driver_data = sdev;
+-- 
+2.34.1
+
