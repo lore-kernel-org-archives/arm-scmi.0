@@ -1,130 +1,110 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE2A23A564
-	for <arm-scmi@vger.kernel.org>; Fri, 25 Apr 2025 10:21:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB3B23F439
+	for <arm-scmi@vger.kernel.org>; Fri, 25 Apr 2025 10:48:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745576479; cv=none; b=UVfK4SNZnL5oQZ2L+6hk0vq4tQCcTzAo+QOjf7lJIlR27zVONoxV+6wsCIChkjTNbyg/Npn3tMhIv1q/ik/xOeTnN61aujv7fuDDx+4troOFsxUf8i8c+xUPaYnAOstjPyj7wEvbxzJybj4DQOCgYkCn0MN9+tAEbYyiK3A5bmI=
+	t=1745578139; cv=none; b=jyQQSojhZlzL0Y1ZavHcIBBSMWpvHVWt01+gOxUMFOPkUJ+F9Cz0hYCf0YYa1CILnL7+SwXwQJX3UfUZI2tCz0QZRWcX4JU6t59LMJrLKuLdeALxuD4q+Wvhn1kWS2VkxPC3yp7kT6HZpCoDiToP/2Gjt2mmUfe95acJi3NLKtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745576479; c=relaxed/simple;
-	bh=bea2MAWR2xePWrRZDSwx6U/cct68IawnA8pK7VpVqac=;
+	s=arc-20240116; t=1745578139; c=relaxed/simple;
+	bh=2ku72ZwIqqVhrqSEgQwHrF/4cBdRERPhfKLEpXvD7pA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PRmlLwQDCARkNVHDNpVLVKn/CnpSdJwBtw9O17ufQn6ntVCcriX0yUG+XwudVGoO7qf6Rrta53Pqs7+OvnwLip8blGvbSuumGYVMtjhECRsX/aSTcJatO0S9tZKkWwsJTyjkFKREgustWY5livC+SqYr/Wwzt5QmibB/Auxwe78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pYQ2pLQw; arc=none smtp.client-ip=209.85.128.171
+	 To:Cc:Content-Type; b=plIeAHex2BN2eMbxu4DoBmBiY5saySZz66r2fCpHF/RGIba2rTHVC2pnzIGhHY9zqVdLcRqTMQlwPLvVH6DgFYsP0jbAZqAT4tHOcMBCNrO+wuvEJfqSWpH8VJKcEGpMLVNxOvM+5khrJEBzD3ut7Iy/NJswYS25HDhPYmr/qVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qxb/M5XS; arc=none smtp.client-ip=209.85.128.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pYQ2pLQw"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-70565ccf3bcso22683237b3.0
-        for <arm-scmi@vger.kernel.org>; Fri, 25 Apr 2025 03:21:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qxb/M5XS"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-70565ccf3bcso22892387b3.0
+        for <arm-scmi@vger.kernel.org>; Fri, 25 Apr 2025 03:48:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745576476; x=1746181276; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1745578136; x=1746182936; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4xtlWzmg2HNhGfo1n6j6VZxV97pQa994I7X0fglbPbg=;
-        b=pYQ2pLQw7RRly8kASM2fnwPGu5txqC0V03JcFX+3sAdpNhASp1KUas1PdBoQkhV1Xp
-         qUfvvfwyLbe/Yo71EZ46W6jntyzwIjKqwwOD2BaTYqRU1j7gv/uEy0BMDIWTT+y6Ltgq
-         8E6bWn94SKa3MgIdSyfOpzt3PlSnLWeyeKtix/VoOpZNofc9j/3bZacJXYEQcCUg/YAD
-         5OeImXyixZv2KQBruhIP7k9RHvXoBSOQYPoQgVGqxflI5J4vmT535yq1++ypzpBiTn0e
-         wBa3h4uFoS2ESq6g8eCL0uEwiT3Wbji1DjN3DxvTmourvcfWEE+tj2gSiqnNk+Os4gd+
-         ko9A==
+        bh=bfSocEfyWblQPP/xzCkbUnaIRjF+zWCHDu1i0MW/Xm8=;
+        b=qxb/M5XSpAIHYi59cJW/mLpVAcDCnnvYbq91I1pi7zYtmaFZAwcdR/xNDwmZ7I5SCO
+         QTH7H9z1deZr0OqpOBbGHlKkWPO7G53LGX50a3SGcD+QI5URX1NPNeBBSdEMZX8LoHSW
+         4EoGvWu0+CSWF2YLxqYrN6gSs1wMYQYia//saLc+Keyl1v3Q1aMqIg5J6lsBNCo+lleM
+         pFf8nzfpN2ZpUY83/mTJ8vbLw4lbP7GznCFjtSmv7nQYdxEW7m4reENkuz82fe97jYb9
+         /j6AP74Raos+At3eKSFjuNK9f9D0///G29djO6MQdwlMvIBQDDHOqc5zpjSwO/qjR5Zv
+         cQ1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745576476; x=1746181276;
+        d=1e100.net; s=20230601; t=1745578136; x=1746182936;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4xtlWzmg2HNhGfo1n6j6VZxV97pQa994I7X0fglbPbg=;
-        b=s4jgcwZWzqs3DY9zg5f5ftZ+7jcQMRal8GlcnGJVSzHMdTqwjT4NeNOp1sLnYuVEq3
-         rvHQgleDf73GVchDTZJva0/9kX9zvDymmv5s7zWZCcg8rycKYgcvP6bGNwiBDP9QpM9l
-         FVEqXBH/OP3GlUM0bNVWVf6VgvxJIf3B6QvG5iUXjhZgCwbjkIjoe3gGQJHD4iwYYt2E
-         hAX4gLnl0gsJZdYl7QeNVWNlxF0ZS1bJbdMpSSdSkTmoPRPTBuXD3AbI0HJmJEUz/AZh
-         Uy4pMRjrBB8kXN+Q+PiNOwbaB274JcONPNvXQE60ffDbP+2o5BVtcNgZ97D3wBmgb7tG
-         ILxg==
-X-Forwarded-Encrypted: i=1; AJvYcCXXvTJA7GC8S4cFUohO/SZmRC5h6KjgsxSdcaPQvs+tKB0E86fspIbbEO8KG/5efoheTrOA8aGVsA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQ6UIrUpt+xa/iolHmv4IJyRdRf7W1RsdO3Lk2M6uP5YcTqOYk
-	49cUKpuBmL3ZMo0z4PNtY9rDZTHZ92krO3NLoVFX1NG/E5TsCZIM6dOQKE+AXYhYRS916NJKdoM
-	Zx3VexPTCH/xDsvcApg70ydq1yOLOX17UFJzzIw==
-X-Gm-Gg: ASbGncvw+dIxN+VVgkhIqYUBrmUK3WAkcfFsVVgZxy+StkGvDHwn8SKhappmdSUfnNG
-	6jfTXYwQZpUyMSmCLYt1W9TMRTPqvxvJo8vqkXibG3z034j8HUn9FJDIEx5ib9Us/dzDqU/U8kb
-	L6rpKGlQ4NMA5gV2gLL5iKw60=
-X-Google-Smtp-Source: AGHT+IFwzWvVcQW2OIuOPuNm7S3wzxb/4DZpY2/AfSEZfPmecvdAWyRMS5KH+2afz+oKQvj6DmCUtklI/lnuHoLlgh8=
-X-Received: by 2002:a05:6902:2411:b0:e6d:e8d4:681f with SMTP id
- 3f1490d57ef6-e73168936fdmr2304939276.35.1745576476343; Fri, 25 Apr 2025
- 03:21:16 -0700 (PDT)
+        bh=bfSocEfyWblQPP/xzCkbUnaIRjF+zWCHDu1i0MW/Xm8=;
+        b=tNspm8qfUYmC3X+glQ8binj+LCd6Sxg+SocXCQpYaxYHM6yZZaaxKXTzJj04Wz7Bvg
+         6l20undo4azi5VVhwLR27c2/lPTolxydyphCAFnZvGQtgOa/27fmcwgtDhRmGVRF+gMV
+         XD1mELu92IixpxHBzbthqqnz7mOYF/RJ8zRjiVP9L7jyB0/qj+lRax5V08x7ZOBrDJ/w
+         XP10+Sna4X/oXzwA+k6brt3hclCtONBBfw9BVsEeCB+tHIzp6LudJdHS8fuWtboXv6Fk
+         BrRSyoEDe8dBR3oKHDSPddm7PrQ/UlcjigOL6FGBm4U252df7EznvmwPpTXoGSHj6hSw
+         Gs/w==
+X-Forwarded-Encrypted: i=1; AJvYcCVuxrEG7Tr2l12c+ziF4lbyoy2nCseV4CO5Gf+Ddt3KM81CriADf0cDbrV6Uh8GU/iK60vpbgrkIQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyB6MsIsz004qSyoiicqcbYMY+WHxPyG4gPXwH6Ac1g3L57wgN/
+	1IeKRI54CwmpXyh3PWmCuoUegFXNOFyIWxRPOydL9y3lwhQ2RH3HtIEUbyJZAZTj4TIlzqmHG+l
+	kuuGyJcH3tS30eQsI4wx732xEStYTVeW4PTTjEA==
+X-Gm-Gg: ASbGncsmk1OO1PZBRipxQVPhGqz1IbCqFRTwHTmWPwcULynhFxyEMBCMmUXjQ1v38C6
+	yJWYDVOirwYqg+smyMGQ9KzegI90mTacPa2gJ44EjqHK88Y4BurAWYjTm1ZuqweB9Z+TAmWyuex
+	TF0a+KVUnM6sjPBMdtNfdNpqICnQv9rs/Tgg==
+X-Google-Smtp-Source: AGHT+IEh0l3QwEx8nV/nD4vopz+iQCNkFJtfQC71rtQ8RddeUHJi8VNkarpnUxaQ7POlBvQIKL1PD0fiPOEOu2Bn69k=
+X-Received: by 2002:a05:690c:6d11:b0:705:5fde:1b82 with SMTP id
+ 00721157ae682-708540f824bmr22087717b3.13.1745578136439; Fri, 25 Apr 2025
+ 03:48:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250417074645.81480-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20250417074645.81480-1-krzysztof.kozlowski@linaro.org>
+References: <7hecy3h7ky.fsf@baylibre.com> <CAPDyKFoLJ4zey6GNzCb9roAAJ5mS7B7exU1NEKtpLyyjD0aADA@mail.gmail.com>
+ <7hikn5c5v8.fsf@baylibre.com> <CAPDyKFpuqk3jH91rkDDz_kejyJ5pFg5XH+=vdTA2aP8MJKUWrw@mail.gmail.com>
+ <7h7c3kcbg2.fsf@baylibre.com> <7h1ptrdhxo.fsf@baylibre.com>
+In-Reply-To: <7h1ptrdhxo.fsf@baylibre.com>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 25 Apr 2025 12:20:40 +0200
-X-Gm-Features: ATxdqUFX3-aj6uGzZ6MjZfzJuyAtiwi1E0if2kOJDDTWutgbL5RxXK5HHoQxSiU
-Message-ID: <CAPDyKFpTKxA1fvppkADP=XVbU5YroczNMfYtjELK_TyGR54f2A@mail.gmail.com>
-Subject: Re: [PATCH] pmdomain: arm: Do not enable by default during compile testing
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Sudeep Holla <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>, 
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Fri, 25 Apr 2025 12:48:19 +0200
+X-Gm-Features: ATxdqUFFjiikf8JilKH662-5lTNHqUS5MfDDOT17jqQNL_TO9IDPn1uxAuCp5l8
+Message-ID: <CAPDyKFrnEAQ-H3q05WHFK53wYu7dnzhcUNw+-31H4RvK2MPMig@mail.gmail.com>
+Subject: Re: mixing SCMI and PSCI power domain hierarchy
+To: Kevin Hilman <khilman@baylibre.com>
+Cc: "cristian.marussi@arm.com" <cristian.marussi@arm.com>, 
+	"souvik.chakravarty@arm.com" <souvik.chakravarty@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, 
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>, Dhruva Gole <d-gole@ti.com>, 
+	Sebin Francis <sebin.francis@ti.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 17 Apr 2025 at 09:46, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
+On Wed, 16 Apr 2025 at 21:28, Kevin Hilman <khilman@baylibre.com> wrote:
 >
-> Enabling the compile test should not cause automatic enabling of all
-> drivers, but only allow to choose to compile them.
+> Kevin Hilman <khilman@baylibre.com> writes:
 >
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Ulf Hansson <ulf.hansson@linaro.org> writes:
+>
+> [...]
+>
+> >>
+> >> Attaching a single PM domain is managed by bus-level code via
+> >> dev_pm_domain_attach().
+> >>
+> >> If a device has multiple PM domains, the driver/bus for it needs to
+> >> manage that specifically, typically by using
+> >> dev_pm_domain_attach_list().
+> >
+> > OK, I see.  But in my quick experiment with this, I found that adding a
+> > 2nd domain to a devices power-domain property, it disappeared from the
+> > first domain also.  Any idea what is happening there?
+>
+> Just to answer my own question, I found that genpd_dev_pm_attach() has
+> an explicit check for the number of PM domains a device has[1].  If it
+> is not 1, the device is not attached to any domain.
+>
+> I had assumed that maybe the first domain would get attached and the
+> others are ignored, but in fact all the domains are ignored.
 
-Applied for next, thanks!
+Correct. It's because we need a different way to manage attaching of
+multiple PM domains for a device.
 
-Kind regards
+[...]
+
+Br
 Uffe
-
-
->
-> ---
->
-> For longer rationale:
-> https://lore.kernel.org/all/191543a8-2e2e-4ac4-9b2b-d253820a0c9f@app.fastmail.com/
-> ---
->  drivers/pmdomain/arm/Kconfig | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/pmdomain/arm/Kconfig b/drivers/pmdomain/arm/Kconfig
-> index efa139c34e08..afed10d382ad 100644
-> --- a/drivers/pmdomain/arm/Kconfig
-> +++ b/drivers/pmdomain/arm/Kconfig
-> @@ -2,7 +2,7 @@
->  config ARM_SCMI_PERF_DOMAIN
->         tristate "SCMI performance domain driver"
->         depends on ARM_SCMI_PROTOCOL || (COMPILE_TEST && OF)
-> -       default y
-> +       default ARM_SCMI_PROTOCOL
->         select PM_GENERIC_DOMAINS if PM
->         help
->           This enables support for the SCMI performance domains which can be
-> @@ -14,7 +14,7 @@ config ARM_SCMI_PERF_DOMAIN
->  config ARM_SCMI_POWER_DOMAIN
->         tristate "SCMI power domain driver"
->         depends on ARM_SCMI_PROTOCOL || (COMPILE_TEST && OF)
-> -       default y
-> +       default ARM_SCMI_PROTOCOL
->         select PM_GENERIC_DOMAINS if PM
->         help
->           This enables support for the SCMI power domains which can be
-> @@ -27,7 +27,7 @@ config ARM_SCMI_POWER_DOMAIN
->  config ARM_SCPI_POWER_DOMAIN
->         tristate "SCPI power domain driver"
->         depends on ARM_SCPI_PROTOCOL || (COMPILE_TEST && OF)
-> -       default y
-> +       default ARM_SCPI_PROTOCOL
->         select PM_GENERIC_DOMAINS if PM
->         help
->           This enables support for the SCPI power domains which can be
-> --
-> 2.45.2
->
