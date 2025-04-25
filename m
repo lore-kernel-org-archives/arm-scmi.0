@@ -1,64 +1,34 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B2728A1F3
-	for <arm-scmi@vger.kernel.org>; Fri, 25 Apr 2025 15:30:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E201E32D9;
+	Fri, 25 Apr 2025 17:07:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745595020; cv=none; b=eDyZC+2inKHAB9dU9/kGH45c61W4XVN0D+hWwFck6ESIYO4saacMVn8Op3XatoVvVo8Cg0RAOinouMvJdV+/kvwiYz5hLc+ccKDrtF+nG2D0cSZzb0OsYVxh+lvDRlvctA9KQ2ePaluvkKFdW0hHByXVrPkL1/Y8+mlzeBXsBT0=
+	t=1745600863; cv=none; b=mhwhr9Mqejy+KG7L7jwaj9apXqOoryr9mzVkgCLyIOuBNpe2vNjw59+9iAsUYuchdL4Te15AyU2SBR0kCeqgFb/YAMcc/lj9A2RaTWz9dL2aI4cByc2JVeqQ41CLGSzWVVyp7Fx0zo/OSIidIXF2hjD9K7vD2kd9ppjdZCNZfKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745595020; c=relaxed/simple;
-	bh=ahFIwcIRMsxGsYw7Ro1znBHhQb9IRWhbo25rb6BKN1s=;
+	s=arc-20240116; t=1745600863; c=relaxed/simple;
+	bh=fHOSkVvCS0e3YcFWO5XU4zHBCn1ZyGlikcXhosdxBlE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K7mYoUyAIbRLIHgIHOn7HL/nfbMWeQkBdN6T/v2l9DkD0QAUivVAR4xEvhsK3EyYKPCM+lbWPlmKeHedIYjstKBsJuwFVtU3acLB/eSGx9t6Q9I+HCl2JfX61ZfzofP+MQEsC0qarlKAzQycCBi9I3azwMkFUDjigKHLSR+yZ0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vIY7oGRd; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=R2TRUFuC/VwgLCXgIOTX1nya7sLxjcj1p1Olh/n0x1ALyfr6LM4UyG9vBxqwrVLlNN3fTE85cqAMfNT/bfTno2vjN3DNhqLAaKEzUex+ZCZOMWL+0vddSC9P7FhVcliXmqa1887r9nzkfHZ4iORjBgdZ/0/Mqmzcy3s8f2igcWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kCLYVafc; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vIY7oGRd"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-39c1efbefc6so1733192f8f.1
-        for <arm-scmi@vger.kernel.org>; Fri, 25 Apr 2025 08:30:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745595014; x=1746199814; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XYX9LNywUVjZ5MKIhmplUJhVT60qSNh9kSQfKfBdFKY=;
-        b=vIY7oGRd8jYvnGLP4tQWZxxx6C8AFthUwW6eEVVbdrkJLWUf1be9CY84oNfaJ1Ynwt
-         OUoth6j+G8ubGm8ByBCLEEfbsyXOA6cbPDZn0DAnRtXkPENRnVTcEfrl7+Fps/gdzad7
-         xwZQnnLEbhGFn03LsCYZNpEkZPynC8+30FV4Kw6oOyrAa+h62XHI2+UKncKY21yZeZj3
-         JEaF8XG6RKy0hAnrNhi6chSpxfBlx8uB+UGJoAGcVad4AS+53VlNDGjFfv/07B0zmBkj
-         vlBTOW4vs5zETlF/4dDAqXMRACkfjMtD3af4nrzBZH/m1fUcCn8bpATx7RXfysVecQFf
-         KM5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745595014; x=1746199814;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XYX9LNywUVjZ5MKIhmplUJhVT60qSNh9kSQfKfBdFKY=;
-        b=q3k7WAXT6OZcNDuzWqCNgOPTgbxyNpfbnA5YweFpegfRhg4ioj/d0M/p7Oya0Vftfk
-         MCBSJVxefC3F++fBlcYOLdY5HDSjmaZ6P8aMEK7lpzVf0oQL6x5z4L/C8fbytBcBW46m
-         tN1wUgwi0MsHdIG4rg5B/gPbVjgmgD2+pKgkPr+OEBeB/AYsWiv+9lyNO0XhfGael3cz
-         O5Jf4ymdjppWah0A27NLFnO4G3YcGYBMfSsO+eVB3FwCY/TiA8wwPF5UQBPypT+tixeZ
-         s7GE3QrpdkCOdN2mt49dYPJCS1jFdt2t9OgAHB/nDXHU8cXPcxWnleKQ7Xs7l6sJQsK2
-         fEgA==
-X-Forwarded-Encrypted: i=1; AJvYcCWPDwncOm4Vg2K6+6MgaYHlZmBo32BCAvzN6+9WIuLo5/MjYPwZfo7/vHc0h4x4VhroKBmvE08Xww==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIThksMXZZubdlBuSPgtTR6fipVD8oBPKbfRWM4cRpqmNKOv2p
-	fv8EZyRRlKLW8Ctm328imIw199jRJLUrWJZ0tBu79wx5aI8m4evTzfiqhY5xGnw=
-X-Gm-Gg: ASbGncuD4Ew0Lthpv0ipkWP/O9TodVETPQQAcsbL4cW615EP2tqUp0Cacp+mS9n80K0
-	AVWaDO+uRD3c1x2th4M4H2L7uGh1H5KiyKpNsZ4USBJ0lMy3TfYd/tVXRHhupGkPE6HPOXeyzFg
-	xXVd2VGshra9gk4oQO0uDoO8GQTRd7lUMYJDrMf4J1K9YjB1qnr6u/79mh1JRHlpyJnEOXYAfy4
-	DzpMMSFapVYCt0UJazVBTwDBeSwYK0QkyoqCmnBTik7E3FR+XSxth8+f0YuBsKdYQbdv1A4Dv3i
-	QcqSjuRLZABPztJnrmRf7aIXlsYLA/aDmQUuBhStmXUYmIwzB49FgtaT
-X-Google-Smtp-Source: AGHT+IGyQoffBkkjn9GdlBOynB35D8e4ETPc01tgM75yAlc1oqBxq4rXGz8GsC/XanHp8nvcBgQZNw==
-X-Received: by 2002:a5d:6489:0:b0:39c:1f02:449f with SMTP id ffacd0b85a97d-3a074e0e059mr2152557f8f.2.1745595014541;
-        Fri, 25 Apr 2025 08:30:14 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a073e6daa0sm2592945f8f.101.2025.04.25.08.30.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 08:30:14 -0700 (PDT)
-Date: Fri, 25 Apr 2025 18:30:10 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kCLYVafc"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 97499250;
+	Fri, 25 Apr 2025 19:07:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1745600854;
+	bh=fHOSkVvCS0e3YcFWO5XU4zHBCn1ZyGlikcXhosdxBlE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kCLYVafcorPJlG/fHXm4USpf3DTn8tEKNyjJotnlxAmdkehyKovEoloLTRfWJi/09
+	 aOg3xajkx1N/UwjLceV/Ao3fSd7aRk+VNE8sQk0Umz773BJkgCALLzqZCRBn+qZb8S
+	 vBdb+BPkJh0/ODbo6Zp99xfca39KAPD96NEw/V3s=
+Date: Fri, 25 Apr 2025 20:07:32 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
 Cc: "zhangzekun (A)" <zhangzekun11@huawei.com>,
 	Oleksij Rempel <o.rempel@pengutronix.de>, robh@kernel.org,
 	saravanak@google.com, justin.chen@broadcom.com,
@@ -75,40 +45,47 @@ Cc: "zhangzekun (A)" <zhangzekun11@huawei.com>,
 	Krzysztof Kozlowski <krzk@kernel.org>
 Subject: Re: [PATCH 1/9] of: Add warpper function
  of_find_node_by_name_balanced()
-Message-ID: <aAuqgiSxrh24-L-D@stanley.mountain>
+Message-ID: <20250425170732.GA21390@pendragon.ideasonboard.com>
 References: <20250207013117.104205-1-zhangzekun11@huawei.com>
  <20250207013117.104205-2-zhangzekun11@huawei.com>
  <Z6XDKi_V0BZSdCeL@pengutronix.de>
  <80b1c21c-096b-4a11-b9d7-069c972b146a@huawei.com>
  <20250207153722.GA24886@pendragon.ideasonboard.com>
  <be93486b-91bb-4fdd-9f6c-ec295c448476@stanley.mountain>
+ <aAuqgiSxrh24-L-D@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <be93486b-91bb-4fdd-9f6c-ec295c448476@stanley.mountain>
+In-Reply-To: <aAuqgiSxrh24-L-D@stanley.mountain>
 
-Whatever happened with this thread from Feb.
-https://lore.kernel.org/all/20250207013117.104205-1-zhangzekun11@huawei.com/
+On Fri, Apr 25, 2025 at 06:30:10PM +0300, Dan Carpenter wrote:
+> Whatever happened with this thread from Feb.
+> https://lore.kernel.org/all/20250207013117.104205-1-zhangzekun11@huawei.com/
+> 
+> The issue was that people weren't expecting of_find_node_by_name() to
+> drop the reference on the of_node.  The patchset introduced a wrapper
+> which basically worked as expected except no liked the naming.  Krzysztof
+> suggested that maybe the callers should be using of_get_child_by_name()
+> instead.
 
-The issue was that people weren't expecting of_find_node_by_name() to
-drop the reference on the of_node.  The patchset introduced a wrapper
-which basically worked as expected except no liked the naming.  Krzysztof
-suggested that maybe the callers should be using of_get_child_by_name()
-instead.
+My conclusion is that most of the users of of_find_node_by_name() with a
+non-NULL first argument are wrong, and should be replaced by
+of_get_child_by_name(). We need a volunteer to do that work.
 
-I created a Smatch warning for this and here are the four issues it
-found.  The line numbers are from linux-next.
+> I created a Smatch warning for this and here are the four issues it
+> found.  The line numbers are from linux-next.
+> 
+> drivers/net/ethernet/broadcom/asp2/bcmasp.c:1370 bcmasp_probe() warn: 'dev->of_node' was not incremented
+> drivers/net/pse-pd/tps23881.c:505 tps23881_get_of_channels() warn: 'priv->np' was not incremented
+> drivers/media/platform/qcom/venus/core.c:301 venus_add_video_core() warn: 'dev->of_node' was not incremented
+> drivers/regulator/tps6594-regulator.c:618 tps6594_regulator_probe() warn: 'tps->dev->of_node' was not incremented
 
-drivers/net/ethernet/broadcom/asp2/bcmasp.c:1370 bcmasp_probe() warn: 'dev->of_node' was not incremented
-drivers/net/pse-pd/tps23881.c:505 tps23881_get_of_channels() warn: 'priv->np' was not incremented
-drivers/media/platform/qcom/venus/core.c:301 venus_add_video_core() warn: 'dev->of_node' was not incremented
-drivers/regulator/tps6594-regulator.c:618 tps6594_regulator_probe() warn: 'tps->dev->of_node' was not incremented
+-- 
+Regards,
 
-regards,
-dan carpenter
-
+Laurent Pinchart
