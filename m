@@ -1,123 +1,114 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B1C978F4B
-	for <arm-scmi@vger.kernel.org>; Fri, 25 Apr 2025 14:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B2728A1F3
+	for <arm-scmi@vger.kernel.org>; Fri, 25 Apr 2025 15:30:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745591980; cv=none; b=Ki4SMD4OeUcJnRL1XbX+Yc81q1u+7ZpkvhrIhrkeq2mTjScBoD2+si2sttzy7rfnLaOuAmaI/uEK62jD3QtyJkLyXxvqAtnBQ7wc+OeyWHvcsmkRVnf4MAG0Z/t7tFlyyrIdu++INNAWAAF5avKtZbMpp0lCshMKy6sz0jUzwRI=
+	t=1745595020; cv=none; b=eDyZC+2inKHAB9dU9/kGH45c61W4XVN0D+hWwFck6ESIYO4saacMVn8Op3XatoVvVo8Cg0RAOinouMvJdV+/kvwiYz5hLc+ccKDrtF+nG2D0cSZzb0OsYVxh+lvDRlvctA9KQ2ePaluvkKFdW0hHByXVrPkL1/Y8+mlzeBXsBT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745591980; c=relaxed/simple;
-	bh=OSubARYn2/6Pmrn6Lu9y1mWLoo3bOXPQBGx1Qr03POA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=lyrjuIfBWXeTWwhl0HP2AB6ki/PiwFzfeNtKZ1SC/uXAYVVuC0UKbYsv15akAQtSvTM7YVvu8irXS17ADukmibeLuU8xXw7/OlTJ2CoQgFDR6nhGm+4LUuefRUewWBYN0R2hYxBAm9ilSVB76JJ9Wp+qPMzAeXux50ptBGWSJVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=BRXOd9wE; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1745595020; c=relaxed/simple;
+	bh=ahFIwcIRMsxGsYw7Ro1znBHhQb9IRWhbo25rb6BKN1s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K7mYoUyAIbRLIHgIHOn7HL/nfbMWeQkBdN6T/v2l9DkD0QAUivVAR4xEvhsK3EyYKPCM+lbWPlmKeHedIYjstKBsJuwFVtU3acLB/eSGx9t6Q9I+HCl2JfX61ZfzofP+MQEsC0qarlKAzQycCBi9I3azwMkFUDjigKHLSR+yZ0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vIY7oGRd; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BRXOd9wE"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b0da25f5216so1554294a12.1
-        for <arm-scmi@vger.kernel.org>; Fri, 25 Apr 2025 07:39:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vIY7oGRd"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-39c1efbefc6so1733192f8f.1
+        for <arm-scmi@vger.kernel.org>; Fri, 25 Apr 2025 08:30:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1745591975; x=1746196775; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xAKrMW6zsVbjYtLUcVxIdHAMWVdhaJiRImv1owsKHe8=;
-        b=BRXOd9wE1lPKfrk6DkmtmPkn7sbo+NBkBwZTnWN63xvBr1ZVr9i+y2i2U+VUUBe3a8
-         ACipQm+mWIVJhzoOTEdJS0vKQDnGLPHbNjCypKVow7yur7DS1zd9p9R7/2DrMTH1T8Hz
-         MY0ZN2HeDI8XihPOer2MuGYXhpTjCnrO7MfNmDZBixBAu3kpG3XzPtHFRXsZ5WMRBu1J
-         XjzlXChIoQuMIu7YsuuY+2GSmqdZlcekLu1/4EbddaxYncqHHgFzsKK6KYdUQKezrUoD
-         TcKQ1XKNb1ugw34LHDdbAOe7bIClJmsw1qsbLjzvsQq0UIt/5cmqqrM1IW/8wO7Ey/lN
-         30+A==
+        d=linaro.org; s=google; t=1745595014; x=1746199814; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XYX9LNywUVjZ5MKIhmplUJhVT60qSNh9kSQfKfBdFKY=;
+        b=vIY7oGRd8jYvnGLP4tQWZxxx6C8AFthUwW6eEVVbdrkJLWUf1be9CY84oNfaJ1Ynwt
+         OUoth6j+G8ubGm8ByBCLEEfbsyXOA6cbPDZn0DAnRtXkPENRnVTcEfrl7+Fps/gdzad7
+         xwZQnnLEbhGFn03LsCYZNpEkZPynC8+30FV4Kw6oOyrAa+h62XHI2+UKncKY21yZeZj3
+         JEaF8XG6RKy0hAnrNhi6chSpxfBlx8uB+UGJoAGcVad4AS+53VlNDGjFfv/07B0zmBkj
+         vlBTOW4vs5zETlF/4dDAqXMRACkfjMtD3af4nrzBZH/m1fUcCn8bpATx7RXfysVecQFf
+         KM5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745591975; x=1746196775;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xAKrMW6zsVbjYtLUcVxIdHAMWVdhaJiRImv1owsKHe8=;
-        b=hJHktxqcxuZuJXyar0P8D+Alnm9MtTHawvRKiwb3G1vryJx3IKfBNdUMNzl6F9wBn6
-         kW4jFCvUreIZogiU+v5LVPMbj2iSedMjMp7hPfe4SQ/ReUGpP37ctdbuQLsJYssEbzkE
-         d74R3vj6/neaYDLcueTvRr5SI5sO7+hKegrX2b2I9+hVFptBLtMAy8/dcgDgKX4pzqdY
-         ee9YLN0cPhU8RCZ//L6u0DmYLAMl6srskTcHxEZ11qQvu58jdGPyZxr3XdX3g3sP6L79
-         DzfeATAMns8W11+TkhqwgIr1KvFfFipXFvmVph1OrUsN7tx0Ibj56w8hzEzPrAupLSG8
-         Ms3g==
-X-Forwarded-Encrypted: i=1; AJvYcCVFCarrWg6ip9m5LQAbwe8YL29MNgVpP8vFgrlReJ4Pzrbox3lZAp5tAxI4XvPY/8eo3O2Ysg2XOA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRa5aq8KibNMGIzkwJ5Ey9fCOzeLlhcuNOoBRRs06tLpKAaKeG
-	NYcu2PmjxH2G47i0ts0HuS6gRjlOqXOu3fEF5VmmdDMyab7G2v0nwcsyyDWNRP0=
-X-Gm-Gg: ASbGncs1JkrAu2Lagb2rGWkutHf+VE1FViBE4n3gs6tUl80YYwYHeNxUZUc9tyX5P7N
-	Wx24uX+00lgBIK0N+6Dz5BIyzeDZrxSm9s12IfP9bJbyR+sGgSUExRJSB0N+dHbWOJ73ggoR0Rg
-	QAvaMyr37ONeH7R9H93DzKfE8/Qjdlg1k8WTM9vcG/qYwwle/NHEydfcVBcRYUdWPmbFbd0aDx8
-	FVqPqYLm1l4T+vaSIrWcMfNykw0UwnFOR5cRnWa+EHIkkG75xl/ARobHryA6Tjpksm59Tx1H7bd
-	i3QGxzBqmG14d5x8x+V3HML6sEu9ZSBF7WIAP20=
-X-Google-Smtp-Source: AGHT+IE3rzPchdu7DUsBLpoRV+rjBv5ReBrQWZxizYU1DK1ls1ZPmZsUkQYHhl478JUZBjtG1pB//g==
-X-Received: by 2002:a05:6a21:108f:b0:1f5:9393:fd4d with SMTP id adf61e73a8af0-2045b9aab13mr3563905637.27.1745591975298;
-        Fri, 25 Apr 2025 07:39:35 -0700 (PDT)
-Received: from localhost ([97.126.182.119])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b15fa80f2dasm2966170a12.59.2025.04.25.07.39.34
+        d=1e100.net; s=20230601; t=1745595014; x=1746199814;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XYX9LNywUVjZ5MKIhmplUJhVT60qSNh9kSQfKfBdFKY=;
+        b=q3k7WAXT6OZcNDuzWqCNgOPTgbxyNpfbnA5YweFpegfRhg4ioj/d0M/p7Oya0Vftfk
+         MCBSJVxefC3F++fBlcYOLdY5HDSjmaZ6P8aMEK7lpzVf0oQL6x5z4L/C8fbytBcBW46m
+         tN1wUgwi0MsHdIG4rg5B/gPbVjgmgD2+pKgkPr+OEBeB/AYsWiv+9lyNO0XhfGael3cz
+         O5Jf4ymdjppWah0A27NLFnO4G3YcGYBMfSsO+eVB3FwCY/TiA8wwPF5UQBPypT+tixeZ
+         s7GE3QrpdkCOdN2mt49dYPJCS1jFdt2t9OgAHB/nDXHU8cXPcxWnleKQ7Xs7l6sJQsK2
+         fEgA==
+X-Forwarded-Encrypted: i=1; AJvYcCWPDwncOm4Vg2K6+6MgaYHlZmBo32BCAvzN6+9WIuLo5/MjYPwZfo7/vHc0h4x4VhroKBmvE08Xww==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIThksMXZZubdlBuSPgtTR6fipVD8oBPKbfRWM4cRpqmNKOv2p
+	fv8EZyRRlKLW8Ctm328imIw199jRJLUrWJZ0tBu79wx5aI8m4evTzfiqhY5xGnw=
+X-Gm-Gg: ASbGncuD4Ew0Lthpv0ipkWP/O9TodVETPQQAcsbL4cW615EP2tqUp0Cacp+mS9n80K0
+	AVWaDO+uRD3c1x2th4M4H2L7uGh1H5KiyKpNsZ4USBJ0lMy3TfYd/tVXRHhupGkPE6HPOXeyzFg
+	xXVd2VGshra9gk4oQO0uDoO8GQTRd7lUMYJDrMf4J1K9YjB1qnr6u/79mh1JRHlpyJnEOXYAfy4
+	DzpMMSFapVYCt0UJazVBTwDBeSwYK0QkyoqCmnBTik7E3FR+XSxth8+f0YuBsKdYQbdv1A4Dv3i
+	QcqSjuRLZABPztJnrmRf7aIXlsYLA/aDmQUuBhStmXUYmIwzB49FgtaT
+X-Google-Smtp-Source: AGHT+IGyQoffBkkjn9GdlBOynB35D8e4ETPc01tgM75yAlc1oqBxq4rXGz8GsC/XanHp8nvcBgQZNw==
+X-Received: by 2002:a5d:6489:0:b0:39c:1f02:449f with SMTP id ffacd0b85a97d-3a074e0e059mr2152557f8f.2.1745595014541;
+        Fri, 25 Apr 2025 08:30:14 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a073e6daa0sm2592945f8f.101.2025.04.25.08.30.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 07:39:34 -0700 (PDT)
-From: Kevin Hilman <khilman@baylibre.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: "cristian.marussi@arm.com" <cristian.marussi@arm.com>,
- "souvik.chakravarty@arm.com" <souvik.chakravarty@arm.com>, Sudeep Holla
- <sudeep.holla@arm.com>, "arm-scmi@vger.kernel.org"
- <arm-scmi@vger.kernel.org>, Dhruva Gole <d-gole@ti.com>, Sebin Francis
- <sebin.francis@ti.com>
-Subject: Re: mixing SCMI and PSCI power domain hierarchy
-In-Reply-To: <CAPDyKFo_P129sVirHHYjOQT+QUmpymcRJme9obzKJeRgO7B-1A@mail.gmail.com>
-References: <7hecy3h7ky.fsf@baylibre.com>
- <CAPDyKFoLJ4zey6GNzCb9roAAJ5mS7B7exU1NEKtpLyyjD0aADA@mail.gmail.com>
- <7hikn5c5v8.fsf@baylibre.com>
- <CAPDyKFpuqk3jH91rkDDz_kejyJ5pFg5XH+=vdTA2aP8MJKUWrw@mail.gmail.com>
- <7hzfgf8xsw.fsf@baylibre.com>
- <CAPDyKFo_P129sVirHHYjOQT+QUmpymcRJme9obzKJeRgO7B-1A@mail.gmail.com>
-Date: Fri, 25 Apr 2025 07:39:34 -0700
-Message-ID: <7hmsc4s3tl.fsf@baylibre.com>
+        Fri, 25 Apr 2025 08:30:14 -0700 (PDT)
+Date: Fri, 25 Apr 2025 18:30:10 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: "zhangzekun (A)" <zhangzekun11@huawei.com>,
+	Oleksij Rempel <o.rempel@pengutronix.de>, robh@kernel.org,
+	saravanak@google.com, justin.chen@broadcom.com,
+	florian.fainelli@broadcom.com, andrew+netdev@lunn.ch,
+	kuba@kernel.org, kory.maincent@bootlin.com,
+	jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
+	maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
+	olteanv@gmail.com, davem@davemloft.net, taras.chornyi@plvision.eu,
+	edumazet@google.com, pabeni@redhat.com, sudeep.holla@arm.com,
+	cristian.marussi@arm.com, arm-scmi@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-media@vger.kernel.org,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	chenjun102@huawei.com, Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH 1/9] of: Add warpper function
+ of_find_node_by_name_balanced()
+Message-ID: <aAuqgiSxrh24-L-D@stanley.mountain>
+References: <20250207013117.104205-1-zhangzekun11@huawei.com>
+ <20250207013117.104205-2-zhangzekun11@huawei.com>
+ <Z6XDKi_V0BZSdCeL@pengutronix.de>
+ <80b1c21c-096b-4a11-b9d7-069c972b146a@huawei.com>
+ <20250207153722.GA24886@pendragon.ideasonboard.com>
+ <be93486b-91bb-4fdd-9f6c-ec295c448476@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <be93486b-91bb-4fdd-9f6c-ec295c448476@stanley.mountain>
 
-Ulf Hansson <ulf.hansson@linaro.org> writes:
+Whatever happened with this thread from Feb.
+https://lore.kernel.org/all/20250207013117.104205-1-zhangzekun11@huawei.com/
 
-[...]
+The issue was that people weren't expecting of_find_node_by_name() to
+drop the reference on the of_node.  The patchset introduced a wrapper
+which basically worked as expected except no liked the naming.  Krzysztof
+suggested that maybe the callers should be using of_get_child_by_name()
+instead.
 
->> Anyways, curious what you think.  I quite like this solution because it
->> solves two fairly big limitations in the SCMI PM domain implementaion
->> that exist today with one relatively simple solution.
->
-> Well, I am not the one to convince in regards to DT bindings. Putting
-> the DT bindings aside, I think your extensions for the SCMI Power
-> Domain to support parent-domains makes perfect sense to me!
->
-> In regards to the DT bindings (again, I am not the expert here), but
-> maybe we could try to extend the current way we describe parent
-> domains instead of inventing something entirely new. Could the below
-> work?
->
-> scmi_pds: protocol@11 {
->         reg = <0x11>;
->          #power-domain-cells = <1>;
->          power-domains = <&MAIN_PD>, <&WKUP_PD>; // a list of phandles
->          power-domains-child-ids = <15>, <19> ; // a list of indexes
-> corresponding to the list of phandles above
+I created a Smatch warning for this and here are the four issues it
+found.  The line numbers are from linux-next.
 
-Yeah, this is probably better.  I'm not crazy about introducing novel
-DT bindings either.  I will make a PoC of this approach.
+drivers/net/ethernet/broadcom/asp2/bcmasp.c:1370 bcmasp_probe() warn: 'dev->of_node' was not incremented
+drivers/net/pse-pd/tps23881.c:505 tps23881_get_of_channels() warn: 'priv->np' was not incremented
+drivers/media/platform/qcom/venus/core.c:301 venus_add_video_core() warn: 'dev->of_node' was not incremented
+drivers/regulator/tps6594-regulator.c:618 tps6594_regulator_probe() warn: 'tps->dev->of_node' was not incremented
 
-The catch with either approach is that it will be a long list.  e.g. on
-the TI AM62L, there are 50+ SCMI IDs.
+regards,
+dan carpenter
 
-> The above said, I have also discussed this with Vincent and we thought
-> it was a good idea to bring up the topic at the next monthly public
-> SCMI call.
->
-> It would be great if you could join, but let's see if we can find a
-> reasonable slot as the current is in the middle of the night for you.
-> Vincent will reach out to you as he is the one hosting the call.
-
-Sounds great, thanks!
-
-Kevin
