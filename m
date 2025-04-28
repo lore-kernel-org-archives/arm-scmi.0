@@ -1,49 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406D8A55;
-	Sun, 27 Apr 2025 14:46:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4177E1B4138
+	for <arm-scmi@vger.kernel.org>; Mon, 28 Apr 2025 09:27:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745765205; cv=none; b=kLz4Uk28i+YnK4aOwaMbocIQHXB3MdNvAsDoUwa49FVS7bBRy/7CPjgFafsV2bAuHvmoWFcBFjczaKfXIqm+s36qcsxkEftlUYP2V8j2MfIIMkvKwGhIbm0sqaHbmKumvY1FkjgK1Ar91LP/Zu2BvT6eOS+yM7nmhGpkPJd6Z5Q=
+	t=1745832481; cv=none; b=nVd1O5ItHuVm1BEnr+PZTU75MVbDOI2O+vO1ymsY2ptkv3XUoKm1CqT/2OWjv2IKU/YM9YA97xHVKrfA6LNkxxn+dpWdVwDckTZTXhqyx0pW9OoOMTybC02X2d50Z1EF7OqVdIWi9eiY4K3BVHk9fJJhi07QWMLl+mSI1YgiL0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745765205; c=relaxed/simple;
-	bh=EMjN1NRJqH0mdrr+kOIC6gH8ti4J53ARzCK2WMPH2sY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uJjIMwmahMFa0tfGCqxu2aIVKq1tX1F+woKY21yC4W8kTlM1mo/OGQjjJCOH2ubuf61nlxljrAmSgopP1quSSOu3x+LCo80N8d9VsCS09d7in1Y7qQ7SE5elLKw+YR2tjfszIpvyHmvQQ929zwtToQ0EdIsOLleSMr/LPupCrqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hlxiK2xx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745832481; c=relaxed/simple;
+	bh=TGkE9kIV5CP/rb826rmt2oG4WKDdh9Ues+PaiaUo2+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=E1nlkldgBcTMKu7RZW07Vl9/Aco57dOfw7g8LePdze+Af8+t0/2GSl5LQ9AHfTT4I05FjURICP/1VNTLdkLLitYp1HTyh/K3X073ZKqoDOmUCAg/vl3h9ozLEbfERQyA+JlIsTBmVk4vMLvTDNJLQlHErfUTHbTTSU5dBXWSumA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VArcNOZJ; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hlxiK2xx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 982FFC4CEE3;
-	Sun, 27 Apr 2025 14:46:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745765204;
-	bh=EMjN1NRJqH0mdrr+kOIC6gH8ti4J53ARzCK2WMPH2sY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hlxiK2xxd8rpaDGVIJu20NpNhJW5Pwly63H5m5nDrHTy8PxEDP0avOeBdk6L5skf6
-	 BBGenUCsyemIT4F2O7gRJhYXwUSnUl0z61ZlAauKrFczbPJAN7rCTVSNibjEOLS8Uh
-	 COD0x68Rdhvzpf7MUZK/eWwAQ6pCbvIh4llans1Zh86X2rbSvG8L20n4ma4sko0fjT
-	 ND6qMijIcJy6Y6fy0V0m+eEO6Fq9yvy1ds566lmFr0oUIRmwyKkXq4N8gXzetmY+BA
-	 zhcln19HPtcBqC4NaOE6F0piDaqFVs8hL82zFvlgXrd3tjZWVwRjLwLmNHrHM4bp6h
-	 3eCGUL2iag+FA==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1u93HL-0000000065N-0XPr;
-	Sun, 27 Apr 2025 16:46:47 +0200
-Date: Sun, 27 Apr 2025 16:46:47 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, peng.fan@oss.nxp.com,
-	michal.simek@amd.com, quic_sibis@quicinc.com,
-	dan.carpenter@linaro.org, maz@kernel.org
-Subject: Re: [PATCH v2 4/4] [NOT FOR UPSTREAM] firmware: arm_scmi: quirk:
- Ignore FC bit in attributes
-Message-ID: <aA5DVxP7n5GDFxoO@hovoldconsulting.com>
-References: <20250425125250.1847711-1-cristian.marussi@arm.com>
- <20250425125250.1847711-5-cristian.marussi@arm.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VArcNOZJ"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-39c13fa05ebso2931359f8f.0
+        for <arm-scmi@vger.kernel.org>; Mon, 28 Apr 2025 02:27:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1745832477; x=1746437277; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/McI7ZOC/UHJ7m7SA/U4UrRNwplmzHL51CRoEKnevhE=;
+        b=VArcNOZJ1Wcy7udVcl4i/pynD2u2FV8iiYKJH/mOk9+dOShY8OQmz2deEAYffnOYLz
+         YNloYOX6jTPWVHiTIFjR9ZVt3xFH66e562GcWGaxDsXsBPjvnd7uRm+FjmSeCn6Qqt3j
+         H0RFIuaF0UqtNIG31MinkrdPKrENHpo8X0cG9Qfw9k6kK/Sseq3q0OxvU+VgZkzMSK0d
+         TSEIbikxh9eYlNX9mc0+nTC6yMdZuJM4JhBmB90Y9GitbgxPIjj2Q+qX4lBZIi6vRSwJ
+         +H85/AV7TnoTzwX4XfcHUZeQCI3YwMN2y5BmpFwj9Bdwn+3hrjvmKUTEPoGOBC58IRl6
+         2H6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745832477; x=1746437277;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/McI7ZOC/UHJ7m7SA/U4UrRNwplmzHL51CRoEKnevhE=;
+        b=h1NS+lsfENJrZJ9EE76CwwpWqLpXH9Ii/CS62i7GDxKVZXm0Pg1ibCEFBzq1dsG+er
+         nqEADS4BKtttHkm1EZIN8tM0UaUXbzrCePoMqgQIrquBouc7bGUN0M/XsNfVc4cU8HO3
+         WlEluaHPfhkb7GHqsj/VkBVJ1qaIc8yO48sIbZmWAAaVuvA5dPkLcjL5Bzp+59ZbOi4O
+         91kPsOQau0eQuctKF4aaDNEpCtQZM7kdcO0UwaknTFTa6cpK2ohlL160wwvOaIcKeRyH
+         mQLrWI/jzKgMmrQybdgrQrpqLkhelHlL1vONdZbBW1SaXFE3XWMSSHy5uKX9qrM+Cs2p
+         5mjA==
+X-Gm-Message-State: AOJu0Yzz+744rTa/6cXHssQaHTaI742saxl0Qbnn0EPllDwp3QNxsrHt
+	wcmlzf7HyZ+otiP6TDzpnC6AmKRjtC0q9x93+fz18obvO6dT1KfITCz9VZ1mXzg=
+X-Gm-Gg: ASbGncvSHVCjz538bwaqgFC4MDsWtDS9E5Kd147xUPxW4bChmhCeeb6jUgL2kj2i5vO
+	Lh8FvbEYiKldmLTxD2T3QnnctP8d9i5oBU46jyBD7/ZOfefboe7t+YSGbWx3zd2rAd6JlZNFbd7
+	eTCSlSLrcXRjPsO8aFstAYbX8f8m6OH2p8ppXzbOzEkxButhLKuiOkMUHPBgY3hQVnarTTyHJ6F
+	eFxoyHnV7qCnpU1bYfdX5rvdpCmh2MXuAMJU/hsPlCB11hXxZQUFmPMxuoPAHbf0tff53ypun4p
+	vOTkvaBsAXPv+q8ibPJ77k2KUiYR4yI1l10SOmWNqYXQBQ==
+X-Google-Smtp-Source: AGHT+IFbqQuoP7PQSyZ6Gbin6zcRcOjrszC/CFjDipuyXbhGRAIU1lQ0LjSIY0BA8w+jSSMf8iMang==
+X-Received: by 2002:a05:6000:2584:b0:39e:f641:c43 with SMTP id ffacd0b85a97d-3a07adb233dmr6029576f8f.53.1745832477420;
+        Mon, 28 Apr 2025 02:27:57 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a073c9ba61sm10661109f8f.9.2025.04.28.02.27.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Apr 2025 02:27:56 -0700 (PDT)
+Date: Mon, 28 Apr 2025 12:27:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>
+Cc: arm-scmi@vger.kernel.org, Girish Pathak <Girish.Pathak@arm.com>
+Subject: [PATCH SCP] module/scmi_pin_control: allow variable length responses
+Message-ID: <aA9KGTuVXZotPEMF@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -52,42 +68,55 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250425125250.1847711-5-cristian.marussi@arm.com>
 
-On Fri, Apr 25, 2025 at 01:52:50PM +0100, Cristian Marussi wrote:
-> Some platform misreported the support of FastChannel when queried: ignore
-> that bit on selected platforms.
-> 
-> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> ---
-> Match features has to be set-up properly before upstreaming this.
-> Ideally the out-of-spec firmware should be matched with a quirk matching
-> pattern based on Vendor/SubVendor/ImplVersion....but it is NOT clear if the
-> platform at hand will ship with future fixed firmwares where the ImplVersion
-> field is properly handled.
-> If we cannot be sure about that, we should fallback to a compatible match.
-> 
-> v1 -> v2
-> - use multiple compats quirks syntax
-> 
-> RFC->V1
-> - fix QUIRKS conditions
+The PINCTRL_LIST_ASSOCIATIONS and PINCTRL_SETTINGS_GET commands can
+return variable length responses.  Originally, they were hard coded as
+returning only one response.  Change the length to -1 and change
+scmi_message_validation() to skip the length checking for lengths when
+it's -1.
 
->  /* Global Quirks Definitions */
->  DEFINE_SCMI_QUIRK(clock_rates_triplet_out_of_spec, NULL, NULL, NULL);
-> +DEFINE_SCMI_QUIRK(perf_level_get_fc_force,
-> +		  "bad-vend", NULL, "0x20000-", "bad-compat", "bad-compat-2");
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ module/scmi/src/mod_scmi.c                         | 5 ++++-
+ module/scmi_pin_control/src/mod_scmi_pin_control.c | 6 ++----
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
-Still works when matching on vendor and version (and/or machine or SoC
-compatible):
+diff --git a/module/scmi/src/mod_scmi.c b/module/scmi/src/mod_scmi.c
+index dfaf441fbae5..da4ecc09e13b 100644
+--- a/module/scmi/src/mod_scmi.c
++++ b/module/scmi/src/mod_scmi.c
+@@ -434,8 +434,11 @@ static int scmi_message_validation(
+         return (int)SCMI_NOT_FOUND;
+     }
+ 
+-    if (payload_size != payload_size_table[message_id]) {
++    if (payload_size_table[message_id] != -1 &&
++        payload_size != payload_size_table[message_id]) {
+         /* Incorrect payload size or message is not supported */
++        FWK_LOG_ERR("invalid message size: message_id=%ld payload_size=%ld vs %ld\n",
++		    message_id, payload_size, payload_size_table[message_id]);
+         return (int)SCMI_PROTOCOL_ERROR;
+     }
+ 
+diff --git a/module/scmi_pin_control/src/mod_scmi_pin_control.c b/module/scmi_pin_control/src/mod_scmi_pin_control.c
+index 058c89f9512f..2a1095dba9b4 100644
+--- a/module/scmi_pin_control/src/mod_scmi_pin_control.c
++++ b/module/scmi_pin_control/src/mod_scmi_pin_control.c
+@@ -99,12 +99,10 @@ static const size_t payload_size_table[MOD_SCMI_PIN_CONTROL_COMMAND_COUNT] = {
+         (unsigned int)sizeof(struct scmi_protocol_message_attributes_a2p),
+     [MOD_SCMI_PIN_CONTROL_ATTRIBUTES] =
+         (unsigned int)sizeof(struct scmi_pin_control_attributes_a2p),
+-    [MOD_SCMI_PIN_CONTROL_LIST_ASSOCIATIONS] =
+-        (unsigned int)sizeof(struct scmi_pin_control_list_associations_a2p),
+-    [MOD_SCMI_PIN_CONTROL_SETTINGS_GET] =
+-        (unsigned int)sizeof(struct scmi_pin_control_settings_get_a2p),
+     [MOD_SCMI_PIN_CONTROL_SETTINGS_CONFIGURE] =
+         (unsigned int)sizeof(struct scmi_pin_control_settings_configure_a2p),
++    [MOD_SCMI_PIN_CONTROL_LIST_ASSOCIATIONS] = -1,
++    [MOD_SCMI_PIN_CONTROL_SETTINGS_GET] = -1,
+     [MOD_SCMI_PIN_CONTROL_REQUEST] =
+         (unsigned int)sizeof(struct scmi_pin_control_request_a2p),
+     [MOD_SCMI_PIN_CONTROL_RELEASE] =
+-- 
+2.47.2
 
-Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
-Tested-by: Johan Hovold <johan+linaro@kernel.org>
-
-I think we can go ahead and merge this based on vendor and version
-"0x20000-".
-
-Depending on what Sibi finds out, or if it turns out to be needed, we
-can always add an upper version bound later.
-
-Johan
