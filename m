@@ -1,157 +1,65 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FC0E2D8DAA;
-	Tue, 29 Apr 2025 14:11:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BA9B1EDA0E;
+	Wed, 30 Apr 2025 07:54:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745935901; cv=none; b=YNREQ3cTlGS4jZbwPy5uev/Pn6HAR2rlRXwbKxqIeRcjnwPTzLT1Gg41d0DoQTcaj+49DRnJxBMwD0BXsv4qqKQ4PIaT1p6+hwkpe9GuYHxz/aBCYX0WTMOqne/dQ9AY+tfNDCayK+wk33breUfadChUvaIMQWhyOMuHSvuTAds=
+	t=1745999653; cv=none; b=fZoQUa/eJEnjtp6xr2ru2AZu/f6PZtEKAnYqd2pqMEN9KtVQtGcvAbCWm2mW2sy2OnGSImm/Ttl9YXPESwjYXCRDu3jgYHDqWz7y4Ombd5pSFujXG7ruYc0STo2ToeT4PrJxJQiUGhQd9R+7XfrdDsajK0PNgXExukWtbMJedA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745935901; c=relaxed/simple;
-	bh=p+MF+cbIVqQ81P67tantyBp6k9dyANtN4BgAnfsJXNc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cCpUgwkSMOqx6lqLPrDUelPv6+HwlOoHczerUl7m55aNmyHkjcpTqzyGmxpx2sRtibCFaDpPwlVABHEWI2QZavNZjHgVJs4aZc+1k080hh/iuvVCScn6syN3n2uGdctdku4wOEqvmHKi1Ww3BoP46jjo9u566zD2SgdERTdnksA=
+	s=arc-20240116; t=1745999653; c=relaxed/simple;
+	bh=IyKN6ohZgS4Uv1c2hkLZ3IVzBxrVSh/ZWlq6dOqpqI8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i5RJOyK8tMbiwirGIN0QzqQNoemuBuxiemgeVdkpjM6YbF64VgcnedTymWqG+RjbYt8BCxzP+cQZrMUzkisQRB3TrRLyviK3eE1e+vYfU1SDhBpLfdutcY0Pyw95S7yNk/xbyxwj1qYBTXdSwXrc7CVPklRpXikIHf5NAhBMBMc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 071E81516;
-	Tue, 29 Apr 2025 07:11:32 -0700 (PDT)
-Received: from pluto.guest.local (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9FAF53F66E;
-	Tue, 29 Apr 2025 07:11:36 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 593631063;
+	Wed, 30 Apr 2025 00:54:03 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 865F23F66E;
+	Wed, 30 Apr 2025 00:54:08 -0700 (PDT)
+Date: Wed, 30 Apr 2025 08:54:06 +0100
 From: Cristian Marussi <cristian.marussi@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+To: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	arm-scmi@vger.kernel.org
-Cc: sudeep.holla@arm.com,
-	james.quinlan@broadcom.com,
-	f.fainelli@gmail.com,
-	vincent.guittot@linaro.org,
-	peng.fan@oss.nxp.com,
-	michal.simek@amd.com,
-	quic_sibis@quicinc.com,
-	dan.carpenter@linaro.org,
-	maz@kernel.org,
-	johan@kernel.org,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH v3 3/3] firmware: arm_scmi: quirk: Fix CLOCK_DESCRIBE_RATES triplet
-Date: Tue, 29 Apr 2025 15:11:08 +0100
-Message-ID: <20250429141108.406045-4-cristian.marussi@arm.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20250429141108.406045-1-cristian.marussi@arm.com>
+Cc: sudeep.holla@arm.com, james.quinlan@broadcom.com, f.fainelli@gmail.com,
+	vincent.guittot@linaro.org, peng.fan@oss.nxp.com,
+	michal.simek@amd.com, quic_sibis@quicinc.com,
+	dan.carpenter@linaro.org, maz@kernel.org, johan@kernel.org,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Johan Hovold <johan+linaro@kernel.org>
+Subject: Re: [PATCH v3 2/3] firmware: arm_scmi: Add Quirks framework
+Message-ID: <aBHXHnXA95TwJths@pluto>
 References: <20250429141108.406045-1-cristian.marussi@arm.com>
+ <20250429141108.406045-3-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250429141108.406045-3-cristian.marussi@arm.com>
 
-Convert an existing quirk in CLOCK_DESCRIBE_RATES parsing to the new quirk
-framework. This is a sort of a peculiar quirk since it matches any platform
-and any firmware.
+On Tue, Apr 29, 2025 at 03:11:07PM +0100, Cristian Marussi wrote:
+> Add a common framework to describe SCMI quirks and associate them with a
+> specific platform or a specific set of SCMI firmware versions.
+> 
+> All the matching SCMI quirks will be enabled when the SCMI core stack
+> probes and after all the needed SCMI firmware versioning information was
+> retrieved using Base protocol.
+> 
+> Tested-by: Johan Hovold <johan+linaro@kernel.org>
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 
-Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
----
-V1 -> V2
-- reduced the quirk size by placing the warn outside
-- using new compatibles conditions
----
- drivers/firmware/arm_scmi/clock.c  | 33 ++++++++++++++++++------------
- drivers/firmware/arm_scmi/quirks.c |  2 ++
- drivers/firmware/arm_scmi/quirks.h |  3 +++
- 3 files changed, 25 insertions(+), 13 deletions(-)
+Hi
 
-diff --git a/drivers/firmware/arm_scmi/clock.c b/drivers/firmware/arm_scmi/clock.c
-index 2ed2279388f0..afa7981efe82 100644
---- a/drivers/firmware/arm_scmi/clock.c
-+++ b/drivers/firmware/arm_scmi/clock.c
-@@ -11,6 +11,7 @@
- 
- #include "protocols.h"
- #include "notify.h"
-+#include "quirks.h"
- 
- /* Updated only after ALL the mandatory features for that version are merged */
- #define SCMI_PROTOCOL_SUPPORTED_VERSION		0x30000
-@@ -429,6 +430,23 @@ static void iter_clk_describe_prepare_message(void *message,
- 	msg->rate_index = cpu_to_le32(desc_index);
- }
- 
-+#define QUIRK_OUT_OF_SPEC_TRIPLET					       \
-+	({								       \
-+		/*							       \
-+		 * A known quirk: a triplet is returned but num_returned != 3  \
-+		 * Check for a safe payload size and fix.		       \
-+		 */							       \
-+		if (st->num_returned != 3 && st->num_remaining == 0 &&	       \
-+		    st->rx_len == sizeof(*r) + sizeof(__le32) * 2 * 3) {       \
-+			st->num_returned = 3;				       \
-+			st->num_remaining = 0;				       \
-+		} else {						       \
-+			dev_err(p->dev,					       \
-+				"Cannot fix out-of-spec reply !\n");	       \
-+			return -EPROTO;					       \
-+		}							       \
-+	})
-+
- static int
- iter_clk_describe_update_state(struct scmi_iterator_state *st,
- 			       const void *response, void *priv)
-@@ -450,19 +468,8 @@ iter_clk_describe_update_state(struct scmi_iterator_state *st,
- 			 p->clk->name, st->num_returned, st->num_remaining,
- 			 st->rx_len);
- 
--		/*
--		 * A known quirk: a triplet is returned but num_returned != 3
--		 * Check for a safe payload size and fix.
--		 */
--		if (st->num_returned != 3 && st->num_remaining == 0 &&
--		    st->rx_len == sizeof(*r) + sizeof(__le32) * 2 * 3) {
--			st->num_returned = 3;
--			st->num_remaining = 0;
--		} else {
--			dev_err(p->dev,
--				"Cannot fix out-of-spec reply !\n");
--			return -EPROTO;
--		}
-+		SCMI_QUIRK(clock_rates_triplet_out_of_spec,
-+			   QUIRK_OUT_OF_SPEC_TRIPLET);
- 	}
- 
- 	return 0;
-diff --git a/drivers/firmware/arm_scmi/quirks.c b/drivers/firmware/arm_scmi/quirks.c
-index eff03a89de85..8958f1fa4c89 100644
---- a/drivers/firmware/arm_scmi/quirks.c
-+++ b/drivers/firmware/arm_scmi/quirks.c
-@@ -167,6 +167,7 @@ struct scmi_quirk {
- 	__DEFINE_SCMI_QUIRK_ENTRY(_qn, _ven, _sub, _impl, ##__VA_ARGS__)
- 
- /* Global Quirks Definitions */
-+DEFINE_SCMI_QUIRK(clock_rates_triplet_out_of_spec, NULL, NULL, NULL);
- 
- /*
-  * Quirks Pointers Array
-@@ -175,6 +176,7 @@ struct scmi_quirk {
-  * defined quirks descriptors.
-  */
- static struct scmi_quirk *scmi_quirks_table[] = {
-+	__DECLARE_SCMI_QUIRK_ENTRY(clock_rates_triplet_out_of_spec),
- 	NULL
- };
- 
-diff --git a/drivers/firmware/arm_scmi/quirks.h b/drivers/firmware/arm_scmi/quirks.h
-index 28829b4f0646..7fdc496c94c7 100644
---- a/drivers/firmware/arm_scmi/quirks.h
-+++ b/drivers/firmware/arm_scmi/quirks.h
-@@ -45,4 +45,7 @@ static inline void scmi_quirks_enable(struct device *dev, const char *vend,
- 
- #endif /* CONFIG_ARM_SCMI_QUIRKS */
- 
-+/* Quirk delarations */
-+DECLARE_SCMI_QUIRK(clock_rates_triplet_out_of_spec);
-+
- #endif /* _SCMI_QUIRKS_H */
--- 
-2.47.0
+just a quick remarks that a bot spotted the usage of __VA_OPT__ which is
+only available since GCC >= 8.0 :< ... so I will probably revert to use the
+previous, less clean, mechanism to build the NULL terminated array in
+which the compats array WILL HAVE to be explicitly NULL terminated when
+provided (even the empty ones...)
 
+Thanks,
+Cristian
