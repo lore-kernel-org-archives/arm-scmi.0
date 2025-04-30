@@ -1,99 +1,112 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C27C125A2A1;
-	Wed, 30 Apr 2025 15:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510412973B3;
+	Wed, 30 Apr 2025 20:04:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746026785; cv=none; b=Ayc+HMfNA62bp/+00vsquuRDLI4ZSgoXfpiMcK/picaFUdMD1psstcKoCqXVvg2duOIe0l9l2S6pUuM+D7oVCUrlGCwvSYFW1IqPlDIZTC8eACEPh9VD0hcLIn/HqSqGQ6WiN2InkrDFUlBxoFz+tAPvrIF/9+iu1eJTzuRbo9c=
+	t=1746043455; cv=none; b=byEBZDWXGXmpPCFO/WzW+0SXbYILRmHHpw+VBd8St0MA90tt9nQAakaKPQzuFIYI7zW93/bVxOHM3iitmdVvVAlTW8P5OI6R3BRbyh99CKF3eGKXd3aNYySimjEb9dDUrXVujeVYPMEbjsJDMaNvU9q9Om+efBDoiw/b4KD9T1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746026785; c=relaxed/simple;
-	bh=oaXVaoW4eCBfOW1bt+Lp+Ta3/NgC1ne5TojByxlIGWE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fXrqdZsEJH7opB7wPtF7E1d09G0kLONsDXEFMJ2ML20dNMe9g3WtAQeS+7ApxZLIMdTNOCkolPSLu3smg0cnGz7NfyzYcDWCF2l8awGAM/d1aFGioRyqKC9Yt2umr6Lq0df04aDe6QWHlL3sQyGGgbswBkncMy8mzmo1DqxV8vI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6A3E51063;
-	Wed, 30 Apr 2025 08:26:15 -0700 (PDT)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E3A8E3F5A1;
-	Wed, 30 Apr 2025 08:26:19 -0700 (PDT)
-Date: Wed, 30 Apr 2025 16:26:17 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Marc Zyngier <maz@kernel.org>, <linux-kernel@vger.kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	<linux-arm-kernel@lists.infradead.org>, <arm-scmi@vger.kernel.org>,
-	<james.quinlan@broadcom.com>, <f.fainelli@gmail.com>,
-	<vincent.guittot@linaro.org>, <peng.fan@oss.nxp.com>,
-	<michal.simek@amd.com>, <quic_sibis@quicinc.com>,
-	<dan.carpenter@linaro.org>, <johan@kernel.org>,
-	"Arnd Bergmann" <arnd@kernel.org>,
-	Johan Hovold <johan+linaro@kernel.org>
-Subject: Re: [PATCH v3 2/3] firmware: arm_scmi: Add Quirks framework
-Message-ID: <20250430-efficient-spider-of-criticism-e857bf@sudeepholla>
-References: <20250429141108.406045-1-cristian.marussi@arm.com>
- <20250429141108.406045-3-cristian.marussi@arm.com>
- <aBHXHnXA95TwJths@pluto>
- <868qnhj2yf.wl-maz@kernel.org>
- <aBIbC15NiqUseZc7@pluto>
+	s=arc-20240116; t=1746043455; c=relaxed/simple;
+	bh=sOnwfSJ05AlVpzAlYbQ/0NuGlFxQqXAq2x1C4iV2EKY=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=V6fYh/lUfB1GVfpWKDREHNeNntKJlNHmkmFPQSCclKwiOoJYMdN8f1hndmivU2+qO9I2NGoVsllZKuO6ElIF7GkA8LW1ZZPR8ihd83v0Jd4ywzWKXPWUM3mU/SJzT/OioJ6qA2mUdoD1ZgMtVQT+KIe0MNe/T3TmZduR/+M2MOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U25JLx1c; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U25JLx1c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9BC6C4CEEA;
+	Wed, 30 Apr 2025 20:04:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746043454;
+	bh=sOnwfSJ05AlVpzAlYbQ/0NuGlFxQqXAq2x1C4iV2EKY=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=U25JLx1cmAY+jpWLVGD0vUDAi4OfIKit6ldTPXGNtCcvkl9+Yrzln8DVc2doXdj47
+	 xkjFrBz9Y0tEP8myMxUKQ+JIcpBpW0fDmzwH06jInApIkXhzRwIVFIvB1WiFriwrNR
+	 xI3x/NzJTpC5sTT8TPYBqvS+VuoGYrJMI/iUyyJweJ56UajtNkFmZU8WrgOKFisF7S
+	 45ZLrk8Hmbw+IGf379X4/KP+kZibwO5oxFGkPmlyH8cNr05oCqD4GL7fQD2zKjlnsB
+	 W6m1TJonDGklm018uSSO7ZsLp+Hjbl5gIWd38Z4Sjv6Rq5//RstYDhsNM6UUaZ8ue6
+	 JYR+B7fjy/d7g==
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 03690120007A;
+	Wed, 30 Apr 2025 16:04:13 -0400 (EDT)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-05.internal (MEProxy); Wed, 30 Apr 2025 16:04:13 -0400
+X-ME-Sender: <xms:PIISaMl66q4oIQvefNEDkOI1vL_wBtYRNWEX8IlLtlVykoJRdjBLTA>
+    <xme:PIISaL35aOu31TsXpttNJagiKcZuvx3e8XY8ThmPsByKQnTQNOnX_DjzklWsRsEmx
+    v8-chyMEUsn9JataY0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieejieduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+    tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusehkvghrnh
+    gvlhdrohhrgheqnecuggftrfgrthhtvghrnhepjeejffetteefteekieejudeguedvgfef
+    feeitdduieekgeegfeekhfduhfelhfevnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomheprghrnhguodhmvghsmhhtphgruhhthhhpvghrshhonhgr
+    lhhithihqdduvdekhedujedtvdegqddvkeejtddtvdeigedqrghrnhgupeepkhgvrhhnvg
+    hlrdhorhhgsegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudehpdhmohguvgepshhm
+    thhpohhuthdprhgtphhtthhopehmihgthhgrlhdrshhimhgvkhesrghmugdrtghomhdprh
+    gtphhtthhopegtrhhishhtihgrnhdrmhgrrhhushhsihesrghrmhdrtghomhdprhgtphht
+    thhopehsuhguvggvphdrhhholhhlrgesrghrmhdrtghomhdprhgtphhtthhopehjrghmvg
+    hsrdhquhhinhhlrghnsegsrhhorggutghomhdrtghomhdprhgtphhtthhopehfrdhfrghi
+    nhgvlhhlihesghhmrghilhdrtghomhdprhgtphhtthhopehjohhhrghnodhlihhnrghroh
+    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhohhgrnheskhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtohepmhgriieskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrnhdrtg
+    grrhhpvghnthgvrheslhhinhgrrhhordhorhhg
+X-ME-Proxy: <xmx:PIISaKp7rqOCdVGbRA2HZDpQJhnVGN5XFHi05juz8PVw8TSEVKlDxw>
+    <xmx:PIISaInPACZ2CgKBMH-zw7kJQJ1mlVk92P2laGAC8_MMSsa3IlDHTQ>
+    <xmx:PIISaK03XUW8ZeWNLPhTfV3ir-Y9kQd2S23QilEqOqABzQsbMg9m1Q>
+    <xmx:PIISaPu-GCM62oFJ-kntqLgaucGOboWPKtoLJoev1nyKI1lVPIQ2Yg>
+    <xmx:PIISaGVkIFm3CLtJ7Ou0CatlVuNOkKpCPShcUnK5NeUi2Dujl8k9tTr4>
+Feedback-ID: i36794607:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id B7E0D2220074; Wed, 30 Apr 2025 16:04:12 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aBIbC15NiqUseZc7@pluto>
+X-ThreadId: T9031dfa3c80e4b2d
+Date: Wed, 30 Apr 2025 22:03:42 +0200
+From: "Arnd Bergmann" <arnd@kernel.org>
+To: "Sudeep Holla" <sudeep.holla@arm.com>,
+ "Cristian Marussi" <cristian.marussi@arm.com>
+Cc: "Marc Zyngier" <maz@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org,
+ "Jim Quinlan" <james.quinlan@broadcom.com>,
+ "Florian Fainelli" <f.fainelli@gmail.com>,
+ "Vincent Guittot" <vincent.guittot@linaro.org>, peng.fan@oss.nxp.com,
+ "Michal Simek" <michal.simek@amd.com>,
+ "Sibi Sankar" <quic_sibis@quicinc.com>,
+ "Dan Carpenter" <dan.carpenter@linaro.org>,
+ "Johan Hovold" <johan@kernel.org>, "Johan Hovold" <johan+linaro@kernel.org>
+Message-Id: <94e94c5f-210b-43b8-99bc-e7ad7da2588d@app.fastmail.com>
+In-Reply-To: <20250430-efficient-spider-of-criticism-e857bf@sudeepholla>
+References: <20250429141108.406045-1-cristian.marussi@arm.com>
+ <20250429141108.406045-3-cristian.marussi@arm.com> <aBHXHnXA95TwJths@pluto>
+ <868qnhj2yf.wl-maz@kernel.org> <aBIbC15NiqUseZc7@pluto>
+ <20250430-efficient-spider-of-criticism-e857bf@sudeepholla>
+Subject: Re: [PATCH v3 2/3] firmware: arm_scmi: Add Quirks framework
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-+Arnd
+On Wed, Apr 30, 2025, at 17:26, Sudeep Holla wrote:
+>
+> Arnd,
+>
+> I don't see much discussions on 20250407094116.1339199-1-arnd@kernel.org
+> to conclude if you plan to get this for v6.16
+>
+> We probably can wait to push this $subject after your changes land. But
+> it would be good to know your opinion here especially if you are not
+> pushing your patches for v6.16
 
-On Wed, Apr 30, 2025 at 01:43:55PM +0100, Cristian Marussi wrote:
-> On Wed, Apr 30, 2025 at 12:36:40PM +0100, Marc Zyngier wrote:
-> > On Wed, 30 Apr 2025 08:54:06 +0100,
-> > Cristian Marussi <cristian.marussi@arm.com> wrote:
-> > > 
-> > > On Tue, Apr 29, 2025 at 03:11:07PM +0100, Cristian Marussi wrote:
-> > > > Add a common framework to describe SCMI quirks and associate them with a
-> > > > specific platform or a specific set of SCMI firmware versions.
-> > > > 
-> > > > All the matching SCMI quirks will be enabled when the SCMI core stack
-> > > > probes and after all the needed SCMI firmware versioning information was
-> > > > retrieved using Base protocol.
-> > > > 
-> > > > Tested-by: Johan Hovold <johan+linaro@kernel.org>
-> > > > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> > > 
-> > > Hi
-> > > 
-> > > just a quick remarks that a bot spotted the usage of __VA_OPT__ which is
-> > > only available since GCC >= 8.0 :< ... so I will probably revert to use the
-> > > previous, less clean, mechanism to build the NULL terminated array in
-> > > which the compats array WILL HAVE to be explicitly NULL terminated when
-> > > provided (even the empty ones...)
-> > 
-> > See 20250407094116.1339199-1-arnd@kernel.org, which is slated for
-> > 6.16. The TL;DR is that GCC 8.1 and binutils 2.30 should be the
-> > minimal versions from 6.16 onwards.
-> > 
-> > So it's probably not worth using ugly hacks that will eventually be
-> > reverted.
-> 
-> Great news, thanks for the heads-up !
-> 
+I've pushed my branch to the asm-generic tree now, so it should 
+show up in the next linux-next.
 
-Thanks Marc!
+Cristian, I think you can keep the __VA_OPT__, as the build bots
+should stop testing with older gcc versions once my series is in
+linux-next.
 
-Arnd,
-
-I don't see much discussions on 20250407094116.1339199-1-arnd@kernel.org
-to conclude if you plan to get this for v6.16
-
-We probably can wait to push this $subject after your changes land. But
-it would be good to know your opinion here especially if you are not
-pushing your patches for v6.16
-
--- 
-Regards,
-Sudeep
+    Arnd
