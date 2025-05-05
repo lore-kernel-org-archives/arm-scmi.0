@@ -1,340 +1,124 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB8D205ABA
-	for <arm-scmi@vger.kernel.org>; Mon,  5 May 2025 11:39:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD54B33C569;
+	Mon,  5 May 2025 22:37:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746445194; cv=none; b=JFZ/1nuKY8gNWntkY1qR1t/MjvrGOHOUheDu5eTcAOp7w+0RW6rOa6k9/8L+FEfqxC8DybVf8RVhNdYn5MXYzan7iUf7DBHEPZMIfPbKR1xBINhBLkxNGddUv6GHVKmdEsPX1CkhN9IFMqiwoGe+3w6K0J/ME08nCdQa8f1ysW8=
+	t=1746484647; cv=none; b=oscx5ex4uNipclFm/VA7NoUWCRhhiwdjyF4fiLpm7jele45y1Qu/G/5Aajh0t0AqF0RmQu1JdVEvDHV5WMPzkIetalOHUJwT59d2x0pIRzpUrnexwbwMiQdLjZLNVc6NqfQ4nDzKRgOD9oU4iPAd6J6qp+XUHuDkYj8q+QyoHk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746445194; c=relaxed/simple;
-	bh=vRN32xZ85C9p5S5NbFDW7sAvcDsmUVdlaouvdtHK2no=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VajWbwcMR3E4/msJ/taRD7KSUuauqrngoP5J9U7yYwjS0M5CncjCB9PCibVnED2y19BjcYpj9KnzIiAaQWO569pEEN5CIG/AQli+sA1x0VMi/+3+HAGRRNQZ+aiFU7SQDUCnd0DtD1E1/blpnnfR5fNFnIrp6pYlZX0eJdZf28Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wQPbTG5E; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1746484647; c=relaxed/simple;
+	bh=2dEEw2rM+lZSIeY6U5v9jEvazwwbe3gR4Dn/pnCQHaE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=LTjiu/7ALBjH2KwP6xRqrrlje88dIdjy78nsHpF4H/AcgvbZVVV7JhGi2CerTyueMCe83a55slQvfNk1C2RASeHZzrtXYTwAEJiRLokLSHYOS1jImdNh4ljZh0cob2MTAOFaP0g0cow2otUvYhmRvNElFRIxMZJ1dzNUPcJ8118=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S5D7zbqF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wQPbTG5E"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cfe574976so25302785e9.1
-        for <arm-scmi@vger.kernel.org>; Mon, 05 May 2025 04:39:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746445191; x=1747049991; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=upLirTeDgN21tlG/CSaFHFN5b+EY/GrJw53DQ1VbDB4=;
-        b=wQPbTG5EY5UcYBuQ3q1KEabpWuElyFOGLPLeM7/mfCCUdDieQlbbx+fa5Kpha1X9He
-         dVfOyEWTi1zX86D39rj1mkDX2IXp6rgQkpfJWXhkOzq76Vl2hbYJxbmHCOUvdYEz1T25
-         VOBnXdKVT54346QbIipNlezqUThsFDAAvNQ1c40BqMw4p6MIiUBt4EOv47INtYxENSoS
-         yNCD3SA9D0sFVH2lRN8Dr1ZHzy8cHDuCwPRYCYulhz/2ubj9Deg7Tnzk7DOi+8uPbz8d
-         NrUeUqBkP5113mYtPpE6QpcFrVwxLTxjR7MeFjMhypqtoq23e846p0WF33NBNN2p22um
-         mDAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746445191; x=1747049991;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=upLirTeDgN21tlG/CSaFHFN5b+EY/GrJw53DQ1VbDB4=;
-        b=slpD8G1nMuWo5JRMS4KZzJN7uFIE57z0FYRFYMygFRyvQiRL0jCQ1cv+sDXs8GB0Pw
-         5mHqjNkolTe5UcqbwurGph8knI5mF/L3xWxmoIY6NTo31w+6TvW40sspJTlOFFRF94lQ
-         dhydqWcy2JLofGIYboUH/XHRBbQRbP473A5PKAxL33gwhAJGAb5z+FX5qiOm+cLO92ep
-         GsezfBu9+AT0zise6drDrPmP7UDiGpuy5gok85hICZjvS0vg15sqO21pevO2z4wrh9fk
-         sI/YB766T3qGzn7RtkFnNIxiIiqwE5MdrQK8frWP4gzRus5oSnAjnzHx8pzJEyICvbsT
-         HynA==
-X-Forwarded-Encrypted: i=1; AJvYcCXT7EtZsS76njhZebuTzaRbXy3la/SDUIrwwW4nDWKI1Zwhb5O+TtSIWl5iepUUyR2pWdctcpoHfg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRDaParRSYv9s9ctutalLWkjxvOjvaxmHN3KGSKesmA2rM/4GS
-	dcl9aDAIKRsH/LiZ6+YGWfVakxH4eSIaQF2kb49oxrgeCEwY1/JU7bignM67DRI=
-X-Gm-Gg: ASbGncvSfuMxgs8PqeKXwjxomPpiDn14q5QBdHdhsHdeG3DE60lC2rMa1beXlDx0O++
-	uvvD++Ek9mctK/zri3Zj5GZBqHdFWxhyFzCgi/nXJeURYC3MyeHFwGKHcPFiwmATA2Wi0wT8yvp
-	06teL+aMSTpAjE+qJN1XdLw62c77XuArgLXrV1lpWdUVYSxiu2hlOKxjZ08yCXleZlfIj+as5px
-	P7w9yAey/Wv+j6U8OVsD+4+JmrseRY0jgcVZ7lW13wmgx6K5BvcQYGQsTj2sNkaLGVLeCE5tlHQ
-	Oa9fZetAKvNyLgxhG9sgnglje5t68wRYh/ua7sryk5iRbA==
-X-Google-Smtp-Source: AGHT+IGvkzc1/h1CubNXx94UDKKtRArlm1khwfK49K/JcXsvwL+en0lghy11gufsaBe7uLcgb93WCA==
-X-Received: by 2002:a05:600c:5022:b0:43c:e6d1:efe7 with SMTP id 5b1f17b1804b1-441bbf34052mr95014525e9.26.1746445191044;
-        Mon, 05 May 2025 04:39:51 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-441b8a3113csm129876775e9.33.2025.05.05.04.39.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 May 2025 04:39:50 -0700 (PDT)
-Date: Mon, 5 May 2025 14:39:27 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Takahiro AKASHI <akashi.tkhro@gmail.com>
-Subject: [RFC 6/7] pinctrl-scmi: Add GPIO support
-Message-ID: <901a636b06f5ef25f8c0021c514bfcc01344c5df.1746443762.git.dan.carpenter@linaro.org>
-References: <cover.1746443762.git.dan.carpenter@linaro.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S5D7zbqF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CDF4C4CEEE;
+	Mon,  5 May 2025 22:37:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746484647;
+	bh=2dEEw2rM+lZSIeY6U5v9jEvazwwbe3gR4Dn/pnCQHaE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=S5D7zbqFhRaaPlDvtyZSritjJ0VBiVgVVV/pznIM+KDEKOkA0ObkYwAYLGX9S3DDM
+	 ALh/6usbRvlOe/ICX2RTjtSjSpJBPr8Kn5OgoqUCXzIFsDpQxDQTBwVf5+ssvpfj1g
+	 T+X6i/DkgQTXuZLWsQguPjBXWXJBvq78WH27CtLZGFtEvgbvnC1PO/jKrgRsXjCtk0
+	 qA5Iv1fAoNEQ7a3RZ9+AXuVlQWVMrS0+cRxLQBqkjekSh5ToLCqw4ruSMZinyr1hFO
+	 zOPCxbllIA6ljpnnuh4lPwhDN1vT4K8HvRH/1zzzDo9c2T+HqoGDXzfm0OBlrrGlSY
+	 gkKO7fFoqmPZg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+	Dhruva Gole <d-gole@ti.com>,
+	Peng Fan <peng.fan@nxp.com>,
+	Sasha Levin <sashal@kernel.org>,
+	arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.14 582/642] firmware: arm_scmi: Relax duplicate name constraint across protocol ids
+Date: Mon,  5 May 2025 18:13:18 -0400
+Message-Id: <20250505221419.2672473-582-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
+References: <20250505221419.2672473-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1746443762.git.dan.carpenter@linaro.org>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.14.5
+Content-Transfer-Encoding: 8bit
 
-This adds GPIO support to the SCMI pin controller driver.  It's an RFC
-patch because I'm not really sure how these are used and so I don't
-know how they should be configured via devicetree.  I've labeled the
-places where I think devicetree configuration would go with a FIXME.
+From: Sudeep Holla <sudeep.holla@arm.com>
 
-This driver was based on work from Takahiro AKASHI.
+[ Upstream commit 21ee965267bcbdd733be0f35344fa0f0226d7861 ]
 
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Currently in scmi_protocol_device_request(), no duplicate scmi device
+name is allowed across any protocol. However scmi_dev_match_id() first
+matches the protocol id and then the name. So, there is no strict
+requirement to keep this scmi device name unique across all the protocols.
+
+Relax the constraint on the duplicate name across the protocols and
+inhibit only within the same protocol id.
+
+Message-Id: <20250131141822.514342-1-sudeep.holla@arm.com>
+Reviewed-by: Dhruva Gole <d-gole@ti.com>
+Reviewed-by: Peng Fan <peng.fan@nxp.com>
+Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/pinctrl/pinctrl-scmi.c | 206 ++++++++++++++++++++++++++++++++-
- 1 file changed, 205 insertions(+), 1 deletion(-)
+ drivers/firmware/arm_scmi/bus.c | 19 ++++++-------------
+ 1 file changed, 6 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/pinctrl/pinctrl-scmi.c b/drivers/pinctrl/pinctrl-scmi.c
-index f369f0354e43..40b432aa4756 100644
---- a/drivers/pinctrl/pinctrl-scmi.c
-+++ b/drivers/pinctrl/pinctrl-scmi.c
-@@ -6,6 +6,7 @@
-  * Copyright 2024 NXP
-  */
+diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
+index a3386bf36de50..8acf33ccfd217 100644
+--- a/drivers/firmware/arm_scmi/bus.c
++++ b/drivers/firmware/arm_scmi/bus.c
+@@ -42,7 +42,7 @@ static atomic_t scmi_syspower_registered = ATOMIC_INIT(0);
+  * This helper let an SCMI driver request specific devices identified by the
+  * @id_table to be created for each active SCMI instance.
+  *
+- * The requested device name MUST NOT be already existent for any protocol;
++ * The requested device name MUST NOT be already existent for this protocol;
+  * at first the freshly requested @id_table is annotated in the IDR table
+  * @scmi_requested_devices and then the requested device is advertised to any
+  * registered party via the @scmi_requested_devices_nh notification chain.
+@@ -52,7 +52,6 @@ static atomic_t scmi_syspower_registered = ATOMIC_INIT(0);
+ static int scmi_protocol_device_request(const struct scmi_device_id *id_table)
+ {
+ 	int ret = 0;
+-	unsigned int id = 0;
+ 	struct list_head *head, *phead = NULL;
+ 	struct scmi_requested_dev *rdev;
  
-+#include <linux/bitmap.h>
- #include <linux/device.h>
- #include <linux/err.h>
- #include <linux/errno.h>
-@@ -16,6 +17,9 @@
- #include <linux/slab.h>
- #include <linux/types.h>
+@@ -67,19 +66,13 @@ static int scmi_protocol_device_request(const struct scmi_device_id *id_table)
+ 	}
  
-+#include <linux/gpio/driver.h>
-+
-+#include <linux/pinctrl/consumer.h>
- #include <linux/pinctrl/machine.h>
- #include <linux/pinctrl/pinconf.h>
- #include <linux/pinctrl/pinconf-generic.h>
-@@ -42,6 +46,7 @@ struct scmi_pinctrl {
- 	unsigned int nr_functions;
- 	struct pinctrl_pin_desc *pins;
- 	unsigned int nr_pins;
-+	struct gpio_chip *gc;
- };
- 
- static int pinctrl_scmi_get_groups_count(struct pinctrl_dev *pctldev)
-@@ -505,6 +510,197 @@ static int pinctrl_scmi_get_pins(struct scmi_pinctrl *pmx,
- 	return 0;
- }
- 
-+static int pinctrl_gpio_init_valid_mask(struct gpio_chip *gc,
-+				    unsigned long *valid_mask,
-+				    unsigned int ngpios)
-+{
-+	bitmap_fill(valid_mask, ngpios);
-+	return 0;
-+}
-+
-+static int pinctrl_gpio_get_direction(struct gpio_chip *gc, unsigned int offset)
-+{
-+	unsigned long config;
-+	bool in, out;
-+	int ret;
-+
-+	config = PIN_CONFIG_INPUT_ENABLE;
-+	ret = pinctrl_gpio_get_config(gc, offset, &config);
-+	if (ret)
-+		return ret;
-+	in = config;
-+
-+	config = PIN_CONFIG_OUTPUT_ENABLE;
-+	ret = pinctrl_gpio_get_config(gc, offset, &config);
-+	if (ret)
-+		return ret;
-+	out = config;
-+
-+	/* Consistency check - in theory both can be enabled! */
-+	if (in && !out)
-+		return GPIO_LINE_DIRECTION_IN;
-+	if (!in && out)
-+		return GPIO_LINE_DIRECTION_OUT;
-+
-+	return -EINVAL;
-+}
-+
-+static int pinctrl_gpio_direction_output_wrapper(struct gpio_chip *gc,
-+						 unsigned int offset, int val)
-+{
-+	return pinctrl_gpio_direction_output(gc, offset);
-+}
-+
-+static int pinctrl_gpio_get(struct gpio_chip *gc, unsigned int offset)
-+{
-+	unsigned long config;
-+	int ret;
-+
-+	config = PIN_CONFIG_INPUT_VALUE;
-+	ret = pinctrl_gpio_get_config(gc, offset, &config);
-+	if (ret)
-+		return ret;
-+
-+	return config;
-+}
-+
-+static void pinctrl_gpio_set(struct gpio_chip *gc, unsigned int offset, int val)
-+{
-+	unsigned long config;
-+
-+	config = PIN_CONF_PACKED(PIN_CONFIG_OUTPUT, val);
-+	pinctrl_gpio_set_config(gc, offset, config);
-+}
-+
-+static int pinctrl_gc_to_func(struct gpio_chip *gc)
-+{
-+	struct scmi_pinctrl *pmx = gpiochip_get_data(gc);
-+
-+	return (gc - pmx->gc);
-+}
-+
-+static int gpio_add_pin_ranges(struct gpio_chip *gc)
-+{
-+	struct scmi_pinctrl *pmx = gpiochip_get_data(gc);
-+	const char * const *p_groups;
-+	unsigned int n_groups;
-+	int func = pinctrl_gc_to_func(gc);
-+	int group;
-+	int ret;
-+
-+	ret = pmx->pctl_desc.pmxops->get_function_groups(pmx->pctldev, func, &p_groups, &n_groups);
-+	if (ret)
-+		return ret;
-+
-+	// FIXME: fix the correct group from the device tree
-+	for (group = 0; group < n_groups; group++) {
-+		ret = gpiochip_add_pingroup_range(gc, pmx->pctldev, 0, p_groups[group]);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int get_nr_pins_in_function(struct scmi_pinctrl *pmx, int func)
-+{
-+	const char * const *pin_groups;
-+	unsigned int n_groups;
-+	const unsigned int *pins;
-+	unsigned int n_pins;
-+	int total = 0;
-+	int i, ret;
-+
-+	// FIXME: get the correct number of gc.ngpio
-+	// Find the right group from the device tree
-+	ret = pmx->pctl_desc.pmxops->get_function_groups(pmx->pctldev, func, &pin_groups, &n_groups);
-+	if (ret)
-+		return ret;
-+
-+	for (i = 0; i < n_groups; i++) {
-+		ret = pinctrl_get_group_pins(pmx->pctldev, pin_groups[i], &pins, &n_pins);
-+		if (ret)
-+			return ret;
-+		total += n_pins;
-+	}
-+
-+	return total;
-+}
-+
-+static int register_scmi_pinctrl_gpio_handler(struct device *dev, struct scmi_pinctrl *pmx)
-+{
-+	struct fwnode_handle *gpio = NULL;
-+	int ret, i;
-+
-+	gpio = fwnode_get_named_child_node(dev->fwnode, "gpio");
-+	if (!gpio)
-+		return 0;
-+
-+	pmx->gc = devm_kcalloc(dev, pmx->nr_functions, sizeof(*pmx->gc), GFP_KERNEL);
-+	if (!pmx->gc)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < pmx->nr_functions; i++) {
-+		const char *fn_name;
-+
-+		ret = pinctrl_ops->is_gpio(pmx->ph, i, FUNCTION_TYPE);
-+		if (ret < 0)
-+			return ret;
-+		if (ret == false)
-+			continue;
-+
-+		ret = pinctrl_ops->name_get(pmx->ph, i, FUNCTION_TYPE, &fn_name);
-+		if (ret)
-+			return ret;
-+
-+		pmx->gc[i].label = devm_kasprintf(dev, GFP_KERNEL, "%s", fn_name);
-+		if (!pmx->gc[i].label)
-+			return -ENOMEM;
-+
-+		pmx->gc[i].owner = THIS_MODULE;
-+		pmx->gc[i].get = pinctrl_gpio_get;
-+		pmx->gc[i].set = pinctrl_gpio_set;
-+		pmx->gc[i].get_direction = pinctrl_gpio_get_direction;
-+		pmx->gc[i].direction_input = pinctrl_gpio_direction_input;
-+		pmx->gc[i].direction_output = pinctrl_gpio_direction_output_wrapper;
-+		pmx->gc[i].add_pin_ranges = gpio_add_pin_ranges;
-+
-+		// FIXME: verify that this is correct
-+		pmx->gc[i].can_sleep = true;
-+
-+		ret = get_nr_pins_in_function(pmx, i);
-+		if (ret < 0)
-+			return ret;
-+		pmx->gc[i].ngpio = ret;
-+
-+		pmx->gc[i].init_valid_mask = pinctrl_gpio_init_valid_mask;
-+		pmx->gc[i].parent = dev;
-+		pmx->gc[i].base = -1;
-+	}
-+
-+	return 0;
-+}
-+
-+static int scmi_gpiochip_add_data(struct device *dev, struct scmi_pinctrl *pmx)
-+{
-+	int ret;
-+	int i;
-+
-+	for (i = 0; i < pmx->nr_functions; i++) {
-+		ret = pinctrl_ops->is_gpio(pmx->ph, i, FUNCTION_TYPE);
-+		if (ret < 0)
-+			return ret;
-+		if (ret == false)
-+			continue;
-+
-+		ret = devm_gpiochip_add_data(dev, &pmx->gc[i], pmx);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
- static const char * const scmi_pinctrl_blocklist[] = {
- 	"fsl,imx95",
- 	NULL
-@@ -558,7 +754,15 @@ static int scmi_pinctrl_probe(struct scmi_device *sdev)
- 	if (!pmx->functions)
- 		return -ENOMEM;
- 
--	return pinctrl_enable(pmx->pctldev);
-+	ret = register_scmi_pinctrl_gpio_handler(dev, pmx);
-+	if (ret)
-+		return ret;
-+
-+	ret = pinctrl_enable(pmx->pctldev);
-+	if (ret)
-+		return ret;
-+
-+	return scmi_gpiochip_add_data(dev, pmx);
- }
- 
- static const struct scmi_device_id scmi_id_table[] = {
+ 	/*
+-	 * Search for the matching protocol rdev list and then search
+-	 * of any existent equally named device...fails if any duplicate found.
++	 * Find the matching protocol rdev list and then search of any
++	 * existent equally named device...fails if any duplicate found.
+ 	 */
+ 	mutex_lock(&scmi_requested_devices_mtx);
+-	idr_for_each_entry(&scmi_requested_devices, head, id) {
+-		if (!phead) {
+-			/* A list found registered in the IDR is never empty */
+-			rdev = list_first_entry(head, struct scmi_requested_dev,
+-						node);
+-			if (rdev->id_table->protocol_id ==
+-			    id_table->protocol_id)
+-				phead = head;
+-		}
++	phead = idr_find(&scmi_requested_devices, id_table->protocol_id);
++	if (phead) {
++		head = phead;
+ 		list_for_each_entry(rdev, head, node) {
+ 			if (!strcmp(rdev->id_table->name, id_table->name)) {
+ 				pr_err("Ignoring duplicate request [%d] %s\n",
 -- 
-2.47.2
+2.39.5
 
