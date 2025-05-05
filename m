@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC258278754;
-	Mon,  5 May 2025 22:55:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAB8239E72;
+	Mon,  5 May 2025 23:05:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746485744; cv=none; b=OCDYAxrGsQBMBRttF8gkPt7aGIQc2dGM8WQaNiQmrQKR9N3t+5DcLGdQgygfoYbeilSEcJnAzWdiJkC9XsqWa0pPW4bFehwboeyaFB07ep5pk+Eo02M8A5t38lZRu4QVFc39DCBy5jiduuNFgfmrRU5/hwKlAe0JtgcmUFl4/ZY=
+	t=1746486356; cv=none; b=PrtkXC0xUZJLubUa+rHpw+AW5qT9qAMi4Z62Hg8QtPyWA8tNTAzEBbSwW9/LwBsNNilx2a921caY3dVaLxJvxZIwtOfKMyLkUWi5A2TCwzi3SHqHOinIj2PZY1MN6AHP1OftxVIrAH53f3jBmVnM0CSEq2TDxoulVK1hxcCjNDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746485744; c=relaxed/simple;
-	bh=sUaV+0mF9QSZHbBwUlhMu7tbwCNhjG0BkmM8XCuZLaE=;
+	s=arc-20240116; t=1746486356; c=relaxed/simple;
+	bh=o3fek8CovNQudAwcjM9tbEogmSdp5XotgQ0/JnUDR4A=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ubQB0taCH/npEvlTBcLZUU2cOHSB2deedCJcc3l9o8LsZA1DZOCvj2L8jZ5Ppj9PWc1ym+30BDvWtJwhcgbFJ7/nVuItuynI1gmzzZhGxKgbOaT3V5ePJ1krLahLK9oGElfyivVNCYlPyu54xjw9Y9VANQO8MyKSVb8iihzl1PU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XcyZwmZy; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=RrqVApm5AZvpDEmSVxEyZrOCZxG+MCIPikxj9sl1n9RcbAdu0L+O4RWRu23yP0ypzGr0sFWtNFEC1C6PFiRNZa7Hf3IXMJRqHWBhDuXy47K7vZBSdaE+aINR77SOYPsHnoskkYk1VBPjsR/1K+0D0vaiq1+yHaOccY2wSj0uEYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lgOXEa+c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XcyZwmZy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0FB1C4CEF6;
-	Mon,  5 May 2025 22:55:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lgOXEa+c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B69A4C4CEED;
+	Mon,  5 May 2025 23:05:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746485744;
-	bh=sUaV+0mF9QSZHbBwUlhMu7tbwCNhjG0BkmM8XCuZLaE=;
+	s=k20201202; t=1746486356;
+	bh=o3fek8CovNQudAwcjM9tbEogmSdp5XotgQ0/JnUDR4A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XcyZwmZy7/uINMucWNt7ZmsSZ63Xvi/wAt7qeOt4JplRPbvGFkKTKMPXin0yRzdk7
-	 C6dVhf5nVhD+G5zshJk28A3Di19KNTF1G5VsjovLtXAl505gz1hukhdNl21z3d6/AM
-	 SuzvGW2wTuzMJAFQMsyvKP+EHSFAZtw7AZjIpHo9A0jUFM2VteAJH0XgEvMSXbsPqd
-	 7/NA7dh6gQYQAyjHW9XlXG8k99tAHyJKjTibcAfM3hxxOb/XVz2eabXifDfaqUJM6J
-	 wJhEH5dIzgjzHKSUhI8fxDeGvvqSL7MQceilTea9PzFgR7Rw2p7ZMdeL17IXE3LEVi
-	 j4jClRro6F4hg==
+	b=lgOXEa+c4TNh/fcZw1DM0dmgRYqCHfwahA1DSZ78WqKMdq7GQgeyaD7xfpUgvpzwU
+	 aAgObJJ+Uel3iokgXE2vR7hDzmL2a9eJPyDGedszhJFmo9VAxXmjWTyabaN+bmw45+
+	 uTUztDRpy0iKNkTHdri45RaaPpMPQ+kQ+c3M/brfwdo2FLdEja12VG+yogJrYgoWq0
+	 0DjSv7czb1lHoxYXUTMC1qxAGRQqMTbLAv8HkfUUS9i+N8cbD4VZ83kQxMR+TXKRSi
+	 V/Kc+GipyY5eJGytIkWMURZ0a7nAXEgKS6vMgcgbi4BVmE3yPiosB4yU0Y+x73r4uv
+	 RwrrTOSVos9Qg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -35,12 +35,12 @@ Cc: Sudeep Holla <sudeep.holla@arm.com>,
 	Sasha Levin <sashal@kernel.org>,
 	arm-scmi@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.12 458/486] firmware: arm_scmi: Relax duplicate name constraint across protocol ids
-Date: Mon,  5 May 2025 18:38:54 -0400
-Message-Id: <20250505223922.2682012-458-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 278/294] firmware: arm_scmi: Relax duplicate name constraint across protocol ids
+Date: Mon,  5 May 2025 18:56:18 -0400
+Message-Id: <20250505225634.2688578-278-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
-References: <20250505223922.2682012-1-sashal@kernel.org>
+In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
+References: <20250505225634.2688578-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -49,7 +49,7 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.26
+X-stable-base: Linux 6.6.89
 Content-Transfer-Encoding: 8bit
 
 From: Sudeep Holla <sudeep.holla@arm.com>
@@ -74,7 +74,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
-index 157172a5f2b57..7e160fc9bf8cc 100644
+index dcf774d3edfe4..0d61f84691d85 100644
 --- a/drivers/firmware/arm_scmi/bus.c
 +++ b/drivers/firmware/arm_scmi/bus.c
 @@ -42,7 +42,7 @@ static atomic_t scmi_syspower_registered = ATOMIC_INIT(0);
