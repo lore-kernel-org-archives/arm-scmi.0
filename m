@@ -1,124 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAB8239E72;
-	Mon,  5 May 2025 23:05:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB0F1E1C02;
+	Tue,  6 May 2025 01:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746486356; cv=none; b=PrtkXC0xUZJLubUa+rHpw+AW5qT9qAMi4Z62Hg8QtPyWA8tNTAzEBbSwW9/LwBsNNilx2a921caY3dVaLxJvxZIwtOfKMyLkUWi5A2TCwzi3SHqHOinIj2PZY1MN6AHP1OftxVIrAH53f3jBmVnM0CSEq2TDxoulVK1hxcCjNDg=
+	t=1746494771; cv=none; b=Y5sLNkEZtPZatnjJB++MssKeimbNKYp/x2oucB48nf1tTsTI30R2hwX3WfioMSZ1tJ3dODN8xoVqKldAue9zAac0/kZQzj9fDc/6PHUIC1dZM87kaSUwJhX8qTWWye2x2A/0UcowWP9YicP8k0L06Hkvk7PWMP4J6DLV6pRHY7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746486356; c=relaxed/simple;
-	bh=o3fek8CovNQudAwcjM9tbEogmSdp5XotgQ0/JnUDR4A=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=RrqVApm5AZvpDEmSVxEyZrOCZxG+MCIPikxj9sl1n9RcbAdu0L+O4RWRu23yP0ypzGr0sFWtNFEC1C6PFiRNZa7Hf3IXMJRqHWBhDuXy47K7vZBSdaE+aINR77SOYPsHnoskkYk1VBPjsR/1K+0D0vaiq1+yHaOccY2wSj0uEYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lgOXEa+c; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746494771; c=relaxed/simple;
+	bh=lMA9xqdteBtAICMBE4dR29eHiKv0C8YGXInXwEg4QJs=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g3w4ONzWY1B2N52eXpaGiN2xdwvLklu4E7nwTA3AyA00I6R7D7Ck+V/as7s2ja78oZE8Bz/EORdtlkAxnqozOz8QfUhHsqIr74Vbu5fEeq2BrViFQgo+cVOlsN0Re9GAaZIK5bnmXqfeOpY1UQOhv/kk0t3EfNr5I7Iy9BnKfoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=lLWokG/o; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lgOXEa+c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B69A4C4CEED;
-	Mon,  5 May 2025 23:05:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746486356;
-	bh=o3fek8CovNQudAwcjM9tbEogmSdp5XotgQ0/JnUDR4A=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lgOXEa+c4TNh/fcZw1DM0dmgRYqCHfwahA1DSZ78WqKMdq7GQgeyaD7xfpUgvpzwU
-	 aAgObJJ+Uel3iokgXE2vR7hDzmL2a9eJPyDGedszhJFmo9VAxXmjWTyabaN+bmw45+
-	 uTUztDRpy0iKNkTHdri45RaaPpMPQ+kQ+c3M/brfwdo2FLdEja12VG+yogJrYgoWq0
-	 0DjSv7czb1lHoxYXUTMC1qxAGRQqMTbLAv8HkfUUS9i+N8cbD4VZ83kQxMR+TXKRSi
-	 V/Kc+GipyY5eJGytIkWMURZ0a7nAXEgKS6vMgcgbi4BVmE3yPiosB4yU0Y+x73r4uv
-	 RwrrTOSVos9Qg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Dhruva Gole <d-gole@ti.com>,
-	Peng Fan <peng.fan@nxp.com>,
-	Sasha Levin <sashal@kernel.org>,
-	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.6 278/294] firmware: arm_scmi: Relax duplicate name constraint across protocol ids
-Date: Mon,  5 May 2025 18:56:18 -0400
-Message-Id: <20250505225634.2688578-278-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
-References: <20250505225634.2688578-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lLWokG/o"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 545KTahu007918;
+	Tue, 6 May 2025 01:25:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=a+3iGwj/hO6S7Q34SFvoBpBv
+	Y/YCE7J0Uke+mqkFKdM=; b=lLWokG/oTSHi6rlDNIPU9NU/6RtsEIwXEn99+Dqn
+	LGbfLebmWVRwfX8hTtAcN7uZbSYiMAOA/AUYrQqtyCfph/eFNFR55B+AmYfuzskK
+	qp9s9QvxkXJinwdh+1fV975rl16fxG3SChI4GGuEOuecfDdQvB5KFuCvURJbyyes
+	jmP4zE7fewYkZJ4xEe0WIWzuJSRDLXSX4bG7O3WyMIJ093QPwzuLeXdllALpbqZe
+	iRvn392OydCJLw0J8O31CeLzBY1dMO/8P+RJSOUurXGQ+2PKtUVzi98/4CEP2DkW
+	gcjQLH3yPwFILQh4k+DmL3zF+j3P4SxOD1rkAgE9KyGDnQ==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46d9ep5xbn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 06 May 2025 01:25:52 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5461PpoR000950
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 6 May 2025 01:25:51 GMT
+Received: from hu-mdtipton-lv.qualcomm.com (10.49.16.6) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 5 May 2025 18:25:51 -0700
+Date: Mon, 5 May 2025 18:25:50 -0700
+From: Mike Tipton <quic_mdtipton@quicinc.com>
+To: Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi
+	<cristian.marussi@arm.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Viresh
+ Kumar <viresh.kumar@linaro.org>
+CC: <arm-scmi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Peng Fan
+	<peng.fan@oss.nxp.com>, Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH v3] cpufreq: scmi: Skip SCMI devices that aren't used by
+ the CPUs
+Message-ID: <aBllHt7A2nP/9x3N@hu-mdtipton-lv.qualcomm.com>
+References: <20250428144728.871404-1-quic_mdtipton@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.89
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250428144728.871404-1-quic_mdtipton@quicinc.com>
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=EOUG00ZC c=1 sm=1 tr=0 ts=68196520 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=3H110R4YSZwA:10 a=kj9zAlcOel0A:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8
+ a=8AirrxEcAAAA:8 a=yJaCyoTPdldMf7LLIq8A:9 a=CjuIK1q_8ugA:10 a=ZXulRonScM0A:10
+ a=zZCYzV9kfG8A:10 a=TjNXssC_j7lpFel5tvFf:22 a=ST-jHhOKWsTCqRlWije3:22
+X-Proofpoint-ORIG-GUID: xQyI9TTY1mL-lT4GgZf6t5ZYvE89kQxv
+X-Proofpoint-GUID: xQyI9TTY1mL-lT4GgZf6t5ZYvE89kQxv
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA2MDAxMSBTYWx0ZWRfX0c07hmmoRyzu
+ LDWrWnnWv0/IlnrcjiVXRgnYvkD5HQsp5bdZIcTS3Ww3dRnV6+lb3FHQzRn0Nu4CE5ohLo35EE3
+ MKWpVsDkWPL7//XRwgO1B5Ap0ztm9P674s9K5i4ifZIqFlhXWCbSIc9r5ABVp+gZjTfGb0tUbRX
+ tplERRuJtyhiHFdJkXtIfrRcmuWfMWUtvQqH9IyzS+B7z24iL8mT2Uitj7uf/LCk8tCHk0My3yu
+ 9bOsebPbHJWneXjaOU674k3uq0f0ax1pgOOQ/HLaF/3yMt/V+qK2tDRbQ9TDPhMMZXuUt/3/iRY
+ iUVUEF9bHJ3gqd78jAUeDbRZM8AkFGjdDvnbqJhp6oUQIfhzS12fZ+JxzDVF3KKdkfa9Pyyvbkb
+ KznSbL3vilQGSjCN0mGXpeB7U4v3hct0eDyZenBiokuEQJs7RfQKSxAzer5ybRqNDw4Kbexz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-06_01,2025-05-05_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015 impostorscore=0 spamscore=0 lowpriorityscore=0
+ bulkscore=0 phishscore=0 suspectscore=0 mlxlogscore=809 mlxscore=0
+ priorityscore=1501 malwarescore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2504070000 definitions=main-2505060011
 
-From: Sudeep Holla <sudeep.holla@arm.com>
+On Mon, Apr 28, 2025 at 07:47:28AM -0700, Mike Tipton wrote:
+> Currently, all SCMI devices with performance domains attempt to register
+> a cpufreq driver, even if their performance domains aren't used to
+> control the CPUs. The cpufreq framework only supports registering a
+> single driver, so only the first device will succeed. And if that device
+> isn't used for the CPUs, then cpufreq will scale the wrong domains.
+> 
+> To avoid this, return early from scmi_cpufreq_probe() if the probing
+> SCMI device isn't referenced by the CPU device phandles.
+> 
+> This keeps the existing assumption that all CPUs are controlled by a
+> single SCMI device.
+> 
+> Signed-off-by: Mike Tipton <quic_mdtipton@quicinc.com>
+> Reviewed-by: Peng Fan <peng.fan@nxp.com>
+> ---
 
-[ Upstream commit 21ee965267bcbdd733be0f35344fa0f0226d7861 ]
+Hi Sudeep / Viresh,
 
-Currently in scmi_protocol_device_request(), no duplicate scmi device
-name is allowed across any protocol. However scmi_dev_match_id() first
-matches the protocol id and then the name. So, there is no strict
-requirement to keep this scmi device name unique across all the protocols.
+Any thoughts on this?
 
-Relax the constraint on the duplicate name across the protocols and
-inhibit only within the same protocol id.
-
-Message-Id: <20250131141822.514342-1-sudeep.holla@arm.com>
-Reviewed-by: Dhruva Gole <d-gole@ti.com>
-Reviewed-by: Peng Fan <peng.fan@nxp.com>
-Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/firmware/arm_scmi/bus.c | 19 ++++++-------------
- 1 file changed, 6 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
-index dcf774d3edfe4..0d61f84691d85 100644
---- a/drivers/firmware/arm_scmi/bus.c
-+++ b/drivers/firmware/arm_scmi/bus.c
-@@ -42,7 +42,7 @@ static atomic_t scmi_syspower_registered = ATOMIC_INIT(0);
-  * This helper let an SCMI driver request specific devices identified by the
-  * @id_table to be created for each active SCMI instance.
-  *
-- * The requested device name MUST NOT be already existent for any protocol;
-+ * The requested device name MUST NOT be already existent for this protocol;
-  * at first the freshly requested @id_table is annotated in the IDR table
-  * @scmi_requested_devices and then the requested device is advertised to any
-  * registered party via the @scmi_requested_devices_nh notification chain.
-@@ -52,7 +52,6 @@ static atomic_t scmi_syspower_registered = ATOMIC_INIT(0);
- static int scmi_protocol_device_request(const struct scmi_device_id *id_table)
- {
- 	int ret = 0;
--	unsigned int id = 0;
- 	struct list_head *head, *phead = NULL;
- 	struct scmi_requested_dev *rdev;
- 
-@@ -67,19 +66,13 @@ static int scmi_protocol_device_request(const struct scmi_device_id *id_table)
- 	}
- 
- 	/*
--	 * Search for the matching protocol rdev list and then search
--	 * of any existent equally named device...fails if any duplicate found.
-+	 * Find the matching protocol rdev list and then search of any
-+	 * existent equally named device...fails if any duplicate found.
- 	 */
- 	mutex_lock(&scmi_requested_devices_mtx);
--	idr_for_each_entry(&scmi_requested_devices, head, id) {
--		if (!phead) {
--			/* A list found registered in the IDR is never empty */
--			rdev = list_first_entry(head, struct scmi_requested_dev,
--						node);
--			if (rdev->id_table->protocol_id ==
--			    id_table->protocol_id)
--				phead = head;
--		}
-+	phead = idr_find(&scmi_requested_devices, id_table->protocol_id);
-+	if (phead) {
-+		head = phead;
- 		list_for_each_entry(rdev, head, node) {
- 			if (!strcmp(rdev->id_table->name, id_table->name)) {
- 				pr_err("Ignoring duplicate request [%d] %s\n",
--- 
-2.39.5
-
+Thanks,
+Mike
