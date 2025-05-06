@@ -1,76 +1,72 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B1AA26560B;
-	Tue,  6 May 2025 10:12:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E0BC2749EB;
+	Tue,  6 May 2025 10:14:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746526334; cv=none; b=kCiZGDKGhwPUrg934ynAt586uQXY9MbzGqi6DukB/UWMaLQZWDmj8E/Ej5Snc3Hx1J9ELy4dIqnN/04RfDwu2evMvNfQ9IwOQ7QF2xEQ+A8jmC71EBd/CkomjCoj6tmfTwyS8xZBw1aD28jvoOXzLUAn68ebRGXXJ3oPiDGKha8=
+	t=1746526441; cv=none; b=ECLTcDFSWnuLwOFB+7zuXQk016JRg+3Js4Gen6WgqV3f/kXPSYnej+Qm1x7L1o9qJYM77T7P78JAUkE1dqzzu2GgfmwxZ117IQ4mIbODAeY7bUW381mHWE2kp5ceTZaku+64uniiG5yWv41zyTWVwBJTBOm4YW3OkDaFulNEeQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746526334; c=relaxed/simple;
-	bh=yCdfwrBsl/xCwXkqHogoX2iASKM3lEEo2PqiI8L3efA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aU7NYGYe8WrisCSDLn8aZM7WkofiEPIf7Yix7UbDXQd24co5ttscvdJ3pvOCNyM6IyY1WPl4ZT7oxTGe259FpNHJZS9cLdU+NL7j/iK8P+mv84xjy4xTlbdqwyKyCwSYl9rFrTmniGPC5376vFo/phz17cPZ2/NjRHtHsGm/C/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1746526441; c=relaxed/simple;
+	bh=5AWVl9a+q1WS9q1OSptDsM0mFQJLdZ6UHEH3Ksk81hs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uz3FdrhhZL1XHDfr+3yqnJcjsSfz14DhkQBpvK2Dp0Ug4jM8TJ2PoorJ7SSvq0VyHzXe33P6punoDZV7TqvDTrYRXGy/VT9aCFSZBbvDEco8E6P/G1+rY1xWi+5bwShHwZBeSPyZZd2A0cDLZgH8/EKbQIYE56qxkqkVt6Prd+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2BD16113E;
-	Tue,  6 May 2025 03:12:02 -0700 (PDT)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1D3AF3F5A1;
-	Tue,  6 May 2025 03:12:09 -0700 (PDT)
-Date: Tue, 6 May 2025 11:12:07 +0100
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 04E80113E;
+	Tue,  6 May 2025 03:13:50 -0700 (PDT)
+Received: from usa.arm.com (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 528053F5A1;
+	Tue,  6 May 2025 03:13:57 -0700 (PDT)
 From: Sudeep Holla <sudeep.holla@arm.com>
-To: Mike Tipton <quic_mdtipton@quicinc.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>, <arm-scmi@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-pm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Peng Fan <peng.fan@oss.nxp.com>,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v3] cpufreq: scmi: Skip SCMI devices that aren't used by
- the CPUs
-Message-ID: <20250506-stirring-competent-ladybug-9cadb5@sudeepholla>
-References: <20250428144728.871404-1-quic_mdtipton@quicinc.com>
- <aBllHt7A2nP/9x3N@hu-mdtipton-lv.qualcomm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org,
+	Cristian Marussi <cristian.marussi@arm.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	quic_sibis@quicinc.com,
+	dan.carpenter@linaro.org,
+	maz@kernel.org,
+	johan@kernel.org
+Subject: Re: [PATCH v3 0/3] Introduce SCMI Quirks framework
+Date: Tue,  6 May 2025 11:13:51 +0100
+Message-Id: <174652639726.3776516.14512391795874302742.b4-ty@arm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250429141108.406045-1-cristian.marussi@arm.com>
+References: <20250429141108.406045-1-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aBllHt7A2nP/9x3N@hu-mdtipton-lv.qualcomm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 05, 2025 at 06:25:50PM -0700, Mike Tipton wrote:
-> On Mon, Apr 28, 2025 at 07:47:28AM -0700, Mike Tipton wrote:
-> > Currently, all SCMI devices with performance domains attempt to register
-> > a cpufreq driver, even if their performance domains aren't used to
-> > control the CPUs. The cpufreq framework only supports registering a
-> > single driver, so only the first device will succeed. And if that device
-> > isn't used for the CPUs, then cpufreq will scale the wrong domains.
-> > 
-> > To avoid this, return early from scmi_cpufreq_probe() if the probing
-> > SCMI device isn't referenced by the CPU device phandles.
-> > 
-> > This keeps the existing assumption that all CPUs are controlled by a
-> > single SCMI device.
-> > 
-> > Signed-off-by: Mike Tipton <quic_mdtipton@quicinc.com>
-> > Reviewed-by: Peng Fan <peng.fan@nxp.com>
-> > ---
+On Tue, 29 Apr 2025 15:11:05 +0100, Cristian Marussi wrote:
+> with the increasing adoption of SCMI across arm64 ecosystems, we have to
+> start considering how to deal and take care of out-of-spec SCMI firmware
+> platforms that are actively deployed in the wild, in a consistent manner.
 > 
-> Hi Sudeep / Viresh,
+> This small series introduces a simple framework, based on static_keys,
+> that allows a user to:
 > 
-> Any thoughts on this?
-> 
+> [...]
 
-I have actually queued and forgot to respond. Though I realise the change
-is not dependent on any other changes now.
+Applied to sudeep.holla/linux (for-next/scmi/updates), thanks!
 
-Viresh, hope you are OK with me taking this change or do you prefer to take
-it via your tree ? I am fine with that as well.
-
--- 
+[1/3] firmware: arm_scmi: Ensure that the message-id supports fastchannel
+      https://git.kernel.org/sudeep.holla/c/94a263f981a3
+[2/3] firmware: arm_scmi: Add Quirks framework
+      https://git.kernel.org/sudeep.holla/c/487c407d57d6
+[3/3] firmware: arm_scmi: quirk: Fix CLOCK_DESCRIBE_RATES triplet
+      https://git.kernel.org/sudeep.holla/c/7b487beab7cd
+--
 Regards,
 Sudeep
+
