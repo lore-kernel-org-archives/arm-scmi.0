@@ -1,33 +1,55 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D4E6288CAC
-	for <arm-scmi@vger.kernel.org>; Wed,  7 May 2025 13:47:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303DE2F22;
+	Wed, 14 May 2025 21:47:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746625641; cv=none; b=rheQ88R57y//8UA/IiHseG+QF9C2iqb94he9XOeJsM7iuv+me5X/mVwH2IiBS4I01sAPKKpe/h9611zDz+khIoc491xtM92pLK7duEJ+YuJc0mC/HFKswD8bULS2m75bMeOtN0tbnR+8+KerG0fCwuXr08X65URgeuTD0swyeGo=
+	t=1747259269; cv=none; b=nAh/An2J0aeyJKiPLPdJP24UfE8bp81WqUtavOezNFZ6Xlbcyf2UJmijYkMFtKdf4fcjyTXEfrMOXFiMOmZcYYDMgeSi5Isf+Kh055d9AgskVeMC+l0JAOpzSr3a9S2a82e48coaicI2hR/567XjMpD3DZs7OJT9RsBkJ43PFFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746625641; c=relaxed/simple;
-	bh=BvTKUmqfasOGTvCTWXbsN5B6frEC7Jsv/NsiqAr61jk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=TvbKnuBu+QxB4LpKqzLV5l6i60fDkkoK7WvQPZBLX6LvU/YNurRzlFkCyIko/ZsplMxjsuTXS46beBYYV4O69XckDpO+xYzWgICKPu42mdr8D6kbZoSB5zUPLHyhE/IQ7RS3Xyzj2P6fj8npepKOeOlvFh0iSF4KOeGD17Adiwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E4B43339;
-	Wed,  7 May 2025 06:47:08 -0700 (PDT)
-Received: from usa.arm.com (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B1A973F58B;
-	Wed,  7 May 2025 06:47:17 -0700 (PDT)
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: ARM SoC Team <arm@kernel.org>,
-	SoC Team <soc@kernel.org>,
-	ALKML <linux-arm-kernel@lists.infradead.org>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Arnd Bergmann <arnd@kernel.org>,
-	arm-scmi@vger.kernel.org,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [GIT PULL] firmware: arm_scmi: Updates for v6.16
-Date: Wed,  7 May 2025 14:47:13 +0100
-Message-Id: <20250507134713.49039-1-sudeep.holla@arm.com>
+	s=arc-20240116; t=1747259269; c=relaxed/simple;
+	bh=no3Ovq/+msXEibW9KWB+PqLeQT+IgSjc0neJeU0qRTQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cPzRraHgdGv0SUQvHGOnXDhF07hcdn7tWVUEluuRFkaxxKeCZ8UCpDeSPG32f4QtFdMK3jQMjTvbyhiX7vqJEWRcm0NfiAAGZ10Fhl5LN3KNR+0inkv4f8WdYpC7gBYRH/7Ul50w9oJOwzIYMdVSdw7NmvDr8oYqiHpXS2teK7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dv46zFIf; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dv46zFIf"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54EKYOBu002608;
+	Wed, 14 May 2025 21:47:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=BMGlPfl0PlHnr858h6oVuI
+	GE/V7R492wi23yl29+4Ws=; b=dv46zFIfEvpO2JKIpN35EJqCwXINeq0uWWSb5T
+	y578rBioCb5gep8Z4NpDeFqiLxhIy7w/Pn4JuZY9OcGbjLcQfMH4NpsctLWrd06X
+	pklDJn37deLzHxp++vk7x0hFxTb8VLHPdFaqzS45Ze14bdhgVz/51DFcbkOtIspb
+	/msBWPQpmhnaOFI+i6S11rpjEH0UqbsFBBjGR6ks4G7A4qeAKL8vmBfmQt3INvQl
+	+WlwQR8T9nEbyohQ7ZPwB1QlVmtjDxTfPEDsREP42GyfPlOQgoHY4o5YqM7y9quD
+	DE3qzzlDd4Pjyqr9YunqBEruYZ65lI+z1as6JP8ptOvPO8UA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46mbex45sa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 May 2025 21:47:39 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54ELlcHe021301
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 May 2025 21:47:38 GMT
+Received: from hu-sibis-blr.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 14 May 2025 14:47:35 -0700
+From: Sibi Sankar <quic_sibis@quicinc.com>
+To: <sudeep.holla@arm.com>, <cristian.marussi@arm.com>,
+        <viresh.kumar@linaro.org>, <d-gole@ti.com>,
+        <quic_mdtipton@quicinc.com>, <avajid@quicinc.com>
+CC: <arm-scmi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        Sibi Sankar
+	<quic_sibis@quicinc.com>
+Subject: [PATCH] firmware: arm_scmi: Fix up turbo frequencies selection
+Date: Thu, 15 May 2025 03:17:19 +0530
+Message-ID: <20250514214719.203607-1-quic_sibis@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -35,148 +57,58 @@ List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE0MDIwMiBTYWx0ZWRfXwzE/Ir0a986y
+ bfA631oR17Qm/XA/WzD/K1frTRJRvZ3oWQr3TUxtyVyrVNKCwFqJK9O7Li6zRP/8NJwZc08vEKI
+ UVJGbyRL/K6S82jP7ODC0Xo8nxwu7r8LijdIOms0rMOr+atnzIesh9llyCTnOzouJBuCljR18kX
+ QDM47RvPcfnhe9jkvg8DlK7d+3yL0BTdtAR+bK3k3gqjcrXvhtfJJsq5dpkQW9+7H/rI7eZFhkd
+ 6QXFQWqZB+ARfrqnZJZrmX1XV/H895tMGNvhNWiEtl+M5ZYVK9pQSGoUgkxJo9m1Mgc7UbIMGSF
+ 55dPQWQ0qucSz0H9pyGDUsxFUl/stjHkQ1DzHse9v46loDsesNt5dtOvvjmhlm1gzgCge/zWA4o
+ gTMUrDlUFhyAgSHLPoAeDw95Jj+wkq3cT9f47AV0cqTp0w/xCDXmypcWU5+lMCMZe17zJM6p
+X-Proofpoint-ORIG-GUID: Es-cZfoA2jWe32OW7ULli-XE4PQLuhNm
+X-Proofpoint-GUID: Es-cZfoA2jWe32OW7ULli-XE4PQLuhNm
+X-Authority-Analysis: v=2.4 cv=IcuHWXqa c=1 sm=1 tr=0 ts=68250f7b cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=1jvTKiyz69YEsTxx_wsA:9
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-14_04,2025-05-14_03,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 mlxscore=0 adultscore=0 mlxlogscore=999 bulkscore=0
+ clxscore=1011 spamscore=0 impostorscore=0 phishscore=0 lowpriorityscore=0
+ priorityscore=1501 suspectscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505070000 definitions=main-2505140202
 
-Hi ARM SoC Team,
+Sustained frequency when greater than or equal to 4Ghz on 64-bit devices
+currently result in marking all frequencies as turbo. Address the turbo
+frequency selection bug by fixing the truncation.
 
-Please pull !
+Fixes: a897575e79d7 ("firmware: arm_scmi: Add support for marking certain frequencies as turbo")
+Signed-off-by: Sibi Sankar <quic_sibis@quicinc.com>
+---
+ drivers/firmware/arm_scmi/perf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-Sudeep
+diff --git a/drivers/firmware/arm_scmi/perf.c b/drivers/firmware/arm_scmi/perf.c
+index c7e5a34b254b..683fd9b85c5c 100644
+--- a/drivers/firmware/arm_scmi/perf.c
++++ b/drivers/firmware/arm_scmi/perf.c
+@@ -892,7 +892,7 @@ static int scmi_dvfs_device_opps_add(const struct scmi_protocol_handle *ph,
+ 			freq = dom->opp[idx].indicative_freq * dom->mult_factor;
+ 
+ 		/* All OPPs above the sustained frequency are treated as turbo */
+-		data.turbo = freq > dom->sustained_freq_khz * 1000;
++		data.turbo = freq > dom->sustained_freq_khz * 1000UL;
+ 
+ 		data.level = dom->opp[idx].perf;
+ 		data.freq = freq;
+-- 
+2.34.1
 
--->8
-
-The following changes since commit 0af2f6be1b4281385b618cb86ad946eded089ac8:
-
-  Linux 6.15-rc1 (2025-04-06 13:11:33 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git tags/scmi-updates-6.16
-
-for you to fetch changes up to 397f802d06c418efa636e46083edbeb00c91369e:
-
-  firmware: arm_scmi: quirk: Force perf level get fastchannel (2025-05-06 11:12:30 +0100)
-
-----------------------------------------------------------------
-Arm SCMI updates for v6.16
-
-1. Quirk framework to handle buggy firmware
-
-   With SCMI gaining broader adoption across arm64 platforms, it's
-   increasingly important to address how we consistently manage out-of-spec
-   SCMI firmware already deployed in the field. This change introduces a
-   lightweight quirk framework built around static_keys, enabling developers to:
-    - Define quirks and their match criteria, which can include:
-       o A list of compatibles ({ comp, comp2, NULL })
-       o Vendor ID / Sub-Vendor ID
-       o Firmware implementation version ranges ([Min_Vers, Max_Vers])
-
-   Matching proceeds from the most specific (longest match) to the least
-   specific. NULL entries are treated as wildcards (i.e., match any value).
-   This flexibility allows matching very specific combinations or just a
-   general compatible string.
-
-   The quirk code blocks/snippets implementing the workaround are placed near
-   their intended usage and guarded by a static_key that's tied to the quirk.
-   Once the SCMI core stack is initialized and retrieves platform info via the
-   base protocol, any matching quirks will have their associated static_keys
-   enabled.
-
-2. Quirk for Qualcomm X1E platforms
-
-   On some Qualcomm X1E platforms, such as the Lenovo ThinkPad T14s, the
-   SCMI firmware fails to set the FastChannel support bit for PERF_LEVEL_GET,
-   yet it crashes when the driver attempts to fall back to standard messaging
-   which is clearly out-of-spec behavior.
-
-   To work around this, the new SCMI quirk framework is used to
-   unconditionally enable FC initialization for this firmware version.
-
-   In the future, once the fixed firmware version is identified, an upper
-   version bound can be added to the quirk match criteria. Alternatively,
-   matching can be further restricted using a SoC-specific compatible string
-   if always enabling FC proves problematic elsewhere.
-
-3. Support for NXP i.MX LMM/CPU vendor protocol extensions
-
-   The i.MX95 System Manager (SM) implements Logical Machine Management (LMM)
-   and a CPU protocol to manage Logical Machines (LM) and CPUs (e.g., M7).
-
-   These changes integrate the vendor-specific protocol extensions
-   implementing the LMM and CPU protocols for the i.MX95, facilitating
-   standardized communication between the operating system and the platform's
-   firmware, which will be used by remoteproc drivers. The changes also
-   include the necessary device tree bindings.
-
-4. Miscellaneous cleanups/changes
-
-   These mainly include polling support in SCMI raw mode. The cleanups
-   centralize error logging for SCMI device creation into a single helper
-   function, consolidate the device matching logic into a single function, and
-   ensure that devices must have a name for registration—removing support for
-   unnamed devices when matching drivers and devices for probing. Transport
-   devices are now excluded from bus matching, and the correct assignment of
-   the parent device for the arm-scmi platform device is ensured in the
-   transport drivers.
-
-----------------------------------------------------------------
-Cristian Marussi (3):
-      firmware: arm_scmi: Add polling support to raw mode
-      firmware: arm_scmi: Add common framework to handle firmware quirks
-      firmware: arm_scmi: quirk: Fix CLOCK_DESCRIBE_RATES triplet
-
-Johan Hovold (1):
-      firmware: arm_scmi: quirk: Force perf level get fastchannel
-
-Peng Fan (7):
-      firmware: arm_scmi: imx: Add LMM and CPU documentation
-      dt-bindings: firmware: Add i.MX95 SCMI LMM and CPU protocol
-      firmware: arm_scmi: imx: Add i.MX95 LMM protocol
-      firmware: arm_scmi: imx: Add i.MX95 CPU Protocol
-      firmware: imx: Add i.MX95 SCMI LMM driver
-      firmware: imx: Add i.MX95 SCMI CPU driver
-      MAINTAINERS: add entry for i.MX SCMI extensions
-
-Sibi Sankar (1):
-      firmware: arm_scmi: Ensure that the message-id supports fastchannel
-
-Sudeep Holla (5):
-      firmware: arm_scmi: Ensure scmi_devices are always matched by name as well
-      firmware: arm_scmi: Refactor device matching logic to eliminate duplication
-      firmware: arm_scmi: Refactor error logging from SCMI device creation to single helper
-      firmware: arm_scmi: Assign correct parent to arm-scmi platform device
-      firmware: arm_scmi: Exclude transport devices from bus matching
-
- Documentation/ABI/testing/debugfs-scmi-raw         |  91 +++
- .../bindings/firmware/nxp,imx95-scmi.yaml          |  23 +
- MAINTAINERS                                        |   9 +
- drivers/firmware/arm_scmi/Kconfig                  |  13 +
- drivers/firmware/arm_scmi/Makefile                 |   1 +
- drivers/firmware/arm_scmi/bus.c                    |  79 +-
- drivers/firmware/arm_scmi/clock.c                  |  33 +-
- drivers/firmware/arm_scmi/common.h                 |   1 +
- drivers/firmware/arm_scmi/driver.c                 | 119 +--
- drivers/firmware/arm_scmi/protocols.h              |   2 +
- drivers/firmware/arm_scmi/quirks.c                 | 322 ++++++++
- drivers/firmware/arm_scmi/quirks.h                 |  52 ++
- drivers/firmware/arm_scmi/raw_mode.c               |  72 +-
- drivers/firmware/arm_scmi/vendors/imx/Kconfig      |  24 +
- drivers/firmware/arm_scmi/vendors/imx/Makefile     |   2 +
- drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c | 276 +++++++
- drivers/firmware/arm_scmi/vendors/imx/imx-sm-lmm.c | 263 +++++++
- drivers/firmware/arm_scmi/vendors/imx/imx95.rst    | 828 +++++++++++++++++++++
- drivers/firmware/imx/Kconfig                       |  22 +
- drivers/firmware/imx/Makefile                      |   2 +
- drivers/firmware/imx/sm-cpu.c                      |  85 +++
- drivers/firmware/imx/sm-lmm.c                      |  91 +++
- include/linux/firmware/imx/sm.h                    |  19 +
- include/linux/scmi_imx_protocol.h                  |  42 ++
- 24 files changed, 2371 insertions(+), 100 deletions(-)
- create mode 100644 drivers/firmware/arm_scmi/quirks.c
- create mode 100644 drivers/firmware/arm_scmi/quirks.h
- create mode 100644 drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c
- create mode 100644 drivers/firmware/arm_scmi/vendors/imx/imx-sm-lmm.c
- create mode 100644 drivers/firmware/imx/sm-cpu.c
- create mode 100644 drivers/firmware/imx/sm-lmm.c
