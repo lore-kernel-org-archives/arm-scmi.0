@@ -1,118 +1,108 @@
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D86223FC42
-	for <arm-scmi@vger.kernel.org>; Fri, 16 May 2025 12:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867C642AA3;
+	Fri, 16 May 2025 15:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747399010; cv=none; b=twM4x5p+nt+wU5YMZFR3GVcnHS6JCx8c6lxtMPxgurcvragaAVB1oVfGg1BZ1qXquVrlpI8L7DsmlA2gMUkxEzgSe0EYXF7tJ32lVC1J6kWYjKRzOsXeyuLIaN4xCGr3GWhjUrDLn46Jf2WfjAR52t9vz9CPz/61Li2E1DR/OqU=
+	t=1747409035; cv=none; b=kYg96YdhJxbLjrI6r2c6plGyBEQh/4mA4KblXlNF89IerD9Y0WJuFB53LS7jZxNfiU4XgK9/8i+IiPBHU20J6vzFxTLEC1Aod23+H6tE0c1DLRBxZuccAse7O3heDOvvmvYBfGxq2MQ/vNaQL6cHe7qg4zj21QaIccUr7EMRiIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747399010; c=relaxed/simple;
-	bh=9wzkyFboHj2a03N7id0xUsk8moBU7q+unrqFgIUfzZA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uM2Dzfxn+XIXqwFv+kBZU4jvkxPynQ5/V6iBHOjL0yiv3JoXtwcLERPQQdoP9I63QmkWPDBtVnN+N1fwvjZh+7AxYaZi93aq5oKW1Q+oUZax2gnzUOEyjx/go3BeiU0c4qqsyT4XbbsEZlSLELzxZRf8w/3xJ0NfNTfRQxfXzUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VWRhglZ0; arc=none smtp.client-ip=209.85.219.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1747409035; c=relaxed/simple;
+	bh=fAdRp3Ukf76/cLJ5MH/J9Tw01MY99ook45ajAUe4i78=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mZoIgCweq5GWttj7qrp6XC2FKNAGf6ozNAh+bG7tJdKcwtjxWd19F3mjWudHLL5ngKqGkDL9o1n3XVqZK4Z/0ArLEeSK951yDZBLZhD69mzuVUN8jvq+5HyW07L9EUCHE+ZtM0OqGdJaknzfjyjRmOHQW8Z6MQ/6MovUDfNc9qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=GS289XTQ; arc=none smtp.client-ip=80.12.242.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VWRhglZ0"
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e78fc91f2dfso1782719276.2
-        for <arm-scmi@vger.kernel.org>; Fri, 16 May 2025 05:36:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747399008; x=1748003808; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/w1qVHjm/6raN7zGLx8kYdLz9cB5AHuz+jJexa+gClI=;
-        b=VWRhglZ0EKWZ14bQ7PfGNfukpyLXmHf/PMKyn1ydxEjneRsgPy5IhDZGjoM7uj1DT1
-         +PvU20ihnGYk6e1KaTiBaULidd200f+ntR8KmxZRagxxkJ29hNGadpQFmSF4atf5WpXB
-         a7y5vXQp+g7tRPJMICrlbovkSNrxZKoWlpiayZ2bioV0B6DGQDaEfGoX6A0YqLCncfFr
-         /x50jo6frmG2io/75l7MuQ5lvSucvqxJhAyQWhPZ/aPwAi3FQXcBrerI35k1niVSCp98
-         IpQFH2xbgokvq25zQrDCmCQI1AR6UWeeTDxpyuR3etsf3z/Zy2U4wHm+69XaAs/NkWHF
-         aBJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747399008; x=1748003808;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/w1qVHjm/6raN7zGLx8kYdLz9cB5AHuz+jJexa+gClI=;
-        b=J5v2Qbj+y6iJzszK0WOQiy4qwQPDdZwNQP+cpGR8so0HmB5B5aoo+GshB2QmCSle7b
-         eE1/jE3oGI0Q7z1Wc+ZqP6wJHxaPedHcfNCgmckpf4tYvOH//uhCl3h3aWYodVvYQkfy
-         fo0YWrwoHmicwGiq/jnwyP7LCJlhQip0FFXBqZw6ZfMsbTRpIkiNbgvTYK/nEFLFw48s
-         lAxoBzwHEWBg/AjeVqNZwPEkW0N/8xQx8wek/sIYyBUpUt+EPeTyxtM5f1CCGnKUY9L9
-         xaaFhvY54onzAbQ61V6hfK6Wydw8iTqa4cJS+8n6fqTHpoHT4WTBEUfzOrAKdj5MVLfS
-         bz/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXkv51MZib0LOxcC7nBhQtDu7SHaCT/B+X0kFeAouCZHb2cp+NBmTVqYJMeYg74fnuEukLs5LZWiw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwP2gvljyS3PIGFSAgPQ1Ce+7j5mmA+6zytfAnVd9giRl3dIvzu
-	+3CTkVTKQNrcMFLm+kKTATNan0pHv74mLmV7SMCVs6LVOmX2lVFEKWsBn3IOkP+vjtnFncCKy8G
-	b3SBV5wtVGcrh19Vh+Kz4LoYB6o2hLD6cLhfKdy6kbg==
-X-Gm-Gg: ASbGncvpUjr+kVzcbUQjTkvoMWHbIlU8JwOgo/wUNH9pGSH45XeYDZyYeawoFE8gD8j
-	hMhWw4bj3SffHBXDUD1kinSqEGL0fqs5FRhwPhbAmj4rC+Cglcwp40gOQmmNuynrYqDx2wDU2jM
-	sJlsODqqUVC+XjinCV4zU8C02vmD8ECWc=
-X-Google-Smtp-Source: AGHT+IFghScXhnR3wkBXLDFz1t5z1CZPwZ6TF92wgLasruAxkgk8sfBOlYLoXrREiTdbQmkb0V00WD3XSfLxJL/dw9A=
-X-Received: by 2002:a05:6902:2b86:b0:e72:bb4d:80d9 with SMTP id
- 3f1490d57ef6-e7b6d32d2abmr3337052276.3.1747399008010; Fri, 16 May 2025
- 05:36:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="GS289XTQ"
+Received: from [192.168.1.37] ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id FwuQuoFNbNavUFwuQugVNx; Fri, 16 May 2025 17:23:41 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1747409022;
+	bh=YGN7z0e21T7dSbGplde5/HIUtjEEzTbReDm6+Lon+l8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=GS289XTQHk3VLsLFpa5c/UYf4u4rEi+q4hXRXshv4vC+CJ9brrfk93Lotykr58NMQ
+	 jGXUAgQbbN+gjZ9Z6LiZ0GOd236njwoO2GqxrsUIQYXYoM1QqDAJHibIBVdHh7LI6e
+	 IZggX6xUeG4DUNGmjVt5lXFyT1O2NK08Rro/qv3nfVtDbDlvRKZ8DSHd+UBEXHWlAy
+	 IUpsW9XBwhYgSfEPxTWPESR3vbmtQg8GJ7Xq5u1Xm7kAFzh/3jiqgIDraK26Efjcad
+	 lMVnpMuPCOH/B3csNVHhzdGR0K6Pkhduem3L14lm7rEp2jgjkLajkru6YFV9S+XVAX
+	 QxNKLpSDRsjAg==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Fri, 16 May 2025 17:23:42 +0200
+X-ME-IP: 90.11.132.44
+Message-ID: <18ff08db-9d0a-40bb-b84d-785d25e2b8fc@wanadoo.fr>
+Date: Fri, 16 May 2025 17:23:37 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <7hecy3h7ky.fsf@baylibre.com> <CAPDyKFoLJ4zey6GNzCb9roAAJ5mS7B7exU1NEKtpLyyjD0aADA@mail.gmail.com>
- <7hikn5c5v8.fsf@baylibre.com> <CAPDyKFpuqk3jH91rkDDz_kejyJ5pFg5XH+=vdTA2aP8MJKUWrw@mail.gmail.com>
- <7hzfgf8xsw.fsf@baylibre.com> <CAPDyKFo_P129sVirHHYjOQT+QUmpymcRJme9obzKJeRgO7B-1A@mail.gmail.com>
- <7hmsc4s3tl.fsf@baylibre.com>
-In-Reply-To: <7hmsc4s3tl.fsf@baylibre.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 16 May 2025 14:36:12 +0200
-X-Gm-Features: AX0GCFsCC3XAcrwldXbwu-OHdnGt5Er6pBb3UyqFHjGLue3jB_wauUEaYu5LPLw
-Message-ID: <CAPDyKFoRaHhZP5zxqtrkRDPnZ+MOVb4rdKLk-g-gdiQEORNMMw@mail.gmail.com>
-Subject: Re: mixing SCMI and PSCI power domain hierarchy
-To: Kevin Hilman <khilman@baylibre.com>
-Cc: "cristian.marussi@arm.com" <cristian.marussi@arm.com>, 
-	"souvik.chakravarty@arm.com" <souvik.chakravarty@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, 
-	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>, Dhruva Gole <d-gole@ti.com>, 
-	Sebin Francis <sebin.francis@ti.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] firmware: arm_scmi: Use dev_err_probe() simplify the code
+To: Cristian Marussi <cristian.marussi@arm.com>, long.yunjian@zte.com.cn
+Cc: sudeep.holla@arm.com, peng.fan@nxp.com, justin.chen@broadcom.com,
+ florian.fainelli@broadcom.com, arm-scmi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ fang.yumeng@zte.com.cn, mou.yi@zte.com.cn, ouyang.maochun@zte.com.cn,
+ xu.lifeng1@zte.com.cn
+References: <20250515203855146Sn9x-Uw9Teur35mOjn41C@zte.com.cn>
+ <aCXzPGvPayVyiMHG@pluto>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <aCXzPGvPayVyiMHG@pluto>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, 25 Apr 2025 at 16:39, Kevin Hilman <khilman@baylibre.com> wrote:
->
-> Ulf Hansson <ulf.hansson@linaro.org> writes:
->
-> [...]
->
-> >> Anyways, curious what you think.  I quite like this solution because it
-> >> solves two fairly big limitations in the SCMI PM domain implementaion
-> >> that exist today with one relatively simple solution.
-> >
-> > Well, I am not the one to convince in regards to DT bindings. Putting
-> > the DT bindings aside, I think your extensions for the SCMI Power
-> > Domain to support parent-domains makes perfect sense to me!
-> >
-> > In regards to the DT bindings (again, I am not the expert here), but
-> > maybe we could try to extend the current way we describe parent
-> > domains instead of inventing something entirely new. Could the below
-> > work?
-> >
-> > scmi_pds: protocol@11 {
-> >         reg = <0x11>;
-> >          #power-domain-cells = <1>;
-> >          power-domains = <&MAIN_PD>, <&WKUP_PD>; // a list of phandles
-> >          power-domains-child-ids = <15>, <19> ; // a list of indexes
-> > corresponding to the list of phandles above
->
-> Yeah, this is probably better.  I'm not crazy about introducing novel
-> DT bindings either.  I will make a PoC of this approach.
->
-> The catch with either approach is that it will be a long list.  e.g. on
-> the TI AM62L, there are 50+ SCMI IDs.
+Le 15/05/2025 à 15:59, Cristian Marussi a écrit :
+> On Thu, May 15, 2025 at 08:38:55PM +0800, long.yunjian@zte.com.cn wrote:
+>> From: Yumeng Fang <fang.yumeng@zte.com.cn>
+>>
+> 
+> Hi,
+> 
+>> In the probe path, dev_err() can be replaced with dev_err_probe()
+>> which will check if error code is -EPROBE_DEFER and prints the
+>> error name. It also sets the defer probe reason which can be
+>> checked later through debugfs.
+> 
+> All true...but...if you look at the main scmi_probe() function all of these
+> failures are trapped at that level currently on the return path...
+> 
+> see the call chain from
+> 
+> scmi_probe()
+> 	....
+> 	ret = scmi_channels_setup(info);
+> 	...
+> 
+> ...so your probe errors will be overridden there with a more generic message
+> left in debugfs at the top level.
 
-Just wanted to share a brief update. I got the opportunity to chat
-with Krzysztof and Abel at Linaro Connect this week, about extending
-the power-domain DT bindings, in the way I proposed above. We agreed
-that it seems like a reasonable approach.
+This is only true only when -EPROBE_DEFER is returned.
 
-[...]
+In other cases, I think that we would get 2 messages. The specific one 
+from scmi_channels_setup() and a generic one from scmi_probe().
 
-Kind regards
-Uffe
+in such a case, the one in scmi_channels_setup() will be better, because 
+it will log the error code in a human readable format, which is not the 
+case now.
+
+So, I think that the patch:
+   - simplify the code
+   - improve the error messages in some cases
+
+If -EPROBE_DEFER is returned, I think that the additional call would 
+just but a harmless no-op.
+
+CJ
+
+> 
+> Thanks,
+> Cristian
+> 
+> 
+
