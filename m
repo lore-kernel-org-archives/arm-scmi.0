@@ -1,105 +1,96 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C6D4CB5B
-	for <arm-scmi@vger.kernel.org>; Mon, 19 May 2025 10:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B434F25E821
+	for <arm-scmi@vger.kernel.org>; Tue, 20 May 2025 21:51:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747651219; cv=none; b=Z+mvNCX4+qMmrl0A8ez+9ak4cRzJV5xHuzWtPAvBtL9D4h+kG4C4fxGrueMlbaSYMOVsk4+GY0zgBgF97q3qjfJq+uwqK7v1UYW9U8hlhfCOg6fhQYd6X0sRfyFAOz+o8x72ySqtq7Kjo/wrUHiW5qQcLZdrTa2virkAh2JUTAg=
+	t=1747777898; cv=none; b=WF5PVBp8wb3MzM0mBLgyMZOxl2cd3bIJjgpfxgzp2ajEgicQGAXCuH45u0xM+ImlhzE/j8Pz7tg4VLi/Dy5XY5M3tkhuqZBdoApwTEzgZEKnkGXJ7Ndq5lWl+nwn1MZ6pEloEqaUgOq+lqnbKD7TDmtYq6GoQ1iVKPy7dHiu320=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747651219; c=relaxed/simple;
-	bh=/Vmq3QFqnBlwuwwR+4xyRvi/TqRMdnogscI2G00PWto=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pZjn7EmgB/3/hiOr0rLlPmjC/exyTcYe6wLNQlql9LSz2kEd2oXBRo9tDmPqP53jREBfdbhOwdRAa8j+drg6Q7kOGI5oZmMhwbP3w2KykrnnqrICApsUp4pBd9IkOcq7udSTvzjBpTACf/u0bu3fSwjARTKFHTNyLt9Qu0aZnyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kNqFJQy2; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1747777898; c=relaxed/simple;
+	bh=+YcxJa4AFvNZkS0xWAAHV4pBceL+Aa87KE1RhOakO3I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JOfoEtjE8yI1dD/dTXCCRX15IoMKfSQX3m1NZj/QSUCdssPEs4s0DkXRyqdDW+b68RZtKazwzLs+7i0cAjP0IN/+B7ZxR8Jylw40zxlCMSSv3rT2J3/8mYDFQh73htgvcs9GCPhk8tX45bN7JRXuX7dlxCOO6mkWxVd3drzQ3go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FXw/Yf72; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kNqFJQy2"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-231fd67a9aeso15083055ad.1
-        for <arm-scmi@vger.kernel.org>; Mon, 19 May 2025 03:40:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FXw/Yf72"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-55168f56120so5123123e87.2
+        for <arm-scmi@vger.kernel.org>; Tue, 20 May 2025 14:51:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747651215; x=1748256015; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=i/aIx7AvdzS5nlXdZ8v4o/L4Qip57mcjCKYS6Puq9LQ=;
-        b=kNqFJQy2TEm5Y4Gjl6B5LCjDKKjoYIwMG4kwifLNNegw+vAfKCl/G6Y0CNZdq5Vzgs
-         NKjA9BkTm/JYrfewSN2YtEEQDfHgH9wU0O3DgOE/VTf4vpGZluS71v0Up3S43xY1Dw6I
-         CiOEd2sBKm7iprYQP8xneVLewfdd+fZoqzxqgOvxGqgQTw198u8DnWACUWWQovrSnpPA
-         mbBuy2H9c/JcVEuoTbDqcKGC7dgxQvoovE7qKpGN6cATZFveG3saN/w1Gnnp6CM5SNN8
-         NFjIN2YmXpKtQHLTWK5/VdH+J4z2HujBC4nGLatM1b6PndOufWeT2kVG4VPic8nUKoak
-         nOkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747651215; x=1748256015;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1747777895; x=1748382695; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i/aIx7AvdzS5nlXdZ8v4o/L4Qip57mcjCKYS6Puq9LQ=;
-        b=C54B5AimxvjC1663aRYxApzRyFc/z/C9WGJW94oAXqN8tGdDGmiDpzwZGUpaZHtlfP
-         f8M10Gnlfo/7TYhtU16H0jx4Ea2PAd/3KdGOo8ELAYZKVSOWdd8y1aiWUolfp6HbkEBR
-         Z8Dzu136Qb6j/nTzs+QCXgtQLV2drsjRrqCsJXlTDRvFoxgraEnTgHaKe6Eb/TUrYBOt
-         ypeJds/kxL1jZq6DYEJYQZZiup4fMl9TGsktqXiQGx8vz8v8h/hghyHGhzBxID8v8vfp
-         ecsQxev538wtuZwhyITIo2HdIefOVIJ5WbhNBA9W+6d8Ng8Mx3wW052xDuAyO/26wogj
-         dj9A==
-X-Forwarded-Encrypted: i=1; AJvYcCV74W+TDTbi3+1sX5zCHsiX2QMYNs8iRyfvDvQFCFJ2EeyfyJBcb5d6JJ3lTtKRn5Sdofvtf+Z+CA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5AzTkr0pv9O9iuayLd3YMzisDH/tw/RgDwGC92Xo7MNo0H1Vs
-	okXzHTFCi4wP7l86jBMjVI9naE0DUjLo84/O9i620m1q8oNBgUMzivJqdr2/6PFhb+nF9Zmj4UC
-	puORb
-X-Gm-Gg: ASbGncvDTRb9/F93/yqdrLdQIf3dQ8Sq4XHO26Beh8NFv4b0wg+wLy2s5r8KjZSwngQ
-	FMcjbzOfY96WKIQ+Bdl2YZkacuflZlx7en/a/a/KgsC8SpDCSAx8vSRlKRb9+OMAgIBNUMV5gxC
-	6kzEA6D/ZvGbhDyQ3QGLNpYnfADLu80X/J8f0OXD1Yw/GPaD9DSCGVq4kzwbMyxS+Mx2phRHvC4
-	3jDcE5X6rep7zeOTv3PcrjD71igcGCyftZ5/+L+MwDIjbJjptcipyzbaZlR3L/OuBZNASAffwWH
-	/zg1kniZR7qh8pur9gB5Pzxp8ANel1JmbaoCnLZIAoOzBTbft164
-X-Google-Smtp-Source: AGHT+IGV+/iosPw4tJfGLDNquYrwXS7YO+74bIwXmyBHISJk19CDoPFblHZ0P+89TKUcqBjFApznxA==
-X-Received: by 2002:a17:902:c209:b0:231:bc7e:a54f with SMTP id d9443c01a7336-231bc7ea667mr160254935ad.26.1747651215411;
-        Mon, 19 May 2025 03:40:15 -0700 (PDT)
-Received: from localhost ([122.172.81.72])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4e97fa6sm56235095ad.135.2025.05.19.03.40.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 May 2025 03:40:14 -0700 (PDT)
-Date: Mon, 19 May 2025 16:10:12 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Mike Tipton <quic_mdtipton@quicinc.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Peng Fan <peng.fan@oss.nxp.com>,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v4] cpufreq: scmi: Skip SCMI devices that aren't used by
- the CPUs
-Message-ID: <20250519104012.acyfoffelestwgtt@vireshk-i7>
-References: <20250515035312.3119884-1-quic_mdtipton@quicinc.com>
+        bh=+YcxJa4AFvNZkS0xWAAHV4pBceL+Aa87KE1RhOakO3I=;
+        b=FXw/Yf72g7a74IPmLa1HqP5jfDCwtqWp0soi1BrQ3jMWWddiV7RBpz2SuJ3xbyxluo
+         KVx4/EqWCHGmwVRUhBve/ImRB5kuDgZfGZTnMe8wjphzs8kfcbJQDlDyFnZ4HbvM3ufb
+         TSjOqF2g1XyVvkRoZbFVXLIxZyfK5EMJZTTqgdlduW2PjbMOYKqAGvq880h3gTMXD4XV
+         sCuqNU7DSnhXqAae8pau/YESqQ8ZvzZODuECyf3nuab3+g5RuE83v1vkkDTQ7OZpMiTV
+         OabPszn3pY0UzpivCSWzfrzIxqfffoOC7OiVsP0HN3b49Gu7GEePsMIXMVIIaE5ZpVyF
+         y1qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747777895; x=1748382695;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+YcxJa4AFvNZkS0xWAAHV4pBceL+Aa87KE1RhOakO3I=;
+        b=PBVKo7Qnl5RCSohTAlu/DoO08ul9dWPfjfBISDkGGeQ7RVgsntsvlDZiW3MAY65OED
+         9aopMl+ZjBkSSOrtv51nYAOCh98rVL0+SMXlu8R0kGTdFqT8qSC6PJPggpB2gDRtrHdO
+         mcq+JWts3ykgnw8UnKNBSH5ozuTdNFSJW3evglhrLkYSix4XRNGHj2q2BXaYaFm54f6f
+         E3jN2OgAt2rQ7KgWTLAnPl3wDNtxU1Ut/1i15V//XNxB1Kl1EbfTXiGi34tZgJj/1yw/
+         wE0TEgaYQOB+dxr6MTgiVmA2Tph8akAvDque3QL7TNryerFFdbAcsV9CkS+ZykA6NCto
+         vR9g==
+X-Forwarded-Encrypted: i=1; AJvYcCVH7PSGAfkgDVzQMB1/cOlQUe2bq7GPr1YdIv05WALgaEIQdxdsZjaFKSPs6PFvtvCnweoMlc0S6w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpNiMGqe2oiGJ3Lcvo2/hrzksGrdtknrrtwQMz7rUw2DAMs4mN
+	WJ30Hv9ZXc0M41Vx8eyAHdIK8BwFkd8T6CONKf7+ReYUURPHJLl3Jp3K8emCzfmjpo6vBV79C/M
+	La6Qylv4OaSZq9fWtGaQf1FilkAd6T8+MXOh+qzS76A==
+X-Gm-Gg: ASbGncv3gsqq6Hcm1r6AGjApsX5VMz5Y+LcajrGo3dk9UoG5h/o1OVnd5ERd6mclKvx
+	Jvpa8pS/tsAMk8GkJRVv48iZBm7VgWHlK5V5+jYBGnKmg0maH3vXYbthldo2BDDj4ylxWXnHDNQ
+	DEdnIVkabN0CaSA8pAu1n7K+Z6G2wsel6J
+X-Google-Smtp-Source: AGHT+IFVkq4h2CinjfVO4g88kIBTXBbAWFl5Mto0qgQ5kuq3Zs33wt1FkBPYSfQEYVpZKmi9mKF3laDdRT+6Oo5QVNI=
+X-Received: by 2002:a05:6512:6081:b0:550:e648:182a with SMTP id
+ 2adb3069b0e04-550e7248117mr5466218e87.55.1747777894769; Tue, 20 May 2025
+ 14:51:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250515035312.3119884-1-quic_mdtipton@quicinc.com>
+References: <20250516100423.1685732-1-ping.bai@nxp.com>
+In-Reply-To: <20250516100423.1685732-1-ping.bai@nxp.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 20 May 2025 23:51:23 +0200
+X-Gm-Features: AX0GCFstJNfbhxP8OvAOpZb2VTNEUaus21faETIiRrX0PcV1DOJb07Ynai4P9Vs
+Message-ID: <CACRpkdbXfNs8a+YEwsxROpUT16S9m7NxYXnTsOJNpi3ds0wKDg@mail.gmail.com>
+Subject: Re: [PATCH v2] pinctrl: freescale: Add support for imx943 pinctrl
+To: Jacky Bai <ping.bai@nxp.com>
+Cc: sudeep.holla@arm.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	cristian.marussi@arm.com, aisheng.dong@nxp.com, festevam@gmail.com, 
+	kernel@pengutronix.de, linux-gpio@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 14-05-25, 20:53, Mike Tipton wrote:
-> Currently, all SCMI devices with performance domains attempt to register
-> a cpufreq driver, even if their performance domains aren't used to
-> control the CPUs. The cpufreq framework only supports registering a
-> single driver, so only the first device will succeed. And if that device
-> isn't used for the CPUs, then cpufreq will scale the wrong domains.
-> 
-> To avoid this, return early from scmi_cpufreq_probe() if the probing
-> SCMI device isn't referenced by the CPU device phandles.
-> 
-> This keeps the existing assumption that all CPUs are controlled by a
-> single SCMI device.
-> 
-> Signed-off-by: Mike Tipton <quic_mdtipton@quicinc.com>
+On Fri, May 16, 2025 at 12:02=E2=80=AFPM Jacky Bai <ping.bai@nxp.com> wrote=
+:
+
+> The i.MX943 System Manager (SM) firmware supports the System Control
+> Management Interface (SCMI) pinctrl protocol, similar to the i.MX95 SM.
+> The base offset for the i.MX943 IOMUXC Daisy input register differs from
+> that of the i.MX95. Update the pinctrl-imx-scmi driver to add support for
+> i.MX943.
+>
+> Signed-off-by: Jacky Bai <ping.bai@nxp.com>
 > Reviewed-by: Peng Fan <peng.fan@nxp.com>
-> Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
-> Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
-> Tested-by: Cristian Marussi <cristian.marussi@arm.com>
 
-Applied. Thanks.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
--- 
-viresh
+I would merge it... but you also need a patch adding fsl,imx94 to
+Documentation/devicetree/bindings/arm/fsl.yaml
+do you not?
+
+Yours,
+Linus Walleij
