@@ -1,120 +1,121 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDCE62367D8;
-	Wed, 21 May 2025 08:15:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18789286D72;
+	Thu, 22 May 2025 08:41:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747815304; cv=none; b=AdU7iObUdY2nTg7hQYw0fkwRnuNew8Q5cd6fRmNOnsHstkHuJP7v/9lYRskz8xYfMi52cf22vbozY4NPcTmFJHky/Pso8dUVDbFe3ACbp+slVoSAHEKLIESA1NAM5S4JbuEoIHlGynx2AUzKzPhUIM+fnSDeMIM7A3Us9tjEMu0=
+	t=1747903303; cv=none; b=OzwQABLVT2V5WppQ50mNHtUpWstlwFRzgcNpwt9m58oy2R/84ck6NcvGP7haZzsBBMVu+bAT9+FYfB8NAn3qLa0eTyXrFPIpSQpb26jh0vNGvePx5wWtkx2cmiLCdp7Zz7CnATA3PUaKZIfZTUAWUxC8cDSWvXLhSuDg50G9aP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747815304; c=relaxed/simple;
-	bh=hHHDB6awP/r5qt6vmcLclDRBl4ZmahKZOmtC2vgaDQs=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=eQzNmwUYYzpOcCu6sT7nHIX7ZKKZuW/9wz8twU1iqJj1ojzh9HUotExpv+2BrBaEoFDd53wSw7uQ+cL3IoBbftP39nKhzFpFpnJ1LynlCKMKUvvdi925DG/Q2Zf11A5VD4U+orFz2BPm2CC2RVsNEp/aMoUM/R/Od+u09ItJ2cg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4b2PNc4bTTz4x6Ct;
-	Wed, 21 May 2025 16:14:56 +0800 (CST)
-Received: from njy2app04.zte.com.cn ([10.40.12.64])
-	by mse-fl1.zte.com.cn with SMTP id 54L8ElAk051014;
-	Wed, 21 May 2025 16:14:47 +0800 (+08)
-	(envelope-from long.yunjian@zte.com.cn)
-Received: from mapi (njb2app05[null])
-	by mapi (Zmail) with MAPI id mid201;
-	Wed, 21 May 2025 16:14:49 +0800 (CST)
-Date: Wed, 21 May 2025 16:14:49 +0800 (CST)
-X-Zmail-TransId: 2afd682d8b79ffffffffaab-bd44e
-X-Mailer: Zmail v1.0
-Message-ID: <20250521161449954uFxEsoI6Zg_7wDu6IAfWk@zte.com.cn>
+	s=arc-20240116; t=1747903303; c=relaxed/simple;
+	bh=PTGci6U8401c8yfH1R5xOKtCxdeMWqoShulIBa7cs00=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cYaMLbQeA0Nkp3MuGlBQUQIRLjWgr29+8tW863wztB3KOy1YBzDUiQCMMocAPsWL8Wc1/loSZrxK91DcmZDZAPP0x1n0GgGvdns2I0uEKpQ0pD3Aver/N1p9LRVdNYzKS4Vz5X8ieC18PZxQyZeM7c2enyTrBahQf1YK8PmLHuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t0eiwFpI; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t0eiwFpI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68FA5C4CEE4;
+	Thu, 22 May 2025 08:41:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747903302;
+	bh=PTGci6U8401c8yfH1R5xOKtCxdeMWqoShulIBa7cs00=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=t0eiwFpIsSp9FzzMM42N4AR9WxbZHuz7vws83ANlKNWsdOhlhWGTxfb+53X+dPilS
+	 ke9x1hUgDzv2BdJd4YkLkDewpVccawBuRNkNDJjig/JrafsExQCDvG73PtcVukOFpi
+	 lxbqb2Ji2pkBitRxVkbL5DmxrSLY+r1Wfv6XkkQvbKJuIBusLzGLmQRAOV0WoKawZy
+	 pNNis4PvPt1hLL3ozPszjxwaprF1UIIVqibAaCD5DFi9XU1rUB5IhmCqLXocd7Jnm0
+	 0FBhFGRfDovyeetfcAdkm+/7mA91Gw/yP2WxOBfUvs7Due6MEaRG1ogo0YNOEDRJUr
+	 19MKgVqGYshJw==
+Message-ID: <5edf74a6-7d01-4e1f-8d85-1be879d48700@kernel.org>
+Date: Thu, 22 May 2025 10:41:37 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <long.yunjian@zte.com.cn>
-To: <sudeep.holla@arm.com>
-Cc: <cristian.marussi@arm.com>, <peng.fan@nxp.com>,
-        <florian.fainelli@broadcom.com>, <fang.yumeng@zte.com.cn>,
-        <arm-scmi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <dan.carpenter@linaro.org>,
-        <christophe.jaillet@wanadoo.fr>, <mou.yi@zte.com.cn>,
-        <ouyang.maochun@zte.com.cn>, <xu.lifeng1@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIHYyXSBmaXJtd2FyZTogYXJtX3NjbWk6IFVzZSBkZXZfZXJyX3Byb2JlKCkgc2ltcGxpZnkgdGhlIGNvZGU=?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 54L8ElAk051014
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 682D8B80.000/4b2PNc4bTTz4x6Ct
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] firmware: arm_scmi: Use dev_err_probe() simplify the
+ code
+To: long.yunjian@zte.com.cn, sudeep.holla@arm.com
+Cc: cristian.marussi@arm.com, peng.fan@nxp.com,
+ florian.fainelli@broadcom.com, fang.yumeng@zte.com.cn,
+ arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, dan.carpenter@linaro.org,
+ christophe.jaillet@wanadoo.fr, mou.yi@zte.com.cn, ouyang.maochun@zte.com.cn,
+ xu.lifeng1@zte.com.cn
+References: <20250521161449954uFxEsoI6Zg_7wDu6IAfWk@zte.com.cn>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250521161449954uFxEsoI6Zg_7wDu6IAfWk@zte.com.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Yumeng Fang <fang.yumeng@zte.com.cn>
+On 21/05/2025 10:14, long.yunjian@zte.com.cn wrote:
+> From: Yumeng Fang <fang.yumeng@zte.com.cn>
+> 
+> In the probe path, dev_err() can be replaced with dev_err_probe()
 
-In the probe path, dev_err() can be replaced with dev_err_probe()
-which will check if error code is -EPROBE_DEFER and prints the
-error name. It also sets the defer probe reason which can be
-checked later through debugfs.
+That's mailbox channel setup, not probe path.
 
-Signed-off-by: Yumeng Fang <fang.yumeng@zte.com.cn>
----
-v1 -> v2
-(1) Order the includes alphabetically.
-(2) Delete "ret = PTR_ERR(*)", and then replace ret in dev_err_probe with "PTR_ERR(*)".
+Either this patch is wrong or commit msg is just not relevant.
 
- .../firmware/arm_scmi/transports/mailbox.c    | 20 +++++++------------
- 1 file changed, 7 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/firmware/arm_scmi/transports/mailbox.c b/drivers/firmware/arm_scmi/transports/mailbox.c
-index bd041c99b92b..764cbeac2492 100644
---- a/drivers/firmware/arm_scmi/transports/mailbox.c
-+++ b/drivers/firmware/arm_scmi/transports/mailbox.c
-@@ -8,6 +8,7 @@
+> which will check if error code is -EPROBE_DEFER and prints the
+> error name. It also sets the defer probe reason which can be
+> checked later through debugfs.
 
- #include <linux/err.h>
- #include <linux/device.h>
-+#include <linux/dev_printk.h>
- #include <linux/mailbox_client.h>
- #include <linux/of.h>
- #include <linux/of_address.h>
-@@ -214,31 +215,24 @@ static int mailbox_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
+You explain the basic stuff, we all know it, but you miss to explain
+things which we do not know. Rewrite your commit msgs to explain the
+non-obvious.
 
- 	smbox->chan = mbox_request_channel(cl, tx ? 0 : p2a_chan);
- 	if (IS_ERR(smbox->chan)) {
--		ret = PTR_ERR(smbox->chan);
--		if (ret != -EPROBE_DEFER)
--			dev_err(cdev,
--				"failed to request SCMI %s mailbox\n", desc);
--		return ret;
-+		return dev_err_probe(cdev, PTR_ERR(smbox->chan),
-+				     "failed to request SCMI %s mailbox\n", desc);
- 	}
+We all know how dev_err_probe works. What we do not know is ALWAYS that
+chan setup is the probe path (so prove that it is ALWAYS probe path).
 
- 	/* Additional unidirectional channel for TX if needed */
- 	if (tx && a2p_rx_chan) {
- 		smbox->chan_receiver = mbox_request_channel(cl, a2p_rx_chan);
- 		if (IS_ERR(smbox->chan_receiver)) {
--			ret = PTR_ERR(smbox->chan_receiver);
--			if (ret != -EPROBE_DEFER)
--				dev_err(cdev, "failed to request SCMI Tx Receiver mailbox\n");
--			return ret;
-+			return dev_err_probe(cdev, PTR_ERR(smbox->chan_receiver),
-+					     "failed to request SCMI Tx Receiver mailbox\n");
- 		}
- 	}
 
- 	if (!tx && p2a_rx_chan) {
- 		smbox->chan_platform_receiver = mbox_request_channel(cl, p2a_rx_chan);
- 		if (IS_ERR(smbox->chan_platform_receiver)) {
--			ret = PTR_ERR(smbox->chan_platform_receiver);
--			if (ret != -EPROBE_DEFER)
--				dev_err(cdev, "failed to request SCMI P2A Receiver mailbox\n");
--			return ret;
-+			return dev_err_probe(cdev, PTR_ERR(smbox->chan_platform_receiver),
-+					     "failed to request SCMI P2A Receiver mailbox\n");
- 		}
- 	}
 
--- 
-2.25.1
+Best regards,
+Krzysztof
