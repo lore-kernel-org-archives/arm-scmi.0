@@ -1,221 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45962DCC0C;
-	Wed, 28 May 2025 21:16:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13718223706
+	for <arm-scmi@vger.kernel.org>; Wed, 28 May 2025 21:59:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748467001; cv=none; b=l4aiQdR0dlMB7/3As40yPF+uSz/TusHIg+CeWIdJ88Vhu+OFBzMLPCxzkzM4+1Rfmub2eLpywOTs4vB+Oo/Wrb86LR4qS2o02A526qgcfyFn8VMwHt5mqtG0NvAYDXMv9aieuhDa0VL2w7tcnp02PNmC1Nd7wLiMxjVWk/lV+s0=
+	t=1748469547; cv=none; b=JqK8gsAY412SEeBrvIVaKGFjcPA6N/zsAsn9Y7TgaeZ2NtG0i/AJvGVpNex+ikjBvFyaaH+BDApQLdFiYzvkPo+JX9yUREf69lha7ggiEC1o7w9BsER4ZcWJgoov6BoETUATViUfBdshkmMOWbUVc6UCQ5rejfqLq+9KPSzwQP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748467001; c=relaxed/simple;
-	bh=qcTRhH4BbhMI2P8Aa/dseT4V4Fa9E6TkxaLfsgzl+uo=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=DV10g9NezHUypT1+lPmOa1Z/0oo+rtOvPjQXPV03D68LN0dwaAHmPcPUM1fvD0MFw295Sck2Y1RuIPAjhVdsHHmvYhidFib+UQE2IFpiKRt3IK3BU4G0lqcoFlUX4eL1jtWFpoHKg0PPfxr+dVq/WFVKF5wtPysjNrXKX+KC1cw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OUH10kTm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748469547; c=relaxed/simple;
+	bh=XDIf/AkjIaNzr2Vzu/sOCATynhQjflkuXfJZtVEuZGs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=KRSdCCM8dpxdyFUamrIQHDtQlMV7AQFFp+liOE3s2NB1D+VOx8Lh6+DfBGW4kbp+/3Kq3BmSSN76D7IrB7UVBm4/R7H7LmxWdIpOCjTp6exLQ6kE9uTGfh38xQeXuovM7vetdP8Xjz4vzLHVgJi0j8sipbKhNN4t1kiRcD1fVwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=1djfEifZ; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OUH10kTm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33D65C4CEE3;
-	Wed, 28 May 2025 21:16:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748467001;
-	bh=qcTRhH4BbhMI2P8Aa/dseT4V4Fa9E6TkxaLfsgzl+uo=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=OUH10kTm+ldXnm+WHitKvK0dDeB/r6k5gxe92K/P6ZYhUYqpuYaT8W30/PmEnFKb6
-	 UT12Tk0rZ3OakSMwfMnnkZQAMewgXxBLJ5DYr5cfngGsSXVyUqC7d8nByQ3/64l1q6
-	 vjMaFiGnHvXhWfTAfWFAIDdoQFgBfQCzhDtfpMvJ1Qf9eY3GFEY0buJtdgcNLm3BQi
-	 h50NWyeuCaXeUZWWQcInawayY7Zr/WPfO25ijywJhhJ7vLnKWP2dOoOdrPNXmpafEr
-	 fMCa0mgqU7sUJxAntt8dsaVn47UpwW0p2uG37cauqS+jVADlhy4lrWDHxrv3FRui8I
-	 QpsvadOtO5JjA==
-Date: Wed, 28 May 2025 16:16:39 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="1djfEifZ"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2347d505445so2788245ad.2
+        for <arm-scmi@vger.kernel.org>; Wed, 28 May 2025 14:59:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1748469544; x=1749074344; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Z8ZdPuDuwTqq2jswNniT+lha6CadtSsiS4kQUuMdAOw=;
+        b=1djfEifZePsMiBFJlsBNEUYWab+LH8veEinsiBKs0JJHb5xYxnye8MSa13O4iq85Tr
+         DTzCKAGaI6332XbsbFjILClMHoSqooHldrmN21tHvszuYtGYEkmCaZqZS0pXCpH9q+7F
+         rdmcMfGuZ6LlIq1FRj3Yhq36X6sjM222oAe0mT9HeffD+fp/Ey2fRpJgwAPuNaDIthKe
+         cs++kegvj2hOcC/cJjdOXZJ90nhdZYuu+RhWs2V1ViktEqbJ6D3W+zF/MjeOZLBVaZJF
+         wuneyZF9vpCwuBD1GjM/luG9JOhfjm8fp+ScrhNQXb6zicZHj6T6A7O0OqVOpbUng4iz
+         VegA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748469544; x=1749074344;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Z8ZdPuDuwTqq2jswNniT+lha6CadtSsiS4kQUuMdAOw=;
+        b=QDRDFgTND91dQqQL5ua3smTPAyYmki68Ojet0U6qfEVYAelVTpDvzmsf2gP/FxV5s+
+         OQOFsyiqTuWIjS7+sDdDZzOGABF0DC63bPIiqDmhmBu236vqm+y5ePJHKgdzvs2r6LYp
+         amR5ySd3HM/fWx13VHE//x90KCpLXYGVPr1y8CRs/VSZMjQkKphp9lAJPNt6pOUYIzG8
+         WAgl8Bs1/Bse3HAV0mFBj/0zIq+dT0bNkyRAbpGsYNkIXnbOd2iMsLnsJm9qNswpzFME
+         4NwfKE4Wa8VRMtznNpgHbLdaP9wyDwuml00ZVFFSu0fwvJhAUQzw5M3gayDQ0eMQmSxu
+         58nA==
+X-Forwarded-Encrypted: i=1; AJvYcCX84i2+wad+9396MuqAlA6hAkhMuCoYZug8crWXFaCfDAaeVc0Z2YEFsO8n+hu1sqlLCdpNbDLmgg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzk/A6T9qExHAI365ynwd8oJpaACN1RWGmY6R1+61UvFmLiOWj7
+	a+ToT+dlAJ/FrtC4V31FGE8HUJihZwRGw+LdeEBfuAmKOUu+6eWedNcKp99NcgYxTdQ=
+X-Gm-Gg: ASbGncvW6dIJsNuw6WHwqEjJmJxdJPWA2kbc4SP7g1uPndDvQZgQTTJ1GOOpSEAQrnC
+	ZN0a+jXwCBm8dYWOPjPiHP4MZp0TOSSt/cvUdDvUhrr+/AKU5Qi2y1HLQG/iYtyPgYQuc5H9OEF
+	AvWEDtejgutNOqnlaI93sgiLzBTr+81izNOWxeVxQhyHLklAPR2LiPAwNqFqp1FzPwjKId+Rc9U
+	AtMRbXbYerdrXJruLHiKNUpHBke5Vndv+ACot5VYVqVlWzMwYiQGULpJIzpIPpOUi7oSfRnrPyM
+	HioaTtJjLPwUqH6+Nkt/EvYPpgDlC10IMb1saw940rej7rtEuQ==
+X-Google-Smtp-Source: AGHT+IG7Hqweaw4no5OG6XMsb2HanYcoObKOADbb4dmXgTHKcinnfoGGFAANuqEgfN3ovubCiCKI7Q==
+X-Received: by 2002:a17:902:d483:b0:234:a139:11fb with SMTP id d9443c01a7336-234a13914a6mr110540395ad.27.1748469544301;
+        Wed, 28 May 2025 14:59:04 -0700 (PDT)
+Received: from localhost ([97.126.182.119])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506cd3506sm597335ad.156.2025.05.28.14.59.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 May 2025 14:59:03 -0700 (PDT)
+From: Kevin Hilman <khilman@baylibre.com>
+Date: Wed, 28 May 2025 14:58:51 -0700
+Subject: [PATCH RFC v2 1/2] dt-bindings: power: add nexus map for
+ power-domains
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, 
- Ulf Hansson <ulf.hansson@linaro.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, arm-scmi@vger.kernel.org
-To: Kevin Hilman <khilman@baylibre.com>
-In-Reply-To: <20250528-pmdomain-hierarchy-onecell-v1-1-851780700c68@baylibre.com>
-References: <20250528-pmdomain-hierarchy-onecell-v1-1-851780700c68@baylibre.com>
-Message-Id: <174846699955.819861.15203166653070145497.robh@kernel.org>
-Subject: Re: [PATCH RFC] pmdomain: core: add hierarchy support for onecell
- providers
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250528-pmdomain-hierarchy-onecell-v2-1-7885ae45e59c@baylibre.com>
+References: <20250528-pmdomain-hierarchy-onecell-v2-0-7885ae45e59c@baylibre.com>
+In-Reply-To: <20250528-pmdomain-hierarchy-onecell-v2-0-7885ae45e59c@baylibre.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org
+X-Mailer: b4 0.14.3-dev-d7477
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2303; i=khilman@baylibre.com;
+ h=from:subject:message-id; bh=XDIf/AkjIaNzr2Vzu/sOCATynhQjflkuXfJZtVEuZGs=;
+ b=owEBbQKS/ZANAwAIAVk3GJrT+8ZlAcsmYgBoN4cmaxtI3Qjw0jDnCDgpzdtkUyuPqvTYz40Fh
+ WakPGl06r2JAjMEAAEIAB0WIQR7h0YOFpJ/qfW/8QxZNxia0/vGZQUCaDeHJgAKCRBZNxia0/vG
+ ZbZiD/4koYug816H/rHw49LBAiEiYRm2/WSDsUu7rKl6wAOPJdmJdbdKyVjkrbUOnHLsEueeenS
+ WC9yZBNFUr+M2aXnPfyZSrlHHp9i4R05UVdyXQqxmui6uoseDoMXOWOIeclRxFLqWcCcoht4f+V
+ JowSMffimg4ylWqVJn8VnJh77xvm0W5RXlhzvakkZNu8YLJQOJZxeYkZeMEKrfFIp1uioF9TMz5
+ aFgZ8Zrjdg3enN1uyjV8baP2q4kjMk+PPw+Cdp5e4WNoswOtNWV24IfiKRxoZxQ9bo3KbC5C9Xx
+ Zc7gxBpZq1u1VKZgdM6Uu0CmE0Q6OO+61pHQm922vHKCgRB9FjjJ3fAlmVtqW+nHYLocxIHkLK2
+ HdqvJHlxqC5ugkBmEC2tKfj/o/6PWPLf/djvCnrTmYD2TSTFOaWadYwLWx62n2iVvkyn6WBVJyr
+ OuraVieK9m94TIII8xi2uK9rMO901Kk8B3Qx9hdg1MadOl38heFqUqqd4lMCt/j9Lk9+lLOfNhg
+ xDNfFCjjZK4CSB21/b6RPYqYGT60kpU33R9uZEsRkQVeOrqUPq3UP8nSJiJPeLPR7E1njfnz9RW
+ iRuv0Mw6qaWqzutUn3RVa2qVjx+Nj/EKUia3H4HULOCgJxF6wMo9UpQkmimdCbpepY5xq8mD7jx
+ FiP9seGebm2b+EQ==
+X-Developer-Key: i=khilman@baylibre.com; a=openpgp;
+ fpr=7B87460E16927FA9F5BFF10C5937189AD3FBC665
 
+Add support for nexus map to be able to support hierarchical power
+domains for providers with #power-domain-cells > 0.
 
-On Wed, 28 May 2025 13:03:43 -0700, Kevin Hilman wrote:
-> Currently, PM domains can only support hierarchy for simple
-> providers (e.g. ones with #power-domain-cells = 0).
-> 
-> Add support for oncell providers as well by adding a new property
-> `power-domains-child-ids` to describe the parent/child relationship.
-> 
-> For example, an SCMI PM domain provider might be a subdomain of
-> multiple parent domains. In this example, the parent domains are
-> MAIN_PD and WKUP_PD:
-> 
->     scmi_pds: protocol@11 {
->         reg = <0x11>;
->         #power-domain-cells = <1>;
->         power-domains = <&MAIN_PD>, <&WKUP_PD>;
->         power-domains-child-ids = <15>, <19>;
->     };
-> 
-> With the new property, child domain 15 (scmi_pds 15) becomes a
-> subdomain of MAIN_PD, and child domain 19 (scmi_pds 19) becomes a
-> subdomain of WKUP_PD.
-> 
-> Note: this idea was previously discussed on the arm-scmi mailing
-> list[1] where this approach was proposed by Ulf.  This is my initial
-> attempt at implementing it for discussion.  I'm definitely a noob at
-> adding support new DT properties, so I got some help from an AI friend
-> named Claude in writing this code, so feedback on the apprach is
-> welcomed.
-> 
-> [1] https://lore.kernel.org/arm-scmi/CAPDyKFo_P129sVirHHYjOQT+QUmpymcRJme9obzKJeRgO7B-1A@mail.gmail.com/
-> 
-> Signed-off-by: Kevin Hilman <khilman@baylibre.com>
-> ---
->  Documentation/devicetree/bindings/power/power-domain.yaml |  39 ++++++++++++++++++++++++++++++++
->  drivers/pmdomain/core.c                                   | 111 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 150 insertions(+)
-> 
+Suggested-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Kevin Hilman <khilman@baylibre.com>
+---
+ Documentation/devicetree/bindings/power/power-domain.yaml | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
-My bot found errors running 'make dt_binding_check' on your patch:
+diff --git a/Documentation/devicetree/bindings/power/power-domain.yaml b/Documentation/devicetree/bindings/power/power-domain.yaml
+index 8fdb529d560b..9f099d326aee 100644
+--- a/Documentation/devicetree/bindings/power/power-domain.yaml
++++ b/Documentation/devicetree/bindings/power/power-domain.yaml
+@@ -68,6 +68,15 @@ properties:
+       by the given provider should be subdomains of the domain specified
+       by this binding.
+ 
++  power-domains-map:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    description:
++      Nexus node mapping property that establishes parent-child relationships
++      for PM domains using the format defined in the Device Tree specification
++      section 2.5.1. Each map entry consists of child domain specifier,
++      parent phandle, and optional parent specifier arguments. This property
++      is only supported for onecell providers (#power-domain-cells = 1).
++
+ required:
+   - "#power-domain-cells"
+ 
+@@ -133,3 +142,29 @@ examples:
+             min-residency-us = <7000>;
+         };
+     };
++
++  - |
++    // Example using power-domains-map for Nexus mapping
++    main_pd: power-controller@12370000 {
++        compatible = "foo,power-controller";
++        reg = <0x12370000 0x1000>;
++        #power-domain-cells = <0>;
++    };
++
++    wkup_pd: power-controller@12380000 {
++        compatible = "foo,power-controller";
++        reg = <0x12380000 0x1000>;
++        #power-domain-cells = <0>;
++    };
++
++    scmi_pds protocol@11 {
++        compatible = "arm,scmi-power-domain";
++        reg = <0x11>;
++        #power-domain-cells = <1>;
++        power-domains-map = <15 &main_pd>,
++                            <19 &wkup_pd>;
++    };
++
++    // In this example using Nexus node mapping:
++    // - Child domain 15 (scmi_pds 15) becomes a subdomain of main_pd
++    // - Child domain 19 (scmi_pds 19) becomes a subdomain of wkup_pd
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/power/power-domain.yaml:76:13: [error] missing starting space in comment (comments)
-./Documentation/devicetree/bindings/power/power-domain.yaml:77:7: [error] syntax error: expected <block end>, but found '<scalar>' (syntax)
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/power/power-domain.yaml: ignoring, error parsing file
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/keystone/ti,sci.example.dtb: system-controller@44083000 (ti,k2g-sci): power-controller: {'compatible': ['ti,sci-pm-domain'], '#power-domain-cells': 2} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/arm/keystone/ti,sci.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/keystone/ti,sci.example.dtb: power-controller (ti,sci-pm-domain): {'compatible': ['ti,sci-pm-domain'], '#power-domain-cells': 2, '$nodename': ['power-controller']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/soc/ti/sci-pm-domain.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/psci.example.dtb: psci (arm,psci-1.0): power-domain-cpu0: {'#power-domain-cells': 0, 'domain-idle-states': [3], 'power-domains': [[4]], 'phandle': 1} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/arm/psci.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/psci.example.dtb: psci (arm,psci-1.0): power-domain-cpu0: Unevaluated properties are not allowed ('#power-domain-cells', 'domain-idle-states', 'power-domains' were unexpected)
-	from schema $id: http://devicetree.org/schemas/arm/psci.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/psci.example.dtb: psci (arm,psci-1.0): power-domain-cpu1: {'#power-domain-cells': 0, 'domain-idle-states': [3], 'power-domains': [[4]], 'phandle': 2} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/arm/psci.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/psci.example.dtb: psci (arm,psci-1.0): power-domain-cpu1: Unevaluated properties are not allowed ('#power-domain-cells', 'domain-idle-states', 'power-domains' were unexpected)
-	from schema $id: http://devicetree.org/schemas/arm/psci.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/psci.example.dtb: psci (arm,psci-1.0): power-domain-cluster: {'#power-domain-cells': 0, 'domain-idle-states': [5, 6], 'phandle': 4} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/arm/psci.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/psci.example.dtb: psci (arm,psci-1.0): power-domain-cluster: Unevaluated properties are not allowed ('#power-domain-cells', 'domain-idle-states' were unexpected)
-	from schema $id: http://devicetree.org/schemas/arm/psci.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/apple/apple,pmgr.example.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@1c0: {'compatible': ['apple,t8103-pmgr-pwrstate', 'apple,pmgr-pwrstate'], 'reg': [[448, 8]], '#power-domain-cells': 0, '#reset-cells': 0, 'label': ['sio'], 'apple,always-on': True, 'phandle': 1} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/apple/apple,pmgr.example.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@220: {'compatible': ['apple,t8103-pmgr-pwrstate', 'apple,pmgr-pwrstate'], 'reg': [[544, 8]], '#power-domain-cells': 0, '#reset-cells': 0, 'label': ['uart_p'], 'power-domains': [[1]], 'phandle': 2} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/apple/apple,pmgr.example.dtb: power-management@23b700000 (apple,t8103-pmgr): power-controller@270: {'compatible': ['apple,t8103-pmgr-pwrstate', 'apple,pmgr-pwrstate'], 'reg': [[624, 8]], '#power-domain-cells': 0, '#reset-cells': 0, 'label': ['uart0'], 'power-domains': [[2]]} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/apple/apple,pmgr.example.dtb: power-controller@1c0 (apple,t8103-pmgr-pwrstate): {'compatible': ['apple,t8103-pmgr-pwrstate', 'apple,pmgr-pwrstate'], 'reg': [[448, 8]], '#power-domain-cells': 0, '#reset-cells': 0, 'label': ['sio'], 'apple,always-on': True, 'phandle': 1, '$nodename': ['power-controller@1c0']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/apple/apple,pmgr.example.dtb: power-controller@220 (apple,t8103-pmgr-pwrstate): {'compatible': ['apple,t8103-pmgr-pwrstate', 'apple,pmgr-pwrstate'], 'reg': [[544, 8]], '#power-domain-cells': 0, '#reset-cells': 0, 'label': ['uart_p'], 'power-domains': [[1]], 'phandle': 2, '$nodename': ['power-controller@220']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/apple/apple,pmgr.example.dtb: power-controller@270 (apple,t8103-pmgr-pwrstate): {'compatible': ['apple,t8103-pmgr-pwrstate', 'apple,pmgr-pwrstate'], 'reg': [[624, 8]], '#power-domain-cells': 0, '#reset-cells': 0, 'label': ['uart0'], 'power-domains': [[2]], '$nodename': ['power-controller@270']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/apple/apple,pmgr.example.dtb: power-management@23d280000 (apple,t8103-pmgr): power-controller@4000: {'compatible': ['apple,t8103-pmgr-pwrstate', 'apple,pmgr-pwrstate'], 'reg': [[16384, 8]], '#power-domain-cells': 0, '#reset-cells': 0, 'label': ['aop_filter'], 'phandle': 3} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/apple/apple,pmgr.example.dtb: power-management@23d280000 (apple,t8103-pmgr): power-controller@4010: {'compatible': ['apple,t8103-pmgr-pwrstate', 'apple,pmgr-pwrstate'], 'reg': [[16400, 8]], '#power-domain-cells': 0, '#reset-cells': 0, 'label': ['aop_base'], 'power-domains': [[3]], 'phandle': 4} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/apple/apple,pmgr.example.dtb: power-management@23d280000 (apple,t8103-pmgr): power-controller@4038: {'compatible': ['apple,t8103-pmgr-pwrstate', 'apple,pmgr-pwrstate'], 'reg': [[16440, 8]], '#power-domain-cells': 0, '#reset-cells': 0, 'label': ['aop_shim'], 'power-domains': [[4]], 'phandle': 5} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/apple/apple,pmgr.example.dtb: power-management@23d280000 (apple,t8103-pmgr): power-controller@4048: {'compatible': ['apple,t8103-pmgr-pwrstate', 'apple,pmgr-pwrstate'], 'reg': [[16456, 8]], '#power-domain-cells': 0, '#reset-cells': 0, 'label': ['aop_uart0'], 'power-domains': [[5]]} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/apple/apple,pmgr.example.dtb: power-controller@4000 (apple,t8103-pmgr-pwrstate): {'compatible': ['apple,t8103-pmgr-pwrstate', 'apple,pmgr-pwrstate'], 'reg': [[16384, 8]], '#power-domain-cells': 0, '#reset-cells': 0, 'label': ['aop_filter'], 'phandle': 3, '$nodename': ['power-controller@4000']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/apple/apple,pmgr.example.dtb: power-controller@4010 (apple,t8103-pmgr-pwrstate): {'compatible': ['apple,t8103-pmgr-pwrstate', 'apple,pmgr-pwrstate'], 'reg': [[16400, 8]], '#power-domain-cells': 0, '#reset-cells': 0, 'label': ['aop_base'], 'power-domains': [[3]], 'phandle': 4, '$nodename': ['power-controller@4010']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/apple/apple,pmgr.example.dtb: power-controller@4038 (apple,t8103-pmgr-pwrstate): {'compatible': ['apple,t8103-pmgr-pwrstate', 'apple,pmgr-pwrstate'], 'reg': [[16440, 8]], '#power-domain-cells': 0, '#reset-cells': 0, 'label': ['aop_shim'], 'power-domains': [[4]], 'phandle': 5, '$nodename': ['power-controller@4038']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/apple/apple,pmgr.example.dtb: power-controller@4048 (apple,t8103-pmgr-pwrstate): {'compatible': ['apple,t8103-pmgr-pwrstate', 'apple,pmgr-pwrstate'], 'reg': [[16456, 8]], '#power-domain-cells': 0, '#reset-cells': 0, 'label': ['aop_uart0'], 'power-domains': [[5]], '$nodename': ['power-controller@4048']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/power/apple,pmgr-pwrstate.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/soc/ti/sci-pm-domain.example.dtb: power-controller (ti,sci-pm-domain): {'compatible': ['ti,sci-pm-domain'], '#power-domain-cells': 1, '$nodename': ['power-controller']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/soc/ti/sci-pm-domain.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/soc/ti/sci-pm-domain.example.dtb: power-controller (ti,sci-pm-domain): {'compatible': ['ti,sci-pm-domain'], '#power-domain-cells': 2, '$nodename': ['power-controller']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/soc/ti/sci-pm-domain.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/power/fsl,scu-pd.example.dtb: power-controller (fsl,imx8qxp-scu-pd): {'compatible': ['fsl,imx8qxp-scu-pd', 'fsl,scu-pd'], '#power-domain-cells': 1, '$nodename': ['power-controller']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/power/fsl,scu-pd.yaml#
-make[2]: *** Deleting file 'Documentation/devicetree/bindings/power/power-domain.example.dts'
-Documentation/devicetree/bindings/power/power-domain.yaml:77:7: expected <block end>, but found '<scalar>'
-make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/power/power-domain.example.dts] Error 1
-make[2]: *** Waiting for unfinished jobs....
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/power/pd-samsung.example.dtb: power-domain@10023c80 (samsung,exynos4210-pd): {'compatible': ['samsung,exynos4210-pd'], 'reg': [[268582016, 32]], '#power-domain-cells': 0, 'label': ['LCD0'], '$nodename': ['power-domain@10023c80']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/power/pd-samsung.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/power/pd-samsung.example.dtb: power-domain@10044060 (samsung,exynos4210-pd): {'compatible': ['samsung,exynos4210-pd'], 'reg': [[268714080, 32]], '#power-domain-cells': 0, 'label': ['MFC'], '$nodename': ['power-domain@10044060']} should not be valid under {'description': "Can't find referenced schema: http://devicetree.org/schemas/power/power-domain.yaml#"}
-	from schema $id: http://devicetree.org/schemas/power/pd-samsung.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/power/fsl,scu-pd.yaml:
-	while parsing a block mapping
-  in "<unicode string>", line 72, column 5:
-        $ref: /schemas/types.yaml#/defin ... 
-        ^ (line: 72)
-expected <block end>, but found '<scalar>'
-  in "<unicode string>", line 77, column 7:
-          power domains). It specifies whi ... 
-          ^ (line: 77)
-./Documentation/devicetree/bindings/power/power-domain.yaml:77:7: expected <block end>, but found '<scalar>'
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/power/pd-samsung.yaml:
-	while parsing a block mapping
-  in "<unicode string>", line 72, column 5:
-        $ref: /schemas/types.yaml#/defin ... 
-        ^ (line: 72)
-expected <block end>, but found '<scalar>'
-  in "<unicode string>", line 77, column 7:
-          power domains). It specifies whi ... 
-          ^ (line: 77)
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/arm/psci.yaml:
-	while parsing a block mapping
-  in "<unicode string>", line 72, column 5:
-        $ref: /schemas/types.yaml#/defin ... 
-        ^ (line: 72)
-expected <block end>, but found '<scalar>'
-  in "<unicode string>", line 77, column 7:
-          power domains). It specifies whi ... 
-          ^ (line: 77)
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/soc/ti/sci-pm-domain.yaml:
-	while parsing a block mapping
-  in "<unicode string>", line 72, column 5:
-        $ref: /schemas/types.yaml#/defin ... 
-        ^ (line: 72)
-expected <block end>, but found '<scalar>'
-  in "<unicode string>", line 77, column 7:
-          power domains). It specifies whi ... 
-          ^ (line: 77)
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml:
-	while parsing a block mapping
-  in "<unicode string>", line 72, column 5:
-        $ref: /schemas/types.yaml#/defin ... 
-        ^ (line: 72)
-expected <block end>, but found '<scalar>'
-  in "<unicode string>", line 77, column 7:
-          power domains). It specifies whi ... 
-          ^ (line: 77)
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1519: dt_binding_check] Error 2
-make: *** [Makefile:248: __sub-make] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250528-pmdomain-hierarchy-onecell-v1-1-851780700c68@baylibre.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+-- 
+2.49.0
 
