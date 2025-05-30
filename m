@@ -1,34 +1,45 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0CC6EACD;
-	Fri, 30 May 2025 13:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC5822B8CE;
+	Fri, 30 May 2025 13:57:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748610553; cv=none; b=SN8nbdQOX/eYJ0oV7SzoTvEg0TQM/s0eOW1G4WOfuO0tTuPWJFljcoDdHWZH1kj2nGLyPr+V2BkVqpS7iqdroba9qP2WNu32wgdqtZMP61QUve4KOFNvwAylk55fAlDliPHw+vAiCcaX2j/ia4K7XkhLkR51DTj+vOxmwU22tUY=
+	t=1748613465; cv=none; b=rDakKuC7r8tDQjUyjM6rJ/zyM6qQ36IKU7Z59zWgqLXEUF4pNlMrxmlmq5FPWPcv92GiCr7cNRvQqaiaZuSZHlOf4kt1gn9rFWjOa1dI/G7qeEBNw4ST31uAAcPYjbrPNEDAGWnJh0hLJtdfjDEUvSfscFzzGmLmohmaPz1Y19M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748610553; c=relaxed/simple;
-	bh=8PjdAZFS9yZFbb/UWVMfVeis8n/waeZAn00btRWHoH0=;
+	s=arc-20240116; t=1748613465; c=relaxed/simple;
+	bh=WIVBmamAAgu84xM0ptOS5XviTbJAv0iJbRCNRSQYsmg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lUGZnnldxYcEspTF8CAqfO6qoGDv/BRBabW2/5pCSwf0qn1mvvEE/88Wqc6iZF4/SFPGlTnOqgJ2xXV1R+LEPve0oEI2fyLy2NdKfF/No3Zlc9bOqM15a1PML/Rls6GLET3gRlBSckv1BK7IGW69oHMPmY3GJ08N20E5ezVfKLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A4F0F1692;
-	Fri, 30 May 2025 06:08:52 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 363A63F5A1;
-	Fri, 30 May 2025 06:09:08 -0700 (PDT)
-Date: Fri, 30 May 2025 14:09:05 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC 2/7] firmware: arm_scmi: add is_gpio() function
-Message-ID: <aDmt8biXL1HrKykw@pluto>
-References: <cover.1746443762.git.dan.carpenter@linaro.org>
- <de456bd70a3e092a6379f548ce35e38253ff97b1.1746443762.git.dan.carpenter@linaro.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=T3yXwqBGAD3irlNnAGpfn+uVXPc9beESzQy9yo5qKPOG/kvNLRBtXblYXh+3dMB3ZODiIgnzutu/6e1EAQVfrEG+illVW5QQu9Y2E2Yn4IrKbPtp2274lCqZfJ68Tt+grdzTzWVQ1zzK8zMl7KD2xVLAI+o7tAcKEtcdM/ZzxWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vJ4Z1MWu; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vJ4Z1MWu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68619C4CEE9;
+	Fri, 30 May 2025 13:57:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748613463;
+	bh=WIVBmamAAgu84xM0ptOS5XviTbJAv0iJbRCNRSQYsmg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vJ4Z1MWuURgb66k0kTW1R2+ypG9Bb9IkZT4FBzWphPunBQ0wkk0EoMGsLtzniQloI
+	 PEOA63uShRzP8ACUdhH0hZjNCbLrAtTFVHhw87NegglPWMRKKtr2dyx67qZHzbM4yc
+	 GB5lrXE0dFGvvu+1Qz3ylTlsdbGi99uYzcItQP2HL8B5MkOPOwGhN4fsH/YTbX6yq9
+	 7xJsNT6Z+mg7GlSTgZhPA4oNxDbjSLoaUZQaJcAUg7vy+24dLx2o9l0M/a95Binr4k
+	 8D81/aIF6N4AAp04K2EiMZ1aKZHinGl87vh7F56zkbW8mwB+RcotUgfl6Q9B/EZGSH
+	 0FK9z3EJ8uIyA==
+Date: Fri, 30 May 2025 08:57:41 -0500
+From: Rob Herring <robh@kernel.org>
+To: Kevin Hilman <khilman@baylibre.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	arm-scmi@vger.kernel.org
+Subject: Re: [PATCH RFC v2 2/2] pmdomain: core: use DT map to support
+ hierarchy
+Message-ID: <20250530135741.GA1598718-robh@kernel.org>
+References: <20250528-pmdomain-hierarchy-onecell-v2-0-7885ae45e59c@baylibre.com>
+ <20250528-pmdomain-hierarchy-onecell-v2-2-7885ae45e59c@baylibre.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -37,202 +48,102 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <de456bd70a3e092a6379f548ce35e38253ff97b1.1746443762.git.dan.carpenter@linaro.org>
+In-Reply-To: <20250528-pmdomain-hierarchy-onecell-v2-2-7885ae45e59c@baylibre.com>
 
-On Mon, May 05, 2025 at 02:37:36PM +0300, Dan Carpenter wrote:
-> Parse the GPIO response in scmi_pinctrl_attributes(), set the gpio
-> flag, and create an is_gpio() function pointer so that it can be queried.
+On Wed, May 28, 2025 at 02:58:52PM -0700, Kevin Hilman wrote:
+> Currently, PM domains can only support hierarchy for simple
+> providers (e.g. ones with #power-domain-cells = 0).
 > 
-
-Hi,
-
-> In SCMI only functions and pins have a GPIO flag so that's why groups are
-> not handled here.
+> Add support for oncell providers as well by adding support for a nexus
+> node map, as described in section 2.5.1 of the DT spec.
 > 
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> For example, an SCMI PM domain provider might be a subdomain of
+> multiple parent domains. In this example, the parent domains are
+> MAIN_PD and WKUP_PD:
+> 
+>     scmi_pds: protocol@11 {
+>         reg = <0x11>;
+>         #power-domain-cells = <1>;
+>         power-domain-map = <15 &MAIN_PD>,
+>                            <19 &WKUP_PD>;
+>     };
+> 
+> With the new map, child domain 15 (scmi_pds 15) becomes a
+> subdomain of MAIN_PD, and child domain 19 (scmi_pds 19) becomes a
+> subdomain of WKUP_PD.
+> 
+> Signed-off-by: Kevin Hilman <khilman@baylibre.com>
 > ---
->  drivers/firmware/arm_scmi/pinctrl.c | 38 ++++++++++++++++++++++++++---
->  include/linux/scmi_protocol.h       |  2 ++
->  2 files changed, 36 insertions(+), 4 deletions(-)
+>  drivers/pmdomain/core.c | 166 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 166 insertions(+)
 > 
-> diff --git a/drivers/firmware/arm_scmi/pinctrl.c b/drivers/firmware/arm_scmi/pinctrl.c
-> index d18c2d248f04..f842bf7fe628 100644
-> --- a/drivers/firmware/arm_scmi/pinctrl.c
-> +++ b/drivers/firmware/arm_scmi/pinctrl.c
-> @@ -28,6 +28,7 @@
+> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
+> index d6c1ddb807b2..b8e505516f3d 100644
+> --- a/drivers/pmdomain/core.c
+> +++ b/drivers/pmdomain/core.c
+> @@ -2441,6 +2441,9 @@ static LIST_HEAD(of_genpd_providers);
+>  /* Mutex to protect the list above. */
+>  static DEFINE_MUTEX(of_genpd_mutex);
 >  
->  #define EXT_NAME_FLAG(x)	le32_get_bits((x), BIT(31))
->  #define NUM_ELEMS(x)		le32_get_bits((x), GENMASK(15, 0))
-> +#define GPIO_FUNC(x)		le32_get_bits((x), BIT(17))
+> +static int of_genpd_parse_domains_map(struct device_node *np,
+> +				      struct genpd_onecell_data *data);
+> +
+>  /**
+>   * genpd_xlate_simple() - Xlate function for direct node-domain mapping
+>   * @genpdspec: OF phandle args to map into a PM domain
+> @@ -2635,6 +2638,14 @@ int of_genpd_add_provider_onecell(struct device_node *np,
+>  	if (ret < 0)
+>  		goto error;
 >  
->  #define REMAINING(x)		le32_get_bits((x), GENMASK(31, 16))
->  #define RETURNED(x)		le32_get_bits((x), GENMASK(11, 0))
-> @@ -107,6 +108,7 @@ struct scmi_group_info {
->  struct scmi_function_info {
->  	char name[SCMI_MAX_STR_SIZE];
->  	bool present;
-> +	bool gpio;
->  	u32 *groups;
->  	u32 nr_groups;
->  };
-> @@ -114,6 +116,7 @@ struct scmi_function_info {
->  struct scmi_pin_info {
->  	char name[SCMI_MAX_STR_SIZE];
->  	bool present;
-> +	bool gpio;
->  };
->  
->  struct scmi_pinctrl_info {
-> @@ -189,7 +192,7 @@ static int scmi_pinctrl_validate_id(const struct scmi_protocol_handle *ph,
->  
->  static int scmi_pinctrl_attributes(const struct scmi_protocol_handle *ph,
->  				   enum scmi_pinctrl_selector_type type,
-> -				   u32 selector, char *name,
-> +				   u32 selector, char *name, bool *gpio,
->  				   u32 *n_elems)
->  {
->  	int ret;
-> @@ -217,6 +220,8 @@ static int scmi_pinctrl_attributes(const struct scmi_protocol_handle *ph,
->  
->  	ret = ph->xops->do_xfer(ph, t);
->  	if (!ret) {
-> +		if (gpio)
-> +			*gpio = GPIO_FUNC(rx->attributes);
->  		if (n_elems)
->  			*n_elems = NUM_ELEMS(rx->attributes);
->  
-> @@ -610,7 +615,7 @@ static int scmi_pinctrl_get_group_info(const struct scmi_protocol_handle *ph,
->  		return 0;
->  
->  	ret = scmi_pinctrl_attributes(ph, GROUP_TYPE, selector, group->name,
-> -				      &group->nr_pins);
-> +				      NULL, &group->nr_pins);
->  	if (ret)
->  		return ret;
->  
-> @@ -679,6 +684,7 @@ static int scmi_pinctrl_get_function_info(const struct scmi_protocol_handle *ph,
->  {
->  	struct scmi_pinctrl_info *pi = ph->get_priv(ph);
->  	struct scmi_function_info *func;
-> +	bool gpio;
-
-...can we just avoid this local var and just...
-
->  	int ret;
->  
->  	if (selector >= pi->nr_functions)
-> @@ -689,7 +695,7 @@ static int scmi_pinctrl_get_function_info(const struct scmi_protocol_handle *ph,
->  		return 0;
->  
->  	ret = scmi_pinctrl_attributes(ph, FUNCTION_TYPE, selector, func->name,
-> -				      &func->nr_groups);
-> +				      &gpio, &func->nr_groups);
-
-				      &func->gpio, &func->nr_groups);
-
->  	if (ret)
->  		return ret;
->  
-> @@ -698,6 +704,7 @@ static int scmi_pinctrl_get_function_info(const struct scmi_protocol_handle *ph,
->  		return -ENODATA;
->  	}
->  
-> +	func->gpio = gpio;
-
-...and dropping this...
-
->  	func->groups = kmalloc_array(func->nr_groups, sizeof(*func->groups),
->  				     GFP_KERNEL);
->  	if (!func->groups)
-> @@ -763,6 +770,7 @@ static int scmi_pinctrl_get_pin_info(const struct scmi_protocol_handle *ph,
->  {
->  	struct scmi_pinctrl_info *pi = ph->get_priv(ph);
->  	struct scmi_pin_info *pin;
-> +	bool gpio;
-
-... same here...
-
->  	int ret;
->  
->  	if (selector >= pi->nr_pins)
-> @@ -772,10 +780,12 @@ static int scmi_pinctrl_get_pin_info(const struct scmi_protocol_handle *ph,
->  	if (pin->present)
->  		return 0;
->  
-> -	ret = scmi_pinctrl_attributes(ph, PIN_TYPE, selector, pin->name, NULL);
-> +	ret = scmi_pinctrl_attributes(ph, PIN_TYPE, selector, pin->name, &gpio,
-> +				      NULL);
-
-Ditto.
-
->  	if (ret)
->  		return ret;
->  
-> +	pin->gpio = gpio;
-
-Ditto.
-
->  	pin->present = true;
+> +	/* Parse power-domains-map property for Nexus node mapping */
+> +	ret = of_genpd_parse_domains_map(np, data);
+> +	if (ret < 0 && ret != -ENOENT) {
+> +		pr_err("Failed to parse power-domains-map for %pOF: %d\n", np, ret);
+> +		of_genpd_del_provider(np);
+> +		goto error;
+> +	}
+> +
 >  	return 0;
->  }
-> @@ -815,9 +825,29 @@ static int scmi_pinctrl_name_get(const struct scmi_protocol_handle *ph,
->  	}
+>  
+>  error:
+> @@ -2734,6 +2745,161 @@ static struct generic_pm_domain *genpd_get_from_provider(
+>  	return genpd;
 >  }
 >  
-> +static int scmi_pinctrl_is_gpio(const struct scmi_protocol_handle *ph,
-> +				u32 selector,
-> +				enum scmi_pinctrl_selector_type type)
-
-being an is_something function could not make it return a bool ?
-
-...but of course loosing the return error code in case of query is_gpio
-on a group, and just maybe returning false in that case and a
-dev_warn()... (but I have still not seen how this is used by your driver
-as of this review...)
-
+> +/**
+> + * of_genpd_parse_domains_map() - Parse power-domains-map property for Nexus mapping
+> + * @np: Device node pointer associated with the PM domain provider.
+> + * @data: Pointer to the onecell data associated with the PM domain provider.
+> + *
+> + * Parse the power-domains-map property to establish parent-child relationships
+> + * for PM domains using Nexus node mapping as defined in the device tree
+> + * specification section v2.5.1.
+> + *
+> + * The power-domains-map property format is:
+> + * power-domains-map = <child_specifier target_phandle [target_specifier]>, ...;
+> + *
+> + * Where:
+> + * - child_specifier: The child domain ID that should be mapped
+> + * - target_phandle: Phandle to the parent PM domain provider
+> + * - target_specifier: Optional arguments for the parent provider (if it has #power-domain-cells > 0)
+> + *
+> + * Returns 0 on success, -ENOENT if property doesn't exist, or negative error code.
+> + */
+> +static int of_genpd_parse_domains_map(struct device_node *np,
+> +				      struct genpd_onecell_data *data)
 > +{
-> +	struct scmi_pinctrl_info *pi = ph->get_priv(ph);
-> +	int ret;
+> +	struct of_phandle_args parent_args;
+> +	struct generic_pm_domain *parent_genpd, *child_genpd;
+> +	u32 *map_entries;
+> +	int map_len, child_cells, i, ret;
+> +	u32 child_id;
 > +
-> +	ret = scmi_pinctrl_get_pin_info(ph, selector);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (type == PIN_TYPE)
-> +		return pi->pins[selector].gpio;
-> +	if (type == FUNCTION_TYPE)
-> +		return pi->functions[selector].gpio;
-> +
-> +	return -EINVAL;
-> +}
-> +
->  static const struct scmi_pinctrl_proto_ops pinctrl_proto_ops = {
->  	.count_get = scmi_pinctrl_count_get,
->  	.name_get = scmi_pinctrl_name_get,
-> +	.is_gpio = scmi_pinctrl_is_gpio,
->  	.group_pins_get = scmi_pinctrl_group_pins_get,
->  	.function_groups_get = scmi_pinctrl_function_groups_get,
->  	.mux_set = scmi_pinctrl_mux_set,
-> diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
-> index 688466a0e816..b4ad32067fc4 100644
-> --- a/include/linux/scmi_protocol.h
-> +++ b/include/linux/scmi_protocol.h
-> @@ -792,6 +792,8 @@ struct scmi_pinctrl_proto_ops {
->  	int (*name_get)(const struct scmi_protocol_handle *ph, u32 selector,
->  			enum scmi_pinctrl_selector_type type,
->  			const char **name);
-> +	int (*is_gpio)(const struct scmi_protocol_handle *ph, u32 selector,
-> +		       enum scmi_pinctrl_selector_type type);o
+> +	/* Check if power-domains-map property exists */
+> +	map_len = of_property_count_u32_elems(np, "power-domains-map");
+> +	if (map_len <= 0)
+> +		return -ENOENT;
 
-Doxygen comment above too please...
+Don't implement your own map parsing. Use or extend 
+of_parse_phandle_with_args_map().
 
->  	int (*group_pins_get)(const struct scmi_protocol_handle *ph,
->  			      u32 selector, const unsigned int **pins,
->  			      unsigned int *nr_pins);
-> -- 
-> 2.47.2
-> 
-
-Thanks,
-Cristian
-
+Rob
