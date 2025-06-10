@@ -1,107 +1,151 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5988F281363
-	for <arm-scmi@vger.kernel.org>; Tue, 10 Jun 2025 08:23:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA2C28B511;
+	Tue, 10 Jun 2025 11:43:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749543837; cv=none; b=taFanufCQcw2L5LCSKgM4l4FcVMTr5LLqTySc5+FKvT6BuG7EL0Zl3hd0XulFE8ojTq9cQbRZQh4uRPsdtSgpTVF4YxzvPDLJRgMImSbMcING8GfCPFRkAJgz2TandO8P250JJ35DhkwX+kKyBumdzGwc1c60uOf5TjkKXrn7PE=
+	t=1749555808; cv=none; b=ibtGx2RFEh8z+Fnev+/DW7O3EBiSkdex7kGFpq/NSGVuCj0YZoFnoASlzzf/e+fNLeJyi+FSGiKgST387YezVTvEmfoZiUv4n2mTiqBbQ1To122501PGV7OpGFg2rq/RTkFfs45EROcu9LLacUIFzOhhx1zWEENwdY5ZwUGy0a0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749543837; c=relaxed/simple;
-	bh=e9oAcL+CeR+1HIUcEmYkknHTxdEGJkaFAv1VpnSfaS4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=cKboBoDyWGpDAw8GJ3KS3eTX2smHJxQkjRsBCImAWoa4ctroMlxz4/yFs79YS9AsKZAnepQaFzZWkupR8EvUGIppst/SERbUnEj89D2WxDifM4xw8Z7Yadk4K/0trsXzQ/tYsySO/FdBmsIEJKtcd6EHLpPpmjZesdgjzFv490w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uKOm1U0B; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1749555808; c=relaxed/simple;
+	bh=zttwvK0O3NKo3GYxs8/u5gnwpMnkU62+8cdJAit8uok=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hGeyPK7Ehm75Z1j0vXmbg16VxPhkcCfpzCDfuB6QWEgRgjUAgPvquOr9K29GbRHYd8kmjcJiubdJ/+9KLFTGIuM4kyMDbhx33TSGBAFAgKvlf+bquO601CfLoaaVtcRz3IMALc4rm55BzZbfh8wCqhekSpxdSAfMLn92rVPQUoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=CpI7t8Fm; arc=none smtp.client-ip=198.47.19.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uKOm1U0B"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a52878d37aso865488f8f.2
-        for <arm-scmi@vger.kernel.org>; Tue, 10 Jun 2025 01:23:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749543833; x=1750148633; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DBxAXQ4og37PvO96w1vWDExmrp8j/q8vrTsgZLWvYOs=;
-        b=uKOm1U0BWkslc8N/6Xqn/4N7/Codl0yzQT6P3p+Ms1hRTgnJ0s/FlGKj1OdtPOFJyg
-         1Jc56yyGh350Wz7qkuDulN7TdbcMSU0DyebttwLuuvg/12br+LoTF1ZcMHV7idgC04xD
-         5Zq5CLQwzv6Q1ex1KYaHYMOn6W7EMaJgGN5vBXUQzXB0PRfuCxlDBAihw9IxM/807Rpw
-         G+il0BFaTA7nsp867EGcUDfwwcdCquOAypGIoeeL4Aocd4EqAES1/wf7UnFTJA4x5nJv
-         7yQUtLVbBRxyP7E6LzuOmJ0AxFQqozsd6Oyqv6jiW7+k/tXN8ktk7AoD3IkSik3ebboW
-         jUbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749543833; x=1750148633;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DBxAXQ4og37PvO96w1vWDExmrp8j/q8vrTsgZLWvYOs=;
-        b=RkwGVQQak6zszFqTBg0CwVpX/dLW6WPV75pkA7lZ0Fb2SYckmQunBho7X+xlNAPQKK
-         CJ4V5IcEmY8zMiXzkTN4ORVVK5tXk+QRVQXtcrdVKT13vEYDtx3Awk3jN4Zf26hIZSUk
-         k+zX+NF+RtNQJYDElT+rLWs1bUc6h1MzHlf4EaDPrXWXgT7VQslaJvyKQ6VscD6XX3RB
-         CPQzSl24hQ4mP8hCKy1ab4/YzBiPSIjNWO1atFBd7s0JZ07b53WCW/ZZ0AopYxBVDHuQ
-         RElBAUKCd57Wsl/UWSJCwWtbvu/G/anyseLocLgjeyDFvJWZ6ZZEHGBAfVS/PEdE0PfX
-         3kOA==
-X-Forwarded-Encrypted: i=1; AJvYcCUnroYeIe1Q77iH+GzU1bQTdi1V58P+HtEbWpgxK6xdXkk+MpkqeX1sYqmRF1gv12/Z7RAFAlRyLg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMxWq14yJ2Mi5ffGcO4Baxgbq6NXned2Gbn5nXs2BBUKdxXspg
-	WSLK8Lz4tVbgoS6YZZeppYGVgyn0Y/wKQTx3S5k4EnyZw832d676Hd+1TvLYrY0PTx4=
-X-Gm-Gg: ASbGncvawErWD6fgM9mU4ISyEnkPhSTrCUhz5YPuw9snaTy74wbiSQSQbZDAjXXlP38
-	NbWAA4qSMMacOWW1b36wqYJqxJJnS7cQFYMnfbKr9PmCHGYhuNNl43Fmd0yLmFNLRFMrpUIPk7i
-	wcUPo3sgnNwBiwEROvqbYXw8jnsZlVaMxuYVv4NFfVdV3emvioxiVNLdfqyZCHZWisFBxoxvtLo
-	msuRriau5CAHYNYnyhHeO0g/8gdjIv82uFLWanb1Oaplg0ocjLOu3Er4VfehAoLci1euCLCBV7V
-	LoGCR6leBV9UuclGeu3QBygEBms0PjVBVdOrT74ror8MvX3Z7T6759eAIuiMsJ67mcbt8AYGCko
-	OVYxk0Q==
-X-Google-Smtp-Source: AGHT+IFLwwa37CYbsr1MbKfJxcmnYwF2LSIesmoDBnoKTLnOhdfLiZoIbrImjdVOaLG8nyFXNzvzeA==
-X-Received: by 2002:a05:6000:4020:b0:3a4:e0ad:9aa5 with SMTP id ffacd0b85a97d-3a5331930e0mr4884181f8f.11.1749543833624;
-        Tue, 10 Jun 2025 01:23:53 -0700 (PDT)
-Received: from [192.168.1.28] ([178.197.223.125])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a532450b08sm11378980f8f.80.2025.06.10.01.23.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 01:23:53 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, 
- Tudor Ambarus <tudor.ambarus@linaro.org>
-Cc: Jassi Brar <jassisinghbrar@gmail.com>, 
- =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
- Peter Griffin <peter.griffin@linaro.org>, 
- Will McVicker <willmcvicker@google.com>, kernel-team@android.com, 
- arm-scmi@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-In-Reply-To: <20250606-acpm-timeout-v2-1-306b1aa07a6c@linaro.org>
-References: <20250606-acpm-timeout-v2-1-306b1aa07a6c@linaro.org>
-Subject: Re: [PATCH v2] firmware: exynos-acpm: fix timeouts on xfers
- handling
-Message-Id: <174954383237.117835.15219836024392160650.b4-ty@linaro.org>
-Date: Tue, 10 Jun 2025 10:23:52 +0200
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="CpI7t8Fm"
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55ABhGWi2272226;
+	Tue, 10 Jun 2025 06:43:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1749555796;
+	bh=ElZooU3CNCyqKkNfeNkQwCo1PtAimQ5tNeABrqN0df4=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=CpI7t8Fmy7fmU+FegDv3dQll4pRyI4Vvu7qAc4p57UXrXj+QNOsOFcocrYaaAoaDj
+	 r81GTeS9OrLifAb3A0nyYHAsJ1gJ30BNdbDralFO9dU86V4L9ta4UPQBHIuoGi2+kl
+	 ufg3hGCjptVeCVr8Hs9Sf5c0SYAAnPXbE6sBq/94=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55ABhGdg225032
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Tue, 10 Jun 2025 06:43:16 -0500
+Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 10
+ Jun 2025 06:43:16 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 10 Jun 2025 06:43:16 -0500
+Received: from localhost (lcpd911.dhcp.ti.com [172.24.227.226])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55ABhFw92838964;
+	Tue, 10 Jun 2025 06:43:15 -0500
+Date: Tue, 10 Jun 2025 17:13:14 +0530
+From: Dhruva Gole <d-gole@ti.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
+CC: Cristian Marussi <cristian.marussi@arm.com>,
+        Ulf Hansson
+	<ulf.hansson@linaro.org>, <arm-scmi@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-pm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <vigneshr@ti.com>,
+        <khilman@baylibre.com>
+Subject: Re: [RFC PATCH] pmdomain: arm: scmi_pm_domain: Do lazy init as part
+ of probe
+Message-ID: <20250610114314.dpfedrbok2pmfgxu@lcpd911>
+References: <20250530103527.2244951-1-d-gole@ti.com>
+ <20250530-honest-chital-of-growth-db31e1@sudeepholla>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250530-honest-chital-of-growth-db31e1@sudeepholla>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
+Hi,
 
-On Fri, 06 Jun 2025 10:45:37 +0000, Tudor Ambarus wrote:
-> The mailbox framework has a single inflight request at a time. If
-> a request is sent while another is still active, it will be queued
-> to the mailbox core ring buffer.
+On May 30, 2025 at 17:31:08 +0100, Sudeep Holla wrote:
+> On Fri, May 30, 2025 at 04:05:27PM +0530, Dhruva Gole wrote:
+> > Optimize the SCMI power domain driver to only initialize domains that are
+> > actually referenced in the device tree. Previously, the driver would
+> > initialize all possible domains up to the maximum ID, which could lead to
+> > unnecessary firmware calls and longer probe times.
+> > 
+> > Key changes:
+> > - Scan device tree to identify which power domains are actually referenced
 > 
-> ACPM protocol did not serialize the calls to the mailbox subsystem so we
-> could start the timeout ticks in parallel for multiple requests, while
-> just one was being inflight.
+> How do this work with runtime DT overlays ?
+
+Thanks for bringing this up, I hadn't considered runtime DT overlays for
+this particular patch.
+Off the top of my mind, we can initialize all at probe, but only query state
+for referenced ones.
+
 > 
-> [...]
+> > - Use bitmap to track needed domains instead of initializing all
+> > - Only perform state queries and initialization for referenced domains
+> > - Maintain proper array sizing for power domain framework compatibility
+> > - Keep full provider structure to support late binding
+> > 
+> > This optimization reduces probe time and unnecessary firmware interactions
+> > by only initializing power domains that are actually used in the system.
+> 
+> Why is this very specific to power domains only ? This must apply for other
+> domains like perf or clock or reset ?
 
-Applied, thanks!
+Yes, it should. Starting out with just power domains for now though. I
+haven't looked at other places like perf and clock yet.
 
-[1/1] firmware: exynos-acpm: fix timeouts on xfers handling
-      https://git.kernel.org/krzk/linux/c/8d2c2fa2209e83d0eb10f7330d8a0bbdc1df32ff
+> 
+> > For example, in a system with 100 possible domains but only 3 referenced
+> > in the device tree, we now only initialize those 3 domains instead of
+> > all 100.
+> > 
+> 
+> Well, how much of these PD will get used in the final products ? I can
+> understand the need to use just 3 in devel platforms. Just trying to see
+> how realistic is the scenario ? Is there any other optimisation possible
+> from the firmware ? Does getting the state of a PD takes so much time
+> on the platform in question ?
 
-Best regards,
+Well, it's not only about how much time it takes on any particular platform
+to query the state of a PD. Even if say it takes 10us to query it, it will
+add a whole 1ms to the probe time. This mean 1ms more of boot time, and
+perhaps boot time experts can chime in here but every optimisation
+possible matters!
+ARM systems are usually very strict on boot time requirements.
+
+Even if we somehow optimise the firmware, to me it seems like kernel is
+wasting time querrying for something that it doesn't need at that moment.
+
+Just replying here to your next reply on the thread:
+> And I missed another point. Someone will soon complain Linux no longer
+> turns off unused power domains. So I am inclined against this optimisation.
+> We need to consider all the above point before .
+
+I agree on some points like the runtime overlay. However I am not sure
+why Linux should be the one to turn OFF power domains that it's
+_unaware_ of. "unused" would probably be a wrong assumption to make.
+There maybe other entities that would be using power domains that
+are not in the device tree. (For eg. an RTOS running on the same system
+accessing a PD that is controlled by the SCP firmware but not mentioned in the
+device tree.)
+
+While one may argue that's why firmware should be the one to keep ref
+counts to avoid resource conflicts, one could also argue that firmwares
+could be the one to turn off unused power domains.
+
+Why should the kernel touch something that it hasn't been told about
+explicitly in the DT? Isn't the whole point of DT to be the literal
+hardware descriptor for the kernel? So if something doesn't exist in the
+DT, kernel shouldn't have other places telling it does - in this context
+power domains.
+
 -- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
+Best regards,
+Dhruva Gole
+Texas Instruments Incorporated
