@@ -1,34 +1,35 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDF53198E75;
-	Tue, 10 Jun 2025 13:42:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70CBA22D79B;
+	Tue, 10 Jun 2025 13:50:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749562966; cv=none; b=e66Ii/SMHrs30d3zGdxLppiKQnGj11TOkIkAyJOEzol9ZhXOa1WNVINXB4C4SbYGkBxYUtGt5pq5Pns+gdpC5PRs7hTlyYuB7BNmvyvEL8IG4NPn/c5M+LNvoU7VPJVqFw324h8IjWm5xSpnqrZm1YMX6BzQe2kWpDiXR8cTMW4=
+	t=1749563407; cv=none; b=s5dZdke+T6fpnYdpJkZjTAgpICY5MbtSgWTX7bWjbX2Axw1onVd7oXoSEdTCmS108ZqRNlvzb7MLfWP9exNyJv3lqH5gjfRIGSvZm83FPPjWDB3/NLLQhHr9h7yUeKnii/EMp0OGO0NCTUdf8U2gMUiVAkUzSt3SFlP4ONAXGaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749562966; c=relaxed/simple;
-	bh=uqkMppCdjUDEemFxHWjQHwuVSVKoC4JVUeGIHIrkidI=;
+	s=arc-20240116; t=1749563407; c=relaxed/simple;
+	bh=cFS1tOlMfe5z5p3FOgfnjKTkm2/a0u/NE69ljuZXwc0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L6+F2G3qFxJRhhhep2mwIzpxjZqkwYN/sUe+0Ue6/h5U9nq/GSweEN4hbbZ/Urqx5DF7EkPJG1DBj2Dx5FgkTIITWIhmELs8qghN5RypWLMf6schGbVWWj55xe+YMnjiaOtsN63SX4uvww5SLC7WtKfvTxEQ6ooSEBbv/NgkUQE=
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q42gAmTUKoLCu+ZqKUjDes3qhHiHSoRSyx8x6dmTTtcH6hDmdmHd3RYVby0OG6NozCA/wPVEFQu7hqR68bt/DJbrlng2le0MXti+5xkZpUYPR9GZDbzw0RAuSFXMJORoOx+raXXZl7O/GfeRf6lARc9RYObvEMswbsA2mZtPtVk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8ED6E14BF;
-	Tue, 10 Jun 2025 06:42:23 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2A5843F59E;
-	Tue, 10 Jun 2025 06:42:41 -0700 (PDT)
-Date: Tue, 10 Jun 2025 14:42:29 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 38B5114BF;
+	Tue, 10 Jun 2025 06:49:45 -0700 (PDT)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A27E13F59E;
+	Tue, 10 Jun 2025 06:50:02 -0700 (PDT)
+Date: Tue, 10 Jun 2025 14:49:59 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
 To: Dhruva Gole <d-gole@ti.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, vigneshr@ti.com, khilman@baylibre.com
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>, <arm-scmi@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-pm@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <vigneshr@ti.com>,
+	<khilman@baylibre.com>
 Subject: Re: [RFC PATCH] pmdomain: arm: scmi_pm_domain: Do lazy init as part
  of probe
-Message-ID: <aEg2RcGGGBNL3cB0@pluto>
+Message-ID: <20250610-quixotic-successful-alligator-eeaa18@sudeepholla>
 References: <20250530103527.2244951-1-d-gole@ti.com>
  <20250530-honest-chital-of-growth-db31e1@sudeepholla>
  <20250610114314.dpfedrbok2pmfgxu@lcpd911>
@@ -55,26 +56,16 @@ On Tue, Jun 10, 2025 at 05:13:14PM +0530, Dhruva Gole wrote:
 > > > Key changes:
 > > > - Scan device tree to identify which power domains are actually referenced
 > > 
-
-Hi,
-
-forgot this thread...
-
-> 
-> -- 
-> Best regards,
-> Dhruva Gole
-> Texas Instruments Incorporated
 > > How do this work with runtime DT overlays ?
 > 
 > Thanks for bringing this up, I hadn't considered runtime DT overlays for
 > this particular patch.
 > Off the top of my mind, we can initialize all at probe, but only query state
 > for referenced ones.
+>
 
-Indeed, DT overlays is a good point, I missed that issue...
+Good to know.
 
-> 
 > > 
 > > > - Use bitmap to track needed domains instead of initializing all
 > > > - Only perform state queries and initialization for referenced domains
@@ -90,6 +81,10 @@ Indeed, DT overlays is a good point, I missed that issue...
 > Yes, it should. Starting out with just power domains for now though. I
 > haven't looked at other places like perf and clock yet.
 > 
+
+Good that we are aligned in terms of understanding the general depth of
+the issue.
+
 > > 
 > > > For example, in a system with 100 possible domains but only 3 referenced
 > > > in the device tree, we now only initialize those 3 domains instead of
@@ -109,29 +104,16 @@ Indeed, DT overlays is a good point, I missed that issue...
 > possible matters!
 > ARM systems are usually very strict on boot time requirements.
 > 
+
+Understood, but where we consider this as micro optimisation or not is
+another topic all together IMO.
+
 > Even if we somehow optimise the firmware, to me it seems like kernel is
 > wasting time querrying for something that it doesn't need at that moment.
 > 
 
-I can agree on this, and it would be interesting to optimize the usual SCMI
-'query storm' at probe time across all protocols (liek Sudeep suggested),
-BUT first of all I would ask, if Linux refers just 3 resources why the
-firmware, when queried, returns the full set of N resources....one of the
-selling point of the SCMI protocol (especially in virtualized envs) should
-be that the server can expose a per-agent view so that each agent on the
-same system will see just the stuff that it needs, or in some case have
-limited access to some resources.
-
-So my point is, why are you (linux agent) even able to see such resources
-when querying the server, if those resources are NOT meant to be accessed at
-all by that agent in any capacity, not even read-oly ?
-
-I could understand that a small ratio of exposed/used resources for the
-sake of easy of configuration BUT it would seem unreasonable to, say,
-expose 100 or 100 of resources to agent A if such agent only use
-3/4...consider that in turn, exposing all of such unused resources, will
-impact query time and query traffic (beside later also being needlessly
-registered with the core without your patch)
+Well agreed, but for overlays this may not be trivial. More fundamental
+questions below.
 
 > Just replying here to your next reply on the thread:
 > > And I missed another point. Someone will soon complain Linux no longer
@@ -141,71 +123,60 @@ registered with the core without your patch)
 > I agree on some points like the runtime overlay. However I am not sure
 > why Linux should be the one to turn OFF power domains that it's
 > _unaware_ of. "unused" would probably be a wrong assumption to make.
+
+I have to disagree here. If the firmware is making the kernel aware of
+N power domains, then just not using it in DT and labeling the kernel
+is unaware of those PDs is simply and completely wrong. Why did the firmware
+make this(Linux) agent aware of those PDs then ?
+
+IMO, it is just *unused*.
+
 > There maybe other entities that would be using power domains that
 > are not in the device tree. (For eg. an RTOS running on the same system
 > accessing a PD that is controlled by the SCP firmware but not mentioned in the
 > device tree.)
 > 
+
+Well I assume those RTOS or entities are different agents in terms of
+SCP/SCMI and they can have their own view of PDs
+
 > While one may argue that's why firmware should be the one to keep ref
 > counts to avoid resource conflicts, one could also argue that firmwares
 > could be the one to turn off unused power domains.
 > 
+
+Yes firmware has the final say, but it can't track what resources Linux is
+using and what needs to stay on or off especially if no request from OS
+has come. There was an issue that if bootloaders turn on PD and Linux avoids
+making explicitly request to the firmware as it finds it ON, then firmware
+will leave it on even if Linux is not using it. So, yes it is Linux
+responsibility to turn of any unused PDs. We are not going to debate on
+that as there are platforms that are already relying on this feature.
+
 > Why should the kernel touch something that it hasn't been told about
 > explicitly in the DT? Isn't the whole point of DT to be the literal
-> hardware descriptor for the kernel? So if something doesn't exist in the
-> DT, kernel shouldn't have other places telling it does - in this context
-> power domains.
+> hardware descriptor for the kernel?
 
-As per my understanding, in a subsystem like clocks, the Kernel will turn
-off any unused (from his pov) resource that is found to be on at the end of
-the probe phase of the subsystem itself...in other words kernel will do try
-to turn off any resource that it has no use for it (so that it has not 
-found in the DT)...so currently if we register 100 resources (all that we
-found) and only 3 are used (referred) it will issue an OFF for all the
-remaining unused 97...
+Well, I understand and kind of agree. But why does the firmware inform
+Linux about PDs that are never used by the Linux and always used by
+some other agent like RTOS. That is the main point here and nothing
+related to DT. We rely or trust the information from the firmware to
+be more dynamic compared to DT. So DT is second class citizen in this
+context. It only provides info that firmware can't provide not the other
+way around. That's the whole point of moving towards this firmware
+interfaces that are more dynamic and runtime aware than the DT which are
+static.
 
-..and you are right, there will be other non-Linux agents on the system
-issuing their requests on that same resources if they are shared, and the
-server will have to refcount such requests to act properly when handling
-shared resources, so if res_X is not used by the Kernel and we just dont
-register it with the Kernel subsystem (like in your patch), it wont be
-turned off as unused anymore AND that would be FINE, since, this agent
-has NO use for them and never issued any ON-request before...
+> So if something doesn't exist in the DT, kernel shouldn't have other
+> places telling it does - in this context power domains.
+> 
 
-...BUT.... :P
+Firmware is discoverable, we only add information that are hard to discover
+like domain IDs assigned to the device and so on in the DT. But information
+from the firmware must be always more accurate than DT. So if the firmware
+says there are 100 PDs for Linux agent but 50 of them are exclusively used
+for some other agent, then something wrong with the firmware here.
 
-...the issue would be when you have a system where you have something like
-an SCMI capable bootloader that will have turned ON some of these shared
-resources during its boot-phase AND then left those resources ON, as a
-courtesy :P, so that the 'incoming' booting Kernel can found them ON (I
-think usually is what happens with resources related to displays if you
-dont want to disrupt the boot..)
-
-...in such a scenario the booting Kernel takes-over, in the eyes of the
-server, the same agent role as the bootloader which is substituting, since
-it highjacks and uses the same SCMI channel as the disappearfing bootloader..
-
-...so the server will see that resources as refcounted+1 (left by the ghost of
-the bootloader :D)...so for power optimnization the Kernel will issue an OFF
-on all unused resources and that will cause a refcount-1 server side and
-the final physical OFF when all the other possible users of that shared resource
-will have released it...
-
-...if you just dont register such resource becasue it is NOT referred in
-the DT, surely the Kernel wont try to turn it off as unused and so you
-will break this case....
-
-..same if the bootloader is NON-SCMI compliant and just leave a resource ON...
-
-..all of this complicated by the never ending question around which
-resource state should be returned on query: physical vs virtual
-(currently is IMPDEF)
-
-So I think your optimization is nice in general (even better for all
-protocols) BUT we should address all these corner cases somehow...
-
-... or proof all of my hallucination above non-existent/non-accurate :P,
-which is posibility since we discuss all of this more than 1 year ago...
-
-Thanks,
-Cristian
+-- 
+Regards,
+Sudeep
