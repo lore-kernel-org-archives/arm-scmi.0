@@ -1,38 +1,39 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8FEF1F583D;
-	Thu, 12 Jun 2025 09:36:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78B1522DF95;
+	Thu, 12 Jun 2025 10:31:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749720966; cv=none; b=j/Eqsj4gyTrG0pwLpaciQ2jFmXviboUsY8G1RMAsRgWjcG2HTMgVoSAwmaVFHEN+YBH3n8Ik+QRtJXnOvK9teE5DKkUr+iDKo17Tn3SgLGYJ9gO1dGSiRGJEvtZpAvVFUPjR6M4X7l0aqcwDsow9/0pIQuZOFaDk/2sbE2Ctfvc=
+	t=1749724268; cv=none; b=BX7OGBK3xLNgKUCfPPXqWTCtweNhkLwVBH1S6OJyr4noIjX1M+/Hjf/bZdtwHfsTQT95JQXyfzzfVIqOAktU8xiat83YkbEo4FV0yqJBtHnqTfTfkGbtgrM2Weqv+XO8I8ZXuwQeAnGktJVwZxpo+6m5HR3WrH2mXOJoVcdCgrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749720966; c=relaxed/simple;
-	bh=pxEIxUzdt1AT4nWSXvcVmvl8JoaRHII85IQOZaXzROU=;
+	s=arc-20240116; t=1749724268; c=relaxed/simple;
+	bh=TbqSp7G1dTO/lGn9z7FA7XGh/pw6w/fZljlWQsM6/2w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZlK00411r497TwHba3BGmdFdyyrhoyHNOWeAl6DfnCBCybC2cgHA7NuA7sWOHRMcpOB3lBtaX6jQ7/GjxMGE87I46Ab5EM/jGJGDBhs1N8qwM2mvs2MzHsoX0yPWH4VkqktRHkYnleVN+6/f/RqYORoePMHFNcqWCt+2WejkJTY=
+	 Content-Type:Content-Disposition:In-Reply-To; b=ioEzpiXv6AuS3T/0uYrxbtLUc/Mcp4wjI3Z7zDyyVxrzou9TecW8g4VrR4t7iSo0MLKIu2DgG1/WivjPQ7h4UDFOFdOl9OzBXCBKJHAvoN6xxsmhwVnD8yqoLHOsKZs9NRouJji37BhlZM7/HC8OUKgjrIU2MZacn6bCwdVh4YY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E4A4314BF;
-	Thu, 12 Jun 2025 02:35:37 -0700 (PDT)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5133E3F66E;
-	Thu, 12 Jun 2025 02:35:56 -0700 (PDT)
-Date: Thu, 12 Jun 2025 10:35:53 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Sascha Hauer <s.hauer@pengutronix.de>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 912B11424;
+	Thu, 12 Jun 2025 03:30:45 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 18DDD3F59E;
+	Thu, 12 Jun 2025 03:31:03 -0700 (PDT)
+Date: Thu, 12 Jun 2025 11:31:01 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Peng Fan <peng.fan@oss.nxp.com>
 Cc: Cristian Marussi <cristian.marussi@arm.com>,
 	Sudeep Holla <sudeep.holla@arm.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Peng Fan <peng.fan@nxp.com>,
-	<arm-scmi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-clk@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] clk: scmi: Fix children encountered before parents
- case
-Message-ID: <20250612-vivacious-bipedal-beetle-b04714@sudeepholla>
-References: <20250612-clk-scmi-children-parent-fix-v2-1-125b26a311f6@pengutronix.de>
- <20250612-eccentric-fresh-bee-e52db4@sudeepholla>
- <aEqTNLTp0EzcC2aa@pengutronix.de>
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH 0/3] firmware: arm_scmi: perf/cpufreq: Enable
+ notification only if supported by platform
+Message-ID: <aEqsZWSlq9wKv10a@pluto>
+References: <20250611-scmi-perf-v1-0-df2b548ba77c@nxp.com>
+ <20250611-cherubic-solemn-toucanet-aac5af@sudeepholla>
+ <aEmFnJVG8lXTDNmO@pluto>
+ <20250612034351.GA7552@nxa18884-linux>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -41,65 +42,126 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aEqTNLTp0EzcC2aa@pengutronix.de>
+In-Reply-To: <20250612034351.GA7552@nxa18884-linux>
 
-On Thu, Jun 12, 2025 at 10:43:32AM +0200, Sascha Hauer wrote:
-> On Thu, Jun 12, 2025 at 09:29:16AM +0100, Sudeep Holla wrote:
-> > On Thu, Jun 12, 2025 at 09:36:58AM +0200, Sascha Hauer wrote:
-> > > When it comes to clocks with parents the SCMI clk driver assumes that
-> > > parents are always initialized before their children which might not
-> > > always be the case.
-> > > 
-> > > During initialization of the parent_data array we have:
-> > > 
-> > > 	sclk->parent_data[i].hw = hws[sclk->info->parents[i]];
-> > > 
-> > > hws[sclk->info->parents[i]] will not yet be initialized when children
-> > > are encountered before their possible parents. Solve this by allocating
-> > > all struct scmi_clk as an array first and populating all hws[] upfront.
-> > > 
-> > 
-> > LGTM. I would like to add a note that we don't free individual scmi_clk
-> > if for some reason it fails to setup. I can do that when I apply, just
-> > checking if anyone has any objections. Please shout out if you have.
+On Thu, Jun 12, 2025 at 11:43:52AM +0800, Peng Fan wrote:
+> On Wed, Jun 11, 2025 at 02:33:37PM +0100, Cristian Marussi wrote:
+> >On Wed, Jun 11, 2025 at 01:17:11PM +0100, Sudeep Holla wrote:
+> >> On Wed, Jun 11, 2025 at 03:52:42PM +0800, Peng Fan (OSS) wrote:
+> >> > PERFORMANCE_NOTIFY_LIMITS and PERFORMANCE_NOTIFY_LEVEL are optional
+> >> > commands. If use these commands on platforms that not support the two,
+> >> > there is error log:
+> >> >   SCMI Notifications - Failed to ENABLE events for key:13000008 !
+> >> >   scmi-cpufreq scmi_dev.4: failed to register for limits change notifier for domain 8
+> >> > 
+> >> 
+> >
+> >Hi,
+> >
+> >I had a quick look/refresh to this stuff from years ago...
+> >
+> >...wont be so short to explain :P
+> >
+> >In general when you register a notifier_block for some SCMI events,
+> >the assumption was that a driver using proto_X_ops could want to register
+> >NOT only for proto_X events BUT also for other protos...in such a case you
+> >are NOT guaranteed that such other proto_Y was initialized when your
+> >driver probes and tries to register the notifier...indeed it could be
+> >that such proto_Y could be a module that has still to be loaded !
+> >
+> >...in this scenario you can end-up quickly in a hell of probe-dependency
+> >if you write a driver asking for SCMI events that can or cannot be still
+> >readily available when the driver probes...
+> >
+> >....so the decision was to simply place such notifier registration requests
+> >on hold on a pending list...whenever the needed missing protocol is
+> >loaded/inialized the notifier registration is completed...if the proto_Y
+> >never arrives nothing happens...and your driver caller can probe
+> >successfully anyway...
+> >
+> >This means in such a corner-case the notifier registration is sort of
+> >asynchonous and eventual errors detected later, when the protocol is
+> >finally initialized and notifiers finalized, cannot be easily reported
+> >(BUT I think we could improve on this ... thinking about this...)
+> >
+> >...BUT....
+> >
+> >....this is NOT our case NOR the most common case...the usual scenario,
+> >like cpufreq, is that a driver using proto_X_ops tries to register for
+> >that same proto_X events and in such a case we can detect that such
+> >domain is unsupported and fail while avoiding to send any message indeed....
+> >
+> >....so....:P...while I was going through this rabbit-hole....this issues
+> >started to feel familiar...O_o....
+> >
+> >... indeed I realized that the function that you (Peng) now invoke to
+> >set the per-domain perf_limit_notify flag was introduced just for these
+> >reasons to check and avoid such situation for all protocols in the core:
+> >
+> >
+> >commit 8733e86a80f5a7abb7b4b6ca3f417b32c3eb68e3
+> >Author: Cristian Marussi <cristian.marussi@arm.com>
+> >Date:   Mon Feb 12 12:32:23 2024 +0000
+> >
+> >    firmware: arm_scmi: Check for notification support
+> >    
+> >    When registering protocol events, use the optional .is_notify_supported
+> >    callback provided by the protocol to check if that specific notification
+> >    type is available for that particular resource on the running system,
+> >    marking it as unsupported otherwise.
+> >    
+> >    Then, when a notification enable request is received, return an error if
+> >    it was previously marked as unsuppported, so avoiding to send a needless
+> >    notification enable command and check the returned value for failure.
+> >    
+> >    Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> >    Link: https://lore.kernel.org/r/20240212123233.1230090-2-cristian.marussi@arm.com
+> >    Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
+> >
+> >
+> >...so my suspect is that we are ALREADY avoiding to send unneeded
+> >messages when a domain does NOT support notifications for ALL
+> >protocols...it is just that we are a bit too noisy...
+> >
+> >@Peng do you observe the message being sent instead ? (so maybe the
+> >above has a bug...) or it is just the message ?
 > 
-> Feel free to add that note. I should have added this myself since it's
-> not entirely obvious that the devm_kfree() has to be removed with this
-> patch.
+> Just the message.
+> 
+> arm-scmi arm-scmi.0.auto: SCMI Notifications - Notification NOT supported - proto_id:19  evt_id:0  src_id:8
+> SCMI Notifications - Failed to ENABLE events for key:13000008 !
+> scmi-cpufreq scmi_dev.4: failed to register for limits change notifier for domain 8
+> 
+> It just make user has a feeling that there must be something wrong, especially
+> those not know the internals.
+
+Yes indeed it is too much noisy...
+
+> 
+> And from the error message, "Failed to ENABLE events for key..", we not
+> know which protocol, and whether notification supported.
+> 
+> I was thinking to propogate the error value, but __scmi_enable_evt
+> always use -EINVAL if not success.
 > 
 
-I did that and realised only bit later that I usually route SCMI clk driver
-changes via clk tree.
+I suppose, if you want also to save cycles that you could mark internally a
+protocol, at init time, as NOT suporting notifs (if you can detect that no domain
+is supported OR the related notfs commands are NOT available) and then
+bailing out early with -ENOTOPSUPP when trying to register a new
+notifier (amd muting all the errs to dbgs....) so that the caller can
+warn if wanted or not...
 
-Please repost with
+> >
+> >> I wonder if it makes sense to quiesce the warnings from the core if the
+> >> platform doesn't support notifications.
+> 
+> If not quiesce, we might need to make it clear from the error message,
+> saying whether X events are supported for Y protocols or not, not just
+> a "Failed to ENABLE events for key.."
+> 
 
-Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
+Yes that was a very early and primitve errors message of mine...my bad :D
 
-I am sharing below the commit message update I did when I applied.
-
-Regards,
-Sudeep
-
--->8
-
-clk: scmi: Handle case where child clocks are initialized before their parents
-
-The SCMI clock driver currently assumes that parent clocks are always
-initialized before their children. However, this assumption can fail if
-a child clock is encountered before its parent during probe.
-
-This leads to an issue during initialization of the parent_data array:
-
-    sclk->parent_data[i].hw = hws[sclk->info->parents[i]];
-
-If the parent clock's hardware structure has not been initialized yet,
-this assignment results in invalid data.
-
-To resolve this, allocate all struct scmi_clk instances as a contiguous
-array at the beginning of the probe and populate the hws[] array upfront.
-This ensures that any parent referenced later is already initialized,
-regardless of the order in which clocks are processed.
-
-Note that we can no longer free individual scmi_clk instances if
-scmi_clk_ops_init() fails which shouldn't be a problem if the SCMI
-platform has proper per-agent clock discovery.
+Thanks,
+Cristian
