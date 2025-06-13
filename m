@@ -1,65 +1,67 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACA128135D
-	for <arm-scmi@vger.kernel.org>; Fri, 13 Jun 2025 22:39:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5820928E594
+	for <arm-scmi@vger.kernel.org>; Fri, 13 Jun 2025 22:39:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749854395; cv=none; b=qgR3Fp1qjtQqnzz+6Ez/h14gV5sNFefmEaQAOF3QXmp3y20GxBAnUMbUFCE4gQIbONeOPa7XuBHMBeTBpWVPzFiAFjv3jeYGLJMh6Ku+2Pvt4fpJLUYjOMngESWZJDBu17VBpSNxg7iTrER0rGzN4uGf2lKMO0PpmtrQLYxLIXw=
+	t=1749854395; cv=none; b=aNwSKOl+T/kidt/LfptD6uS61H5X/M7TRbQlvTt3sb5gWITiCA8RInGbenlmagNsNInsGxeATvY/xSixylwkrV0fqM4JrwosX+vMv5zdceWmF8+mZTfdBsa84Qv/jNY/Ezx7W+9rMuTGg04FmWYImOGpGmUb/2aDi8c1ajz1vQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1749854395; c=relaxed/simple;
-	bh=ePkKGarZg1yxKpMRWvBxlYBrx6EdK6XqYYg37ZcpYok=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=T8LH6QlyHiwz1tuawxfo5UOt43lv02WRipWsi6NwABXy7ZJe3ZfpVlVEl/wMHOBqPjyxdCV7uGjfTVs84VeDFSZ31aCXPMaiWq8o59ylLxtQhNL+emyrAaf/WcSnLx2vl/NOyzr9NmKLUdG2/u+Kg3k3SwNUD6P47R1V/tLMFeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=k1T1J56E; arc=none smtp.client-ip=209.85.214.181
+	bh=rOfEkuVXnVCi6qVtn+094x5dIM7Nv0xxNwE+TQyA8T8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=TyxMuw7B8gV76eqUVU/4XYp2O5CUEuthc3/3yA765eFpTxNxNa4g2cL3f+LU2dMSz+0wufwS6RUsJa6pVBEBxpUts0FRYVG44+oLSxPqXD5CJzWHksWxXux16TPAP820our7m4/NpbudgIHahxsvPF34UB0snJlzsN3oIWQRMuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=rGnx12tt; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="k1T1J56E"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-23636167b30so25890895ad.1
-        for <arm-scmi@vger.kernel.org>; Fri, 13 Jun 2025 15:39:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="rGnx12tt"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-74264d1832eso2869534b3a.0
+        for <arm-scmi@vger.kernel.org>; Fri, 13 Jun 2025 15:39:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1749854392; x=1750459192; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GfJ9tjW10c2n8OZdNWcGcJdHL86wIrVqT0sfkoG38mk=;
-        b=k1T1J56Evx8HsCrtGG0nHQIbEaWt3SVZbFIQtdK/ZoE5rvvY5lKVwagOVqa2EAInze
-         tffpNsw3DKvZ6FBsDRiqwGhi/bHTp/vxokid7/S8ygbwW74UdChLxMliLW6Ws+QCLVrp
-         3MbuCFEjknqCKyH/Jya/Hm3m/Ls1NhdDPf7f4J56lUJmJWzKGCkADLfUoJLsQOL4ZAFC
-         vEKGa5gpqpBp0z5pPXpaIGphQidh+2d5TU064G7o9nwRFnqEAIFwqdA6JbQOCmV2j/C8
-         UCIL/pD3ykTg+lkMhjhT3n3WiFbQemBgEQ2u4jz4eIEs0YINVtzfp0/3p+nRA4GWN37U
-         zM3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749854392; x=1750459192;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1749854393; x=1750459193; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GfJ9tjW10c2n8OZdNWcGcJdHL86wIrVqT0sfkoG38mk=;
-        b=eic28SbIJ75HGW9TBBY3AlK3N+V/6aHS6u97GFlW2qh3ksDcSTJ0Vh+L+BGU90dZBg
-         Z4il1+3miMkJSd1Am5bWmfkaA8mSOyqaGTxKZZmeNP6OStYNASpwviDi1j4telRnfooF
-         rYLXjLK0uTpRueKgbitnuF6qg3tVF8TsjeGce0/aUU9S3F/ZJTqHnBFczFspo+3WstrL
-         coVdIY5D0UW+8/5GlkBhfZnDJn1AQQHwhhRPa8dKSMpYEhVBkxyFBiC3VeBTJLBT05y0
-         QgVg32MvR7HvduXpfKfUWF2i+Tlmke+xcVy9n5tmuoSD4ArgQNgO3//0LBH9EGDvbfUD
-         IlFA==
-X-Forwarded-Encrypted: i=1; AJvYcCU1iVG/vYdy0n/QUTEWkqIVqY60mPDrhOL+2tE9Gwh7zo++0UHKacriVF2itJZISczArfaWbeTupw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4n6IiXDiiyEzDEK87kviJ6q0exTzH95O8+DuzpMOscNvJomSh
-	4mk2lZDMewaDTG/2shhHm05TuFJwOzDk1Ka/njl7tyu84Tfp3appYej1ODmozLTbzlE=
-X-Gm-Gg: ASbGncuMdBA/N0T9GeWzVex5wLaGgVQp/GKzh5CHJZQrtoJGy7yq+V9noM0wgZJgNLw
-	mmUZ7SuW/j0bx84coGh/nkbLks8cuII8iN+hqluRjG+VbbfTiUyk499MQ1afJqAJJ5OPaDaiV36
-	TO6CF7ZNk8urx1o3yg7ECB4Qqcm9YeeCoysnULTznYwGAEa7u0IDmnveJm9OfGFTuu+pM4G09cM
-	9bCS40j3kPJiVR4V4QRjE+Gu3SuT9AxDhY98pJnhIaHRNCmgGemM/hpGNnPiN18q2gv+502QIot
-	+oq447SOdZuJ44EWnMWkdqeGPjuladT88S0rgQouYzeJDw9sib2vrsd1q4Iy
-X-Google-Smtp-Source: AGHT+IEUbUa0L8a+Y7yqrzl4ZeW/SJ4xyJAVMdlKUrKNOtCmmtvE/AuX9mNwhOf5Awjt0gPehoT5/g==
-X-Received: by 2002:a17:903:1d0:b0:234:a734:4ac7 with SMTP id d9443c01a7336-2366b3fe6f9mr16050505ad.49.1749854391714;
-        Fri, 13 Jun 2025 15:39:51 -0700 (PDT)
+        bh=LtUsYHqMkAgU1Tr2B+Zd1LaoMvlrf2GnVyOYzZROnVM=;
+        b=rGnx12tt4gcyY7Ff+HM6loz8z6h30mv0oliFIrA+wxmpWAKQYEnaaNGnLo/IA0VeuM
+         LocfNijEP9zCT5ZX8Xmnk9dJruBnOoP/gAUFoc7cd3d9uopH7z9TuBn525G5AdabTdox
+         +5zkn8zwAWD0ySMW4BCDT02rnppAF9mti2o+BgSewjqL2dJWFQVg2CIZOLRXCj/yTYVr
+         ZsicmibYOlB08d812voI8XJGBM4RSJpHgYL3JtgxN4aSjhk7i+G+Dv6zsc14au5tY29T
+         KVkDhT6MX0xsuKmTSABw/9l5juXw9yOD/ym4U75Vy+2S8fINgUWd4Cl95bPFuY/7n8O0
+         Aj/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749854393; x=1750459193;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LtUsYHqMkAgU1Tr2B+Zd1LaoMvlrf2GnVyOYzZROnVM=;
+        b=Po2TcdTND2phOA2lphHnzFLUybP8x9Le+1JrM4kTmg7KkkDx9P6v+d8xRP9kJfRDCX
+         sU/iOIqbC9POEbhyJT5R3AmSkO+otgbNQBWaNaU50EJLRukUujjpDyibGm+lQ10jwalR
+         kt9rF7jz1EDQBKNHwQqiE6rxevYoPq3eYE9OUnn/WxOIOqf8kzALupC1G/c4X+ptrGLk
+         l5pp7MfYd7sTz1ED841Q0zYSLu2A+iKum5GB/IeQIy/tM9NmPEVQ2R2CwzFEKTH5AHfK
+         5myre0RAtlVdnrQOWRFNNwGU8lR6QWy5bbGukBhWbACIgSkQLCpJ7s1IvqtkfU3+fyyj
+         8QIw==
+X-Forwarded-Encrypted: i=1; AJvYcCV6BJsRAfC5hwBs6q119Rr/UjoyjOdyuyy8S9MP/JYa6enc5RwDteIJpuLnOJPuFj9OXdxx8JFa9w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2hE4UTz6sdBmuQRDJXdxtRrMRihvNsovQl9jpZLdaDEmEJNHT
+	fcdwIzZBRK409o4AV6F/xDY/hyCb78MVpJlpQb6QX6Me6KXVaXoyLzz9veBD4sKsTWmuGY8vupA
+	GY+mdLAM=
+X-Gm-Gg: ASbGncuv4sq5kv2kpoDdrPjpwtAO2uX6y9WWpLMS2OUZWMq8aDTBY8QNnvafXCuqlXd
+	q/R2bfFtjSYm47N9ElrQoYOf3MlQNw3DaX5Xk4e6sVuFsBUBSKJZ0YNpgXYyRn2HUCKOiN56C0I
+	s2uUwsbIjvoC1p2XdP2u7oBHOsxVVEeViJf/Bqd418MPaWTw4na4CGmvLiqbARNd/Hzi0xrF26s
+	k1HLpC29dsq7h4DMXhcFu7/DMcTJmX0c5/km0Uh2giogGyXWA/TiXWA26LdS+xl46wTJKJ/QvFA
+	gcmdcplbK+Ar7NQGfh4PJ0a22Ys1GPPHEJnnuuCkAkydHxaXrgck/H+uJH/X
+X-Google-Smtp-Source: AGHT+IHwgXzvtcCfNs2PzbcdRX2JJJWU53h7s6+ODm5XPIRNW6YQXViE+5wj8dwzo9GkGd1M8snpTQ==
+X-Received: by 2002:a05:6a00:3a19:b0:746:2ae9:fc3d with SMTP id d2e1a72fcca58-7489cffb6bbmr1286927b3a.23.1749854392677;
+        Fri, 13 Jun 2025 15:39:52 -0700 (PDT)
 Received: from localhost ([97.126.182.119])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365de783a8sm19787785ad.99.2025.06.13.15.39.51
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7488ffed07csm2204285b3a.33.2025.06.13.15.39.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jun 2025 15:39:51 -0700 (PDT)
+        Fri, 13 Jun 2025 15:39:52 -0700 (PDT)
 From: Kevin Hilman <khilman@baylibre.com>
-Subject: [PATCH RFC v3 0/2] pmdomain: core: add support for domain
- hierarchies in DT
-Date: Fri, 13 Jun 2025 15:39:26 -0700
-Message-Id: <20250613-pmdomain-hierarchy-onecell-v3-0-5c770676fce7@baylibre.com>
+Date: Fri, 13 Jun 2025 15:39:27 -0700
+Subject: [PATCH RFC v3 1/2] dt-bindings: power: add nexus map for
+ power-domains
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -68,63 +70,91 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAJ6oTGgC/43NQQqDMBQE0KtI1v0lSY1JuyoUeoBuSxcxfpsPa
- iSWUBHv3uCyK5czA28WNmEknNilWFjERBOFIYfToWDO2+GNQE3OTHKpuJIGxr4JvaUBPGG00fk
- ZwoAOuw5sWbW2KXVjlGIZGCO29N3wJ3vcb+yVS0/TJ8R5O0xim/bYSYAAo4Q2XHPuKnOt7dxRH
- fHoQr/JSe7XJHDQxiiLpUJ1dn/auq4/9Zq6WxoBAAA=
-X-Change-ID: 20250528-pmdomain-hierarchy-onecell-a46fad47d855
+Message-Id: <20250613-pmdomain-hierarchy-onecell-v3-1-5c770676fce7@baylibre.com>
+References: <20250613-pmdomain-hierarchy-onecell-v3-0-5c770676fce7@baylibre.com>
+In-Reply-To: <20250613-pmdomain-hierarchy-onecell-v3-0-5c770676fce7@baylibre.com>
 To: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>
 Cc: devicetree@vger.kernel.org, linux-pm@vger.kernel.org, 
  arm-scmi@vger.kernel.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.3-dev-d7477
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1307; i=khilman@baylibre.com;
- h=from:subject:message-id; bh=ePkKGarZg1yxKpMRWvBxlYBrx6EdK6XqYYg37ZcpYok=;
- b=owEBbQKS/ZANAwAIAVk3GJrT+8ZlAcsmYgBoTKi2npPlv8omUUI0eMPcksp7QB/oTG72KYhw4
- L2v7lGQBLOJAjMEAAEIAB0WIQR7h0YOFpJ/qfW/8QxZNxia0/vGZQUCaEyotgAKCRBZNxia0/vG
- ZQGAD/9X8VPwakHZ4knvT+SJkf9bf6x/fwl5+utW+gfsQOrUSB/7FAfOCeLcykP9snNa4uevhye
- UhdaUEKIp8UJG5ehdsXAYFydwzn6JC3MIcOMtjrSDW6qiG7dSzTXEPBgjhu5dnXQnHgmlxwR6Tz
- H6hk+VUWNX3A3tOUQqg33Qhz0Jc4MJGkyWzjVIJlBMefsWz99LcanYPVKRCQBiE+SA8c3GdKosX
- UHAERZueU/xWNql/AfQcWL2suTN1LkulzHFcMq5OYx1RGQnEZzUcRZUxRhixavkEbZ10H6C6VFi
- G3sw4j+W3vMnHfbU3MoimUUpgUhBO2dT4eUofXJGC12AMmsV6XMWbU8yXDUgCgBHm6EiCTk0zFW
- syuAOPSehRX9V9zZ02mdrlhs0yVubJZN0xymZLmCHXh8Mk0BG2oaY4XDyZK4f6DIC53iOqSAKjL
- HS9G9wnnal+WFfRmf3a0b/155V0anDB/2Rq6et0T3NfPximnYw2+uDK0FfJ9yhbwawCK2AuBhWV
- 1a0lf2kLBrW6yZJ1zFiE83Ckm9K5PfLCyUJ8Fb7bZfxTPN4aIj1QMwm67k1Sj/+pA4SD+SU6Yk1
- Xt1t0CbwaTEftxn+s8r23yCvPjHt1nqHNFgv4Qq3vXeQqGhBwHs38Seti0qnBcaCrJscPQVWNf4
- bXCvkZXz98e5alA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2322; i=khilman@baylibre.com;
+ h=from:subject:message-id; bh=rOfEkuVXnVCi6qVtn+094x5dIM7Nv0xxNwE+TQyA8T8=;
+ b=owEBbQKS/ZANAwAIAVk3GJrT+8ZlAcsmYgBoTKi2YFfPwzOne8TB+pfX6MflvESNcRmgasHDJ
+ m/48L3gLmuJAjMEAAEIAB0WIQR7h0YOFpJ/qfW/8QxZNxia0/vGZQUCaEyotgAKCRBZNxia0/vG
+ ZUuLD/9Omp9x1pOdoz1bKUFWXqHqVaUJImyfp1fesi1byvEyjNbxkjcmARgzQwozYcklnBBD9g7
+ lar8FMiob6wHupciVPM+YRVXiBVJs7h+NgOf2FAxZbyrJ7WcgvOF4qQe14qYvna1XuGdZUbCE2o
+ 07FaJOADzekI/ueEq8+8JUenleeRM/LSyD+Qd1QM4WlnId3qAaQt1PnUI2ZQksnVEKnUMm5TajX
+ h63yXL+olU1T/6wKKQkwu57FPheyL4gAQSJLREx17wX8DbKmOSpzfaN3w7Dmgxp8DQ94Evibf5i
+ K0n01CyajMuSAoCdJmI3vIFiIl4rz/hTT8VeqvX8YFU6uJBdDNPF1q3nypSJg+k7zK3fpzDYEeE
+ MN4VuN7RhCc8Q1XMR+O7Ir3DWHrrFsEYGhm0kl8HOHrX2ZskEd/HVkiqVE+fTzf0XvB9HNki697
+ C5yftQfWfc1VZ989Q1zkDZqhnzxQ8qW7hY85igNf8+V7meerHPFcgSTBeuoe9d/CnF4q6aoACAr
+ Ikfrg3pcCCMJ95oLu8IfoK0d/+bCwU2c0ClsytDHG8gLfAugJ3eKOhvbr69NTjaUcHtwlUu5/yK
+ /uhGIkq38q7QZa5EyRiUhVq11i+3NnWZh0CU0N86Lg13h+77sBpuQkFfcgtyyVk2RgCyvI4PgaU
+ tngkuKK6x9Wh44w==
 X-Developer-Key: i=khilman@baylibre.com; a=openpgp;
  fpr=7B87460E16927FA9F5BFF10C5937189AD3FBC665
 
-Currently, PM domains can only support hierarchy for simple
-providers (e.g. ones with #power-domain-cells = 0).
+Add support for nexus map `power-domain-map` to be able to support
+hierarchical power domains for providers with #power-domain-cells > 0.
 
-Add more generic support by adding support for a nexus node map, as
-described in section 2.5.1 of the DT spec.
-
+Suggested-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Kevin Hilman <khilman@baylibre.com>
 ---
-Changes in v3:
-- use of_parse_phandle_with_args_map() instead of custom parsing
-- probe when device is attatched to PM domain
-- Link to v2: https://lore.kernel.org/r/20250528-pmdomain-hierarchy-onecell-v2-0-7885ae45e59c@baylibre.com
-
-Changes in v2:
-- Use nexus map instead of creating new property as suggested by Rob H.
-- Link to v1: https://lore.kernel.org/r/20250528-pmdomain-hierarchy-onecell-v1-1-851780700c68@baylibre.com
-
----
-Kevin Hilman (2):
-      dt-bindings: power: add nexus map for power-domains
-      pmdomain: core: add support for subdomains using power-domain-map
-
  Documentation/devicetree/bindings/power/power-domain.yaml | 35 +++++++++++++++++++++++++++++++++++
- drivers/pmdomain/core.c                                   | 24 ++++++++++++++++++++++--
- 2 files changed, 57 insertions(+), 2 deletions(-)
----
-base-commit: 0ff41df1cb268fc69e703a08a57ee14ae967d0ca
-change-id: 20250528-pmdomain-hierarchy-onecell-a46fad47d855
+ 1 file changed, 35 insertions(+)
 
-Best regards,
+diff --git a/Documentation/devicetree/bindings/power/power-domain.yaml b/Documentation/devicetree/bindings/power/power-domain.yaml
+index 8fdb529d560b..9f099d326aee 100644
+--- a/Documentation/devicetree/bindings/power/power-domain.yaml
++++ b/Documentation/devicetree/bindings/power/power-domain.yaml
+@@ -68,6 +68,15 @@ properties:
+       by the given provider should be subdomains of the domain specified
+       by this binding.
+ 
++  power-domains-map:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    description:
++      Nexus node mapping property that establishes parent-child relationships
++      for PM domains using the format defined in the Device Tree specification
++      section 2.5.1. Each map entry consists of child domain specifier,
++      parent phandle, and optional parent specifier arguments. This property
++      is only supported for onecell providers (#power-domain-cells = 1).
++
+ required:
+   - "#power-domain-cells"
+ 
+@@ -133,3 +142,29 @@ examples:
+             min-residency-us = <7000>;
+         };
+     };
++
++  - |
++    // Example using power-domains-map for Nexus mapping
++    main_pd: power-controller@12370000 {
++        compatible = "foo,power-controller";
++        reg = <0x12370000 0x1000>;
++        #power-domain-cells = <0>;
++    };
++
++    wkup_pd: power-controller@12380000 {
++        compatible = "foo,power-controller";
++        reg = <0x12380000 0x1000>;
++        #power-domain-cells = <0>;
++    };
++
++    scmi_pds protocol@11 {
++        compatible = "arm,scmi-power-domain";
++        reg = <0x11>;
++        #power-domain-cells = <1>;
++        power-domains-map = <15 &main_pd>,
++                            <19 &wkup_pd>;
++    };
++
++    // In this example using Nexus node mapping:
++    // - Child domain 15 (scmi_pds 15) becomes a subdomain of main_pd
++    // - Child domain 19 (scmi_pds 19) becomes a subdomain of wkup_pd
+
 -- 
-Kevin Hilman <khilman@baylibre.com>
+2.49.0
 
