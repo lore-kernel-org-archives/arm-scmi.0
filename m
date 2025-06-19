@@ -1,130 +1,90 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7BC3256C6D;
-	Thu, 19 Jun 2025 12:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31B6226541
+	for <arm-scmi@vger.kernel.org>; Thu, 19 Jun 2025 14:32:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750335634; cv=none; b=MMIl+EfHtGPedA94KJdDfujZ9xF/YfJtwkNlo8YA/Nwd+NoaDoXuHF1bipfsAn8m3tRINosD+bF7NugohJt6m0NpUGgWvPW5z1lndpoEVxEZkAXvpdyE+wL0y1ewGw7PNA62SUJI2J+Nt9Q6WbhbD1eFPdKTrRIoip6AzAti+7k=
+	t=1750343578; cv=none; b=cDVmTNgNeh+K6S9JZsfpi2AoY4SE3ziiAhHb+WtqWna93dqhQ7Hgsc00Jvyx2fXwZcdHIMW3jPTu9tgRbDaFojzOQWn5jPj0OmPAItvWMUIsqzfLZKUnBjhiVAeUxDlmZ9Ia8jXNVYowIt5fRYb6iCDPpr64gV0I1pNJjQo+cOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750335634; c=relaxed/simple;
-	bh=34J/Q9Gqn/8ZZ73Va2vW5AGxOEj4S15ZUEmJ+4pihow=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=lBtV/TwqofKuTWJDJ3rjcyKTfzML4kLXEacNH7+fz721I22bgsz+6Mt0r73BWkRrtl9x1gotSAVBcZ1bzA5Ool6MVA9w7nko/Tfh2TjGm4wJYYBc7ft0WyUbV6Vh7v1AuwBqonXrr+f3nhfa5QpDtqDqemcm870QuUcFE+zir2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 27F61106F;
-	Thu, 19 Jun 2025 05:20:12 -0700 (PDT)
-Received: from oss-apollo7005.oss.cambridge.arm.com (oss-apollo7005.oss.lab.cambridge.arm.com [10.7.15.171])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DFE263F66E;
-	Thu, 19 Jun 2025 05:20:30 -0700 (PDT)
-From: Philip Radford <philip.radford@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org
-Cc: sudeep.holla@arm.com,
-	cristian.marussi@arm.com,
-	luke.parkin@arm.com,
-	philip.radford@arm.com
-Subject: [PATCH 4/4] firmware: arm_scmi: Add new inflight tracing functionality
-Date: Thu, 19 Jun 2025 12:20:04 +0000
-Message-Id: <20250619122004.3705976-5-philip.radford@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250619122004.3705976-1-philip.radford@arm.com>
+	s=arc-20240116; t=1750343578; c=relaxed/simple;
+	bh=nmwWIDW+odOafOSbSvyT3m43z/PXmHJf54qTm5PFBpM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R149W9d8bnr/6TmwDmC7HFcdk+03cpUq1IjgBk2sW/730yaftrzlb//WFo5djahOEgSj4gSZAn11jZujISxOOfGzVKPrh6mk1SuRMhLNFjAYjh3lBt92703VYCzV+lxdj7/LI30qwQZAdU6QaJy80AIpIcHqcd4ixzmiO0SqkiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Zwoy2pYl; arc=none smtp.client-ip=209.85.160.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Zwoy2pYl"
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-2e8f84653c3so202960fac.0
+        for <arm-scmi@vger.kernel.org>; Thu, 19 Jun 2025 07:32:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750343576; x=1750948376; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=se2zPaRHsPHVWSLq2M50PUR0Qrr63lHfyYD9MBXQ1JU=;
+        b=Zwoy2pYlWFW1I+yo3I/Hv7uolO/lCEhd8dWMiun+yIBwMkDIkwqGgH0+6GWUmTlPNY
+         /hfGLemwMZ9DTFgsYjtXtLPlpNQMCC5tpSgpjiEeQ+FNM/87wdv/czr2NKrDA+WcP4PE
+         +xPIdeF3TuvDjAx0Qsq9dQSLTjQ9x2qDA53alBkgcmpgWc5f9stC2rbqcxrZQY2uGzMr
+         LpuXqr/73YtcVAqndwA6DRK3lDeHoshIl4YZmppxTLc9K+Xwn/L0ZyO3+G6DV6rZFzgU
+         mbAk/TsugUmMesYkfL4pdp/sRPgLy+78JRqcMKlC/pkAuTMtFECKeV+wNxUuRXAMcGo8
+         8UUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750343576; x=1750948376;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=se2zPaRHsPHVWSLq2M50PUR0Qrr63lHfyYD9MBXQ1JU=;
+        b=hJ01hP5klvTDm/kXIvZxRhnKtRaNt6raGdYVqLcnRA5yFl/17rspjEZibLfdlToB9f
+         F9JPIE6ewvkyCaktChmGtwLVFzWH7nAaDMnMqzlVLAmgdohAcYeYSlVnWik1jR1wSaRg
+         M5X1S/uubm1YPOdEp50xRCuBq9Ric+cS2hzVRruC1C3tdemnjC/oQD22WX7NanzecviO
+         6mmdeoLDfy2bDbKJqmo75hGUcaCbFsSJ2g2gGanw8KQu5EfPftVMdVT0wMzljO0qPjDa
+         H55owfmrgJP5T7+nUKkupVvgYjRUsIl2RYzm+TlFTMvRzCG8g0JIbg3KjstsxtnLFFY5
+         LGNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXilx98vQUKWo+VaGF3HrDQFmFgT5qrVsRUg7ro04CbE0qXBEqKzJLeJy0vYggK/Wt0DqiO1PE9lg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWmq/FhXYLyNWFobUt7JfFMRJ72/7bXvxJoVjxhaTc6maFStPi
+	x1cNqCwwf4r412PKgXccVGwkEhdKCC0uCwxq30iRUgECIX0zfpUOz7D+e7mVGk6mMf0=
+X-Gm-Gg: ASbGncvuwRG2DLVyhOfT2FR5edmjKjMrnnILq3oQKAxTnPuWEy+BBG1ZQDQdbXqMFQA
+	74I2YMfs39ZDHoUrDOUU+uXeN5nsQzjNM2xYKf/SZQRHImiDx8qOBCrJORK6IEXUTVlyuR9ihAr
+	99yWez7lBnffu61Q1Fx+HDR78h1oMHAp7wVU3/ZNUfw5A04jPU0V8eBhAz5ESC4iqBH+YHm+OD5
+	eeN90ztSdKaKWA/6rgGWIdaHG9OS+KY9/UKlvNsSxMCljdhHbmktYsHs8GcaQRaNr7Uhyn+I2/A
+	tNswCCUbW81XmIl9YRvAj6ohAXAqRlZPYyr+lr1gLNV6CoUQTvya2qSio/ZffBkCAfXZqg==
+X-Google-Smtp-Source: AGHT+IGaZ2fGL+aupK3bJuZPDe415AnPYcuPEQInGDzraWvR8NsbfbrInyqqD6LAZae1EYAXTK0/5g==
+X-Received: by 2002:a05:6870:468b:b0:2c2:5c26:2d8e with SMTP id 586e51a60fabf-2eaf06ae000mr13281654fac.16.1750343575695;
+        Thu, 19 Jun 2025 07:32:55 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:67e2:ece8:b2f5:738f])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2eba6251d4csm354326fac.44.2025.06.19.07.32.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Jun 2025 07:32:55 -0700 (PDT)
+Date: Thu, 19 Jun 2025 17:32:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Philip Radford <philip.radford@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
+	cristian.marussi@arm.com, luke.parkin@arm.com
+Subject: Re: [PATCH 1/4] firmware: arm_scmi: Add debug decrement counter
+Message-ID: <b44393b8-369b-4500-abf3-13e98624e233@suswa.mountain>
 References: <20250619122004.3705976-1-philip.radford@arm.com>
+ <20250619122004.3705976-2-philip.radford@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250619122004.3705976-2-philip.radford@arm.com>
 
-Adds scmi_inflight_count function to fetch the current xfer
-inflight count to use in trace
+On Thu, Jun 19, 2025 at 12:20:01PM +0000, Philip Radford wrote:
+> Create scmi_dec_count function to decrease any of the Arm SCMI
+> debug counters
+> 
 
-Signed-off-by: Philip Radford <philip.radford@arm.com>
----
- drivers/firmware/arm_scmi/common.h   |  1 +
- drivers/firmware/arm_scmi/driver.c   | 17 +++++++++++++++--
- drivers/firmware/arm_scmi/raw_mode.c |  5 +++--
- 3 files changed, 19 insertions(+), 4 deletions(-)
+Please mention that "There is already a scmi_inc_count() function but no
+decrement function."  Otherwise everyone will have to look it up to
+verify that it exists.  Please put a period on the end of your sentences.
 
-diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-index ad9232c982ce..07b9e629276d 100644
---- a/drivers/firmware/arm_scmi/common.h
-+++ b/drivers/firmware/arm_scmi/common.h
-@@ -505,4 +505,5 @@ static struct platform_driver __drv = {					       \
- void scmi_notification_instance_data_set(const struct scmi_handle *handle,
- 					 void *priv);
- void *scmi_notification_instance_data_get(const struct scmi_handle *handle);
-+int scmi_inflight_count(const struct scmi_handle *handle);
- #endif /* _SCMI_COMMON_H */
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index c6657582c9ab..d128d497f96e 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -1443,7 +1443,8 @@ static int do_xfer(const struct scmi_protocol_handle *ph,
- 
- 	trace_scmi_xfer_begin(xfer->transfer_id, xfer->hdr.id,
- 			      xfer->hdr.protocol_id, xfer->hdr.seq,
--			      xfer->hdr.poll_completion, 0);
-+			      xfer->hdr.poll_completion,
-+				  scmi_inflight_count(&info->handle));
- 
- 	/* Clear any stale status */
- 	xfer->hdr.status = SCMI_SUCCESS;
-@@ -1479,7 +1480,8 @@ static int do_xfer(const struct scmi_protocol_handle *ph,
- 		info->desc->ops->mark_txdone(cinfo, ret, xfer);
- 
- 	trace_scmi_xfer_end(xfer->transfer_id, xfer->hdr.id,
--			    xfer->hdr.protocol_id, xfer->hdr.seq, ret, 0);
-+			    xfer->hdr.protocol_id, xfer->hdr.seq, ret,
-+				scmi_inflight_count(&info->handle));
- 
- 	return ret;
- }
-@@ -3416,6 +3418,17 @@ static struct dentry *scmi_debugfs_init(void)
- 	return d;
- }
- 
-+int scmi_inflight_count(const struct scmi_handle *handle)
-+{
-+	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_COUNTERS)) {
-+		struct scmi_info *info = handle_to_scmi_info(handle);
-+
-+		return atomic_read(&info->dbg->counters[XFERS_INFLIGHT]);
-+	} else {
-+		return 0;
-+	}
-+}
-+
- static int __init scmi_driver_init(void)
- {
- 	scmi_quirks_initialize();
-diff --git a/drivers/firmware/arm_scmi/raw_mode.c b/drivers/firmware/arm_scmi/raw_mode.c
-index 2ccb6b3f0e64..eebe1a5297ef 100644
---- a/drivers/firmware/arm_scmi/raw_mode.c
-+++ b/drivers/firmware/arm_scmi/raw_mode.c
-@@ -476,7 +476,7 @@ static void scmi_xfer_raw_worker(struct work_struct *work)
- 
- 		trace_scmi_xfer_end(xfer->transfer_id, xfer->hdr.id,
- 				    xfer->hdr.protocol_id, xfer->hdr.seq,
--				    ret, 0);
-+				    ret, scmi_inflight_count(raw->handle));
- 
- 		/* Wait also for an async delayed response if needed */
- 		if (!ret && xfer->async_done) {
-@@ -643,7 +643,8 @@ static int scmi_do_xfer_raw_start(struct scmi_raw_mode_info *raw,
- 
- 	trace_scmi_xfer_begin(xfer->transfer_id, xfer->hdr.id,
- 			      xfer->hdr.protocol_id, xfer->hdr.seq,
--			      xfer->hdr.poll_completion, 0);
-+			      xfer->hdr.poll_completion,
-+				  scmi_inflight_count(raw->handle));
- 
- 	ret = raw->desc->ops->send_message(rw->cinfo, xfer);
- 	if (ret) {
--- 
-2.25.1
+regards,
+dan carpenter
 
