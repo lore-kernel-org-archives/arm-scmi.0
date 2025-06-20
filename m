@@ -1,62 +1,62 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BA32367AC
-	for <arm-scmi@vger.kernel.org>; Fri, 20 Jun 2025 20:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FB1137E
+	for <arm-scmi@vger.kernel.org>; Fri, 20 Jun 2025 21:01:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750452381; cv=none; b=pXEu0upIOkMnvcljEvHOw0P+pdvTP79MgVJ8e+GibpLOzypFrnQIGQkeAi8xyLb2rDYlA4fU2TNcqgT7oL+PFuDrh6s6mMo0cO4H0a69xertCTFNn10oicBazuAWMVVDLPcx+b/jbfAXr6C/JD35YbHJkyw0Ek4MWiKjUBYvZvA=
+	t=1750453289; cv=none; b=DKB7JcrTlwZx/W2IYPugxSB2i5FzGjSJVnxRRwlgh4UR2KsK2Nj3bOvBE2IVZPASBo2d35kSWnG/t/sKfSRcQFIl5wbVtPmWCq5OaVvjuTK1TNeM8GWb4367cYFzLJOhz8A5M9xd0c7CxvrQpxzDQUWUilLPTfOkjfFp5yVtg9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750452381; c=relaxed/simple;
-	bh=yla5rx/LIQkQauMdJz3dZ6gJIjO/t5WT36UDJK/WW/I=;
+	s=arc-20240116; t=1750453289; c=relaxed/simple;
+	bh=tHyk3t0CuXdNhj2Iwn8cdQiUUp8AeSUXGMFoEDsSqHs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HtOTxyUm6lVYY8Nomhz9Dn/kHff+psI6PI/eJz3X3QpNpN1njKLh6LaIcHQk7WcRAECilWmN299YNhOFCrOY7zE5JJeA8gwq/mvs4XFUlZA7wpG/VFL0YdjPVCt1OqYC8FI2SZFhBHTWzr9kXOrz7osTSkFfEJtwU91aivvEjN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qS+dsPCb; arc=none smtp.client-ip=209.85.210.48
+	 Content-Type:Content-Disposition:In-Reply-To; b=HdVJu+9IuNPBWYTBMvBGeAiCnaMizAyhPjy1OZPw5mW31voCmxTMsLYs9k64AEso+bWx711ghPDK+sRQBzf7bg9A0tMBTJaCTf5RDgAZN7cSW4EHcjhLNcTNmn0rArgAReqxE+0eXNXvgZseufSW50Z6yKkHzXFMxLUz91pGZb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YmzK5i6s; arc=none smtp.client-ip=209.85.210.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qS+dsPCb"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-73a45bb28f1so1163176a34.1
-        for <arm-scmi@vger.kernel.org>; Fri, 20 Jun 2025 13:46:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YmzK5i6s"
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-72c13802133so679633a34.3
+        for <arm-scmi@vger.kernel.org>; Fri, 20 Jun 2025 14:01:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750452379; x=1751057179; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1750453287; x=1751058087; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=i/Y8DjVDPlXRXyjpGs6r48QlsTt9FjgMTVP1ecP+30w=;
-        b=qS+dsPCb4aKUCt9tsczRRx5U+ZYR3pg8CID8nHQ/L6HtfiPYoc48+c+j65xYk9iHa2
-         sInYGSNRRHUVBxp2Q6t5FwFtPfXjeNuzIzPIZKlrmBeutj4CY99/+NSs/3sfy68yRfTE
-         3gsnQ8YHhEByZQi9pSRXaj3JFLkPUlRL31OslN9Nkj9Be5DuJrzUZ/nvIlesSA6d7Gui
-         nd46LZt00rBizn7VhIznwyVliMUav1wl6ZiZZOUm0QxaJrSCWnPylj1hc6vjKGjiNF5e
-         A+a/dRkken14oTQh3vOLkOne+PvCGP7UP4THvYUHkKEyw/K+RJJXNfXIdzDVMk6D+mb7
-         IEtg==
+        bh=bPfdrJsc6SyDgZhcqK06/DS6CQf5yfjgO3ypGfImvDI=;
+        b=YmzK5i6sdPBi6dpr0Fr9y3DXCHKwl/zmKaqukVCGT/eEYzP+bvtTdqh2GtB9N4O0Vg
+         zR0u5kEc599Jgi+NxEE7QM4MT9bZDZqObdQ4P7rXWdhUMKuv5H9uiV2epAFgaMxgoc8Q
+         aYFUcwBys1W0waL7Y+7dXpLyUu84dd3RXwflXrJSen2D8QBAKp7Ri3db5N4xEyU09pmp
+         wf8gAm15RpV5f/hJ7WZxrgln2o5tP6dYbxrBqtDN9r1PZ9Nowxf1waikLJChYYtEXr77
+         ge37kWrzofm+B+F2sTayvtS8n5LTgmNGVnbcjs7ArFN5mFmOU1NG0pHMCV0qFDbKANkM
+         IBuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750452379; x=1751057179;
+        d=1e100.net; s=20230601; t=1750453287; x=1751058087;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i/Y8DjVDPlXRXyjpGs6r48QlsTt9FjgMTVP1ecP+30w=;
-        b=APFTGB7Ti0ha09gLtrR9B2ZJpZxD+FRP1C9ni/l42jgkhBROj5V/HKpAMj5xCtDQVu
-         oiUJ9UEOtHTIwGjE4kXzBeZS1q+D4nGQJELMg+/skLw8DyBzK1HOxbthEeooNkVc+sCQ
-         FTU3Rnzs6vxTYhZEf7s6l5zIUo4zVzsfKF5sz6uCUJLok18cAe4WETvaAWOW3wFppSjk
-         yk4v3CVRN5j/D+3emUP+pva3Kn/WqltD6KeRDPFVczvc5kZdHXwRFYq8M4xxIqBhlPje
-         2iiL3Ld5ThQ6Nl1zTafhiUjms9EoTZNsbX6gptUKoCtnROU+uWl5kkeNWacJFjiihx1E
-         iFJA==
-X-Forwarded-Encrypted: i=1; AJvYcCV1i8nRqRTRNmD9oAnxqERXXX8mfLwJJI6tPqNqk3Fd197BxK8NlqXeAaoNvHri1hMQnF67JEW/GQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKzq5zKXFOyyEW4Q/GmQm0xtHcIC8xD0cUHYdmKkl8BtrYMRgn
-	9vErDpGONQcwZS2kaZhaacK7lP/g72xjVMcZq2OkF3U44VIg6bBufm0b8B4M90rDzzE=
-X-Gm-Gg: ASbGncvjknhzGafsklmhF8uatRaltpHB5T6em5QcgTNVfW7A8pxfNFUQg4asz+vnL79
-	PfggbkZKbhPryFVX4bNMQTP8DwwQRgFQ6A0DbB60kVAJmpMS/Ysw2HYFPa01tsDR2LG4Yd1Fu/m
-	2md8u9++5zlzLSkH61r7t1mfxd6lhbRSOBdfsx/B91phGx+SNNvhuKOHsNv3JXe1VQOGYLUst9K
-	QRxnO3I5dJ1qrIT7iVWuyB+ZzwQOObKCMwMJoeWfYZQgTp2OflMIbe0plK6L7YDSebq96vAKrC6
-	ZNcc17zSNcyttBHifPtVDM/jdzMEaGcKbZE/GE64ckUQ22mXOIQIoeLDbA3okSf3dpfSqA==
-X-Google-Smtp-Source: AGHT+IEltVQQpWX6/49BBfYc6w8RKy2yGvjE97btwLbyyP6cYD1DXa6Ie9CAh5+D8nSPHysnFDl13A==
-X-Received: by 2002:a05:6871:69c9:b0:2eb:ace9:197a with SMTP id 586e51a60fabf-2ef2a74cd89mr1902210fac.5.1750452379128;
-        Fri, 20 Jun 2025 13:46:19 -0700 (PDT)
+        bh=bPfdrJsc6SyDgZhcqK06/DS6CQf5yfjgO3ypGfImvDI=;
+        b=MUYdl0l5XQnWTvWctZbXdBD2n+1fDu+fzhMjXAlnJas2HBN5ikOlIvRHflgisF1GqL
+         5Aapp+1wOagBADlq3E5TuwclUM+ZBm+sZyuP052iy1l+vGhZqFYFneo54gcnDpDOHbVs
+         fotkOYVideOTjnqQd4j/renll2OoGZbu4qhAih3jqrztJ9aHNunxXK9id+XYZxkt8vH1
+         AwNwENnZd5Ct3gPGOXUdyvv7X0/4maaCUTxLDufrs3hZ22ouct0UoU5pUOEalc69CLSE
+         jHG7rBOHc+SaXg2zsO6BdlW6602YvGu5wUVRTxa+4IVp8W/pfgpNur1n9NmkzNy2vtBn
+         WZQA==
+X-Forwarded-Encrypted: i=1; AJvYcCV5kysBF4OjWxzWgwAz6t/mYsbCagqSnUNWdhrxpjto9QOeZ+OPAJdmzhO18LyprP2ygmuyUFVKxw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3FVgZN19APxBKC7o+fGg43Dr2B8Q7HOwAP8O9czA6SQgF5X4p
+	1mg6z84ZA5gmKlNtOQ3AaV/+rTiGNALJUbG2FNHkyOm4qs9eOAcKPGFbbXF9eBSMFSM=
+X-Gm-Gg: ASbGnctIT3W9ianeKGamYsIqU9Far2DMisZYrtHvESqkk3owanZuhi4QIAZhuUjwRTC
+	oOrqxXO3uf6sIgFPbv7QpPvBCJj7f3bXDSfrwCXwAU/Hk7T6x8D6YVpkNw5bUgUxkgC09dBvgSz
+	npBooqdNxP1qNADfKqgfaVWfmLb6fqJvYdBPfYMKxPOA70rJ9r9Fv6rmyOGBpz9aoshUDWMQ31b
+	gw7d/QiLu6VxGrhcuRA5q8R1VAm2d27bv5lUYS+TSuS9Y/s3lpmFoUJG/3PKAnqzAlp0IqWfhXh
+	rkI+MH5pCRugMA2P0x3q1/++a0lwNCH60QvvCBfUZvLrnbzRgk5DpjYYz4Ip2r8W/kom+g==
+X-Google-Smtp-Source: AGHT+IHKvI+mlOijqo3udRWnDlycAVvVSoeM8zvft6XIXbrw2Mbg1ujBAm0ngTbxYas49+aqilccLQ==
+X-Received: by 2002:a05:6871:7393:b0:2d9:3868:b324 with SMTP id 586e51a60fabf-2eeee4e0080mr2955071fac.23.1750453286668;
+        Fri, 20 Jun 2025 14:01:26 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:35a7:a70f:9610:a99b])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6115b6da655sm344851eaf.17.2025.06.20.13.46.16
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2eead967b86sm543589fac.50.2025.06.20.14.01.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jun 2025 13:46:17 -0700 (PDT)
-Date: Fri, 20 Jun 2025 23:46:15 +0300
+        Fri, 20 Jun 2025 14:01:25 -0700 (PDT)
+Date: Sat, 21 Jun 2025 00:01:23 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Cristian Marussi <cristian.marussi@arm.com>
 Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -67,7 +67,7 @@ Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	d-gole@ti.com, souvik.chakravarty@arm.com
 Subject: Re: [RFC PATCH 3/7] firmware: arm_scmi: Add Telemetry protocol
  support
-Message-ID: <0c71e182-9aac-426d-b58b-41f118b9a8f2@suswa.mountain>
+Message-ID: <b33a0c18-2850-453f-8ee6-5574330b3670@suswa.mountain>
 References: <20250620192813.2463367-1-cristian.marussi@arm.com>
  <20250620192813.2463367-4-cristian.marussi@arm.com>
 Precedence: bulk
@@ -81,101 +81,31 @@ Content-Disposition: inline
 In-Reply-To: <20250620192813.2463367-4-cristian.marussi@arm.com>
 
 On Fri, Jun 20, 2025 at 08:28:09PM +0100, Cristian Marussi wrote:
-> +static int
-> +scmi_telemetry_protocol_attributes_get(const struct scmi_protocol_handle *ph,
-> +				       struct telemetry_info *ti)
-> +{
-> +	int ret;
-> +	struct scmi_xfer *t;
-> +	struct scmi_msg_resp_telemetry_protocol_attributes *resp;
+> +	/* Build compsing DES string */
+> +	for (int i = 0; i < ti->info.num_groups; i++) {
+> +		struct scmi_telemetry_group *grp = &ti->info.des_groups[i];
+> +		char *buf = grp->des_str;
+> +		size_t bufsize = grp->des_str_sz;
 > +
-> +	ret = ph->xops->xfer_get_init(ph, PROTOCOL_ATTRIBUTES,
-> +				      0, sizeof(*resp), &t);
-> +	if (ret)
-> +		return ret;
+> +		for (int j = 0; j < grp->num_de; j++) {
+> +			char term = j != (grp->num_de - 1) ? ' ' : '\0';
+> +			int len;
 > +
-> +	resp = t->rx.buf;
-> +	ret = ph->xops->do_xfer(ph, t);
-> +	if (!ret) {
-> +		__le32 attr = resp->attributes;
-> +
-> +		ti->info.num_de = le32_to_cpu(resp->de_num);
-> +		ti->info.num_groups = le32_to_cpu(resp->groups_num);
-> +		for (int i = 0; i < SCMI_TLM_MAX_DWORD; i++)
-> +			ti->info.de_impl_version[i] =
-> +				le32_to_cpu(resp->de_implementation_rev_dword[i]);
-> +		ti->info.single_read_support = SUPPORTS_SINGLE_READ(attr);
-> +		ti->info.continuos_update_support = SUPPORTS_CONTINUOS_UPDATE(attr);
-> +		ti->info.per_group_config_support = SUPPORTS_PER_GROUP_CONFIG(attr);
-> +		ti->info.reset_support = SUPPORTS_RESET(attr);
-> +		ti->info.fc_support = SUPPORTS_FC(attr);
-> +		ti->num_shmti = le32_get_bits(attr, GENMASK(15, 0));
-> +		/* Allocate DEs descriptors */
-> +		ti->info.des = devm_kcalloc(ph->dev, ti->info.num_de,
-> +					    sizeof(*ti->info.des), GFP_KERNEL);
-> +		if (!ti->info.des)
-> +			ret = -ENOMEM;
-> +
-> +		/* Allocate DE GROUPS descriptors */
-> +		ti->info.des_groups = devm_kcalloc(ph->dev, ti->info.num_groups,
-> +						   sizeof(*ti->info.des_groups),
-> +						   GFP_KERNEL);
-> +		if (!ti->info.des_groups)
-> +			ret = -ENOMEM;
+> +			len = snprintf(buf, bufsize, "0x%04X%c",
+> +				       ti->info.des[grp->des[j]]->id, term);
 
-It the allocation fails we need to jump to the ->xfer_put
+Please use scnprintf() btw.  Otherwise if there is an overflow the
+next iteration will complain that bufsize is negative.
 
 > +
-> +		for (int i = 0; i < ti->info.num_groups; i++)
-> +			ti->info.des_groups[i].id = i;
-
-otherwise it leads to a NULL dereference.
-
+> +			buf += len;
+> +			bufsize -= len;
+> +		}
 > +	}
-> +
-> +	ph->xops->xfer_put(ph, t);
-> +
-> +	return ret;
-> +}
-
-[ snip ]
-
-> +static int iter_shmti_process_response(const struct scmi_protocol_handle *ph,
-> +				       const void *response,
-> +				       struct scmi_iterator_state *st,
-> +				       void *priv)
-> +{
-> +	const struct scmi_msg_resp_telemetry_shmti_list *r = response;
-> +	struct telemetry_info *ti = priv;
-> +	struct telemetry_shmti *shmti;
-> +	const struct scmi_shmti_desc *desc;
-> +	void __iomem *addr;
-> +	u64 phys_addr;
-> +	u32 len;
-> +
-> +	desc = &r->desc[st->loop_idx];
-> +	shmti = &ti->shmti[st->desc_index + st->loop_idx];
-> +
-> +	shmti->id = le32_to_cpu(desc->id);
-> +	phys_addr = le32_to_cpu(desc->addr_low);
-> +	phys_addr |= (u64)le32_to_cpu(desc->addr_high) << 32;
-> +
-> +	len = le32_to_cpu(desc->length);
-> +	addr = devm_ioremap(ph->dev, phys_addr, len);
-> +	if (!addr)
-> +		return -EADDRNOTAVAIL;
-> +
-> +	shmti->base = addr;
-> +	shmti->len = len;
-
-There is some code later which assumes ->len is at least
-TDCF_EPLG_SZ and de->data_sz.  This is probably where we should
-check if (len < TDCF_EPLG_SZ) return -EINVAL; and the de->data_sz
-would be checked later.
-
 > +
 > +	return 0;
 > +}
 
 regards,
 dan carpenter
+
