@@ -1,130 +1,109 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D772E23717C
-	for <arm-scmi@vger.kernel.org>; Fri, 20 Jun 2025 21:51:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00771167DB7;
+	Sun, 22 Jun 2025 23:42:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750456279; cv=none; b=rS4ht4S8QdcESQLhOT2ptF2HOAKrUhMdH8Vgu2vWAW4X8qYHyrPOpmPbFX0GOtSE6oFk6cSgehaniof10BWgp4uyf6vxgbqkYLP7QnuvrcBvspYUFNFd8t+HIr6CaHsoXGpAxd1k03xTblsBBnGAatHnMfPCQu0/BLCQvCAEfJs=
+	t=1750635733; cv=none; b=O7nzcT+szPykG88NtmP9UqV/venXuP+yKj0lzQAAIz9fP7L7+/FG6GGLIcYTTtl9M0NJGQjtLpxO6rIc7Vq6Dx1HgszyV1gKuCJrOMiWBbdFGLbhWDlLoqe+dMFfE7cPPFP+WQS77RWzfggbdrCEVgFnz94eywa+jPEooxY9uhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750456279; c=relaxed/simple;
-	bh=bfITkeYShQSWbkf0r8/RmW2u9c17/1b7cuwuM7i5gDs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pLcKO+/xsMoVeYLiNYQQ+LZCKS6mz+fpTcYzTDcDaQojdesMXKvQJQiixoe31DvO8dhBdY6NSxUZzpRj/8pXAK89E3kzSrG9o8Lc3dXSFs85X43tiPWSRID5zJFMKY2Z7237iX9/UE9AB33UC8Mo9hOh0R/s63m4XxcaC6upTGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TxKhxVPY; arc=none smtp.client-ip=209.85.160.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1750635733; c=relaxed/simple;
+	bh=xu5TIHGybIPfNvLwyvfLcbEZ6GtCVWyyWGe0mtahQNc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hL6g0Qz1eTfoPT8VaxaIiiEftl9TTkP2xLnSlFJkqdliRVpijgGDqs0M+F/7/OgG9NyWojh3QNhya5/bo4J2V4L0ZrG+KGEVwehvdVNqiU4/xljkQM4CHN6ZZPjS8vQJPrPBnRa7zhW0xVuDX5EJILTyuuYwBWizTdXgcMt3UoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TyDOcPcd; arc=none smtp.client-ip=209.85.160.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TxKhxVPY"
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-2edec6c5511so385072fac.2
-        for <arm-scmi@vger.kernel.org>; Fri, 20 Jun 2025 14:51:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TyDOcPcd"
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-2eb6c422828so2123061fac.1;
+        Sun, 22 Jun 2025 16:42:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750456277; x=1751061077; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qciZZcm9ZhGrH66JTdpjaM1ur/fzC7K8oAKg3h0lmsU=;
-        b=TxKhxVPYG2lPfAIdx9xs2zsDK8uffCoBgDvFnVp8PEngdvZ5YABKGMDX+CdnWBF53i
-         vrms6pFociO0hcL0frT7nSkMOA7dRzOc2Nu04J/u4Ym8mg4mJ42iKUbc+k4A8sTkcLOK
-         PaVLmJB4oDennFVNLGUtxB7iN7Uu0EvP05hpShNhOzSICkblLlInmdZKkPkaEqLDZu6S
-         jVx2xpchcATeKYOOXkZgIAh5VJ7WDZ7RFLRrOrJcYpFRFL3JriqPLnrs2/OnkEqRg6f+
-         pxwHbMrflgI+1dgxhg7hNZMDLETenI+wSxQP7l+mZbT2U+vzZidzfw3S6qQNWOoSoTcW
-         o9XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750456277; x=1751061077;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1750635731; x=1751240531; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qciZZcm9ZhGrH66JTdpjaM1ur/fzC7K8oAKg3h0lmsU=;
-        b=epxgHDXOFHFOhwXw0AR75PMJE76DFX0gRIBZ7VziYtXKzpXq6a4K/b43AdHhfCkanL
-         dXuNsrojmi6F4m1P4XARCPx34zvNxqd9oJHS0paEd34u+c3TZRI5gJ8xSdnbs+g5Uuov
-         UqBZgT8pndMnr7sNSBPuDQ7ikckY1k87nVuHHM/6eJ7qvjSH7g78+tCEk4UOl1L4YLnZ
-         bhQRuAqMaNItXF0pDWedsy2tAe+wzYWHvqn1scBDN9bHKlyfFJg44Z33pTvPf89SLufG
-         ivHmmEDMNbN3mvy+Z4euaOZwH+Z6fIwRlHSO6LU3SByxOjwpO1kCgika7syOmfYQHF8F
-         69PQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWeZY0c2MfBKv5zp/yLMoUFl+T0z8ZWRlehV9G/Hg/iTtXJsN6YClEg7brIwLgqbZusfv+ZGHPFWg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0qcxflnXYjehMXF0mMf+keOGaCUSMOh8gBSuKEoBNsowhlwaf
-	DMWK9YAGPZ2azRvXXfBE2NPh8QevhNuM3wckIzI/CuOk3p2HRdDVw0fzCq66BoAOxhk=
-X-Gm-Gg: ASbGncv6PiaT9lRSSk4mbot+ruMCYKViY/YvAX/vfaZok407Cukf02/yprVDMzUjOLy
-	copR8gKNOu2B6ts7kjBImLt37ho8aW/xRp/szlqYVbn1SZRvFPZpVIuaeyswIaAwVkXy2wtblST
-	j4Q3gFyxk8tFHyoOQTcpUREtWolyHGj4NWeOlZZWgkYX/HrmM5821DQKya1eBo12WHUk6QB7RGK
-	DKWNX390mWpj4x//KzHE3XdfPCpNqQsCwFI9brZARTB83gyDoaLaf3anMmQqyPTbflPPy4kHTnr
-	XmNuEnGT2HXwVBJEuoujwMCGusMBxG1ZYuivCEcOVEfIzmNeAqaoaa5BaWEgFl+uffTlEg==
-X-Google-Smtp-Source: AGHT+IEUKt2T8NPo19dPeOycUEZfJIdPu2BwWVzJ6tGEwvl4xQ4AjLwthY3jfBkPvwEIgCaF/ro8vQ==
-X-Received: by 2002:a05:6870:af42:b0:2d5:2955:aa66 with SMTP id 586e51a60fabf-2eeda4e114emr3105643fac.1.1750456276972;
-        Fri, 20 Jun 2025 14:51:16 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:35a7:a70f:9610:a99b])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6115b7c909esm342923eaf.27.2025.06.20.14.51.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jun 2025 14:51:15 -0700 (PDT)
-Date: Sat, 21 Jun 2025 00:51:12 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, etienne.carriere@st.com,
-	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
-	d-gole@ti.com, souvik.chakravarty@arm.com
-Subject: Re: [RFC PATCH 5/7] firmware: arm_scmi: Add System Telemetry
- chardev/ioctls API
-Message-ID: <6fa26a61-1f61-4ab0-8b7d-caeae7eb801e@suswa.mountain>
-References: <20250620192813.2463367-1-cristian.marussi@arm.com>
- <20250620192813.2463367-6-cristian.marussi@arm.com>
+        bh=X02XUS5FnsxUiuzmvCAP6QQynrT5d6AhXsvxvVft44c=;
+        b=TyDOcPcdgIE4VrFzK4t12N9f9dC5czMRgaqEWG2vdFWKvfTAoHMZxLcQVABzOgCumn
+         X3KVo4zQqGlp3c4ftN1R6/RKB7EGSZao+nqri3mjhQjlojQkJ6+hrfhEDx1IrXdYrLH6
+         DRKB/bpNE86Fb/aaOp54MSr45HoN4W7MowP3cM0IBUfskxp3IVOAMl3KLX9bPK+UvMV9
+         rhSo4pRkIiVNpnEtRkpOhQSjIzI9YPJ6BNvxej4tUSnUnuCpaXU/parlYodFgYTyPK1e
+         wKXywQrFym6dappxA+3xtMXNpmgrTegLjQCwm+euASF3XOf/yGqduAuAaUKzLyDzxNM6
+         7WCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750635731; x=1751240531;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=X02XUS5FnsxUiuzmvCAP6QQynrT5d6AhXsvxvVft44c=;
+        b=c2WkT9GIEKl53rBQF88UwqMJjqx4+7Zpb8PGTK6bA/pqSSJm9sJEEZD1ohLgQD9O4V
+         lPZ5JYDIdArcsdxpajbBnCrDUSr20p/ZIVaqaYIdYaSm6NNLrcJSOCdq7c+hsRGoS9zI
+         wCeJ1a85pgirxjizfN+nCZMWAQbPkMODwraSYV+NNbIWBbN6daCPE+yrkVjXEHDeH4TY
+         FP3hpUVTEzEFocA80QSYCE4xbYrdNePJnRTIFY7Rho7YUhnviXuX/q4lI0O4pVGbkReJ
+         FGMjQOgckRvdtyDKc1oCQqlfOT4EMkRbuRUpmwIhVF0PKRGcptidpIx/qwiVskrO+4wo
+         uJ4g==
+X-Forwarded-Encrypted: i=1; AJvYcCWQeI4dNrCse/CjvkuuJWFJecZW/PM1ZcJIXwz5Am2jN/siU0RriM9Ctp7gUG8a99L6lsw54tUr0r6rCbi1@vger.kernel.org, AJvYcCXcxZejUoSIkZ8keH54yq/qaZRgVB85/RHAqlhXHAsdHji/uOP+pzZP4R4GYynImT23zHi+zY+vlA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEim7HTGz3ZWhm5P3tOZ1G77ZfwbcmxB4V9JDNAYDWQnpm0h0M
+	LAsXD0i1CUbN9Nc+1jcCMqiDoyYSNIh/YFMKiGLgX/eVz1W2ENCJbjyu4WPPV0z8BJWUqn3cQN+
+	GJF0SK9oSgtKPXoaqlXqbyfPToioIrbU=
+X-Gm-Gg: ASbGnctOk9CozLye4/IixE/KY1+H6NkiiaQb95CCyByNDTYkY3MqkUtX4bU+Jo0sDym
+	9MNgj3HmAc6JtDaeUpR34s6isKXiGaGX2O8Oqp2uRrm4Th8fnjbX0sMu5MTz/gT7wRzw+sXhWzE
+	iC523CNlFl2qn1niAnBgV+iDC0LHCZuJ/ZQ5WMAEDaowTb
+X-Google-Smtp-Source: AGHT+IFiMcGR2ysePMIV8Y5lW6ZrANq6bvDnxE1/zoKJXL4wWWd25sjw7GvrVPtZMFV78GwzvcJfprs6bZqwWA7WIxA=
+X-Received: by 2002:a05:6871:2108:b0:2d5:97d0:c03c with SMTP id
+ 586e51a60fabf-2ef2aab2ca4mr7071617fac.18.1750635730847; Sun, 22 Jun 2025
+ 16:42:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250620192813.2463367-6-cristian.marussi@arm.com>
+References: <20250606-mbox-drop-reacquire-lock-v1-1-d36d1a13d83f@linaro.org>
+In-Reply-To: <20250606-mbox-drop-reacquire-lock-v1-1-d36d1a13d83f@linaro.org>
+From: Jassi Brar <jassisinghbrar@gmail.com>
+Date: Sun, 22 Jun 2025 18:41:59 -0500
+X-Gm-Features: Ac12FXyYldMHAZzPimUiIoS4Skvo9wHzp8jNLBh5ctWPaYdaDoFaftPVoeq4ze0
+Message-ID: <CABb+yY2HYgS25xouVJpq+Aia1M=b1_ocbHiyrnVqZcf0c0xcGg@mail.gmail.com>
+Subject: Re: [PATCH] mailbox: stop the release and reacquire of the chan lock
+To: Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc: peter.griffin@linaro.org, andre.draszik@linaro.org, 
+	willmcvicker@google.com, cristian.marussi@arm.com, sudeep.holla@arm.com, 
+	kernel-team@android.com, arm-scmi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 20, 2025 at 08:28:11PM +0100, Cristian Marussi wrote:
-> +static long scmi_tlm_des_read_ioctl(struct scmi_tlm_instance *ti,
-> +				    unsigned long arg, bool single)
-> +{
-> +	void * __user uptr = (void * __user)arg;
-> +	struct scmi_tlm_setup *tsp = ti->tsp;
-> +	struct scmi_tlm_bulk_read bulk, *bulk_ptr;
-> +	int ret;
-> +
-> +	if (copy_from_user(&bulk, uptr, sizeof(bulk)))
-> +		return -EFAULT;
-> +
-> +	bulk_ptr = kzalloc(sizeof(*bulk_ptr) +
-> +			     bulk.num_samples * sizeof(bulk_ptr->samples[0]),
+On Fri, Jun 6, 2025 at 8:41=E2=80=AFAM Tudor Ambarus <tudor.ambarus@linaro.=
+org> wrote:
+>
+> There are two cases where the chan lock is released and reacquired
+> were it shouldn't really be:
+>
+> 1/ released at the end of add_to_rbuf() and reacquired at the beginning
+> of msg_submit(). After the lock is released at the end of add_to_rbuf(),
+> if the mailbox core is under heavy load, the mailbox software queue may
+> fill up without any of the threads getting the chance to drain the
+> software queue.
+>         T#0 acquires chan lock, fills rbuf, releases the lock, then
+>         T#1 acquires chan lock, fills rbuf, releases the lock, then
+>         ...
+>         T#MBOX_TX_QUEUE_LEN returns -ENOBUFS;
+> We shall drain the software queue as fast as we can, while still holding
+> the channel lock.
+>
+I don't see any issue to fix to begin with.
+T#0 does drain the queue by moving on to submit the message after
+adding it to the rbuf.
+And until the tx is done, T#1 would still be only adding to the rbuf
+because of chan->active_req.
 
-This should be struct_size(bulk_ptr, samples, bulk.num_samples) to
-avoid an integer overflow on 32bit systems.
+> 2/ tx_tick() releases the lock after setting chan->active_req =3D NULL.
+> This gives again the possibility for the software queue to fill up, as
+> described in case 1/.
+>
+This again is not an issue. The user(s) should account for the fact
+that the message bus
+ may be busy and there can be only limited buffers in the queue.
 
-regards,
-dan carpenter
-
-> +			     GFP_KERNEL);
-> +	if (!bulk_ptr)
-> +		return -ENOMEM;
-> +
-> +	bulk_ptr->grp_id = bulk.grp_id;
-> +	bulk_ptr->num_samples = bulk.num_samples;
-> +	if (!single)
-> +		ret = tsp->ops->des_bulk_read(tsp->ph, bulk_ptr->grp_id,
-> +					      &bulk_ptr->num_samples,
-> +			  (struct scmi_telemetry_de_sample *)bulk_ptr->samples);
-> +	else
-> +		ret = tsp->ops->des_sample_get(tsp->ph, bulk_ptr->grp_id,
-> +					       &bulk_ptr->num_samples,
-> +			  (struct scmi_telemetry_de_sample *)bulk_ptr->samples);
-> +	if (ret)
-> +		goto out;
-> +
-> +	if (copy_to_user(uptr, bulk_ptr, sizeof(*bulk_ptr) +
-> +			 bulk_ptr->num_samples * sizeof(bulk_ptr->samples[0])))
-> +		ret = -EFAULT;
-> +
-> +out:
-> +	kfree(bulk_ptr);
-> +
-> +	return ret;
-> +}
-
+Thanks
