@@ -1,102 +1,136 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 825222459F1;
-	Mon, 23 Jun 2025 12:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719A724C06A;
+	Mon, 23 Jun 2025 12:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750681949; cv=none; b=NIZ36Hl3TIMts5cnFf16GuaprRYuh1x6U9HNvVQEKWNn0jxIlhhdv+FfPvJweFg9Gay7yIKK856C4ndTpGHMyBIMyaw8cq7StuaQAuxZF9OQPhihz5zvTK1c+5TKHdVz7zH/YkyAnIWO/rj4tbrfaPnoXsmuGoiwOpRXk30ZaIs=
+	t=1750683486; cv=none; b=YMKE53ftBR++usSimNB8B6ITK3P4DUoTcdi/RuGxG8GZAhJR1W9McDDsFj+66XagO+OdesWQlqt0k51mPq94OqY7ocb3oDjhlCzswgn/ewF+F4rqyP/dtQyiDmwrw4WE2I5prbc6nas9yFMiLLzkHVoIoy4NXtUR+QZ3TvzNkqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750681949; c=relaxed/simple;
-	bh=Hi9Eh4Q8Idz+PcP0DJGiXpcq9TCKuca5A6YCe8h1Q6U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PNwPrVsb4F1fcnOPOEC/fGnuJaGqy3yvGGDHdiwPIGUKM/jl0/fM3nFEDf4a4w1Dj8+B0R1Dckwx+S9rhbfkWASfuY4opXC9mqxHKbKzvXeu659pqXRHc4Ivdn1a/VpkizrCe36fiC/SrGVR0Dm8LQrBdfzvB5YtkP/VVlbZKxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=fRzoI1dl; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1750683486; c=relaxed/simple;
+	bh=2uRzPBv8XmRl6PL+xwcMHqnVmSrlShU09YdB9fiVk9E=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RY2xdP0bk0zh5fDkUOEVW0tJ4WvTXnOb0uyAX8yBOe1bNrVFAs+SR35fHSw9PHdjFA3QGrFQ/1KDV8uUNUZFVy4pumBY4+Rjb2TJdPK7u0d25dSJvnov27aZmocxlIbijph/4SskUG2HQrSOlCYuWUTYxCT4om6UN/buVASjPeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ZQh8aRsL; arc=none smtp.client-ip=198.47.23.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="fRzoI1dl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1750681945;
-	bh=Hi9Eh4Q8Idz+PcP0DJGiXpcq9TCKuca5A6YCe8h1Q6U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fRzoI1dlS3MhNk3kaIep6i4WWNWcAedful78drVRlvm/4Xh1SkS3K+ztOxFgSXAoH
-	 2vbxKawbsztUnl09cPgSt+uFvVJ1tHS6KKrdllwE7bz4z7Nx8fjloQ81iDlj4Xj79Q
-	 /D5ypsq0jDLDquYdSE6sGH6Vs3QoA6d6ufaxnnBWl5rl/oV0zaA/r9/MsmuncGTLQ/
-	 zChQ5ri/Q5UxqkUf8s5FwHisxQIwpUKH8BYjPGN4ASCoS3jQkHgPzClBohAjnAg3zh
-	 ePgONva+hO8UErkrt4zINF+7jcMmK0nTWjXo4ELEAsJk5/M9CCDUjpnlURnSI/Wd6Q
-	 usJOc2BEtxn3w==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 13E9717E05BD;
-	Mon, 23 Jun 2025 14:32:25 +0200 (CEST)
-Message-ID: <9e8d0dfc-7dc4-461d-afd9-bd381219422f@collabora.com>
-Date: Mon, 23 Jun 2025 14:32:24 +0200
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ZQh8aRsL"
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55NCvqqj889428;
+	Mon, 23 Jun 2025 07:57:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1750683472;
+	bh=31eJ+AWxiGbYg4zWcNeGQWhipTSARDm8us14p739GWk=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=ZQh8aRsLTZ/HYz2VBgn6xeYDbBaWGyxFZ+DW2pnNvEuJU+xN3NQc2XRrk02KGFRJH
+	 tfX+was6O/v15f66++Jd9mNJsouyAMIfmP6L7W8qMUS5yw9P/A+XUdTDLtRiH2J3mo
+	 R6we3XetfvJ4kAUNJjOc90HYbls0wo8xKgb7ScUc=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55NCvppg3243449
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Mon, 23 Jun 2025 07:57:52 -0500
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 23
+ Jun 2025 07:57:51 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Mon, 23 Jun 2025 07:57:51 -0500
+Received: from localhost (lcpd911.dhcp.ti.com [172.24.227.226])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55NCvoeg4136274;
+	Mon, 23 Jun 2025 07:57:51 -0500
+Date: Mon, 23 Jun 2025 18:27:50 +0530
+From: Dhruva Gole <d-gole@ti.com>
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+CC: Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi
+	<cristian.marussi@arm.com>,
+        <arm-scmi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>,
+        Chuck Cannon
+	<chuck.cannon@nxp.com>, Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH 2/2] firmware: arm_scmi: power_control: Set
+ SCMI_SYSPOWER_IDLE in pm resume
+Message-ID: <20250623125750.kzwndmcf5yo3siao@lcpd911>
+References: <20250620-scmi-pm-v1-0-c2f02cae5122@nxp.com>
+ <20250620-scmi-pm-v1-2-c2f02cae5122@nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 0/2] firmware: Add MediaTek TinySYS SCMI Protocol
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- matthias.bgg@gmail.com, sudeep.holla@arm.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, arm-scmi@vger.kernel.org,
- kernel@collabora.com
-References: <20250623120136.109311-1-angelogioacchino.delregno@collabora.com>
- <aFlFw-AjqxXcIuBO@pluto>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <aFlFw-AjqxXcIuBO@pluto>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250620-scmi-pm-v1-2-c2f02cae5122@nxp.com>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Il 23/06/25 14:17, Cristian Marussi ha scritto:
-> On Mon, Jun 23, 2025 at 02:01:34PM +0200, AngeloGioacchino Del Regno wrote:
->> This series adds basic support for the MediaTek TinySYS SCMI Protocol,
->> found on the MediaTek Dimensity 9200, 9300 and 9400, other than on the
->> MT8196 Chromebook SoC.
->>
->> This is used to communicate with the CM_MGR and other MCUs for power
->> management purposes.
+On Jun 20, 2025 at 11:37:14 +0800, Peng Fan (OSS) wrote:
+> From: Peng Fan <peng.fan@nxp.com>
 > 
-> Hi Angelo,
+> When two consecutive suspend message send to the Linux agent, Linux will
+> suspend and wake up. The exepcted behaviour should be suspend, wake up
+
+I am first trying to gather more context of the issue at hand here,
+Why and who is sending 2 consecutive suspend messages to Linux?
+
+Just quoting the cover letter:
+
+> When testing on i.MX95, two consecutive suspend message send to the Linux
+> agent, Linux will suspend(by the 1st suspend message) and wake up(by the
+> 2nd suspend message).
 > 
-> thanks for this.
+> The ARM SCMI spec does not allow for filtering of which messages an agent
+> wants to get on the system power protocol. To i.MX95, as we use mailbox
+> to receive message, and the mailbox supports wake up, so linux will also
+> get a repeated suspend message. This will cause Linux to wake (and should
+> then go back into suspend).
+
+When you say mailbox supports wake up you mean the mailbox IP in your
+SoC actually gets some sort of wake interrupt that triggers a wakeup?
+Is this wakeup sent to the SM then to be processed further and trigger a
+linux wakeup?
+
+<or> the mailbox directly wakes up linux, ie. triggers a resume flow but
+then you are saying it was an unintentional wakeup so you want to
+suspend linux again? This just seems like the wakeup routing is
+incorrect and the system is going through a who resume and then suspend
+cycle without a good reason?
+
+Why and when in this flow is linux ending up with a duplicate suspend message is
+something I still don't follow.
+
+Could you point us to any flow diagrams or software sequences that we
+could review?
+
+> and suspend again.
 > 
-> I will do a proper review in the coming days of this series anyway, but
-> upfront for future V2:
+> The ARM SCMI spec does not allow for filtering of which messages an agent
+> wants to get on the system power protocol. To i.MX95, as we use mailbox
+> to receive message, and the mailbox supports wake up, so linux will also
+> get a repeated suspend message. This will cause Linux to wake (and should
+> then go back into suspend).
 > 
-> - you should provide some sort of documentation for this new
->    vendor protocol and its messages, as an example from IMX:
+> In current driver, the state is set back to SCMI_SYSPOWER_IDLE after
+> pm_suspend finish, however the workqueue could be scheduled after
+> thaw_kernel_threads. So the 2nd suspend will return early with
+> "Transition already in progress...ignore", and leave Linux in wakeup
+> state.
 > 
-> 	drivers/firmware/arm_scmi/vendors/imx/imx95.rst
-
-Noted.
-
+> So set SCMI_SYSPOWER_IDLE in device resume phase before workqueue
+> is scheduled to make the 2nd suspend message could suspend Linux again.
 > 
-> - where is the SCMI driver that will call all the new vendor ops
->    defined in: scmi_mtk_protocol.h ?
-
-This was tested with code that is not clean at all (hence I can't push it upstream)
-and well... I didn't think about the fact that, effectively, without an user, this
-code ends up being unused.
-
-I can't promise to send a clean user in this cycle, but I would really appreciate
-if you could still check the protocol code, so that if there's anything that you
-can spot I can fix it while the rest gets done :-)
-
-Thank you,
-Angelo
-
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
+>  drivers/firmware/arm_scmi/scmi_power_control.c | 24 +++++++++++++++++++-----
+>  1 file changed, 19 insertions(+), 5 deletions(-)
 > 
-> Thanks,
-> Cristian
+[...]
 
-
+-- 
+Best regards,
+Dhruva Gole
+Texas Instruments Incorporated
