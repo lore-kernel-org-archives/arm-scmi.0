@@ -1,109 +1,88 @@
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00771167DB7;
-	Sun, 22 Jun 2025 23:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B0D24A07F;
+	Mon, 23 Jun 2025 12:01:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750635733; cv=none; b=O7nzcT+szPykG88NtmP9UqV/venXuP+yKj0lzQAAIz9fP7L7+/FG6GGLIcYTTtl9M0NJGQjtLpxO6rIc7Vq6Dx1HgszyV1gKuCJrOMiWBbdFGLbhWDlLoqe+dMFfE7cPPFP+WQS77RWzfggbdrCEVgFnz94eywa+jPEooxY9uhE=
+	t=1750680104; cv=none; b=oAYv6YiJDkF8vAmzeamndw2rKg4lOk+60Q6SfC5mYV3npNRGF2qnsSrGTif8nb0W36am/BqjiZ1HxrtLVxhEkVl2N5eWOyisBYZiGziP1cqU0Z21f2OUd+Xj22K6Bm2Js3o9owHlVS6fl+eWLH1lWk5xMepsZjZ12iIUvbP9TiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750635733; c=relaxed/simple;
-	bh=xu5TIHGybIPfNvLwyvfLcbEZ6GtCVWyyWGe0mtahQNc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hL6g0Qz1eTfoPT8VaxaIiiEftl9TTkP2xLnSlFJkqdliRVpijgGDqs0M+F/7/OgG9NyWojh3QNhya5/bo4J2V4L0ZrG+KGEVwehvdVNqiU4/xljkQM4CHN6ZZPjS8vQJPrPBnRa7zhW0xVuDX5EJILTyuuYwBWizTdXgcMt3UoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TyDOcPcd; arc=none smtp.client-ip=209.85.160.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750680104; c=relaxed/simple;
+	bh=TuuRJJOjVAMtrQ8x6GoCVUnFQqeVYjXrluDun4jAFyo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kXdF4IolMYyfRHID9YMnsB9NN0O6HAKhhpg093000kTia/EW9h6hVkIvq/zcH6tiZGDcqnkPoymeGdkd8hNSNT+94A8JGaxdb7kcQBlDC54yDckxhAlAZHVxv7DzpMTcvGS62jOFGeTz7TyjNytxXTuUbLsgWLFUh0P2PKQML0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=M8sQQpH0; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TyDOcPcd"
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-2eb6c422828so2123061fac.1;
-        Sun, 22 Jun 2025 16:42:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750635731; x=1751240531; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X02XUS5FnsxUiuzmvCAP6QQynrT5d6AhXsvxvVft44c=;
-        b=TyDOcPcdgIE4VrFzK4t12N9f9dC5czMRgaqEWG2vdFWKvfTAoHMZxLcQVABzOgCumn
-         X3KVo4zQqGlp3c4ftN1R6/RKB7EGSZao+nqri3mjhQjlojQkJ6+hrfhEDx1IrXdYrLH6
-         DRKB/bpNE86Fb/aaOp54MSr45HoN4W7MowP3cM0IBUfskxp3IVOAMl3KLX9bPK+UvMV9
-         rhSo4pRkIiVNpnEtRkpOhQSjIzI9YPJ6BNvxej4tUSnUnuCpaXU/parlYodFgYTyPK1e
-         wKXywQrFym6dappxA+3xtMXNpmgrTegLjQCwm+euASF3XOf/yGqduAuAaUKzLyDzxNM6
-         7WCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750635731; x=1751240531;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=X02XUS5FnsxUiuzmvCAP6QQynrT5d6AhXsvxvVft44c=;
-        b=c2WkT9GIEKl53rBQF88UwqMJjqx4+7Zpb8PGTK6bA/pqSSJm9sJEEZD1ohLgQD9O4V
-         lPZ5JYDIdArcsdxpajbBnCrDUSr20p/ZIVaqaYIdYaSm6NNLrcJSOCdq7c+hsRGoS9zI
-         wCeJ1a85pgirxjizfN+nCZMWAQbPkMODwraSYV+NNbIWBbN6daCPE+yrkVjXEHDeH4TY
-         FP3hpUVTEzEFocA80QSYCE4xbYrdNePJnRTIFY7Rho7YUhnviXuX/q4lI0O4pVGbkReJ
-         FGMjQOgckRvdtyDKc1oCQqlfOT4EMkRbuRUpmwIhVF0PKRGcptidpIx/qwiVskrO+4wo
-         uJ4g==
-X-Forwarded-Encrypted: i=1; AJvYcCWQeI4dNrCse/CjvkuuJWFJecZW/PM1ZcJIXwz5Am2jN/siU0RriM9Ctp7gUG8a99L6lsw54tUr0r6rCbi1@vger.kernel.org, AJvYcCXcxZejUoSIkZ8keH54yq/qaZRgVB85/RHAqlhXHAsdHji/uOP+pzZP4R4GYynImT23zHi+zY+vlA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEim7HTGz3ZWhm5P3tOZ1G77ZfwbcmxB4V9JDNAYDWQnpm0h0M
-	LAsXD0i1CUbN9Nc+1jcCMqiDoyYSNIh/YFMKiGLgX/eVz1W2ENCJbjyu4WPPV0z8BJWUqn3cQN+
-	GJF0SK9oSgtKPXoaqlXqbyfPToioIrbU=
-X-Gm-Gg: ASbGnctOk9CozLye4/IixE/KY1+H6NkiiaQb95CCyByNDTYkY3MqkUtX4bU+Jo0sDym
-	9MNgj3HmAc6JtDaeUpR34s6isKXiGaGX2O8Oqp2uRrm4Th8fnjbX0sMu5MTz/gT7wRzw+sXhWzE
-	iC523CNlFl2qn1niAnBgV+iDC0LHCZuJ/ZQ5WMAEDaowTb
-X-Google-Smtp-Source: AGHT+IFiMcGR2ysePMIV8Y5lW6ZrANq6bvDnxE1/zoKJXL4wWWd25sjw7GvrVPtZMFV78GwzvcJfprs6bZqwWA7WIxA=
-X-Received: by 2002:a05:6871:2108:b0:2d5:97d0:c03c with SMTP id
- 586e51a60fabf-2ef2aab2ca4mr7071617fac.18.1750635730847; Sun, 22 Jun 2025
- 16:42:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="M8sQQpH0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1750680101;
+	bh=TuuRJJOjVAMtrQ8x6GoCVUnFQqeVYjXrluDun4jAFyo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=M8sQQpH0vNNWDlN39Wt4Sw+b1spNqYJhM6c42ylTEvRGKUXN23xyGauMzzNBFyvwg
+	 /2WMZLRElF1ByNPuunVK0YP55eDxJs/5Oq5ibRqtFid1jPsf/9DwmQl8ZDiUGmgiyQ
+	 3Du31xQumhSsRti7HzptTUCoMGFmhFL1RQpl8QKGbNje+TsqlceQnTlwXoaYLdaMDo
+	 MwqkRlNNoUUtIkzI4LCP24xINhUoT5gL3/uM7psNXQLscOeBblJRsMlhJ6dsrU1bYq
+	 OLWorQdGCMH4CrkKJEnGIkot6/B2KmX2lzgAuV/EqX7gLQx8nIjsfNoAe7O1B3vEs5
+	 SGCNbSnKWNW3Q==
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 71B1517E090E;
+	Mon, 23 Jun 2025 14:01:40 +0200 (CEST)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: robh@kernel.org
+Cc: krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	sudeep.holla@arm.com,
+	cristian.marussi@arm.com,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	arm-scmi@vger.kernel.org,
+	kernel@collabora.com
+Subject: [PATCH v1 0/2] firmware: Add MediaTek TinySYS SCMI Protocol
+Date: Mon, 23 Jun 2025 14:01:34 +0200
+Message-ID: <20250623120136.109311-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250606-mbox-drop-reacquire-lock-v1-1-d36d1a13d83f@linaro.org>
-In-Reply-To: <20250606-mbox-drop-reacquire-lock-v1-1-d36d1a13d83f@linaro.org>
-From: Jassi Brar <jassisinghbrar@gmail.com>
-Date: Sun, 22 Jun 2025 18:41:59 -0500
-X-Gm-Features: Ac12FXyYldMHAZzPimUiIoS4Skvo9wHzp8jNLBh5ctWPaYdaDoFaftPVoeq4ze0
-Message-ID: <CABb+yY2HYgS25xouVJpq+Aia1M=b1_ocbHiyrnVqZcf0c0xcGg@mail.gmail.com>
-Subject: Re: [PATCH] mailbox: stop the release and reacquire of the chan lock
-To: Tudor Ambarus <tudor.ambarus@linaro.org>
-Cc: peter.griffin@linaro.org, andre.draszik@linaro.org, 
-	willmcvicker@google.com, cristian.marussi@arm.com, sudeep.holla@arm.com, 
-	kernel-team@android.com, arm-scmi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 6, 2025 at 8:41=E2=80=AFAM Tudor Ambarus <tudor.ambarus@linaro.=
-org> wrote:
->
-> There are two cases where the chan lock is released and reacquired
-> were it shouldn't really be:
->
-> 1/ released at the end of add_to_rbuf() and reacquired at the beginning
-> of msg_submit(). After the lock is released at the end of add_to_rbuf(),
-> if the mailbox core is under heavy load, the mailbox software queue may
-> fill up without any of the threads getting the chance to drain the
-> software queue.
->         T#0 acquires chan lock, fills rbuf, releases the lock, then
->         T#1 acquires chan lock, fills rbuf, releases the lock, then
->         ...
->         T#MBOX_TX_QUEUE_LEN returns -ENOBUFS;
-> We shall drain the software queue as fast as we can, while still holding
-> the channel lock.
->
-I don't see any issue to fix to begin with.
-T#0 does drain the queue by moving on to submit the message after
-adding it to the rbuf.
-And until the tx is done, T#1 would still be only adding to the rbuf
-because of chan->active_req.
+This series adds basic support for the MediaTek TinySYS SCMI Protocol,
+found on the MediaTek Dimensity 9200, 9300 and 9400, other than on the
+MT8196 Chromebook SoC.
 
-> 2/ tx_tick() releases the lock after setting chan->active_req =3D NULL.
-> This gives again the possibility for the software queue to fill up, as
-> described in case 1/.
->
-This again is not an issue. The user(s) should account for the fact
-that the message bus
- may be busy and there can be only limited buffers in the queue.
+This is used to communicate with the CM_MGR and other MCUs for power
+management purposes.
 
-Thanks
+AngeloGioacchino Del Regno (2):
+  dt-bindings: firmware: Add MediaTek TinySYS SCMI Extension protocol
+  firmware: arm_scmi: Add MediaTek TinySYS SCMI Protocol support
+
+ .../firmware/mediatek,mt6895-scmi.yaml        |  22 ++
+ drivers/firmware/arm_scmi/Kconfig             |   1 +
+ drivers/firmware/arm_scmi/Makefile            |   1 +
+ .../arm_scmi/vendors/mediatek/Kconfig         |  16 +
+ .../arm_scmi/vendors/mediatek/Makefile        |   2 +
+ .../arm_scmi/vendors/mediatek/mtk-tinysys.c   | 344 ++++++++++++++++++
+ include/linux/scmi_mtk_protocol.h             |  62 ++++
+ 7 files changed, 448 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/firmware/mediatek,mt6895-scmi.yaml
+ create mode 100644 drivers/firmware/arm_scmi/vendors/mediatek/Kconfig
+ create mode 100644 drivers/firmware/arm_scmi/vendors/mediatek/Makefile
+ create mode 100644 drivers/firmware/arm_scmi/vendors/mediatek/mtk-tinysys.c
+ create mode 100644 include/linux/scmi_mtk_protocol.h
+
+-- 
+2.49.0
+
