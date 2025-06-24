@@ -1,67 +1,67 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013044.outbound.protection.outlook.com [40.107.162.44])
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010070.outbound.protection.outlook.com [52.101.69.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4EA99444;
-	Tue, 24 Jun 2025 02:03:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356AB23774;
+	Tue, 24 Jun 2025 03:12:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.70
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750730609; cv=fail; b=BoF70koHYVnu6Tq7XpYljeYq0EhZ1TX5jLVLgm2NICsyexhkzn9Ybsjx86iI/O+Q9gfJm2oySa6FgKEsbZjQ0Awv/zyfNc2EDNGUN0cjWgOX7x1cRZRKTBMEZTH1hs4xZcZc5FAIzkud0gnRPik3U37dUerY6xytsDmFXgHH02w=
+	t=1750734729; cv=fail; b=OnZwEfea7WZ0y0UmOSnkhjKH2XQ7YmHupL1w7EBd/y9fT66HXIHoss79EnQWGWzfZ/+aM7w05LN0SKfne6R22FLVLgyXIHYl0VnLAnlG96adPYIkvxvX9go7+LBcDxfg+lR8vr+CNMBosBA6bq/Glq96NOSBvGfOnGzIhnhfM+Q=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750730609; c=relaxed/simple;
-	bh=0FsueVmC7dm2N395DK9c/m+Z8eHjBdX+q+YdJm2sPQg=;
+	s=arc-20240116; t=1750734729; c=relaxed/simple;
+	bh=nq+swU0ey/IPLcxKJ0YNgcnOxs2y+plp20/cN3ZBP7k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=bax1/Y4Ayr+ECj1R5+nJ0kTb4bX1NoMJ0j8V7VQJDo/Ns8FVCUm5vsj+jS9em1BKrXMxZ81haeUS7aP0P735wLPIi3/lS0nPuB2XbYu4Vs4qGuesrsVn/6rGbqOI/fgsQ4w9XbfHjc7PZhSWopwhfWM8ESzc8KOCUHF8pedUX28=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=THEEGh7X; arc=fail smtp.client-ip=40.107.162.44
+	 Content-Disposition:In-Reply-To:MIME-Version; b=gZI2ejRyW39Ve80R7HVREaISII7OVPJqF/pCLrYICdF4qqxTMDwX7qCbkEVNw6YsDNOc2HLdMyZYJKiDivjYAeTU5VJ3Wut7gL5J/25orLbo//Nxlw6xFi7vCPOABORY2lrWmcmoWqqaHmqRYW7ND/D3Q7SFTr3P3xuVdMXwmqk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=FT5ZwTBF; arc=fail smtp.client-ip=52.101.69.70
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="THEEGh7X"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="FT5ZwTBF"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=McbIorFcW5iQr/glPVn8+74SUxGt4ibxA/VHI0Xl/TCWfsd6QnYt1ftv6FEN9qmX4t9RrYxMaKr4cY8jRa37sZ+d3AnyUh2QEQIFxzNMAv+0kLlDQiXDlU79LPLuNM1pEqUWwx1762d2zA0DSmzOpLEQZYCTmckyoHhCzzplEt18s+oKLzlrAjSGkbd2zO30fzA0EHv6J1FMuiK7l0yBB5cd+9QDIkgfyECh3K87hNTjEpkTUhCssx14bgSWNUojEfPfoCh9renov0yW1OjcPqIsYeSSBHYOBJIVStn9GR9VXX/Ghj+QrSmkk6Zk8qLOGsNTd4B5l/m5qINeLUpUHQ==
+ b=q/D+ZRjt810tkQmTO8S+5JpnVyb4zHMQB/evBZ9SPqWS5FI9UlNfYGe9rUl4AVnV0QTP17oiRHvt2zkhEz5JzYmZnwngSq7mgMQ811tzG80BO1y9cW/jXM59Az2PUQTsvK69g6ZDrAVuxguQpQHFN/T/Sdja8siM0oTVIfZOj6OTBLXlvp0JaMUTcsHltBesvzapomWHgticnNFTtF+FVXEKeuqMfO4ETDpiqb3WpymD3yF3VCKPAhzZyfYsvG3/WQASJx9zhfaYaN057RQh0Pn160q+ay6WqTV/GXe499P4y9B5eWX8cymzQRlk33AHvW2JDgMIj3tZ6LP6//cbXA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HUSqS/ozSQiA5pIwF6lY3g9ZUSGabaHGtU6rgAk+mtU=;
- b=N7u5g5R3wIqKCiS1wrVv0I7kawUfoZlirwL/wEgstHUhYD+G2BJzm9PByHRu4H8PHAwDBjn0098Iino+2Xhz/TruhreDTPZ5Y70GpqwExH6A6vMqw4SyPttei1PoSuc6yLDzwBzaibT6/husnUray5z7O8+HTdGe1j70rEH2ltMo5bfpBXn2xss04l/p5D49tTqrQKsi7iHZkb0g9qXCHA6tsbsIcPcUwohQdQXkaS+/fChqP8mcOjziVmZqEUiCC4ooswNhegz01BVbYwDGahXmLKcEbH5olpy0P57Gaibu9hF6p/Kg1k8PyjciEzxwTProOpKW+8aMyBEOTIc0mw==
+ bh=bYgGZ/yoqpzj1zkj1Q7JqkT9MdZNi8z//4Dchdin0Nw=;
+ b=nykQnstEMbWDn5MWNofEz9P7omkE+0wZecvD7z2/uzxOW8ZMLnHxEl5VT4kAGuJDW/ncGvgw/kyXtu5PS1f9xXolmFnqMuGBz53wU5+Xa26lmsuSn+9Kaicg76zzobIZDuHxvZtuTRkfbjqfAvz7+IQ83eU+kRpg81fsLbdcQo4AEeigKk28xcGiRaGwH+nG2mrOu3xyuQ74X8aFX5XoSQlVa630bFX4ILGmZK2hxCu7LX3eWrgfJaiTl4BMM/0KXxCwwAyC8NJERP85Wnt2jL+fWE6YexAnI3YHTsFCeyP2rDOxPgzLkh1/zNuds0Ny633ZvS0SXe5wKXv4WYosdA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HUSqS/ozSQiA5pIwF6lY3g9ZUSGabaHGtU6rgAk+mtU=;
- b=THEEGh7Xs1cXm1Hdu2rdB/9jSZd6rc0AJwyQOA5yKeQ9OW40LvLL6zyFPc4bM4W9BE9+kJ+NWQVsTCzElJs8Kv2IpRHtyXBs2Fh01XQN7ZJPoKzD0cK5cC/DWZs8wKC8eENU4/dyWj90FXSWKqGlBe3j9L193+fY9Qsqfsgu0DZMWicfFLrMd6d2TrZhQYGu1l41mKg5iXSUDWYq8w2w2iWzdAxk/g9pK4XeBnd5TQ5gqk4kSJ++nnEPSlX8/09pG4Xs1B/g+ml5o7JYHTuG3EcVT+mlkFk0/Qd6HmLm21jP8qtVeOKQFKVNWrp706B+0M5/+f8xIv+nn6mipFsvRg==
+ bh=bYgGZ/yoqpzj1zkj1Q7JqkT9MdZNi8z//4Dchdin0Nw=;
+ b=FT5ZwTBFRJpNpfuJrvDpmlYKG1l//89k2DNXbuWjRI+lBMahNZau6q+OD16hfJ10Ax08pOBGLi7MWbZKW8yf2gdpHOMDWM0ZOUm0WlkqJ8bHCJMbiAUh4KNd2nAHICoc9DyqHT9uH1VTjDkkMTAcoyfM0uJu4pi4HrFL/O5Ta/F2joDBfFikoc0XBo9KIVYNBylaGnbdrqMidn2AyMmIP42iixCL6DJtfU1/ych+C3fazGC+M3bhfRwxhyUE3KypDQ/xNHMTtY7nCz/hILeW2kwF+3NaaYvEzJ5M5igg0sXaRYrMQJ4oMvyBI/iz7vh7XkoJF9geD7Xz0CgMHJVlJQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
- by VI0PR04MB10173.eurprd04.prod.outlook.com (2603:10a6:800:245::10) with
+ by PR3PR04MB7467.eurprd04.prod.outlook.com (2603:10a6:102:80::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.27; Tue, 24 Jun
- 2025 02:03:23 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.30; Tue, 24 Jun
+ 2025 03:12:03 +0000
 Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
  ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
  ([fe80::165a:30a2:5835:9630%3]) with mapi id 15.20.8857.026; Tue, 24 Jun 2025
- 02:03:23 +0000
-Date: Tue, 24 Jun 2025 11:13:51 +0800
+ 03:12:03 +0000
+Date: Tue, 24 Jun 2025 12:22:32 +0800
 From: Peng Fan <peng.fan@oss.nxp.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, etienne.carriere@st.com,
-	michal.simek@amd.com, quic_sibis@quicinc.com,
-	dan.carpenter@linaro.org, d-gole@ti.com, souvik.chakravarty@arm.com
-Subject: Re: [RFC PATCH 1/7] firmware: arm_scmi: Define a common
- SCMI_MAX_PROTOCOLS value
-Message-ID: <20250624031351.GC10415@nxa18884-linux>
-References: <20250620192813.2463367-1-cristian.marussi@arm.com>
- <20250620192813.2463367-2-cristian.marussi@arm.com>
+To: Philip Radford <Philip.Radford@arm.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	Sudeep Holla <Sudeep.Holla@arm.com>,
+	Cristian Marussi <Cristian.Marussi@arm.com>,
+	Luke Parkin <Luke.Parkin@arm.com>
+Subject: Re: [PATCH 0/4] firmware: arm_scmi: Add xfer inflight debug and trace
+Message-ID: <20250624042232.GD10415@nxa18884-linux>
+References: <20250619122004.3705976-1-philip.radford@arm.com>
+ <20250620084634.GB27519@nxa18884-linux>
+ <PAWPR08MB9966E79130C52CA8460AC4B7897CA@PAWPR08MB9966.eurprd08.prod.outlook.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250620192813.2463367-2-cristian.marussi@arm.com>
+In-Reply-To: <PAWPR08MB9966E79130C52CA8460AC4B7897CA@PAWPR08MB9966.eurprd08.prod.outlook.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: SI1PR02CA0016.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::17) To PAXPR04MB8459.eurprd04.prod.outlook.com
+X-ClientProxiedBy: SG2PR02CA0070.apcprd02.prod.outlook.com
+ (2603:1096:4:54::34) To PAXPR04MB8459.eurprd04.prod.outlook.com
  (2603:10a6:102:1da::15)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -71,140 +71,133 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|VI0PR04MB10173:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3218b75c-0999-4fd9-10ad-08ddb2c34c90
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|PR3PR04MB7467:EE_
+X-MS-Office365-Filtering-Correlation-Id: f213cd1b-92ef-4a45-34c3-08ddb2cce410
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|1800799024|7416014|376014|366016|7053199007|38350700014;
+	BCL:0;ARA:13230040|366016|376014|52116014|1800799024|7053199007|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?O4czjrV01sf70n6w7WVcpUcYxlNDCo6vbP0nEvGODSOa29P7673Vp4lVPLM4?=
- =?us-ascii?Q?gyzmkHb2qdGGbmgyI6iI7uBLLBFoujOXPM8lLq2QeQG/8u36zbJKaTtE7BIr?=
- =?us-ascii?Q?5JIhsiv4kGQZ6bsJoPAQQuUGDKZzqlHY+UQLIzVu70mBgD3x220Wlgs5dMUD?=
- =?us-ascii?Q?6pAsXNUGcUFL2YKNGj1SM2Cm3SoEVlkjNtL5kMMItI4/wvi0hq0mRBYWjP5v?=
- =?us-ascii?Q?S/3VK2AoYWC1a+Axrj7NeDgbKdry+Xft80fqoiRMB2HBNP7PvvqyvYqZgbZR?=
- =?us-ascii?Q?rKDuFkdilmBs5dqNA9DAZFh8aVrpzXl+pra+LF5md4BF1ueDNd6gM7cagNjC?=
- =?us-ascii?Q?TQamXtd5s0veLTItQoWUEh6BoVNmz+Ifaqsar94F7vQr2kLiv0XAbqkJ0ToM?=
- =?us-ascii?Q?U+jt57VEtXlce+n3O5QyF39l0Q9VKM+Yy9n/iX9MY5Kh6LQ+lkJ0frTovDPW?=
- =?us-ascii?Q?PQG2nnEkWOIPF7QSP2rHu90631DCUcl+NaHoPN4ScHfR1teVzJxs68wpdGqh?=
- =?us-ascii?Q?+Ruv35Q34DfcFFDmsjuUeT4iFLs7BGe2FPOB0M6It2IEIHd8HOEoo6xK5KAb?=
- =?us-ascii?Q?uW3jMkzJcA7lxVD+aSIzlBRjUS3l4KfPfV009bOnpsDVfzL5dPstfvdjGKOU?=
- =?us-ascii?Q?HdxXMeSYVy7e1Azzu6kZQCpFORQyhCi0tl8+njiNH6iKkcKHWP917CQ1c3G6?=
- =?us-ascii?Q?IussESOd/2lIGviINto/Eo5DtI4Ix8gVuw4eHgw7EktwGaeNgHkGHkK6sV28?=
- =?us-ascii?Q?1aUZwiSqNp5J4BtnQcU26iRuo8LQfal4CNAXeBEnBeA4svobeR1XUfeIDhZN?=
- =?us-ascii?Q?AWq/Ymqc+RBoqgoTLAL28xAhtmB+97FQheZ2SX7zsjxW516o4K0aHg9Deh2X?=
- =?us-ascii?Q?oYvdTUKjdpGNoeFkiBUsJ8PosDWRAoiqJ8t+uynxTUjL3h3PCfXasUOR8oVj?=
- =?us-ascii?Q?1hzppP+tzuYKRpN8TZiURovd4xyzjEQbfoWmqZHO0yFWVkSq/+cv4D4I6noQ?=
- =?us-ascii?Q?lE3LGzJVYz2FaEzYxu64dHweiyP4mOzTg2ijqeYLHy4H1FNtjprZanE3PBrf?=
- =?us-ascii?Q?PYV53/7A9uQB+FEhgrmDjY4fki4c01Ih6ox7iXyWNwXCZPGE13piKiskE12H?=
- =?us-ascii?Q?3yeVPgZ/EoblE3o35lXSbqBF77JoN/Y0kacGp40KSKIK9dhdGH7d8/Zaum1t?=
- =?us-ascii?Q?XbO1btTtsX9pS0dCycdLs/yQ1pE0ON+t2pGTqdzVM/zpJKfcsOduTHF3rqZf?=
- =?us-ascii?Q?rp09mvhiPKnMQpAEom9oyEfVnigBT4zb6HvbbMsgMUe8rYP22t09zvT0/No/?=
- =?us-ascii?Q?T/sRrZmTqHCZImhIW1Si9H7ImXt0ylW2yOMapcn/3OMf/GIp7/iiMiV964DO?=
- =?us-ascii?Q?eMAgV/FtLKJnB2VOcL7by48arnpp3MSVFyiIxCZOKWXhHJoi8/W83upQudMD?=
- =?us-ascii?Q?yT62d0KeH+e3yvhjTZQiIOvNnAFLvsgmfFMKn44HoMcFGmtdqTXPCg=3D=3D?=
+	=?us-ascii?Q?zgh8feH6OXf6E/6OD1dp45BHQqh4WIU7EONmtw6KTMW1o+bUq505UE6ch0U3?=
+ =?us-ascii?Q?rHo148mPKZCJaB+2laHHfwRFOkBOIn6XxiPg3HL1iwLhCpTTKDh8l/8cq9zc?=
+ =?us-ascii?Q?5+3RxrqcwbDY3/d0eM/ovb+HR4/E3e23HW1JRFkyh0R1ljlaGqtS24mjrcXB?=
+ =?us-ascii?Q?zCE8TA3tI8pR8KO/q97qID+a2jB3qZc5Ggr9xYcS4tD/e1zWQTazByCGyqyc?=
+ =?us-ascii?Q?22FHfU1ctNjO2mYtb/8aQS8NWf8cPErq7RiGwjGkTCi6c5YXvBR9afnfCyFj?=
+ =?us-ascii?Q?SLFbw0Sy2rq9LlXv4PXc4vwRqTENBYdcNxlQwi96gjJb0GmlTYiL6lwhZ+H2?=
+ =?us-ascii?Q?BbiKzqI9mSCaxxGyRrX2Kaht+SnxhC/QM3P4YeUn1P777f7ovOyS0rg0sUjy?=
+ =?us-ascii?Q?c8MQ6+DPo7+8XGlLP7D1n7KQgRYFcLlcPqkN3QHseadClD/IkkgNsHFyhqyV?=
+ =?us-ascii?Q?HQJ90QDcER75FP0/fFoQnmgyYnuRvv1uVOPJNgMlsnRJ2Qgp7KKoLQsi7XhR?=
+ =?us-ascii?Q?PI33lfGqZAUJtiBu6r1e1rgvZqZopi6FyEuQNooPxEZWwsYPwCoj1StwFJqB?=
+ =?us-ascii?Q?2PfCxvn5oikjZoSudFdNHyMZgVw9W3YnE3VKCqjiHuGz2zGb8+w8L/cDX7RK?=
+ =?us-ascii?Q?kg+Ukzv0f81rn14xddU87Ss3SFAiDcXEVv7udxnJfliauoxrYVs0CwEIlEoU?=
+ =?us-ascii?Q?gJeyYFc9+NPx3mjmhmwuhT9kbYx+doSECeFw1x6qrgCBP03+WaLUAOtlsCWG?=
+ =?us-ascii?Q?bYZXL8Eup66P0JkeyV/uE0aWa8NhqSQ5l6BNgioiyaJfYqrzQOezNAFLfag+?=
+ =?us-ascii?Q?YFY9bWN5oM3oRAvKNIptJX0vdRiBuvL+vFw5QyTCn8wCgA+mmQHw5BTGJNZY?=
+ =?us-ascii?Q?pKQbONROa33RDzCkJvIja/T/L9cK0NN24K7GVvADhfYrlNsXnWgbicc4nbid?=
+ =?us-ascii?Q?jViysBkvt6y15n22jk2BcARhojrxmvsEHdbAjMB41dNytDhxx9vZSR+WGx25?=
+ =?us-ascii?Q?ykMmSJgN9SxlrFg4sTkfFjb3ZaKRmgef2hXccdlwDMfsSo5f/olN4RqCnSA4?=
+ =?us-ascii?Q?nJarO0jvq0LVHWJ052wbZX9AifKxSsFsyvoQxgYm1R9VvLV6YYA15LKsa099?=
+ =?us-ascii?Q?49Qe/B8KZprNyeODmu2HSB6cvy8p2RSz3hVEfSMZmkH1/hNaVWA/L6wfEwkB?=
+ =?us-ascii?Q?R/pGBHP3Pi9GRdL4r4/Lv429DXRTo6+XUAcngbiRPlJqyrrvCpb0VevDDNhc?=
+ =?us-ascii?Q?oVqGpnjeKrViIoPTVPDl7YStiEQ7rygP2Q0Ycd333oW5d8HngtT3PCsMWl41?=
+ =?us-ascii?Q?OZoHHxkTZ0/0W0HvNK5Dpo1BhB06rxWaM8WwvuCjFaVf0r+i81I1H/+1jrOz?=
+ =?us-ascii?Q?KprRPXMHH7i8DF2VOKxyT5BV8KgWqCHCSf7lYy9IxvaolP7+fyi7TxweLcje?=
+ =?us-ascii?Q?chN3FdCHtQVimk52WnQPB2yDb1Zdc6x1lvi8UmnX/2ijegETQ/c+VA=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(1800799024)(7416014)(376014)(366016)(7053199007)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(7053199007)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?XAEr7Sk7WNh5cBnX6SKFInkZlhQ+DLNx8H0QJZ26grE2bhfXbG2aIoXi+Szc?=
- =?us-ascii?Q?TC25oT9SxYm5cInwpsDZG8W9gWDOuwRDZuZbhsx/NcY5yOP8A0nAEO1wrD8L?=
- =?us-ascii?Q?kBowt3MC3EmW71uLvQ19h75suRJwH5rzRf9hhTG8357UETY32gbzGuE5Y85g?=
- =?us-ascii?Q?6OlaRZAgFHEVCSvwpdkgKYnVyRh+JvdsMyksFbJP0Flg6nc12FGhexlxbc//?=
- =?us-ascii?Q?VbSoHKrC7X2myt13XilS8qKob516oda84ti97A7PXUYChoCuSIQfWmsqK5o4?=
- =?us-ascii?Q?Vz+tEpGu+AhvT2p8o1YtHvwC5ysEDjpaae81vrOg15O0fzOlEEvXKSG60BWi?=
- =?us-ascii?Q?W13dc4i5Dn90SaGc6RUkmzNw/wvG7X4MQHgNmnfIIJX0EPPN9j9hdt3T61mn?=
- =?us-ascii?Q?3FPz/oM2hudwArEbA6/rrq08wbT7M4s3x3wuxzIcySguSGI7pYVyxYdWZ6U8?=
- =?us-ascii?Q?qs1/VdNOgm6RGpyJPJhqulWshKaMvwY5WIKtTqpOlf4DzBScovsaPOWuwc8R?=
- =?us-ascii?Q?I/Dcz1DU/h3NgDBrycEA15FkOpz/VZ4yNEdeY6VgBk1EfgiyK8YoqGX8hye2?=
- =?us-ascii?Q?rqPtXimqeu194WvYC1Mor1a7ULCwGZpVndjnobsuWY6mqzJgYUaj09h//LHd?=
- =?us-ascii?Q?nTk/NBYbjMao2sUz/6GVEUFDaJgZ30wjeU+8EmxVe10P8AFb7NFW3Crefp8O?=
- =?us-ascii?Q?Ln/Bh2oeUCEo6BqSZAA6I+AYr2VNa2lTy+SyAx+6X0AfoMerXCGHG7O+/S2s?=
- =?us-ascii?Q?0pBMphcQVtLqx0fCZFuvG9L7xVYiFL1jf4W0azl/GjrsuDoL2q8EkmXldyct?=
- =?us-ascii?Q?KJzqjDJBzk0rc37HQ2UOcwmBKrJUb9KwvdiqBvc0Fn6mx2ofr7Q7wIijt30H?=
- =?us-ascii?Q?/nkEuzPD/bNBJazVCaRpgP63okak88ycowMdgpyVUsR4H+i30mcw4R+097aL?=
- =?us-ascii?Q?bf05EV9XGIBjFfPiFcKNTDmdR8y/W44S9NtnkinOJsy16uZzIXn5a58wjUSC?=
- =?us-ascii?Q?iLG9uGJ+NxGzP9uzhmRdQqClWNRPFsSNA5kGAGDy2vYQ509VYmuZ21lV9QXX?=
- =?us-ascii?Q?Y46wXF9TyJuIWfI9CB95Gc97O2/uHYlBjmkrzRPms+QxhmxLb5p30TWIgM1c?=
- =?us-ascii?Q?16OpjWwFo8kAawpvyp/q7I2uMy5TbmHUgLZ16xEFULwnvzs9H98GdbghrGUN?=
- =?us-ascii?Q?zJoMz4JdNA2woKlIT7nhbOWxgx5dAsnxnTdQ480W6vBFZaVHK0Iu+wnYJ3NR?=
- =?us-ascii?Q?bLDUsYVhsrbGjiBI/G2iMJMDnbgbgMPGVNl2zzJa3Na3cyRHsoivkVmPXknV?=
- =?us-ascii?Q?LcicqbmbcU7oxHPG91OJc72WkWhwkfRWrfsoizJVdgrxOcJjEUy7La0L0H3T?=
- =?us-ascii?Q?AVKCqRXQc2ynPby8tOvWl9sTjlqAHaUJJVgnKqr4LgIZZ55AHNpBvPe0tva7?=
- =?us-ascii?Q?o60Ux0g9s1vUA94S0UYSoJ5LJKaPin6y8xU6LumrOQSpjX0GEfJZBP2cpLOI?=
- =?us-ascii?Q?LBhNPfVv7MwvRYCRuJhYflO8KEMNyZOpehOZxhlswsBB892AW3DchFRuVvs/?=
- =?us-ascii?Q?ckDxpNfqZci5eCQB9APd3Ogdm7GQ/LHd1rFhh+ee?=
+	=?us-ascii?Q?qPkd5k4pVHIFzbefkxSakv1PQSp6XotRSNpXORK+h5n6V8RhnXbIePuw8ciq?=
+ =?us-ascii?Q?sSQaaXuiLiMEGrKsd912QWlzWLH6AX7zxUa1OqbZsh/Pl/HvjFTIkGtIMJTQ?=
+ =?us-ascii?Q?Hgt0TlWdwcC2QyP1H1MmQogNWce1ZQRww7pamGhIi+nIZ8OCkaN9TqfSabpc?=
+ =?us-ascii?Q?P+6E1oZEV+z7+S8G7oCX1NGckFjHO4/TQpwke/yCkPW5DSzub7vShNVqw88P?=
+ =?us-ascii?Q?4MExHX6IOcjovyKqregXq6mUe9nYZmKMeVUuQrjRSWgbfAFAGAE5ui8L+WlD?=
+ =?us-ascii?Q?CHSWiRAjVUIqm+FoHY4iN8jLobw+2/eBYjHGWZTIU8f0CZ9c8f8MfdUIS6BK?=
+ =?us-ascii?Q?wGo8yTwBSwie1XbL8Y2PEKJm3QwRSflZxG8h0MEaBUrFmnCIVBPNbqd2LwSU?=
+ =?us-ascii?Q?uKWr36Z5esIEdL8OZYGhNWfxcPdP1mcR/iyM0GjgBuiSOSeHVjDUc7c+Xgbl?=
+ =?us-ascii?Q?w5OboPoVWiszztUv/t1bhLWGzBVAMD7VEuK8MTQKpkfn7HsaBwMeJVkFpD3j?=
+ =?us-ascii?Q?EJq1w1x/966fXrTWuygYAABsUrXb0HapzAW5ypw3vnxynmBu9tp1R1vLX312?=
+ =?us-ascii?Q?xNVV+YdUvNTDLQpXOGdlLnQlVcvg0VY/s+M280c63tagS9SKE+n2RVD+jZzY?=
+ =?us-ascii?Q?QUJDE2Ci281yPQZgFyST3fO98jwk0RXtpcZ7Bs0zdf873YlkV2uxcnKYu+30?=
+ =?us-ascii?Q?pQkVHQo92NwokZD6pS1bemWrPNu2qlAA+5ncntET/3YIx0TYXJSvxDwEhOUc?=
+ =?us-ascii?Q?Ip7J48ujPJymTjxCAd1SKojyekfS0Aidzg8m6oRuLdJTKBQZR9WhccIxIzIu?=
+ =?us-ascii?Q?q0owX0u9w3pkei93NINjBIIwohYQMtDX0XkOhjLdkC41cNfWPt3X07fJvj4U?=
+ =?us-ascii?Q?hO597LKDPT9RJjxLALGxIE2p7HTk9MC+kwtwAU2eLxzvvTrP9VV16HfYuzVD?=
+ =?us-ascii?Q?5M3fEjNB0J7Dx1kHAlAr4FxSI23IzCsNWhYivM544l9Xw9Zntf5ndxF5y2ME?=
+ =?us-ascii?Q?o/OJVEPN/zg8fmuwZNjxjmjmS0+bBpix/KFgo8W9+PteR9QJQjVC/SHE7ejH?=
+ =?us-ascii?Q?YnfzFS2bh31/d00oQh01kPtbFI2YYp82CQ1VuW/lFVi6lu1hX+4pgrfvOuy3?=
+ =?us-ascii?Q?9keLqMhS35a3YJMEohbbn/deoa1kFdTkf3xi346i6+AuI9juX0dzT4ZVoXkt?=
+ =?us-ascii?Q?Bio9v2HWrU4siKol0yqhk4oAC/8kfConL8kfoxcmGjdwZSdBsiVqZwpu0Go5?=
+ =?us-ascii?Q?exNzazoGiTxA04Ge1p+HqXSp5w+yTIEwILoJXnOlqdfqYAJ4TH4/nVN2gMxg?=
+ =?us-ascii?Q?JJveETPZvMOGTEIOm1axmN85zZ9Kn27lT3+y7RaV3sjbewYmM6sYplIsjIzB?=
+ =?us-ascii?Q?5NKQHiZ9XQll3xCdYRbP55qFVrET3ZfqH2tLIAHpRpCdarCIqrmom8TwA9e3?=
+ =?us-ascii?Q?xYAQS84rqeJBMtMyoWGjcoPYekKjx09xW1kHYcypT7QtiDtqw83dU5SpULES?=
+ =?us-ascii?Q?1evrtyJSLGY1Z6HYO6iXyZQqNrhqcTmDLOileXKu19U2eweQowTKUG6breEZ?=
+ =?us-ascii?Q?QEIOCizD7k+KqcQQyboT3qvwNiqQoajM67jt/Sa7?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3218b75c-0999-4fd9-10ad-08ddb2c34c90
+X-MS-Exchange-CrossTenant-Network-Message-Id: f213cd1b-92ef-4a45-34c3-08ddb2cce410
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2025 02:03:23.0508
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2025 03:12:03.3187
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u7uxdvhf3wgT3711hdpM9QbwjObzWuApE7ia7/VrYeJ04LornWcDTRV0FZ8gUyGdaieBrCBnKGKvb6dIwD2YZQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10173
+X-MS-Exchange-CrossTenant-UserPrincipalName: GQF/8LznzbqLvRBybNzxlkLIRdUQM8vOZyR5+KqVv+26MNKgFtsp/F7Vzpav5j6oZd7OWhLdh6L4V8Yc8cfWjg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR04MB7467
 
-On Fri, Jun 20, 2025 at 08:28:07PM +0100, Cristian Marussi wrote:
->Add a common definition of SCMI_MAX_PROTOCOLS and use it all over the
->SCMI stack.
+On Fri, Jun 20, 2025 at 09:27:52AM +0000, Philip Radford wrote:
 >
->Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
->---
-> drivers/firmware/arm_scmi/notify.c | 4 +---
-> include/linux/scmi_protocol.h      | 3 +++
-> 2 files changed, 4 insertions(+), 3 deletions(-)
 >
->diff --git a/drivers/firmware/arm_scmi/notify.c b/drivers/firmware/arm_scmi/notify.c
->index e160ecb22948..27a53a6729dd 100644
->--- a/drivers/firmware/arm_scmi/notify.c
->+++ b/drivers/firmware/arm_scmi/notify.c
->@@ -94,8 +94,6 @@
-> #include "common.h"
-> #include "notify.h"
-> 
->-#define SCMI_MAX_PROTO		256
->-
-> #define PROTO_ID_MASK		GENMASK(31, 24)
-> #define EVT_ID_MASK		GENMASK(23, 16)
-> #define SRC_ID_MASK		GENMASK(15, 0)
->@@ -1652,7 +1650,7 @@ int scmi_notification_init(struct scmi_handle *handle)
-> 	ni->gid = gid;
-> 	ni->handle = handle;
-> 
->-	ni->registered_protocols = devm_kcalloc(handle->dev, SCMI_MAX_PROTO,
->+	ni->registered_protocols = devm_kcalloc(handle->dev, SCMI_MAX_PROTOCOLS,
-> 						sizeof(char *), GFP_KERNEL);
-> 	if (!ni->registered_protocols)
-> 		goto err;
->diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
->index 688466a0e816..6f8d36e1f8fc 100644
->--- a/include/linux/scmi_protocol.h
->+++ b/include/linux/scmi_protocol.h
->@@ -926,8 +926,11 @@ enum scmi_std_protocol {
-> 	SCMI_PROTOCOL_VOLTAGE = 0x17,
-> 	SCMI_PROTOCOL_POWERCAP = 0x18,
-> 	SCMI_PROTOCOL_PINCTRL = 0x19,
->+	SCMI_PROTOCOL_LAST = 0xff,
+>> -----Original Message-----
+>> From: Peng Fan <peng.fan@oss.nxp.com>
+>> Sent: Friday, June 20, 2025 9:47 AM
+>> To: Philip Radford <Philip.Radford@arm.com>
+>
+>Hi,
+>Thanks for the review.
+>
+>> Cc: linux-kernel@vger.kernel.org; linux-arm-kernel@lists.infradead.org; arm-
+>> scmi@vger.kernel.org; Sudeep Holla <Sudeep.Holla@arm.com>; Cristian
+>> Marussi <Cristian.Marussi@arm.com>; Luke Parkin <Luke.Parkin@arm.com>
+>> Subject: Re: [PATCH 0/4] firmware: arm_scmi: Add xfer inflight debug and
+>> trace
+>> 
+>> On Thu, Jun 19, 2025 at 12:20:00PM +0000, Philip Radford wrote:
+>> >Hi all,
+>> >
+>> >This series adds a new counter to the Arm SCMI firmware driver to track
+>> >the number of in-flight message transfers during debug and trace. This
+>> >will be useful for examining behaviour under a large load with regards
+>> >to concurrent messages being sent and received. As the counter only gives
+>> >a live value, printing the value in trace allows logging of the in-flight
+>> >xfers.
+>> 
+>> Just a general question, is this counter count in flight messages
+>> for a scmi instance or it is per transport? I ask because
+>> one scmi instance could have multiple mailboxes. If counting based
+>> on scmi instance, it may not be that accurate.
+>> 
+>> Thanks,
+>> Peng
+>> 
+>
+>Yes, you are correct that the counter is per instance, as are the other counters.
+>This would mean that if you have multiple channels you would see the total
+>number of inflight xfers across all channels, limited to that instance.
+>If the inflight counter is non-zero and something is wrong, it would not be
+>apparent which channel had an issue, however this is the same for the other
+>counters.
+>
+>I feel like this series is a helpful addition to the current counters, but what you
+>have pointed out is something that could be reworked in a future series?
 
-The enum says this is std protocol, but 0x80~0xff is for vendor extension.
-It might confuse others to keep "SCMI_PROTOCOL_LAST" here.
+Sure. It is ok from my view, you could extend the driver in future.
 
-> };
-> 
->+#define SCMI_MAX_PROTOCOLS	(SCMI_PROTOCOL_LAST + 1)
-
-How about "#define SCMI_MAX_PROTOCOLS 256" as the line you removed in notify.c.
-
-Regards
+Regards,
 Peng
 
->+
-> enum scmi_system_events {
-> 	SCMI_SYSTEM_SHUTDOWN,
-> 	SCMI_SYSTEM_COLDRESET,
->-- 
->2.47.0
 >
+>Regards,
+>Phil
