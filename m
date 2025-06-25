@@ -1,24 +1,24 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F96E13D53B;
-	Wed, 25 Jun 2025 14:02:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 533171DE4E1;
+	Wed, 25 Jun 2025 14:04:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750860161; cv=none; b=ay5Q/hnc19f15n4x432v3pFXeb5dZz0//vz4COb4Fh17zIWKXgm3tpeeUobItN3j/Wtv5ZGwFEgTrh+wk1IjMPuqiEoYelS2KukGUAM7N1ev/VMAgwC3l+BrqfApIQlnKMOycKZWgjGumN9iDxfy9W/6nnsfQj1/6kCsDPTktFo=
+	t=1750860249; cv=none; b=XNl0j+QMqAmBt1vC4l+2Nhtr5StYLDGsHsrwKQ15CgUxDmubCClVwCnvzIMy+UYZtGtWpLnVx5Zbyx0HVjFE/gwGVS3huTcuKiXi6nXMHZuTGLFUzbmVXFRVmWvxgkw6/1awltT0nkhfBi1Pf9avup/FmW1hBgD/RPhlZKTmCZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750860161; c=relaxed/simple;
-	bh=DSGgVplsgDVHiHvI5ZL0W2YsegQOr8iwF9O97BbzD7w=;
+	s=arc-20240116; t=1750860249; c=relaxed/simple;
+	bh=73FhgEBtwPy6gR7FbpYwI5Qv0zgA5QgEZGXPwZLoqJg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mdzA0iKRC3H1/EaJKc66MoMZBjQnIbVpj8oaWZ7FDF8n69Dudr+tikt0XpkzbSl5m1q7YQnMEWX6rmV5Z7uD15kD4EJ1exkrbArmK7Fnfflj+mvJnn9SWVq8To8ZH50gW/EIILzAPCjw5X3g4nBtFHagQwiTz7gwEc+8XVokstU=
+	 Content-Type:Content-Disposition:In-Reply-To; b=JuoEw8lC/mR8YilwHOfUASVoS8bCmdel+AhloOclj8b2Zhh8Ix6yXPBuIP85/+BgjgxaZcA3Q+966hHbtTY1/0NZ/VqpILWB0NSEXor7AeGrke0FcJ5eCjvu9ik0LeIsCKyzmVMnoBErHfmlfkAXYzAFRL4Vz+qFUiU81eH+OMU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 567D8106F;
-	Wed, 25 Jun 2025 07:02:18 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 53FE7106F;
+	Wed, 25 Jun 2025 07:03:48 -0700 (PDT)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BDB7D3F66E;
-	Wed, 25 Jun 2025 07:02:33 -0700 (PDT)
-Date: Wed, 25 Jun 2025 15:02:30 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A4E893F66E;
+	Wed, 25 Jun 2025 07:04:03 -0700 (PDT)
+Date: Wed, 25 Jun 2025 15:04:00 +0100
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: Dan Carpenter <dan.carpenter@linaro.org>
 Cc: Cristian Marussi <cristian.marussi@arm.com>,
@@ -30,7 +30,7 @@ Cc: Cristian Marussi <cristian.marussi@arm.com>,
 	d-gole@ti.com, souvik.chakravarty@arm.com
 Subject: Re: [RFC PATCH 3/7] firmware: arm_scmi: Add Telemetry protocol
  support
-Message-ID: <aFwBdjWQv6urIgq1@pluto>
+Message-ID: <aFwB0Ok90aoSxPe5@pluto>
 References: <20250620192813.2463367-1-cristian.marussi@arm.com>
  <20250620192813.2463367-4-cristian.marussi@arm.com>
  <0c71e182-9aac-426d-b58b-41f118b9a8f2@suswa.mountain>
@@ -51,9 +51,7 @@ On Fri, Jun 20, 2025 at 11:46:15PM +0300, Dan Carpenter wrote:
 > > +				       struct telemetry_info *ti)
 > > +{
 
-Hi Dan,
-
-thanks for having a look.
+... and also...
 
 > > +	int ret;
 > > +	struct scmi_xfer *t;
@@ -100,13 +98,50 @@ thanks for having a look.
 > > +			ti->info.des_groups[i].id = i;
 > 
 > otherwise it leads to a NULL dereference.
->
+> 
+> > +	}
+> > +
+> > +	ph->xops->xfer_put(ph, t);
+> > +
+> > +	return ret;
+> > +}
+> 
+> [ snip ]
+> 
+> > +static int iter_shmti_process_response(const struct scmi_protocol_handle *ph,
+> > +				       const void *response,
+> > +				       struct scmi_iterator_state *st,
+> > +				       void *priv)
+> > +{
+> > +	const struct scmi_msg_resp_telemetry_shmti_list *r = response;
+> > +	struct telemetry_info *ti = priv;
+> > +	struct telemetry_shmti *shmti;
+> > +	const struct scmi_shmti_desc *desc;
+> > +	void __iomem *addr;
+> > +	u64 phys_addr;
+> > +	u32 len;
+> > +
+> > +	desc = &r->desc[st->loop_idx];
+> > +	shmti = &ti->shmti[st->desc_index + st->loop_idx];
+> > +
+> > +	shmti->id = le32_to_cpu(desc->id);
+> > +	phys_addr = le32_to_cpu(desc->addr_low);
+> > +	phys_addr |= (u64)le32_to_cpu(desc->addr_high) << 32;
+> > +
+> > +	len = le32_to_cpu(desc->length);
+> > +	addr = devm_ioremap(ph->dev, phys_addr, len);
+> > +	if (!addr)
+> > +		return -EADDRNOTAVAIL;
+> > +
+> > +	shmti->base = addr;
+> > +	shmti->len = len;
+> 
+> There is some code later which assumes ->len is at least
+> TDCF_EPLG_SZ and de->data_sz.  This is probably where we should
+> check if (len < TDCF_EPLG_SZ) return -EINVAL; and the de->data_sz
+> would be checked later.
 
-Indeed...I will fix.
-
-There are a few more of this bugs around probably being an RFC...bots also are
-complaining a lot at this series indeed :D
+I will add proper checks
 
 Thanks,
 Cristian
-
