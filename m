@@ -1,39 +1,39 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49C4225FA07;
-	Wed, 25 Jun 2025 14:00:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F96E13D53B;
+	Wed, 25 Jun 2025 14:02:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750860002; cv=none; b=t5jSmQCGr9hk7Wma5wdNiteuUes7ccv29gAdeSuAl3tuRDXavKsIn92mMEUWji9kezVfkFib0OTf9654QN2L0kkQOnve+94qt4g3d/J65UH1NL/Re3HMSwV75ppQ80PT3+IrMBfkXW2YYEDkkL8EBQZJQYVOor98KaD4fq4lBRE=
+	t=1750860161; cv=none; b=ay5Q/hnc19f15n4x432v3pFXeb5dZz0//vz4COb4Fh17zIWKXgm3tpeeUobItN3j/Wtv5ZGwFEgTrh+wk1IjMPuqiEoYelS2KukGUAM7N1ev/VMAgwC3l+BrqfApIQlnKMOycKZWgjGumN9iDxfy9W/6nnsfQj1/6kCsDPTktFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750860002; c=relaxed/simple;
-	bh=z9Mh5NxDhxrXtxph/P2pAXti2Wjh3Kg66nbWIs2/0J0=;
+	s=arc-20240116; t=1750860161; c=relaxed/simple;
+	bh=DSGgVplsgDVHiHvI5ZL0W2YsegQOr8iwF9O97BbzD7w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nC4F0n67FtIBWfQaVsJGsChjN4KzZg8TLcvuPHjKwSF6ytOaxHegocU5psba60tepjHS4kQbk4kR6pZSF2Lm4srczzowUZgZ+ZgEBI9Rtz8Yakv0BYaIAx0eYE5STqLcSoLBk2TPkc+/9lNju7dkkSDu/kvreYaX5udGkjKCujU=
+	 Content-Type:Content-Disposition:In-Reply-To; b=mdzA0iKRC3H1/EaJKc66MoMZBjQnIbVpj8oaWZ7FDF8n69Dudr+tikt0XpkzbSl5m1q7YQnMEWX6rmV5Z7uD15kD4EJ1exkrbArmK7Fnfflj+mvJnn9SWVq8To8ZH50gW/EIILzAPCjw5X3g4nBtFHagQwiTz7gwEc+8XVokstU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3238D106F;
-	Wed, 25 Jun 2025 06:59:41 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 567D8106F;
+	Wed, 25 Jun 2025 07:02:18 -0700 (PDT)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9A59E3F66E;
-	Wed, 25 Jun 2025 06:59:56 -0700 (PDT)
-Date: Wed, 25 Jun 2025 14:59:46 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BDB7D3F66E;
+	Wed, 25 Jun 2025 07:02:33 -0700 (PDT)
+Date: Wed, 25 Jun 2025 15:02:30 +0100
 From: Cristian Marussi <cristian.marussi@arm.com>
-To: Peng Fan <peng.fan@oss.nxp.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
 Cc: Cristian Marussi <cristian.marussi@arm.com>,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
 	james.quinlan@broadcom.com, f.fainelli@gmail.com,
 	vincent.guittot@linaro.org, etienne.carriere@st.com,
-	michal.simek@amd.com, quic_sibis@quicinc.com,
-	dan.carpenter@linaro.org, d-gole@ti.com, souvik.chakravarty@arm.com
-Subject: Re: [RFC PATCH 1/7] firmware: arm_scmi: Define a common
- SCMI_MAX_PROTOCOLS value
-Message-ID: <aFwA0n2krgW0_cNr@pluto>
+	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
+	d-gole@ti.com, souvik.chakravarty@arm.com
+Subject: Re: [RFC PATCH 3/7] firmware: arm_scmi: Add Telemetry protocol
+ support
+Message-ID: <aFwBdjWQv6urIgq1@pluto>
 References: <20250620192813.2463367-1-cristian.marussi@arm.com>
- <20250620192813.2463367-2-cristian.marussi@arm.com>
- <20250624031351.GC10415@nxa18884-linux>
+ <20250620192813.2463367-4-cristian.marussi@arm.com>
+ <0c71e182-9aac-426d-b58b-41f118b9a8f2@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -42,71 +42,71 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250624031351.GC10415@nxa18884-linux>
+In-Reply-To: <0c71e182-9aac-426d-b58b-41f118b9a8f2@suswa.mountain>
 
-On Tue, Jun 24, 2025 at 11:13:51AM +0800, Peng Fan wrote:
-> On Fri, Jun 20, 2025 at 08:28:07PM +0100, Cristian Marussi wrote:
-> >Add a common definition of SCMI_MAX_PROTOCOLS and use it all over the
-> >SCMI stack.
-> >
+On Fri, Jun 20, 2025 at 11:46:15PM +0300, Dan Carpenter wrote:
+> On Fri, Jun 20, 2025 at 08:28:09PM +0100, Cristian Marussi wrote:
+> > +static int
+> > +scmi_telemetry_protocol_attributes_get(const struct scmi_protocol_handle *ph,
+> > +				       struct telemetry_info *ti)
+> > +{
 
-Hi Peng,
+Hi Dan,
 
 thanks for having a look.
 
-> >Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> >---
-> > drivers/firmware/arm_scmi/notify.c | 4 +---
-> > include/linux/scmi_protocol.h      | 3 +++
-> > 2 files changed, 4 insertions(+), 3 deletions(-)
-> >
-> >diff --git a/drivers/firmware/arm_scmi/notify.c b/drivers/firmware/arm_scmi/notify.c
-> >index e160ecb22948..27a53a6729dd 100644
-> >--- a/drivers/firmware/arm_scmi/notify.c
-> >+++ b/drivers/firmware/arm_scmi/notify.c
-> >@@ -94,8 +94,6 @@
-> > #include "common.h"
-> > #include "notify.h"
-> > 
-> >-#define SCMI_MAX_PROTO		256
-> >-
-> > #define PROTO_ID_MASK		GENMASK(31, 24)
-> > #define EVT_ID_MASK		GENMASK(23, 16)
-> > #define SRC_ID_MASK		GENMASK(15, 0)
-> >@@ -1652,7 +1650,7 @@ int scmi_notification_init(struct scmi_handle *handle)
-> > 	ni->gid = gid;
-> > 	ni->handle = handle;
-> > 
-> >-	ni->registered_protocols = devm_kcalloc(handle->dev, SCMI_MAX_PROTO,
-> >+	ni->registered_protocols = devm_kcalloc(handle->dev, SCMI_MAX_PROTOCOLS,
-> > 						sizeof(char *), GFP_KERNEL);
-> > 	if (!ni->registered_protocols)
-> > 		goto err;
-> >diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
-> >index 688466a0e816..6f8d36e1f8fc 100644
-> >--- a/include/linux/scmi_protocol.h
-> >+++ b/include/linux/scmi_protocol.h
-> >@@ -926,8 +926,11 @@ enum scmi_std_protocol {
-> > 	SCMI_PROTOCOL_VOLTAGE = 0x17,
-> > 	SCMI_PROTOCOL_POWERCAP = 0x18,
-> > 	SCMI_PROTOCOL_PINCTRL = 0x19,
-> >+	SCMI_PROTOCOL_LAST = 0xff,
+> > +	int ret;
+> > +	struct scmi_xfer *t;
+> > +	struct scmi_msg_resp_telemetry_protocol_attributes *resp;
+> > +
+> > +	ret = ph->xops->xfer_get_init(ph, PROTOCOL_ATTRIBUTES,
+> > +				      0, sizeof(*resp), &t);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	resp = t->rx.buf;
+> > +	ret = ph->xops->do_xfer(ph, t);
+> > +	if (!ret) {
+> > +		__le32 attr = resp->attributes;
+> > +
+> > +		ti->info.num_de = le32_to_cpu(resp->de_num);
+> > +		ti->info.num_groups = le32_to_cpu(resp->groups_num);
+> > +		for (int i = 0; i < SCMI_TLM_MAX_DWORD; i++)
+> > +			ti->info.de_impl_version[i] =
+> > +				le32_to_cpu(resp->de_implementation_rev_dword[i]);
+> > +		ti->info.single_read_support = SUPPORTS_SINGLE_READ(attr);
+> > +		ti->info.continuos_update_support = SUPPORTS_CONTINUOS_UPDATE(attr);
+> > +		ti->info.per_group_config_support = SUPPORTS_PER_GROUP_CONFIG(attr);
+> > +		ti->info.reset_support = SUPPORTS_RESET(attr);
+> > +		ti->info.fc_support = SUPPORTS_FC(attr);
+> > +		ti->num_shmti = le32_get_bits(attr, GENMASK(15, 0));
+> > +		/* Allocate DEs descriptors */
+> > +		ti->info.des = devm_kcalloc(ph->dev, ti->info.num_de,
+> > +					    sizeof(*ti->info.des), GFP_KERNEL);
+> > +		if (!ti->info.des)
+> > +			ret = -ENOMEM;
+> > +
+> > +		/* Allocate DE GROUPS descriptors */
+> > +		ti->info.des_groups = devm_kcalloc(ph->dev, ti->info.num_groups,
+> > +						   sizeof(*ti->info.des_groups),
+> > +						   GFP_KERNEL);
+> > +		if (!ti->info.des_groups)
+> > +			ret = -ENOMEM;
 > 
-> The enum says this is std protocol, but 0x80~0xff is for vendor extension.
-> It might confuse others to keep "SCMI_PROTOCOL_LAST" here.
+> It the allocation fails we need to jump to the ->xfer_put
 > 
+> > +
+> > +		for (int i = 0; i < ti->info.num_groups; i++)
+> > +			ti->info.des_groups[i].id = i;
+> 
+> otherwise it leads to a NULL dereference.
+>
 
-Yes indeed. This patch was lingering around since ages in my trees and
-it is probably to review in itself.
+Indeed...I will fix.
 
-> > };
-> > 
-> >+#define SCMI_MAX_PROTOCOLS	(SCMI_PROTOCOL_LAST + 1)
-> 
-> How about "#define SCMI_MAX_PROTOCOLS 256" as the line you removed in notify.c.
-> 
-
-Yes, probably the easiest thing to do.
+There are a few more of this bugs around probably being an RFC...bots also are
+complaining a lot at this series indeed :D
 
 Thanks,
 Cristian
+
