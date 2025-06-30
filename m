@@ -1,203 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013035.outbound.protection.outlook.com [40.107.162.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292CA1494D9;
-	Sat, 28 Jun 2025 14:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751120971; cv=none; b=O08G1vHkPAPJrOkdsv82bv+A/aGQKkUtYSU2z5TbPaq5nf3z2239TIzPLgHCqaG0QQYf/A3c+CcvYLY6Q37zWbpWVC3RtP/7PDaDwr/zDTEGssyGTBD3gaflcljHONDBRYiSHd5zaYxF2K/0MRjZqlfcMqV3bpBoNvKW5dItjMs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751120971; c=relaxed/simple;
-	bh=Ypz8IC0WQ6kWJ6ifXzoS95qT1PT+UG1tXVjgJx0z6wA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UxXzFZeguYYYDu3rUdc4DQVcsY/wvHWQYrpDs9D53mjYUhDDNi5NMwGebvvOgwJFY2V2NhkLjeFWGb6wfz0QZyUV1gsZpUOt0S+RP5gK63JGUV6pdlY3flYZHYY00GVjioELeggeyRmC3tSO455ay0oaoBnv3+NQOgTEdaRl52U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mIagB7q2; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0522F3E;
+	Mon, 30 Jun 2025 00:50:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.35
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751244608; cv=fail; b=oAQTseZVLHvZzy3LNZvkUn/itAoNkLl3IJK3WuoyMBbtfutKc6+ByZdV3aMTOlJ7YyJrfFXIrMffPNIQ4+e5W7BITqI04SRnGeAzJ/kdWDxJNsgftSwqBKGnSmLrwcu2NFZ/HKh1f2j9U1qfTj9K1w5K8zLPLN38dSKgxxCzGRg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751244608; c=relaxed/simple;
+	bh=8bCWhN1bAjgBwm3bzO6RRxlgCh93zMhXaN13XE/zgl4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=hE9FFpZZ0YaiYI5i/EeMAk6XlQ/g5kvkZUwxejF2rGbxumUnxgY3LzMkbDjmKlY4JZA23B8IvfIaAVUjcQNiBMHzdAVdhtAj8MooDdTClDhOwuM977ugiVg+Z56ywDk+YbmR+3gyb6XKsZk4aFwmJtHNa8UnwFZNiBtTe+ZzCqw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=YZmmMm7q; arc=fail smtp.client-ip=40.107.162.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mIagB7q2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751120971; x=1782656971;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ypz8IC0WQ6kWJ6ifXzoS95qT1PT+UG1tXVjgJx0z6wA=;
-  b=mIagB7q2vx1GPz/gRZXGlCe333L94vYiJG6U3dHgFcCaumWz1xcfZczu
-   QLFRTw3+h2XHx23wjl/peJo20Wd5FdlEUhu9o3WLRT1OQcVHrElJlP69J
-   QeEtvUaqIAWyAZXUT2THCH+CyS9ANbL3ENqVlibknClioeWMji+Af/zMY
-   fRijqtNPFX0VPcmOoLZuO/UrHiF3S1TmH/zGyJU0UZOMckJIRhyVaUwIx
-   cSaQMT3cu/j1yShM52J0lxQ0psVUVSLvQNeEX3Vv94QvCZcRH6T95uvYo
-   Q8SLzrMAcS25uucp79QfpKbjvxSInjDitKNkSvDDy8/h0LdkUUSmZmi7s
-   A==;
-X-CSE-ConnectionGUID: zlKLzPDbR+WsllHnPH8ILw==
-X-CSE-MsgGUID: HQf0wbI/SO+DUMQIrBDewA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11478"; a="64466446"
-X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
-   d="scan'208";a="64466446"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 07:29:29 -0700
-X-CSE-ConnectionGUID: gMWJbyT6QEO4lAfQvVx2Bw==
-X-CSE-MsgGUID: 8sRXDiwWRweoATfN5/zrNQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
-   d="scan'208";a="152433805"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 28 Jun 2025 07:29:25 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uVWYV-000X6s-0K;
-	Sat, 28 Jun 2025 14:29:23 +0000
-Date: Sat, 28 Jun 2025 22:28:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Peng Fan <peng.fan@nxp.com>, Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, arm-scmi@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH 7/7] firmware: imx: sm-misc: Dump syslog and system info
-Message-ID: <202506282233.n54Z23oc-lkp@intel.com>
-References: <20250627-sm-misc-api-v1-v1-7-2b99481fe825@nxp.com>
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="YZmmMm7q"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NgWWf1ggTD3JLBL2vXUCI+1YfxmlcFJ7Dnmj+aM/EJJiSDAtyoCVN4zLRnWVxjTX7lAAyqSIJ8eqsWbKZKpzQnUBIF3E3pFZTMLVwdzX7K28yElv1bM97PcH3LPJ52z0QiCbOh4siJeTn1xOa+l0SaFPEqEDLgDXegzIkCP/cNAyTNZoibjTl7m1P+DSq2qjGCzwSHdJWUdzWSIY8xtQp7rSDqu08UqFg8EbP0Ro/bmydOKV3eaYSxB7t31u4X2Gw6XqJD7iBhbvY1lPXfo1DzSPF2tvLcCfB3P2pUWadkLXfhQ+CzoFJooJqbb4hjWas3cz1eyZR95CHOKClACx9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dztGTopPvGGcNNZGkMk2yGGlQoNGOYuB0GW38QBO0Y4=;
+ b=C/hQdZj6TES7BPwjLliH7bQTX7rqP9HFS6bRd9hE/Eh75wMoAlif9QT73nsJo/2RtRxHUw/7WiN0PhRdxZ1ixMoqGYmt6U6pK1BV5Vc8sZUpbwUKzEcWJroYW5Buoa7RucihaBbKCA3iEYh5F5MzpQz5rftiTaxNuOghB44J3kVNN64+9CoBzoATYUE/WMKUpYC5s57BSayGoAV8mOiokPTVkrq3kEBUcd2deN2xB2vIPLmtRDaIFpEYt63/FP6nqQPgtv/bFEww72F29JiS7ziSLQEImzIBIOYWgkKSabBNvNnpGGbCqX6Dj/y1iYX/mdjpT/omiRuB0F7nrr5Vag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dztGTopPvGGcNNZGkMk2yGGlQoNGOYuB0GW38QBO0Y4=;
+ b=YZmmMm7qyCmeESCVwUsXCUh33eqiq6CrI7L5SUJJXf6LoIrtPmjDBM+LE1qJoOtVwGzfMXoj6nfvewJddBKalzMLm2T+ffuMmkqUPbWrwRk5c0Lr1d5VmtCc9XStySSCABz5MBwXSZvY4Ix0qrFvDrRTD1KXMwteo05Y6iPq1flDANSX3fkqc35bzvIHyJqvl8O9tkrdk7FXYLnYo2sNSWPFb8kD8uPeV5Knw2PNepStdGuBu1Z2MwQHMpdzR1W3UvLt1nMnapYesTX6f+odTRI5LkEt7juG+NeOnTaxdwlHAH9DDWaRRET4yzQB683UF+ys7qYruz94UpLDeYrqtg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
+ by AS8PR04MB8370.eurprd04.prod.outlook.com (2603:10a6:20b:3b1::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.30; Mon, 30 Jun
+ 2025 00:50:02 +0000
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630%6]) with mapi id 15.20.8880.027; Mon, 30 Jun 2025
+ 00:50:02 +0000
+Date: Mon, 30 Jun 2025 10:00:36 +0800
+From: Peng Fan <peng.fan@oss.nxp.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: Philip Radford <Philip.Radford@arm.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	Sudeep Holla <Sudeep.Holla@arm.com>,
+	Luke Parkin <Luke.Parkin@arm.com>
+Subject: Re: [PATCH 0/4] firmware: arm_scmi: Add xfer inflight debug and trace
+Message-ID: <20250630020036.GA13878@nxa18884-linux>
+References: <20250619122004.3705976-1-philip.radford@arm.com>
+ <20250620084634.GB27519@nxa18884-linux>
+ <PAWPR08MB9966E79130C52CA8460AC4B7897CA@PAWPR08MB9966.eurprd08.prod.outlook.com>
+ <aF0xDdajKkoa4dXU@pluto>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aF0xDdajKkoa4dXU@pluto>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-ClientProxiedBy: MA1PR01CA0165.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:71::35) To PAXPR04MB8459.eurprd04.prod.outlook.com
+ (2603:10a6:102:1da::15)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250627-sm-misc-api-v1-v1-7-2b99481fe825@nxp.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|AS8PR04MB8370:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0676720e-a2c7-4632-52a6-08ddb7700c14
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|52116014|1800799024|19092799006|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?20Zohv45Da9aVMKdeNOWMVSFGCUMPnPxAtLQr9hD+M+ZyNmsHIxWEjRh6bNt?=
+ =?us-ascii?Q?VCJpR1L7JHHmfsApPDT4YP4xJ0Gno/mOZdMRe/8oYXV3XjIqPBcXz8YMfLPm?=
+ =?us-ascii?Q?IRr3OgnTOJLt+OKkearStCFHfyrVH5Rm5tmr5xP2/4pGS82ITkQdMh81Y7C6?=
+ =?us-ascii?Q?sZotCn1GfL1NgqK3cWpfmlCEmmDDUPajraBN397qBs8NC8UO2fdwMNw8k2KY?=
+ =?us-ascii?Q?4uQRuj48hfSRls0RjAhM0i7fKP2olYwBTBMpJRNmM5bKk9+JxUWSLN+iKHL9?=
+ =?us-ascii?Q?Hrae8kRagmpQxC4ERhnglNPG49lg9WZlftec9we08Svc8aI6yEwCy+jYGL6a?=
+ =?us-ascii?Q?/a4K8IPA9d4UNBy8szTAerk4ykKGhxE9lfbIliFE7FcT/+uqbUfN5n5TdWu1?=
+ =?us-ascii?Q?BHziHmGJQd28Rauy1UayMsdyvigHH3aiP1j6U/psw5NusrSFNcyPZljGt4A6?=
+ =?us-ascii?Q?Agh/1WcktBw4plWEUz4RzSYfVemOo37uWWr7EEpvdHawPmMnugSX6/H/+Mpx?=
+ =?us-ascii?Q?N15L+d+EYkWpVoRqrI9TyCz3vkNKG5SLwg2GXuxWaECUBk5dYG2iULhbvhcR?=
+ =?us-ascii?Q?dhYgfjzCIEP72umwng9N6536eyUCfYurqHl39VE+mCS2p9pxF2QUk+5/CQQm?=
+ =?us-ascii?Q?xu/fw+2UvThfjnE0p2tglJE6Ei5KLu7y2FfDrKTxkSqyZYdSocdnnMerI5Yz?=
+ =?us-ascii?Q?07pAMjZ59gJ/gQFmL2vBx+B8sV7QQ63SunymxyzrnMi34UkZvuPRPmRi/fUS?=
+ =?us-ascii?Q?LC0/sDroLq1/O9dA76+Wmvs3bSLJdPFmHpjBfQQAOGo8oTvwY+ZsMroWomSp?=
+ =?us-ascii?Q?P5LZ74XdrGN499sFb12Vd16Qqej5g+/NKKkttNDR+4Ys9ufjHZ8oz3BKtunP?=
+ =?us-ascii?Q?zpallUoKoeDZFCzVaKqMpdRfMCk9yCE3aNbzmjFHx4IlQJpf2m3GnPoLTdSm?=
+ =?us-ascii?Q?eeffNTlM5kHWMrWUznRew/XOjEjltR5FpU12RKYolLIzqXxIjsUWSIiL103h?=
+ =?us-ascii?Q?jNV68EkFxCzfgZxpMhYoIgmQAYrFJpk2LyXvFr1aBLb6N51/fDTuBhmGDLHT?=
+ =?us-ascii?Q?3ATIchdHDT7cEuz9AH4ykoGAkMlE69pul5t80IF2O0jAY/kopRVPQoBFA8dE?=
+ =?us-ascii?Q?BDj723GqFGvcpcZGqdmNr6hELiU75D5yeOwkNPJhuGciDxv9DXXLaSJ08Xk4?=
+ =?us-ascii?Q?gMjdL/U0Pzx2wvPI8nka6XLXcn3MLieTV5qg0Noj8vNoZIsW62o73gi5Np0y?=
+ =?us-ascii?Q?Vc+O1sAawEHk4HYXynkLKscbvne6EzfvTky2hweeE0ZzH5Zb2ai/8ftt8C8o?=
+ =?us-ascii?Q?SnVYPYfHwHWYixkruslEHo0017M/l9N6cQJCdH4Tz553ekW5K/yV4/BnkTef?=
+ =?us-ascii?Q?QLpzSf6YIKWb1a3PZgL7FSMouEDo5V5sJ+wtpdFH62xc3+ApOHxIFY1m65FX?=
+ =?us-ascii?Q?0CRJ1P8rpOXwJshi/nVz/5krrsOSQQwiL6NCqCJ0LKV5IoA4MGNl6g=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(19092799006)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?0CgJ3kdlMBWZR8ljNBfTqHi23QkGJTiLhg0uflpTI2zBQZXJ6sOHuh1KiRE2?=
+ =?us-ascii?Q?ub2dZvqYjWMygJVXNV6AglGxk2PSyDzDDvOYxHTdzM0322bF2P41hORHxgFR?=
+ =?us-ascii?Q?EBvxrQtxb8kdv5uJKbIf9HgoFpmvwAo4FZuJWugVwFqW1UGfckDOvgV8SElM?=
+ =?us-ascii?Q?fab/xB0TvPFoyme+OF2SZBBnin/G+bp1kKlT3x8c43WIDV8XPYNYRIhATjmL?=
+ =?us-ascii?Q?zv0wTkVPjaBfemOFQap/iRPGzo94/nGi55nfgj5DYN4HOCX3LZJUFJQGWCfe?=
+ =?us-ascii?Q?AEK0HG47dNwwEyvI29wQg4t3icGkeliodWd/srjCnbKSr7zktfrRgcwsMTJa?=
+ =?us-ascii?Q?z2ZzFzceANFZS6Og94CvZIIDQph3VYHqU9w2C2VfEBUG7nzSdo0UlYZQtXqD?=
+ =?us-ascii?Q?GVyk1mD1neCy0HlFtxjggzzWsZmMshmIwmmkmhcZWpXpvdBf7T5lZDN80tHL?=
+ =?us-ascii?Q?AKmd1cHXGmMJYUIOXWYBtkwvJ0X7pv9lRD8cKlDnOPgRhSKGisK8TDS4nq7U?=
+ =?us-ascii?Q?JQibDTDMW5Ad8AHphLaXO3yc5uFolmV8apCyCxd/I96a9augAsW5YjpfDPtH?=
+ =?us-ascii?Q?7bqF8Bklm2aMj+TVtTnl274Gb1vnRI/k+n0x7/oiH6ZbjFphq8vjzxBjHH+Y?=
+ =?us-ascii?Q?w2zjvVteFkMCqMUEj+vAw6UE/pOWfzVCnZfXxoOYoqaFPj3piRnNTFU4BX+h?=
+ =?us-ascii?Q?MLjk6gahBHoGSXg/P4oAsoGPcQuCNhEB3WNi/w33o/gTlRH+C2Z969vUU7xM?=
+ =?us-ascii?Q?2cIhrziWFYYufbeKZKFlIUIFsJ/7QRELoPks4Dg39/+3mpY7IHxaBcZMbvP4?=
+ =?us-ascii?Q?u2ZX0A6Z2cgkUtpy9QoCHfwdXwFUadLF/aeejoyOWthoVcdJvysXFFRnktmr?=
+ =?us-ascii?Q?7h38cbchppGUbv+an4/GnUOktuG8a3EYvbVJqLV6lkGi/vMvPwnMn/O+cJPv?=
+ =?us-ascii?Q?aLiqnpmSdU52AVeNsGc8T40fD/Opr9/q+5YnURnqVQtiW5WNIK0PxoirvcoV?=
+ =?us-ascii?Q?7opF+b+8LJZh7HUHXWDpcOYd3CX0k8OPI8LB69f74RbdNB4/Eltl5vW8Ay48?=
+ =?us-ascii?Q?GIUCLZMj+IcWysZClMJKsCgX/NclgWF37oz1fswfExO7f1W4SaJXS8Jad8OG?=
+ =?us-ascii?Q?SS4QwZ7AwmDD3pIwx7HGdB3UFS/umdefMgBRMJYabvp2UUEHIx26ApOtiVHY?=
+ =?us-ascii?Q?6cYifmr1T9JIleNbQm7jHFylHOaFp4jQyXWbwfjf8aSpklV79EBrz/Oqtv/U?=
+ =?us-ascii?Q?I4fLlijspTJKpJ+gKp75BcERWl4DGtxkDFiHhea6se+IS5U8bbxhysfQyHh2?=
+ =?us-ascii?Q?HddWR10BO6hUR3EUIthnxcj1ZXDfLYE09cKuPsTE6gfMqaUJMoQgk5H7hVat?=
+ =?us-ascii?Q?yTGcYCflvt/661roYoL/Qr/A9mUOBGvHjkCq/fl523Fw2d5mIQPyI/ju5alc?=
+ =?us-ascii?Q?MF1wx/sXmisZkd6Yd8HC4sB6gpdGO+fmAvFRba0a2SWuWton2h35UwFvZb55?=
+ =?us-ascii?Q?1T7tF/SkareJH5OUxUtW9Ns/QOsVuB/xEapTMw8CdsjSBhQsjry8hiCU56d6?=
+ =?us-ascii?Q?9+GvJBfi5K0ft8Hq5+xh0wsCs+dahiVbr3CoGg9n?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0676720e-a2c7-4632-52a6-08ddb7700c14
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2025 00:50:02.6103
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: h5m6wJ4h4Sf0i3FVMDrixECyU+AnU6G/rlhI4lDOG9oKv3XG5ZJJuU5iGB9vL6CAOFgShl6rs07YTgGA7Ymjiw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8370
 
-Hi Peng,
+Hi Cristian,
 
-kernel test robot noticed the following build warnings:
+On Thu, Jun 26, 2025 at 12:37:49PM +0100, Cristian Marussi wrote:
+>> > Just a general question, is this counter count in flight messages
+>> > for a scmi instance or it is per transport? I ask because
+>> > one scmi instance could have multiple mailboxes. If counting based
+>> > on scmi instance, it may not be that accurate.
+>> > 
+>
+>... so that is a good point ...
+>...thanks Peng for pointing out this first of all...
+>
+>So, in general all of these counters are per-instance, we don't have any
+>finer per-channel granularity....we could in the future split them out
+>to be per-channel counters, but I wonder if it would be worth the
+>effort: because, as I see it, errors reported by these counters are more
+>of a alarm-bell than a triage tool, in the sense that I would expect
+>that seeing a lot of errors of some kind on an instance should just act
+>as a warning that something is NOT right somewhere, so that you can
+>investigate further by enabling the already existent and more comprehensive
+>SCMI trace events to fully inveestigate the problem...since SCMI full event
+>traces DO also include the used-channel beside a lot of other info about
+>the xfer transactions.
+>
+>Moreover, in the specific case of tracking inflight xfers, note that
+>the counter added in this series tracks the pool of xfers allocated in
+>tx_minfo(A2P) free-lists (i.e. commands...P2A msgs hardly can be lost),
+>BUT this structure is per-instance (NOT per-channel), so even if you had
+>say a few more dedicated per-protocol channels defined on a system,
+>all the A2P transactions will pick their xfers from the same per-instance
+>pool... (..because the max_inflights is meant to cap the maximum number
+>of outstanding transactions that the server has to cope with...)
 
-[auto build test WARNING on ecb259c4f70dd5c83907809f45bf4dc6869961d7]
+Thanks for explaining this. It is clear that there is no need finer
+granularity. Just leave as it is.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan/firmware-arm_scmi-imx-Add-documentation-for-MISC_BOARD_INFO/20250627-140736
-base:   ecb259c4f70dd5c83907809f45bf4dc6869961d7
-patch link:    https://lore.kernel.org/r/20250627-sm-misc-api-v1-v1-7-2b99481fe825%40nxp.com
-patch subject: [PATCH 7/7] firmware: imx: sm-misc: Dump syslog and system info
-config: x86_64-buildonly-randconfig-005-20250627 (https://download.01.org/0day-ci/archive/20250628/202506282233.n54Z23oc-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506282233.n54Z23oc-lkp@intel.com/reproduce)
+Thanks,
+Peng
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506282233.n54Z23oc-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/firmware/imx/sm-misc.c: In function 'syslog_show':
-   drivers/firmware/imx/sm-misc.c:58:18: error: implicit declaration of function 'kmalloc'; did you mean 'mm_alloc'? [-Werror=implicit-function-declaration]
-      58 |         syslog = kmalloc(sizeof(*syslog), GFP_KERNEL);
-         |                  ^~~~~~~
-         |                  mm_alloc
->> drivers/firmware/imx/sm-misc.c:58:16: warning: assignment to 'struct scmi_imx_misc_syslog *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      58 |         syslog = kmalloc(sizeof(*syslog), GFP_KERNEL);
-         |                ^
-   drivers/firmware/imx/sm-misc.c:64:17: error: implicit declaration of function 'kfree' [-Werror=implicit-function-declaration]
-      64 |                 kfree(syslog);
-         |                 ^~~~~
-   drivers/firmware/imx/sm-misc.c: In function 'system_info_show':
->> drivers/firmware/imx/sm-misc.c:97:14: warning: assignment to 'struct scmi_imx_misc_system_info *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      97 |         info = kmalloc(sizeof(*info), GFP_KERNEL);
-         |              ^
-   cc1: some warnings being treated as errors
-
-
-vim +58 drivers/firmware/imx/sm-misc.c
-
-    46	
-    47	static ssize_t syslog_show(struct device *device, struct device_attribute *attr,
-    48				   char *buf)
-    49	{
-    50		struct scmi_imx_misc_sys_sleep_rec *rec;
-    51		struct scmi_imx_misc_syslog *syslog;
-    52		int ret;
-    53		size_t len = 0;
-    54	
-    55		if (!ph)
-    56			return 0;
-    57	
-  > 58		syslog = kmalloc(sizeof(*syslog), GFP_KERNEL);
-    59		if (!syslog)
-    60			return -ENOMEM;
-    61	
-    62		ret = imx_misc_ctrl_ops->misc_syslog(ph, sizeof(*syslog), syslog);
-    63		if (ret) {
-    64			kfree(syslog);
-    65			return ret;
-    66		}
-    67	
-    68		rec = &syslog->syssleeprecord;
-    69	
-    70		len += sysfs_emit_at(buf, len, "Wake Vector = %u\n", rec->wakesource);
-    71		len += sysfs_emit_at(buf, len, "Sys sleep mode = %u\n", rec->syssleepmode);
-    72		len += sysfs_emit_at(buf, len, "Sys sleep flags = 0x%08x\n", rec->syssleepflags);
-    73		len += sysfs_emit_at(buf, len, "MIX power status = 0x%08x\n", rec->mixpwrstat);
-    74		len += sysfs_emit_at(buf, len, "MEM power status = 0x%08x\n", rec->mempwrstat);
-    75		len += sysfs_emit_at(buf, len, "PLL power status = 0x%08x\n", rec->pllpwrstat);
-    76		len += sysfs_emit_at(buf, len, "Sleep latency = %u\n", rec->sleepentryusec);
-    77		len += sysfs_emit_at(buf, len, "Wake latency = %u\n", rec->sleepexitusec);
-    78		len += sysfs_emit_at(buf, len, "Sleep count = %u\n", rec->sleepcnt);
-    79	
-    80		kfree(syslog);
-    81	
-    82		return len;
-    83	}
-    84	
-    85	static DEVICE_ATTR_RO(syslog);
-    86	
-    87	static ssize_t system_info_show(struct device *device, struct device_attribute *attr,
-    88					char *buf)
-    89	{
-    90		struct scmi_imx_misc_system_info *info;
-    91		int len = 0;
-    92		int ret;
-    93	
-    94		if (!ph)
-    95			return 0;
-    96	
-  > 97		info = kmalloc(sizeof(*info), GFP_KERNEL);
-    98		if (!info)
-    99			return -ENOMEM;
-   100	
-   101		ret = imx_misc_ctrl_ops->misc_discover_build_info(ph, info);
-   102		if (ret)
-   103			goto err;
-   104	
-   105		ret = imx_misc_ctrl_ops->misc_cfg_info(ph, info);
-   106		if (ret)
-   107			goto err;
-   108	
-   109		ret = imx_misc_ctrl_ops->misc_silicon_info(ph, info);
-   110		if (ret)
-   111			goto err;
-   112	
-   113		ret = imx_misc_ctrl_ops->misc_board_info(ph, info);
-   114		if (ret)
-   115			goto err;
-   116	
-   117		len += sysfs_emit_at(buf, len, "SM Version    = Build %u, Commit 08%x\n",
-   118				     info->buildnum, info->buildcommit);
-   119		len += sysfs_emit_at(buf, len, "SM Config     = %s, mSel=%u\n",
-   120				     info->cfgname, info->msel);
-   121		len += sysfs_emit_at(buf, len, "Silicon       = %s\n", info->siname);
-   122		len += sysfs_emit_at(buf, len, "Board         = %s, attr=0x%08x\n",
-   123				     info->brdname, info->brd_attributes);
-   124	
-   125		ret = len;
-   126	err:
-   127		kfree(info);
-   128		return ret;
-   129	}
-   130	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+>Thanks,
+>Cristian
