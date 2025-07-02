@@ -1,38 +1,46 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 467B428A1CA;
-	Wed,  2 Jul 2025 15:22:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 143D92D46BE;
+	Wed,  2 Jul 2025 15:26:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751469773; cv=none; b=Y0KouvC9PxWnzPpvuBzQ4C1wdF5Xk9KIeddc2mVLiNeraP4pKqExRfwW2PrhiwJFODrdt6YPuWmd9wSbE1hurUEKU2rz5AG1X4NImVwRVr5uvSRAQXOXbAC1rl2MOVPRH6fMoy9WhsC0XcaXaHBtJPdM/M6XjQiR/77a1pbeYuE=
+	t=1751469984; cv=none; b=pmaBlOi2B3dGEqrtuMnWRZ8IZEoFiftrkBwewngfKulxkAvk83zdOTGe1NSnDpOyDQnyy46ZwIhDvGE+4XBPKhU1HUR+nSfBDL9hwkBq/ogG1Ea25D1C2t9ukCxMH9SkLj2/oj7qYZEdEbGNkJz3OhwWWm+8V2c7Q3bHXovMowo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751469773; c=relaxed/simple;
-	bh=PQ+hdBJx/CkzLHdGqBVQQ/tW1D4I/JfEPGFPP/Z/xks=;
+	s=arc-20240116; t=1751469984; c=relaxed/simple;
+	bh=6YuNdY3/SCUsFVGNpash/jquxmzlvddlqK/RpCd8Kfg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jT+4izExFH2HghE5xpTOLKpkSIZ8ltat8vKaQdwEFL3hrZdUxEI0X3smb7ooa1+LrqcMiI+joPVdhPZvqdUMpT8btaii7npmNouJ4yaj4wyTL2zs2iJOlgkOvZlaSlwPUzTKGHgp71l0R0Gg78zDAYxdQeZHlHPNVS1MsPtizMw=
+	 Content-Type:Content-Disposition:In-Reply-To; b=Huw/RdhM47CHC4k66Xrdugjgm3pKg1UpYSMaOiGeHwdQ7AfGJDeYWV/CYQc/6A/Msvt+WUuHc1nUxqtpKFK6BJSXO4sCMc6ia+pG0w+KvO5jvwNB3tpEkxJvxksJeS4MrSb6kelOTyuix3SuK44A6D76gyMo2CUSXJV0FdQ85HY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EFB511424;
-	Wed,  2 Jul 2025 08:22:36 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B9BDB2F9D;
+	Wed,  2 Jul 2025 08:26:07 -0700 (PDT)
 Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E58C13F6A8;
-	Wed,  2 Jul 2025 08:22:49 -0700 (PDT)
-Date: Wed, 2 Jul 2025 16:22:47 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D1BDC3F6A8;
+	Wed,  2 Jul 2025 08:26:20 -0700 (PDT)
+Date: Wed, 2 Jul 2025 16:26:18 +0100
 From: Sudeep Holla <sudeep.holla@arm.com>
-To: Peng Fan <peng.fan@nxp.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Shawn Guo <shawnguo@kernel.org>,
+To: Peng Fan <peng.fan@oss.nxp.com>
+Cc: Peng Fan <peng.fan@nxp.com>, Dhruva Gole <d-gole@ti.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
 	Sudeep Holla <sudeep.holla@arm.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, <arm-scmi@vger.kernel.org>,
-	<imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 7/7] firmware: imx: sm-misc: Dump syslog and system info
-Message-ID: <20250702-berserk-paper-uakari-74a8bd@sudeepholla>
-References: <20250627-sm-misc-api-v1-v1-0-2b99481fe825@nxp.com>
- <20250627-sm-misc-api-v1-v1-7-2b99481fe825@nxp.com>
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>,
+	Chuck Cannon <chuck.cannon@nxp.com>
+Subject: Re: [PATCH 2/2] firmware: arm_scmi: power_control: Set
+ SCMI_SYSPOWER_IDLE in pm resume
+Message-ID: <20250702-apricot-anteater-of-fertility-92ebc2@sudeepholla>
+References: <20250620-scmi-pm-v1-0-c2f02cae5122@nxp.com>
+ <20250620-scmi-pm-v1-2-c2f02cae5122@nxp.com>
+ <20250623125750.kzwndmcf5yo3siao@lcpd911>
+ <20250623142957.GA10415@nxa18884-linux>
+ <20250623-organic-foamy-tamarin-fefa30@sudeepholla>
+ <PAXPR04MB8459E323E3C77A96272BC1728878A@PAXPR04MB8459.eurprd04.prod.outlook.com>
+ <20250624-agile-moth-of-blizzard-c7babf@sudeepholla>
+ <20250624145807.GA14878@nxa18884-linux>
+ <20250701150735.GD20538@nxa18884-linux>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -41,59 +49,58 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250627-sm-misc-api-v1-v1-7-2b99481fe825@nxp.com>
+In-Reply-To: <20250701150735.GD20538@nxa18884-linux>
 
-On Fri, Jun 27, 2025 at 02:03:50PM +0800, Peng Fan wrote:
-> Add sysfs interface to read System Manager syslog and system info
+On Tue, Jul 01, 2025 at 11:07:35PM +0800, Peng Fan wrote:
+> Hi Sudeep,
 > 
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
-> ---
->  drivers/firmware/imx/sm-misc.c | 97 ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 97 insertions(+)
+> On Tue, Jun 24, 2025 at 10:58:07PM +0800, Peng Fan wrote:
+> >On Tue, Jun 24, 2025 at 11:21:52AM +0100, Sudeep Holla wrote:
+> >>On Tue, Jun 24, 2025 at 01:23:10AM +0000, Peng Fan wrote:
+> >>> > 
+> >>> > Just to summarise my understanding here at very high level, the issue
+> >>> > exists as the second notification by an agent to the Linux to suspend
+> >>> > the system wakes up the system from suspend state. Since the
+> >>> > interrupts are enabled before the thaw_processes() (which eventually
+> >>> > continues the execution of scmi_suspend_work_func() to set the state
+> >>> > to SCMI_SYSPOWER_IDLE, the scmi_userspace_notifier() is executed
+> >>> > much before and ends up ignoring the request as the state is still not
+> >>> > set to SCMI_SYSPOWER_IDLE. There is a race which your patch is
+> >>> > addressing.
+> >>> 
+> >>> Thanks for writing this down, It is very correct and clear.
+> >>> 
+> >>
+> >>While I am not against adding bus PM ops as it can be useful elsewhere,
+> >>just wonder if this usecase is a good use of it. Does setting the state
+> >>before the pm_suspend() call suffice. I still need to think through the
+> >>possible race with that solution, but just asking you to check if that
+> >
+> >There is race condition if setting the state to SCMI_SYSPOWER_IDLE before
+> >pm_suspend.
+> >
+> >The 2nd suspend notification could runs into pm_suspend again
+> >before pm_suspend update system_state to SYSTEM_SUSPEND, if my understanding
+> >is correct.
+> >
+> >Per pm_suspend->enter_state,
+> >"Make sure that no one else is trying to put the system into a sleep state",
+> >not sure, but I think better not let pm_suspend to handle the race condition.
+> >
+> >Since syspower only has one per system(linux), the other approach is to
+> >use syscore, but need a global variable for state in scmi_power_control.c,
+> >because syscore_suspend/resume does not have parameter.
+> >
+> >we need to set state back to IDLE after linux wakeup and before kernel
+> >thread scheduling. I only see two interfaces to achieve:
+> >PM ops or syscore ops.
 > 
-> diff --git a/drivers/firmware/imx/sm-misc.c b/drivers/firmware/imx/sm-misc.c
-> index fc3ee12c2be878e0285183e3381c9514a63d5142..55485a3c4a5c615102a377f41025a6911d746770 100644
-> --- a/drivers/firmware/imx/sm-misc.c
-> +++ b/drivers/firmware/imx/sm-misc.c
-> @@ -44,6 +44,100 @@ static int scmi_imx_misc_ctrl_notifier(struct notifier_block *nb,
->  	return 0;
->  }
->  
-> +static ssize_t syslog_show(struct device *device, struct device_attribute *attr,
-> +			   char *buf)
-> +{
-> +	struct scmi_imx_misc_sys_sleep_rec *rec;
-> +	struct scmi_imx_misc_syslog *syslog;
-> +	int ret;
-> +	size_t len = 0;
-> +
-> +	if (!ph)
-> +		return 0;
-> +
-> +	syslog = kmalloc(sizeof(*syslog), GFP_KERNEL);
-> +	if (!syslog)
-> +		return -ENOMEM;
-> +
-> +	ret = imx_misc_ctrl_ops->misc_syslog(ph, sizeof(*syslog), syslog);
-> +	if (ret) {
-> +		kfree(syslog);
-> +		return ret;
-> +	}
-> +
-> +	rec = &syslog->syssleeprecord;
-> +
-> +	len += sysfs_emit_at(buf, len, "Wake Vector = %u\n", rec->wakesource);
-> +	len += sysfs_emit_at(buf, len, "Sys sleep mode = %u\n", rec->syssleepmode);
-> +	len += sysfs_emit_at(buf, len, "Sys sleep flags = 0x%08x\n", rec->syssleepflags);
-> +	len += sysfs_emit_at(buf, len, "MIX power status = 0x%08x\n", rec->mixpwrstat);
-> +	len += sysfs_emit_at(buf, len, "MEM power status = 0x%08x\n", rec->mempwrstat);
-> +	len += sysfs_emit_at(buf, len, "PLL power status = 0x%08x\n", rec->pllpwrstat);
-> +	len += sysfs_emit_at(buf, len, "Sleep latency = %u\n", rec->sleepentryusec);
-> +	len += sysfs_emit_at(buf, len, "Wake latency = %u\n", rec->sleepexitusec);
-> +	len += sysfs_emit_at(buf, len, "Sleep count = %u\n", rec->sleepcnt);
-> +
+> Not sure you have time to give a look. I plan to post V2 later this
+> week. In V2, I would still use pm ops.
+> 
 
-Why can't this be individual files and values ?
+Sure, please go ahead and post. I didn't get time to look at it in depth.
+I agree with your comment for now, will take a look at it again with your v2.
 
 -- 
 Regards,
