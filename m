@@ -1,91 +1,159 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CD07275AFB;
-	Mon,  7 Jul 2025 11:25:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0551F2D8DA0;
+	Mon,  7 Jul 2025 14:42:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751887544; cv=none; b=DNTmEqJj/GMmkJepwiZdouGMxMiJgerN4WFQC2yLONNb8ULzfR1E2imMNcxiSAo3JrEK9cdPfUI3D4T07KdawMTYY4VulX0s35Pbm5FZLujUby1YKdwla+sRSiFQeG6daOr2WGIDVN8Qzjy8gmKRcjrIHFvimTjeN7Fmca+WAsE=
+	t=1751899361; cv=none; b=MNiU4O419wbJiF7fiA0OH1YZXht7x7cVaxAuXP4mw84i2GobiwFn1YF4+VFD/oEJzJcqCZtX9yZJmETx2Dzn13WIGFmI4H2akFfA2AR55G/F1VCmXUFRlBzvtu/L7GY0xK9mJz8RP4jvB/0xAJm76WPY2ZqMRbVlLOCIfuLknyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751887544; c=relaxed/simple;
-	bh=HN51foY5liusxliF0hJZrngr1VsTpw+cyg5mdKTbwGc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VN5HoALIqGkpPJKfbNq9po1Vke+4glm+bOiZrLAgb5IgnX87QiIcog6sgtBg4EWJCE7X0boN379ETvBjWeNcdc7pcp2KAlnNfwfj2T8kBMNTu3f3uCcNm8z2VtuTr7OejOV77VgfZ5GTeYFULMl+fXquBqV9sueISQBvwCrXNL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
+	s=arc-20240116; t=1751899361; c=relaxed/simple;
+	bh=aGSW7OBBLIvjnmpwU5rvqybWN2QOUzpmJie8klPw+rs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L7xYJsT9gv0FpnJpJhPkhqdCquwWsdOgpoTQaDlydNZ6aKBCHo5q9mhC/1Q+xeW8F0e3dS1EoG3dLM1wSJaYWBKjAn13YSfMmt5qbD9Vp8/u0/6KrGS9Zm12GCTEV27VuUuOoKsu5D2BYsChgLPaPa2vo4EpFVpsobQhHGhhm/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 89BBD168F;
-	Mon,  7 Jul 2025 04:25:29 -0700 (PDT)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DA1823F694;
-	Mon,  7 Jul 2025 04:25:40 -0700 (PDT)
-Date: Mon, 7 Jul 2025 12:25:37 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Peng Fan <peng.fan@nxp.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, <arm-scmi@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>,
-	Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>,
-	Chuck Cannon <chuck.cannon@nxp.com>
-Subject: Re: [PATCH v2 1/2] firmware: arm_scmi: bus: Add pm ops
-Message-ID: <20250707-rich-helpful-guppy-c5ea68@sudeepholla>
-References: <20250704-scmi-pm-v2-0-9316cec2f9cc@nxp.com>
- <20250704-scmi-pm-v2-1-9316cec2f9cc@nxp.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 90A95168F;
+	Mon,  7 Jul 2025 07:42:22 -0700 (PDT)
+Received: from pluto.guest.local (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9A7083F694;
+	Mon,  7 Jul 2025 07:42:33 -0700 (PDT)
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org
+Cc: sudeep.holla@arm.com,
+	peng.fan@oss.nxp.com,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [PATCH] firmware: arm_scmi: Optimize notifiers registration
+Date: Mon,  7 Jul 2025 15:42:20 +0100
+Message-ID: <20250707144220.485365-1-cristian.marussi@arm.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250704-scmi-pm-v2-1-9316cec2f9cc@nxp.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 04, 2025 at 11:09:35AM +0800, Peng Fan wrote:
-> Take platform_pm_ops as reference. Add pm ops for scmi_bus_type,
-> then the scmi devices under scmi bus could have their own hooks for
-> suspend, resume function.
-> 
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
-> ---
->  drivers/firmware/arm_scmi/bus.c | 33 +++++++++++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
-> 
-> diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
-> index 1adef03894751dae9bb752b8c7f86e5d01c5d4fd..b6ade837ecea34f147fc1b734c55eafecca5ae0c 100644
-> --- a/drivers/firmware/arm_scmi/bus.c
-> +++ b/drivers/firmware/arm_scmi/bus.c
-> @@ -323,6 +323,38 @@ static struct attribute *scmi_device_attributes_attrs[] = {
->  };
->  ATTRIBUTE_GROUPS(scmi_device_attributes);
->  
-> +#ifdef CONFIG_SUSPEND
-> +static int scmi_pm_suspend(struct device *dev)
-> +{
-> +	const struct device_driver *drv = dev->driver;
-> +
-> +	if (drv && drv->pm && drv->pm->suspend)
-> +		return drv->pm->suspend(dev);
-> +
-> +	return 0;
-> +}
-> +
-> +static int scmi_pm_resume(struct device *dev)
-> +{
-> +	const struct device_driver *drv = dev->driver;
-> +
-> +	if (drv && drv->pm && drv->pm->resume)
-> +		return drv->pm->resume(dev);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct dev_pm_ops scmi_dev_pm_ops = {
-> +	.suspend = scmi_pm_suspend,
+Some platforms could be configured not to support notification events from
+specific sources and such a case is already handled properly by avoiding
+even to attempt to send a notification enable request since it would be
+doomed to fail anyway.
 
-I have use pm_sleep_ptr() and removed the below NULL based struct.
-Have a look at for-next/scmi/updates and let me know if you are happy
-with that.
+In an extreme scenario, though, a platform could support not even one
+single source on a specific event: in such a case would be meaningless to
+even allow to register a notifier and we can bail-out immediately, saving
+a lot of needless computation.
 
+Flag such condition, when detected at protocol initialization time, and
+reject upfront any attempt to register a notifier for such completely
+unsupported events with -ENOTSUPP.
+
+Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+---
+ drivers/firmware/arm_scmi/notify.c | 39 +++++++++++++++++++++++-------
+ 1 file changed, 30 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/firmware/arm_scmi/notify.c b/drivers/firmware/arm_scmi/notify.c
+index e160ecb22948..dee9f238f6fd 100644
+--- a/drivers/firmware/arm_scmi/notify.c
++++ b/drivers/firmware/arm_scmi/notify.c
+@@ -318,6 +318,9 @@ struct scmi_registered_events_desc {
+  *	    customized event report
+  * @num_sources: The number of possible sources for this event as stated at
+  *		 events' registration time
++ * @not_supported_by_platform: A flag to indicate that not even one source was
++ *			       found to be supported by the platform for this
++ *			       event
+  * @sources: A reference to a dynamically allocated array used to refcount the
+  *	     events' enable requests for all the existing sources
+  * @sources_mtx: A mutex to serialize the access to @sources
+@@ -334,6 +337,7 @@ struct scmi_registered_event {
+ 	const struct scmi_event	*evt;
+ 	void		*report;
+ 	u32		num_sources;
++	bool		not_supported_by_platform;
+ 	refcount_t	*sources;
+ 	/* locking to serialize the access to sources */
+ 	struct mutex	sources_mtx;
+@@ -811,10 +815,19 @@ int scmi_register_protocol_events(const struct scmi_handle *handle, u8 proto_id,
+ 		if (!r_evt->report)
+ 			return -ENOMEM;
+ 
+-		for (id = 0; id < r_evt->num_sources; id++)
+-			if (ee->ops->is_notify_supported &&
+-			    !ee->ops->is_notify_supported(ph, r_evt->evt->id, id))
+-				refcount_set(&r_evt->sources[id], NOTIF_UNSUPP);
++		if (ee->ops->is_notify_supported) {
++			int supported = 0;
++
++			for (id = 0; id < r_evt->num_sources; id++) {
++				if (!ee->ops->is_notify_supported(ph, r_evt->evt->id, id))
++					refcount_set(&r_evt->sources[id], NOTIF_UNSUPP);
++				else
++					supported++;
++			}
++
++			/* Not even one source has been found to be supported */
++			r_evt->not_supported_by_platform = !supported;
++		}
+ 
+ 		pd->registered_events[i] = r_evt;
+ 		/* Ensure events are updated */
+@@ -936,6 +949,11 @@ static inline int scmi_bind_event_handler(struct scmi_notify_instance *ni,
+ 	 * of protocol instance.
+ 	 */
+ 	hash_del(&hndl->hash);
++
++	/* Bailout if event is not supported at all */
++	if (r_evt->not_supported_by_platform)
++		return -EOPNOTSUPP;
++
+ 	/*
+ 	 * Acquire protocols only for NON pending handlers, so as NOT to trigger
+ 	 * protocol initialization when a notifier is registered against a still
+@@ -1060,6 +1078,9 @@ __scmi_event_handler_get_ops(struct scmi_notify_instance *ni,
+ 	r_evt = SCMI_GET_REVT(ni, KEY_XTRACT_PROTO_ID(evt_key),
+ 			      KEY_XTRACT_EVT_ID(evt_key));
+ 
++	if (r_evt && r_evt->not_supported_by_platform)
++		return ERR_PTR(-EOPNOTSUPP);
++
+ 	mutex_lock(&ni->pending_mtx);
+ 	/* Search registered events at first ... if possible at all */
+ 	if (r_evt) {
+@@ -1087,7 +1108,7 @@ __scmi_event_handler_get_ops(struct scmi_notify_instance *ni,
+ 				hndl->key);
+ 			/* this hndl can be only a pending one */
+ 			scmi_put_handler_unlocked(ni, hndl);
+-			hndl = NULL;
++			hndl = ERR_PTR(-EINVAL);
+ 		}
+ 	}
+ 	mutex_unlock(&ni->pending_mtx);
+@@ -1370,8 +1391,8 @@ static int scmi_notifier_register(const struct scmi_handle *handle,
+ 	evt_key = MAKE_HASH_KEY(proto_id, evt_id,
+ 				src_id ? *src_id : SRC_ID_MASK);
+ 	hndl = scmi_get_or_create_handler(ni, evt_key);
+-	if (!hndl)
+-		return -EINVAL;
++	if (IS_ERR(hndl))
++		return PTR_ERR(hndl);
+ 
+ 	blocking_notifier_chain_register(&hndl->chain, nb);
+ 
+@@ -1416,8 +1437,8 @@ static int scmi_notifier_unregister(const struct scmi_handle *handle,
+ 	evt_key = MAKE_HASH_KEY(proto_id, evt_id,
+ 				src_id ? *src_id : SRC_ID_MASK);
+ 	hndl = scmi_get_handler(ni, evt_key);
+-	if (!hndl)
+-		return -EINVAL;
++	if (IS_ERR(hndl))
++		return PTR_ERR(hndl);
+ 
+ 	/*
+ 	 * Note that this chain unregistration call is safe on its own
 -- 
-Regards,
-Sudeep
+2.47.0
+
