@@ -1,37 +1,38 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FE432E11B5;
-	Tue,  8 Jul 2025 15:23:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 524B92E0B7C;
+	Tue,  8 Jul 2025 15:26:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751988206; cv=none; b=Z+uG6gEsG4MrTcpo5SrQM+c44wKiIOUc76kXxFWsTu1U3YFx+bGRv5mtsYrQPq55r9b2N+1MqyvFO+U7ptk9ONuwdFc4YsPdXTmjUzrgxARMo+529QZQHgcEzCIpKmzf5IdfWPs/MPacsxWb7vG4Xm7jCUgW+rlvsn+T1YcLRDA=
+	t=1751988370; cv=none; b=uPzNCmaHSacTOTM4MvROe2dcrrfIDaKauTKCjuRJqHsu0CpMH3hU40HpeVihcAa33lX9iipaaLMBOqGZZDMZu6CSHA3/wobGy4BWZW0ZdEjr/cJu410nv6LCbUwFSv4j3jY8ClTqXDlew2AS0rcgXQhGys5qGTchnHotqkKu+98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751988206; c=relaxed/simple;
-	bh=nm1vOCJPrlUNk3kUpdwdQ5XPM0b1/0+Pfl3zP2AMFTA=;
+	s=arc-20240116; t=1751988370; c=relaxed/simple;
+	bh=vGnNBHokt2cN4ticDDpECNitDllhZ3Cs910v4LNMOHI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EbTOZ+OSQXH4o0Pd8R7zbXtg5x+6Yt7D5Um01lyj9he+z/8+xotMjRALEyt5Hx+0En2rSAufIvWq5DKUA1F4o7bRBVj3Z19HYXIN+XFLcVTStVj7L+bbqWCoF/SfSRZmXfxKpyvZ437cI8gbqqHtzBaAb5T7jCyZnMi701kzHRA=
+	 MIME-Version:Content-Type; b=SYMdIh633f06lXeIw52vVg9tiqNLtOmg1jU3OLYHQf94Wo/GeRxokACYzVVhIIzrLooGu4sx0RLxKR/L2gn9+qO5P1JkaxB6USzFU89eKV9QL+xQs01/g2dCLRQvDEkho3Udwayt3O1fMlXvoNZ8wfmaFescyyibLF+DZ/tmHCk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0727B153B;
-	Tue,  8 Jul 2025 08:23:12 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A77DA1595;
+	Tue,  8 Jul 2025 08:25:55 -0700 (PDT)
 Received: from usa.arm.com (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8C45B3F738;
-	Tue,  8 Jul 2025 08:23:22 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 167B83F738;
+	Tue,  8 Jul 2025 08:26:05 -0700 (PDT)
 From: Sudeep Holla <sudeep.holla@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org,
-	Philip Radford <philip.radford@arm.com>
+To: Cristian Marussi <cristian.marussi@arm.com>,
+	Peng Fan <peng.fan@nxp.com>
 Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	cristian.marussi@arm.com,
-	luke.parkin@arm.com
-Subject: Re: [PATCH v2 0/3] firmware: arm_scmi: Add xfer inflight debug and trace
-Date: Tue,  8 Jul 2025 16:23:16 +0100
-Message-Id: <175198812770.785521.16973338281288215979.b4-ty@arm.com>
+	arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>,
+	Chuck Cannon <chuck.cannon@nxp.com>
+Subject: Re: [PATCH v2 0/2] firmware: arm_scmi: add pm ops for scmi_power_control
+Date: Tue,  8 Jul 2025 16:26:03 +0100
+Message-Id: <175198830381.785998.16571714646012056824.b4-ty@arm.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250630105544.531723-1-philip.radford@arm.com>
-References: <20250630105544.531723-1-philip.radford@arm.com>
+In-Reply-To: <20250704-scmi-pm-v2-0-9316cec2f9cc@nxp.com>
+References: <20250704-scmi-pm-v2-0-9316cec2f9cc@nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -41,25 +42,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Mon, 30 Jun 2025 10:55:40 +0000, Philip Radford wrote:
-> This series adds a new counter to the Arm SCMI firmware driver to track
-> the number of in-flight message transfers during debug and trace. This
-> will be useful for examining behaviour under a large load with regards
-> to concurrent messages being sent and received. As the counter only gives
-> a live value, printing the value in trace allows logging of the in-flight
-> xfers.
+On Fri, 04 Jul 2025 11:09:34 +0800, Peng Fan wrote:
+> Move information could be found in patch 2 commit log, hope it is clear
+> 
+> When testing on i.MX95, two consecutive suspend message send to the Linux
+> agent, Linux will suspend(by the 1st suspend message) and wake up(by the
+> 2nd suspend message).
+> 
+> The ARM SCMI spec does not allow for filtering of which messages an agent
+> wants to get on the system power protocol. To i.MX95, as we use mailbox
+> to receive message, and the mailbox supports wake up(interrupt is always
+> enabled), so linux will also get a repeated suspend message. This will
+> cause Linux to wake (and should then go back into suspend).
 > 
 > [...]
 
 Applied to sudeep.holla/linux (for-linux-next), thanks!
-(with some commit message changes)
+(with some commit message changes and removal of #ifdef)
 
-[1/3] firmware: arm_scmi: Add debug decrement counter
-      https://git.kernel.org/sudeep.holla/c/555e9174ef06
-[2/3] firmware: arm_scmi: Add xfer_inflight counter
-      https://git.kernel.org/sudeep.holla/c/a9cd861e61ae
-[3/3] include: trace: Add inflight_xfer counter tracepoint
-      https://git.kernel.org/sudeep.holla/c/f8e656382b4a
+[1/2] firmware: arm_scmi: bus: Add pm ops
+      https://git.kernel.org/sudeep.holla/c/76e65f7a0e0f
+[2/2] firmware: arm_scmi: power_control: Set SCMI_SYSPOWER_IDLE in PM resume
+      https://git.kernel.org/sudeep.holla/c/9a0658d3991e
+
 --
 Regards,
 Sudeep
