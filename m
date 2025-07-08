@@ -1,159 +1,211 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0551F2D8DA0;
-	Mon,  7 Jul 2025 14:42:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751899361; cv=none; b=MNiU4O419wbJiF7fiA0OH1YZXht7x7cVaxAuXP4mw84i2GobiwFn1YF4+VFD/oEJzJcqCZtX9yZJmETx2Dzn13WIGFmI4H2akFfA2AR55G/F1VCmXUFRlBzvtu/L7GY0xK9mJz8RP4jvB/0xAJm76WPY2ZqMRbVlLOCIfuLknyI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751899361; c=relaxed/simple;
-	bh=aGSW7OBBLIvjnmpwU5rvqybWN2QOUzpmJie8klPw+rs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L7xYJsT9gv0FpnJpJhPkhqdCquwWsdOgpoTQaDlydNZ6aKBCHo5q9mhC/1Q+xeW8F0e3dS1EoG3dLM1wSJaYWBKjAn13YSfMmt5qbD9Vp8/u0/6KrGS9Zm12GCTEV27VuUuOoKsu5D2BYsChgLPaPa2vo4EpFVpsobQhHGhhm/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 90A95168F;
-	Mon,  7 Jul 2025 07:42:22 -0700 (PDT)
-Received: from pluto.guest.local (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9A7083F694;
-	Mon,  7 Jul 2025 07:42:33 -0700 (PDT)
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org
-Cc: sudeep.holla@arm.com,
-	peng.fan@oss.nxp.com,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH] firmware: arm_scmi: Optimize notifiers registration
-Date: Mon,  7 Jul 2025 15:42:20 +0100
-Message-ID: <20250707144220.485365-1-cristian.marussi@arm.com>
-X-Mailer: git-send-email 2.47.0
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013041.outbound.protection.outlook.com [40.107.162.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA3F1F4626;
+	Tue,  8 Jul 2025 01:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751938341; cv=fail; b=foqXL5VQxbgvfFafRxJucoAinnu6azhPgy4h4weBy4AJHk6axy3nkFrnC7ouSoEAvacS1VIrwiG3iuu8reiC6gTggxKXxttTv3ZjOIOXQt5H6tWkJlZJVIOhMW1ymiZRRw/u3y/FrsnCjZdImvdN96ip45NuwtyaY/9x1J7DmWw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751938341; c=relaxed/simple;
+	bh=x5LPT8UWB9tTFJcdtuYmBb/t5R/j9rjF3nymmU4j++k=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=mZ8Acrz1crKbK/5j4205skbtDdEaQn2aiv/WaQD/i1wfmHDH1wbbIaSj8gmDlz98+4roZToKFGxgoLdqNUlS8xsNkCX3K/897OPfET8VtYruj1PXBIae3B631mSADNeY6QuYGKM88bDZoHRwu9vL2SHFQitrFNJr+BmYevzWVcg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=jq1qZi9g; arc=fail smtp.client-ip=40.107.162.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="jq1qZi9g"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=X/LopT/YqYvRB2lhwdls2MsN/CC21LXKNaRwrPN6r3l+YhCzGM3qHE3wFfGyJg+c9x6AYLNstWQznSqc6hmQ4MUdoJCfp6485tUohKTMAN3G8PSdvbBmKEwoWN32GNF5bzbFsS9hbDcXYqxbJCYSG0NVqPQaT2wPsc8dnhKsjpfAeTcKMV6hI8P7dB2bkZLE3h+guUoJmXEfV1XrohPUpQfgstNZ0Mcs28t/EwEgxBNZfudVLci8veGIRylpJJpNqgafu/wyzjak31jzS3ggrrQTBV03WGaAh9V6sflaLhYg/q/ez7jDppnqDzgYSZYYBPyO4epQ5Cupl1+CBpbXlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VuiMdEsviVBcx+zi/Aexp+JkOW9emtTrDStz6/fZ+6s=;
+ b=kGJDQ43ZcYZW66fYQ7BuO7Xi7VkJjiFl1yPVCenlbTkPolV/lq5mfd6afFrn0ZBcgciyHiMMNRewkr8lbRX7RVUD3Ley9Spip2xL7QUN3woM6UH2EvZIZUYolu/64oswsuHboKgcW8064MhUf/snZ9KC4grfPbR4KRaqTItYOnB0xJU5T62LPYToK6wO/3p8PMhfu3j9OtaiwtYg7AXFU865Jpi+WC9i/0IxZS7glq4VFVfXGFfTqxbOzwTLlkDDdxeVb5WVf0hShYJIb2A8brJldOgNqzvLDyUgh25V0TEMyrB+ziyr1Vhch2foKl6aEods50/VCnumyxFbrKnksw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VuiMdEsviVBcx+zi/Aexp+JkOW9emtTrDStz6/fZ+6s=;
+ b=jq1qZi9gbMtueyISrbmpHIMjyfEN78ih9c3neelvWrJlU7ENvUJ0JCSkz0p3EZzvr7eXLxLU6xEc2p/97f0rFLnuTeblpMRE10wsnZA6iHDGa40+UJn5xt+xF8cOsVP3VMtiB9qVY2d1hYk9yJILLxeflKo2WxAF4+LsYxt03mQC7DbCLT8IJleqpmYzviciFkf3R0YHnBUQa6XNy69wh6efDPvwVx3JeGasviRnINnTcj+XV7xhjTncb+KIfm7j6pqrKoUHy9WJol9Vbm5a4FLrTuSrj11aJSL9lRJ5n9m2jQnR/3vqvZr0U9MnQqyGnBr30v7kK5JJb1keOfWTqQ==
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
+ by DB4PR04MB11278.eurprd04.prod.outlook.com (2603:10a6:10:5e5::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.25; Tue, 8 Jul
+ 2025 01:32:15 +0000
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630%7]) with mapi id 15.20.8901.024; Tue, 8 Jul 2025
+ 01:32:15 +0000
+From: Peng Fan <peng.fan@nxp.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
+CC: Cristian Marussi <cristian.marussi@arm.com>, "arm-scmi@vger.kernel.org"
+	<arm-scmi@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Ranjani Vaidyanathan
+	<ranjani.vaidyanathan@nxp.com>, Chuck Cannon <chuck.cannon@nxp.com>
+Subject: RE: [PATCH v2 1/2] firmware: arm_scmi: bus: Add pm ops
+Thread-Topic: [PATCH v2 1/2] firmware: arm_scmi: bus: Add pm ops
+Thread-Index: AQHb7JFbd+/WkoGZcUSJYBRO+mWNY7QmipaAgADsFkA=
+Date: Tue, 8 Jul 2025 01:32:15 +0000
+Message-ID:
+ <PAXPR04MB8459B53FEFB119A446473268884EA@PAXPR04MB8459.eurprd04.prod.outlook.com>
+References: <20250704-scmi-pm-v2-0-9316cec2f9cc@nxp.com>
+ <20250704-scmi-pm-v2-1-9316cec2f9cc@nxp.com>
+ <20250707-rich-helpful-guppy-c5ea68@sudeepholla>
+In-Reply-To: <20250707-rich-helpful-guppy-c5ea68@sudeepholla>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAXPR04MB8459:EE_|DB4PR04MB11278:EE_
+x-ms-office365-filtering-correlation-id: 9ddcb1da-e3c0-4a6c-18c6-08ddbdbf4579
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|376014|19092799006|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?Y26bDHa94O9vR/1+KuLd6B1cQPUaUEbAXdTNGtEDlAYIgjhVbVZpXbIOZnVX?=
+ =?us-ascii?Q?ZLfZDq0HXtPOc1Gq1bhrcvAVt6LR26VIeY4j3/o5OB5UHbiResLyYku3FPc4?=
+ =?us-ascii?Q?vSJjoSes+bPq7FFI4yt3zWMTzMhlXax7xQvwXf5iWiyuw0TuibPPqXpGTBXl?=
+ =?us-ascii?Q?jXc9vQsRPexb/ymY4Vx57Nn7Xd02FNcP8rZR980jmVq3DF9ef7kzjyoYpdnR?=
+ =?us-ascii?Q?WKIEnmQ7WX+3c2y/aUMNhHJFz65g1m7FfOfXThv5CHiT60/2RFVLvIZEt80I?=
+ =?us-ascii?Q?55t43DFJtlTRRyFFDglLXzfE+cO3w045aBdfixWBurlyjAHJ51dXSsR9donT?=
+ =?us-ascii?Q?4u9lWeqShvEInWPs+BCHcQn+j+OHqUJAGbgT5KElgr9WWWv7p47eQdE47PHH?=
+ =?us-ascii?Q?OAaIE7nseI8Bsp6Y3gYaouIrlB5iKfgEP5RDUJIJ3KYpyB6f8EO14+DIA8RM?=
+ =?us-ascii?Q?1SbGN6etcSXEn9+LU/YKASDxAZMYc+L38IA3sADTv9K1vgy1y0jPBhWQAvQF?=
+ =?us-ascii?Q?lLH+FRrW0Oxa86jn514P2U69z5VSWg0xkW15hGkaopYhYB5PxQQYzLxMImQS?=
+ =?us-ascii?Q?DjeQEao5IAL6gyAwxujDi0sU0gn5nBF9C+SIQoGA2aTUzPteOzbiqRPJjvom?=
+ =?us-ascii?Q?WT2rndydu1E11A+yEBaDNMtyzsM8DoF2AQIDvlrZgHbOVzn4q30wSx8jla9r?=
+ =?us-ascii?Q?QCu/8UMZjAxsIQ2bvpkiMmqNBsAaf70H0oz49bQL1GlfgUMff7xBxWKZ16CP?=
+ =?us-ascii?Q?jG0BT26T8uiR5oEczyV0LbqxOM8iNwpDHhYeKgCyawtUmjmiFANcVqX5PTrA?=
+ =?us-ascii?Q?U5wou/E40wUe6IZjs9n3OtKPQgMYbhDOZ9YczUWp51IcYB762UJ+VTIgwqBw?=
+ =?us-ascii?Q?Ki+7NbhWZ+sXq+cvVsJeNWrIoOLtrXtjiGn9l7jOPm/F2WGkMjq18jU1Q4OR?=
+ =?us-ascii?Q?kg3+51ny0cJJZvVQZaBYYK8zXMYlttSiriigLt0ch9v5Ef5GORP6xq0aVR56?=
+ =?us-ascii?Q?lByuo/tcl9ZBAJzeuEnFOZGYuW3a+CXys5viM5E1IzMirpfAtLRL6UyupK6K?=
+ =?us-ascii?Q?xySiS7ryrIA9MT5f5e3hazSqMNxQE5zJyT+FAK7XUFAQtabeUKUbKEUoNQu6?=
+ =?us-ascii?Q?TgrbiE4uR0DXrMtZapoklxlKUWsA0lAyb5QNw8sfxwtJnVfHK5fwlNeAVVkP?=
+ =?us-ascii?Q?9o7A1Hjw8/xBywEOh3eQgKf7/Vpc/hj2Ox8/1oJS56OelT8sWmNL7yGDcQah?=
+ =?us-ascii?Q?HHLZthnaKUJBqhDGAxYXwM1/9wtaMDboWM8HctpmKhzwH1A9rHGvo+8P8JcS?=
+ =?us-ascii?Q?KD6Ru0GHcYfvoC26o8fT3u+M0pCgY9gqFU0kgaPakswFOCsSvUy1kW2ZrNOf?=
+ =?us-ascii?Q?vs+TeiRVx7X3K+k14pkpu6GFn8+6WorpGz4k80bo5gPS+xYtTpY1siVNb5+3?=
+ =?us-ascii?Q?mekc2sr9LNNMlU3ut2RIeCqBZtkdysF/VQ+ONoD9VhxouX8HJhxtfg=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(19092799006)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?z6nY5x6TEDW4IFR7gxxqdV2hq75ZGnqwmrDAYXKHag6dGAqAoaw/oQjxDLKe?=
+ =?us-ascii?Q?n6V10yRFQ5C0jIiL9TAaz24CX+ZZZFK2zO6QiNNVjMxDDFeKTo5mmt4TLF4j?=
+ =?us-ascii?Q?wvfG7OTTwpnniek7Yu+2JyYjW3sGbrTEm22Om2C5fcvOvg1EhPSwGBQDBplV?=
+ =?us-ascii?Q?PMGdFAlOCyO6QkgZ7lXSdPcHfw/wRSERxItD9ojDomhn+arhS/laG1pBmw/X?=
+ =?us-ascii?Q?swTAn9U+PYdYm+5hJHP/4zfGbAj2ejwfTkCGRo5yHDEwqCXeCuysBfWBhGWP?=
+ =?us-ascii?Q?QmiDBpUkgS2yTE8cxObcC9rcVhjtEe2zsnwLOBB2sSwdcuLawLapGoSpyPme?=
+ =?us-ascii?Q?Cca+toxnoTfq5bjHUXmjQaCC2OHNyCxX6RadZqmeDB6BUP3nXFjYMFuv8Yz/?=
+ =?us-ascii?Q?8wOO1/4CmHE1w1I7JyGrgT3rBgnxVMycerangARIb2+GC00esKg/ryv3lxib?=
+ =?us-ascii?Q?jrsKWNnhdBsllqbRAtrpf2SGdCuoCYdvCGwJB/tvZHyO/SwLNrpBOiZSLBDD?=
+ =?us-ascii?Q?tbXiUClpr2x7BgMMgyP3QV4AEnspiMZlnyfFS3Hlym8F4vsWliVercNZEpNK?=
+ =?us-ascii?Q?1EgJIjFbI+4e6XdDp4T+k210vNKX3ioIaMSv03NEQNO1nR3Qf1L7Hlzc8QNq?=
+ =?us-ascii?Q?s9zSCNlS6gpmQhUoy0UCMIeb1Y21J3GUwHJ8C2Pe6zEmYXlFROGNwRuEuNE0?=
+ =?us-ascii?Q?WUip8XyZIlbecEGEauWXyn+ErkZJhetX9vFCvgEa/HSTblLKCG+0sQuyj/9T?=
+ =?us-ascii?Q?v4w7iCdDUQEfKXdjBQc5qs8XJevVCr9clo5abu8kOLaYLCRtZbScGhFVKeBF?=
+ =?us-ascii?Q?J1eZdppArc+QWg8WVB4b4f0tHxJrob5J+26/IHdW8EKkXwvwY0U28N9ywVxZ?=
+ =?us-ascii?Q?2oSt43u7mn19hkWs62cmVzD+IErSHzbRSujtx3W51zalN9iTFEobhbHJ/jP7?=
+ =?us-ascii?Q?gcQ21nEamh9xhb//4tz1ZKccX3ZSdWszBEisQko6KyDAoiAq2V+Loi7EVcGe?=
+ =?us-ascii?Q?kVz5hAoM5Luo2nv2gzZbqoFysmIk46t8ODjnpUxuZjPN4Ao+vSQQuzxyjqRN?=
+ =?us-ascii?Q?qMRPIgLhvgikCbneKEFy8FYw/LNSBPd6TC2mVf7SgEZDHjA0npHt3S1Uc2LY?=
+ =?us-ascii?Q?k05t8GGESM9EyYO/ymRnGVN6IbMMe47tHKf1MgnWdkAhVQcPuAAaIImiWtGM?=
+ =?us-ascii?Q?E5ok5Zyp8dRfvEjYnnqzQuWfgY2CoXepX6f9bS2xCjaVH7XLkTfpa1rxUpG4?=
+ =?us-ascii?Q?ToNUcRHCXKVOyR3i3W3Rn2Z8QqtMFXQD5IaPEmgyVUuQahTuUxnOKzEEjni3?=
+ =?us-ascii?Q?MaMeaM0uyNxuuTC0YD0NMyfscxWjZH+qVxvthb8IHqsFfnYCaHzx+u96fRMk?=
+ =?us-ascii?Q?2Izxa4BKAQHjqMIEyyPKEFilFwuEtvlcsQTyjqQ8aC48O0H/ReiqPko8Qw2j?=
+ =?us-ascii?Q?1Z02GQ931r9ik2GLs2M8fQvkFf1T9lENOPvPyVWwj9iLpEkz7mBh7IhmfllQ?=
+ =?us-ascii?Q?9RVRGAZNfmVW93U7AllWcEIZ4f7oAQCAYP/zrf+rjtNZpQJI5diePZJFk7o8?=
+ =?us-ascii?Q?E4eybgfIQFwuuvTkXzc=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ddcb1da-e3c0-4a6c-18c6-08ddbdbf4579
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jul 2025 01:32:15.8165
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VWP/PNwPAkFw0RnZKXJgQqx8FVYToBsHZoH9oeyITxztYzgxVP1n5oncDYeBMQohyP1zGQJRGaJbQyuOwjCUTw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR04MB11278
 
-Some platforms could be configured not to support notification events from
-specific sources and such a case is already handled properly by avoiding
-even to attempt to send a notification enable request since it would be
-doomed to fail anyway.
+> Subject: Re: [PATCH v2 1/2] firmware: arm_scmi: bus: Add pm ops
+>=20
+> On Fri, Jul 04, 2025 at 11:09:35AM +0800, Peng Fan wrote:
+> > Take platform_pm_ops as reference. Add pm ops for scmi_bus_type,
+> then
+> > the scmi devices under scmi bus could have their own hooks for
+> > suspend, resume function.
+> >
+> > Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> > ---
+> >  drivers/firmware/arm_scmi/bus.c | 33
+> > +++++++++++++++++++++++++++++++++
+> >  1 file changed, 33 insertions(+)
+> >
+> > diff --git a/drivers/firmware/arm_scmi/bus.c
+> > b/drivers/firmware/arm_scmi/bus.c index
+> >
+> 1adef03894751dae9bb752b8c7f86e5d01c5d4fd..b6ade837ecea34f14
+> 7fc1b734c55
+> > eafecca5ae0c 100644
+> > --- a/drivers/firmware/arm_scmi/bus.c
+> > +++ b/drivers/firmware/arm_scmi/bus.c
+> > @@ -323,6 +323,38 @@ static struct attribute
+> > *scmi_device_attributes_attrs[] =3D {  };
+> > ATTRIBUTE_GROUPS(scmi_device_attributes);
+> >
+> > +#ifdef CONFIG_SUSPEND
+> > +static int scmi_pm_suspend(struct device *dev) {
+> > +	const struct device_driver *drv =3D dev->driver;
+> > +
+> > +	if (drv && drv->pm && drv->pm->suspend)
+> > +		return drv->pm->suspend(dev);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int scmi_pm_resume(struct device *dev) {
+> > +	const struct device_driver *drv =3D dev->driver;
+> > +
+> > +	if (drv && drv->pm && drv->pm->resume)
+> > +		return drv->pm->resume(dev);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct dev_pm_ops scmi_dev_pm_ops =3D {
+> > +	.suspend =3D scmi_pm_suspend,
+>=20
+> I have use pm_sleep_ptr() and removed the below NULL based struct.
+> Have a look at for-next/scmi/updates and let me know if you are happy
+> with that.
 
-In an extreme scenario, though, a platform could support not even one
-single source on a specific event: in such a case would be meaningless to
-even allow to register a notifier and we can bail-out immediately, saving
-a lot of needless computation.
+Thanks for the cleanup. Seems kernel build bot report a failure, not
+sure related to this macro or else, I am still trying to see what happens.
 
-Flag such condition, when detected at protocol initialization time, and
-reject upfront any attempt to register a notifier for such completely
-unsupported events with -ENOTSUPP.
+Thanks,
+Peng.
 
-Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
----
- drivers/firmware/arm_scmi/notify.c | 39 +++++++++++++++++++++++-------
- 1 file changed, 30 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/firmware/arm_scmi/notify.c b/drivers/firmware/arm_scmi/notify.c
-index e160ecb22948..dee9f238f6fd 100644
---- a/drivers/firmware/arm_scmi/notify.c
-+++ b/drivers/firmware/arm_scmi/notify.c
-@@ -318,6 +318,9 @@ struct scmi_registered_events_desc {
-  *	    customized event report
-  * @num_sources: The number of possible sources for this event as stated at
-  *		 events' registration time
-+ * @not_supported_by_platform: A flag to indicate that not even one source was
-+ *			       found to be supported by the platform for this
-+ *			       event
-  * @sources: A reference to a dynamically allocated array used to refcount the
-  *	     events' enable requests for all the existing sources
-  * @sources_mtx: A mutex to serialize the access to @sources
-@@ -334,6 +337,7 @@ struct scmi_registered_event {
- 	const struct scmi_event	*evt;
- 	void		*report;
- 	u32		num_sources;
-+	bool		not_supported_by_platform;
- 	refcount_t	*sources;
- 	/* locking to serialize the access to sources */
- 	struct mutex	sources_mtx;
-@@ -811,10 +815,19 @@ int scmi_register_protocol_events(const struct scmi_handle *handle, u8 proto_id,
- 		if (!r_evt->report)
- 			return -ENOMEM;
- 
--		for (id = 0; id < r_evt->num_sources; id++)
--			if (ee->ops->is_notify_supported &&
--			    !ee->ops->is_notify_supported(ph, r_evt->evt->id, id))
--				refcount_set(&r_evt->sources[id], NOTIF_UNSUPP);
-+		if (ee->ops->is_notify_supported) {
-+			int supported = 0;
-+
-+			for (id = 0; id < r_evt->num_sources; id++) {
-+				if (!ee->ops->is_notify_supported(ph, r_evt->evt->id, id))
-+					refcount_set(&r_evt->sources[id], NOTIF_UNSUPP);
-+				else
-+					supported++;
-+			}
-+
-+			/* Not even one source has been found to be supported */
-+			r_evt->not_supported_by_platform = !supported;
-+		}
- 
- 		pd->registered_events[i] = r_evt;
- 		/* Ensure events are updated */
-@@ -936,6 +949,11 @@ static inline int scmi_bind_event_handler(struct scmi_notify_instance *ni,
- 	 * of protocol instance.
- 	 */
- 	hash_del(&hndl->hash);
-+
-+	/* Bailout if event is not supported at all */
-+	if (r_evt->not_supported_by_platform)
-+		return -EOPNOTSUPP;
-+
- 	/*
- 	 * Acquire protocols only for NON pending handlers, so as NOT to trigger
- 	 * protocol initialization when a notifier is registered against a still
-@@ -1060,6 +1078,9 @@ __scmi_event_handler_get_ops(struct scmi_notify_instance *ni,
- 	r_evt = SCMI_GET_REVT(ni, KEY_XTRACT_PROTO_ID(evt_key),
- 			      KEY_XTRACT_EVT_ID(evt_key));
- 
-+	if (r_evt && r_evt->not_supported_by_platform)
-+		return ERR_PTR(-EOPNOTSUPP);
-+
- 	mutex_lock(&ni->pending_mtx);
- 	/* Search registered events at first ... if possible at all */
- 	if (r_evt) {
-@@ -1087,7 +1108,7 @@ __scmi_event_handler_get_ops(struct scmi_notify_instance *ni,
- 				hndl->key);
- 			/* this hndl can be only a pending one */
- 			scmi_put_handler_unlocked(ni, hndl);
--			hndl = NULL;
-+			hndl = ERR_PTR(-EINVAL);
- 		}
- 	}
- 	mutex_unlock(&ni->pending_mtx);
-@@ -1370,8 +1391,8 @@ static int scmi_notifier_register(const struct scmi_handle *handle,
- 	evt_key = MAKE_HASH_KEY(proto_id, evt_id,
- 				src_id ? *src_id : SRC_ID_MASK);
- 	hndl = scmi_get_or_create_handler(ni, evt_key);
--	if (!hndl)
--		return -EINVAL;
-+	if (IS_ERR(hndl))
-+		return PTR_ERR(hndl);
- 
- 	blocking_notifier_chain_register(&hndl->chain, nb);
- 
-@@ -1416,8 +1437,8 @@ static int scmi_notifier_unregister(const struct scmi_handle *handle,
- 	evt_key = MAKE_HASH_KEY(proto_id, evt_id,
- 				src_id ? *src_id : SRC_ID_MASK);
- 	hndl = scmi_get_handler(ni, evt_key);
--	if (!hndl)
--		return -EINVAL;
-+	if (IS_ERR(hndl))
-+		return PTR_ERR(hndl);
- 
- 	/*
- 	 * Note that this chain unregistration call is safe on its own
--- 
-2.47.0
+>=20
+> --
+> Regards,
+> Sudeep
 
