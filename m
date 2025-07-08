@@ -1,38 +1,36 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 524B92E0B7C;
-	Tue,  8 Jul 2025 15:26:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C7431C4A0A;
+	Tue,  8 Jul 2025 15:30:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751988370; cv=none; b=uPzNCmaHSacTOTM4MvROe2dcrrfIDaKauTKCjuRJqHsu0CpMH3hU40HpeVihcAa33lX9iipaaLMBOqGZZDMZu6CSHA3/wobGy4BWZW0ZdEjr/cJu410nv6LCbUwFSv4j3jY8ClTqXDlew2AS0rcgXQhGys5qGTchnHotqkKu+98=
+	t=1751988629; cv=none; b=Rj1aDks0lYW6dj0cgQczW9rP3f4RCM7UYbaW2KmkpRSd11eIxFCY+3E6Xaki0IjxQoj2GmRx82heO0L1Fr+pwXawrR7sBPNP8a8vGaoIuuolmN2T7WsHFCWb/bUiQFLv4EjOyvl3lFPFznfamot8nqJSvgo4pPguhzhbzgw+bfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751988370; c=relaxed/simple;
-	bh=vGnNBHokt2cN4ticDDpECNitDllhZ3Cs910v4LNMOHI=;
+	s=arc-20240116; t=1751988629; c=relaxed/simple;
+	bh=m8ITrJD/KDdwA++T+lyOQ9bTYuHM9TbNxOy/lgOyQPk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SYMdIh633f06lXeIw52vVg9tiqNLtOmg1jU3OLYHQf94Wo/GeRxokACYzVVhIIzrLooGu4sx0RLxKR/L2gn9+qO5P1JkaxB6USzFU89eKV9QL+xQs01/g2dCLRQvDEkho3Udwayt3O1fMlXvoNZ8wfmaFescyyibLF+DZ/tmHCk=
+	 MIME-Version:Content-Type; b=dRkanwXOU3um9LSfqDXVKWj62JB3C3hV2w9DpTViYW9gjIYP0fIIkkKHXOmgMKFIG4ragcm/PoCt3DCUCjWiPodaAP3RG/6DAUBnInroWZAKNUcPTITz0OgfqP1phUSM1YQTX0tiOCiME5eBOGr+jEwwWwUGuivYNX5wT05bMJQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A77DA1595;
-	Tue,  8 Jul 2025 08:25:55 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B751A153B;
+	Tue,  8 Jul 2025 08:30:15 -0700 (PDT)
 Received: from usa.arm.com (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 167B83F738;
-	Tue,  8 Jul 2025 08:26:05 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 686463F738;
+	Tue,  8 Jul 2025 08:30:26 -0700 (PDT)
 From: Sudeep Holla <sudeep.holla@arm.com>
-To: Cristian Marussi <cristian.marussi@arm.com>,
-	Peng Fan <peng.fan@nxp.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	arm-scmi@vger.kernel.org,
+To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Ranjani Vaidyanathan <ranjani.vaidyanathan@nxp.com>,
-	Chuck Cannon <chuck.cannon@nxp.com>
-Subject: Re: [PATCH v2 0/2] firmware: arm_scmi: add pm ops for scmi_power_control
-Date: Tue,  8 Jul 2025 16:26:03 +0100
-Message-Id: <175198830381.785998.16571714646012056824.b4-ty@arm.com>
+	arm-scmi@vger.kernel.org,
+	Cristian Marussi <cristian.marussi@arm.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+	peng.fan@oss.nxp.com
+Subject: Re: [PATCH] firmware: arm_scmi: Optimize notifiers registration
+Date: Tue,  8 Jul 2025 16:30:24 +0100
+Message-Id: <175198844540.786463.17262807646940735306.b4-ty@arm.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250704-scmi-pm-v2-0-9316cec2f9cc@nxp.com>
-References: <20250704-scmi-pm-v2-0-9316cec2f9cc@nxp.com>
+In-Reply-To: <20250707144220.485365-1-cristian.marussi@arm.com>
+References: <20250707144220.485365-1-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -42,29 +40,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Fri, 04 Jul 2025 11:09:34 +0800, Peng Fan wrote:
-> Move information could be found in patch 2 commit log, hope it is clear
+On Mon, 07 Jul 2025 15:42:20 +0100, Cristian Marussi wrote:
+> Some platforms could be configured not to support notification events from
+> specific sources and such a case is already handled properly by avoiding
+> even to attempt to send a notification enable request since it would be
+> doomed to fail anyway.
 > 
-> When testing on i.MX95, two consecutive suspend message send to the Linux
-> agent, Linux will suspend(by the 1st suspend message) and wake up(by the
-> 2nd suspend message).
-> 
-> The ARM SCMI spec does not allow for filtering of which messages an agent
-> wants to get on the system power protocol. To i.MX95, as we use mailbox
-> to receive message, and the mailbox supports wake up(interrupt is always
-> enabled), so linux will also get a repeated suspend message. This will
-> cause Linux to wake (and should then go back into suspend).
+> In an extreme scenario, though, a platform could support not even one
+> single source on a specific event: in such a case would be meaningless to
+> even allow to register a notifier and we can bail-out immediately, saving
+> a lot of needless computation.
 > 
 > [...]
 
-Applied to sudeep.holla/linux (for-linux-next), thanks!
-(with some commit message changes and removal of #ifdef)
+Applied to sudeep.holla/linux (for-next/scmi/updates), thanks!
+(with some commit message changes)
 
-[1/2] firmware: arm_scmi: bus: Add pm ops
-      https://git.kernel.org/sudeep.holla/c/76e65f7a0e0f
-[2/2] firmware: arm_scmi: power_control: Set SCMI_SYSPOWER_IDLE in PM resume
-      https://git.kernel.org/sudeep.holla/c/9a0658d3991e
-
+[1/1] firmware: arm_scmi: Optimize notifiers registration
+      https://git.kernel.org/sudeep.holla/c/b5daf93b809d
 --
 Regards,
 Sudeep
