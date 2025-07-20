@@ -1,73 +1,74 @@
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ABE722424C
-	for <arm-scmi@vger.kernel.org>; Sun, 20 Jul 2025 19:39:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57572253F2
+	for <arm-scmi@vger.kernel.org>; Sun, 20 Jul 2025 19:39:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753040344; cv=none; b=ON9svuJW0jVpAtd5TOTw8fw6Dmn76DujYcCujzsrO7B1nvUCjOWGQV3Wk0fbp8Whs48rwK/cmIAoYIOatfh4l2Ca2P3NECV3L40rgtw/TB61Eu9+B6uhd2SzxqAhGOExt251eYqYk+FoWz0ip4ELyCk/BjkMTN31rnttm7X7Kqo=
+	t=1753040351; cv=none; b=IPvHQKzTuguIeFtLvOEjWpi1L8ExukGTmPQ8tSljk4tIwyFrPAQF0tYUB2xzI9TIRAJUoenOGS8dtk6T6XjQJKIiGWf0a4G2qLd20yuvJMFrDTFuDGau/lUWoXngv/u7sL12OLHgq1QY2/PrxXG2qF6A2PcZnxl0RhVKLKclq7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753040344; c=relaxed/simple;
-	bh=9auUBQhB8O3iigsJ/KehzMZyztYeJf1B88SFG08/JSg=;
+	s=arc-20240116; t=1753040351; c=relaxed/simple;
+	bh=iDtvHuWeWWAvaDrc1D90AZ0sVF5gJEyOSaBvzWOZYBo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u71TOVZ8KyZUNWYYqcjLMnLWJJKk+ccwgHgYuT3H/pihG4acLU7AnVRvHovOzkw5hb8VB/m8sE+gjvxTvc6gVFqWKAdfqw5qKWZz+BDfyNfpSVc/4/Cjf/nhZl9AZDoDx3Ne90velXvp3EWizBSwxFfasw9TkIUAoPz3oL2WBR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rq+X066Y; arc=none smtp.client-ip=209.85.160.50
+	 Content-Type:Content-Disposition:In-Reply-To; b=TDd+lvSdCNv01E/feUhNTywA8RCO+f4KllgeAyQb8U8k6duUcAVFWNvAtkK4XcwEdZXw4iKvzLaTkv/y/j3qPjNTGAYu3o3c3jXYyhsWfvtgbTpOG4Krpz2Wrgfu1CVcemfXVPiwZBHh8CtvdtnmWjRPmd3wvllTubSopf8Gc5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ct66e4xf; arc=none smtp.client-ip=209.85.167.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rq+X066Y"
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-2e95f0b6cb7so1274945fac.3
-        for <arm-scmi@vger.kernel.org>; Sun, 20 Jul 2025 12:39:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ct66e4xf"
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-41b357ba04fso1629644b6e.2
+        for <arm-scmi@vger.kernel.org>; Sun, 20 Jul 2025 12:39:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1753040342; x=1753645142; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1753040348; x=1753645148; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6uCGwy/uGkpfb0pvgcXUB8vgobgSJDaGpbJSvSenFqI=;
-        b=rq+X066YPJYvj7caU6QoRh+ck4ryX4OBTUpKgnOv18omKOBrBoveEWtqW7OR1YHFjX
-         yMNzJibFgVDjbmQCRT4RpaN+uH2+2qU/EpXLAg+NxdfFJeEAfnrRl7SaUgcsM6cV7+tv
-         rwEZu/Vw5JWZt51u6lmnjOQjNydOHkHF1B2a9TJWP2OOWY6oioQQGvuryAN88KmeByKS
-         6Ufu+JCjyuU5ajWVOVH+O5420L4Yd43zAdiqfpXObIPC9SSEkzcLzxVmXDweqwiyIfmz
-         ABGZKDG69/eahe5HyIGgOwVX0I64tg9sH9a7olXVf1vtHVxlnD4jcaOrDmtUl4IecLVo
-         HjeA==
+        bh=TzWMDQiQhqKDucj4xDCvdrZWSeCpiJ1tZaaA5u2Est8=;
+        b=ct66e4xfWyBumlCu9mdkTKmo7lpkX7txgrmlVNZocTJPFVh1tbH2hrQ3S/PXrb7DwT
+         QGyA0vqLPgWwF4RnWlo3sqZQy5/bVeuuOKFFiMc/atQk3ceL8V3fvuBkMhJVTPZAhRCe
+         AGt6WU6GLn8m2MjevlH931ZIwKjIVEF7bsXFkxR4i/NjAcCXSqHVBDZiQ/LbDR3Vh6PR
+         8Bt+9Ip0ENszW2iSzjkr7ssszsixlbxdSOu8TZpWTAbbD9o32EGg5wVdF0N3zBzLJCHT
+         DAMTTkHaiKUNHnOZocAULkPweHjDu0oy717DVCPYceU6FViqGgffPzWwKzyNMtf3f+3q
+         95aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753040342; x=1753645142;
+        d=1e100.net; s=20230601; t=1753040348; x=1753645148;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6uCGwy/uGkpfb0pvgcXUB8vgobgSJDaGpbJSvSenFqI=;
-        b=sC1rY/iyreXHw85Jqhxaj+XdX3Gh1TyAzKVgiNQrTkCmUK5BOWI5w+naViVed3bQfM
-         Z7Xn0QVaBsc4692EYlap00VIO+yd1nGNfjYSNbt8JY15c5/YZahasTaDHdcDi2Tkv1tt
-         uDTCdYYmNhK3pZWiP0y1dHXdrFMEsyfsSU7N6lmDfC5zvisM/gPVXGBhZVw2QlnUyRYt
-         P++1JzzGkki5k+w9Z29K65z8rIYPzXa3mhJTLDxsQqfj382qFtUNknVn29KW4AXFylw1
-         uPmNvURntDqxfCd8z+mg2vgseRuLdWYoCEYwHa8hlXeaCloB+DfOxRk3Tmx5aZCBjlgH
-         nT8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW6pmwCiwaDHVTyfAUDkEXICXkjDrqCQchrLZL+MRRu3rX/I7SEGAJYvLh4ZKYV4YGcKZ72S/8cyA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFQ6IBWcBALR+Yth5fOil/G/vhE2sQLlN123x+JeCPNlmkj7wM
-	IyveODf8EFPIuuf+zJFtuKWDttdi9Xs5qQvIYWMu747/5cq1brUxi7HKrh0yk4WFB40=
-X-Gm-Gg: ASbGncvMI0yKXYNDK1w3/dqxrRIEJOuBN5We3p5GpJN7i5hv1iGRZngWjPwo9/YCM6/
-	TJb30kCiv6mOMSuH/+iUPB9qa52VbB9kOsQi+s3qfxbFibrgPZ3/6ki8GIPm0wcA69KtV2gon3X
-	8thDHsgFtPIBWczj+QFz17lIhJQiMLX34BUMjChHhgubfnDpFezPF8A8YmPoxc2ODaejs2spNE5
-	nz/yyvhl2LFLSwiMrZMM9pEwc2Bz0/FtAY1NfLq9XpuTkQDan+UejmaSNjFpiUV7SYbj00S6Cwt
-	B1NVU96y2fT+KbST7nRioT+e3jy6iG6IuWvil33n5N68+yJGTIFEctgtTKgPSKBClZPYW6wXYMm
-	tSs63UQmtRxc=
-X-Google-Smtp-Source: AGHT+IH8XmyhhsiwXlgfzLZBUO70j3GY7Ll+3IavnthbKLQPwxSitZFNpac9MaQeewUcKGCyD5gWsw==
-X-Received: by 2002:a05:6871:7383:b0:2d5:ba2d:80da with SMTP id 586e51a60fabf-2ffaf5c8720mr13188863fac.36.1753040342019;
-        Sun, 20 Jul 2025 12:39:02 -0700 (PDT)
+        bh=TzWMDQiQhqKDucj4xDCvdrZWSeCpiJ1tZaaA5u2Est8=;
+        b=iTSzwhnlK0cNhiQBO3+U6Tmxv9eQ/a8ClpfuVyV3AG6pfqd5iUmSS3Q/ulkb3ZUW7D
+         4JJbUssGn2yw0okVy5z9Bud/iMA/qtsCw9k5LYmC+T1EwXNi4zX1eReEUHSHRYIVCqsc
+         lgeDKis36/r1nIXwScRy5/p1w24qqW6baNnzMjmAiO3/cko858O5ZxPpt9cUz4AvhBzr
+         IIDr8W/8lnBBstdhuYOfPWI8crttC/w7VAn5Eb2fYRVQx/PfS+p7CrBkC+CphlzSlgN3
+         S2zxdQQ4oYswW+0l6gX6CS+YIIpq3JI13Z7pRuD4kFHQg+O7OzCQa6iQaXyXgrcxPZeR
+         LyxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXoP5FZAliurTXSJjeIGjVKR1swx73m/9FY/LXOgK16MclJsPS00MQKtwaH8SunVFE7WPhIQr163A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YytVnrK8LBVt4NDZ/J7rIcytGm8I92kDikaSKg7IGu9CJ8pFpDe
+	xqQZHs+J8Z20BqQvCToYv/VjHNIWfiUqiDpJAcbS/xMRCQUbj4oL3xTHjY3dHd5fI6Q=
+X-Gm-Gg: ASbGncs9MSOT2wcD4ARzYDAwuy2t5QJmwHsvs5RweX2veAZMI0yCMiQB24wqZzwE5I4
+	gNtFhs/vKmvZY3JH8jLRBXL0A6huZ/iZscoTUPGZXmnFgl0cDMTS4PyBqNQQDtjoIZnLFQpyGxB
+	ZH34MKmqz8RDYg5aeagoCFNhJdO6fBLErkO25oDdOe85LckrsuMfPNVleTICbe0kgFhSiC5Q/Tq
+	seiocpHuQQgC/v2wUBOLcJFMZHejpPWOXaB0qmBYjbVVralNlCJvhv3iMjCUqjLMKTuiFf5lmRj
+	IWB89n0w8wvjVjfqQi/TcbkOiO/JiTZs32AXpTfhk6OLh9p7eUXHFiz2l9LGKILZZasToU/XLNg
+	90BNmwC9Mfqs=
+X-Google-Smtp-Source: AGHT+IHG0eQajqarHbENrvaixxkoziriMrVyGz1oaBStUnyceEv9srArOzG9hJaXtUODGRIJ4Pm6Aw==
+X-Received: by 2002:a05:6808:3a15:b0:40a:533c:c9cb with SMTP id 5614622812f47-41d05654bcdmr12175951b6e.38.1753040347679;
+        Sun, 20 Jul 2025 12:39:07 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700::1fec])
-        by smtp.gmail.com with UTF8SMTPSA id 586e51a60fabf-30103d1d804sm2810796fac.29.2025.07.20.12.39.00
+        by smtp.gmail.com with UTF8SMTPSA id 5614622812f47-41fd498c1cbsm1799638b6e.27.2025.07.20.12.39.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Jul 2025 12:39:01 -0700 (PDT)
-Date: Sun, 20 Jul 2025 14:38:59 -0500
+        Sun, 20 Jul 2025 12:39:06 -0700 (PDT)
+Date: Sun, 20 Jul 2025 14:39:04 -0500
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Sudeep Holla <sudeep.holla@arm.com>,
-	AKASHI Takahiro <takahiro.akashi@linaro.org>,
-	Michal Simek <michal.simek@amd.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Linus Walleij <linus.walleij@linaro.org>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RFC v2 4/7] pinctrl-scmi: add PIN_CONFIG_INPUT_VALUE
-Message-ID: <6f732f53-7e00-4f0d-82a3-480bc81497bd@sabinyo.mountain>
+To: AKASHI Takahiro <takahiro.akashi@linaro.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH RFC v2 6/7] pinctrl-scmi: Add GPIO support
+Message-ID: <bd79aa90-73f7-4d7b-a340-539b52a73bcf@sabinyo.mountain>
 References: <cover.1753039612.git.dan.carpenter@linaro.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -79,60 +80,298 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1753039612.git.dan.carpenter@linaro.org>
 
-In SCMI the value of the pin is just another configuration option.  Add
-this as an option in the pin_config_param enum and creating a mapping to
-SCMI_PIN_INPUT_VALUE in pinctrl_scmi_map_pinconf_type()
+This adds GPIO support to the SCMI pin controller driver.  It's an RFC
+patch because I'm not really sure how these are used and so I don't
+know how they should be configured via devicetree.  I've labeled the
+places where I think devicetree configuration would go with a FIXME.
 
-Since this is an RFC patch, I'm going to comment that I think the SCMI
-pinctrl driver misuses the PIN_CONFIG_OUTPUT enum.  It should be for
-enabling and disabling output on pins which can serve as both input and
-output.  Enabling it is supposed to write a 1 and disabling it is
-supposed to write a 0 but we use that side effect to write 1s and 0s.  I
-did't change this because it would break userspace but I'd like to add a
-PIN_CONFIG_OUTPUT_VALUE enum as well and use that in the GPIO driver.
-But in this patchset I just use PIN_CONFIG_OUTPUT.
+This driver was based on work from Takahiro AKASHI.
 
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/pinctrl/pinctrl-scmi.c          | 3 +++
- include/linux/pinctrl/pinconf-generic.h | 3 +++
- 2 files changed, 6 insertions(+)
+ drivers/pinctrl/core.c         |   8 +-
+ drivers/pinctrl/pinctrl-scmi.c | 206 ++++++++++++++++++++++++++++++++-
+ 2 files changed, 207 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/pinctrl/core.c b/drivers/pinctrl/core.c
+index bbcc6881b119..91882c68bcd5 100644
+--- a/drivers/pinctrl/core.c
++++ b/drivers/pinctrl/core.c
+@@ -947,7 +947,6 @@ EXPORT_SYMBOL_GPL(pinctrl_gpio_set_config);
+ int pinctrl_gpio_get_config(struct gpio_chip *gc, unsigned int offset, unsigned long *config)
+ {
+ 	struct pinctrl_gpio_range *range;
+-	const struct pinconf_ops *ops;
+ 	struct pinctrl_dev *pctldev;
+ 	int ret, pin;
+ 
+@@ -955,19 +954,16 @@ int pinctrl_gpio_get_config(struct gpio_chip *gc, unsigned int offset, unsigned
+ 	if (ret)
+ 		return ret;
+ 
+-	ops = pctldev->desc->confops;
+-	if (!ops || !ops->pin_config_get)
+-		return -EINVAL;
+-
+ 	mutex_lock(&pctldev->mutex);
+ 	pin = gpio_to_pin(range, gc, offset);
+-	ret = ops->pin_config_get(pctldev, pin, config);
++	ret = pin_config_get_for_pin(pctldev, pin, config);
+ 	mutex_unlock(&pctldev->mutex);
+ 
+ 	if (ret)
+ 		return ret;
+ 
+ 	*config = pinconf_to_config_argument(*config);
++
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(pinctrl_gpio_get_config);
 diff --git a/drivers/pinctrl/pinctrl-scmi.c b/drivers/pinctrl/pinctrl-scmi.c
-index 383681041e4c..d1f2f971cd96 100644
+index fba0a3a2fc10..9a947ced0df7 100644
 --- a/drivers/pinctrl/pinctrl-scmi.c
 +++ b/drivers/pinctrl/pinctrl-scmi.c
-@@ -250,6 +250,9 @@ static int pinctrl_scmi_map_pinconf_type(enum pin_config_param param,
- 	case PIN_CONFIG_INPUT_SCHMITT_ENABLE:
- 		*type = SCMI_PIN_INPUT_MODE;
- 		break;
-+	case PIN_CONFIG_INPUT_VALUE:
-+		*type = SCMI_PIN_INPUT_VALUE;
-+		break;
- 	case PIN_CONFIG_MODE_LOW_POWER:
- 		*type = SCMI_PIN_LOW_POWER_MODE;
- 		break;
-diff --git a/include/linux/pinctrl/pinconf-generic.h b/include/linux/pinctrl/pinconf-generic.h
-index 1bcf071b860e..b37838171581 100644
---- a/include/linux/pinctrl/pinconf-generic.h
-+++ b/include/linux/pinctrl/pinconf-generic.h
-@@ -83,6 +83,8 @@ struct pinctrl_map;
-  *      schmitt-trigger mode is disabled.
-  * @PIN_CONFIG_INPUT_SCHMITT_UV: this will configure an input pin to run in
-  *	schmitt-trigger mode. The argument is in uV.
-+ * @PIN_CONFIG_INPUT_VALUE: This is used in SCMI to read the value from the
-+ *	pin.
-  * @PIN_CONFIG_MODE_LOW_POWER: this will configure the pin for low power
-  *	operation, if several modes of operation are supported these can be
-  *	passed in the argument on a custom form, else just use argument 1
-@@ -135,6 +137,7 @@ enum pin_config_param {
- 	PIN_CONFIG_INPUT_SCHMITT,
- 	PIN_CONFIG_INPUT_SCHMITT_ENABLE,
- 	PIN_CONFIG_INPUT_SCHMITT_UV,
-+	PIN_CONFIG_INPUT_VALUE,
- 	PIN_CONFIG_MODE_LOW_POWER,
- 	PIN_CONFIG_MODE_PWM,
- 	PIN_CONFIG_OUTPUT,
+@@ -6,6 +6,7 @@
+  * Copyright 2024 NXP
+  */
+ 
++#include <linux/bitmap.h>
+ #include <linux/device.h>
+ #include <linux/err.h>
+ #include <linux/errno.h>
+@@ -16,6 +17,9 @@
+ #include <linux/slab.h>
+ #include <linux/types.h>
+ 
++#include <linux/gpio/driver.h>
++
++#include <linux/pinctrl/consumer.h>
+ #include <linux/pinctrl/machine.h>
+ #include <linux/pinctrl/pinconf.h>
+ #include <linux/pinctrl/pinconf-generic.h>
+@@ -42,6 +46,7 @@ struct scmi_pinctrl {
+ 	unsigned int nr_functions;
+ 	struct pinctrl_pin_desc *pins;
+ 	unsigned int nr_pins;
++	struct gpio_chip *gc;
+ };
+ 
+ static int pinctrl_scmi_get_groups_count(struct pinctrl_dev *pctldev)
+@@ -505,6 +510,197 @@ static int pinctrl_scmi_get_pins(struct scmi_pinctrl *pmx,
+ 	return 0;
+ }
+ 
++static int pinctrl_gpio_get_direction(struct gpio_chip *gc, unsigned int offset)
++{
++	unsigned long config;
++	bool in, out;
++	int ret;
++
++	config = PIN_CONFIG_INPUT_ENABLE;
++	ret = pinctrl_gpio_get_config(gc, offset, &config);
++	if (ret)
++		return ret;
++	in = config;
++
++	config = PIN_CONFIG_OUTPUT_ENABLE;
++	ret = pinctrl_gpio_get_config(gc, offset, &config);
++	if (ret)
++		return ret;
++	out = config;
++
++	/* Consistency check - in theory both can be enabled! */
++	if (in && !out)
++		return GPIO_LINE_DIRECTION_IN;
++	if (!in && out)
++		return GPIO_LINE_DIRECTION_OUT;
++
++	return -EINVAL;
++}
++
++static int pinctrl_gpio_direction_output_wrapper(struct gpio_chip *gc,
++						 unsigned int offset, int val)
++{
++	return pinctrl_gpio_direction_output(gc, offset);
++}
++
++static int pinctrl_gpio_get(struct gpio_chip *gc, unsigned int offset)
++{
++	unsigned long config;
++	int ret;
++
++	config = PIN_CONFIG_INPUT_VALUE;
++	ret = pinctrl_gpio_get_config(gc, offset, &config);
++	if (ret)
++		return ret;
++
++	return config;
++}
++
++static void pinctrl_gpio_set(struct gpio_chip *gc, unsigned int offset, int val)
++{
++	unsigned long config;
++
++	config = PIN_CONF_PACKED(PIN_CONFIG_OUTPUT, val);
++	pinctrl_gpio_set_config(gc, offset, config);
++}
++
++static int pinctrl_gc_to_func(struct gpio_chip *gc)
++{
++	struct scmi_pinctrl *pmx = gpiochip_get_data(gc);
++
++	return (gc - pmx->gc);
++}
++
++static int gpio_add_pin_ranges(struct gpio_chip *gc)
++{
++	struct scmi_pinctrl *pmx = gpiochip_get_data(gc);
++	const char * const *p_groups;
++	unsigned int n_groups;
++	int func = pinctrl_gc_to_func(gc);
++	const unsigned int *pins;
++	unsigned int n_pins;
++	int offset = 0;
++	int group;
++	int ret;
++
++	ret = pmx->pctl_desc.pmxops->get_function_groups(pmx->pctldev, func, &p_groups, &n_groups);
++	if (ret)
++		return ret;
++
++	// FIXME: fix the correct group from the device tree
++	for (group = 0; group < n_groups; group++) {
++		ret = pinctrl_get_group_pins(pmx->pctldev, p_groups[group], &pins, &n_pins);
++		if (ret)
++			return ret;
++
++		ret = gpiochip_add_pingroup_range(gc, pmx->pctldev, offset, p_groups[group]);
++		if (ret)
++			return ret;
++
++		offset += n_pins;
++	}
++
++	return 0;
++}
++
++static int get_nr_pins_in_function(struct scmi_pinctrl *pmx, int func)
++{
++	const char * const *pin_groups;
++	unsigned int n_groups;
++	const unsigned int *pins;
++	unsigned int n_pins;
++	int total = 0;
++	int i, ret;
++
++	// FIXME: get the correct number of gc.ngpio
++	// Find the right group from the device tree
++	ret = pmx->pctl_desc.pmxops->get_function_groups(pmx->pctldev, func, &pin_groups, &n_groups);
++	if (ret)
++		return ret;
++
++	for (i = 0; i < n_groups; i++) {
++		ret = pinctrl_get_group_pins(pmx->pctldev, pin_groups[i], &pins, &n_pins);
++		if (ret)
++			return ret;
++		total += n_pins;
++	}
++
++	return total;
++}
++
++static int register_scmi_pinctrl_gpio_handler(struct device *dev, struct scmi_pinctrl *pmx)
++{
++	struct fwnode_handle *gpio = NULL;
++	int ret, i;
++
++	gpio = fwnode_get_named_child_node(dev->fwnode, "gpio");
++	if (!gpio)
++		return 0;
++
++	pmx->gc = devm_kcalloc(dev, pmx->nr_functions, sizeof(*pmx->gc), GFP_KERNEL);
++	if (!pmx->gc)
++		return -ENOMEM;
++
++	for (i = 0; i < pmx->nr_functions; i++) {
++		const char *fn_name;
++
++		ret = pinctrl_ops->is_gpio(pmx->ph, i, FUNCTION_TYPE);
++		if (ret < 0)
++			return ret;
++		if (ret == false)
++			continue;
++
++		ret = pinctrl_ops->name_get(pmx->ph, i, FUNCTION_TYPE, &fn_name);
++		if (ret)
++			return ret;
++
++		pmx->gc[i].label = devm_kasprintf(dev, GFP_KERNEL, "%s", fn_name);
++		if (!pmx->gc[i].label)
++			return -ENOMEM;
++
++		pmx->gc[i].owner = THIS_MODULE;
++		pmx->gc[i].get = pinctrl_gpio_get;
++		pmx->gc[i].set = pinctrl_gpio_set;
++		pmx->gc[i].get_direction = pinctrl_gpio_get_direction;
++		pmx->gc[i].direction_input = pinctrl_gpio_direction_input;
++		pmx->gc[i].direction_output = pinctrl_gpio_direction_output_wrapper;
++		pmx->gc[i].add_pin_ranges = gpio_add_pin_ranges;
++
++		// FIXME: verify that this is correct
++		pmx->gc[i].can_sleep = true;
++
++		ret = get_nr_pins_in_function(pmx, i);
++		if (ret < 0)
++			return ret;
++		pmx->gc[i].ngpio = ret;
++
++		pmx->gc[i].parent = dev;
++		pmx->gc[i].base = -1;
++	}
++
++	return 0;
++}
++
++static int scmi_gpiochip_add_data(struct device *dev, struct scmi_pinctrl *pmx)
++{
++	int ret;
++	int i;
++
++	for (i = 0; i < pmx->nr_functions; i++) {
++		ret = pinctrl_ops->is_gpio(pmx->ph, i, FUNCTION_TYPE);
++		if (ret < 0)
++			return ret;
++		if (ret == false)
++			continue;
++
++		ret = devm_gpiochip_add_data(dev, &pmx->gc[i], pmx);
++		if (ret)
++			return ret;
++	}
++
++	return 0;
++}
++
+ static const char * const scmi_pinctrl_blocklist[] = {
+ 	"fsl,imx95",
+ 	"fsl,imx94",
+@@ -559,7 +755,15 @@ static int scmi_pinctrl_probe(struct scmi_device *sdev)
+ 	if (!pmx->functions)
+ 		return -ENOMEM;
+ 
+-	return pinctrl_enable(pmx->pctldev);
++	ret = register_scmi_pinctrl_gpio_handler(dev, pmx);
++	if (ret)
++		return ret;
++
++	ret = pinctrl_enable(pmx->pctldev);
++	if (ret)
++		return ret;
++
++	return scmi_gpiochip_add_data(dev, pmx);
+ }
+ 
+ static const struct scmi_device_id scmi_id_table[] = {
 -- 
 2.47.2
 
