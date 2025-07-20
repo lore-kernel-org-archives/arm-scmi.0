@@ -1,201 +1,110 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011051.outbound.protection.outlook.com [52.101.70.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C491EE7D5;
-	Fri, 18 Jul 2025 09:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752832068; cv=fail; b=dSRbexWITznPVG+e3cd3ISrJvAz/NiHM4rBlIhgEji0elMXR9lel7Efy6cAUa3X7OeZvOVtLDxqVIMBagMxTolKzP+H5M673248FcQlq2UEKMZhIf7x/7y0hFx/oVhhIhSMF6YZdf4Op9rIhmVUny6xnrqzwTQwSPR657fnFrco=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752832068; c=relaxed/simple;
-	bh=yfWA9m0fWbFJeLzXT0asRO45wDNMBCqWXRPJAHAZpDA=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=qifMy+i49UrkqEfrltLEm9857oy2ShLlQv86inIJqwLRZMqt7Ba+wWRLX6yRAXnspPAE6KVI9OTh1w8GpEsAQmAPAtqgjgNP0RVZgE0dBkCkO6QkUWsIRh+6WAIcaC74k95LSdyO+vDFSc3Xm2ekDaPjuQag+R2l3w80K2FaLlU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=h4K0ZJh8; arc=fail smtp.client-ip=52.101.70.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70421758B
+	for <arm-scmi@vger.kernel.org>; Sun, 20 Jul 2025 19:38:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753040320; cv=none; b=LbCxxEbALyboP40IRF0IDI7BmQytMMYmxOoQBlbj2PFPHwUuJ41sIb4buT2K+dQk4qvDfuB1wejJRBY3o9ujA3AmE80TXJiC7EfAI7BNNwZW6tg05Eul63XUiU504jRoZPw16qPsVtzfcUc0urDyyWaFP65kfk9/XtKF1aSRgYQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753040320; c=relaxed/simple;
+	bh=cPk3QUDJyicVsrvKeLaXhnNw3hfUKvYreFrFy6p94ao=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=c7o7Kx20lpKlCmCzIkRecKg+QZLgHjgrbH4ZtT31SLV6WyBqovkWlvk91r4g7qLTxvLMEZFo3rQTB9S4A82/mKqTaazbpUFZqbw0pE0UyiHTvfkaT0ztI1suie8lgJ5atz2mcVSvlp4Plr/Zf6zUkzffJ96QFevOBPcF3MXfk14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mMu/NQuR; arc=none smtp.client-ip=209.85.210.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="h4K0ZJh8"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Oggp9NOMzW25DzB1w4brxQpVsazQrvdj7ayWqhrIrjlJKlFZW2Z4zuNqCAR4VHOwDKXbmHaG1LRpghzatzYGrN1tyB7ZqpRDPTPTS6vZhRg2Br+9Fc+QugQ2roxtyadQFE8EecB3H1uE2xkJ5l+3TIhaKUFWc6WOX1qttYE5BWWZnLxfvmnoAsiekaxnCpttn8ydJLAL8blqzgj1oiiGrsQdnThXylKIB2yhnJXTjWwO8Db43fB3HSRncaLTgUOMyZI8iqOkTvQALYNhUthTMHljhuLscWHEYmr6VlM3HrOKIy9OXRd+kijVCTNI3eKmov18LswlBSrRuyWBIGNouA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gJf3bMQGotHKt1OZ6CbB843DHEDphWLqyaP6E8HCc7c=;
- b=f+97v3DwqhFUyT4SfuoVijaZQXBCAFVaWpvrmK/VTlzj9EVECEcR090yqs9UND3azpPDOUebf5gYArqv7YwWmjd0LpP8bEeAn5mz1aWDf5d11wRupoxqyAEm+hM0zUmQOa6+a4fEGB+UqaG1vjIUA672G9RuMHHJZRgoRd6Kw3XYxJeE0E0GXDJf4K0LsfJNLfKzApDym1elJ/Pv5wYuu82vZcVIOetEFTkY6F4BF+YLy1HNmOXrcca6NIwtjDMV8oI8z1FoVvyIVLlrBiLC6NgHUDaXI/pXA4pYxlniKpWh+zw2jeyHsWI4O1AviNyBkLewzuqTLFcWU8ymcJcS7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gJf3bMQGotHKt1OZ6CbB843DHEDphWLqyaP6E8HCc7c=;
- b=h4K0ZJh8qe51pxWLlmToaEDl0FpNXL+wqShrxTqVW6SLODeMp+Cm0KWJCoAtbh0ZB8o9L6Mf2xi13CimJ/s93pvX6qfQEKTkidqwq9A+pqwF4QK5UzbsqxIZOr9F34FF4lec9mXEh2M6j1cWABPPbVoeEwJNocQn66v4cxzt+UPE2oUsq7prPKsUmwvnNS940A/Qu22y1f9WKJASOn6KJZmJlin1OZpCzZm2kH9GDT8/g/vfwi+aQ94ZIL6FK/wDPYl+45cRm+5sMG0DZAqrKiGRpZVk80nW8KM5G+hFShCPPJe6HEn3MfV2ldC1aF1joaR9Qbjf0cHqSy2hMsAdPQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
- by AM9PR04MB8874.eurprd04.prod.outlook.com (2603:10a6:20b:409::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.39; Fri, 18 Jul
- 2025 09:47:42 +0000
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630%7]) with mapi id 15.20.8922.037; Fri, 18 Jul 2025
- 09:47:42 +0000
-From: Peng Fan <peng.fan@nxp.com>
-To: mathieu.poirier@linaro.org,
-	Peng Fan <peng.fan@nxp.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	arm-scmi@vger.kernel.org (open list:SYSTEM CONTROL MANAGEMENT INTERFACE (SCMI) i.MX...),
-	imx@lists.linux.dev (open list:SYSTEM CONTROL MANAGEMENT INTERFACE (SCMI) i.MX...),
-	linux-arm-kernel@lists.infradead.org (moderated list:SYSTEM CONTROL MANAGEMENT INTERFACE (SCMI) i.MX...),
-	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
-Subject: [PATCH V2 RESEND] dt-bindings: firmware: imx95-scmi: Allow linux,code for protocol@81
-Date: Fri, 18 Jul 2025 17:47:22 +0800
-Message-Id: <20250718094723.3680482-1-peng.fan@nxp.com>
-X-Mailer: git-send-email 2.37.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MA1PR01CA0175.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:d::10) To PAXPR04MB8459.eurprd04.prod.outlook.com
- (2603:10a6:102:1da::15)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mMu/NQuR"
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-73e88bc3891so1241532a34.0
+        for <arm-scmi@vger.kernel.org>; Sun, 20 Jul 2025 12:38:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1753040318; x=1753645118; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=STF4EnqDyXKLMLeHRmPBDx0M84uZz7Y9ipuUY9uInvk=;
+        b=mMu/NQuR0B6rRCqOBvW0hhQAicVcTUTSi2MHh7PVP6x5Tfbj4lTjx0O8KU6vXuW9NL
+         P558OLDpFxDj7Lqsypv1AeOBL6LLx5idg2C+RSZKCxAllx0iXzsw/wKdl/N5R1tGBhaI
+         7SX55Xid74pMpn6IqnRhqxeQXqdaxPYiTCdbrRG8pN3JacNGDMw+qxKS/EDwI0pHxynY
+         OQIXfrbV54iLzaqtLeAgUELgfjYXd10kgmH1MmalvA56PRonLmMO85M8yVda0ZIFGqHr
+         GIr6/9hBic3NbeYWNU3iqOhpkQPYG7lVYL4UhcSt5Q0LbtvQI/MSqCKaxnm00IFEL6/l
+         +Axw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753040318; x=1753645118;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=STF4EnqDyXKLMLeHRmPBDx0M84uZz7Y9ipuUY9uInvk=;
+        b=xCmgc8K1N3sQv0Yvm9vzKNTinRRxUrHKv0Wc9zVMdisLPIzoEJ0dfre9RRi9ICkS8U
+         o3/clx8DWLb4+fTqaysqujaZWOVevs+seX5C4dWRD7UKh1MCpEytskm/onZzCQyoU9h3
+         7SMea5puTSYwImSNLvmBDv8HNhOCbjW5KKNKOjOhI3MIv3I5TSFTXAJ8a+WKJy4rBAij
+         bxRFxeYTTq5Kf3Dm8ePojBEPRcBqkUPKew5udRNPdJ+nyp8lFFRmE/3E4qUna6nQH5qB
+         dxj3Tv+jKY/lh4VsPwVl1p7+lizqeRt8jpOiydeYUh5RKK4u5LNj3x1CbY5smjRy6l3Y
+         0bQw==
+X-Gm-Message-State: AOJu0YxkqOSf2ItwZOT2MlN8+ga5qbHnslXloq9sun59OHKnXj30chOw
+	9Lms7Qf6LSg+heNb6hGQHefFyTCogY3IX+laOWu3zrdIKRtwl01G40R+nGORG87L8aQ=
+X-Gm-Gg: ASbGncuGeSd4M/gvRVRV/fYx51GEvKtmjgeai/D++SOx4/OAH+lSA2PzaGH2eeIoim9
+	prLfY+Qh2/bhc0FhPFjy0LHfP4SzZYyXG6F7FkNfiMYTfhudlbzon/ok8QnSLNse1U0ObiPVCMa
+	3cbV8NF788f79pYcLVYdfDVQXI42dV93u2FAuLrXL3CLe/IOfNEHoNYQVccqCY+/hJ1JAEXI+oe
+	CU2LxRZgHhyAjuO+I+yZdBkTNZeFLETuDUZSLneTOXg3EjKenVS7IRYbvQzS+opGCKV5TnW6FVa
+	HZCorYMTfGmwPl3JN6mLFOtDbPMpOXpw970PuW3ajcd92kgrlOro3u6gJi8m1yWDyOg+V2iC4IF
+	FS40hic+LA9sx5q8o7Ddq8A==
+X-Google-Smtp-Source: AGHT+IFkKgtB3ObGVLZWp4E0IcFIPQvja+e9izOMOGhmXfiPr6edCos/deJ042mUxYWb2yIkng7kUw==
+X-Received: by 2002:a05:6830:8313:b0:72b:9316:d596 with SMTP id 46e09a7af769-73e751b5161mr8602757a34.3.1753040317899;
+        Sun, 20 Jul 2025 12:38:37 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700::1fec])
+        by smtp.gmail.com with UTF8SMTPSA id 006d021491bc7-615bcc8c2dbsm1341831eaf.20.2025.07.20.12.38.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Jul 2025 12:38:36 -0700 (PDT)
+Date: Sun, 20 Jul 2025 14:38:28 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	AKASHI Takahiro <takahiro.akashi@linaro.org>,
+	Michal Simek <michal.simek@amd.com>
+Cc: arm-scmi@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>
+Subject: [PATCH RFC v2 0/7] pinctrl-scmi: Add GPIO support
+Message-ID: <cover.1753039612.git.dan.carpenter@linaro.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|AM9PR04MB8874:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8ec37612-fa85-4d1c-4cb5-08ddc5e023c1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|7416014|19092799006|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ncJXBHfH4uIgzXz4S9QopCCDBS/8LeteMmYMq2CwGFt1lMtg4JMmL14qr9gC?=
- =?us-ascii?Q?U5/6RfjEu9hZEjKCfxuDimiFzfe2igoivR9ECA5vL4SGflszrA7valjEcpdY?=
- =?us-ascii?Q?EsbUz6sGAryHIiUl5NSSAVT98AqVx9pfVn342L8mjyDt0ApM4+SSQrxiJwBF?=
- =?us-ascii?Q?L5cgmozkWUFkwS4OcaRT7LjWrKHsN9nTZKo0I0xIPksaZR8AOvR/hE0FwwXP?=
- =?us-ascii?Q?QuwVJit0MtlrN1Xe+iNVxSavakxUUUIh7W5z4aOAk1weeq/MqcnyXfFZc4Ct?=
- =?us-ascii?Q?EIkHcPwM38sIyRXeU8thA+rmKosvw015L9wGjYq4WaRfTnaZ4N+rU5B7E1QJ?=
- =?us-ascii?Q?/bL9mpjcq4EGCYPSAvGgLPaLzyRMHxJXV8lwdYsQAF5JybnfS4pS0REMlrYU?=
- =?us-ascii?Q?4tC3fd5TvtRYfndtBeWW+QK1n76RIYs32p4KgvSknzwdFffv0K1QJEaNH3e5?=
- =?us-ascii?Q?3pFDdsAX6ZTevqT78ViI4IhNDAGkUduBpnkUJeHSoxKXxfoFrVyAbN1rFIo7?=
- =?us-ascii?Q?Y06y4FTcad83Xm4jsU+qcOWeCGRt+RaqeAt7Vji5T3a3eQrbta2mCWT6wPIo?=
- =?us-ascii?Q?521oXntjrgujAC9Q0d5ocxSH2HBUqavaIqHiEr5O08YYnFj4eUgc/o79/sWI?=
- =?us-ascii?Q?jYVIxONllyuy7QBcn2fe3omkzfSn7PBnCsOv9i/8unhNTc4Jpvpe+6z8yd9p?=
- =?us-ascii?Q?0fZgp8xQBn+RsBX9SoU/4fto/TB92BGPv/8B//v9xi+exGmP032ZA2p6AALF?=
- =?us-ascii?Q?ssZFmbyl7kwB0PedZPWyqQtR2V87vszhWIAeqPHiyVZCe6hiKLTWhC1y/99T?=
- =?us-ascii?Q?eMRg+F5SdlkRLwkTOXViIQPkYPqHZHRtw/IS3jPauzss8xQv7ujoq3FX8jY9?=
- =?us-ascii?Q?s/aKVe6dgOGV9FncEUZwo4T8s0fGAGIz8/Yjhl13EgoGijEWxqMvNUL5enbb?=
- =?us-ascii?Q?BIMOMjCe5AjIKVAnntUdJckAAb6e2reKHn6Iz2qGwzm+LTHnhtZiV2gjHDoE?=
- =?us-ascii?Q?oxSJarzMgzza9Rhy95o3H27xonk2iyUNsg0z4B3VpJNziHJEmyNRO9TFQEIL?=
- =?us-ascii?Q?4gCYcBr8I5gPEeQo7Ek48HYFX9/KOWI59WZUj/l2ZmFvEHNMFXL/6a7jhtRR?=
- =?us-ascii?Q?T5TVaBRo7MiDVKEQhouUq7Kbw74nnOQD0XRxB61Ho5A2TjQjtfJCNixqRbxM?=
- =?us-ascii?Q?fmf4TUFYJgb8esvWrXJtNCg390nRbZIBOSyjimEmOx+rkTZ8J2QVrWvF75V1?=
- =?us-ascii?Q?zPnkssT5juMl1VSimuZP0TzdFEiLz06e5wE9cC5sXONRfTU7ZLrSSh3u3cW/?=
- =?us-ascii?Q?Gf7Yo4Q67p3OA9eNeAj5UojOZmbrX3cWVv6//96NzOQtUeYZGH/bKAytrp2+?=
- =?us-ascii?Q?MP7bL5nYUj9x8YTZ6/pSqICq8QuKYqJtGBLOtrzSOOzcCMc4NKDxKcjLbuJI?=
- =?us-ascii?Q?672Hwg0/DuG0QB7yoDczdwk8xFqI2ZLO?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(7416014)(19092799006)(921020)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?kE8MZ4ToK3eWAWnrYg0rfdRpDiBY4K1R3CM+R+OkZeayit1errwqqu4YRqCx?=
- =?us-ascii?Q?dB45E7yyY5aGPELlhpRiYyPBP9eu7/3+1blUBFpKJsFYiGnXG5kCauIDPdl0?=
- =?us-ascii?Q?9nvDhjTXDy6MHzBoT//sRBW8c/ZrnL+mc3YMloSN5qXnR5WHBUSQry/LVWLp?=
- =?us-ascii?Q?cFXzKoL/UEfgTAbrcH1aDqvqQvuU7bCIATKP1PEHONf2v8T5/10Fxajbw/ML?=
- =?us-ascii?Q?wBi8t+ba1h+QmjR8hvkBL/RCDRkRC5KqjG/fkeYHGiwSQ5WrCt7HQrTfvIKf?=
- =?us-ascii?Q?QwpejqiT02fsmODPqemgfteJ9nHEV8+OeK93MEfulPTKBdbJpWX96nNKW26u?=
- =?us-ascii?Q?L8BYt2C5opgc8YnA30jn8xbZymmU/gua3mcdSDxrJ5HMfLLIqguKjndCWGhu?=
- =?us-ascii?Q?piG1FEhbWBkDRDh+YhP4sCpYEBaXKcoPzEbywisJJJSwJxLTvoLZJ7xpBLHa?=
- =?us-ascii?Q?nwKnXV1dp+sWpSZVWLPgz5j4gKz05VUToKlvUzV48llvoRBt/2xGtZ5+wo2t?=
- =?us-ascii?Q?Z8AJWLaclIFLK7pu1+AIkfgxnmHEtLJ/LnTPvz5w1F3xm7xes2RPRiYWEV0D?=
- =?us-ascii?Q?HgeFbyMKOuIcmeDRaqpJH0NbkLMXKOlxAJhNobnT0tTSekoKnXz1S/06Q13t?=
- =?us-ascii?Q?gmjLd3J0YM8onmc+KK9NwAxnT6diPA6fwR6H1ZvOeB08dny7/dPSelWQk0wb?=
- =?us-ascii?Q?gI0d2+GCYBdkYFQGFcPBf/1XgQVCzi+qLAxP0z3A2/QqSjo5DGJnsQl/IuP/?=
- =?us-ascii?Q?xzSKehs+RaqxHDcDd5ewhQYcw+TSVe9ucgKfOImBdVow3M5iPUYrryfVWPZh?=
- =?us-ascii?Q?arq7INJJqhfNKFbB/Mt4u1x9kuNqRpfwcJcpjIr/iI3gygUdOk8A5MhXpnzA?=
- =?us-ascii?Q?lW+K+X66DO2KJGrAk2Lv2p8XBNDMhr63cwrFYpLpr7kqFiOzExIGphE6tj68?=
- =?us-ascii?Q?dyssvVbCQo2HhER1EoTBH/+0rgDfG4+3bDldxeagbveInQmdwfu62b2G7Hfw?=
- =?us-ascii?Q?d7Xd4Qo0fB+wPshX2kYdFy7fr7WAcoqcmn6ZdinTLx2/x/F7wvgStiUAE5FR?=
- =?us-ascii?Q?Wpgvap7O0ALtsOySsqEVz1syb1jez9klWyNNLSY1hecGyuAls7gJIosBNoeY?=
- =?us-ascii?Q?dbWJgoldI8T6UIgWqv+1JVjSSa4DPLReiJ+Fon692xvx/OcCvygXNJh1k8yj?=
- =?us-ascii?Q?wph7qEv1xZ99XR+22bzxnFa6hhiqYRCVCAtzuj7dwm4ymPZyVDm6NOSTiGWo?=
- =?us-ascii?Q?64oZ4dV4COgbMRwbuLaucWMC7LfdJBkyyOJ+rRl1tO2BoBcqtRElp1S6EvXN?=
- =?us-ascii?Q?3yUbP1nir17cj9A5zEgkkMdD5VGFH/x195Rk+4wz7kAc861OlRp5XrQOJu2q?=
- =?us-ascii?Q?0lmAjNRNNeqYieFLXo6QAKW5LVKS8EW5z7s6EkGvHkMB2lxWjLG272Q/DdrN?=
- =?us-ascii?Q?KpaXdmCEZjpsGkaXR7ibOfctU/8itHO3jNw0BGMyFAi0BhZ5lUjyMeD2yVMa?=
- =?us-ascii?Q?21ve1jV5Bb4iWR/r14TFXUSbFF0zUVf1GB/I68j5SXClIl3CbH0u7kFw9Xe7?=
- =?us-ascii?Q?oxirpqL6ZwqzUu6r1DhwTT1tZKwFZiWGm44KqE10?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ec37612-fa85-4d1c-4cb5-08ddc5e023c1
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2025 09:47:42.2153
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5ccdkINco5hUyNIU/NeGSl1j1BYsLe8jvsYqaOtWfCtvNjhexV06lUn5zHdGNzYXiuefie/qYkb60f6oRSm9Gg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8874
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
+This is version 2 of the RFC.  The main reason I'm sending this is because
+there was a bug in the first version where it didn't calculate the offset
+correctly so pins and groups weren't linked correctly.
 
-BBM protocol supports a single power button, supported by driver
-imx-sm-bbm-key.c. By default this is KEY_POWER, but can also be overwritten
-using linux,code. Add a reference to this schema and add linux,code as a
-supported property.
+I've also fixed a few style issues that people pointed out.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-Signed-off-by: Peng Fan <peng.fan@nxp.com>
----
+These patches are basically as ready as they can be.  The remaining thing
+is to figure out the format to describe it in the device tree.  Actually
+that's probably already done, somewhat because people are already using
+SCMI pinctrl?
 
-Resend [1].
-I not see a reason that why this patch could block i.MX95 remoteproc support[2].
-But to speed up the work, I took Alexander's work and resend it. Hope this
-could catch 6.17
+AKASHI Takahiro (1):
+  pinctrl: introduce pinctrl_gpio_get_config()
 
-[1]https://lore.kernel.org/imx/20250513-whimsical-almond-quoll-e3ad5b@sudeepholla/
-[2]https://lore.kernel.org/linux-remoteproc/PAXPR04MB8459A0F330554EB69E990E048850A@PAXPR04MB8459.eurprd04.prod.outlook.com/T/#t
+Dan Carpenter (6):
+  firmware: arm_scmi: move boiler plate code into the get info functions
+  firmware: arm_scmi: add is_gpio() function
+  pinctrl-scmi: add PIN_CONFIG_INPUT_VALUE
+  pinctrl: Delete PIN_CONFIG_OUTPUT_IMPEDANCE_OHMS support
+  pinctrl-scmi: Add GPIO support
+  pinctrl-scmi: remove unused struct member
 
- .../devicetree/bindings/firmware/nxp,imx95-scmi.yaml   | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/firmware/arm_scmi/pinctrl.c     | 142 +++++++++-------
+ drivers/pinctrl/core.c                  |  31 ++++
+ drivers/pinctrl/pinctrl-scmi.c          | 213 +++++++++++++++++++++++-
+ include/linux/pinctrl/consumer.h        |   9 +
+ include/linux/pinctrl/pinconf-generic.h |   3 +
+ include/linux/scmi_protocol.h           |   2 +
+ 6 files changed, 331 insertions(+), 69 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/firmware/nxp,imx95-scmi.yaml b/Documentation/devicetree/bindings/firmware/nxp,imx95-scmi.yaml
-index 2bda2e0e1369..7a5a02da2719 100644
---- a/Documentation/devicetree/bindings/firmware/nxp,imx95-scmi.yaml
-+++ b/Documentation/devicetree/bindings/firmware/nxp,imx95-scmi.yaml
-@@ -24,13 +24,19 @@ properties:
-         const: 0x80
- 
-   protocol@81:
--    $ref: '/schemas/firmware/arm,scmi.yaml#/$defs/protocol-node'
--    unevaluatedProperties: false
-+    type: object
-+    allOf:
-+      - $ref: '/schemas/firmware/arm,scmi.yaml#/$defs/protocol-node'
-+      - $ref: /schemas/input/input.yaml#
-+    additionalProperties: false
- 
-     properties:
-       reg:
-         const: 0x81
- 
-+      linux,code:
-+        default: 116  # KEY_POWER
-+
-   protocol@82:
-     description:
-       SCMI CPU Protocol which allows an agent to start or stop a CPU. It is
 -- 
-2.37.1
+2.47.2
 
