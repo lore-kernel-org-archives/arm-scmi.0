@@ -1,103 +1,163 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB28230272
-	for <arm-scmi@vger.kernel.org>; Sun, 20 Jul 2025 19:39:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9D42638BF;
+	Thu, 24 Jul 2025 10:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753040359; cv=none; b=SQknWBxiXqJv8uYNUhEfsJciCXxi+L/KZHTFOnYWdTPTy1wDbzWxMQGT8IX8A+TiFkRDPgOuj6NVXWtKtJyyMohN0kw+nFPVAAkUVAtq3f72azpBTmcqc8i+TtQDbMvOgP2UTLPdr7DlBWm+9PC6A5QV5PwNND4aZocS2qwN8mw=
+	t=1753352320; cv=none; b=d618bHWjtDIDCqw7cSUIkAy0s63whLzYuqmqU1FEQ9sJ9Q2rFEowRWdY96yypttvWSdkj630M3fVx3K22lonfD9SxQ+vjU6hPf8zscDdGIFoM6vpSjdRX4OmiemnBCpyx+xP/99yPXT/oN5XcCDYu6tLUM7YTyHULMFVgAa0Fwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753040359; c=relaxed/simple;
-	bh=pZLfQFK+iDMmtewhGnGO/1SaOgqUaWhiuxkwGFO9BrM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bPcx4dNClJKB2gVNV0bp2eDYB+KS1hlN9YA3aLeJCvCmvb9MxgJKVstns19bPwFBOr+8ZJg4+6OsjuNE7miA5ZDMmpgyQ918LH9G4dzQBHIJmfceVLNAyGUGi0Ch/b+9yDS+RD1YDeYIVCQWL6sosixc9Fwm3ViPPm1c4+eL6xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=E8F7ju5j; arc=none smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1753352320; c=relaxed/simple;
+	bh=JLkLYAH22NWgewI322Vrwpot7jEz+TvDPcHtEM57dY4=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=blbRC3VdRbgGe3dwmEPPRQDm+4cQhvcbLxPfXj/GUnsQlgP8yI87aZXhuDmXUPV7qVGqNtBY3W9qmNad0/LQwVU8lwOKdFF6+4n+f9mLaWh32w2Fm5AUeAoWcG6xc0DtaB/En3LiL5RVv4593fRqLU5rBJItkkhfaIXYCAxf0k0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=M1zSPh/+; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=C1LqdSyf reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="E8F7ju5j"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-73e58d51060so912361a34.0
-        for <arm-scmi@vger.kernel.org>; Sun, 20 Jul 2025 12:39:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="M1zSPh/+";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="C1LqdSyf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1753040356; x=1753645156; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7qmI92MLlIBwFrbUrwXTt/2+OJ1ahYjNp50nlsYvpao=;
-        b=E8F7ju5jPsBgq+NLTWbjJBo1YcC8lwER0ZNuqFA7XBH7HBtRqeKDMvy2nIxcc3WlTe
-         g6EF1SYLVCtE70FFkGebGztWpHWKFZJ6oSbNUpRP2/xPUeJmWtTujlZY5s+GhYKudEP6
-         w3vpbjeWj0Ux4XnSPk4BJKCJgyDGmc88y81dusWy3qAUxsUuZ8qTRkuDetO4Xt2XJkCc
-         9BXOInxidoNOY1X5kCR1jjlv/CycQ2XChWUZso+KIYG9QxhuUKG2rxR1bAki7++SvwSi
-         Ygf+eg03dS8NMerFdzgFYSNoyXYU4g0iWmNdPAnh4Akkez2j9EtQfH8jFWp9fdm20oVJ
-         z/Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753040356; x=1753645156;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7qmI92MLlIBwFrbUrwXTt/2+OJ1ahYjNp50nlsYvpao=;
-        b=BMr9U98PrQU6NYpMuZxONxMxSjSuXh6x5Xr5H9qDLLNaLBpGEbjnfcbpnaZ5G3Gaac
-         kJxWanncIRkCrLK+zCsmdG6AzloO54yJyWr1UcjYCNEah1g//Isi/4f24WpI3hpb369H
-         gwhE1A0Ruk0Zq4mtGU4wILbAFk6T+DHC7NUa3+RvA7EHLt2PjzzR03T+ETkDXyKl3DW+
-         5lhYq9HPUu0gZK/zci2Mv/QhbuVuqv+yoRWqJ2rdA6DnOMN4g/2xZ50BI/bzxqElMna/
-         DvGiSrhs4z2sMuvIOHpY20djcHyZMqTCUAnE2r42PVs+eQID9uiVQ1bfevt9uByzBsI9
-         L7Tw==
-X-Forwarded-Encrypted: i=1; AJvYcCXVOgecAPnhJw8Qf5g0TZnhy/QdII6KUhqn1H0FWY8XCQphSC7oMb8bS8G0+8A0Lg+bSAhBuvg8+w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTCscC2xyloL12edUsk55LOg+/PGCXExpXcz48vi0E+fjisd3x
-	tGyVfkrTMR9YigE6CZKmSPW8voUBSu/ruVUi21zHeM5bikaW+xkpDt+WGk9GyYoDiqw=
-X-Gm-Gg: ASbGncsti4k388EQ0Jy4XXYpvGW4LGXDZId3KfBOPoYoXa23/YucnKu0q1sc19JkfMj
-	NOo5AsO6itrZyvM9ZdegtHM0URlXeKp68GWZif/RihjxxP0RkJsuJB3O64aYHJTWURLOf7Redaq
-	48FktpLCP/T6++FIIkJoEDNACc0JKNlVw7QHaJMT/8xXgIAIPm70J18w0/reqoIScin4J+e+3oi
-	xbMVU4UVfh+MGPZ6hAjpeSrEO+DA5hr6Gqda1h7ZqKQ3Q1Px8SAUKIt3YmvpM9uxnbKUxrMeif3
-	fnWesZJEFKKpBU3QI9xgzT6cRmLCKBkSEwxp4lnIj0Y8/gwxHOoF9GVzUkwDrKMQoLFNaMxRF4v
-	DCPh2kvh9zvw=
-X-Google-Smtp-Source: AGHT+IHdyoPC+reGPO2928s8eY4VkIUqzrYH+Trvh6vGBElbMDvsyr9bGCnwye0zSGLIyzetZNTdGw==
-X-Received: by 2002:a05:6808:10c5:b0:3f8:3eeb:1192 with SMTP id 5614622812f47-41f98e4cbc4mr6102894b6e.27.1753040356463;
-        Sun, 20 Jul 2025 12:39:16 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700::1fec])
-        by smtp.gmail.com with UTF8SMTPSA id 5614622812f47-41fd19b3e74sm2025039b6e.15.2025.07.20.12.39.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Jul 2025 12:39:15 -0700 (PDT)
-Date: Sun, 20 Jul 2025 14:39:13 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: AKASHI Takahiro <takahiro.akashi@linaro.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Sudeep Holla <sudeep.holla@arm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Linus Walleij <linus.walleij@linaro.org>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RFC v2 7/7] pinctrl-scmi: remove unused struct member
-Message-ID: <27a80ed0-65a3-4a41-994e-9c2d3bb76b54@sabinyo.mountain>
-References: <cover.1753039612.git.dan.carpenter@linaro.org>
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1753352317; x=1784888317;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=hiOv6C/osTxNoBk72SCJemyk6qpcTT9EtOlEQ172ii0=;
+  b=M1zSPh/+kXUfMyq6XzS+tFqfoV4nAvtXgrapB78P0X1r142tlxUPalyn
+   BmGqDu3+Al7ggwplgbaIy2ccy4zacUoYZdubC0RQW1AoDj+ZdU0neOlnJ
+   GCPI9vfqCRlJuipspShp6cfG5H31LrEa0pvaZRrEfgjEGnmkxeSXK3WNE
+   Ve3I2/8rhrFIs8PIEU2aHMqOfiVE4mHHT3D2uz0UIhp6U5ZqO/uCfpJ5R
+   hB408xOFamfpYGQpI1NdbzHfQq+Se7yYKpg/7Ez73NXpVcfK3ip0/MA9E
+   ubfyvM78OYQ6shV98u73NCR9CoWZasDDvDsJx6uXb+sNlzh5yT40NvpGj
+   g==;
+X-CSE-ConnectionGUID: UuHEozAeSU+hDFJUEFRMjQ==
+X-CSE-MsgGUID: UEqPGTtkSUqZZKPgemzn6w==
+X-IronPort-AV: E=Sophos;i="6.16,336,1744063200"; 
+   d="scan'208";a="45397445"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 24 Jul 2025 12:17:24 +0200
+X-CheckPoint: {68820833-41-FE216C80-D1ADDD01}
+X-MAIL-CPID: A07D5907D5C628A30C31B649D2719C0D_4
+X-Control-Analysis: str=0001.0A00211B.688207DF.004C,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A755416829F;
+	Thu, 24 Jul 2025 12:17:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1753352239;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hiOv6C/osTxNoBk72SCJemyk6qpcTT9EtOlEQ172ii0=;
+	b=C1LqdSyflPIbcD2U9v4RWxYpSFTyQ0p3JRnY1O/JHfae1FTAqA+O+uFGg0GYv4Mo7vF3RS
+	2F8VHf71Uqfq49G8djYxfcbV+ow2tsIjsxhXjbPHbkJhBb1J7LOh/qozDYIEcGyam5XKbw
+	2LHyBxBAljMFbZ0G6IP1j/GhQFUmVV0ugGO9i1yzBiptQbNuecGejBP/hDm9B0taef2ikw
+	R/pOalXQ7/dbdUdgXSIGT47FurwqKiwjtonHR3HfA10BMSl4QthQtSD8UfzZYyYhB3pc4Y
+	17WQApXH9KtBg/yYm0WL34Y4eSgxd9qvfc0+U9Zlf52Q+2KAusTJyBbqFF1tpw==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: mathieu.poirier@linaro.org, Peng Fan <peng.fan@nxp.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ "open list:SYSTEM CONTROL MANAGEMENT INTERFACE (SCMI) i.MX..."
+ <arm-scmi@vger.kernel.org>,
+ "open list:SYSTEM CONTROL MANAGEMENT INTERFACE (SCMI) i.MX..."
+ <imx@lists.linux.dev>,
+ "moderated list:SYSTEM CONTROL MANAGEMENT INTERFACE (SCMI) i.MX..."
+ <linux-arm-kernel@lists.infradead.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH V2 RESEND] dt-bindings: firmware: imx95-scmi: Allow linux,
+ code for protocol@81
+Date: Thu, 24 Jul 2025 12:17:17 +0200
+Message-ID: <2793923.mvXUDI8C0e@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20250718094723.3680482-1-peng.fan@nxp.com>
+References: <20250718094723.3680482-1-peng.fan@nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1753039612.git.dan.carpenter@linaro.org>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 
-The ->nr_pins is not used so delete that.
+Hi,
 
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/pinctrl/pinctrl-scmi.c | 1 -
- 1 file changed, 1 deletion(-)
+Am Freitag, 18. Juli 2025, 11:47:22 CEST schrieb Peng Fan:
+> From: Alexander Stein <alexander.stein@ew.tq-group.com>
+>=20
+> BBM protocol supports a single power button, supported by driver
+> imx-sm-bbm-key.c. By default this is KEY_POWER, but can also be overwritt=
+en
+> using linux,code. Add a reference to this schema and add linux,code as a
+> supported property.
+>=20
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
+>=20
+> Resend [1].
+> I not see a reason that why this patch could block i.MX95 remoteproc supp=
+ort[2].
+> But to speed up the work, I took Alexander's work and resend it. Hope this
+> could catch 6.17
+>=20
+> [1]https://lore.kernel.org/imx/20250513-whimsical-almond-quoll-e3ad5b@sud=
+eepholla/
+> [2]https://lore.kernel.org/linux-remoteproc/PAXPR04MB8459A0F330554EB69E99=
+0E048850A@PAXPR04MB8459.eurprd04.prod.outlook.com/T/#t
 
-diff --git a/drivers/pinctrl/pinctrl-scmi.c b/drivers/pinctrl/pinctrl-scmi.c
-index 9a947ced0df7..372fa67589fb 100644
---- a/drivers/pinctrl/pinctrl-scmi.c
-+++ b/drivers/pinctrl/pinctrl-scmi.c
-@@ -45,7 +45,6 @@ struct scmi_pinctrl {
- 	struct pinfunction *functions;
- 	unsigned int nr_functions;
- 	struct pinctrl_pin_desc *pins;
--	unsigned int nr_pins;
- 	struct gpio_chip *gc;
- };
- 
--- 
-2.47.2
+Thanks for resending, I lost track of this patch and though it as applied a=
+lready.
+
+Best regards,
+Alexander
+
+>=20
+>  .../devicetree/bindings/firmware/nxp,imx95-scmi.yaml   | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/firmware/nxp,imx95-scmi.ya=
+ml b/Documentation/devicetree/bindings/firmware/nxp,imx95-scmi.yaml
+> index 2bda2e0e1369..7a5a02da2719 100644
+> --- a/Documentation/devicetree/bindings/firmware/nxp,imx95-scmi.yaml
+> +++ b/Documentation/devicetree/bindings/firmware/nxp,imx95-scmi.yaml
+> @@ -24,13 +24,19 @@ properties:
+>          const: 0x80
+> =20
+>    protocol@81:
+> -    $ref: '/schemas/firmware/arm,scmi.yaml#/$defs/protocol-node'
+> -    unevaluatedProperties: false
+> +    type: object
+> +    allOf:
+> +      - $ref: '/schemas/firmware/arm,scmi.yaml#/$defs/protocol-node'
+> +      - $ref: /schemas/input/input.yaml#
+> +    additionalProperties: false
+> =20
+>      properties:
+>        reg:
+>          const: 0x81
+> =20
+> +      linux,code:
+> +        default: 116  # KEY_POWER
+> +
+>    protocol@82:
+>      description:
+>        SCMI CPU Protocol which allows an agent to start or stop a CPU. It=
+ is
+>=20
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
