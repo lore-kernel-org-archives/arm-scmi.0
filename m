@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963B72ED84F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8A22EA461;
 	Mon, 11 Aug 2025 15:18:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754925516; cv=none; b=r2NymejgNo427aIQa+V69FbIfk1WyBd9ukRhHtMdam/B+QxJ++at8te2ggmlzCPfeMm8aSFAxJKxS6lyMl8YSjmT/FXAjzyBCBwPh6Dq/t43M8GGWnKtgQPXLm/3RMOUKNAz8JDmATSDPWE6oaBoMPhHPE8KCl99hRAmmlEaciw=
+	t=1754925517; cv=none; b=j/gT61u8pCC/HyO/OXVumtQuAL6P4VqI7CF8WfXDgX12JOdeX2pDisUXxU5+ocqlSn0TsRvS03DOgxCZ22DfBAoxLqrYuaBC4wEBSMkz4tXDtpeL0aUj8NTvNNUpbcY2VxpQ4VcfEXhCS7e02isc7m9mtBRmR3V0BUnQlgTVJ0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754925516; c=relaxed/simple;
-	bh=NuJCEAEh3idUr6pU5F77ik+B6H4UWsdyl59LYOYF++w=;
+	s=arc-20240116; t=1754925517; c=relaxed/simple;
+	bh=zw9hWSN5n+Kpeh+wodQ5uxYPF57I3p/MhkkzEzCZbeE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Lwk5r2dP/tWitCx8ghttgckYJqkJdFEh12+tK2ldgXd4yfEQltib3vOTgzgRgrL4njjaIV80LAWW9dDJt7oAZAMVnQXAy6I9gPuw41BOisDmoP83tMTCAknXQu/UuPlH5Ze6OFN9G+fGI5kUDnCvF9ZPgpdpQ7ZRhFkB50A2978=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d8SazZ9w; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=a2EMgocZVCz94KW7Njs75rrZJIsQ8fY9rJ+cg56r3HXbVmV7nB6eQn69Vypjbxz/ANGhxqIP0Egjjd+wZ3vUA5omvYSlGelsdhAknXBuH4WnEREs4pIxPgMF/hOmyexYYiPq3xz54VfjL2qocRkiWQ3pJ83A1wscN0x0mqSjCD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sg6kvB4m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d8SazZ9w"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 187B1C55DDF;
-	Mon, 11 Aug 2025 15:18:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sg6kvB4m"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B6184C4CEFB;
+	Mon, 11 Aug 2025 15:18:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754925513;
-	bh=NuJCEAEh3idUr6pU5F77ik+B6H4UWsdyl59LYOYF++w=;
+	s=k20201202; t=1754925514;
+	bh=zw9hWSN5n+Kpeh+wodQ5uxYPF57I3p/MhkkzEzCZbeE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=d8SazZ9w82FFuZtrLd5bErX8sLaWibRYAywfZlG5TFVPJAlSe3CirHFTR9KVdtT6p
-	 9XdaQspHo0t8a4/cco0NnRtdFVFGVq6PMPpkRxknLFCroJYJ6mhsXEOG/9H+v+Wi50
-	 FG7fThVD7djnv98bmvUfm+KaI3koTcYvTZnnjXSPxpnChm7k8KaS6igfWHjcuCkJfT
-	 beeE2dMsI+r6FSHTUeIoSaKOqULgaIQnBVOI8XdNIXaXPylzoMv/zR7Zd6qxCD7B30
-	 rEaEzIO7/2A84Gj6nBzgmQ2LgP6w2uPTGHpjaVXdPRPdue2t+PLWuZ3Yoz668+xWvo
-	 iAdrkLMRdQ9lQ==
+	b=sg6kvB4mB/w8+CSzmgnaTvxiD8GLmYpamyUFuSimtq7NsNxkpwAi0zQtkbWb4CqXt
+	 SW1d0loNSmkiuNmfifaSKIW2xDp7xbAjv9nXm/VS4OwMoNOjrPT2QvcjwBgv1i1ps5
+	 zU5rKvlICOLyBtGWOfhiEwo+Xr854ZfmUCN+sEj4/F5Xz3BVxLLctRc/l1P0XPzDcQ
+	 tSfLEeAu+F/VEqzJXDrKDjMg0uWUMqjIj/oevv2sXUfV46MTAMp8MQXDBG3jPTmND1
+	 zkLddTSFnoE3E8+EyJtfQo2T+Ty/h2l0+VuNynyStZrloZtpml5g2TpUzr0x6xtGk7
+	 d3RRt4ZipoOcA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F133ACA0EC4;
-	Mon, 11 Aug 2025 15:18:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A09FACA0EC8;
+	Mon, 11 Aug 2025 15:18:34 +0000 (UTC)
 From: Brian Masney via B4 Relay <devnull+bmasney.redhat.com@kernel.org>
-Date: Mon, 11 Aug 2025 11:19:09 -0400
-Subject: [PATCH 077/114] clk: axs10x: pll_clock: convert from round_rate()
- to determine_rate()
+Date: Mon, 11 Aug 2025 11:19:26 -0400
+Subject: [PATCH 094/114] clk: rockchip: ddr: convert from round_rate() to
+ determine_rate()
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250811-clk-for-stephen-round-rate-v1-77-b3bf97b038dc@redhat.com>
+Message-Id: <20250811-clk-for-stephen-round-rate-v1-94-b3bf97b038dc@redhat.com>
 References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
 In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
 To: Michael Turquette <mturquette@baylibre.com>, 
@@ -107,11 +107,11 @@ Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev, 
  Brian Masney <bmasney@redhat.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754925498; l=1754;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754925498; l=1666;
  i=bmasney@redhat.com; s=20250528; h=from:subject:message-id;
- bh=tJrefzaCIDHByIhDmSEbTFNo+MefLj7nMaGKSK6K6Kw=;
- b=m/812GTBmvOl/yXEoIRoY72Q2sCPGjSyIZ0zetPLMAujCyyipwCyUqF8+bQbyT504uREIcJX6
- Iy59Ks71TLEAws3xxupdrOq2zkLiYBEYQNSKs0r9amPdTNJKylARqU3
+ bh=+mTNNaA/Rw26i0WQAx+OIQblwc90KAUsuFHwu0lEWj8=;
+ b=rTl0OqGx+j74m+r7f4wrHisEEDRwWTntvTo+iCDJVcKHw2awCwJ9lKPHIWuR7jm5OOl41r7C+
+ ghPrb9Sfv2NDz2WVpcs21qKgRU7FQnBQSxyD5/9wqvK9Fd71FNgBTUA
 X-Developer-Key: i=bmasney@redhat.com; a=ed25519;
  pk=x20f2BQYftANnik+wvlm4HqLqAlNs/npfVcbhHPOK2U=
 X-Endpoint-Received: by B4 Relay for bmasney@redhat.com/20250528 with
@@ -127,47 +127,44 @@ on the cover letter of this series.
 
 Signed-off-by: Brian Masney <bmasney@redhat.com>
 ---
- drivers/clk/axs10x/pll_clock.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ drivers/clk/rockchip/clk-ddr.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/clk/axs10x/pll_clock.c b/drivers/clk/axs10x/pll_clock.c
-index 6c7a2b62b406379279b1aab71ac0759f3c5fc64a..c7ca473ee76c83a52e924651046414f60736d542 100644
---- a/drivers/clk/axs10x/pll_clock.c
-+++ b/drivers/clk/axs10x/pll_clock.c
-@@ -149,8 +149,8 @@ static unsigned long axs10x_pll_recalc_rate(struct clk_hw *hw,
- 	return rate;
+diff --git a/drivers/clk/rockchip/clk-ddr.c b/drivers/clk/rockchip/clk-ddr.c
+index 86718c54e56b3ff52ee6ea9f209159de91e9da39..8866a65982a0489f1aacd546bda60af1d30278ee 100644
+--- a/drivers/clk/rockchip/clk-ddr.c
++++ b/drivers/clk/rockchip/clk-ddr.c
+@@ -55,17 +55,18 @@ rockchip_ddrclk_sip_recalc_rate(struct clk_hw *hw,
+ 	return res.a0;
  }
  
--static long axs10x_pll_round_rate(struct clk_hw *hw, unsigned long rate,
--				  unsigned long *prate)
-+static int axs10x_pll_determine_rate(struct clk_hw *hw,
-+				     struct clk_rate_request *req)
+-static long rockchip_ddrclk_sip_round_rate(struct clk_hw *hw,
+-					   unsigned long rate,
+-					   unsigned long *prate)
++static int rockchip_ddrclk_sip_determine_rate(struct clk_hw *hw,
++					      struct clk_rate_request *req)
  {
- 	int i;
- 	long best_rate;
-@@ -163,11 +163,13 @@ static long axs10x_pll_round_rate(struct clk_hw *hw, unsigned long rate,
- 	best_rate = pll_cfg[0].rate;
+ 	struct arm_smccc_res res;
  
- 	for (i = 1; pll_cfg[i].rate != 0; i++) {
--		if (abs(rate - pll_cfg[i].rate) < abs(rate - best_rate))
-+		if (abs(req->rate - pll_cfg[i].rate) < abs(req->rate - best_rate))
- 			best_rate = pll_cfg[i].rate;
- 	}
+-	arm_smccc_smc(ROCKCHIP_SIP_DRAM_FREQ, rate, 0,
++	arm_smccc_smc(ROCKCHIP_SIP_DRAM_FREQ, req->rate, 0,
+ 		      ROCKCHIP_SIP_CONFIG_DRAM_ROUND_RATE,
+ 		      0, 0, 0, 0, &res);
  
--	return best_rate;
-+	req->rate = best_rate;
+-	return res.a0;
++	req->rate = res.a0;
 +
 +	return 0;
  }
  
- static int axs10x_pll_set_rate(struct clk_hw *hw, unsigned long rate,
-@@ -208,7 +210,7 @@ static int axs10x_pll_set_rate(struct clk_hw *hw, unsigned long rate,
- 
- static const struct clk_ops axs10x_pll_ops = {
- 	.recalc_rate = axs10x_pll_recalc_rate,
--	.round_rate = axs10x_pll_round_rate,
-+	.determine_rate = axs10x_pll_determine_rate,
- 	.set_rate = axs10x_pll_set_rate,
+ static u8 rockchip_ddrclk_get_parent(struct clk_hw *hw)
+@@ -83,7 +84,7 @@ static u8 rockchip_ddrclk_get_parent(struct clk_hw *hw)
+ static const struct clk_ops rockchip_ddrclk_sip_ops = {
+ 	.recalc_rate = rockchip_ddrclk_sip_recalc_rate,
+ 	.set_rate = rockchip_ddrclk_sip_set_rate,
+-	.round_rate = rockchip_ddrclk_sip_round_rate,
++	.determine_rate = rockchip_ddrclk_sip_determine_rate,
+ 	.get_parent = rockchip_ddrclk_get_parent,
  };
  
 
