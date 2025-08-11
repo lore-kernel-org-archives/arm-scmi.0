@@ -1,243 +1,543 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013048.outbound.protection.outlook.com [40.107.159.48])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C671C27470;
-	Wed,  6 Aug 2025 09:33:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754472819; cv=fail; b=qenzMWwjIuA53Sau6Awlt/Ga0C0GoiBHolUsD2QOJFHgMfM6jAeCo1WrQc400Px7MdAd3vfG7SqA1pg05rFrMb/T4gO4p0BehB8knyKILZ3V0H2vYGZYLqZxO/gj0M6aWfoLhxqP1xWzuKFM+wkE3mJEm0t1TJxCME37qzj396Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754472819; c=relaxed/simple;
-	bh=8X/oBDZ0+rX+r84GAyBgHaWHbErf3GKRyYB6/DhEVGk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=TXeiBOeDwYvAZoSLoGPA5Np8BjexQTf8ShKOfdgKWxsn3/yWu95t208wZdONYEOzsEKZt6sT7czAjL4squSVWnCdWBzW2o1XnlEsTCXN+z5yWirKJDLaSJzXzRChI7E5CARwhIR7flmNuoAFVlmJgPFe8dzHO+rYSfQ7iG/nMOs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Wofn30h0; arc=fail smtp.client-ip=40.107.159.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176842DFF13;
+	Mon, 11 Aug 2025 15:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754925505; cv=none; b=W98APdiGJ+xaWO/AZWbmFeef2hDM9RyS5AZD8Uf1a5q6ygCHng0uIoxWeyVZTJJyO6nJx/T9ow2r7V4EZiqNjQ8S1knemFlmeuNonnrGTRk6aozf/P0dvffAF+/ww7dja/ScAkpur0fjTnlEgVf5BrgzW1o2LjgeyLyIt6koTsA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754925505; c=relaxed/simple;
+	bh=MgeYR6Iq/Ft0fyG1O3BYxzWqcNV87rYQNu31zB6YNEQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hwTqFo4P1Z1tn5/bRqmhCjtlYLxMc1RZF0rw133OQf6vdzyArjhglkkG6v1vLvvtFVuRg0n3qYCyiiC8hJxf4pv5hp4+p/JEUw2zEERdNlMAAsE1yyUSdJLtJh3NQ+s+kwoYNKjWjxEcSAldGD7S2jRdczO00rxBcmYf6Ot9rEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dHUmLXvq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Wofn30h0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J75CM5QXpG6ndko2MW176/NHnHaW308JZKNjfvmxexPvFEitFizQbj/Qpe1z6RmNuhDoBNiM04MT4XSrf3JE71OEg4jYASfr25pktmNoj5/iam6V6ujfBOeLg2kv3LmmPEMKkEfeR4zAtiu3IIZkzgnD1rSzk0nE/7042RUk9iFZ6rX2c+9IE5vzhvkW2d/2CW1BYm8JcUXQePbpsbDyvbo1YtQd1EwjOO+zZ5X7Izum2c4wVBv3OhEfWCO/GrtFuZc1px29neLbW8iCuYcdPazN/CTCwAMOeyzQZffHGivSCCRUwSFdhqGqk82nBdnxNu2gLDA7CK5fWxJYzOhB3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l2Wt9GQr/rxbLZPv3uiNfIyDvLjZmJLqsw7j0kAAjaQ=;
- b=yjNtJd/CvgHmznibKFZL+IAGYaEeGyTfKhHwl6Ji5xBQrMDmj+8i2NBXYX1vdHKFlORhjsPMewi3F99vBLKdpjmjeAvr5wTFU4odB+DwZbXU9+3W3lqAU60/30S1SfRYkOfHqPXP2MB/Om4u4MGqxu+TuELcHCJ4lS6yrV1xAxOlOo2913NOVT678g1d/9Q46cVtr7fzgXRIKfXTWmrI+yu/ci23B6Gsgq6TO5SKbeMzl4Ti8RQv2ViT0PHWG+1uY6Zs2CY3LKbW+loywl5zLyfqFHehA1cSYsDLfZfndWYlrcMh24txtVdPWcXp5tLvgyD8/YneazXAjl9w+fFEfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l2Wt9GQr/rxbLZPv3uiNfIyDvLjZmJLqsw7j0kAAjaQ=;
- b=Wofn30h0XNO9GsYVXdrPfG3v5PmBQfO8147h+197fb1xz6fR5XbZbFY9XMULhFsxNIzYsouZk3ABBzaGjGijfM/JfnTFvSGQkdoUsWWNgz8gbUSEuBkLSJDkUKfgQKswqRZ/iYjm3RHdytZHxhk21NkpXEWNE4qc+GEc+4vJ498crd6oxoEr728kmNWKm7fIxEPF7sN6Cvh8XM9LkXDM5IzjbshCfiFUMn9ymriUjg0eCC0zb2z/qcaU1uCAphC2i/ScK3q+6JU377i4mlB5IWpJquTq5n5St2pRHvgeNgESWfMXD0KMIzY1pbEU9LENcaxzDPi8Xhdos1skWcSg+A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DU2PR04MB8822.eurprd04.prod.outlook.com (2603:10a6:10:2e1::11)
- by DU2PR04MB8726.eurprd04.prod.outlook.com (2603:10a6:10:2dd::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.21; Wed, 6 Aug
- 2025 09:33:34 +0000
-Received: from DU2PR04MB8822.eurprd04.prod.outlook.com
- ([fe80::4e24:c2c7:bd58:c5c7]) by DU2PR04MB8822.eurprd04.prod.outlook.com
- ([fe80::4e24:c2c7:bd58:c5c7%4]) with mapi id 15.20.9009.013; Wed, 6 Aug 2025
- 09:33:34 +0000
-Date: Wed, 6 Aug 2025 17:28:08 +0800
-From: Xu Yang <xu.yang_2@nxp.com>
-To: Peng Fan <peng.fan@nxp.com>, jun.li@nxp.com
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Peter Chen <peter.chen@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	imx@lists.linux.dev, arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 2/3] usb: chipidea: ci_hdrc_imx: Set out of band
- wakeup for i.MX95
-Message-ID: <zdzpddjjdj2ezkkfh5jjnnjvkvu4gb6vqmhkdlnnc2ioamvcuk@ftmezbyxrhfb>
-References: <20250801-pm-v2-0-97c8fb2a433c@nxp.com>
- <20250801-pm-v2-2-97c8fb2a433c@nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250801-pm-v2-2-97c8fb2a433c@nxp.com>
-X-ClientProxiedBy: SG2PR02CA0102.apcprd02.prod.outlook.com
- (2603:1096:4:92::18) To DU2PR04MB8822.eurprd04.prod.outlook.com
- (2603:10a6:10:2e1::11)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dHUmLXvq"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E3DA3C4CEED;
+	Mon, 11 Aug 2025 15:18:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754925505;
+	bh=MgeYR6Iq/Ft0fyG1O3BYxzWqcNV87rYQNu31zB6YNEQ=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=dHUmLXvqJkRv/X6YGz9UWRfz2U7ox3ro5X5ECvTpEbYvOWauZ+rMOTKpWOnIX9+Y+
+	 UGowbih0fcXSduh0RbAJ5YenJcFsdsamHEqiUAKEVzvgKKs9ju0lG6LKZe2FIo/Bd/
+	 Ta+KqizSYi9/GSdtr17f3ZT/VOKY/ZPzI4+r/nLwHDo45nnPsUJbGAiPJUeDb1CFr6
+	 gKQ9bU1kZlPWRaa6qFu1TpsOGMublYnFpWj6ZiFOpNp97o/44hf7kHAXzXuucdAws6
+	 H8LRgLoD+u4yLi+J/UgG8yU6Hbe40xgAbIQOSIyGTwxyf4+F1sVygR0TDEk+lmubxa
+	 oyhyeozsBPcvQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA7F6C87FDA;
+	Mon, 11 Aug 2025 15:18:24 +0000 (UTC)
+From: Brian Masney via B4 Relay <devnull+bmasney.redhat.com@kernel.org>
+Subject: [PATCH 000/114] clk: convert drivers from deprecated round_rate()
+ to determine_rate()
+Date: Mon, 11 Aug 2025 11:17:52 -0400
+Message-Id: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PR04MB8822:EE_|DU2PR04MB8726:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0df92b39-0886-4768-5dd2-08ddd4cc5010
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|52116014|7416014|376014|19092799006|38350700014|27256017;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?D17XFT/UAgmfkzQW4RZHAbawmIUpU7kLQLmMvShcbNyPtsen8iOtuWSQb7cd?=
- =?us-ascii?Q?dyBhQAij/0rUODshWOZH7EEUGuBKJU7/u+k40QWX57XhIGuM9NdIuJCjBOFP?=
- =?us-ascii?Q?E7L0N5TYjMMzaxFnSAEp+LE20OGmQw1SOTcAF+DGNUjv90EK3bZL6ULGBr2w?=
- =?us-ascii?Q?kp0Teavq/mlS5TVwBESM+z31VI83DjBKV0nKG2xuUK1DttSSodJbM1tdw/J+?=
- =?us-ascii?Q?B4jvton4UB5s4EBQfr82A9ymhsKKC4fWmY5mc1ltYOAd2ZIQX6/JhejwlblJ?=
- =?us-ascii?Q?8fA2vGc9J63N5VokAzyPfFLLdybYW+9yGLzGfsqNQycZGC8PqZobQEAuyXMG?=
- =?us-ascii?Q?v1twg13h7L4kCBYRPuzIte+19oGAEQtOC6ou+KjH+qfRlXWAneWj8pbpKsj1?=
- =?us-ascii?Q?iIY+ZHwxHQs+l7YbfsN3bjycm/Ex2qYXeXTqLv3+kvGovWnd4hiq06mmI7ir?=
- =?us-ascii?Q?0aRUs5jt3wtAD80YjSyIQzmipzcaf/eavfykmC2xK9eyhdQ8V7Mph1isZjm9?=
- =?us-ascii?Q?X/dXL0w/ERdVP3bg50KsAKKeDrIKQuxnsp2ULhyxTRkAHuJ990+znFHIBV6D?=
- =?us-ascii?Q?F0hHbsZFRZI+KIOKatCLWu4ZY59qedmCFkthV18SBSwzUTl1/MgaGachjKRT?=
- =?us-ascii?Q?oViwHg/PPEKlfncOexzZP6vTzaw5vUo/YxG5PNdKojcimL3fl/WXTueARIu4?=
- =?us-ascii?Q?CQkdQAneQW+bUwohThM3yF2Es1PVOafzM90avK2UrDtOAvqJCY4UZenXtrQZ?=
- =?us-ascii?Q?CveIMV1Cv/GF5uXFVQ7D+HLq2+mtplyqGkm7z1pHjBuTO3DRyw752LRPs1k2?=
- =?us-ascii?Q?R/pQd42nQc3B0Mvn3/wvxR+DJ5mBIWT6dkq6Z8KH5X21nCImg658+fYYMpT8?=
- =?us-ascii?Q?46HJHzw3JlUIReN55hada8ZHl6CIbxJ+46gwqSEjArd9yt+O/sIu1e57MTq4?=
- =?us-ascii?Q?ULTjaRN/Yn76b7fw4KigeQzXtLYpcdN3icXP+Rsnux2UnDbbawz3l7qL5ZbN?=
- =?us-ascii?Q?En6DiK7W4iWRae6nAmOn/lk4hK+QKFMztPlGQIf6zDmJjtvKUqtCdYfR4pFf?=
- =?us-ascii?Q?Y5GvIEeoEbqnB65u70JFi3dhxt+B1PQ7enP9diw5Ae1DA9QLPSKrE6aBLyDQ?=
- =?us-ascii?Q?kVXBzyMw7xxlsEAzhQ3nqVmlSGRd7eCnFpgPoPiyU8yPmQypcGKC1OshG4wa?=
- =?us-ascii?Q?ex5oOUQKkG7T5AkqXOlAvKHJ/JXoFiJ6G0QeXhW3wbKpEl3wS3JB7q3jdavb?=
- =?us-ascii?Q?PPiRzvodR/+pNIOU2iebrGj+JO28ziO4ni9X4xYVhC/CK0ar98mqLQPTBICG?=
- =?us-ascii?Q?2mFiE7bN47BOKE9VIk+8vWGG69yJK6nKIaoAizH0hBjETcj8p731rhyFLmlz?=
- =?us-ascii?Q?nGcPUHQdnm9I0znvVQfPDBr5ldrFjwIoGkfzC5hxCH7O3l3c94VBSjgb9FWY?=
- =?us-ascii?Q?sPqi/YzXjKmPB49k7KXYUNhEHe6CN/67U7lxEH1sPpHkAZnX9XCrT6ElffRI?=
- =?us-ascii?Q?kLc0mlWSsSPIRYJXUbZVOtWJZWKAn8Ht5Zuz?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8822.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(7416014)(376014)(19092799006)(38350700014)(27256017);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?KJoDYC5IQIHElRT8BIMB9HUvfhsC2/gQ1eLq3iKRXPn28Nflv+7kKluL8iLt?=
- =?us-ascii?Q?1DNydHJIp32PXeCHrbJomGmM+lGdc34v7akhcUF8kZZyVf1R9wyQbEzo3VOu?=
- =?us-ascii?Q?8XOdaQTuJpK6VSwen4aBQviN9yh0N+S+82jhBt38S3pXQYsh9+uMq4cDRPQQ?=
- =?us-ascii?Q?3UCyJ7RK6aKkY9KF8Tjxma9xFYihAFnXvZ1n8s+3SHhYO4hs/gdVHffqscu5?=
- =?us-ascii?Q?Ek5HB1o8isla0hEa00+1p4wmQdiYDAMpnhcMLgn+7n7zYyZFrnxbrtK7bSRb?=
- =?us-ascii?Q?1QGXMU+Kk4cqjgWGMPBBSEaHM+YZ+Qb2vXWGQxOsijen34/1D/LRTT+ISSJt?=
- =?us-ascii?Q?J6vfRJ/3VJyJiJlabhJXg7ipwHexa4TDxSPORJmOhIuxLkdJqlI45V9E2By9?=
- =?us-ascii?Q?4S9N+Rq8frl0kcoBKTQwOUA0LUDMXjTLPGrKOiWF5CLifskojytS+TdZgCCE?=
- =?us-ascii?Q?D2dCNoLUTFWAzb2zUFIOkPsEn+BEWz5sFsLbAn7+c1XdS4sidKxpER+ALX/Q?=
- =?us-ascii?Q?1sAEtrrIKM22dbnvRe1oLoBOl6ep4ZhshhYZqF2uQdBVQYz8un42WNqT4eLp?=
- =?us-ascii?Q?ak7tGzmiEeJYCo8RSXCLvk7MzA5cMwSnT+z71ZntfN32C1d8UGPCHQPpXWri?=
- =?us-ascii?Q?bAxda560j4JKF3hVA5GXNEDHHF7IDriuQANCnp7EYEB0OSRCfMkyxGvpzkm1?=
- =?us-ascii?Q?n+qPHOoMm5a37iANWkQYGl+IaPt1EDHc1kSzn65ByfzlsSoljcDvNXcHDLtd?=
- =?us-ascii?Q?eBzk9crFzGznWHKX3/lb4dEIVjEpuU+w38i+Uhg5mOyU9tbIc1RRS1DIJYtq?=
- =?us-ascii?Q?UmIn+YXFneOwbtVcN4A3mKcusYLazUUvpYGlrHIxMKrGFIL2Ij1P8ypN7AP1?=
- =?us-ascii?Q?J25xvvpv2kcYkc4J8WkSFvhOUn9xI07blUvTdySAgLn2PY+TKJ5GlQxePIFF?=
- =?us-ascii?Q?J3M0avl+N0QbWD7XF+LxOO8JVpPnyA58bhZiZPLtHlGtuPfvoBwZ+7vYRExC?=
- =?us-ascii?Q?1jw8+kojPq5vlPs7tJ4Gag75uhRQKesq8hmwWTIHMk921qe2wGN+5GX3i6lL?=
- =?us-ascii?Q?QLeN3JQxE8zadvwZNXkg+Z7da76+Ni1QiUUe4/g/Z18g2uT+XohloIycUA3/?=
- =?us-ascii?Q?WCX58sBqJnhREhDlixEpWG4OZTeANHcum3oC3WXv1oynXuz+GGK7QL3IKnD1?=
- =?us-ascii?Q?nP/2iLW8GncKLpSDRhjrbfy3zRNo2L/DSDsPm0XY1NxbUJQrnJUHo2qfV23a?=
- =?us-ascii?Q?EIKCzsURdiX9yAd05FMfIOVQ5MZiLSnnTpBxZ/92MAZidbNnLUDNM9Mgos3d?=
- =?us-ascii?Q?ws6FxdS7csWfBipbW/hwGnSlrUUMwX3MKVmy0crdZsHa8fYwpDa+uxbDZ9SM?=
- =?us-ascii?Q?8Rb4Qe5CtEsWC+z43cTrrwv0p1W87DPOEJHSwqd/6fNRY1cjdGXTagu8orV5?=
- =?us-ascii?Q?IamXHtf90xHQ+0/gl2QqR1mj1YRACjDUSq4iRNuWxt3znlGSoNmKrqb+aZxC?=
- =?us-ascii?Q?Zck4q7WNT6rhYElPXubLz+ZMXmJWvixNKaJchiR2zdaZj6YABeSRWixq6vI3?=
- =?us-ascii?Q?2RNxTM0lLXwgtqpimfTdCRc3BWur2JjTLMQb8yGN?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0df92b39-0886-4768-5dd2-08ddd4cc5010
-X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8822.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2025 09:33:34.0316
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IxsbmvM71bDbpt1tQzgB4NmYWXNbq6wXRYz96GxHeMfP21jd4LzKqntqdt4qHjOWT0DQRBQ4/UP2c2iAV1rPBw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8726
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKAJmmgC/x3MQQqDMBAF0KvIrDtgA9roVUoXqfmpg5LIREUQ7
+ 97g8m3eSRkqyNRXJyl2yZJiwfNR0TC6+AOLLyZTm6Z+mY6HeeKQlPOKZURkTVv0rG4FN85afH2
+ w3rVUgkUR5Ljz9+e6/giFd/RsAAAA
+X-Change-ID: 20250729-clk-for-stephen-round-rate-5a88ebdf8da6
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, 
+ Cristian Marussi <cristian.marussi@arm.com>, 
+ Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Paul Cercueil <paul@crapouillou.net>, 
+ Keguang Zhang <keguang.zhang@gmail.com>, 
+ Taichi Sugaya <sugaya.taichi@socionext.com>, 
+ Takao Orito <orito.takao@socionext.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Jacky Huang <ychuang3@nuvoton.com>, 
+ Shan-Chun Hung <schung@nuvoton.com>, Vladimir Zapolskiy <vz@mleia.com>, 
+ Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Samuel Holland <samuel.holland@sifive.com>, Yixun Lan <dlan@gentoo.org>, 
+ Steen Hegelund <Steen.Hegelund@microchip.com>, 
+ Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, 
+ Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Michal Simek <michal.simek@amd.com>, Maxime Ripard <mripard@kernel.org>, 
+ =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+ Manivannan Sadhasivam <mani@kernel.org>, Sven Peter <sven@kernel.org>, 
+ Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Neal Gompa <neal@gompa.dev>, Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, 
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Max Filippov <jcmvbkbc@gmail.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Daniel Palmer <daniel@thingy.jp>, Romain Perier <romain.perier@gmail.com>, 
+ Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, 
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Heiko Stuebner <heiko@sntech.de>, 
+ Andrea della Porta <andrea.porta@suse.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
+ Qin Jian <qinjian@cqplus1.com>, Viresh Kumar <vireshk@kernel.org>, 
+ Ulf Hansson <ulf.hansson@linaro.org>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Alex Helms <alexander.helms.jy@renesas.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, Liviu Dudau <liviu.dudau@arm.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ sophgo@lists.linux.dev, linux-mips@vger.kernel.org, imx@lists.linux.dev, 
+ linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
+ linux-stm32@st-md-mailman.stormreply.com, patches@opensource.cirrus.com, 
+ linux-actions@lists.infradead.org, asahi@lists.linux.dev, 
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev, 
+ Brian Masney <bmasney@redhat.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754925497; l=22023;
+ i=bmasney@redhat.com; s=20250528; h=from:subject:message-id;
+ bh=MgeYR6Iq/Ft0fyG1O3BYxzWqcNV87rYQNu31zB6YNEQ=;
+ b=HKE0+vAXgf8uQuwtjg3yptztVl3aLhgwFUY2HbnxlqGEzdj0wXOGrJuryFNnIQwEug2q72c0D
+ cS92T0OgonMDCLfRXCVFWWdHhGZgOYdmfEMunggGyqtXOywdj1w40OO
+X-Developer-Key: i=bmasney@redhat.com; a=ed25519;
+ pk=x20f2BQYftANnik+wvlm4HqLqAlNs/npfVcbhHPOK2U=
+X-Endpoint-Received: by B4 Relay for bmasney@redhat.com/20250528 with
+ auth_id=472
+X-Original-From: Brian Masney <bmasney@redhat.com>
+Reply-To: bmasney@redhat.com
 
-Hi Peng,
+The round_rate() clk ops is deprecated in the clk framework in favor
+of the determine_rate() clk ops, so let's go ahead and convert the
+various clk drivers using the Coccinelle semantic patch posted below.
+I did a few minor cosmetic cleanups of the code in a few cases.
 
-On Fri, Aug 01, 2025 at 12:34:23PM +0800, Peng Fan wrote:
-> i.MX95 USB2 inside HSIOMIX could still wakeup Linux, even if HSIOMIX
-> power domain(Digital logic) is off. There is still always on logic
-> have the wakeup capability which is out band wakeup capbility.
-> 
-> So use device_set_out_band_wakeup for i.MX95 to make sure usb2 could
-> wakeup system even if HSIOMIX power domain is in off state.
-> 
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
-> ---
->  drivers/usb/chipidea/ci_hdrc_imx.c | 8 ++++++++
->  include/linux/usb/chipidea.h       | 1 +
->  2 files changed, 9 insertions(+)
-> 
-> diff --git a/drivers/usb/chipidea/ci_hdrc_imx.c b/drivers/usb/chipidea/ci_hdrc_imx.c
-> index e1ec9b38f5b9ba0568101b51fbf16b99461b6ee2..7a3360d8a0fd065394393de829108a12c27c85b9 100644
-> --- a/drivers/usb/chipidea/ci_hdrc_imx.c
-> +++ b/drivers/usb/chipidea/ci_hdrc_imx.c
-> @@ -79,6 +79,10 @@ static const struct ci_hdrc_imx_platform_flag imx8ulp_usb_data = {
->  		CI_HDRC_HAS_PORTSC_PEC_MISSED,
->  };
->  
-> +static const struct ci_hdrc_imx_platform_flag imx95_usb_data = {
-> +	.flags = CI_HDRC_SUPPORTS_RUNTIME_PM | CI_HDRC_OUT_BAND_WAKEUP,
-> +};
-> +
->  static const struct ci_hdrc_imx_platform_flag s32g_usb_data = {
->  	.flags = CI_HDRC_DISABLE_HOST_STREAMING,
->  };
-> @@ -94,6 +98,7 @@ static const struct of_device_id ci_hdrc_imx_dt_ids[] = {
->  	{ .compatible = "fsl,imx7d-usb", .data = &imx7d_usb_data},
->  	{ .compatible = "fsl,imx7ulp-usb", .data = &imx7ulp_usb_data},
->  	{ .compatible = "fsl,imx8ulp-usb", .data = &imx8ulp_usb_data},
-> +	{ .compatible = "fsl,imx95-usb", .data = &imx95_usb_data},
->  	{ .compatible = "nxp,s32g2-usb", .data = &s32g_usb_data},
->  	{ /* sentinel */ }
->  };
-> @@ -569,6 +574,9 @@ static int ci_hdrc_imx_probe(struct platform_device *pdev)
->  
->  	device_set_wakeup_capable(dev, true);
->  
-> +	if (pdata.flags & CI_HDRC_OUT_BAND_WAKEUP)
-> +		device_set_out_band_wakeup(dev, true);
-> +
+This series is broken up into several categories:
 
-In current design, ci_hdrc_imx_probe() will create another platform
-device B which will be a child of current device A. Furthermore, device
-A and device B will attached to a same power domain. In this case, some
-conflict setting may happen. For example, if the user wants to enable
-wakeup for this USB port, they may echo "enabled" to wakeup file for
-both device A and device B as before. As a result, device A is out
-band wakeup so it doesn't depend on power domain on, but device B has
-also enabled wakeup so the power domain will keep on finally. Actually,
-the power domain needs to be off for imx95.
+- Patch 1 to clk/at91/peripheral is a bug fix for a return value.
 
-So I think only letting the parent device A itself attach to power domain
-should be enough. If it's the right way, then below change needs to be
-included to avoid potential misbehavior.
+- Patch 2 to clk/at91/peripheral wasn't straight forward like the other
+  drivers, so I'm explicitly calling this one out separately.
 
-diff --git a/drivers/usb/chipidea/core.c b/drivers/usb/chipidea/core.c
-index 694b4a8e4e1d..c2ca81fe5e09 100644
---- a/drivers/usb/chipidea/core.c
-+++ b/drivers/usb/chipidea/core.c
-@@ -915,6 +915,8 @@ struct platform_device *ci_hdrc_add_device(struct device *dev,
-        if (ret)
-                goto err;
+- Patch 3 adds a determine_rate() op and keeps the round_rate() in place
+  since this is needed by drivers/clk/actions/owl-composite.c and keeps
+  the tree bisectable. The deprecated round_rate() op is dropped in patch
+  113.
 
-+       dev_pm_domain_detach(&pdev->dev, false);
-+
-        return pdev;
+- Patches 4-70 are for drivers where there is no clk submaintainer
+  listed in the MAINTAINERS file. Patch 19 includes a minor fix so that
+  Coccinelle can be ran against a particular source file.
 
-Thanks,
-Xu Yang
+- Patches 71-110 are for drivers where this is an entry in MAINTAINERS
+  for the driver.
 
->  	return 0;
->  
->  disable_device:
-> diff --git a/include/linux/usb/chipidea.h b/include/linux/usb/chipidea.h
-> index e17ebeee24e3ecc4b1c2d153d9ea9b656b5a3d35..c6451191d2de68607a9380482701d11f949d0ff7 100644
-> --- a/include/linux/usb/chipidea.h
-> +++ b/include/linux/usb/chipidea.h
-> @@ -66,6 +66,7 @@ struct ci_hdrc_platform_data {
->  #define CI_HDRC_HAS_PORTSC_PEC_MISSED	BIT(17)
->  #define CI_HDRC_FORCE_VBUS_ACTIVE_ALWAYS	BIT(18)
->  #define	CI_HDRC_HAS_SHORT_PKT_LIMIT	BIT(19)
-> +#define	CI_HDRC_OUT_BAND_WAKEUP		BIT(20)
->  	enum usb_dr_mode	dr_mode;
->  #define CI_HDRC_CONTROLLER_RESET_EVENT		0
->  #define CI_HDRC_CONTROLLER_STOPPED_EVENT	1
-> 
-> -- 
-> 2.37.1
-> 
+- Patches 111-114 are for drivers that implement both round_rate() and
+  determine_rate(), so the round_rate() implementation is dropped.
+
+Once all of my conversion patches across the various trees in the kernel
+have been merged, I will post a small series that removes the
+round_rate() op from the clk core and the documentation. Here's the
+other patch series that are currently in flight that need to be merged
+before we can remove round_rate() from the core.
+
+- arm32 (3): https://lore.kernel.org/linux-clk/20250710-arm32-clk-round-rate-v1-0-a9146b77aca9@redhat.com/T/
+- clk/tegra (6): https://lore.kernel.org/linux-clk/20250710-clk-tegra-round-rate-v1-0-e48ac3df4279@redhat.com/T/
+- clk/ti (7): https://lore.kernel.org/linux-clk/20250811-b4-clk-ti-round-rate-v1-0-cc0840594a49@redhat.com/T/
+- clocksource (1): https://lore.kernel.org/linux-clk/20250810-clocksource-round-rate-v1-1-486ef53e45eb@redhat.com/T/
+- drm (9): https://lore.kernel.org/linux-clk/20250811-drm-clk-round-rate-v2-0-4a91ccf239cf@redhat.com/T/
+- drm/msm (7): https://lore.kernel.org/linux-clk/20250810-drm-msm-phy-clk-round-rate-v2-0-0fd1f7979c83@redhat.com/T/
+- i2c (1): https://lore.kernel.org/linux-clk/20250810-i2c-round-rate-v1-1-9488b57153e7@redhat.com/T/
+- media (4): https://lore.kernel.org/linux-clk/20250710-media-clk-round-rate-v1-0-a9617b061741@redhat.com/T/
+- mips (1): https://lore.kernel.org/linux-clk/20250810-mips-round-rate-v1-1-54e424c520dd@redhat.com/T/
+- net (1): https://lore.kernel.org/linux-clk/20250810-net-round-rate-v1-1-dbb237c9fe5c@redhat.com/T/
+- peci (1): https://lore.kernel.org/linux-clk/20250810-peci-round-rate-v1-1-ec96d216a455@redhat.com/T/
+- phy (9): https://lore.kernel.org/linux-phy/20250810-phy-clk-round-rate-v2-0-9162470bb9f2@redhat.com/T/
+- pmdomain (1): https://lore.kernel.org/linux-clk/20250810-pmdomain-round-rate-v1-1-1a90dbacdeb6@redhat.com/T/
+- tty (1): https://lore.kernel.org/linux-clk/20250810-tty-round-rate-v1-1-849009f3bdfd@redhat.com/T/
+
+Coccinelle semantic patch:
+
+    virtual patch
+
+    // Look up the current name of the round_rate function
+    @ has_round_rate @
+    identifier round_rate_name =~ ".*_round_rate";
+    identifier hw_param, rate_param, parent_rate_param;
+    @@
+
+    long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+                  unsigned long *parent_rate_param)
+    {
+    	...
+    }
+
+    // Rename the route_rate function name to determine_rate()
+    @ script:python generate_name depends on has_round_rate @
+    round_rate_name << has_round_rate.round_rate_name;
+    new_name;
+    @@
+
+    coccinelle.new_name = round_rate_name.replace("_round_rate", "_determine_rate")
+
+    // Change rate to req->rate; also change occurrences of 'return XXX'.
+    @ chg_rate depends on generate_name @
+    identifier has_round_rate.round_rate_name;
+    identifier has_round_rate.hw_param;
+    identifier has_round_rate.rate_param;
+    identifier has_round_rate.parent_rate_param;
+    identifier ERR =~ "E.*";
+    expression E;
+    @@
+
+    long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+                  unsigned long *parent_rate_param)
+    {
+    <...
+    (
+    -return -ERR;
+    +return -ERR;
+    |
+    - return rate_param;
+    + return 0;
+    |
+    - return E;
+    + req->rate = E;
+    +
+    + return 0;
+    |
+    - rate_param
+    + req->rate
+    )
+    ...>
+    }
+
+    // Coccinelle only transforms the first occurrence of the rate parameter
+    // Run a second time. FIXME: Is there a better way to do this?
+    @ chg_rate2 depends on generate_name @
+    identifier has_round_rate.round_rate_name;
+    identifier has_round_rate.hw_param;
+    identifier has_round_rate.rate_param;
+    identifier has_round_rate.parent_rate_param;
+    @@
+
+    long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+                  unsigned long *parent_rate_param)
+    {
+    <...
+    - rate_param
+    + req->rate
+    ...>
+    }
+
+    // Change parent_rate to req->best_parent_rate
+    @ chg_parent_rate depends on generate_name @
+    identifier has_round_rate.round_rate_name;
+    identifier has_round_rate.hw_param;
+    identifier has_round_rate.rate_param;
+    identifier has_round_rate.parent_rate_param;
+    @@
+
+    long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+                  unsigned long *parent_rate_param)
+    {
+    <...
+    (
+    - *parent_rate_param
+    + req->best_parent_rate
+    |
+    - parent_rate_param
+    + &req->best_parent_rate
+    )
+    ...>
+    }
+
+    // Convert the function definition from round_rate() to determine_rate()
+    @ func_definition depends on chg_rate @
+    identifier has_round_rate.round_rate_name;
+    identifier has_round_rate.hw_param;
+    identifier has_round_rate.rate_param;
+    identifier has_round_rate.parent_rate_param;
+    identifier generate_name.new_name;
+    @@
+
+    - long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+    -               unsigned long *parent_rate_param)
+    + int new_name(struct clk_hw *hw, struct clk_rate_request *req)
+    {
+        ...
+    }
+
+    // Update the ops from round_rate() to determine_rate()
+    @ ops depends on func_definition @
+    identifier has_round_rate.round_rate_name;
+    identifier generate_name.new_name;
+    @@
+
+    {
+        ...,
+    -   .round_rate = round_rate_name,
+    +   .determine_rate = new_name,
+        ...,
+    }
+
+Note that I used coccinelle 1.2 instead of 1.3 since the newer version
+adds unnecessary braces as described in this post.
+https://lore.kernel.org/cocci/67642477-5f3e-4b2a-914d-579a54f48cbd@intel.com/
+
+Signed-off-by: Brian Masney <bmasney@redhat.com>
+---
+Brian Masney (114):
+      clk: at91: peripheral: fix return value
+      clk: at91: peripheral: convert from round_rate() to determine_rate()
+      clk: fixed-factor: add determine_rate() ops
+      clk: at91: audio-pll: convert from round_rate() to determine_rate()
+      clk: at91: h32mx: convert from round_rate() to determine_rate()
+      clk: at91: pll: convert from round_rate() to determine_rate()
+      clk: at91: plldiv: convert from round_rate() to determine_rate()
+      clk: at91: sam9x60-pll: convert from round_rate() to determine_rate()
+      clk: at91: usb: convert from round_rate() to determine_rate()
+      clk: baikal-t1: ccu-div: convert from round_rate() to determine_rate()
+      clk: baikal-t1: ccu-pll: convert from round_rate() to determine_rate()
+      clk: cdce925: convert from round_rate() to determine_rate()
+      clk: cs2000-cp: convert from round_rate() to determine_rate()
+      clk: ep93xx: convert from round_rate() to determine_rate()
+      clk: fractional-divider: convert from round_rate() to determine_rate()
+      clk: gemini: convert from round_rate() to determine_rate()
+      clk: highbank: convert from round_rate() to determine_rate()
+      clk: hisilicon: clkdivider-hi6220: convert from round_rate() to determine_rate()
+      clk: hisilicon: hi3660-stub: move comma from declaration of DEFINE_CLK_STUB()
+      clk: hisilicon: hi3660-stub: convert from round_rate() to determine_rate()
+      clk: hisilicon: hi6220-stub: convert from round_rate() to determine_rate()
+      clk: ingenic: cgu: convert from round_rate() to determine_rate()
+      clk: ingenic: jz4780-cgu: convert from round_rate() to determine_rate()
+      clk: ingenic: x1000-cgu: convert from round_rate() to determine_rate()
+      clk: lmk04832: convert from round_rate() to determine_rate()
+      clk: loongson1: convert from round_rate() to determine_rate()
+      clk: max9485: convert from round_rate() to determine_rate()
+      clk: milbeaut: convert from round_rate() to determine_rate()
+      clk: mmp: audio: convert from round_rate() to determine_rate()
+      clk: mmp: frac: convert from round_rate() to determine_rate()
+      clk: multiplier: convert from round_rate() to determine_rate()
+      clk: mxs: div: convert from round_rate() to determine_rate()
+      clk: mxs: frac: convert from round_rate() to determine_rate()
+      clk: mxs: ref: convert from round_rate() to determine_rate()
+      clk: nuvoton: ma35d1-divider: convert from round_rate() to determine_rate()
+      clk: nuvoton: ma35d1-pll: convert from round_rate() to determine_rate()
+      clk: nxp: lpc18xx-cgu: convert from round_rate() to determine_rate()
+      clk: nxp: lpc32xx: convert from round_rate() to determine_rate()
+      clk: pistachio: pll: convert from round_rate() to determine_rate()
+      clk: scpi: convert from round_rate() to determine_rate()
+      clk: si514: convert from round_rate() to determine_rate()
+      clk: si521xx: convert from round_rate() to determine_rate()
+      clk: si5341: convert from round_rate() to determine_rate()
+      clk: si544: convert from round_rate() to determine_rate()
+      clk: si570: convert from round_rate() to determine_rate()
+      clk: sifive: sifive-prci: convert from round_rate() to determine_rate()
+      clk: sophgo: cv18xx-ip: convert from round_rate() to determine_rate()
+      clk: sophgo: sg2042-clkgen: convert from round_rate() to determine_rate()
+      clk: spacemit: ccu_ddn: convert from round_rate() to determine_rate()
+      clk: spacemit: ccu_mix: convert from round_rate() to determine_rate()
+      clk: spacemit: ccu_pll: convert from round_rate() to determine_rate()
+      clk: sparx5: convert from round_rate() to determine_rate()
+      clk: sprd: div: convert from round_rate() to determine_rate()
+      clk: sprd: pll: convert from round_rate() to determine_rate()
+      clk: st: clkgen-fsyn: convert from round_rate() to determine_rate()
+      clk: st: clkgen-pll: convert from round_rate() to determine_rate()
+      clk: stm32f4: convert from round_rate() to determine_rate()
+      clk: stm32: stm32-core: convert from round_rate() to determine_rate()
+      clk: stm32: stm32mp1: convert from round_rate() to determine_rate()
+      clk: tps68470: convert from round_rate() to determine_rate()
+      clk: versaclock3: convert from round_rate() to determine_rate()
+      clk: vt8500: convert from round_rate() to determine_rate()
+      clk: wm831x: convert from round_rate() to determine_rate()
+      clk: x86: cgu: convert from round_rate() to determine_rate()
+      clk: xgene: convert from round_rate() to determine_rate()
+      clk: xilinx: xlnx-clock-wizard: convert from round_rate() to determine_rate()
+      clk: xilinx: xlnx_vcu: convert from round_rate() to determine_rate()
+      clk: zynqmp: divider: convert from round_rate() to determine_rate()
+      clk: zynqmp: pll: convert from round_rate() to determine_rate()
+      clk: zynq: pll: convert from round_rate() to determine_rate()
+      clk: actions: owl-composite: convert from round_rate() to determine_rate()
+      clk: actions: owl-divider: convert from round_rate() to determine_rate()
+      clk: actions: owl-factor: convert from round_rate() to determine_rate()
+      clk: actions: owl-pll: convert from round_rate() to determine_rate()
+      clk: apple-nco: convert from round_rate() to determine_rate()
+      clk: axs10x: i2s_pll_clock: convert from round_rate() to determine_rate()
+      clk: axs10x: pll_clock: convert from round_rate() to determine_rate()
+      clk: bcm: iproc-asiu: convert from round_rate() to determine_rate()
+      clk: bm1880: convert from round_rate() to determine_rate()
+      clk: cdce706: convert from round_rate() to determine_rate()
+      clk: hsdk-pll: convert from round_rate() to determine_rate()
+      clk: mediatek: pll: convert from round_rate() to determine_rate()
+      clk: microchip: core: convert from round_rate() to determine_rate()
+      clk: mstar: msc313-cpupll: convert from round_rate() to determine_rate()
+      clk: mvebu: ap-cpu-clk: convert from round_rate() to determine_rate()
+      clk: mvebu: armada-37xx-periph: convert from round_rate() to determine_rate()
+      clk: mvebu: corediv: convert from round_rate() to determine_rate()
+      clk: mvebu: cpu: convert from round_rate() to determine_rate()
+      clk: mvebu: dove-divider: convert from round_rate() to determine_rate()
+      clk: qcom: alpha-pll: convert from round_rate() to determine_rate()
+      clk: qcom: regmap-divider: convert from round_rate() to determine_rate()
+      clk: renesas: rzg2l-cpg: convert from round_rate() to determine_rate()
+      clk: renesas: rzv2h-cpg: remove round_rate() in favor of determine_rate()
+      clk: rockchip: ddr: convert from round_rate() to determine_rate()
+      clk: rockchip: half-divider: convert from round_rate() to determine_rate()
+      clk: rockchip: pll: convert from round_rate() to determine_rate()
+      clk: rp1: convert from round_rate() to determine_rate()
+      clk: samsung: cpu: convert from round_rate() to determine_rate()
+      clk: samsung: pll: convert from round_rate() to determine_rate()
+      clk: sp7021: convert from round_rate() to determine_rate()
+      clk: spear: aux-synth: convert from round_rate() to determine_rate()
+      clk: spear: frac-synth: convert from round_rate() to determine_rate()
+      clk: spear: gpt-synth: convert from round_rate() to determine_rate()
+      clk: spear: vco-pll: convert from round_rate() to determine_rate()
+      clk: ux500: prcmu: convert from round_rate() to determine_rate()
+      clk: versaclock5: convert from round_rate() to determine_rate()
+      clk: versaclock7: convert from round_rate() to determine_rate()
+      clk: versatile: icst: convert from round_rate() to determine_rate()
+      clk: versatile: vexpress-osc: convert from round_rate() to determine_rate()
+      clk: visconti: pll: convert from round_rate() to determine_rate()
+      clk: divider: remove round_rate() in favor of determine_rate()
+      clk: scmi: remove round_rate() in favor of determine_rate()
+      clk: sophgo: sg2042-pll: remove round_rate() in favor of determine_rate()
+      clk: fixed-factor: drop round_rate() clk ops
+
+ drivers/clk/actions/owl-composite.c        |   8 +-
+ drivers/clk/actions/owl-divider.c          |  13 +--
+ drivers/clk/actions/owl-factor.c           |  12 +--
+ drivers/clk/actions/owl-pll.c              |  25 ++++--
+ drivers/clk/at91/clk-audio-pll.c           |  42 +++++----
+ drivers/clk/at91/clk-h32mx.c               |  33 ++++---
+ drivers/clk/at91/clk-peripheral.c          |  48 ++++++----
+ drivers/clk/at91/clk-pll.c                 |  12 +--
+ drivers/clk/at91/clk-plldiv.c              |  34 +++++---
+ drivers/clk/at91/clk-sam9x60-pll.c         |  29 +++---
+ drivers/clk/at91/clk-usb.c                 |  20 +++--
+ drivers/clk/axs10x/i2s_pll_clock.c         |  14 +--
+ drivers/clk/axs10x/pll_clock.c             |  12 +--
+ drivers/clk/baikal-t1/ccu-div.c            |  27 +++---
+ drivers/clk/baikal-t1/ccu-pll.c            |  14 +--
+ drivers/clk/bcm/clk-iproc-asiu.c           |  25 +++---
+ drivers/clk/clk-apple-nco.c                |  14 +--
+ drivers/clk/clk-bm1880.c                   |  21 +++--
+ drivers/clk/clk-cdce706.c                  |  16 ++--
+ drivers/clk/clk-cdce925.c                  |  50 ++++++-----
+ drivers/clk/clk-cs2000-cp.c                |  14 +--
+ drivers/clk/clk-divider.c                  |  23 -----
+ drivers/clk/clk-ep93xx.c                   |  18 ++--
+ drivers/clk/clk-fixed-factor.c             |  16 ++--
+ drivers/clk/clk-fractional-divider.c       |  25 ++++--
+ drivers/clk/clk-gemini.c                   |  15 ++--
+ drivers/clk/clk-highbank.c                 |  26 +++---
+ drivers/clk/clk-hsdk-pll.c                 |  12 +--
+ drivers/clk/clk-lmk04832.c                 |  53 ++++++-----
+ drivers/clk/clk-loongson1.c                |  12 +--
+ drivers/clk/clk-max9485.c                  |  27 +++---
+ drivers/clk/clk-milbeaut.c                 |  22 +++--
+ drivers/clk/clk-multiplier.c               |  12 +--
+ drivers/clk/clk-rp1.c                      |  45 ++++++----
+ drivers/clk/clk-scmi.c                     |  30 -------
+ drivers/clk/clk-scpi.c                     |  18 ++--
+ drivers/clk/clk-si514.c                    |  24 +++--
+ drivers/clk/clk-si521xx.c                  |  14 +--
+ drivers/clk/clk-si5341.c                   |  22 +++--
+ drivers/clk/clk-si544.c                    |  10 +--
+ drivers/clk/clk-si570.c                    |  24 +++--
+ drivers/clk/clk-sp7021.c                   |  22 ++---
+ drivers/clk/clk-sparx5.c                   |  10 ++-
+ drivers/clk/clk-stm32f4.c                  |  26 +++---
+ drivers/clk/clk-tps68470.c                 |  12 +--
+ drivers/clk/clk-versaclock3.c              |  70 +++++++++------
+ drivers/clk/clk-versaclock5.c              |  71 ++++++++-------
+ drivers/clk/clk-versaclock7.c              |  30 ++++---
+ drivers/clk/clk-vt8500.c                   |  59 ++++++++-----
+ drivers/clk/clk-wm831x.c                   |  14 +--
+ drivers/clk/clk-xgene.c                    |  41 +++++----
+ drivers/clk/hisilicon/clk-hi3660-stub.c    |  18 ++--
+ drivers/clk/hisilicon/clk-hi6220-stub.c    |  12 +--
+ drivers/clk/hisilicon/clkdivider-hi6220.c  |  12 +--
+ drivers/clk/ingenic/cgu.c                  |  12 +--
+ drivers/clk/ingenic/jz4780-cgu.c           |  24 ++---
+ drivers/clk/ingenic/x1000-cgu.c            |  19 ++--
+ drivers/clk/mediatek/clk-pll.c             |  13 +--
+ drivers/clk/mediatek/clk-pll.h             |   3 +-
+ drivers/clk/mediatek/clk-pllfh.c           |   2 +-
+ drivers/clk/microchip/clk-core.c           |  44 ++++++----
+ drivers/clk/mmp/clk-audio.c                |  18 ++--
+ drivers/clk/mmp/clk-frac.c                 |  27 +++---
+ drivers/clk/mstar/clk-msc313-cpupll.c      |  18 ++--
+ drivers/clk/mvebu/ap-cpu-clk.c             |  12 +--
+ drivers/clk/mvebu/armada-37xx-periph.c     |  15 ++--
+ drivers/clk/mvebu/clk-corediv.c            |  18 ++--
+ drivers/clk/mvebu/clk-cpu.c                |  12 +--
+ drivers/clk/mvebu/dove-divider.c           |  16 ++--
+ drivers/clk/mxs/clk-div.c                  |   8 +-
+ drivers/clk/mxs/clk-frac.c                 |  16 ++--
+ drivers/clk/mxs/clk-ref.c                  |  16 ++--
+ drivers/clk/nuvoton/clk-ma35d1-divider.c   |  12 ++-
+ drivers/clk/nuvoton/clk-ma35d1-pll.c       |  28 +++---
+ drivers/clk/nxp/clk-lpc18xx-cgu.c          |  16 ++--
+ drivers/clk/nxp/clk-lpc32xx.c              |  59 +++++++------
+ drivers/clk/pistachio/clk-pll.c            |  20 +++--
+ drivers/clk/qcom/clk-alpha-pll.c           | 136 ++++++++++++++++-------------
+ drivers/clk/qcom/clk-regmap-divider.c      |  27 +++---
+ drivers/clk/renesas/rzg2l-cpg.c            |   9 +-
+ drivers/clk/renesas/rzv2h-cpg.c            |  10 ---
+ drivers/clk/rockchip/clk-ddr.c             |  13 +--
+ drivers/clk/rockchip/clk-half-divider.c    |  12 +--
+ drivers/clk/rockchip/clk-pll.c             |  23 +++--
+ drivers/clk/samsung/clk-cpu.c              |  12 +--
+ drivers/clk/samsung/clk-pll.c              |  33 ++++---
+ drivers/clk/sifive/fu540-prci.h            |   2 +-
+ drivers/clk/sifive/fu740-prci.h            |   2 +-
+ drivers/clk/sifive/sifive-prci.c           |  11 +--
+ drivers/clk/sifive/sifive-prci.h           |   4 +-
+ drivers/clk/sophgo/clk-cv18xx-ip.c         |  10 ++-
+ drivers/clk/sophgo/clk-sg2042-clkgen.c     |  17 ++--
+ drivers/clk/sophgo/clk-sg2042-pll.c        |  24 ++---
+ drivers/clk/spacemit/ccu_ddn.c             |  11 ++-
+ drivers/clk/spacemit/ccu_mix.c             |  12 +--
+ drivers/clk/spacemit/ccu_pll.c             |  10 ++-
+ drivers/clk/spear/clk-aux-synth.c          |  12 +--
+ drivers/clk/spear/clk-frac-synth.c         |  12 +--
+ drivers/clk/spear/clk-gpt-synth.c          |  12 +--
+ drivers/clk/spear/clk-vco-pll.c            |  23 +++--
+ drivers/clk/sprd/div.c                     |  13 +--
+ drivers/clk/sprd/pll.c                     |   8 +-
+ drivers/clk/st/clkgen-fsyn.c               |  33 +++----
+ drivers/clk/st/clkgen-pll.c                |  38 ++++----
+ drivers/clk/stm32/clk-stm32-core.c         |  28 +++---
+ drivers/clk/stm32/clk-stm32mp1.c           |  13 +--
+ drivers/clk/ux500/clk-prcmu.c              |  14 +--
+ drivers/clk/versatile/clk-icst.c           |  72 +++++++++------
+ drivers/clk/versatile/clk-vexpress-osc.c   |  16 ++--
+ drivers/clk/visconti/pll.c                 |  17 ++--
+ drivers/clk/x86/clk-cgu.c                  |  35 ++++----
+ drivers/clk/xilinx/clk-xlnx-clock-wizard.c |  55 ++++++------
+ drivers/clk/xilinx/xlnx_vcu.c              |  15 ++--
+ drivers/clk/zynq/pll.c                     |  12 +--
+ drivers/clk/zynqmp/divider.c               |  23 ++---
+ drivers/clk/zynqmp/pll.c                   |  24 ++---
+ 116 files changed, 1477 insertions(+), 1132 deletions(-)
+---
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+change-id: 20250729-clk-for-stephen-round-rate-5a88ebdf8da6
+
+Best regards,
+-- 
+Brian Masney <bmasney@redhat.com>
+
+
