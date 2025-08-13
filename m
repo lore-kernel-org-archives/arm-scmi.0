@@ -1,126 +1,102 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2E527280E;
-	Wed, 13 Aug 2025 09:08:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51E3E1D7E4A;
+	Wed, 13 Aug 2025 11:46:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755076091; cv=none; b=KVuB4MrIQs1aQDnOV1Ox2SirZC1xVYjYJnYS/Lqgg9wko3k5QADFynXZlHjCC4Jmes/VURTwqmFr7G3swqh1PlO4Q9eJACpBp/5xIlYyBTSIziM64XcPm60JM7ytT8U8YNAuHl3BVPlWYhSY9m1tsrNrZp4RLqAv4ddAZChI+Fo=
+	t=1755085610; cv=none; b=eQtsO3OW0UjGcgtW78gZIYo8VlnbTWyw90/iIozqB8HitqrNk14UmeU4ByjEbG6frs2Q96BPfyNdjhpWPand3qT1f/m3P9cKpfSqbMAtgjYXvewGNRrUeYAVJb7bKT2cOpYddO5DQiKGuu1+KoytPPR67uU4uwqAb/XuQW3rUKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755076091; c=relaxed/simple;
-	bh=/SPdHAwhvXyCqoH/t4/l4FNys/9/FT+CFV8bKu69lmc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=L7knbgfvoSv1a3+yKX+lc1RHA8j4Q6QPLM5+4XWngLQbVDCe4VGlrR5VWtXz2KRaLLaQqeSNGS8ScIi/Bbt9qTm5ukHAyWVacziXqX+w4KWVxkoywaUQEUvTCka7e86EnDzeMGuSE7/WR2UV3/HKw4giX60Ua+pR7e7uewP9cZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RBcxly02; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RBcxly02"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9806843283;
-	Wed, 13 Aug 2025 09:07:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1755076079;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zeW3w+muABU56lk8AynPRRMO7XtEP4qDrJkq+5Lwhw0=;
-	b=RBcxly02YqHg6yIG6IVGb6L0wWxwyXgbzexV7fz5MW/s00R1yXLzqz8R0Q4Hp6XCzFEgKy
-	aJQuxXVY2VuM3LcR+HuKLiDTJxPk7hPeIic299sk4PSxG2ekcA+2ZeJQZ9DJMqGpdiEK55
-	dlmn2pZocXR5RTpeMH7mXYpDsa1p5LBc6yeLbl5BB9RJI44aKGy2UdQyipWgEiGweTT6Zs
-	yKZjMHYwq/2e6TLrhQ1n/5tSh0xMWWU8ZMi+8EvpkTaKYRbcurnOinRJ6WojpOPIpt9hGK
-	EGL3JqryRCMP/IrQCvVCa6eDAFIGmMSS2+OxScw07Z8iZPtIZg8PP1xYwoncfg==
-Date: Wed, 13 Aug 2025 11:07:45 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Brian Masney via B4 Relay <devnull+bmasney.redhat.com@kernel.org>
-Cc: bmasney@redhat.com, Michael Turquette <mturquette@baylibre.com>, Stephen
- Boyd <sboyd@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, Cristian
- Marussi <cristian.marussi@arm.com>, Chen Wang <unicorn_wang@outlook.com>,
- Inochi Amaoto <inochiama@gmail.com>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Paul Cercueil <paul@crapouillou.net>, Keguang Zhang
- <keguang.zhang@gmail.com>, Taichi Sugaya <sugaya.taichi@socionext.com>,
- Takao Orito <orito.takao@socionext.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Jacky Huang
- <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, Vladimir
- Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk
- <piotr.wojtaszczyk@timesys.com>, Paul Walmsley <paul.walmsley@sifive.com>,
- Samuel Holland <samuel.holland@sifive.com>, Yixun Lan <dlan@gentoo.org>,
- Steen Hegelund <Steen.Hegelund@microchip.com>, Daniel Machon
- <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, Orson Zhai
- <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan
- Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Michal Simek
- <michal.simek@amd.com>, Maxime Ripard <mripard@kernel.org>, Andreas
- =?UTF-8?B?RsOkcmJlcg==?= <afaerber@suse.de>, Manivannan Sadhasivam
- <mani@kernel.org>, Sven Peter <sven@kernel.org>, Janne Grunau
- <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa
- <neal@gompa.dev>, Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, Broadcom
- internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Max
- Filippov <jcmvbkbc@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Daniel Palmer <daniel@thingy.jp>, Romain Perier <romain.perier@gmail.com>,
- Andrew Lunn <andrew@lunn.ch>, Gregory Clement
- <gregory.clement@bootlin.com>, Sebastian Hesselbarth
- <sebastian.hesselbarth@gmail.com>, Bjorn Andersson <andersson@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Heiko Stuebner
- <heiko@sntech.de>, Andrea della Porta <andrea.porta@suse.com>, Krzysztof
- Kozlowski <krzk@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Alim Akhtar
- <alim.akhtar@samsung.com>, Qin Jian <qinjian@cqplus1.com>, Viresh Kumar
- <vireshk@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, Alex Helms
- <alexander.helms.jy@renesas.com>, Linus Walleij <linus.walleij@linaro.org>,
- Liviu Dudau <liviu.dudau@arm.com>, Lorenzo Pieralisi
- <lpieralisi@kernel.org>, Nobuhiro Iwamatsu
- <nobuhiro1.iwamatsu@toshiba.co.jp>, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, sophgo@lists.linux.dev,
- linux-mips@vger.kernel.org, imx@lists.linux.dev,
- linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
- linux-stm32@st-md-mailman.stormreply.com, patches@opensource.cirrus.com,
- linux-actions@lists.infradead.org, asahi@lists.linux.dev,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
-Subject: Re: [PATCH 106/114] clk: versaclock5: convert from round_rate() to
- determine_rate()
-Message-ID: <20250813110745.63523645@booty>
-In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-106-b3bf97b038dc@redhat.com>
-References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
-	<20250811-clk-for-stephen-round-rate-v1-106-b3bf97b038dc@redhat.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1755085610; c=relaxed/simple;
+	bh=1TfAQGQCYHuxmDCqG0Le334KtJ2qftVKyGbJM5ISVeA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Zo6EUQ2LwRKh2PI4CxypzlspGjeceTL0Vtjc14WQ488QsfJQsSAJtPYGX11/jrkmHjsSzVyEIwFuxIVgxxfK4OVzCXa84DfsBKSaJAnsll7kXrDK7uwzwGDZZILZ7T3kJyu76vFCeKRXoimPEe6XakJIEwPO5ZIWBSUQ656rfWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8D66B12FC;
+	Wed, 13 Aug 2025 04:46:40 -0700 (PDT)
+Received: from pluto.guest.local (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 939873F738;
+	Wed, 13 Aug 2025 04:46:45 -0700 (PDT)
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Cc: sudeep.holla@arm.com,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	etienne.carriere@st.com,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	quic_sibis@quicinc.com,
+	dan.carpenter@linaro.org,
+	d-gole@ti.com,
+	souvik.chakravarty@arm.com,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [PATCH 0/8] Add support for SCMIv4.0 Powercap Extensions
+Date: Wed, 13 Aug 2025 12:46:01 +0100
+Message-ID: <20250813114609.1305571-1-cristian.marussi@arm.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddufeejkedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeeftdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeehffejffekudfhkeeklefgjeeuheekffelheejgfeijeehieelkedttdfhjedtnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepkeelpdhrtghpthhtohepuggvvhhnuhhllhdosghmrghsnhgvhidrrhgvughhrghtrdgtohhmsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsmhgrshhnvgihsehrvgguhhgrthdrtghomhdprhgtphhtthhopehmthhurhhqu
- hgvthhtvgessggrhihlihgsrhgvrdgtohhmpdhrtghpthhtohepshgsohihugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhuuggvvghprdhhohhllhgrsegrrhhmrdgtohhmpdhrtghpthhtoheptghrihhsthhirghnrdhmrghruhhsshhisegrrhhmrdgtohhmpdhrtghpthhtohepuhhnihgtohhrnhgpfigrnhhgsehouhhtlhhoohhkrdgtohhmpdhrtghpthhtohepihhnohgthhhirghmrgesghhmrghilhdrtghomh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Transfer-Encoding: 8bit
 
-On Mon, 11 Aug 2025 11:19:38 -0400
-Brian Masney via B4 Relay <devnull+bmasney.redhat.com@kernel.org> wrote:
+Hi all,
 
-> From: Brian Masney <bmasney@redhat.com>
-> 
-> The round_rate() clk ops is deprecated, so migrate this driver from
-> round_rate() to determine_rate() using the Coccinelle semantic patch
-> on the cover letter of this series.
-> 
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
+SCMIv4.0 [1] introduces some new features and commands into the Powercap
+protocol. In a nutshell, such protocol changes add support for:
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+ - setting multiple powercap limit/interval constraints for each SCMI
+   powercap domain which supports multiple Concurrent Power Limit
+ - enabling more Powercap commands to use Fastchannels mechanism
+ - adding multiple constraints support to the existing notifications
+
+After a bit of needed updates in the SCMI core this series adds:
+
+- support for the idea of optional multiple Concurrent Power Limit (CPLs)
+- support for the new FCs
+- support for extended notifications
+- enable usage of such multiple constraint in the ARM SCMI Powercap driver
+
+Note that the public SCMIv4.0 spec at [1] is currently still ALPHA0, so
+this series could anyway need some minor rework along the way and
+definitely will need to wait for a final public release before being
+possibly merged.
+
+Tested in a mocked setup implementing the new protocol extensions.
+Based on v6.17-rc1.
+
+Thanks,
+Cristian
+
+[1]: https://developer.arm.com/documentation/den0056/f/?lang=en
+
+
+Cristian Marussi (8):
+  firmware: arm_scmi: Add an optional custom parameter to fastchannel
+    helpers
+  firmware: arm_scmi: Add bound iterators support
+  firmware: arm_scmi: Refactor powercap domain layout
+  firmware: arm_scmi: Add SCMIv4.0 Powercap basic support
+  firmware: arm_scmi: Add SCMIv4.0 Powercap FCs support
+  firmware: arm_scmi: Add SCMIV4.0 Powercap notifications support
+  include: trace: Add new parameter to trace_scmi_fc_call
+  powercap: arm_scmi: Enable multiple constraints support
+
+ drivers/firmware/arm_scmi/driver.c    |  33 +-
+ drivers/firmware/arm_scmi/perf.c      |  16 +-
+ drivers/firmware/arm_scmi/powercap.c  | 843 ++++++++++++++++++++------
+ drivers/firmware/arm_scmi/protocols.h |   8 +-
+ drivers/powercap/arm_scmi_powercap.c  |  54 +-
+ include/linux/scmi_protocol.h         |  78 ++-
+ include/trace/events/scmi.h           |  10 +-
+ 7 files changed, 777 insertions(+), 265 deletions(-)
 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.47.0
+
