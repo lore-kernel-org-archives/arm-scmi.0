@@ -1,163 +1,212 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB6D10E3;
-	Tue, 12 Aug 2025 15:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 147832C08C3
+	for <arm-scmi@vger.kernel.org>; Wed, 13 Aug 2025 05:48:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013154; cv=none; b=ntMjPdejpXvBHRb9CgK+nrv+aUsAXRWGjH7qVbwjRpqsS21NJVa78OlUT2hBGNj/8stVyZJQlhHh67pzP043piPR3frKBNaLxgQy8zIqd/tYbBrZrXA7vBqmpomBZM0FDExUTUGTehlUp5vRw4i/frx4+gZVOjNIAprxqm1XXEc=
+	t=1755064134; cv=none; b=KBpMC4cBsTz/gOY7lx3tkZJOKyJ9cerLub7xu794F3Y0ynIvuA4YqqKoafY/9KxW1WamEh2dikvWRkoKyTDDFuMHF7w/xroTqcnaiSlBn4xU007UGI+SaIBudZ+wO6E7ScB2nbsmxIWbPK/98SddqTE2j/Bbiy3Dr+iqvtfSa9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755013154; c=relaxed/simple;
-	bh=iGUpF1C71k7qo9/61ohvQv5Z7z5laJQcZjUsXmHz/vc=;
+	s=arc-20240116; t=1755064134; c=relaxed/simple;
+	bh=0IyPMQRVWg5ixL3LBlEz+Tb1fH/4h9rT/zzQCy59j1g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pt2CUML2WU0StiS8ogpgc9qfX0Fd/ncK9vppdttRzoQukRSvb7erxtgeupniJ7J5n+H4uJR8jsDmdpV8YMTg9LjtINh59L1whArUysy/XEc7lyMv5Qlc1aOTzJgC4qH8kuc7ZXV3K5wLw7Eijh/hITeBCEuRwr8eYH6LzSrR5vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LiZpRdpD; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=hKfvDxuew2Vo43jTWLMhoJZjtZYLY9j7Of4KLaCF/z5xGlC1Eza9acct2An3WVMaE/te1o4G+BGZNy5X3vFzWijXQ3sHn/Xt8lfpZQVSRV0j61zdMHzFBUtEeEWUAhxm+YmVQFgrY5iF0S5oq7UFObS0NZLdu3bTD4MRaw2fuPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mWyJeYc5; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LiZpRdpD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 284FDC4CEF0;
-	Tue, 12 Aug 2025 15:38:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755013153;
-	bh=iGUpF1C71k7qo9/61ohvQv5Z7z5laJQcZjUsXmHz/vc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LiZpRdpDhra8HQLi6oTJvzINkJJSuv23n4QKhmL0GdIDFfOjMCDM1OqYhcWHHq3TI
-	 L28O5b3iPN5wVc9EXSMe1wiMP/NajukL3ql7pF4a85lv1fNAUZsV+TlMAAvN2rrzmr
-	 wRMnMSseO6nd8/EPTJY79HOmJ9zeY5vY0LS0u24hUa3icUGD8uDqDLMHMPTvWLEQv1
-	 l7Tw7lcXGU5Rs7ZD4eklupowdOLUecuU8uOFa6RlUoRtZfGlD+/8Ge0Ca3RaSQaoYZ
-	 h2ClWJH1Q8I12fZ++utjNSDaO59Bx51zYgkj3Rxo8YY8S6cPtFbxYBa0hRIu+GN5Me
-	 k5jWalHFpopnQ==
-Date: Tue, 12 Aug 2025 21:08:28 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: bmasney@redhat.com
-Cc: Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, 
-	Cristian Marussi <cristian.marussi@arm.com>, Chen Wang <unicorn_wang@outlook.com>, 
-	Inochi Amaoto <inochiama@gmail.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Paul Cercueil <paul@crapouillou.net>, Keguang Zhang <keguang.zhang@gmail.com>, 
-	Taichi Sugaya <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Samuel Holland <samuel.holland@sifive.com>, 
-	Yixun Lan <dlan@gentoo.org>, Steen Hegelund <Steen.Hegelund@microchip.com>, 
-	Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Michal Simek <michal.simek@amd.com>, Maxime Ripard <mripard@kernel.org>, 
-	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>, Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Max Filippov <jcmvbkbc@gmail.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Daniel Palmer <daniel@thingy.jp>, 
-	Romain Perier <romain.perier@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Gregory Clement <gregory.clement@bootlin.com>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Heiko Stuebner <heiko@sntech.de>, Andrea della Porta <andrea.porta@suse.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
-	Chanwoo Choi <cw00.choi@samsung.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Qin Jian <qinjian@cqplus1.com>, Viresh Kumar <vireshk@kernel.org>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Alex Helms <alexander.helms.jy@renesas.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, sophgo@lists.linux.dev, 
-	linux-mips@vger.kernel.org, imx@lists.linux.dev, linux-riscv@lists.infradead.org, 
-	spacemit@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
-	patches@opensource.cirrus.com, linux-actions@lists.infradead.org, asahi@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
-Subject: Re: [PATCH 079/114] clk: bm1880: convert from round_rate() to
- determine_rate()
-Message-ID: <tcl4eqicuqcptnbo4mcvjhacxkh2gh344k2bdrwfjbqflxspy7@x24np6pxjacf>
-References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
- <20250811-clk-for-stephen-round-rate-v1-79-b3bf97b038dc@redhat.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mWyJeYc5"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-459eb4ae596so56145405e9.1
+        for <arm-scmi@vger.kernel.org>; Tue, 12 Aug 2025 22:48:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755064130; x=1755668930; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=br/KFQMisLWNAK11Jh+i4JA1Nu+Hjv1i9FwCDI747D4=;
+        b=mWyJeYc5JZX5QlS57FbJ35QUJ57T468ArYypNSifEE8botp4pS9Q8YAmMyWUry4cSm
+         VWxPQW2/WA9lkUlXYbY0VNJe31O0ZLmqlrU1sbny+zUyAJvBD9AW7Voc/KK8ibUwor6U
+         piuSNOhL2uopz9THUX5cDcww8yL0DmInr0W6QSIsNV1kg4IioNu84j9v+OdLzOebiP8o
+         tLk9A0JXSrQo/pFfNQAiJzMBkAJPdL3WXKL9ndesLdr7xYzJk13Iq4US634jlDJA5ynh
+         BNYXXoAVyZf9Phod/VfYqlmr7cyMguHYAN11+28VR/oWj3SUztVASJ8alXjshDbcNEsA
+         X4HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755064130; x=1755668930;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=br/KFQMisLWNAK11Jh+i4JA1Nu+Hjv1i9FwCDI747D4=;
+        b=THydqUV4J8IbFv/CqSQ1nJON1z3ehr4mP3kkSwpBqzYYhhuHtPD4z2maKVvJQYoEkK
+         hdbUECPaSIQx2JAk0Y8zkM/dsJ93R46ormCU6dw+roRm4NMX1BRk1ntnnr1hbKQEi9/+
+         qEf/iad3W18Rx0HMGqmr5DTiW0I/V0udlX7SbwO0C6X0+3c8pASjhYnC2olIxd6sTJpA
+         B38fbAJXDn3NdjTqIU+faTFedoXHOFLG5Fnw3oVgIXrDEZyLAmDpPpm/HLY2ck4/2t0O
+         jZmP1my6Mo9AccmNP2oxS+cqkqyOgapDUhHD1B6ARvHlyvcGutzh680FhoZ1IUs88Sar
+         0gCA==
+X-Forwarded-Encrypted: i=1; AJvYcCWWuUBwgJjMUEhQy2X+ELEP0uOZqhxSROXaW91aBP6Z3AdBQcgctcZjpO2An2UjLmvgR/SnH058gQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywe8AgfmAVxckj7CbDvqTAxJ1kQTLXUuKnCIH4ZpbpOp3xmxODR
+	C1/wT3OlHM3h9uzBYalNrBqPvzkzMnwXC0lpXzpSWWCqwtgLdyeG+jbbj0Wuzlto8DY=
+X-Gm-Gg: ASbGncvbW2uOzOa4+wDWBLU7cocqp49ZX7X0Q3rWvE5WNqNCBj/G/5zl9BDO1h3JzKj
+	3qral/j5uXLAsvTcaaX30f3xSTD3tLsjYlKCHqXC6YU76ndmfU/EMYdzjPCuFbQl0ZrDXZl0bjx
+	8dRT9SYBLoTTksZGu4igUOelAN4+kX+1Lm5Bhf5A/Ng04vuVNuKALcVPThxkrYJ2QYakpywfR9U
+	Ei6AlaAfUf16fApkEldOo0b7pV/YdFlu8hSTlIKSmaI4s7TTvgYDqfuN2MNWb1L5lC0gQxaUM6S
+	BN07wfJLJBOBfa6TN6Nmlkbwdt7tqR020LvMzQ3yEaVMbzG/nd4FNqvRnmnTAG64o6T30x+lqMc
+	KHDYUqDQ/eLLLFWJZR6L69dgQpjI/9kueynrHWg==
+X-Google-Smtp-Source: AGHT+IFcMDTK7Qu4ZC7nlXttWooxXbJSLLV2zHBxtvmzb4Q3sahk0UhmGPH7DhFAOinlsQYal8xNDw==
+X-Received: by 2002:a05:600c:1649:b0:456:1560:7c63 with SMTP id 5b1f17b1804b1-45a1787a29emr3451565e9.3.1755064130316;
+        Tue, 12 Aug 2025 22:48:50 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b79c3bf93dsm46609898f8f.27.2025.08.12.22.48.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Aug 2025 22:48:49 -0700 (PDT)
+Date: Wed, 13 Aug 2025 08:48:15 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Peng Fan <peng.fan@nxp.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 2/3] clk: conf: Support assigned-clock-sscs
+Message-ID: <aJwnH2mlRdqp1K1u@stanley.mountain>
+References: <20250812-clk-ssc-version1-v1-0-cef60f20d770@nxp.com>
+ <20250812-clk-ssc-version1-v1-2-cef60f20d770@nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-79-b3bf97b038dc@redhat.com>
+In-Reply-To: <20250812-clk-ssc-version1-v1-2-cef60f20d770@nxp.com>
 
-On Mon, Aug 11, 2025 at 11:19:11AM GMT, Brian Masney via B4 Relay wrote:
-> From: Brian Masney <bmasney@redhat.com>
+On Tue, Aug 12, 2025 at 08:17:06PM +0800, Peng Fan wrote:
+> Parse the Spread Spectrum Configuration(SSC) from device tree and configure
+> them before using the clock.
 > 
-> The round_rate() clk ops is deprecated, so migrate this driver from
-> round_rate() to determine_rate() using the Coccinelle semantic patch
-> on the cover letter of this series.
+> Each SSC is three u32 elements which means '<modfreq spreaddepth
+> modmethod>', so assigned-clock-sscs is an array of multiple three u32
+> elements.
 > 
-
-Once this patch gets merged, the 'Coccinelle semantic patch on the cover letter
-of this series' becomes irrelevant. I'd suggest to either include the script
-here or do not mention it at all.
-
-- Mani
-
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
 > ---
->  drivers/clk/clk-bm1880.c | 21 +++++++++++++--------
->  1 file changed, 13 insertions(+), 8 deletions(-)
+>  drivers/clk/clk-conf.c | 70 ++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 70 insertions(+)
 > 
-> diff --git a/drivers/clk/clk-bm1880.c b/drivers/clk/clk-bm1880.c
-> index 002f7360b1c6c6e3058606a0808115b48fd3147a..dac190bc6e19a6dd4be413ea52d41f74934a1aa9 100644
-> --- a/drivers/clk/clk-bm1880.c
-> +++ b/drivers/clk/clk-bm1880.c
-> @@ -608,8 +608,8 @@ static unsigned long bm1880_clk_div_recalc_rate(struct clk_hw *hw,
->  	return rate;
+> diff --git a/drivers/clk/clk-conf.c b/drivers/clk/clk-conf.c
+> index 303a0bb26e54a95655ce094a35b989c97ebc6fd8..81a2c1f8ca4c44df2c54c1e51f800f533c9453b3 100644
+> --- a/drivers/clk/clk-conf.c
+> +++ b/drivers/clk/clk-conf.c
+> @@ -155,6 +155,72 @@ static int __set_clk_rates(struct device_node *node, bool clk_supplier)
+>  	return 0;
 >  }
 >  
-> -static long bm1880_clk_div_round_rate(struct clk_hw *hw, unsigned long rate,
-> -				      unsigned long *prate)
-> +static int bm1880_clk_div_determine_rate(struct clk_hw *hw,
-> +					 struct clk_rate_request *req)
->  {
->  	struct bm1880_div_hw_clock *div_hw = to_bm1880_div_clk(hw);
->  	struct bm1880_div_clock *div = &div_hw->div;
-> @@ -621,13 +621,18 @@ static long bm1880_clk_div_round_rate(struct clk_hw *hw, unsigned long rate,
->  		val = readl(reg_addr) >> div->shift;
->  		val &= clk_div_mask(div->width);
->  
-> -		return divider_ro_round_rate(hw, rate, prate, div->table,
-> -					     div->width, div->flags,
-> -					     val);
-> +		req->rate = divider_ro_round_rate(hw, req->rate,
-> +						  &req->best_parent_rate,
-> +						  div->table,
-> +						  div->width, div->flags, val);
+> +static int __set_clk_spread_spectrum(struct device_node *node, bool clk_supplier)
+> +{
+> +	u32 *sscs __free(kfree) = NULL;
+> +	u32 elem_size = sizeof(u32) * 3;
+> +	struct of_phandle_args clkspec;
+> +	int rc, count, index;
+> +	struct clk *clk;
 > +
+> +	/* modfreq, spreadPercent, modmethod */
+> +	count = of_property_count_elems_of_size(node, "assigned-clock-sscs", elem_size);
+> +	if (count > 0) {
+> +		sscs = kcalloc(count, elem_size, GFP_KERNEL);
+> +		if (!sscs)
+> +			return -ENOMEM;
+> +		rc = of_property_read_u32_array(node,
+> +						"assigned-clock-sscs",
+> +						sscs, count * 3);
+> +	} else {
 > +		return 0;
->  	}
->  
-> -	return divider_round_rate(hw, rate, prate, div->table,
-> -				  div->width, div->flags);
-> +	req->rate = divider_round_rate(hw, req->rate, &req->best_parent_rate,
-> +				       div->table, div->width, div->flags);
+> +	}
+> +
+> +	if (rc)
+> +		return rc;
+
+Nit pick: Please, flip these conditions around.
+
+	count = of_property_count_elems_of_size(node, "assigned-clock-sscs", elem_size);
+	if (count <= 0)
+		return 0;
+
+	sscs = kcalloc(count, elem_size, GFP_KERNEL);
+	if (!sscs)
+		return -ENOMEM;
+
+	rc = of_property_read_u32_array(node, "assigned-clock-sscs", sscs,
+					count * 3);
+	if (rc)
+		return rc;
+
+> +
+> +	for (index = 0; index < count; index++) {
+> +		u32 modfreq_hz = sscs[index * 3], spread_bp = sscs[index * 3 + 1];
+> +		u32 method = sscs[index * 3 + 2];
+
+This math would be nicer if you created a struct:
+
+struct spread_config {
+	u32 modfreq_hz;
+	u32 spread_depth;
+	u32 method;
+};
+
+Then you could use that instead of sscs.
+
+	for (i = 0; i < count; i++) {
+		struct spread_config *conf = &configs[i];
+		struct clk_hw *hw;
+
+		if (!conf->modfreq_hz && !conf->spread_depth && !conf->method)
+			continue;
+
+> +		struct clk_hw *hw;
+> +
+> +		if (modfreq_hz || spread_bp || method) {
+> +			rc = of_parse_phandle_with_args(node, "assigned-clocks",
+> +					"#clock-cells",	index, &clkspec);
+> +			if (rc < 0) {
+> +				/* skip empty (null) phandles */
+> +				if (rc == -ENOENT)
+> +					continue;
+> +				else
+> +					return rc;
+> +			}
+> +
+> +			if (clkspec.np == node && !clk_supplier) {
+
+Could you add a comment for this condition?  It's strange to me that we
+don't iterate through the whole array.
+
+regards,
+dan carpenter
+
+> +				of_node_put(clkspec.np);
+> +				return 0;
+> +			}
+> +
+> +			clk = of_clk_get_from_provider(&clkspec);
+> +			of_node_put(clkspec.np);
+> +			if (IS_ERR(clk)) {
+> +				if (PTR_ERR(clk) != -EPROBE_DEFER)
+> +					pr_warn("clk: couldn't get clock %d for %pOF\n",
+> +						index, node);
+> +				return PTR_ERR(clk);
+> +			}
+> +
+> +			hw = __clk_get_hw(clk);
+> +			rc = clk_hw_set_spread_spectrum(hw, modfreq_hz, spread_bp, method);
+> +			if (rc < 0)
+> +				pr_err("clk: couldn't set %s clk spread spectrum %u %u %u: %d\n",
+> +				       __clk_get_name(clk), modfreq_hz, spread_bp, method, rc);
+> +			clk_put(clk);
+> +		}
+> +	}
 > +
 > +	return 0;
->  }
->  
->  static int bm1880_clk_div_set_rate(struct clk_hw *hw, unsigned long rate,
-> @@ -665,7 +670,7 @@ static int bm1880_clk_div_set_rate(struct clk_hw *hw, unsigned long rate,
->  
->  static const struct clk_ops bm1880_clk_div_ops = {
->  	.recalc_rate = bm1880_clk_div_recalc_rate,
-> -	.round_rate = bm1880_clk_div_round_rate,
-> +	.determine_rate = bm1880_clk_div_determine_rate,
->  	.set_rate = bm1880_clk_div_set_rate,
->  };
->  
-> 
-> -- 
-> 2.50.1
-> 
-> 
+> +}
 
--- 
-மணிவண்ணன் சதாசிவம்
