@@ -1,278 +1,287 @@
-Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19011026.outbound.protection.outlook.com [52.103.68.26])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAB81DD0C7;
-	Thu, 14 Aug 2025 08:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.26
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755161301; cv=fail; b=mcU7qJFOmU6IxyL2pu7fNzKXmz2kLHL1Qs5POUefp/yiZohsE2vuTQ9OYjl8fKJzo1kXdMqSHlxj1wqCZ5WOIFvGgYWfVavyvHfN9EUvrmcK9P/3hjr79yS5oXn9qAAqK007LcnX+vM4m6nY9ZRhhMs/O9Nj+G7eiwS2aEROpw0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755161301; c=relaxed/simple;
-	bh=npXqHw74q6C7npyCpXtPekEvAZMTsiN7MJYbpmjw5zQ=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=B0iAtBz8nk49vqonMIvpTq2I2baBcIbf1nEpNuwo8ncaVTM/39Wr/zFFodbSEJm6Dm2xHL55zuovGCPQIPMLALA75JEuIeWork782diTGInRm9v3I4ushtSWK5LTaWRxZGGpV4nDX5ytY9JXeJ9UKwtePTUeP2F9AUtrxou29KY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=bkUq5WZY; arc=fail smtp.client-ip=52.103.68.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBBD3009E0;
+	Thu, 14 Aug 2025 13:54:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755179693; cv=none; b=b1P0cRFnOtm9Ij7FTewwrlw5e/Hpx6in5Qw/F7fhRyK4gHRAqblCPDgKj9wU3zGRlxxnPpB9QDWUT6rwP8Jy5gjybeBscAcou+utG+wsUAE7uARwlh+qwri8MTxGBdKuNAn4rFdtK3FkDPEUeLrvtbkTqVZ6i2hQF7smlPU/0ks=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755179693; c=relaxed/simple;
+	bh=UBMDjSl7ummaNgM0HnILEzprysQwd6tD6QDipGAZJQI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dwWjP0RQWbl5llLaXN9SyBmu1qRxT8uU3shYvw2Tff5TWA/raBL08cetglTm0pdcIA+2LzwcezXjHThD/ft0f8ZaXu5FN8YWyxuNEMcCcsjXkd4MoyOvBo/uNQHPdJX1XDjdjasBnSVAEQQq6yEQorzl5intcoW18flS+veqVU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nNda9r2q; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="bkUq5WZY"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V05/rQYhjgXKvtCU/4f5QAbDxj03OeC7sNYSE2y9W++Mgh8IlfcxNNBuPYFVotnc32QvOQKu8KCg4UyHhRbfPeQE2oMgJnS42h88cDLaOjlsEkvugADy0HV+OhFhPFE8GouGfUZvJS1w9VHxmlSsIMemVOhRh+6tMjT913TOXqqr/DFCdos4zHpxTItpl0C+whLUshrOsUQN+kcYCdeCRrNZyW+hX2qrYnyPDEGmrPeQ37xAJJbimIawHXSdWOH73Ac/IRGBogdoPuBGAVp5vqrOgMdROjzF3XSE+gUgA8fjI07u8+FivHW0DI5lWTxe1wigffbAD5wTR/oZbGhw1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2ACe8AHuhmUm8RQCLguFaLp80YsDyGpX5pwpLxKQtfU=;
- b=YmW6fV+mf1zXe8Cd3u3j6/fmlPq0iXwPAtjrkEA1uekK0jfBzScUxOIeHvUK/9WHtn8Xg1kmYvvcd9IAap4HRj9jns3OrkLScsVasUzkU+9dEUyCQplByVqZIBTc5z8nLFxHPVIvXFiDSkZRCy7wM91rK8Xk8Cr/zWPpB3VICmKePgIhRONhTdx2aRrjVTpFquxZiwRmJ5RYqKmHLADGlkFDruYkwy17+KHH+cHY+haohoO59cQ2dJWqR0tIB8YAWf97ewuedVCGm1txtP3AzzXbXzMG29uW7mEHSzXN/GP6ItxzrevMkYmvFu1+EFpehEDYYkosBu8NI+7q8H25Mg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2ACe8AHuhmUm8RQCLguFaLp80YsDyGpX5pwpLxKQtfU=;
- b=bkUq5WZYQPuSVfLcJzwnBmDWZKX5ZHUakDxhDVK7l7ga3HbKfRk/h+ugHwFkaDqxHOonxD1UmUVMwJXHqLgHAcz/oPTnzjBTlAr/ItL7wSPWcfBqHWQEyejZVOVoQfFE7r5G1LMKlitCNZFQ1sHBDyPP/Gd0RV67CnV2wzMqF5w0XMLdAX026oAfGfs2h+10glRS9u0fLas/FCutDY972svRSG0F3VdAObrDQntKxnvVT6UWFSqwZDNyupNhTo4nbeoFLEXp1ipjiDkwANgICutrw3LavvR7hzaxfJHABmjf5XRcwFo/K7vBoN5ei1p1fJGeUlqY7w0p1ALZCm3hZA==
-Received: from MAUPR01MB11072.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:16f::16) by MAYPR01MB10650.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:158::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.17; Thu, 14 Aug
- 2025 08:47:53 +0000
-Received: from MAUPR01MB11072.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::5dff:3ee7:86ee:6e4b]) by MAUPR01MB11072.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::5dff:3ee7:86ee:6e4b%4]) with mapi id 15.20.9031.014; Thu, 14 Aug 2025
- 08:47:53 +0000
-Message-ID:
- <MAUPR01MB110724C32BF11045318A6AE0EFE35A@MAUPR01MB11072.INDPRD01.PROD.OUTLOOK.COM>
-Date: Thu, 14 Aug 2025 16:47:35 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 048/114] clk: sophgo: sg2042-clkgen: convert from
- round_rate() to determine_rate()
-To: bmasney@redhat.com, Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
- Cristian Marussi <cristian.marussi@arm.com>,
- Inochi Amaoto <inochiama@gmail.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Paul Cercueil <paul@crapouillou.net>, Keguang Zhang
- <keguang.zhang@gmail.com>, Taichi Sugaya <sugaya.taichi@socionext.com>,
- Takao Orito <orito.takao@socionext.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Jacky Huang <ychuang3@nuvoton.com>,
- Shan-Chun Hung <schung@nuvoton.com>, Vladimir Zapolskiy <vz@mleia.com>,
- Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Samuel Holland <samuel.holland@sifive.com>, Yixun Lan <dlan@gentoo.org>,
- Steen Hegelund <Steen.Hegelund@microchip.com>,
- Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Michal Simek <michal.simek@amd.com>, Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
- Manivannan Sadhasivam <mani@kernel.org>, Sven Peter <sven@kernel.org>,
- Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Neal Gompa <neal@gompa.dev>, Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Daniel Palmer <daniel@thingy.jp>, Romain Perier <romain.perier@gmail.com>,
- Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Heiko Stuebner <heiko@sntech.de>, Andrea della Porta
- <andrea.porta@suse.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Alim Akhtar <alim.akhtar@samsung.com>,
- Qin Jian <qinjian@cqplus1.com>, Viresh Kumar <vireshk@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Alex Helms <alexander.helms.jy@renesas.com>,
- Linus Walleij <linus.walleij@linaro.org>, Liviu Dudau <liviu.dudau@arm.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
- arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- sophgo@lists.linux.dev, linux-mips@vger.kernel.org, imx@lists.linux.dev,
- linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
- linux-stm32@st-md-mailman.stormreply.com, patches@opensource.cirrus.com,
- linux-actions@lists.infradead.org, asahi@lists.linux.dev,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
-References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
- <20250811-clk-for-stephen-round-rate-v1-48-b3bf97b038dc@redhat.com>
-From: Chen Wang <unicorn_wang@outlook.com>
-In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-48-b3bf97b038dc@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TYCP286CA0179.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c6::7) To MAUPR01MB11072.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:16f::16)
-X-Microsoft-Original-Message-ID:
- <9fa46633-da56-4a5e-9abc-0445c3799b12@outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nNda9r2q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755179692; x=1786715692;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UBMDjSl7ummaNgM0HnILEzprysQwd6tD6QDipGAZJQI=;
+  b=nNda9r2qtESaUSv7fS/JffsxEAQpU1Uy6IxwP2qaZFWWSCmVVj2Bg3jp
+   eW1za50x5flsisvv4twuvCtBXS0rn9RiylfW3beScmqpeqTqpityXSC5+
+   1ZRiwXowc0caFb/9SQ6R53eXP9EHMOW09BePlVzoEUL6dDnSWnL7MfciU
+   vtWP8lAkKxUg31sUHpkgUrVGRysJDuX6gd+iIjjDBa0UWwRYaneWwkA+B
+   n85vM8pYqUEpMysUdl984iIxVwysVplRkwaM6QQNZkKOKMD+/Kd0h3yfg
+   e8ZrkAme27nW2v9VR3dGa06V4xcMtCk+XCfNKXhFI7opk1Cx0ARsWXhny
+   A==;
+X-CSE-ConnectionGUID: q2ySU4g8TYWaOv58JsmyLg==
+X-CSE-MsgGUID: y7YzLHOcQ5Ol3ZgLjo8y/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="82929213"
+X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
+   d="scan'208";a="82929213"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2025 06:54:51 -0700
+X-CSE-ConnectionGUID: 9rdFQwKYT1Cgnxd6y+D2GA==
+X-CSE-MsgGUID: Aje6Omf5QDWGKVTR3HWdPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; 
+   d="scan'208";a="203943615"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 14 Aug 2025 06:54:46 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1umYPW-000B0O-1H;
+	Thu, 14 Aug 2025 13:54:34 +0000
+Date: Thu, 14 Aug 2025 21:54:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-pm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, sudeep.holla@arm.com,
+	james.quinlan@broadcom.com, f.fainelli@gmail.com,
+	vincent.guittot@linaro.org, etienne.carriere@st.com,
+	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
+	dan.carpenter@linaro.org, d-gole@ti.com, souvik.chakravarty@arm.com,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: Re: [PATCH 4/8] firmware: arm_scmi: Add SCMIv4.0 Powercap basic
+ support
+Message-ID: <202508142109.z6QIwr0w-lkp@intel.com>
+References: <20250813114609.1305571-5-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MAUPR01MB11072:EE_|MAYPR01MB10650:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6142f3f4-d83e-4fe3-de5e-08dddb0f4186
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|15080799012|6090799003|41001999006|23021999003|19110799012|8060799015|461199028|5072599009|440099028|51005399003|40105399003|41105399003|3412199025;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?QzMzS1lYbFNxeExQWUNGb0VpN3V1bUkvbFlpbU03WFd4QTZNS0JNRVFKb1I1?=
- =?utf-8?B?WVFNaFRCWGxOVDhZdkRwUlhzaGsyQTE0S1JJUlQydlcyeGdHOEZpeGNJYVln?=
- =?utf-8?B?dVdTd3JnZXVWRC9EN2psNEtGdTRFYThkeDEySWZnT2Q3U1doc0NVRzZIQi81?=
- =?utf-8?B?VkFWU0JJVjNRMVJxLzVjdXpqZ0JBdDBscVF4S2RITlllNUM5UWtEYStkY2Nv?=
- =?utf-8?B?ejdNNzRxcWRUdlBLYS8rZTNSNjFicG1rMGxEMG8vWnpWSFVxempFaVhleVQy?=
- =?utf-8?B?ZWxWUG5KS2s1Yk5aZmxYaDE3QnYxRTE1ZEp3aUJqYXVENUpNWHBSalM0SjFF?=
- =?utf-8?B?ay80dnJwVjA3Vm1oSjVvVW0xYWNNenp3ZnY5eTQ0Skl0ZW5Xay9maC9OWGpQ?=
- =?utf-8?B?MXZqZS9WN0lmMVh1OUI5OGN5UnRHUHRqNXlieWwyYklmVlRObDVyWjRNczJI?=
- =?utf-8?B?eHhxYXpYcUNtR3cvT3EvQ2RycG1MZ09pUXpTaWllbTZ2TDQ4aXlObVlzS0hW?=
- =?utf-8?B?bnhTT0cvRlgvKzI0cGVwWEVRZ2l1NFgrRHJ6QmZaWWdyNHU1ZDVObTNxZVJL?=
- =?utf-8?B?VzE3MUhBR3kvbmFGTUNOZWk2M3ArTXdaY0l4UWxNb3NJekdwSk0rZEtVdXFn?=
- =?utf-8?B?ZTNlakd4OWN6WG9KOEU0WkdWWXdZSlU5b05TU3Nlc3RlUEhDS3hpVGVRb05m?=
- =?utf-8?B?Q1dBVi8xOEZESXp5UWN3REhlUnUrV1dwdno0U0RGV01nZTFmWU5zM05YY2Zx?=
- =?utf-8?B?RGsrNmR5amZzcDBNYVEvSGNjNVRZaUF0YlRteUVqMVFmNjVzd2h1c0NEVW1n?=
- =?utf-8?B?RVdNU0NJcm1GSDc3ZFdrTDJyeDBDZDNRNkV1aTZXV0RSNzRTZC9Id2toRHc2?=
- =?utf-8?B?cVNPOU1BMlJMd01PeWxZM3BLN284cXRuMUlQME4yVDRyaTM4Tm45ZkErSjZi?=
- =?utf-8?B?ZVFMS29jeXJ5Q3lvSjlCUEQ0YlBGZzN2dk5sTytWUFFWS0hHU3NqQzNwUUhn?=
- =?utf-8?B?SmlZTXRmK3pmV2lTM0YwcFNLUFMrWVpjcjJZOUxuYnhVUnZDQnR4NWhpUVFo?=
- =?utf-8?B?ZnBFdW5taEJJTkd3eVg2NGxXWGw3UzE4bkkycjVUdW5qQTZPOVJZUGZPMUwz?=
- =?utf-8?B?RXE5SmFOaEgzR0hwVFE2dytzZ212V1BJSjJCTUFDQXQzV3F6bUpNdWpQanZo?=
- =?utf-8?B?a0NwU0QreWdjUndsMXRBTVNnMzVaam9wTUk2aDAxT0ZPd2RaN3lYeU5HeldN?=
- =?utf-8?B?Sk96TU5MSHFlQ2gybC9FQm5zejVmRXNFb0xBU1l5bFJldlpQOGRmZk8vYmdq?=
- =?utf-8?B?ZHZORWpHUGFjK0FGU1p3VkpXdEYreUMvU1ZTR0YvUG1wUW1KYVpIclc4MkJs?=
- =?utf-8?B?b1JLOXpjOHJZNkV6bzR6OEdzbndCdFN4T1l2QndQNHRaVmNOTG15cHQ3RnAx?=
- =?utf-8?B?SGUwa2tOVllvTTk0cEY1UXdNUFVvMEJnNVdBUW5qNzVyV0RSd0puTTJldm5C?=
- =?utf-8?B?a1o0RnBRaHhtcDNwM1VGWVU3WnRMWUNOaEJIVXd1ODRmZURXcVY0RGNRZFk0?=
- =?utf-8?B?RUZ0a2ZvcUJJZi9lUUVrN1JYTnYxMzJ4amk5REFRVVNrTmpNNlJMTXBpdTlF?=
- =?utf-8?B?YUc5UFZxUHFxZWhEa3VGL1VFSythLzNvUXlzM2VjazRDb1FYQ2JqdEVqcmJX?=
- =?utf-8?B?TlNrcklxaTJBVTM5OG0wNjRWT0FzcFc5czZkbm1nL0FXVzlhbVhUTEpRPT0=?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Q0hnaDliZjRKZmRxbnhPR2xlR1BVRnZPUTl1dUtxeENGSXhRU05zdGF1aWhL?=
- =?utf-8?B?VnlXRGRTNzNHdlRMWmxWNk9XK1VaUGxKcTE2Q1V6UFIxMUxjTWhsbFMyTTg4?=
- =?utf-8?B?RmhqMElETG0yc1NsQTFVZ09JN1VINklmUFJ2TXM0SGVQRW9BdDRCMkRyRGpF?=
- =?utf-8?B?QTJOSU1VN0lJNzViTk16Vko0aVZhY1ZVb09RN2F5T1lKakR3TDNPVDJZdlJ0?=
- =?utf-8?B?TjlHb0EyNkk0dm04UEM5MFozQ1V0QlpraXhiaVZnRmVjZkhBemhZZjVxWjky?=
- =?utf-8?B?bVcvMTlUeFRFMHAvY2NPcEJsTFhudk9zQUtmbTBRWVppdkdtaTRpZmV2Z3hV?=
- =?utf-8?B?dVY4OG1xeFlQekVnNkI1bFRyeHJZd1VhTk5jN3BkNmtCZFFsV2g5Vnk5dWhI?=
- =?utf-8?B?T0tGT0FVMVVXdXNKVjI0OEhEWkNmOENpYkpUSWtrODRSU0lLN2k3dXYvSUN0?=
- =?utf-8?B?OWxYK1JDeGZYZytLenRQbWdYZnRpUVl0TUhjaHY0c0NVWGxyQ3p1dmM0M2Jz?=
- =?utf-8?B?ZGMyZXdQTFQvN3Z6MU1LbGNjNWUvSy9YZldVTHJUYkpLTXR5eFkzTFN5dEVU?=
- =?utf-8?B?SzY2NW5hN1dmYU94WVk4cklXVDRlTVY2QzZveGNucDNkeVA0TFplOGlNOWxF?=
- =?utf-8?B?aEE1dlNBbE40eUI0bHhjVFdIMTVyMXZlWVpaYnhrVEJ4SXJDVTB4MkF1OG0r?=
- =?utf-8?B?WG1Wd1p2K0QzWTlBQnI2bGI5OEZnQWt4bHRDTXdsWHp4Zk03dHhsSXpTbUFv?=
- =?utf-8?B?ZkxkWmd4ZUpLZlAxdFJrRG1YemgyaGE4NXA5Nkl1YlJuaUZKSnhnN1o3SjNh?=
- =?utf-8?B?MURsc2hyWlZHM3hNYS9Vd0F2c2RTcUNHWDY1OVloMzN6VDV0NGVOZFk1YVdq?=
- =?utf-8?B?L1IyQU5oNEVKTEZxZjZ5MUUwYzRZbms0VU9waEpPbVd1M3VTUnUxT2VYcUdB?=
- =?utf-8?B?cW0vSUR3cWc0Q1RaSmZLcTM5b2N1MHZFYzFQaGVGZ2U5alhzSHJIcHRwY3Vm?=
- =?utf-8?B?U0F3RUREUFVUeVMyYytmV0puOVdBOG1ZQk14N0VjS0JwQ1Roc2dnUWFJekhv?=
- =?utf-8?B?WTZzbGNDT3JTdGkyVVM0WlZteDUzVm15WkRlU25naW42cWxXZGpPT1JqbG1O?=
- =?utf-8?B?S1hoY2hvcFVENDEyL0didUsybXdORlJXbk5zTlMzdkF3NTVYNWtDUzVOamhz?=
- =?utf-8?B?Q3lhMmU5MVM5enlaOW41S0NnNkk1MUY4cmIwNXFsVkVvbXR6dnYvb3hsaTFq?=
- =?utf-8?B?K05hejdEZnorcGFMdFh0eGtSTFFjdlBoQThvd1NJaWJsN2tRdm9vejMwekl2?=
- =?utf-8?B?MXYvSmpzSDFzMW1rUU5xd0E2Mlo4TXRDVDlueFM4YWh0NUNCWEppb1EvVHRP?=
- =?utf-8?B?OGg0RjlMZVhjdzRmTlltQjJPMUg5QzR6UG03VVhCQ1Z3NGxsRXZ5TzVmNklu?=
- =?utf-8?B?cHptQThBQnlSY2NGbjM4NXF3UHRQUjJVaXVzVEdKK3RjMWJTS3hUYXlFWFlQ?=
- =?utf-8?B?VGFCSWU4SU1CR0xtdEk2bit1Ylg5SnZPa1VobDVLQlNCeWtCaXU3UzBnZ1JC?=
- =?utf-8?B?YjB5VTdoSWdNcjFaVUt3aXJnTG9Hc2xDS3VRdVVNS1F5ZUJQbnFEQnk1eTVi?=
- =?utf-8?B?ak1YcVRjQWExckRqaFdHdExvT3R1c1F0TndSemxiYVNyK3BDWWRQbnljeVFL?=
- =?utf-8?B?bUdjNnVONFMrRXRuWCtFTGVhcGllNW5jZzFHbGVmVFNaZHMxY2RNTG9mSllt?=
- =?utf-8?Q?HiiQSi6qSTmGr3VZ35sO2PUgCofgcMYgFPTtdlA?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6142f3f4-d83e-4fe3-de5e-08dddb0f4186
-X-MS-Exchange-CrossTenant-AuthSource: MAUPR01MB11072.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2025 08:47:53.7093
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAYPR01MB10650
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250813114609.1305571-5-cristian.marussi@arm.com>
 
+Hi Cristian,
 
-On 8/11/2025 11:18 PM, Brian Masney via B4 Relay wrote:
-> From: Brian Masney <bmasney@redhat.com>
->
-> The round_rate() clk ops is deprecated, so migrate this driver from
-> round_rate() to determine_rate() using the Coccinelle semantic patch
-> on the cover letter of this series.
->
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
+kernel test robot noticed the following build warnings:
 
-Reviewed-by: Chen Wang <unicorn_wang@outlook.com>
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/bleeding-edge soc/for-next trace/for-next linus/master v6.17-rc1 next-20250814]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Same comment as Alex. I will test this out after you send out v2.
+url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/firmware-arm_scmi-Add-an-optional-custom-parameter-to-fastchannel-helpers/20250813-195150
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20250813114609.1305571-5-cristian.marussi%40arm.com
+patch subject: [PATCH 4/8] firmware: arm_scmi: Add SCMIv4.0 Powercap basic support
+config: arm64-randconfig-r111-20250814 (https://download.01.org/0day-ci/archive/20250814/202508142109.z6QIwr0w-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20250814/202508142109.z6QIwr0w-lkp@intel.com/reproduce)
 
-Thanks,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508142109.z6QIwr0w-lkp@intel.com/
 
-Chen
+sparse warnings: (new ones prefixed by >>)
+>> drivers/firmware/arm_scmi/powercap.c:302:48: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/firmware/arm_scmi/powercap.c:353:25: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] flags @@     got restricted __le32 [usertype] attributes @@
+   drivers/firmware/arm_scmi/powercap.c:353:25: sparse:     expected unsigned int [usertype] flags
+   drivers/firmware/arm_scmi/powercap.c:353:25: sparse:     got restricted __le32 [usertype] attributes
 
-> ---
->   drivers/clk/sophgo/clk-sg2042-clkgen.c | 17 +++++++++--------
->   1 file changed, 9 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/clk/sophgo/clk-sg2042-clkgen.c b/drivers/clk/sophgo/clk-sg2042-clkgen.c
-> index 9e61288d34f3757315702c355f2669577b29676f..1d3b1656bcf2e6655e0299e68ab39f32189744dc 100644
-> --- a/drivers/clk/sophgo/clk-sg2042-clkgen.c
-> +++ b/drivers/clk/sophgo/clk-sg2042-clkgen.c
-> @@ -176,9 +176,8 @@ static unsigned long sg2042_clk_divider_recalc_rate(struct clk_hw *hw,
->   	return ret_rate;
->   }
->   
-> -static long sg2042_clk_divider_round_rate(struct clk_hw *hw,
-> -					  unsigned long rate,
-> -					  unsigned long *prate)
-> +static int sg2042_clk_divider_determine_rate(struct clk_hw *hw,
-> +					     struct clk_rate_request *req)
->   {
->   	struct sg2042_divider_clock *divider = to_sg2042_clk_divider(hw);
->   	unsigned long ret_rate;
-> @@ -192,15 +191,17 @@ static long sg2042_clk_divider_round_rate(struct clk_hw *hw,
->   			bestdiv = readl(divider->reg) >> divider->shift;
->   			bestdiv &= clk_div_mask(divider->width);
->   		}
-> -		ret_rate = DIV_ROUND_UP_ULL((u64)*prate, bestdiv);
-> +		ret_rate = DIV_ROUND_UP_ULL((u64)*&req->best_parent_rate, bestdiv);
->   	} else {
-> -		ret_rate = divider_round_rate(hw, rate, prate, NULL,
-> +		ret_rate = divider_round_rate(hw, req->rate, &req->best_parent_rate, NULL,
->   					      divider->width, divider->div_flags);
->   	}
->   
->   	pr_debug("--> %s: divider_round_rate: val = %ld\n",
->   		 clk_hw_get_name(hw), ret_rate);
-> -	return ret_rate;
-> +	req->rate = ret_rate;
-> +
-> +	return 0;
->   }
->   
->   static int sg2042_clk_divider_set_rate(struct clk_hw *hw,
-> @@ -258,13 +259,13 @@ static int sg2042_clk_divider_set_rate(struct clk_hw *hw,
->   
->   static const struct clk_ops sg2042_clk_divider_ops = {
->   	.recalc_rate = sg2042_clk_divider_recalc_rate,
-> -	.round_rate = sg2042_clk_divider_round_rate,
-> +	.determine_rate = sg2042_clk_divider_determine_rate,
->   	.set_rate = sg2042_clk_divider_set_rate,
->   };
->   
->   static const struct clk_ops sg2042_clk_divider_ro_ops = {
->   	.recalc_rate = sg2042_clk_divider_recalc_rate,
-> -	.round_rate = sg2042_clk_divider_round_rate,
-> +	.determine_rate = sg2042_clk_divider_determine_rate,
->   };
->   
->   /*
->
+vim +302 drivers/firmware/arm_scmi/powercap.c
+
+   289	
+   290	static int
+   291	iter_powercap_cpls_process_response(const struct scmi_protocol_handle *ph,
+   292					    const void *response,
+   293					    struct scmi_iterator_state *st, void *priv)
+   294	{
+   295		const struct scmi_msg_resp_powercap_cpc *r = response;
+   296		struct scmi_cpls_priv *p = priv;
+   297		struct scmi_powercap_cpl_info *cpl;
+   298	
+   299		cpl = &p->cpli[st->desc_index + st->loop_idx];
+   300	
+   301		cpl->id = le32_to_cpu(r->desc[st->loop_idx].cpli);
+ > 302		cpl->cap_config = r->desc[st->loop_idx].flags & BIT(0);
+   303	
+   304		cpl->min_power_cap = le32_to_cpu(r->desc[st->loop_idx].min_power_cap);
+   305		cpl->max_power_cap = le32_to_cpu(r->desc[st->loop_idx].max_power_cap);
+   306		cpl->power_cap_step = le32_to_cpu(r->desc[st->loop_idx].power_cap_step);
+   307		if (!cpl->power_cap_step && cpl->min_power_cap != cpl->max_power_cap)
+   308			return -EINVAL;
+   309	
+   310		cpl->min_avg_ivl = le32_to_cpu(r->desc[st->loop_idx].min_cai);
+   311		cpl->max_avg_ivl = le32_to_cpu(r->desc[st->loop_idx].max_cai);
+   312		cpl->avg_ivl_step = le32_to_cpu(r->desc[st->loop_idx].cai_step);
+   313		if (!cpl->avg_ivl_step && cpl->min_avg_ivl != cpl->max_avg_ivl)
+   314			return -EINVAL;
+   315	
+   316		cpl->avg_ivl_config = cpl->min_avg_ivl != cpl->max_avg_ivl;
+   317	
+   318		strscpy(cpl->name, r->desc[st->loop_idx].name, SCMI_SHORT_NAME_MAX_SIZE);
+   319	
+   320		return 0;
+   321	}
+   322	
+   323	static int scmi_powercap_cpls_enumerate(const struct scmi_protocol_handle *ph,
+   324						struct scmi_powercap_info *dom_info)
+   325	{
+   326		void *iter;
+   327		struct scmi_iterator_ops ops = {
+   328			.prepare_message = iter_powercap_cpls_prepare_message,
+   329			.update_state = iter_powercap_cpls_update_state,
+   330			.process_response = iter_powercap_cpls_process_response,
+   331		};
+   332		struct scmi_cpls_priv cpriv = {
+   333			.domain_id = dom_info->id,
+   334			.cpli = dom_info->cpli,
+   335		};
+   336	
+   337		iter = ph->hops->iter_response_init(ph, &ops, dom_info->num_cpli,
+   338						    POWERCAP_CPC_ATTRIBUTES,
+   339						    sizeof(struct scmi_msg_powercap_cpc),
+   340						    &cpriv);
+   341		if (IS_ERR(iter))
+   342			return PTR_ERR(iter);
+   343	
+   344		return ph->hops->iter_response_run(iter);
+   345	}
+   346	
+   347	static int
+   348	scmi_powercap_domain_attrs_process(const struct scmi_protocol_handle *ph,
+   349					   struct powercap_info *pinfo,
+   350					   struct scmi_powercap_info *dom_info, void *r)
+   351	{
+   352		struct scmi_msg_resp_powercap_domain_attributes *resp = r;
+ > 353		u32 flags = resp->attributes;
+   354		bool cap_config;
+   355		int ret;
+   356	
+   357		cap_config = SUPPORTS_POWERCAP_CAP_CONFIGURATION(flags);
+   358		if (PROTOCOL_REV_MAJOR(pinfo->version) < 0x3) {
+   359			dom_info->num_cpli = 1;
+   360		} else {
+   361			dom_info->num_cpli = le32_get_bits(resp->attributes,
+   362							   GENMASK(18, 15));
+   363			if (cap_config && !dom_info->num_cpli)
+   364				return -EINVAL;
+   365		}
+   366	
+   367		dom_info->cpli = devm_kcalloc(ph->dev, dom_info->num_cpli,
+   368					      sizeof(*dom_info->cpli), GFP_KERNEL);
+   369		if (!dom_info->cpli)
+   370			return -ENOMEM;
+   371	
+   372		if (pinfo->notify_cap_cmd) {
+   373			if (PROTOCOL_REV_MAJOR(pinfo->version) < 0x3)
+   374				dom_info->notify_powercap_cap_change =
+   375					SUPPORTS_POWERCAP_CAP_CHANGE_NOTIFY(flags);
+   376			else
+   377				dom_info->notify_powercap_cap_change =
+   378					SUPPORTS_POWERCAP_CAP_CHANGE_NOTIFY_V3(flags);
+   379		}
+   380	
+   381		if (pinfo->notify_measurements_cmd)
+   382			dom_info->notify_powercap_measurement_change =
+   383				SUPPORTS_POWERCAP_MEASUREMENTS_CHANGE_NOTIFY(flags);
+   384	
+   385	
+   386		dom_info->extended_names = SUPPORTS_EXTENDED_NAMES(flags);
+   387	
+   388		dom_info->async_powercap_cap_set =
+   389			SUPPORTS_ASYNC_POWERCAP_CAP_SET(flags);
+   390	
+   391		dom_info->powercap_monitoring =
+   392			SUPPORTS_POWERCAP_MONITORING(flags);
+   393		dom_info->powercap_scale_mw =
+   394			SUPPORTS_POWER_UNITS_MW(flags);
+   395		dom_info->powercap_scale_uw =
+   396			SUPPORTS_POWER_UNITS_UW(flags);
+   397		dom_info->fastchannels =
+   398			SUPPORTS_POWERCAP_FASTCHANNELS(flags);
+   399	
+   400		strscpy(dom_info->name, resp->name, SCMI_SHORT_NAME_MAX_SIZE);
+   401	
+   402		dom_info->sustainable_power =
+   403			le32_to_cpu(resp->sustainable_power);
+   404		dom_info->accuracy = le32_to_cpu(resp->accuracy);
+   405	
+   406		dom_info->parent_id = le32_to_cpu(resp->parent_id);
+   407		if (dom_info->parent_id != SCMI_POWERCAP_ROOT_ZONE_ID &&
+   408		    (dom_info->parent_id >= pinfo->num_domains ||
+   409		     dom_info->parent_id == dom_info->id)) {
+   410			dev_err(ph->dev,
+   411				"Platform reported inconsistent parent ID for domain %d - %s\n",
+   412				dom_info->id, dom_info->name);
+   413			return -ENODEV;
+   414		}
+   415	
+   416		dom_info->cpli[0].id = CPL0;
+   417		if (PROTOCOL_REV_MAJOR(pinfo->version) < 0x3)
+   418			dom_info->cpli[0].avg_ivl_config =
+   419				SUPPORTS_POWERCAP_PAI_CONFIGURATION(flags);
+   420		else
+   421			dom_info->cpli[0].avg_ivl_config =
+   422				SUPPORTS_POWERCAP_CAI_CONFIGURATION(flags);
+   423	
+   424		if (PROTOCOL_REV_MAJOR(pinfo->version) < 0x3) {
+   425			dom_info->cpli[0].min_avg_ivl = le32_to_cpu(resp->min_pai);
+   426			dom_info->cpli[0].max_avg_ivl = le32_to_cpu(resp->max_pai);
+   427			dom_info->cpli[0].avg_ivl_step = le32_to_cpu(resp->pai_step);
+   428		} else {
+   429			struct scmi_msg_resp_powercap_domain_attributes_v3 *resp = r;
+   430	
+   431			dom_info->cpli[0].min_avg_ivl = le32_to_cpu(resp->min_cai);
+   432			dom_info->cpli[0].max_avg_ivl = le32_to_cpu(resp->max_cai);
+   433			dom_info->cpli[0].avg_ivl_step = le32_to_cpu(resp->cai_step);
+   434		}
+   435	
+   436		ret = scmi_powercap_validate(dom_info->cpli[0].min_avg_ivl,
+   437					     dom_info->cpli[0].max_avg_ivl,
+   438					     dom_info->cpli[0].avg_ivl_step,
+   439					     dom_info->cpli[0].avg_ivl_config);
+   440		if (ret) {
+   441			dev_err(ph->dev,
+   442				"Platform reported inconsistent PAI config for domain %d - %s\n",
+   443				dom_info->id, dom_info->name);
+   444			return ret;
+   445		}
+   446	
+   447		dom_info->cpli[0].cap_config = cap_config;
+   448		dom_info->cpli[0].min_power_cap = le32_to_cpu(resp->min_power_cap);
+   449		dom_info->cpli[0].max_power_cap = le32_to_cpu(resp->max_power_cap);
+   450		dom_info->cpli[0].power_cap_step = le32_to_cpu(resp->power_cap_step);
+   451		ret = scmi_powercap_validate(dom_info->cpli[0].min_power_cap,
+   452					     dom_info->cpli[0].max_power_cap,
+   453					     dom_info->cpli[0].power_cap_step,
+   454					     dom_info->cpli[0].cap_config);
+   455		if (ret) {
+   456			dev_err(ph->dev,
+   457				"Platform reported inconsistent CAP config for domain %d - %s\n",
+   458				dom_info->id, dom_info->name);
+   459			return ret;
+   460		}
+   461		/* Just using same short name */
+   462		strscpy(dom_info->cpli[0].name, dom_info->name, SCMI_SHORT_NAME_MAX_SIZE);
+   463	
+   464		return 0;
+   465	}
+   466	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
