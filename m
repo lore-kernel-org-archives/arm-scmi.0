@@ -1,187 +1,226 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C5A1FDA89
-	for <arm-scmi@vger.kernel.org>; Thu, 14 Aug 2025 04:35:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0894D2E7F24
+	for <arm-scmi@vger.kernel.org>; Thu, 14 Aug 2025 08:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755146151; cv=none; b=PhNYee0vh788VAdDseJJM0dJlHd9fCM+Wm9QfIcvQlDY+Ox2Y0O5/MfB5dRxfGg2n3Fd9AjLR98JIxZMrib4EAqyLtZ98h4aXQTF/9/CTakjCO0jGPnK3UipGjDsoLEQQhR7EwA/Sg5QbdF2ri8oIw2JEf3dAtQgr8uk9tBKy7g=
+	t=1755160779; cv=none; b=bLwSBsZ1U+CILYPSWVOW6qiNm/L/H8igk5xfPditWugtKmr/6EbOe03Rwpyt9XDBnXeb/O6YUMVDRCUP4gMy6hbZybHZ76oAkXXoGeat6rD3YHXrdWmzm5vpiE1VpZO7tgWAEMi4uijM5wtQ4XZMfmOIxeQfClKoE3PTEeGPAeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755146151; c=relaxed/simple;
-	bh=QGb/WSxQrkoalS0PQR6chjMqXIC8l1e9Dtd3KAUUo7U=;
+	s=arc-20240116; t=1755160779; c=relaxed/simple;
+	bh=+afNaCAA75fpG7vYEEXB1+713mfH0ph6mZ0hCJgHFtQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mOv8ib7zNdOoKYPy4bMf4ZMgLWJs9UZDiBrA18lwA198kQ/7lY1GMgkqFYJBGseooYjBwYmd4rRwDKm5bF4SinMIzXOHuQMf1wplKkMrI1OEJthTW80VkKCuiJC/Yr1/0aNdQbIGUpiGXPpqqBNuUDqBlwPKVi6fQ8/9u/+rd1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b=kfBrl5m3; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
+	 To:Cc:Content-Type; b=q6uX/yS7oyFKmuyU2HPTgYHuVJ2FQ2Oz3tp1jzc0QsdqXLLWAdIMPkP8xq8e5gQMCYTe8Xr8FVeBcn0amBLzv1U9Hf3xc3M6X8aXrmF/Rog+Cv59stw4x5iGKDidpOi3EjBS3jbtP1qEg1VqcA4AZc2nPdI7S5mwEcgNriUWPyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=p7Xfx5y8; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b="kfBrl5m3"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b471737b347so316156a12.1
-        for <arm-scmi@vger.kernel.org>; Wed, 13 Aug 2025 21:35:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p7Xfx5y8"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-333f8f2d6c2so5305341fa.1
+        for <arm-scmi@vger.kernel.org>; Thu, 14 Aug 2025 01:39:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thingy.jp; s=google; t=1755146148; x=1755750948; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=W68wJmIpwZKYrhZj9rQMZlkUfiQu51PmIXBdt9PMw2k=;
-        b=kfBrl5m3X3pUKzeASIa5uThvSEb/zB82C2JruDgTOivhhSjhUjMBmcPL8IhJVxAjVG
-         6qON9Ajt9fHHBWQKEfYsoV1u4jSeEE0qNkZh6VuTz41gtP/7s1I8dBc/NuAwLu/lt9KT
-         CKKBnN/q50LzlMJEeWPS0cO85J+8t6tbmlZGQ=
+        d=linaro.org; s=google; t=1755160775; x=1755765575; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EaIi5bX3+gV/h6Vj8GBZ99kNlqtAraP/osub2NBrW20=;
+        b=p7Xfx5y8aTIEr8pAET+f2x5ZeVVw1f/1hQRXAstPiT0dKfnxv2ukngCSNTHw3iBFmg
+         kmkSoITvcEDiOvzINGE4G97Fx3N272laBeIh3+2XYO9pCzL7mxdMduoROhzYHMUElBw7
+         QF8ffrU7c7sabJHtVfmR25Ea1gNDo7Na0xDLjyvVviO5emGgciuOZY99AoELVPjeHJg7
+         RdUkJxK9DOxWfdXH/LptHhvrfXNx1L/0Wg0StXCMnAj+RyubbyqWFEoHznLZzlREUvWk
+         rdJWHKnEGi09IWlDbUmwqCijnr2njFnFj1oSltntZ6OpNrhrLL0KbubnHBeZFYMFTpmU
+         Majg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755146148; x=1755750948;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W68wJmIpwZKYrhZj9rQMZlkUfiQu51PmIXBdt9PMw2k=;
-        b=BGIgtW0+ZPwRwvPlnYNjhF2JPOjKyg+WZkqfUt4lbKRRPTdYhQ3z3NljSDzd/RRt+4
-         LiVEyOFON8h4zV9uzSmI69fTqFj1JxQjVqqn0ADjv5mVqdbX7isksvyWSFZrRk/FkfGT
-         g9TmJw1HbfItYSRZH+T9noKCmyY4UxvkIEK9mQ9XjHz5YgV5lEODaOwc1GZ4gzTLcAR3
-         Xxhik2ddoJ4lbEff6r0WoD5q9unZ+mjVxaksFsulDahLRSvsGz6sMZv6Td55D1WYFRLZ
-         qlPhoEVHYeCDSSYL/A3TXvqLHlw389deqy9kgwsUYacvwiFI38qfXnJ9HxrSWEs3z03g
-         r2wQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWL2SsNJDoGnvtIvaFy06SNu8P8WIQGKS1pJONH0gc/kJylpNiWpoQjsFCsrZtRUs5jz7OT7zq1Rw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwF1y5SqfSnJtoEwVuUsd3oVuFW9Sah23Rd7lM6gIBNjKydKRgG
-	p7v7O8bL4n3W5pbY4xYeopeji2nK24/wzR+Mb37wShMpIk1a6VFk/d5H4Pg26qiXScl8CKvv5Mm
-	LrgxbXa0DF4evTNkkWD8IU10lIDQ1n84XlZ6GUEyTrA==
-X-Gm-Gg: ASbGncuxr641TtrXkh5rW0uM/U+YYaJlyGrO4p8MihdYgh9JaK2wF/OATsgG3SWyPCZ
-	jhehFV9CGWlVidotzFVKHB4IRz0Ku4wmPprDcPzY1yXfTugsLYH6sdJF4xwrwvlXltyv0/rwJgL
-	/hjn3MKj6Hb7EULSft0wQ4g9p71SfYQWiyGe2ExQGxTa9eC5EIkRQgJRoF6t+86EWJ2WOdI04cO
-	10el6R8NTjv
-X-Google-Smtp-Source: AGHT+IFjwIWeQGe9GR6r4b2M90JJvm8sY4wwHgdbP9dAwNnEibxW+RtNYUEdWU1EXNpbiBYlhjSbLxcOxiikHu61EP4=
-X-Received: by 2002:a17:90b:58e7:b0:31f:6682:bd28 with SMTP id
- 98e67ed59e1d1-32327a52880mr2616043a91.16.1755146147789; Wed, 13 Aug 2025
- 21:35:47 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755160775; x=1755765575;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EaIi5bX3+gV/h6Vj8GBZ99kNlqtAraP/osub2NBrW20=;
+        b=Ot6HvU5pVKvtJFbqZHWF4/xIqvA+XW5DSHiht/XnNc4Ri4vuHLQKoTa7L4T6cojfAo
+         JXnkWB37y74fogeoFcPxSHX/+1NT9NS0K+3NItEFwrUxIcJA6/Lq7RJJrxos1QYHZrhp
+         xPizoW/T+JWGiPwKmKBwmbIH64Ny4U+xjs0xCYp9k73HhUOm0AwaF29Q1ya+enrjpBV2
+         A2IYD/1XClmYHlgSVEtUNrjpqKpJWW74Jt3pZbfy5I2JPBjcUwy79IHv2e1PitX50DoI
+         7OlENxfk8JxRHPKyL0PlRnlCtoeC42cRnNqzV1xgOE+viuo94Aw/0cfJDqCv6S/PHpv3
+         v2tw==
+X-Forwarded-Encrypted: i=1; AJvYcCVhqUnmmdGk08dawMSsx4CPWNsiZe02JVnfLWnT4qlxkv2WUAs8x/1ilRiEA9bju5PImbtb1Ed6xg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyvyggm03MqxHMHwsTM2tLdZa+EaNLqncgsUjYf6VGpo6cBjr7Q
+	DLiaA7mTf+k0JxSLqJVe4xW5WMDU+RY3UUN8z46VKZW2Su2fK1c7etHmnO4m8ysK6kmSx/jk90f
+	JtKOXXLv43iyvNaxUopilEbCA1/v+NBBnWjY5xgXBtg==
+X-Gm-Gg: ASbGncsdk5IiUgmnz+Ju8UCzxL1L4j6osYWw/PqNXuX4qZpgiNgFoNP5a/MxnQcIiO9
+	xBUCazm4CC8KeBbBz0qYiat6cGNDSmGWIG289/go0dmMMV/qBUfqE1nz1XH6ff30yRBjRNUBAaT
+	E+6QNHPGjmxQyPEM/+VvdOd/cANR+vpSWdwbBWZriy6n1+HnNx9lh07Zfg0XSdVUr6uoDepOOVg
+	pjorHRZlDdP
+X-Google-Smtp-Source: AGHT+IEBhgHbbiuLlz456cSljy5BJ+Mt69eE8JMNI0QgJdOyYP4gFOCniqZb+9CBD26zplBj4FpduJQuORsTYyUK37w=
+X-Received: by 2002:a05:651c:1542:b0:332:1de5:c52b with SMTP id
+ 38308e7fff4ca-333fa65a0f9mr6370551fa.1.1755160774977; Thu, 14 Aug 2025
+ 01:39:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com> <20250811-clk-for-stephen-round-rate-v1-84-b3bf97b038dc@redhat.com>
-In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-84-b3bf97b038dc@redhat.com>
-From: Daniel Palmer <daniel@thingy.jp>
-Date: Thu, 14 Aug 2025 13:35:36 +0900
-X-Gm-Features: Ac12FXxr3rvVXpJVntmlzZatJLppeB52b6KjThcDVumW6l6FaIvxvyr3Ex-UBYM
-Message-ID: <CAFr9PXn=jJPKzMcTa-TJSNuNQknauEttNZg=jV3sBwkTYqxLcw@mail.gmail.com>
-Subject: Re: [PATCH 084/114] clk: mstar: msc313-cpupll: convert from
- round_rate() to determine_rate()
-To: bmasney@redhat.com
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+References: <cover.1753039612.git.dan.carpenter@linaro.org> <bd79aa90-73f7-4d7b-a340-539b52a73bcf@sabinyo.mountain>
+In-Reply-To: <bd79aa90-73f7-4d7b-a340-539b52a73bcf@sabinyo.mountain>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 14 Aug 2025 10:39:23 +0200
+X-Gm-Features: Ac12FXzM5-H17AD1HKx2WqB-_-1tjL_aML9ljBHUJqj9lzjEPqqSERcfoDBeevw
+Message-ID: <CACRpkdZOnjW-mjQbTOUybNod8PyT+p66v8h2c4ejAfV7wo-8Tg@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 6/7] pinctrl-scmi: Add GPIO support
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: AKASHI Takahiro <takahiro.akashi@linaro.org>, Michal Simek <michal.simek@amd.com>, 
 	Sudeep Holla <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>, 
-	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Paul Cercueil <paul@crapouillou.net>, Keguang Zhang <keguang.zhang@gmail.com>, 
-	Taichi Sugaya <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Samuel Holland <samuel.holland@sifive.com>, 
-	Yixun Lan <dlan@gentoo.org>, Steen Hegelund <Steen.Hegelund@microchip.com>, 
-	Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Michal Simek <michal.simek@amd.com>, 
-	Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Max Filippov <jcmvbkbc@gmail.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Romain Perier <romain.perier@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Gregory Clement <gregory.clement@bootlin.com>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>, 
-	Andrea della Porta <andrea.porta@suse.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Sylwester Nawrocki <s.nawrocki@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Qin Jian <qinjian@cqplus1.com>, 
-	Viresh Kumar <vireshk@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Alex Helms <alexander.helms.jy@renesas.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, sophgo@lists.linux.dev, 
-	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com, patches@opensource.cirrus.com, 
-	linux-actions@lists.infradead.org, asahi@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Brian,
+On Sun, Jul 20, 2025 at 9:39=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
 
-On Tue, 12 Aug 2025 at 00:18, Brian Masney via B4 Relay
-<devnull+bmasney.redhat.com@kernel.org> wrote:
+> This adds GPIO support to the SCMI pin controller driver.  It's an RFC
+> patch because I'm not really sure how these are used and so I don't
+> know how they should be configured via devicetree.  I've labeled the
+> places where I think devicetree configuration would go with a FIXME.
 >
-> From: Brian Masney <bmasney@redhat.com>
+> This driver was based on work from Takahiro AKASHI.
 >
-> The round_rate() clk ops is deprecated, so migrate this driver from
-> round_rate() to determine_rate() using the Coccinelle semantic patch
-> on the cover letter of this series.
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+
+(...)
+
+> @@ -955,19 +954,16 @@ int pinctrl_gpio_get_config(struct gpio_chip *gc, u=
+nsigned int offset, unsigned
+>         if (ret)
+>                 return ret;
 >
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
-> ---
->  drivers/clk/mstar/clk-msc313-cpupll.c | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
+> -       ops =3D pctldev->desc->confops;
+> -       if (!ops || !ops->pin_config_get)
+> -               return -EINVAL;
+> -
+>         mutex_lock(&pctldev->mutex);
+>         pin =3D gpio_to_pin(range, gc, offset);
+> -       ret =3D ops->pin_config_get(pctldev, pin, config);
+> +       ret =3D pin_config_get_for_pin(pctldev, pin, config);
+>         mutex_unlock(&pctldev->mutex);
 >
-> diff --git a/drivers/clk/mstar/clk-msc313-cpupll.c b/drivers/clk/mstar/clk-msc313-cpupll.c
-> index a93e2dba09d3523199263494efd2bf6987bb4156..3e643be02fe2a79c043c1b79a5e95c869b757ba1 100644
-> --- a/drivers/clk/mstar/clk-msc313-cpupll.c
-> +++ b/drivers/clk/mstar/clk-msc313-cpupll.c
-> @@ -140,20 +140,22 @@ static unsigned long msc313_cpupll_recalc_rate(struct clk_hw *hw, unsigned long
->                                              parent_rate);
->  }
+>         if (ret)
+>                 return ret;
 >
-> -static long msc313_cpupll_round_rate(struct clk_hw *hw, unsigned long rate,
-> -                                    unsigned long *parent_rate)
-> +static int msc313_cpupll_determine_rate(struct clk_hw *hw,
-> +                                       struct clk_rate_request *req)
->  {
-> -       u32 reg = msc313_cpupll_regforfrequecy(rate, *parent_rate);
-> -       long rounded = msc313_cpupll_frequencyforreg(reg, *parent_rate);
-> +       u32 reg = msc313_cpupll_regforfrequecy(req->rate, req->best_parent_rate);
-> +       long rounded = msc313_cpupll_frequencyforreg(reg, req->best_parent_rate);
->
->         /*
->          * This is my poor attempt at making sure the resulting
->          * rate doesn't overshoot the requested rate.
->          */
-> -       for (; rounded >= rate && reg > 0; reg--)
-> -               rounded = msc313_cpupll_frequencyforreg(reg, *parent_rate);
-> +       for (; rounded >= req->rate && reg > 0; reg--)
-> +               rounded = msc313_cpupll_frequencyforreg(reg, req->best_parent_rate);
->
-> -       return rounded;
-> +       req->rate = rounded;
+>         *config =3D pinconf_to_config_argument(*config);
 > +
-> +       return 0;
+>         return 0;
 >  }
->
->  static int msc313_cpupll_set_rate(struct clk_hw *hw, unsigned long rate, unsigned long parent_rate)
-> @@ -168,7 +170,7 @@ static int msc313_cpupll_set_rate(struct clk_hw *hw, unsigned long rate, unsigne
->
->  static const struct clk_ops msc313_cpupll_ops = {
->         .recalc_rate    = msc313_cpupll_recalc_rate,
-> -       .round_rate     = msc313_cpupll_round_rate,
-> +       .determine_rate = msc313_cpupll_determine_rate,
->         .set_rate       = msc313_cpupll_set_rate,
->  };
->
->
-> --
-> 2.50.1
->
->
 
-Only visually inspected but seems correct.
+Looks reasonable.
 
-Reviewed-by: Daniel Palmer <daniel@thingy.jp>
+> @@ -42,6 +46,7 @@ struct scmi_pinctrl {
+>         unsigned int nr_functions;
+>         struct pinctrl_pin_desc *pins;
+>         unsigned int nr_pins;
+> +       struct gpio_chip *gc;
 
-Thanks,
+This being a pointer is slightly confusing. And looking below I see why:
 
-Daniel
+> +       gpio =3D fwnode_get_named_child_node(dev->fwnode, "gpio");
+> +       if (!gpio)
+> +               return 0;
+> +
+> +       pmx->gc =3D devm_kcalloc(dev, pmx->nr_functions, sizeof(*pmx->gc)=
+, GFP_KERNEL);
+> +       if (!pmx->gc)
+> +               return -ENOMEM;
+
+So this needs a comment to what is actually going on here.
+
+To me it looks like the code is instantiating a struct gpio_chip for
+each function on the pin mux.
+
+That feels wrong: instead we should probably instantiate *one* gpio_chip fo=
+r
+the whole pinmux and then create individual gpio lines for each
+pin that can work as a GPIO.
+
+> +       for (i =3D 0; i < pmx->nr_functions; i++) {
+> +               const char *fn_name;
+> +
+> +               ret =3D pinctrl_ops->is_gpio(pmx->ph, i, FUNCTION_TYPE);
+> +               if (ret < 0)
+> +                       return ret;
+
+So we are only looking for functions that are of GPIO type.
+
+> +               if (ret =3D=3D false)
+> +                       continue;
+> +
+> +               ret =3D pinctrl_ops->name_get(pmx->ph, i, FUNCTION_TYPE, =
+&fn_name);
+> +               if (ret)
+> +                       return ret;
+> +
+> +               pmx->gc[i].label =3D devm_kasprintf(dev, GFP_KERNEL, "%s"=
+, fn_name);
+> +               if (!pmx->gc[i].label)
+> +                       return -ENOMEM;
+> +
+> +               pmx->gc[i].owner =3D THIS_MODULE;
+> +               pmx->gc[i].get =3D pinctrl_gpio_get;
+> +               pmx->gc[i].set =3D pinctrl_gpio_set;
+> +               pmx->gc[i].get_direction =3D pinctrl_gpio_get_direction;
+> +               pmx->gc[i].direction_input =3D pinctrl_gpio_direction_inp=
+ut;
+> +               pmx->gc[i].direction_output =3D pinctrl_gpio_direction_ou=
+tput_wrapper;
+> +               pmx->gc[i].add_pin_ranges =3D gpio_add_pin_ranges;
+> +
+> +               // FIXME: verify that this is correct
+> +               pmx->gc[i].can_sleep =3D true;
+> +
+> +               ret =3D get_nr_pins_in_function(pmx, i);
+> +               if (ret < 0)
+> +                       return ret;
+> +               pmx->gc[i].ngpio =3D ret;
+
+Please put a print here and see how many pins there are usually in the
+function here. In my mind it should always be 1 and if it is not 1 then
+something is wrong.
+
+We cannot instantiate n gpio_chips for a pin controller where n is the
+number of functions for GPIO, intead we need to instantiate one gpio_chip
+for the whole pin controller with ngpio set to the number of pins
+that exist on the pin controller and mask of any lines that cannot be
+used as GPIO from the chip using the gc->init_valid_mask() callback.
+
+I think you want to look at Bartosz series that introduce a GPIO
+function category and use this as a basis for your work, because
+I plan to merge this for v6.18:
+https://lore.kernel.org/linux-gpio/20250812-pinctrl-gpio-pinfuncs-v4-0-bb39=
+06c55e64@linaro.org/T/#t
+
+If you can first patch the SCMI pin control driver to use
+pinmux_generic_add_pinfunction() based on Bartosz patch set
+and get to this:
+
++ .get_functions_count =3D pinmux_generic_get_function_count,
++ .get_function_name =3D pinmux_generic_get_function_name,
++ .get_function_groups =3D pinmux_generic_get_function_groups,
+
+Then it is also easier to figure out if a line is GPIO or not (the
+core will help you).
+
+I hope the conversion to Bartosz generics could be
+straightforward... It looks straightforward but there may
+be devil in the details :)
+
+After this you can use pinmux_generic_function_is_gpio()
+to check if a certain function is used for GPIO or not, I think
+in the SCMI case this is done with a simple strcmp().
+
+Then you can use this to instantiate a gpio_chip for SCMI
+that will dynamically allow pins to be remuxed into GPIO and
+made available on the chip as we go.
+
+I'm sure Bartosz can help out a bit with some details!
+
+Yours,
+Linus Walleij
