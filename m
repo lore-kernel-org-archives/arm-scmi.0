@@ -1,171 +1,200 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0304027713;
-	Fri, 15 Aug 2025 08:08:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AA732DAFCD;
+	Fri, 15 Aug 2025 10:27:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755245332; cv=none; b=FdY4ld1hNUjSr6QelmIa4N8vfoWAlJqAMwXY6idSuTNSL2NUsCq86AJ405vQ7LyE2gzRMjlygeWiBzgw7PSlEtYwCCIqdRsH3jYxwDF9STxjuqTYyBO6GasKN2dfPi6jfnFlnbSwhmBe2mnpLsrxXnnYu7+h86EpnWqNjZJba/g=
+	t=1755253681; cv=none; b=MTHSnDEYfNXQoCHV1+KIEka4tB+HXn0hhnRRInuSrfkSpSKWFjGJ32DEH6KV/8gzAXPhmIGxlE+Ge3utcOjtiVQQlAN5TsqbLE5e3R62AYlGf37AlpmvJreY1qtSnWyDpl/vQs7nFlX6+vNutX25I1CuwbhhlwH7dIl4+d9gKdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755245332; c=relaxed/simple;
-	bh=40fD8nbq/dWtvqI1KOI36Ogw4sIwgQnynO/0TfAhQsg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GquU5SYSOQHNVWP9XcbHrbyVIywahQkEFi0NyFzAYLUcW7DEuoQtxqSBaSprkWygvs5V3w2kiyLSkQvdWpx5Zbr94oUidATf9OegFOooqWmwGw0jVg1XdxsISsSStWWXsFcpxD04AzK9gbwI9ZHvth5f3exmxFTXuk2Jf9m/eQQ=
+	s=arc-20240116; t=1755253681; c=relaxed/simple;
+	bh=wxIj/QdXOqFxCKkQBXdIC17thzMXussFdYxDWLLMO+Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JlNeB+NY7vvZ/fHstQ9t/tFOaXRN8iKd+yxWonPWhXjAjmw1J2DXof3tjpW2kCzPo9Xj3xilJs6n9ChN/Kc8lOS1DoByEfeeLEywoS7/ovfgNt2N3LBLUFbXhMvZ4BeLJ7tI6rbuNI4Ruuen4wL/O43Esq34+m8lktCnNFloodk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C3E1C1C25;
-	Fri, 15 Aug 2025 01:08:40 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9B89E3F738;
-	Fri, 15 Aug 2025 01:08:46 -0700 (PDT)
-Date: Fri, 15 Aug 2025 09:08:38 +0100
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1B7D91691;
+	Fri, 15 Aug 2025 03:27:50 -0700 (PDT)
+Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6D7853F738;
+	Fri, 15 Aug 2025 03:27:55 -0700 (PDT)
 From: Cristian Marussi <cristian.marussi@arm.com>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: linux-kernel@vger.kernel.org, james.quinlan@broadcom.com,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>, Peng Fan <peng.fan@nxp.com>,
-	Mike Tipton <quic_mdtipton@quicinc.com>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH] cpufreq: scmi: Add quirk to disable checks in
- scmi_dev_used_by_cpus()
-Message-ID: <aJ7rBgce5eWSkkk3@pluto>
-References: <20250814225155.3519000-1-florian.fainelli@broadcom.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Cc: sudeep.holla@arm.com,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	quic_sibis@quicinc.com,
+	dan.carpenter@linaro.org,
+	d-gole@ti.com,
+	johan+linaro@kernel.org,
+	rafael@kernel.org,
+	viresh.kumar@linaro.org,
+	quic_mdtipton@quicinc.com,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [PATCH 1/2] firmware: arm_scmi: Rework quirks framework header
+Date: Fri, 15 Aug 2025 11:27:35 +0100
+Message-ID: <20250815102736.81450-1-cristian.marussi@arm.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250814225155.3519000-1-florian.fainelli@broadcom.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 14, 2025 at 03:51:55PM -0700, Florian Fainelli wrote:
-> Broadcom STB platforms were early adopters of the SCMI framework and as
-> a result, not all deployed systems have a Device Tree entry where SCMI
-> protocol 0x13 (PERFORMANCE) is declared as a clock provider, nor are the
-> CPU Device Tree node(s) referencing protocol 0x13 as their clock
-> provider.
-> 
-> Leverage the quirks framework recently introduce to match on the
-> Broadcom SCMI vendor and in that case, disable the Device Tree
-> properties checks being done by scmi_dev_used_by_cpus().
-> 
+Split and relocate the quirks framework header so as to be usable also by
+SCMI Drivers and not only by the core.
 
-Hi,
+Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+---
+ drivers/firmware/arm_scmi/clock.c  |  2 +-
+ drivers/firmware/arm_scmi/driver.c |  1 +
+ drivers/firmware/arm_scmi/quirks.h | 33 +++-------------------
+ include/linux/scmi_quirks.h        | 44 ++++++++++++++++++++++++++++++
+ 4 files changed, 50 insertions(+), 30 deletions(-)
+ create mode 100644 include/linux/scmi_quirks.h
 
-> Suggested-by: Cristian Marussi <cristian.marussi@arm.com>
-> Fixes: 6c9bb8692272 ("cpufreq: scmi: Skip SCMI devices that aren't used by the CPUs")
-> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-> ---
->  drivers/cpufreq/scmi-cpufreq.c     | 13 +++++++++++++
->  drivers/firmware/arm_scmi/quirks.c |  2 ++
->  drivers/firmware/arm_scmi/quirks.h |  1 +
->  3 files changed, 16 insertions(+)
-> 
-> diff --git a/drivers/cpufreq/scmi-cpufreq.c b/drivers/cpufreq/scmi-cpufreq.c
-> index ef078426bfd5..80647511d3c3 100644
-> --- a/drivers/cpufreq/scmi-cpufreq.c
-> +++ b/drivers/cpufreq/scmi-cpufreq.c
-> @@ -22,6 +22,8 @@
->  #include <linux/types.h>
->  #include <linux/units.h>
->  
-> +#include "../drivers/firmware/arm_scmi/quirks.h"
-> +
-
-I will post a patch to move this header up to avoid the uglyness of this
-include....
-
->  struct scmi_data {
->  	int domain_id;
->  	int nr_opp;
-> @@ -34,6 +36,7 @@ struct scmi_data {
->  static struct scmi_protocol_handle *ph;
->  static const struct scmi_perf_proto_ops *perf_ops;
->  static struct cpufreq_driver scmi_cpufreq_driver;
-> +static bool __maybe_unused scmi_cpufreq_dt_props_check_disable;
->  
-
-Not sure why you introduce an intermediate global bool to check...this
-defeats a bit the whole idea of the quirks framework which is based on
-static_keys and is supposed to be mostly transarent when quirks are not
-enabled....
-
-Couldn't you just move the quirk inside the get_rate ?
-(maybe I am missing something around compiler behaviours..)
+diff --git a/drivers/firmware/arm_scmi/clock.c b/drivers/firmware/arm_scmi/clock.c
+index afa7981efe82..5599697de37a 100644
+--- a/drivers/firmware/arm_scmi/clock.c
++++ b/drivers/firmware/arm_scmi/clock.c
+@@ -7,11 +7,11 @@
  
-#define QUIRK_SCMI_CPUFREQ_CHECK_DT_PROPS		\
-({							\
-	if (true)					\
-		return true;				\
-})
+ #include <linux/module.h>
+ #include <linux/limits.h>
++#include <linux/scmi_quirks.h>
+ #include <linux/sort.h>
+ 
+ #include "protocols.h"
+ #include "notify.h"
+-#include "quirks.h"
+ 
+ /* Updated only after ALL the mandatory features for that version are merged */
+ #define SCMI_PROTOCOL_SUPPORTED_VERSION		0x30000
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index bd56a877fdfc..6f5934cd3a65 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -34,6 +34,7 @@
+ #include <linux/processor.h>
+ #include <linux/refcount.h>
+ #include <linux/slab.h>
++#include <linux/scmi_quirks.h>
+ #include <linux/xarray.h>
+ 
+ #include "common.h"
+diff --git a/drivers/firmware/arm_scmi/quirks.h b/drivers/firmware/arm_scmi/quirks.h
+index a71fde85a527..260ae38d617b 100644
+--- a/drivers/firmware/arm_scmi/quirks.h
++++ b/drivers/firmware/arm_scmi/quirks.h
+@@ -4,49 +4,24 @@
+  *
+  * Copyright (C) 2025 ARM Ltd.
+  */
+-#ifndef _SCMI_QUIRKS_H
+-#define _SCMI_QUIRKS_H
++#ifndef _SCMI_QUIRKS_INTERNAL_H
++#define _SCMI_QUIRKS_INTERNAL_H
+ 
+-#include <linux/static_key.h>
++#include <linux/device.h>
+ #include <linux/types.h>
+ 
+ #ifdef CONFIG_ARM_SCMI_QUIRKS
+ 
+-#define DECLARE_SCMI_QUIRK(_qn)						\
+-	DECLARE_STATIC_KEY_FALSE(scmi_quirk_ ## _qn)
+-
+-/*
+- * A helper to associate the actual code snippet to use as a quirk
+- * named as _qn.
+- */
+-#define SCMI_QUIRK(_qn, _blk)						\
+-	do {								\
+-		if (static_branch_unlikely(&(scmi_quirk_ ## _qn)))	\
+-			(_blk);						\
+-	} while (0)
+-
+ void scmi_quirks_initialize(void);
+ void scmi_quirks_enable(struct device *dev, const char *vend,
+ 			const char *subv, const u32 impl);
+ 
+ #else
+ 
+-#define DECLARE_SCMI_QUIRK(_qn)
+-/* Force quirks compilation even when SCMI Quirks are disabled */
+-#define SCMI_QUIRK(_qn, _blk)						\
+-	do {								\
+-		if (0)							\
+-			(_blk);						\
+-	} while (0)
+-
+ static inline void scmi_quirks_initialize(void) { }
+ static inline void scmi_quirks_enable(struct device *dev, const char *vend,
+ 				      const char *sub_vend, const u32 impl) { }
+ 
+ #endif /* CONFIG_ARM_SCMI_QUIRKS */
+ 
+-/* Quirk delarations */
+-DECLARE_SCMI_QUIRK(clock_rates_triplet_out_of_spec);
+-DECLARE_SCMI_QUIRK(perf_level_get_fc_force);
+-
+-#endif /* _SCMI_QUIRKS_H */
++#endif /* _SCMI_QUIRKS_INTERNAL_H */
+diff --git a/include/linux/scmi_quirks.h b/include/linux/scmi_quirks.h
+new file mode 100644
+index 000000000000..11657bd91ffc
+--- /dev/null
++++ b/include/linux/scmi_quirks.h
+@@ -0,0 +1,44 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * System Control and Management Interface (SCMI) Message Protocol Quirks
++ *
++ * Copyright (C) 2025 ARM Ltd.
++ */
++#ifndef _SCMI_QUIRKS_H
++#define _SCMI_QUIRKS_H
++
++#include <linux/static_key.h>
++#include <linux/types.h>
++
++#ifdef CONFIG_ARM_SCMI_QUIRKS
++
++#define DECLARE_SCMI_QUIRK(_qn)						\
++	DECLARE_STATIC_KEY_FALSE(scmi_quirk_ ## _qn)
++
++/*
++ * A helper to associate the actual code snippet to use as a quirk
++ * named as _qn.
++ */
++#define SCMI_QUIRK(_qn, _blk)						\
++	do {								\
++		if (static_branch_unlikely(&(scmi_quirk_ ## _qn)))	\
++			(_blk);						\
++	} while (0)
++
++#else
++
++#define DECLARE_SCMI_QUIRK(_qn)
++/* Force quirks compilation even when SCMI Quirks are disabled */
++#define SCMI_QUIRK(_qn, _blk)						\
++	do {								\
++		if (0)							\
++			(_blk);						\
++	} while (0)
++
++#endif /* CONFIG_ARM_SCMI_QUIRKS */
++
++/* Quirk delarations */
++DECLARE_SCMI_QUIRK(clock_rates_triplet_out_of_spec);
++DECLARE_SCMI_QUIRK(perf_level_get_fc_force);
++
++#endif /* _SCMI_QUIRKS_H */
+-- 
+2.50.1
 
->  static unsigned int scmi_cpufreq_get_rate(unsigned int cpu)
->  {
-> @@ -400,6 +403,9 @@ static bool scmi_dev_used_by_cpus(struct device *scmi_dev)
->  	struct device *cpu_dev;
->  	int cpu, idx;
->  
-
-+	SCMI_QUIRK(scmi_cpufreq_no_check_dt_props, QUIRK_SCMI_CPUFREQ_CHECK_DT_PROPS);
-
->  	if (!scmi_np)
->  		return false;
->  
-> @@ -427,12 +433,19 @@ static bool scmi_dev_used_by_cpus(struct device *scmi_dev)
->  	return false;
->  }
->  
-> +#define QUIRK_SCMI_CPUFREQ_CHECK_DT_PROPS			\
-> +	({							\
-> +		scmi_cpufreq_dt_props_check_disable = true;	\
-> +	})
-> +
->  static int scmi_cpufreq_probe(struct scmi_device *sdev)
->  {
->  	int ret;
->  	struct device *dev = &sdev->dev;
->  	const struct scmi_handle *handle;
->  
-
-> +	SCMI_QUIRK(scmi_cpufreq_no_check_dt_props, QUIRK_SCMI_CPUFREQ_CHECK_DT_PROPS);
-> +
-
-...removing this of course
-
->  	handle = sdev->handle;
->  
->  	if (!handle || !scmi_dev_used_by_cpus(dev))
-> diff --git a/drivers/firmware/arm_scmi/quirks.c b/drivers/firmware/arm_scmi/quirks.c
-> index 03960aca3610..aafc7b4b3294 100644
-> --- a/drivers/firmware/arm_scmi/quirks.c
-> +++ b/drivers/firmware/arm_scmi/quirks.c
-> @@ -171,6 +171,7 @@ struct scmi_quirk {
->  /* Global Quirks Definitions */
->  DEFINE_SCMI_QUIRK(clock_rates_triplet_out_of_spec, NULL, NULL, NULL);
->  DEFINE_SCMI_QUIRK(perf_level_get_fc_force, "Qualcomm", NULL, "0x20000-");
-> +DEFINE_SCMI_QUIRK_EXPORTED(scmi_cpufreq_no_check_dt_props, "brcm-scmi", NULL, "0x2");
-
-Also, are you sure about using version as "0x2" ? That is supposed to
-indicate the (optional) SCMI FW Version to which this quirk will
-apply...and with that it means whatever FW versioning you use in
-Broadcom to identify build versions....it is NOT the SCMI Protocol
-Version, so that also means that if/when you will change the advertised
-version, this quirk wont apply anymore...or equally if there are older
-version than 0x2 that are buggy they wont be quirked...
-
-One more doubt I have (despite me having suggested this solution) is
-that here you are quirking against a malformed deployed DT really,
-not against some SCMI FW anomaly in the Broadcom FW, but using the
-SCMI Quirks framework you are tying the quirk to the SCMI FW Vendor
-and maybe some specific SCMI FW Version....
-
-...so what will happen when you will update/fix your DT in the future ?
-Will you also take care to bump the BRCM SCMI FW version to disable the
-quirk in the DT deployed by your FW binary ?
-
-Thanks,
-Cristian
