@@ -1,137 +1,92 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF7BC275AE1
-	for <arm-scmi@vger.kernel.org>; Mon, 18 Aug 2025 06:36:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A57830BF7D
+	for <arm-scmi@vger.kernel.org>; Mon, 18 Aug 2025 09:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755499010; cv=none; b=vBAp7jLD7+6UwuhU6o46jJCwXMHTGHHmZu7aPT2fGGqAVIRDEvGNFUlBWE9NmVbLOjFte9lYDCYppBjtcA/2HnR/sDJIiudspeb9f0TMEw7kUck0C1k0iH8+f35ymzbM7dIaD/1WXZclCa8efGM09nV4i2qiO0kZmhKNz3YF0Po=
+	t=1755507840; cv=none; b=AmiVKJw7Tj9geF5Z90mziWeNNJDF/1MVxRrj3X4au4dqfrNeuIDyE4QoT4guUPthG1Z7QGGs92cP2iihiBVkht3XEb0HPHhf8TrNgfI2LwWMxLUJ475ZDrjQkjAUVFovx/ooDPb54yErHj64TwzEVumUJFmyiDbgAokP49M4V6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755499010; c=relaxed/simple;
-	bh=oSh2xMD6SdqqzF+XVFnBtlL5vvi05VvJwkUWiT94P4c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RS/R0ZoxN/BC9vHU1Hpcequs2jdesetboS7xFeswgXpLxBLKYxsbDBQWL7SvgpCv2chch0Pbjv5jUBxUeoJHJzo3ywuMCDFmreuA3DgyUYOx14zydYxG8+qhxYl3tPSdhVd3xts01kFiL9XSTJbX5JxLGf0p1pMbMxwF0kTkWSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mXfp/1cn; arc=none smtp.client-ip=209.85.210.172
+	s=arc-20240116; t=1755507840; c=relaxed/simple;
+	bh=m7oOCkrHmV3m6RPZPr4H1kZpkhVJDtpouU7lgw2AWTc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BRjxqSLRMlHFYmKw7DsNWuqaDKUPNU735SyZtSwEkZSvhsrrj963tNriqHzJbRtdKt5REb+9WFaurK06GnCUzpm5FIZ6R5kGDaWWbBHfsOYKox/bvfRSZK3VHFsAyFao+6fusV09E62I3SzaATbKj6t2lKFsOi8+JmoZcE+cHLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pElY1WMd; arc=none smtp.client-ip=209.85.208.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mXfp/1cn"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-76e2eb6d07bso3228925b3a.3
-        for <arm-scmi@vger.kernel.org>; Sun, 17 Aug 2025 23:36:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pElY1WMd"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-333f9145edaso28758121fa.2
+        for <arm-scmi@vger.kernel.org>; Mon, 18 Aug 2025 02:03:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755499007; x=1756103807; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9rjhO/M0uTmlNPmuFaEm9QTozYRIwsNGmKagEyX9yMU=;
-        b=mXfp/1cncNhAhS+pN3BLnKDRBw+Y8ZlYatsJJcPgeUpSWzwJy8aZWdXH02mmYMSGJJ
-         SV90hQfxjLKxQ1bZMeFQ0Kn9xk49egsUqM/KyWUuduN+XT4vudPeH0RUvtMqNJAv/MLe
-         KaQPJsBJyPHW6h4OCheA9bm1YAnB1YIj3prnWw6jnUkSDRqGPcmgErFjKsiZ6PHAi4FK
-         WPEAcQuEv4Y7+GhhGFulyHu3nXiR94Oyw0MVhiKVjxNJGg//DNugSn6UV3mKavCsJ/jX
-         uXB7XvEDXJc2L+NuLHMRQiNkCCgThg1y45LAwG/Bsji3WfxFHr13lKON9LGU8oxuDltf
-         X+0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755499007; x=1756103807;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1755507836; x=1756112636; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9rjhO/M0uTmlNPmuFaEm9QTozYRIwsNGmKagEyX9yMU=;
-        b=RFxATeh6+qbKUmOz3R2r1OJgpLHfA+JfbMvJKDpj0mn4N+lVEz3HFwzc2cpUa1fPgE
-         xFSJUfch2Xtp9Lt0F8Riz0esCVP94Ms69bY2cUTOZwlGYg8Bw7T6lixYgUF9qNu4CcoZ
-         3x9Jc//1EIsirhM5gx8b1DRe86wbFtycUi2/JLxcpCs6qktTzmPrhInSEBADcbqFNpjS
-         EN/7g0MKRXuQrmfywB6pjWTNJbFx86AC2UYkbzNY8ElubdrXDHKp9MVh7Yyy35KmYGWe
-         hWr7LIj6wqLlDSDyW5+zxOzocbixLW40h/gbfRx4qM+lXh4gr7EOtvcM19gjKJrXU78n
-         9w9w==
-X-Forwarded-Encrypted: i=1; AJvYcCX2UpiLfCbSnUe1m8fHu6Py2Kb1UrHBwtOoWJMMfX5jnMUEDkgPwK1mi8vWV94W2Y196bPPZ2OcYA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzy8o6LZn3eS1BGyxarpcmiKZj1Mei715NloA8wxwu4H3VSHumh
-	dsMZFjaHjbC8GTDAteZWkoFRyZTpgLogwHDh5/pjQ8wI3AnNqlNO1UCq68dqF1g+Lnk=
-X-Gm-Gg: ASbGncuKfey/7fW7NoukJ1p9RReRRFun0leJBvZeaX7iwhSkQJZI3ny4AzMyIm7fRjn
-	/W/MnwSVYuanoksrKRtKZ9pgHPp7R5/mGpBEe2csiRQXfQJoo4rhggfzu9m719ssCykHG9xIaeH
-	+5ibvtRcEafGYiE9xD+zzcT4jNJZGmJ1cGedVCpDMNjcAQ0Pz/Jc5/Dy5pYpgIDFhvduBful9Nf
-	kxY6OE1Vcp7jwQm/ro7SVHDewzL9haNcmFl0/IeS1FBf7xTAF/aa6Ur0Bcuu1CHK1Ws6FfYYsm6
-	UveFXu/Lwy+exab4ZTgqq3fp247In8tpx7URo36aTUuKlvTvS30MArG98pyftQSCstUcGbwfnIQ
-	dqBPCoNLxt4JH8rSaMpbzsCwJ
-X-Google-Smtp-Source: AGHT+IH8gijQo2HWWMh8yIAt8KnRnmfELcFQEuxNNsjzrP85ncTsOlSt0lA4KoypNRAozLwoHQfe2g==
-X-Received: by 2002:a05:6a20:4323:b0:240:50d:4285 with SMTP id adf61e73a8af0-240e63dd588mr12345211637.38.1755499006972;
-        Sun, 17 Aug 2025 23:36:46 -0700 (PDT)
-Received: from localhost ([122.172.87.165])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b472d799c8csm7203728a12.55.2025.08.17.23.36.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Aug 2025 23:36:46 -0700 (PDT)
-Date: Mon, 18 Aug 2025 12:06:44 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: linux-kernel@vger.kernel.org, james.quinlan@broadcom.com,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Mike Tipton <quic_mdtipton@quicinc.com>,
-	Peng Fan <peng.fan@nxp.com>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v2] cpufreq: scmi: Account for malformed DT in
- scmi_dev_used_by_cpus()
-Message-ID: <20250818063644.kbzbj7q7a2s4snur@vireshk-i7>
-References: <20250815205714.1545571-1-florian.fainelli@broadcom.com>
+        bh=MUwutcLP2TU0uZmoKGbkLCKDIFQshb+hzWxBL6xH0Wo=;
+        b=pElY1WMdiB++dh7NcmzagwkoI7mcFzY1I5dMWBqyA74scurUnPnVCBpWlge9xN7r2Y
+         GbCmLLf59Qbq9KYtbJfDwfURG2UQtdmlnKRNDPiLyQm2aB4lwdkga2Y7ZxWfgWZbkq0D
+         jYrmFaHxLjC0U+4S8za1xhieRKgwsMsUhucn5UO8YTLH0eNGt1JokHvnwirDp4FQ1+BA
+         PVUywFNWm1iL538hLXH1fH7CceBAWlZLYTOAKCQ/0NtjSFzZ7qOGIqS/2UDgHXzDspqU
+         itPJPX47k8tgj061buRoHYP8QejjKWsTUsix4cqmen9M7CiC7NOfm6hjzE7r2teVT7eo
+         YAFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755507836; x=1756112636;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MUwutcLP2TU0uZmoKGbkLCKDIFQshb+hzWxBL6xH0Wo=;
+        b=bfVgBkVHvOvrWcafut9saZ1PV1ZccOu53bThNp4j/vcM1LTGJwaRQjNUPcQmCSMLAV
+         6iykAuT8ZkTKNTZIhY0viNRl+2LVcHG2DUVS1Yi/naey909mmnJ2wmNqv2ApKxxvP1wr
+         TQuZ/SX0NFHobS6yRXTlET/+NfaYTmauKtAdnAkS1ivaVBTDZ12Y0+SyilmBKh+jahCv
+         jZ6FMb6M6CvG77EnjptzwaZu6oBOxc3vzi81Chd45kF1jmmN2QGWC+dmVF2PhBZjax0o
+         Y5UCPHxz7Z1etqH7nUXqKPsFuYzWUt6H0AI2pj+MSid3d1an2CgH1MW3ScmLDu/QYtAe
+         HJ4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWo6lCH/u/2LJhYsRgp20kTr44sATRjDnoF0LmMh6n50LVebULrDL1B+u7oBBWCg/iufpBRU8RmGw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpxUhB2T0Z/SbXr5GQmEKa0g4vWYRY1+RmCm72z/YbkZMRNJOs
+	MkY7wHC8qCROsKd6UCTBwZgBQ57vXUEjlowKuQK0zOz7CQVxecMhZG7NmiKlzUYWVm92hvIuoAg
+	5FE5Hzvb/OJfNhjfzDScmo+3OArsv8JytuAI2RLdcVw==
+X-Gm-Gg: ASbGncsd0Sohj3mnU7XnQAt2NYEejglMgx+f7RPJM64GpL7viZQNkk13A047EnG5ar0
+	hVMZMy0MO5NzEs6k8Oh7hQ8sT79kxNAjfHenFpC38ABWFzGUKw/i8yPqtbqogbQWwm+S5N79orq
+	ISltorOi0vX6K9SFgoQ4+q46Hp3F3gP/A05KYFJQOqz/8nlXG7xmEMBulH05U7iSs7BDCkfDBFW
+	re8aVPrEzJ8kQIAfg==
+X-Google-Smtp-Source: AGHT+IE9kamzF6h6Mj0Uthfqb51rMDCl6ApaA6r9yCxNefG5kg1EpxapoTSKZbjphVliY5NG5jt71S1DTJFc+QzXeWM=
+X-Received: by 2002:a2e:be21:0:b0:333:bf9e:d75a with SMTP id
+ 38308e7fff4ca-33409809840mr30484411fa.6.1755507835692; Mon, 18 Aug 2025
+ 02:03:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250815205714.1545571-1-florian.fainelli@broadcom.com>
+References: <cover.1753039612.git.dan.carpenter@linaro.org>
+In-Reply-To: <cover.1753039612.git.dan.carpenter@linaro.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 18 Aug 2025 11:03:43 +0200
+X-Gm-Features: Ac12FXwmdSMJ2XrjVzm-k9jfEa6zy3nIx6AoVfYXMCJMow6Cz5Q3z1FJ4deDBS0
+Message-ID: <CACRpkdapzTTJhAvY1BL8GnUpCc_iHESbY9bFsNTE4Z6FjusiJw@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 0/7] pinctrl-scmi: Add GPIO support
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: AKASHI Takahiro <takahiro.akashi@linaro.org>, Michal Simek <michal.simek@amd.com>, 
+	arm-scmi@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Cristian Marussi <cristian.marussi@arm.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Sudeep Holla <sudeep.holla@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 15-08-25, 13:57, Florian Fainelli wrote:
-> Broadcom STB platforms were early adopters of the SCMI framework and as
-> a result, not all deployed systems have a Device Tree entry where SCMI
-> protocol 0x13 (PERFORMANCE) is declared as a clock provider, nor are the
-> CPU Device Tree node(s) referencing protocol 0x13 as their clock
-> provider.
-> 
-> For those platforms, we allow the checks done by scmi_dev_used_by_cpus()
-> to continue, and in the event of not having done an early return, we key
-> off the documented compatible string and give them a pass to continue to
-> use scmi-cpufreq.
-> 
-> Fixes: 6c9bb8692272 ("cpufreq: scmi: Skip SCMI devices that aren't used by the CPUs")
-> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-> ---
-> Changes in v2:
-> 
-> - do not leverage the SCMI quirks framework which in spirit is for
->   dealing with SCMI firmware implementations, this right here,
->   specifically pertains to an older Device Tree. This also makes it
->   easier to backport that change into stable trees where the commit in
->   the Fixes tag is already present. There is no dependency upon the
->   presence of the SCMI quirks framework
-> 
->  drivers/cpufreq/scmi-cpufreq.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/cpufreq/scmi-cpufreq.c b/drivers/cpufreq/scmi-cpufreq.c
-> index ef078426bfd5..9df4d968fdac 100644
-> --- a/drivers/cpufreq/scmi-cpufreq.c
-> +++ b/drivers/cpufreq/scmi-cpufreq.c
-> @@ -15,6 +15,7 @@
->  #include <linux/energy_model.h>
->  #include <linux/export.h>
->  #include <linux/module.h>
-> +#include <linux/of.h>
->  #include <linux/pm_opp.h>
->  #include <linux/pm_qos.h>
->  #include <linux/slab.h>
-> @@ -424,6 +425,14 @@ static bool scmi_dev_used_by_cpus(struct device *scmi_dev)
->  			return true;
->  	}
->  
-> +	/* Older Broadcom STB chips had a "clocks" property for CPU node(s)
+On Sun, Jul 20, 2025 at 9:38=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
 
-Incorrect multi-line comment format.
+> This is version 2 of the RFC.  The main reason I'm sending this is becaus=
+e
+> there was a bug in the first version where it didn't calculate the offset
+> correctly so pins and groups weren't linked correctly.
 
-> +	 * that did not match the SCMI performance protocol node, if we got
-> +	 * there, it means we had such an older Device Tree, therefore return
-> +	 * true to preserve backwards compatibility.
-> +	 */
+I'm thinking of applying patches 4, 5 and 7 of this patch set to get
+some movement in the code upstream and make less work for you
+to rebase the thing, would this be OK?
 
--- 
-viresh
+Yours,
+Linus Walleij
