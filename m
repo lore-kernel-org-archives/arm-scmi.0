@@ -1,51 +1,51 @@
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55071DF987;
-	Mon, 18 Aug 2025 05:36:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1432925CC58;
+	Mon, 18 Aug 2025 06:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755495368; cv=none; b=K20XW88dUroj8BNr4aP7XcIZDk9ZUHdE+pCPDyS7SIYmo6FiXVK9phvHDuAMx+EHE+4Dau26MGxKs9/5yr/SjF/KWgggUAQkc1y31UFNfMTSxpGJK6b9eHFApeBtF0AFNWBpABfgEta7LiI6rysud/jMeF9NefB8EfuAOsS/+zU=
+	t=1755498083; cv=none; b=gTZ3sewgM6dcrpcU8kq4c+IMkWcXJwm8L4NF3+SkeFU0sqGDuuaeMJS+aqnzX14EldZjzPi6ivgWceE7PCL6XXRzGlqbkErlN+UUY9sZLZ7opmMcjaR6UFnpUxxm0Ag3q7AcSvc8yGDKeidD78/Me28m9PbctD+g06CXycZwpy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755495368; c=relaxed/simple;
-	bh=31lpmXSQBLbLvXIsubVmRCNxts4TizAbzGQOWrRINLo=;
+	s=arc-20240116; t=1755498083; c=relaxed/simple;
+	bh=wWQWZYbnoRcL5oSUcWqBudDMOrlVVKErs4YSQvuoh2Q=;
 	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o84sJEkkLwV3lpUhWKDvi33bdX0WBiG7XqlVZ9UKoMG6paPuV8ZM8vSpYQC04rL6jNIX+ONZIrbLEYhodZMqjFnS+E3naGHFme5EMttqzYCcfInOOnD+2cBDzN1b1ElNuKry2dW5DwPEWes2+vT8+YtbV4HaCmcKvK/PU6ev3V4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=IJ39ERdw; arc=none smtp.client-ip=198.47.19.245
+	 Content-Type:Content-Disposition:In-Reply-To; b=LKWHQmwhiVQ7UOasV5KsirpqvLOsy5c0W5W8ILJ82VlEOqkomHbLVZCi5zqcLU9nSFi/C5g55wxSOIP08rq5GocJiXy0GAjYWTDWm1Wp0Pv/LWCjfl6u58aCCuugIIDVA/5ZX64GVbQToVIK+IUA+cXS08bZpmzHl+7X5vMDOgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=DzPRt50w; arc=none smtp.client-ip=198.47.23.234
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="IJ39ERdw"
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57I5ZbsT2585902;
-	Mon, 18 Aug 2025 00:35:37 -0500
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="DzPRt50w"
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57I6KkKV2653885;
+	Mon, 18 Aug 2025 01:20:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1755495337;
-	bh=ZQqJLxn/uck2ZUWoChhjcCs9bxIpI9w0PlNK/2siEoQ=;
+	s=ti-com-17Q1; t=1755498046;
+	bh=4oHV6eDv/jSipaBzI1+qlMqK2ITIVXOlUp3nua4gFpk=;
 	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=IJ39ERdw/bmMCyb6LoyfEhp83XHLt5GQ1RmUr4GyGOYmkf4+NvTL8FMpFMAb0oqEd
-	 Tdu51zKveZLvXWZB2EMLqBlnXPUy6TNTzdlPxkIG1SAZqNMrBz7WkmqdhHxTgtK0s5
-	 7+Sww05vkrrhX6fmV170nVv2rsJRx5Foh+Go9KfM=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
-	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57I5ZbUW069851
+	b=DzPRt50w+q2spgh7NxBisUjPt9yBaIOK1KzpkfMH7nGX2ebDA3XFXELuFwIfGBwEN
+	 dguytTXvWx6sW4cZfckp/JVJmpwyvV945/yyVayTjzUxbQdOQBjAi0+QGn3YMU9PHB
+	 83AlAMkY6fE96+U7n7LE1FKVTXTwKsGCtu2Vr1J8=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57I6KkMj3594812
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Mon, 18 Aug 2025 00:35:37 -0500
-Received: from DLEE205.ent.ti.com (157.170.170.85) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+	Mon, 18 Aug 2025 01:20:46 -0500
+Received: from DFLE211.ent.ti.com (10.64.6.69) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 18
- Aug 2025 00:35:37 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE205.ent.ti.com
- (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
+ Aug 2025 01:20:46 -0500
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE211.ent.ti.com
+ (10.64.6.69) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.2.1748.24; Mon, 18 Aug
- 2025 00:35:36 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 01:20:45 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Mon, 18 Aug 2025 00:35:36 -0500
+ Frontend Transport; Mon, 18 Aug 2025 01:20:45 -0500
 Received: from localhost (lcpd911.dhcp.ti.com [172.24.233.130])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57I5ZZQc478080;
-	Mon, 18 Aug 2025 00:35:36 -0500
-Date: Mon, 18 Aug 2025 11:05:35 +0530
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57I6Ki38544316;
+	Mon, 18 Aug 2025 01:20:45 -0500
+Date: Mon, 18 Aug 2025 11:50:44 +0530
 From: Dhruva Gole <d-gole@ti.com>
 To: Cristian Marussi <cristian.marussi@arm.com>
 CC: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
@@ -54,10 +54,14 @@ CC: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
         <f.fainelli@gmail.com>, <vincent.guittot@linaro.org>,
         <quic_sibis@quicinc.com>, <dan.carpenter@linaro.org>,
         <johan+linaro@kernel.org>, <rafael@kernel.org>,
-        <viresh.kumar@linaro.org>, <quic_mdtipton@quicinc.com>
-Subject: Re: [PATCH 1/2] firmware: arm_scmi: Rework quirks framework header
-Message-ID: <20250818053535.owst4ilq2oxfgqnq@lcpd911>
+        <viresh.kumar@linaro.org>, <quic_mdtipton@quicinc.com>,
+        Florian Fainelli
+	<florian.fainelli@broadcom.com>
+Subject: Re: [PATCH 2/2] [NOT_FOR_UPSTREAM] cpufreq: scmi: Add quirk to
+ disable checks in scmi_dev_used_by_cpus()
+Message-ID: <20250818062044.zawqkalphvxjwt2w@lcpd911>
 References: <20250815102736.81450-1-cristian.marussi@arm.com>
+ <20250815102736.81450-2-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -66,192 +70,75 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20250815102736.81450-1-cristian.marussi@arm.com>
+In-Reply-To: <20250815102736.81450-2-cristian.marussi@arm.com>
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Hi,
-
-On Aug 15, 2025 at 11:27:35 +0100, Cristian Marussi wrote:
-> Split and relocate the quirks framework header so as to be usable also by
-> SCMI Drivers and not only by the core.
-
-Could you elaborate a bit more on this reasoning? I am not fully
-convinced as to why I shouldn't just include quirks.h in the other scmi
-drivers as well?
-
-Oh or perhaps you mean to say scmi driver like scmi cpufreq / clk-scmi
-etc.. which lie outside the firmware/arm_scmi folder? If so then that's
-not coming out clearly in this patch commit message.
-
+On Aug 15, 2025 at 11:27:36 +0100, Cristian Marussi wrote:
+> From: Florian Fainelli <florian.fainelli@broadcom.com>
 > 
+> Broadcom STB platforms were early adopters of the SCMI framework and as
+> a result, not all deployed systems have a Device Tree entry where SCMI
+> protocol 0x13 (PERFORMANCE) is declared as a clock provider, nor are the
+> CPU Device Tree node(s) referencing protocol 0x13 as their clock
+> provider.
+> 
+> Leverage the quirks framework recently introduce to match on the
+> Broadcom SCMI vendor and in that case, disable the Device Tree
+> properties checks being done by scmi_dev_used_by_cpus().
+> 
+> Suggested-by: Cristian Marussi <cristian.marussi@arm.com>
+> Fixes: 6c9bb8692272 ("cpufreq: scmi: Skip SCMI devices that aren't used by the CPUs")
+> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
+> [Cristian: Moved quirk directly into scmi_dev_used_by_cpus]
 > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> 
+> ----
+> @Florian: I reworked this minimally to avoid the global as I was mentioning.
+> No change around the version match either...so the NOT_FOR_UPSTREAM tag.
+> (also the if (true) i smaybe a bit idiotic...)
+> Please check if it is fine and modify as you see fit.
 > ---
->  drivers/firmware/arm_scmi/clock.c  |  2 +-
->  drivers/firmware/arm_scmi/driver.c |  1 +
->  drivers/firmware/arm_scmi/quirks.h | 33 +++-------------------
->  include/linux/scmi_quirks.h        | 44 ++++++++++++++++++++++++++++++
->  4 files changed, 50 insertions(+), 30 deletions(-)
->  create mode 100644 include/linux/scmi_quirks.h
+>  drivers/cpufreq/scmi-cpufreq.c     | 9 +++++++++
+>  drivers/firmware/arm_scmi/quirks.c | 2 ++
+>  include/linux/scmi_quirks.h        | 1 +
+>  3 files changed, 12 insertions(+)
 > 
-> diff --git a/drivers/firmware/arm_scmi/clock.c b/drivers/firmware/arm_scmi/clock.c
-> index afa7981efe82..5599697de37a 100644
-> --- a/drivers/firmware/arm_scmi/clock.c
-> +++ b/drivers/firmware/arm_scmi/clock.c
-> @@ -7,11 +7,11 @@
->  
->  #include <linux/module.h>
->  #include <linux/limits.h>
-> +#include <linux/scmi_quirks.h>
->  #include <linux/sort.h>
->  
->  #include "protocols.h"
->  #include "notify.h"
-> -#include "quirks.h"
->  
->  /* Updated only after ALL the mandatory features for that version are merged */
->  #define SCMI_PROTOCOL_SUPPORTED_VERSION		0x30000
-> diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-> index bd56a877fdfc..6f5934cd3a65 100644
-> --- a/drivers/firmware/arm_scmi/driver.c
-> +++ b/drivers/firmware/arm_scmi/driver.c
-> @@ -34,6 +34,7 @@
->  #include <linux/processor.h>
->  #include <linux/refcount.h>
+> diff --git a/drivers/cpufreq/scmi-cpufreq.c b/drivers/cpufreq/scmi-cpufreq.c
+> index ef078426bfd5..9b7cbc4e87d9 100644
+> --- a/drivers/cpufreq/scmi-cpufreq.c
+> +++ b/drivers/cpufreq/scmi-cpufreq.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/pm_qos.h>
 >  #include <linux/slab.h>
+>  #include <linux/scmi_protocol.h>
 > +#include <linux/scmi_quirks.h>
->  #include <linux/xarray.h>
->  
->  #include "common.h"
-> diff --git a/drivers/firmware/arm_scmi/quirks.h b/drivers/firmware/arm_scmi/quirks.h
-> index a71fde85a527..260ae38d617b 100644
-> --- a/drivers/firmware/arm_scmi/quirks.h
-> +++ b/drivers/firmware/arm_scmi/quirks.h
-> @@ -4,49 +4,24 @@
->   *
->   * Copyright (C) 2025 ARM Ltd.
->   */
-> -#ifndef _SCMI_QUIRKS_H
-> -#define _SCMI_QUIRKS_H
-> +#ifndef _SCMI_QUIRKS_INTERNAL_H
-> +#define _SCMI_QUIRKS_INTERNAL_H
-
-Or as per your commit message wording, better to call it
-_SCMI_QUIRKS_CORE_H ?
-
->  
-> -#include <linux/static_key.h>
-> +#include <linux/device.h>
 >  #include <linux/types.h>
+>  #include <linux/units.h>
 >  
->  #ifdef CONFIG_ARM_SCMI_QUIRKS
+> @@ -393,6 +394,12 @@ static struct cpufreq_driver scmi_cpufreq_driver = {
+>  	.set_boost	= cpufreq_boost_set_sw,
+>  };
 >  
-> -#define DECLARE_SCMI_QUIRK(_qn)						\
-> -	DECLARE_STATIC_KEY_FALSE(scmi_quirk_ ## _qn)
-> -
-> -/*
-> - * A helper to associate the actual code snippet to use as a quirk
-> - * named as _qn.
-> - */
-> -#define SCMI_QUIRK(_qn, _blk)						\
-> -	do {								\
-> -		if (static_branch_unlikely(&(scmi_quirk_ ## _qn)))	\
-> -			(_blk);						\
-> -	} while (0)
-> -
->  void scmi_quirks_initialize(void);
->  void scmi_quirks_enable(struct device *dev, const char *vend,
->  			const char *subv, const u32 impl);
->  
->  #else
->  
-> -#define DECLARE_SCMI_QUIRK(_qn)
-> -/* Force quirks compilation even when SCMI Quirks are disabled */
-> -#define SCMI_QUIRK(_qn, _blk)						\
-> -	do {								\
-> -		if (0)							\
-> -			(_blk);						\
-> -	} while (0)
-> -
->  static inline void scmi_quirks_initialize(void) { }
->  static inline void scmi_quirks_enable(struct device *dev, const char *vend,
->  				      const char *sub_vend, const u32 impl) { }
->  
->  #endif /* CONFIG_ARM_SCMI_QUIRKS */
->  
-> -/* Quirk delarations */
-> -DECLARE_SCMI_QUIRK(clock_rates_triplet_out_of_spec);
-> -DECLARE_SCMI_QUIRK(perf_level_get_fc_force);
-> -
-> -#endif /* _SCMI_QUIRKS_H */
-> +#endif /* _SCMI_QUIRKS_INTERNAL_H */
-> diff --git a/include/linux/scmi_quirks.h b/include/linux/scmi_quirks.h
-> new file mode 100644
-> index 000000000000..11657bd91ffc
-> --- /dev/null
-> +++ b/include/linux/scmi_quirks.h
-> @@ -0,0 +1,44 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * System Control and Management Interface (SCMI) Message Protocol Quirks
-> + *
-> + * Copyright (C) 2025 ARM Ltd.
-> + */
-> +#ifndef _SCMI_QUIRKS_H
-> +#define _SCMI_QUIRKS_H
+> +#define QUIRK_SCMI_CPUFREQ_CHECK_DT_PROPS			\
+> +	({							\
+> +		if (true)					\
+> +			return true;				\
+> +	})
 > +
-> +#include <linux/static_key.h>
-> +#include <linux/types.h>
-> +
-> +#ifdef CONFIG_ARM_SCMI_QUIRKS
-> +
-> +#define DECLARE_SCMI_QUIRK(_qn)						\
-> +	DECLARE_STATIC_KEY_FALSE(scmi_quirk_ ## _qn)
-> +
-> +/*
-> + * A helper to associate the actual code snippet to use as a quirk
-> + * named as _qn.
-> + */
-> +#define SCMI_QUIRK(_qn, _blk)						\
-> +	do {								\
-> +		if (static_branch_unlikely(&(scmi_quirk_ ## _qn)))	\
-> +			(_blk);						\
-> +	} while (0)
-> +
-> +#else
-> +
-> +#define DECLARE_SCMI_QUIRK(_qn)
-> +/* Force quirks compilation even when SCMI Quirks are disabled */
-> +#define SCMI_QUIRK(_qn, _blk)						\
-> +	do {								\
-> +		if (0)							\
-> +			(_blk);						\
-> +	} while (0)
 
-Did you happen to run checkpatch on this?
-8<---------------------------------------------------------------------------
-WARNING: Argument '_qn' is not used in function-like macro
-#142: FILE: include/linux/scmi_quirks.h:32:
-+#define SCMI_QUIRK(_qn, _blk)                                          \
-+       do {                                                            \
-+               if (0)                                                  \
-+                       (_blk);                                         \
-+       } while (0)
+Probably another checkpatch warning to fix:
+8<--------------------------------------------------------------------
+WARNING: Macros with flow control statements should be avoided                                                                                                                                                     
+#50: FILE: drivers/cpufreq/scmi-cpufreq.c:397:                                                                                                                                                                     
++#define QUIRK_SCMI_CPUFREQ_CHECK_DT_PROPS                      \                                        
++       ({                                                      \                                                                                                                                                  
++               if (true)                                       \                                        
++                       return true;                            \        
++       })                                                                                               
+                                                                                                         
+total: 0 errors, 1 warnings, 0 checks, 47 lines checked                                                  
+-------------------------------------------------------------------->8
 
-total: 0 errors, 2 warnings, 0 checks, 116 lines checked
---------------------------------------------------------------------------->8
-
-
-> +
-> +#endif /* CONFIG_ARM_SCMI_QUIRKS */
-> +
-> +/* Quirk delarations */
-> +DECLARE_SCMI_QUIRK(clock_rates_triplet_out_of_spec);
-> +DECLARE_SCMI_QUIRK(perf_level_get_fc_force);
-> +
-> +#endif /* _SCMI_QUIRKS_H */
-> -- 
-> 2.50.1
-> 
 
 -- 
 Best regards,
