@@ -1,112 +1,123 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39CE3322769;
-	Mon, 18 Aug 2025 13:21:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from relay.smtp-ext.broadcom.com (relay.smtp-ext.broadcom.com [192.19.166.228])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98893278146;
+	Mon, 18 Aug 2025 16:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.19.166.228
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755523284; cv=none; b=UAVJFNNnyYAG5lHeCoHmQWHF3SPHa1cShUkFWNLNUQDZWLuEIzZaqvvVqWEewWSsNf4VAoiWcfZu+k7Q/4jd83F15C1GgxXRXAFeOulz6P94/J3ZKknb+J0wxJEwYvwudZ7fqeCvfyZURpBhF9ukg0tpvtu8j1DNq9ExTyf1FdQ=
+	t=1755533701; cv=none; b=P0YBSxvF0LP4arrjl4chJJv5Naqz/IlbEwWnQ2izB/THhH5WepLkHsZFDl+oxhrkrCCRpUlatEm/gahQVkvEDLt0m5Bc5B7UiTLi3pafECjeVlkagyX+mQKnXuWfKVz/MwkfAq8uQ0nUaYg7deLG42FJmDH/sQpxPlaFRi6/mSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755523284; c=relaxed/simple;
-	bh=2PrcDQqaJqc7i3YiHze05+cpzxCLal5ntjoquK6x2k8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E0PunRt1H1W2191DPIsIEAnkZ20ux1LMlejB5MPxi35JcBestNViI9dZ4m/qqxW7CN07vHedv7834IaodYvDjMjDh8DxXq+zIXhBy4MQSWcSR/0CUCSCpe9NcaR5ETKUJDklSUV7jdEy6AdBCGTH2ZZ856ALJXaA5/1EhJZraEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 803B41596;
-	Mon, 18 Aug 2025 06:21:13 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DC6493F738;
-	Mon, 18 Aug 2025 06:21:17 -0700 (PDT)
-Date: Mon, 18 Aug 2025 14:21:14 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Dhruva Gole <d-gole@ti.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-pm@vger.kernel.org,
-	sudeep.holla@arm.com, james.quinlan@broadcom.com,
-	f.fainelli@gmail.com, vincent.guittot@linaro.org,
-	quic_sibis@quicinc.com, dan.carpenter@linaro.org,
-	johan+linaro@kernel.org, rafael@kernel.org, viresh.kumar@linaro.org,
-	quic_mdtipton@quicinc.com,
-	Florian Fainelli <florian.fainelli@broadcom.com>
-Subject: Re: [PATCH 2/2] [NOT_FOR_UPSTREAM] cpufreq: scmi: Add quirk to
- disable checks in scmi_dev_used_by_cpus()
-Message-ID: <aKMoyp5xw9xSj2v1@pluto>
-References: <20250815102736.81450-1-cristian.marussi@arm.com>
- <20250815102736.81450-2-cristian.marussi@arm.com>
- <20250818062044.zawqkalphvxjwt2w@lcpd911>
+	s=arc-20240116; t=1755533701; c=relaxed/simple;
+	bh=Crynj0KpYqual1/+N1DhoLywG80ccPOdKO1wbUlhKtQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=s9j+DSeEiLRTHQXUaw69/IgUTXwBGutLDfkLRene5bAAcvNTGANS7mh6PuHzB64C2I7Rvev/iWTW8RRRMD5pDZxYHsLfoH4ru2t/56JxVMxc9HdiJ0Kc2WSCRq9lP73GFNN/pck2ZnwCcvEaoP5ZS4oBYPamt+lORZh+fjZryu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=tyklk9Lt; arc=none smtp.client-ip=192.19.166.228
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="tyklk9Lt"
+Received: from mail-acc-it-01.broadcom.com (mail-acc-it-01.acc.broadcom.net [10.35.36.83])
+	by relay.smtp-ext.broadcom.com (Postfix) with ESMTP id 6FE2CC009BE2;
+	Mon, 18 Aug 2025 09:08:40 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 relay.smtp-ext.broadcom.com 6FE2CC009BE2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
+	s=dkimrelay; t=1755533320;
+	bh=Crynj0KpYqual1/+N1DhoLywG80ccPOdKO1wbUlhKtQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=tyklk9LtR8WtVWv5s5RuPNr2iiJYYrEBq6Hn+n8qg7W9Fp50jM+uGLwyzKltuG3Rr
+	 su/L2riiDDzlNn1jFzsHq5shbPj26+nKL916s2IjlD2MT4e7CBIPtcg7y8gFF40m36
+	 cSGNshL1RjmslXnPNXLYIklrYI4Eq0TeZy5qIALI=
+Received: from stbirv-lnx-1.igp.broadcom.net (stbirv-lnx-1.igp.broadcom.net [10.67.48.32])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail-acc-it-01.broadcom.com (Postfix) with ESMTPSA id 51D7C4002F44;
+	Mon, 18 Aug 2025 12:08:34 -0400 (EDT)
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+To: linux-kernel@vger.kernel.org
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Mike Tipton <quic_mdtipton@quicinc.com>,
+	Peng Fan <peng.fan@nxp.com>,
+	arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org
+Subject: [PATCH v3] cpufreq: scmi: Account for malformed DT in scmi_dev_used_by_cpus()
+Date: Mon, 18 Aug 2025 08:50:48 -0700
+Message-Id: <20250818155048.551054-1-florian.fainelli@broadcom.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250818062044.zawqkalphvxjwt2w@lcpd911>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 18, 2025 at 11:50:44AM +0530, Dhruva Gole wrote:
-> On Aug 15, 2025 at 11:27:36 +0100, Cristian Marussi wrote:
-> > From: Florian Fainelli <florian.fainelli@broadcom.com>
-> > 
-> > Broadcom STB platforms were early adopters of the SCMI framework and as
-> > a result, not all deployed systems have a Device Tree entry where SCMI
-> > protocol 0x13 (PERFORMANCE) is declared as a clock provider, nor are the
-> > CPU Device Tree node(s) referencing protocol 0x13 as their clock
-> > provider.
-> > 
-> > Leverage the quirks framework recently introduce to match on the
-> > Broadcom SCMI vendor and in that case, disable the Device Tree
-> > properties checks being done by scmi_dev_used_by_cpus().
-> > 
-> > Suggested-by: Cristian Marussi <cristian.marussi@arm.com>
-> > Fixes: 6c9bb8692272 ("cpufreq: scmi: Skip SCMI devices that aren't used by the CPUs")
-> > Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-> > [Cristian: Moved quirk directly into scmi_dev_used_by_cpus]
-> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> > 
-> > ----
-> > @Florian: I reworked this minimally to avoid the global as I was mentioning.
-> > No change around the version match either...so the NOT_FOR_UPSTREAM tag.
-> > (also the if (true) i smaybe a bit idiotic...)
-> > Please check if it is fine and modify as you see fit.
-> > ---
-> >  drivers/cpufreq/scmi-cpufreq.c     | 9 +++++++++
-> >  drivers/firmware/arm_scmi/quirks.c | 2 ++
-> >  include/linux/scmi_quirks.h        | 1 +
-> >  3 files changed, 12 insertions(+)
-> > 
-> > diff --git a/drivers/cpufreq/scmi-cpufreq.c b/drivers/cpufreq/scmi-cpufreq.c
-> > index ef078426bfd5..9b7cbc4e87d9 100644
-> > --- a/drivers/cpufreq/scmi-cpufreq.c
-> > +++ b/drivers/cpufreq/scmi-cpufreq.c
-> > @@ -19,6 +19,7 @@
-> >  #include <linux/pm_qos.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/scmi_protocol.h>
-> > +#include <linux/scmi_quirks.h>
-> >  #include <linux/types.h>
-> >  #include <linux/units.h>
-> >  
-> > @@ -393,6 +394,12 @@ static struct cpufreq_driver scmi_cpufreq_driver = {
-> >  	.set_boost	= cpufreq_boost_set_sw,
-> >  };
-> >  
-> > +#define QUIRK_SCMI_CPUFREQ_CHECK_DT_PROPS			\
-> > +	({							\
-> > +		if (true)					\
-> > +			return true;				\
-> > +	})
-> > +
-> 
-> Probably another checkpatch warning to fix:
-> 8<--------------------------------------------------------------------
-> WARNING: Macros with flow control statements should be avoided                                                                                                                                                     
-> #50: FILE: drivers/cpufreq/scmi-cpufreq.c:397:                                                                                                                                                                     
+Broadcom STB platforms were early adopters (2017) of the SCMI framework and as
+a result, not all deployed systems have a Device Tree entry where SCMI
+protocol 0x13 (PERFORMANCE) is declared as a clock provider, nor are the
+CPU Device Tree node(s) referencing protocol 0x13 as their clock
+provider. This was clarified in commit e11c480b6df1 ("dt-bindings:
+firmware: arm,scmi: Extend bindings for protocol@13") in 2023.
 
-Yes I saw this too....but seemed harmless and anyway Quirks are really
-very peculiar piece of code...
+For those platforms, we allow the checks done by scmi_dev_used_by_cpus()
+to continue, and in the event of not having done an early return, we key
+off the documented compatible string and give them a pass to continue to
+use scmi-cpufreq.
 
-Thanks
-Cristian
+Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
+Fixes: 6c9bb8692272 ("cpufreq: scmi: Skip SCMI devices that aren't used by the CPUs")
+Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
+---
+Changes in v3:
+
+- corrected multi-line comment
+- added details about when STB platforms used SCMI and which commit
+  clarifid the binding requirements
+
+Changes in v2:
+
+- do not leverage the SCMI quirks framework which in spirit is for
+  dealing with SCMI firmware implementations, this right here,
+  specifically pertains to an older Device Tree. This also makes it
+  easier to backport that change into stable trees where the commit in
+  the Fixes tag is already present. There is no dependency upon the
+  presence of the SCMI quirks framework
+
+ drivers/cpufreq/scmi-cpufreq.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/drivers/cpufreq/scmi-cpufreq.c b/drivers/cpufreq/scmi-cpufreq.c
+index ef078426bfd5..38c165d526d1 100644
+--- a/drivers/cpufreq/scmi-cpufreq.c
++++ b/drivers/cpufreq/scmi-cpufreq.c
+@@ -15,6 +15,7 @@
+ #include <linux/energy_model.h>
+ #include <linux/export.h>
+ #include <linux/module.h>
++#include <linux/of.h>
+ #include <linux/pm_opp.h>
+ #include <linux/pm_qos.h>
+ #include <linux/slab.h>
+@@ -424,6 +425,15 @@ static bool scmi_dev_used_by_cpus(struct device *scmi_dev)
+ 			return true;
+ 	}
+ 
++	/*
++	 * Older Broadcom STB chips had a "clocks" property for CPU node(s)
++	 * that did not match the SCMI performance protocol node, if we got
++	 * there, it means we had such an older Device Tree, therefore return
++	 * true to preserve backwards compatibility.
++	 */
++	if (of_machine_is_compatible("brcm,brcmstb"))
++		return true;
++
+ 	return false;
+ }
+ 
+-- 
+2.34.1
+
