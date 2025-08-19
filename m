@@ -1,24 +1,24 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE0282C181;
-	Tue, 19 Aug 2025 15:57:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B03742C181;
+	Tue, 19 Aug 2025 15:59:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755619076; cv=none; b=OnNcyHkG94ho9TM5FN++9HvQo8m/okWq5S7fV58daDhbIawp3C+CJqmPK7XFiQPNNj1+KXmWXXU3++KMXffbUizTYOm1NoBpbd5+hcrmLuDDTmxbwuNfgPjo6XBG4O1Jk05fF5RbMx0R1JallSnR053bjOBQFuoeeavO6yj9N9g=
+	t=1755619154; cv=none; b=IL7Z4uc3/j5XlxpxrjIsoGJzKhV0HeZh32R5nd535tOra9LRty/f91Q0M1/760tG6F0F2Y3BVUQtiOGGH/dE8KFCMjjfkwUf57hzJoCPzOFyvQZzEP7G4Ed5wrhk+4bYTCI7A2wZ9t1L4KpOkc6ZBgA31Zna3l5isQ7wONtCDq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755619076; c=relaxed/simple;
-	bh=nYYLDWQBmLQmz4JALrztFGvJiqadcsJbTxGWE8ZkhfY=;
+	s=arc-20240116; t=1755619154; c=relaxed/simple;
+	bh=cUvOmmSVi8EgHXGDEz4RjYvK/h6LmNIHxazVjG6Hs7Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M7x7htZ8F+a4hzuW5nRW5IzQOwYJ7iuYRlIerZwfMhibSFZf9rfcnb6h51q1oT7qxMLkKy7ldLC3y9+wuj/xTF3rKcwRZs+zvDA0BH0VkjkNjs8SlCgKlBUWd9uDRPc+07X35j5LZnt3qeZARVISmSn3y/8DPBjzcmzTjuDGknU=
+	 Content-Type:Content-Disposition:In-Reply-To; b=NfeiAv4mvs+VLwi2HD+7B3hSh8QAwCjdNYaLm86p26aDzWybvYYAIVn13F9J/iT0iXTvxv9Twbc+5mJJT+JB6EDvSbZ/tkJFF/Lecdu8DTlwroAow0Y7k9g9Ju9B00jojpqS9urTUKeNKmLHWnUowUoIKL0xJP4FFx26Id7mZ7A=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E6B55152B;
-	Tue, 19 Aug 2025 08:57:44 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 04D1B152B;
+	Tue, 19 Aug 2025 08:59:04 -0700 (PDT)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B14D53F63F;
-	Tue, 19 Aug 2025 08:57:51 -0700 (PDT)
-Date: Tue, 19 Aug 2025 16:57:49 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7E95F3F63F;
+	Tue, 19 Aug 2025 08:59:10 -0700 (PDT)
+Date: Tue, 19 Aug 2025 16:59:08 +0100
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: Peng Fan <peng.fan@nxp.com>
 Cc: Sudeep Holla <sudeep.holla@arm.com>,
@@ -29,11 +29,11 @@ Cc: Sudeep Holla <sudeep.holla@arm.com>,
 	Fabio Estevam <festevam@gmail.com>, arm-scmi@vger.kernel.org,
 	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/6] firmware: arm_scmi: imx: Support discovering
- buildinfo of MISC protocol
-Message-ID: <aKSe_dpuQ35eZaVs@pluto>
+Subject: Re: [PATCH v2 3/6] firmware: arm_scmi: imx: Support getting cfg info
+ of MISC protocol
+Message-ID: <aKSfTL4fCaDsoHQX@pluto>
 References: <20250710-sm-misc-api-v1-v2-0-c3e953e34be6@nxp.com>
- <20250710-sm-misc-api-v1-v2-2-c3e953e34be6@nxp.com>
+ <20250710-sm-misc-api-v1-v2-3-c3e953e34be6@nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -42,82 +42,66 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250710-sm-misc-api-v1-v2-2-c3e953e34be6@nxp.com>
+In-Reply-To: <20250710-sm-misc-api-v1-v2-3-c3e953e34be6@nxp.com>
 
-On Thu, Jul 10, 2025 at 04:33:27PM +0800, Peng Fan wrote:
-> MISC protocol supports discovering the System Manager(SM) build
-> information including build commit, build time and etc. Retrieve the
-> information from SM.
-
-Hi,
-
+On Thu, Jul 10, 2025 at 04:33:28PM +0800, Peng Fan wrote:
+> MISC protocol supports getting the System Manager(SM) mode selection
+> and configuration name. Retrieve the information from SM.
 > 
 > Signed-off-by: Peng Fan <peng.fan@nxp.com>
 > ---
->  .../firmware/arm_scmi/vendors/imx/imx-sm-misc.c    | 42 ++++++++++++++++++++++
->  1 file changed, 42 insertions(+)
+>  .../firmware/arm_scmi/vendors/imx/imx-sm-misc.c    | 35 ++++++++++++++++++++++
+>  1 file changed, 35 insertions(+)
 > 
 > diff --git a/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c b/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c
-> index a8915d3b4df518719d56bfff38922625ad9b70f6..b301f09ab6cc65d286edb8819031d7f4c02e8272 100644
+> index b301f09ab6cc65d286edb8819031d7f4c02e8272..dc6ea67255b8b1ac95dfb552fa88b65044de8d3f 100644
 > --- a/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c
 > +++ b/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c
-> @@ -25,6 +25,7 @@
->  enum scmi_imx_misc_protocol_cmd {
+> @@ -26,6 +26,7 @@ enum scmi_imx_misc_protocol_cmd {
 >  	SCMI_IMX_MISC_CTRL_SET	= 0x3,
 >  	SCMI_IMX_MISC_CTRL_GET	= 0x4,
-> +	SCMI_IMX_MISC_DISCOVER_BUILDINFO = 0x6,
+>  	SCMI_IMX_MISC_DISCOVER_BUILDINFO = 0x6,
+> +	SCMI_IMX_MISC_CFG_INFO = 0xC,
 >  	SCMI_IMX_MISC_CTRL_NOTIFY = 0x8,
 >  };
 >  
-> @@ -65,6 +66,15 @@ struct scmi_imx_misc_ctrl_get_out {
->  	__le32 val[];
+> @@ -75,6 +76,12 @@ struct scmi_imx_misc_buildinfo_out {
+>  	u8 buildtime[MISC_MAX_BUILDTIME];
 >  };
 >  
-> +struct scmi_imx_misc_buildinfo_out {
-> +	__le32 buildnum;
-> +	__le32 buildcommit;
-> +#define MISC_MAX_BUILDDATE	16
-> +	u8 builddate[MISC_MAX_BUILDDATE];
-> +#define MISC_MAX_BUILDTIME	16
-> +	u8 buildtime[MISC_MAX_BUILDTIME];
+> +struct scmi_imx_misc_cfg_info_out {
+> +	__le32 msel;
+> +#define MISC_MAX_CFGNAME	16
+> +	u8 cfgname[MISC_MAX_CFGNAME];
 > +};
 > +
 >  static int scmi_imx_misc_attributes_get(const struct scmi_protocol_handle *ph,
 >  					struct scmi_imx_misc_info *mi)
 >  {
-> @@ -272,6 +282,34 @@ static int scmi_imx_misc_ctrl_set(const struct scmi_protocol_handle *ph,
+> @@ -310,6 +317,30 @@ static int scmi_imx_misc_discover_build_info(const struct scmi_protocol_handle *
 >  	return ret;
 >  }
 >  
-> +static int scmi_imx_misc_discover_build_info(const struct scmi_protocol_handle *ph)
+> +static int scmi_imx_misc_cfg_info(const struct scmi_protocol_handle *ph)
 > +{
-> +	struct scmi_imx_misc_buildinfo_out *out;
-> +	char date[MISC_MAX_BUILDDATE] = {'\0'};
-> +	char time[MISC_MAX_BUILDTIME] = {'\0'};
+> +	struct scmi_imx_misc_cfg_info_out *out;
+> +	char name[MISC_MAX_CFGNAME] = {'\0'};
 
-...dont think that these 2 array needs to be NULL terminated given that
-they are used as the dest buffer for strscpy() which always terminates
-the dest buffer returning always a valid string.
-
+Same considerations here...
 
 > +	struct scmi_xfer *t;
 > +	int ret;
 > +
-> +	ret = ph->xops->xfer_get_init(ph, SCMI_IMX_MISC_DISCOVER_BUILDINFO, 0,
-> +				      sizeof(*out), &t);
+> +	ret = ph->xops->xfer_get_init(ph, SCMI_IMX_MISC_CFG_INFO, 0, sizeof(*out), &t);
 > +	if (ret)
 > +		return ret;
 > +
 > +	ret = ph->xops->do_xfer(ph, t);
 > +	if (!ret) {
 > +		out = t->rx.buf;
-> +		strscpy(date, out->builddate, MISC_MAX_BUILDDATE);
-> +		strscpy(time, out->buildtime, MISC_MAX_BUILDTIME);
-> +		dev_info(ph->dev, "SM Version\t= Build %u, Commit %08x %s %s\n",
-> +			le32_to_cpu(out->buildnum), le32_to_cpu(out->buildcommit),
-> +			date, time);
-> +	}
-> +
+> +		strscpy(name, out->cfgname, MISC_MAX_CFGNAME);
+> +		dev_info(ph->dev, "SM Config\t= %s, mSel = %u\n",
+> +			 name, le32_to_cpu(out->msel));
 
 ...other than this...LGTM.
 
