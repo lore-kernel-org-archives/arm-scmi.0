@@ -1,24 +1,24 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFFB924DCF9;
-	Thu, 21 Aug 2025 08:09:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1ED082EA473;
+	Thu, 21 Aug 2025 08:19:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755763746; cv=none; b=s4FOO6tgVYk7PjB2O5fHaI72PuVifK6ZevLX7EQcyZY7nAWvWORLRYD14Xyeu4H42pwLxkAHK4fwupuQco9ABUZmqmB/+GqhKuafWFWBDO4DMamYy5TN3kOzeDb3UVChLH++OEWrcezQ5iEdl+NfgcwPjrMx4kvc5CGu5cJ3Jzg=
+	t=1755764358; cv=none; b=MVrWll1V92fTeGauASMXqBIW89vO6bS+YkAqht2YbswYBNb2986TAiW+U1aLQZiAIxzFdRT0swluiNfkcCV/6QSz4mDbsK3uxTLn5o1LvRIMFh2L0KrvwToWDEdEhco18WLRugomWCcOpv4+HbJnqEEQh20Om9dWIk0LKy5M3HU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755763746; c=relaxed/simple;
-	bh=F3v63+I0hd73lIWZLN9GxyqhVy+79L+cjSGnrP/5U5s=;
+	s=arc-20240116; t=1755764358; c=relaxed/simple;
+	bh=M+6COqD52Ck79QYye563s5eCzBJugCUf9lT7ykAd0f4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UGQqFWUs+tP6AvaAH7RZW2Ak8naHiF9uVeaTdII+4yMroQUonWVO98NxrzAmdX++MorbmbYxYJuhAPABBdBi1OFZ81NQc8itvk0KxMFpordVFU0u37e3l2gb+Y1prUNDtWRAmzSk2HLjCV/jw2mjTdQ2b5tiTrc03rxAFyj9EU0=
+	 Content-Type:Content-Disposition:In-Reply-To; b=iFG/Q+BMuGk4nB780njcYbqepL0Z3y6wqW5zAEFExQFsXUXozMXb7osDeEKg2cch2XcBuzxMutiRwVMfEmOtGP8BbEifHlzA8dJrrqbs5GlF8Xy6CBfMr4+9dpKF3mKGjusp4mfTBSUjPTz2AjjPB7iryosmET4NN5WaSXqSQqo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D7C9F1515;
-	Thu, 21 Aug 2025 01:08:55 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 307041515;
+	Thu, 21 Aug 2025 01:19:07 -0700 (PDT)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C97A83F63F;
-	Thu, 21 Aug 2025 01:09:02 -0700 (PDT)
-Date: Thu, 21 Aug 2025 09:09:00 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 217CA3F63F;
+	Thu, 21 Aug 2025 01:19:14 -0700 (PDT)
+Date: Thu, 21 Aug 2025 09:19:11 +0100
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: Dan Carpenter <dan.carpenter@linaro.org>
 Cc: Sudeep Holla <sudeep.holla@arm.com>,
@@ -27,11 +27,10 @@ Cc: Sudeep Holla <sudeep.holla@arm.com>,
 	Cristian Marussi <cristian.marussi@arm.com>,
 	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC v2 1/7] firmware: arm_scmi: move boiler plate code
- into the get info functions
-Message-ID: <aKbUHFQhhmrKCgZ8@pluto>
+Subject: Re: [PATCH RFC v2 2/7] firmware: arm_scmi: add is_gpio() function
+Message-ID: <aKbWf5SuDPNcfJWj@pluto>
 References: <cover.1753039612.git.dan.carpenter@linaro.org>
- <7a47cf3d-05e1-4702-87ef-cb7f36f03149@sabinyo.mountain>
+ <fbcf6cca-784e-47bb-9b61-3028f59a92ba@sabinyo.mountain>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -40,33 +39,45 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7a47cf3d-05e1-4702-87ef-cb7f36f03149@sabinyo.mountain>
+In-Reply-To: <fbcf6cca-784e-47bb-9b61-3028f59a92ba@sabinyo.mountain>
 
-On Sun, Jul 20, 2025 at 02:38:35PM -0500, Dan Carpenter wrote:
-> This code to check whether the selector is valid and if the item has
-> already been recorded in the array can be moved to the
-> scmi_pinctrl_get_function_info() type functions.  That way it's in
-> one place instead of duplicated in each of the callers.
+On Sun, Jul 20, 2025 at 02:38:42PM -0500, Dan Carpenter wrote:
+> Parse the GPIO response in scmi_pinctrl_attributes(), set the gpio
+> flag, and create an is_gpio() function pointer so that it can be queried.
 > 
 
 Hi,
 
-> I removed the check for if "pi->nr_groups == 0" because if that were the
-> case then "selector >= pi->nr_groups" would already be true.  It already
-> was not checked for pins so this makes things a bit more uniform.
-> 
-> I also removed the check for if (!pin) since pin is an offset into the
-> middle of an array and can't be NULL.
+> In SCMI only functions and pins have a GPIO flag so that's why groups are
+> not handled here.
 > 
 > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
 
-...has anything change in this commit from V1 ?
+[snip]
 
-Asking because there is no version-diff and you did not pick up my
-Reviewed-by tag from V1, so I am wondering if there is anything to
-review or not..
+>  static const struct scmi_pinctrl_proto_ops pinctrl_proto_ops = {
+>  	.count_get = scmi_pinctrl_count_get,
+>  	.name_get = scmi_pinctrl_name_get,
+> +	.is_gpio = scmi_pinctrl_is_gpio,
+>  	.group_pins_get = scmi_pinctrl_group_pins_get,
+>  	.function_groups_get = scmi_pinctrl_function_groups_get,
+>  	.mux_set = scmi_pinctrl_mux_set,
+> diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
+> index 688466a0e816..b4ad32067fc4 100644
+> --- a/include/linux/scmi_protocol.h
+> +++ b/include/linux/scmi_protocol.h
+> @@ -792,6 +792,8 @@ struct scmi_pinctrl_proto_ops {
+>  	int (*name_get)(const struct scmi_protocol_handle *ph, u32 selector,
+>  			enum scmi_pinctrl_selector_type type,
+>  			const char **name);
+> +	int (*is_gpio)(const struct scmi_protocol_handle *ph, u32 selector,
+> +		       enum scmi_pinctrl_selector_type type);
+
+Doxygen comment above too please...
+
+With that fixed, LGTM.
+
+Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
 
 Thanks,
 Cristian
-
