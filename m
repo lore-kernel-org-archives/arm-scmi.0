@@ -1,302 +1,114 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013046.outbound.protection.outlook.com [40.107.162.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3019036CE06;
-	Thu, 21 Aug 2025 08:04:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755763450; cv=fail; b=jlnxB49cG35WzKLO2WIZdhbsyHyDtghCoersKFqD7AXxmiQXtUewA8mmIHk1frW8qlE2KvfE9wABeivwp8o+7j1Wcerpn4C3Z+kAuFLJ4Rc4qHfUs4f72C+gL9k5zHhJ+e5NBbpwDbtWX3umxg7D7wCp9p6Bp4FI3WyemTrOe68=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755763450; c=relaxed/simple;
-	bh=EZgseAZAm7rE95o/WIrBqMWfSmv3DqHspY7j3Opm67A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=QaPj0CemuJRJCOLCEz+QsTkyQxoGaEDqT76Gu/SgYk6oI6aGN9hxq6juo5lKXixpDxVSE4O0Lpnl/rgObdFFhm4jxUhiDuq3mq+sHXY0ONCF1egUvVZu9OV2fTFOvlvza69ss39F2H3B0Jahy6h2tH01wEIhpL5fio6YKQPogHk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=GdlNB+/V; arc=fail smtp.client-ip=40.107.162.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="GdlNB+/V"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iNc2hhrAntqpRYPu2aO81KDbjq0N/ZVr0PbpfVUYERnTFIHPAKcd+1gX+4jEl8LI0Cgy+XvqVttgAwL8UxVBmxpPnkrv27FMwUaUwVVaeyCTQxpLf/MUzzboDmRfyRWCub63Ztt4fJAM1fXreyoFOsuU+ynNtMZMmo8LKY2onu6jSbuegSFUvekcVUsbh9cxGVFwnjOnkGH4vVxA6OzH73vIPkSoeY+yPXfWMqQrEd+hx40Qki2KhpTpHQhJxJLYqbPDFVJ6zPVRmF8v59yyoVqp3zXob9KXKd22vaNG0E0JwYedjP94d2j7QCDTeyglMUleFaBcrfuCYKmvgQs+HQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R1hCB7HcS2bzez3S37eGrymsQTBw9cIzkfsQShPc09s=;
- b=odjQfuOLrVWJ2tgJvJ9W2I1ndPZSiLt1CpDR5F1MLJRE0K5xWDjkGu4Ad/tHyxrucwyDNavkRGRaHTx4iatSZbrpqTJkzx6aRs+5OLeT9LrxlwXrxj3N+biVi2H1TdzNslTHbt+CRI6pLFsM4Ec6Nm0wn/R5o/UfupSPk50Eytf4jweWGC6XxI9udrntNHU4QPRzDt9klZg4kG9MMsiAeJ6oyFRX6qvj6rfosdi1sWDAnxCszLqqAZGX5gNiAZYE5/58M39mcL5K3fs0IpzVLxwTEoQCT8S9KEHCRbEWZZC/AJMIBWa+CdFouIK4exgqzQ8Of+VntbV8XYqzR+T2MA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R1hCB7HcS2bzez3S37eGrymsQTBw9cIzkfsQShPc09s=;
- b=GdlNB+/V+xU13lhS5IGmH6T76zE0/6p+Y7LBQJU+qMkI75yVa/N5J7Y4Pg01bWY59gMWPGZSb9sm+kmxP2KFc4W6P53IFIe9GKRLQwPtZIfUEHVmuJVpSvxB8wg/frdR7vbwThw8W78hgWSn5OF+XQncVwfDZDah6KOEALQrdNV5kOkfFScQ4Ukpzrk33SnnrJQsqX0W0vIFkEsp+JgAgwzLMUIMYDz1hz9UySkSceotOLsYi7ooNrRXNyVobOeoZqLVwaBeXgu8NKqTnOe39ofEV/rfFXOdNADpbwxmtHWSFPzBQ9WiD2KNBK90F1K4n+RaujW32abdDLyhvqnewA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
- by AS5PR04MB9798.eurprd04.prod.outlook.com (2603:10a6:20b:654::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.15; Thu, 21 Aug
- 2025 07:59:03 +0000
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630%7]) with mapi id 15.20.9052.013; Thu, 21 Aug 2025
- 07:59:03 +0000
-Date: Thu, 21 Aug 2025 17:05:15 +0800
-From: Peng Fan <peng.fan@oss.nxp.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Peng Fan <peng.fan@nxp.com>, Sudeep Holla <sudeep.holla@arm.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, arm-scmi@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/6] firmware: arm_scmi: imx: Support getting syslog
- of MISC protocol
-Message-ID: <20250821090515.GA19763@nxa18884-linux.ap.freescale.net>
-References: <20250710-sm-misc-api-v1-v2-0-c3e953e34be6@nxp.com>
- <20250710-sm-misc-api-v1-v2-5-c3e953e34be6@nxp.com>
- <aKSv4NrDfC33Niqs@pluto>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aKSv4NrDfC33Niqs@pluto>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: SI2PR06CA0008.apcprd06.prod.outlook.com
- (2603:1096:4:186::23) To PAXPR04MB8459.eurprd04.prod.outlook.com
- (2603:10a6:102:1da::15)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE9AF2E9ECE;
+	Thu, 21 Aug 2025 08:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755763510; cv=none; b=gl8kqthNKsmMHAkjV6SD5KG/BAvvqPKPsGzDS/mq501/ajJABIHzM6jPw+fsshPPb+5Bb2v8tcanLJcvzbeNEW3vlCQvPRWpsXxu7RcMOQ941gjzvKnuPHK7AIIh/eQj8bvYiSmIZGGxhoWplqkbQZEXweuK8WkILro2qz/yydI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755763510; c=relaxed/simple;
+	bh=xujlK4f4nsLmmcHmO++zn6YCGlGxYrtPlci9BS0YYFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IERzK4lUjm0MCMyBRzubTjgj3/kpldS0Uqn73lKpoI3XJOmgxty3lr58MNHOJOMaDCh8Ndbu6E3VUJQH9wdnBu7r5Kn3xphe2PpQPATUOStiugMhzCXHK2REKVbXT3YMj/Cg4Q9PaOlNadsBIWO/xzLkE3Expoyofd9Llug+F8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B6C931515;
+	Thu, 21 Aug 2025 01:04:59 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 09E063F63F;
+	Thu, 21 Aug 2025 01:05:05 -0700 (PDT)
+Date: Thu, 21 Aug 2025 09:04:58 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Deepti Jaggi <quic_djaggi@quicinc.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel@oss.qualcomm.com,
+	Nikunj Kela <quic_nkela@quicinc.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v6] dt-bindings: firmware: arm,scmi: allow multiple
+ instances
+Message-ID: <aKbTKq04umCgS_eL@pluto>
+References: <20250730-8255-scmi-v6-1-a7d8ba19aded@quicinc.com>
+ <e5c5c2da-ae77-4738-9f0f-33c51111f91c@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|AS5PR04MB9798:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7a263266-e106-4b89-1d68-08dde088981c
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|52116014|19092799006|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?BdhTJogwqCBcPHxW4PwU+p+ffDF7+gymabzfP7rcMlSc4bilrGdlGDko0HHV?=
- =?us-ascii?Q?lnUTZcUmse5uEHszdtasPbKFbmJTjfFswuu8UEgXH8BfY5VdWHPE03Wk5fjV?=
- =?us-ascii?Q?LA0srXfsKsVb67pPFAjOe/wpnhu097IruHwtOwtvPNcjI5mi0MrP7N5+FfDf?=
- =?us-ascii?Q?LXvlW5TFeoDPWf8qYu4l6YoFURKTB/OTa2nLk3KVW065uXEQi60Vsd8qO/vi?=
- =?us-ascii?Q?wKM4Xr7xR9u4509pSkF5Ix4QZLgi4wgq+EaJQc8C+pplfA+u1CVhtdEbhHvW?=
- =?us-ascii?Q?ghwfe79sUDK9FSHQ1DbHWH4yPL4WTM3JOUy7sFKcn2Tj03Wh4QWUapvCpLu/?=
- =?us-ascii?Q?vrhtlM2DMKE0VEZIhFZ1YAW5g+jQeLsqVVU5K7Zmj0wsc0UHg0gXajfm/ml5?=
- =?us-ascii?Q?TkEKmGRZGgZISwBdlNQVWmMzP9/y4UWpfKHW6WFrsKaX+ly5NUzhCbdX0QPw?=
- =?us-ascii?Q?GpQfjWf/25ff12+3eHYpSeeaKgAl5G2Bo8v7Wza8TwxwNDjiH88kitENLHu/?=
- =?us-ascii?Q?jnxeqr/lQr3L+RP8rReMRatd2JK+1yshkPZfXXXNe+Li2qGFZPma3TnaiDWu?=
- =?us-ascii?Q?HbCbw+89rNDfYxDK+o5LMdm5wj6Z9AYK3GNMA2YVQGyhyFx2Gj/8xsLrVvRz?=
- =?us-ascii?Q?lFBUWkdyKenGc322MrFGX0QUctmDgmcFDUnxIFBkOMABaY0Xj31e/Gnzwsfa?=
- =?us-ascii?Q?ivrf8cAzzvs6fbpRBKD5H6tY4myje8u7vIWvlW6I9JWj5SmfljTeoQSOqg6a?=
- =?us-ascii?Q?0MOGI5xE7xxvqjhvBlOLWEr6wnjcaVhPCSTmmy+bm/57ChdvqTsJXGG4WNAy?=
- =?us-ascii?Q?GDkGHBIKHIgBx23ow1Monr2O245k13dIVVNb1yrfPPA11CJ4nTsGaubAricq?=
- =?us-ascii?Q?huRfWEBfmxbgqKoJvz7CUnxPop4dBwjcVHZI7j8XH3AIujHzxMMmOKjs5aLS?=
- =?us-ascii?Q?PaNTJkVVbyfDj31JBDxrQifX3Nq93ZgYZLTCrTQKbqgpYstCguyCcGkCv5RS?=
- =?us-ascii?Q?S3BNQrtZGVAYqtGGC8SjyDr5rhdKnyC58uFVmE1UHj/r49bRVAEQtLxWFKm2?=
- =?us-ascii?Q?s40x3AZNoOCaAl8LSybVLlYEdpouK1TAIj2+KyNnR5jcbV7i/YCFluCjXWMw?=
- =?us-ascii?Q?oPavoppP5+dfcDOWYpe7BZg9+kR+R/PZn2MladKCfyvjZSfKFm8NRscXyCcz?=
- =?us-ascii?Q?2xMHXamqP1A1pwtIDRJAHQgcctyThsBTPxv0l75sjCMeen5RPgNKw6kz1Rsf?=
- =?us-ascii?Q?b13a6HPNgZMb4ERZDPROgVzuI6zPnaVP//BnLWu+VTowyohKzKVhibsfJdrX?=
- =?us-ascii?Q?49bO6OsfnZ5yHMV3bxQ0ryrMA8G0i+QLV0FJHKhR6u6lG2yfNIGSjG7MkbtD?=
- =?us-ascii?Q?mmSG73q0wSmdZTf2mqmPtpnQ+YHYqshTzs/XjSfQbjJh04YO4Sl4G4ltv3yc?=
- =?us-ascii?Q?q2iWdZ1GD2O44lZoGFc/2QnGi6dngILrIib6phR6cbB/VwWnTMcsTQ=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(52116014)(19092799006)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Yj94LCOaM97VPb2luc2J81mwGClra0lijx7bdQ/i4d5mDGE+g7ikaq8WsHwH?=
- =?us-ascii?Q?zdq72FrtFDOJli7kO44Qah4f/kXFs+z/h8/R6ji1tGEDGNDIbACAmNUHGWwZ?=
- =?us-ascii?Q?6HIUj8DK7tmXi3NCNIjeUvXV0XJiX4rzlkZpYwgu+PN/HbKF53V6jQ/I5iVS?=
- =?us-ascii?Q?/dj6MQLQUnEJL9LBM/q/y+GzV1yTMWJzf1ej0ahFrpcR4jZim3mChVqVw3LD?=
- =?us-ascii?Q?LDu6HjatqIAUpMJ/Q2XxqwjVFMn4R6gFck578G5gQyTR69FbD8CSeEY9OU2h?=
- =?us-ascii?Q?Y9UHU/58gZ8JeudAm5xDakjKfUi8amZyaeaGRGeTF8XE6kGWgMNJE92jrlX/?=
- =?us-ascii?Q?DeiTf30h/CCDDAzByt9TNmk6IL69N/HGERxCE2ih7H5aCmLYOsF7F6LYdNSn?=
- =?us-ascii?Q?jbvkOyK5eXhEmr2i9lZIoz+2Ij8Y7JlE+qAJlyOf69DLbluoCZ96CPswxBCp?=
- =?us-ascii?Q?Qu8y1wkVOIvTAMP6UxP8v6WNIcuYoaAk4qFJu0PxshSBFNSwtjWwbdi7pwZQ?=
- =?us-ascii?Q?H08RkG1+nTUUxyseXQdQFkpLMSruAtNf+aZ+vhE9cQQZu9E5tcjc/RICS4hR?=
- =?us-ascii?Q?rFp9NbFnVUGjdByP5f5q9mqZd5fv/IePlFfUd+tM3NXSBDdDkrSqBR3IgPZF?=
- =?us-ascii?Q?B4zPf0TaIAO7Lk3JgSw2H/CE8rMHJLuC2xZRVWzGdAXrJrHcme51qJdUZH3Z?=
- =?us-ascii?Q?0cKigXzuzheD6m04pOKB5LQKL5sv3p/fOguc8q/AzhyKwmrSyenerZU4mj/7?=
- =?us-ascii?Q?ENAfGVAtgAZdZo0YSBjtB/PGmtUkKd2zgNyW5aZ5+x61EZNK62+0q6niwtlm?=
- =?us-ascii?Q?ahNV8xtsFrpm1Q86oLOvf8zVBSts52nh802UbDp95/59Ttikp1O0gJTm0jIZ?=
- =?us-ascii?Q?gPV8/jVYtcuLn9/aeJA4AefQDuyNVstDp49+lMOcUHyV9H+mYzSrI4j1Kt44?=
- =?us-ascii?Q?5IIoDqUX5pvFbUoUAbwx92/zm/f086h+IjZ7+YUchW+sNVqzgV2A77hb9bBE?=
- =?us-ascii?Q?xtBfO/RxCV8cBC2jjVrrQ9SMnNxkwQc6VjQKsNg6+QIgrpri90w60PwcQAoD?=
- =?us-ascii?Q?1qtFqbkxRwXqNEhBLDxmnue+9lzQuRPWVrkV0ISIvQ4jAXJ7xdK/vog20sp5?=
- =?us-ascii?Q?8fkBk+Y1vD1puaj3HVA3ghYa21zt5zxOWh5nwo/enDTUjcLnfH9MmhCcFE9q?=
- =?us-ascii?Q?kmNTG1gmDSRLgZSZ9HdwTndnHyEREM7hpoDDSVVcuxT1HUmLTXJh1V0E7UX4?=
- =?us-ascii?Q?XgYnXgHVprijFYdPa7DDYQMeZE3SSNQaWBCI9+tjbIKo5ijU3EzcG5zkn4HR?=
- =?us-ascii?Q?XFdDsta/l7s2weUdVw7Muy7vDyLLmxgonGZ3C0Vnev8TVwhpS+PuieDYLdCV?=
- =?us-ascii?Q?ioqXb0KokE0w6loczWYG2KgoxokikyuCTbAkyExvhdymcc6qpo2nQbM9tV3g?=
- =?us-ascii?Q?xuBA0ky5VRYBkQkFc9IxPYE3CHEq4XH2xxYMsYREf9H1oiRVgtXnczf5q+gR?=
- =?us-ascii?Q?A46pyemvW9/smzvrNcY8uTD0wpoM9YtQVNOLZPp73SE/T+vMR53zJ733KRiF?=
- =?us-ascii?Q?lTfsTOZ2bseMUS+I2MeTppmXg3mrzxKSD3TpoJfR?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a263266-e106-4b89-1d68-08dde088981c
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2025 07:59:03.4340
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5snDTVsurJmF6xIHvJztYifudz6OYwP4XbaOHXPF2yCPFBxC2pdTg5WcVBKqP+x+XXae/yYo4eqEfGfMf6VkYQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR04MB9798
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e5c5c2da-ae77-4738-9f0f-33c51111f91c@quicinc.com>
 
-Hi Cristian,
+On Wed, Aug 20, 2025 at 11:44:26AM -0700, Deepti Jaggi wrote:
+> 
+> On 7/30/25 14:30, Deepti Jaggi wrote:
+> > From: Nikunj Kela <quic_nkela@quicinc.com>
+> > 
 
-On Tue, Aug 19, 2025 at 06:09:52PM +0100, Cristian Marussi wrote:
->On Thu, Jul 10, 2025 at 04:33:30PM +0800, Peng Fan wrote:
->> MISC protocol supports getting system log regarding system sleep latency
->> ,wakeup interrupt and etc. Add the API for user to retrieve the
->> information from SM.
->> 
->> Signed-off-by: Peng Fan <peng.fan@nxp.com>
->> ---
->>  .../firmware/arm_scmi/vendors/imx/imx-sm-misc.c    | 78 ++++++++++++++++++++++
->>  include/linux/scmi_imx_protocol.h                  | 19 ++++++
->>  2 files changed, 97 insertions(+)
->> 
->> diff --git a/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c b/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c
->> index 6b86c35c192d02e13f0d2a7d713bc447886b84bf..193a862cf9b807232f04a6dbbd6a8efd1b40ff73 100644
->> --- a/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c
->> +++ b/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c
->> @@ -27,6 +27,7 @@ enum scmi_imx_misc_protocol_cmd {
->>  	SCMI_IMX_MISC_CTRL_GET	= 0x4,
->>  	SCMI_IMX_MISC_DISCOVER_BUILDINFO = 0x6,
->>  	SCMI_IMX_MISC_CFG_INFO = 0xC,
->> +	SCMI_IMX_MISC_SYSLOG = 0xD,
->>  	SCMI_IMX_MISC_BOARD_INFO = 0xE,
->>  	SCMI_IMX_MISC_CTRL_NOTIFY = 0x8,
->>  };
->> @@ -89,6 +90,19 @@ struct scmi_imx_misc_cfg_info_out {
->>  	u8 cfgname[MISC_MAX_CFGNAME];
->>  };
->
->Hi,
->
->one consideration down below...
->
->>  
->> +struct scmi_imx_misc_syslog_in {
->> +	__le32 flags;
->> +	__le32 index;
->> +};
->> +
->> +#define REMAINING(x)	le32_get_bits((x), GENMASK(31, 20))
->> +#define RETURNED(x)	le32_get_bits((x), GENMASK(11, 0))
->> +
->> +struct scmi_imx_misc_syslog_out {
->> +	__le32 numlogflags;
->> +	__le32 syslog[];
->> +};
->> +
->>  static int scmi_imx_misc_attributes_get(const struct scmi_protocol_handle *ph,
->>  					struct scmi_imx_misc_info *mi)
->>  {
->> @@ -372,10 +386,74 @@ static int scmi_imx_misc_cfg_info(const struct scmi_protocol_handle *ph)
->>  	return ret;
->>  }
->>  
->> +struct scmi_imx_misc_syslog_ipriv {
->> +	u32 *array;
->> +};
->> +
->
->So, AFAIU, you basically use this generic u32 array to retrieve data words from
->your FW in a generic way....
->
->> +static void iter_misc_syslog_prepare_message(void *message, u32 desc_index,
->> +					     const void *priv)
->> +{
->> +	struct scmi_imx_misc_syslog_in *msg = message;
->> +
->> +	msg->flags = cpu_to_le32(0);
->> +	msg->index = cpu_to_le32(desc_index);
->> +}
->> +
->> +static int iter_misc_syslog_update_state(struct scmi_iterator_state *st,
->> +					 const void *response, void *priv)
->> +{
->> +	const struct scmi_imx_misc_syslog_out *r = response;
->> +
->> +	st->num_returned = RETURNED(r->numlogflags);
->> +	st->num_remaining = REMAINING(r->numlogflags);
->> +
->> +	return 0;
->> +}
->> +
->> +static int
->> +iter_misc_syslog_process_response(const struct scmi_protocol_handle *ph,
->> +				  const void *response,
->> +				  struct scmi_iterator_state *st, void *priv)
->> +{
->> +	const struct scmi_imx_misc_syslog_out *r = response;
->> +	struct scmi_imx_misc_syslog_ipriv *p = priv;
->> +
->> +	p->array[st->desc_index + st->loop_idx] =
->> +		le32_to_cpu(r->syslog[st->loop_idx]);
->> +
->> +	return 0;
->> +}
->> +
->> +static int scmi_imx_misc_syslog(const struct scmi_protocol_handle *ph, u16 size,
->> +				void *array)
->
->...and you provide a output array param and its size to use in the
->iterators to retrieve your data...
->
->...so you can use size to properly let iterators check bounds...
->
->...so far so good BUT...
->
->...is it not a possibility, especially with different FW versions in the
->future, that the platform will return LESS than size data, because maybe
->different platform can return different log data...I deduce this from
->the fact that you are using a generic u32 array...
->
->...so in this scenario wouldn't be useful to have the above size param as
->being both an input and an output parameter using a pointer ? 
->
->So that you can...
->
->	static int scmi_imx_misc_syslog(const struct scmi_protocol_handle *ph,
->					u16 *size, void *array)
->
->...use *size as the max_resources for iterators as of now BUT also pass
->it down to the iterators in ipriv->size so that you can easily once for
->all in prepare_message
->
->	*(ipriv->size) = st->num_returned + st->num_remaining;
->
->...so that you can KNOW if the specific FW has returned less items than
->the maximum *size slots provided in *array ?
->
->I maybe overthinking...and also this scenario will assume that the FW
->can return less items, BUT still contiguos items...i.e. no holes in the
->array....
->
->...thoughts ?
+Hi,
 
-The current platforms that deployed i.MX System Manager firmware use
-a fixed log structure and return them all when input log index is 0.
-But you bring a valid point that the firmware may report less in future
-or new platforms. I will follow you suggestion and update in V3.
+> > Allow multiple SCMI instances by extending the scmi node name to include
+> > an instance number suffix.
+> > 
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
+> > Signed-off-by: Nikunj Kela <quic_nkela@quicinc.com>
+> > Signed-off-by: Deepti Jaggi <quic_djaggi@quicinc.com>
+> > ---
+> > Changes in v6:
+> >          - Dropped 'this change' from description
+> > 	- Link to v5: https://lore.kernel.org/all/20250423005824.3993256-1-quic_djaggi@quicinc.com
+> > 
+> > Changes in v5:
+> >          - Added Reviewed-by tag
+> > 	- Link to v4: https://lore.kernel.org/all/20240910163456.2383372-1-quic_nkela@quicinc.com
+> > 
+> > Changes in v4:
+> >          - Dropped 'virtual' from subject and description
+> > 	- Link to v3: https://lore.kernel.org/all/20240905201217.3815113-1-quic_nkela@quicinc.com
+> > 
+> > Changes in v3:
+> >          - Added Reviewed-by tag
+> >          - Removed the patch from original series[1]
+> > 
+> > Changes in v2:
+> >          - Fixed scmi nodename pattern
+> > 
+> > [1]: https://lore.kernel.org/all/20240903220240.2594102-1-quic_nkela@quicinc.com/
+> > ---
+> >   Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> > index abbd62f1fed0993ab98fa44bdb9a0575f8e1c78e..be817fd9cc34b14009a3b1d69e78b802215571b6 100644
+> > --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> > +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> > @@ -27,7 +27,7 @@ anyOf:
+> >   properties:
+> >     $nodename:
+> > -    const: scmi
+> > +    pattern: '^scmi(-[0-9]+)?$'
+> >     compatible:
+> >       oneOf:
+> > 
+> > ---
+> > base-commit: 0b90c3b6d76ea512dc3dac8fb30215e175b0019a
+> > change-id: 20250728-8255-scmi-ed963ef8f155
+> 
+> Gentle ping!!
+> Could you please review the patch?
+>
 
-I would send out V3 in early next week. Wait to see if Sudeep has
-other comments.
+I thought this was already reviewed/acked and merged since ages....
+...also the wording-change in the commit message LGTM.
 
-Thanks for reviewing the patchset.
+Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
 
 Thanks,
-Peng
-
->
->Thanks,
->Cristian
+Cristian
