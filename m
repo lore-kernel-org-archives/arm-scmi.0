@@ -1,83 +1,205 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1ED082EA473;
-	Thu, 21 Aug 2025 08:19:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473D52EBDFF
+	for <arm-scmi@vger.kernel.org>; Thu, 21 Aug 2025 08:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755764358; cv=none; b=MVrWll1V92fTeGauASMXqBIW89vO6bS+YkAqht2YbswYBNb2986TAiW+U1aLQZiAIxzFdRT0swluiNfkcCV/6QSz4mDbsK3uxTLn5o1LvRIMFh2L0KrvwToWDEdEhco18WLRugomWCcOpv4+HbJnqEEQh20Om9dWIk0LKy5M3HU=
+	t=1755764946; cv=none; b=Ku0FfTl3DmE5Yuy4UPz24Uf7MpiSlNvqFyVp2IugSXRBOevavHPTgZ28HwyLTEqXmT/THBOpVZJHtwoX2Yeuk+LdsvOMN16ok34fINj01HtEB+bIisb1++UOVSxYhY1olJ0MAOUZrfuJn/wxqzDIEg8sIgmcSWBPlKxbHO71BE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755764358; c=relaxed/simple;
-	bh=M+6COqD52Ck79QYye563s5eCzBJugCUf9lT7ykAd0f4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iFG/Q+BMuGk4nB780njcYbqepL0Z3y6wqW5zAEFExQFsXUXozMXb7osDeEKg2cch2XcBuzxMutiRwVMfEmOtGP8BbEifHlzA8dJrrqbs5GlF8Xy6CBfMr4+9dpKF3mKGjusp4mfTBSUjPTz2AjjPB7iryosmET4NN5WaSXqSQqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 307041515;
-	Thu, 21 Aug 2025 01:19:07 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 217CA3F63F;
-	Thu, 21 Aug 2025 01:19:14 -0700 (PDT)
-Date: Thu, 21 Aug 2025 09:19:11 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	AKASHI Takahiro <takahiro.akashi@linaro.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC v2 2/7] firmware: arm_scmi: add is_gpio() function
-Message-ID: <aKbWf5SuDPNcfJWj@pluto>
-References: <cover.1753039612.git.dan.carpenter@linaro.org>
- <fbcf6cca-784e-47bb-9b61-3028f59a92ba@sabinyo.mountain>
+	s=arc-20240116; t=1755764946; c=relaxed/simple;
+	bh=4zag1nlA2ny1RAp8cMmtgrq3Hf1eTv7ml6jyEBqBIX4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hLfYy0nuoFJaLPF4SuiO+/ZAAplf0OdjMv3+/6M4uGjwEKkdVep9QmNEAbMojTYCn8x4UojXzlMFHEvlbM5tGCgjQUA01eS5v3er56cUvDj55BrfOSDWIIdXln1wtXRWr9V6J+chl4ZQAC1YFKL5AZvreTkdm1s+mWXPGBmsYfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rd2pzBlV; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rd2pzBlV"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-afdefc9b005so13198066b.0
+        for <arm-scmi@vger.kernel.org>; Thu, 21 Aug 2025 01:29:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755764942; x=1756369742; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=XT+9a8dZc6CcvXzZepsQfZonqTnnksInThWm+Nbha0k=;
+        b=rd2pzBlVvOdiWtn+dnVJ95EpMT2vPcpQckBH0rO/nWe/cGhFNhEvFsa9STMX6ETaTx
+         APKOf+wBNC7H7sJDATmU/2WF21jhFHNpDFZaRzr48GMXnX5RTpkSUm18olZ3WpYwnWzV
+         QUSFUJRIsgo1exnlG98xF31vPb10GUv7xelPD+MSBUbOXgmsQ6sOKX1wT5deqg7txxg8
+         2z37i4M9SvtCOo+QeR6Ztor4AUu6IZAo86fw9GBk7FkQ5/COb5v4I8xTww7rY0tUWsxt
+         H/i7yDQAA6gsd45FEGDCe3Tx877qnBj3ctUVI20Q3139t9rJf7xskHpzIjytAPlH9+DG
+         D4pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755764942; x=1756369742;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XT+9a8dZc6CcvXzZepsQfZonqTnnksInThWm+Nbha0k=;
+        b=BOzGZKnt9zrdqSoQDNP4u22Neu+SjJzU5hM6neayFSS8mgWf1e8jAGfYoNkavENq5x
+         wDda19YToX+CWUvhLya9wUfvLq+aw1oTLWPT31R+4ps9UWKLo+opH9W3GM5ZyjhrwEv+
+         PYzkOYiCmLLFSP+K1T1LqAJjufd9kvaW20rDtOyKPnwtmiDbPPO6mF2q8Pa2nAKjceQa
+         E5bkqC6GCAcrH2ezbGTkH4HTmAkfe1NtrTwEI+iCtsqm9fTG6si95K48B8L+8oPZNk9D
+         r0qeVW3FQxn8VAwm11xNMRQDDpWhRoDv00OZVhfBWnUXH19mpjt6UsZsfoAA55xXhNrc
+         ycoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU+BjWcRyzbNeX4yEWLsDQAP4gwtYMYxnijMPnv+arl7db+1X5WsqmucOObjKFA5DZJlEXYN6hdPw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnASKDoip6Fce1pyI+akJlccKs98vhCC69xtw/AJZYhUcQkUhn
+	2OZt6EwX8KhU7keTQcr7hcxW7315aSRdpXV542Nax8D1KLbcwiF2rL5MgJWXud3dqTo=
+X-Gm-Gg: ASbGncvbmmJmrchJDFxM/HyuY5YBBvJynWHpukTty0RjGCf2tHOXBVYcP/0D6IrBhOL
+	CF181mibhEuX92JF309hy0s2yoNbq1dpDvIr/Qhw1M+bFm3OKDaZxpl5PqiM2oIltG3tqx29cMY
+	3hVg2OxaJztAGZm62h4BDESuFNqhW1Au7M5o95P+nrE54XMSwveEarUEj8qCmjTMHONtjRB3u0B
+	ZjTIgaNlk2B2mjPBs7+8f8rT22N9HIY6kXmTvulcEduZlpKtZEt69VQr1gqTdoG9Zkjg0R38HwG
+	v2NBPVM1eag0tbLSaaWfOPDGTusuHfu3+wcb6GH5VForGu4agRfDoYnRtESysCuMRvNsbLrwN7F
+	YZwjG1BqsrW9s4hJhBaE6pGS4MXu5a1P29EUdpgA3THw=
+X-Google-Smtp-Source: AGHT+IHUT+pHfpmntUXj9uBUGhsiBcXhCpz8NqBaqPJXee9T83AmytajEw850sVhRqSbUCYA/OYJMg==
+X-Received: by 2002:a17:906:b283:b0:ae3:bd92:e6aa with SMTP id a640c23a62f3a-afe07b82e55mr60442566b.6.1755764942021;
+        Thu, 21 Aug 2025 01:29:02 -0700 (PDT)
+Received: from [192.168.1.29] ([178.197.219.123])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afded537f98sm347074266b.104.2025.08.21.01.29.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Aug 2025 01:29:01 -0700 (PDT)
+Message-ID: <a59908c9-38d8-492d-9e3f-5560d272689b@linaro.org>
+Date: Thu, 21 Aug 2025 10:29:00 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fbcf6cca-784e-47bb-9b61-3028f59a92ba@sabinyo.mountain>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6] dt-bindings: firmware: arm,scmi: allow multiple
+ instances
+To: Cristian Marussi <cristian.marussi@arm.com>,
+ Deepti Jaggi <quic_djaggi@quicinc.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, arm-scmi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@oss.qualcomm.com,
+ Nikunj Kela <quic_nkela@quicinc.com>
+References: <20250730-8255-scmi-v6-1-a7d8ba19aded@quicinc.com>
+ <e5c5c2da-ae77-4738-9f0f-33c51111f91c@quicinc.com> <aKbTKq04umCgS_eL@pluto>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ 2+47PN9NZAOyb771QoVr8A==
+In-Reply-To: <aKbTKq04umCgS_eL@pluto>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jul 20, 2025 at 02:38:42PM -0500, Dan Carpenter wrote:
-> Parse the GPIO response in scmi_pinctrl_attributes(), set the gpio
-> flag, and create an is_gpio() function pointer so that it can be queried.
+On 21/08/2025 10:04, Cristian Marussi wrote:
+> On Wed, Aug 20, 2025 at 11:44:26AM -0700, Deepti Jaggi wrote:
+>>
+>> On 7/30/25 14:30, Deepti Jaggi wrote:
+>>> From: Nikunj Kela <quic_nkela@quicinc.com>
+>>>
 > 
-
-Hi,
-
-> In SCMI only functions and pins have a GPIO flag so that's why groups are
-> not handled here.
+> Hi,
 > 
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+>>> Allow multiple SCMI instances by extending the scmi node name to include
+>>> an instance number suffix.
+>>>
+>>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>> Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
+>>> Signed-off-by: Nikunj Kela <quic_nkela@quicinc.com>
+>>> Signed-off-by: Deepti Jaggi <quic_djaggi@quicinc.com>
+>>> ---
+>>> Changes in v6:
+>>>          - Dropped 'this change' from description
+>>> 	- Link to v5: https://lore.kernel.org/all/20250423005824.3993256-1-quic_djaggi@quicinc.com
+>>>
+>>> Changes in v5:
+>>>          - Added Reviewed-by tag
+>>> 	- Link to v4: https://lore.kernel.org/all/20240910163456.2383372-1-quic_nkela@quicinc.com
+>>>
+>>> Changes in v4:
+>>>          - Dropped 'virtual' from subject and description
+>>> 	- Link to v3: https://lore.kernel.org/all/20240905201217.3815113-1-quic_nkela@quicinc.com
+>>>
+>>> Changes in v3:
+>>>          - Added Reviewed-by tag
+>>>          - Removed the patch from original series[1]
+>>>
+>>> Changes in v2:
+>>>          - Fixed scmi nodename pattern
+>>>
+>>> [1]: https://lore.kernel.org/all/20240903220240.2594102-1-quic_nkela@quicinc.com/
+>>> ---
+>>>   Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+>>> index abbd62f1fed0993ab98fa44bdb9a0575f8e1c78e..be817fd9cc34b14009a3b1d69e78b802215571b6 100644
+>>> --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+>>> +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+>>> @@ -27,7 +27,7 @@ anyOf:
+>>>   properties:
+>>>     $nodename:
+>>> -    const: scmi
+>>> +    pattern: '^scmi(-[0-9]+)?$'
+>>>     compatible:
+>>>       oneOf:
+>>>
+>>> ---
+>>> base-commit: 0b90c3b6d76ea512dc3dac8fb30215e175b0019a
+>>> change-id: 20250728-8255-scmi-ed963ef8f155
+>>
+>> Gentle ping!!
 
-[snip]
+You cannot ping gently while screaming!!! (you see how gentle this feels?)
 
->  static const struct scmi_pinctrl_proto_ops pinctrl_proto_ops = {
->  	.count_get = scmi_pinctrl_count_get,
->  	.name_get = scmi_pinctrl_name_get,
-> +	.is_gpio = scmi_pinctrl_is_gpio,
->  	.group_pins_get = scmi_pinctrl_group_pins_get,
->  	.function_groups_get = scmi_pinctrl_function_groups_get,
->  	.mux_set = scmi_pinctrl_mux_set,
-> diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
-> index 688466a0e816..b4ad32067fc4 100644
-> --- a/include/linux/scmi_protocol.h
-> +++ b/include/linux/scmi_protocol.h
-> @@ -792,6 +792,8 @@ struct scmi_pinctrl_proto_ops {
->  	int (*name_get)(const struct scmi_protocol_handle *ph, u32 selector,
->  			enum scmi_pinctrl_selector_type type,
->  			const char **name);
-> +	int (*is_gpio)(const struct scmi_protocol_handle *ph, u32 selector,
-> +		       enum scmi_pinctrl_selector_type type);
+>> Could you please review the patch?
+>>
+> 
+> I thought this was already reviewed/acked and merged since ages....
+> ...also the wording-change in the commit message LGTM.
+> 
+> Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
 
-Doxygen comment above too please...
+It was. Twice! This is just unjustified ping.
 
-With that fixed, LGTM.
-
-Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
-
-Thanks,
-Cristian
+Best regards,
+Krzysztof
