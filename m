@@ -1,48 +1,33 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F4728D8E5;
-	Fri, 22 Aug 2025 21:21:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455622E7BDC;
+	Sat, 23 Aug 2025 16:43:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755897694; cv=none; b=lAhFHapJtetywSoG/2mq73rcOmqnzexwTyDmAlBv7wgMWkXJJ3VvNEg25lGhKHbt5PvfbxrQkBN6xr5LXoSDGBV639keeABzv9fH9dFTmsS7c9y8gEVjcyXoyeRkOFnA2bgQcOT5KqOaIlmHUtuw8kkKn3AIu8K1VQ3QbbDBOn0=
+	t=1755967424; cv=none; b=FzbRjNVIcWa8uyus557iE4+5/h9QiMq1D9vDitIWxhTyZ99mvcIkEiGIId/1GcOd54uHdIwRl7T2NuWvAwayKRAmcHGuYyyWHX+hOeeGJ7rKKCwgWBvem3p+NzrlcqVpowKe+x3I6O+88npcijFOIAV87HssNL1LwGZ+7mkkjOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755897694; c=relaxed/simple;
-	bh=indzKJgCHhhvbcY3UCPHYwJ0LOGF/a7I+W4xUAwzF10=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=huLT31H+yVBiETAIYsZyUzwb+lhFxYYwAeD8BaNrXVjxu8WytzcdHFVCIccvTrpONi80n/C2KZwjkjTq4OkGm6XF2JDF8yT33+AncAjVDrYNlgGzrO4UO5zfR3BmQXsAAr39j7RKizpYPxeYplepUQMlI3nYY/knbX+PMmkb/H0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ePuPJsON; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1755967424; c=relaxed/simple;
+	bh=xFZkeJN2BuDgCkOi+KgCMmmiWf02TF4MkQxM0ILCb/c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fjBISyCS4bJlAyjJbpHKfpblIcDwbstrw4DMkMz7EA2zA7jh4UcW2dmUmdHo75RHC8cMr2kSKdz/SZOG7P5WUi7ey6DlxY1B/EBC00nvXtGjKFikwkCxV4X85X2QmvZn/+EQaUvwNxyzutsfSedNMk8S8dvTBZe96SzFUIkAyxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=itdiEScC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ePuPJsON"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57MHV2gn027301;
-	Fri, 22 Aug 2025 21:21:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	2wN4UHnTw+Lt8Yv16eGvjXG4ZGd+elsyoHEvk1TK4P0=; b=ePuPJsON4W+WTFmx
-	3js9ctMmpn1SESQomwrA97Nwxph4ONOZurN15AcFRzEYcQsfaifNI/FpCx1U8vJ0
-	1syYxd9TwO3l9UtXK+TbjYZoFOVKXhL56SuLwGS24GSw7gO7Tg1XQCchFG84ifAI
-	E3YMKpPbq2qvm6Nlj4XJBEIPBKRMJdI1uQhExYsFsgbhik5e37Dyj2Iik5h0/bFl
-	wmfwGihlFjY0bMakVCR+JOJAdQCX37uoKEz3vMmZog2RKMg4u0a0+JQUKWKwelys
-	82E5PqPWoL8DLfdHGUs+ingNTD2FjAkQUSbvk2d7kHecMlcwxCjhbteDgD8/j8kn
-	ubM8iQ==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48pw108gnw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 22 Aug 2025 21:21:20 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57MLLJG3009759
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 22 Aug 2025 21:21:19 GMT
-Received: from [10.47.235.76] (10.49.16.6) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 22 Aug
- 2025 14:21:19 -0700
-Message-ID: <3a58fca1-84ae-4ee2-8800-0680a34480de@quicinc.com>
-Date: Fri, 22 Aug 2025 14:21:18 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="itdiEScC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D084DC113CF;
+	Sat, 23 Aug 2025 16:43:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755967423;
+	bh=xFZkeJN2BuDgCkOi+KgCMmmiWf02TF4MkQxM0ILCb/c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=itdiEScC2Beeu6c63pmd/CTzPnWhE183hRyVzasZY+gmKVI5vd3nuihdYSmXUtzqM
+	 n5pXlMOZ4f4CfdZ3y+9TL4OAfKF1rUicpUcWpAKV25yexOoQiIUVRBOvzvVlnT7m1x
+	 Ow/syOgbGs/7sFzlP8M9T9k2hQaa02Q05lgaQ79U07gOCwpaS6+/LYxvOeLuY9D4Yg
+	 tFdZWFXEVSKg+nsuehNXz2gcumXyv2a/Cv5In16FOD/gqLYo3Ce8RoRceAlgwmH+KZ
+	 F0iWduD+DHlVLd9Xvqi99qFs+b/bjDIb80nCd1xXSh9G2AR1wHFNtLXyjiCEgmjyyG
+	 kbRIEhswFKxGg==
+Message-ID: <7c6cc42c-fc76-4300-b0d2-8dabf54cf337@kernel.org>
+Date: Sat, 23 Aug 2025 18:43:23 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -50,139 +35,160 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6] dt-bindings: firmware: arm,scmi: allow multiple
- instances
-To: Sudeep Holla <sudeep.holla@arm.com>,
-        Cristian Marussi
-	<cristian.marussi@arm.com>
-CC: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, <arm-scmi@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <kernel@oss.qualcomm.com>,
-        Nikunj Kela
-	<quic_nkela@quicinc.com>
-References: <20250730-8255-scmi-v6-1-a7d8ba19aded@quicinc.com>
- <e5c5c2da-ae77-4738-9f0f-33c51111f91c@quicinc.com> <aKbTKq04umCgS_eL@pluto>
- <a59908c9-38d8-492d-9e3f-5560d272689b@linaro.org> <aKbeRVsLpXcpiyHb@pluto>
- <aKbwYALhw3ZFqGii@bogus>
+Subject: Re: [PATCH 000/114] clk: convert drivers from deprecated round_rate()
+ to determine_rate()
+To: Brian Masney <bmasney@redhat.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Paul Cercueil <paul@crapouillou.net>, Keguang Zhang
+ <keguang.zhang@gmail.com>, Taichi Sugaya <sugaya.taichi@socionext.com>,
+ Takao Orito <orito.takao@socionext.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Jacky Huang <ychuang3@nuvoton.com>,
+ Shan-Chun Hung <schung@nuvoton.com>, Vladimir Zapolskiy <vz@mleia.com>,
+ Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Samuel Holland <samuel.holland@sifive.com>, Yixun Lan <dlan@gentoo.org>,
+ Steen Hegelund <Steen.Hegelund@microchip.com>,
+ Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com,
+ Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Michal Simek <michal.simek@amd.com>, Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+ Manivannan Sadhasivam <mani@kernel.org>, Sven Peter <sven@kernel.org>,
+ Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>, Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Daniel Palmer <daniel@thingy.jp>, Romain Perier <romain.perier@gmail.com>,
+ Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Heiko Stuebner <heiko@sntech.de>, Andrea della Porta
+ <andrea.porta@suse.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Qin Jian <qinjian@cqplus1.com>, Viresh Kumar <vireshk@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Alex Helms <alexander.helms.jy@renesas.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Liviu Dudau <liviu.dudau@arm.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+ arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ sophgo@lists.linux.dev, linux-mips@vger.kernel.org, imx@lists.linux.dev,
+ linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
+ linux-stm32@st-md-mailman.stormreply.com, patches@opensource.cirrus.com,
+ linux-actions@lists.infradead.org, asahi@lists.linux.dev,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
+References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
+ <1907e1c7-2b15-4729-8497-a7e6f0526366@kernel.org> <aKhVVJPEPxCoKKjI@x1>
+ <4d31df9e-62c9-4988-9301-2911ff7de229@kernel.org> <aKhr8NYhei59At0s@x1>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Deepti Jaggi <quic_djaggi@quicinc.com>
-In-Reply-To: <aKbwYALhw3ZFqGii@bogus>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Rr7pAX6MkdIh2DK7qi0jQ9ZIv4TwsE3O
-X-Authority-Analysis: v=2.4 cv=Z+fsHGRA c=1 sm=1 tr=0 ts=68a8df50 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=3H110R4YSZwA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8
- a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=7CQSdrXTAAAA:8 a=_GsXmPnImtuemZSCr8UA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
- a=cvBusfyB2V15izCimMoJ:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIyMDE2MCBTYWx0ZWRfX8B15tILWGI0V
- XX8O5siF/Dx72aX71WF8kTXh1+FigXooKoYmsdv+jJlZraOwqhsiJkt+yPN7tFxR12xYXE5n/4m
- cXJADJEhT55rrRfERT5byms0WkoKbCwoYM8MXw35O943PGNX50Ba5OjOoSBWUdeYs7Lk5dsiD+f
- IvB9ONcRKo4g1vlZVMsemG80ori2XdZ0JyOntXnbIM41G5TbcCVJyRjZc0mdRH1dffrB4qzijZp
- nTgG6EjtbU2Uqxqf80/2CMToiUwSZrw7HSykEJmMRCVAC0kLmUUzbacic3atGDLONPFAlfUCvHF
- hTn87gr5yT495BzzwwGWR1pyo4nZnMw7BIN9fNOVu2eCHskgfnJ163ePfj1+XtDo4pWTjP89q9a
- SsFf91eM
-X-Proofpoint-ORIG-GUID: Rr7pAX6MkdIh2DK7qi0jQ9ZIv4TwsE3O
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-22_05,2025-08-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 spamscore=0 priorityscore=1501 bulkscore=0
- adultscore=0 malwarescore=0 phishscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508220160
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <aKhr8NYhei59At0s@x1>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-
-On 8/21/25 03:09, Sudeep Holla wrote:
-> On Thu, Aug 21, 2025 at 09:52:21AM +0100, Cristian Marussi wrote:
->> On Thu, Aug 21, 2025 at 10:29:00AM +0200, Krzysztof Kozlowski wrote:
->>> On 21/08/2025 10:04, Cristian Marussi wrote:
->>>> On Wed, Aug 20, 2025 at 11:44:26AM -0700, Deepti Jaggi wrote:
->>>>> On 7/30/25 14:30, Deepti Jaggi wrote:
->>>>>> From: Nikunj Kela <quic_nkela@quicinc.com>
->>>>>>
->>>> Hi,
->>>>
->>>>>> Allow multiple SCMI instances by extending the scmi node name to include
->>>>>> an instance number suffix.
->>>>>>
->>>>>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>>>>> Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
->>>>>> Signed-off-by: Nikunj Kela <quic_nkela@quicinc.com>
->>>>>> Signed-off-by: Deepti Jaggi <quic_djaggi@quicinc.com>
->>>>>> ---
->>>>>> Changes in v6:
->>>>>>           - Dropped 'this change' from description
->>>>>> 	- Link to v5: https://lore.kernel.org/all/20250423005824.3993256-1-quic_djaggi@quicinc.com
->>>>>>
->>>>>> Changes in v5:
->>>>>>           - Added Reviewed-by tag
->>>>>> 	- Link to v4: https://lore.kernel.org/all/20240910163456.2383372-1-quic_nkela@quicinc.com
->>>>>>
->>>>>> Changes in v4:
->>>>>>           - Dropped 'virtual' from subject and description
->>>>>> 	- Link to v3: https://lore.kernel.org/all/20240905201217.3815113-1-quic_nkela@quicinc.com
->>>>>>
->>>>>> Changes in v3:
->>>>>>           - Added Reviewed-by tag
->>>>>>           - Removed the patch from original series[1]
->>>>>>
->>>>>> Changes in v2:
->>>>>>           - Fixed scmi nodename pattern
->>>>>>
->>>>>> [1]: https://lore.kernel.org/all/20240903220240.2594102-1-quic_nkela@quicinc.com/
->>>>>> ---
->>>>>>    Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 2 +-
->>>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>
->>>>>> diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
->>>>>> index abbd62f1fed0993ab98fa44bdb9a0575f8e1c78e..be817fd9cc34b14009a3b1d69e78b802215571b6 100644
->>>>>> --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
->>>>>> +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
->>>>>> @@ -27,7 +27,7 @@ anyOf:
->>>>>>    properties:
->>>>>>      $nodename:
->>>>>> -    const: scmi
->>>>>> +    pattern: '^scmi(-[0-9]+)?$'
->>>>>>      compatible:
->>>>>>        oneOf:
->>>>>>
->>>>>> ---
->>>>>> base-commit: 0b90c3b6d76ea512dc3dac8fb30215e175b0019a
->>>>>> change-id: 20250728-8255-scmi-ed963ef8f155
->>>>> Gentle ping!!
->>> You cannot ping gently while screaming!!! (you see how gentle this feels?)
+On 22/08/2025 15:09, Brian Masney wrote:
+> On Fri, Aug 22, 2025 at 02:23:50PM +0200, Krzysztof Kozlowski wrote:
+>> On 22/08/2025 13:32, Brian Masney wrote:
+>>> 7 of the 114 patches in this series needs a v2 with a minor fix. I see
+>>> several paths forward to merging this. It's ultimately up to Stephen how
+>>> he wants to proceed.
 >>>
->>>>> Could you please review the patch?
->>>>>
->>>> I thought this was already reviewed/acked and merged since ages....
->>>> ...also the wording-change in the commit message LGTM.
->>>>
->>>> Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
->>> It was. Twice! This is just unjustified ping.
->> I'd like to add a new tag at this point.
+>>> - I send Stephen a PULL request with all of these patches with the minor
+>>>   cleanups to the 7 patches. Depending on the timing, Stephen can merge
+>>>   the other work first, and I deal with cleaning up the merge conflicts.
+>>>   Or he can if he prefers to instead.
+>>>
+>>> - Stephen applies everyone else's work first to his tree, and then the
+>>>   good 107 patches in this series. He skips anything that doesn't apply
+>>>   due to other people's work and I follow up with a smaller series.
 >>
->> Reviewed-!!-by-!!: Cristian Marussi <cristian.marussi@arm.com>
->>
-> I wish I could apply something fancy like this 😁. I will apply it soon.
+>> Both cause cross tree merge conflicts. Anyway, please document clearly
+>> the dependencies between patches.
+> 
+> This series only touches drivers/clk, so it shouldn't cause any issues
+> with other subsystems, unless there's a topic branch somewhere, or I'm
+> missing something?
 
-I guess my “Gentle Ping!!” wasn’t so gentle after all :) .Sorry about that.
-I sent the reminder because I had updated the commit message and the 
-patch hadn’t been merged yet.
-I wanted to make sure the changes are good to go and that nothing else 
-is needed from my end.
+Individual maintainers handle subdirectories.
 
-Thank you for reviewing the patch—I appreciate everyone’s time and feedback.
-I’ll wait for the patch to be merged.
+> 
+> There are some drivers under drivers/clk/ where there is an entry in the
+> MAINTAINERS file that's not Stephen, although it wasn't clear to me if
+> all of those people will send PULL requests to Stephen. I described on
+> the cover how how the series was broken up.
+> 
+>   - Patches 4-70 are for drivers where there is no clk submaintainer
+>   - Patches 71-110 are for drivers where this is an entry in MAINTAINERS
+>     (for drivers/clk)
 
->
+It's hidden between multiple other descriptions of patches, so I really
+would not think that this means that it is okay by individual maintainer
+to take the patch.
+
+This really should be the one most important part of the cover letter
+for something like this.
+..
+
+Best regards,
+Krzysztof
