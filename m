@@ -1,35 +1,57 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bayard.4d2.org (bayard.4d2.org [155.254.16.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A787A2D0626;
-	Mon, 25 Aug 2025 08:41:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB992F99BC;
+	Mon, 25 Aug 2025 15:19:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=155.254.16.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756111298; cv=none; b=k6OVyQ3xQ+YRvllbFq8HtzBlxNy/hU1elnYi+iOEBhWZDy5jxlmZYMwSqL+xKp7k2Z3u1nw/LVajH6Qf015iAhdciEsYB71+bq6yd7HdgyxSxOYeYHiwoi5bP1jWjVFZ7nkFVRZK1kBSS13i3/aOT9Y755ZgtAx4/h8/OvjkbGM=
+	t=1756135154; cv=none; b=VT0elzt4ztm+kuIE9ako0Z4i0RjQogotEop1j4wSVPm40aPxSN14xaSeZb5PvNxeFld7O/qFu3iYE/ZuEOOo4Zl+tlI/BRtsOsTFlgsVjgSq2njqSwRCAgLOph/XjCFP/bCW6EAb7Z1yq3XzAopjzawuh9EZxBZp0WTe1DaZWkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756111298; c=relaxed/simple;
-	bh=QBpsTTorkc4pTkqdyLYFQrl7G/3d/UIHjKHmGDhjvh8=;
+	s=arc-20240116; t=1756135154; c=relaxed/simple;
+	bh=1D+OO1Z+2hy3PuE7cQ3HZhhpy2c1X8740B+Ft/pujPA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=os/uEZq/hCt4NHbRVpLtcRO2oCrqIdcZSarRsZGQY+OAKotvcnLhPN1rCbGXyZxUCSVVOTKgCCV0yTDW9jwJVlCgQYk3OeINMCr6ku0ep1Urk3auIRdP5uvonEAietL2EI6r/Sg/GTSpqWH2s0CWet0v4YM0bAIwG+RiQM1lGLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gc94G2p0; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=EeCRK7h5AiKiN5zflQx06CV6A/ZEk0nsELkRr4nulWhUNLYj6mXPOMqTrPnJchs/lclrhsdyUuEk0yn+7PavFKjuwEwfUBYcbtOREwzhJ93UONSJ7CplLDOwmZrYU6aewao+gL9bfTSeWCGkdCj7grw6hCfDbBLT9M7P+1tE9ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=4d2.org; spf=pass smtp.mailfrom=4d2.org; dkim=pass (2048-bit key) header.d=4d2.org header.i=@4d2.org header.b=DrW4njwd; dkim=pass (2048-bit key) header.d=4d2.org header.i=@4d2.org header.b=XbzP8DhB; arc=none smtp.client-ip=155.254.16.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=4d2.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=4d2.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gc94G2p0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86D14C116B1;
-	Mon, 25 Aug 2025 08:41:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756111298;
-	bh=QBpsTTorkc4pTkqdyLYFQrl7G/3d/UIHjKHmGDhjvh8=;
+	dkim=pass (2048-bit key) header.d=4d2.org header.i=@4d2.org header.b="DrW4njwd";
+	dkim=pass (2048-bit key) header.d=4d2.org header.i=@4d2.org header.b="XbzP8DhB"
+Received: from localhost (bayard.4d2.org [127.0.0.1])
+	by bayard.4d2.org (Postfix) with ESMTP id 9C8B812FB9E0;
+	Mon, 25 Aug 2025 08:17:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=4d2.org; s=mail;
+	t=1756135050; bh=1D+OO1Z+2hy3PuE7cQ3HZhhpy2c1X8740B+Ft/pujPA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Gc94G2p0qbx0jlafND6WSRRDnjNbakv8JEjLETlT1wvutg3+AKWAm9shTWfHSh9nH
-	 T3texahUXyK7O2oESbwoBQBkFFAJ3KFnYqMT+ZeGTLrgd0yWOnXXMJNOOub9b6eZI4
-	 JrKqx6X1NQNrc11YZTMBuP3PvLEcW0W2sbbEeCdQbPszV7fGgdNErXWZKIKoECTuXj
-	 JAjAzrvziLXDJ4eGJMeZFJR8kqTAzP5Crlc95tXJwtxy5c+mIbpcVZc0GjmMuNWbUV
-	 NQjvrL/A+++kZ/GkL8H/vC77AZONQxtF8wgd/bwy1pjDXOppGKbfgT+fCUOjE0Ahlx
-	 OMRZXPhsipZpg==
-Date: Mon, 25 Aug 2025 16:41:35 +0800
-From: Yixun Lan <dlan@kernel.org>
-To: bmasney@redhat.com
-Cc: Michael Turquette <mturquette@baylibre.com>,
+	b=DrW4njwdTos7Tr4D/hJWJfzXOiEf+SRDsAo4Ry/JJOyWw3h955TVHky0fTmZIMc6b
+	 l6HICNWR7CusICgbxTme1oFf2gCXZ0ld9o3r6i+RPGR/fbOiERLbFTfKgGWXgrQsxZ
+	 6tpMcjGI0yEaC2KCaMwFx16QGYsGVgEc2q7UhryAL7TuopvR9SP+oFRN9uZqDB87Oa
+	 ZRJ64Oujs0ftwCrSLWRrMWSAgZUNvurIGuMkzqRAh9EeFQZTPOqJzJ7VcHnR2Uw9Dj
+	 07MvAkU27F1Qxx+h3HKk0DSKuCRQ7v0QHfBj5pxg/8yHIT0c4AorBN9bGUK+uxQaG0
+	 RyA+s94fkFtBg==
+X-Virus-Scanned: amavis at 4d2.org
+Received: from bayard.4d2.org ([127.0.0.1])
+ by localhost (bayard.4d2.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id KVwsL0Vo9y59; Mon, 25 Aug 2025 08:17:28 -0700 (PDT)
+Received: from ketchup (unknown [117.171.64.92])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: heylenay@4d2.org)
+	by bayard.4d2.org (Postfix) with ESMTPSA id 9CF6712FB435;
+	Mon, 25 Aug 2025 08:17:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=4d2.org; s=mail;
+	t=1756135048; bh=1D+OO1Z+2hy3PuE7cQ3HZhhpy2c1X8740B+Ft/pujPA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XbzP8DhBaP3scQswWTdz5ACYHQ4v/MZQMcqpn0puVv3NztnWZ9pb0nNcTuNgThLe6
+	 UTWPEb4p9AoOb1GbiOYD7lF6F38zGqG/lgWkPfd9bKqI1XZJDIn4C4UJki7Lj7iYKB
+	 MOL+BfMvxNc7F/jqvSgeLFL4tC6yjuuz2cvWV21gIOar+KZPS/n8KHH5XAaoqkPmrC
+	 q+np6SgnoazpMdVzPSJaatTZSlIOov+HfEt0O6fh1/o/Gmnxhy288PLt8u6rkW0KUj
+	 rFs299O5KC4mHBhvhdmvnTLT81m2MaYEUoztmIvwYua4Pp3hB/WkMuCgjNFsakwFXX
+	 tkMsfI3899c5w==
+Date: Mon, 25 Aug 2025 15:17:00 +0000
+From: Haylen Chu <heylenay@4d2.org>
+To: bmasney@redhat.com, Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
 	Sudeep Holla <sudeep.holla@arm.com>,
 	Cristian Marussi <cristian.marussi@arm.com>,
@@ -93,8 +115,8 @@ Cc: Michael Turquette <mturquette@baylibre.com>,
 	Linus Walleij <linus.walleij@linaro.org>,
 	Liviu Dudau <liviu.dudau@arm.com>,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
 	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	sophgo@lists.linux.dev, linux-mips@vger.kernel.org,
 	imx@lists.linux.dev, linux-riscv@lists.infradead.org,
@@ -104,11 +126,11 @@ Cc: Michael Turquette <mturquette@baylibre.com>,
 	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
-Subject: Re: [PATCH 051/114] clk: spacemit: ccu_pll: convert from
+Subject: Re: [PATCH 049/114] clk: spacemit: ccu_ddn: convert from
  round_rate() to determine_rate()
-Message-ID: <20250825084135-GYC1096417@kernel.org>
+Message-ID: <aKx-bEJr9uvYUZVA@ketchup>
 References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
- <20250811-clk-for-stephen-round-rate-v1-51-b3bf97b038dc@redhat.com>
+ <20250811-clk-for-stephen-round-rate-v1-49-b3bf97b038dc@redhat.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -117,11 +139,9 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-51-b3bf97b038dc@redhat.com>
+In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-49-b3bf97b038dc@redhat.com>
 
-Hi Brian,
-
-On 11:18 Mon 11 Aug     , Brian Masney via B4 Relay wrote:
+On Mon, Aug 11, 2025 at 11:18:41AM -0400, Brian Masney via B4 Relay wrote:
 > From: Brian Masney <bmasney@redhat.com>
 > 
 > The round_rate() clk ops is deprecated, so migrate this driver from
@@ -129,47 +149,52 @@ On 11:18 Mon 11 Aug     , Brian Masney via B4 Relay wrote:
 > on the cover letter of this series.
 > 
 > Signed-off-by: Brian Masney <bmasney@redhat.com>
-
-Reviewed-by: Yixun Lan <dlan@kernel.org>
 > ---
->  drivers/clk/spacemit/ccu_pll.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/clk/spacemit/ccu_pll.c b/drivers/clk/spacemit/ccu_pll.c
-> index 45f540073a656c0edc341a903acc3f2405971fc9..d92f0dae65a490e9db52f25a538a518baa487ea8 100644
-> --- a/drivers/clk/spacemit/ccu_pll.c
-> +++ b/drivers/clk/spacemit/ccu_pll.c
-> @@ -125,12 +125,14 @@ static unsigned long ccu_pll_recalc_rate(struct clk_hw *hw,
->  	return entry ? entry->rate : 0;
+>  drivers/clk/spacemit/ccu_ddn.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+
+Reviewed-by: Haylen Chu <heylenay@4d2.org>
+
+Thanks for cleaning it up, I should have done this when submitting the
+driver.
+
+Best regards,
+Haylen Chu
+
+> diff --git a/drivers/clk/spacemit/ccu_ddn.c b/drivers/clk/spacemit/ccu_ddn.c
+> index be311b045698e95a688a35858a8ac1bcfbffd2c7..02b68ea84db9bd3ecdde41f8013c48263edbd917 100644
+> --- a/drivers/clk/spacemit/ccu_ddn.c
+> +++ b/drivers/clk/spacemit/ccu_ddn.c
+> @@ -39,13 +39,16 @@ static unsigned long ccu_ddn_calc_best_rate(struct ccu_ddn *ddn,
+>  	return ccu_ddn_calc_rate(prate, *num, *den);
 >  }
 >  
-> -static long ccu_pll_round_rate(struct clk_hw *hw, unsigned long rate,
+> -static long ccu_ddn_round_rate(struct clk_hw *hw, unsigned long rate,
 > -			       unsigned long *prate)
-> +static int ccu_pll_determine_rate(struct clk_hw *hw,
+> +static int ccu_ddn_determine_rate(struct clk_hw *hw,
 > +				  struct clk_rate_request *req)
 >  {
->  	struct ccu_pll *pll = hw_to_ccu_pll(hw);
+>  	struct ccu_ddn *ddn = hw_to_ccu_ddn(hw);
+>  	unsigned long num, den;
 >  
-> -	return ccu_pll_lookup_best_rate(pll, rate)->rate;
-> +	req->rate = ccu_pll_lookup_best_rate(pll, req->rate)->rate;
+> -	return ccu_ddn_calc_best_rate(ddn, rate, *prate, &num, &den);
+> +	req->rate = ccu_ddn_calc_best_rate(ddn, req->rate,
+> +					   req->best_parent_rate, &num, &den);
 > +
 > +	return 0;
 >  }
 >  
->  static int ccu_pll_init(struct clk_hw *hw)
-> @@ -152,6 +154,6 @@ const struct clk_ops spacemit_ccu_pll_ops = {
->  	.disable	= ccu_pll_disable,
->  	.set_rate	= ccu_pll_set_rate,
->  	.recalc_rate	= ccu_pll_recalc_rate,
-> -	.round_rate	= ccu_pll_round_rate,
-> +	.determine_rate = ccu_pll_determine_rate,
->  	.is_enabled	= ccu_pll_is_enabled,
+>  static unsigned long ccu_ddn_recalc_rate(struct clk_hw *hw, unsigned long prate)
+> @@ -78,6 +81,6 @@ static int ccu_ddn_set_rate(struct clk_hw *hw, unsigned long rate,
+>  
+>  const struct clk_ops spacemit_ccu_ddn_ops = {
+>  	.recalc_rate	= ccu_ddn_recalc_rate,
+> -	.round_rate	= ccu_ddn_round_rate,
+> +	.determine_rate = ccu_ddn_determine_rate,
+>  	.set_rate	= ccu_ddn_set_rate,
 >  };
 > 
 > -- 
 > 2.50.1
 > 
 > 
-
--- 
-Yixun Lan (dlan)
