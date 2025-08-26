@@ -1,39 +1,43 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F113120B22;
-	Tue, 26 Aug 2025 10:39:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE342301486;
+	Tue, 26 Aug 2025 10:39:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756204748; cv=none; b=XQRx6FMUPhiejWhVCgURzcEZFS3ErvTrxPha2YWA/j0UJwzFHI62L3gApadCec7OGTKJRGnpzUN0q/px05eQ3lVgFrHtgDshFpFsu8LUP9u4o2rQ8Nr6SFxFMUIDsPU6kzzLBuI4o5AnAn2lHqUvafT5GlGAqlcQwJ3qHsqNjJE=
+	t=1756204794; cv=none; b=lQWf1Z07aqvsbuG/R6ORyory7q0mmF1mc9Bn46zNu9ofeYN8XUY2QLWMKvYkN++CkWOVP3pKJbYIRuZIUmQcMR1CTWq0uL65Qj47Q2YpALVCsv8EWeYJT51cnq9zLxTQ1MltS6AWq3A8DBiBehoOymUbyIxLCaFUPh2/62mS3Oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756204748; c=relaxed/simple;
-	bh=VkHVvn0B93qyCntmeeuGCGRnqcrFBcdFTZFR7Jd9ebQ=;
+	s=arc-20240116; t=1756204794; c=relaxed/simple;
+	bh=axYdkke8DyT2Uus9AU2yB5PK/ytArhE6ltG77CPIAWQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jLSPjqPZhhtoyQ94juTGbT7I9D1NcwbtaHy4G5Wd8uPKvmqcVYpDWEHcL5axkbJI94ELAXN4V0pgYWrD58kLZJzfh4wvmYFEiQQrprzG1YT/hKLD0PKpSyaA8e2jDo0jB4hDo58waCj6adFlEgFxM63MNGji30UbnkHrbpxAQ8E=
+	 MIME-Version:Content-Type; b=Sri3YTDJrUpz7sY7tXSm9ehHFujZcJNQyPFhKMdpYHhxq35Brv97UoUr4v5q+D6R/hiTIVqdIQCDcdy3lXHwNXCJA2XGLksr19GTy6yepy3OvFLRp3lD4p6lNU8eDlZdahqc0daxD5YyRNnZ1D9B9gQ2GQ5tW3wQZ693szotCls=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 14D151A00;
-	Tue, 26 Aug 2025 03:38:58 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 103BF1A00;
+	Tue, 26 Aug 2025 03:39:44 -0700 (PDT)
 Received: from usa.arm.com (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B1E423F694;
-	Tue, 26 Aug 2025 03:39:04 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 208F63F694;
+	Tue, 26 Aug 2025 03:39:49 -0700 (PDT)
 From: Sudeep Holla <sudeep.holla@arm.com>
-To: cristian.marussi@arm.com,
-	Junnan Wu <junnan01.wu@samsung.com>
+To: Cristian Marussi <cristian.marussi@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Deepti Jaggi <quic_djaggi@quicinc.com>
 Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	florian.fainelli@broadcom.com,
 	arm-scmi@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	lei19.wang@samsung.com,
-	q1.huang@samsung.com
-Subject: Re: [PATCH] firmware: arm_scmi: Set device ready before register scmi_virtio_driver
-Date: Tue, 26 Aug 2025 11:39:01 +0100
-Message-Id: <175620471163.1762592.13282724135201643997.b4-ty@arm.com>
+	kernel@oss.qualcomm.com,
+	Nikunj Kela <quic_nkela@quicinc.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v6] dt-bindings: firmware: arm,scmi: allow multiple instances
+Date: Tue, 26 Aug 2025 11:39:48 +0100
+Message-Id: <175620475405.1763115.5520957460369024353.b4-ty@arm.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250812075343.3201365-1-junnan01.wu@samsung.com>
-References: <CGME20250812075350epcas5p1cc4533582704978ec3a4a8b73dc1535c@epcas5p1.samsung.com> <20250812075343.3201365-1-junnan01.wu@samsung.com>
+In-Reply-To: <20250730-8255-scmi-v6-1-a7d8ba19aded@quicinc.com>
+References: <20250730-8255-scmi-v6-1-a7d8ba19aded@quicinc.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -43,22 +47,15 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, 12 Aug 2025 15:53:43 +0800, Junnan Wu wrote:
-> Fix irregularities in scmi driver probe.
+On Wed, 30 Jul 2025 14:30:00 -0700, Deepti Jaggi wrote:
+> Allow multiple SCMI instances by extending the scmi node name to include
+> an instance number suffix.
 > 
-> After 'commit 20bda12a0ea0 ("firmware: arm_scmi: Make VirtIO transport a standalone driver")'
-> making SCMI VirtIO transport a standalone driver,
-> `scmi_virtio_probe` will follow `scmi_vio_probe`,
-> and during `scmi_virtio_probe`, it will do `scmi_probe` which will invoke
-> function `scmi_protocol_acquire(handle, SCMI_PROTOCOL_BASE)`,
-> and this function will send message via virtqueue and wait device's reply
-> 
-> [...]
 
 Applied to sudeep.holla/linux (for-next/scmi/updates), thanks!
 
-[1/1] firmware: arm_scmi: Set device ready before register scmi_virtio_driver
-      https://git.kernel.org/sudeep.holla/c/e8faa8a466f6
+[1/1] dt-bindings: firmware: arm,scmi: allow multiple instances
+      https://git.kernel.org/sudeep.holla/c/a4d5f63d4384
 --
 Regards,
 Sudeep
