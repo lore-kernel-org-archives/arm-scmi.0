@@ -1,127 +1,37 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8415C1C84DE;
-	Mon, 25 Aug 2025 22:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 595597DA93;
+	Tue, 26 Aug 2025 10:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756160639; cv=none; b=f2h3spRtkn2vsEM4C4FATPE2qI+2i7hL4WKYnGFnekgNY02x1u5bALm208tB0LZGyYYtyzVo3uBl4lBH96mljotOZnyj3o31pX39IGF519w5oWkoC6ILoLGp08Lg8Pmjh0BsrXH90XUpcZnHWNEdU3sxvpGP5AQDb7pyFFvskBQ=
+	t=1756204668; cv=none; b=Brcn0IVehj88sm6476YcEImYR0bC4zK2/fuAnxo82T2RiGWeg+0wPIV5BSxHa64lHl14nGs0H1VJUZoh3dE0VLVjKhwPoDssgfKL3ecj1iBsu6z+6esF9ga17TNNH66i9IoO9syeWI1c6Knnix4kOkMqNrxGTuJv3WVh4RjkeGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756160639; c=relaxed/simple;
-	bh=C8dCcIKDdLsDA62THkA9YNFeAbhvDEtzivsFsYtysoQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tGXY5uhHHeicUivdPPkMuJbDnPrgyvl7svEWl9kH8ICjdJomHVfJWsQdDXv6b+c82gKcXuaabvWy2SETQKd8fQbmcBlyPqLVa+vknJdAaq252X0vK5iIVTqjl27m+VGmNPIa9tscd0I6/jzZMdsDtM6tWpepnhy8SKpI2ZGwxRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eFrzhgcp; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eFrzhgcp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B2B5C4CEED;
-	Mon, 25 Aug 2025 22:23:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756160639;
-	bh=C8dCcIKDdLsDA62THkA9YNFeAbhvDEtzivsFsYtysoQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eFrzhgcpB4xSQ+04CnDToPC6BbaXLfZhYIA5I/BavZfky4LVkNeiBm33bKCwjfNMR
-	 7Xb6TL3pLhbQUnBSeoZywHVCHtHEMtbySuCz757jR5LLWGzGIAWc2BOMQnJKu/GTDD
-	 OqBmH7dyMmZk1RARABrqGFKsw9O9AnWfe1iHh5N4qj7JtCSjVfAJPlNBoDQzAapk03
-	 krEs+vWhYgzabnk0EG5oW4LBwfNFqc1Pw+++S7/1krPhye3Fbxfwd3gAuIyFq598JK
-	 pyPcrlbN+zCcku+7kEqoKnQ115oGGgQBsZT2rIXqlg87fc1FYNe8a8EqRPk1p8C1S+
-	 DRCnOZhIQCHAQ==
-From: Yixun Lan <dlan@kernel.org>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Keguang Zhang <keguang.zhang@gmail.com>,
-	Taichi Sugaya <sugaya.taichi@socionext.com>,
-	Takao Orito <orito.takao@socionext.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Steen Hegelund <Steen.Hegelund@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Daniel Palmer <daniel@thingy.jp>,
-	Romain Perier <romain.perier@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Andrea della Porta <andrea.porta@suse.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Qin Jian <qinjian@cqplus1.com>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Alex Helms <alexander.helms.jy@renesas.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Brian Masney <bmasney@redhat.com>
-Cc: Yixun Lan <dlan@kernel.org>,
-	linux-clk@vger.kernel.org,
+	s=arc-20240116; t=1756204668; c=relaxed/simple;
+	bh=dmuyjZtLwcLftX2YsOHeaaRsqGgvAIpM3F3PA6tKVxY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RM1kM7mhNpIskLtNXU1/2cSb6XPJIw9L/aOmYxwrY6Bn7Drzm+Bd6jRp7PicaqjeZ5sqvVXn+snraKNtB8GDQQYfkwPuW7iO69KYSvVwhm+pPutOQ3MedOr6nHDjBCQRSYr2IFw1DpH77ipA+8lPgWekn5o5WK/maGJZlRhzZcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5E7E31A00;
+	Tue, 26 Aug 2025 03:37:37 -0700 (PDT)
+Received: from usa.arm.com (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 4D8EC3F694;
+	Tue, 26 Aug 2025 03:37:44 -0700 (PDT)
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Cristian Marussi <cristian.marussi@arm.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
 	linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
 	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	sophgo@lists.linux.dev,
-	linux-mips@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	spacemit@lists.linux.dev,
-	linux-stm32@st-md-mailman.stormreply.com,
-	patches@opensource.cirrus.com,
-	linux-actions@lists.infradead.org,
-	asahi@lists.linux.dev,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	soc@lists.linux.dev
-Subject: Re: (subset) [PATCH 000/114] clk: convert drivers from deprecated round_rate() to determine_rate()
-Date: Tue, 26 Aug 2025 06:23:38 +0800
-Message-ID: <175616003525.79746.16402526303339008811.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
-References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/2] firmware: arm_scmi: Constify struct scmi_voltage_proto_ops
+Date: Tue, 26 Aug 2025 11:37:40 +0100
+Message-Id: <175620458844.1761583.10265205606346566256.b4-ty@arm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <2091660c072dd2d5599897243a5d69e89d46ed4d.1753816459.git.christophe.jaillet@wanadoo.fr>
+References: <2091660c072dd2d5599897243a5d69e89d46ed4d.1753816459.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -131,27 +41,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-
-On Mon, 11 Aug 2025 11:17:52 -0400, Brian Masney wrote:
-> The round_rate() clk ops is deprecated in the clk framework in favor
-> of the determine_rate() clk ops, so let's go ahead and convert the
-> various clk drivers using the Coccinelle semantic patch posted below.
-> I did a few minor cosmetic cleanups of the code in a few cases.
+On Tue, 29 Jul 2025 21:15:03 +0200, Christophe JAILLET wrote:
+> 'struct scmi_voltage_proto_ops' is not modified in this driver.
 > 
-> This series is broken up into several categories:
+> Constifying this structure moves some data to a read-only section, so
+> increases overall security, especially when the structure holds some
+> function pointers.
+> 
+> On a x86_64, with allmodconfig, as an example:
+> Before:
+> ======
+>    text	   data	    bss	    dec	    hex	filename
+>   13142	   1808	      0	  14950	   3a66	drivers/firmware/arm_scmi/voltage.o
 > 
 > [...]
 
-Thanks, Applied to SpacemiT's SoC tree at "k1/clk-for-6.18" branch
+Applied to sudeep.holla/linux (for-next/scmi/updates), thanks!
 
-[049/114] clk: spacemit: ccu_ddn: convert from round_rate() to determine_rate()
-          https://github.com/spacemit-com/linux/commit/b4a7b0d2c4485d11d37dec721709660f3967efcf
-[050/114] clk: spacemit: ccu_mix: convert from round_rate() to determine_rate()
-          https://github.com/spacemit-com/linux/commit/56737edda7db58549550776092da12fe03600399
-[051/114] clk: spacemit: ccu_pll: convert from round_rate() to determine_rate()
-          https://github.com/spacemit-com/linux/commit/d02c71cba7bba453d233a49497412ddbf2d44871
-
-Best regards,
--- 
-Yixun Lan
+[1/2] firmware: arm_scmi: Constify struct scmi_voltage_proto_ops
+      https://git.kernel.org/sudeep.holla/c/abd658d3e733
+[2/2] firmware: arm_scmi: Constify struct scmi_transport_ops
+      https://git.kernel.org/sudeep.holla/c/224dcf2968ca
+--
+Regards,
+Sudeep
 
