@@ -1,189 +1,127 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C66F7342C92;
-	Wed, 27 Aug 2025 13:50:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7152DAFB5
+	for <arm-scmi@vger.kernel.org>; Wed, 27 Aug 2025 15:45:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756302631; cv=none; b=bc9h+gGGyZ/ohefJtj25jaExmeN0UpW35lBCbimGbcRsGY9EQSZr0b5n+WQOlj4wihDQzWTxt7aAZYmNnrWYQFLJBgETU/Jspn+hASSp+pugOR9tNjcwBpYIbKNlj17472tC1uN5qd2WSWI1dXptI9fLM5dVhAKq2yXj8ByGPBY=
+	t=1756309530; cv=none; b=XQLXK1xXMfErrOF6FfSqRHJWiz2z96CDdJ37CZ5rG6xn/S2zWNFIGqxNI9t/4Sj88F4X5QdFP1UgeaXTjjHq1irxJHw+psItpM6peeYdcEOlv8wYFkCwwmarHQuRfyOyyk0IG/515RkoKb3QmgPYAijRRc8f4eMvKeZsbAlOTdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756302631; c=relaxed/simple;
-	bh=sjDy2yPaMyRUWRHA7zNCNkrYIPM6l4g0nDQeVISxPDs=;
+	s=arc-20240116; t=1756309530; c=relaxed/simple;
+	bh=/p97CHZTchgZ2x/w77sCPBCAKYLVfRuzWu9KdaEGTW4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VvLjF50lMH9BSuMKY/T0ifYiu9BvZ9cOl5k7gZaEOMdlVu7hNVjMY+LLOvtvLKbsV9m/MjIAwQ7d9WPFuzzMuXPGB5Z73mcC/HTaQFguerZhp7GLSzOEsM5jbgU9U0O7aaj1x4c+U7gEezTN1/gqIlOd69QCOx2KAlSMkcOe0IU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D1ECC1688;
-	Wed, 27 Aug 2025 06:50:20 -0700 (PDT)
-Received: from bogus (unknown [10.57.57.52])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A11B23F694;
-	Wed, 27 Aug 2025 06:50:11 -0700 (PDT)
-Date: Wed, 27 Aug 2025 14:49:48 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Brian Masney <bmasney@redhat.com>
-Cc: Peng Fan <peng.fan@oss.nxp.com>, Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Michael Turquette <mturquette@baylibre.com>,
+	 In-Reply-To:Content-Type:Content-Disposition; b=L6wuNTbHE2KHJ0CQjumKZ9rJ8lOtVeXg6Jg4Pr3+6PN4duPd8teJ7AlYy359wA3cI/BqVLqtI3aUVqDQxj4B6k0LO3ATm0eE1F5Y2entu8+OHBnRGpTPQqVt8/bJrAH9dINA0HNqSRWFIFGi67BgBx9hbVSwCLeYieD4tozuYYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fA3tUvxh; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fA3tUvxh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1756309526;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BDqVhSeK1e71j8vG7CPDHZkgMbyJjBHY6Iqx2foqFvE=;
+	b=fA3tUvxhxYz5mAWi8qlNj+OiXdu3zjnuRYvbCQ6oXCLKPM1j1vnhIET6HZfYLYhYK/GL5S
+	lTSzKmAym2slEDtdCbqS89pRieBZrQIPVPvGOiSJ2G/k6KxRIJFcC4QoTdFp0oeNXYRWpa
+	L2H1Y9bi+h3kvktoLzaqpGfmIkcOOsA=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-562--1xN54MHN3aiCgvo3KupOA-1; Wed, 27 Aug 2025 11:45:23 -0400
+X-MC-Unique: -1xN54MHN3aiCgvo3KupOA-1
+X-Mimecast-MFC-AGG-ID: -1xN54MHN3aiCgvo3KupOA_1756309522
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7e86499748cso293834485a.1
+        for <arm-scmi@vger.kernel.org>; Wed, 27 Aug 2025 08:45:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756309522; x=1756914322;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BDqVhSeK1e71j8vG7CPDHZkgMbyJjBHY6Iqx2foqFvE=;
+        b=dWv9CIcsG+e8Vh5vDUAPeMbMEkUHokrfgzvNGVP939yC+mlvQWdLvCH+/rDaIqG9FG
+         nujqiDofndODTRdnL8s1JISCKr5X7kHhj3RUnXvWLtcveKQ1WYQ+AL80zLY8mMpm4hvS
+         6jxJR64jzpKczXAkKuPSefXxv33xb+YhEa1Twmads381adpARjnyWyGQ3eMeBWV7Yjct
+         ABwlgZI9YGqEeFtSjcpeCy7xTUypo/ISULsAqAZMeSoCqlrBFOdu8KsEB2ORytZP62MC
+         iGQzuZjHmAYsyLWWXpoD1b5S4fr85pKRZD6WuV/z0Arhk27t7nP/gkvY8oA1covGdiUd
+         gQzg==
+X-Forwarded-Encrypted: i=1; AJvYcCUmQaYTEQq3PtH3owYI/4VBqVtFswlyznspxNV4Lst1k5rnSON6qjWGhGP//hV16ryRBLzzxYvRjQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpaJlG9VYdDNKlS0Iyg1TW9Rwaj+MdwJLsmQv4433jB+SKAesb
+	/dvxwIb0+4gomSf7RTalrwGqkGpYTvxYVEeUAlQODc/LtHPA9d6uvUy1+9LeIQYrSWqWw+2BMou
+	hw0ZPAMk+NUJGjJIIizskgKxgCxR6kqZUNnua0cEcP+ZNlTvAb3b7v82kbaRE
+X-Gm-Gg: ASbGnctIszUTrhNIntYXV/Jb0/VvmzlqUhrcCDl+yURn/sZP4MR4pC7oj+79zq188OC
+	5W275Lmu8lRS4GEpH760fKoJT/ZNdtn5GIIXNl/hqaKgUsYJGCWjztwsT4OFp4yOsPZyihlPJBG
+	Xm3EO25s7CK+FNh2j5ThmgcnRiZp0CeoeIf9TYuwYZpDrckkqi4MsAv0juu6vLDMPDmPnWuT7f+
+	FTLGO4PJOnKO/VTdLlm/LDSuKZAGwwr3w7XQObz2XHovMnkU2GGvVs5hFOKYHYCjTrFso4D+O7h
+	/fq96a4W8iqCLFU/HuWzppwR7Llr6DLBqa+mCY2XLzN+S1mIaGegwWpL7xw6FcQdAZMzmscRqi9
+	HZe2ogku2lbbiNde59Dw=
+X-Received: by 2002:a05:620a:3709:b0:7e6:9753:d959 with SMTP id af79cd13be357-7f58d941f00mr677233385a.4.1756309522440;
+        Wed, 27 Aug 2025 08:45:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEmUGjZymg97kwzbvc9Ng0QsbL1xmqeZFpXH0SyMzHjWziskdn6bTnadHzycYk8K6ZKteAcMQ==
+X-Received: by 2002:a05:620a:3709:b0:7e6:9753:d959 with SMTP id af79cd13be357-7f58d941f00mr677228485a.4.1756309521893;
+        Wed, 27 Aug 2025 08:45:21 -0700 (PDT)
+Received: from x1 (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b2b8de632csm94044401cf.36.2025.08.27.08.45.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Aug 2025 08:45:21 -0700 (PDT)
+Date: Wed, 27 Aug 2025 11:45:19 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Peng Fan <peng.fan@nxp.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Keguang Zhang <keguang.zhang@gmail.com>,
-	Taichi Sugaya <sugaya.taichi@socionext.com>,
-	Takao Orito <orito.takao@socionext.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Yixun Lan <dlan@gentoo.org>,
-	Steen Hegelund <Steen.Hegelund@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	UNGLinuxDriver@microchip.com, Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Daniel Palmer <daniel@thingy.jp>,
-	Romain Perier <romain.perier@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Andrea della Porta <andrea.porta@suse.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Qin Jian <qinjian@cqplus1.com>, Viresh Kumar <vireshk@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Alex Helms <alexander.helms.jy@renesas.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
 	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	sophgo@lists.linux.dev, linux-mips@vger.kernel.org,
-	imx@lists.linux.dev, linux-riscv@lists.infradead.org,
-	spacemit@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
-	patches@opensource.cirrus.com, linux-actions@lists.infradead.org,
-	asahi@lists.linux.dev, linux-mediatek@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
-Subject: Re: [PATCH 112/114] clk: scmi: remove round_rate() in favor of
- determine_rate()
-Message-ID: <20250827-abstract-maize-tanuki-d1bdcb@sudeepholla>
-References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
- <20250811-clk-for-stephen-round-rate-v1-112-b3bf97b038dc@redhat.com>
- <20250827070933.GB18994@nxa18884-linux.ap.freescale.net>
- <aK8EbcEHz3Yzpa1W@x1>
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/3] clk: Introduce clk_hw_set_spread_spectrum
+Message-ID: <aK8oD6HNw131avjI@x1>
+References: <20250812-clk-ssc-version1-v1-0-cef60f20d770@nxp.com>
+ <20250812-clk-ssc-version1-v1-1-cef60f20d770@nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <20250812-clk-ssc-version1-v1-1-cef60f20d770@nxp.com>
+User-Agent: Mutt/2.2.14 (2025-02-20)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: _lhi-XKWIm5sBCD1yOVm_NxOFnGqHXJTRzWXND4DNdA_1756309522
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aK8EbcEHz3Yzpa1W@x1>
 
-On Wed, Aug 27, 2025 at 09:13:17AM -0400, Brian Masney wrote:
-> On Wed, Aug 27, 2025 at 03:09:33PM +0800, Peng Fan wrote:
-> > Hi Brian, Sudeep, Cristian
-> > 
-> > On Mon, Aug 11, 2025 at 11:19:44AM -0400, Brian Masney via B4 Relay wrote:
-> > >From: Brian Masney <bmasney@redhat.com>
-> > >
-> > >This driver implements both the determine_rate() and round_rate() clk
-> > >ops, and the round_rate() clk ops is deprecated. When both are defined,
-> > >clk_core_determine_round_nolock() from the clk core will only use the
-> > >determine_rate() clk ops, so let's remove the round_rate() clk ops since
-> > >it's unused.
-> > >
-> > >Signed-off-by: Brian Masney <bmasney@redhat.com>
-> > >---
-> > > drivers/clk/clk-scmi.c | 30 ------------------------------
-> > > 1 file changed, 30 deletions(-)
-> > >
-> > >diff --git a/drivers/clk/clk-scmi.c b/drivers/clk/clk-scmi.c
-> > >index d2408403283fc72f0cf902e65f4c08bcbc7b4b0b..6c6ddb92e7cf6a0cfac2c7e19c0f15f777bb8c51 100644
-> > >--- a/drivers/clk/clk-scmi.c
-> > >+++ b/drivers/clk/clk-scmi.c
-> > >@@ -54,35 +54,6 @@ static unsigned long scmi_clk_recalc_rate(struct clk_hw *hw,
-> > > 	return rate;
-> > > }
-> > > 
-> > >-static long scmi_clk_round_rate(struct clk_hw *hw, unsigned long rate,
-> > >-				unsigned long *parent_rate)
-> > >-{
-> > 
-> > I see the point of round_rate is not used if determine_rate is there.
-> > But reading the code of round_rate, It might be better to rename
-> > scmi_clk_round_rate to scmi_clk_determine_rate.
-> > 
-> > Anyway, need Sudeep and Cristian to comment.
+On Tue, Aug 12, 2025 at 08:17:05PM +0800, Peng Fan wrote:
+> Add clk_hw_set_spread_spectrum to configure a clock to enable spread
+> spectrum feature. set_spread_spectrum ops is added for clk drivers to
+> have their own hardware specific implementation.
 > 
-> In this case, yes the round_rate implementation is filled out, whereas
-> the determine_rate lets the firmware handle it, and
-> scmi_clk_recalc_rate() will later populate the rate the clock is running
-> at.
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
+>  drivers/clk/clk.c            | 32 ++++++++++++++++++++++++++++++++
+>  include/linux/clk-provider.h | 29 +++++++++++++++++++++++++++++
+>  2 files changed, 61 insertions(+)
 > 
-> I can convert round_rate over to determine_rate in this case, however it
-> would be a change to what's there now, and risks a regression. Here's
-> the relevant code from drivers/clk/clk.c where the determine_rate and
-> round_rate ops are called:
+> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> index b821b2cdb155331c85fafbd2fac8ab3703a08e4d..48c7a301b72b30fd824dae7ada2c44ee84d40867 100644
+> --- a/drivers/clk/clk.c
+> +++ b/drivers/clk/clk.c
+> @@ -2802,6 +2802,38 @@ int clk_set_max_rate(struct clk *clk, unsigned long rate)
+>  }
+>  EXPORT_SYMBOL_GPL(clk_set_max_rate);
+>  
+> +int clk_hw_set_spread_spectrum(struct clk_hw *hw, unsigned int modfreq_hz,
+> +			       unsigned int spread_bp, unsigned int method)
+                                                       ^^^^^^^^^^^^
+Should this be 'enum clk_ssc_method'?
 
-I am inclined towards this. Determine rate was added recently when the
-clock parent support was added IIUC, so I don't think it should regress
-anything.
+Also can you add kernel docs for all of the parameters? I know it's
+documented on 'struct clk_spread_spectrum' below.
 
-> 
->     static int clk_core_determine_round_nolock(struct clk_core *core,
->                                                struct clk_rate_request *req)
->     {
->     	...
->             if (clk_core_rate_is_protected(core)) {
->                     req->rate = core->rate;
->             } else if (core->ops->determine_rate) {
->                     return core->ops->determine_rate(core->hw, req);
->             } else if (core->ops->round_rate) {
->                     rate = core->ops->round_rate(core->hw, req->rate,
->                                                  &req->best_parent_rate);
->     	...
-> 
-> If Sudeep / Cristian want the round rate converted to determine rate in
-> this driver, then I can do that in a v2.
-> 
+What do you think about having this function take that struct instead as
+a parameter to match what's on the clk op?
 
-Yes please. Also please post it independent if it doesn't have to be in
-the series. To many in cc and lots of patches to respin all.
+Brian
 
--- 
-Regards,
-Sudeep
