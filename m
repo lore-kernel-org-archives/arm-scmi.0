@@ -1,43 +1,32 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2922B320CA3;
-	Fri, 29 Aug 2025 14:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1462287515;
+	Fri, 29 Aug 2025 21:13:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756477799; cv=none; b=QK7vB/8H4wXKSvbW9COolW6gbPBXVSUUCtp3/nCordQQ2pAFqwgUm1lCwJw1lgaT9/OJnfnywivvPLPuCLp4F1EMIjMGpKDRfnMc9ZRQ0s27NIMN6W5S7PlsWCPUxI2ok/z0XjtyMjXwAInTwDwsZ1pA5b0Xn6J7G+pH1xv+JkU=
+	t=1756502024; cv=none; b=B3HZRbKa0zy/VtK0mEbpE8qmYw60Bz45syGkXY381mMiMdT683LHDItgB3EcmlYUxTdIk2h1jQocuvJtRADTaoafwJuQhsWFh+T6GO1Gpt3xhnyNbvYt1v9vFTAD/2zHEzRGLW7iTqJGkGAiK2jBtfT0bd2amNa853mpw7hKrVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756477799; c=relaxed/simple;
-	bh=Yns9bavo72CG4gNmrewLrs/gA3MVFABLZslxaAFREJU=;
+	s=arc-20240116; t=1756502024; c=relaxed/simple;
+	bh=Tc4drYHBoMjuZpIcjYkn+NMHMZlzv10UeHR79b/H3qo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oymVvaeUb926X0iGhDttH+AmHe4Uc1kKlx7rtS1s79TI6cszzw8Hn4S32QP0teIJgJzavBbm7wMiwcajfLZQC9c5fQQQtnYFp/FuynX6HvMpqKxVUJ5YZ6So5vqOgfD027XSTN7ZWdDHLRWUpjLZavI4Ieg6oIjIenOkH21Qlqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WQP95uGp; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WQP95uGp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F7CFC4CEF0;
-	Fri, 29 Aug 2025 14:29:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756477798;
-	bh=Yns9bavo72CG4gNmrewLrs/gA3MVFABLZslxaAFREJU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WQP95uGpYWjOh0/WvGngenn519PhBUV2JOOu7M/vPRfYt/jFyLuONC3cJk2dxWtXi
-	 ZcM2TerOGx3V6Az0+uTaZ3ezgTQIJVBq5WWNvKL9ukiu8Hgj4oPOXpiWdx8HjnhP6U
-	 huDGcJKaGEMRpoXBEQhlt6QOxgZ2VGexAhMmOm+X8/4PlRqmpJio0IatvIT9jmjlbT
-	 oS/v3gVau/6/z6IvdaRM21bnQQkIoxhDJMUb9TvBchmpG56npOcTrwERoB7ejm21th
-	 3GIRUoSC+wrnAozzV3/DpKtjBGymoH7zoiIf5sYSEQBnc450c5FxpYKZonEKfa+7JV
-	 me13JUApqexUg==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1us06u-0000000008d-0bA7;
-	Fri, 29 Aug 2025 16:29:48 +0200
-Date: Fri, 29 Aug 2025 16:29:48 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, Jan Palus <jpalus@fastmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=GScvUdQullKUSVxZyMdMGqmT1uQ9jdyVMaMK/NU9M8mEcAcywABN3X0HtzxI1+Vvc8lJllIA5VSbreqFtOxwvdd3iZRWyIREM2LuGPBcBKGe6pPZcUBFusX6zMRTfbOGflxPvw51QhwK3lY+Xjf83mvFESlRX0KE/4xeIeAvVh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 87DE51BA8;
+	Fri, 29 Aug 2025 14:13:33 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DBAF63F738;
+	Fri, 29 Aug 2025 14:13:39 -0700 (PDT)
+Date: Fri, 29 Aug 2025 22:13:29 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Johan Hovold <johan@kernel.org>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Subject: Re: [PATCH] firmware: arm_scmi: quirk: fix write to string constant
-Message-ID: <aLG5XFHXKgcBida8@hovoldconsulting.com>
+Message-ID: <aLIX-XAYE--byaue@pluto>
 References: <20250829132152.28218-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -60,14 +49,21 @@ On Fri, Aug 29, 2025 at 03:21:52PM +0200, Johan Hovold wrote:
 > string, and mark all the quirk strings as const to reduce the risk of
 > introducing similar future issues.
 
-With Jan's permission, let's add:
+Hi,
 
-Reported-by: Jan Palus <jpalus@fastmail.com>
+indeed when implementing this I was a bit doubtful about the in-place
+overwrite approach that I used during the ranges parsing...but since
+each quirk was indeed initialized once and its range parsed once, it
+seemed fair to use the string itself as a sort of scratch area while
+parsing it into integers and avoid the local copy...just I haven't
+considered the possibility that such strings could be stored in a RO
+segment...and I got no error on my setup....
 
-> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=220437
-> Fixes: 487c407d57d6 ("firmware: arm_scmi: Add common framework to handle firmware quirks")
-> Cc: stable@vger.kernel.org	# 6.16
-> Cc: Cristian Marussi <cristian.marussi@arm.com>
-> Signed-off-by: Johan Hovold <johan@kernel.org>
+Anyway, good catch, it is certainly better to operate on a copy.
 
-Johan
+LGTM.
+
+Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
+
+Thanks,
+Cristian
