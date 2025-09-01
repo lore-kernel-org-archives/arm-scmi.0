@@ -1,63 +1,63 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC362DF147;
-	Mon,  1 Sep 2025 16:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ACE532F763;
+	Mon,  1 Sep 2025 16:33:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756743136; cv=none; b=PIhntbM8RcC4NZTHNA1JTdKonvln4z2M/GEu/zAEWEZdsValehpFIhJbn+6x/+ze0VnDP0RfYAYaj02tqZ3DOctiLWTDwlQUbNOYrgOdkjEB9Cqa8N0tEiimhtY5CtqOLJTjboZvZ9sjkKMGpmfHGltmx2FmNDW+cWVt98C8EQ4=
+	t=1756744389; cv=none; b=reEcx1mla+APgB4bimEUPL4dbRNLsfpzprXLyf3d5w4U9MBM+bh8bsCKa1kEhErRhKSGYxXJEoL6UQf9yPc4vF48J+CGSsnixGrgAMbqYuXIbZ6wTJd6clRRLEXSvqGkeAYOqe/7ZaHVXoRjrj0SB+e/t4lzc4qpk7WtfWBj/fU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756743136; c=relaxed/simple;
-	bh=wBVV8lCyWpzak5Ahq0TyAHZqwjZBUNzGkG5CgU5NEkA=;
+	s=arc-20240116; t=1756744389; c=relaxed/simple;
+	bh=1rophVMPc9vFbkXNTt483gsFy5p+uR0TnILz7vTHD8o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eTihPiRq8RVnT+GE6kcpF5Ya1rf4YmWzaEuBNoZpXbHWo6Y6ha7DwaH5dAAwxJMmWs98jXQxntZAPE56gJOjaMK9O91qUT4oRozQz7cDoK1DjR1FaD9EnRiT/afefu25JeVdhSTRNfvjdo1QMGrbbb8JIhZsrjWXgyzABy0bt8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ONnVdTJq; arc=none smtp.client-ip=209.85.167.45
+	 MIME-Version; b=hEEoW14Xl2UfEjcXPsncdupVrxH1LqLlvr0nRhsyqx4I/UohGBoh0qTPPtetxpmHwcFboQmUYelnWlFnlNJKRFc8MPiKicy8Qe7D/mOK1NjkyM42CGh0PJ3xuSBEEr4dnJvr+5/e7Fq+Zi+/oKfzL5Y8Cl98TalWMEWGogvbKlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DzAoshVb; arc=none smtp.client-ip=209.85.208.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ONnVdTJq"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-55f7b6e4145so1107688e87.1;
-        Mon, 01 Sep 2025 09:12:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DzAoshVb"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-333f92d60ddso34675831fa.3;
+        Mon, 01 Sep 2025 09:33:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756743133; x=1757347933; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1756744386; x=1757349186; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QvGFPcLRQG7NDdcutxPYCIPA441LFKGMfIhq/xAeHWw=;
-        b=ONnVdTJq9U05GTUhk1DxChkvzqChtdrFUrDGKoKd5RQLFB334oWyPHNqjzpe017xwG
-         H8gmbZTVCfJ6RfUYEwol75/q1LQbbFPqh60ri3YWMP4gy+Exqg3Zyp5u7V90RnCNoeyj
-         uCZkVChqEsEoTlQB1jJJupZ+GwFvXVHlUlQB604exIefQY14xuPgwJIgnX4xO/cZgeGW
-         BsKSCGbLmtug09yy1ObF85NwsnF2pKF6pZ3HucIpSq+5+tn+cCUCcGmtSgfCnH/AcC17
-         G5WXGGkt/9595n1xn2tMGXxCKOoKneAJywLoCxWzdHs2Xtj1jcybBd94gEnsF/egNL4U
-         aeiQ==
+        bh=JIl5W/bIgW8FVjVtco/bINFJvVMTa/CFL0n0N73oRmY=;
+        b=DzAoshVbDn0FmJFTD9AcPp0P02DWU5zTqwBSmDQTdY34AfZQqBJmwE+5sIo1mcgUjn
+         ZRaQMrYW4T1BDFYPqkVO7BxNLtuiAG7Rp03uSSrGcd71HhVf4fWjZSwIlTqxay8lGjao
+         A7b5rKwVmRTP5whUGO+61t7MFpLlECfYNqMtXXnIf1maSyQiT1Nk3AyuudePrB79Pb9U
+         MSpowuVPZuUWFVUnzu9Z56DS5j1nRSYkfaQ5egs7CoonK/lELI56CeHdYRAPnWYaBNHQ
+         c7bke7QrUahsbt/gWFcC22GQoDszOBP3Ma7Od8Vg7RL19jmaEvIPqMmPTyj0xQG2VRwL
+         NJlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756743133; x=1757347933;
+        d=1e100.net; s=20230601; t=1756744386; x=1757349186;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QvGFPcLRQG7NDdcutxPYCIPA441LFKGMfIhq/xAeHWw=;
-        b=LSt0Yh8YbXAU1RY089fiWVZHDP1R6q4DflijuRQ1IqjUsoz5XNh92yT+c5FSZeUv6H
-         /vwdF98rcTG8o8hwVfuyFnrX0XLshvJrDcLcogaGhh0fc7dCZLdBzDNU0UbiEVx7ZCp0
-         /jh+ZnMisj5MwRSuk8xXkfYz3OrH3ydod0he1WzQii0cyLelBE1h0WChit6bn1tIsym6
-         Jxf2dnRA38NKI5zWT7pgWXjqoUxrzzgCXYco4tTQB3ihJVdQWtKZOUYY80dQcthvznZD
-         gjfN5SVokp3HA7S6QB5D8XQbXwns6WH7kHxzDWtVyFHUyVTCjth9BdvvnpMoxlU/V9c0
-         kAIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUrpbC57nuvex/QC34ICTtMFbWDL3GnB4GWoYGCLXG4DmqygkTvslG2d2VgEV++co1YWVJBYhRrhQ==@vger.kernel.org, AJvYcCVgsJ1YwRtcEeyqKBwXavV92h+Hr81i7CjTMEv7gbTBqNX/rEWcliHMFmUCC2QunNhpXRQLdNFjVPdggKW9@vger.kernel.org
-X-Gm-Message-State: AOJu0YyS6iAczuWvlS2lqpjPWkahomLV25gCGYEvFZ7sURt1JJUh8NP/
-	PGBQl4Hao1EdRR5KEZcsEWEX6Rdv8TQigMRmaHI3inqOCOzxl5SIc26Q
-X-Gm-Gg: ASbGncuZeTJvq6jwoSHco2w6dhq+mFoDCwAycoiAQj3su5aAWDiJeDNc7Uh4St2cPCv
-	Uht3Y4iHjhYUEqZEgfUMY4gnVidEY3gAm4nMB1QIa0vN5bN8LS4lvK8kH82UCPLUqfm6xq8e/h6
-	MnyE7lKzDkrP2yJ5U1lZKneCHXNt7WRvZqq9+fD8+iyB2b3wEG08UL92QlK55YJYde/p4kG+j4E
-	+xbiMiqsv/t05nkRq3zDNmM44jw/BIL/gOg806iP+DLnXwztd4qI3zt5RTmMqziuqEk0gAEKOHw
-	50bRla+k4AV8ILTmj1e3yWEZQev0dVqC+JkPLL7VT3q49tuKHoAoPlzGUACmUIYEkZErV3XaGrS
-	DxxgJac2Ck+1oCzeYdEChtKJkaHkALdiU+0FQGzxXSBi7T0mqmAEa
-X-Google-Smtp-Source: AGHT+IHiwUTnaB7EPGGt0HbzOzE4Bp/CJPYgR1UiGBYb4q+hoCwWA9Bw5YVLHvDVa+uK0xVrCHrHcg==
-X-Received: by 2002:a05:6512:b88:b0:55f:699b:98f8 with SMTP id 2adb3069b0e04-55f7089be9bmr2590042e87.12.1756743132572;
-        Mon, 01 Sep 2025 09:12:12 -0700 (PDT)
+        bh=JIl5W/bIgW8FVjVtco/bINFJvVMTa/CFL0n0N73oRmY=;
+        b=ZVGxlaxQNp67u1oGHifrfa5Dysng/zvOkyNdo4szxSnGC5F0kPc9K4ZQCu1Lvu+aRm
+         LNGAvEoFHP2sc52RMuIiZI2ejUODoAQBHXoNmVApyxqiI5Ay7oK7GMFnEvuf73poyheM
+         bSd2zYbAF5H//AYVC1LqiLGOIs/E/9bDUZ4pveTQIi19tgELCqWUQAKiDuNj4EyMN5w0
+         W0pimpGw+D6Hf9JOfC3xJ9xlpbofFdMQpGrsBUtKkHOxCbKiZYqCSaekFNbmNqvWVrqI
+         HTk3WoWU0XY4z3XqNNwbIyc9wY6zL9q1OTDx36KXuq9BT0KseZsescHAZVe/EWogaLek
+         pazQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUth8CdfntfKhVffGJB+VSDm5WdzpgiHP6TjM7nDDMX8PMkx0My488zbU4QZmejDSsIwgEQUzdlZw==@vger.kernel.org, AJvYcCXZpTgWynh5Pb8DTtwwvkV00OnzE7AMS+bntilymdVfHWrQRJOoSErEWgiFyGOwydPJDysjwRJIJ36GXFfi@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9UtNM/O9wwC9c8sFslshlnFXFZQOLfikLueNxX3OCHJM2CJJ8
+	tTDEMvu3yhNh8gRY7EJiDKpSOUiRHRXBZ5Sp/fLNeunAId5EY7SUQF12
+X-Gm-Gg: ASbGncu3KHxW/UUjcLLwwtwODAT4yaDbmG7U58gbtzSnsVuJfsXESi4lk01M+FhgnSV
+	feUpPIIXEY3EtDXhySbuFa6s3iwCfEejQiAT4KmwmkLfs093N7q6Yn1J8gSnsnrpMUQyo8KvS11
+	dLJvkvzXAOkJ/kL06Dsv37IlIDMv7EANOlqhPhmpL0AYCJU95W4EhTc13zqdTMODm1o6ckw5Qg6
+	iQ9k0fixUH8V1woG7n4zUi/WeaNQxXbQxiJOgVmCqc6BFzqzprdtBgKv2/5UXaR+YWuQV/yAGn5
+	BMF78OhavS8f4JBYKAUjGbFvrRArn4M/kpRjF/bjqAqKYp5rQ7If8u70puGHxwSr2UCnr34Ae1c
+	y0a6O08mA9koErzlqqaNQkOHtt5kl4gxpJ9kHCHq6ZA==
+X-Google-Smtp-Source: AGHT+IEOzCiW/l9/IwVBabZcYmD6FGDThQuo6tecUi00yi4YZaYtlLaBCrKKgYh8GWti+hodMlYjBw==
+X-Received: by 2002:a05:651c:20c9:b0:336:8809:6730 with SMTP id 38308e7fff4ca-336caf88d6bmr15563211fa.40.1756744385419;
+        Mon, 01 Sep 2025 09:33:05 -0700 (PDT)
 Received: from NB-6746.corp.yadro.com ([88.201.206.176])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55f6771b237sm3028827e87.54.2025.09.01.09.12.12
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-336d0e78e82sm15291861fa.53.2025.09.01.09.33.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 09:12:12 -0700 (PDT)
+        Mon, 01 Sep 2025 09:33:05 -0700 (PDT)
 From: Artem Shimko <artyom.shimko@gmail.com>
 To: Sudeep Holla <sudeep.holla@arm.com>,
 	Cristian Marussi <cristian.marussi@arm.com>
@@ -65,13 +65,12 @@ Cc: Artem Shimko <artyom.shimko@gmail.com>,
 	arm-scmi@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] firmware: arm_scmi: add missing spinlock documentation
-Date: Mon,  1 Sep 2025 19:12:04 +0300
-Message-ID: <20250901161207.2501078-3-artyom.shimko@gmail.com>
+Subject: [PATCH 0/2] Subject: [PATCH v2 0/2] firmware: arm_scmi: Minor cleanups and documentation fixes
+Date: Mon,  1 Sep 2025 19:32:59 +0300
+Message-ID: <20250901163304.2504493-1-artyom.shimko@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250901161207.2501078-1-artyom.shimko@gmail.com>
+In-Reply-To: <y>
 References: <y>
- <20250901161207.2501078-1-artyom.shimko@gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -80,27 +79,41 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds a missing comment for xfer_lock spinlock in struct scmi_xfers_info.
-The spinlock protects access to the xfer buffers and transfer allocation
-mechanism, preventing race conditions in concurrent access scenarios.
+Hello maintainers,
 
-Signed-off-by: Artem Shimko <artyom.shimko@gmail.com>
----
- drivers/firmware/arm_scmi/driver.c | 1 +
- 1 file changed, 1 insertion(+)
+This small patch series addresses some minor issues found in the SCMI driver:
 
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index bd56a877fdfc..6828392152f4 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -76,6 +76,7 @@ static struct dentry *scmi_top_dentry;
-  */
- struct scmi_xfers_info {
- 	unsigned long *xfer_alloc_table;
-+	/* Protects access to the xfer buffers */
- 	spinlock_t xfer_lock;
- 	int max_msg;
- 	struct hlist_head free_xfers;
+Patch 1 fixes alignment and indentation inconsistencies in multiple files:
+
+Adjusts function parameter alignment in protocol_id_show()
+
+Fixes debugfs call alignment in raw_mode.c for both message and message_async entries
+
+Patch 2 adds missing documentation for the xfer_lock spinlock that protects
+access to xfer buffers and transfer allocation mechanism, making the code
+more maintainable and easier to understand.
+
+These are straightforward cleanups that don't change any functionality but
+improve code quality and documentation.
+
+Best regards,
+Artem Shimko
+
+Changes in v2:
+
+Added missing alignment fix for message_async debugfs call that was
+overlooked in the initial version.
+
+Artem Shimko (2):
+  firmware: arm_scmi: fix alignment in protocol_id_show and debugfs
+    calls
+  firmware: arm_scmi: add missing spinlock documentation
+
+ drivers/firmware/arm_scmi/bus.c      | 2 +-
+ drivers/firmware/arm_scmi/driver.c   | 1 +
+ drivers/firmware/arm_scmi/raw_mode.c | 8 ++++----
+ 3 files changed, 6 insertions(+), 5 deletions(-)
+
 -- 
 2.43.0
 
