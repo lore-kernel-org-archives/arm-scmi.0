@@ -1,35 +1,45 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DB67246778;
-	Tue,  2 Sep 2025 09:27:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E7782EE268;
+	Tue,  2 Sep 2025 09:59:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756805239; cv=none; b=WftUMGHI5QsmdBlAnhBmKJE0km0FTVv/idF2QTCAzMEYB8GHSXgsCwso2RipVMV44hzG72VBILsmNLYgdmL2dWD81IVZqBJwhMxP5ftT4TXQX0DcLanPXqbMhFt4wxO1rC1HJyl/1GWkB1mVs9OD0FgHp3339Mt5n6WTpNfiOYk=
+	t=1756807179; cv=none; b=YOoIuCSW3gJBllxzRFct/oMceRYz/+U1WKyQ0seYJ8kRFK06RjMvo9nJtIZZfku+rpLxX3yuLNMyLI4d9rLE/QCESe7A4b5baGr4YXEMa6VD5/MasGwogKIMtDXhcp0e4pPByh4afrkdEDjyUmnRjoStoQ4ZlLJYtI7xLlRJxvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756805239; c=relaxed/simple;
-	bh=IMmePrNbMJSSeHg6trXEyh/maoVMaV0R0jYCCcsItyM=;
+	s=arc-20240116; t=1756807179; c=relaxed/simple;
+	bh=M22+uJTa/W0eNL+3Bo93sBc6P8ROW0P0TJeVjfjQk18=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BERtpAuuN78cNsufHPdnPHfpKowzbjKBybGzjAy/+8zjRDwKnjZrT4hYsVIk+UHleYzNIbze5YPpQjC6GTcbSWxVVrjbhuCA5vWSJFO2eB2R2pgX4Bca6g/9RT+2zggL8eN8KJ2WF7EajoQbrXyHqXLtOFcjb1amo3E/JzTRrB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4EE5B168F;
-	Tue,  2 Sep 2025 02:27:07 -0700 (PDT)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7289F3F694;
-	Tue,  2 Sep 2025 02:27:14 -0700 (PDT)
-Date: Tue, 2 Sep 2025 10:27:11 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Artem Shimko <artyom.shimko@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=rhbMPSxxnAkWwhJ0KE/tcgYRrJYLXSeKhE6ShnsavNxaYMR8Z48s/W46Kt1LQxREAZftLW/NgCtg3gkQ30hp05+wMwQduF/T8c7aTFFin7l3NISUD8juzUKEVGnU2k+TdsjcDLBmg03Kr+DGw7kPIlarh43MrRtV9dKqy6yCIV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kzsM0CZ0; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kzsM0CZ0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99184C4CEED;
+	Tue,  2 Sep 2025 09:59:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756807178;
+	bh=M22+uJTa/W0eNL+3Bo93sBc6P8ROW0P0TJeVjfjQk18=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kzsM0CZ0400pFYojaPSN3T8hh4EfIYl7a/Mi8NEmZ1c6qb4DouJ9/F56YeIqbtCnD
+	 XPjcrINJyIv8Zbh4dunh7pNK5xMkUjpk+oYVqLjqfbzxZWnOAxGUKQfxbo/NDarrLJ
+	 JEW+8E1V5q1uCg7ZvVmDiEcF1mytSCutnNt4yLJ1BwpC6WmsTcll0jR2OlqMNpgpsV
+	 +dZOiaM6VTJlzYzIj7P5wZSj0CV9C7St6uj3cJ70LnbR8UjM3Z82ePB9Tvd8WUfoMp
+	 B7ZXtU1T6VcWritj/lKN9Hr5mDw/AXbn9BK/gnC4OUSgis9QTFw+s/4MJ1IeivSKee
+	 3/US+8bpFiBUw==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1utNnQ-0000000080j-2mDu;
+	Tue, 02 Sep 2025 11:59:25 +0200
+Date: Tue, 2 Sep 2025 11:59:24 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Sudeep Holla <sudeep.holla@arm.com>
 Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] firmware: arm_scmi: add missing spinlock
- documentation
-Message-ID: <20250902-daft-pompous-angelfish-459c6e@sudeepholla>
-References: <y>
- <20250901161207.2501078-1-artyom.shimko@gmail.com>
- <20250901161207.2501078-3-artyom.shimko@gmail.com>
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, Jan Palus <jpalus@fastmail.com>
+Subject: Re: [PATCH] firmware: arm_scmi: quirk: fix write to string constant
+Message-ID: <aLa__M_VJYqxb9mc@hovoldconsulting.com>
+References: <20250829132152.28218-1-johan@kernel.org>
+ <aLG5XFHXKgcBida8@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,31 +48,46 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250901161207.2501078-3-artyom.shimko@gmail.com>
+In-Reply-To: <aLG5XFHXKgcBida8@hovoldconsulting.com>
 
-On Mon, Sep 01, 2025 at 07:12:04PM +0300, Artem Shimko wrote:
-> Adds a missing comment for xfer_lock spinlock in struct scmi_xfers_info.
-> The spinlock protects access to the xfer buffers and transfer allocation
-> mechanism, preventing race conditions in concurrent access scenarios.
+Hi Sudeep,
+
+On Fri, Aug 29, 2025 at 04:29:48PM +0200, Johan Hovold wrote:
+> On Fri, Aug 29, 2025 at 03:21:52PM +0200, Johan Hovold wrote:
+> > The quirk version range is typically a string constant and must not be
+> > modified (e.g. as it may be stored in read-only memory):
+> > 
+> > 	Unable to handle kernel write to read-only memory at virtual
+> > 	address ffffc036d998a947
+> > 
+> > Fix the range parsing so that it operates on a copy of the version range
+> > string, and mark all the quirk strings as const to reduce the risk of
+> > introducing similar future issues.
 > 
-> Signed-off-by: Artem Shimko <artyom.shimko@gmail.com>
-> ---
->  drivers/firmware/arm_scmi/driver.c | 1 +
->  1 file changed, 1 insertion(+)
+> With Jan's permission, let's add:
 > 
-> diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-> index bd56a877fdfc..6828392152f4 100644
-> --- a/drivers/firmware/arm_scmi/driver.c
-> +++ b/drivers/firmware/arm_scmi/driver.c
-> @@ -76,6 +76,7 @@ static struct dentry *scmi_top_dentry;
->   */
->  struct scmi_xfers_info {
->  	unsigned long *xfer_alloc_table;
-> +	/* Protects access to the xfer buffers */
+> Reported-by: Jan Palus <jpalus@fastmail.com>
+> 
+> > Closes: https://bugzilla.kernel.org/show_bug.cgi?id=220437
+> > Fixes: 487c407d57d6 ("firmware: arm_scmi: Add common framework to handle firmware quirks")
+> > Cc: stable@vger.kernel.org	# 6.16
+> > Cc: Cristian Marussi <cristian.marussi@arm.com>
+> > Signed-off-by: Johan Hovold <johan@kernel.org>
 
-Thanks for your patch but this is quite obvious and I see no point in
-just adding this comment.
+I noticed that you picked up this fix yesterday but also that you
+rewrote the commit message and switched using cleanup helpers.
 
--- 
-Regards,
-Sudeep
+Please don't do such (non-trivial) changes without making that clear
+in the commit message before your Signed-off-by tag:
+
+	[ sudeep: rewrite commit message; switch to cleanup helpers ]
+
+In this case, you also changed the meaning so that the commit message
+now reads like the sole reason that writing to string constants is wrong
+is that they may reside in read-only memory.
+
+I used "e.g." on purpose instead of listing further reasons like the
+fact that string constants may be shared so that parsing of one quirk
+can subtly break a later one.
+
+Johan
