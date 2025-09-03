@@ -1,211 +1,173 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [185.119.170.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F328824E4BD
-	for <arm-scmi@vger.kernel.org>; Tue,  2 Sep 2025 23:56:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C282D7DD5;
+	Wed,  3 Sep 2025 19:18:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.119.170.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756857375; cv=none; b=l9cmPJTmY3fAy19kjWg5OxLuSDjAmaOubx6une9+2xMR9MWgQtJGjgZUAiuW9qPC2TlQcUpV0fI6pwrkP1S0DE8+Hh4KlttwEQvHVMcGwZwl+G/ajhS1Ii+IE9vxks1Gk6ayftOgkU9p//VqUYgw3M/rEmsSpCDgIsRCC4W0W0M=
+	t=1756927099; cv=none; b=IqHyQiV/pJjlKUvIuBcNiRcu3jJYlkilGiue0r7a8rU381yxi13qrwXzFYSjraPAJXBuUk1hwfWcEhcpHgaXhUc8Pd4+8RdYaWQgeduIj3I/l1UhJ1qblQVM7iFnXDtojfbbnGmjoiDlmBSijGELUf3iOkn3lo77jRNeaGF2tVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756857375; c=relaxed/simple;
-	bh=888ywDxPyUl4M6zpZ768anwPNrIvU3o92oYeraobAwY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=JuAhed9ZnB3IXnev0iiNXxcrWwD1ObzfwIQTThUTqfL8els7m4JxXuH7MD7EZZrGowcxWs0YGO8lBuWHDzqUWXFmwHV6XQNHBfK3JzcpCS3krneryDPXPNBQaKxk9Wucl6U+6LlnPgFoAR5s+AQgIo5mY6jvZels0rBBS6LeKH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G/388lof; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1756927099; c=relaxed/simple;
+	bh=83cV/7EoxlRdQz7wlI4WnGn5t/IKXeIv5jWCwnuB+14=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=aocHHxX/hMc1Zj01hIw721pZ6iQCwG3iNVFSsI/nbKCW2kxz4+vpyzRUHgSCnf48l+py0dMJ+HmjlNmoqPCaIcoB3ySVRoB9m/Lqo67YwA+FeUXQSuPF0uipeiR63zgK8Qc5X7nP6Y++bm6JsjNER//MNyvn3Mf1bouzD577BBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=M013U4Ma; arc=none smtp.client-ip=185.119.170.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G/388lof"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1756857372;
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="M013U4Ma"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1756927095;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h1ZYHDqv025lJgwhhRN8DEjjxbXljdscTG4+1iteT+E=;
-	b=G/388lof8fZLNVbXRDZbgd5wCnXJVEwFl6QbHUnWykNYnFbQea0l1KDf2vDuyPzDRKGn38
-	7ghgpFs1Zd2yhTWMltM9fzF8WdIaa4cIN6RnNqvoiFoJdIr74ZueZzBUPBErp2A47+vx+H
-	viL24FWuXtfTxr8QWduiUO6LUXxg4Ec=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-640-MKzyWINXOwiqTxVbKsBmsQ-1; Tue, 02 Sep 2025 19:56:11 -0400
-X-MC-Unique: MKzyWINXOwiqTxVbKsBmsQ-1
-X-Mimecast-MFC-AGG-ID: MKzyWINXOwiqTxVbKsBmsQ_1756857371
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-720408622e2so24589066d6.0
-        for <arm-scmi@vger.kernel.org>; Tue, 02 Sep 2025 16:56:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756857371; x=1757462171;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h1ZYHDqv025lJgwhhRN8DEjjxbXljdscTG4+1iteT+E=;
-        b=rIKyfmxthgx+xXV3KaAcJz5uuCkRU43Ucp54mHWM8Y1jKsWnR+KTXwKnGmE8Vwccgp
-         TSVM7336kTj2UoyZWpeUHGHtIEQs+lRfoF9YhyD9MblcTNtbgDWZGnyUpthHfHe3gLCE
-         SYcEIS/RjadOAGWrVWBecoP6KxXrIiOsto9DzHIodHfm+dnUlQmiy1eQql+CCkEXMeqF
-         ObWtFpLgE4C8Sp5440DOg6gfebgzv3T9BJLURHV1+4n1xJZeWkMZ3yG3LMrxGDvjSLRz
-         yjwfSC5vn7lb9AO8rzBtHeWVCpyo0kzcpQGj1f3+M0EY5G4wnhH5KMCx5Ea0J0dyLun0
-         UdNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV2J2zzrzl5VJN5Y93ieoPmdw0nl6cBxdS8dvQiRo3x7RG8PsG3Me2cMXsVe5q3G0xFpibY6uXStg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxqiy7TOppF0X88nypUxv9W5opLAh+xLrcDym3lxmfJw6ipvrVo
-	uWfz/DSjJl+JuTlNlvaylb/0vxYl2IKnxPXtF27i9hbcCrTzRvlikLDwR23BC7svisE5YUkVBJ7
-	11E48JMK52YqmlfQqN02jkuXtRJAUro0nPe6cYEJspnm0grMd835aGW+BGH0U
-X-Gm-Gg: ASbGnctR8vjpZ6PZ1m7ftbjXfe1oqfH2iRurBi8PSY4/n2lDFu9El6H3kRZxpd9O1zx
-	s/pluhpIupjiGRMoL2eaN7NAy/+MGnqhKRTyutpZtvemJpm00AdSYcs/U/qncw71dg00eLkV6E8
-	BgaF/pDS7TpOFIelTV79zddvydUOimBYDWNQfIbky9t3hM6glumC1wI+nkvjKWdSOojwuAT+8el
-	w7Ioa14ukFfN+CzTtkZz+vcFh+4jiGBpV6NfgY3DnQwkPVYoMXN6rtct8y9fWip9NmuE9cYFWq6
-	hUgOVoaOgkd2+6zf8Po3Bdw7HQB54T3qrtt7/za0FhKpLwrC773MKFrL
-X-Received: by 2002:a05:6214:403:b0:70d:ff3a:f96b with SMTP id 6a1803df08f44-70fac89e1acmr152518536d6.44.1756857371105;
-        Tue, 02 Sep 2025 16:56:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHB9u8oxnT7u5IixuDLd0JsqQC/w6ZeQd7EFEgifkIuiCwykZelS8Lp+UAMgPRJm62ZRJZeJA==
-X-Received: by 2002:a05:6214:403:b0:70d:ff3a:f96b with SMTP id 6a1803df08f44-70fac89e1acmr152518396d6.44.1756857370724;
-        Tue, 02 Sep 2025 16:56:10 -0700 (PDT)
-Received: from x1 ([2600:382:8106:c00:522a:3619:4560:3aa])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720b4666156sm19976446d6.39.2025.09.02.16.56.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Sep 2025 16:56:10 -0700 (PDT)
-Date: Tue, 2 Sep 2025 19:56:07 -0400
-From: Brian Masney <bmasney@redhat.com>
-To: Peng Fan <peng.fan@nxp.com>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 2/3] clk: conf: Support assigned-clock-sscs
-Message-ID: <aLeEFzXkPog_dt2B@x1>
-References: <20250901-clk-ssc-version1-v2-0-1d0a486dffe6@nxp.com>
- <20250901-clk-ssc-version1-v2-2-1d0a486dffe6@nxp.com>
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=zUd3hbPutfTlDAjUwHIkED1FOMMH63fasP77ATNMKWI=;
+	b=M013U4MaToItOZxUrRJlNgf3goruACFm3i1msJg9jS7+HrTxirIsbgBywDk0B5jKoJZNHe
+	5GoEutO36JaVJOooUiUSeVBruDzW1fnbZkbLEJf2t0JycvE4miuhDdGhJAyVfZ57ChqOga
+	N/tyTnB51UGdvYdyVgUUSZcxz127gLI=
+Message-ID: <9387ed0a6d4e4c77ffd0f7aee55eaa1ff6ecd22e.camel@crapouillou.net>
+Subject: Re: [PATCH 022/114] clk: ingenic: cgu: convert from round_rate() to
+ determine_rate()
+From: Paul Cercueil <paul@crapouillou.net>
+To: bmasney@redhat.com, Michael Turquette <mturquette@baylibre.com>, Stephen
+ Boyd <sboyd@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, Cristian
+ Marussi	 <cristian.marussi@arm.com>, Chen Wang <unicorn_wang@outlook.com>,
+ Inochi Amaoto	 <inochiama@gmail.com>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>,  Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Keguang Zhang	 <keguang.zhang@gmail.com>, Taichi Sugaya
+ <sugaya.taichi@socionext.com>,  Takao Orito <orito.takao@socionext.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer	 <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,  Fabio Estevam
+ <festevam@gmail.com>, Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung
+ <schung@nuvoton.com>,  Vladimir Zapolskiy	 <vz@mleia.com>, Piotr
+ Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Samuel Holland <samuel.holland@sifive.com>,
+ Yixun Lan	 <dlan@gentoo.org>, Steen Hegelund
+ <Steen.Hegelund@microchip.com>, Daniel Machon	
+ <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, Orson Zhai	
+ <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan
+ Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue	 <alexandre.torgue@foss.st.com>, Michal Simek
+ <michal.simek@amd.com>, Maxime Ripard <mripard@kernel.org>, Andreas
+ =?ISO-8859-1?Q?F=E4rber?= <afaerber@suse.de>,  Manivannan Sadhasivam	
+ <mani@kernel.org>, Sven Peter <sven@kernel.org>, Janne Grunau
+ <j@jannau.net>,  Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa
+ <neal@gompa.dev>, Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,  Ray Jui
+ <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, Broadcom
+ internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Max
+ Filippov <jcmvbkbc@gmail.com>, Matthias Brugger	 <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno	 <angelogioacchino.delregno@collabora.com>,
+ Daniel Palmer <daniel@thingy.jp>,  Romain Perier <romain.perier@gmail.com>,
+ Andrew Lunn <andrew@lunn.ch>, Gregory Clement	
+ <gregory.clement@bootlin.com>, Sebastian Hesselbarth	
+ <sebastian.hesselbarth@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, Heiko Stuebner
+ <heiko@sntech.de>, Andrea della Porta <andrea.porta@suse.com>,  Krzysztof
+ Kozlowski	 <krzk@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Chanwoo Choi	 <cw00.choi@samsung.com>, Alim Akhtar
+ <alim.akhtar@samsung.com>, Qin Jian	 <qinjian@cqplus1.com>, Viresh Kumar
+ <vireshk@kernel.org>, Ulf Hansson	 <ulf.hansson@linaro.org>, Luca Ceresoli
+ <luca.ceresoli@bootlin.com>, Alex Helms	 <alexander.helms.jy@renesas.com>,
+ Linus Walleij <linus.walleij@linaro.org>,  Liviu Dudau
+ <liviu.dudau@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, Nobuhiro
+ Iwamatsu	 <nobuhiro1.iwamatsu@toshiba.co.jp>
+Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	sophgo@lists.linux.dev, linux-mips@vger.kernel.org, imx@lists.linux.dev, 
+	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
+	linux-stm32@st-md-mailman.stormreply.com, patches@opensource.cirrus.com, 
+	linux-actions@lists.infradead.org, asahi@lists.linux.dev, 
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
+Date: Wed, 03 Sep 2025 21:18:09 +0200
+In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-22-b3bf97b038dc@redhat.com>
+References: 
+	<20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
+	 <20250811-clk-for-stephen-round-rate-v1-22-b3bf97b038dc@redhat.com>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
+ LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
+ FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
+ z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
+ +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
+ 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
+ 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
+ 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
+ dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
+ 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
+ rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
+ lBwgAhlGy6nqP7O3u7q23hRU=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20250901-clk-ssc-version1-v2-2-1d0a486dffe6@nxp.com>
-User-Agent: Mutt/2.2.14 (2025-02-20)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: gG6wM6_Jv7itvhFnKjAk9eZgOTWHasmY9ehodiC7iws_1756857371
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Hi Peng,
+Hi Brian,
 
-On Mon, Sep 01, 2025 at 11:51:46AM +0800, Peng Fan wrote:
-> Parse the Spread Spectrum Configuration(SSC) from device tree and configure
-> them before using the clock.
-> 
-> Each SSC is three u32 elements which means '<modfreq spreaddepth
-> modmethod>', so assigned-clock-sscs is an array of multiple three u32
-> elements.
-> 
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+Le lundi 11 ao=C3=BBt 2025 =C3=A0 11:18 -0400, Brian Masney via B4 Relay a
+=C3=A9crit=C2=A0:
+> From: Brian Masney <bmasney@redhat.com>
+>=20
+> The round_rate() clk ops is deprecated, so migrate this driver from
+> round_rate() to determine_rate() using the Coccinelle semantic patch
+> on the cover letter of this series.
+>=20
+> Signed-off-by: Brian Masney <bmasney@redhat.com>
 
-Stephen has also been asking for kunit tests to be added for new
-functionality in the clk core. There's already one kunit test that
-calls of_clk_set_defaults(). I attached a very rough draft of a patch
-showing that it'd be possible to mock this up in a test with what's
-already there. I set a log statement with the configuration from
-device tree:
+Reviewed-by: Paul Cercueil <paul@crapouillou.net>
 
-test_assigned_rate0: Spread Sprectrum Configuration: modfreq_hz=10000 spread_bp=3 method=1
+Cheers,
+-Paul
 
-You can run the kunit tests with:
-
-./tools/testing/kunit/kunit.py run \
-	--kunitconfig drivers/clk/.kunitconfig \
-	--raw_output=all
-
-Additionally, what do you think about making a dt-bindings include file
-for CLK_SSC_CENTER_SPREAD + friends? Right now, the test illustrates
-that we need to hardcode the number from the clk-provider.h file inside
-the DTS.
-
-Here's the patch and feel free to make it your own as you see fit.
-
-Brian
-
-
-
-diff --git a/drivers/clk/clk_test.c b/drivers/clk/clk_test.c
-index a268d7b5d4cb..6cc3ad883b35 100644
---- a/drivers/clk/clk_test.c
-+++ b/drivers/clk/clk_test.c
-@@ -28,6 +28,7 @@ static const struct clk_ops empty_clk_ops = { };
- struct clk_dummy_context {
- 	struct clk_hw hw;
- 	unsigned long rate;
-+	struct clk_spread_spectrum sscs;
- };
- 
- static unsigned long clk_dummy_recalc_rate(struct clk_hw *hw,
-@@ -83,6 +84,17 @@ static int clk_dummy_set_rate(struct clk_hw *hw,
- 	return 0;
- }
- 
-+static int clk_dummy_set_spread_spectrum(struct clk_hw *hw,
-+					 struct clk_spread_spectrum *conf)
-+{
-+	struct clk_dummy_context *ctx =
-+		container_of(hw, struct clk_dummy_context, hw);
-+
-+	ctx->sscs = *conf;
-+
-+	return 0;
-+}
-+
- static int clk_dummy_single_set_parent(struct clk_hw *hw, u8 index)
- {
- 	if (index >= clk_hw_get_num_parents(hw))
-@@ -100,18 +112,21 @@ static const struct clk_ops clk_dummy_rate_ops = {
- 	.recalc_rate = clk_dummy_recalc_rate,
- 	.determine_rate = clk_dummy_determine_rate,
- 	.set_rate = clk_dummy_set_rate,
-+	.set_spread_spectrum = clk_dummy_set_spread_spectrum,
- };
- 
- static const struct clk_ops clk_dummy_maximize_rate_ops = {
- 	.recalc_rate = clk_dummy_recalc_rate,
- 	.determine_rate = clk_dummy_maximize_rate,
- 	.set_rate = clk_dummy_set_rate,
-+	.set_spread_spectrum = clk_dummy_set_spread_spectrum,
- };
- 
- static const struct clk_ops clk_dummy_minimize_rate_ops = {
- 	.recalc_rate = clk_dummy_recalc_rate,
- 	.determine_rate = clk_dummy_minimize_rate,
- 	.set_rate = clk_dummy_set_rate,
-+	.set_spread_spectrum = clk_dummy_set_spread_spectrum,
- };
- 
- static const struct clk_ops clk_dummy_single_parent_ops = {
-@@ -3192,7 +3207,13 @@ static int clk_assigned_rates_test_init(struct kunit *test)
- 			consumer = of_find_compatible_node(NULL, NULL, "test,clk-consumer"));
- 		of_node_put_kunit(test, consumer);
- 
-+		// Here's an example of a test that shows where
-+		// of_clk_set_defaults() is called for the consumer.
- 		KUNIT_ASSERT_EQ(test, 0, of_clk_set_defaults(consumer, false));
-+		pr_crit("%s: Spread Sprectrum Configuration: modfreq_hz=%u spread_bp=%u method=%u\n",
-+			clk_hw_get_name(&ctx->clk0.hw), ctx->clk0.sscs.modfreq_hz,
-+			ctx->clk0.sscs.spread_bp, ctx->clk0.sscs.method);
-+
- 	}
- 
- 	return 0;
-diff --git a/drivers/clk/kunit_clk_assigned_rates_one_consumer.dtso b/drivers/clk/kunit_clk_assigned_rates_one_consumer.dtso
-index a41dca806318..a157a316a10d 100644
---- a/drivers/clk/kunit_clk_assigned_rates_one_consumer.dtso
-+++ b/drivers/clk/kunit_clk_assigned_rates_one_consumer.dtso
-@@ -14,5 +14,6 @@ kunit-clock-consumer {
- 		compatible = "test,clk-consumer";
- 		assigned-clocks = <&clk>;
- 		assigned-clock-rates = <ASSIGNED_RATES_0_RATE>;
-+		assigned-clock-sscs = <10000 3 1>;
- 	};
- };
-
+> ---
+> =C2=A0drivers/clk/ingenic/cgu.c | 12 +++++++-----
+> =C2=A01 file changed, 7 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/clk/ingenic/cgu.c b/drivers/clk/ingenic/cgu.c
+> index
+> 0c9c8344ad1103b13337a26e14b0d5d5c340d705..91e7ac0cc3342e3552acb9d2ec0
+> 0865a5234ad4f 100644
+> --- a/drivers/clk/ingenic/cgu.c
+> +++ b/drivers/clk/ingenic/cgu.c
+> @@ -174,14 +174,16 @@ ingenic_pll_calc(const struct
+> ingenic_cgu_clk_info *clk_info,
+> =C2=A0		n * od);
+> =C2=A0}
+> =C2=A0
+> -static long
+> -ingenic_pll_round_rate(struct clk_hw *hw, unsigned long req_rate,
+> -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long *prate)
+> +static int ingenic_pll_determine_rate(struct clk_hw *hw,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct clk_rate_request *req)
+> =C2=A0{
+> =C2=A0	struct ingenic_clk *ingenic_clk =3D to_ingenic_clk(hw);
+> =C2=A0	const struct ingenic_cgu_clk_info *clk_info =3D
+> to_clk_info(ingenic_clk);
+> =C2=A0
+> -	return ingenic_pll_calc(clk_info, req_rate, *prate, NULL,
+> NULL, NULL);
+> +	req->rate =3D ingenic_pll_calc(clk_info, req->rate, req-
+> >best_parent_rate,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 NULL, NULL, NULL);
+> +
+> +	return 0;
+> =C2=A0}
+> =C2=A0
+> =C2=A0static inline int ingenic_pll_check_stable(struct ingenic_cgu *cgu,
+> @@ -317,7 +319,7 @@ static int ingenic_pll_is_enabled(struct clk_hw
+> *hw)
+> =C2=A0
+> =C2=A0static const struct clk_ops ingenic_pll_ops =3D {
+> =C2=A0	.recalc_rate =3D ingenic_pll_recalc_rate,
+> -	.round_rate =3D ingenic_pll_round_rate,
+> +	.determine_rate =3D ingenic_pll_determine_rate,
+> =C2=A0	.set_rate =3D ingenic_pll_set_rate,
+> =C2=A0
+> =C2=A0	.enable =3D ingenic_pll_enable,
