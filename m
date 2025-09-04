@@ -1,136 +1,105 @@
-Received: from aposti.net (aposti.net [185.119.170.32])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B252D8DB7;
-	Wed,  3 Sep 2025 19:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.119.170.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5162C11EC
+	for <arm-scmi@vger.kernel.org>; Thu,  4 Sep 2025 08:49:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756927239; cv=none; b=nnqO3evFtIt+5VADF09bwF1HgonZNMZillNczluLDofxUAWprcMKcB3MdaKNC+G0yELSvAYyYWM3/1r+mHdbbEoLXb7qMi7RBU8lxS3GpD98h1u6h1kE/4CciP8JiEDCIr/IjT1lvNreIGsnSmpOoLD4eRqew7GLb5kZRiy+w5k=
+	t=1756975765; cv=none; b=EhzuUx+07rOBc5jAn3gReQVePECMfWN5c4E2ZvH0Fnrg8xR+CEg0jWgWqRm1Tv18M1IZwReX3eQGFa69uM0jJjiRr3N9HFSKvb+JBMEVmDPdtq/cjInnf/CNgDcMLrd/MQIVDwaANmaIdhn1KXKRioah+awhwt22wKP/FWgaPGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756927239; c=relaxed/simple;
-	bh=kRSOTd5XrHRhOT4S3xBCr2B49OtJoj5AOBsWHzaGwXc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=SW+LUlAyNFUKkbFyzCxAYsYgo7L+nQuD32k9quKV7nNvIckun8/7uC9smO8/k11vLnjyJWuLQKX2aCUZb0RiJH/JcUVPfuX2TAQMP1cCZZc+D2cOXPLtqO/LitGtaZxxc/aCcHa4xkpwXJSHAhiPxOP7n8xuIdSf3MHE4y5H0Es=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=Z0xvlH/E; arc=none smtp.client-ip=185.119.170.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+	s=arc-20240116; t=1756975765; c=relaxed/simple;
+	bh=FptIsGmqRbieFIdHGIh7ZvUvDOvc+p/QvsVq7Yc63QU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ssF7SvGAFCXG25xgRVFB21vgUc0AOvQaJOLLF7djedKc8hxmjTfQO2J9Qwht4UrMSeF9XHRxo2XMZzNEpsRdE/aTJD6A094+cpLn0ELsMSg5YCnWrALJ0R/OJsxKbhcFxF62XOYuM6bUo1EwDsyDPPQ4eeAKX94t5jUscqK5fbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FNG+gAH7; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="Z0xvlH/E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1756927235;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=c+ZgGU/Y7ymCGJS4a8iBSCEwRU68y0Cdd3gwtYGpdv4=;
-	b=Z0xvlH/ECfsC59swm4ATc7moQPplDnhXIzmBF4X35r6pJmnBDDeoU1Ie5Ab1yxhe+1ln8W
-	GcUQb2ZLGdW9NnPudS1kvJ3oXxwi39axE8bJQYRDLCQpq4QuYcwKIMP6MOFv74jzcnlQqN
-	tMc5uO4lOOAAr/7RBg88uyXzuq33+zQ=
-Message-ID: <f19aa842d210bf4cd3d7abf03ea7323f9e52df75.camel@crapouillou.net>
-Subject: Re: [PATCH 024/114] clk: ingenic: x1000-cgu: convert from
- round_rate() to determine_rate()
-From: Paul Cercueil <paul@crapouillou.net>
-To: bmasney@redhat.com, Michael Turquette <mturquette@baylibre.com>, Stephen
- Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	sophgo@lists.linux.dev, linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com, patches@opensource.cirrus.com, 
-	linux-actions@lists.infradead.org, asahi@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
-Date: Wed, 03 Sep 2025 21:20:32 +0200
-In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-24-b3bf97b038dc@redhat.com>
-References: 
-	<20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
-	 <20250811-clk-for-stephen-round-rate-v1-24-b3bf97b038dc@redhat.com>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
- LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
- FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
- z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
- +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
- 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
- 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
- 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
- dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
- 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
- rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
- lBwgAhlGy6nqP7O3u7q23hRU=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FNG+gAH7"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45b7d87b90fso6278175e9.0
+        for <arm-scmi@vger.kernel.org>; Thu, 04 Sep 2025 01:49:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756975762; x=1757580562; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=UbFxI1nbUxvYttiFTOIOkRfkrktqt/DTjxu5fMg4KBU=;
+        b=FNG+gAH7YxbXJCwO2DUDx2N7MCf5Y9lSptBbbK5OXsehhp8k32Noo9fQnoWdGN5wNL
+         kq0sJM0DYVWaqpLQWmlygc7hGPtJ1+oCPXa37rm1+ybZYMlwZUWUNgcyCLTz0GAUUDlF
+         HE3ZUWr8cDx6JE7VoH8E5rXvhyR1lHjDJnmK0gV7qIcqImsRbw4oZWacKiSRHAu8iDGE
+         Bf71udxbuI6bcyc/2qOrDcfdt2lAwUZEHyd7AXKX7a22ZJolF1MCYhw5gzCl8hTYND/T
+         wkjeso8wQAerizC6Ay6q7C/3k4jksnZzqsxgPnsOjz8ltGAUJrt+cve9az/TmFM94r8P
+         QuRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756975762; x=1757580562;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UbFxI1nbUxvYttiFTOIOkRfkrktqt/DTjxu5fMg4KBU=;
+        b=wNl6UPKDya9OfivT7ZyWT2mFxcqpekMgnZ9Jfx7H3bFL4FeaHwBxWkurKB1721tB+2
+         HmstZry62PZqv9/L0KLp8R0NdkJTMbgMxUSaGcgbitZLQzhOMtGMELmUhiounLf/b+tr
+         ADnKT1FqvPDAftOGkYdKzieNPptaroSGpcewIRGDPaHsB6nzi6TmjdCOqTIWxTkw57uu
+         u3olLx+qureJxE08G92uIoR1IK9+VC4Rw764Kf8bapdBB4DY2CjUd47ksbtq1ItKW5IT
+         FoDOD+8g0agEi/PEM7XIvq2r29/mmQSkoxY+dcWuypH7GMS/UVY9QmHdCERQ0L7wTH2U
+         S5Uw==
+X-Forwarded-Encrypted: i=1; AJvYcCXhxLgpY3lq+KVMYEPoCsgfVEwEkeU13wVE7hxZSGdOjw3ui5O1mpRLPqhHkmPUq+x8XSNWzR98BQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxH6d55YBoa2E34PeR42+n3bNKn9kNh3iLMbcQ+FKvsmRfqDG/H
+	B466Fj84OXLMsI7oGn3VwIWrakLOEjXgulUQHQsPKFpAD+2+G9zU21OWBioQL0m3Npc=
+X-Gm-Gg: ASbGnctzwpEVXDBMnsJqby/eITlMchAmZMfmRksFHt8IL8aZTM1cQKWudklFWT7sKgN
+	A6O72ImqfWUydWgfWBDhVHmGx0iFqmySN1LuyARoWAu2xXjwEAav08+sKdxukdWCqaO9vVK8ewl
+	D1OAE/1c29hN34HVHyARSODE9cx/gufFd9PWCvvM2Kl5agoZMJattFf90x5/UkOtLte2a2OxgLM
+	Jc3TgjwGWSoKJ77/09Nw6Qn5747FvJrCmnTsg7IAwuSQHsSjkL929ZkBTU8W55TLkAk88SeCx4+
+	cx7M3NeDDP8R8Z3HjfUzZ/XTIwgla3W1vyWETZ8J80CLEWYi7BUK42lPrLhlBjsQ2nilXamICbu
+	R6BfYxbzNuxYrhRHfpLHz8zyHYhHiPj0TG3SpZA==
+X-Google-Smtp-Source: AGHT+IEXzX+ko/VujNgyg1NkhNKGRrpRh4vT/RECxhIyLp2Rrc+Ao5e4p7lcyFLqt6liOn/R8Fm6cA==
+X-Received: by 2002:a05:600c:1f06:b0:45c:b6d3:a11d with SMTP id 5b1f17b1804b1-45cb6d3a1aamr38609495e9.1.1756975761979;
+        Thu, 04 Sep 2025 01:49:21 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45dd0754597sm12220685e9.11.2025.09.04.01.49.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Sep 2025 01:49:21 -0700 (PDT)
+Date: Thu, 4 Sep 2025 11:49:17 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: AKASHI Takahiro <takahiro.akashi@linaro.org>,
+	Michal Simek <michal.simek@amd.com>, arm-scmi@vger.kernel.org,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>
+Subject: Re: [PATCH RFC v2 0/7] pinctrl-scmi: Add GPIO support
+Message-ID: <aLlSjZX_l8ifxL_h@stanley.mountain>
+References: <cover.1753039612.git.dan.carpenter@linaro.org>
+ <CACRpkdapzTTJhAvY1BL8GnUpCc_iHESbY9bFsNTE4Z6FjusiJw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACRpkdapzTTJhAvY1BL8GnUpCc_iHESbY9bFsNTE4Z6FjusiJw@mail.gmail.com>
 
-Le lundi 11 ao=C3=BBt 2025 =C3=A0 11:18 -0400, Brian Masney via B4 Relay a
-=C3=A9crit=C2=A0:
-> From: Brian Masney <bmasney@redhat.com>
->=20
-> The round_rate() clk ops is deprecated, so migrate this driver from
-> round_rate() to determine_rate() using the Coccinelle semantic patch
-> on the cover letter of this series.
->=20
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
+On Mon, Aug 18, 2025 at 11:03:43AM +0200, Linus Walleij wrote:
+> On Sun, Jul 20, 2025 at 9:38 PM Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> 
+> > This is version 2 of the RFC.  The main reason I'm sending this is because
+> > there was a bug in the first version where it didn't calculate the offset
+> > correctly so pins and groups weren't linked correctly.
+> 
+> I'm thinking of applying patches 4, 5 and 7 of this patch set to get
+> some movement in the code upstream and make less work for you
+> to rebase the thing, would this be OK?
 
-Reviewed-by: Paul Cercueil <paul@crapouillou.net>
+I think we need to hold of on 5.  I think patch 5 is the right thing, but
+I need to make sure that it doesn't break anything.  I was hoping people
+who care about it would let me know.
 
-Cheers,
--Paul
+Applying patch 1 is pretty easy as well.  We could do that too.
 
-> ---
-> =C2=A0drivers/clk/ingenic/x1000-cgu.c | 19 ++++++++++---------
-> =C2=A01 file changed, 10 insertions(+), 9 deletions(-)
->=20
-> diff --git a/drivers/clk/ingenic/x1000-cgu.c
-> b/drivers/clk/ingenic/x1000-cgu.c
-> index
-> feb03eed4fe8c8f617ef98254a522d72d452ac17..d80886caf393309a0c908c06fb5
-> aa8b59aced127 100644
-> --- a/drivers/clk/ingenic/x1000-cgu.c
-> +++ b/drivers/clk/ingenic/x1000-cgu.c
-> @@ -84,16 +84,17 @@ static unsigned long
-> x1000_otg_phy_recalc_rate(struct clk_hw *hw,
-> =C2=A0	return parent_rate;
-> =C2=A0}
-> =C2=A0
-> -static long x1000_otg_phy_round_rate(struct clk_hw *hw, unsigned
-> long req_rate,
-> -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long *parent_rate)
-> +static int x1000_otg_phy_determine_rate(struct clk_hw *hw,
-> +					struct clk_rate_request
-> *req)
-> =C2=A0{
-> -	if (req_rate < 18000000)
-> -		return 12000000;
-> -
-> -	if (req_rate < 36000000)
-> -		return 24000000;
-> +	if (req->rate < 18000000)
-> +		req->rate =3D 12000000;
-> +	else if (req->rate < 36000000)
-> +		req->rate =3D 24000000;
-> +	else
-> +		req->rate =3D 48000000;
-> =C2=A0
-> -	return 48000000;
-> +	return 0;
-> =C2=A0}
-> =C2=A0
-> =C2=A0static int x1000_otg_phy_set_rate(struct clk_hw *hw, unsigned long
-> req_rate,
-> @@ -161,7 +162,7 @@ static int x1000_usb_phy_is_enabled(struct clk_hw
-> *hw)
-> =C2=A0
-> =C2=A0static const struct clk_ops x1000_otg_phy_ops =3D {
-> =C2=A0	.recalc_rate =3D x1000_otg_phy_recalc_rate,
-> -	.round_rate =3D x1000_otg_phy_round_rate,
-> +	.determine_rate =3D x1000_otg_phy_determine_rate,
-> =C2=A0	.set_rate =3D x1000_otg_phy_set_rate,
-> =C2=A0
-> =C2=A0	.enable		=3D x1000_usb_phy_enable,
+Sorry for the delayed response.
+
+regards,
+dan carpenter
