@@ -1,38 +1,38 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 409A62E228C;
-	Mon,  8 Sep 2025 11:07:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 806262F90DC;
+	Mon,  8 Sep 2025 11:09:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757329638; cv=none; b=sXsYj4DL+cglzRMe7Bbu977A9x9NKiCQZOrwPi/w0Xb+EVVQEBgPGNupvHrnAD7UCFFrGK86xKNdSe8z8p0aSSz33TV1k5ZJVInm1X24VTqMOr1+zE7o+g1fTu+0CXPwp5lntZIM4URlZGmtYx1wHpezXw2xm/d3qkU5Yb7ZMkg=
+	t=1757329793; cv=none; b=JiTvRfuaEexjWWjg0SeVJisqQzkPWt4tWYEbc8wLzylzJdtsMEY3PNZGgOmJ/88FsUzHzLlyRNkOXVhOjG+Ehopo9NfTx85EMwY6Tq3LtOk04JiI6qclMgrtU1k5+w1FtZoicSQ0eLbrwsf68M0tr7DzummGUG5rjHmd7zYHrHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757329638; c=relaxed/simple;
-	bh=J8ERhNsOUYngC6+/ZA18LHJQQ7hPHqkgdBXSgA3kNTQ=;
+	s=arc-20240116; t=1757329793; c=relaxed/simple;
+	bh=AvMdB2dcYGMV2EyNRqCtb0+TAFiqbu2iLNFeL01Lrxg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ub3J6uQTGbALAfBx2IZvzE4FIwk87R3pD53qPX/FYZ7Vix66soLAFoCi9OxviNbn1E01Kk42o0mhu5N4iToYSyOVZnjmZoZMZGlnjaMErV7P44OIv6B5s7/KQWc5zMJpHwm3FLCBu4a0clNpIZC+b+16pbVTu1/fopyThaij+PU=
+	 Content-Type:Content-Disposition:In-Reply-To; b=gUuiFs/LyT4ydkvF09pJUD0OKZYbJSeOCwRxDwzY79nXidmEJi682/qQQezD0gUYHtcdTsbMMlU/TJdK9AOrmP7zigs5aozK1k9NscGhvVaZ7i7eYkrcxJy0a7K5+MHLlzRp14SrpQIbhLFAAqw1pPZ9vTCmf4dhkB3oD4xqa2U=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6A10D1692;
-	Mon,  8 Sep 2025 04:07:08 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C02B01692;
+	Mon,  8 Sep 2025 04:09:43 -0700 (PDT)
 Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D8AEA3F63F;
-	Mon,  8 Sep 2025 04:07:14 -0700 (PDT)
-Date: Mon, 8 Sep 2025 12:07:12 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 37BA43F63F;
+	Mon,  8 Sep 2025 04:09:50 -0700 (PDT)
+Date: Mon, 8 Sep 2025 12:09:47 +0100
 From: Sudeep Holla <sudeep.holla@arm.com>
 To: Peng Fan <peng.fan@nxp.com>
 Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
 	Shawn Guo <shawnguo@kernel.org>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
+	Sudeep Holla <sudeep.holla@arm.com>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
 	Fabio Estevam <festevam@gmail.com>, <arm-scmi@vger.kernel.org>,
 	<imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 6/6] firmware: imx: sm-misc: Dump syslog info
-Message-ID: <20250908-devious-hairy-reindeer-ae1d05@sudeepholla>
+Subject: Re: [PATCH v4 0/6] firmware: arm_scmi: imx: Dump syslog and
+ system_info
+Message-ID: <20250908-brave-umber-spider-eb68bd@sudeepholla>
 References: <20250904-sm-misc-api-v1-v4-0-0bf10eaabdf1@nxp.com>
- <20250904-sm-misc-api-v1-v4-6-0bf10eaabdf1@nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -41,14 +41,30 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250904-sm-misc-api-v1-v4-6-0bf10eaabdf1@nxp.com>
+In-Reply-To: <20250904-sm-misc-api-v1-v4-0-0bf10eaabdf1@nxp.com>
 
-On Thu, Sep 04, 2025 at 06:40:47PM +0800, Peng Fan wrote:
-> Add sysfs interface to read System Manager syslog info
+On Thu, Sep 04, 2025 at 06:40:41PM +0800, Peng Fan wrote:
+> System Manager firmware provides API to dump board, silicon, firmware
+> information. It also provides API to dump system sleep, wakeup
+> information. So add the interface for Linux to retrieve the information:
 > 
+> patch 1 is to add doc for board information which was missed before.
+> 
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
+> Changes in v4:
+> - Patch 1: Typo in commit log, state the attribute is set to 0 by firmware
+>            add NOT SUPPORTED return value for syslog
+> - Patch 2: rename to scmi_imx_misc_build_info_discover, add -EOPNOTSUPP check
+> - Patch 3: rename to scmi_imx_misc_cfg_info_get, correct command order,
+>            add -EOPNOTSUPP check.
+> - Patch 4: correct command order, add -EOPNOTSUPP check.
 
-Need Shawn's/Sascha's Ack if you want me to take it together with 5/6.
-But I would wait for 5/6 discussions to settle first.
+I will queue 1-4/6 from this series as it is ready. So repost 5-6/6 when
+ready. Also I notices some inconsistency with CONTROL vs CTRL in the code
+and document. Please choose either CONTROL or CTRL and use the same
+in both document and code for the command names and send a patch to fix
+the inconsistency.
 
 -- 
 Regards,
