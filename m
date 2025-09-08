@@ -1,64 +1,99 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE90F273F9;
-	Mon,  8 Sep 2025 10:17:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 696E42E2EE4;
+	Mon,  8 Sep 2025 11:04:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757326637; cv=none; b=HdgR1QGHymBaANRHofcPvFraAXAp8cMFRxn/cBp5XLPTqCGsE6YkS9YhWSISF/d2lnkupF7Dkumh69GhCfqRBjlg5pblDMtYCIndor8UuB5+LQKUDvQHfN6JZ2VDWh1/dMhsj6/d4Z9ciyV4oDA36m/kKLkXgf5jKV1nf4jZTvI=
+	t=1757329458; cv=none; b=q41YcoJKPkhmpzY+ct1LIcr3KZTHFV54hPm6tbwjGqiQZkJDYSyAnXwDmGTujV+ho3EZTp7nB2T729UTGr46kpx7GdDNqMzcBbITAMZV48fKZ7pc2OXakFHsgpMALiwxWQq3wZRfzp7ZHi+loNPJ7PAfYpCVsgPUt4FAQPNTmXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757326637; c=relaxed/simple;
-	bh=n/oQFG/OvGbaLMYw0ZsDdDOz/nP2ciICb18MBkVp4kg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=m/UTjSY748tncba50n3KQH85mDy0Hgyh9nHLAk3i3Nip/ECbRCgAPogoS+a4kC6YxymbVjO8SUQXlbnHEEYYY76SAb01XU/uic871xV0jqv+KxZZO5P4qIs2vrX3qtFRH3pRG4lOvU8dB6LENfICLxCzz/IlNaE317Zwi2bIAeM=
+	s=arc-20240116; t=1757329458; c=relaxed/simple;
+	bh=J/vln8uboDUVsLl7jq3AEOSou11kVGj68fFU0E2p23Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SmCbdBuUNBpw07/BE4kUooVy3BEOKk14CTE+6gIGRcaLZPeuaFK0fGDGRiUgZ+t/7cYk42MVLS9uX3juk553Wz3AE/K9RfLykGy4xDeXGDxuTBJsmVQGM3ZR9YX7NblM1v25K+L2bm8KGgEG1yDcHXyg7/r5Nfq+O5uAGREtw3I=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BBBA61692;
-	Mon,  8 Sep 2025 03:17:05 -0700 (PDT)
-Received: from usa.arm.com (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7DB973F66E;
-	Mon,  8 Sep 2025 03:17:12 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7B7961692;
+	Mon,  8 Sep 2025 04:04:08 -0700 (PDT)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EA1C53F63F;
+	Mon,  8 Sep 2025 04:04:14 -0700 (PDT)
+Date: Mon, 8 Sep 2025 12:04:12 +0100
 From: Sudeep Holla <sudeep.holla@arm.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] firmware: arm_scmi: quirk: fix write to string constant
-Date: Mon,  8 Sep 2025 11:17:06 +0100
-Message-Id: <175732658793.3917221.3759858357141010136.b4-ty@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250829132152.28218-1-johan@kernel.org>
-References: <20250829132152.28218-1-johan@kernel.org>
+To: Peng Fan <peng.fan@nxp.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, <arm-scmi@vger.kernel.org>,
+	<imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 5/6] firmware: arm_scmi: imx: Support getting syslog
+ of MISC protocol
+Message-ID: <20250908-sparkling-owl-of-judgment-f17eeb@sudeepholla>
+References: <20250904-sm-misc-api-v1-v4-0-0bf10eaabdf1@nxp.com>
+ <20250904-sm-misc-api-v1-v4-5-0bf10eaabdf1@nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250904-sm-misc-api-v1-v4-5-0bf10eaabdf1@nxp.com>
 
-On Fri, 29 Aug 2025 15:21:52 +0200, Johan Hovold wrote:
-> The quirk version range is typically a string constant and must not be
-> modified (e.g. as it may be stored in read-only memory):
+On Thu, Sep 04, 2025 at 06:40:46PM +0800, Peng Fan wrote:
+> MISC protocol supports getting system log regarding system sleep latency
+> ,wakeup interrupt and etc. Add the API for user to retrieve the
+> information from SM.
 > 
-> 	Unable to handle kernel write to read-only memory at virtual
-> 	address ffffc036d998a947
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
+>  .../firmware/arm_scmi/vendors/imx/imx-sm-misc.c    | 83 ++++++++++++++++++++++
+>  include/linux/scmi_imx_protocol.h                  | 23 ++++++
+>  2 files changed, 106 insertions(+)
 > 
-> Fix the range parsing so that it operates on a copy of the version range
-> string, and mark all the quirk strings as const to reduce the risk of
-> introducing similar future issues.
-> 
-> [...]
 
-Applied to sudeep.holla/linux (for-next/scmi/updates), thanks!
+[...]
 
-[1/1] firmware: arm_scmi: quirk: fix write to string constant
-      https://git.kernel.org/sudeep.holla/c/572ce546390d
---
+> diff --git a/include/linux/scmi_imx_protocol.h b/include/linux/scmi_imx_protocol.h
+> index 27bd372cbfb142b6acb0b1cf4b82f061529d0d45..ed78660d2f51c554e782b2f665e5bc5046678fd1 100644
+> --- a/include/linux/scmi_imx_protocol.h
+> +++ b/include/linux/scmi_imx_protocol.h
+> @@ -52,6 +52,27 @@ struct scmi_imx_misc_ctrl_notify_report {
+>  	unsigned int		flags;
+>  };
+>  
+> +/*
+> + * For more detailed information, need check i.MX SM firmware file:
+> + * devices/{SOC}/sm/dev_sm_system.h
+> + */
+> +struct scmi_imx_misc_sys_sleep_rec {
+> +	u32 sleepentryusec;	/* System sleep entry latency */
+> +	u32 sleepexitusec;	/* System sleep exit latency */
+> +	u32 sleepcnt;		/* System sleep counter */
+> +	u32 wakesource;		/* IRQ/exception causing system wake */
+> +	u32 mixpwrstat;		/* MIX power status */
+> +	u32 mempwrstat;		/* MEM power status */
+> +	u32 pllpwrstat;		/* PLL power status */
+> +	u32 syssleepmode;	/* System sleep mode */
+> +	u32 syssleepflags;	/* System sleep flags */
+> +};
+> +
+
+Much better now. But I am still thinking if this must go to the document to
+make sure it remains ABI and firmware can't reorder the as we might have no
+way to deal with that. That's the reason I was asking for raw dump so that
+you need not put all these details in the spec/document.
+
+> +struct scmi_imx_misc_syslog {
+> +	struct scmi_imx_misc_sys_sleep_rec syssleeprecord;
+> +	u32 deverrlog; /* device err log: timers, clocks, console and etc */
+
+This is open ended, please add this to the document and make it more precise.
+
+-- 
 Regards,
 Sudeep
-
