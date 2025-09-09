@@ -1,111 +1,191 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011068.outbound.protection.outlook.com [52.101.70.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F775313269
-	for <arm-scmi@vger.kernel.org>; Mon,  8 Sep 2025 17:12:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757351571; cv=none; b=DME8vGemjGWW5tj6VpTDZYVRR8LeC1J3zl58pLEwmF/J6co5felmaE8JXza58bb0wVQhVnUed+JYnnJ9nqS7vZNDztKjkj39dccSF8VQ1Dl29uMCySYJAFNPo7T5IaMYrNKwawwxdg33ZZS7R1FA/MCtauC5z3CFAA74KVj18qI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757351571; c=relaxed/simple;
-	bh=9wENXREJWltOZIo5LsFs5L8jitKtQe8nqAyfDbsl9ys=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=QkY55dIqB+PHgn2h+mjksO1Nu7LiE6cWymP/sybhHS5R/ZkLYTFY+rC4eSVlyQkLMw3ORun6t3NZnxbxWjSyIeAybO0l3e+l6S+sdGx3QAD8U1frmMeXXp+JCdFO/UeR0Jh8PkmmWhiZwPEYX8oNIGebuERP+9RVzpxKmtBfc9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IDJYzrtW; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3FA25392D;
+	Tue,  9 Sep 2025 02:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.68
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757386233; cv=fail; b=TVqBYnJj3xs3ZVweDHN1qK7UzUnOxrRRaxUa261WUZz5ELscPEl0s3XNPR26zWJI6ksnvzrt528FoOWxn6RvI1uM98WGpDxxBCnyI97OsRQSYLYpN5AA7ak5tBXLerBgyHESgXgSo8JfrJkVsLTxTX1ckwRuFVOj50DSWqfWaqw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757386233; c=relaxed/simple;
+	bh=k4NRSqceNwy9PJjuc+ZFWCrWijp47HaD6AsjNMDYUVs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=KOuvXn7l6EBIICeLvfLtxX98QLctgD8m2bLv9cTpL1Pboc+AEC4Ube3TpFt3g98HmA2vcRJS7YHEZwSOrDpoSOOVYyJVErRKBhOYyUO+kNfl2RgC9l3UenT5FAI8HewhvIt7BPuvdXlFideDRp+RDvpg5polGyT2r0kJrNtCzXg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=K6W6txUU; arc=fail smtp.client-ip=52.101.70.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IDJYzrtW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757351569;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7ITe2If+kWs1Wpx5tlRiHNQVWbTASg/lvnSb0pDekYg=;
-	b=IDJYzrtWW1mW5btKMV3WgM8DI/B5y7Frhb1WxfoNub7NIo4XayvUWnJiQ4P/4Le76RacFc
-	0Vp0bHwODbFj4kUaDfiwnO6p75j8i2SI4IDwv7PqPnekFDerUBO8rQ54MO+kOI4AhBvsFr
-	fPPF1eZmLDuvyEmWSDq0v/D15yRwNPw=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-48-tMs-y_rNNqKAHgXNu8OzCg-1; Mon, 08 Sep 2025 13:12:45 -0400
-X-MC-Unique: tMs-y_rNNqKAHgXNu8OzCg-1
-X-Mimecast-MFC-AGG-ID: tMs-y_rNNqKAHgXNu8OzCg_1757351565
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8063443ef8cso1933818385a.1
-        for <arm-scmi@vger.kernel.org>; Mon, 08 Sep 2025 10:12:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757351565; x=1757956365;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7ITe2If+kWs1Wpx5tlRiHNQVWbTASg/lvnSb0pDekYg=;
-        b=TpJMyNTWqQDZlj6IbPMsmytiE26hd8adgFjK7GVnQodsv077uMyPApkb/V3SfsORVW
-         DVwghwSLR+CEEKjXJMS1edT2iEwE6eL7lUMrUinbPdNSIXq1qm3g/g8IiOOLrlyyHHjQ
-         2Nn4p63XNL3+Jow39ESr9Ubnyk78sUkWGKBLiQysOkGXdO/8+A4w8qfddSRsvfus/ke6
-         9uGcTo6EEcJKEe2519sf6c56kia9BG9Mx9EO4zWOFdNynjQa/fAFZ3VdIB4EQgYwqcme
-         7uBhiYcZUrnP0mb5jCH1cFh9du3Q1zSIoiHfz0bQ9kj72ZJSlecB92ws85pESo2mJ93z
-         AOKw==
-X-Gm-Message-State: AOJu0YwkcoBzvQsLl0UF+tY7fo0nGw8hJrEXdKDPxehxSQhXtIwcS85K
-	JNHLjJDVQ1Zw1ZTKGJ6xuPqlupyF4eZRyMWeensbMDv6SS/04cD0m6wCXT/X32B0hlgYKbgYWCA
-	C/VNhpho/WSrSNc58+H2Jmtg7dxyb2iMDbbzKRzNOihmaL0vyESm6rDFc3Q/p
-X-Gm-Gg: ASbGncsFMzwEfRtP0DWtM4ZhM26RIkfLMZcpjAjFBImud5sOn8dmNlybBe06NN1ZVOS
-	qVN1ZWgN+O2yFwFpOU58+mw/ylW6zCm5NpG9PO/NSf2RGaqWxjISMF1/KCijEvgweadAQQYckQs
-	DVifcY93hRP1NQ12Fu6RiGYnR58twctyuxFrfSjrkxWlfyIR6caDM1VMKPDtIfFmkL311yaKf0+
-	btDqoTeTCiVHEwQcJDoO71EAFIdRoFDHsSa867m7gI1Jfv4pM6tKLuVwB28UKvm+lqXozmmA7zD
-	qKCxaMiTQyiZt+94ZhSqVcwJ9P6SWuiy8Mf2HeNWG3jhrsCOBLKgY+acwyE=
-X-Received: by 2002:a05:620a:4714:b0:7e8:3fbd:4190 with SMTP id af79cd13be357-813bdf6a9c8mr829190285a.2.1757351564613;
-        Mon, 08 Sep 2025 10:12:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEwMZsEl4SQNKbeMqNXOZc4NyVlPYCi+ENDx/Vjfad/o+tQQ/qJhvSwRqRuWnLNVWOHla1Uqg==
-X-Received: by 2002:a05:620a:4714:b0:7e8:3fbd:4190 with SMTP id af79cd13be357-813bdf6a9c8mr829186285a.2.1757351564056;
-        Mon, 08 Sep 2025 10:12:44 -0700 (PDT)
-Received: from x1 ([2600:382:8507:870e:b6f8:ee72:4f09:a16a])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8138798dfcesm600461485a.34.2025.09.08.10.12.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Sep 2025 10:12:43 -0700 (PDT)
-Date: Mon, 8 Sep 2025 13:12:41 -0400
-From: Brian Masney <bmasney@redhat.com>
-To: Sudeep Holla <sudeep.holla@arm.com>,
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="K6W6txUU"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Q4nLWs4QIy3qpKSvwvKlasJBzBB15uQbhRNiOldH/Ffwlaz4UdrkzIDEs7dYxRpNuKl6wzw2BLTNOHSL31XQO7vyAtdtifKA+Ido97ONZCDDzEUgnn4PPS+WkLIxRYd/ndIibTGJX5HBFq6YwhyRGBNLOe5t/wQnVl5T2CqFSIgOez0ZPK5FISCyKucu8VmBI76jzX1dtgkOZNT0oHAp62eP+mFWVV0lbjliHaKkJjHbTDOckG8G4bJTwC3owYgYBWjMWebTYjdpllUIdVaRtvCZoz1wsGHG2NKNDDcjp/9LKKgNlW0gMZ1npxoOEyUrKFs09vgHYLujlqxUPPknJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pYlxM+w2niChnz48kMdGGI7caYKuuoJ8tHVxSq5TG/4=;
+ b=zBXbO8tRVBhZmpqRR5LxwtLyQPAV6Eo+GCnSEBvdQPUbkNdNC+909cLTsmBeBCuz4R6kPcjNuH2oPJtkdSKuRhe4I249FVDu9BTZuwoOq5fRODijA3AWH/m4Xrw0800uU8pKYwMkfA5Z9dMuXcsJkqd1nUSW/LhcupsWy0Fo9wIm0BKt6j2ATOfh0+utckMwr4XEMTtXXROLtT43OXUUad6XFcr5RkJlDmM/6ISuhN2hVK05REn4zx1X9cITaKp7JBFHhc5mmaQLIQHwzGpAOvIsq4WqGqzQlPagNjnVob73g3fPiMdSVEJy9mKCDhWBKby547n/MRJYkmeUiYK8TA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pYlxM+w2niChnz48kMdGGI7caYKuuoJ8tHVxSq5TG/4=;
+ b=K6W6txUUh2Ld9/U1PUAbgid4r6+t2UdrQWD8y4+uGUJWNlaOtmu/vlgs1EldZch29tSDlAtV++t6crUEqCtOXFOX1E52a1+M4VkYGtTeehHTLX+Euzwzw3AOVjxEPyDibaf2gXhI+f8i2+gDSW6Ada4r3MBDAfkL8SpYa3QiCEOkOyD1hqM2PPelcGdSzY+CKLWixCSoBINbzUYFIRfwX/skibOqKVBm6JMMxhNqHAT4kOMiw8jN9X/XJMAy/dVkWk4XQwTWRO0UO1cctgYJrRFh4aY7Xb2gabT0vFjYRPrN4zz1GgV9IWKrmihNfDhufnafazerUXbzNp+7b1wmuw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
+ by AMBPR04MB11720.eurprd04.prod.outlook.com (2603:10a6:20b:6f1::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.10; Tue, 9 Sep
+ 2025 02:50:29 +0000
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630%4]) with mapi id 15.20.9115.010; Tue, 9 Sep 2025
+ 02:50:29 +0000
+Date: Tue, 9 Sep 2025 12:01:59 +0800
+From: Peng Fan <peng.fan@oss.nxp.com>
+To: Peng Fan <peng.fan@nxp.com>, Sudeep Holla <sudeep.holla@arm.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
 	Cristian Marussi <cristian.marussi@arm.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] clk: scmi: migrate round_rate() to determine_rate()
-Message-ID: <aL8Oifz8zR9nJ_Wg@x1>
-References: <20250827-clk-scmi-round-rate-v2-1-3782a50835ed@redhat.com>
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 5/6] firmware: arm_scmi: imx: Support getting syslog
+ of MISC protocol
+Message-ID: <20250909040159.GC20475@nxa18884-linux.ap.freescale.net>
+References: <20250904-sm-misc-api-v1-v4-0-0bf10eaabdf1@nxp.com>
+ <20250904-sm-misc-api-v1-v4-5-0bf10eaabdf1@nxp.com>
+ <20250908-sparkling-owl-of-judgment-f17eeb@sudeepholla>
+ <PAXPR04MB845929E7106141E785A32387880CA@PAXPR04MB8459.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <PAXPR04MB845929E7106141E785A32387880CA@PAXPR04MB8459.eurprd04.prod.outlook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-ClientProxiedBy: SI1PR02CA0023.apcprd02.prod.outlook.com
+ (2603:1096:4:1f4::19) To PAXPR04MB8459.eurprd04.prod.outlook.com
+ (2603:10a6:102:1da::15)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20250827-clk-scmi-round-rate-v2-1-3782a50835ed@redhat.com>
-User-Agent: Mutt/2.2.14 (2025-02-20)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 1FetjG_kTQPhwl7NJFOxfBBwFT1yXa30cDfE-gqAK8E_1757351565
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|AMBPR04MB11720:EE_
+X-MS-Office365-Filtering-Correlation-Id: f8590089-7f84-426c-1781-08ddef4ba2c1
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|7416014|1800799024|366016|376014|19092799006|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?e+dn4akuHdOZLlo1+zoUm8zRU5v/2lTVmGiL64edWU82y5Dw41YRLmve+Dtz?=
+ =?us-ascii?Q?RQz/Ky5H8mYtM1FyrKyVc91zVHATUU801iI+AkGlKkrDugpKBMtEuxmzBYs8?=
+ =?us-ascii?Q?XEzhygPxAkKHfTLI+t5USSKT6MuxkDrmse7jVarQyRL4T5nicSBESvBdmOtR?=
+ =?us-ascii?Q?7s4G420zRV+DD12c1hT819O6jR1VLBVWd8ZiBWGMtHIG8kpxe3bosHCcnSo2?=
+ =?us-ascii?Q?a3aeBi1Q7ZjQ6jJTL+KuDAifAIZzF479999TNYAwKkk3G5HAmBZx7Avihg6t?=
+ =?us-ascii?Q?XwDffWrFYGUatVtLrBvNa4w5GtYkcikDL9qemagmp7qm+x1MpEmIZnaQ25er?=
+ =?us-ascii?Q?KIBeSC2MqPh6X6EX/Lnu4gnt9R7HELkglsqJH86Ykcj7H2t3ehiPf1p59sqE?=
+ =?us-ascii?Q?PbVmeEynfyn+miEpFgNToc4jGk/afHnTGaOpYCwjtJxiAnIJY+BXkGvwOWix?=
+ =?us-ascii?Q?NvPYLKWo7f93zQiUhLtf0VXCQSe5z7kUH8a+eAlhHU60um4v4z1dyLnNM8Ay?=
+ =?us-ascii?Q?oHr5/n8wGDrnL6rM08nHIngU83EGsEBWkYLOj+22U9/fTs/LTaKiE0VCosz8?=
+ =?us-ascii?Q?fh474vDah9uJZIUbbzjdG/dqVyWpGvE+lkw4r6J3jvsTCM/Ao4gp2vzh+x+o?=
+ =?us-ascii?Q?qkY4V+Yvw33FSUoIjIr3piDVwL+RMYSYK82NNIJr9Kg08RmAln11c0G8lJj3?=
+ =?us-ascii?Q?/Opue3eoUNGZRDXC2Rx12Z0xUZS7fkIc+S50xFLFrPGDzY6jR94IOYx1Kjku?=
+ =?us-ascii?Q?bk8Wd96HEViSW6Bxn2CCT18bOwQsbcSITexElt6zX1FY3pHyPQCtX0jyWUfV?=
+ =?us-ascii?Q?0z8w15mqyLp4oYGQsgK/QcImpzkb33NrQTtucaiDW3uV/sY5i9I/RS9YZaWG?=
+ =?us-ascii?Q?CH+Cx5Ml0+2g4OprfHmD8ctl+hqjog8qNLxJAHvaZiV+LTF3qArNhUrj2SbS?=
+ =?us-ascii?Q?eAMQUpqhTsfOeLAWh7uB+UKbwnQgSB5Md8yksRDj/B2YNfnRLNBNJWcpiMo7?=
+ =?us-ascii?Q?eWjsYI9Qyj/vukLHKB33yzDG0scMAH19cmaBW3WjWGNefgbjviP8C0GoJl8J?=
+ =?us-ascii?Q?nlGrgDHilqNlsNoQ+7WhvJHz4RJ2cAC8XBVTqbe2CoBw4wRl/Gpd//JTrWzC?=
+ =?us-ascii?Q?mtWAaWp1w3SZBoTVKeXwlilErvMpNN7E0YWKbMmHpcutzyMnDMkAuL2k7v+j?=
+ =?us-ascii?Q?PAm+yz/kLgthLlu653gC14j5vCESQEDWEhsoXGnypUHa30wfq0lIRThLs6bl?=
+ =?us-ascii?Q?a9bBf2oPMFl77N0zYWVOd92ujoXSinYyYQMjVoGaJmC8Dj5tFJ4ZeTCIgsUl?=
+ =?us-ascii?Q?YxrGwnepJiCmqPr5k9FpZ38ygh4qSB57BmvSC0IwHgrRKgG/QbuiiNQ8JqId?=
+ =?us-ascii?Q?KwwvC7Ow+dC+QrX/LRR0Q1YMVGAXQqbUXqvMNILbtTNeUUsZ4tXq33U98yPh?=
+ =?us-ascii?Q?w0hl8DfezokiGDVai72y2On2SAkllcxaSfllZ2EIKqFV3Im8vP+7voeu4abO?=
+ =?us-ascii?Q?OPDifh+OPSHGQUk=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(1800799024)(366016)(376014)(19092799006)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?xoWEe4TU6ssoHXxhtZD4l/i1cZL72RZM6V4VCbQl+fcbxkSMijSZ6v8cfUb1?=
+ =?us-ascii?Q?sncf9TEDNUfIAO7OChB5F4GpzYv0tMkviYzxxt+ABImh+5qljkFCfxRaPYQW?=
+ =?us-ascii?Q?rbIchzuf/IlRsntmL9OmYYXuCsnzz23FFZvq5pBuYDLCQt3wwFR5smTSPxXV?=
+ =?us-ascii?Q?2HimOYAaPdiVf9Wh8WmttmW1CRap9LxotxbN/VoyxlMvmWkSkOxBlFc1vp5L?=
+ =?us-ascii?Q?Mwpfey+VgC5IKYHHm8IdidFSkev677Vk6sFzst0bUtimcgyRoIv3SxpA+8Em?=
+ =?us-ascii?Q?ZJ1APYWk6jO0+/9aG6EZkTV8trtTIhaMh38MmaTewJwKjOdJys8t4FwhMi5s?=
+ =?us-ascii?Q?5aVJzVBEYr5JNJ4aa0oAtb2DE/eKL/uP6jYrJPMWGDK0+VD5ieAV3IQhX1KY?=
+ =?us-ascii?Q?/SEedDVvVi3E3DgAZaZvvY0D5E8W/0a2RQxV3Q9xUopZdoRcuthoDMqmXr/+?=
+ =?us-ascii?Q?s7K3xLieGkYsLqibvo7zpFzqSbxJV/0psidC9iQ8UZzWxCBCyhnPRzQdtAPx?=
+ =?us-ascii?Q?HdzaAZJ8OxXlsE8V36GEa3s39ZCnvJm6RCOKaLexP0DtIhP2IbITIj6a9Hwm?=
+ =?us-ascii?Q?p+dOK4EurvG53IDCBVvE3QUgqc4KpRDnHX4/rfpCST6pfNdm3BKP/L4vlt/D?=
+ =?us-ascii?Q?3idQezds/yySfCHN8ErT3t1hLHxr92++HLHRpQ0RcJW+oRh6qkRYcQQdjXIa?=
+ =?us-ascii?Q?/eJh9bWYbPOdk4hBxMj2UHODWonM5LwmZ2rys6Mbs8LqMzaQ5RQCbxJk8szn?=
+ =?us-ascii?Q?YOP9S1M40PjXLGfJ33Q8YuRYx2jADhpY7FbtOR1n6ipWsnQqYwYBkXam5F8K?=
+ =?us-ascii?Q?NnasrkPYZUGmfJnNd7r2PmprfqA0e+8A/Ov0vySHXSm3XPeWUxFXLvU6zVzq?=
+ =?us-ascii?Q?ntEhJFwO0GcCCoUblpuEtHBHdYqHjyg5O7XOgR327nPszf94QLK2oKBs2jPi?=
+ =?us-ascii?Q?9P1NEw+i6PulUsZe6FDyNjxMhCKFp1Yv2yGHS+J+cTRH1Yc1zhhiM0DFYrRq?=
+ =?us-ascii?Q?qU+OJz7SREVQQfXoG9k9gO8GaRjqDyMWOqyEvQ6g8zLhBI3rQEV0eXGhq7cb?=
+ =?us-ascii?Q?S1cYiJmDL34XLFjSlpMcKLqhIpBiCBgrCgd+q7E17KqMGM+rMlqAHFVsYaNv?=
+ =?us-ascii?Q?MYnqXTKA5vv/HG1ZrJb3xehEqy2lvagEQTlDdwQEiKSDef126RCNkKQkxN9X?=
+ =?us-ascii?Q?3jE1E+grZYfAcPAUwS54A7jFeyu3EkI/Xud4qprciGLA7LM/CLS1J0QtuMvv?=
+ =?us-ascii?Q?w6wL+5zTwLUUxlVOr24RniH/tVPVJduM9cB9HkTB6DYMD7/C4MMRwq+PiE4y?=
+ =?us-ascii?Q?NIfwIpuVs7lQ80yINzOmjBa6DnKMsWlTQwE/cHKlCNYKKipBlUZxOkniX7gl?=
+ =?us-ascii?Q?MxaMttBsmPhgrwp5vjhvVadWy0NoTAEGYMZ91A+ph1Vkh7r6GsHMS/LREcgu?=
+ =?us-ascii?Q?wO+sIqPyiU6k9Czx6Qj78zvLeC+v2wOMLOXiIlf960/41OBgOjnI1qghNvtE?=
+ =?us-ascii?Q?kKDVevWRtggXTZs3x6mhOy8yeVpS4jgP34W2lEUqlhfU/8ca/l1CwrFfhWvY?=
+ =?us-ascii?Q?0bgeqC9+mcttEhiltMrokJ/wtBOydISrMdXHjEvn?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8590089-7f84-426c-1781-08ddef4ba2c1
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2025 02:50:28.9961
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EdM4jcCatj8MVZFacHZHXF0Z3N/gPaYiWfCLQwDwWcDnoIdSOQU7uSEu4+Ytq7XYd32pH+EAg5HMf4U+u/852A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBPR04MB11720
 
-On Wed, Aug 27, 2025 at 01:12:07PM -0400, Brian Masney wrote:
-> This driver implements both the determine_rate() and round_rate() clk
-> ops, and the round_rate() clk ops is deprecated. When both are defined,
-> clk_core_determine_round_nolock() from the clk core will only use the
-> determine_rate() clk ops.
-> 
-> The existing scmi_clk_determine_rate() is a noop implementation that
-> lets the firmware round the rate as appropriate. Drop the existing
-> determine_rate implementation and convert the existing round_rate()
-> implementation over to determine_rate().
-> 
-> scmi_clk_determine_rate() was added recently when the clock parent
-> support was added, so it's not expected that this change will regress
-> anything.
-> 
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
+Hi Sudeep,
 
-I included this patch in this pull request to Stephen:
-https://lore.kernel.org/linux-clk/aL8MXYrR5uoBa4cB@x1/T/#u
+On Mon, Sep 08, 2025 at 11:51:02AM +0000, Peng Fan wrote:
+>Hi Sudeep,
+>
+>> Subject: Re: [PATCH v4 5/6] firmware: arm_scmi: imx: Support getting
+>> syslog of MISC protocol
+>[...]
+>> > +};
+>> > +
+>> 
+>> Much better now. But I am still thinking if this must go to the
+>> document to make sure it remains ABI and firmware can't reorder the
+>> as we might have no way to deal with that. That's the reason I was
+>> asking for raw dump so that you need not put all these details in the
+>> spec/document.
+>
+>Let me check with firmware owner whether they would include this
+>into i.MX SM spec or not. 
+>If no, raw dump would be the choice.
 
-Brian
+I checked with firmware owner, this should be using raw dump.
+The layout would be changed for new platforms.
 
+Since this is raw dump, I think debugfs might be preferred.
+
+I will post out the patch for 5 an 6 later this week.
+
+Thanks,
+Peng
+
+>
+>Thanks,
+>Peng
+>
