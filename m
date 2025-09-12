@@ -1,70 +1,70 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C24305042
-	for <arm-scmi@vger.kernel.org>; Fri, 12 Sep 2025 14:50:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338CE3128C0
+	for <arm-scmi@vger.kernel.org>; Fri, 12 Sep 2025 14:51:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757688647; cv=none; b=i2bqye193E80QmMUq45NNCwLi8PKIJCfuTk1kyz6zYR0ZAiwOa7VwgeGZVEFYPVa28Yh/A0SnzXnKrsjIlV4G0NFXO96bGnN+vpfcWFr/rd+NeG+ACAGsLFSt7JQeLTedj0XBX6dZ1gvXS/A6htIQfZwQ/FwxNuP9xg382LOdhc=
+	t=1757688681; cv=none; b=ggNj1nAsCEngLcnqI8rzeMdzjX0+IG3pW6hd6sONTcJTSpU1nKzhyqdHYPldFU1IQulwgYvc3orNdgyK/0cyI8CjtPZK1F40Ph1xBonIoYGDmTRNssVzBYWjWEra8Q7wNOe6uVorvlg23romSL3p1HnKGg/cqmw7ixOeBZ2agnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757688647; c=relaxed/simple;
-	bh=nsgqBhuQMIRgj0Foq7lbTZgCUyn2NDAcRteObcMHZAI=;
+	s=arc-20240116; t=1757688681; c=relaxed/simple;
+	bh=uk6E5Paty7fp1wof3TD0JBLDuNVPgNqH8AUiWEIMf+4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=QFjKMRVYxy/BkE9+DraEMl5nCjgCyROcO92Te/A3qv6IdXBQCP4cGwFmTaYUNBMX2kYvbkjqctXWSj5/4ssClfR/FvHQ8ai9qJlq85eOfIhgYLGOD8J8G762RxiLR4P3+7l7wDGB50r+Q3ACWw1yKEKHXFzBQfXeh1oxN7pgFvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SgYdBFo5; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type:Content-Disposition; b=q5aM9UxtJI0Brpe9S/lMQat2VC7W3GU7xRnoL/uVx3VEQBqwB6hXLxMUvjkeebFT8Y3pn1dq6Ezc6M8uD3fMqILHlay/4NrPRh7EabZam9jNxsSd4vh55wWhXMarCFXGG5Uq/ZuWpubzAaX6A7UWYoHwP/qcB6Pnqgw29ewDglI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DRKNsoeM; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SgYdBFo5"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DRKNsoeM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757688644;
+	s=mimecast20190719; t=1757688678;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NWnv1uPYTna1ts6VTb5bmSJ4gFzt0Uz75RWyORHBYho=;
-	b=SgYdBFo5ifPrrZ7oxNpa91Nh1frkKCStQiFJUSFnXoXyAangRFoH26leoyPM15RvDbC6ZW
-	SWulf1mHsdEAdm6fmf/EGixCayBTop0c+PUyyOOtNsolTSsrnqcYo3+5hDwhlGoh9yVwnH
-	XpbIKx/IvSI4UtwT+7kW1ReOEsnyRSo=
+	bh=NU+SVzKeTWD0+BhYK3td1Pqzo+tTZOjwzHuyU7qJoZg=;
+	b=DRKNsoeMJfIrrb70N9hn3bj8gHWf6tP8wmV5c+2Fq0XJL5WF+J5vdnkVMhHaGD26jsMjp+
+	jM71e17OlaLF/Ox3NiFoBMDjcBVYdaabrfjCjiB46z32Y3H3TbaiSe3QIPVTttF055W46p
+	ZNrEAI/BI38szi/iPXXdPFcHCa50S/Y=
 Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
  [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-386-hX64maNyMs2Oi9odLXq_tA-1; Fri, 12 Sep 2025 10:50:43 -0400
-X-MC-Unique: hX64maNyMs2Oi9odLXq_tA-1
-X-Mimecast-MFC-AGG-ID: hX64maNyMs2Oi9odLXq_tA_1757688643
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4b548745115so51515301cf.0
-        for <arm-scmi@vger.kernel.org>; Fri, 12 Sep 2025 07:50:43 -0700 (PDT)
+ us-mta-529-O6tao0xXP8mdQp7ibjODWQ-1; Fri, 12 Sep 2025 10:51:17 -0400
+X-MC-Unique: O6tao0xXP8mdQp7ibjODWQ-1
+X-Mimecast-MFC-AGG-ID: O6tao0xXP8mdQp7ibjODWQ_1757688677
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4b5ecf597acso48447271cf.1
+        for <arm-scmi@vger.kernel.org>; Fri, 12 Sep 2025 07:51:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757688643; x=1758293443;
+        d=1e100.net; s=20230601; t=1757688676; x=1758293476;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NWnv1uPYTna1ts6VTb5bmSJ4gFzt0Uz75RWyORHBYho=;
-        b=V9+nvXvEz1POcs5rtnDoNzFTyVjteH3DssXbCDP0PRtE5xUiv6X2GqrA3pOC30EjzZ
-         ILi90z0kH9oM8Ghk8/TsttVl6WrBZCW6P0oJB2yjhbbcc60aQhlIz/eLvfyBtuos/n9A
-         KjkDaNZim6whdi0uNzNfqeC2tyKiZbt/P5+lgmh/tjG/i4B7I3/u6DD2EQLZEKQBW43b
-         eKHze/VYA0+xi/K1kDiqNor+BsQ68PZFvEKFidRxKHPT53LVUB6gfwyxRUfHWcqQTVDC
-         Z7ZKijhdQsTJd3NEUKtX2a2u04lrssL18nMz37aOTFrzGWri7JhJAfHI6B0OoJQQ3sPH
-         QpDg==
-X-Forwarded-Encrypted: i=1; AJvYcCVOx1JHsa+qj8d0T4VWSE1+jLuuN9gXBYae1PHf4wIhHNIcs/v9LuXYVN2uq/9dDQQdB7bVz9ha+Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBQxGe+qLrwNzD/h5AHfhppKoHKZ5JBhfgCq/YvafBTssWjjT1
-	8ZOBC8zJVVEIiE9ayhu547m2tmNRqCgzt4ZIlBpRE8S9a6Bt1str+h38ViVZ11BXMBLzSODXoDu
-	30AyZuXpMMisjRVC5/0zMx3yIiLBnJVV3quox+J1621UCYbsk8BNUUHFkRt8r
-X-Gm-Gg: ASbGncvcMI/0TvLwDIM+QXVIMyddBqowlotDtduFMD2eloaGkM3RwGY5wgpbWoQB4DF
-	hPCE/1VsfPPCrzLFuXrbDhjlnV2YPoIDsTLsg/sVnUwXzsqIsP7UrM+ArZQRWBYNsDpdtm0iExr
-	EUEknQjssnrZUmTBFCBfb6BIK95U7T7rrNt/q8dnn+CSTFNbmW/KkWDa4lvw8E8JD2cSuEShn3e
-	b6k6lNIlHB4XZsrOhxvfoz0GyGI2eqm2miooU3mzl1tzYWDtOmzvi2EhpocRVwrNz6tF7yyWGEP
-	NpixmFYwSjUuZoogiO3HIzZ8UraAA2csn+VeRTzZC7YYMySp24TAb82kTSa6HHNGe3cmc4wSdpk
-	F1QQ1l2IACgfu+ujSoKSjZdO60iadPg==
-X-Received: by 2002:a05:622a:5c1a:b0:4a7:81f6:331e with SMTP id d75a77b69052e-4b77cb3caa7mr40317921cf.6.1757688642711;
-        Fri, 12 Sep 2025 07:50:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEyVIdYLjBKhorz3T0zQ9Rxegov6rF9Te/Pu4Zg+RAzt3WZQiqnmCsJB1uwM7uqun0gGUSs7Q==
-X-Received: by 2002:a05:622a:5c1a:b0:4a7:81f6:331e with SMTP id d75a77b69052e-4b77cb3caa7mr40317551cf.6.1757688642278;
-        Fri, 12 Sep 2025 07:50:42 -0700 (PDT)
+        bh=NU+SVzKeTWD0+BhYK3td1Pqzo+tTZOjwzHuyU7qJoZg=;
+        b=ZUcRWQuaUroY8hFvNiCnDOUzb8ISOOiaB0hpC1GsMg28QmDK1LcODJJeZ9t65cdbEl
+         +EDCNJNnu3lNcsV33ZTp6bSbC2+k/aHP7q7Tbst60kVwbiywYgCEmb1BlcIpkEmO7ML1
+         yjT/tFUzWLcoDozTR3J287bG/dKnMaYo6XlR90yEY8cDlHxcBc2Fhq4tFEnRZtipPG4/
+         rDFce8y0JU0oE1BJHUipmIfkkCoIevCofaRNOMTyvR9+QCvP4up8sWdWmJH6Pue5tVIz
+         XJ7zqb5qDE+uOVbpFHsRu+VwVzWA30HQRcWAPO+aBaRuP4Fj+xDr4Fgrza7Q5scwq+7b
+         3doA==
+X-Forwarded-Encrypted: i=1; AJvYcCU6z6ub0nTaQYMQvw9emc0vihz6driApKK0V5Qg+v7sYLbccpZh0nI5UHIoAOUzU1EQ8OUXDh4sZw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkLWgMDO93YPyAr0M1UwCzPbyJsaH4rqAN5mDgB3fW3P1gZ7mc
+	MqZHr36bftCJew6JMYuI9XomV8lJ3Fv5Wr7/1t1US0eIihWhXZqkWTLvG3W6+bYKc0F5ePjNwRR
+	NtDiwV9VbYKTaPV2L/TeEokrVk4x+/6JjKvhxoeqemXP1whalrYjwkDKuEiQN
+X-Gm-Gg: ASbGncsBtD3rGwJKEmuBi/+UiT0HnYooffDllgBgmk2EBFsCLki61YVs1CUbFOQ5dtl
+	nZ3A0jqGytxEGNEUaucPqAYbN8qGyATYTe0MnDKTQ0Jn6W0AlehEiqAbpQDbpX2MYmLoNt9dzEn
+	fIghtd8ie0184YbPapjSBhmtC5xlQZlzYvGeXGyqENANPeIQcCzQENZuCLqMN7nXRrWXzHnuZFb
+	HTbm45ydwqlR55ZZPOK7/yWGdWAtjHEwPHnUDaf+jOC/2EzQILyZVa0GiHAUq7WRQkFdYgQHnde
+	pxKa14AQDTeJQbE57Ze+YeSXqUeI1KS7fxFGU4Tf9CH3kuRukhcKYQ6o4ztukIkKt2NpT9W8bGb
+	UPHNQ/7+8cwSmUXJm2kOsKp4t0aFrVw==
+X-Received: by 2002:a05:622a:1803:b0:4b3:4b6d:ec52 with SMTP id d75a77b69052e-4b77d0cc905mr42168501cf.32.1757688674190;
+        Fri, 12 Sep 2025 07:51:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEKHaF5tvFQHHNEZPu3AfsN41wRwe2BP++0UPlIuNaDPH6QWUiaDDqVyOq53mlk8SSAOAXHkw==
+X-Received: by 2002:a05:622a:1803:b0:4b3:4b6d:ec52 with SMTP id d75a77b69052e-4b77d0cc905mr42167931cf.32.1757688673567;
+        Fri, 12 Sep 2025 07:51:13 -0700 (PDT)
 Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b639a61502sm26238491cf.0.2025.09.12.07.50.40
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b639dcae6dsm25920811cf.39.2025.09.12.07.51.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 07:50:41 -0700 (PDT)
-Date: Fri, 12 Sep 2025 10:50:39 -0400
+        Fri, 12 Sep 2025 07:51:12 -0700 (PDT)
+Date: Fri, 12 Sep 2025 10:51:09 -0400
 From: Brian Masney <bmasney@redhat.com>
 To: Peng Fan <peng.fan@nxp.com>
 Cc: Michael Turquette <mturquette@baylibre.com>,
@@ -80,67 +80,30 @@ Cc: Michael Turquette <mturquette@baylibre.com>,
 	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
 	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 4/5] clk: Add KUnit tests for assigned-clock-sscs
-Message-ID: <aMQzP7DamsQWl8_L@redhat.com>
+Subject: Re: [PATCH v3 1/5] dt-bindings: clock: Add spread spectrum definition
+Message-ID: <aMQzXdVHOGoT9y4C@redhat.com>
 References: <20250912-clk-ssc-version1-v3-0-fd1e07476ba1@nxp.com>
- <20250912-clk-ssc-version1-v3-4-fd1e07476ba1@nxp.com>
+ <20250912-clk-ssc-version1-v3-1-fd1e07476ba1@nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20250912-clk-ssc-version1-v3-4-fd1e07476ba1@nxp.com>
+In-Reply-To: <20250912-clk-ssc-version1-v3-1-fd1e07476ba1@nxp.com>
 User-Agent: Mutt/2.2.14 (2025-02-20)
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: xcsn_D7ozbBVLzw-SiotJZgi4FtpFjCl63qkYyJeWlo_1757688643
+X-Mimecast-MFC-PROC-ID: Ba7qYLgYmzSKCn-MttetwVbTzS1q9B010KzugFFwDdA_1757688677
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Fri, Sep 12, 2025 at 11:35:53AM +0800, Peng Fan wrote:
-> Spread spectrum configuration is part of clock frequency settings,
-> and its behavior can be validated similarly to assigned clock rates.
+On Fri, Sep 12, 2025 at 11:35:50AM +0800, Peng Fan wrote:
+> Per dt-schema, the modulation methods are: down-spread(3), up-spread(2),
+> center-spread(1), no-spread(0). So define them in dt-bindings to avoid
+> write the magic number in device tree.
 > 
-> Extend the existing KUnit tests for assigned-clock-rates to cover
-> assigned-clock-sscs by reusing the test framework. Add new test
-> device trees:
->   - kunit_clk_assigned_sscs_null.dtso
->   - kunit_clk_assigned_sscs_null_consumer.dtso
->   - kunit_clk_assigned_sscs_without.dtso
->   - kunit_clk_assigned_sscs_without_consumer.dtso
->   - kunit_clk_assigned_sscs_zero.dtso
->   - kunit_clk_assigned_sscs_zero_consumer.dtso
-> 
-> These tests cover various invalid configurations of assigned-clock-sscs,
-> ensuring robustness and consistent error handling, similar to the coverage
-> provided for assigned-clock-rates.
-> 
-> Co-developed-by: Brian Masney <bmasney@redhat.com>
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
 > Signed-off-by: Peng Fan <peng.fan@nxp.com>
-> ---
 
-There's no need to add a Co-developed-by for me. I just gave you a very
-rough starting point.
-
-> diff --git a/drivers/clk/kunit_clk_assigned_rates_zero_consumer.dtso b/drivers/clk/kunit_clk_assigned_rates_zero_consumer.dtso
-> index 1d964672e8553a90263af400367a2d947f755015..d62c7522c92461245d45f8ac0ebd26fa2850be98 100644
-> --- a/drivers/clk/kunit_clk_assigned_rates_zero_consumer.dtso
-> +++ b/drivers/clk/kunit_clk_assigned_rates_zero_consumer.dtso
-> @@ -12,5 +12,6 @@ kunit-clock-consumer {
->  		compatible = "test,clk-consumer";
->  		assigned-clocks = <&clk>;
->  		assigned-clock-rates = <0>;
-> +		assigned-clock-sscs = <0 0 0>;
->  	};
->  };
-
-kunit_clk_assigned_rates_zero_consumer.dtso is modified, however
-kunit_clk_assigned_rates_zero.dtso was not. The underlying test doesn't
-check for this, so you can drop the change to this dtso file.
-
-Everything else looks good to me.
-
-Brian
+Reviewed-by: Brian Masney <bmasney@redhat.com>
 
