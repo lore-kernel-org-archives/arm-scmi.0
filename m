@@ -1,238 +1,166 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010001.outbound.protection.outlook.com [52.101.84.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E225265CDD;
-	Fri, 12 Sep 2025 06:39:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.1
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757659150; cv=fail; b=saUIGvuPeci6dedEl4f1qfy0bRU9CGnfKdKNkkiYSBqzYb+oIOXrMNNNFCkQrj9In92M/00IClPDnUrZj8d4gQOHWWMaQQmAa8cOeawVWV7wCXXIhwfZpkkI3BD6f43kXLzZd8GSqibMhCNnd+x3aCyfiMJh6CvGsJ3gjn2ydOg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757659150; c=relaxed/simple;
-	bh=Fga/YHBLrhjsg9X++q0U2IK5BMyDjDrtqTU4qd/YV14=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=eobrDPJlFpj0oGYy3P7bKP2TQn7wRlfP1BXiiRU3i5hkRYri1upsCVtx/S3wZWASecuJx1qSH3n35/sPijAFjKgoYHsyLe2gH5r5w9r1E9oM/IoOVFMx9Fa+bDU6xzbuadBoDY1ncNhkavCpkxtGjC6C8+VKPA1a32gDmvZmn2g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=VP1cqlVM; arc=fail smtp.client-ip=52.101.84.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86B92D7DFA
+	for <arm-scmi@vger.kernel.org>; Fri, 12 Sep 2025 09:24:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757669070; cv=none; b=K6npIxzd5uGThxSvJAIACImZuAKAIx6vYH+/XqZm79rgM06WTnPo7uctga+mrt1vfDj7TYTF4xuVT6eq6M8ouoPtJixT3HA/elz6jtoMPkRBkm5WzYBHQvCFP4ODe7HWPLmX8PwY1y+K2A1PDWYTzwn3bnqtqqbSFqd4O8L6tO0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757669070; c=relaxed/simple;
+	bh=2XRqmPu/gyPzYkQ/gDwq5Xo2kuz0OOwm+H4kdZL2QK0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=t965QTTlVxhVDF1GzyfO3+OB5fn2T1avWFbcelW1DK86kITw43BF4o47vGBOb+vyvPRkJrc6BP0I0o2WS2N5UobBkRMH1C8N1Lj3csct8l3jhmOonpKVOqFz7ZY3ZoBHTV/cWcy9Jot9neoOvRnckDIuW5XSRVcV/tcGNAt+5r8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=h+CHxa0s; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="VP1cqlVM"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S2D5Oi43HopUC/sCK+6JXifQbg13ydPrGZq36Ch1PWSJtCHjeX868vo0qFzHXUN4aJ6/7nngf0a54t4SBopznHryFZpMXbvfg6l2lUEESrg2SMM9jTLi3+j13eaaWFYTvqupPGip2qlN5hB41xOVneDbzCptryPtp2Qo9lK3PMJpRy5bVlZLigw/DNnUXUxaaaDrz8D0bgjc9M1k/xgChYR2rAl6WFOq8CI4Y64xb2FjsOsE8kduldJoITL9WiZOOvVkfYvdGQXauAQjDl7J5ES5rNXVeeMnKB4/cceVXKp59lHvqCK2QgPDG2X7qStjTi+QSbdB3tjR76yxo9s1Uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kMmVaqs6yb14ZNsWywBqOF/jZ3k8gC+AeqRjCuP1xn0=;
- b=ZOXXIREdAwpUCpG06U9ddQcexU/zkmWgWLU21a6RgNxQn/BgFq/O7vfcB6iw2+QVchjSFnLiAY7ZqIToqpdE8nli/UyBZbxgbnIM1Wq8T9chJYjJqVS/W5f+DrxgL/galTh6NiPk7bzRwidQ6J7sXh+sGBiPpctdadGWS4jV6R6JocTHyAeezcvXa/J22W9HSp2hfZu+lvjylCPpahliimCmRfFB1PzNJtS9fTxkV8xvfo5+RUVJccAno5E9/yblXOMoPMKasFSm0rnWmkT12w+aTX2bdFVggxd+UTa09AJqI8cvER9Bf2OpSsq+KYZP7tEZXIK+QqAbV8dy5K8JnQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kMmVaqs6yb14ZNsWywBqOF/jZ3k8gC+AeqRjCuP1xn0=;
- b=VP1cqlVMQ7HjE8QzjoecmOJzm3jiLtFHCgkO9zVbtYL7zbgx/j/vxn2a5b1p5O0o+gd8ghVKFbQysCV5QvoM+ufnDvRgBf5wXs5CebLPJ+1LR/1jazxSd+fPcX27B9Z4OD8mWxAgLA4/Dxaz1S1S5GZmM5KDxJyfJBEYu2yg+aEeyg5YwNh24toqRprgPAQMBbhVPy/UHQJibofdfPKi6bPRTlRBsoGYRMT8XjWwRIWbmoAfQXnyVqjbXjinpm4vnVt4027GwwpJUwrCdNnshtmW+ps72udhFumazJMaq7L+TO/jVav9A7gfiBL0avXkf2lKjXC9EPQUkssHPJDhhw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
- by PAXPR04MB8366.eurprd04.prod.outlook.com (2603:10a6:102:1be::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.17; Fri, 12 Sep
- 2025 06:39:04 +0000
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630%4]) with mapi id 15.20.9115.010; Fri, 12 Sep 2025
- 06:39:04 +0000
-Date: Fri, 12 Sep 2025 15:50:32 +0800
-From: Peng Fan <peng.fan@oss.nxp.com>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Peng Fan <peng.fan@nxp.com>, Sudeep Holla <sudeep.holla@arm.com>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h+CHxa0s"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-45dd0d53e04so3043075e9.1
+        for <arm-scmi@vger.kernel.org>; Fri, 12 Sep 2025 02:24:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1757669067; x=1758273867; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=e9rrTbw+eB4e+CPFH41yk8s4K4dTs5VqUYsOCYmEbOc=;
+        b=h+CHxa0sThKZbrkvrq0zf+v+4lEha27SdUezYq+t6nv4N4+EKN6TX0t0ZYeNkzXNTG
+         1OiQabLZd7m9qhdPE/aqIFMy5wYiJYCI2Co86d72MrFLU1/OlckX/GJ7OVPlq0NJ1EgE
+         oUJjyzqZH3BRRErbqIwVUujj7FbkxSABnByAgwHbRF2JEJ4UhXNn2K4jMZrGGmemk4DF
+         IGy5GdmlIcRh+08rEFvmhcoEdpaD6YMsJCyCc0HYnFUIgUr/waUkOyOVWzii6HdveFbg
+         G0ZfAg6OrgeY3Wjb3R7X9osllHWj06Uk9dpz8Jbxk8KRwWtGIBBTSR6uAZMPAoigw06N
+         f4JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757669067; x=1758273867;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e9rrTbw+eB4e+CPFH41yk8s4K4dTs5VqUYsOCYmEbOc=;
+        b=W0lG2RQc/4ZlH/WdHTrfKZ4zSByT3cNQVC95gKkDtTtTmDTuSOBGZPwvEXJ29BmJi6
+         AU/YfqJrq/5bmL9LvPeAQ3eO+H0Ldxh7f1XdIM0ClpubqAjLiEXy6fwWQp+sLYeA3r+/
+         rwV0DwyrNLCatZW476L9IfQ7AuYCUyqZqKkyZ4KI36p0s0jRWUOycFDAkj0+lMawlIgp
+         PHWf2VVK4/iKR1Jv7ke2WO/zScgCMUj0zgJUNPliEzbLM1X+rd6u/8eiByWfgctjkCXi
+         LdXSxgme0rs+G8fHiXf4tMRRTtlydIJjxaAjq/iOhhZPP+Ik+9zVBJtXSsRGoEqEQQuB
+         53OQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXxtbksAm39jRnD7FOXZNVQncmgIZDascux2/j+N8J7GN+bB0hrGrUkGftXKxgGxkslu9yfilCGyw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywx1by3fVUJH8WqNujila6azmLjr7luZn5N3sNgzKY82y0NvxV4
+	+s2TUQEtkBgbsY7oDDqQm3Y6ujLWZikxrGB7yfNYwUIekAWfbJVKfG/isRp3ct0yFQA=
+X-Gm-Gg: ASbGnctjSB4/+6HV3YBCntnO83dZZpRTx5zYzcGk+6l4JRc20smtW3pOeKu+7Hqioma
+	Ekk5l6biSRZtwzn9PABKE6XrTX+8o65c+OKpJRmVEAzgoDtsmrysR2j1blGuebItP32ZPgGjfID
+	8eowPUoD9OorVOyZKgYkNFGNTjLKVLFcYByy0V+KtCCvdS7gxo51uSyZWunUxELTyD9/58FavWr
+	djk9gXQs5EB35ZdzLb7ZJ2a/LfIX1tvxuTjLJrI46fRN0h4svvYtAomfGyiEE/liMAgfCvlhFoi
+	gA30Oe/d751YgEXK/ucn6Taw8lg26Lz872UhYllUhSJDMpbav6a3oR8X32rt3rvEE3HBCmhx8Xu
+	92rC0eQiuyzpfZP4RZRd+KTSBgIFIrE/wVU0v3/VgVmF9
+X-Google-Smtp-Source: AGHT+IE42/Da93gcZaWH4jt7HlET0DZgR6QWug+CItVQm8/AXegxB88mjk+GQjzGdqsFMrTXdt/zCw==
+X-Received: by 2002:a05:600c:8707:b0:45c:b627:a4e3 with SMTP id 5b1f17b1804b1-45f21e65defmr9620055e9.1.1757669067036;
+        Fri, 12 Sep 2025 02:24:27 -0700 (PDT)
+Received: from kuoka.. ([178.197.219.123])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e037c3ee8sm58316745e9.18.2025.09.12.02.24.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Sep 2025 02:24:26 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Sudeep Holla <sudeep.holla@arm.com>,
 	Cristian Marussi <cristian.marussi@arm.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, arm-scmi@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] firmware: imx: sm-misc: Dump syslog info
-Message-ID: <20250912075032.GB27864@nxa18884-linux.ap.freescale.net>
-References: <20250910-sm-syslog-v1-0-5b36f8f21da6@nxp.com>
- <20250910-sm-syslog-v1-2-5b36f8f21da6@nxp.com>
- <aMGYUALGv283tnV7@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aMGYUALGv283tnV7@lizhi-Precision-Tower-5810>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: SI1PR02CA0048.apcprd02.prod.outlook.com
- (2603:1096:4:1f5::11) To PAXPR04MB8459.eurprd04.prod.outlook.com
- (2603:10a6:102:1da::15)
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] firmware: arm_scmi: Simplify printks with pOF format
+Date: Fri, 12 Sep 2025 11:24:24 +0200
+Message-ID: <20250912092423.162497-2-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|PAXPR04MB8366:EE_
-X-MS-Office365-Filtering-Correlation-Id: ba4b7226-746e-4a1c-101e-08ddf1c710aa
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|376014|7416014|52116014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Y64q4Q3pGfYURi6YidKgspa96DpQ9qip3Qd4bTVyqtuWWCcIoEBY8tcUf+E6?=
- =?us-ascii?Q?FHVlhsyY4gwMGEnG4D8ZDev51q8tdjsrT7pa7Nu1vOFk6D8KOeigB97oxT65?=
- =?us-ascii?Q?gxmZnkxExyUmy49SvzDJu8zdtRPWe+aVC2nWJlo22thGX+2RQpkTzAogD6FE?=
- =?us-ascii?Q?YMM9+D2DjwZajpH7ivJZCDe6Qo49KePOg6Z7ZPnYA6en36fOpDYiP2GOOG43?=
- =?us-ascii?Q?/gu2hCeThtw7mXI6s43D4mKyvgj466X9eQP5Ie+cjyp8NXA4xBm42QY7nIdY?=
- =?us-ascii?Q?N+1v6pcy4uwgpeloWWEnuURTPDd0BHhD0A0VIQniUwNiw9b3OZo+gKeaOZnh?=
- =?us-ascii?Q?Z7T+NMf9z/ocwUWh5Y3KpyMclQiTPTrfVYPgT0eMxhZDBKEofF87rFr/wAng?=
- =?us-ascii?Q?Gy8yTVx7828r9YStQBKoN1IlzC5Ja6JQf8JCoQJNvRciM7C44LW67TbHJvi0?=
- =?us-ascii?Q?MZyC03mUEx/MPzVVNWRI6ECaTQc8CCeActOg9WS6TwaoWplyHWsQKCKXY3aO?=
- =?us-ascii?Q?N6aadBVbOyTExbiVVeyRWQvh+3slFy6wnNHDXJBfSB/QYoe21YKj8yx9DvCa?=
- =?us-ascii?Q?WrU6p7J6ZW9LyeLg7OzlNuSiwScvlka6aQSPszHD2KWVxiA5ji2R0LPJtT/s?=
- =?us-ascii?Q?BMeQa/v43W/DOej8bRTTRphLjitDzJ5HgbppNH7YToWoT3RrIfhfARExTUDv?=
- =?us-ascii?Q?yYZ+D4KN+AUs9JC73TwkvifaFiorO9Xafs5QbGTOVXfmJotX4cXymsmhB3g6?=
- =?us-ascii?Q?sKKLWHrxgxhbb2mysVoKieEtvVkNNnSYy3q2OTyDOcsm0GmIDfcEMNRIOMvb?=
- =?us-ascii?Q?GS2tQnaiffxZ7EIrIt2Q1ChQb7vU4wqzGYJo0wvSYrv3jLRu3LEziIu/DN+P?=
- =?us-ascii?Q?aZScJp4xbrqJlQ4uzMnoZFqHTshhjYzJnGT9TJ/sfEInJLrJWZjrrAY02A3h?=
- =?us-ascii?Q?m1rSHoGpfn5Ifzk9bJYX0crKe88TVPzEhNKEeO03UL09lcQp7jb7SlB2BKCh?=
- =?us-ascii?Q?8jpwSLUcBl66JmMoEOsWnaS6FbNPyG6WxpjdxY5kMz0ZMQHVEwR3gdmc6dNb?=
- =?us-ascii?Q?MVsmIEOH9C8Y8eR7v0/FViHvezJThwJlxAaBlqkfJX0NxAb0ofBxsTjDq+q7?=
- =?us-ascii?Q?nTC0ALAxtvZdrOZQ6ewpp5C7IWISHPTxHs1RSIaHpHCNrjBhX9E/Xm1xEFMc?=
- =?us-ascii?Q?gF8GkyUyUYYKjp2NtvaxRLB9MHgRiIU9qc5UpyzGExWxzRc2Rf/PEcf2qOvq?=
- =?us-ascii?Q?+o9AemZ7D2AB0kViWji5D2kPngNW+5SxKew+y07U+io4aRh37U4vp3jrUfin?=
- =?us-ascii?Q?pkaASD/YpQraIHJugRT4/YyrJHWaSE24GEN7owTpQGz9b5tBdYvv/RLiA2A5?=
- =?us-ascii?Q?u3m1t/Ub64qK7UWHxiIVlJ5/HxyPeecTXQAZOWR6MSr6PfrMvKHCDLNx0mCG?=
- =?us-ascii?Q?G3j2BS41Bf3DjAOp1boDxA4EMNhv+YZ7/gDubeaPPqfF9jGuvwALAg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(7416014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?l/yhwu7MvlQyrEUPuzPymyz+/oLoEQM/CR7AicyV6HFIqjgRNzQghws9BapX?=
- =?us-ascii?Q?6nbOqtMpLeHRuUbtf/CPv4KM0DE0dybNt0TMlEnNccBzCyYW3jwxE+4emSI2?=
- =?us-ascii?Q?E5hiQqx0VZ6VpfUFATqTERUt1GgOO2p+aVdxhEyX54nrCag+LmBJUk6wXiAD?=
- =?us-ascii?Q?nMyWklKXUyoRepnNvYes/XQeiu4OnvSGKf9g6psQzdpLruiv9JWzHuyI/cmm?=
- =?us-ascii?Q?ezNNTfGp3B+RwPCQzysmL/MJfXh204e3eHedqdeDp1a/3dxJkpjLq0rP/hmP?=
- =?us-ascii?Q?l0yueRb3fddHTuH0FPlbBicLyJEbKbzMJIeWfrLIBuSieybg3u8q+sRNVKp+?=
- =?us-ascii?Q?yR6BEpLSx5F/NWFXrgvfFJ0K8m0deq/koMf5CxAUpM4uyYebBlJ2t9RsshlK?=
- =?us-ascii?Q?Ob230SzyFPmGlfybr7bnSV+dhyymxk+vNufYYA4k+gJHNtDsDmbdo23go1Rl?=
- =?us-ascii?Q?SjgmtgXE4cYXAmqNEPw+g1qDXBQuWL5vaOGx1BFr35DkLSht8irwE4lBSOk6?=
- =?us-ascii?Q?DH5x+CPMusHbtesTC3sEPiB1algvlXTurQdjqySUYM1tRCLEGhUBZ3t1L80e?=
- =?us-ascii?Q?zc8A1kCOeuwchQyF01RMqmqLxQxCgwocNNSzjLWCDT3ecciL5FeKTzg63ll/?=
- =?us-ascii?Q?XtlX8zfXaspd2SkDMioKv9j++xpu87JGHXDoY/UHJbvjRxJJZKz88qKMaW9N?=
- =?us-ascii?Q?mc57A6vbt7ywq/a8Lf9+EsnzfrVT40WT/SHKzS0WwBBLIANOpqxuAkfwJMOw?=
- =?us-ascii?Q?3t1wwBhIqxh0/hSo1j1xeflY1R/Dyewk+TXiqSe02DgVb3u8IjfPiOZDyefg?=
- =?us-ascii?Q?ss8OzXhvWLIHpRwwrQEkaAXbHLEAKWjD+5Finm8JMDVDWxaoJIww0Ubrl/Ca?=
- =?us-ascii?Q?UL2bea+7mde33itRGgciTLjV4zu+dgXYEh+Pqt0cZuUZS7/jiUZ0Kq0nkMMG?=
- =?us-ascii?Q?RvKJhBquXJvKGj5+rzb3JvNpqnlSltN2lqfxDwpr73dScI6hHyvObxPno/PH?=
- =?us-ascii?Q?uH3JaKilOSKz5FnqX80HldJV1NQBuhi3eu2Bj+74jyaBsBfRnMrNVwpY24M1?=
- =?us-ascii?Q?MlGwZisFfaaI329ABv9VvNmBLdCDtH++vwEw1xbBOPFD4zx/vBG5B2b7xpt5?=
- =?us-ascii?Q?31yRzvJMmlJJh50hgM3f9frO/kiMI3rYWMwYIT0U1w29YlA1uWVdauG055Ma?=
- =?us-ascii?Q?WpbWaLPG+FivCTeJ934smUGm5SY7Jer1yTO2iGVAKT3Ka9kquL7MJrNcr0L0?=
- =?us-ascii?Q?wM6MOdB7PqtHJNT65HtZsV4TxS3GJ8mWlX8mb+EnFEvyzHHgiXVEpxPMxorK?=
- =?us-ascii?Q?30XiyWXH+I4qk8Zl7dssXlJ5YvdOpm/S1RxJgdl3stlncVlH/w+PmGI2xcmR?=
- =?us-ascii?Q?uTU1GYm7AXktRFUS0ImQtir3Bg0FswZibp1UbGfUTCTx14a/hjWE/vo3y8se?=
- =?us-ascii?Q?FatOXXKHfOy+6R6ryxv9ndfiJRJXfRikbhPbth1M1Suv5CPlyY29zlw4JWPP?=
- =?us-ascii?Q?W7AutkxOvuygoAycsc+nlzsTp4nvWoI+1iIRmIcg1m7Ur1mFDIZ79vzwDDw1?=
- =?us-ascii?Q?i/sw1Nb4lmezxmy8ZUJr57yhI/s+1CxuRhlo+Z21?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba4b7226-746e-4a1c-101e-08ddf1c710aa
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2025 06:39:03.9515
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: U+XBclvCN6CUhTN1XvS3HYwJ0sbmKta/uFvrMe9vjcPvbf32yHoawG+tDggmtbMGx9CAB7YXYoQ3iVruqwRs8g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8366
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2991; i=krzysztof.kozlowski@linaro.org;
+ h=from:subject; bh=2XRqmPu/gyPzYkQ/gDwq5Xo2kuz0OOwm+H4kdZL2QK0=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBow+bHzkYb9jiI6adZWT5vC+h+63SkbrshWqua+
+ SRh/nNgqiWJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaMPmxwAKCRDBN2bmhouD
+ 13WEEACMYeZPtMnfhYuqkZkuOioVkNzJzK3QySfZ7SJbXkF/v6FzAI7NOXPneNlEq0KKScuP0BB
+ Z+RTu4qmNEzzHkd274TAECf+z9nluPNzJHfPSqJ5uk6HrbKUIH2asRQtbDDi3AeM1eZz7SedHV6
+ Ilb2lJU90+yfwleMpZAMZjFLgglLMsx9mQk+vO4aN1jOAmZJyBYiSNS7HPfLsvYp8uvGtlW1qlc
+ MNIfMpeaWnzaqNG8co1SoU2nNpGcFHYCbQw3AIr8Rtmo/2Fb4ysn1TuzqZWB5rfWAxUwbpq5meD
+ 2/6X5ZW4Cim5M3vwNrbs8+wA3xUeEEWZtA48prdbIg7EuTmIdLPEgOhpXXHVrgGhrim8ND2Rwo+
+ kZy5wTyMbF/Icvccbg8xYWlUI2BHiLdk+XxTNPN/eJrvE2M368N42rpW5qMj2bFOquaN1YoAtyN
+ SS/lMQs2au7XgiXT5qknZQSRVs2sqwL8F2kl+XM/BnTSx+dXKIzgUyzpmd7Z/pTPrVQwRrDjhsX
+ zVSYRD1AWdDgwNUrVNwf8D7RFTChLbryEk7dApxisvHsuq+kPCZac0tq1BT3E89bMqkymU9evZU
+ agH1nslUUaJa55LdFqhcRE+Q5xf8jq7YAlfrXzD/RxIkZpHfLouZFdAQKEHh6yWwgZv2qdlZNdD aGZrxwlmlukU7gg==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Transfer-Encoding: 8bit
 
-Hi Frank,
+Print full device node name with %pOF format, so the code will be a bit
+simpler.
 
-On Wed, Sep 10, 2025 at 11:25:04AM -0400, Frank Li wrote:
->On Wed, Sep 10, 2025 at 10:28:18PM +0800, Peng Fan wrote:
-[...]
->> +static int syslog_show(struct seq_file *file, void *priv)
->> +{
->> +	struct device *dev = file->private;
->> +	/* 4KB is large enough for syslog */
->> +	void *syslog __free(kfree) = kmalloc(SZ_4K, GFP_KERNEL);
->> +	/* syslog API use num words, not num bytes */
->> +	u16 size = SZ_4K / 4;
->> +	int ret;
->> +
->> +	if (!ph)
->> +		return -ENODEV;
->> +
->> +	ret = imx_misc_ctrl_ops->misc_syslog(ph, &size, syslog);
->> +	if (ret) {
->> +		if (size > SZ_4K / 4) {
->> +			dev_err(dev, "syslog size is larger than 4KB, please enlarge\n");
->> +			return ret;
->
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ drivers/firmware/arm_scmi/bus.c                | 13 ++++++-------
+ drivers/firmware/arm_scmi/transports/mailbox.c |  7 +++----
+ 2 files changed, 9 insertions(+), 11 deletions(-)
 
-size could be runtime updated with the returned syslog size.
+diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
+index 24e59ddf85e7..c7698cfaa4e8 100644
+--- a/drivers/firmware/arm_scmi/bus.c
++++ b/drivers/firmware/arm_scmi/bus.c
+@@ -401,8 +401,8 @@ static void scmi_device_release(struct device *dev)
+ 
+ static void __scmi_device_destroy(struct scmi_device *scmi_dev)
+ {
+-	pr_debug("(%s) Destroying SCMI device '%s' for protocol 0x%x (%s)\n",
+-		 of_node_full_name(scmi_dev->dev.parent->of_node),
++	pr_debug("(%pOF) Destroying SCMI device '%s' for protocol 0x%x (%s)\n",
++		 scmi_dev->dev.parent->of_node,
+ 		 dev_name(&scmi_dev->dev), scmi_dev->protocol_id,
+ 		 scmi_dev->name);
+ 
+@@ -474,9 +474,8 @@ __scmi_device_create(struct device_node *np, struct device *parent,
+ 	if (retval)
+ 		goto put_dev;
+ 
+-	pr_debug("(%s) Created SCMI device '%s' for protocol 0x%x (%s)\n",
+-		 of_node_full_name(parent->of_node),
+-		 dev_name(&scmi_dev->dev), protocol, name);
++	pr_debug("(%pOF) Created SCMI device '%s' for protocol 0x%x (%s)\n",
++		 parent->of_node, dev_name(&scmi_dev->dev), protocol, name);
+ 
+ 	return scmi_dev;
+ put_dev:
+@@ -493,8 +492,8 @@ _scmi_device_create(struct device_node *np, struct device *parent,
+ 
+ 	sdev = __scmi_device_create(np, parent, protocol, name);
+ 	if (!sdev)
+-		pr_err("(%s) Failed to create device for protocol 0x%x (%s)\n",
+-		       of_node_full_name(parent->of_node), protocol, name);
++		pr_err("(%pOF) Failed to create device for protocol 0x%x (%s)\n",
++		       parent->of_node, protocol, name);
+ 
+ 	return sdev;
+ }
+diff --git a/drivers/firmware/arm_scmi/transports/mailbox.c b/drivers/firmware/arm_scmi/transports/mailbox.c
+index bd041c99b92b..ae0f67e6cc45 100644
+--- a/drivers/firmware/arm_scmi/transports/mailbox.c
++++ b/drivers/firmware/arm_scmi/transports/mailbox.c
+@@ -127,8 +127,8 @@ static int mailbox_chan_validate(struct device *cdev, int *a2p_rx_chan,
+ 	    (num_mb == 1 && num_sh != 1) || (num_mb == 3 && num_sh != 2) ||
+ 	    (num_mb == 4 && num_sh != 2)) {
+ 		dev_warn(cdev,
+-			 "Invalid channel descriptor for '%s' - mbs:%d  shm:%d\n",
+-			 of_node_full_name(np), num_mb, num_sh);
++			 "Invalid channel descriptor for '%pOF' - mbs:%d  shm:%d\n",
++			 np, num_mb, num_sh);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -140,8 +140,7 @@ static int mailbox_chan_validate(struct device *cdev, int *a2p_rx_chan,
+ 					of_parse_phandle(np, "shmem", 1);
+ 
+ 		if (!np_tx || !np_rx || np_tx == np_rx) {
+-			dev_warn(cdev, "Invalid shmem descriptor for '%s'\n",
+-				 of_node_full_name(np));
++			dev_warn(cdev, "Invalid shmem descriptor for '%pOF'\n", np);
+ 			ret = -EINVAL;
+ 		}
+ 	}
+-- 
+2.48.1
 
->suppose it is never happen, you pass down size to misc_syslog, it should
->never write data more than size.
-
-Right. But size could be updated even it not write data more than the input
-size.
-
->
->I am not sure what means of misc_syslog() return value. Generally it should
->be how many data in pointer 'syslog' if return value > 0.
->
->So seq_hex_dump() should use ret value. Then only dump validate data,
->instead of the whole buffer.
-
-size has been updated by misc_syslog, so it is not to dump whole buffer.
-
-Thanks,
-Peng
-
->
->Frank
->
->> +		}
->> +	}
->> +
->> +	seq_hex_dump(file, " ", DUMP_PREFIX_NONE, 16, sizeof(u32), syslog, size * 4, false);
->> +	seq_putc(file, '\n');
->> +
->> +	return 0;
->> +}
->> +DEFINE_SHOW_ATTRIBUTE(syslog);
->> +
->> +static void scmi_imx_misc_put(void *p)
->> +{
->> +	debugfs_remove((struct dentry *)p);
->> +}
->> +
->>  static int scmi_imx_misc_ctrl_probe(struct scmi_device *sdev)
->>  {
->>  	const struct scmi_handle *handle = sdev->handle;
->>  	struct device_node *np = sdev->dev.of_node;
->> +	struct dentry *scmi_imx_dentry;
->>  	u32 src_id, flags;
->>  	int ret, i, num;
->>
->> @@ -98,6 +134,12 @@ static int scmi_imx_misc_ctrl_probe(struct scmi_device *sdev)
->>  		}
->>  	}
->>
->> +	scmi_imx_dentry = debugfs_create_dir("scmi_imx", NULL);
->> +	if (!IS_ERR(scmi_imx_dentry))
->> +		debugfs_create_file("syslog", 0444, scmi_imx_dentry, &sdev->dev, &syslog_fops);
->> +
->> +	devm_add_action_or_reset(&sdev->dev, scmi_imx_misc_put, scmi_imx_dentry);
->> +
->>  	return 0;
->>  }
->>
->>
->> --
->> 2.37.1
->>
