@@ -1,145 +1,145 @@
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3233451BF
-	for <arm-scmi@vger.kernel.org>; Thu, 11 Sep 2025 14:46:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6EB32030A;
+	Fri, 12 Sep 2025 00:08:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757601970; cv=none; b=bJbPjMmnLOBizd0f2VlgULJCosxR2/Cl9umgu11LSs/A3dOu/wZAbzMEFDgfZJA014yvtGydKSTTHxiS3ZEYbThKbUcEhBhcS4B9FQ4QG/9yc8CzuMpQ7i6JwJ/iLn2jpsi/dP2Enag9PAm3YWopjT7FbUkAMMZs62nnR7qqFPI=
+	t=1757635711; cv=none; b=QtbMK1S+B9hGz7QRzm2jjSkrbS6kaRhipcCYHXGzYXwKs1dCsHkNmmvtL9aoVuTyGtOCPLgXjPHoY///EFV+mwqsWkr0MyORy04JB8LKmhmVxqjBeD84w4lfF9MqCV8PHLmZ840l/uKQAG58zpNEDowSPW6qtvR60imIvfF1F3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757601970; c=relaxed/simple;
-	bh=VKSX47Aju/DzSJYwp5bYidhSzFn8zeiXLyG/eQpEZMg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pQfFLt3VkufDjvb0K7nW85ZQfCT5GehxlPXkIPpDWy2AWK6ZXXnZPJD2kHAIq8TtaGrSKTPfU+OrrpE6WnGsvgZS1Td/fYKmQRqq9s6RrFmHUH/PjskU54I7zs29VPdI8CCgttCfCbtBwIFM5pfYR3t+nYlVvC3Jf27D+To3sUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=So7B1T1C; arc=none smtp.client-ip=209.85.219.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1757635711; c=relaxed/simple;
+	bh=UxcuXC6sExcpG8BeW6MP7jgxfMtnH1Fa8tN/NA404Fg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bV1LhvnOLznGIJdl7tBbnDwFeY8UgDPgfEBKV/PT0GLX2QSlD31ZunRWAZkU1OdjxgblQWq7rs/fi+I7gRixoB03+4OqeIcBGuoIINk4/J525RbV66bnYDnBJF1oCVxlUD8pJ81wLv45JXq38ar7EQq7J2R/bVwKBXWx1tduOMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NPcHy8dV; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="So7B1T1C"
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e951dfcbc5bso684770276.3
-        for <arm-scmi@vger.kernel.org>; Thu, 11 Sep 2025 07:46:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757601968; x=1758206768; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HG5KODUu0GjbUdNiiv9Xwk+9exlrDUpck0LIesxLbE4=;
-        b=So7B1T1CKaqLnhHiPP/+1FWFEu/6R4m7Mbj5/xzn1SE6S1xslf7Jhr9oBemetkknbf
-         mUV3o0erG1SIkW5Y/MHYT37UHVGW3TE8CRVYfHVeXOwP7SUKwqDjqaF1dYNVNvSWf/UK
-         nOtD5PhR0U4xC4G9+92USMeC3V1YD4gVCmT607p+HM1gVGaVv8wXB1lXiJtpLF/8CfrP
-         Pu6Ppe0MHyPMWyzVa42Wq2h31rTVK8pl4mAtAiBNaHZ7BGqo3YE54ygZOfTRArfKMoXS
-         bKZhZWJqVKRFIpJG4wYe0kGjldN4WcENcRo+No/axwP/KWnYRLnZAC1J/7GbpdJWi7MG
-         znvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757601968; x=1758206768;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HG5KODUu0GjbUdNiiv9Xwk+9exlrDUpck0LIesxLbE4=;
-        b=dmnJ93ZHhWJelNw76SaDvSRgf4PYmSxYy15xl0F1MGInBEd1tgBbb5eVFpWHnVuQIH
-         mmS5XWF5PKGG7579Sb93MsPKSdF3uglwYTxcfdBa7/LPxLi0YSgITAFqAHQzjMtlr9Ml
-         mtssmqcDk2JTm6QKRXCBPaaFtzOLgl7PB4WL7bKOxvRK26Z0B60FMzJEiaF4dgEenFAH
-         1LM6HUEqxjTs1cqJRkealEN/lm9IqGpayhMP01vK6bIMQwnC/mlr8+eksLU0X6NpamoL
-         3kiUHanbPlT+BW/AThDNCMbmw0Y2WeLk+xDvTdF6f6jOxGB87KzQh5mg7BYxBaGGgtJW
-         tmmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWswkOXy3K2skyW/4nZUxjnEPtGNa2BopAvq4jksLJGGgkM+7uKmQBZXRb7SYFhqX4huFuC+LkGsA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqE8Rjm3bh6XPenE67P0DcUMzxkmrDmkOLaTKlYg/Odi0E6oK5
-	0D2gRCjFtOSYS9n3SA4q8WjBc+zm9/1h6VSqZUR3FlEGvXVnZsl/swNzziuRWLa7ilgphERmksK
-	9e7nqT3yCqerIgBf+wyznPd6ymrHSCglvVDesZptAlw==
-X-Gm-Gg: ASbGncvlI4GFnvjUUpIbRcUUkWV2snUZbzJAYeb3xxw8fnSgqXtKZxKOxzgzudqluZd
-	srwyJGle+KQGSAZJG11iFKCmoltge9SFDNLoef6AnVkKdiLNcYVhmlKrjADa505Up2VxMVQORNX
-	bi0/3ry+BMlhyd3m++BTeI0a0f/3DSPYwFTjtGeUyRy5Pj5zCVdJ3uC/OouSHvVEKsF19bPbgdJ
-	6b3thSNZJ+ptuzauO2xmdkbj7OiHg==
-X-Google-Smtp-Source: AGHT+IGA14KLSVMCK2zV6p8As0+Jn95rbWVq+KPV+CqkNJxyiiFOFLcSxRvo/0exdQaaGDHMXMlIe6ixp4mKa1e9IQY=
-X-Received: by 2002:a05:6902:1892:b0:ea3:d40a:2563 with SMTP id
- 3f1490d57ef6-ea3d40a2737mr1177746276.41.1757601967783; Thu, 11 Sep 2025
- 07:46:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NPcHy8dV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757635710; x=1789171710;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UxcuXC6sExcpG8BeW6MP7jgxfMtnH1Fa8tN/NA404Fg=;
+  b=NPcHy8dVB0iuvC5pQB64RBtcao1jIpE4xNT+WfIoc/WSsQ75R+37P58c
+   j3IIdXvUFDH8lYPJDBAJ5lLBJJ83lmlCDV5m5T4W9XzedVbOHPbeL8njA
+   bw8DaUSrV1jEnmw9ExrNVk4SfQSBjqoWx7zyiB5Xr6pYxMMXHuMDuvrWf
+   84bWNdm6L2ukojSLkBe2dh48i/1Ku4AgbuRIVv7s1CglNKSN0D/NK7iMH
+   iRFLL8UxUlW8OUNsLt4H3VYcZBmS8jhNpfOuyQuY9f5vFcfKtbTEJ6osK
+   iEf3tP4b8a3x7ziE6tg33BdIsf4IVRDl03pUOyFBHvCyP3VENFyOgCVYi
+   Q==;
+X-CSE-ConnectionGUID: N8Lk2SD5QfGkbwWhHQEdfw==
+X-CSE-MsgGUID: GcGo7dUlS8Svg/+494UhKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60040653"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="60040653"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 17:08:29 -0700
+X-CSE-ConnectionGUID: JkE15ZKyT4Wcs/nc8sjVrw==
+X-CSE-MsgGUID: jm0+/LUrS322nD6lO7OCzg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,258,1751266800"; 
+   d="scan'208";a="178163399"
+Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 11 Sep 2025 17:08:26 -0700
+Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uwrKx-0000iO-2Z;
+	Fri, 12 Sep 2025 00:08:23 +0000
+Date: Fri, 12 Sep 2025 08:08:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Peng Fan <peng.fan@nxp.com>, Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	arm-scmi@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH 2/2] firmware: imx: sm-misc: Dump syslog info
+Message-ID: <202509120758.omltrDMi-lkp@intel.com>
+References: <20250910-sm-syslog-v1-2-5b36f8f21da6@nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250902-pm-v3-0-ffadbb454cdc@nxp.com>
-In-Reply-To: <20250902-pm-v3-0-ffadbb454cdc@nxp.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Thu, 11 Sep 2025 16:45:31 +0200
-X-Gm-Features: Ac12FXy4zlU7KeT4OFE-vyI1bqh6ZB1528BpXJl_SwXQzUbCOw7DO0NcEvUZLJA
-Message-ID: <CAPDyKFqBJQ92HH1tSq1rfbXV1OwbyvgChyHfv7ykJqf2A6qYpw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] pmdomain: core: Introduce device_set/get_out_band_wakeup
- and use it in usb
-To: Peng Fan <peng.fan@nxp.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Peter Chen <peter.chen@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Xu Yang <xu.yang_2@nxp.com>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, imx@lists.linux.dev, arm-scmi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250910-sm-syslog-v1-2-5b36f8f21da6@nxp.com>
 
-On Tue, 2 Sept 2025 at 05:33, Peng Fan <peng.fan@nxp.com> wrote:
->
-> This is pick up of [1] which does not have response in about 5 months.
+Hi Peng,
 
-Sorry, I have planned to have a look at this, but just never got to it.
+kernel test robot noticed the following build errors:
 
-> This V2 patchset
-> - includes usb driver changes(patch 2,3) to give people a full picture on how it is used.
-> - Rebased next-20250729 to resolve conflicts
->
-> To i.MX95, USB2 and USB3 are in HSIOMIX, but there is always on logic
-> to make USB2 and USB3 has wakeup capability when HSIOMIX power domain
-> is in off state. Otherwise the HSIOMIX will be kept on when
-> USB2 and USB3 are configured to be wakeup source and Linux suspended.
-> With this patchset, HSIOMIX could be powered off and Linux could still
-> be woke up by USB hotplug event.
->
-> Patch 1 introduces device_set/get_out_band_wakeup
-> Patch 2 and 3 are drivers changes to use device_set_out_band_wakeup
->
-> [1]https://lore.kernel.org/linux-pm/20250311083239.3336439-1-peng.fan@oss.nxp.com/
->
-> More old discussions:
-> https://lore.kernel.org/linux-pm/20250311083239.3336439-1-peng.fan@oss.nxp.com/
->
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+[auto build test ERROR on 65dd046ef55861190ecde44c6d9fcde54b9fb77d]
 
-Overall I think the series looks nice, but I will make some more
-thinking of this in the next few days and come back with some proper
-comments, at latest in the middle of next week.
+url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan/firmware-arm_scmi-imx-Support-getting-syslog-of-MISC-protocol/20250910-223316
+base:   65dd046ef55861190ecde44c6d9fcde54b9fb77d
+patch link:    https://lore.kernel.org/r/20250910-sm-syslog-v1-2-5b36f8f21da6%40nxp.com
+patch subject: [PATCH 2/2] firmware: imx: sm-misc: Dump syslog info
+config: i386-buildonly-randconfig-004-20250912 (https://download.01.org/0day-ci/archive/20250912/202509120758.omltrDMi-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250912/202509120758.omltrDMi-lkp@intel.com/reproduce)
 
-Kind regards
-Uffe
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509120758.omltrDMi-lkp@intel.com/
 
-> ---
-> Changes in v3:
-> - Add a new patch from Xu Yang to detach power domain for ci hdrc
-> - Add A-b for patch 4
-> - Link to v2: https://lore.kernel.org/r/20250801-pm-v2-0-97c8fb2a433c@nxp.com
->
-> ---
-> Peng Fan (3):
->       pmdomain: core: Introduce device_set/get_out_band_wakeup()
->       usb: chipidea: ci_hdrc_imx: Set out of band wakeup for i.MX95
->       usb: dwc3: imx8mp: Set out of band wakeup for i.MX95
->
-> Xu Yang (1):
->       usb: chipidea: core: detach power domain for ci_hdrc platform device
->
->  drivers/pmdomain/core.c            |  6 ++++--
->  drivers/usb/chipidea/ci_hdrc_imx.c |  8 ++++++++
->  drivers/usb/chipidea/core.c        |  3 +++
->  drivers/usb/dwc3/dwc3-imx8mp.c     |  4 ++++
->  include/linux/pm.h                 |  1 +
->  include/linux/pm_wakeup.h          | 17 +++++++++++++++++
->  include/linux/usb/chipidea.h       |  1 +
->  7 files changed, 38 insertions(+), 2 deletions(-)
-> ---
-> base-commit: 1b09efec32046a9c78cfecc46a26b1b139a3e8a8
-> change-id: 20250729-pm-243ff7097e44
->
-> Best regards,
-> --
-> Peng Fan <peng.fan@nxp.com>
->
+All errors (new ones prefixed by >>):
+
+>> drivers/firmware/imx/sm-misc.c:54:39: error: use of undeclared identifier 'SZ_4K'
+      54 |         void *syslog __free(kfree) = kmalloc(SZ_4K, GFP_KERNEL);
+         |                                              ^
+>> drivers/firmware/imx/sm-misc.c:54:39: error: use of undeclared identifier 'SZ_4K'
+>> drivers/firmware/imx/sm-misc.c:54:39: error: use of undeclared identifier 'SZ_4K'
+   drivers/firmware/imx/sm-misc.c:56:13: error: use of undeclared identifier 'SZ_4K'
+      56 |         u16 size = SZ_4K / 4;
+         |                    ^
+   drivers/firmware/imx/sm-misc.c:64:14: error: use of undeclared identifier 'SZ_4K'
+      64 |                 if (size > SZ_4K / 4) {
+         |                            ^
+   drivers/firmware/imx/sm-misc.c:64:14: error: use of undeclared identifier 'SZ_4K'
+   drivers/firmware/imx/sm-misc.c:64:14: error: use of undeclared identifier 'SZ_4K'
+   7 errors generated.
+
+
+vim +/SZ_4K +54 drivers/firmware/imx/sm-misc.c
+
+    49	
+    50	static int syslog_show(struct seq_file *file, void *priv)
+    51	{
+    52		struct device *dev = file->private;
+    53		/* 4KB is large enough for syslog */
+  > 54		void *syslog __free(kfree) = kmalloc(SZ_4K, GFP_KERNEL);
+    55		/* syslog API use num words, not num bytes */
+    56		u16 size = SZ_4K / 4;
+    57		int ret;
+    58	
+    59		if (!ph)
+    60			return -ENODEV;
+    61	
+    62		ret = imx_misc_ctrl_ops->misc_syslog(ph, &size, syslog);
+    63		if (ret) {
+    64			if (size > SZ_4K / 4) {
+    65				dev_err(dev, "syslog size is larger than 4KB, please enlarge\n");
+    66				return ret;
+    67			}
+    68		}
+    69	
+    70		seq_hex_dump(file, " ", DUMP_PREFIX_NONE, 16, sizeof(u32), syslog, size * 4, false);
+    71		seq_putc(file, '\n');
+    72	
+    73		return 0;
+    74	}
+    75	DEFINE_SHOW_ATTRIBUTE(syslog);
+    76	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
