@@ -1,128 +1,186 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD243043B0
-	for <arm-scmi@vger.kernel.org>; Mon, 15 Sep 2025 12:35:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0683A34BA2C;
+	Thu, 18 Sep 2025 05:40:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757939754; cv=none; b=ftwO8TWbYNt2Tz55us3Tjp5SPq7s8RZvlXFHM+qSwnxnYZmOYE3O5Wjx/V5+QglLoZZeUJ8hdQYX/z55HY+xiYfKwUqNlO9TUzd/Q1svCajydkBW32yL9ptz3MWI9D//J0qwQbz3xtNL48k+T7HtAT4FkmQLSYXae3TWNN1b7qg=
+	t=1758174013; cv=none; b=LihxyOimijpdZKrTszIJLjkrSHy4Z/2L5wE+C9gBzbOrYadAFSm8CpT9Bz+IYWgAuE9zj1Ed3+5cdfrxpG2FA//40JqckIxxoQsi2bJFZWcXrUV6QOD9WuM2ec4x9dTEUof5wjmbmH7ZWciXWHZAWWLFT1L7oB8/6nTNPndJ81g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757939754; c=relaxed/simple;
-	bh=gpLksYcw9Myqwzil/WQeDaXG00Vp4w5WqIhVKKBj/rk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=mGNPctMJCb+v+pA2UMlMGPrFNqMedPBgEdsgKIHzkrKMYb/9ya1TXsuPQ9LT4ue2ufkL7KPvMVhBuWIAeu68ub87fT+DL+u269m0pZyfUqJyvnnSciWQKavOW7f91awpODH3OmyUOFRaRgQLfYreBpDlimSh4kbkrOh1HtN1v2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=R8mxsZIA; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1758174013; c=relaxed/simple;
+	bh=DHo36Nw9Mhb8OSdyfEa69N5hMrs1OO6ojIUqj1gz0sE=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u7dV92keZX352Y8n4P3ZTFIaXskvl5pMz/zdoJF9aDrAAYZ96oADUtouuyuUgUyhInfjXydxiHJA3gpXFSgxbAkRPYX/zknuV3E9E9ZvVUnOFsyas0StAyiSXjws29D/am1YG6JSO1JWvigWlbl4ZCp8J0IDLzPXMCIfbVSKTSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Jn+/3YUR; arc=none smtp.client-ip=198.47.19.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="R8mxsZIA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757939751;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wLL8rzXBaL9TL+cKj7734rcnA0rGbpZjb3H9q3ePb+M=;
-	b=R8mxsZIAozw1D3D2hjWbuyZPRDARpMApGustgFmRsrEdwY2cWRQ5S6mTEUrYPsr6Tdf1US
-	D/teNfTTukBg3WVdIYFgeU6ihEmPJ3fGNoapeQ1FHmZoSQQV5RkW1z9saqUXeD6p4Sj+gg
-	CoFhl8nSKgt43HVTGnWxizjFS+96R9s=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-497-M7tQUMCANueRdJ0FsPturw-1; Mon, 15 Sep 2025 08:35:50 -0400
-X-MC-Unique: M7tQUMCANueRdJ0FsPturw-1
-X-Mimecast-MFC-AGG-ID: M7tQUMCANueRdJ0FsPturw_1757939750
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4b49715fdfbso145845131cf.2
-        for <arm-scmi@vger.kernel.org>; Mon, 15 Sep 2025 05:35:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757939749; x=1758544549;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wLL8rzXBaL9TL+cKj7734rcnA0rGbpZjb3H9q3ePb+M=;
-        b=uujMf1ajplp4AT/SB9LfVDNDW7Xi8NSgw61/3H4tAS82YVuXWDRupmXNqkNtOQPq50
-         8I5u1rbdhsU3GbTnLOuBtn2QpvfzT0w86ZpQFHfO3hnjysceuP0VvhxlZp1wzWabGbwR
-         XOJF+4uKNzx5y0rGgEJuE9areDo7MgKm6fO0lxuZDqz9H5yQxETIK2XbruC4Ngl1ozL0
-         x3Y8saCmTe200O4BcmnRfKyRcaOoq2ZoZIVA15wKX6C/n76q3hyNKjFD6GLi6IMv2g7F
-         KEnuh9g/7jfKuZ1Jo/Yxf1wtylA1ZFbDA2V6t3fNFtDsHI1KU9V8hRjaj00qGbLrA/pq
-         HOyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCURyRledDjsB/tVIa4poQ8VfVO4aRY1px+Jlk2C1wVdfBm6t0IidZdXbhQTX4VV7OlTF/vaSVuLaQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0Zp+GnIvtREYlcmGDhHkzYs2gkrL77jIixUPu+IlEecMFkyay
-	rdS63D3X9qqjutXC2W4wgpxp6dwPgrLmqlkEsBwXe15P3H1+Zp3ZPa96k0hRu+wPMjARVBBV4e/
-	Y0fDCte+MmiRBt3iPlCSbUCfD6ZgREvro1MC6WIf9oxPHJetpijCi96s2nUvyBe/9C2k0P44=
-X-Gm-Gg: ASbGncuXhtyOPov5dgRS8V4qdr54nTnEQhOxsC1dGb4INv6t+16FtMbcXnf64DnZpCH
-	XKGhCCxkanfynXFsujZUpfHNo+mhF+Inb2RaANartweCmFb9wao6H02W52M5dvbW+dpi6VExDj2
-	w1M3doGGD7aSk3m7ig9IR2+eCxwsROB7hxY2LdI0wDIhg+ykk3kaIO4d+roq4x11ciN63kME+WZ
-	mtWGmgNCc7sIpR91ukLVsI7tc+Lr3VcaMXZ7XYOTyJC34oeTpydW5juPwY+ieQ89+aYWp0Vv+KE
-	DyOq2NiFCXJs/6kfRFlirbV0S4ZmGPIEyZLk3m7TQT/MEtj2w4wzLHJxwFnIQUWDEIqsOzpynpW
-	5qklEj2PXO4+p9NxeEBcIjTnbawVTnUk=
-X-Received: by 2002:a05:622a:1346:b0:4b4:8f9f:746d with SMTP id d75a77b69052e-4b77d04040fmr148337431cf.24.1757939749219;
-        Mon, 15 Sep 2025 05:35:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHY7Mxjz8VG1qTosAk9YY8DjG+y2q7MXDw84ZmcJWfZt1ziy/I8az1raMUNBU225CmbUCJKNA==
-X-Received: by 2002:a05:620a:3194:b0:7f9:7000:f7bb with SMTP id af79cd13be357-823fbde9118mr1346851185a.7.1757939388265;
-        Mon, 15 Sep 2025 05:29:48 -0700 (PDT)
-Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b79a7b639esm26809461cf.5.2025.09.15.05.29.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Sep 2025 05:29:47 -0700 (PDT)
-Date: Mon, 15 Sep 2025 08:29:44 -0400
-From: Brian Masney <bmasney@redhat.com>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Jn+/3YUR"
+Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58I5dad41676466;
+	Thu, 18 Sep 2025 00:39:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1758173976;
+	bh=DKjp6N/ixan1BjatOrTjluVvM3Lvf9IQYxDJwVkTHGI=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=Jn+/3YUR2Waxjc9kICUNeTvsLCWZ4SzptzZzI552+gi1e+Q2RL8vnGaY9mJvRB210
+	 IBO/CfMwq6N3MSR4jYnGhI4HH7PNUrWg5OaAvNzXbiZrzAR++zhdOj5N7ozg9HZlXF
+	 ng1LpS5A5lLuaRU1bZCJWi9aSylBGdVhX1NZzp+A=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58I5da5Q1878417
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Thu, 18 Sep 2025 00:39:36 -0500
+Received: from DFLE211.ent.ti.com (10.64.6.69) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 18
+ Sep 2025 00:39:35 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE211.ent.ti.com
+ (10.64.6.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Thu, 18 Sep 2025 00:39:35 -0500
+Received: from localhost (lcpd911.dhcp.ti.com [172.24.233.130])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58I5dYu7066935;
+	Thu, 18 Sep 2025 00:39:35 -0500
+Date: Thu, 18 Sep 2025 11:09:34 +0530
+From: Dhruva Gole <d-gole@ti.com>
 To: Peng Fan <peng.fan@nxp.com>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 4/5] clk: Add KUnit tests for assigned-clock-sscs
-Message-ID: <aMgGuDxzYZpw9sti@redhat.com>
-References: <20250915-clk-ssc-version1-v4-0-5a2cee2f0351@nxp.com>
- <20250915-clk-ssc-version1-v4-4-5a2cee2f0351@nxp.com>
+CC: Ulf Hansson <ulf.hansson@linaro.org>,
+        "Rafael J. Wysocki"
+	<rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+        Pavel Machek
+	<pavel@kernel.org>, Peter Chen <peter.chen@kernel.org>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer
+	<s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Xu Yang <xu.yang_2@nxp.com>, <linux-pm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <imx@lists.linux.dev>, <arm-scmi@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v3 1/4] pmdomain: core: Introduce
+ device_set/get_out_band_wakeup()
+Message-ID: <20250918053934.dweerdmcqdkr342w@lcpd911>
+References: <20250902-pm-v3-0-ffadbb454cdc@nxp.com>
+ <20250902-pm-v3-1-ffadbb454cdc@nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20250915-clk-ssc-version1-v4-4-5a2cee2f0351@nxp.com>
-User-Agent: Mutt/2.2.14 (2025-02-20)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Aioz4kCPdi9Z0-ty_cd5KZmUVn98kIYlopUAabx-_9g_1757939750
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
+In-Reply-To: <20250902-pm-v3-1-ffadbb454cdc@nxp.com>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On Mon, Sep 15, 2025 at 04:29:38PM +0800, Peng Fan wrote:
-> Spread spectrum configuration is part of clock frequency settings,
-> and its behavior can be validated similarly to assigned clock rates.
+On Sep 02, 2025 at 11:33:00 +0800, Peng Fan wrote:
+> For some cases, a device could still wakeup the system even if its power
+> domain is in off state, because the device's wakeup hardware logic is
+> in an always-on domain.
+
+Don't we already have something like wake IRQs [1] for such purposes?
+
+8<----------------------------------------------------------------------
+That may involve turning on a special signal handling logic within the
+platform (such as an SoC) so that signals from a given line are routed
+in a different way during system sleep so as to trigger a system wakeup
+when needed
+----------------------------------------------------------------------->8
+
+[1] https://docs.kernel.org/power/suspend-and-interrupts.html#system-wakeup-interrupts-enable-irq-wake-and-disable-irq-wake
+
 > 
-> Extend the existing KUnit tests for assigned-clock-rates to cover
-> assigned-clock-sscs by reusing the test framework. Add new test
-> device trees:
->   - kunit_clk_assigned_sscs_null.dtso
->   - kunit_clk_assigned_sscs_null_consumer.dtso
->   - kunit_clk_assigned_sscs_without.dtso
->   - kunit_clk_assigned_sscs_without_consumer.dtso
->   - kunit_clk_assigned_sscs_zero.dtso
->   - kunit_clk_assigned_sscs_zero_consumer.dtso
+> To support this case, introduce device_set/get_out_band_wakeup() to
+> allow device drivers to control the behaviour in genpd for a device
+> that is attached to it.
+
+Do you have any explanation as to why wake IRQ is not solving this
+problem and you need to introduce these new APIs?
+
 > 
-> These tests cover various invalid configurations of assigned-clock-sscs,
-> ensuring robustness and consistent error handling, similar to the coverage
-> provided for assigned-clock-rates.
-> 
-> Co-developed-by: Brian Masney <bmasney@redhat.com>
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
 > Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
+>  drivers/pmdomain/core.c   |  6 ++++--
+>  include/linux/pm.h        |  1 +
+>  include/linux/pm_wakeup.h | 17 +++++++++++++++++
+>  3 files changed, 22 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
+> index 0006ab3d078972cc72a6dd22a2144fb31443e3da..8e37758cea88a9ee051ad9fb13bdd3feb4f8745e 100644
+> --- a/drivers/pmdomain/core.c
+> +++ b/drivers/pmdomain/core.c
+> @@ -1549,7 +1549,8 @@ static int genpd_finish_suspend(struct device *dev,
+>  	if (ret)
+>  		return ret;
+>  
+> -	if (device_awake_path(dev) && genpd_is_active_wakeup(genpd))
+> +	if (device_awake_path(dev) && genpd_is_active_wakeup(genpd) &&
+> +	    !device_get_out_band_wakeup(dev))
+>  		return 0;
+>  
+>  	if (genpd->dev_ops.stop && genpd->dev_ops.start &&
+> @@ -1604,7 +1605,8 @@ static int genpd_finish_resume(struct device *dev,
+>  	if (IS_ERR(genpd))
+>  		return -EINVAL;
+>  
+> -	if (device_awake_path(dev) && genpd_is_active_wakeup(genpd))
+> +	if (device_awake_path(dev) && genpd_is_active_wakeup(genpd) &&
+> +	    !device_get_out_band_wakeup(dev))
+>  		return resume_noirq(dev);
+>  
+>  	genpd_lock(genpd);
+> diff --git a/include/linux/pm.h b/include/linux/pm.h
+> index cc7b2dc28574c24ece2f651352d4d23ecaf15f31..5b28a4f2e87e2aa34acc709e146ce729acace344 100644
+> --- a/include/linux/pm.h
+> +++ b/include/linux/pm.h
+> @@ -684,6 +684,7 @@ struct dev_pm_info {
+>  	bool			smart_suspend:1;	/* Owned by the PM core */
+>  	bool			must_resume:1;		/* Owned by the PM core */
+>  	bool			may_skip_resume:1;	/* Set by subsystems */
+> +	bool			out_band_wakeup:1;
+>  	bool			strict_midlayer:1;
+>  #else
+>  	bool			should_wakeup:1;
+> diff --git a/include/linux/pm_wakeup.h b/include/linux/pm_wakeup.h
+> index c838b4a30f876ef5a66972d16f461cfba9ff2814..c461c7edef6f7927d696b7d18b59a6a1147f53a3 100644
+> --- a/include/linux/pm_wakeup.h
+> +++ b/include/linux/pm_wakeup.h
+> @@ -94,6 +94,16 @@ static inline void device_set_wakeup_path(struct device *dev)
+>  	dev->power.wakeup_path = true;
+>  }
+>  
+> +static inline void device_set_out_band_wakeup(struct device *dev, bool capable)
+> +{
+> +	dev->power.out_band_wakeup = capable;
+> +}
+> +
+> +static inline bool device_get_out_band_wakeup(struct device *dev)
+> +{
+> +	return dev->power.out_band_wakeup;
+> +}
+> +
+>  /* drivers/base/power/wakeup.c */
+>  extern struct wakeup_source *wakeup_source_register(struct device *dev,
+>  						    const char *name);
+> @@ -162,6 +172,13 @@ static inline bool device_wakeup_path(struct device *dev)
+>  
+>  static inline void device_set_wakeup_path(struct device *dev) {}
+>  
+> +static inline void device_set_out_band_wakeup(struct device *dev, bool capable) {}
+> +
+> +static inline bool device_get_out_band_wakeup(struct device *dev)
+> +{
+> +	return false;
+> +}
+> +
+>  static inline void __pm_stay_awake(struct wakeup_source *ws) {}
 
-This looks good to me. I'd typically leave a Reviewed-by, but that's
-probably not appropriate since I'm already listed with a
-Co-developed-by.
-
-Brian
-
+-- 
+Best regards,
+Dhruva Gole
+Texas Instruments Incorporated
