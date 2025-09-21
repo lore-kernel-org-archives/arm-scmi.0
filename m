@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7EA214204;
-	Sat, 20 Sep 2025 05:50:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A481524D1;
+	Sun, 21 Sep 2025 20:53:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758347439; cv=none; b=UbpgNT/lDw9O8odqD+gkoFdf437aQi5kcmDyffm/eB3gKBilFnKm7K0wygbPzFMlU7Gnwj+p0njl74N9t3pfuIxUG0fnVb4LaZ+axOvr6xbUk8hRYpI0WRJj9gm9Db1YWXlu33+evOyeccbWsjxvSkhT5YBPTWpDeO4n6yjv5ZQ=
+	t=1758488018; cv=none; b=I1XP0Qvmz0oe748So0IRth5Cjdl4LSEsYABaQBvMiutZDh5Vk2MpxJ4NvRpqtA1c8el5bFyXOiLirAkPi7/8B9SS392P8s4zyV3ZhMououK5osRlcxk8S/ayM0SQYldhEUUa2uit0UDSNlWBqk2ZCZPjJIPdHRJMsN9rN/8WAaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758347439; c=relaxed/simple;
-	bh=Iem50jJYwR/hmi6++magwhX1fEYgWmzgZ0K87gHbmao=;
+	s=arc-20240116; t=1758488018; c=relaxed/simple;
+	bh=J1ZFtX4yvxKI22ZawNgw40HCJY1KhiYNmPZ1GeiDW/4=;
 	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=iGs4XjPKVJGr8zNbIn/oF8jUSlx1WB9aR2+se/oayTBC7G2iqRLnS3dEfgYzyI6fsAAMc5e7lRCuoqsnH989m110Xv7r8wMP0W+/XSpGUjWRb/L0HRAInh9TLNndqRqx0FYgxPahUcJutkyYSmOsylmYDZS8iIsOb0jMvPU0BCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U9EUZMsq; arc=none smtp.client-ip=10.30.226.201
+	 To:Date:Message-ID; b=IIDd8ACB/1yl0DNSW8Pe67jlpn9WUegXcAl9y5YDK69jYnbQtRsaofcA+1FAwpSVjlIdxXzVQlfLjY6HuBQHkbDkpHvLn3+PfNcDQ8X093rinDWntfF5cg/RcbT262en5wl4+zY0BOKUfqQDytN40kXOrAi79XNSu5kDTXH/uRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jRVDTveE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U9EUZMsq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4DD4C4CEEB;
-	Sat, 20 Sep 2025 05:50:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jRVDTveE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 760B0C4CEE7;
+	Sun, 21 Sep 2025 20:53:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758347438;
-	bh=Iem50jJYwR/hmi6++magwhX1fEYgWmzgZ0K87gHbmao=;
+	s=k20201202; t=1758488016;
+	bh=J1ZFtX4yvxKI22ZawNgw40HCJY1KhiYNmPZ1GeiDW/4=;
 	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=U9EUZMsqdrtF+r4nqA8DGSHjcJCH+wh37RuQIdT1/D/KSRXUB9B4HrV01MST6tiJa
-	 nPmz3xx7S5k0usLpyZVINcf3Fxh+wMUVdtAXtczcn8ru+jbzou/ynEtcw17zu13+5i
-	 8WOwh7T6xPNuUwV+FZnYVTZI/wWdY/6WZyO6qRtW19zFH5mtB9HP9NCy1iXjAN0Dl/
-	 SXTchGXhs12p6Kt5h8dhFV+fSJwdaUJWyEL1+o8go89UF96m++nB//k+E65dNw8+xi
-	 PsSjE7lQgazRrPwgn0j0FYiqH9NWXBklwFRZdkm2JhqtU9O6yg6gZTZMJGGY4xfe8w
-	 mcSdAhXgJRxAQ==
+	b=jRVDTveEzhJOLghwziVd7Tm+Ldcwbt82QotkmsuvKUdp7Jvz0BAws0jDBUZPKU4MQ
+	 9LPG5u+RcZlEGes07BgeCvTInni3yuLi8L+vdb98PcOveEDuFM4GOhbSCF/5Txz1tv
+	 ynPSOzP3Y2YCsjFLb9LzX+sRoh/2B9FlNIXlZzyyhITerup96M96/68ZxQH6icvrDm
+	 do5NyYEbZgOaals9q5hWcbSOvpBtBwzNa8nfe3qzBpiWY07A7/oH8p+pJSSeJvsDfc
+	 Zhw9MO976iGvHj1G1evMMoAWGQ10aV5k7hIWzSloGDQovXY0rq7mv3UuJEl0pD258F
+	 U4mIQSUgWETeA==
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -34,22 +34,128 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250728070446.949095-1-ping.bai@nxp.com>
-References: <20250728070446.949095-1-ping.bai@nxp.com>
-Subject: Re: [PATCH] clk: scmi: Add duty cycle ops only when duty cycle is supported
+In-Reply-To: <20250915-clk-ssc-version1-v4-2-5a2cee2f0351@nxp.com>
+References: <20250915-clk-ssc-version1-v4-0-5a2cee2f0351@nxp.com> <20250915-clk-ssc-version1-v4-2-5a2cee2f0351@nxp.com>
+Subject: Re: [PATCH v4 2/5] clk: Introduce clk_hw_set_spread_spectrum
 From: Stephen Boyd <sboyd@kernel.org>
-Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, imx@lists.linux.dev
-To: Jacky Bai <ping.bai@nxp.com>, cristian.marussi@arm.com, mturquette@baylibre.com, sudeep.holla@arm.com
-Date: Fri, 19 Sep 2025 22:50:37 -0700
-Message-ID: <175834743791.4354.15798053146130121164@lazor>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, Geert Uytterhoeven <geert@linux-m68k.org>, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Peng Fan <peng.fan@nxp.com>
+To: Brian Masney <bmasney@redhat.com>, Conor Dooley <conor+dt@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Marco Felsch <m.felsch@pengutronix.de>, Michael Turquette <mturquette@baylibre.com>, Peng Fan <peng.fan@nxp.com>, Rob Herring <robh@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>
+Date: Sun, 21 Sep 2025 13:53:34 -0700
+Message-ID: <175848801471.4354.13819701022920596111@lazor>
 User-Agent: alot/0.11
 
-Quoting Jacky Bai (2025-07-28 00:04:46)
-> For some of the SCMI based platforms, the oem extended config may be
-> supported, but not for duty cycle purpose. Skip the duty cycle ops if
-> err return when trying to get duty cycle info.
->=20
-> Signed-off-by: Jacky Bai <ping.bai@nxp.com>
-> ---
+Quoting Peng Fan (2025-09-15 01:29:36)
+> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> index b821b2cdb155331c85fafbd2fac8ab3703a08e4d..06db8918a1b35e3280e565272=
+bc4603a88295a92 100644
+> --- a/drivers/clk/clk.c
+> +++ b/drivers/clk/clk.c
+> @@ -2802,6 +2802,32 @@ int clk_set_max_rate(struct clk *clk, unsigned lon=
+g rate)
+>  }
+>  EXPORT_SYMBOL_GPL(clk_set_max_rate);
+> =20
+> +int clk_hw_set_spread_spectrum(struct clk_hw *hw, struct clk_spread_spec=
+trum *conf)
+> +{
+> +       struct clk_core *core;
+> +       int ret;
+> +
+> +       if (!hw)
+> +               return 0;
+> +
+> +       core =3D hw->core;
+> +
+> +       clk_prepare_lock();
+> +
+> +       ret =3D clk_pm_runtime_get(core);
+> +       if (ret)
+> +               goto fail;
+> +
+> +       if (core->ops->set_spread_spectrum)
+> +               ret =3D core->ops->set_spread_spectrum(hw, conf);
+> +
+> +       clk_pm_runtime_put(core);
+> +
+> +fail:
+> +       clk_prepare_unlock();
+> +       return ret;
+> +}
 
-Applied to clk-next
+Does it need to be exported?=20
+
+> +
+>  /**
+>   * clk_get_parent - return the parent of a clk
+>   * @clk: the clk whose parent gets returned
+> diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
+> index 630705a47129453c241f1b1755f2c2f2a7ed8f77..4f48a4df95a1c54638a0e91e0=
+a449fcc8aa40b80 100644
+> --- a/include/linux/clk-provider.h
+> +++ b/include/linux/clk-provider.h
+> @@ -84,6 +84,19 @@ struct clk_duty {
+>         unsigned int den;
+>  };
+> =20
+> +/**
+> + * struct clk_spread_spectrum - Structure encoding spread spectrum of a =
+clock
+> + *
+> + * @modfreq_hz:                Modulation frequency
+> + * @spread_bp:         Modulation percent in permyriad
+> + * @method:            Modulation method
+> + */
+> +struct clk_spread_spectrum {
+> +       u32 modfreq_hz;
+> +       u32 spread_bp;
+> +       u32 method;
+
+What are the possible values of 'method'? I'm guessing it's the defines
+in the dt-bindings header? Please connect these two somehow, maybe
+through an enum. Also, why are these u32? Shouldn't these be more common
+types like unsigned long or unsigned long long instead being exactly 32
+bits?
+
+> +};
+> +
+>  /**
+>   * struct clk_ops -  Callback operations for hardware clocks; these are =
+to
+>   * be provided by the clock implementation, and will be called by drivers
+> @@ -178,6 +191,12 @@ struct clk_duty {
+>   *             separately via calls to .set_parent and .set_rate.
+>   *             Returns 0 on success, -EERROR otherwise.
+>   *
+> + * @set_spread_spectrum: Optional callback used to configure the spread
+> + *             spectrum modulation frequency, percentage, and method
+> + *             to reduce EMI by spreading the clock frequency over a
+> + *             wider range.
+> + *             Returns 0 on success, -EERROR otherwise.
+> + *
+>   * @recalc_accuracy: Recalculate the accuracy of this clock. The clock a=
+ccuracy
+>   *             is expressed in ppb (parts per billion). The parent accur=
+acy is
+>   *             an input parameter.
+> @@ -255,6 +274,8 @@ struct clk_ops {
+>         int             (*set_rate_and_parent)(struct clk_hw *hw,
+>                                     unsigned long rate,
+>                                     unsigned long parent_rate, u8 index);
+> +       int             (*set_spread_spectrum)(struct clk_hw *hw,
+> +                                              struct clk_spread_spectrum=
+ *clk_ss);
+
+const clk_ss pointer? And is it actually 'conf' or 'ss_conf'?
+
+>         unsigned long   (*recalc_accuracy)(struct clk_hw *hw,
+>                                            unsigned long parent_accuracy);
+>         int             (*get_phase)(struct clk_hw *hw);
+> @@ -1430,6 +1451,7 @@ void clk_hw_get_rate_range(struct clk_hw *hw, unsig=
+ned long *min_rate,
+>                            unsigned long *max_rate);
+>  void clk_hw_set_rate_range(struct clk_hw *hw, unsigned long min_rate,
+>                            unsigned long max_rate);
+> +int clk_hw_set_spread_spectrum(struct clk_hw *hw, struct clk_spread_spec=
+trum *conf);
+
+const conf? And 'ss_conf' again?
