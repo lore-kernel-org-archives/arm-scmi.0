@@ -1,122 +1,463 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02331246BC5
-	for <arm-scmi@vger.kernel.org>; Wed, 24 Sep 2025 15:33:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D34931D5151;
+	Thu, 25 Sep 2025 20:36:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758728032; cv=none; b=s1GHTJ20eUF08Y1yvwoeOWxOh5bTBIOf94l/W0kzPMy8dPTmiToWCtlVp2jlJcRImfy4936eCusR8vwJuzP2Xb5EPkOmZsGEVSLFTssTEciMxGy9gbELEpo2OMp0UbY5Lz4qsr1OXgYDPtZ+E/SxDBfym5amfx/Z8PQp07qQ4Is=
+	t=1758832585; cv=none; b=DL1RIIfTvS2nJwowYOVrXw6Kw3BKRQS/uT2SLigYVPh+XYZqJUSyelV0MarQoTAv9yggVdk+O1Cz9H9gpdks1h6Wl2o0zwMGJ60Z1poqZdKEc6t4/Ip5p960dvtQEMxQO2X7j+8xgzjseebIXwSLy1TwJCfXlza9RmNyR449KxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758728032; c=relaxed/simple;
-	bh=wRch98PTr07OsPbOEWFR6ZR70W6lFXly25dnPdzBGHc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=bJSMe5duNqQTvuaolewQev4i7lR7Fe8TJb5DFrTQ9I4Azwk54MXOLSvJkwicJh38RPpEfRFAyPiqftHVmpjhzvDCA/zJwX18huMzZfcr5mmyNots4yu46LWj8fd5qR6o/Oov1nhjoTpr/QH60sEjoERTt2RGJ/lsBlSpp7gky8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FrVbhAZj; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FrVbhAZj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758728030;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ic7zvcyBVtaZcEmsf3hW05wAfmOMNZ5JL2VpkYQoXsc=;
-	b=FrVbhAZjnj+3afecM9iyrE8dm4m7eM3bO9kNMWMYSajELoQ3LWp+5t/KXwf0DRetEtgIYJ
-	9tvyr63oCjkhBxIpB7FEQtNngbjeciwlUJtVZXsW0/6ERUDfM5c3Mh7rIcDIR9VY98+h3q
-	XauT2v1//eTopNsr1NuRTAn9tnroQxk=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-426-yP7zbkiRMNmE00ekH60rig-1; Wed, 24 Sep 2025 11:33:48 -0400
-X-MC-Unique: yP7zbkiRMNmE00ekH60rig-1
-X-Mimecast-MFC-AGG-ID: yP7zbkiRMNmE00ekH60rig_1758728028
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-856d34460a3so2804985a.1
-        for <arm-scmi@vger.kernel.org>; Wed, 24 Sep 2025 08:33:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758728028; x=1759332828;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ic7zvcyBVtaZcEmsf3hW05wAfmOMNZ5JL2VpkYQoXsc=;
-        b=dLC79wGGX9rD82cVkeKFUsTLptS5hh4opxpzRmBz0Ae759/v31dzbSbQQE8t2Z7Ggc
-         gmgr3FFLvEsGacHHV8OvvapBMC7rG5o9pfwwvCJblgzYA/3J/D0RJdnAXf1cpIejpKBE
-         xg1tFVh44rXomyixVVnYuAsTqryNYe2MxBwsCoH+3TneN36ft06q1VCeW1GOIRPvbj0a
-         4HSOu3fQ5Aw0TiOsKB3Wv4h4MiB9lx/efHjEEDkRcqYRWaDPUXXgqIqsnJvR6Nd59TrI
-         oWkTeWqOvpasP9c9I0wZBKLjN30ZObnqSNDnwDoJ/qej+T0xfg0HYeZQf6hApdJwmZ6I
-         UZWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW2DKsB6tod3+UwXT3F4zE30GdEDGdhQggh2latj5iGMaz+x0iQ2qcWU7mlONU/3ajPdALmiRVyNQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxW4gU3GJbUHLhdNPKjXt+AN4ACom/cdDi13WGkyWiBrD0v+2HY
-	0DkCek1j7lWkotmFpcnJdwiXNmZoPj0sG80u+BKhQfifgSV9+SCG38jLqSua5Zlief+6DbM+/XD
-	cOoX7sQ8s/ODDqfVrPlm5Fb4NNq0Cwf/hruJ0lvCpIflsC/VsaVffx1O5Iz4C
-X-Gm-Gg: ASbGncsJr8gJEIFSta3W21mqHm3jhozSg28k3+jzveBQFnlnia5uULmoc25dbYDPL6G
-	4YNhfgs36zH8dLjkLvxQwb+NGoYWOAiz35f6XNyP/4v3XRsW9jnXpmoA0zZyoSgeSFX/2CHQQiF
-	0dIkRQ23Ko+AZNPcIjjXdDBuUZ7SqQL36txBx101ceGXXdNwt80xDWyAG+Evoh0tEQC+9usdBsF
-	J0wZNDJeTNxIQ/TsqDPSiro7jdspOjsp4N3iyEco3KhS3nqFn4LRHw5CS4MsVVWTFvooLqvml9K
-	u0wltimevaBmurCKvXNChhNhJnQnEKEhqISH8xe9EDWOfeQZuLJLrpg/nGID81vgPl1tUg==
-X-Received: by 2002:a05:620a:1a89:b0:828:1529:d028 with SMTP id af79cd13be357-85ae7cd4ac1mr7327985a.61.1758728028099;
-        Wed, 24 Sep 2025 08:33:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE7m0/cbnvCoTKElfyKlC9Akk8QQ848roxwkCAlIQudXokrBobnZdaunrFKeYAlTGXQPxdHhg==
-X-Received: by 2002:a05:620a:1a89:b0:828:1529:d028 with SMTP id af79cd13be357-85ae7cd4ac1mr7322385a.61.1758728027583;
-        Wed, 24 Sep 2025 08:33:47 -0700 (PDT)
-Received: from redhat.com ([2600:382:8504:5608:ca95:838:d4f0:316f])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8363198b0fbsm1167921585a.50.2025.09.24.08.33.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 08:33:46 -0700 (PDT)
-Date: Wed, 24 Sep 2025 11:33:44 -0400
-From: Brian Masney <bmasney@redhat.com>
-To: Peng Fan <peng.fan@nxp.com>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v4 0/5] clk: Support spread spectrum and use it in
- clk-scmi
-Message-ID: <aNQPWO6pfA_3mmxf@redhat.com>
-References: <20250915-clk-ssc-version1-v4-0-5a2cee2f0351@nxp.com>
- <PAXPR04MB8459265997E9822F17AD2BC0881CA@PAXPR04MB8459.eurprd04.prod.outlook.com>
+	s=arc-20240116; t=1758832585; c=relaxed/simple;
+	bh=Hnwbky9SBrOsGyz1f+NivxzEKIkYQt82IwQT05IL+9I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=akMF7OE/DgRYU/qoOqYod5EXk6eq6iQgc8kRhNlmE2bM5KuYX81rWinLnyYx/M/SL5vp+9zD9XuZhRpbM9CXi9CIuV58TvqupfzqS+jLxnB+8vfCCOmZUv57Bpp9Iko+BiV2yiS4x15igfnMn3f01tyXukOkFJEwatPP4dU0ieM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8FA1C1692;
+	Thu, 25 Sep 2025 13:36:12 -0700 (PDT)
+Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B9E103F694;
+	Thu, 25 Sep 2025 13:36:17 -0700 (PDT)
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org
+Cc: sudeep.holla@arm.com,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	etienne.carriere@st.com,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	quic_sibis@quicinc.com,
+	dan.carpenter@linaro.org,
+	d-gole@ti.com,
+	souvik.chakravarty@arm.com,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [PATCH 00/10] Introduce SCMI Telemetry support
+Date: Thu, 25 Sep 2025 21:35:44 +0100
+Message-ID: <20250925203554.482371-1-cristian.marussi@arm.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <PAXPR04MB8459265997E9822F17AD2BC0881CA@PAXPR04MB8459.eurprd04.prod.outlook.com>
-User-Agent: Mutt/2.2.14 (2025-02-20)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 0hHOE7qHx32bWqqE0jMZXqOOzl244VplF9lPWRqd_Ks_1758728028
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 24, 2025 at 02:44:21PM +0000, Peng Fan wrote:
-> Hi Stephen,
-> 
-> > Subject: [PATCH v4 0/5] clk: Support spread spectrum and use it in clk-
-> > scmi
-> 
-> Since clk-scmi.c for spread spectrum support needs some big changes,
-> we may need to change scmi framework to make OEM extension
-> in an elegant way. This will needs some time.
-> 
-> To patch 1-4, do you think is it ok to be in linux tree without patch 5?
-> If yes, I will post V5 soon with your comments in patch 2 addressed.
-> Otherwise I have to carry patch 1-4 in future clk-scmi patches.
 
-This adds a new API, and there wouldn't be any users of it at this
-point. Personally, I think it should probably wait and be merged as
-one series. Unless there's another vendor that's ready to use this.
+Hi all,
 
-Brian
+the upcoming SCMI v4.0 specification [0] introduces a new SCMI protocol
+dedicated to System Telemetry.
+
+In a nutshell, the SCMI Telemetry protocol allows an agent to discover at
+runtime the set of Telemetry Data Events (DEs) available on a specific
+platform and provides the means to configure the set of DEs that a user is
+interested into, while read them back using the collection method that is
+deeemd more suitable for the usecase at hand.
+
+Without delving into the gory details of the whole SCMI Telemetry protocol
+let's just say that the SCMI platform firmware advertises a number of
+Telemetry Data Events, each one identified by a 32bit unique ID, and a user
+can read back at will the associated data value in a number of ways.
+
+Anyway, the set of well-known architected DE IDs defined by the spec is
+limited to a dozen IDs, which means that the vast majority of DE IDs are
+customizable per-platform: as a consequence the same ID, say '0x1234',
+could represent completely different things on different systems.
+
+Data Event IDs definitions and their semantic are supposed to be described
+using some sort of JSON-like description file consumed by a userspace tool,
+which would be finally in charge of making sense of the exact meaning of
+the set of DEs specifically defined as available on a specific platform.
+
+IOW, in turn, this means that even though the DEs enumerated via SCMI come
+with some sort of topological and qualitative description (like unit of
+measurements), kernel-wise we CANNOT be sure of "what is what" without
+being fed-back some sort of information about the DEs semantic by the afore
+mentioned userspace tool.
+
+For these reasons, currently this series does NOT attempt to register
+any of the discovered DEs with any of the usual in-kernel subsystems (like
+HWMON, IIO, POWERCAP, PERF etc), simply because we cannot be sure if a DE
+is suitable or not for a given subsystem. This also means there are NO
+in-kernel user of these Telemetry data, as of now.
+
+So, while we do not exclude, for the future, to feed/register some of the
+discovered DEs to some of the above mentioned Kernel subsystems, as of
+now we have ONLY modeled a custom userspace API to make SCMI Telemetry
+available to userspace users.
+
+In deciding which kind of interface to expose SCMI Telemetry data to a
+user, this new SCMI Telemetry driver aims at satisfying 2 main reqs:
+
+ - exposing an FS-based human-readable interface that can be used to
+   discover, configure and access our Telemetry data directly from the
+   shell
+
+ - exposing an alternative machine-friendly, more-performant, binary
+   interface that can be used to avoid the overhead of multiple accesses
+   to the VFS and that can be more suitable to access with a custom tool
+
+In the previous RFC posted a few months ago [1], the above was achieved
+with a combination of a SysFS interface, for the human-readable side of
+the story, and a classic chardev/ioctl for the plain binary access.
+
+In this V1, instead, I moved away from this combined approach, especially
+away from SysFS, for the following reason:
+
+ 1. "Abusing SysFS": SysFS is a handy way to expose device related
+      properties in a common way, using a few common helpers built on
+      kernfs; this means, though, that unfortunately in our scenario I had
+      to generate a dummy simple device for EACH SCMI Telemetry DataEvent
+      that I got to discover at runtime and attach to them, all of the
+      properties I need.
+      This by itself seemed to me abusing the SysFS framework, but even
+      ignoring this, the impact on the system when we have to deal with
+      hundreds or tens of thousands od DEs is sensible.
+      In some test scenario I ended with 50k devices and half-a-millon
+      related property files ... O_o
+
+ 2. "SysFS constraints": SysFS usage itself has its well-known constraints
+      and best practices, like the one-file/one-value rule, and due to the
+      fact that any virtual file with a complex structure or handling logic
+      is frowned upon, you can forget about IOTCLs and mmap'ing to provide
+      a more performant interface, which is the reason why, in the previous
+      RFC, there was an additional alternative chardev interface.
+
+ 2. "Chardev limitations": Given the nature of the protocol the character
+      devices approach itself was problematic: first of all because there
+      is an upper limit on the number of chardev we can create, dictated by
+      the range of available minor numbers and then because the fact
+      itself to have to maintain 2 completely different interfaces is a
+      pain.
+
+As a final remark, please note that all of this is supposed to be available
+in production systems across a number of heterogeneous platforms: for these
+reasons the easy choice, debugFS, is not an option.
+
+Due to the above reasoning, in V1 we opted for a new approach, with the
+proposed interfaces now based on a full fledged, unified, virtual
+filesystem implemented from scratch so that we can:
+
+ - expose all the DEs property we like as before with SysFS, but without
+   any of the constraint imposed by the usage of SysFs or kernfs.
+
+ - additionally expose a few alternative and more performant interfaces
+   by embedding in that same FS, a few special virtual files:
+
+   + 'control': to issue IOCTLs for quicker binary discovery and on-demand
+   		access to data
+   + 'pipe' [TBD]: to provide a stream of events using a virtual
+		   infinite-style file
+   + 'raw_<N>' [TBD]: to provide direct memory mapped access to the raw
+   		      SCMI Telemetry data
+
+
+INTERFACES
+===========
+
+We propose a couple of interfaces, both rooted in the same unified
+TelemetryFS, which can be mounted with:
+
+	mount -t stlmfs none /sys/fs/arm_telemetry/
+
+ 1. a FS based human-readable API tree
+
+   This API present the discovered DEs and DEs-groups rooted under a
+   structrure like this:
+
+	/sys/fs/arm_telemetry/tlm_0/
+	|-- all_des_enable
+	|-- all_des_tstamp_enable
+	|-- available_update_intervals_ms
+	|-- current_update_interval_ms
+	|-- de_implementation_version
+	|-- des
+	|   |-- 0x0000
+	|   |-- 0x0016
+	|   |-- 0x1010
+	|   |-- 0xA000
+	|   |-- 0xA001
+	|   |-- 0xA002
+	|   |-- 0xA005
+	|   |-- 0xA007
+	|   |-- 0xA008
+	|   |-- 0xA00A
+	|   |-- 0xA00B
+	|   |-- 0xA00C
+	|   `-- 0xA010
+	|-- des_bulk_read
+	|-- des_single_sample_read
+	|-- groups
+	|   |-- 0
+	|   `-- 1
+	|-- intervals_discrete
+	|-- reset
+	|-- tlm_enable
+	`-- version
+
+	At the top level we have general configuration knobs to:
+
+	- enable/disable all DEs with or without tstamp
+	- configure the update interval that the platform will use
+	- enable Telemetry as a whole oe rest the whole stack
+	- read all the enabled DEs in a buffer one-per-line
+		<DE_ID> <TIMESTAMP> <DATA_VALUE>
+	- des_single_sample_read to request an immediate updated read of
+	  all the enabled DEs in a single buffer one-per-line:
+		<DE_ID> <TIMESTAMP> <DATA_VALUE>
+        
+	where each DE in turn is represented by a flat subtree like:
+
+	tlm_0/des/0xA001/
+	|-- compo_instance_id
+	|-- compo_type
+	|-- enable
+	|-- instance_id
+	|-- name
+	|-- persistent
+	|-- tstamp_enable
+	|-- tstamp_exp
+	|-- type
+	|-- unit
+	|-- unit_exp
+	`-- value
+
+	where, beside a bunch of description items, you can:
+
+	- enable/disable a single DE
+	- read back its tstamp and data from 'value' as in:
+		<TIMESTAMP>: <DATA_VALUE>
+
+	then for each discovered group of DEs:
+
+	scmi_tlm_0/groups/0/
+	|-- available_update_intervals_ms
+	|-- composing_des
+	|-- current_update_interval_ms
+	|-- des_bulk_read
+	|-- des_single_sample_read
+	|-- enable
+	|-- intervals_discrete
+	`-- tstamp_enable
+
+	you can find the knobs to:
+	
+	- enable/disable the group as a whole
+	- lookup group composition
+	- set a per-group update interval (if supported)
+	- des_bulk_read to read all the enabled DEs for this group in a
+	  single buffer one-per-line:
+		<DE_ID> <TIMESTAMP> <DATA_VALUE>
+	- des_single_sample_read to request an immediate updated read of
+	  all the enabled DEs for this group in a single buffer
+	  one-per-line:
+		<DE_ID> <TIMESTAMP> <DATA_VALUE>
+
+ 2. Leveraging the capabilities of a full-fledged filesystem and the
+    topological information provided by SCMI Telemetry we expose also
+    and alternative view of the above tree, by hardlinking a few of the
+    same entries above under another, topologically sorted, subtree:
+
+    components/
+    |-- cpu
+    |   |-- 0
+    |   |   |-- celsius
+    |   |   |   `-- 0
+    |   |   |       `-- 0x0001
+    |   |   |           |-- compo_instance_id
+    |   |   |           |-- compo_type
+    |   |   |           |-- enable
+    |   |   |           |-- instance_id
+    |   |   |           |-- name
+    |   |   |           |-- persistent
+    |   |   |           |-- tstamp_enable
+    |   |   |           |-- tstamp_exp
+    |   |   |           |-- type
+    |   |   |           |-- unit
+    |   |   |           |-- unit_exp
+    |   |   |           `-- value
+    |   |   `-- cycles
+    |   |       |-- 0
+    |   |       |   `-- 0x1010
+    |   |	    |    ....
+	.................
+	...............
+    |   |-- 1
+    |   |   `-- celsius
+    |   |       `-- 0
+    |   |           `-- 0x0002
+    |   |           .........
+    |   `-- 2
+    |       `-- celsius
+    |           `-- 0
+    |               `-- 0x0003
+    |-- interconnnect
+    |   `-- 0
+    |       `-- hertz
+    |           `-- 0
+    |               |-- 0xA008
+    |               `-- 0xA00B
+    |-- mem_cntrl
+    |   `-- 0
+    |       |-- bps
+    |       |   `-- 0
+    |       |       `-- 0xA00A
+    |       |-- celsius
+    |       |   `-- 0
+    |       |       `-- 0xA007
+    |       `-- joules
+    |           `-- 0
+    |               `-- 0xA002
+    |-- periph
+    |   |-- 0
+    |   |   `-- messages
+    |   |       `-- 0
+    |   |           `-- 0x0016
+    |   |-- 1
+    |   |   `-- messages
+    |   |       `-- 0
+    |   |           `-- 0x0017
+    |   `-- 2
+    |       `-- messages
+    |           `-- 0
+    |               `-- 0x0018
+    `-- unspec
+    `-- 0
+    |-- celsius
+    |   `-- 0
+    |       `-- 0xA005
+
+
+   ...so as to provide the human user with a more understandable layout.
+
+
+All of this is nice and fancy human-readable, easily scriptable, but
+certainly not the fastest possible to access especially on huge trees...
+
+ ... so for the afore-mentioned reasons we alternatively expose
+
+ 3. a more performant API based on IOCTLs as described fully in:
+
+	include/uapi/linux/scmi.h
+
+   As described succinctly in the above UAPI header too, this API is meant
+   to be called on a few special files named 'control' that are populated
+   into the tree:
+
+   .
+   |-- all_des_enable
+   .....
+   |-- components
+   |   |-- cpu
+   |   |-- interconnnect
+   |   |-- mem_cntrl
+   |   |-- periph
+   |   `-- unspec
+   |-- control
+   .....................
+
+   |-- groups
+   |   |-- 0
+   |   |   |-- available_update_intervals_ms
+   |   |   |-- composing_des
+   |   |   |-- control
+   .....................
+   |   |-- 1
+   |   |   |-- available_update_intervals_ms
+   |   |   |-- composing_des
+   |   |   |-- control
+   .....................
+   |   `-- 2
+   |       |-- available_update_intervals_ms
+   |       |-- composing_des
+   |       |-- control
+   .....................
+
+  This will allow a tool to:
+
+   - use some IOCTLs to configure a set of properties equivalent to the
+     ones above in FS
+   - use some other IOCTLs for direct access to data in binary format
+     for a single DEs or all of them
+
+
+Missing feats & next steps
+--------------------------
+ - FS internals cleanup and testing
+ - enforce a single mount
+ - handle platform configured with boot_on Telemetry
+ - add streaming mode interface via 'pipe' file
+ - add direct access interface via mmap-able 'raw' file
+ - provide a simple test tool to make use special file access via
+   ioctls/mmap etc...
+ - more tests on multiple SCMI instances scenario
+
+
+Known Issues
+------------
+ - missing proper docs for the FS human-readable interface
+ - FS uses legacy mount implementation...use fs-context
+ - FS corruption and troubles on unmount
+ - needs a better handling of races between multiple probes and
+   concurrent mount
+
+Thise series now support SCMI Telemetry ALPHA_0 specification in all of
+its features. (with bugs probably still... :P)
+
+Based on V6.17-rc6, tested on an emulated setup.
+
+Any feedback welcome,
+
+Thanks,
+Cristian
+
+----
+
+RFC-> V1
+---
+- moved from SysFS/chardev to a full fledged FS
+- added support for SCMI Telemetry BLK timestamps
+
+
+Thanks,
+Cristian
+
+[0]: https://developer.arm.com/documentation/den0056/f/?lang=en
+[1]: https://lore.kernel.org/arm-scmi/20250620192813.2463367-1-cristian.marussi@arm.com/
+
+Cristian Marussi (10):
+  firmware: arm_scmi: Define a common SCMI_MAX_PROTOCOLS value
+  firmware: arm_scmi: Reduce the scope of protocols mutex
+  firmware: arm_scmi: Allow protocols to register for notifications
+  uapi: Add ARM SCMI definitions
+  firmware: arm_scmi: Add Telemetry protocol support
+  firmware: arm_scmi: Add System Telemetry driver
+  firmware: arm_scmi: Add System Telemetry ioctls support
+  firmware: arm_scmi: Add Telemetry components view
+  include: trace: Add Telemetry trace events
+  firmware: arm_scmi: Use new Telemetry traces
+
+ MAINTAINERS                                   |    1 +
+ drivers/firmware/arm_scmi/Kconfig             |   10 +
+ drivers/firmware/arm_scmi/Makefile            |    3 +-
+ drivers/firmware/arm_scmi/common.h            |    4 +
+ drivers/firmware/arm_scmi/driver.c            |   67 +-
+ drivers/firmware/arm_scmi/notify.c            |   31 +-
+ drivers/firmware/arm_scmi/notify.h            |    8 +-
+ drivers/firmware/arm_scmi/protocols.h         |    9 +
+ .../firmware/arm_scmi/scmi_system_telemetry.c | 2496 +++++++++++++++++
+ drivers/firmware/arm_scmi/telemetry.c         | 2156 ++++++++++++++
+ include/linux/scmi_protocol.h                 |  188 +-
+ include/trace/events/scmi.h                   |   48 +-
+ include/uapi/linux/scmi.h                     |  286 ++
+ 13 files changed, 5265 insertions(+), 42 deletions(-)
+ create mode 100644 drivers/firmware/arm_scmi/scmi_system_telemetry.c
+ create mode 100644 drivers/firmware/arm_scmi/telemetry.c
+ create mode 100644 include/uapi/linux/scmi.h
+
+-- 
+2.51.0
 
