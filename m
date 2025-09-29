@@ -1,63 +1,63 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD2B430648E
-	for <arm-scmi@vger.kernel.org>; Mon, 29 Sep 2025 13:10:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62F93064BD
+	for <arm-scmi@vger.kernel.org>; Mon, 29 Sep 2025 13:14:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759151421; cv=none; b=qb9zXorlsh7d9eu4pV5QnutnETswwLUeWi6n/tre32yWS7YB6pfWkaM6qw+yQAce5+H/tJLJLFsyFtPxfSz60g9/8h6ykVd7YOqYmIALBwcdTKfqsViiuNADTce2chMM1zav+NUN/QqPDDU65nJzw3INxZi60kAeTCyTEe9fpX0=
+	t=1759151669; cv=none; b=KN9uJrx05rAtU1tB5QIaSD0H8D6iULquiVa0/Ji8RR+XpYhi8C7UJpaH78yUWNvE1ClyD1c+cgY2y/RjfEQbyeoTdAWlrTM0lPnkdR+12Gmhcyr+1NfSYR6WIWyHSjaRbJNnPJmUqx4V9NUsjqfDEHNkqh1yE6YbphWQGgp2hw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759151421; c=relaxed/simple;
+	s=arc-20240116; t=1759151669; c=relaxed/simple;
 	bh=Mv/b8aVCVxNhM1F+1VoETRpSIMA8dMlQJBW4BOZFGXQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rYamhAdOSpJbTNm3qhcVzVu3g8tj1S5CZD5Rw3+AaGNabnmJa7j/rxN9ETumwbWOgRgHmJZWdA1lYp7T/ptC6fLMU4i/70Mw8LtIhvNZF1HELBFCMhWSk7cmPHTEc48Vkwv6zA4whZuE/o/lmhbEp02Q/NrjutyAVpNWhq0MqZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YaryIr9s; arc=none smtp.client-ip=209.85.208.177
+	 MIME-Version:Content-Type; b=n4ARpSn9zUOAxQ0EJV8PqfPfhmEF/eA+kSki8rmK6FmOf+4hCaPzrEkBtPUQiHfXpIYqsApakRFf/4UsU7FA6c7oJxFBLX7vtmJWCh3fQX1GjxAnqldC6Ban8wxpxAhWXGttMjg3bFlpUhovXuTTqJTm6vPPxIinAdy/PkwMiYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZCA6j1jJ; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YaryIr9s"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-36ba647ac9fso32880991fa.0
-        for <arm-scmi@vger.kernel.org>; Mon, 29 Sep 2025 06:10:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZCA6j1jJ"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-57db15eeb11so5504615e87.2
+        for <arm-scmi@vger.kernel.org>; Mon, 29 Sep 2025 06:14:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759151418; x=1759756218; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759151666; x=1759756466; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
         bh=A1TScXo9HlddRXxyVV537w+xJu4r/bR5+Sl4AGG4P1c=;
-        b=YaryIr9sjVlUO3ru9JknL+gPST9dx5fZzhNWVNEB7ZZlhr4Z8x3CmvgRHoe8kqNrwB
-         lTFlhaDpVk1YWsHYUSgd97LWwWxFaTx+0pLxGjkqClo4nnuAXLziONh2UEaWDMjT9RXF
-         62EwjGCSqdyWJDiBk6eHUkKzxXjtpm4InmaEk8+QohEbI87Q7nU4tYOhdMyHgBV2abUG
-         OSqo15MibW+W03kFYk7WLk+vjhxJeR23WIEaBsg7CACeIgs8A0U93by39oVapY6GIhAM
-         XeZSLQPV1HLR6saY7fkFYxRODpgq71xv3Xhs/vIoSk+as32xmjeQB+jaS7O1Z34Fm/iR
-         lgww==
+        b=ZCA6j1jJEElIyVAbgMXM3uSQnJIreXe1usmhSPoGi7D8yRJgbFLE/Yt+/6YgjuDi07
+         dvMDC/V12e+aawDPrRngopE5+w5HcuCvbz+/NZ6f3vdlz6B4v8iESF9AIBtah/tNBOdx
+         oIBAiVCgeKEf2IvrQ9zQwuW57A3231KnonJE1FSF57BL7usnZMJ6Jo32yN1xkbRzZxtb
+         fYmi8frJsnyb5LfX5TmNXXhg5N6GCEm4cKwe65G4peQCCNcEf7KRegAhWazrDcKyk0z5
+         0UX+62TjRLR6hau2ZyBqaUgtOsQNzWpLJelw5axw8yApRAWikxoD4Ns5ou/YFaUG/wL/
+         +4xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759151418; x=1759756218;
+        d=1e100.net; s=20230601; t=1759151666; x=1759756466;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
         bh=A1TScXo9HlddRXxyVV537w+xJu4r/bR5+Sl4AGG4P1c=;
-        b=JQG/E8ndjW19ggR7ByXfmV8opwqS6Jpu6fnjcWnEV5eArpEhHWPFAwlgrBM7XZyCEf
-         3PaEnwr5Vt9Q+2NJH8BbvkBO33jeHUu+ieC0ki8zrYfD3LQZXQsx/xQxELfaXuQzSWob
-         1manUR8YgVECERevZDvAKHDduvjjaeEywBjdz7WG3ouYtI7mMBZgj4JGFkepP50/pqpI
-         24f0UJptnSmqNVPEpubxL8tlstsSNb36612pS70sqIc14D7xgIVp84SVe/tbSvDPY62W
-         qzNj6kIv9IgXIBsza3T8xhVCML7O/E+38bgbbYsqM/ssn/Zrwm24YAIFK/nGfWJZVhfg
-         VjHw==
-X-Forwarded-Encrypted: i=1; AJvYcCV0JzQCcnXQWp7fcdfe7rHHC9h/xb0sp9jeD9hUV0eNEMMbT9ZjWSW8GTioJ9Cqq78VRLxmyOEwjg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPfE2ZhIkdcbkfgYfw+iMcjcqA+Z82/+D762PaY4v/m9MeduV1
-	yLDx0Hkcx7r6dpaRWQI6NpYx9z5JfsJ1Xy0RZo8Ldwoqzj+v36DHf7Uc
-X-Gm-Gg: ASbGnct/mgtfixmju7Xf48/ULe2ZUj04fba8fEJxAAUz6d2mO+i0CgnW5RzVCb/KCMQ
-	mnjBYGk9Zy6HWMZZ4Gb6y2FAJm5OwlxhizpxGWDhUH/w3h9EvOEFDysDBLDmCje9G0Y0MHHepki
-	8z/SKoDTi/9wgEL4lsdCMAh1lewyvVoiGejupHu93EbYtTUYHaPd/m1qcpv9j32rwBqnm2sETve
-	apnIWjq2Ft7e97pIohVgjaTqIaaV7hpJFYyrzPlJeBP564CSvt5xDlQGa2WnMb3myQdjD6rtynt
-	bSKQ4V0EaKZRQmZqIH+YPV1JmfSj2d+UfRSvP540YITyKnkrWUPpCY4Pdz9hb68Pa82gb3sopNG
-	9ySCaXQ8hXph/7+rHgBmOXdfAH2y3ihepEUBBc7fnbnQawssZe3yDZrLbmI2syw==
-X-Google-Smtp-Source: AGHT+IEcUX+DjySA65AZ4EirRuxBQ8lIGoA5qOge8LkJpCU+G4WGmi1HxUDdlfwOC7g7+7QmeV3SjQ==
-X-Received: by 2002:a2e:bea0:0:b0:36d:6ae3:8146 with SMTP id 38308e7fff4ca-36f7f247f42mr47225651fa.26.1759151417546;
-        Mon, 29 Sep 2025 06:10:17 -0700 (PDT)
+        b=WIjt0y78vSR2tHeyjZI/n6iiD0aRtJ9fFSj3AjDNhI6QGF3/3vWJTtoS2icSg5igtA
+         eiRepBOjwhnpiPV4qObZdOgzHo/FnljoRlTcjTdeZ7AlBQkDdFTWzxLZnWvaWj+iW/qT
+         rnnbYsolFUwbsgn7pZwBtphUSNP5/AyjivptmLeet9EdteIkg1nbv1WqsxrMkm+g4ePB
+         nGbgCiAwo5WkmK6KDHyvEU+NZ5+Vph7bbb2oc4Ufi/iahGkniN3U+7wcyNkrs2fds4VV
+         OQVUYuqeDIQNMGuodriT7q+2dZRmhIdKRw0sSOir4hV5BjIO+dyuUEgZrDO7DKmVmXTX
+         upTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXrLlDpevabuh4SQXA3rfNkNyQ5H69BE1URzk+d89yawbMGagI9lTHAkHqMNxAI/qK/B42H4MOeTw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzq5FGboGXOK2+tQlYK+KQW2zFsEcLEkqGhS4R7L7wqqO95lXJM
+	wpkR3to6Cof8R/hTYTcWdvOLUWpNbsxtPxLC+F08QYwcLCdgVGPNg+ii
+X-Gm-Gg: ASbGncvmcYSIocTVb8iLfO4Vj2VakGgN/neXmEOq9JFyJFzNzGajjHuAKkhtJ5ezOUO
+	PfS9ydkG+4OBkOWq4jXlZ/ZevX+8kQLTsg2m857hqIx1bmMK4PDV55WdYP1nl9WHoRM4229BKOi
+	X68QRrbtCEt3VV9zhs13usPwomukW2e64NjPdFUyEtDCtFfu+J5aGnrxxwCi4L/iYYdMdKl5jFQ
+	3ZGfp4XXcVwOS0vf0vFSBhnVzkTY3kj84kUbVY/tgjkuGNr+lpEAycWlLwAKsb99CATkzxtVP79
+	mPhiu1wxwnHlgsJfQBVvx++x5OQjHFqIeozVsBvBkPgbWmS6GWDT/QvOGCmJghqyjM6uffwqSkC
+	Xot16qX9tefe1qf3PUjnHr/VgtrE9WzZ4I5PqRHak
+X-Google-Smtp-Source: AGHT+IFdZvltpHwZV1hUFDUAn+X1LBVfg1iTgq2zM08qx+yjkvQ6KOYUEgmP09Fpq9EwiTOtStUDCw==
+X-Received: by 2002:a05:6512:224f:b0:57b:7ca2:f02e with SMTP id 2adb3069b0e04-582d092db20mr5490234e87.12.1759151665722;
+        Mon, 29 Sep 2025 06:14:25 -0700 (PDT)
 Received: from NB-6746.corp.yadro.com ([188.243.183.84])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-36fb7bfb413sm26246441fa.56.2025.09.29.06.10.17
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-588767b72e3sm461758e87.41.2025.09.29.06.14.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Sep 2025 06:10:17 -0700 (PDT)
+        Mon, 29 Sep 2025 06:14:25 -0700 (PDT)
 From: Artem Shimko <artyom.shimko@gmail.com>
 X-Google-Original-From: Artem Shimko <a.shimko.dev@gmail.com>
 To: Sudeep Holla <sudeep.holla@arm.com>,
@@ -67,11 +67,11 @@ Cc: a.shimko.dev@gmail.com,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
 Subject: [PATCH 1/1] rivers: scmi: Add completion timeout handling for raw mode transfers
-Date: Mon, 29 Sep 2025 16:10:10 +0300
-Message-ID: <20250929131011.524842-2-a.shimko.dev@gmail.com>
+Date: Mon, 29 Sep 2025 16:14:21 +0300
+Message-ID: <20250929131422.525315-2-a.shimko.dev@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250929131011.524842-1-a.shimko.dev@gmail.com>
-References: <20250929131011.524842-1-a.shimko.dev@gmail.com>
+In-Reply-To: <20250929131422.525315-1-a.shimko.dev@gmail.com>
+References: <20250929131422.525315-1-a.shimko.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
