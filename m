@@ -1,132 +1,232 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E11B243374;
-	Sat, 11 Oct 2025 22:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BECC23101D4;
+	Tue, 14 Oct 2025 11:55:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760223167; cv=none; b=gnqavAalZW0uQfyDrOIFQQxymdYwoUKzUrXWNmAWr0sDKuegq2pI4MHskhu5fTLHrWxF5XtDJJXcHYlPPzdvA06+e9GQhYcm2tkDtE1JZ0PmT2HBNWPfd53W4gqI1PUY9R2/diZpBu8AsXO9fZHnamysS++8ue9hvIskn9Zc4yU=
+	t=1760442931; cv=none; b=OUxSqQkkeDRW+jgkrtR17k0l+K5KdGikdbuhFE3K0+NdqNLB3FbUwt4ZamBh/IgP0/F9XOt6B/DByFhXHAb2aMxX5EPF9W3sxGa/0gQmNxywSLx6WNKzzYNQKWDsSmFoTtCABHatOPTG21xbwdJjvZ0PoI3Lo2p8AtdVXNqb0Cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760223167; c=relaxed/simple;
-	bh=GVmOG10TROUdeXmJov1L7XMMndm0Uh+AWCht1noS0Ts=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FZSqUws4EkaCIjqBUlkT1g/Tday7Y3Lmt04brccTFCzfbDSToXH6pvRQLEu87LeNtbEp6E9jB9q+7dy+Yg1Li7aLoWiylD00gALWeV2oqMjQ/n87zj0/d1F1pkDRQPhjlaidHaKN6rQDrYEre/zLuHjDcIGbxvypCuyyT8nUoO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFYmur2F; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFYmur2F"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760223165; x=1791759165;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GVmOG10TROUdeXmJov1L7XMMndm0Uh+AWCht1noS0Ts=;
-  b=oFYmur2F/EWScoprUOuOMOQNpQ0E0C3CTKXWIg9FpoGtqTw1uEXsnO+P
-   ZExRMQ9ev+nvdtI2tIOji3qYNR8K048vSX9kx0s+QEWMgk+OfffyOQQLb
-   0PZm0SHKaEP76E6e85al3IU9fT3Yzdb/G+LAdGa/dr6arhEKdQ9RPJ23/
-   Zp2rt/e8qZn7F8XQTaOxlMNMpkyQDqgYrZivjgmSdsrD53YYFYOvJ025o
-   vPoRkV3EJxIZbCn3MSMFviM6/ru9AwePIUY/R3oKmnyd5NR0do/2xtsyW
-   y4Ici5gQjfmiC4Ffg/38QSfypK+OVOGB2jvsYNXM5J+0tQEIKeq9gEaK4
-   A==;
-X-CSE-ConnectionGUID: JbB18CAQTUifzUW/CCnkEA==
-X-CSE-MsgGUID: Gwi16FaWRE6lVvweFBFwxg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11579"; a="80045086"
-X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
-   d="scan'208";a="80045086"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2025 15:52:44 -0700
-X-CSE-ConnectionGUID: nQuqMc/sT76CwsSU/yNfug==
-X-CSE-MsgGUID: 6LVI2JFbRTmGaB+sfAiRJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,221,1754982000"; 
-   d="scan'208";a="186548731"
-Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 11 Oct 2025 15:52:41 -0700
-Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v7iS7-000427-1M;
-	Sat, 11 Oct 2025 22:52:39 +0000
-Date: Sun, 12 Oct 2025 06:52:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Peng Fan <peng.fan@nxp.com>, Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Dan Carpenter <error27@gmail.com>, Frank Li <frank.li@nxp.com>,
-	arm-scmi@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v2 2/2] firmware: imx: sm-misc: Dump syslog info
-Message-ID: <202510120607.1JmlmOTI-lkp@intel.com>
-References: <20251011-sm-syslog-v2-1-v2-2-f43a3f6b32e4@nxp.com>
+	s=arc-20240116; t=1760442931; c=relaxed/simple;
+	bh=fksn4tabaK2V/D1X6ROjdyi+rBDwOV8v4zvXoQ6/944=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H3FpLUbNZouugLEJqN6OBxcNoG4Uejy+Ry4YfwxDQVL7i4HZx8oCNTvucW6CcD/b+g2XhWmidqhN3MxfcRtBwN3kOClu5onfWgRMllWBfonQdOzUVdlEYDrnO/eHYsZifAz0VhhKTGlvyEDYMbeH7t/LtxZM9r9oHYP6GrRjUJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 562CE1A9A;
+	Tue, 14 Oct 2025 04:55:20 -0700 (PDT)
+Received: from pluto.guest.local (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0537B3F6A8;
+	Tue, 14 Oct 2025 04:55:26 -0700 (PDT)
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org
+Cc: sudeep.holla@arm.com,
+	philip.radford@arm.com,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [PATCH 1/3] firmware: arm_scmi: Account for failed debug initialization
+Date: Tue, 14 Oct 2025 12:53:44 +0100
+Message-ID: <20251014115346.2391418-1-cristian.marussi@arm.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251011-sm-syslog-v2-1-v2-2-f43a3f6b32e4@nxp.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Peng,
+When the SCMI debug subsystem fails to initialize the related debug root
+will be missing and the underlying descriptor will be NULL.
 
-kernel test robot noticed the following build warnings:
+Address this fault condition in the SCMI debug helpers that account for
+metrics counters.
 
-[auto build test WARNING on 2b763d4652393c90eaa771a5164502ec9dd965ae]
+Fixes: 0b3d48c4726e ("firmware: arm_scmi: Track basic SCMI communication debug metrics")
+Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+---
+ drivers/firmware/arm_scmi/common.h | 24 ++++++++++++++--
+ drivers/firmware/arm_scmi/driver.c | 44 ++++++++++--------------------
+ 2 files changed, 35 insertions(+), 33 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan/firmware-arm_scmi-imx-Support-getting-syslog-of-MISC-protocol/20251011-193459
-base:   2b763d4652393c90eaa771a5164502ec9dd965ae
-patch link:    https://lore.kernel.org/r/20251011-sm-syslog-v2-1-v2-2-f43a3f6b32e4%40nxp.com
-patch subject: [PATCH v2 2/2] firmware: imx: sm-misc: Dump syslog info
-config: i386-buildonly-randconfig-001-20251012 (https://download.01.org/0day-ci/archive/20251012/202510120607.1JmlmOTI-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251012/202510120607.1JmlmOTI-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510120607.1JmlmOTI-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/firmware/imx/sm-misc.c:55:17: warning: unused variable 'dev' [-Wunused-variable]
-      55 |         struct device *dev = file->private;
-         |                        ^~~
-   1 warning generated.
-
-
-vim +/dev +55 drivers/firmware/imx/sm-misc.c
-
-    50	
-    51	static int syslog_show(struct seq_file *file, void *priv)
-    52	{
-    53		/* 4KB is large enough for syslog */
-    54		void *syslog __free(kfree) = kmalloc(SZ_4K, GFP_KERNEL);
-  > 55		struct device *dev = file->private;
-    56		/* syslog API use num words, not num bytes */
-    57		u16 size = SZ_4K / 4;
-    58		int ret;
-    59	
-    60		if (!ph)
-    61			return -ENODEV;
-    62	
-    63		ret = imx_misc_ctrl_ops->misc_syslog(ph, &size, syslog);
-    64		if (ret)
-    65			return ret;
-    66	
-    67		seq_hex_dump(file, " ", DUMP_PREFIX_NONE, 16, sizeof(u32), syslog, size * 4, false);
-    68		seq_putc(file, '\n');
-    69	
-    70		return 0;
-    71	}
-    72	DEFINE_SHOW_ATTRIBUTE(syslog);
-    73	
-
+diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
+index 07b9e629276d..21c0b95027c6 100644
+--- a/drivers/firmware/arm_scmi/common.h
++++ b/drivers/firmware/arm_scmi/common.h
+@@ -309,10 +309,28 @@ enum debug_counters {
+ 	SCMI_DEBUG_COUNTERS_LAST
+ };
+ 
+-static inline void scmi_inc_count(atomic_t *arr, int stat)
++/**
++ * struct scmi_debug_info  - Debug common info
++ * @top_dentry: A reference to the top debugfs dentry
++ * @name: Name of this SCMI instance
++ * @type: Type of this SCMI instance
++ * @is_atomic: Flag to state if the transport of this instance is atomic
++ * @counters: An array of atomic_c's used for tracking statistics (if enabled)
++ */
++struct scmi_debug_info {
++	struct dentry *top_dentry;
++	const char *name;
++	const char *type;
++	bool is_atomic;
++	atomic_t counters[SCMI_DEBUG_COUNTERS_LAST];
++};
++
++static inline void scmi_inc_count(struct scmi_debug_info *dbg, int stat)
+ {
+-	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_COUNTERS))
+-		atomic_inc(&arr[stat]);
++	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_COUNTERS)) {
++		if (dbg)
++			atomic_inc(&dbg->counters[stat]);
++	}
+ }
+ 
+ static inline void scmi_dec_count(atomic_t *arr, int stat)
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index bd56a877fdfc..56419285c0bf 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -115,22 +115,6 @@ struct scmi_protocol_instance {
+ 
+ #define ph_to_pi(h)	container_of(h, struct scmi_protocol_instance, ph)
+ 
+-/**
+- * struct scmi_debug_info  - Debug common info
+- * @top_dentry: A reference to the top debugfs dentry
+- * @name: Name of this SCMI instance
+- * @type: Type of this SCMI instance
+- * @is_atomic: Flag to state if the transport of this instance is atomic
+- * @counters: An array of atomic_c's used for tracking statistics (if enabled)
+- */
+-struct scmi_debug_info {
+-	struct dentry *top_dentry;
+-	const char *name;
+-	const char *type;
+-	bool is_atomic;
+-	atomic_t counters[SCMI_DEBUG_COUNTERS_LAST];
+-};
+-
+ /**
+  * struct scmi_info - Structure representing a SCMI instance
+  *
+@@ -1034,7 +1018,7 @@ scmi_xfer_command_acquire(struct scmi_chan_info *cinfo, u32 msg_hdr)
+ 		spin_unlock_irqrestore(&minfo->xfer_lock, flags);
+ 
+ 		scmi_bad_message_trace(cinfo, msg_hdr, MSG_UNEXPECTED);
+-		scmi_inc_count(info->dbg->counters, ERR_MSG_UNEXPECTED);
++		scmi_inc_count(info->dbg, ERR_MSG_UNEXPECTED);
+ 
+ 		return xfer;
+ 	}
+@@ -1062,7 +1046,7 @@ scmi_xfer_command_acquire(struct scmi_chan_info *cinfo, u32 msg_hdr)
+ 			msg_type, xfer_id, msg_hdr, xfer->state);
+ 
+ 		scmi_bad_message_trace(cinfo, msg_hdr, MSG_INVALID);
+-		scmi_inc_count(info->dbg->counters, ERR_MSG_INVALID);
++		scmi_inc_count(info->dbg, ERR_MSG_INVALID);
+ 
+ 		/* On error the refcount incremented above has to be dropped */
+ 		__scmi_xfer_put(minfo, xfer);
+@@ -1107,7 +1091,7 @@ static void scmi_handle_notification(struct scmi_chan_info *cinfo,
+ 			PTR_ERR(xfer));
+ 
+ 		scmi_bad_message_trace(cinfo, msg_hdr, MSG_NOMEM);
+-		scmi_inc_count(info->dbg->counters, ERR_MSG_NOMEM);
++		scmi_inc_count(info->dbg, ERR_MSG_NOMEM);
+ 
+ 		scmi_clear_channel(info, cinfo);
+ 		return;
+@@ -1123,7 +1107,7 @@ static void scmi_handle_notification(struct scmi_chan_info *cinfo,
+ 	trace_scmi_msg_dump(info->id, cinfo->id, xfer->hdr.protocol_id,
+ 			    xfer->hdr.id, "NOTI", xfer->hdr.seq,
+ 			    xfer->hdr.status, xfer->rx.buf, xfer->rx.len);
+-	scmi_inc_count(info->dbg->counters, NOTIFICATION_OK);
++	scmi_inc_count(info->dbg, NOTIFICATION_OK);
+ 
+ 	scmi_notify(cinfo->handle, xfer->hdr.protocol_id,
+ 		    xfer->hdr.id, xfer->rx.buf, xfer->rx.len, ts);
+@@ -1183,10 +1167,10 @@ static void scmi_handle_response(struct scmi_chan_info *cinfo,
+ 	if (xfer->hdr.type == MSG_TYPE_DELAYED_RESP) {
+ 		scmi_clear_channel(info, cinfo);
+ 		complete(xfer->async_done);
+-		scmi_inc_count(info->dbg->counters, DELAYED_RESPONSE_OK);
++		scmi_inc_count(info->dbg, DELAYED_RESPONSE_OK);
+ 	} else {
+ 		complete(&xfer->done);
+-		scmi_inc_count(info->dbg->counters, RESPONSE_OK);
++		scmi_inc_count(info->dbg, RESPONSE_OK);
+ 	}
+ 
+ 	if (IS_ENABLED(CONFIG_ARM_SCMI_RAW_MODE_SUPPORT)) {
+@@ -1296,7 +1280,7 @@ static int scmi_wait_for_reply(struct device *dev, const struct scmi_desc *desc,
+ 					"timed out in resp(caller: %pS) - polling\n",
+ 					(void *)_RET_IP_);
+ 				ret = -ETIMEDOUT;
+-				scmi_inc_count(info->dbg->counters, XFERS_RESPONSE_POLLED_TIMEOUT);
++				scmi_inc_count(info->dbg, XFERS_RESPONSE_POLLED_TIMEOUT);
+ 			}
+ 		}
+ 
+@@ -1321,7 +1305,7 @@ static int scmi_wait_for_reply(struct device *dev, const struct scmi_desc *desc,
+ 					    "RESP" : "resp",
+ 					    xfer->hdr.seq, xfer->hdr.status,
+ 					    xfer->rx.buf, xfer->rx.len);
+-			scmi_inc_count(info->dbg->counters, RESPONSE_POLLED_OK);
++			scmi_inc_count(info->dbg, RESPONSE_POLLED_OK);
+ 
+ 			if (IS_ENABLED(CONFIG_ARM_SCMI_RAW_MODE_SUPPORT)) {
+ 				scmi_raw_message_report(info->raw, xfer,
+@@ -1336,7 +1320,7 @@ static int scmi_wait_for_reply(struct device *dev, const struct scmi_desc *desc,
+ 			dev_err(dev, "timed out in resp(caller: %pS)\n",
+ 				(void *)_RET_IP_);
+ 			ret = -ETIMEDOUT;
+-			scmi_inc_count(info->dbg->counters, XFERS_RESPONSE_TIMEOUT);
++			scmi_inc_count(info->dbg, XFERS_RESPONSE_TIMEOUT);
+ 		}
+ 	}
+ 
+@@ -1420,13 +1404,13 @@ static int do_xfer(const struct scmi_protocol_handle *ph,
+ 	    !is_transport_polling_capable(info->desc)) {
+ 		dev_warn_once(dev,
+ 			      "Polling mode is not supported by transport.\n");
+-		scmi_inc_count(info->dbg->counters, SENT_FAIL_POLLING_UNSUPPORTED);
++		scmi_inc_count(info->dbg, SENT_FAIL_POLLING_UNSUPPORTED);
+ 		return -EINVAL;
+ 	}
+ 
+ 	cinfo = idr_find(&info->tx_idr, pi->proto->id);
+ 	if (unlikely(!cinfo)) {
+-		scmi_inc_count(info->dbg->counters, SENT_FAIL_CHANNEL_NOT_FOUND);
++		scmi_inc_count(info->dbg, SENT_FAIL_CHANNEL_NOT_FOUND);
+ 		return -EINVAL;
+ 	}
+ 	/* True ONLY if also supported by transport. */
+@@ -1461,19 +1445,19 @@ static int do_xfer(const struct scmi_protocol_handle *ph,
+ 	ret = info->desc->ops->send_message(cinfo, xfer);
+ 	if (ret < 0) {
+ 		dev_dbg(dev, "Failed to send message %d\n", ret);
+-		scmi_inc_count(info->dbg->counters, SENT_FAIL);
++		scmi_inc_count(info->dbg, SENT_FAIL);
+ 		return ret;
+ 	}
+ 
+ 	trace_scmi_msg_dump(info->id, cinfo->id, xfer->hdr.protocol_id,
+ 			    xfer->hdr.id, "CMND", xfer->hdr.seq,
+ 			    xfer->hdr.status, xfer->tx.buf, xfer->tx.len);
+-	scmi_inc_count(info->dbg->counters, SENT_OK);
++	scmi_inc_count(info->dbg, SENT_OK);
+ 
+ 	ret = scmi_wait_for_message_response(cinfo, xfer);
+ 	if (!ret && xfer->hdr.status) {
+ 		ret = scmi_to_linux_errno(xfer->hdr.status);
+-		scmi_inc_count(info->dbg->counters, ERR_PROTOCOL);
++		scmi_inc_count(info->dbg, ERR_PROTOCOL);
+ 	}
+ 
+ 	if (info->desc->ops->mark_txdone)
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.51.0
+
