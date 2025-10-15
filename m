@@ -1,115 +1,94 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8E83233F5;
-	Wed, 15 Oct 2025 11:59:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3E92550CD
+	for <arm-scmi@vger.kernel.org>; Wed, 15 Oct 2025 18:04:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760529558; cv=none; b=tqGSr2b2GbdfyYsSHEdrhtCmq3RILpL3NG6AXeSwj3crT6tAPbOQZZt+XRubbVYoCpwiKWyayJHRXcaI5xBIiYNCjY/jrt8K02s2VcK+cq8f8T8h5plxPWxQewiweeZNa8+DTDL6gooCqy1k/0kbLb3lmQB+RsMotuIrYKePDlw=
+	t=1760551500; cv=none; b=n2nA0X00hnFMsY6JwzIJHv9k5U6+HQxtLSGq2W4BBQPd8Ttg0XyzRGWoXYKa9r1eIzJBu1qFOH2DrDjlerj6gfPsn1FP8zpM9L0OYHgke5Mh2PL4sUZHDzcCMcUYodZKXOdc1xsk0nmA2F2Pt0kJon+VACkjD2LLXZ7Ad7BidEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760529558; c=relaxed/simple;
-	bh=jwfNrWAyi8odPRlL5NxhzuJuihis6Wg9ADA+jJKb9zs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ocP0X4yLJh+Wy68jS1mvRANMW13dfos4Gnnunl9fpTnbtkPy5kI7+fK4IzFAG3vZNo/R41+GybMTd6qZZBZ7NoW5bcDHHIH24kjMVRXQ+trMTIQ5QPHOInH6+J6v4n7zCxhXswrOYXODS4KypdQEmIi5oUk+TvzZwf7YPz7r8ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=rzOC4Dhr; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Vnx4eutG; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1760551500; c=relaxed/simple;
+	bh=bn2XbLIQg3pcl9DaDKEaIxRHVm5mvtIlEs1dUHpsv1s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sIG3w3fu4R4eqqA6KvrBDBFdE23B9UVHNTwr2zoYzO+T+vtLMVAGoeEeWmibrRh7M609KksDqAbZx+CrCHsqpVegmUrgV9fMLc6e5waJ99jFqfn/dvjrq6dqjv3Eo2fT85aFyolOyELiP7gH5wEos49bFaxXIx7RbsZjwIxhre8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EPlcBqgq; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="rzOC4Dhr";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Vnx4eutG"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cmqCG2jmGz9tgD;
-	Wed, 15 Oct 2025 13:50:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1760529018;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=TIFO4yfLHgq5ckjg2uDB2Daft94lZqpaYBGMWJ0nnlQ=;
-	b=rzOC4DhrKJl8FPRu6EF8M+uSRwJYcWe8B9lcR648jbDpoShgWlkGpLceFB2yW3hJgi808e
-	C57hpwm3XEP+Q0CzTk2GbLkJpokbLFOIP3eP58wtnjl5cctD+F/X3mogw5lbh/8xbAM1Zx
-	KC3gYGo1v7P5QhgZk0Oe6xM7pkxBq4ArD1KiAK5m3P645liz+Ccqs9DeMX8NZD2obECPfr
-	+CPW/vOyD23D7amouR0VnTyi/zQR6XMOBZgUYgV0/V0oqWuUY0nDdgeWQ92CHZMeSbdY2M
-	18bSzHddz+HI9l3BPVsiHZOE6oW0U4SZn2Qes+GlaSwyy8qHG4ahcywlLrFxtg==
-From: Marek Vasut <marek.vasut@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1760529016;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=TIFO4yfLHgq5ckjg2uDB2Daft94lZqpaYBGMWJ0nnlQ=;
-	b=Vnx4eutGKI+nVuhkVOgTveMI/5X2TGggNzkMGnf/yTcO3kTedqJwZCTur2JgvseoimsTUj
-	CuozjKNMDe4ZXlumC7XHFQ5NYYtsUjQylAkzpQSQHPuclwgBwHG9WncpQ0Ht7YEAAZyN7q
-	gBpFD5koggaRN4jW9ZkBuVJuAKj5elyzw1FVuMoDSKQv+cbqSMBKYHpuQ0fu7JU/o0CIs3
-	dsxipy6P8/UuNPspSe5UqbbbICcQOzXPfzfQpbz4CIByUSEsbHRz8X1vtARXOrhpPNjEtf
-	sPUjLbhdfldsvaoPgX1aJq7BpgbmsXOhGWp3HfvJ6zxHbjnmyFGUQjUyhlqDQA==
-To: linux-arm-kernel@lists.infradead.org
-Cc: Marek Vasut <marek.vasut@mailbox.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EPlcBqgq"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-79af647cef2so3472644b3a.3
+        for <arm-scmi@vger.kernel.org>; Wed, 15 Oct 2025 11:04:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760551498; x=1761156298; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YEscpRiAZP09a2JQp/IONW4mb8MPlVCjQKLrshEfpIA=;
+        b=EPlcBqgq6CokSWIea5aFWta5ZBb0ee7NkpmsdOzeLAJm/eXI8mXpbOEX1ykWUdFHGn
+         /u1OCkhwS49gwlyRNhvsUP3igfjeeIQcDPKhyqZKwrIwXbWctm4pN0emNcV3/3ac2iQ3
+         5/vyffgZYulR74TKwUGOfjPAUYGSMjRsXAlLUvxInhCgKu2v6nm0OpzH4X9W2uNa2iX4
+         z0+2XHx3a4zsSu0aMIlzQq14mdATg4AHL66oucGTOutQ72d1w11FKWeZJNg3HAlJTWzi
+         uESJD6/Ux83z3j3wTUsZ72J7OyKOArGv9pjl7JXTnGAkX6N1mRZrz8Qhk0Qy2H344dE7
+         BqIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760551498; x=1761156298;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YEscpRiAZP09a2JQp/IONW4mb8MPlVCjQKLrshEfpIA=;
+        b=e++bIVlxn58+FoUDmUaeb8ju8wgUWugWXW1EG+G9FMXoQjB4BbFNw3XgVX6omt6X8y
+         AxHwtMLDl9QZSBOaHu9RWpZBI1adQKihx5mH4mUZpt4MD+e70nTYtIdgASuid26+SHo1
+         dQN6yElXspRTrMRvJ588btG1mY3JxnUYjT2Kn4uuW80+wkABjznHwriSiP74w6WQfk5c
+         sUhhi4ZkGz/DQ5PutEpMEj7WXMlFApzXv5mleAYdkDqc6svQCw6UDU84hJroFOZwlMj9
+         yWd5cBY+9xpyopsQYpugbqMGGILijcjDsbt06Z6pjPWXo1HFSeqzzrDbpT12IEL9A8N0
+         notA==
+X-Forwarded-Encrypted: i=1; AJvYcCVk6J07VnGpnpT+SADhsCIvpykBPMg5S/A3bAizV3P1HVwf6OpEWfHcrVLU4iX3em2wyGR3ZH+NJA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8RnpCdtbBSx3SBXcFH5npfKDn6+RUj+9n7qVuFD4C4h6YBbGG
+	n8dREI6o7nG2u/9bPpnEPetw5NKHrsByNluWd4j+TOvhrwW/rZpqK8wu
+X-Gm-Gg: ASbGnct57RlaUIU+In7OlKAvZcjuxkS44yc8We68KQ18AkW+P87i6Yg+8AOfajLFDS1
+	iOFfU4d0kaSZfCT0xksoJxKm9CNYWxmjE4tUY2zo8zK7VmPhwObwPeZxtLms7Q27SCrEmbNc+RD
+	s5NcWwzlupCyODxL03rSc2XBzctzpKjYrJwr4EWy63s7VW2P0XNARF5pn+jjBpPAeXbsvuB5PV7
+	EcV7spaZHwL7jQJ1wgOmYjsTlGlFlAeAmetqSoar7CGqErkey1iqFf/hEymOtAq1Sotnc2XZE/V
+	xQY+UVJlvR7YqTetA21xFnAFgzgjsQ3j+/4RrmLWgcJpyaASzpPrL2CqlvoKu7WW3Q5hSjOvMFb
+	J4UV10e85yMl7773SgaaoUI7k5nl79ejWWTfWN8HdVKo6OT897TFonwkl4IJ2mr4C
+X-Google-Smtp-Source: AGHT+IE3JywhTW/hBqgapIqK/3OTonypN3JXftjp40udV4Uca3H7ZxC7Dvrc/BK+cWjLzKDvb/Bqww==
+X-Received: by 2002:a05:6a20:729c:b0:2f3:f59b:3ae6 with SMTP id adf61e73a8af0-32da80c2d32mr37829511637.11.1760551497771;
+        Wed, 15 Oct 2025 11:04:57 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6a22b7bbc7sm252011a12.22.2025.10.15.11.04.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Oct 2025 11:04:57 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 15 Oct 2025 11:04:56 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: linux-arm-kernel@lists.infradead.org,
 	Cristian Marussi <cristian.marussi@arm.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	arm-scmi@vger.kernel.org,
+	Sudeep Holla <sudeep.holla@arm.com>, arm-scmi@vger.kernel.org,
 	linux-hwmon@vger.kernel.org
-Subject: [PATCH] hwmon: (scmi) Enable sensors to assure they can be read
-Date: Wed, 15 Oct 2025 13:49:28 +0200
-Message-ID: <20251015114953.148706-1-marek.vasut@mailbox.org>
+Subject: Re: [PATCH] hwmon: (scmi) Enable sensors to assure they can be read
+Message-ID: <9191914e-9bd3-4760-a6d7-74c858ea1984@roeck-us.net>
+References: <20251015114953.148706-1-marek.vasut@mailbox.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: qi87ebe64zs1csghmf895uygn83dqjin
-X-MBO-RS-ID: a65e4f3a777492cff53
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251015114953.148706-1-marek.vasut@mailbox.org>
 
-The SCMI specification states that SENSOR_CONFIG_SET is used to
-enable/disable the sensors. The sensors can be disabled by default,
-which is the case at least on NXP i.MX95. Explicitly trigger the
-SENSOR_CONFIG_SET to enable the sensors, otherwise sensor read may
-fail and won't return valid data.
+On Wed, Oct 15, 2025 at 01:49:28PM +0200, Marek Vasut wrote:
+> The SCMI specification states that SENSOR_CONFIG_SET is used to
+> enable/disable the sensors. The sensors can be disabled by default,
+> which is the case at least on NXP i.MX95. Explicitly trigger the
+> SENSOR_CONFIG_SET to enable the sensors, otherwise sensor read may
+> fail and won't return valid data.
+> 
+> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
 
-Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
----
-Cc: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Cc: Sudeep Holla <sudeep.holla@arm.com>
-Cc: arm-scmi@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-hwmon@vger.kernel.org
----
- drivers/hwmon/scmi-hwmon.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Applied.
 
-diff --git a/drivers/hwmon/scmi-hwmon.c b/drivers/hwmon/scmi-hwmon.c
-index 364199b332c0a..eec223d174c07 100644
---- a/drivers/hwmon/scmi-hwmon.c
-+++ b/drivers/hwmon/scmi-hwmon.c
-@@ -240,6 +240,8 @@ static int scmi_hwmon_probe(struct scmi_device *sdev)
- 	const struct hwmon_channel_info **ptr_scmi_ci;
- 	const struct scmi_handle *handle = sdev->handle;
- 	struct scmi_protocol_handle *ph;
-+	u32 sensor_config = FIELD_PREP(SCMI_SENS_CFG_SENSOR_ENABLED_MASK,
-+				       SCMI_SENS_CFG_SENSOR_ENABLE);
- 
- 	if (!handle)
- 		return -ENODEV;
-@@ -339,6 +341,13 @@ static int scmi_hwmon_probe(struct scmi_device *sdev)
- 		if (!sensor)
- 			continue;
- 
-+		ret = sensor_ops->config_set(ph, i, sensor_config);
-+		if (ret) {
-+			dev_err(dev, "Error enabling sensor %s. err=%d\n",
-+				sensor->name, ret);
-+			continue;
-+		}
-+
- 		/*
- 		 * Warn on any misconfiguration related to thermal zones but
- 		 * bail out of probing only on memory errors.
--- 
-2.51.0
-
+Thanks,
+Guenter
