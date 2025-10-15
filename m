@@ -1,36 +1,60 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6BA53101D8;
-	Tue, 14 Oct 2025 11:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8E83233F5;
+	Wed, 15 Oct 2025 11:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760442933; cv=none; b=KTodhBn2xoC0ZfRGoUkKC1an6n9R6/HohkOxQY22MdEaO7iPnc8m0avAgczJAtsMax5py5EpX4gUXH7TF1IeiFkWGvkZ0uN30H1oxc6fJogVZIed+IEieU+8bkyUHnLOTEf/fk6UmKDzXokZSdeqPK4f3xoGwoKsXRjoqdQPiBo=
+	t=1760529558; cv=none; b=tqGSr2b2GbdfyYsSHEdrhtCmq3RILpL3NG6AXeSwj3crT6tAPbOQZZt+XRubbVYoCpwiKWyayJHRXcaI5xBIiYNCjY/jrt8K02s2VcK+cq8f8T8h5plxPWxQewiweeZNa8+DTDL6gooCqy1k/0kbLb3lmQB+RsMotuIrYKePDlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760442933; c=relaxed/simple;
-	bh=M/h7yA1/0CWU4mKG7DjMv0EcM+/hxCquNl2FDa9kBIo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=s5pR1nW4enOgpEth+tx9bsQg210iGThos0BwzguqpKTqffRZTjvShlVYBS4JFGdXzZPdcadQwbpxQRf+KCzsZww+nHveWqrp6sIuWWw5BBa7JfHpQ3Hp+WY+0gMqsOsPxLq1NZixnlDzJQk1Y5LnNBqoRRVXq+k7/30DeSztjzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 413CB2008;
-	Tue, 14 Oct 2025 04:55:23 -0700 (PDT)
-Received: from pluto.guest.local (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1E9603F6A8;
-	Tue, 14 Oct 2025 04:55:29 -0700 (PDT)
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org
-Cc: sudeep.holla@arm.com,
-	philip.radford@arm.com,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH 3/3] firmware: arm_scmi: Skip RAW initialization on failure
-Date: Tue, 14 Oct 2025 12:53:46 +0100
-Message-ID: <20251014115346.2391418-3-cristian.marussi@arm.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251014115346.2391418-1-cristian.marussi@arm.com>
-References: <20251014115346.2391418-1-cristian.marussi@arm.com>
+	s=arc-20240116; t=1760529558; c=relaxed/simple;
+	bh=jwfNrWAyi8odPRlL5NxhzuJuihis6Wg9ADA+jJKb9zs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ocP0X4yLJh+Wy68jS1mvRANMW13dfos4Gnnunl9fpTnbtkPy5kI7+fK4IzFAG3vZNo/R41+GybMTd6qZZBZ7NoW5bcDHHIH24kjMVRXQ+trMTIQ5QPHOInH6+J6v4n7zCxhXswrOYXODS4KypdQEmIi5oUk+TvzZwf7YPz7r8ko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=rzOC4Dhr; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Vnx4eutG; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="rzOC4Dhr";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Vnx4eutG"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cmqCG2jmGz9tgD;
+	Wed, 15 Oct 2025 13:50:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1760529018;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=TIFO4yfLHgq5ckjg2uDB2Daft94lZqpaYBGMWJ0nnlQ=;
+	b=rzOC4DhrKJl8FPRu6EF8M+uSRwJYcWe8B9lcR648jbDpoShgWlkGpLceFB2yW3hJgi808e
+	C57hpwm3XEP+Q0CzTk2GbLkJpokbLFOIP3eP58wtnjl5cctD+F/X3mogw5lbh/8xbAM1Zx
+	KC3gYGo1v7P5QhgZk0Oe6xM7pkxBq4ArD1KiAK5m3P645liz+Ccqs9DeMX8NZD2obECPfr
+	+CPW/vOyD23D7amouR0VnTyi/zQR6XMOBZgUYgV0/V0oqWuUY0nDdgeWQ92CHZMeSbdY2M
+	18bSzHddz+HI9l3BPVsiHZOE6oW0U4SZn2Qes+GlaSwyy8qHG4ahcywlLrFxtg==
+From: Marek Vasut <marek.vasut@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1760529016;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=TIFO4yfLHgq5ckjg2uDB2Daft94lZqpaYBGMWJ0nnlQ=;
+	b=Vnx4eutGKI+nVuhkVOgTveMI/5X2TGggNzkMGnf/yTcO3kTedqJwZCTur2JgvseoimsTUj
+	CuozjKNMDe4ZXlumC7XHFQ5NYYtsUjQylAkzpQSQHPuclwgBwHG9WncpQ0Ht7YEAAZyN7q
+	gBpFD5koggaRN4jW9ZkBuVJuAKj5elyzw1FVuMoDSKQv+cbqSMBKYHpuQ0fu7JU/o0CIs3
+	dsxipy6P8/UuNPspSe5UqbbbICcQOzXPfzfQpbz4CIByUSEsbHRz8X1vtARXOrhpPNjEtf
+	sPUjLbhdfldsvaoPgX1aJq7BpgbmsXOhGWp3HfvJ6zxHbjnmyFGUQjUyhlqDQA==
+To: linux-arm-kernel@lists.infradead.org
+Cc: Marek Vasut <marek.vasut@mailbox.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	arm-scmi@vger.kernel.org,
+	linux-hwmon@vger.kernel.org
+Subject: [PATCH] hwmon: (scmi) Enable sensors to assure they can be read
+Date: Wed, 15 Oct 2025 13:49:28 +0200
+Message-ID: <20251015114953.148706-1-marek.vasut@mailbox.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,39 +62,54 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: qi87ebe64zs1csghmf895uygn83dqjin
+X-MBO-RS-ID: a65e4f3a777492cff53
 
-Avoid attempt to initialize RAW when the debug subsystem itself failed to
-initialiaze as a whole since it is useless and emits misleading error
-messages.
+The SCMI specification states that SENSOR_CONFIG_SET is used to
+enable/disable the sensors. The sensors can be disabled by default,
+which is the case at least on NXP i.MX95. Explicitly trigger the
+SENSOR_CONFIG_SET to enable the sensors, otherwise sensor read may
+fail and won't return valid data.
 
-Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
 ---
- drivers/firmware/arm_scmi/driver.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+Cc: Cristian Marussi <cristian.marussi@arm.com>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: Sudeep Holla <sudeep.holla@arm.com>
+Cc: arm-scmi@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-hwmon@vger.kernel.org
+---
+ drivers/hwmon/scmi-hwmon.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 1cd15412024c..eb46694cb14b 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -3028,9 +3028,6 @@ static int scmi_debugfs_raw_mode_setup(struct scmi_info *info)
- 	u8 channels[SCMI_MAX_CHANNELS] = {};
- 	DECLARE_BITMAP(protos, SCMI_MAX_CHANNELS) = {};
+diff --git a/drivers/hwmon/scmi-hwmon.c b/drivers/hwmon/scmi-hwmon.c
+index 364199b332c0a..eec223d174c07 100644
+--- a/drivers/hwmon/scmi-hwmon.c
++++ b/drivers/hwmon/scmi-hwmon.c
+@@ -240,6 +240,8 @@ static int scmi_hwmon_probe(struct scmi_device *sdev)
+ 	const struct hwmon_channel_info **ptr_scmi_ci;
+ 	const struct scmi_handle *handle = sdev->handle;
+ 	struct scmi_protocol_handle *ph;
++	u32 sensor_config = FIELD_PREP(SCMI_SENS_CFG_SENSOR_ENABLED_MASK,
++				       SCMI_SENS_CFG_SENSOR_ENABLE);
  
--	if (!info->dbg)
--		return -EINVAL;
--
- 	/* Enumerate all channels to collect their ids */
- 	idr_for_each_entry(&info->tx_idr, cinfo, id) {
+ 	if (!handle)
+ 		return -ENODEV;
+@@ -339,6 +341,13 @@ static int scmi_hwmon_probe(struct scmi_device *sdev)
+ 		if (!sensor)
+ 			continue;
+ 
++		ret = sensor_ops->config_set(ph, i, sensor_config);
++		if (ret) {
++			dev_err(dev, "Error enabling sensor %s. err=%d\n",
++				sensor->name, ret);
++			continue;
++		}
++
  		/*
-@@ -3202,7 +3199,7 @@ static int scmi_probe(struct platform_device *pdev)
- 		if (!info->dbg)
- 			dev_warn(dev, "Failed to setup SCMI debugfs.\n");
- 
--		if (IS_ENABLED(CONFIG_ARM_SCMI_RAW_MODE_SUPPORT)) {
-+		if (info->dbg && IS_ENABLED(CONFIG_ARM_SCMI_RAW_MODE_SUPPORT)) {
- 			ret = scmi_debugfs_raw_mode_setup(info);
- 			if (!coex) {
- 				if (ret)
+ 		 * Warn on any misconfiguration related to thermal zones but
+ 		 * bail out of probing only on memory errors.
 -- 
 2.51.0
 
