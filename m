@@ -1,120 +1,106 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 568E917C21E;
-	Thu, 16 Oct 2025 17:37:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36E6E322A3E
+	for <arm-scmi@vger.kernel.org>; Fri, 17 Oct 2025 11:03:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760636232; cv=none; b=gKm7V/3nvUluG7TtT3RYYFsfsSIcHM028ohkioxJzyctSjN99zBej1R4AEKTtvGBNFkm5J6rwPi+vtmH2G5e0MggIiaieeG01tutwUxzU0+Iu+fYhWjQDWciND/pptyYb2c1PXX/sm9BTkNsrPzin1sWVf/g2gy0q2xay4/aArE=
+	t=1760699012; cv=none; b=UXXvHKaZM3LKiT2IYF4/LGLTKeP8WxX8Pa/fphegCPTBKeHAf4SmkkXGED0FPRvXUCXEKnelELCzfNdpnEBofYPzZeSxrHiJvopIHbx9x92EObViyWH83l3Fk6hbcSv5Cao5wKRsCm9V4gGSZqQfnhqnXeSe1GolnUbRb10KnZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760636232; c=relaxed/simple;
-	bh=qOiSbtIWgSkWN5+X5Zp/HcrCX9ktoXzUjhHVqIPAuJQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oLi+igXkDMV1jS7Zd+byq9CQo49NyvfhnFPexyXtAQtioDzNqvB18faMQuB7F8TlPmxTbl19+UTcWS/UC/LmLeN8Qp/8Jvd3MnjfHDwi4rUSRgZrET/Vkadqyg2/ddPZrmi7GtLIXYKpujv4D7c7oGh/SAb54Jr3NJIn2yBrSrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1760699012; c=relaxed/simple;
+	bh=qtG5JXF0xMcE6rkmCyYwDt5C11I1CDc4i4yHqHtp+1g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XpEOW9Z9PKMZmLpIRgmGrFbHuC77ok+46i9cZPPBiqxBg5rvHbKkyRGTvXJ8aVQDpc4t9nqWaCJ0swUd3FRyk2KWuZXjLQ7WcG7JKERJSWlCLMEyx0eYHBHSuBwbHrq9xizd5nas1aK3Q+Ef9k58bKrktvEz88ouQLHWOMgEYTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D355B1596;
-	Thu, 16 Oct 2025 10:37:01 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DEFF83F66E;
-	Thu, 16 Oct 2025 10:37:08 -0700 (PDT)
-Date: Thu, 16 Oct 2025 18:36:54 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Ciprian Marian Costea <ciprianmarian.costea@oss.nxp.com>
-Cc: arm-scmi@vger.kernel.org, linux-gpio@vger.kernel.org,
-	Sudeep Holla <sudeep.holla@arm.com>,
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 81CCF1595;
+	Fri, 17 Oct 2025 04:03:21 -0700 (PDT)
+Received: from usa.arm.com (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 68D8A3F66E;
+	Fri, 17 Oct 2025 04:03:28 -0700 (PDT)
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org
+Cc: Sudeep Holla <sudeep.holla@arm.com>,
 	Cristian Marussi <cristian.marussi@arm.com>,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: pinctrl-scmi: Support for pin-only mode when groups are
- unavailable
-Message-ID: <aPEtEnd3kG_pxWPf@pluto>
-References: <0c4bc190-7049-4753-b88e-479a3ff584fc@oss.nxp.com>
+	Ulf Hansson <ulf.hansson@linaro.org>
+Subject: [PATCH] pmdomain: arm: scmi: Fix genpd leak on provider registration failure
+Date: Fri, 17 Oct 2025 12:03:20 +0100
+Message-Id: <20251017110320.1186555-1-sudeep.holla@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0c4bc190-7049-4753-b88e-479a3ff584fc@oss.nxp.com>
 
-On Thu, Oct 16, 2025 at 07:05:21PM +0300, Ciprian Marian Costea wrote:
-> Hello,
-> 
+If of_genpd_add_provider_onecell() fails during probe, the previously
+created generic power domains are not removed, leading to a memory leak
+and potential kernel crash later in genpd_debug_add().
 
-[CC: <linus.walleij@linaro.org>]
+Add proper error handling to unwind the initialized domains before
+returning from probe to ensure all resources are correctly released on
+failure.
 
-Hi Ciprian,
+Example crash trace observed without this fix:
 
-I will have a better look at this in the coming days ...
+  | Unable to handle kernel paging request at virtual address fffffffffffffc70
+  | CPU: 1 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.18.0-rc1 #405 PREEMPT
+  | Hardware name: ARM LTD ARM Juno Development Platform/ARM Juno Development Platform
+  | pstate: 00000005 (nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+  | pc : genpd_debug_add+0x2c/0x160
+  | lr : genpd_debug_init+0x74/0x98
+  | Call trace:
+  |  genpd_debug_add+0x2c/0x160 (P)
+  |  genpd_debug_init+0x74/0x98
+  |  do_one_initcall+0xd0/0x2d8
+  |  do_initcall_level+0xa0/0x140
+  |  do_initcalls+0x60/0xa8
+  |  do_basic_setup+0x28/0x40
+  |  kernel_init_freeable+0xe8/0x170
+  |  kernel_init+0x2c/0x140
+  |  ret_from_fork+0x10/0x20
 
-...but I think, in the meantime, better if we CC also the PINCTRL
-Maintainer Linus Walleij that helped us reviewing also this driver from the
-PINCTRL subsystem perspective....
+Fixes: 898216c97ed2 ("firmware: arm_scmi: add device power domain support using genpd")
+Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
+---
+ drivers/pmdomain/arm/scmi_pm_domain.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-> 
-> I’m currently exploring a solution to improve the 'pinctrl-scmi' [1] driver
-> so it can better support SCMI platforms that only provide individual pin
-> control. At the moment, the driver handles only group-based operations,
-> which means platforms without pin groups run into limitations.
+diff --git a/drivers/pmdomain/arm/scmi_pm_domain.c b/drivers/pmdomain/arm/scmi_pm_domain.c
+index 8fe1c0a501c9..b5e2ffd5ea64 100644
+--- a/drivers/pmdomain/arm/scmi_pm_domain.c
++++ b/drivers/pmdomain/arm/scmi_pm_domain.c
+@@ -41,7 +41,7 @@ static int scmi_pd_power_off(struct generic_pm_domain *domain)
+ 
+ static int scmi_pm_domain_probe(struct scmi_device *sdev)
+ {
+-	int num_domains, i;
++	int num_domains, i, ret;
+ 	struct device *dev = &sdev->dev;
+ 	struct device_node *np = dev->of_node;
+ 	struct scmi_pm_domain *scmi_pd;
+@@ -108,9 +108,18 @@ static int scmi_pm_domain_probe(struct scmi_device *sdev)
+ 	scmi_pd_data->domains = domains;
+ 	scmi_pd_data->num_domains = num_domains;
+ 
++	ret = of_genpd_add_provider_onecell(np, scmi_pd_data);
++	if (ret)
++		goto err_rm_genpds;
++
+ 	dev_set_drvdata(dev, scmi_pd_data);
+ 
+-	return of_genpd_add_provider_onecell(np, scmi_pd_data);
++	return 0;
++err_rm_genpds:
++	for (i = num_domains - 1; i >= 0; i--)
++		pm_genpd_remove(domains[i]);
++
++	return ret;
+ }
+ 
+ static void scmi_pm_domain_remove(struct scmi_device *sdev)
+-- 
+2.34.1
 
-...ok
-
-> 
-> According to the SCMI v4.0 specification (section 3.11.2.8), both
-> group-based and per-pin control modes should be supported. However, on
-> pin-only platforms, the current implementation cannot enumerate groups,
-> configure pinmux, or assign functions per pin. This results in probe
-> failures and '-EINVAL' errors when trying to configure non-existent groups.
-> 
-
-...indeed
-
-> I haven’t seen any work in this area yet, but if nothing is in progress, I’d
-> like to propose an approach that keeps compatibility with the existing Linux
-> pinctrl framework while adding per-pin support. The idea is to detect
-
-...nothing planned or requested as of now that I know...so feel free to propose
-your improvements...becasue it is easier to discuss in front of a series :P
-
-Cheers,
-Cristian
-
-> whether the platform supports groups or pins-only during probe, and when
-> groups are missing, create virtual groups from the DT pin specifications.
-> This would allow us to reuse the existing group-based logic while enabling
-> per-pin muxing.
-> 
-> For example, a DTS node could look like this:
-> 
-> uart_pins: uart-pins {
->     pins = <10 11>;      /* SCMI pin IDs */
->     functions = <2 3>;   /* Per-pin function IDs: UART_TX, UART_RX */
-> };
-> 
-> or:
-> 
-> uart_pins: uart-pins {
->     pins = <10 11>;      /* SCMI pin IDs */
->     function = <2>;      /* Same function for all pins */
-> };
-> 
-> To make this work, the driver would need to:
->   - Detect capabilities during probe (groups vs pins-only). Can be
-> implemented via 'pinctrl_ops->count_get()'.
->   - Create virtual groups when groups are unsupported.
->   - Add per-pin mux/config operations by introducing a 'pin_mux_set()'
-> callback in the SCMI core, since currently only group-based 'mux_set' is
-> implemented.
-> 
-> I’d really appreciate your thoughts on whether this direction makes sense
-> and if there’s anything I should consider before starting.
-> Thanks a lot for your time and guidance!
-> 
-> [1]
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/pinctrl/pinctrl-scmi.c
-> 
-> Best Regards,
-> Ciprian Costea
