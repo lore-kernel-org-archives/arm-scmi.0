@@ -1,109 +1,168 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CBBB34F49A
-	for <arm-scmi@vger.kernel.org>; Fri, 17 Oct 2025 13:24:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE7AA2F12DB;
+	Fri, 17 Oct 2025 15:07:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760707459; cv=none; b=DXazqBrs+ikc8NR6qBLaNjYmJUYms7nVX5F+jy8Zp77UPGyyobHQZYAXVhrqM+khxy50x3fZkFzhaQOTjUJk0o7Dj5e/pQfJYpgv5Nd5+C/3ZXNcr0rOro0xj3saEOT0NRYKlHNYEXoC2Lgl1cpLbgawZF4dV69j1dXxWrsGFv4=
+	t=1760713631; cv=none; b=ekFv/SfP6sEdKtfnDqs6oAeoND1AJFb9ZsEIXZkzMobcOIvVvcdoGh+Uchrp/MgdbjLCkFIX+mXA5qq8ywaOw7yAZaJSQDasZwahr7bX1HqISB2MgN/ddb9s4Sz1ZpVkftsIP42an3CBdigJizxfmZikO2gEItv3E2Plroc5GYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760707459; c=relaxed/simple;
-	bh=S/RC8iLlPq1Ev6316+ICgWmm9kH3crykiXhDdxLcVu8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To; b=r4lRvMqBWEg0NjJfMy+7fTF2jm89ZHdy2MJcg/FjpBbPQdYwyCgszWw82qipsXbkRBddm6RNMflRlMTTagSyYie1bX8d7hcbvFQr0mhSm+uvX8lnVkFYhyUo7MX9drkUh6HgtLp7CDbnVvZX1EEAdVK0ALlle1YSnDpdcfiowmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 698EA1C2B;
-	Fri, 17 Oct 2025 06:24:10 -0700 (PDT)
-Received: from e133711.arm.com (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 96C963F66E;
-	Fri, 17 Oct 2025 06:24:17 -0700 (PDT)
-From: Sudeep Holla <sudeep.holla@arm.com>
-Date: Fri, 17 Oct 2025 14:23:51 +0100
-Subject: [PATCH 8/8] firmware: arm_scmi: Initialise all protocol devices
- and transport channels
+	s=arc-20240116; t=1760713631; c=relaxed/simple;
+	bh=WlSUQ5wXLRSKderV8wdsxnAk5WDay+EYZfiXWfKmQT0=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BPI6llVQEwC2ZWfb+mkPwVH/rTTipvZDDuXt8cQ8r8yJt7mMp/sJQqxmJcXoAYDk44A28ATOrdqcpKf3PALHeXKb7/nFe76oIumGG/CEp68C3/GYxh0lhS/UrBuH0sxJdoawQFXI1dIvOmAy1bVfLGWwD4psTSLnWQdlKB3HLnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4cp7PK1SNYz6M4rt;
+	Fri, 17 Oct 2025 23:03:33 +0800 (CST)
+Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
+	by mail.maildlp.com (Postfix) with ESMTPS id 73BA61402FF;
+	Fri, 17 Oct 2025 23:07:05 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
+ (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 17 Oct
+ 2025 16:07:04 +0100
+Date: Fri, 17 Oct 2025 16:07:02 +0100
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<arm-scmi@vger.kernel.org>, <sudeep.holla@arm.com>,
+	<james.quinlan@broadcom.com>, <f.fainelli@gmail.com>,
+	<vincent.guittot@linaro.org>, <etienne.carriere@st.com>,
+	<peng.fan@oss.nxp.com>, <michal.simek@amd.com>, <quic_sibis@quicinc.com>,
+	<dan.carpenter@linaro.org>, <d-gole@ti.com>, <souvik.chakravarty@arm.com>
+Subject: Re: [PATCH 02/10] firmware: arm_scmi: Reduce the scope of protocols
+ mutex
+Message-ID: <20251017160702.00002af4@huawei.com>
+In-Reply-To: <20250925203554.482371-3-cristian.marussi@arm.com>
+References: <20250925203554.482371-1-cristian.marussi@arm.com>
+	<20250925203554.482371-3-cristian.marussi@arm.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251017-acpi_scmi_pcc-v1-8-0adbab7709d9@arm.com>
-References: <20251017-acpi_scmi_pcc-v1-0-0adbab7709d9@arm.com>
-In-Reply-To: <20251017-acpi_scmi_pcc-v1-0-0adbab7709d9@arm.com>
-To: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, Sudeep Holla <sudeep.holla@arm.com>
-X-Mailer: b4 0.14.3
+X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
+ dubpeml100005.china.huawei.com (7.214.146.113)
 
-Unlike Device Tree, the ACPI SCMI namespace device does not provide child
-fwnodes to represent each protocol. To initialise all protocol devices and
-their associated transport channels, we must iterate over the supported DSD
-entries defined in the device.
+On Thu, 25 Sep 2025 21:35:46 +0100
+Cristian Marussi <cristian.marussi@arm.com> wrote:
 
-Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
----
- drivers/firmware/arm_scmi/driver.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+> Currently the mutex dedicated to the protection of the list of registered
+> protocols is held during all the protocol initialization phase.
+> 
+> Such a wide locking region is not needed and causes problem when trying to
+> initialize notifications from within a protocol initialization routine.
+> 
+> Reduce the scope of the protocol mutex.
+> 
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index f679a769fc87..9470be5de692 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -2786,7 +2786,7 @@ scmi_txrx_setup(struct scmi_info *info, struct fwnode_handle *fwnode,
-  */
- static int scmi_channels_setup(struct scmi_info *info)
- {
--	int ret;
-+	int ret, idx;
- 	struct fwnode_handle *fwnode = dev_fwnode(info->dev);
- 
- 	/* Initialize a common generic channel at first */
-@@ -2809,6 +2809,17 @@ static int scmi_channels_setup(struct scmi_info *info)
- 			return ret;
- 	}
- 
-+	if (acpi_disabled)
-+		return 0;
-+
-+	for (idx = 1; idx < ARRAY_SIZE(scmi_dsd_info_list); idx++) {
-+		int prot_id = scmi_dsd_info_list[idx].protocol_id;
-+
-+		ret = scmi_txrx_setup(info, fwnode, prot_id);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	return 0;
- }
- 
-@@ -3175,7 +3186,7 @@ static void scmi_device_check_create(struct fwnode_handle *fwnode, int prot_id,
- 
- static int scmi_probe(struct platform_device *pdev)
- {
--	int ret;
-+	int ret, idx;
- 	char *err_str = "probe failure\n";
- 	struct scmi_handle *handle;
- 	const struct scmi_desc *desc;
-@@ -3304,6 +3315,15 @@ static int scmi_probe(struct platform_device *pdev)
- 		scmi_device_check_create(child, prot_id, info);
- 	}
- 
-+	if (acpi_disabled)
-+		return 0;
-+
-+	for (idx = 1; idx < ARRAY_SIZE(scmi_dsd_info_list); idx++) {
-+		int prot_id = scmi_dsd_info_list[idx].protocol_id;
-+
-+		scmi_device_check_create(dev_fwnode(dev), prot_id, info);
-+	}
-+
- 	return 0;
- 
- notification_exit:
+Hi Cristian.  A few things inline and this runs into one of the things
+that is dangerous to do with guard() or the other cleanup.h magic
+(and documented there!)
 
--- 
-2.34.1
+> ---
+>  drivers/firmware/arm_scmi/driver.c | 53 +++++++++++++++---------------
+>  1 file changed, 26 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+> index bd56a877fdfc..71ee25b78624 100644
+> --- a/drivers/firmware/arm_scmi/driver.c
+> +++ b/drivers/firmware/arm_scmi/driver.c
+> @@ -17,6 +17,7 @@
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+>  #include <linux/bitmap.h>
+> +#include <linux/cleanup.h>
+>  #include <linux/debugfs.h>
+>  #include <linux/device.h>
+>  #include <linux/export.h>
+> @@ -2179,10 +2180,13 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
+>  	if (ret)
+>  		goto clean;
+>  
+> -	ret = idr_alloc(&info->protocols, pi, proto->id, proto->id + 1,
+> -			GFP_KERNEL);
+> -	if (ret != proto->id)
+> -		goto clean;
+> +	/* Finally register the initialized protocol */
+> +	scoped_guard(mutex, &info->protocols_mtx) {
+
+See the guidance in cleanup.h on mixing goto and anything defined in that file.
+
+In some compilers, if you hit the goto above and hence jump over this
+the cleanup variable will still be instantiated, but not initialized leading to
+a potential attempt to unlock random memory.
+
+Either this needs more substantial rework, or just handling the mutex with
+out using guards.
+
+
+> +		ret = idr_alloc(&info->protocols, pi, proto->id, proto->id + 1,
+> +				GFP_KERNEL);
+> +		if (ret != proto->id)
+> +			goto clean;
+> +	}
+>  
+>  	/*
+>  	 * Warn but ignore events registration errors since we do not want
+> @@ -2243,25 +2247,22 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
+>  static struct scmi_protocol_instance * __must_check
+>  scmi_get_protocol_instance(const struct scmi_handle *handle, u8 protocol_id)
+>  {
+> -	struct scmi_protocol_instance *pi;
+> +	struct scmi_protocol_instance *pi = ERR_PTR(-EPROBE_DEFER);
+>  	struct scmi_info *info = handle_to_scmi_info(handle);
+> +	const struct scmi_protocol *proto;
+>  
+> -	mutex_lock(&info->protocols_mtx);
+> -	pi = idr_find(&info->protocols, protocol_id);
+> -
+> -	if (pi) {
+> -		refcount_inc(&pi->users);
+> -	} else {
+> -		const struct scmi_protocol *proto;
+> -
+> -		/* Fails if protocol not registered on bus */
+> -		proto = scmi_protocol_get(protocol_id, &info->version);
+> -		if (proto)
+> -			pi = scmi_alloc_init_protocol_instance(info, proto);
+> -		else
+> -			pi = ERR_PTR(-EPROBE_DEFER);
+> +	scoped_guard(mutex, &info->protocols_mtx) {
+> +		pi = idr_find(&info->protocols, protocol_id);
+> +		if (pi) {
+
+if !pi we carry on with it NULL, which is a behavior change from
+before where it would be ERR_PTR(-EPROBE_DEFER);
+
+That might not matter, but it's not 'obviously' a safe change.
+
+> +			refcount_inc(&pi->users);
+> +			return pi;
+> +		}
+>  	}
+> -	mutex_unlock(&info->protocols_mtx);
+> +
+> +	/* Fails if protocol not registered on bus */
+> +	proto = scmi_protocol_get(protocol_id, &info->version);
+> +	if (proto)
+Trivial but I'd flip the logic to
+	if (!proto)
+		return ERR_PTR(-EPROBE_DEFER);
+assuming a NULL return as mentioned above isn't the intent.
+Then
+	return scmi_alloc_init_protocol_instance(info, proto);
+
+> +		pi = scmi_alloc_init_protocol_instance(info, proto);
+>  
+>  	return pi;
+>  }
 
