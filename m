@@ -1,40 +1,40 @@
 Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06CC9221FC8
-	for <arm-scmi@vger.kernel.org>; Mon, 20 Oct 2025 17:29:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0F13321C0
+	for <arm-scmi@vger.kernel.org>; Mon, 20 Oct 2025 17:37:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760981399; cv=none; b=n3Mgx88ybyA/bY8LJJj7ZwVs2VkNotOv9SS9sOj/pYAvrJt5EMkWBXT6ubuCtOqo7rswF+hqlnAEQKhlh+vtg7fWsnjN7DQQwXPzN9YAiE9QtWUiLsmiTJh01Ir4MmMSE535kkaQC75Ihr5wrHpOsoSGYLSmkgp7O1pH41Sw2VQ=
+	t=1760981859; cv=none; b=rygqqMozzTq/Abqq2y1FZhdW+TZJDA3ymo5Bj3Xs/3NjtYV4LsPTTsheP7FWP3bNgScIiL8IsbCC3C9I5SlDmNuk1ExATtQR2BicTnHXIB0LmF9UJuvBmorytbSHyqPeY5NcY3K6wdZ/Q4I9ZNen76XYFz7fCrCW+cZb6lWpkJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760981399; c=relaxed/simple;
-	bh=1JRUKKW21+WJZA3fZH3/irJqi6muXMjaWvQxPLRaF8g=;
+	s=arc-20240116; t=1760981859; c=relaxed/simple;
+	bh=e+h3cWAorB6DNOFG4OBiF7Ba4+Z/lncZIhfGrToiu0Q=;
 	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bYER/WFnEGd/OxsuGg9qPB3ORZ5PWFDFAkOAq/quvnnc4JTHUmajcBzxUyg9/IKTcklFC0FLZcfhxSm5HaGVjBd2nGSsfY1ut9T0xWstrjLIRna7C5EaSuQ1B8Zq26++UjlUktyGKNUfgpCz/+WDIIQ/b2dtWIExmSibRDelV2o=
+	 MIME-Version:Content-Type; b=nBE7uiOnss/ZyGYyreJDLAvv5m8W8VvnFIVXnDOr9qY+zLLBLvjGnTJAEcxT9jgXitMJ/eb4Z/KdJqaDxsr54AdAboG/BuVC2P4PxPDSEv9YrsniKSaG09FiQ5eEqR6Uhy2mqE9DSI8S5/BzhsnYr1Q4DUjrKUSuEIVYQuYf49I=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4cr2Qc23yqz6M5Cj;
-	Tue, 21 Oct 2025 01:26:16 +0800 (CST)
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4cr2bS1Kn9z6M4GQ;
+	Tue, 21 Oct 2025 01:33:56 +0800 (CST)
 Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8A72B140275;
-	Tue, 21 Oct 2025 01:29:53 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 735F3140275;
+	Tue, 21 Oct 2025 01:37:33 +0800 (CST)
 Received: from localhost (10.48.157.75) by dubpeml100005.china.huawei.com
  (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 20 Oct
- 2025 18:29:52 +0100
-Date: Mon, 20 Oct 2025 18:29:49 +0100
+ 2025 18:37:32 +0100
+Date: Mon, 20 Oct 2025 18:37:31 +0100
 From: Jonathan Cameron <jonathan.cameron@huawei.com>
 To: Sudeep Holla <sudeep.holla@arm.com>
 CC: Cristian Marussi <cristian.marussi@arm.com>, <arm-scmi@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH 3/8] firmware: arm_scmi: Convert OF-only paths to
- generic fwnode in SCMI core
-Message-ID: <20251020182949.00002bbf@huawei.com>
-In-Reply-To: <20251017-acpi_scmi_pcc-v1-3-0adbab7709d9@arm.com>
+Subject: Re: [PATCH 7/8] firmware: arm_scmi: transport: Add ACPI PCC
+ transport
+Message-ID: <20251020183731.000023fa@huawei.com>
+In-Reply-To: <20251017-acpi_scmi_pcc-v1-7-0adbab7709d9@arm.com>
 References: <20251017-acpi_scmi_pcc-v1-0-0adbab7709d9@arm.com>
-	<20251017-acpi_scmi_pcc-v1-3-0adbab7709d9@arm.com>
+	<20251017-acpi_scmi_pcc-v1-7-0adbab7709d9@arm.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -47,132 +47,107 @@ Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
  dubpeml100005.china.huawei.com (7.214.146.113)
 
-On Fri, 17 Oct 2025 14:23:46 +0100
+On Fri, 17 Oct 2025 14:23:50 +0100
 Sudeep Holla <sudeep.holla@arm.com> wrote:
 
-> Switch SCMI core plumbing from struct device_node* to struct
-> fwnode_handle* so transports and core code work with both DT and
-> ACPI firmware descriptions.
+> Introduce a new SCMI transport that uses ACPI PCCT (PCC) subspaces via
+> the Linux PCC mailbox layer. The driver parses ACPI _DSD data to map
+> protocols to PCC subspace UIDs, supports shared TX/RX channels, and
+> optionally sets up a P2A channel for notifications.
 > 
-> This change:
->   - Replaces of_* property lookups with fwnode_property_*() helpers.
->   - Switches child enumeration to
->     fwnode_for_each_available_child_node_scoped().
->   - Plumbs fwnode through the SCMI device creation and channel setup
->     paths and updates transport ->chan_available() signatures to take a
->     fwnode.
->   - Stores the per-protocol child fwnodes in info->active_protocols so
->     the core can later locate the descriptor for a given protocol ID.
->   - Update mailbox/optee/smc/virtio transports to accept fwnode and
->     map to OF nodes where needed
+> Key points:
+> - new CONFIG_ARM_SCMI_TRANSPORT_PCC option
+> - integration with SCMI core via scmi_desc and transport ops
+> - response/notification fetch from PCC shared memory header/payload
+> - ACPI device matching and registration via the ACPI transport macro
 > 
-> DT-only transports (mailbox/optee/smc) still parse DT properties by
-> mapping the fwnode back to an OF node; on non-DT (e.g. ACPI) systems
-> these transports will report no channel available.
-> 
-> This refactor is a prerequisite for adding an ACPI-first transport like
-> PCC and brings the SCMI core closer to DT/ACPI parity. This is a mechanical
-> step towards firmware-node neutrality; DT users continue to work unchanged,
-> and ACPI paths can be enabled on top.
-> 
-> No functional change is expected on DT platforms; ACPI platforms can now
-> discover and participate in SCMI where a suitable transport is present.
+> This enables SCMI to be exercised over PCC on ACPI platforms.
 > 
 > Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
-Hi Sudeep
+Hi Sudeep,
 
-A few comments inline. The reference counting on fwnodes gets a bit complex in
-here so my review more or less skips that bit (it's end of day!)
+Just a very quick look in what is definitely a drive by style review
+A few things below.
 
-> diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-> index bd56a877fdfc..bc5fea11b5db 100644
-> --- a/drivers/firmware/arm_scmi/driver.c
-> +++ b/drivers/firmware/arm_scmi/driver.c
+> diff --git a/drivers/firmware/arm_scmi/transports/pcc.c b/drivers/firmware/arm_scmi/transports/pcc.c
+> new file mode 100644
+> index 000000000000..39ef83e2dfd4
+> --- /dev/null
+> +++ b/drivers/firmware/arm_scmi/transports/pcc.c
+> @@ -0,0 +1,390 @@
 
-> @@ -2820,7 +2820,7 @@ static int scmi_chan_destroy(int id, void *p, void *idr)
->  		struct scmi_info *info = handle_to_scmi_info(cinfo->handle);
->  		struct scmi_device *sdev = to_scmi_dev(cinfo->dev);
->  
-> -		of_node_put(cinfo->dev->of_node);
-> +		fwnode_handle_put(dev_fwnode(cinfo->dev));
+> +
+> +/**
+> + * struct scmi_pcc - Structure representing a SCMI mailbox transport
+> + *
+> + * @cl: Mailbox Client
+> + * @pchan: Transmit/Receive PCC/mailbox channel
+> + * @cinfo: SCMI channel info
+> + * @shmem: Transmit/Receive shared memory area
+run kernel-doc over the file (shmem doesn't exist).
 
-This may follow on from earlier thing about device_set_node().
-I think this is freeing a reference that will never have been gotten if you
-follow what I suggest there.  Note that I'm fairly sure it was never
-gotten for acpi anyway.  However this might be a different fwnode, I'm lost
-on that front.
+> + */
+> +struct scmi_pcc {
+> +	struct mbox_client cl;
+> +	struct pcc_mbox_chan *pchan;
+> +	struct scmi_chan_info *cinfo;
+> +};
 
->  		scmi_device_destroy(info->dev, id, sdev->name);
->  		cinfo->dev = NULL;
->  	}
+> +
+> +static int acpi_scmi_dsd_parse_protocol_subpackage(const union acpi_object *obj,
+> +						   int prot_id)
+> +{
+> +	u32 uid;
+> +	int idx, ret = 0;
+> +	struct pcc_transport *p;
+> +	unsigned int pkg_cnt = obj->package.count;
+> +
+> +	if (pkg_cnt > 2) {
+> +		pr_warn("Only 2 channels: one Tx and one Rx needed\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (idx = 0; idx < pkg_cnt; idx++) {
+> +		union acpi_object *pack = &obj->package.elements[idx];
+> +
+> +		/* Flags(pack->package.elements[1]) must be always 0 for now */
+> +		uid = pack->package.elements[0].integer.value;
+> +		hash_for_each_possible(pcc_id_hash, p, hnode, uid) {
+> +			if (p->flags & SCMI_TRANSPORT_SHARED_CHANNEL) {
+> +				pr_info("Invalid! %d channel is shared\n",
+> +					p->pcc_ss_id);
+> +				ret = -EINVAL;
 
-> @@ -3118,8 +3119,8 @@ static const struct scmi_desc *scmi_transport_setup(struct device *dev)
->  		 trans->desc.max_msg);
->  
->  	/* System wide atomic threshold for atomic ops .. if any */
-> -	if (!of_property_read_u32(dev->of_node, "atomic-threshold-us",
-> -				  &trans->desc.atomic_threshold))
-> +	if (!fwnode_property_read_u32(dev_fwnode(dev), "atomic-threshold-us",
+This breaks out of the hash_for_each_... but the outer loop might continue
+and it's just possible pass.  however we leave ret set.  Why not bail out
+on first error?  E.g. return -EINVAL; here.
 
-device_property_read_u32() Same for all the other places where the fwnode
-is simple dev_fwnode(dev) and there is a suitable helper.
+> +				break;
+> +			}
+> +			p->protocol_id = prot_id;
+> +		}
+> +	}
+> +
+> +	return ret;
+> +}
 
+> +#ifdef CONFIG_ACPI
 
-> +				      &trans->desc.atomic_threshold))
->  		dev_info(dev,
->  			 "SCMI System wide atomic threshold set to %u us\n",
->  			 trans->desc.atomic_threshold);
+This is the bit I'd avoid by not use ACPI_PTR() in the earlier patch.
 
-> @@ -3262,10 +3262,10 @@ static int scmi_probe(struct platform_device *pdev)
->  
->  	scmi_enable_matching_quirks(info);
->  
-> -	for_each_available_child_of_node(np, child) {
-> +	fwnode_for_each_available_child_node_scoped(dev_fwnode(dev), child) {
-I don't think there is an exit path in here, so this is functionally the same
-as the non scoped version.
-
-Also, if you are gong to use dev_fwnode use
-	device_for_each_child_node() and don't worry about the available.
-I think the patch merged that made device_for_each_child_node() only
-consider the available ones for all firmware types.
-
->  		u32 prot_id;
->  
-> -		if (of_property_read_u32(child, "reg", &prot_id))
-> +		if (fwnode_property_read_u32(child, "reg", &prot_id))
->  			continue;
->  
->  		if (!FIELD_FIT(MSG_PROTOCOL_ID_MASK, prot_id))
-> @@ -3278,10 +3278,11 @@ static int scmi_probe(struct platform_device *pdev)
->  		}
->  
->  		/*
-> -		 * Save this valid DT protocol descriptor amongst
-> +		 * Save this valid fwnode protocol descriptor amongst
->  		 * @active_protocols for this SCMI instance/
->  		 */
-> -		ret = idr_alloc(&info->active_protocols, child,
-> +		ret = idr_alloc(&info->active_protocols,
-> +				fwnode_handle_get(child),
-
-This change is a little subtle to be buried in here and I'm fairly sure
-it is an unintended functional change.  If idr_alloc() fails the continue
-and loop iterator magic, will drop the reference held by the loop but
-not this one.  So it will leak a reference.
-
-If this does make sense, do it in a precursor patch before changing away
-from of only.
-
->  				prot_id, prot_id + 1, GFP_KERNEL);
->  		if (ret != prot_id) {
->  			dev_err(dev, "SCMI protocol %d already activated. Skip\n",
-> @@ -3289,7 +3290,6 @@ static int scmi_probe(struct platform_device *pdev)
->  			continue;
->  		}
->  
-> -		of_node_get(child);
->  		scmi_create_protocol_devices(child, info, prot_id, NULL);
->  	}
->  
+> +static const struct acpi_device_id scmi_acpi_ids[] = {
+> +	{"ARML0001", 0},
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(acpi, scmi_acpi_ids);
+> +#endif
+> +
+> +DEFINE_SCMI_ACPI_TRANSPORT_DRIVER(scmi_pcc, scmi_pcc_driver,
+> +				  scmi_pcc_desc, scmi_acpi_ids, core);
+> +module_platform_driver(scmi_pcc_driver);
+> +
+> +MODULE_AUTHOR("Sudeep Holla <sudeep.holla@arm.com>");
+> +MODULE_DESCRIPTION("SCMI ACPI PCC Transport driver");
+> +MODULE_LICENSE("GPL");
+> 
 
