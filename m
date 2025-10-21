@@ -1,160 +1,124 @@
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C851E51FA
-	for <arm-scmi@vger.kernel.org>; Mon, 20 Oct 2025 21:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.49
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F3CA28725A
+	for <arm-scmi@vger.kernel.org>; Tue, 21 Oct 2025 09:03:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760997104; cv=none; b=Pig1mrw+SwbwBSEJmFfduao3I6Mpp5pKhf50mw+jEUtveMie09OisdrFD/l2gKQj4y8kV3XRoNXZ2HEr6/PVO2oN4nE3L7+hnwujXZObwKDquDumMFw7yYkzM2ItgVEkhIDPDz1ekL4jht9QbQevFzBtMwRpjSsDM3ZDZMiadR8=
+	t=1761037409; cv=none; b=L0JYxZQKCMdbPUA3Gx5byFtMHqcu895hIoAoFgp43Rd1CAR+e4G8y6ztSffck6Dj2IlbFHNIXAg5FtOl6Moe6bUWhpTbcDNGJREuKtAMDapzFFwqDRdkQ1yhcp1bjCoE5TbR3V+5uXjenPZTEZ2qeR5ImUWYcXAZliDlJTWpMFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760997104; c=relaxed/simple;
-	bh=aX/9JxdC1TRA48rktBau1D7ApsTGPEIpWfYv5Df8iIU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mxDLQRJC/6r4OVTJtoSLz/zoqYXUgMb3jMalPHGLqfKsOJZM1IPpFlzTqfubYNsEtSAkvK707wozn237vywu/XH7q0Yg4oCmENr65wFiuNetckIVuELcb1Abx+ZlhsmWWvCeayIQ6W2u0r06Ht4SiHiFSrK9YalQ4piF88S+YKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Iqr8XXxg; arc=none smtp.client-ip=74.125.224.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Iqr8XXxg"
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-63e336b1ac4so2589365d50.1
-        for <arm-scmi@vger.kernel.org>; Mon, 20 Oct 2025 14:51:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760997101; x=1761601901; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aX/9JxdC1TRA48rktBau1D7ApsTGPEIpWfYv5Df8iIU=;
-        b=Iqr8XXxg9A9KMBZkUGrV445aVZi2OJINE0ZsyknPJVrxS60bpVb/rnh0vZBGMeWgi+
-         5Tg6AHwUat1iL87kkN6dlrVIJBNrVimlrpj2xo7LJvBjiJuSKNGBTq6qybi+j0gbIuaK
-         W2SflEJ9fCaPzd7z1lhp/DK+iT/4scPvD3as1ObyKUSb4wHKjtiFKi2VM62Fd6IcOLkx
-         aYDYxIbvpOGJ4xnpK7AR+0yEbCNJTsVDjsry5bjK3+hUxZ+iqTsZd26ST6YnLECmp8K5
-         DcrF1nR5CbLre+M1mspn6SaZR6SldS4vb8eveiEV4uOPvo58UXRz3UCMSUXadghucz1/
-         E1pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760997101; x=1761601901;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aX/9JxdC1TRA48rktBau1D7ApsTGPEIpWfYv5Df8iIU=;
-        b=ruzc7TJXmj6jf7B4Qlf7o/D+uCzLITxvbhG+JriaXtcdFSACTb/IyNEYH8sb/hDnCL
-         x7fgmgnXTm5zxyioenJjCVgkdnHrG7MqCd1u0QDKR8mCRtdiDVs4lQs3stZOe01WKfzT
-         ai6Et29Wrn1bVD6AHKu/YLVvH0yJ1SMx4OLh5a2FBA0FVFN+fLG/OJUGOaC8TnR16+WQ
-         k1RPQzOCFkJxwR53VGKdGbNvi4LVn3T/G1ojs2l6/HmBlX7f4dN5wPNgKaw2XpQPZaC/
-         Jiq+PQOANXGUCwh1gfnuVcp3fh19nOC0gjUFQIJUah46cVMdan0BDn09dNyef84nmd/d
-         K6tg==
-X-Forwarded-Encrypted: i=1; AJvYcCUPX/H6cvwy7nOThvdRGh8X/ZTI2Dg9RmtL7A2/uze9s4rfVz6iBJpll0pczjCUq9u9znpXj/UrwQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWawN3sDS5dT3d3VAnjDFle2G/AT/aRYIKQxsBr9UPmMpzhEWR
-	Lgg3ircef0wfE7vQyhXFEssEn3UTisBarf5Q/hsqdWTwXjKnSujJNdfKGEROWm63sNGt19EUBIi
-	BzlRdgDcE+pji2HXOmdVACd89xxe27TlxOTEKiciFGg==
-X-Gm-Gg: ASbGnct3/jAMZYSiYcBR0JIIyLUCF63L6Ixp4CMvFZ9GMQWx2ZJMHhMgnuyJj3wWqKZ
-	1ZjNAiQ1GLYSFkpKRMWE77asH+qhENZOo4uwmR/gYGrs/AGQCVNI9ambMlN+mar5koHgKv1OsIX
-	Er1LEba1FH0J0SLQfLxG16lvrD7i397WhobEQgwqFYKC2dqWhJMdw8ro0COwd6dTf7thJkEtjJs
-	srdKplDk7SDWVhUBRVEgMn6BUSoErOEiwPKrL8ZyODGblpm5DtRgkwDoX9L
-X-Google-Smtp-Source: AGHT+IGRaOydtzDQqQLvW6se3/Vk6k+Gd4ZdqugfWoQAiRZ4x3gHuCWHJg7LiPH2eudgGlv8FQTadoN2iFpSXJhpXo4=
-X-Received: by 2002:a05:690e:1487:b0:635:4ed0:5722 with SMTP id
- 956f58d0204a3-63e16225bf2mr10798873d50.26.1760997101257; Mon, 20 Oct 2025
- 14:51:41 -0700 (PDT)
+	s=arc-20240116; t=1761037409; c=relaxed/simple;
+	bh=Y3KlJLl6MconIY5oesF2C/BdkoCbkCyCDLK3z1HwyTA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b77OAuYb6YME2nfmO4xbjbINiTqHbqQW0cKhpm82ZTXEqcZ9aMqFPOY/ZOd29NArlphOOwjS4nnXOioHODRdqZ39qBNfG9sJWX9Ub4oo9S+ka57Kb/VwoLlU7apZUPKX0DWqtP6hkwVDSmqRyZrkWq7p0CTbtTgJ50VywbOEJyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EDC911063;
+	Tue, 21 Oct 2025 02:03:18 -0700 (PDT)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CAD483F66E;
+	Tue, 21 Oct 2025 02:03:25 -0700 (PDT)
+Date: Tue, 21 Oct 2025 10:03:22 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, <arm-scmi@vger.kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	<linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH 1/8] firmware: arm_scmi: Set fwnode for the genrated SCMI
+ platform device
+Message-ID: <20251021-tireless-urchin-of-ampleness-cbfbd7@sudeepholla>
+References: <20251017-acpi_scmi_pcc-v1-0-0adbab7709d9@arm.com>
+ <20251017-acpi_scmi_pcc-v1-1-0adbab7709d9@arm.com>
+ <20251020180702.00005106@huawei.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <0c4bc190-7049-4753-b88e-479a3ff584fc@oss.nxp.com> <aPEtEnd3kG_pxWPf@pluto>
-In-Reply-To: <aPEtEnd3kG_pxWPf@pluto>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 20 Oct 2025 23:51:28 +0200
-X-Gm-Features: AS18NWA4FdGF7CF4cd4_wWTv_JtZlgqANoY89SKPmaKzU6AhIdj0GgLszFkIkII
-Message-ID: <CACRpkdYgv1czD-GjcnZvq25TYxjaMpa9VjyzXJ3zVtaFc=cBJg@mail.gmail.com>
-Subject: Re: pinctrl-scmi: Support for pin-only mode when groups are unavailable
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Ciprian Marian Costea <ciprianmarian.costea@oss.nxp.com>, arm-scmi@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251020180702.00005106@huawei.com>
 
-On Thu, Oct 16, 2025 at 7:37=E2=80=AFPM Cristian Marussi
-<cristian.marussi@arm.com> wrote:
-> On Thu, Oct 16, 2025 at 07:05:21PM +0300, Ciprian Marian Costea wrote:
+On Mon, Oct 20, 2025 at 06:07:02PM +0100, Jonathan Cameron wrote:
+> On Fri, 17 Oct 2025 14:23:44 +0100
+> Sudeep Holla <sudeep.holla@arm.com> wrote:
+> 
+> generated (in patch title).
+> 
+> > Add a call to device_set_node() in the SCMI probe helper to associate
+> > generated SCMI platform device with the firmware node of its supplier
+> > transport device.
+> > 
+> > This complements device_set_of_node_from_dev() and ensures that
+> > firmware node information is propagated correctly for both Device Tree
+> > and non-DT (e.g. ACPI) based systems.
+> > 
+> > Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
+> > ---
+> >  drivers/firmware/arm_scmi/common.h | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
+> > index 07b9e629276d..911941e6885d 100644
+> > --- a/drivers/firmware/arm_scmi/common.h
+> > +++ b/drivers/firmware/arm_scmi/common.h
+> > @@ -473,6 +473,7 @@ static int __tag##_probe(struct platform_device *pdev)			       \
+> >  		return -ENOMEM;						       \
+> >  									       \
+> >  	device_set_of_node_from_dev(&spdev->dev, dev);			       \
+> > +	device_set_node(&spdev->dev, dev_fwnode(dev));			       \
+> 
+> device_set_node() is supposed to handle both dt and ACPI. So this surprised me
+> and I went digging.
+> 
+> dev_fnode for acpi is dev->fwnode, for of it is of_fwnode_handle(dev->of_node)
+> Which is dev->of_node->fwnode
+> 
+> So for acpi this is
+> 	device_set_node(&spdev->dev, dev->fwnode);
+> which is:
+> 	spdev->dev->fwnode = fwnode;
+> 	spdev->dev->of_node = NULL; 
+> 
+> For dt
+> 	device_set_node(&spdev->dev, dev->of_node->fwnode);
+> which is
+> 	spdev->dev->fwnode = dev->of_node->fwnode;
+> 	spdev->dev->opf-node = dev->of_node; (via some container of magic)
+> 
+> 
+> The device_set_of_node_from_dev(&spdev->dev, dev)
+> is same as:
+> 	of_node_put(spdev->dev->of_node);
+> 	spdev->dev->of_node = of_node_get(dev->of_node);
+> 	spdev->dev->of_node_reused = true;
+> 
+> So subject to some reference counting that I don't think you need as the
+> spdev->dev parent is the dev here, the first call does nothing extra.
+> 
+> Maybe I missed something?
+> 
 
-> > I=E2=80=99m currently exploring a solution to improve the 'pinctrl-scmi=
-' [1] driver
-> > so it can better support SCMI platforms that only provide individual pi=
-n
-> > control. At the moment, the driver handles only group-based operations,
-> > which means platforms without pin groups run into limitations.
-> >
-> > According to the SCMI v4.0 specification (section 3.11.2.8), both
-> > group-based and per-pin control modes should be supported. However, on
-> > pin-only platforms, the current implementation cannot enumerate groups,
-> > configure pinmux, or assign functions per pin. This results in probe
-> > failures and '-EINVAL' errors when trying to configure non-existent gro=
-ups.
+No, you didn’t miss anything. You’ve articulated my analysis well - the same
+points I had intended to include in my commit messages but had forgotten those
+details of at the time of writing the commit message.
 
-First: it is usually not true that no grouping exist. They are usually
-there in the hardware, it is just that the fact that the programming
-reference document document a register for each pin and you just
-cannot see the forest because of all the trees (pins) literally.
+I retained the call to device_set_of_node_from_dev() primarily because it sets
+dev->of_node_reused = true.
 
-I.e. just because pins *can* be controlled individually, this does
-not mean that it is a good idea for the SCMI-back firmware
-to *expose* them as individually controlled.
+I’m not entirely certain about the implications of not setting this flag, and
+it wouldn’t be set if we used only device_set_node().
 
-Example:
+Thank you for noticing this and bringing it up for discussion. I had planned
+to raise this when I first observed it and made the change, but unfortunately
+didn’t document it properly - that would have saved you from having to
+rediscover the details yourself.
 
-Pins 0, 1, 2, 3
+I’m fine with whichever solution we agree on. I retained both calls
+intentionally to prompt exactly this kind of discussion.
 
-Function uart0:
-Poke 0x3 into register A to turn pin 0 into UART RX
-Poke 0x3 into register A+4 to turn pin 1 into UART TX
-Poke 0x3 into register A+8 to turn pin 2 into UART RTS
-Poke 0x3 into register A+12 to turn pin 3 into UART CTS
-
-Some people will see "4 pins with individual controls"
-
-Some people will see "4 pins in a group exposing a UART
-with RX, TX, RTS, CTS" and create a group of these
-4 pins called uart0_grp =3D { 0, 1, 2, 3 }
-
-Now, often RTS and CTS isn't used, so maybe these
-need their own group and the intended use is more like
-uart0_rx_tx =3D {0, 1}
-uart0_rts_cts =3D {2, 3}
-
-Now the usual complaint from the software engineer
-implementing a FW driver or Linux kernel driver is
-"I don't know what use cases and groups are appropriate".
-
-But this complaint is coming from the same company,
-the same legal body, that produced the whole SoC.
-
-And this is not to act as a coherent company.
-
-This is overall a clear symptom of throw-over-the-wall
-engineering.
-https://en.wikipedia.org/wiki/Traditional_engineering
-
-So I would take a step back and talk to some hardware
-engineers about this before proceeding. The SCMI
-exposure of groups and functions look like they do for
-a reason: per-pin muxing is use sometimes by hobbyists
-and consultants to SoC companies who have no direct
-insight to the hardware and cannot really communicate
-with HW engineers.
-
-But for a *firmware* we certainly expect the people writing
-that to have talked to the engineer who designed the
-grouping inherent in the hardware. At least try hard.
-
-Then there is the last resort which I would think twice
-before implementing:
-
-What the Qualcomm driver does is to create a group
-for every single pin, e.g.
-
-gpio0_grp =3D {0}
-gpio1_grp =3D {1}
-....
-
-Yours,
-Linus Walleij
+-- 
+Regards,
+Sudeep
