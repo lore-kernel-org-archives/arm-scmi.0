@@ -1,106 +1,104 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D162DF123;
-	Tue, 21 Oct 2025 15:15:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2A0F3451AD;
+	Tue, 21 Oct 2025 16:03:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761059739; cv=none; b=th49zWLSPcakVbCmSHYgCc7CJzSBN4OfeVYUBFgX0gnCXTK4RJ/2B/MlXQ0VuGtedaIEITqzxxbWLiBC7DcBSnNMn41QUhXNorVq8xWftJ7osjgBm9dYQ+3HfeeoY5S2eeYmIkIFMRt/UVANKg8uQpPtw71xVfrDtUdV1F0AXbs=
+	t=1761062636; cv=none; b=d7AdZxWJXp/WxHIhOAtsfOkMTBeVZHTH4QHcdjAPNgu3YyiP1YAb3YEY9NvUcMWJqDsBDZWINXS53zVyjoLOR0Fsulg7d6a6eVzuMeO6xeZMjO+q93iWb18V9wTJMfI87HtoZ83HsyWteDJcpFfILsJRhOmlnFMlYLnvUCq1NZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761059739; c=relaxed/simple;
-	bh=cZ7O39MW892PMlPjj1mEEZlX6DMsrg27mb8uPjpvdjk=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GNadpfR1pE8sIn7mNG1Fo4pSlIOZwSc5Q+0oRsQOYoHgv0pJB+zy7m11qyPZP/YRfrKOlhn5Clsnvzu69VEyzn31R2SxuQZRZqhov/PCpRlmxBveSdsk/YvOczaGTE9Sfaq4lifK9fwg9KK/lQaaRDNPVIxbzst/fcAuag8EkOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4crbPf3q5jz6D8gw;
-	Tue, 21 Oct 2025 23:12:22 +0800 (CST)
-Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
-	by mail.maildlp.com (Postfix) with ESMTPS id 992A914011A;
-	Tue, 21 Oct 2025 23:15:32 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
- (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 21 Oct
- 2025 16:15:31 +0100
-Date: Tue, 21 Oct 2025 16:15:29 +0100
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<arm-scmi@vger.kernel.org>, <sudeep.holla@arm.com>,
-	<james.quinlan@broadcom.com>, <f.fainelli@gmail.com>,
-	<vincent.guittot@linaro.org>, <etienne.carriere@st.com>,
-	<peng.fan@oss.nxp.com>, <michal.simek@amd.com>, <quic_sibis@quicinc.com>,
-	<dan.carpenter@linaro.org>, <d-gole@ti.com>, <souvik.chakravarty@arm.com>
+	s=arc-20240116; t=1761062636; c=relaxed/simple;
+	bh=q+NknjHFLpSRiZHUUKxl+H2ZrQzx/CZoaKEv30lY+gA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=omNa2juf/yPahZsY4Qsk44EJ8qyUCbzeW6jwqHPJDNRI+OXO8hMEWUC3sHa0HFq3Hk0I2/h5m83RjDSzspVKlPTKEChzuSkUxhVc0z/x2WFC8nvnvH0sTORX1veLmSgm112XRDCAYq/eZUiiPZBIsg/gKXhJErQjyuDfXbN3guY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 52E0D1063;
+	Tue, 21 Oct 2025 09:03:39 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D8CD03F66E;
+	Tue, 21 Oct 2025 09:03:44 -0700 (PDT)
+Date: Tue, 21 Oct 2025 17:03:36 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
+	james.quinlan@broadcom.com, f.fainelli@gmail.com,
+	vincent.guittot@linaro.org, etienne.carriere@st.com,
+	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
+	dan.carpenter@linaro.org, d-gole@ti.com, souvik.chakravarty@arm.com
 Subject: Re: [PATCH 06/10] firmware: arm_scmi: Add System Telemetry driver
-Message-ID: <20251021161529.00001468@huawei.com>
-In-Reply-To: <aPdf9lyY9ysq2mPx@pluto>
+Message-ID: <aPeu2E-jfhcw7P_q@pluto>
 References: <20250925203554.482371-1-cristian.marussi@arm.com>
-	<20250925203554.482371-7-cristian.marussi@arm.com>
-	<20251020172328.00002fc3@huawei.com>
-	<aPdf9lyY9ysq2mPx@pluto>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+ <20250925203554.482371-7-cristian.marussi@arm.com>
+ <20251020172328.00002fc3@huawei.com>
+ <aPdf9lyY9ysq2mPx@pluto>
+ <20251021161529.00001468@huawei.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100012.china.huawei.com (7.191.174.184) To
- dubpeml100005.china.huawei.com (7.214.146.113)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251021161529.00001468@huawei.com>
 
-On Tue, 21 Oct 2025 11:27:02 +0100
-Cristian Marussi <cristian.marussi@arm.com> wrote:
-
-> On Mon, Oct 20, 2025 at 05:23:28PM +0100, Jonathan Cameron wrote:
-> > On Thu, 25 Sep 2025 21:35:50 +0100
-> > Cristian Marussi <cristian.marussi@arm.com> wrote:
-> >   
-> > > Add a new SCMI System Telemetry driver which gathers platform Telemetry
-> > > data through the new the SCMI Telemetry protocol and expose all of the
-> > > discovered Telemetry data events on a dedicated pseudo-filesystem that
-> > > can be used to interactively configure SCMI Telemetry and access its
-> > > provided data.  
-> >  
+On Tue, Oct 21, 2025 at 04:15:29PM +0100, Jonathan Cameron wrote:
+> On Tue, 21 Oct 2025 11:27:02 +0100
+> Cristian Marussi <cristian.marussi@arm.com> wrote:
 > 
-> Hi,
->  
-> > I'm not a fan of providing yet another filesystem but you didn't
-
-"did" was what this was meant to say.
-
-Sorry for the confusing garbage comment from me!
-
-> > lay out reasoning in the cover letter.  
-> 
-> Sorry, I dont understand..you mean here that I did NOT provide enough reasons
-> why I am adopting a new FS approach ? ... or I misunderstood the English ?
-> 
-> .. because I did provide a lot of reasons (for my point-of-view) to go
-> for a new FS in the cover-letter...
-> 
+> > On Mon, Oct 20, 2025 at 05:23:28PM +0100, Jonathan Cameron wrote:
+> > > On Thu, 25 Sep 2025 21:35:50 +0100
+> > > Cristian Marussi <cristian.marussi@arm.com> wrote:
+> > >   
+> > > > Add a new SCMI System Telemetry driver which gathers platform Telemetry
+> > > > data through the new the SCMI Telemetry protocol and expose all of the
+> > > > discovered Telemetry data events on a dedicated pseudo-filesystem that
+> > > > can be used to interactively configure SCMI Telemetry and access its
+> > > > provided data.  
+> > >  
 > > 
-> > One non trivial issue is that you'll have to get filesystem review on this.
-> > My review is rather superficial but a few things stood out.  
+> > Hi,
+> >  
+> > > I'm not a fan of providing yet another filesystem but you didn't
 > 
-> Well yes I would have expected that, but now the FS implementation
-> internals of this series is definetely immature and to be reworked (to
-> the extent of using a well-know deprecated FS mount api at first..)
+> "did" was what this was meant to say.
 > 
-> So I posted this V1 to lay-out the ideas and the effective FS API layout
-> but I was planning to extend the review audience once I have reworked fully
-> the series FS bits in the next V2...
-
-I'd suggest ABI docs for v2. That will match what you have in the cover letter
-but put it in the somewhat formal description format of Documentation/ABI/
-
-
-THanks,
-
-Jonathan
-
+> Sorry for the confusing garbage comment from me!
+> 
+> > > lay out reasoning in the cover letter.  
+> > 
+> > Sorry, I dont understand..you mean here that I did NOT provide enough reasons
+> > why I am adopting a new FS approach ? ... or I misunderstood the English ?
+> > 
+> > .. because I did provide a lot of reasons (for my point-of-view) to go
+> > for a new FS in the cover-letter...
+> > 
+> > > 
+> > > One non trivial issue is that you'll have to get filesystem review on this.
+> > > My review is rather superficial but a few things stood out.  
+> > 
+> > Well yes I would have expected that, but now the FS implementation
+> > internals of this series is definetely immature and to be reworked (to
+> > the extent of using a well-know deprecated FS mount api at first..)
+> > 
+> > So I posted this V1 to lay-out the ideas and the effective FS API layout
+> > but I was planning to extend the review audience once I have reworked fully
+> > the series FS bits in the next V2...
+> 
+> I'd suggest ABI docs for v2. That will match what you have in the cover letter
+> but put it in the somewhat formal description format of Documentation/ABI/
 > 
 
+Oh yes of course... the while docs/ stuff is still TBD...btw I am not even
+sure if the whole driver will be required to be moved into fs/ as a
+requirement while doing filesystem review...I suppose I will leave this
+sort of reworks for the next reviews cycles....
+
+...and...if I may ask... is it linux-fsdevel the ML for this fs-related
+stuff I suppose...not sure about maintainers looking at MAINTAINERS ...
+
+Thanks a lot for having a look Jonathan.
+Cristian
