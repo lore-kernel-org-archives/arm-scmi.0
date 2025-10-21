@@ -1,116 +1,106 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7AF9354AEB;
-	Tue, 21 Oct 2025 10:30:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D162DF123;
+	Tue, 21 Oct 2025 15:15:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761042625; cv=none; b=auNLJ2FbJBRltoxhbgvbni1PeQT7xJM0eD+vDfxQQC8q5cLLPRVUZ/rB0WnehtaRoCvVV5mCC48xGuh4v09dvgofdzfhhvtTqVBeX8oxs4Vq1nHnaLgMTvjuZYYujV/hnt364fqKrrHhUtA8NN+RYv1edTQSYOP3Jpx2mcRdonc=
+	t=1761059739; cv=none; b=th49zWLSPcakVbCmSHYgCc7CJzSBN4OfeVYUBFgX0gnCXTK4RJ/2B/MlXQ0VuGtedaIEITqzxxbWLiBC7DcBSnNMn41QUhXNorVq8xWftJ7osjgBm9dYQ+3HfeeoY5S2eeYmIkIFMRt/UVANKg8uQpPtw71xVfrDtUdV1F0AXbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761042625; c=relaxed/simple;
-	bh=P66ClT1fWhQjf6Qvs/MOrFEm/tds42Eov2fDYBRqHZY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=flTiNsfg5Xy7W2c2s++Yh3mVCO+4oBeupaZMMngxAvAgDYWCs32xcYhhbMFjjAupZrtO8+CLY2ml/jBWe+/nNyy/Ev6FH9Ct1Y6+uMQpZZdTNUnMvcKridUqbfXUPhGZOd8Kh+Ar906inh9RVyYKjUm0JOmc31HXhOAWhWGsJak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1DC221007;
-	Tue, 21 Oct 2025 03:30:13 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 72FA43F63F;
-	Tue, 21 Oct 2025 03:30:18 -0700 (PDT)
-Date: Tue, 21 Oct 2025 11:30:16 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, etienne.carriere@st.com,
-	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
-	dan.carpenter@linaro.org, d-gole@ti.com, souvik.chakravarty@arm.com
-Subject: Re: [PATCH 07/10] firmware: arm_scmi: Add System Telemetry ioctls
- support
-Message-ID: <aPdguGJ-fZFF7L3Y@pluto>
+	s=arc-20240116; t=1761059739; c=relaxed/simple;
+	bh=cZ7O39MW892PMlPjj1mEEZlX6DMsrg27mb8uPjpvdjk=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GNadpfR1pE8sIn7mNG1Fo4pSlIOZwSc5Q+0oRsQOYoHgv0pJB+zy7m11qyPZP/YRfrKOlhn5Clsnvzu69VEyzn31R2SxuQZRZqhov/PCpRlmxBveSdsk/YvOczaGTE9Sfaq4lifK9fwg9KK/lQaaRDNPVIxbzst/fcAuag8EkOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4crbPf3q5jz6D8gw;
+	Tue, 21 Oct 2025 23:12:22 +0800 (CST)
+Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
+	by mail.maildlp.com (Postfix) with ESMTPS id 992A914011A;
+	Tue, 21 Oct 2025 23:15:32 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
+ (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 21 Oct
+ 2025 16:15:31 +0100
+Date: Tue, 21 Oct 2025 16:15:29 +0100
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<arm-scmi@vger.kernel.org>, <sudeep.holla@arm.com>,
+	<james.quinlan@broadcom.com>, <f.fainelli@gmail.com>,
+	<vincent.guittot@linaro.org>, <etienne.carriere@st.com>,
+	<peng.fan@oss.nxp.com>, <michal.simek@amd.com>, <quic_sibis@quicinc.com>,
+	<dan.carpenter@linaro.org>, <d-gole@ti.com>, <souvik.chakravarty@arm.com>
+Subject: Re: [PATCH 06/10] firmware: arm_scmi: Add System Telemetry driver
+Message-ID: <20251021161529.00001468@huawei.com>
+In-Reply-To: <aPdf9lyY9ysq2mPx@pluto>
 References: <20250925203554.482371-1-cristian.marussi@arm.com>
- <20250925203554.482371-8-cristian.marussi@arm.com>
- <20251020173034.00005c15@huawei.com>
+	<20250925203554.482371-7-cristian.marussi@arm.com>
+	<20251020172328.00002fc3@huawei.com>
+	<aPdf9lyY9ysq2mPx@pluto>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251020173034.00005c15@huawei.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100012.china.huawei.com (7.191.174.184) To
+ dubpeml100005.china.huawei.com (7.214.146.113)
 
-On Mon, Oct 20, 2025 at 05:30:34PM +0100, Jonathan Cameron wrote:
-> On Thu, 25 Sep 2025 21:35:51 +0100
-> Cristian Marussi <cristian.marussi@arm.com> wrote:
+On Tue, 21 Oct 2025 11:27:02 +0100
+Cristian Marussi <cristian.marussi@arm.com> wrote:
+
+> On Mon, Oct 20, 2025 at 05:23:28PM +0100, Jonathan Cameron wrote:
+> > On Thu, 25 Sep 2025 21:35:50 +0100
+> > Cristian Marussi <cristian.marussi@arm.com> wrote:
+> >   
+> > > Add a new SCMI System Telemetry driver which gathers platform Telemetry
+> > > data through the new the SCMI Telemetry protocol and expose all of the
+> > > discovered Telemetry data events on a dedicated pseudo-filesystem that
+> > > can be used to interactively configure SCMI Telemetry and access its
+> > > provided data.  
+> >  
 > 
-> > Extend the filesystem based interface with special 'control' file that can
-> > be used to configure and retrieve SCMI Telemetry data in binary form using
-> > the alternative ioctls-based ABI described in uapi/linux/scmi.h.
-> Why you say alternative.  Why do you need both?
+> Hi,
+>  
+> > I'm not a fan of providing yet another filesystem but you didn't
+
+"did" was what this was meant to say.
+
+Sorry for the confusing garbage comment from me!
+
+> > lay out reasoning in the cover letter.  
 > 
-> That's in the cover letter but I'd put something here as well.
-
-Ok..indeed all my babbling in teh cover wont be anywhere once merged.
-
+> Sorry, I dont understand..you mean here that I did NOT provide enough reasons
+> why I am adopting a new FS approach ? ... or I misunderstood the English ?
+> 
+> .. because I did provide a lot of reasons (for my point-of-view) to go
+> for a new FS in the cover-letter...
+> 
 > > 
-> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> > ---
-> >  .../firmware/arm_scmi/scmi_system_telemetry.c | 402 ++++++++++++++++++
-> >  1 file changed, 402 insertions(+)
-> > 
-> > diff --git a/drivers/firmware/arm_scmi/scmi_system_telemetry.c b/drivers/firmware/arm_scmi/scmi_system_telemetry.c
-> > index 2fec465b0f33..f591aad10302 100644
-> > --- a/drivers/firmware/arm_scmi/scmi_system_telemetry.c
-> > +++ b/drivers/firmware/arm_scmi/scmi_system_telemetry.c
+> > One non trivial issue is that you'll have to get filesystem review on this.
+> > My review is rather superficial but a few things stood out.  
 > 
-> > +static long scmi_tlm_des_read_ioctl(const struct scmi_tlm_inode *tlmi,
-> > +				    unsigned long arg, bool single,
-> > +				    bool is_group)
-> > +{
-> > +	const struct scmi_tlm_setup *tsp = tlmi->tsp;
-> > +	void * __user uptr = (void * __user)arg;
-> > +	struct scmi_tlm_data_read bulk, *bulk_ptr;
-> > +	int ret, grp_id = SCMI_TLM_GRP_INVALID;
-> > +
-> > +	if (copy_from_user(&bulk, uptr, sizeof(bulk)))
-> > +		return -EFAULT;
-> > +
-> > +	bulk_ptr = kzalloc(struct_size(bulk_ptr, samples, bulk.num_samples),
+> Well yes I would have expected that, but now the FS implementation
+> internals of this series is definetely immature and to be reworked (to
+> the extent of using a well-know deprecated FS mount api at first..)
 > 
-> __free() would help here.
+> So I posted this V1 to lay-out the ideas and the effective FS API layout
+> but I was planning to extend the review audience once I have reworked fully
+> the series FS bits in the next V2...
+
+I'd suggest ABI docs for v2. That will match what you have in the cover letter
+but put it in the somewhat formal description format of Documentation/ABI/
+
+
+THanks,
+
+Jonathan
+
 > 
 
-Ok.
-
-> > +			   GFP_KERNEL);
-> > +	if (!bulk_ptr)
-> > +		return -ENOMEM;
-> > +
-> > +	if (is_group) {
-> > +		const struct scmi_telemetry_group *grp = tlmi->priv;
-> > +
-> > +		grp_id = grp->info->id;
-> > +	}
-> > +
-> > +	bulk_ptr->num_samples = bulk.num_samples;
-> > +	if (!single)
-> > +		ret = tsp->ops->des_bulk_read(tsp->ph, grp_id,
-> > +					      &bulk_ptr->num_samples,
-> > +			  (struct scmi_telemetry_de_sample *)bulk_ptr->samples);
-> > +	else
-> > +		ret = tsp->ops->des_sample_get(tsp->ph, grp_id,
-> > +					       &bulk_ptr->num_samples,
-> > +			  (struct scmi_telemetry_de_sample *)bulk_ptr->samples);
-> 
-> That is very unusual code alignment.  Drag 2 lines above left to match one line above.
-
-Trying to please checkpatch while staying under 80 cols...BUT I know is NOT a
-good reason for the above mess...
-
-Thanks,
-Cristian
