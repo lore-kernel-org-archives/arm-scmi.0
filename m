@@ -1,104 +1,132 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2A0F3451AD;
-	Tue, 21 Oct 2025 16:03:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9B1346E73
+	for <arm-scmi@vger.kernel.org>; Tue, 21 Oct 2025 16:52:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761062636; cv=none; b=d7AdZxWJXp/WxHIhOAtsfOkMTBeVZHTH4QHcdjAPNgu3YyiP1YAb3YEY9NvUcMWJqDsBDZWINXS53zVyjoLOR0Fsulg7d6a6eVzuMeO6xeZMjO+q93iWb18V9wTJMfI87HtoZ83HsyWteDJcpFfILsJRhOmlnFMlYLnvUCq1NZE=
+	t=1761065548; cv=none; b=LAG37s1tD3ZEwzPPkq/ePI1XtmPThhn8YSr/GMtY3b5GI27WGEtFIJpobHAfOobgmWKsVu8k84xPsMUz47xQrkOjJEyc2ZG7a8/NAfjzuI6D5dFIzKXCa17sZL1ptP1hUot+9Sblg2OdpCcxVxxQfOUmqVy7CBKHYAisnY5ZrLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761062636; c=relaxed/simple;
-	bh=q+NknjHFLpSRiZHUUKxl+H2ZrQzx/CZoaKEv30lY+gA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=omNa2juf/yPahZsY4Qsk44EJ8qyUCbzeW6jwqHPJDNRI+OXO8hMEWUC3sHa0HFq3Hk0I2/h5m83RjDSzspVKlPTKEChzuSkUxhVc0z/x2WFC8nvnvH0sTORX1veLmSgm112XRDCAYq/eZUiiPZBIsg/gKXhJErQjyuDfXbN3guY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 52E0D1063;
-	Tue, 21 Oct 2025 09:03:39 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D8CD03F66E;
-	Tue, 21 Oct 2025 09:03:44 -0700 (PDT)
-Date: Tue, 21 Oct 2025 17:03:36 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, sudeep.holla@arm.com,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, etienne.carriere@st.com,
-	peng.fan@oss.nxp.com, michal.simek@amd.com, quic_sibis@quicinc.com,
-	dan.carpenter@linaro.org, d-gole@ti.com, souvik.chakravarty@arm.com
-Subject: Re: [PATCH 06/10] firmware: arm_scmi: Add System Telemetry driver
-Message-ID: <aPeu2E-jfhcw7P_q@pluto>
-References: <20250925203554.482371-1-cristian.marussi@arm.com>
- <20250925203554.482371-7-cristian.marussi@arm.com>
- <20251020172328.00002fc3@huawei.com>
- <aPdf9lyY9ysq2mPx@pluto>
- <20251021161529.00001468@huawei.com>
+	s=arc-20240116; t=1761065548; c=relaxed/simple;
+	bh=ZwAF2AyKjAq7XArrOl8zo/1+2cviZIez9vQLVLqfOZo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WMe99vKzwe3ySdj4LYPuFxoLDE8cTPqL8VUKimzxRgliH2IfRxaDejIS/YW3e3zchJBfIYls3M8dbJXSG/WEjWZAE6FxajKfa0hbEG6+vpHJhFzSuXg2P3c6D2k5haOyiYntr2kxqaEyqqm7E3aYD+ib5yYka2Y7GelmKPNDth8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DQNOyL5v; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DQNOyL5v"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-37775ed97daso812411fa.0
+        for <arm-scmi@vger.kernel.org>; Tue, 21 Oct 2025 09:52:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761065545; x=1761670345; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=paRKTns1WT8quydNofkJCuHKZQbF54gWy9Rd/nrzvfk=;
+        b=DQNOyL5vCyXu5GPB74zADZoQYkK7xeW5XzbsbV1LE3rMH5NyrxyHC0AvEbX/bVcewM
+         kVySeJ06CC2v6DaXhof5sVmKPmyQbTJulJ6c/bkm7paAt8leNnuMDfepnj7+uBmECFmW
+         IZfYdApjQlRH7FbklYiPjGjbZAbeOi+72FVHb54T0ugZXVLOSGZKC6yLJkiyV8GT1wza
+         GDvzdZA/GHN3UE0juJzA1u+4g4ItfKcie4B+BhYMdA8CL8eNTvIs9mq8Sf5DdmE9l2Br
+         /DUcNFxFtTZ3txDRZw+UW+uaZUnakecZvtFEiHAfBnN6Iao1YYl6aQNWQ105+Bb69Ust
+         0xbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761065545; x=1761670345;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=paRKTns1WT8quydNofkJCuHKZQbF54gWy9Rd/nrzvfk=;
+        b=OxsWbe1yi7odGjd8r0Pk15PTerYgaLwo6d1Sy3q2lva0Lh/h91WEE2pg7d/zv3+I2d
+         o0cpdd6jBKEfaniefBCJj0qkVO0UjaaISSLWOEtxDu9QSDRxUFhu7qG5pAZo6QCiv+U1
+         ffdta3qfBeO7eAkrwMblixrQ6ovWZL1QTBAu2tWRkaB93WAxUa4xe/qsCLzm+eqy+TGc
+         w6vdzhQCYtZNYRplvUYo+ihfwUV737kLvQvTj2UmLBzrwQkGomg6fHjY55ok6Ahs2QLy
+         p8c39ESvS3JU313Ie5WxC081RSvpVAPCEYXeTyoBBgo4bpBm5sanK7FrWSuE366LETdp
+         pXyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX7gLCeR4tu0Uzm5UqnsqTzNiWImY5xvZiRXVXQxzbg4+Q5zJFmta2yDNNzRC7+KdZfBpPKMl2Htg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz42+7sbd/51MlkOILifbcDswpJnU4J1u3qerscyjYi2EordRrw
+	nSgm53RvoSJAXZnU0gOuTBxesugD7uAFxSFIbKcqsFPhE42uwS66fmp/
+X-Gm-Gg: ASbGncvRCpDIiop0t7UkRRoknkgp9kvw/bdW3szJAW32cvOMRXJKwnEsIzQ4JSPx+3C
+	3FQPgJi8S4OnLgaimnW2UvPNidMDB/GjtNHZS/lZw0E74hgEJVzB3FKP875Nsi4t4JmNg9mO3MP
+	4lNmhJB0l0g72iiro5W5NyJ+APg9vF0ZTNgSBilOdqyydO2E+rf1YqX/104ZYLI7snWHxQrmsLO
+	R/8mxsL30vsMd/sZSjqx7b8sbzzzUITfWHKw0kGOMinCpWOsM5lyCwU5yRZNjNbGlbGI+pUlivu
+	lc3fRUnrUdlTglKDrDBHNAQxMfsc6whyn7VIahtsMJ+6sjjmEJu7OXjHwAyzNh1/dxWGr7XQbJi
+	wUTNXiDQww+eQi8fdJ/YZkGFBo9yecgab8GkdgDrv5qay4DVQw33p8k8IHxJTQIRs/0SPxpKnG+
+	VX/kNF3OwpZMvnv1PrqA==
+X-Google-Smtp-Source: AGHT+IGjAkRj9soa7GWukQ8Cihq7HSi/Un2xv4fuxCxdBhttxHc7UDbrzdxzRB84sxHyktFpcpbArg==
+X-Received: by 2002:a05:651c:25d3:10b0:377:991f:c1bc with SMTP id 38308e7fff4ca-378bb007751mr918501fa.5.1761065544634;
+        Tue, 21 Oct 2025 09:52:24 -0700 (PDT)
+Received: from NB-6746.corp.yadro.com ([188.243.183.84])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-377a9506367sm30738001fa.34.2025.10.21.09.52.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Oct 2025 09:52:24 -0700 (PDT)
+From: Artem Shimko <a.shimko.dev@gmail.com>
+To: Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>
+Cc: a.shimko.dev@gmail.com,
+	arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] firmware: arm_scmi: Add new sensor unit types
+Date: Tue, 21 Oct 2025 19:52:11 +0300
+Message-ID: <20251021165212.749372-1-a.shimko.dev@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251021161529.00001468@huawei.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 21, 2025 at 04:15:29PM +0100, Jonathan Cameron wrote:
-> On Tue, 21 Oct 2025 11:27:02 +0100
-> Cristian Marussi <cristian.marussi@arm.com> wrote:
-> 
-> > On Mon, Oct 20, 2025 at 05:23:28PM +0100, Jonathan Cameron wrote:
-> > > On Thu, 25 Sep 2025 21:35:50 +0100
-> > > Cristian Marussi <cristian.marussi@arm.com> wrote:
-> > >   
-> > > > Add a new SCMI System Telemetry driver which gathers platform Telemetry
-> > > > data through the new the SCMI Telemetry protocol and expose all of the
-> > > > discovered Telemetry data events on a dedicated pseudo-filesystem that
-> > > > can be used to interactively configure SCMI Telemetry and access its
-> > > > provided data.  
-> > >  
-> > 
-> > Hi,
-> >  
-> > > I'm not a fan of providing yet another filesystem but you didn't
-> 
-> "did" was what this was meant to say.
-> 
-> Sorry for the confusing garbage comment from me!
-> 
-> > > lay out reasoning in the cover letter.  
-> > 
-> > Sorry, I dont understand..you mean here that I did NOT provide enough reasons
-> > why I am adopting a new FS approach ? ... or I misunderstood the English ?
-> > 
-> > .. because I did provide a lot of reasons (for my point-of-view) to go
-> > for a new FS in the cover-letter...
-> > 
-> > > 
-> > > One non trivial issue is that you'll have to get filesystem review on this.
-> > > My review is rather superficial but a few things stood out.  
-> > 
-> > Well yes I would have expected that, but now the FS implementation
-> > internals of this series is definetely immature and to be reworked (to
-> > the extent of using a well-know deprecated FS mount api at first..)
-> > 
-> > So I posted this V1 to lay-out the ideas and the effective FS API layout
-> > but I was planning to extend the review audience once I have reworked fully
-> > the series FS bits in the next V2...
-> 
-> I'd suggest ABI docs for v2. That will match what you have in the cover letter
-> but put it in the somewhat formal description format of Documentation/ABI/
-> 
+Add support for two new sensor unit types introduced in Arm SCMI
+- STATE_BINARY (0x5E): Binary state (1: enabled/on, 0: disabled/off)
+- BYTES_SEC (0x5F): Bytes per second
 
-Oh yes of course... the while docs/ stuff is still TBD...btw I am not even
-sure if the whole driver will be required to be moved into fs/ as a
-requirement while doing filesystem review...I suppose I will leave this
-sort of reworks for the next reviews cycles....
+These unit types are used for sensors that report binary state information
+and data transfer rate measurements respectively.
 
-...and...if I may ask... is it linux-fsdevel the ML for this fs-related
-stuff I suppose...not sure about maintainers looking at MAINTAINERS ...
+Signed-off-by: Artem Shimko <a.shimko.dev@gmail.com>
+---
+Hello,
 
-Thanks a lot for having a look Jonathan.
-Cristian
+This patch adds definitions for two new sensor unit types that were
+introduced in the Arm System Control and Management Interface (SCMI)
+Specification version 4.0:
+
+STATE_BINARY (0x5E) - Used for sensors that represent binary states
+where:
+1 indicates enabled/on state
+0 indicates disabled/off state
+
+BYTES_SEC (0x5F) - Used for sensors that measure data transfer rates
+in bytes per second
+
+These additions ensure compatibility with SCMIv4.0 and allow proper
+handling of binary state sensors and bandwidth measurement sensors
+in the Linux SCMI driver.
+
+The patch follows the existing pattern for sensor unit type definitions
+and maintains backward compatibility with previous SCMI versions.
+
+Thank you for your consideration.
+
+Best regards,
+Artem Shimko
+
+ include/linux/scmi_protocol.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
+index aafaac1496b0..629acb7831eb 100644
+--- a/include/linux/scmi_protocol.h
++++ b/include/linux/scmi_protocol.h
+@@ -488,6 +488,8 @@ enum scmi_sensor_class {
+ 	CUBIC_METERS_SEC = 0x5B,
+ 	MM_MERCURY = 0x5C,
+ 	RADIANS_SEC_SQUARED = 0x5D,
++	STATE_BINARY = 0x5E,
++	BYTES_SEC = 0x5F,
+ 	OEM_UNIT = 0xFF
+ };
+ 
+-- 
+2.43.0
+
