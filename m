@@ -1,152 +1,189 @@
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5D23446B0
-	for <arm-scmi@vger.kernel.org>; Wed, 22 Oct 2025 14:18:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE592D73B5;
+	Thu, 23 Oct 2025 12:37:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761142726; cv=none; b=XnEnXOQqzYadsGDrLsM626UIOD4VrjM0G7Aix6UDKbqaOhDtrKzQWlAPPtFcYbfJOHALjHxERpnVvNV5Lv0GUPQ3/q42d0FTWWERvJlQVXdw1S/YoSLaJYx0UCLNOoZKCxz4tirKjIzIsDZS0Zy0iiHpClxpFJJztrnwcKGbXWU=
+	t=1761223033; cv=none; b=N3RSAscUfaigjyFlpKsRDDBUSvZxzfsAj1+YL9f/cra/IAj0yDtNzzluvecS6L8gmeYISJL2C3x6jRvUW54UUlgD8k1Ad5OR6rBQo8HqaliwXemf8DvwGIdATP7ohBDNLhTYvgAgN2GTT7YqgPq1JUNq1QvknNlqaHRxpMSNNvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761142726; c=relaxed/simple;
-	bh=yFqLAyLjbFLbjiI9/lWWW5KPIq1NaOml8cf5H5nQ/5o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mjeXX/JQqXbnQxRyQXIQrOsSB/8tTaOM6ErGBzKj/dfYzCK90nd7MzuhoRmsoCxpe5qxmn+kltgds8oJMd6KLeN+BhJOOTNLKy050sZWLtDfTO+EOfBEE6kz2sJp5ka2ZiUMOUt5GOlnJI7ts1hiUtf8CbOZ5csemnFjSRyLVvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=G5X/PHHT; arc=none smtp.client-ip=74.125.224.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1761223033; c=relaxed/simple;
+	bh=Wr1oYdTzqRo6YQvotcE6dn0MHELFzWmzxAJ6vQ9urfE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=P42s6c16EIqoVzEyEg5mRjgVYBs3t8mz/o0IIpUYR+fWut9h9r0DGdjeDmEZ3M0sDSwUhcYA0hCzRSGvbNq6s2H3rBiqOStYEavSUtP2y275LBV/yTzHeRULDUApR7mkyHieEZvynrVdD83ddZ9DXUsf4E+lLKIAbxdm6GLkyF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=veccFRIk; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Gj/YYY8O; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="G5X/PHHT"
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-63e393c49f1so3811122d50.0
-        for <arm-scmi@vger.kernel.org>; Wed, 22 Oct 2025 07:18:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761142724; x=1761747524; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uw6/hzM0Va4fKQxWOcWodfV3dKIrVId8Rctb0V+ktgM=;
-        b=G5X/PHHT1Dn887NjTLGylR+04t1CoFc9fqqImwjSlB+48oKgslZUcvN6WQjoBtgG7H
-         4Wgqw8sqKWAS/C9eW/iriKVRMqUkxhsNFqb9NGkuuepx4RRMZ7dzjWfdn0p3rZIM2ycO
-         0MuQNIvXSCMXoCe4y9JoVJ8v+bA95sr3K1H7ueAzwFtfgvOgY0xaf7wfVcAn6ZNGQSxL
-         ULFmUaf/xdDrDNDh5YiARke7rbatetL1JpYYbaG48B+YE/qHpkH+y4sLO6JSFjZvtdbM
-         1heEnWdmeRsIbjp18f9A0QYcZv7vwM0kFFaUa/86U7phDZfYIhgk2fQhGVBsMqkjk9LK
-         m6WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761142724; x=1761747524;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uw6/hzM0Va4fKQxWOcWodfV3dKIrVId8Rctb0V+ktgM=;
-        b=UcHR3vJBbyG0F/uB7skK1Kvfquns3MeDHQh/hGKZwtnYDs609j9XXdJDdRw0rhSWwx
-         7DnsCWj8F/FJmcyYspvOEsvbdx5n6q7RbZV6JHJNLROwdlvZximpxsyT9HMlEO1Ih0RA
-         bDQmv5aCnq7RyxdP57mQy/gqrDbS9oOb4pg04ouqmHPs6TuagnZl9ecm0ryCqmcb77DP
-         jg0IadRSArU0mdR4PP1m6Eh/5UHInspXM2hQ7i3Y8tHdxdWyL9sEu1ZA4ENuq6bhOiRe
-         9bIf6aTeoNrg2Bn21ba/RKbBmHNXel/7k6FQm3SF3VF2Cj2P9gkRYxarF16VxyxYhz1Y
-         3lyw==
-X-Forwarded-Encrypted: i=1; AJvYcCU1KTxSBrlkUbV4AwIUCyzwTk7z7r7e3v71tEO7DS+nGLd9GbY2+W1bX+gU/A6l64jv+4sN/7y9NA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyjufrS5L0JY6DZZlhhkoXgmEqavojRkQ/4KNf+Jhyskv3ZEKT
-	+oHxaIR5GD4nx3fP85HzND/yJvsvfCK8GtqSdZTYAHsNIujUWgS3R/lJh9d/4OQRSYpGS/vE+EN
-	yT9FVCnvatjcIRzBw6DQQCJ7ZWxasI7CAKh2wln/gEB//a4YgL30C
-X-Gm-Gg: ASbGncvmIXoIoeUvN58btgT2wy6aoCunbMAAZwlC/gzu4hJ3fsrU49SohuWindkXyNm
-	wEnxVCVBAXqM5iwhMiBDuyP2UuE0x65LordDFIlJ/7NR8hga0Yrg0/bHqxbIqb8XcTG/Rs5YyAM
-	af1fJ2TxtRi/RxoCqVfd96pE+yr5cHqOL0lKhv9EUppmKrZhmulIUqqIwtgXVqHtuUnIqUQROBZ
-	dmJP9tTKht/oFMDhgTdVq0CPEYkPBy4NEiFhIORn2I21rR+y40nWhMQDJqOMn2Xa09s2S3WmK3b
-	2GDdvQg=
-X-Google-Smtp-Source: AGHT+IE/ssjKsgNbWyRTD56nEBKJW2asWvaLPOCHb8EEj54O1bJSDo+k8w+24YvVr2gUStMBX/PvLBOUj2GgxSU7iC4=
-X-Received: by 2002:a53:4c0c:0:b0:63e:15e1:9fd7 with SMTP id
- 956f58d0204a3-63e161f67e4mr12769934d50.61.1761142723672; Wed, 22 Oct 2025
- 07:18:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="veccFRIk";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Gj/YYY8O"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cslsc23bsz9v7B;
+	Thu, 23 Oct 2025 14:37:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1761223028;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cUEq6RcBull/ifTwaW/9nwH/7Wp6ZcVLJhxbPx8UOdM=;
+	b=veccFRIkToJfX8y40KMHb5BiKmUwtqvyUz7rOZ04WEABQXng1Zonv7CZca9i9Ul7APNFIV
+	nIlGm76JGl0pW6FRy5EVDV8bZsYKSTVEDfYtR0MWZrswo7z7c8gS6KVp+eR6myaEQ+KA/h
+	O1x1g3Xaw3E2KUaag+S58N/zSiZ4KKJvegrvc9Ag5Y5ERVoAqu+QKDO68PMqN8VK5mzGMb
+	BrIbVbbJQ4mwAU0pIEzDXWh2GCk6m3Y7HyS+WBIS2B1hgffNJke0sZB9uCtbhICO3wu8by
+	xkCY2JlZkA8t2nduJoeXCFJ+/f4omtQSSxiyCsVXA1avjbzMIwQl0xfW4zqYkQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="Gj/YYY8O";
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1761223026;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cUEq6RcBull/ifTwaW/9nwH/7Wp6ZcVLJhxbPx8UOdM=;
+	b=Gj/YYY8O8vtWy8wwezsfQTYQuW9119m6jWJKZelGuxZ1OgbLqVx06DWDRTSrUrvg4BH3rm
+	qMXu+KepFL1cKaelxO/vRXaC/zoE1TQ/gE2j92u6AyAQUQR8lbTlUn7R5K0BKSIKM2fGhx
+	q+WT+/OvPlR556k0D3TWn18FLj/hzqpeE1SFixUS6wWn/NSiZ1ExJtXOdxZ3AIpHo8TkXA
+	Gbq6GItSOmuPyyrOGtL96UEIHIkZslJh0PIxqm5gvSLMs0ZP+kPEThfB1qla6zaWpTTu25
+	vY4658q6+pzyH8Fdyrgl6wEqhvgnR9r34k8mPUPZmL7DtgM1Lz2h3yGvOqv7zg==
+To: arm-scmi@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 2/2] firmware: arm_scmi: Implement arm,poll-transport property
+Date: Thu, 23 Oct 2025 14:35:58 +0200
+Message-ID: <20251023123644.8730-2-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20251023123644.8730-1-marek.vasut+renesas@mailbox.org>
+References: <20251023123644.8730-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251017110320.1186555-1-sudeep.holla@arm.com>
-In-Reply-To: <20251017110320.1186555-1-sudeep.holla@arm.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 22 Oct 2025 16:18:07 +0200
-X-Gm-Features: AS18NWDV7BIC157b-gQVcJT7XzXiV0BN9XKqDRJKl4NksXyQ22QZCyn3B_TBLZQ
-Message-ID: <CAPDyKFq0FvfX3GcVTP3ZwTLT=9DVKwpLuWq-gm=_aFZd6jKLeA@mail.gmail.com>
-Subject: Re: [PATCH] pmdomain: arm: scmi: Fix genpd leak on provider
- registration failure
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org, 
-	Cristian Marussi <cristian.marussi@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: dbe5eedace6910ad7e8
+X-MBO-RS-META: xycoz5xf7zpasbqw5mb4s1gwgb6s5hbw
+X-Rspamd-Queue-Id: 4cslsc23bsz9v7B
 
-On Fri, 17 Oct 2025 at 13:03, Sudeep Holla <sudeep.holla@arm.com> wrote:
->
-> If of_genpd_add_provider_onecell() fails during probe, the previously
-> created generic power domains are not removed, leading to a memory leak
-> and potential kernel crash later in genpd_debug_add().
->
-> Add proper error handling to unwind the initialized domains before
-> returning from probe to ensure all resources are correctly released on
-> failure.
->
-> Example crash trace observed without this fix:
->
->   | Unable to handle kernel paging request at virtual address fffffffffffffc70
->   | CPU: 1 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.18.0-rc1 #405 PREEMPT
->   | Hardware name: ARM LTD ARM Juno Development Platform/ARM Juno Development Platform
->   | pstate: 00000005 (nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->   | pc : genpd_debug_add+0x2c/0x160
->   | lr : genpd_debug_init+0x74/0x98
->   | Call trace:
->   |  genpd_debug_add+0x2c/0x160 (P)
->   |  genpd_debug_init+0x74/0x98
->   |  do_one_initcall+0xd0/0x2d8
->   |  do_initcall_level+0xa0/0x140
->   |  do_initcalls+0x60/0xa8
->   |  do_basic_setup+0x28/0x40
->   |  kernel_init_freeable+0xe8/0x170
->   |  kernel_init+0x2c/0x140
->   |  ret_from_fork+0x10/0x20
->
-> Fixes: 898216c97ed2 ("firmware: arm_scmi: add device power domain support using genpd")
-> Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
+Implement new property arm,poll-transport, which sets all SCMI operation into
+poll mode. This is meant to work around uncooperative SCP implementations,
+which do not generate completion interrupts. This applies primarily on mbox
+based implementations, but does also cover SMC and VirtIO ones.
 
-Applied for fixes and by adding a stable tag, thanks!
+With this property set, such implementations which do not generate interrupts
+can be interacted with, until they are fixed to generate interrupts properly.
 
-Kind regards
-Uffe
+The SMC transport is modified such, that it ignores interrupts described in
+DT in case this property is set. This is an edge case, where the SMC transport
+may use this property to ignore broken interrupts too.
 
-> ---
->  drivers/pmdomain/arm/scmi_pm_domain.c | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/pmdomain/arm/scmi_pm_domain.c b/drivers/pmdomain/arm/scmi_pm_domain.c
-> index 8fe1c0a501c9..b5e2ffd5ea64 100644
-> --- a/drivers/pmdomain/arm/scmi_pm_domain.c
-> +++ b/drivers/pmdomain/arm/scmi_pm_domain.c
-> @@ -41,7 +41,7 @@ static int scmi_pd_power_off(struct generic_pm_domain *domain)
->
->  static int scmi_pm_domain_probe(struct scmi_device *sdev)
->  {
-> -       int num_domains, i;
-> +       int num_domains, i, ret;
->         struct device *dev = &sdev->dev;
->         struct device_node *np = dev->of_node;
->         struct scmi_pm_domain *scmi_pd;
-> @@ -108,9 +108,18 @@ static int scmi_pm_domain_probe(struct scmi_device *sdev)
->         scmi_pd_data->domains = domains;
->         scmi_pd_data->num_domains = num_domains;
->
-> +       ret = of_genpd_add_provider_onecell(np, scmi_pd_data);
-> +       if (ret)
-> +               goto err_rm_genpds;
-> +
->         dev_set_drvdata(dev, scmi_pd_data);
->
-> -       return of_genpd_add_provider_onecell(np, scmi_pd_data);
-> +       return 0;
-> +err_rm_genpds:
-> +       for (i = num_domains - 1; i >= 0; i--)
-> +               pm_genpd_remove(domains[i]);
-> +
-> +       return ret;
->  }
->
->  static void scmi_pm_domain_remove(struct scmi_device *sdev)
-> --
-> 2.34.1
->
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Sudeep Holla <sudeep.holla@arm.com>
+Cc: arm-scmi@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+ drivers/firmware/arm_scmi/common.h         |  4 ++++
+ drivers/firmware/arm_scmi/driver.c         |  4 ++++
+ drivers/firmware/arm_scmi/transports/smc.c | 20 +++++++++++---------
+ 3 files changed, 19 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
+index 7c35c95fddbaf..7c9617d080a02 100644
+--- a/drivers/firmware/arm_scmi/common.h
++++ b/drivers/firmware/arm_scmi/common.h
+@@ -235,6 +235,9 @@ struct scmi_transport_ops {
+  *		      to have an execution latency lesser-equal to the threshold
+  *		      should be considered for atomic mode operation: such
+  *		      decision is finally left up to the SCMI drivers.
++ * @no_completion_irq: Flag to indicate that this transport has no completion
++ *		       interrupt and has to be polled. This is similar to the
++ *		       force_polling below, except this is set via DT property.
+  * @force_polling: Flag to force this whole transport to use SCMI core polling
+  *		   mechanism instead of completion interrupts even if available.
+  * @sync_cmds_completed_on_ret: Flag to indicate that the transport assures
+@@ -254,6 +257,7 @@ struct scmi_desc {
+ 	int max_msg;
+ 	int max_msg_size;
+ 	unsigned int atomic_threshold;
++	bool no_completion_irq;
+ 	const bool force_polling;
+ 	const bool sync_cmds_completed_on_ret;
+ 	const bool atomic_enabled;
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index 5caa9191a8d1a..1079c84608a2c 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -2677,6 +2677,7 @@ static int scmi_chan_setup(struct scmi_info *info, struct device_node *of_node,
+ 	cinfo->is_p2a = !tx;
+ 	cinfo->rx_timeout_ms = info->desc->max_rx_timeout_ms;
+ 	cinfo->max_msg_size = info->desc->max_msg_size;
++	cinfo->no_completion_irq = info->desc->no_completion_irq;
+ 
+ 	/* Create a unique name for this transport device */
+ 	snprintf(name, 32, "__scmi_transport_device_%s_%02X",
+@@ -3092,6 +3093,9 @@ static const struct scmi_desc *scmi_transport_setup(struct device *dev)
+ 	if (ret && ret != -EINVAL)
+ 		dev_err(dev, "Malformed arm,max-msg DT property.\n");
+ 
++	trans->desc.no_completion_irq = of_property_read_bool(dev->of_node,
++							      "arm,poll-transport");
++
+ 	dev_info(dev,
+ 		 "SCMI max-rx-timeout: %dms / max-msg-size: %dbytes / max-msg: %d\n",
+ 		 trans->desc.max_rx_timeout_ms, trans->desc.max_msg_size,
+diff --git a/drivers/firmware/arm_scmi/transports/smc.c b/drivers/firmware/arm_scmi/transports/smc.c
+index 21abb571e4f2f..85bfab650f100 100644
+--- a/drivers/firmware/arm_scmi/transports/smc.c
++++ b/drivers/firmware/arm_scmi/transports/smc.c
+@@ -177,16 +177,18 @@ static int smc_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
+ 	 * completion of a message is signaled by an interrupt rather than by
+ 	 * the return of the SMC call.
+ 	 */
+-	scmi_info->irq = of_irq_get_byname(cdev->of_node, "a2p");
+-	if (scmi_info->irq > 0) {
+-		ret = request_irq(scmi_info->irq, smc_msg_done_isr,
+-				  IRQF_NO_SUSPEND, dev_name(dev), scmi_info);
+-		if (ret) {
+-			dev_err(dev, "failed to setup SCMI smc irq\n");
+-			return ret;
++	if (!cinfo->no_completion_irq) {
++		scmi_info->irq = of_irq_get_byname(cdev->of_node, "a2p");
++		if (scmi_info->irq > 0) {
++			ret = request_irq(scmi_info->irq, smc_msg_done_isr,
++					  IRQF_NO_SUSPEND, dev_name(dev), scmi_info);
++			if (ret) {
++				dev_err(dev, "failed to setup SCMI smc irq\n");
++				return ret;
++			}
++		} else {
++			cinfo->no_completion_irq = true;
+ 		}
+-	} else {
+-		cinfo->no_completion_irq = true;
+ 	}
+ 
+ 	scmi_info->func_id = func_id;
+-- 
+2.51.0
+
