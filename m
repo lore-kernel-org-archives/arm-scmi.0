@@ -1,56 +1,50 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE592D73B5;
-	Thu, 23 Oct 2025 12:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A737B2F1FE6;
+	Thu, 23 Oct 2025 12:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761223033; cv=none; b=N3RSAscUfaigjyFlpKsRDDBUSvZxzfsAj1+YL9f/cra/IAj0yDtNzzluvecS6L8gmeYISJL2C3x6jRvUW54UUlgD8k1Ad5OR6rBQo8HqaliwXemf8DvwGIdATP7ohBDNLhTYvgAgN2GTT7YqgPq1JUNq1QvknNlqaHRxpMSNNvU=
+	t=1761223035; cv=none; b=ib6U5TaFNCScCNKYKh/z5KWIydnvJwh7cKOklF6VkvYIkYrDS+oNAUwBD8nBhxB0rouV8vL3qppmMHcmLTJeGysDg//3gmVlanrRSgIZgkxoRdFW9312oHnz0c+ss2zxGmOQxFmUBgSCvmHe8jqcDflrROYAe5yxR/6zHv5NhtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761223033; c=relaxed/simple;
-	bh=Wr1oYdTzqRo6YQvotcE6dn0MHELFzWmzxAJ6vQ9urfE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P42s6c16EIqoVzEyEg5mRjgVYBs3t8mz/o0IIpUYR+fWut9h9r0DGdjeDmEZ3M0sDSwUhcYA0hCzRSGvbNq6s2H3rBiqOStYEavSUtP2y275LBV/yTzHeRULDUApR7mkyHieEZvynrVdD83ddZ9DXUsf4E+lLKIAbxdm6GLkyF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=veccFRIk; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Gj/YYY8O; arc=none smtp.client-ip=80.241.56.152
+	s=arc-20240116; t=1761223035; c=relaxed/simple;
+	bh=0sUfSSI7p/RnLWbtiSW3BgdQi/kAat/k6I+2C86hC6Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TNYvYuPNI0B9yp6zMmNYoZhW5XclMlkNi1YCE87wcE75BXI4mDVXBwp2UC7VvHZ0AwCOBCiYlnuBHYWnkUl+oGk34YeLeqYE8ijrkMduiPmaU929IvsGMTooLr2g7LAGbweORJTcBH2Zi720qmYHrLlNQtGjmsktxrhODWlgm7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=f7S/AOfU; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Wn5Nl7G6; arc=none smtp.client-ip=80.241.56.151
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="veccFRIk";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Gj/YYY8O"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="f7S/AOfU";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Wn5Nl7G6"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cslsc23bsz9v7B;
-	Thu, 23 Oct 2025 14:37:08 +0200 (CEST)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cslsY3Nthz9sqg;
+	Thu, 23 Oct 2025 14:37:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1761223028;
+	t=1761223025;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cUEq6RcBull/ifTwaW/9nwH/7Wp6ZcVLJhxbPx8UOdM=;
-	b=veccFRIkToJfX8y40KMHb5BiKmUwtqvyUz7rOZ04WEABQXng1Zonv7CZca9i9Ul7APNFIV
-	nIlGm76JGl0pW6FRy5EVDV8bZsYKSTVEDfYtR0MWZrswo7z7c8gS6KVp+eR6myaEQ+KA/h
-	O1x1g3Xaw3E2KUaag+S58N/zSiZ4KKJvegrvc9Ag5Y5ERVoAqu+QKDO68PMqN8VK5mzGMb
-	BrIbVbbJQ4mwAU0pIEzDXWh2GCk6m3Y7HyS+WBIS2B1hgffNJke0sZB9uCtbhICO3wu8by
-	xkCY2JlZkA8t2nduJoeXCFJ+/f4omtQSSxiyCsVXA1avjbzMIwQl0xfW4zqYkQ==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="Gj/YYY8O";
-	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6WkBUEsZXrdSrWtDBY0p0szZixzCZ3r/xfDV1TsjmXc=;
+	b=f7S/AOfUym2WSQJD+wd5aCNm4AcP9LB01v9Bhh58ON7xu620sLvUk5ROwnxbwmbLhN1Z2+
+	uBKqjPaqP6E/0fLu5zEEqrzO1NTJL9dQCffwu6oeCeKaT7B5aflKzAVxujWNjk/vLa3d6N
+	JvSp20fGFIlPFVwuj4qeenp8qfF7l8Xp4YfTI0DIQ1swq/yyQPf+wR54F/h7zrE7CLLvMH
+	GseK5unRSS1qw1gy1npHN7x9ojq1YT1pjYTJduGGBJ4VBhIdpdOVXqIhFyoUZ4t3inBk8M
+	WVTxFLE4zcZTaIaEcO4TcEZXZBPwHw2v1W0DgJDZpMB3IxqYPjTi1uLyACnrhA==
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1761223026;
+	t=1761223023;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cUEq6RcBull/ifTwaW/9nwH/7Wp6ZcVLJhxbPx8UOdM=;
-	b=Gj/YYY8O8vtWy8wwezsfQTYQuW9119m6jWJKZelGuxZ1OgbLqVx06DWDRTSrUrvg4BH3rm
-	qMXu+KepFL1cKaelxO/vRXaC/zoE1TQ/gE2j92u6AyAQUQR8lbTlUn7R5K0BKSIKM2fGhx
-	q+WT+/OvPlR556k0D3TWn18FLj/hzqpeE1SFixUS6wWn/NSiZ1ExJtXOdxZ3AIpHo8TkXA
-	Gbq6GItSOmuPyyrOGtL96UEIHIkZslJh0PIxqm5gvSLMs0ZP+kPEThfB1qla6zaWpTTu25
-	vY4658q6+pzyH8Fdyrgl6wEqhvgnR9r34k8mPUPZmL7DtgM1Lz2h3yGvOqv7zg==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6WkBUEsZXrdSrWtDBY0p0szZixzCZ3r/xfDV1TsjmXc=;
+	b=Wn5Nl7G6hP6vmCoD+qRaXIEZCLFqbYiHMmh50h/DCfCsq0FFf77PcNErjp1nsPCPWtK0bD
+	60bl5kL+31jADa0JwZOhQJNr3xg/aw0oBdNPn8eUocT2IPmjsw+3XuzxJ2In4m9AqpIqsc
+	DxAITUnhaly7YVw9rEQELxPUWmtYChtKxEW7sHbtjWO7cO9mnYARLYsQEKFWtII/hHLab9
+	0L5bF7OrZ3XjrGmTbLVTyrlHVXvYx1C1FlzAQeMOZ020fOuhz2iZwyroE8FiA7cm6HhdAB
+	hnApM0vnLoHJulQXoP/lP3Z9mQgTPLqBQ/XFfBQIxx33WLjNAD1/Mn+qzbAz4g==
 To: arm-scmi@vger.kernel.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	Conor Dooley <conor+dt@kernel.org>,
@@ -62,11 +56,9 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 2/2] firmware: arm_scmi: Implement arm,poll-transport property
-Date: Thu, 23 Oct 2025 14:35:58 +0200
-Message-ID: <20251023123644.8730-2-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20251023123644.8730-1-marek.vasut+renesas@mailbox.org>
-References: <20251023123644.8730-1-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH 1/2] dt-bindings: firmware: arm,scmi: Document arm,poll-transport property
+Date: Thu, 23 Oct 2025 14:35:57 +0200
+Message-ID: <20251023123644.8730-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -74,11 +66,10 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: dbe5eedace6910ad7e8
-X-MBO-RS-META: xycoz5xf7zpasbqw5mb4s1gwgb6s5hbw
-X-Rspamd-Queue-Id: 4cslsc23bsz9v7B
+X-MBO-RS-META: ur38htuptdf9d77rhncyiu8mnbh67gm1
+X-MBO-RS-ID: 946e3c1781cf93a3546
 
-Implement new property arm,poll-transport, which sets all SCMI operation into
+Document new property arm,poll-transport, which sets all SCMI operation into
 poll mode. This is meant to work around uncooperative SCP implementations,
 which do not generate completion interrupts. This applies primarily on mbox
 based implementations, but does also cover SMC and VirtIO ones.
@@ -86,9 +77,10 @@ based implementations, but does also cover SMC and VirtIO ones.
 With this property set, such implementations which do not generate interrupts
 can be interacted with, until they are fixed to generate interrupts properly.
 
-The SMC transport is modified such, that it ignores interrupts described in
-DT in case this property is set. This is an edge case, where the SMC transport
-may use this property to ignore broken interrupts too.
+Note that, because the original base protocol exchange also requires some
+sort of completion mechanism, it is not possible to query SCMI itself for
+this property and it must be described in DT. While this does look a bit
+like policy, the SCMI provider is part of the hardware, hence DT.
 
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
@@ -103,87 +95,27 @@ Cc: devicetree@vger.kernel.org
 Cc: linux-arm-kernel@lists.infradead.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
- drivers/firmware/arm_scmi/common.h         |  4 ++++
- drivers/firmware/arm_scmi/driver.c         |  4 ++++
- drivers/firmware/arm_scmi/transports/smc.c | 20 +++++++++++---------
- 3 files changed, 19 insertions(+), 9 deletions(-)
+ Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-index 7c35c95fddbaf..7c9617d080a02 100644
---- a/drivers/firmware/arm_scmi/common.h
-+++ b/drivers/firmware/arm_scmi/common.h
-@@ -235,6 +235,9 @@ struct scmi_transport_ops {
-  *		      to have an execution latency lesser-equal to the threshold
-  *		      should be considered for atomic mode operation: such
-  *		      decision is finally left up to the SCMI drivers.
-+ * @no_completion_irq: Flag to indicate that this transport has no completion
-+ *		       interrupt and has to be polled. This is similar to the
-+ *		       force_polling below, except this is set via DT property.
-  * @force_polling: Flag to force this whole transport to use SCMI core polling
-  *		   mechanism instead of completion interrupts even if available.
-  * @sync_cmds_completed_on_ret: Flag to indicate that the transport assures
-@@ -254,6 +257,7 @@ struct scmi_desc {
- 	int max_msg;
- 	int max_msg_size;
- 	unsigned int atomic_threshold;
-+	bool no_completion_irq;
- 	const bool force_polling;
- 	const bool sync_cmds_completed_on_ret;
- 	const bool atomic_enabled;
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 5caa9191a8d1a..1079c84608a2c 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -2677,6 +2677,7 @@ static int scmi_chan_setup(struct scmi_info *info, struct device_node *of_node,
- 	cinfo->is_p2a = !tx;
- 	cinfo->rx_timeout_ms = info->desc->max_rx_timeout_ms;
- 	cinfo->max_msg_size = info->desc->max_msg_size;
-+	cinfo->no_completion_irq = info->desc->no_completion_irq;
+diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+index be817fd9cc34b..b53754a318ea1 100644
+--- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
++++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+@@ -146,6 +146,13 @@ properties:
+       this platform. If set, the value should be non-zero.
+     minimum: 1
  
- 	/* Create a unique name for this transport device */
- 	snprintf(name, 32, "__scmi_transport_device_%s_%02X",
-@@ -3092,6 +3093,9 @@ static const struct scmi_desc *scmi_transport_setup(struct device *dev)
- 	if (ret && ret != -EINVAL)
- 		dev_err(dev, "Malformed arm,max-msg DT property.\n");
- 
-+	trans->desc.no_completion_irq = of_property_read_bool(dev->of_node,
-+							      "arm,poll-transport");
++  arm,poll-transport:
++    type: boolean
++    description:
++      An optional property which unconditionally forces polling in all transports.
++      This is mainly mean to work around uncooperative SCP, which does not generate
++      completion interrupts.
 +
- 	dev_info(dev,
- 		 "SCMI max-rx-timeout: %dms / max-msg-size: %dbytes / max-msg: %d\n",
- 		 trans->desc.max_rx_timeout_ms, trans->desc.max_msg_size,
-diff --git a/drivers/firmware/arm_scmi/transports/smc.c b/drivers/firmware/arm_scmi/transports/smc.c
-index 21abb571e4f2f..85bfab650f100 100644
---- a/drivers/firmware/arm_scmi/transports/smc.c
-+++ b/drivers/firmware/arm_scmi/transports/smc.c
-@@ -177,16 +177,18 @@ static int smc_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
- 	 * completion of a message is signaled by an interrupt rather than by
- 	 * the return of the SMC call.
- 	 */
--	scmi_info->irq = of_irq_get_byname(cdev->of_node, "a2p");
--	if (scmi_info->irq > 0) {
--		ret = request_irq(scmi_info->irq, smc_msg_done_isr,
--				  IRQF_NO_SUSPEND, dev_name(dev), scmi_info);
--		if (ret) {
--			dev_err(dev, "failed to setup SCMI smc irq\n");
--			return ret;
-+	if (!cinfo->no_completion_irq) {
-+		scmi_info->irq = of_irq_get_byname(cdev->of_node, "a2p");
-+		if (scmi_info->irq > 0) {
-+			ret = request_irq(scmi_info->irq, smc_msg_done_isr,
-+					  IRQF_NO_SUSPEND, dev_name(dev), scmi_info);
-+			if (ret) {
-+				dev_err(dev, "failed to setup SCMI smc irq\n");
-+				return ret;
-+			}
-+		} else {
-+			cinfo->no_completion_irq = true;
- 		}
--	} else {
--		cinfo->no_completion_irq = true;
- 	}
- 
- 	scmi_info->func_id = func_id;
+   arm,smc-id:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     description:
 -- 
 2.51.0
 
