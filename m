@@ -1,192 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE902DF15E;
-	Sun, 26 Oct 2025 14:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC4B273D77
+	for <arm-scmi@vger.kernel.org>; Sun, 26 Oct 2025 23:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761490285; cv=none; b=s1K+mlOZjZsZoAmK3hNhxwEXJtKo0+KaLM5odcUX1OLkQm4nOBH/eRd1Du1wfWPvPQzR/HBGnV7DIR5m5jdkAt1Mc966RYk0FYJ1Bh4iu9OvmLA5UqwKaeFzrydnxUh0Ih0FGxUelthvk8hIlDW67GB/Tw08fIEHnvycpp5L2/g=
+	t=1761520583; cv=none; b=qzCs4i6CKnlI7woCxOAF/QYctgvCQsviKOe3ut0G/CcbqF5bEnBB0tEME6dfQasKu4Zqv7WkAoMyKf6clyZRloVUUwNPhIL/V6a3Z4CcxK8HUk4NnBP2Ms+ZOGZmp477WvV7oFb3nMy8YYKzKgS2/QWBOBJy2FUKdVPazrT1PvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761490285; c=relaxed/simple;
-	bh=zcvqXRuTUF9jQBSa3cAUl/qxhCMKR5cmmCS0GeuQS14=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=umtvvDXcUPvFGZS6oTQZojogHQNtouSlpOdYK/mnG01ky4XZpN9V1k/MFWkfqtF0++mlNdDGSGTnG2+d4eohLeVqRKYZYlyaG+kkys23gunYSNFQntbSqlEDWRV405tSUbcFFqJ4jmXQ16K004n/DJ+ka1cPP0oR/Qkuy1DhNQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XUgZ4DWL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761520583; c=relaxed/simple;
+	bh=KQ6oL4hiz75C/A8/vFj2v/R+XXo7kpXKDEDVyBnk9ug=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=qFRTaQxsGM0Q1htVCjTJuWRTO5T5ZllwyObPNpYsg6cMz9XyYX/PrWQ2Q3x5GcHney3KeeWOJ3/WcvuQv4TuVseAqZo2DoBgUIdmqkf6D6XUrg5b8hMThqQ1/aPRzaUiaunr260GFVSbFK4pFADoQ9h6/SkXQ/zhCgddCmni8fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RPJDCQYR; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XUgZ4DWL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E9A2C116B1;
-	Sun, 26 Oct 2025 14:51:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761490284;
-	bh=zcvqXRuTUF9jQBSa3cAUl/qxhCMKR5cmmCS0GeuQS14=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XUgZ4DWLbQfcPvJj2d5ZHUbufuCTKqlo+aHoe2pu1AaF1S2YsgMWhWUDqLk0bSMZF
-	 ABNRXeF2cq5jh4snF600YVPQSvai2+nLnoLQ7lBouHwN1oHes1lI5ZOidG++H8uBUk
-	 vR3TVVTe6ENdc7PV/Z/AAKZfm6CEs7v0a2Qv2hxvxigGw4rQJ6woHPqYv5gbDULPrs
-	 JgyHv9QPve0X+3dfopKoWCKfnk5ab2qqqjqZeWGfOBzrIhxo34qKxmjFvCr6lggMt/
-	 +8ZdtCFrnPfqT/t4oJzA07Cit5XVpbR+MgOg/QlJsCAzq+Lkj+LVSkbbCcgwLY8IW1
-	 sRjnaDM9bQgtw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Brian Masney <bmasney@redhat.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Peng Fan <peng.fan@nxp.com>,
-	Sasha Levin <sashal@kernel.org>,
-	mturquette@baylibre.com,
-	sboyd@kernel.org,
-	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-clk@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.17-6.12] clk: scmi: migrate round_rate() to determine_rate()
-Date: Sun, 26 Oct 2025 10:49:17 -0400
-Message-ID: <20251026144958.26750-39-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251026144958.26750-1-sashal@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RPJDCQYR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1761520580;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TM9g2J61qUgy8rn11tUgr2Kr+gynrxk9ajK18D17/SY=;
+	b=RPJDCQYRhVLFsadMNhgBG19pz3iarfNc8xA24kPqVsz/1YivTlvNktdaKCQ9kaIOcLUxXM
+	pCRsFOPGobAH6gKDiNfJSsJEkHxiKLSO3YYgGLBqyuydxaeMSmP/R5WNguJ5yYYrxc2k39
+	qHYjdrBoNgur430TBoSwBdqDK4cq4uw=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-663-HwjO4IUqMlem8falVRSWPg-1; Sun, 26 Oct 2025 19:16:19 -0400
+X-MC-Unique: HwjO4IUqMlem8falVRSWPg-1
+X-Mimecast-MFC-AGG-ID: HwjO4IUqMlem8falVRSWPg_1761520579
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8a2594fa114so256970985a.0
+        for <arm-scmi@vger.kernel.org>; Sun, 26 Oct 2025 16:16:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761520579; x=1762125379;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TM9g2J61qUgy8rn11tUgr2Kr+gynrxk9ajK18D17/SY=;
+        b=v2ff1q6OS1ZRB2flhINoit/jvkGmuhWqVStEJdNAhtNInhZeV/BmabkpRUBjKvVbu7
+         Y3CmiDaAjSe0KCxnjSRYeL+5dpcfoCNbcrDgcnJj2DAsRNJK9YY+kvw5pR8+0lNcSvf3
+         cSvN/M2+1KBZSa5qgT4LPiVL21oAScD4+A5PeSz1/zIoaxsOY5QTuMJiadiEQaWjkG6R
+         YgUaNVSj9RnQUUtvYdjHB2ANBpDUhz64cpU47JVlCwlGaL1/SB2QV+X1SKdcYhgZHgHG
+         M/+9UNERdfaz3icR0HtuZSsV1N2eaUq6i6WSUmrcOKoaZAXRoH+Z0KUznaLqQhfGBeab
+         RdHw==
+X-Forwarded-Encrypted: i=1; AJvYcCVV+V1IGEoc9QmWuR+0acdy1mn5oR9HMo1jNC40Q2XvB8ULPukYPYu+C6/nSdKpKDkGQMF9KRhumQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrKrQOWQdazgJIXdnv7XyUExpSIl7Y0jdafPPEoctX9yLQNORh
+	A0v4M+2c7NZfCjVmsNxMSc2EjxLoKfhMYXYxvNEZPLsJTy9CryXMtprtUmh5p+IVt8Db+zoH3wu
+	V7+1ZD8abv4QngL2HFDgxr4SJmZnxq/eHJ2NvRLDM0CbLdnVhmlHJ0XBQ4pTQ
+X-Gm-Gg: ASbGncs1xl3JAAt/3fQsLPQWHuYbtai+SOlxZnbnqQVcS0Yz2sElQUwUFm0kMN2at+G
+	4sFBMNhjzIEAPBYPkyVAay7Xo9Y6mSbn93J+MoGVNT32yCa8daeLZDJPJSev73/BMsgmmme7YMo
+	YyQuaJbShAsJWiTdNClXBXxy+n/5eNhVGyfb0dXXnQgYkAfOwJvdvta2NyyMpTS3/eyzOl/w5fY
+	pgAEf5rJ364UFdu5+IKnAXyB7gci3n4iDQR0EIZsE9Z8Z54+eeLzmgTnsUkNb2HCUdatubYIZ4C
+	a8GDNln8wZJ+BcvX40LAXJAzGzEMdKtz0sqcJwo6qJM/X7w4mcQQEyCJsJvMnhAsxg3P5VOYWTO
+	3ZTJAGSx4yw2sBnOt+lsKfdJTSr9S
+X-Received: by 2002:a05:620a:4454:b0:809:b21:5421 with SMTP id af79cd13be357-89da1bae914mr1370444085a.39.1761520578744;
+        Sun, 26 Oct 2025 16:16:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE0exW7QsnW96XJU3LfmVTRq5OXRYKfDNXF9pTY84ykGNprSECOl2LKm846J2PimjM64qIFow==
+X-Received: by 2002:a05:620a:4454:b0:809:b21:5421 with SMTP id af79cd13be357-89da1bae914mr1370441885a.39.1761520578329;
+        Sun, 26 Oct 2025 16:16:18 -0700 (PDT)
+Received: from redhat.com ([2600:382:7702:71bf:259:17c7:d468:3f55])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-89f2421fc6fsm435746185a.9.2025.10.26.16.16.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Oct 2025 16:16:17 -0700 (PDT)
+Date: Sun, 26 Oct 2025 19:16:13 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: patches@lists.linux.dev, stable@vger.kernel.org,
+	Sudeep Holla <sudeep.holla@arm.com>, Peng Fan <peng.fan@nxp.com>,
+	mturquette@baylibre.com, sboyd@kernel.org, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 6.17-6.12] clk: scmi: migrate round_rate() to
+ determine_rate()
+Message-ID: <aP6rvQD-bwSkhfU5@redhat.com>
 References: <20251026144958.26750-1-sashal@kernel.org>
+ <20251026144958.26750-39-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.17.5
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251026144958.26750-39-sashal@kernel.org>
+User-Agent: Mutt/2.2.14 (2025-02-20)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Zu2xl9UTjv_ZkWzLbcc_tsXvZE_Y2onQRuQq2w-BeBg_1761520579
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Brian Masney <bmasney@redhat.com>
+Hi Sasha,
 
-[ Upstream commit 80cb2b6edd8368f7e1e8bf2f66aabf57aa7de4b7 ]
+On Sun, Oct 26, 2025 at 10:49:17AM -0400, Sasha Levin wrote:
+> From: Brian Masney <bmasney@redhat.com>
+> 
+> [ Upstream commit 80cb2b6edd8368f7e1e8bf2f66aabf57aa7de4b7 ]
+> 
+> This driver implements both the determine_rate() and round_rate() clk
+> ops, and the round_rate() clk ops is deprecated. When both are defined,
+> clk_core_determine_round_nolock() from the clk core will only use the
+> determine_rate() clk ops.
+> 
+> The existing scmi_clk_determine_rate() is a noop implementation that
+> lets the firmware round the rate as appropriate. Drop the existing
+> determine_rate implementation and convert the existing round_rate()
+> implementation over to determine_rate().
+> 
+> scmi_clk_determine_rate() was added recently when the clock parent
+> support was added, so it's not expected that this change will regress
+> anything.
+> 
+> Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
+> Reviewed-by: Peng Fan <peng.fan@nxp.com>
+> Tested-by: Peng Fan <peng.fan@nxp.com> #i.MX95-19x19-EVK
+> Signed-off-by: Brian Masney <bmasney@redhat.com>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-This driver implements both the determine_rate() and round_rate() clk
-ops, and the round_rate() clk ops is deprecated. When both are defined,
-clk_core_determine_round_nolock() from the clk core will only use the
-determine_rate() clk ops.
+Please drop this commit from all stable backports.
 
-The existing scmi_clk_determine_rate() is a noop implementation that
-lets the firmware round the rate as appropriate. Drop the existing
-determine_rate implementation and convert the existing round_rate()
-implementation over to determine_rate().
+Thanks,
 
-scmi_clk_determine_rate() was added recently when the clock parent
-support was added, so it's not expected that this change will regress
-anything.
-
-Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
-Reviewed-by: Peng Fan <peng.fan@nxp.com>
-Tested-by: Peng Fan <peng.fan@nxp.com> #i.MX95-19x19-EVK
-Signed-off-by: Brian Masney <bmasney@redhat.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-LLM Generated explanations, may be completely bogus:
-
-YES The patch restores the SCMI clock driver's ability to return a valid
-rounded rate when the framework asks for it.
-
-- With the regression-introducing stub in `scmi_clk_determine_rate()`
-  every request fell through without touching `req->rate`, so
-  `clk_core_determine_round_nolock()` would return the caller’s original
-  value whenever both ops were present (`drivers/clk/clk.c:1596-1613`),
-  making `clk_round_rate()` lie about the hardware outcome on platforms
-  that advertise min/max/step limits.
-- The new implementation in `drivers/clk/clk-scmi.c:57-90` moves the
-  logic that used to live in `.round_rate()` into `.determine_rate()`,
-  clamping to `min_rate`/`max_rate` and quantising by `step_size`,
-  exactly reproducing the behaviour that worked before the noop
-  `determine_rate()` was introduced.
-- Discrete-rate clocks remain unchanged—the function still bails out
-  early (`drivers/clk/clk-scmi.c:63-71`), matching the old behaviour—and
-  the ops table simply stops advertising the deprecated `.round_rate()`
-  callback (`drivers/clk/clk-scmi.c:299-304`), so risk is minimal and
-  confined to SCMI clocks.
-- The bug has shipped since the recent parent-support work (first seen
-  in v6.10), so stable kernels carrying that change are returning
-  incorrect values to consumers today.
-
-Because this is a regression fix with low risk and no architectural
-churn, it is a good candidate for backporting to every stable series
-that contains the broken noop `determine_rate()`.
-
- drivers/clk/clk-scmi.c | 35 ++++++++++++++++-------------------
- 1 file changed, 16 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/clk/clk-scmi.c b/drivers/clk/clk-scmi.c
-index d2408403283fc..78dd2d9c7cabd 100644
---- a/drivers/clk/clk-scmi.c
-+++ b/drivers/clk/clk-scmi.c
-@@ -54,8 +54,8 @@ static unsigned long scmi_clk_recalc_rate(struct clk_hw *hw,
- 	return rate;
- }
- 
--static long scmi_clk_round_rate(struct clk_hw *hw, unsigned long rate,
--				unsigned long *parent_rate)
-+static int scmi_clk_determine_rate(struct clk_hw *hw,
-+				   struct clk_rate_request *req)
- {
- 	u64 fmin, fmax, ftmp;
- 	struct scmi_clk *clk = to_scmi_clk(hw);
-@@ -67,20 +67,27 @@ static long scmi_clk_round_rate(struct clk_hw *hw, unsigned long rate,
- 	 * running at then.
- 	 */
- 	if (clk->info->rate_discrete)
--		return rate;
-+		return 0;
- 
- 	fmin = clk->info->range.min_rate;
- 	fmax = clk->info->range.max_rate;
--	if (rate <= fmin)
--		return fmin;
--	else if (rate >= fmax)
--		return fmax;
-+	if (req->rate <= fmin) {
-+		req->rate = fmin;
-+
-+		return 0;
-+	} else if (req->rate >= fmax) {
-+		req->rate = fmax;
- 
--	ftmp = rate - fmin;
-+		return 0;
-+	}
-+
-+	ftmp = req->rate - fmin;
- 	ftmp += clk->info->range.step_size - 1; /* to round up */
- 	do_div(ftmp, clk->info->range.step_size);
- 
--	return ftmp * clk->info->range.step_size + fmin;
-+	req->rate = ftmp * clk->info->range.step_size + fmin;
-+
-+	return 0;
- }
- 
- static int scmi_clk_set_rate(struct clk_hw *hw, unsigned long rate,
-@@ -119,15 +126,6 @@ static u8 scmi_clk_get_parent(struct clk_hw *hw)
- 	return p_idx;
- }
- 
--static int scmi_clk_determine_rate(struct clk_hw *hw, struct clk_rate_request *req)
--{
--	/*
--	 * Suppose all the requested rates are supported, and let firmware
--	 * to handle the left work.
--	 */
--	return 0;
--}
--
- static int scmi_clk_enable(struct clk_hw *hw)
- {
- 	struct scmi_clk *clk = to_scmi_clk(hw);
-@@ -300,7 +298,6 @@ scmi_clk_ops_alloc(struct device *dev, unsigned long feats_key)
- 
- 	/* Rate ops */
- 	ops->recalc_rate = scmi_clk_recalc_rate;
--	ops->round_rate = scmi_clk_round_rate;
- 	ops->determine_rate = scmi_clk_determine_rate;
- 	if (feats_key & BIT(SCMI_CLK_RATE_CTRL_SUPPORTED))
- 		ops->set_rate = scmi_clk_set_rate;
--- 
-2.51.0
+Brian
 
