@@ -1,39 +1,25 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 187C828489E;
-	Wed, 29 Oct 2025 00:37:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFEA02D46A1;
+	Wed, 29 Oct 2025 09:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761698253; cv=none; b=A9iAeo+7bH+Oti4WiNk6oJz4f3iGMcTYGy7i07YHJhIM0F4Dss+/3Q0Ixi8ZVVcWrB7zKldOr3N/wlOjX7KifACM3lOcAi/u5vDF4hH94wnzenhsfJh8SvmupyicJxcDQE25lLoWwUCP67xZXh/5gBV3yTUsohdmz2X7ckQzzfc=
+	t=1761728434; cv=none; b=JKIoyBjnMHJ7QC78rLMWnBL/ITGj03SDpXFz0D/PgGEOkH4XohS5DBz9SxWNgey+OQf8swX+8Q+/obzJQU9mjulb5cLulJSpzVIPKqmCRrqPadIcvyVhNbIKqnO9r0NkfUIIH2yMUR/FAOMVXt5IV9X80zlPVk0iRIS6P0k3Njk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761698253; c=relaxed/simple;
-	bh=n4U5sktTWDNfljsftyz9lEtPPFzgeB/BYQXUA+Vu5Nc=;
+	s=arc-20240116; t=1761728434; c=relaxed/simple;
+	bh=6CFkJz4ydlkqTa25ChD49yEx481uFMJXakRCvwZ0Jl0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MsStRcPJ6UON9s8pRQB7pPiZgxu+5som5ca1Ju+jS76H/OYjTsnuW5xWTnyLpdXx+9WN1VXKORdriAHY+YfgoLbFyUCXVlLJ7YJaPxgpi00tPUyf0NeXKaO8p/XKwx5cjG0KabXoXmaKXNWha47+fw4MxlMv2lODdzS4ULloMM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=dqjShmvh; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="dqjShmvh"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=pvFBzg0ivoS4HqTxLkoVPFh0lZtIc5fGtLrqfQHAED4=; b=dqjShmvhGXzhonzvXmF1g6445N
-	Xfp1gZxMGtPqxvDlbOqT414S+n9Rn7T+wH8fQvM8X4eoJhuIPqjQTr7DJqgTgz5Ejlbx/XxSOY4cE
-	tbnC9r57ZxkQzODIKk9c+9hl0op1nb78H3KcNz0253wwMJQ0jsjOTX4CrkuQOcWJajH9oru3ZAbte
-	az+f/u2x/AUiZaXBfnovvQ0fr8+btNX7B4NTsjkHmASeHbOrvktU4qFl4Hn4/dOwINRF/MibSXYqq
-	J66B5JqiCdxWhWhQk5bdd7Hg4fqHeftZzdZFe2tDTHzHwD3E63Wzj0ZK68aew95eoLe7bq0p2Oha9
-	zx9Pe8OQ==;
-Received: from [58.29.143.236] (helo=[192.168.1.7])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1vDuBh-00GOeg-CP; Wed, 29 Oct 2025 01:37:17 +0100
-Message-ID: <819e3c75-9831-4190-aa01-e76aed423460@igalia.com>
-Date: Wed, 29 Oct 2025 09:37:02 +0900
+	 In-Reply-To:Content-Type; b=aHR9vJmlyPnY7aqKS3TX6q0uRYt9Q2GpsvGXbdFpDz+6aFlioJLcFzj/NtQGP/Hm9dMqPtwko2K/7EXmlZ3B1a6jRcZh/5ID6t5B5S+aT6GsNtmAH4rjprqpHMQp44oaXUbXglHMyjnTgn+fyL4IpUCXhqDjnLqNuiRwVy4g7M0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 468A61AC1;
+	Wed, 29 Oct 2025 02:00:17 -0700 (PDT)
+Received: from [10.57.38.252] (unknown [10.57.38.252])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DE3563F63F;
+	Wed, 29 Oct 2025 02:00:22 -0700 (PDT)
+Message-ID: <40c2f7d9-23cf-4536-a1b1-0a55a0707830@arm.com>
+Date: Wed, 29 Oct 2025 09:00:55 +0000
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -42,27 +28,24 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH RFC] PM: EM: Add to em_pd_list only when no failure
-To: Peng Fan <peng.fan@nxp.com>, Lukasz Luba <lukasz.luba@arm.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Len Brown <lenb@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Sudeep Holla <sudeep.holla@arm.com>,
- Cristian Marussi <cristian.marussi@arm.com>
-Cc: arm-scmi@vger.kernel.org, "Rafael J. Wysocki"
- <rafael.j.wysocki@intel.com>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org
+To: Peng Fan <peng.fan@nxp.com>
+Cc: arm-scmi@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>,
+ Pavel Machek <pavel@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Len Brown <lenb@kernel.org>,
+ Changwoo Min <changwoo@igalia.com>
 References: <20251028-fix-energy-v1-1-ab854fd6a97c@nxp.com>
-From: Changwoo Min <changwoo@igalia.com>
-Content-Language: en-US, ko-KR, en-US-large, ko
+Content-Language: en-US
+From: Lukasz Luba <lukasz.luba@arm.com>
 In-Reply-To: <20251028-fix-energy-v1-1-ab854fd6a97c@nxp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Thanks, Peng, for catching this. This makes sense.
-So, feel free to add:
 
-Reviewed-by: Changwoo Min <changwoo@igalia.com>
 
-On 10/28/25 23:23, Peng Fan wrote:
+On 10/28/25 14:23, Peng Fan wrote:
 > When em_create_perf_table() returns failure, pd is freed, there dev->em_pd
 > is not valid. Then accessing dev->em_pd->node will trigger kernel panic
 > in em_dev_register_pd_no_update(). So return early if 'ret' is non-zero.
@@ -125,3 +108,7 @@ On 10/28/25 23:23, Peng Fan wrote:
 > 
 > Best regards,
 
+
+Thank you for the patch!
+
+Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>
