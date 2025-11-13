@@ -1,33 +1,34 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A25D3321D0;
-	Thu, 13 Nov 2025 10:51:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A65F2D0607;
+	Thu, 13 Nov 2025 10:56:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763031119; cv=none; b=fG/vLeA9+9URf6pECHj6gOmyacbm+ylz/rwotiyIRG621CTJ0rg0MqS4YZpL3jI6P3nO8Y+UXBMT+s5UWtx6sxzYdKD9wQGS0tjkvFUl70RqafrFsRSR9GFDHpwN47qjOF8yhDfbEnWXlMNU1xOBHnhtgBQptLFeI55gz+rIt6E=
+	t=1763031419; cv=none; b=pYzPnnR8OZus4TKciKSB8V6jufY88LvxrVczcg6qclLr5k79q59wcMWG6VGS17Gm3EUSO6C/UEiIINkFua3yE1uVKRpiEds9z29hZ1BCeYmZRpy4rACxq3F8X8BGa7kRRwI/DUnD7VuY3r/Q1TlNJ5vALRI99GF0hl2N4R3ajAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763031119; c=relaxed/simple;
-	bh=TMalLOBJ2Ps+T1mVeULqAsJxSVmOVKoC84RboHyKnMU=;
+	s=arc-20240116; t=1763031419; c=relaxed/simple;
+	bh=TN+Yss/PGQXw+pmsl/tUfZ9rVvg5CW2bGw7CVE/qd0o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JwWqAIzstP2gHfMNeQqT7rKmriXohezOKbBqlluQ1EqmyrvtTGyNnsbNyHtenLmf3TXAZsMRYcS1bPUs2w96SN8Y/e9lIF6jwcNqZmEUIiv1ofYsf7leRmAEDRIxLe43mjHyxwuy9Ppk6WD5shr7x7BGt0y9DIz1qbgNal0YlS0=
+	 Content-Type:Content-Disposition:In-Reply-To; b=nwOZTDerT2X2sms6gUcRw7XHxcIJ/V7oGQVONAViVcMxZQVQXYAIXp8yuwnp85geNiO2hI/eMHdhsgbODtcNuJrSAcCZT/StIEext65fgcX8GrLFccNIdGyE0m1TORKibkTi7+K/ErQV4a3wcGSujGXoJJ4FTSbJGsD49oIyS3o=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A4F7412FC;
-	Thu, 13 Nov 2025 02:51:48 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 259DB1477;
+	Thu, 13 Nov 2025 02:56:49 -0800 (PST)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 49EE73F66E;
-	Thu, 13 Nov 2025 02:51:55 -0800 (PST)
-Date: Thu, 13 Nov 2025 10:51:42 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D24CB3F792;
+	Thu, 13 Nov 2025 02:56:55 -0800 (PST)
+Date: Thu, 13 Nov 2025 10:56:53 +0000
 From: Cristian Marussi <cristian.marussi@arm.com>
-To: Artem Shimko <a.shimko.dev@gmail.com>
+To: Ally Heev <allyheev@gmail.com>
 Cc: Sudeep Holla <sudeep.holla@arm.com>,
 	Cristian Marussi <cristian.marussi@arm.com>,
 	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] scmi: reset: validate number of reset domains
-Message-ID: <aRW4PpPjVw1-melm@pluto>
-References: <20251103161044.2269377-1-a.shimko.dev@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Dan Carpenter <dan.carpenter@linaro.org>
+Subject: Re: [PATCH] arm: fix uninitialized pointers with free attr
+Message-ID: <aRW5dWxhosQzqiCF@pluto>
+References: <20251105-aheev-uninitialized-free-attr-arm-v1-1-f7b6cb5d3361@gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -36,51 +37,27 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251103161044.2269377-1-a.shimko.dev@gmail.com>
+In-Reply-To: <20251105-aheev-uninitialized-free-attr-arm-v1-1-f7b6cb5d3361@gmail.com>
 
-On Mon, Nov 03, 2025 at 07:10:43PM +0300, Artem Shimko wrote:
-> Add validation to reject zero reset domains during protocol initialization.
-> 
+On Wed, Nov 05, 2025 at 07:37:52PM +0530, Ally Heev wrote:
+> Uninitialized pointers with `__free` attribute can cause undefined
+> behaviour as the memory assigned(randomly) to the pointer is freed
+> automatically when the pointer goes out of scope
 
-Hi Artem,
-
-> The fix adds an explicit check for zero domains in
-> scmi_reset_protocol_init(), returning -EINVAL early during protocol
-> initialization. This prevents the driver from proceeding with a
-> non-functional state and avoids potential kernel panics in functions
-> like scmi_reset_domain_reset() and scmi_reset_notify_supported() that
-> assume dom_info is always valid.
-
-Indeed, this was alreay spotted/reported/fixed in other protocols, but
-the preferred solution is NOT to bail-out when there are ZERO domains,
-but to carry-on WITHOUT crashing of course: the reason for this is
-testing scenarios in which you can have a platform/FW reply with ZERO
-domains.
+Hi,
 
 > 
-> The change is minimal and safe, affecting only the error case while
-> preserving all existing functionality for valid configurations.
-> The existing -ENOMEM handling for memory allocation remains unchanged
-> and sufficient.
+> arm doesn't have any bugs related to this as of now, but
+> it is better to initialize and assign pointers with `__free` attr
+> in one statement to ensure proper scope-based cleanup
 >
 
-In fact if you look at the code there are already a lot of places in
-reset.c where the code path is anyway guarded by num_domains so it is
-NOT problematic.
+Thanks for this, I agree that it is better to stick to the intended
+usage-pattern in order to avoid future issues when the nearby code
+changes; for this reason I would also NOT add a Fix tag (...like you
+effectively did NOT...just to clarify why :P)
 
-There are, though, other places where the dom-> dereference is NOT
-protected and those could be probelematic.
-
-Have you seen any crash related to this for real when zero num_domains
-are reported ?
-
-Anyway, it would be good to harden the protocol code as already done
-a bit in other protocols in the past, but I advise you to lookup in
-perf.c the scmi_perf_domain_lookup() helper as an example and see
-how it used across perf to address a similar scenario and adopt the
-same solution for reset in order to harden the code while preserving
-the possibility to initialize the protocol even with ZERO domains for
-testing purposes.
+Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
 
 Thanks,
 Cristian
