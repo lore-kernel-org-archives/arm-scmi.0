@@ -1,112 +1,102 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2BFA1F16B
-	for <arm-scmi@vger.kernel.org>; Thu, 20 Nov 2025 01:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4F32DE711
+	for <arm-scmi@vger.kernel.org>; Thu, 20 Nov 2025 10:41:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763600503; cv=none; b=s1u2XXg4gihdZb5+TdOnror3kmSSXTjDwADJUUNO2nV+0AMNkFwKRBgPvqrZ/GBKKKSdRfILg3bvQibYsfd1oBk3KbtgSUMBNnGbvnDVeDSM1urjCFG7s82BE2/DFVXQN7FeMAtOs1/h3o/wQtPRla/nZ2LHfV/CCLRov4z+utY=
+	t=1763635267; cv=none; b=RK2UcfRxswuY4ch5fyt/jSDlLBaiwkibz3MX9RtAxfeE5lNrW3OJzoHXF9iN+daSOdBmgYrHuK38DHqfcxXu8lYVQ1peMpG4fjJtn1ZoH3OExgdQP7c8HQkv+0P0hFY89nE7rBjBLL28UBEEoQXKeZ/hiYFacsLMgh8JEmBWZ64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763600503; c=relaxed/simple;
-	bh=S1kXvrn93cUEzs6slAKgNy4bH/LtAkdBKIXZyolnmdQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=tqAX3lduO5RGfiAZJUsyx5OaLeZVMdhvqAr0BdG42i1nDFbrXWE7BvlAweFH94l9Oa8ASgaxtF2RGBu60z3SUiAtRJyDTGFwv1n/p0yqHwnu2wbIqmsRktCmiYQ+N8Crq1Qv2M1BuCnZfUfIBpmaEhVUx1auoWs5n+hVG9qSy1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=lhzTm0Qc; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1763635267; c=relaxed/simple;
+	bh=io0yQaa1iknMZ7l3/uqh69Bqn+IbEs5aipi1mxEhbhU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GMGUSni7lDIMCDCPTmfTnGQDCyq1NeZPsvXmdVLQIccpiThoeDGkogjDxJ5NtNuyfpxLfLHSl0PoarsFH9smyJEyBBMXHl1fZc9k3Q0XschKznKTXvvYuIa67VHt/t0tX2/Xd4E6aojWZmB3i/V+TykG6czAs+6hv2xEtUMsAIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZVWYZX+J; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="lhzTm0Qc"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-297dd95ffe4so2924875ad.3
-        for <arm-scmi@vger.kernel.org>; Wed, 19 Nov 2025 17:01:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZVWYZX+J"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4779ce2a624so6410935e9.2
+        for <arm-scmi@vger.kernel.org>; Thu, 20 Nov 2025 02:41:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1763600501; x=1764205301; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eIEhL4VxM7ghK2mG+iC47nZUgip1BfB1tOdqThTNDgY=;
-        b=lhzTm0QcxdqtPS1J4JbnNJt5ajkk/hdh8WuxmYfXVUw6pTKP4b7vU9lTFeGD+su3/z
-         NRToEiG/D2qjElPhlJJfpMSPKwTHb9Rrn+At8Cpx/rb+8eVihs0OtC/Un+VRDfvWQHrS
-         Hb7NxJq3md3oYXu3Ur6IcahIUxJy7ZYlVCOSPZ4p15/xsSQy9Q34fs4s6eY1DMsW1kQC
-         H7k1++cuV+0ollpGjg9sABJNGiaPK8bM2G2x5dofh/X7G1sLslw5ObHR0FCfv4RAul0h
-         T6dCEZEAsAvDz2i6ICXTCZVxZ9HPuebPbdIlQjpXN3lDeKTvjTJ70SQlPtx1ILYLOBd3
-         G7hQ==
+        d=linaro.org; s=google; t=1763635264; x=1764240064; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6mgwJ/4Ukd3943JvYrBsHnnqudEXP4H0GnoIDUoRcjc=;
+        b=ZVWYZX+JN/f8iDmjZp5yg2RjaIzZd2mokkn/eUWWs8lsP+0CaW6MejDN7PO+TeXplv
+         5mTNyCO27siIgDdmJFyLxK0fDDrRDc6Dz8vmfExrPt/tQGClM1lixolhBVnF8fk7pTHb
+         bvGjbX1+7sKQZ7DggPqMAggGWKNnj0j9YgLG2PHrLgR5Z39qN8ZCzlnwKqq2hkxd/B35
+         J8mTU6t2kHgH2b4OuQdTkj4ImqR1WUzFPwvuiPA6WAfHqCvAI7uSmqTZ8vGAkjWCqPcU
+         msPEAPWobedjWDKH9Z+0fKmdOlkMMQuGYd2aRMksXP8huVUGatKaltpwyEpEYsKQmkvy
+         mrlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763600501; x=1764205301;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eIEhL4VxM7ghK2mG+iC47nZUgip1BfB1tOdqThTNDgY=;
-        b=bW5Ej1QcDQ0XnrD0mJfDkYFH0WQyVbAgH0f2JbrcnZ3SMm/sA/Yxuu5ZwBhLCWRR0o
-         jcfSw+AehXQQg7ouhSqXU39Z7KW0Msg/13VqAuRVR+Ft1WMawtzEClOAL4XdT6GPB01j
-         NpuywZ16aka0skubxOQAmY5EkQylbkmANIeWgKBpdspvV0OCC6EoZ5nVVBEgek7AO2kM
-         Vng5umrMagVi0gTu5njjErCH0dg4/LM2NQRjMG47Rh2fNLyJ3hNYmeEZQebAym+So0ZD
-         qolHDyakC8eQy6KfyXYehIGO1OFcsJjNFUOzHpjJyx+ZrgkNoPZ6/NblteCkp838aDe5
-         RJ/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWYFLQFXM3+utMwgpqy0GmgEEiYhVZdpPKMKcu6oqxFFPWfCPKu6aegheh07YA8c/XAD7R6Y4/mDw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGhRM/8vO5t63J0H2GkzKlfa6F4dEzWfnewCDDDa6W+zinTuth
-	c23KMXGLq2nkXtBUKaikls2J3t+9Iyl1Uo7J99hkGn3m6yWcG5ScmsX2ont4o8Iwj7s=
-X-Gm-Gg: ASbGnctoCCVAnztKSRUILOl1+gYPX/NsTsel7LJ8hKW5S2fbgy0Y3V9OmeQOSYKhs07
-	PlTz6bSVJKDie5BiqPaPn7FsytUhXqwZIvPr5l0zSMtyZdB8br1BNiZuSGvgnh8dlAs7HwQpk4F
-	hJgXO0CBXLXWdszUbi8uJCWba7j7XpLjzP8lfgmXixL0C3ytPHSnvuCcMxMCwWTwf3E+8aZq46C
-	guy6cTcCillydwH+mEaWK62Uph42KTbM0LgjEJSOkM6xbntcrh1zHK0iCruL5nEgOFnLyV8hOTA
-	4Y8gWMv4+D0q69eR5yBWJFdW97clZNqDaQ+se/mLq19Tj5AGC2OIx6enfATGN0oHSY9yC8tAwDw
-	LCCgce6f0P70zSpOLDhRV1gs24b/u7cMtZuLwqL1XIMnCUuK/rgoZwsBM3Z74n54xgZzC1y2nAC
-	tutlD1rPZt97m6MtTtpwk=
-X-Google-Smtp-Source: AGHT+IEqw78cftsDU7YZyIRB0CXtzePRU0iLnoit3ob3znYZ+DZXTr4p0cuA9rJuU7Vz7Z+gxqqtDg==
-X-Received: by 2002:a17:903:1a43:b0:296:2aed:4fab with SMTP id d9443c01a7336-29b5b05b6damr14930755ad.23.1763600500485;
-        Wed, 19 Nov 2025 17:01:40 -0800 (PST)
-Received: from localhost ([71.212.208.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b2ac81bsm6687805ad.93.2025.11.19.17.01.39
+        d=1e100.net; s=20230601; t=1763635264; x=1764240064;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6mgwJ/4Ukd3943JvYrBsHnnqudEXP4H0GnoIDUoRcjc=;
+        b=Lvjm9aApWtqiTBO4OnhW7su1/TvS6F5rwXoe1wYYKxoPISG4NTiirpq/Y7vg/MkjW3
+         PdBJNtY5iKkX921pJ/dVlOrH3PutvIRrPxb1Rb3vVvzV0c4yxtCTbdf2Jxq1CEvDcUj4
+         btQ5GSkdLwi8w1QwJmeAFX0PJxLUuDJ3icxQhRmw9YKJdfZwj1XI1dplan4UeM6rerb/
+         59feehe3A+wS24WBUB4G2JnmKFc44ecV1drIh28wmAdWJbBWRrYlJoLGPNKMAuZkYygo
+         vk/8A6YlXDiGqgiteZiiYZAF/oN+fGEGHpoJecT8LLTf8cH1ehalbPXcvSMtKhf8Plba
+         dQqg==
+X-Forwarded-Encrypted: i=1; AJvYcCV5CLzZF7by31jbnG9veo+Gi7sN49lV/XFtTAwaMsCrYxcBPGXooToO7SWFDWixtZNKm/qn1PSpuQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/jSOZrlLtSjFQwVx7hxJBcSsXsEggCWuUsVQLXSRbTw7zpv3T
+	u+T/t4nMXYXW0LhRWS7shaGTdbIL9CUYH0eNOZsR1hSeIf5Ou4+tPozcn0fOcyADr8I=
+X-Gm-Gg: ASbGncvDbwyY4isURyJ6gVk9tOgiKPzNEjQYACcUQ5rIj24sqxjaBunkoUo8RRxYhqv
+	VDxeT25HyEJ5Wq3N9sYugk/AJF7xMkcYBf5MS3xXo8NzLgoEOAioDE6dT3RvlfnZ1Q2y1Mrgxtq
+	JN+Y2aZqq34WZ+uCUPOaM0LzbC7y3L9LIs2plZABhpudGNEQfKbLVcl9zecNlJyVKl6jqj9g/yO
+	iKDo8wqEfAe3LIXEv+ZYf0wF+kW52nbl6XhIKGjq7jDu1XWfdyGwuEPNhZAMH5Ui5jED91pI6Dl
+	DnMtYtPoI1D+UBY2a7XFEr42TJthJzkI4HTQ2Cr8JKcRf931cKhiHId48Wdhfa6uF3I1jAYSB19
+	xKaK+nQ9+wsy3QuL3n3vEaVDOwKqQKBkkepbyU1hKI1fvaxGZ4iaN1/z4bEz/kw47lsq6CqGaL/
+	ovkLrQNSKfINgEJviw
+X-Google-Smtp-Source: AGHT+IGGzICrs8WsC0ZES68VHcMi+t5RlEr2PL0lmqRHtaEz9GTuPQDpK/ZRodLwmdHXmR03IHrQcw==
+X-Received: by 2002:a05:600c:1386:b0:477:7b9a:bb07 with SMTP id 5b1f17b1804b1-477b8c91ecfmr28935345e9.35.1763635263239;
+        Thu, 20 Nov 2025 02:41:03 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-477a9731a75sm63861745e9.2.2025.11.20.02.40.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 17:01:39 -0800 (PST)
-From: Kevin Hilman <khilman@baylibre.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
- arm-scmi@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC] of: Add of_parse_map_iter() helper for nexus node
- map iteration
-In-Reply-To: <20251119-topic-lpm-of-map-iterator-v6-18-v1-1-1f0075d771a3@baylibre.com>
-References: <20251119-topic-lpm-of-map-iterator-v6-18-v1-1-1f0075d771a3@baylibre.com>
-Date: Wed, 19 Nov 2025 17:01:39 -0800
-Message-ID: <7h8qg1frf0.fsf@baylibre.com>
+        Thu, 20 Nov 2025 02:41:02 -0800 (PST)
+Date: Thu, 20 Nov 2025 10:24:03 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: "Kevin Hilman (TI.com)" <khilman@baylibre.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+	arm-scmi@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC v4 2/2] pmdomain: arm_scmi: add support for domain
+ hierarchies
+Message-ID: <aR7CEzlHFYmQykKm@stanley.mountain>
+References: <20251119-pmdomain-hierarchy-onecell-v4-0-f25a1d5022f8@baylibre.com>
+ <20251119-pmdomain-hierarchy-onecell-v4-2-f25a1d5022f8@baylibre.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251119-pmdomain-hierarchy-onecell-v4-2-f25a1d5022f8@baylibre.com>
 
-"Kevin Hilman (TI.com)" <khilman@baylibre.com> writes:
+On Wed, Nov 19, 2025 at 04:58:46PM -0800, Kevin Hilman (TI.com) wrote:
+> @@ -110,7 +110,14 @@ static int scmi_pm_domain_probe(struct scmi_device *sdev)
+>  
+>  	dev_set_drvdata(dev, scmi_pd_data);
+>  
+> -	return of_genpd_add_provider_onecell(np, scmi_pd_data);
+> +	ret = of_genpd_add_provider_onecell(np, scmi_pd_data);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* check for (optional) subdomain mapping with power-domain-map */
+> +	of_genpd_add_subdomain_map(np, scmi_pd_data);
+> +
+> +	return ret;
 
-> Add a new helper function of_parse_map_iter() to iterate over nexus
-> node maps (c.f. DT spec, section 2.5.1.)
->
-> This function provides an iterator interface for traversing map
-> entries, handling the complexity of variable-sized entries based on
-> <stem>-cells properties, as well as handling the <stem>-skip and
-> <stem>-pass-thru properties.
->
-> RFC: There's a lot of overlap between this function and
-> of_parse_phandle_with_args_map().  However the key differences are:
->
->   - of_parse_phandle_with_args_map() does matching
->     it searches for an entry that matches specific child args
->   - of_parse_map_iter() does iteration
->     it simply walks through all entries sequentially
->
-> There are likely ways to extract some shared code between these two
-> functions into some shared helpers, but I'm hoping someone more
-> familiar with this OF code can help here.
->
-> However, before refactoring the shared code, it would be good to have
-> some feedback on this approach.
+return 0, plz.
 
-For a bit more context, the need for this comes from the work in
-drivers/pmdomain to be able to create pmdomain hierarchies using a
-power-domain-map property.
+regards,
+dan carpenter
 
-I just posted an example user of this functionality here:
-https://lore.kernel.org/r/20251119-pmdomain-hierarchy-onecell-v4-0-f25a1d5022f8@baylibre.com
-
-Kevin
