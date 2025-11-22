@@ -1,326 +1,264 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F60633B6E7
-	for <arm-scmi@vger.kernel.org>; Thu, 20 Nov 2025 14:08:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADDE296BD7
+	for <arm-scmi@vger.kernel.org>; Sat, 22 Nov 2025 18:38:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763647729; cv=none; b=qt8VKQ8Zq9BEVFWGUgYRImI9hZZnBg+g6RlVUU7Cr8jj9OxqN2mPqgxNRrGDPgsaXa64RdUPuf4xiksbV8n/xbI4UPCr+BPRVKiObj5dYVqK/4VRoFvPgkO1ngIsobyYqtevY++hzLKuCEzMExt4ZZtMO0bnDrOUTIuHJbuJhHI=
+	t=1763836693; cv=none; b=Esq/QJAjNoP0YivnDn3DIiUujbUzH1hITuTKWpC1ShIvi0zbW4qXCrUikZuP86MZoU3OIRr0wp25AEAgBaLpVcd5rEpWFRlWLo2lBIqsCQlKyaMmDrRNrwek75rCmBZ/EuBjq5hajKYU/2uHiZi8lixQgSxy28OQ5n6duMxDh/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763647729; c=relaxed/simple;
-	bh=hXBBthJypM5vjTTphA0r6Oi5jEFjwOHaRtvgMSwE0wk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bB5T9+iIliDjB6bzvM0By1GFF31uoYYe3RXU3Aemq0GAEm6XDriy6UOwS2H8LTwboEJ9VTpV/gO0Osp4MGkzXdV83BiS3jfq/QfTnpCseedizv+yMYNmemJqo7PgFcEfFN6pmjjjcU7iWNA6k3b5uxkAfQfOEgcv55EpjWl5lPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UhaPVNhu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763836693; c=relaxed/simple;
+	bh=KS3IwSBNigz6zKxF8W+opohOU65DKfaROJ/jPbhdYNY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Pv2/6LIzbUZt019bT8XF9WvOt/+5YevGpIk9MpDojXlBCEmkg6XyaVTVVXLVOct3GrFnuFo7J+BwW8R9Du5zSvzh6YHC1j3VCVysIVYVDeCWsp2zMe6M+mFCday18jWUlEtfYyTBYTphtTYJIIkX+nfhnVhK4x1fkYGayfF5zUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lZsrhemy; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UhaPVNhu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 428D7C4AF09
-	for <arm-scmi@vger.kernel.org>; Thu, 20 Nov 2025 14:08:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763647729;
-	bh=hXBBthJypM5vjTTphA0r6Oi5jEFjwOHaRtvgMSwE0wk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=UhaPVNhu09owXU6y9W2n4EbDbqwc/M9mp92cn9ldwz/kHaQSikV4QEb1x8h862KGJ
-	 XEAlXPX/rZMIk4ZA/MYwmG9EU/RSiyYSX7pM56WL3cf1WqwvDKTFeYvROl6ruiKiWz
-	 RggNxFAtFsx+/iyPnygo4X7mkYvb76H07eNlxXYTNwF9wiCoIR/FCK1rQOFDN8Pz89
-	 ulOQwlOIztwO8KonkDga5rm923zYMQC2dcj4b91fvXFtiMLAZ6U7ixUJeqqReeRjA5
-	 G9fse4dfN9owLuSRdXtpyoUOE6rOkvVJcpFyUykgCDV57nRS6GoyWnsS0rOd+YyS/e
-	 x1GT2S7aSmTzA==
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-64198771a9bso1639063a12.2
-        for <arm-scmi@vger.kernel.org>; Thu, 20 Nov 2025 06:08:49 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWk12+rtJtz6CAN04Y5yczV/SihUEFaGgSiLYGpGB2t+wQOpnnPCK6decfCYwDrdxRgjtJZnTEnIw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0t6ms+9DCfBlFAs0I5C/1hW95bRgXK7oKPB9ttj0VjCfsQdvv
-	Kgz5ZMOUULYqsPxWv4PGdRUASSrH6aUVteMc+W3xD6YTUlHv+fzscT3g63Srb7snD8bZwGmzdpn
-	CQGQdOsTr2Ry38lmG0Faa9SE9V9Bfkg==
-X-Google-Smtp-Source: AGHT+IFhmpxwxTK3iIU5gGY4RHYCOg2OWMZSTYPm0QsqQ/K/SQuzk+g5Q+9Xr/dcjgg52W8xNLzdh4MPPMoGiSlnRts=
-X-Received: by 2002:a05:6402:348c:b0:640:cdad:d2c0 with SMTP id
- 4fb4d7f45d1cf-64538227a06mr2493204a12.25.1763647727793; Thu, 20 Nov 2025
- 06:08:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lZsrhemy"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-645a13e2b17so632777a12.2
+        for <arm-scmi@vger.kernel.org>; Sat, 22 Nov 2025 10:38:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763836690; x=1764441490; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=In2rN0a8YFrgVikHIk4MV4jCYicuwgjK5OqjGzIHHqA=;
+        b=lZsrhemygLFgfbL9K6FGto7fcqskC0+4ihLS9A5gIKsv/s2ZZv3/C3Npl2kIrXV5Cq
+         fj3FXjWp1W9qiVH71Oan0fO24W0lqdrXDj4CB/TSYJBko0cq9YdgfpuWph02oJqR7Iwz
+         6albdLkgnUZwHlt4cpAbyYnolyBYmJZ5hf1kToNc0SLv7Zfg2csXam4Wye4aKyg1aVB5
+         4ZYxn9LIamgXQKFFdtFvro8zbxmQXO+4yJ+/Gb2ul0IP7iyC++tGes84v6K81IEMVQfk
+         KDS4t4aOTcIIW3oWB5LJ2PfA6QsSuiNetMlxGbJiBrxVuPIF68YpT7j1UhBE+oTr6KWV
+         j0gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763836690; x=1764441490;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=In2rN0a8YFrgVikHIk4MV4jCYicuwgjK5OqjGzIHHqA=;
+        b=wu/+mEb/JAM9QtHrrDWfIESGxiQF3xn6sVf/F4eRO0ggcnE2aKhZ2F9exjrbPL+gAn
+         dAdfMWzmjcXOZ5h5CRa409yepsj9v6YsGOuLC0W6eWAnQ2+DycVgEdMZv5Mm98doYwyh
+         Clx3/m8dwpyeOXAG/SfqrnKjk+WUj8UGFxLjtEvcCAI0E/YN0sEExF+k6lP/ee33odtI
+         aMJzgiHSxJzSlppQjJkDjOp1n9T1cgMaU4ykAXPa0fHpDLX0MLxVBoKtoJIXRAibURZw
+         EayTCbNDOZq9OndS4vMLErFTj9ywyX/YIb03RwiZAVXAflqvYvMZbTSl/+CbD7ADezZw
+         OB/A==
+X-Forwarded-Encrypted: i=1; AJvYcCVLvF11w1Ulxh0r2js3No9vFbJ4gZVjAu4BNUxezGxw5g1UA7V8XB8UamDhO1/8jfvomSE3xkPnQQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtVbPKxEaGteWkt2mjNzOcY7OTMJav6Nfoe9HPAel9RwUjhkuI
+	N1GcOf+N34R6B9/ftd+93HJbElwD3eMQ+tngaOgBPMpPDaSY/tKP6ubg
+X-Gm-Gg: ASbGncvkdutetvNpx85d1Kop+BYpPivkKtW21kBCC+BISXO0KJzjC5Ob68vFoDzitfI
+	JfMAfEBaAxnto3gvML0PmgGhxF32Bsq7mYngLFvA7TISUWdP2PoDivSTwttiN1griF3TJnHUvDu
+	E1j0D0kao/oK1UauPfzO53RK9mnjhvxw8xza675Zd5/5ebNhDJZnVTy3wKhWr5C3m/Zj+trWIci
+	PPfYnarjDYrGqS78fGguJ+AVbI668djz1To+0vhzUihWxiWfgE2O483XdFQmn3ynir2AaofKaSp
+	YJgcDAJTrAUEbVNHXAw3ByauCmt5kXYl+kSva2RYOZZgc9awI2jaclqF5G+iKozg2yDtvgCT2Xj
+	/tYdA69NNd/YyXVWFX1gPOROrNKrd+z0T2GFwNPqhSab4tK0GzMc1Vnuvft1p9oQbrR8yDfzdLC
+	IH9AmYFHfcn22l5vJUYAj8Pw==
+X-Google-Smtp-Source: AGHT+IEQFD67KPfrjwDKK5+fo757s6Wyf9Xo8Spp+ozFH3wJdVxj5lN9tWb8xqk/o8aSAp5TSS/8dA==
+X-Received: by 2002:a05:6402:1ed1:b0:641:3651:7107 with SMTP id 4fb4d7f45d1cf-6455444a01emr6543124a12.12.1763836689590;
+        Sat, 22 Nov 2025 10:38:09 -0800 (PST)
+Received: from NB-6746.. ([188.243.183.84])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64536459d92sm7415205a12.31.2025.11.22.10.38.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Nov 2025 10:38:09 -0800 (PST)
+From: Artem Shimko <a.shimko.dev@gmail.com>
+To: cristian.marussi@arm.com,
+	etienne.carriere@linaro.org,
+	rikard.falkeborn@gmail.com,
+	ulf.hansson@linaro.org,
+	dan.carpenter@oracle.com
+Cc: a.shimko.dev@gmail.com,
+	arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	sudeep.holla@arm.com
+Subject: [PATCH v3] firmware: arm_scmi: refactor reset domain handling
+Date: Sat, 22 Nov 2025 21:38:04 +0300
+Message-ID: <20251122183804.198463-1-a.shimko.dev@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <aRW4PpPjVw1-melm@pluto>
+References: <aRW4PpPjVw1-melm@pluto>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251119-topic-lpm-of-map-iterator-v6-18-v1-1-1f0075d771a3@baylibre.com>
-In-Reply-To: <20251119-topic-lpm-of-map-iterator-v6-18-v1-1-1f0075d771a3@baylibre.com>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 20 Nov 2025 08:08:36 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+2sFzQb8j5bBWbwgyYn5apLTfWOTZW3+9n74uVyph16A@mail.gmail.com>
-X-Gm-Features: AWmQ_bl_e2mY7mehKL9PPzNTQx6rMW289JXHIko6uxRTQ1xj75fDik3Oj__esgs
-Message-ID: <CAL_Jsq+2sFzQb8j5bBWbwgyYn5apLTfWOTZW3+9n74uVyph16A@mail.gmail.com>
-Subject: Re: [PATCH RFC] of: Add of_parse_map_iter() helper for nexus node map iteration
-To: "Kevin Hilman (TI.com)" <khilman@baylibre.com>, Herve Codina <herve.codina@bootlin.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	devicetree@vger.kernel.org, linux-pm@vger.kernel.org, 
-	arm-scmi@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-+Herve
+Improve the SCMI reset protocol implementation by centralizing domain
+validation and enhancing error handling.
 
-On Wed, Nov 19, 2025 at 6:41=E2=80=AFPM Kevin Hilman (TI.com)
-<khilman@baylibre.com> wrote:
->
-> Add a new helper function of_parse_map_iter() to iterate over nexus
-> node maps (c.f. DT spec, section 2.5.1.)
->
-> This function provides an iterator interface for traversing map
-> entries, handling the complexity of variable-sized entries based on
-> <stem>-cells properties, as well as handling the <stem>-skip and
-> <stem>-pass-thru properties.
->
-> RFC: There's a lot of overlap between this function and
-> of_parse_phandle_with_args_map().  However the key differences are:
->
->   - of_parse_phandle_with_args_map() does matching
->     it searches for an entry that matches specific child args
->   - of_parse_map_iter() does iteration
->     it simply walks through all entries sequentially
+Add scmi_reset_domain_lookup() helper function to validate
+domain ids and return appropriate error codes. Refactor all
+domain-specific functions to use this helper, ensuring consistent
+error handling throughout the reset protocol.
 
-There's also this in flight for interrupt-map:
+Signed-off-by: Artem Shimko <a.shimko.dev@gmail.com>
+--
 
-https://lore.kernel.org/all/20251027123601.77216-2-herve.codina@bootlin.com=
-/
+Hi Cristian,
 
-There's probably enough quirks with interrupt-map that we can't use
-the same code. Though it may boil down to handling #address-cells and
-how the parent is looked up.
+Thank you for suggesting! If it works for you I'll try to improve the others protocols.
 
-> There are likely ways to extract some shared code between these two
-> functions into some shared helpers, but I'm hoping someone more
-> familiar with this OF code can help here.
+It was tested on my board in QEMU and on real hardware.
+The functionality didn't break, and peripherals that are reseted via SCMI work correctly.
 
-I would expect of_parse_phandle_with_args_map() could be implemented
-in terms of the iterator.
+As an example, I can provide DMA test results (as one of the processor units dependent on SCMI reset).
 
-> However, before refactoring the shared code, it would be good to have
-> some feedback on this approach.
->
-> Signed-off-by: Kevin Hilman (TI.com) <khilman@baylibre.com>
-> ---
->  drivers/of/base.c  | 167 +++++++++++++++++++++++++++++++++++++++++++++++=
-+++++
->  include/linux/of.h |  13 ++++
->  2 files changed, 180 insertions(+)
->
-> diff --git a/drivers/of/base.c b/drivers/of/base.c
-> index 7043acd971a0..bdb4fde1bfa9 100644
-> --- a/drivers/of/base.c
-> +++ b/drivers/of/base.c
-> @@ -1594,6 +1594,173 @@ int of_parse_phandle_with_args_map(const struct d=
-evice_node *np,
->  }
->  EXPORT_SYMBOL(of_parse_phandle_with_args_map);
->
-> +/**
-> + * of_parse_map_iter() - Iterate through entries in a nexus node map
-> + * @np:                        pointer to a device tree node containing =
-the map
-> + * @stem_name:         stem of property names (e.g., "power-domain" for =
-"power-domain-map")
-> + * @index:             pointer to iteration index (set to 0 for first ca=
-ll)
-> + * @child_args:                pointer to structure to fill with child s=
-pecifier (can be NULL)
-> + * @parent_args:       pointer to structure to fill with parent phandle =
-and specifier
-> + *
-> + * This function iterates through a nexus node map property as defined i=
-n DT spec 2.5.1.
-> + * Each map entry has the format: <child_specifier phandle parent_specif=
-ier>
-> + *
-> + * On each call, it extracts one map entry and fills child_args (if prov=
-ided) with the
-> + * child specifier and parent_args with the parent phandle and specifier=
-.
-> + * The index pointer is updated to point to the next entry for the follo=
-wing call.
-> + *
-> + * Example usage::
-> + *
-> + *  int index =3D 0;
-> + *  struct of_phandle_args child_args, parent_args;
-> + *
-> + *  while (!of_parse_map_iter(np, "power-domain", &index, &child_args, &=
-parent_args)) {
-> + *      // Process child_args and parent_args
-> + *      of_node_put(parent_args.np);
-> + *  }
-> + *
-> + * Caller is responsible for calling of_node_put() on parent_args.np.
-> + *
-> + * Return: 0 on success, -ENOENT when iteration is complete, or negative=
- error code on failure.
-> + */
-> +int of_parse_map_iter(const struct device_node *np,
-> +                      const char *stem_name,
-> +                      int *index,
-> +                      struct of_phandle_args *child_args,
-> +                      struct of_phandle_args *parent_args)
-> +{
-> +       char *cells_name __free(kfree) =3D kasprintf(GFP_KERNEL, "#%s-cel=
-ls", stem_name);
-> +       char *map_name __free(kfree) =3D kasprintf(GFP_KERNEL, "%s-map", =
-stem_name);
-> +       char *mask_name __free(kfree) =3D kasprintf(GFP_KERNEL, "%s-map-m=
-ask", stem_name);
-> +       char *pass_name __free(kfree) =3D kasprintf(GFP_KERNEL, "%s-map-p=
-ass-thru", stem_name);
-> +       static const __be32 dummy_mask[] =3D { [0 ... MAX_PHANDLE_ARGS] =
-=3D cpu_to_be32(~0) };
-> +       static const __be32 dummy_pass[] =3D { [0 ... MAX_PHANDLE_ARGS] =
-=3D cpu_to_be32(0) };
-> +       const __be32 *map, *mask, *pass;
-> +       __be32 child_spec[MAX_PHANDLE_ARGS];
-> +       u32 child_cells, parent_cells;
-> +       int map_len, i, entry_idx;
-> +
-> +       if (!np || !stem_name || !index || !parent_args)
-> +               return -EINVAL;
-> +
-> +       if (!cells_name || !map_name || !mask_name || !pass_name)
-> +               return -ENOMEM;
-> +
-> +       /* Get the map property */
-> +       map =3D of_get_property(np, map_name, &map_len);
-> +       if (!map)
-> +               return -ENOENT;
-> +
-> +       map_len /=3D sizeof(u32);
-> +
-> +       /* Get child #cells */
-> +       if (of_property_read_u32(np, cells_name, &child_cells))
-> +               return -EINVAL;
-> +
-> +       /* Get the mask property (optional) */
-> +       mask =3D of_get_property(np, mask_name, NULL);
-> +       if (!mask)
-> +               mask =3D dummy_mask;
-> +
-> +       /* Get the pass-thru property (optional) */
-> +       pass =3D of_get_property(np, pass_name, NULL);
-> +       if (!pass)
-> +               pass =3D dummy_pass;
+[    2.559040] dw_axi_dmac_platform 1000nda0.nda_dma_0: DesignWare AXI DMA Controller, nda channels
+[    2.569265] dw_axi_dmac_platform 1000nda0.nda_dma_1: DesignWare AXI DMA Controller, nda channels
+[    2.580601] dw_axi_dmac_platform 1000nda0.nda_dma_2: DesignWare AXI DMA Controller, nda channels
 
-Generally the DT iterators need some state maintained, so there's an
-init function to do all/most of the above and stash that into a state
-struct for the iterator.
+# echo 2000 > /sys/module/dmatest/parameters/timeout
+# echo 1000 > /sys/module/dmatest/parameters/iterations
+# echo dma0chan0 > /sys/module/dmatest/parameters/channel
+[   95.917504] dmatest: Added 1 threads using dma0chan0
+# echo 1 > /sys/module/dmatest/parameters/run
+[  101.931372] dmatest: Started 1 threads using dma0chan0
+[  102.731009] dmatest: dma0chan0-copy0: summary 1000 tests, 0 failures 2508.42 iops 19706 KB/s (0)
 
-> +
-> +       /* Iterate through map to find the entry at the requested index *=
-/
-> +       entry_idx =3D 0;
-> +       while (map_len > child_cells + 1) {
-> +               /* If this is the entry we're looking for, extract it */
-> +               if (entry_idx =3D=3D *index) {
-> +                       /* Save masked child specifier for pass-thru proc=
-essing */
-> +                       for (i =3D 0; i < child_cells && i < MAX_PHANDLE_=
-ARGS; i++)
-> +                               child_spec[i] =3D map[i] & mask[i];
-> +
-> +                       /* Extract child specifier if requested */
-> +                       if (child_args) {
-> +                               child_args->np =3D (struct device_node *)=
-np;
-> +                               child_args->args_count =3D child_cells;
-> +                               for (i =3D 0; i < child_cells && i < MAX_=
-PHANDLE_ARGS; i++)
-> +                                       child_args->args[i] =3D be32_to_c=
-pu(map[i]);
-> +                       }
-> +
-> +                       /* Move past child specifier */
-> +                       map +=3D child_cells;
-> +                       map_len -=3D child_cells;
-> +
-> +                       /* Extract parent phandle */
-> +                       parent_args->np =3D of_find_node_by_phandle(be32_=
-to_cpup(map));
+And vice versa:
 
-Before you update the parent node, you need to put the previous parent.
+1. Confirmed that the DMA module is non-functional without a proper reset via SCMI.
+Disabling the reset logic causes a system crash on first access to its registers.
 
-> +                       map++;
-> +                       map_len--;
-> +
-> +                       if (!parent_args->np)
-> +                               return -EINVAL;
-> +
-> +                       /* Get parent #cells */
-> +                       if (of_property_read_u32(parent_args->np, cells_n=
-ame, &parent_cells))
-> +                               parent_cells =3D 0;
-> +
-> +                       /* Check for malformed properties */
-> +                       if (WARN_ON(parent_cells > MAX_PHANDLE_ARGS) ||
-> +                           map_len < parent_cells) {
-> +                               of_node_put(parent_args->np);
-> +                               return -EINVAL;
-> +                       }
-> +
-> +                       /*
-> +                        * Copy parent specifier into the out_args struct=
-ure, keeping
-> +                        * the bits specified in <stem>-map-pass-thru per=
- DT spec 2.5.1
-> +                        */
-> +                       parent_args->args_count =3D parent_cells;
-> +                       for (i =3D 0; i < parent_cells; i++) {
-> +                               __be32 val =3D map[i];
-> +
-> +                               if (i < child_cells) {
-> +                                       val &=3D ~pass[i];
-> +                                       val |=3D child_spec[i] & pass[i];
-> +                               }
-> +
-> +                               parent_args->args[i] =3D be32_to_cpu(val)=
-;
-> +                       }
-> +
-> +                       /* Advance index for next iteration */
-> +                       (*index)++;
-> +                       return 0;
-> +               }
-> +
-> +               /* Skip this entry: child_cells + phandle + parent_cells =
-*/
-> +               map +=3D child_cells;
-> +               map_len -=3D child_cells;
-> +
-> +               /* Get parent node to determine parent_cells */
-> +               parent_args->np =3D of_find_node_by_phandle(be32_to_cpup(=
-map));
-> +               map++;
-> +               map_len--;
-> +
-> +               if (!parent_args->np)
-> +                       return -EINVAL;
-> +
-> +               if (of_property_read_u32(parent_args->np, cells_name, &pa=
-rent_cells))
-> +                       parent_cells =3D 0;
-> +
-> +               of_node_put(parent_args->np);
-> +
-> +               /* Check for malformed properties */
-> +               if (map_len < parent_cells)
-> +                       return -EINVAL;
-> +
-> +               /* Move forward by parent node's #<stem>-cells amount */
-> +               map +=3D parent_cells;
-> +               map_len -=3D parent_cells;
-> +
-> +               entry_idx++;
-> +       }
-> +
-> +       /* Reached end of map without finding the requested index */
-> +       return -ENOENT;
-> +}
-> +EXPORT_SYMBOL(of_parse_map_iter);
-> +
->  /**
->   * of_count_phandle_with_args() - Find the number of phandles references=
- in a property
->   * @np:                pointer to a device tree node containing a list
+2. Requesting a non-existent reset domain:
+
+[    2.463400] dw_axi_dmac_platform 1000nda0.nda_dma_0: error -EINVAL: Failed to deassert resets
+[    2.472091] dw_axi_dmac_platform 1000nda0.nda_dma_0: probe with driver dw_axi_dmac_platform failed with error -22
+[    2.482911] dw_axi_dmac_platform 1000nda0.nda_dma_1: error -EINVAL: Failed to deassert resets
+[    2.491553] dw_axi_dmac_platform 1000nda0.nda_dma_1: probe with driver dw_axi_dmac_platform failed with error -22
+[    2.502256] dw_axi_dmac_platform 1000nda0.nda_dma_2: error -EINVAL: Failed to deassert resets
+[    2.510735] dw_axi_dmac_platform 1000nda0.nda_dma_2: probe with driver dw_axi_dmac_platform failed with error -22
+
+--
+Regards,
+Artem
+
+ drivers/firmware/arm_scmi/reset.c | 59 ++++++++++++++++++++-----------
+ 1 file changed, 39 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/firmware/arm_scmi/reset.c b/drivers/firmware/arm_scmi/reset.c
+index 0aa82b96f41b..9854a3016d13 100644
+--- a/drivers/firmware/arm_scmi/reset.c
++++ b/drivers/firmware/arm_scmi/reset.c
+@@ -100,6 +100,7 @@ static int scmi_reset_attributes_get(const struct scmi_protocol_handle *ph,
+ 
+ static int
+ scmi_reset_domain_attributes_get(const struct scmi_protocol_handle *ph,
++				 struct reset_dom_info *dom_info,
+ 				 struct scmi_reset_info *pinfo,
+ 				 u32 domain, u32 version)
+ {
+@@ -107,7 +108,6 @@ scmi_reset_domain_attributes_get(const struct scmi_protocol_handle *ph,
+ 	u32 attributes;
+ 	struct scmi_xfer *t;
+ 	struct scmi_msg_resp_reset_domain_attributes *attr;
+-	struct reset_dom_info *dom_info = pinfo->dom_info + domain;
+ 
+ 	ret = ph->xops->xfer_get_init(ph, RESET_DOMAIN_ATTRIBUTES,
+ 				      sizeof(domain), sizeof(*attr), &t);
+@@ -153,23 +153,39 @@ static int scmi_reset_num_domains_get(const struct scmi_protocol_handle *ph)
+ 	return pi->num_domains;
+ }
+ 
++static inline struct reset_dom_info *
++scmi_reset_domain_lookup(const struct scmi_protocol_handle *ph, u32 domain)
++{
++	struct scmi_reset_info *pi = ph->get_priv(ph);
++
++	if (domain >= pi->num_domains)
++		return ERR_PTR(-EINVAL);
++
++	return pi->dom_info + domain;
++}
++
+ static const char *
+ scmi_reset_name_get(const struct scmi_protocol_handle *ph, u32 domain)
+ {
+-	struct scmi_reset_info *pi = ph->get_priv(ph);
++	struct reset_dom_info *dom_info;
+ 
+-	struct reset_dom_info *dom = pi->dom_info + domain;
++	dom_info = scmi_reset_domain_lookup(ph, domain);
++	if (IS_ERR(dom_info))
++		return "unknown";
+ 
+-	return dom->name;
++	return dom_info->name;
+ }
+ 
+ static int scmi_reset_latency_get(const struct scmi_protocol_handle *ph,
+ 				  u32 domain)
+ {
+-	struct scmi_reset_info *pi = ph->get_priv(ph);
+-	struct reset_dom_info *dom = pi->dom_info + domain;
++	struct reset_dom_info *dom_info;
+ 
+-	return dom->latency_us;
++	dom_info = scmi_reset_domain_lookup(ph, domain);
++	if (IS_ERR(dom_info))
++		return PTR_ERR(dom_info);
++
++	return dom_info->latency_us;
+ }
+ 
+ static int scmi_domain_reset(const struct scmi_protocol_handle *ph, u32 domain,
+@@ -178,14 +194,13 @@ static int scmi_domain_reset(const struct scmi_protocol_handle *ph, u32 domain,
+ 	int ret;
+ 	struct scmi_xfer *t;
+ 	struct scmi_msg_reset_domain_reset *dom;
+-	struct scmi_reset_info *pi = ph->get_priv(ph);
+-	struct reset_dom_info *rdom;
++	struct reset_dom_info *dom_info;
+ 
+-	if (domain >= pi->num_domains)
+-		return -EINVAL;
++	dom_info = scmi_reset_domain_lookup(ph, domain);
++	if (IS_ERR(dom_info))
++		return PTR_ERR(dom_info);
+ 
+-	rdom = pi->dom_info + domain;
+-	if (rdom->async_reset && flags & AUTONOMOUS_RESET)
++	if (dom_info->async_reset && flags & AUTONOMOUS_RESET)
+ 		flags |= ASYNCHRONOUS_RESET;
+ 
+ 	ret = ph->xops->xfer_get_init(ph, RESET, sizeof(*dom), 0, &t);
+@@ -238,15 +253,16 @@ static const struct scmi_reset_proto_ops reset_proto_ops = {
+ static bool scmi_reset_notify_supported(const struct scmi_protocol_handle *ph,
+ 					u8 evt_id, u32 src_id)
+ {
+-	struct reset_dom_info *dom;
+-	struct scmi_reset_info *pi = ph->get_priv(ph);
++	struct reset_dom_info *dom_info;
+ 
+-	if (evt_id != SCMI_EVENT_RESET_ISSUED || src_id >= pi->num_domains)
++	if (evt_id != SCMI_EVENT_RESET_ISSUED)
+ 		return false;
+ 
+-	dom = pi->dom_info + src_id;
++	dom_info = scmi_reset_domain_lookup(ph, src_id);
++	if (IS_ERR(dom_info))
++		return false;
+ 
+-	return dom->reset_notify;
++	return dom_info->reset_notify;
+ }
+ 
+ static int scmi_reset_notify(const struct scmi_protocol_handle *ph,
+@@ -363,8 +379,11 @@ static int scmi_reset_protocol_init(const struct scmi_protocol_handle *ph)
+ 	if (!pinfo->dom_info)
+ 		return -ENOMEM;
+ 
+-	for (domain = 0; domain < pinfo->num_domains; domain++)
+-		scmi_reset_domain_attributes_get(ph, pinfo, domain, version);
++	for (domain = 0; domain < pinfo->num_domains; domain++) {
++		struct reset_dom_info *dom_info = pinfo->dom_info + domain;
++
++		scmi_reset_domain_attributes_get(ph, dom_info, pinfo, domain, version);
++	}
+ 
+ 	pinfo->version = version;
+ 	return ph->set_priv(ph, pinfo, version);
+-- 
+2.43.0
+
