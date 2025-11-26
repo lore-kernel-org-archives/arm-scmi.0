@@ -1,122 +1,108 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877F532D7F1
-	for <arm-scmi@vger.kernel.org>; Tue, 25 Nov 2025 19:13:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47E341EA7CC
+	for <arm-scmi@vger.kernel.org>; Wed, 26 Nov 2025 14:31:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764097997; cv=none; b=sPJkAjkIZbkQoHGhbWC3PZ3Dg953X+0YA3uIBJNpL8009vCIQVBvqju5ieB824DsRF3eLNb2Wr/yfcEc/SzmjcDsibxLvPEEfEWe3Ecy/ZoFOQt37tj4QRIzd3pi+yZyWGsB0ubzLdu4CfuWJsmLz17mzkoL0ONS2pmKqwIskh8=
+	t=1764167496; cv=none; b=hvEcxe6Qvwuch+yYvy8tR4a7+iPF2EqabbrwbzYcCGDQn9u0gEGXZd+qJnCbE3ag7Oh8wW5WQANPwThX2ltuk9O5ulYwY0HlzmM54Yb+DyKIaRhecOxFLxXfMqALBRS7W9QTtQfJOI68HErhnONo0DsAbR5ybvQf6/MBlwhcwGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764097997; c=relaxed/simple;
-	bh=O6xQSEOSSLorS3JoyF4oWOfmqM+ZOwXB9/BrGMSCLEM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mGE58NqseK7c3yQDso7L84oYRtCdxcEyFhSG8vbQS5E2i0B0iD0ylazfoW3Tvho13BeYaOXC17F4QJW32tu70P9YLQXL9cvpFeUYHzGwZE2Nzv6AoGfmKOuB35oY+qBU78xohNyyZTBqa3j/8b3u8InDU64O+wMEJaCH5loSQgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=KDZFJSR6; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="KDZFJSR6"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-343514c7854so81217a91.1
-        for <arm-scmi@vger.kernel.org>; Tue, 25 Nov 2025 11:13:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1764097994; x=1764702794; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=C02M4R8AXlaGJb+76yOGTDrtM9vCoimbBn8lp15HTo0=;
-        b=KDZFJSR6Dxdqd0gU7qbGN3K4YS9koSqM58gmsXpRg9wM4RUfy+9IjlqUPU2ojyRl5E
-         TRqvbH9lj6wx/NMsvNb1K4W8T0fcHopJmD7V5k1k/gdZZvsScocUubNfDVmF3ADWHiot
-         y8BmytvCSD/2USNi+3wYzT9hE34QhjIiBMG0eIuU7Y2aqe4cziNCWigAmjBB1soRQiEq
-         zeVBWKh4OZHQxIJk/Mx5bH+9F9DQp2wIJiNJTs1A13XHk0tvStoizNiCymS+8+S4TwKp
-         XDWD6RuKsN/wSXyZvWMstEOJo+jYKjoZHccekdOLR2ku+e7QoGvjHP7tzUydjp3Ye7Rg
-         e58Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764097994; x=1764702794;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=C02M4R8AXlaGJb+76yOGTDrtM9vCoimbBn8lp15HTo0=;
-        b=pg5ItTdJDCDk7lQDtSqg/BoSf7D1wkZPbd5EWyGfzdz5J+0MK5JRwdmwEjc46XjHoK
-         4bJDeZ9YGZHHFFIkkyEEwuS+5g8WQ4BYM1Z+AYo7xBKdI6igPIrN6M5//ImnCWGBOgZ+
-         osT6vT6HMIYmv+12K/VwMaaiBd7/mAqpeQvfEniHN5V2UYZkLsvEqN3FuXYuOtG0Se/Q
-         qZ8uBohbTOE8L+wCW2feAd9i62rOif2YnETrBTMUrQ5zaKruz70rvtIbgVFzR4vH2XfP
-         p/zdkJWoq6di57FmYimQJKZX/seCxkSsb/f1VRhcTPQBcBP79slP7am+oExW536Mdn4r
-         vODA==
-X-Forwarded-Encrypted: i=1; AJvYcCVGYR+BXk3C34RA+0oYOWZHvwkeeWI/KwxelgMaJ3DLRmsDR45eGprm3nxSsDDvPw/1greo9Tp4cg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGKoWzXmJfSh7wQS30NJziSLpaXaidf8DMvCAzAhoyPkToXkjb
-	NEFV8Hkzkd+A85n+NoHr2RsYppkCcD1vN9riGFA22mKhGdPZhIoWwdmrQufUGs8g864=
-X-Gm-Gg: ASbGncuMWRLzrGJgwlEh/ow3oSR1azMC3cDwrKvN1VB52hB38TZ2f7eJRbWyhID1wDH
-	hTFhdASsDs2GG35CwiV3yV448+Uo5bxQffkkG4KGr153qIX9bTXmCmRj512W2kvFDAPqxlz+vi2
-	AXrhV8Cqn9xWRemsIrWlhrsmc4eYl+3ngx2Wgy1n/eUSLW3n1iQLquAT3Zf6blyfpELySxZITVd
-	wsLcOFMk+IhV4+1fWBwtGwwVpSbsEGUcbJW06F9QdfLRnQSuS1iTdS1HEZyS1k9MaUsQcc//0J7
-	0ckqszzBhFmNVF1QzLfv5KO5FwqDkOyMZvGiXIcODI3bsZCjOl9mKbIafO39YiRG1ro9wevTRCm
-	+DqYCUUZj4bnqN4hzwcgvmGrMxFmcMmxoJUW3IF2jB8i17MZ43D6E5TxrSxagFPvJPl0SXLJqqK
-	+wgEm58XRD
-X-Google-Smtp-Source: AGHT+IHP+k2R3EGO8iDfp3QWHD4eBn1iOwj1nBs9x0FoztVw6VI+8cqb7hGb/P+tf7nDKCbWTeZr+g==
-X-Received: by 2002:a17:90b:1dcb:b0:341:1a50:2ea9 with SMTP id 98e67ed59e1d1-347298c120fmr19107932a91.16.1764097993444;
-        Tue, 25 Nov 2025 11:13:13 -0800 (PST)
-Received: from localhost ([71.212.208.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3476a56b53asm178611a91.7.2025.11.25.11.13.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 11:13:12 -0800 (PST)
-From: Kevin Hilman <khilman@baylibre.com>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Rob Herring <robh@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-pm@vger.kernel.org, arm-scmi@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC] of: Add of_parse_map_iter() helper for nexus node
- map iteration
-In-Reply-To: <20251125085521.451ea208@bootlin.com>
-References: <20251119-topic-lpm-of-map-iterator-v6-18-v1-1-1f0075d771a3@baylibre.com>
- <CAL_Jsq+2sFzQb8j5bBWbwgyYn5apLTfWOTZW3+9n74uVyph16A@mail.gmail.com>
- <7hjyzedgoc.fsf@baylibre.com> <20251125085521.451ea208@bootlin.com>
-Date: Tue, 25 Nov 2025 11:13:12 -0800
-Message-ID: <7h8qfuc4dz.fsf@baylibre.com>
+	s=arc-20240116; t=1764167496; c=relaxed/simple;
+	bh=azHj6fZ+b5mILcxU7UmAL6wP4NHK9lDfGDb/K6arLYY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A6YL3gTay9azPrClEpSXu+BI0MRjvhoa3Nk+ZgGcwOMABoObIkpoN7BSCSG24eGgoSdC3kuZmHXqkYJ6JKoqyoTKaD18X0AC04MQOpZqZby8JYHObQO3EE+KSr/FnnJCcIhZbeiZW6spiCkJDbBOcjuH7yb7544UwIZGF+jU2zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0096A168F;
+	Wed, 26 Nov 2025 06:31:27 -0800 (PST)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A2D83F73B;
+	Wed, 26 Nov 2025 06:31:33 -0800 (PST)
+Date: Wed, 26 Nov 2025 14:31:30 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Punit Agrawal <punit.agrawal@oss.qualcomm.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 0/8] firmware: arm_scmi: Refactoring and enablement of
+ ACPI PCC transport
+Message-ID: <20251126-camouflaged-delightful-cuckoo-ddeac8@sudeepholla>
+References: <20251017-acpi_scmi_pcc-v1-0-0adbab7709d9@arm.com>
+ <87wm44aect.fsf@stealth>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87wm44aect.fsf@stealth>
 
-Herve Codina <herve.codina@bootlin.com> writes:
+On Wed, Nov 05, 2025 at 11:49:38AM +0000, Punit Agrawal wrote:
+> Hi Sudeep,
+> 
+> Sudeep Holla <sudeep.holla@arm.com> writes:
+> 
+> > The SCMI can be utilized in systems using either the FDT or ACPI specification.
+> > While FDT-based systems can natively use SCMI, ACPI-based systems often
+> > need to abstract the functionality provided by SCMI under ASL methods.
+> > So far, there has been no need to support SCMI natively on ACPI systems.
+> >
+> > However, with the addition of a few new protocols such as Powercap and Telemetry,
+> > which lack abstractions in the ACPI specification, there is now a need to
+> > run SCMI natively for those use cases.
+> >
+> > This patch series introduces ACPI PCC transport support for the Arm SCMI
+> > framework, alongside several foundational refactors and enhancements to
+> > achieve firmware-node neutrality between Device Tree (DT) and ACPI systems.
+> >
+> > The key changes include:
+> >
+> > 1. ACPI/DT abstraction and fwnode transition
+> >
+> >    Converted the core SCMI code to use `fwnode_handle` instead of DT-specific
+> >    structures, ensuring seamless operation across both ACPI and DT
+> >    environments. All property lookups, child enumeration, and device
+> >    association paths have been updated accordingly.
+> >
+> > 2. Unified transport registration for ACPI and DT
+> >
+> >    Extended the SCMI transport driver macros to support ACPI match tables,
+> >    enabling transports to probe using ACPI device IDs while maintaining
+> >    backward compatibility with DT-only systems.
+> >
+> > 3. Protocol device initialization and refactoring
+> >
+> >    Refactored the protocol device creation and validation logic into a new
+> >    helper for improved readability and maintainability. Enhanced the
+> >    initialization logic to handle ACPI-based SCMI devices without explicit
+> >    child fwnodes.
+> >
+> > 4. Introduction of ACPI PCC transport
+> >
+> >    Added a new SCMI transport driver leveraging ACPI PCCT (Platform
+> >    Communications Channel Table) subspaces via the Linux PCC mailbox
+> >    framework. This enables SCMI communication over PCC on ACPI-based
+> >    platforms.
+> >
+> > Collectively, these changes lay the groundwork for robust SCMI operation on
+> > ACPI platforms, achieving near parity with DT systems where applicable,
+> > while enabling the new PCC transport path for firmware communication.
+> 
+> I was interested in taking a closer look at the patches here but they
+> have a dependency on support for the telemetry protocol patches. I get a
+> compile error.
+> 
+> I was wondering if you have a branch with the dependencies included. Are
+> the v1 telemetry support patches[0] the right version to be using?
+>
 
-> Hi Kevin,
->
-> On Mon, 24 Nov 2025 17:50:11 -0800
-> Kevin Hilman <khilman@baylibre.com> wrote:
->
->> >
->> > There's also this in flight for interrupt-map:
->> >
->> > https://lore.kernel.org/all/20251027123601.77216-2-herve.codina@bootlin.com/
->> >
->> > There's probably enough quirks with interrupt-map that we can't use
->> > the same code. Though it may boil down to handling #address-cells and
->> > how the parent is looked up.  
->> 
->> Hmm, I wasn't aware of this, thanks for point it out.  It looks very
->> similar to what i need, except for it's hard-coding the properties as
->> "#interrupt-*".
->> 
->> Seems like this should be generalized to handle the generic nexus-node
->> map. But it also seems to rely on an existing function
->> of_irq_parse_imap_parent() which is also specific to interrupt maps.
->> 
->> That being said, I'm not sure if interrupt-maps are really special, or
->> if they are just a specific case of the nexus node map.  This drivers/of
->> code is breaking my brain, so it's more likely that I simply don't
->> understand enough of it to know how to do this correctly.
->> 
->
-> The main difference between interrupt-map [1] and the other nexus node maps
-> is that in interrupt-map a child unit address is involved and translated to
-> the parent unit address of the matched interrupt-map item.
->
-> This child unit address is simply not present in other nexus node maps [2].
+I can create one but that is not strictly necessary. As mentioned in the
+cover letter, the only dependency is on value of SCMI_PROTOCOL_TELEMETRY
+ins `scmi_std_protocol` enumeration. Just add one and you must be able to
+compile the series independent of Cristian series.
 
-Ah, I see.  Thanks for the explanation.  Indeed, that makes it hard to
-have common parsing code. :(
-
-Kevin
+-- 
+Regards,
+Sudeep
