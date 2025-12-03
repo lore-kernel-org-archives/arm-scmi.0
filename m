@@ -1,196 +1,167 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF70528313D
-	for <arm-scmi@vger.kernel.org>; Wed,  3 Dec 2025 11:04:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E1462F5496;
+	Wed,  3 Dec 2025 11:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764759855; cv=none; b=goFE0tYmLb+ghVtTAzX/AxThX+B7hr9SSY9WZNbi4CKKVFqxU+YhKAtdpJirxwdkPbtQcPmrxPKNyPYnRV8lbOQrB5muYVxGtoL6d5+IbPvDH+y9ktzt5TOIcAXRAE5VUzFY5ZJ5Wi/tEbLjmwN/65EH46HB/+eRf17NU8dA6yE=
+	t=1764762119; cv=none; b=ZyFfkBjkD389haBvslpY3Lmp++eyjZuKSHHXYtaUxvKqu1xxpXGpLmL0STpf/826SyemzzZ4hs293rZJA4tXXAFzAIJGRijvIzH0L3u5rhe/Y5vIiOw1oogXDDf9yq+6Kd5eTV/gMrhKF7uXPV7zg3tesySm/8xyaXbbQieVuk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764759855; c=relaxed/simple;
-	bh=DVSHlg5AtibGGLcYUpC5EV9Hn7EXmPtngd4IFQZc+iQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=TrMezfsQ5dATcXCm5Ro4CHiReIY5HblJdW8NFEove4bPWg4fE/P1zccwmjFnhA3hExxSv0hsRbU5rQqFVpkRw5PPz5proue+1tMkoTmoWjOhRk+773RgnElQIOrLk1AgVYe6v2t9+EAHmSaQNTxq8f+jMMxGI0jdUiSNhCKFUzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Gg00H11q; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=OJCOyEdZ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Gg00H11q";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OJCOyEdZ"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B39Q4fl1969626
-	for <arm-scmi@vger.kernel.org>; Wed, 3 Dec 2025 11:04:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=UFJKTwjHiAis4wfTQBy6AYXP
-	EaNWvPiC5x9VaYm8ow4=; b=Gg00H11qipOHcrB7keAw49wsoP8Cp9Tq3ogmFR4a
-	e7sRK6abkd/3G4Wvt9I4RlnZCc/rh6mIbkLkPIfALL7Y1ZgN40NGW9PvnxAM3bJn
-	MKeoLUUXOqL7BaFpvRqbWpV2lFpANC8zp0Ry4/Uea9w9yTJHVLc3dUGqMarZZHXU
-	XpLBU8gfXCagKknovJommArBx7SS/YSjDLrh9vmlryIcFehDVFANyg9RvZsDTvhe
-	QCwSPYrhwfoO8BGJzqzt/cRjVZ5sULdrNevaL1kQgao9N/CTOoGwKD6XLDdQiVr6
-	FPlU907ZZ6avMMWNS3oMxptbo0riAC2tFDvp4UVjSBhzTA==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4atjjs0bf2-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Wed, 03 Dec 2025 11:04:12 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8b24a25cff5so1217225885a.2
-        for <arm-scmi@vger.kernel.org>; Wed, 03 Dec 2025 03:04:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1764759851; x=1765364651; darn=vger.kernel.org;
-        h=mime-version:user-agent:message-id:date:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UFJKTwjHiAis4wfTQBy6AYXPEaNWvPiC5x9VaYm8ow4=;
-        b=OJCOyEdZzv5hYTfJ9JFwNFbKEs4J2bHLKIyDEUygJuGq3oB7HhfJGS0NjwpiWfi8Q+
-         fuAGCPrLM7jwXTn0d6X6FjTcybokvxGsdkL4JTlHst1DjaX7JAMdY8WIhrX22xpdELQH
-         g1lSuNpsCxWuvR0nXDD+CEmSuowgpuFiBalR3AJDRzUCb0wtgQfwyQ6v5fhpcoWHEmKG
-         2etwjfqpoUyUlrmWMG26PpfcOqyo3VCIi9AM8X0Asj7ORt3JfFc0AzHjcEZ3M+BnOpw3
-         sCB7UUnMkUXZdpvIUXO1h6ZKtJBzAkWXsWwxPndsU7kF9PbJe4RMN2U8Wy8o+ZZ86863
-         4JUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764759851; x=1765364651;
-        h=mime-version:user-agent:message-id:date:references:in-reply-to
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=UFJKTwjHiAis4wfTQBy6AYXPEaNWvPiC5x9VaYm8ow4=;
-        b=bcUgC5vTsIfZhdoOAydNhxwhdf7QNFCqVGOcREy1eZghVn5gvzCKPW2vDDttS7qUE/
-         KeDebEicTGOmjFIvmIzKVNopsHH3aR+6hy9dwEWS1G3ztxXOkiI9k6CBAlQdTpcXKZN8
-         EqP3TcQ08bWdVbIgPitdkqLyqty3d/E+2P9kOE1CZRWd2ZeW3oVifwPfDV2S5kVuAbrN
-         QbChvLMlX5sDC8+rwMUYso/JWdm2BT4paF+OO0kuwOJecbxFDuIzznW75lGu50ifJNya
-         NbPs08G1tL17TtSbFhR51B4sGq4LLQA5/AvOMGcvDrAOTHKt/YofM0uwfksxqedlxCob
-         WSQA==
-X-Forwarded-Encrypted: i=1; AJvYcCVaEPTwtRGBE6Yh40+nex5geqw9nUtKpZyXY7wrV9GrQuGtCpkKopXoY5RvVGU3vsNL6l8QDMXZ4w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmqgJuXyfFHFkvzQqOXdNIxn96IQJVZYS51kC2TA75L1bC1Lhz
-	61GPBSxwAddSVQSwfitBJKDBKLINEfPiCL8z9x+Z3ORcVVCTpj+RoihaGA6E3ic8+jNJXa5MItQ
-	Sm8VZzl4ElUuyaJbPAKHDW9jXo99I+YxclW8AZBGDzxwgy99kI+OnZPmfnwI9V9/ux8I4IA==
-X-Gm-Gg: ASbGncv1rN7W5hLXpPoYW3FxWxrWd1uzMv/9BdNeX44ZtZOWmU/89XHav6RuOi7r9eB
-	mMIO0MHarJ0A4LyrR8OIWJnPojwUXna0RPG3qBNi0GQl5PERcNa0+Bhmvj6iec8iejlYdpLNWSI
-	eXZxNpXcMxgbK5R5TqmxqTNiwWfveHPNkr8Q6lK8h4cTd6HSBouL84V6PJkA3dIzII+SX/XKCnZ
-	Yf7zAOdsKixLiggZuqUhOFanSMdsQ6HEF1ycaz4iJSN9Q6AxuOsIKSWlvRBB504iDWSJQmlGeUh
-	sQ79guEDYn1v9DmfIf/Myb45pqLx2PUPL3I94+NUA9gfMzr+QcoHX7mmTG4PxudjTlZ/aPXz65o
-	Pu7P3B9U0nXc5Vs0QX3hvliIb
-X-Received: by 2002:a05:620a:44d4:b0:8b1:fde4:59ee with SMTP id af79cd13be357-8b5e763d0aemr234587485a.85.1764759851353;
-        Wed, 03 Dec 2025 03:04:11 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFNbWJbzcy/B+fJSd0ZSuNTdWoH8tv96dKu+U9fsX4anpstqGkK1k1pN4CLnfJoddBVt0Y8gw==
-X-Received: by 2002:a05:620a:44d4:b0:8b1:fde4:59ee with SMTP id af79cd13be357-8b5e763d0aemr234581985a.85.1764759850885;
-        Wed, 03 Dec 2025 03:04:10 -0800 (PST)
-Received: from localhost ([2a01:4b00:b703:c200:1ac0:4dff:fe39:5426])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42e1cac995esm37331534f8f.43.2025.12.03.03.04.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Dec 2025 03:04:10 -0800 (PST)
-From: Punit Agrawal <punit.agrawal@oss.qualcomm.com>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: Punit Agrawal <punit.agrawal@oss.qualcomm.com>,
-        Cristian Marussi
- <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 0/8] firmware: arm_scmi: Refactoring and enablement of
- ACPI PCC transport
-In-Reply-To: <20251126-camouflaged-delightful-cuckoo-ddeac8@sudeepholla>
-	(Sudeep Holla's message of "Wed, 26 Nov 2025 14:31:30 +0000")
-References: <20251017-acpi_scmi_pcc-v1-0-0adbab7709d9@arm.com>
-	<87wm44aect.fsf@stealth>
-	<20251126-camouflaged-delightful-cuckoo-ddeac8@sudeepholla>
-Date: Wed, 03 Dec 2025 11:04:09 +0000
-Message-ID: <877bv3n7x2.fsf@stealth>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1764762119; c=relaxed/simple;
+	bh=tvAIb1JrVzMWIH02LzeQThpEte0RgdN3PXriD9MuNxc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Do5FtyGi77k1PuTJz07hEsCXCMRcw/uesL+f5MtPJFbIjiVurXxQDYXMeTz97PQq4HjR/9SHT++1/1dObkT6DCWJT5Ai6aqujXFYFFskBHKwBQFJzoNoUcfw4tQZiPk7PTM6YBQQ91Vfj6q6OU6dbfolMc20nFO6slQhEhb69hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1150E339;
+	Wed,  3 Dec 2025 03:41:49 -0800 (PST)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 82F203F59E;
+	Wed,  3 Dec 2025 03:41:54 -0800 (PST)
+Date: Wed, 3 Dec 2025 11:41:51 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: firmware: arm,scmi: Document
+ arm,poll-transport property
+Message-ID: <20251203-thick-didactic-cockatoo-deaa1d@sudeepholla>
+References: <20251023123644.8730-1-marek.vasut+renesas@mailbox.org>
+ <aPoxfH_TLrsMxMVQ@pluto>
+ <70554674-7020-4582-a4e7-dbee34907096@mailbox.org>
+ <5ae0a793-d3e7-45d1-bf5c-3c46593d1824@mailbox.org>
+ <aRW7BZimWdpq4TyX@pluto>
+ <20251202-evasive-neon-rhino-d2745e@sudeepholla>
+ <66257fcf-9024-454f-b776-4ba584963ebe@mailbox.org>
+ <aS82GSN8c2SnRn4S@bogus>
+ <8d773671-5e2e-4e21-ade6-2bf9a3b75066@mailbox.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: H6acBoIGnklk1IHrZs7sENo81WzgLxeq
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAzMDA4NyBTYWx0ZWRfX4hhY5A26nEhu
- f3lms8sewb+8F9+MOdaJiQ3ur0+GnrMXqFhftFIOsq3JpAzmuuZXfeMocWDIM+SzSYmeUmiLtCb
- FF8sG3baJsUKavratx6BvIkA6l2wMAT2b6DkNEp91BpGNFnlkA10btDbrsTOg8pA/seX37raPCl
- EmWKEvzt6rfwCBMRYpZxBUPmOyph4rGQvD8+gxWz9BbnBgF8Jd47Aa0+ETx7dRq/lbuojagqUhV
- 3FZyYrNB4V25wVfqY4LUAJxklzQCOpb7PMPvmwBXFn5q5jW/34OVoOr4i0+O4gw4Zeiz6ynhLak
- 28g+nStegi8dZ6mfE/f7O2pCIs2UO/RUuQaVyv7OV31y1flOiIApZgLN489oLB0konDoXORBxpA
- VG0Hk7/OZDd3GphtuVKW8fojv4wu5Q==
-X-Proofpoint-GUID: H6acBoIGnklk1IHrZs7sENo81WzgLxeq
-X-Authority-Analysis: v=2.4 cv=ZqDg6t7G c=1 sm=1 tr=0 ts=6930192c cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7CQSdrXTAAAA:8
- a=Wh0JOPiwVpfDxFduUbEA:9 a=PEH46H7Ffwr30OY-TuGO:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-02_01,2025-11-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 lowpriorityscore=0 suspectscore=0
- priorityscore=1501 spamscore=0 bulkscore=0 adultscore=0 phishscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512030087
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8d773671-5e2e-4e21-ade6-2bf9a3b75066@mailbox.org>
 
-Hi Sudeep,
+On Tue, Dec 02, 2025 at 08:25:11PM +0100, Marek Vasut wrote:
+> On 12/2/25 7:55 PM, Sudeep Holla wrote:
+> 
+> Hello Sudeep,
+> 
+> > > How do you imagine this -- a transport shared with other components, one
+> > > which does generate IRQs and one which does not -- would look like ? Can you
+> > > think of an example ?
+> > > 
+> > 
+> > Consider a system where a mailbox controller is present and one channel is
+> > used for SCMI communication, while another channel is used for an unrelated
+> > purpose. If both channels share the same interrupt line, and the other use
+> > case enables interrupt mode on its channel, what would be the impact on the
+> > SCMI-specific channel?
+> 
+> None, SCMI kernel driver and SCMI server side would still do polling on
+> their respective SHMEM areas, while whatever kernel driver needs to receive
+> the interrupt notifications would subscribe to them using request_irq(),
+> right ?
+> 
 
-Sudeep Holla <sudeep.holla@arm.com> writes:
+Fair enough. I was thinking if the controller manages to not call
+mbox_chan_received_data() in that case. Also IIUC, the irq request happens
+as part of channel startup and there are no explicit APIs for the mbox client
+driver to control that. SCMI is mbox client in this case.
 
-> On Wed, Nov 05, 2025 at 11:49:38AM +0000, Punit Agrawal wrote:
->> Hi Sudeep,
->> 
->> Sudeep Holla <sudeep.holla@arm.com> writes:
->> 
->> > The SCMI can be utilized in systems using either the FDT or ACPI specification.
->> > While FDT-based systems can natively use SCMI, ACPI-based systems often
->> > need to abstract the functionality provided by SCMI under ASL methods.
->> > So far, there has been no need to support SCMI natively on ACPI systems.
->> >
->> > However, with the addition of a few new protocols such as Powercap and Telemetry,
->> > which lack abstractions in the ACPI specification, there is now a need to
->> > run SCMI natively for those use cases.
->> >
->> > This patch series introduces ACPI PCC transport support for the Arm SCMI
->> > framework, alongside several foundational refactors and enhancements to
->> > achieve firmware-node neutrality between Device Tree (DT) and ACPI systems.
->> >
->> > The key changes include:
->> >
->> > 1. ACPI/DT abstraction and fwnode transition
->> >
->> >    Converted the core SCMI code to use `fwnode_handle` instead of DT-specific
->> >    structures, ensuring seamless operation across both ACPI and DT
->> >    environments. All property lookups, child enumeration, and device
->> >    association paths have been updated accordingly.
->> >
->> > 2. Unified transport registration for ACPI and DT
->> >
->> >    Extended the SCMI transport driver macros to support ACPI match tables,
->> >    enabling transports to probe using ACPI device IDs while maintaining
->> >    backward compatibility with DT-only systems.
->> >
->> > 3. Protocol device initialization and refactoring
->> >
->> >    Refactored the protocol device creation and validation logic into a new
->> >    helper for improved readability and maintainability. Enhanced the
->> >    initialization logic to handle ACPI-based SCMI devices without explicit
->> >    child fwnodes.
->> >
->> > 4. Introduction of ACPI PCC transport
->> >
->> >    Added a new SCMI transport driver leveraging ACPI PCCT (Platform
->> >    Communications Channel Table) subspaces via the Linux PCC mailbox
->> >    framework. This enables SCMI communication over PCC on ACPI-based
->> >    platforms.
->> >
->> > Collectively, these changes lay the groundwork for robust SCMI operation on
->> > ACPI platforms, achieving near parity with DT systems where applicable,
->> > while enabling the new PCC transport path for firmware communication.
->> 
->> I was interested in taking a closer look at the patches here but they
->> have a dependency on support for the telemetry protocol patches. I get a
->> compile error.
->> 
->> I was wondering if you have a branch with the dependencies included. Are
->> the v1 telemetry support patches[0] the right version to be using?
->>
+> > I am aware of systems that implement such sharing, which is why I prefer to be
+> > explicit that this type of design is challenging to support within this
+> > binding. The intent is to support only minimal, constrained cases - essentially
+> > systems that are already somewhat broken. I do not see value in broadening the
+> > binding to cover every conceivable scenario.
+> > 
+> > > > Clearly defining these constraints would be helpful. It may also be useful to
+> > > > note that this is primarily intended for mailbox transports, if that’s
+> > > > accurate. Alternatively, we could keep the DT binding definition broader but
+> > > > emit warnings when a transport other than mailbox is used. That approach might
+> > > > make it easier to move forward.
+> > > 
+> > > DEN0056F refers to this polling mode in Shared memory based transports, that
+> > > can be other than mailbox transports, it includes e.g. SMC or OPTEE
+> > > transports.
+> > > 
+> > 
+> > However, polling does not make sense in the context of SMC. Once control
+> > returns from an SMC call, the command has completed. What form of polling in
+> > an SMC workflow do you have in mind?
+> 
+> I think the polling happens on the SHMEM and the SMC transport is capable of
+> that too, see :
+> 
+> drivers/firmware/arm_scmi/transports/smc.c
+> 
+> 175         /*
+> 176          * If there is an interrupt named "a2p", then the service and
+> 177          * completion of a message is signaled by an interrupt rather
+> than by
+> 178          * the return of the SMC call.
+> 179          */
+> 180         scmi_info->irq = of_irq_get_byname(cdev->of_node, "a2p");
+> 
+
+Ah this one, is actually implemented to avoid sort of implicit polling
+mode we get with any SMC/HVC. I don't know how the platform deals with it
+but SMC/HVC is synchronous and doesn't need this polling. The irq introduced
+here is again a sort of workaround to get some sort of async/non-polling
+mode with SMC/HVC. So, to repeat polling mode make absolutely no sense
+whatsoever for SMC/OPTEE(based on pure SMC) transports.
+
+> > I believe the same applies to OP-TEE.
+> > While OP-TEE now provides a notification mechanism that could, in theory,
+> > allow synchronous commands to be treated in a quasi-asynchronous manner, I
+> > strongly doubt that the current SCMI-over-OP-TEE implementation behaves this
+> > way, given that it ultimately reaches the secure side via an SMC call.
+> > 
+> > > I don't think a warning is justified, if the behavior follows the
+> > > specification. But I do agree the behavior is ... suboptimal.
+> > > 
+> > 
+> > The specification does not address SMC or OP-TEE transports, placing them
+> > outside its scope and likewise these DT bindings.
+> 
+> I believe the shmem transport includes the SMC and OPTEE ones, right ?
 >
-> I can create one but that is not strictly necessary. As mentioned in the
-> cover letter, the only dependency is on value of SCMI_PROTOCOL_TELEMETRY
-> ins `scmi_std_protocol` enumeration. Just add one and you must be able to
-> compile the series independent of Cristian series.
 
-Thanks, I managed to get the patches building. Looking forward to the
-series progressing. If possible, do keep me in the loop for future
-updates.
+Yes, but the expectation when the SMC completes is to have the shmem to be
+owned by the OS(except that irq workaround case). Again the OPTEE/SMC is
+completely out of spec, but I agree the SHMEM behaviour must conform to the
+specification.
+
+> > Consequently, what we
+> > decide here in this discussion effectively defines the expected behavior in
+> > this context, in my view. So I would like to start with minimal possible
+> > coverage, why do you think that is not a good idea here ?
+> 
+> I would argue the current implementation covers pretty much every transport
+> which could ever need to do polling on shmem, so the implementation is
+> generic and inline with the specification. Also, the current implementation
+> is some 20 lines, so I think it is minimalistic?
+> 
+> What would you propose we do here ?
+> 
+
+Yes it can be minimalistic but not restrictive. As I already clearly mentioned
+I don't see it makes any sense to enable this for SMC/OPTEE. Lets start with
+just mailbox to start with and extend to other transports if and when needed.
+It would be good to impose that restriction in the binding as well but that
+is not a must IMO. I am fine if the bindings for whatever reasons(though I
+don't see the need) to apply for any transport.
+
+-- 
+Regards,
+Sudeep
