@@ -1,132 +1,177 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF1D311942
-	for <arm-scmi@vger.kernel.org>; Mon,  8 Dec 2025 13:24:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2549F2D94B2;
+	Mon,  8 Dec 2025 16:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765200295; cv=none; b=jGAWrzAjHlsHgelTGRHjDU8j3AFQURQC4O61QCs9DlEdDauowJeaaxhxghE7X7qmRV1jBlKIxpD/BJpBmhwryAy4tIGrEp69Peat4uzTLY6Y3ZJ2knPJ0jEFD7/LX8uDiNvkLAjDFZj4kegfifQPKunq6KR+uUfx70g5CB1qteg=
+	t=1765211408; cv=none; b=jjUy2bkr2v/AvwSeSOkTuV6m45wztBzvL4ihbmCF24VPTwFEH4IKRW8z/inNqFy/IzpyNP3lSARW25bIPErV4OiQY2T40s2W7a66435YcPZbhUNNWI15LqNu0m/GWA885il7Ce3T+ITr6OyIW3hLTKqrZWaFrrMOJKtZJXGcflA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765200295; c=relaxed/simple;
-	bh=N/vD9NIMBdx0UGaCEYgwqH36OYsS96bKye28iDSL2l8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ryDj7AS0Z7ko8THdscothvHuwMPsxv0LygQf6m1LhL0Ov84dp0NUNtUCsQW4lnPjFqenb8pWPK/m8LhQnNLKPdgoq2O15greQzlpvf42xWCDhEWwUAC+dlqEqd1tdt7BEjuGpHJfYK8B4J6zdkaVjgyCHV+3D0/2QaCSwPVKR+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=udcYsB6K; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="udcYsB6K"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-786a822e73aso42418217b3.3
-        for <arm-scmi@vger.kernel.org>; Mon, 08 Dec 2025 05:24:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1765200293; x=1765805093; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mpu/cs/5xHVC6KpSzx7cFK/d7AzU0ZQ/t0FxG+WvyB0=;
-        b=udcYsB6Kt0ZSGCbE/dnm6wSEYnjJT3BM7E/Mum+Tb5gCQfhLNIbJkSwJpoyrZKA/+b
-         04YtkOPe0Mmi230gyIjaATyHEjyetNhCtt9Wi1+7X80L+Tfi6ZKbb1xOnrW4doNFjuj4
-         u/YZ8X4w3byevPJM5kCE71kMZ47kz3wUL/+PyD9m3NILQzHZBO0tqzKlARH73KkRyacY
-         Q9zbwumWgVpgPePA7edVJkfixioOKbm4k5Q+zYeHL+guwTa499aPbuhJEAJlnuxaSDEg
-         mY154hcvdb+ZbH8Fd+mQ2J+cdFj3UpbqI3j3J7ywmUDmbhMEhzVTgNtiK/lNN+trTxLo
-         tlbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765200293; x=1765805093;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mpu/cs/5xHVC6KpSzx7cFK/d7AzU0ZQ/t0FxG+WvyB0=;
-        b=Nd4FUhUePigln6O66mt83J/KOEgq1z4TK7lub5iizn8JveVJzuvmyR1K1j4sfXC/rC
-         XX+kYlNz1Be9ol2LptusemYNucPr8S/Misd30rQghQNbbD/3ZfN5GYk/OFj/rn6c2Bl+
-         lt8NnNFrBxXkd4FNUBtLDk/RfIiAVOxlWAHg6KpVX93TQZRpaYHImIVZSKctOoBssXcY
-         IQsdHZHQmsvlyCSRM1vcnSKOhCguhvzgRwK7ZDCUu5I/wSCffni3Np0jmW38b7E7K+Nx
-         blDc9whziiKKRhsd04kJY6YPPQjTQlke0rAKlF3xtLSo6n1/6ZR/aQngp4SiOGXIwQcX
-         cYsA==
-X-Forwarded-Encrypted: i=1; AJvYcCXJTctL3t7qxpLVkI65/NaczvhzXrSn7szHTmiPhLuw+HS1de6eTOB0vP4BBh+3Qwya/MAnpo5NVw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxDd02eac+97RKYG+IMkpKzMjyCcbxEGE6sPlepjsKFCXnPO8d
-	wrCjxCNwGhwAwiB5WdlZEaC2SsOV4YekqUHAe/7zi0DVmSAh1pZAJQbxFfX9dl26vDUXD+/jALm
-	vmYl9Is6JMCnGCZK7rHPQOtf1Jg3MPC6h6t6OARHcbA==
-X-Gm-Gg: ASbGncse0npwx4LfGLVy+WGs6vR8k6tZ+qdSSxkZzQIhvk1QK1AVTfeHsZDAn2YZLi3
-	iyWa6pHwvblykWbjDh9Yb1jSJ1PAJZ38wKJn3VOnwjhgRLMPQDgYyfQLbTQE4sQm222vj+peuSV
-	wHdGRT7OJ9ciDpOlFb8wzA9hhOk3aD3NUkjWtv+3kq2pF/WVCZR9nBVXUrONxbpy3Y73iVG3CSb
-	nwYBsn9YEgFjFVIaXcl2lIDJyww7E9qwUNZgbKtdwwbFrD/dHUL4anJysXASYiTitOJV6rP
-X-Google-Smtp-Source: AGHT+IE0AuRxNzvS5+Z+cFGpwMA1CWuN4MV7VcMxk53grVuq/mo6go4caopmooiga3p9pToHn9RL/9AL66V4VXW+Eyo=
-X-Received: by 2002:a05:690c:6307:b0:78c:672:9b40 with SMTP id
- 00721157ae682-78c33c64ccfmr69913917b3.55.1765200292824; Mon, 08 Dec 2025
- 05:24:52 -0800 (PST)
+	s=arc-20240116; t=1765211408; c=relaxed/simple;
+	bh=0YFnnRyoofr72fBq6pWHMYFSkqsDU8YOzTAubZLSam4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cRUG/mgFH8Mz85RNlyxy6LgnU9C0RcJhNXGzV5OH/zgvmNLTaY6XV+778oTyGWbVZNRj7jK22FFYpGh254zU+7hHL8j2h9uMMS5xTsCgdB8ELQpBy052iMbfmmwNnHMKQM1q347i5uTfxM5sfRIF9mo2/ofS9sv3a/EDF2O9Ly8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 308D51691;
+	Mon,  8 Dec 2025 08:29:58 -0800 (PST)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 87ECF3F740;
+	Mon,  8 Dec 2025 08:30:03 -0800 (PST)
+Date: Mon, 8 Dec 2025 16:30:00 +0000
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: firmware: arm,scmi: Document
+ arm,poll-transport property
+Message-ID: <20251208-quixotic-cocky-emu-9a3916@sudeepholla>
+References: <20251202-evasive-neon-rhino-d2745e@sudeepholla>
+ <66257fcf-9024-454f-b776-4ba584963ebe@mailbox.org>
+ <aS82GSN8c2SnRn4S@bogus>
+ <8d773671-5e2e-4e21-ade6-2bf9a3b75066@mailbox.org>
+ <20251203-thick-didactic-cockatoo-deaa1d@sudeepholla>
+ <4ccbcffd-bcc7-478b-a525-a4a11e3092ee@mailbox.org>
+ <20251204-calm-peacock-of-fantasy-6b8cbe@sudeepholla>
+ <e25c690c-e74d-4641-a97e-8eae81a59168@mailbox.org>
+ <20251205-winged-quizzical-pigeon-ed692d@sudeepholla>
+ <06fc0557-6b7c-4092-aeec-e3e16bab2d72@mailbox.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251119-pmdomain-hierarchy-onecell-v4-0-f25a1d5022f8@baylibre.com>
- <20251119-pmdomain-hierarchy-onecell-v4-2-f25a1d5022f8@baylibre.com>
-In-Reply-To: <20251119-pmdomain-hierarchy-onecell-v4-2-f25a1d5022f8@baylibre.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 8 Dec 2025 14:24:16 +0100
-X-Gm-Features: AQt7F2o5oTlgmjrE1oNxDidWCM19vZY0IV7rfLV5Fo8hM3AHBEnUaqgxQkEhKFU
-Message-ID: <CAPDyKFq-aGXVTHCqPVQHkVRTffUS+BdK68h2zWDrBpnQGUC6mw@mail.gmail.com>
-Subject: Re: [PATCH RFC v4 2/2] pmdomain: arm_scmi: add support for domain hierarchies
-To: "Kevin Hilman (TI.com)" <khilman@baylibre.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, 
-	linux-pm@vger.kernel.org, arm-scmi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <06fc0557-6b7c-4092-aeec-e3e16bab2d72@mailbox.org>
 
-On Thu, 20 Nov 2025 at 01:58, Kevin Hilman (TI.com)
-<khilman@baylibre.com> wrote:
->
-> After primary SCMI pmdomain is created, use new of_genpd helper to
-> check subdomain mappings, and create domain hierarchy.
->
-> Signed-off-by: Kevin Hilman (TI.com) <khilman@baylibre.com>
-> ---
->  drivers/pmdomain/arm/scmi_pm_domain.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/pmdomain/arm/scmi_pm_domain.c b/drivers/pmdomain/arm/scmi_pm_domain.c
-> index 8fe1c0a501c9..a36bb50c7cf6 100644
-> --- a/drivers/pmdomain/arm/scmi_pm_domain.c
-> +++ b/drivers/pmdomain/arm/scmi_pm_domain.c
-> @@ -41,7 +41,7 @@ static int scmi_pd_power_off(struct generic_pm_domain *domain)
->
->  static int scmi_pm_domain_probe(struct scmi_device *sdev)
->  {
-> -       int num_domains, i;
-> +       int num_domains, i, ret;
->         struct device *dev = &sdev->dev;
->         struct device_node *np = dev->of_node;
->         struct scmi_pm_domain *scmi_pd;
-> @@ -110,7 +110,14 @@ static int scmi_pm_domain_probe(struct scmi_device *sdev)
->
->         dev_set_drvdata(dev, scmi_pd_data);
->
-> -       return of_genpd_add_provider_onecell(np, scmi_pd_data);
-> +       ret = of_genpd_add_provider_onecell(np, scmi_pd_data);
-> +       if (ret)
-> +               return ret;
-> +
-> +       /* check for (optional) subdomain mapping with power-domain-map */
-> +       of_genpd_add_subdomain_map(np, scmi_pd_data);
+On Sun, Dec 07, 2025 at 10:16:36AM +0100, Marek Vasut wrote:
+> On 12/5/25 10:54 AM, Sudeep Holla wrote:
+> 
+> Hello Sudeep,
+> 
+> > > > > > Also IIUC, the irq request happens
+> > > > > > as part of channel startup and there are no explicit APIs for the mbox client
+> > > > > > driver to control that. SCMI is mbox client in this case.
+> > > > > 
+> > > > > Sure, but the mailbox driver has to make sure it is correctly demuxing the
+> > > > > IRQs it handles and correctly sends received_data notifications to the right
+> > > > > channel(s) .
+> > > > > 
+> > > > 
+> > > > Agreed, but the concern is that if SCMI is forced to use polling when the
+> > > > channel is opened, and IRQs are enabled by default with no way for SCMI to
+> > > > disable them in polling mode, we could run into issues.
+> > > 
+> > > This constellation seems odd -- if the channel can do IRQs, then this
+> > > property should not be present in DT.
+> > > 
+> > 
+> > Yes, but there is no way to validate or check this and that is the root
+> > cause for all my worries.
+> 
+> Should a configuration like that even be considered valid and relevant ?
+> 
 
-I think we need to take better care of dealing with errors here.
-Typically a negative return value should be treated as an error, while
-0 should be fine, right?
+Yes, as I have mentioned, there is no way to validate the same in the kernel.
 
-> +
-> +       return ret;
->  }
->
->  static void scmi_pm_domain_remove(struct scmi_device *sdev)
->
-> --
-> 2.51.0
->
+> > > > I realise it’s a very
+> > > > specific corner case, but every time I’ve assumed such scenarios wouldn’t
+> > > > occur, we eventually ended up encountering them. So sorry if I am very
+> > > > pedantic, but I prefer to start smaller and restrictive and expand if and
+> > > > when necessary or required only.
+> > > 
+> > > I don't think this case, where mailbox channel does IRQs and polling is
+> > > enabled, can/should even be considered valid. Either the channel does not do
+> > > IRQs and then it should do polling, or it does IRQs and then it should use
+> > > IRQs, but not both.
+> > > 
+> > 
+> > Yes ideally, but having loose ends like this binding which allows someone
+> > to add it to their DT complicates though it is invalid. We have no way to
+> > detect and I don't want to work around such configs in the future.
+> 
+> If the DT is invalid, bad things happen, but I would argue that is then a DT
+> bug and the DT should be fixed.
+> 
 
-Moreover, I wonder if we need to update the scmi-DT doc [1] too?
+Well, ideally I would like that, but not always the reality.
 
-Kind regards
-Uffe
+> [...]
+> 
+> > > > Yes, that’s essential, because polling in an SMC context is meaningless in my
+> > > > opinion.
+> > > 
+> > > Maybe the "a2p" IRQ is also used for notifications from longer running
+> > > operations ?
+> > > 
+> > 
+> > Yes, it is some sort of work around some platforms implemented as by design
+> > when the SMC returns, the synchronous commands must complete and it is had
+> > to support async SCMI commands without platform specific interrupt(p2a). This
+> > a2p is sort of completion interrupt for synchronous command. I assume the
+> > platform may offload the task from secure f/w to something else otherwise
+> > secure side needs to be given CPU cycles to complete which complicates this.
+> > In short SMC is synchronous and if the execution returns from it in NS world,
+> > the command is complete.
+> 
+> Wouldn't polling still be useful for the async case , even in SMC setup?
+> Note that the SMC setup does use shmem, and therefore can do polling on the
+> shmem.
+> 
 
-[1]
-Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+No, it makes no sense for SMC as I have already mentioned few times.
+
+> > > [...]
+> > > 
+> > > > > > Yes it can be minimalistic but not restrictive. As I already clearly mentioned
+> > > > > > I don't see it makes any sense to enable this for SMC/OPTEE. Lets start with
+> > > > > > just mailbox to start with and extend to other transports if and when needed.
+> > > > > > It would be good to impose that restriction in the binding as well but that
+> > > > > > is not a must IMO. I am fine if the bindings for whatever reasons(though I
+> > > > > > don't see the need) to apply for any transport.
+> > > > > So I should simply drop the smc.c changes , keep the rest, and send V2 ?
+> > > > 
+> > > > Not just that. Unless DT maintainers oppose, I just want to keep this
+> > > > new property valid only for mailbox transport(i.e. "arm,scmi" compatible
+> > > > not otherwise) so that we can catch any other use in binding checks and
+> > > > interested parties must discuss on the list and expand that if they require.
+> > > > 
+> > > > Also we can explore if we can parse and scan this in mailbox transport for
+> > > > now.
+> > > I feel that this only adds more implementation complexity and makes the
+> > > solution less generic, while it does win us very little in the end ? The
+> > > generic solution implementation is actually easier to implement.
+> > 
+> > Yes I want it less generic to start with. Why you want to start making
+> > this workaround on your platform a generic implementation just because
+> > the specification has provision for it ?
+> 
+> Because this is generic kernel code, it seems counterintuitive to introduce
+> less generic solution which requires more complex implementation.
+> 
+
+I would argue. Lot of code gets added as specific and gets generalised
+eventually if there are more users and in different configurations.
+
+> Since the DEN0056 specification states this mode of operation is supported,
+> I also wouldn't call it a workaround.
+
+Sure, I take back if I called it workaround. But why would we want to make
+it generic when we can test only mailbox based platform with it. I don't see
+how it can be useful with SMC/Optee. I am not sure if it is useful with
+virtio and if there is a way to test this. All I am saying is I don't want to
+enable something and advertise it as generic when we have no platform or way
+to test it and keep it functionally correct.
+
+-- 
+Regards,
+Sudeep
