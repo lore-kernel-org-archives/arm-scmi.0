@@ -1,170 +1,186 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925F01531C1
-	for <arm-scmi@vger.kernel.org>; Mon, 15 Dec 2025 12:19:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A55233CEBF
+	for <arm-scmi@vger.kernel.org>; Mon, 15 Dec 2025 14:17:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765801175; cv=none; b=QrLWxENyLm6Ldl2dqXto8RMEH2MJfyNn+YMYPKLT+GvLoEYaXduLNFJrv9J78IhkIbKT6GNHZq37n1ksWcMRVvl3w0z8DQgyNhccqRJcaFl1SONZt8wktzR5i7e835+CZsBt44Y9Zta/4s7YAKUHiFLqmS0O/KypUSIZ9NeIdho=
+	t=1765808260; cv=none; b=CQyzPjjWWAWTzYez4koMP45L43W14RuNmpXH6rwd6k/vTziMYwxjMsKAN+KlUsjpK322XTr3A+2fracs3fsc8qaDYURX0+ktDm33DMrN50rH/lw1hZISj5euXJ3Hags35EKmxr5YqIV2lIvQdIlnWE/XNtlYhVil98hQHesFjGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765801175; c=relaxed/simple;
-	bh=NuzPzNkhUHyQvMReM3aVzVIBKpZZc53fXHQYTDwti+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CKxVMgHt1//pgLeqeduVnmcyrsqftA8ZZk5Fensb3HrtOZc2+d5E2FZoD7oLDLtQvAuYLbn/+wGlXn5noZUghUrFi403uI7/6wC8V1icjGl5NZdLJh6NAHLiQs/UlcWaQDQ9VBHl1PuwCmzPtgNhAxkEv/FshZ11GdH7UwCNwAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NZtTQHri; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765808260; c=relaxed/simple;
+	bh=KVuyHGeUtpLkpGJYZbfb5WtDJicjtg3giXBlS+vhN0U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UxeKJE+r2mq52wtuWhcG++yXCI5opGiWFsPlYsSRMC6TzTfiPKPI3b0O0gG6T5wa7BEMYUUebyCUhIrRaCSyPOHpxhBl+lp6ni5Th8u4mCswNN/nhwAQgQd9K4PyhVzFXmgL4PbNhIWszMrQ17jQvID9eCxatAUw8P0BS1qSg60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=0/MwqUlQ; arc=none smtp.client-ip=209.85.218.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NZtTQHri"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b7eff205947so199221666b.1
-        for <arm-scmi@vger.kernel.org>; Mon, 15 Dec 2025 04:19:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="0/MwqUlQ"
+Received: by mail-ej1-f67.google.com with SMTP id a640c23a62f3a-b7cee045187so693304566b.0
+        for <arm-scmi@vger.kernel.org>; Mon, 15 Dec 2025 06:17:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765801172; x=1766405972; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8EIVisoz06lDNXjmaiCVZEizu/HjA2+TywVOjB9TcLY=;
-        b=NZtTQHriz/rBp04ovQ2pGgrlFQsen9KeHBhRqw1vWP6mC7giBCFa+/yIwf6iglwWDL
-         s7BP+Ol1SFXy0ioafNwWXSEV9grYGrnndN6zz1sBwUulzaEMGzUYZ6xYw1+L34KLgPuH
-         JCTpBsmKXWLoXmHn2HexgFJlZYiX38QJlKZYxW2obltcpb9qIkCbzHVyd6i+PT5zrL18
-         1MnNATqTEY3emFlVeLnClOMyYX1I76PdmnAqUkLdapYMdjINT/tg7/k9teGcxHzBXEAz
-         JlfpA5sBoO2bsDrFlrnWQVkE1NaShG5jsYkky71504D0K1erBTIy3JLvJnBmTI0Vo4WP
-         Jq1Q==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1765808255; x=1766413055; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ppOcPFqIwq9P7NGqZqTz1/tjn18c3F+fMKSBb9x2/Cg=;
+        b=0/MwqUlQdu789oy/P41nfqLWb7EnWXY85sbaj1smEzYO15dtuHKqLxDRGab17o4MUA
+         D9TVJCvajbSn5mubZh7M9K5h4OT9pI/1qbh3beoBI1s+cs7/fK/G4sJRfPkfXVwqwBh3
+         SXWcXenTFagxpnUecAa9mbcMVNCQ0U0akf+J4xD5CfLDcNwb1vJBMEz8cd19gt/edXo+
+         6prwzju0rCEY9Jjuz4PQX50jj8chQizO7srmUjvdHU5PwJBwJQDO9vd0BIIvgTsOQttn
+         fOSTaGyo9VctrEKOw8TJvYNlkT8bhVXwWSOKvHyDcKwgwrFzGeqWEX80uILWCX3i0XTf
+         hi4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765801172; x=1766405972;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8EIVisoz06lDNXjmaiCVZEizu/HjA2+TywVOjB9TcLY=;
-        b=TqxlF9ZDZC/kgbge7vGtgecocrl7+/cU+ThFIAKqlN6DpFw9P2mNY0R46GX645tPvF
-         A0cBc53f4Q8u3QFwoCRCEY6RlxmnQS/gtw1UI2lasHdHbLK8LGKoLPwUfmd5u90YDvbj
-         peRb82GbZcuMH+REb2+LGqjyk/G36d/79IPnsbe9YvN3VgnNKC9f2sMs2v7TRbljw991
-         p2QOFv5Rm0NmSh4GRxkwsmGkxwjoTDF7TFjjI0UpIGQvAbDQ2fJ6mmY03o+9slG4DKeT
-         2znY6YyIYbCuroFFObM7SX8eAEvjUNiFVz2NdGKMKABy1NIp6zUonOs7SIYwwcdWHC8j
-         aeAQ==
-X-Gm-Message-State: AOJu0YzR29jMXD85E9ED/iZX4cGLwHYU4bOBHmPA5hH9QDNUlR1f27J6
-	NmFTrNkApiFNh41ekbxU3NNBBmAS068RovxWWOlGc8J2lBz2RVN8a6HvOzqfNA==
-X-Gm-Gg: AY/fxX5BRaFoLrem04m5a8qQGoJ1Cou5HUF7F4TBiuqM0EFbqxdbP0fhQwKWldGxY2h
-	abjDcjb1sU0Pnf4/eTQl8kHDvM8dW5JvVq9Apc58dkmN1FQup/YtFwCtHGXnxMTVj4abDuNjl3E
-	ncQZjo4c1gcI7huchCN5ThZUa+VfXcFBbjrx+TXgSKwGJLFVd5zGdYaaF2O8iLSllM+wFZNm7fq
-	wLBYL+Z2TPLSvaRr8IM52Z7IFLKt6tJzaaGp/Xhzak/BhGFHv4Zw6dkKjf2540+TdcqG0wKHyJA
-	gij0hIeXnxa+Sq9f/XO24yUzQ3GjuWFai0R3TEA6cX1VuLn5kIy+uMwTZ97YFUTIvfiBshT/NRf
-	4JoMraWUJE7aYIhSHv5oPxkBBwUbsE7EdmYlD5a/2KOtPOHbl4XlvM0ah8mhLWQQupxQSN3vzy9
-	i3JnjvaoXfOP8nVFikeKtke1GiOIRodg5kMOBRHRlvVhlzLZhvKN3YrqHDRQ==
-X-Google-Smtp-Source: AGHT+IG+WUfkxbbaVC1nQxtoqEXbfPMkeMKQEW0INgw7Itg/QrxQghFoFN1QAlRW6k1fNz0/GnCXmg==
-X-Received: by 2002:a17:907:2d29:b0:b7a:1bde:1222 with SMTP id a640c23a62f3a-b7d23ac9760mr1168078566b.63.1765801171186;
-        Mon, 15 Dec 2025 04:19:31 -0800 (PST)
-Received: from localhost (ODAP-199-203-33-160.bb.netvision.net.il. [199.203.33.160])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7cfa2e6dc1sm1371841866b.17.2025.12.15.04.19.30
+        d=1e100.net; s=20230601; t=1765808255; x=1766413055;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ppOcPFqIwq9P7NGqZqTz1/tjn18c3F+fMKSBb9x2/Cg=;
+        b=G5FaPwVx1w3j3cjLurRdKT77K7nkUpqkltulCcGZNtVMoYCuey00jfB039fibEApU/
+         Dvj5z6QQqlh0t0wdipNzLTQukA2z6x8Tx97hnYjDRMIehbyak4YSRCrvlzTYpf892fJn
+         C9/VXchH50BKnT2h7IXkYRF6CA3nrWNf2UkBfKjwUPgAaGRS60Iu4jQOniNb8Ut5HrBo
+         6e50iqFqmsIWIpiKN2nronoO4JHJk7f8qFDFWFwv8mltVcuMhXvNtq7tGz6XGtNwqFb0
+         RKcmz2M2dUhjdZ1x8dNHdCXHqaKPndS4LrC6GtMq1AjOyfw5apLcVWQM/zWDDZj9tgeA
+         9Obw==
+X-Forwarded-Encrypted: i=1; AJvYcCUFL2L+E4tmSXUjU/MrNVjaEpNdAX/aCZYq+L0PAsHS+Mqa/3kEspYSuVucxTYdntMzR1kUdfjD/Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmiclpFm5qW60gv0ckIHlhsb3VMqsL3wKVmVdJrPNQd9bxHUG0
+	3bqYttLG+b+G+ZlAh94SnWJLRSO4hkN9rMVXYsG/q0jEWop7xhWUV53o/6TuvyYQbPo=
+X-Gm-Gg: AY/fxX7UdlXmMSQhLIOao49Z+j2kMJ0UCbLQ2CkNYMs7F1j4d9CiZvAGVkLbdDNnpXW
+	sodYKnw5yifKTCG+9z+W1rGe0vDiuIa4LTMT/t0HHh4rZccX434n9cnLxOd1PfG/nUPP0M0bNes
+	2qls/Wx6C6WxH0SZ0LydA1J2YOX4Ja3ITzjSQNOMRVHJPYpAY5Lunpz36GaEywzLJzskTCqJNQZ
+	k5Y9CGcq2an16X3GuFLNrW+S4BeJqTM4nSrdRxA1k7V4dZDltqq466uXvfVgG7wpTFHvTfdqTQi
+	FD1U8fhzojpuCOBYayvRwU0HwsKKu9KHhytivlmKSakTLhd6JFMXn2Gw1yVf4i4VrDYmgf56Kbt
+	IdDTWvKZ1MvX2+YDoBpBOEKXI9DtQTkKkFZpE1dJDR+dohsvbhmSsIGSkJGXeQ+/jz9Q3+PgCYz
+	5JsI54bEE720jQjv2xNn25o1l81lkcTwmyFBnKS4mgXeKfPItiIAgq126HYg==
+X-Google-Smtp-Source: AGHT+IF5kWl8asvVZ2gDn2/ukMC7FmJVzWuHgbBPUo4GSSTrWpKfiHxIiV3JEK3vNep6zj7EVQ2rxQ==
+X-Received: by 2002:a17:907:a909:b0:b7c:cc8d:14ef with SMTP id a640c23a62f3a-b7d218d55fdmr1188092466b.32.1765808254923;
+        Mon, 15 Dec 2025 06:17:34 -0800 (PST)
+Received: from localhost (ip-046-005-122-062.um12.pools.vodafone-ip.de. [46.5.122.62])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b7cfa56c152sm1380034166b.56.2025.12.15.06.17.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 04:19:30 -0800 (PST)
-Date: Mon, 15 Dec 2025 14:19:29 +0200
-From: "amitaigottlieb@gmail.com" <amitaigottlieb@gmail.com>
-To: arm-scmi@vger.kernel.org
-Cc: amitaig@hailo.ai
-Subject: Re: Fw: [PATCH] firmware: arm_scmi: Fix unused notifier-block in
- unregister
-Message-ID: <20251215121929.uaauv3ikjgv6zuit@hlil-521-lap.qb.hailotech>
-References: <20251211114926.709004-1-amitaig@hailo.ai>
- <aTq2IA6V1nTE-XSC@pluto>
- <aTq-0QAUONrNERGA@stanley.mountain>
- <DB9P194MB13560B1BBAD2A8A8E6260719C1ADA@DB9P194MB1356.EURP194.PROD.OUTLOOK.COM>
+        Mon, 15 Dec 2025 06:17:34 -0800 (PST)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Jens Wiklander <jens.wiklander@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Garg <sumit.garg@kernel.org>,
+	Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	=?utf-8?b?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Sumit Garg <sumit.garg@oss.qualcomm.com>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Jan Kiszka <jan.kiszka@siemens.com>,
+	=?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	=?utf-8?b?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	David Howells <dhowells@redhat.com>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Peter Huewe <peterhuewe@gmx.de>
+Cc: op-tee@lists.trustedfirmware.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-rtc@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	arm-scmi@vger.kernel.org,
+	linux-mips@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	keyrings@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Jason Gunthorpe <jgg@ziepe.ca>
+Subject: [PATCH v2 00/17] tee: Use bus callbacks instead of driver callbacks
+Date: Mon, 15 Dec 2025 15:16:30 +0100
+Message-ID: <cover.1765791463.git.u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DB9P194MB13560B1BBAD2A8A8E6260719C1ADA@DB9P194MB1356.EURP194.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3083; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=KVuyHGeUtpLkpGJYZbfb5WtDJicjtg3giXBlS+vhN0U=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpQBhBsL1Z+rYFoGFHUfEy6nbD85QotpwGnuS0G OxYNqNRFI2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaUAYQQAKCRCPgPtYfRL+ TugUB/9E31O/wKyUkNJNEPUiyayhLen3mT/3afyja8AKlZtLRRSDYD85SklWs8WUYR25f620Tug HCQFCBGP6zvWFDFUJWDts8iS5V7u/2f3fzK4EwWEIO8RjWf//RCGbcOXzrjD+gHhyiO4ntF2NWr 3ospR0B/APcHFEMI3zfkmIaPNlyEhNrddsNRbaHKA+WTWhZm7A/yqOnVYIJ6MLuTrhjHLZZoL5u gBimMOyT/Dmu6TUF9ex7Rhk+vookCt9jpn+vbxsz0ArRtMIo0W8fVdouxPDFA9SMn/bCn6BBJ+B fl85F7WiQwNbfWoeC8/qrjWMCGDfxgyRZi39jRQ+nWgTC5V5
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-On 25/12/15 11:27AM, Amitai Gottlieb wrote:
-> 
-> ________________________________
-> From: Dan Carpenter <dan.carpenter@linaro.org>
-> Sent: Thursday, December 11, 2025 14:53
-> To: Cristian Marussi <cristian.marussi@arm.com>
-> Cc: Amitai Gottlieb <amitaig@hailo.ai>; arm-scmi@vger.kernel.org <arm-scmi@vger.kernel.org>; sudeep.holla@arm.com <sudeep.holla@arm.com>
-> Subject: Re: [PATCH] firmware: arm_scmi: Fix unused notifier-block in unregister
-> 
-> On Thu, Dec 11, 2025 at 12:17:01PM +0000, Cristian Marussi wrote:
-> > On Thu, Dec 11, 2025 at 01:49:27PM +0200, Amitai Gottlieb wrote:
-> > > In function `scmi_devm_notifier_unregister` the notifier-block parameter
-> > > was unused and therefore never passed to `devres_release`. This causes
-> > > the function to always return -ENOENT and fail to unregister the
-> > > notifier.
-> >
-> > [ CC-ing also Sudeep ]
-> >
-> > Hi,
-> >
-> > thanks for this.
-> >
-> > LGTM.
-> >
-> > Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
-> >
-> > >
-> > > In drivers that rely on this function for cleanup this causes
-> > > unexpected failures including kernel-panic.
-> > >
-> > > Fixes: 5ad3d1cf7d34 ("firmware: arm_scmi: Introduce new devres
-> > > notification ops")
-> 
-> This Fixes tag needs to be all on one line.
-> Fixes: 5ad3d1cf7d34 ("firmware: arm_scmi: Introduce new devres notification ops")
-> 
-> > > Signed-off-by: Amitai Gottlieb <amitaig@hailo.ai>
-> > > ---
-> > >
-> > > This is not needed upstream becaues the bug was fixed
-> > > in a refactor by commit 264a2c520628 ("firmware: arm_scmi: Simplify
-> > > scmi_devm_notifier_unregister").  It is needed for the 5.15, 6.1 and
-> > > 6.6 kernels.
-> >
-> > I think there is some sort of syntax to refer to the applicable Kernel
-> > versions in the tag line....not sure it can be easily followed here...so
-> > maybe the above comment is enough...
-> >
-> > More details here...
-> >
-> > https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdocs.kernel.org%2Fprocess%2Fstable-kernel-rules.html&data=05%7C02%7Camitaig%40hailo.ai%7C6aec4657c2364f78663408de38b45031%7C6ae4a5f7546741898f6af2928ed536de%7C0%7C0%7C639010544284877259%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=Kxmnl4F4KpZgBjzGakndjp9EK9A2GfrXFj04F5%2FPIxE%3D&reserved=0<https://docs.kernel.org/process/stable-kernel-rules.html>
-> 
-> I'm pretty sure those little comments aren't parsed automatically...
-> It feels duplicative.  I don't love those little notes because it feels
-> like the Fixes tag should normally be sufficient otherwise I want a full
-> explanation.  There was an embarrassing bug where the notes were wrong
-> and the patch was missing a Fixes tag so it wasn't backported far enough
-> in distro kernels.
-> 
-> It can't hurt to add them to the tag section, I suppose.
-> 
-> Cc: <stable@vger.kernel.org> # 5.15.x, 6.1.x, and 6.6.x
-> 
-> Leaving them out is also fine, really.
-> 
-> We definitely still need the note.  I said before that note about
-> "This is not needed upstream becaues the bug was fixed
-> in a refactor by commit 264a2c520628 ("firmware: arm_scmi: Simplify
-> scmi_devm_notifier_unregister")" should go under the --- cut off line,
-> but actually I think now that it should go into the actual commit
-> message itself.  Otherwise people who work on distro kernels, for
-> example, will wonder why the commit doesn't have an upstream hash.
-> 
-> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
-> 
-> Wait until Sudeep has responded, and then resend the patch to
-> stable@vger.kernel.org with all the Reviewed-by tags.
-> 
-> regards,
-> dan carpenter
+Hello,
 
-I switched to my personal mail as my work was making my life difficult
-while using an external mail client.
+the objective of this series is to make tee driver stop using callbacks
+in struct device_driver. These were superseded by bus methods in 2006
+(commit 594c8281f905 ("[PATCH] Add bus_type probe, remove, shutdown
+methods.")) but nobody cared to convert all subsystems accordingly.
 
-I've waited a few days and Sudeep hasn't responded, is it fine with you
-if I send it off as is?
+Here the tee drivers are converted. The first commit is somewhat
+unrelated, but simplifies the conversion (and the drivers). It
+introduces driver registration helpers that care about setting the bus
+and owner. (The latter is missing in all drivers, so by using these
+helpers the drivers become more correct.)
 
-thanks,
-Amitai
-> 
+v1 of this series is available at
+https://lore.kernel.org/all/cover.1765472125.git.u.kleine-koenig@baylibre.com
+
+Changes since v1:
+
+ - rebase to v6.19-rc1 (no conflicts)
+ - add tags received so far
+ - fix whitespace issues pointed out by Sumit Garg
+ - fix shutdown callback to shutdown and not remove
+
+As already noted in v1's cover letter, this series should go in during a
+single merge window as there are runtime warnings when the series is
+only applied partially. Sumit Garg suggested to apply the whole series
+via Jens Wiklander's tree.
+If this is done the dependencies in this series are honored, in case the
+plan changes: Patches #4 - #17 depend on the first two.
+
+Note this series is only build tested.
+
+Uwe Kleine-König (17):
+  tee: Add some helpers to reduce boilerplate for tee client drivers
+  tee: Add probe, remove and shutdown bus callbacks to tee_client_driver
+  tee: Adapt documentation to cover recent additions
+  hwrng: optee - Make use of module_tee_client_driver()
+  hwrng: optee - Make use of tee bus methods
+  rtc: optee: Migrate to use tee specific driver registration function
+  rtc: optee: Make use of tee bus methods
+  efi: stmm: Make use of module_tee_client_driver()
+  efi: stmm: Make use of tee bus methods
+  firmware: arm_scmi: optee: Make use of module_tee_client_driver()
+  firmware: arm_scmi: Make use of tee bus methods
+  firmware: tee_bnxt: Make use of module_tee_client_driver()
+  firmware: tee_bnxt: Make use of tee bus methods
+  KEYS: trusted: Migrate to use tee specific driver registration
+    function
+  KEYS: trusted: Make use of tee bus methods
+  tpm/tpm_ftpm_tee: Make use of tee specific driver registration
+  tpm/tpm_ftpm_tee: Make use of tee bus methods
+
+ Documentation/driver-api/tee.rst             | 18 +----
+ drivers/char/hw_random/optee-rng.c           | 26 ++----
+ drivers/char/tpm/tpm_ftpm_tee.c              | 31 +++++---
+ drivers/firmware/arm_scmi/transports/optee.c | 32 +++-----
+ drivers/firmware/broadcom/tee_bnxt_fw.c      | 30 ++-----
+ drivers/firmware/efi/stmm/tee_stmm_efi.c     | 25 ++----
+ drivers/rtc/rtc-optee.c                      | 27 ++-----
+ drivers/tee/tee_core.c                       | 84 ++++++++++++++++++++
+ include/linux/tee_drv.h                      | 12 +++
+ security/keys/trusted-keys/trusted_tee.c     | 17 ++--
+ 10 files changed, 164 insertions(+), 138 deletions(-)
+
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+-- 
+2.47.3
+
