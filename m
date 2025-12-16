@@ -1,207 +1,248 @@
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012007.outbound.protection.outlook.com [52.101.66.7])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A71F23C516;
-	Tue, 16 Dec 2025 01:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.7
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765847724; cv=fail; b=IfTf5jhASp5KvKv84baskuyYQzm6fKs6gkXF/91ijnzyPD1MJR9ENDh6yBrbjxB8bXYjPyRsNwPzpjpzVmzXgpf+H9nT1WtT8icrrP6tU7YS8fxWNad9R//49zjjlxfMBwhOaQd0+RGMEpYPQXdAKw9GTnULWFM7gUTlhghveJ8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765847724; c=relaxed/simple;
-	bh=69L4iQPmg5u/CwYiJ8G2k1v5TbZNb7WtCDHOR7563Gg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=HPbqctrohqlSz0CaQbsqdBRcDHLE98Vo0S3hHR7xe83//zQjATFLSrsTrGuXI/Yac9ADk1cgsKLeg82O8If3hiagYNyDBWDPySckp1uPidO3erFPge+/kQ8f0cLVOVmjdoYuAi/ehnOhTxQ/o1J9zWcnyBNhWr53v1hZoVNGjJI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=GCSmP1oE; arc=fail smtp.client-ip=52.101.66.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A9B1DDC33
+	for <arm-scmi@vger.kernel.org>; Tue, 16 Dec 2025 07:38:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765870734; cv=none; b=bBfCSVDYjJ/XfqVKepsOOuJ/oKJWGkt6rYNKg9v/dWJ816FfSo1X+Ofm6v8ULP9Wwjwo3Jr/Gbm8VM8Lm/0n+wOm551d6J78LbA9H6jmKmuHxN/CmCR+xob+CePf5qllADtAhIVy6fMlYDwTz3sCZNIcH33Wtt37/EuEa8cNhvE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765870734; c=relaxed/simple;
+	bh=EVtYPoSK83Vy1+h2LJvKFGGxMbDwlr5oVrnogUjKJi4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QuB7As1G731Ah3NPeQlqJgdP5bH9UQfQnwRZLKSWvGYP796QR1Bsw1wArNeSavJGV7Bg4s77+xRT1WQdr1yq7/6QOQb9cVfLX/w83CnMLwmUOCXvo8bb20nFtrM1rdN7GkdzFVb96xsPhRaZ/x9V+e8wxE83gLFTSUfX/cViBC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XTFIjUfv; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Y2IlkbVO; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="GCSmP1oE"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p3TrKhyuJQgTl1b18E/u1Ge+lRhuo3xORPgwNtBjEBckwj+uncU2mKcTD050BGhVrxN5+VwiJgw9bgMf9AjrCiqCDQhyk5RXYdrr1mXURH7Q7GLglhtlIUv5l8thLBCuLTuYKsG79PIWOvnNEPXSfxmzCdFehTbn+1XTVnZCZvyGO6JF29KxwJc9N8gs1Cb+TKNLtC1l9qN1kimQjuq5t6kzJ8LC8VMtPYDG1NYZbY0eugJGasr5Ihy7s3tvVu3nzkf850zr7/TTR1XEb8qS1uN2HXBNHhmWInLzTn0XZb01yrCAQs0ROk3aMen5xSI9JlNEu5S58Fl7pzlKoZS0PA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z41dYxKwmHODwCD63W+vZTwWBcxzeHeWFa2cp7JzF2U=;
- b=GYq/sXqpV+qoGVrjI/CflByjxRCSaBdv9D2Pa4zVxcSLd3dzyZW48pcBD/ROHjYzCJ9sCz0uiBEvbBemljFPKMA389Zmik/jytJINxZX21u0LgHnQiQI/yWMlhmV5SDnO6Q5ZKQlvWKQ2IhDKGpbMXVmyVOkgctNAcIj6dL4t9k7B5WWccgjawRNBgYtU4vJlATTmss/lMd1z/Ixk30Rco6VMOe1+qKGoAlxFBYKH88HpvIF8YoT/hQIEdkTttD3EjSYGlPVJCvJQwdgfu1UohPPYoPBjVLDo32lpiDHuGez0asBOmPOCH5YToV0JfbIc/Tzsqb/RqShv0HKOmVXYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z41dYxKwmHODwCD63W+vZTwWBcxzeHeWFa2cp7JzF2U=;
- b=GCSmP1oE+mglfqb014WdfdLTr4lsXgtavtImpByZ6hpLEB2W5iQzkhYFwLd5FfhrBi3XocoeCIKe+SyJFX1KtqtOncmhQfBzo5wz9/cKu1TZWObSOkCA+9Z05iij+BhdVP5GZxSaXSmScKpQAtLaFftV6eksjBz/V8Qx5oMUGNLDXsuK9nJPSMayIYVv9ZpNV2MkEtqRPtgA7IbziOf8617/8i2kK2mRc09olm7OUgjDtwYwhNMNOR6ZiRy6uCzKmdEwOd0MBwWPFoNUzOwh2SG0ZVEM/Xgr4p50rr9ZVpbkNoqqecoUiAAUOJCB7nfUcVf036jhcnst5SzyQ/9EeQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
- by DU6PR04MB11207.eurprd04.prod.outlook.com (2603:10a6:10:5c2::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Tue, 16 Dec
- 2025 01:15:18 +0000
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630%4]) with mapi id 15.20.9412.011; Tue, 16 Dec 2025
- 01:15:18 +0000
-Date: Tue, 16 Dec 2025 09:16:23 +0800
-From: Peng Fan <peng.fan@oss.nxp.com>
-To: Peng Fan <peng.fan@nxp.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, arm-scmi@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] firmware: arm_scmi/imx: Support dump syslog
-Message-ID: <aUCy5+vAPzDGeux3@shlinux89>
-References: <20251029-sm-syslog-v3-v3-0-64e14a6e3f87@nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251029-sm-syslog-v3-v3-0-64e14a6e3f87@nxp.com>
-X-ClientProxiedBy: SG2PR04CA0177.apcprd04.prod.outlook.com
- (2603:1096:4:14::15) To PAXPR04MB8459.eurprd04.prod.outlook.com
- (2603:10a6:102:1da::15)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XTFIjUfv";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Y2IlkbVO"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BG6nKMA2810431
+	for <arm-scmi@vger.kernel.org>; Tue, 16 Dec 2025 07:38:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	7YmBFkv7BIT1XO2FEXzhMg2xQ1XFzff8WD9iA8ZhYH0=; b=XTFIjUfvzx+0WxwS
+	dxYZGhHRtRb7qI1JBA4pcqy6vbKSOyzJdExYWJot4nyNC5bP1PQTwaol4/9nrFRR
+	cNpfYq+0xplBniApzuR6QM64JR4xlSIG1ySWQmd+F+q6RI4c/HRYUQu+unYmDuNv
+	ovH/RzLAz31fw6dCPurnScEOA3yMEOiKC7huhtgQOpmNCpjlfq4Dztq5qNeiqYLY
+	jHTLvHGqClBMGi7s6HFS3MNm4vkXZAJdCNq/6X4u1Sqy1Q4F4BpI2jYe9sKTsM8i
+	1uZY0wuJCCs9kowVxYLa+FqZz23OiYWlzDcNPQ/wsbuvItrhExVtvoTS5xD/yNst
+	ibD+sw==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b32gar5dm-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <arm-scmi@vger.kernel.org>; Tue, 16 Dec 2025 07:38:51 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-b99763210e5so8451445a12.3
+        for <arm-scmi@vger.kernel.org>; Mon, 15 Dec 2025 23:38:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1765870731; x=1766475531; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7YmBFkv7BIT1XO2FEXzhMg2xQ1XFzff8WD9iA8ZhYH0=;
+        b=Y2IlkbVOZfKbmsmiUf21URSRg7ynnteK+KhpgS3bYxSgc9IrUARfongdPfiSez9o2i
+         /TSF2dTtYlztiimvLDhH41ux18V6DMvVZsUgU8mfoehTZwOwNToMghR8w4QU4m7m2agn
+         XAbF5r0+Ko9LN5UTcj4PMz8fL0mRvXaWmccqOT0vaSG77pnaj0+1RPp1WI/d1NRjdgA6
+         G3tvfFfKx26EKigXqtSzGA5bwZ4GXeMpEytgk0aYIJLtRpugnVNv+tAT1QH4Q2hQQPJ6
+         RDNI1NNyzuLultZCuAEqQ55l6bxvnl3Rm+crEUfJCoUFQLUgCAo/px54SsX+9EzjuL6P
+         eSCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765870731; x=1766475531;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7YmBFkv7BIT1XO2FEXzhMg2xQ1XFzff8WD9iA8ZhYH0=;
+        b=Wf0OfhIcIuOh7+RQxskYhbCyiiz9c3ccDnRSBgsaRd2IP7O+V16+hUScUXDDnD496M
+         J1PDMjXpve9OEJs/OXh2g9J9EBvOSfyaItDtCNJqH7yDR8lJG/qwRBP5xgZ7epXZsB3y
+         3Oewwr+NKf/DH14NlLNXDLZNX8eOiwNpzFb4GvoAFNu/fBU/JEJFmg+3hSVXYIFZGfCF
+         uASx4+h2/pMU95gL/izuNv7cgep/oRrUF1CyVan+yUOrvpxvNtY6zBSPPRTu+9KXe2+k
+         d5APUcg03zo4FkduV1acMk+FDha3A0NiJF0CpEs6KTJzi+GYtwaZDrwmDu9ZWri9vQFq
+         CcjA==
+X-Forwarded-Encrypted: i=1; AJvYcCWQ0PQBnzK0/nUrkmhhAPkf3Ey1f36eLRc6UFKrs4utKer5Ok7CuBQwCR4FtOuYGk+VN1nT33J8ig==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxAQFuotwrwcF62cIevwbGc1UK2usegnEY/Do8Xxio2x5gGfIUm
+	Aj7FTsiVHCOHwwC4u3qOis38Xwo7Jh+tMS7iWXp53msSwwyOJL2dfMLPUerCyYUXsEHLBc2ul0z
+	Jvp480iOCbx25k3bT0CxzKD4fh3mvLfvtXKGopYesOURDGvKsVBGyXBP8sUls6SaNOOy7xJWlqB
+	XrfMRak6QoRkdUQBJApHQV00teSnsnQTeevwXA
+X-Gm-Gg: AY/fxX5AzHiHaNnOuA3PyRWdZqKeQu3RSTUxsSZz4QJENh+6Ag+EtDzd+4T1QJBMh4r
+	fMae+pIAfvl1tjkQtbytpAm34+Ad2J9YLYLTIbWtdP5ASu5/jEbAbeeVPa1wr/4rUP6drSJN3+F
+	rt2iwrbC+WqrhAKlV/adN32/3RcgMb7sYZKukAyn22muigSwYLDOzPrGwNbZKtHvYdsF4=
+X-Received: by 2002:a05:7300:2a9b:b0:2a4:3593:6453 with SMTP id 5a478bee46e88-2ac2f85e872mr8049929eec.3.1765870731076;
+        Mon, 15 Dec 2025 23:38:51 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFgAxeScCHPFScnumP+kyrXe4heJGwYVQRSxj+hObliMSDxJWWHv5hYUxaMExJMrxhceQO+g6cVj0vLQa5OEdY=
+X-Received: by 2002:a05:7300:2a9b:b0:2a4:3593:6453 with SMTP id
+ 5a478bee46e88-2ac2f85e872mr8049887eec.3.1765870730525; Mon, 15 Dec 2025
+ 23:38:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|DU6PR04MB11207:EE_
-X-MS-Office365-Filtering-Correlation-Id: 74ae38dc-a510-40fe-8faf-08de3c4092f6
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|52116014|7416014|376014|366016|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?OjxNIufcmDQFJ5oAee50/hkyK9LOFxVOI7VYv8fYNwBPoJLiUcVty3CEhjnb?=
- =?us-ascii?Q?PGMLZ4b6hircA4A0ZFkbpLz6f3Bxq895c+sTTLQ9yEKzQNbSnnwFOua6aAD4?=
- =?us-ascii?Q?4ro5OKPi0EK12fwolO09tlseub37VCeZfR+Fr42idTOORPCDN1HyPo/LNgUW?=
- =?us-ascii?Q?63bdvCKrBTdD+OpkKW0CgVdGU/THt+vV61GRjEPNtt8fsNHqDEUK+M9klyZS?=
- =?us-ascii?Q?lQqo877ISIx0O06XKIQLbphZ6m2XJ3UDxF08Yyt7wpcae1iR/TReaNJDMUws?=
- =?us-ascii?Q?vZNXiHWzE/NEmVYxxi5djx/vV6oIAP4FEq3VbPGoBSbQGl0hkse9ezaJ/gRk?=
- =?us-ascii?Q?rKFiQ8NgC2MlQkH0jWVWMFySv2PehS76+G763wqZp4CJWX7Sv0dpQAxyl1xY?=
- =?us-ascii?Q?N2Iz5KjtLzanJt7y5uu3NB+6a9sIfwv2d28gmYA3TwWmt+VZnLCbw77pdZDB?=
- =?us-ascii?Q?UIswWv/3QHSzohyJW5aX6UqVdxrYlFtsOg+X98uC4qqmMIAbEnnL0U0sgm2P?=
- =?us-ascii?Q?mq7b1LWGNcWH3S9c3sfBeG6ltM3s9zhBbkxXHhuJymy6ObRiig2Y93FbwfHm?=
- =?us-ascii?Q?QQdWlHJtVg3VGmZhLEyeZStdr2ohRmyse8UTZsOROsV9arLbipT2MGrfuBhH?=
- =?us-ascii?Q?7A1SRSvuvvK+1WGcWOKHB+ioNyv8ljoQ7Ty1mbnxp+1+Rq7jU2x32tDBQeBW?=
- =?us-ascii?Q?HmPafLtrBFU2iLKarVLShqm5fMuFGLgzslAk5ryjfm6jZ2Z7TXFG8KCIvpOZ?=
- =?us-ascii?Q?s+DT3vm/n0Q769m7U11Ul5kLLkMJhesvZ68yRpQtczL3Hi3AiHo4kH1KBpHi?=
- =?us-ascii?Q?5cS4fsoNXkSwEOAbD4oxz2P8QJFEZR9C81UKaV8b0eWDffQJ574TYANWTYmW?=
- =?us-ascii?Q?E+kUGj63BUpc/YFLpq4hnVC4WgCT53hUFX14EZCniZJDGjJpVrc4mdbFfqbZ?=
- =?us-ascii?Q?biCoGds+jX483hUNT8NR7NdcneWD7W0YKthu38sjHbib3UJvTD6+exrUNyX7?=
- =?us-ascii?Q?k+QWMyqwPVEC6Ma4JhpX9N8rq2zGDkSOu6uHC97+YefvGBv1oE7gYV8cW0n7?=
- =?us-ascii?Q?WB34dJChgCyyFqm4XDHmVYQU5u3srpRn51bB9/EpbwDDNWukP1O1r8QsQyRQ?=
- =?us-ascii?Q?9PI8e3+omfpI+BgLj+ONWMSuZggi5Qw4LSX5y4gkpCIqVpaAtDtNBZdt+DnH?=
- =?us-ascii?Q?wWzMnFuJS/B39Pb7emQQ+IKSSDVLiqH8l6qtoDpT5ZcinHrmexPKXvgkILuE?=
- =?us-ascii?Q?LYODN0ZzlUTsmrYc6r0oMbfwLpchhyIKuMuhBwtVAEClqBLO7Dja8Ynk2yr8?=
- =?us-ascii?Q?SNOb+KOAbfy2Pk7Pa2OIb1agHt0evYRgsIn3pn4bZEo2W5AMs6zOkb3P6j9Y?=
- =?us-ascii?Q?Yhwp6i9q0qmv4QXEvZBA8Mgex0p/qnWEoFwFsZRJ2H37coKcY4Op8wFrnUMn?=
- =?us-ascii?Q?Wrtrcf1BKix4W8w1fRSLGroYLPA8I9Kh104wHmNU+wB7jq9IDZOR2qHzX34r?=
- =?us-ascii?Q?c4l31GY7bF/H6NYQOaMxhwYBy9JAfmHz8Zy0Z4O/j8z0V7kFxzyHs/RYiQ?=
- =?us-ascii?Q?=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(52116014)(7416014)(376014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?1cs4wpKFn2RL61CTFo9SeObjBG9xCMQG08ydVIbLVambaLDt6BsOJkydg3za?=
- =?us-ascii?Q?V0BOQAoi/RT5Xfhy1ppBOTUS/v5xpJ99O08QXJPmRXnKg5s+SMmPIr93pfXK?=
- =?us-ascii?Q?dYdrQjYoHWS65cgtYjBA1skwd+/r5amr5JZzgrRDs9uWz48ioMgyA2iE6pAY?=
- =?us-ascii?Q?QZ/9ZAwzEo20zgUPcH3wArTwQghSJ2XTIkOvt5pZkH6FetkA/YDkJeZcrxST?=
- =?us-ascii?Q?krnt5w/N71vq4pwizfvOv3cKzDcEmN1EYq0Yl4x46LXIHCq+5744X37AEa2S?=
- =?us-ascii?Q?bhWAcWK8Tw7o7eZYbS2o8vgOLTD8ODDEgPnxOqWNgpzxP06REYAJ5zpNOQ3R?=
- =?us-ascii?Q?i3Gcr1LhJkU5TlM4/t+u4AHeh699nwTGR+Z2tytfFSyZBs53GplAH1FJoaNg?=
- =?us-ascii?Q?bDfVJDAhb4J6lr0QKu7GYDcAUo3/8p+rt+/v39cDLs1OoVEVJDb4mYpgGkgR?=
- =?us-ascii?Q?VCiCj2tbKWO5MrBKIBV3wPulLcuXjdx4BtovNwU7u0ULAWepWIWAZ32CyQX+?=
- =?us-ascii?Q?8hVSBf8Lav5artug6eCYqHLcs8V7pzY5BWGc0lis0DH7Jyzzv6rXcXymdQcp?=
- =?us-ascii?Q?uWGLya1QfOPg2iMNyaDbM9AqDJCgce4WkCznpM6BS/yQ70gph6fl9lcbnn4t?=
- =?us-ascii?Q?LeXMWHY0QaonR+adqdb4NwTulo+F0sbv9ZIYUjIqSc4CESjdrUJAoM0PA4zf?=
- =?us-ascii?Q?LckroGQ9hRJdaPwHOyZ1Ah4nWrv4vyB4Zpixa2EcbDipMX5tst2qi7CJpIDs?=
- =?us-ascii?Q?MW/ngTspviNRPRKs2aAZYIgoYcfzVJHlaT/V3Gt+dF0C+AQtXozlOGha2Rlb?=
- =?us-ascii?Q?ZygrA9z2lAMG4TMnabe8yNdOwEEzG1H+0N8pcQ0yBECCEnx2NV+qI4QC7cYv?=
- =?us-ascii?Q?o0Eo0mBbRuF66/hhWjsNGA4vLLB14Y8uKv3xPXerNGhLBqx/Ykw/mg02zkyE?=
- =?us-ascii?Q?Dc6KoOtL8rAsab/AXHxBgtWjO7XeANeO8WHsOK1q+YlBeLuctfYAadJGFrsj?=
- =?us-ascii?Q?pSdSc0+UqkOPEL0gM0QIh4EnpceVRxXk6ZkOTsoOCrKt7YhC1RVa/DujIkNL?=
- =?us-ascii?Q?ePoKqbhrgDI08ZL3WZQOnqBC9mPfzNu5oFB7jw8vz5+oQb5/w4QO0vvTVOm2?=
- =?us-ascii?Q?+dypQBPDj5juOhdduSImYi+4Vrh69divZt44PWxBEOiV37vHzsXCQ6TcmO20?=
- =?us-ascii?Q?2tVNVeXa4eIwHn1tKXrlRSJFivOQMEl4j0zyFSMpd/V+3pvONrD7a/K8SW2B?=
- =?us-ascii?Q?sCT5Eemhz5LTNAXoioSR4YljxAn4wNLXYk+V3WxwCfV90VDAcCgpD3F1rnmE?=
- =?us-ascii?Q?MFiLFPOS7wTGCdJ76OuZ2qZ6PDkiOe5r1i9prXxFNTa4RGF3SUyOxa8F/oDx?=
- =?us-ascii?Q?qgAXTbivlOvHkyan1Iy8QrsVV3wJpxTyUqUJah0Byo+xlFh+kBSw7YDWSNxI?=
- =?us-ascii?Q?KkJJIOo7KBtBz6GifFUT/jsNT29DWKD4ZQVvjByMbn3Pf8QeunvqLFb8JZu7?=
- =?us-ascii?Q?4QSCGOJ2pRV5IGCrQXOKGJpT9VitiomBH1Gjlwn1jLjnwyWlTqmamhQJs4h+?=
- =?us-ascii?Q?6ig/MzPi04ldnoHAZV+aWE+bcVsQ52k8RuAw5nGS?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74ae38dc-a510-40fe-8faf-08de3c4092f6
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 01:15:17.9536
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3rrTWPPDuR/Rf8jggHTU9O46pC/qtnNPl7RKi+60VlWg1cDs5ih2zwOIUyTzAv0Vr3pgueIognmrvSlHAdnWtg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU6PR04MB11207
+References: <cover.1765472125.git.u.kleine-koenig@baylibre.com>
+ <aT--ox375kg2Mzh-@sumit-X1> <dhunzydod4d7vj73llpuqemxb5er2ja4emxusr66irwf77jhhb@es4yd2axzl25>
+In-Reply-To: <dhunzydod4d7vj73llpuqemxb5er2ja4emxusr66irwf77jhhb@es4yd2axzl25>
+From: Sumit Garg <sumit.garg@oss.qualcomm.com>
+Date: Tue, 16 Dec 2025 13:08:38 +0530
+X-Gm-Features: AQt7F2pIGEo3k7l40jiSNtQzSXPgQLv36wLttu_75OXJz9aTmVe9GGZBfjh5ELU
+Message-ID: <CAGptzHOOqLhBnAXDURAzkgckUvRr__UuF1S_7MLV0u-ZxYEdyA@mail.gmail.com>
+Subject: Re: [PATCH v1 00/17] tee: Use bus callbacks instead of driver callbacks
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Sumit Garg <sumit.garg@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Olivia Mackall <olivia@selenic.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Michael Chan <michael.chan@broadcom.com>,
+        Pavan Chebbi <pavan.chebbi@broadcom.com>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+        David Howells <dhowells@redhat.com>, Paul Moore <paul@paul-moore.com>,
+        James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+        Peter Huewe <peterhuewe@gmx.de>, op-tee@lists.trustedfirmware.org,
+        linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
+        netdev@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-security-module@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Authority-Analysis: v=2.4 cv=Vcb6/Vp9 c=1 sm=1 tr=0 ts=69410c8b cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=IpJZQVW2AAAA:8
+ a=sfbzD7rgGHNppxHmi9UA:9 a=QEXdDO2ut3YA:10 a=_Vgx9l1VpLgwpw_dHYaR:22
+ a=IawgGOuG5U0WyFbmm1f5:22
+X-Proofpoint-GUID: rL8OyqM0t4cbpyMp4jm4zy79ciDHh8LF
+X-Proofpoint-ORIG-GUID: rL8OyqM0t4cbpyMp4jm4zy79ciDHh8LF
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE2MDA2MiBTYWx0ZWRfX1Qj4HbqOgT5r
+ Lt+e1yaUWMC53SxVtueFNVrn8h0227AmtFlmmHvqsaJ/l31wDCpr3Lf/VNGwj3itlxqs7DD6Iih
+ dJ2wR6vQU9y+KyhFqLVny5MIOXWs74LZRw4u9jcY3S+PxWVh+lOMS98JmOsOrjTsVZP4nxb3fo+
+ xShbHemwO6J1gBqe2dniyArPuHMXmf8ZqCOGzmI+/Tgf0OzhbDB9YkxOoQAnfZhzbnMN1Rwu2gs
+ JSt/IC/JNT2CkhUxIVRuGB8XIBMOeLIQLa4whpK48W2kEN7k6EHRckd3M/94Ql6SCMZ2i7O5zTv
+ +T8PiH4s4QWZiuyMTDFPyjUSz+orbj21WqtLS3qVMFh8EWX+7Y/D0OmEGv08SRM9pbLBg73GWrJ
+ Gw+0aJXQugjG2M8qZSwAFxONuLb9gg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-16_01,2025-12-15_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 priorityscore=1501 adultscore=0 lowpriorityscore=0 spamscore=0
+ clxscore=1011 impostorscore=0 phishscore=0 malwarescore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512160062
 
-Hi Sudeep, Cristian
+Hi Uwe,
 
-Just checking in - did you get a chance to review this patchset?
-Please let me know if you need any additional details or context.
+On Mon, Dec 15, 2025 at 3:02=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@baylibre.com> wrote:
+>
+> Hello Sumit,
+>
+> On Mon, Dec 15, 2025 at 04:54:11PM +0900, Sumit Garg wrote:
+> > On Thu, Dec 11, 2025 at 06:14:54PM +0100, Uwe Kleine-K=C3=B6nig wrote:
+> > > Hello,
+> > >
+> > > the objective of this series is to make tee driver stop using callbac=
+ks
+> > > in struct device_driver. These were superseded by bus methods in 2006
+> > > (commit 594c8281f905 ("[PATCH] Add bus_type probe, remove, shutdown
+> > > methods.")) but nobody cared to convert all subsystems accordingly.
+> > >
+> > > Here the tee drivers are converted. The first commit is somewhat
+> > > unrelated, but simplifies the conversion (and the drivers). It
+> > > introduces driver registration helpers that care about setting the bu=
+s
+> > > and owner. (The latter is missing in all drivers, so by using these
+> > > helpers the drivers become more correct.)
+> > >
+> > > The patches #4 - #17 depend on the first two, so if they should be
+> > > applied to their respective subsystem trees these must contain the fi=
+rst
+> > > two patches first.
+> >
+> > Thanks Uwe for your efforts to clean up the boilerplate code for TEE bu=
+s
+> > drivers.
+>
+> Thanks for your feedback. I will prepare a v2 and address your comments
+> (whitespace issues and wrong callback in the shutdown method).
+>
+> > > Note that after patch #2 is applied, unconverted drivers provoke a
+> > > warning in driver_register(), so it would be good for the user
+> > > experience if the whole series goes in during a single merge window.
+> >
+> > +1
+> >
+> > I suggest the whole series goes via the Jens tree since there shouldn't
+> > be any chances for conflict here.
+> >
+> > > So
+> > > I guess an immutable branch containing the frist three patches that c=
+an
+> > > be merged into the other subsystem trees would be sensible.
+> > >
+> > > After all patches are applied, tee_bus_type can be made private to
+> > > drivers/tee as it's not used in other places any more.
+> > >
+> >
+> > Feel free to make the tee_bus_type private as the last patch in the ser=
+ies
+> > such that any followup driver follows this clean approach.
+>
+> There is a bit more to do for that than I'm willing to invest. With my
+> patch series applied `tee_bus_type` is still used in
+> drivers/tee/optee/device.c and drivers/tee/tee_core.c.
 
-Thanks,
-Peng
-On Wed, Oct 29, 2025 at 08:07:00PM +0800, Peng Fan wrote:
->This is the patch 5 and 6 from patchset [1] with switching to using raw
->dump, per check with Sudeep and NXP i.MX SM firmware owner
+Oh I see, I guess we need to come with some helpers around device
+register/unregister from TEE subsystem as well. Let's plan that for a
+followup patch-set, I don't want this patch-set to be bloated more.
+
+> Maybe it's
+> sensible to merge these two files into a single one.
+
+It's not possible as the design for TEE bus is to have TEE
+implementation drivers like OP-TEE, AMD-TEE, TS-TEE, QTEE and so on to
+register devices on the bus.
+
 >
->System Manager firmware provides API to dump system log information.
->So add the interface for Linux to retrieve the information.
+> The things I wonder about additionally are:
 >
->In patch 1, I drop the two structures compared to patch 5 in [1]:
->struct scmi_imx_misc_sys_sleep_rec
->struct scmi_imx_misc_syslog
->No other changes in this patch.
+>  - if CONFIG_OPTEE=3Dn and CONFIG_TEE=3Dy|m the tee bus is only used for
+>    drivers but not devices.
+
+Yeah since the devices are rather added by the TEE implementation driver.
+
 >
->In patch 2, I switched to use debugfs to do raw dump the syslog, compared
->with patch 6 in [1].
+>  - optee_register_device() calls device_create_file() on
+>    &optee_device->dev after device_register(&optee_device->dev).
+>    (Attention half-knowledge!) I think device_create_file() should not
+>    be called on an already registered device (or you have to send a
+>    uevent afterwards). This should probably use type attribute groups.
+>    (Or the need_supplicant attribute should be dropped as it isn't very
+>    useful. This would maybe be considered an ABI change however.)
+
+The reasoning for this attribute should be explained by commit:
+7269cba53d90 ("tee: optee: Fix supplicant based device enumeration").
+In summary it's due to a weird dependency for devices we have with the
+user-space daemon: tee-supplicant.
+
 >
->[1] https://lore.kernel.org/arm-scmi/PAXPR04MB845937237E3C1AF5A2ABA8FA880CA@PAXPR04MB8459.eurprd04.prod.outlook.com/T/#m6ed303ac9c584c6e2ab39f89359f3131b
->dfcc9e5
->
->Signed-off-by: Peng Fan <peng.fan@nxp.com>
->---
->Changes in v3:
->- Rebased to next-20251028
->- Drop unused variable to avoid build warning reported by kernel test robot
->- Link to v2: https://lore.kernel.org/arm-scmi/20251011-sm-syslog-v2-1-v2-0-f43a3f6b32e4@nxp.com/
->
->Changes in v2:
->- Rebased to next-20251010
->- Patch 2: Remove the IS_ERR check for debugfs_create_dir per Dan Carpenter
->           Change 'return 0' to 'return devm_add_action_or_reset'
->	   Drop the size check
->	   Include 'linux/sizes.h' to avoid build break
->- Link to v1: https://lore.kernel.org/r/20250910-sm-syslog-v1-0-5b36f8f21da6@nxp.com
->
->---
->Peng Fan (2):
->      firmware: arm_scmi: imx: Support getting syslog of MISC protocol
->      firmware: imx: sm-misc: Dump syslog info
->
-> .../firmware/arm_scmi/vendors/imx/imx-sm-misc.c    | 83 ++++++++++++++++++++++
-> drivers/firmware/imx/sm-misc.c                     | 37 +++++++++-
-> include/linux/scmi_imx_protocol.h                  |  2 +
-> 3 files changed, 121 insertions(+), 1 deletion(-)
->---
->base-commit: f7d2388eeec24966fc4d5cf32d706f0514f29ac5
->change-id: 20251029-sm-syslog-v3-0143f85b0ce6
->
->Best regards,
->-- 
->Peng Fan <peng.fan@nxp.com>
->
+>  - Why does optee_probe() in drivers/tee/optee/smc_abi.c unregister all
+>    optee devices in its error path (optee_unregister_devices())?
+
+This is mostly to take care of if any device got registered before the
+failure occured. Let me know if you have a better way to address that.
+
+-Sumit
