@@ -1,248 +1,193 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A9B1DDC33
-	for <arm-scmi@vger.kernel.org>; Tue, 16 Dec 2025 07:38:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FDA3358A4
+	for <arm-scmi@vger.kernel.org>; Tue, 16 Dec 2025 11:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765870734; cv=none; b=bBfCSVDYjJ/XfqVKepsOOuJ/oKJWGkt6rYNKg9v/dWJ816FfSo1X+Ofm6v8ULP9Wwjwo3Jr/Gbm8VM8Lm/0n+wOm551d6J78LbA9H6jmKmuHxN/CmCR+xob+CePf5qllADtAhIVy6fMlYDwTz3sCZNIcH33Wtt37/EuEa8cNhvE=
+	t=1765883325; cv=none; b=Bdknc49kwuAmHraF2iTMgHw4bibFdlqGfCpSiByWQbvdv0sQvynpV5Ifc1LpUN7ZqhzP/ago4mmWmV3kdHw2IO/wWMGE7pBU2pVdsmfvxDXh70Tax2esPaaoo6m5l2rsav6JJLQttDjH0BkhwLRCDaa9nWWXP4B6z+smJETaOl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765870734; c=relaxed/simple;
-	bh=EVtYPoSK83Vy1+h2LJvKFGGxMbDwlr5oVrnogUjKJi4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QuB7As1G731Ah3NPeQlqJgdP5bH9UQfQnwRZLKSWvGYP796QR1Bsw1wArNeSavJGV7Bg4s77+xRT1WQdr1yq7/6QOQb9cVfLX/w83CnMLwmUOCXvo8bb20nFtrM1rdN7GkdzFVb96xsPhRaZ/x9V+e8wxE83gLFTSUfX/cViBC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XTFIjUfv; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Y2IlkbVO; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1765883325; c=relaxed/simple;
+	bh=7eCpaO8h0XuRWUlnnZDRQQvxiOwboz4wCDo5+3haAtQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mKTwJFTa7vBq8NQpve8jMMcDJvQ/A4o9gv7kk0foJU0AKBD/fVovUOErBqv5VQ16Pa1pX8TE/y38/x4vggkMNDk+3ojzJajM5w7U4f4/TVJT2UkaIWgwTyujkUN2cqmnvuiEwHp35+74TXymKlKpginauGPtFcsLWWaE7UTYvC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=TuhEal39; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XTFIjUfv";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Y2IlkbVO"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BG6nKMA2810431
-	for <arm-scmi@vger.kernel.org>; Tue, 16 Dec 2025 07:38:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	7YmBFkv7BIT1XO2FEXzhMg2xQ1XFzff8WD9iA8ZhYH0=; b=XTFIjUfvzx+0WxwS
-	dxYZGhHRtRb7qI1JBA4pcqy6vbKSOyzJdExYWJot4nyNC5bP1PQTwaol4/9nrFRR
-	cNpfYq+0xplBniApzuR6QM64JR4xlSIG1ySWQmd+F+q6RI4c/HRYUQu+unYmDuNv
-	ovH/RzLAz31fw6dCPurnScEOA3yMEOiKC7huhtgQOpmNCpjlfq4Dztq5qNeiqYLY
-	jHTLvHGqClBMGi7s6HFS3MNm4vkXZAJdCNq/6X4u1Sqy1Q4F4BpI2jYe9sKTsM8i
-	1uZY0wuJCCs9kowVxYLa+FqZz23OiYWlzDcNPQ/wsbuvItrhExVtvoTS5xD/yNst
-	ibD+sw==
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b32gar5dm-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Tue, 16 Dec 2025 07:38:51 +0000 (GMT)
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-b99763210e5so8451445a12.3
-        for <arm-scmi@vger.kernel.org>; Mon, 15 Dec 2025 23:38:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="TuhEal39"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4779a637712so29871125e9.1
+        for <arm-scmi@vger.kernel.org>; Tue, 16 Dec 2025 03:08:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1765870731; x=1766475531; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7YmBFkv7BIT1XO2FEXzhMg2xQ1XFzff8WD9iA8ZhYH0=;
-        b=Y2IlkbVOZfKbmsmiUf21URSRg7ynnteK+KhpgS3bYxSgc9IrUARfongdPfiSez9o2i
-         /TSF2dTtYlztiimvLDhH41ux18V6DMvVZsUgU8mfoehTZwOwNToMghR8w4QU4m7m2agn
-         XAbF5r0+Ko9LN5UTcj4PMz8fL0mRvXaWmccqOT0vaSG77pnaj0+1RPp1WI/d1NRjdgA6
-         G3tvfFfKx26EKigXqtSzGA5bwZ4GXeMpEytgk0aYIJLtRpugnVNv+tAT1QH4Q2hQQPJ6
-         RDNI1NNyzuLultZCuAEqQ55l6bxvnl3Rm+crEUfJCoUFQLUgCAo/px54SsX+9EzjuL6P
-         eSCQ==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1765883321; x=1766488121; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JzbZNSoR9XV7c/fw2WEyAJLfwBQw/kZL/Ydt6MIWYlk=;
+        b=TuhEal39hD7OzJsRaLhLQRzrJWrmiGxmtcdjrQQEW3h4ZHalghwmMgBq5J88Pvef9/
+         1AyxW7vmjGodV8qgsJmC3Dy2PBUX8p80aXi1G2HA0Q/38H1Vz0fvkmnUHJz8oR2nN5nX
+         lzluP0XFgEIOQmzX5WCwDHqg9J+STt5D/CvEH5OlmpJa4VBcMX20w6Axb3xxbbFuOjYf
+         31xqFcD1UKZguaYIOdSgvBeQRZuFNraMApNS3a1DDHOxFJR/xqGB+OkPq9p1lC/qS+QX
+         4siVEiXEDqiCFDLE26nWnEFiiMNdVlDtsnk4gY2ytH0eU23DNANtfygwZ+Fc6a2uvfzK
+         eiBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765870731; x=1766475531;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=7YmBFkv7BIT1XO2FEXzhMg2xQ1XFzff8WD9iA8ZhYH0=;
-        b=Wf0OfhIcIuOh7+RQxskYhbCyiiz9c3ccDnRSBgsaRd2IP7O+V16+hUScUXDDnD496M
-         J1PDMjXpve9OEJs/OXh2g9J9EBvOSfyaItDtCNJqH7yDR8lJG/qwRBP5xgZ7epXZsB3y
-         3Oewwr+NKf/DH14NlLNXDLZNX8eOiwNpzFb4GvoAFNu/fBU/JEJFmg+3hSVXYIFZGfCF
-         uASx4+h2/pMU95gL/izuNv7cgep/oRrUF1CyVan+yUOrvpxvNtY6zBSPPRTu+9KXe2+k
-         d5APUcg03zo4FkduV1acMk+FDha3A0NiJF0CpEs6KTJzi+GYtwaZDrwmDu9ZWri9vQFq
-         CcjA==
-X-Forwarded-Encrypted: i=1; AJvYcCWQ0PQBnzK0/nUrkmhhAPkf3Ey1f36eLRc6UFKrs4utKer5Ok7CuBQwCR4FtOuYGk+VN1nT33J8ig==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAQFuotwrwcF62cIevwbGc1UK2usegnEY/Do8Xxio2x5gGfIUm
-	Aj7FTsiVHCOHwwC4u3qOis38Xwo7Jh+tMS7iWXp53msSwwyOJL2dfMLPUerCyYUXsEHLBc2ul0z
-	Jvp480iOCbx25k3bT0CxzKD4fh3mvLfvtXKGopYesOURDGvKsVBGyXBP8sUls6SaNOOy7xJWlqB
-	XrfMRak6QoRkdUQBJApHQV00teSnsnQTeevwXA
-X-Gm-Gg: AY/fxX5AzHiHaNnOuA3PyRWdZqKeQu3RSTUxsSZz4QJENh+6Ag+EtDzd+4T1QJBMh4r
-	fMae+pIAfvl1tjkQtbytpAm34+Ad2J9YLYLTIbWtdP5ASu5/jEbAbeeVPa1wr/4rUP6drSJN3+F
-	rt2iwrbC+WqrhAKlV/adN32/3RcgMb7sYZKukAyn22muigSwYLDOzPrGwNbZKtHvYdsF4=
-X-Received: by 2002:a05:7300:2a9b:b0:2a4:3593:6453 with SMTP id 5a478bee46e88-2ac2f85e872mr8049929eec.3.1765870731076;
-        Mon, 15 Dec 2025 23:38:51 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFgAxeScCHPFScnumP+kyrXe4heJGwYVQRSxj+hObliMSDxJWWHv5hYUxaMExJMrxhceQO+g6cVj0vLQa5OEdY=
-X-Received: by 2002:a05:7300:2a9b:b0:2a4:3593:6453 with SMTP id
- 5a478bee46e88-2ac2f85e872mr8049887eec.3.1765870730525; Mon, 15 Dec 2025
- 23:38:50 -0800 (PST)
+        d=1e100.net; s=20230601; t=1765883321; x=1766488121;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JzbZNSoR9XV7c/fw2WEyAJLfwBQw/kZL/Ydt6MIWYlk=;
+        b=VZpJqdn66CtChK+UZAinbznAaNqbYRNaCngwuBHpHSuXKu7ONaWUBq4ixryQD2N4vo
+         QMXX6spzWNMkLcoxbxShT/Mc2UkmdtmrbF1oedwWirPHBXO/mJ7WYcI01aeH+Fea84Xd
+         XmT7cHFQcOXUk8toewWf2dZonJEPc7xObUfQbxG+YQvW14Gs6SIDkKc4v6IEemXY1hv9
+         Vk1pL//SKG9hBRISzqdOCapOgSPB2KMNy19G9dmXAxhbb0SdcClze96Mod/NHyCc5gku
+         Y2eayNv23k3xhAllDfLg1MhOYsLM116DfAVeNgBConU0vbCPvWWJpZVCbeJTT/fC+u4s
+         czSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV5HNWltpDP3x0lAisSpTnO5K/ErVe/tsQAvHjGGrKeoToio33+wXOJsFS15lO9lPztpvo5KG5N9w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5mOPCnBMBBHwEtRPQUmkZ3DebQGyX11OIBVY7Ty5OYp1HpQHh
+	L4onvUv6m8AzjElq+VbsUhhKmilflDV3FrRfv/l4gQzqruAj0JGSFtB4Yev6zjvh+H4=
+X-Gm-Gg: AY/fxX54PchkG4Yzo2guqFaCMKmo5C2waYyUlK76MS9HvCQd78XRghn161W4+ZnoWtX
+	ibrKvg3lw0ZfxMgwfSqOZdBKCJb5DJ5Uolx3Jt3z3yRahn9l6JAcxY9lFOYpy64K49u8IuhTJww
+	nc1o3S2ezM0gt5350KX8TGVGfb6nuKA1VktuaV66llnyZedafwgQsptUBcYWlbVDbJkV+1HrTmy
+	TOqgfFrjWiFNQLwSFpgkCuWDnLgzJ8HwkH7vNu1QCAo5pobopZFGFI1ABKzVYc8YyHjOSyk6DwI
+	Y6Hm9IUWCQwbn0o3uPVoqfuNLD1jYkILknPGL1iwCJkfGeRJsJ0uFucQULTnxD4IH8VzRtUUu1S
+	PJBayTHJVpZFRfC47YXYGdFQZ8gn4S/r88PVvk8cotNjPSjpauoc5H57YozeJ7TvP93jBgj5vSd
+	N3T4Ra+j7gRdnzIaswe7EPi0td2voFGblSc+MghHt2Q7TERxz2tigRQ/pExASmZ0gBAi5ya5LTJ
+	x8=
+X-Google-Smtp-Source: AGHT+IFp5IncMGvMC+pwiacOOoEIbditx6SKu86limMmxyrWyAZX1pq9RrgklnX8yEKbt8tmwVfkyQ==
+X-Received: by 2002:a05:600c:8288:b0:477:a1a2:d829 with SMTP id 5b1f17b1804b1-47a8f8c0caamr134941025e9.13.1765883320955;
+        Tue, 16 Dec 2025 03:08:40 -0800 (PST)
+Received: from localhost (p200300f65f00660852dfbbf029d2e03c.dip0.t-ipconnect.de. [2003:f6:5f00:6608:52df:bbf0:29d2:e03c])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-47a8f4ace61sm233401395e9.7.2025.12.16.03.08.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Dec 2025 03:08:40 -0800 (PST)
+Date: Tue, 16 Dec 2025 12:08:38 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Sumit Garg <sumit.garg@oss.qualcomm.com>
+Cc: Sumit Garg <sumit.garg@kernel.org>, 
+	Jens Wiklander <jens.wiklander@linaro.org>, Olivia Mackall <olivia@selenic.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Jan Kiszka <jan.kiszka@siemens.com>, 
+	Sudeep Holla <sudeep.holla@arm.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	Michael Chan <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>, 
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, James Bottomley <James.Bottomley@hansenpartnership.com>, 
+	Jarkko Sakkinen <jarkko@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>, 
+	David Howells <dhowells@redhat.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Peter Huewe <peterhuewe@gmx.de>, op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-rtc@vger.kernel.org, linux-efi@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, 
+	Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-integrity@vger.kernel.org, keyrings@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH v1 00/17] tee: Use bus callbacks instead of driver
+ callbacks
+Message-ID: <ayebinxqpcnl7hpa35ytrudiy7j75u5bdk3enlirkp5pevppeg@6mx6a5fwymwf>
+References: <cover.1765472125.git.u.kleine-koenig@baylibre.com>
+ <aT--ox375kg2Mzh-@sumit-X1>
+ <dhunzydod4d7vj73llpuqemxb5er2ja4emxusr66irwf77jhhb@es4yd2axzl25>
+ <CAGptzHOOqLhBnAXDURAzkgckUvRr__UuF1S_7MLV0u-ZxYEdyA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1765472125.git.u.kleine-koenig@baylibre.com>
- <aT--ox375kg2Mzh-@sumit-X1> <dhunzydod4d7vj73llpuqemxb5er2ja4emxusr66irwf77jhhb@es4yd2axzl25>
-In-Reply-To: <dhunzydod4d7vj73llpuqemxb5er2ja4emxusr66irwf77jhhb@es4yd2axzl25>
-From: Sumit Garg <sumit.garg@oss.qualcomm.com>
-Date: Tue, 16 Dec 2025 13:08:38 +0530
-X-Gm-Features: AQt7F2pIGEo3k7l40jiSNtQzSXPgQLv36wLttu_75OXJz9aTmVe9GGZBfjh5ELU
-Message-ID: <CAGptzHOOqLhBnAXDURAzkgckUvRr__UuF1S_7MLV0u-ZxYEdyA@mail.gmail.com>
-Subject: Re: [PATCH v1 00/17] tee: Use bus callbacks instead of driver callbacks
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Sumit Garg <sumit.garg@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Olivia Mackall <olivia@selenic.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Michael Chan <michael.chan@broadcom.com>,
-        Pavan Chebbi <pavan.chebbi@broadcom.com>,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
-        David Howells <dhowells@redhat.com>, Paul Moore <paul@paul-moore.com>,
-        James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
-        Peter Huewe <peterhuewe@gmx.de>, op-tee@lists.trustedfirmware.org,
-        linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org,
-        Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
-        netdev@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="judjbtjlccebrcda"
+Content-Disposition: inline
+In-Reply-To: <CAGptzHOOqLhBnAXDURAzkgckUvRr__UuF1S_7MLV0u-ZxYEdyA@mail.gmail.com>
+
+
+--judjbtjlccebrcda
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Authority-Analysis: v=2.4 cv=Vcb6/Vp9 c=1 sm=1 tr=0 ts=69410c8b cx=c_pps
- a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=IpJZQVW2AAAA:8
- a=sfbzD7rgGHNppxHmi9UA:9 a=QEXdDO2ut3YA:10 a=_Vgx9l1VpLgwpw_dHYaR:22
- a=IawgGOuG5U0WyFbmm1f5:22
-X-Proofpoint-GUID: rL8OyqM0t4cbpyMp4jm4zy79ciDHh8LF
-X-Proofpoint-ORIG-GUID: rL8OyqM0t4cbpyMp4jm4zy79ciDHh8LF
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE2MDA2MiBTYWx0ZWRfX1Qj4HbqOgT5r
- Lt+e1yaUWMC53SxVtueFNVrn8h0227AmtFlmmHvqsaJ/l31wDCpr3Lf/VNGwj3itlxqs7DD6Iih
- dJ2wR6vQU9y+KyhFqLVny5MIOXWs74LZRw4u9jcY3S+PxWVh+lOMS98JmOsOrjTsVZP4nxb3fo+
- xShbHemwO6J1gBqe2dniyArPuHMXmf8ZqCOGzmI+/Tgf0OzhbDB9YkxOoQAnfZhzbnMN1Rwu2gs
- JSt/IC/JNT2CkhUxIVRuGB8XIBMOeLIQLa4whpK48W2kEN7k6EHRckd3M/94Ql6SCMZ2i7O5zTv
- +T8PiH4s4QWZiuyMTDFPyjUSz+orbj21WqtLS3qVMFh8EWX+7Y/D0OmEGv08SRM9pbLBg73GWrJ
- Gw+0aJXQugjG2M8qZSwAFxONuLb9gg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-16_01,2025-12-15_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 adultscore=0 lowpriorityscore=0 spamscore=0
- clxscore=1011 impostorscore=0 phishscore=0 malwarescore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512160062
+Subject: Re: [PATCH v1 00/17] tee: Use bus callbacks instead of driver
+ callbacks
+MIME-Version: 1.0
 
-Hi Uwe,
+Hello,
 
-On Mon, Dec 15, 2025 at 3:02=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@baylibre.com> wrote:
->
-> Hello Sumit,
->
-> On Mon, Dec 15, 2025 at 04:54:11PM +0900, Sumit Garg wrote:
-> > On Thu, Dec 11, 2025 at 06:14:54PM +0100, Uwe Kleine-K=C3=B6nig wrote:
-> > > Hello,
-> > >
-> > > the objective of this series is to make tee driver stop using callbac=
-ks
-> > > in struct device_driver. These were superseded by bus methods in 2006
-> > > (commit 594c8281f905 ("[PATCH] Add bus_type probe, remove, shutdown
-> > > methods.")) but nobody cared to convert all subsystems accordingly.
-> > >
-> > > Here the tee drivers are converted. The first commit is somewhat
-> > > unrelated, but simplifies the conversion (and the drivers). It
-> > > introduces driver registration helpers that care about setting the bu=
-s
-> > > and owner. (The latter is missing in all drivers, so by using these
-> > > helpers the drivers become more correct.)
-> > >
-> > > The patches #4 - #17 depend on the first two, so if they should be
-> > > applied to their respective subsystem trees these must contain the fi=
-rst
-> > > two patches first.
+On Tue, Dec 16, 2025 at 01:08:38PM +0530, Sumit Garg wrote:
+> On Mon, Dec 15, 2025 at 3:02=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+> <u.kleine-koenig@baylibre.com> wrote:
+> > On Mon, Dec 15, 2025 at 04:54:11PM +0900, Sumit Garg wrote:
+> > > Feel free to make the tee_bus_type private as the last patch in the s=
+eries
+> > > such that any followup driver follows this clean approach.
 > >
-> > Thanks Uwe for your efforts to clean up the boilerplate code for TEE bu=
-s
-> > drivers.
->
-> Thanks for your feedback. I will prepare a v2 and address your comments
-> (whitespace issues and wrong callback in the shutdown method).
->
-> > > Note that after patch #2 is applied, unconverted drivers provoke a
-> > > warning in driver_register(), so it would be good for the user
-> > > experience if the whole series goes in during a single merge window.
+> > There is a bit more to do for that than I'm willing to invest. With my
+> > patch series applied `tee_bus_type` is still used in
+> > drivers/tee/optee/device.c and drivers/tee/tee_core.c.
+>=20
+> Oh I see, I guess we need to come with some helpers around device
+> register/unregister from TEE subsystem as well. Let's plan that for a
+> followup patch-set, I don't want this patch-set to be bloated more.
+
+Don't consider me in for that. But it sounds like a nice addition.
+
+> > Maybe it's
+> > sensible to merge these two files into a single one.
+>=20
+> It's not possible as the design for TEE bus is to have TEE
+> implementation drivers like OP-TEE, AMD-TEE, TS-TEE, QTEE and so on to
+> register devices on the bus.
+
+So only OP-TEE uses the bus for devices and the other *-TEE don't. Also
+sounds like something worth to be fixed.
+
+> > The things I wonder about additionally are:
 > >
-> > +1
+> >  - if CONFIG_OPTEE=3Dn and CONFIG_TEE=3Dy|m the tee bus is only used for
+> >    drivers but not devices.
+>=20
+> Yeah since the devices are rather added by the TEE implementation driver.
+>=20
 > >
-> > I suggest the whole series goes via the Jens tree since there shouldn't
-> > be any chances for conflict here.
-> >
-> > > So
-> > > I guess an immutable branch containing the frist three patches that c=
-an
-> > > be merged into the other subsystem trees would be sensible.
-> > >
-> > > After all patches are applied, tee_bus_type can be made private to
-> > > drivers/tee as it's not used in other places any more.
-> > >
-> >
-> > Feel free to make the tee_bus_type private as the last patch in the ser=
-ies
-> > such that any followup driver follows this clean approach.
->
-> There is a bit more to do for that than I'm willing to invest. With my
-> patch series applied `tee_bus_type` is still used in
-> drivers/tee/optee/device.c and drivers/tee/tee_core.c.
+> >  - optee_register_device() calls device_create_file() on
+> >    &optee_device->dev after device_register(&optee_device->dev).
+> >    (Attention half-knowledge!) I think device_create_file() should not
+> >    be called on an already registered device (or you have to send a
+> >    uevent afterwards). This should probably use type attribute groups.
+> >    (Or the need_supplicant attribute should be dropped as it isn't very
+> >    useful. This would maybe be considered an ABI change however.)
+>=20
+> The reasoning for this attribute should be explained by commit:
+> 7269cba53d90 ("tee: optee: Fix supplicant based device enumeration").
+> In summary it's due to a weird dependency for devices we have with the
+> user-space daemon: tee-supplicant.
 
-Oh I see, I guess we need to come with some helpers around device
-register/unregister from TEE subsystem as well. Let's plan that for a
-followup patch-set, I don't want this patch-set to be bloated more.
+=46rom reading that once I don't understand it. (But no need to explain
+:-)
 
-> Maybe it's
-> sensible to merge these two files into a single one.
+Still the file should better be added before device_add() is called.
 
-It's not possible as the design for TEE bus is to have TEE
-implementation drivers like OP-TEE, AMD-TEE, TS-TEE, QTEE and so on to
-register devices on the bus.
+> >  - Why does optee_probe() in drivers/tee/optee/smc_abi.c unregister all
+> >    optee devices in its error path (optee_unregister_devices())?
+>=20
+> This is mostly to take care of if any device got registered before the
+> failure occured. Let me know if you have a better way to address that.
 
->
-> The things I wonder about additionally are:
->
->  - if CONFIG_OPTEE=3Dn and CONFIG_TEE=3Dy|m the tee bus is only used for
->    drivers but not devices.
+Without understanding the tee stuff, I'd say: Don't bother and only undo
+the things that probe did before the failure.
 
-Yeah since the devices are rather added by the TEE implementation driver.
+Best regards
+Uwe
 
->
->  - optee_register_device() calls device_create_file() on
->    &optee_device->dev after device_register(&optee_device->dev).
->    (Attention half-knowledge!) I think device_create_file() should not
->    be called on an already registered device (or you have to send a
->    uevent afterwards). This should probably use type attribute groups.
->    (Or the need_supplicant attribute should be dropped as it isn't very
->    useful. This would maybe be considered an ABI change however.)
+--judjbtjlccebrcda
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The reasoning for this attribute should be explained by commit:
-7269cba53d90 ("tee: optee: Fix supplicant based device enumeration").
-In summary it's due to a weird dependency for devices we have with the
-user-space daemon: tee-supplicant.
+-----BEGIN PGP SIGNATURE-----
 
->
->  - Why does optee_probe() in drivers/tee/optee/smc_abi.c unregister all
->    optee devices in its error path (optee_unregister_devices())?
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmlBPbMACgkQj4D7WH0S
+/k50zggAsVQDsAnPdX//uyplsEvssm5818ssVGID4+9TjkXIhLGs1HOk+Aj1Obfh
+3kp723jXSfcxla/GVnutv+SGgjCbWQLat1zF3XNhzFZBDegNnPHffiYotY4NYV+x
+z+cBC6Mgx1s9c5xNg134fGOJ+TxBlfUxarnCrkXKqWF+dVSwTe5Cv3f0SXlVU/7L
+l/3T0OflRgILL2Y6wod6E9ydmYfiSapc79eKAzVY5jnUx1sGt7oLNYrjpHmJklBF
+J4I7ToK96aPowluUQqNPzlS13OTb/sx00zg5CnrrGchqVR6i1kK71xhoszfQPcx5
+IOs/eRzJsAmcF/JiN04ZsRRMrAvppA==
+=QAXr
+-----END PGP SIGNATURE-----
 
-This is mostly to take care of if any device got registered before the
-failure occured. Let me know if you have a better way to address that.
-
--Sumit
+--judjbtjlccebrcda--
