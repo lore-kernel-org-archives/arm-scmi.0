@@ -1,210 +1,109 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F75338F24
-	for <arm-scmi@vger.kernel.org>; Fri, 19 Dec 2025 11:46:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 579DF34AAE8
+	for <arm-scmi@vger.kernel.org>; Fri, 19 Dec 2025 19:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766144784; cv=none; b=SEUuwWH11uobJGz7/ZM5YK2LfC83k9hwdZ1FMhOghtpkOFLNlvX5EIkavkedo+u/6445UcnTyJRFI1Wol5/1iu6QRtN+TrfJ/REVrEJofHnRH2VWVPBxPk8JiSdQWw1Ph+J7rq6azf5TjM13Kn1ync323h6HFl8GF1cRTeBBI3Y=
+	t=1766173745; cv=none; b=MVIVqIF7pUOwG5HUeoca4P56+9kq43wD2RE8mgm2JNd1iqGjAYfShLxbuTmJFsMvT/8lOAH9V/8YBXrzq1TThTPhyCzb2EkDdqwv7Ix+C7B6yfnH/XZK71HP9P3gV7RmqFNw6jTkof3Wlilv83xSxW1QWX27eZGuLMmM1+/Wnmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766144784; c=relaxed/simple;
-	bh=mBjL/yNWjeY79Dafwb0KAaJwI5kZoGV19sKfmRv2Cjs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S864qx/fcHZW4vJvQoJUGgL6B8SnwOw8tLtgQB0PudI+VIYL1FZb/84JYpuWze2dNOBp4OGIMQJtmMj4tscolIQUiywCCW5Q8f4juavN4bmNsWxT74a/n038Q9HiObScuayhUPKZeVfg4ofR2Av6NnZgAXjAQSA8TrH2WdabLwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PVgS2j1z; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766173745; c=relaxed/simple;
+	bh=7QHParoqmwM/fv693piLNFSOhOcM5vYfUKurXmOY6eg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=U0DGJt4REwSilJBCNLdBIaGVjXvZMRo0QsuKLiosanOHzvMZrfvvuA3qGcQTfZALlEaNVt3TeSyBAJV1N4sEcpru6l3bYz1K0qSaLdxgxeovMi6fzS1P7j8n0fcWya7EnxhC36ntHVyUV4ey9Vaacsxhd9c+GWWL/NDTmVk4Vqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KAqaGfMJ; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PVgS2j1z"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-597de27b241so1772290e87.2
-        for <arm-scmi@vger.kernel.org>; Fri, 19 Dec 2025 03:46:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766144781; x=1766749581; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=H3slMuAc0DlPsqmSXZpbwpx526MvEmle/4DotqrbAZE=;
-        b=PVgS2j1zmqsFHP7gR9AtwX5QhJHemAER0PQSPUbXUyA4N+Wj4WtJ0FNtekCQQ5nwTb
-         E5j3dknHmGrX3S5bJuPF9KFHdAgqySh5/rBEth5PIeFUTfzwhg4t+D8vTPDUCXgN8GPl
-         qtYEWcqBXHU4YjDDvKn5JHuFcNtRnj51ba/RTeM+84mzbu48QXpmt8DG+IQxIGkUltuY
-         Jm/rOUFTnySmE8JcgvLxINj6nEbKyBGmTjjlFB3+yE1xuqOkOdJFj/zpV/3ZFHmYhNEN
-         YQqNeUuQWnzpQvPH/gFt5NlVz4619GGby2A9D2r3s9ws1QdWv0JppvfQ3qrB9oQO0j6i
-         xnQg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KAqaGfMJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1766173743;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7QHParoqmwM/fv693piLNFSOhOcM5vYfUKurXmOY6eg=;
+	b=KAqaGfMJVNLAaVtN0ua6ijH2K2pMSy+o3HSVnerXsRxOt0HNrTupBwCJgJdXloFPznD20s
+	qevHKGSwJBJXo6LZUi3wlHpfBXRTCMI2knSsYSuWLK5MuJsZzU9ZgOYXOfsTdTbNbdIJ7U
+	3ajFEcTtRgljnso56mrpH234CUvWLT4=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-139-ILLYFWUxMBKpx1oIPXtnXg-1; Fri, 19 Dec 2025 14:49:02 -0500
+X-MC-Unique: ILLYFWUxMBKpx1oIPXtnXg-1
+X-Mimecast-MFC-AGG-ID: ILLYFWUxMBKpx1oIPXtnXg_1766173741
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8b9fa6f808cso568726285a.1
+        for <arm-scmi@vger.kernel.org>; Fri, 19 Dec 2025 11:49:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766144781; x=1766749581;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H3slMuAc0DlPsqmSXZpbwpx526MvEmle/4DotqrbAZE=;
-        b=nwodxgdPx+Gngy+8lFyrgGfy2ISbkGSYQALyQIy2XP8qQgcvtx1tF2IEVzioDfASin
-         r5Tupn9kkS4dTLTijn8vc1LZIPng1KoEkO3SBJdQpgAQS5jFZqxO6/+ztKHc25m3ms5E
-         KJ5Zx8DEQ6uRWrgiZHFhQwxuQVkdHHYUKYdkgCTLSexGNOhdtEwRFNhJ5Yxed9L7P2B2
-         3bpcHLidu1/7BRxPYJhEBmu1Rh0r28b3hWg5ljk2o+wn7rUATgZB+K9vB/cOpVSchb0g
-         I80ZFBJerSfL7IdS0kHVZi7g+F/sosqpeptk1T27uAlLKnp+mdfbhTS7mnRvXjlJIH/f
-         9DiA==
-X-Forwarded-Encrypted: i=1; AJvYcCWykFQrGMT9vDvs0SCKF9+u1lezk5/Nl5n/cX2TrMRmrOMLlHKmBt6/PSBjw7xTHTy6mgYDB+Hm4Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yya1jGPYo60ys/TRBya7JopjazbKLIADziH4a3AjGPq1FVZ/gsP
-	qt2S8eavdYt4D2yAPIB6zgw8SruSAhQwwDXLEi9URpcEHCE2Buq1Uiyiys+nLuFIUAg=
-X-Gm-Gg: AY/fxX4AR6unU5B/JxNgFB1nui9JYDz1TomG7/utClVFX1NuTK+dX0fGoVybAE3XQHp
-	NM+3j6+fuwiXWzmJ4JhoyrFbOeSadgmR9qjbS9ZqQobD871fuiQAKRTuMRNepYYnpjkKqh1sePk
-	pzrZhPtxZxQhusEIt/DF7xTChl7mVZEt+VbFa134/fVEJx/FdrvtUPnqSBughFbpiYerUM9p34M
-	EiEcZBSEzQiH8V1e/MEf/a9MWPMdj4pGzKfM96hfPySISRHPbNRM88wACZEkEYEzcLBZ1nxKpNj
-	9iqI+xKuQeEanQtmzQ5J6b6XepneUOxo3BT+LBR7rSIsFt0XSvENlXmsCaHCf0p5n3+MQ7FDzU4
-	1EOtzofSo3jv2l+p81XcYkmCK4TtQwJiz2JBvNusaST8h+m0b8pORhe+vudD35JYFX2nV1sPqME
-	xW2bhyHcb28o833OwmLSfTxzEylk0=
-X-Google-Smtp-Source: AGHT+IE2dzwhnzenN7c5SQt80XIPrIwa3arfO8FHTkl1HzzGSCjhijUW2HFHsyB+YFJIWZnI0YzRVg==
-X-Received: by 2002:a05:6512:3b86:b0:598:f283:e12f with SMTP id 2adb3069b0e04-59a17d08b96mr1129675e87.11.1766144780522;
-        Fri, 19 Dec 2025 03:46:20 -0800 (PST)
-Received: from NB-6746.corp.yadro.com ([188.243.183.84])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59a185d5ff5sm633651e87.6.2025.12.19.03.46.20
+        d=1e100.net; s=20230601; t=1766173741; x=1766778541;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7QHParoqmwM/fv693piLNFSOhOcM5vYfUKurXmOY6eg=;
+        b=NkaPSz2xj31BnyPVRe1bdreo2yqfKqvk+BpQlVZxhiTZDWMU2fxw5oHrRFMgTKGWGs
+         diI1OERvb++i3+ORYpwI8T5Wa4HDP+CgOzDAhgRg2kxDQZIWQin3C5clQ9COd628nUGO
+         iH+KtRLr9C3EjbVV3qSA3THbGeN7yKOsuH5sJEqx0Q25soQDoEURc70hUUinJa6ieASZ
+         Y4riSYKNeMOejLYMSSck48S2JBCguGg8C2sIQamh4pxI8xsQtxdy0DCyjERng5ADB5vz
+         lBnChZX9SqLbUeWxO3zUjXtemEvP2jdo0u10ms+t1QkvuM6KVAmNEgDXuxBiXAybblyV
+         Lc/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWHWQ1TNapvP/fhMcgI9rkaKOmFwAAyerikfMOIJgtIWXWfgYUfuD1eYOueH6O38AlkDCqS4gWD8A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWDIcrC6R3E7YxNmyq/ZozaYIcc/Q1WAPvzQBbU69tBaSFFsBU
+	HDCNEZXFM77S7r1o/RR3EZb5NA91bIZ1gtLXXkcCFjsYDAMhqwi0x8Ww64cR2+4Z4KTC/l5p+jD
+	8zVVsD4760Lu379/oyreQbguGdTrX/70ImnEBJnIlsCvxHgKlYjQbp48G2Nti
+X-Gm-Gg: AY/fxX7ZS0nUxnr6nYUcmnujvs2AU9sEuYT9t+Je4SDwbyKNh2SrOkzibeVOTIgCotn
+	IBwdjEwLNT35ftc5hhMj8Vv6FlRc6IkWZUTDiol78WxX6Zz+pqXpi0Yg/0CQXoxCuCBCfNHE55N
+	44o4/p1YnUneTuDukgnveSpbquQO4x11tMAyLlDkSI2BrfXmzxVVMAq4X+EyK6XmoUEnewQ4ruk
+	Us2xthoKbrGU7WZ7iJ3Jb1rsy4naaxWwRejN73iGgniobITcQ/Y9L0CaTDueuTetXXxqsr2U7k/
+	tAmy1DXQ69xkiFWyOsMhO49FUpqH3dw9fLia5i2W1x0H7CFAcSUxcGUtLYI3YhOfJO0oOJyC3XG
+	nK3gTPQL6
+X-Received: by 2002:a05:620a:2915:b0:8b2:e922:5282 with SMTP id af79cd13be357-8c08fbde546mr650956385a.26.1766173741563;
+        Fri, 19 Dec 2025 11:49:01 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEhmkU84dkGCcwT8u/xbGrBML5VLUNpWzlUIRhCANoKaN5hf3mFDRW42eqFLJM185p9R9rh3A==
+X-Received: by 2002:a05:620a:2915:b0:8b2:e922:5282 with SMTP id af79cd13be357-8c08fbde546mr650953885a.26.1766173741234;
+        Fri, 19 Dec 2025 11:49:01 -0800 (PST)
+Received: from redhat.com ([2600:382:8519:53fe:9d9a:13fe:abf1:fb80])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c096783a81sm248019585a.9.2025.12.19.11.48.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Dec 2025 03:46:20 -0800 (PST)
-From: Artem Shimko <a.shimko.dev@gmail.com>
-To: Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>
-Cc: Artem Shimko <a.shimko.dev@gmail.com>,
-	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] firmware: arm_scmi: Fix raw mode async completion race
-Date: Fri, 19 Dec 2025 14:46:16 +0300
-Message-ID: <20251219114617.2057576-1-a.shimko.dev@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Fri, 19 Dec 2025 11:49:00 -0800 (PST)
+Date: Fri, 19 Dec 2025 14:48:56 -0500
+From: Brian Masney <bmasney@redhat.com>
+To: Peng Fan <peng.fan@oss.nxp.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Sebin Francis <sebin.francis@ti.com>, linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH v6 0/6] clk: Support spread spectrum and use it in
+ clk-scmi
+Message-ID: <aUWsKAMDm9_5jxsg@redhat.com>
+References: <20251128-clk-ssc-v6-2-v6-0-cfafdb5d6811@nxp.com>
+ <aTvpmQAPE6HfIy+r@shlinux89>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <aTvpmQAPE6HfIy+r@shlinux89>
+User-Agent: Mutt/2.2.14 (2025-02-20)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 9r1S2zqOGzTVv72LvU3vLczjRouHV1FAFy_i1S1G4MU_1766173741
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-A race condition exists in scmi_xfer_raw_worker() where async_done
-completion can be accessed after being nullified by
-scmi_xfer_raw_waiter_put() in scmi_handle_response(). This happens
-because the worker skips wait_for_completion_timeout() when ret has
-an error value and goes directly to nullify the async_done.
+On Fri, Dec 12, 2025 at 06:08:25PM +0800, Peng Fan wrote:
+> Sorry for top-posting. There is only one comment from Krzysztof regarding
+> cleanup API usage. Since 6.19 rc1 still not out, I will wait two more weeks
+> to collect comments, then post v7. Hopefully, you are ok with current
+> clk-scmi-oem stuff.
 
-Fix by waiting for async_done unconditionally when it exists, without
-checking the result of the ret variable. This ensures the worker
-always synchronizes properly with the scmi_handle_response()'s complete
-for async_done.
+I can't speak to the SCMI OEM extensions, however the other clk patches
+look good to me FWIW. My Reviewed-by tags still apply.
 
-Fixes: 3c3d818a9317a ("firmware: arm_scmi: Add core raw transmission support")
-Signed-off-by: Artem Shimko <a.shimko.dev@gmail.com>
----
-Hello maintainers and reviewers,
-
-This patch fixes a race condition in the SCMI raw mode implementation
-that can lead to kernel crashes when handling asynchronous delayed
-responses.
-
-I temporarily added the trace_printk("%s\n", __func__) to track the problem.
-
-# mount -t tracefs nodev /sys/kernel/tracing
-# mount -t debugfs debugfs /sys/kernel/debug
-# cd /sys/kernel/debug/tracing
-# echo 1 > options/trace_printk
-# echo 1 > tracing_on
-
-Doing that until Oops
-# echo -e -n 'sorry, but NDA raw msg' > /sys/kernel/debug/scmi/0/raw/message_async 
-
-Without the changes:
-[   19.513750] Unable to handle kernel NULL pointer dereference at virtual address NDA
-[   19.524756] Oops [#1]
-[   19.527034] Modules linked in:
-[   19.530097] CPU: 0 UID: 0 PID: 124 Comm: irq/12-1e200000 Not tainted 6.12.0-NDA
-...
-[   19.638262] [<ffffffff8007af3c>] do_raw_spin_lock+0xa/0x10a
-[   19.643843] [<ffffffff80b4e42e>] _raw_spin_lock_irqsave+0x20/0x2c
-[   19.649941] [<ffffffff80072dc4>] complete+0x1e/0x76
-[   19.654826] [<ffffffff808056bc>] scmi_rx_callback+0x66e/0x7cc
-[   19.660589] [<ffffffff80800204>] transport_rx_callback+0x4e/0x56
-[   19.666534] [<ffffffff8082f664>] mbox_chan_received_data+0x10/0x1a
-[   19.672730] [<ffffffff80830624>] transport_chan_do_rx+0xea/0x136
-[   19.678311] [<ffffffff808306c6>] transport_mbox_threaded_isr+0x42/0x9c
-[   19.684408] [<ffffffff8008e8ee>] irq_thread_fn+0x1a/0x5a
-[   19.689733] [<ffffffff8008e724>] irq_thread+0x16c/0x20a
-[   19.694962] [<ffffffff80044032>] kthread+0xda/0xf6
-[   19.699761] [<ffffffff80b4f8d6>] ret_from_fork+0xe/0x18
-[   19.712403] ---[ end trace 0000000000000000 ]---
-
-With the changes: we dont have the Oops
-
-# echo 0 > tracing_on
-# cat trace
-
-Without the changes:
- irq/12-1e200000-120     [000] .....    23.368262: scmi_rx_callback: scmi_handle_response 
-   kworker/u45:0-95      [003] .....    23.394836: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put 
- irq/12-1e200000-120     [000] .....    25.625926: scmi_rx_callback: scmi_handle_response 
-   kworker/u44:0-94      [002] .....    25.653884: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put 
- irq/12-1e200000-120     [000] .....    27.202031: scmi_rx_callback: scmi_handle_response 
-   kworker/u45:0-95      [001] .....    27.228216: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put 
- irq/12-1e200000-120     [000] .....    28.504546: scmi_rx_callback: scmi_handle_response 
-   kworker/u45:0-95      [002] .....    28.531534: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put 
- irq/12-1e200000-120     [000] .....    30.102729: scmi_rx_callback: scmi_handle_response 
-   kworker/u44:0-94      [003] .....    30.129688: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put 
- irq/12-1e200000-120     [000] .....    31.108407: scmi_rx_callback: scmi_handle_response 
-   kworker/u44:0-94      [003] .....    31.136012: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put 
- irq/12-1e200000-120     [000] .....    32.388953: scmi_rx_callback: scmi_handle_response 
-   kworker/u44:0-94      [003] .....    32.415700: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put 
- irq/12-1e200000-120     [000] .....    33.737014: scmi_rx_callback: scmi_handle_response 
-   kworker/u44:0-94      [002] .....    33.764977: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put 
- irq/12-1e200000-120     [000] .....    34.979096: scmi_rx_callback: scmi_handle_response 
-   kworker/u45:0-95      [002] .....    35.005377: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put 
-   kworker/u45:0-95      [003] .....    36.758043: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put <- RC
- irq/12-1e200000-119     [000] .....    37.561734: scmi_rx_callback: scmi_handle_response 
-
-Withthe changes:
-irq/12-1e200000-120     [000] .....    23.368262: scmi_rx_callback: scmi_handle_response
-   kworker/u45:0-95      [003] .....    23.394836: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put
- irq/12-1e200000-120     [000] .....    25.625926: scmi_rx_callback: scmi_handle_response
-   kworker/u44:0-94      [002] .....    25.653884: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put
- irq/12-1e200000-120     [000] .....    27.202031: scmi_rx_callback: scmi_handle_response
-   kworker/u45:0-95      [001] .....    27.228216: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put
- irq/12-1e200000-120     [000] .....    28.504546: scmi_rx_callback: scmi_handle_response
-   kworker/u45:0-95      [002] .....    28.531534: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put
- irq/12-1e200000-120     [000] .....    30.102729: scmi_rx_callback: scmi_handle_response
-   kworker/u44:0-94      [003] .....    30.129688: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put
- irq/12-1e200000-120     [000] .....    31.108407: scmi_rx_callback: scmi_handle_response
-   kworker/u44:0-94      [003] .....    31.136012: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put
- irq/12-1e200000-120     [000] .....    32.388953: scmi_rx_callback: scmi_handle_response
-   kworker/u44:0-94      [003] .....    32.415700: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put
- irq/12-1e200000-120     [000] .....    33.737014: scmi_rx_callback: scmi_handle_response
-   kworker/u44:0-94      [002] .....    33.764977: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put
- irq/12-1e200000-120     [000] .....    34.979096: scmi_rx_callback: scmi_handle_response
-   kworker/u45:0-95      [002] .....    35.005377: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put
- irq/12-1e200000-120     [000] .....    36.028136: scmi_rx_callback: scmi_handle_response
-   kworker/u45:0-95      [003] .....    36.055553: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put
- irq/12-1e200000-120     [000] .....    36.906953: scmi_rx_callback: scmi_handle_response
-   kworker/u45:0-95      [002] .....    36.933304: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put
- irq/12-1e200000-120     [000] .....    37.548706: scmi_rx_callback: scmi_handle_response
-   kworker/u44:0-94      [003] .....    37.577260: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put
- irq/12-1e200000-120     [000] .....    38.079993: scmi_rx_callback: scmi_handle_response
-   kworker/u44:0-94      [002] .....    38.108648: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put
- irq/12-1e200000-120     [000] .....    38.512822: scmi_rx_callback: scmi_handle_response
-   kworker/u44:0-94      [002] .....    38.540403: scmi_xfer_raw_waiter_put: scmi_xfer_raw_waiter_put
-   ...
-
---
-Regards,
-Artem
-
- drivers/firmware/arm_scmi/raw_mode.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/firmware/arm_scmi/raw_mode.c b/drivers/firmware/arm_scmi/raw_mode.c
-index 73db5492ab44..362773f3114d 100644
---- a/drivers/firmware/arm_scmi/raw_mode.c
-+++ b/drivers/firmware/arm_scmi/raw_mode.c
-@@ -479,7 +479,7 @@ static void scmi_xfer_raw_worker(struct work_struct *work)
- 				    ret, scmi_inflight_count(raw->handle));
- 
- 		/* Wait also for an async delayed response if needed */
--		if (!ret && xfer->async_done) {
-+		if (xfer->async_done) {
- 			unsigned long tmo = msecs_to_jiffies(SCMI_MAX_RESPONSE_TIMEOUT);
- 
- 			if (!wait_for_completion_timeout(xfer->async_done, tmo))
--- 
-2.43.0
+Brian
 
