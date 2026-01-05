@@ -1,190 +1,239 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011028.outbound.protection.outlook.com [40.107.130.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BAF2749C7;
-	Sat,  3 Jan 2026 00:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.28
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767401564; cv=fail; b=pCZ0XWDRAGlfIduovfuGlmzezPFu8Ca7B/rj4UahjLgNjOnIk7zV6iumzh7iN+rdOsHjJGSNgt5P0VLcxmgBUROITAlgFgczL9NTBpyO3B2AHqpL9JS1fch17AbQHDzPgP/1F0/QDSoX8XcEd/D1GQCUg9BEclloDnGBCoJg9tI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767401564; c=relaxed/simple;
-	bh=whOCMFqp8iM/aWh0BL85qeb3GBW6XQTBHcTc7sbxCxc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=YNfDj7eYcfL59EDVD0nOiARPjZf8jSQNpcPGju0LW/iNLpNJeXCUCLuqrFIM/sNBxCJ/OG6EIl7XVO36zQhvsO5G+jTFsSObiY5vuoUSVLUvfO6T4qgDp7fkvF7IWxILxWVI644djPP855HtifdbFVhdZi1BgRFaGj6vkdsAm3k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=fOuGgRzn; arc=fail smtp.client-ip=40.107.130.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538E232AAC7
+	for <arm-scmi@vger.kernel.org>; Mon,  5 Jan 2026 09:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767604585; cv=none; b=D01J0SiBJdgYhGY+bSEMNyD4m/nIVEdUZUi7Rr9A/ML5FehjFbf0yIr20eDmWxp3JnNVyCst2CXbV7KG0CpqYXaRoftIu9kqSfnSaLphsLgvxs5EtocxJTro8NMa5AieX7ok2heEgjvJe5AWCJBVEzwkIyv6Lctz4bXsyYv2uTQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767604585; c=relaxed/simple;
+	bh=OWC+AHxZdxUuVZM/YaeSNjU/c5cKFkHpncudd9Oa0yE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uzE6a5FzaOJnobgz0P+lv3y4oHmhTE/NgUX78/IUBROqH5pHt520PmWtmWjqrBgPkaC4CFv/NFRzlVnnktMjcE/65beM+KBoeRuZmo7BlYXrS6iBUmnyOx/9WJabKilC1Dpz4tH3/1tam0XcWKyVR2MRWJQfu94KwRleUMCypXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aYsHIRYZ; arc=none smtp.client-ip=209.85.160.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="fOuGgRzn"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Aq1IYVtuO3z2frTEnhv61w7RSQt3veHm6BaFXvvXzSxUm24axvcEbO2K9mHVjh8ubcVpaGAaAvB8q5MCCdJsDK4JfNhHrRJJqHgvkyavOqNyj2KDTaxvbEmfJiSs5BhTqdXczDHHwqZ+8Vk3mj4T4CBopWdqVRdat07dvW7He3ophPj+WdqsfdMWDlEJfHV/jsDtWPDQ0wzLvUyxnbuVBGF3GaMw6qCkLmCq1zHQLmxdWl/9n+FgNmLashJknuFrzClnwrQ5ybMf3NLn+WsdvZVfj+vzanwuJdxlVNsJjxpvLVLDrtLqiVcrYGbun3hsMlllzX9++5h1s80dPpO/3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=whOCMFqp8iM/aWh0BL85qeb3GBW6XQTBHcTc7sbxCxc=;
- b=s+8NcBVjbLn/sEgqCfHwZJ0eAuZHGHyIwwHCsDrbmCd1Adw1gGpwLRCqiK+yU+e+vDc8Bho8wXlmDOymXq7riWwEewxY3BZh3WludogWJgRZXMCAallVRzb2ZvdlHpR27t99rr8ISv03ou8m6dx05mfwQKVMkZIcR3n+Iwz5o2ra7An5EfkvF3EhoKYTRZYbIDndIXMlYVsc9MgG3TUhButDIfWnwKwGDWYK+1QrVXenJuX9mpCBA2MegILeinO0OQbKM55Xy9ho41gCZsbuzeD4FZgMsRTK4J2AqrsqcQ5Nv9C+ZLuH8U6ehXBF/at0Azcxf2TyWB4N5YaKu4pZqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=whOCMFqp8iM/aWh0BL85qeb3GBW6XQTBHcTc7sbxCxc=;
- b=fOuGgRznOm4SkJ+Txpo1n4ARmbE+98ZECqPeOPF5lvHnWbzyiDS6toR5fMXxjkmI7GVq8Qky557f4NCHtzyQ3/5Rm1hdRuOJsz/UG+gQMBk3xduUGkB03SMwvZtj7uBBokXDm2WK4MrChFVBH0veA6ctGXidEMKpKUsjZ7oKrgEuVWJF0MMeJfVWm4lWDKY4rZVhiLmrk2ZXkL8N2IvG4MFvEng8bTALUXC7+/hgu1kYqJy+nm0wOcSBtU45K+f00fPkno17QangIby/i/OZXXqUQf7p+oLiJY62FM3Po11K2qEN6KSvMItZNIVu3hgUhN6amHiT9VcpM59X01FS0g==
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
- by AM8PR04MB7828.eurprd04.prod.outlook.com (2603:10a6:20b:24e::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Sat, 3 Jan
- 2026 00:52:39 +0000
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630%4]) with mapi id 15.20.9478.004; Sat, 3 Jan 2026
- 00:52:38 +0000
-From: Peng Fan <peng.fan@nxp.com>
-To: Linus Walleij <linusw@kernel.org>, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-CC: Aisheng Dong <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>,
-	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, dl-S32 <S32@nxp.com>, Sascha Hauer
-	<s.hauer@pengutronix.de>, Sudeep Holla <sudeep.holla@arm.com>, Cristian
- Marussi <cristian.marussi@arm.com>, "linux-gpio@vger.kernel.org"
-	<linux-gpio@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "arm-scmi@vger.kernel.org"
-	<arm-scmi@vger.kernel.org>
-Subject: RE: [PATCH 2/2] pinctrl: imx: Add support for NXP i.MX952
-Thread-Topic: [PATCH 2/2] pinctrl: imx: Add support for NXP i.MX952
-Thread-Index: AQHcbv6gz0ZafxdVxEemUIql1JjEcrU9etYAgAI9OfA=
-Date: Sat, 3 Jan 2026 00:52:38 +0000
-Message-ID:
- <PAXPR04MB8459577B062A2D2B84510C2E88B8A@PAXPR04MB8459.eurprd04.prod.outlook.com>
-References: <20251217-imx952-pin-v1-0-2747f09144dd@nxp.com>
- <20251217-imx952-pin-v1-2-2747f09144dd@nxp.com>
- <CAD++jL=6bMXHp4KuVN7xxSidZDhuxLkuiJRnjybJxk4pVeeEFg@mail.gmail.com>
-In-Reply-To:
- <CAD++jL=6bMXHp4KuVN7xxSidZDhuxLkuiJRnjybJxk4pVeeEFg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR04MB8459:EE_|AM8PR04MB7828:EE_
-x-ms-office365-filtering-correlation-id: caca0cc7-3d68-4615-eb9c-08de4a6264a8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|19092799006|366016|1800799024|38070700021;
-x-microsoft-antispam-message-info:
- =?utf-8?B?RUVyY3RvQ0t1ay9YYW56b1duNkFxWFBqYzRIZkpHcWYxWVZsWmVsVUFteXFp?=
- =?utf-8?B?cGlLeURyRWVhblRsdkZ4TTFoUG4xQ1NZdCtZdlFsZnRDV2ZpcHRBNUdHd1Y2?=
- =?utf-8?B?UXhVQ2VzYTVIazMwODNlZndxRFNBTFVUMTlGczFCc0xIWlVmRHJNQVN5UDg4?=
- =?utf-8?B?ZGovZXdOUko4TTMrazArZTdtQTNENHl1ZDhlWGpFUjJmQWdUV25YODRpN2JE?=
- =?utf-8?B?TWRLT2MzZ3FsZ3V5YVRZalgwc1o1WmJXRU5rM2wxa1AyL0plS0hWeXh6WFIw?=
- =?utf-8?B?NnVLaDFOYTFXQ01ocTc4VXlxdTJRVys4SnRpcTM0V1hEY3lTU21GSXFnUTdx?=
- =?utf-8?B?Ui9OTTRtVnhnUG10WkVOSmYydW1yR0FPZnlJdisvUGRWZFVxQ2dMandhcW9n?=
- =?utf-8?B?cUR2Skw0SjJkVFU1UGdsMlZQRFo3QlEvZDJQZ2Q5Sll5TXZHOFVyODM3YWky?=
- =?utf-8?B?c005bFdBcnM2YWo3TnJwd01oVFU3enFHKzRIUFdGUy9IKzBDOVp0clJPSWJ1?=
- =?utf-8?B?K2hCK3d1NXdkeWh5OXQ1MWhaUGROejR5RHRLa0VMSUNaV1pvdU9RTFgyZS81?=
- =?utf-8?B?K2ovVHhrOWlINkFJMzVCQWcwQ3o2azd2bk11RlN4NUhESlhEWGxZVWdQT0Uz?=
- =?utf-8?B?TzRuZHZJS3ArMS9lTnk5TklvSWpYN2dwbWkvclV6S0NaSEJWcXQ5RExoV3pk?=
- =?utf-8?B?cFRSRHgvc3VsN0ZDeUlSbm1aWGF4TUpzTnNkdHQrbnVuNUJRcDhwVHFSeEgr?=
- =?utf-8?B?NGNTNmczSWF4dlM3c3loNERvUU5QTnlObkJSdTlZdEJWMjd0djlzeHE0Yy9W?=
- =?utf-8?B?MlRoQm55ZW01anJya01oVGo2TlVPYktMbDBLa0xCUjljem5KbVVZQlUwN0x0?=
- =?utf-8?B?RVlvUXpiYTlJS1VSV243UHBVVVJ2czdoMDZGNW9Mc1MvMXN3SDk5aWVPZnVo?=
- =?utf-8?B?UXM1YWJNV0M0eWNrMEt1NlczSndneG1iM3crZzY3RU1tc2RYTStEY0JQa1d2?=
- =?utf-8?B?V3pSUVphdWJuVStmYXQ4OG5WQUljR3o3ckIvMTlZR1hjSk9EVnA3T2tvSkRk?=
- =?utf-8?B?QUdoOWdpcFBzYlg2QnVvSTdDaUdrdW00Vzh0RFV6MFFGQjVVS1NDRS81NEhV?=
- =?utf-8?B?Rzc5VmlDRzE0TklYMHRERzU1QmlEbnNld1ZzVUxQSlJMWUt1R2ZkVWJ2MHRl?=
- =?utf-8?B?MjZMZjh4R1Roc2dmTW9pZnVBTnpBQVVyVWJyelkvKzV0cVc3U3pCWGl5U1Np?=
- =?utf-8?B?YzBvbjhPaEZvNVlZb0RIODQ5TnpYd2Fub3hERHBjZ3JaMmdYTGJXQWVXSWRV?=
- =?utf-8?B?RUkzL0IzNUJmSG5nUVhwVjJZUHlRSTJBaWVKYSsxRFVFblFJOHEzVytqSzdS?=
- =?utf-8?B?Q2t1SHUzNTZjTks4dzlld1A0R2d0RVNGMmpzQkh0NklnSkJlUXlhRDJyUWFJ?=
- =?utf-8?B?R1BOY3M5QWpOSTdPYTIvdTM5QTZWdzN2c2ZhdkhKaHZGaW9odmM5d2tCajhK?=
- =?utf-8?B?anp2Mk9hOUhkSDZydTRwNVh6c1RDQXd1UWR3NkVpSmUxamo5bVYwOG9McGx6?=
- =?utf-8?B?S1pMNzFYL0xQeFpVVUswa21HRjFLWjVoNDQ0cnZ4a2QxdGRTcFFqdUxzRmRu?=
- =?utf-8?B?ZTh2c3hRTEYwYTN3UWdVNStiOVV5eUtCQzh3VGtzZ0Qzek12ZHBBdGtuMFps?=
- =?utf-8?B?d0EzZjlEUEZDdHdVRjZicVk1cjlLdVF0b2RydE9GaXRHNXlnY2NYaml0WGpD?=
- =?utf-8?B?b05wSmlvVU9RbzR4aUJFVHF5RGhvSDFZekN4dTRpQlk0WmF4TmwrVXdKTmJI?=
- =?utf-8?B?Z1dYWGRtOU85OExiNW14SEJHdWw1c0JiUy9DSU9heUMxWE82MU5RSWprYlNH?=
- =?utf-8?B?RjZ6ZUREU1Qwa3dSWDV6bjNVYlEyYXFWOTE1M1BOQzdoNkR2WEZpUGJ0anNP?=
- =?utf-8?B?bGxqeFIzcEhXU1ZKMVVkNnhTb1VPUmtJUlBMdnlqNldVb1BIUnAwb21VS2N1?=
- =?utf-8?B?dXNlaWNmVkZoM2xQeHpiWE1BbkVDRlQyODU1U1JTbkZrOURqWitUdTIyOXly?=
- =?utf-8?Q?j4ketJ?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(19092799006)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?dEFkdEN1a0hNeVl6QnNENTNmdXFtYXlKeDZDcXRwNHhhTkZhSmQ2VEhTc2lh?=
- =?utf-8?B?V0VudXRnVlVnY1RGOEQ3U2VuRzdLWkJZZGhsWG5ReG9qUG5KY0dNWkdvS2Nr?=
- =?utf-8?B?UlBvVW5GTXJUbEw1aDBHSkRVNGdDeUw0amhScXZUaXNKZVhQd2VNTlpwMUtU?=
- =?utf-8?B?Vy9wUmlwT1ByaHp4alllU3ZMS2hkNWZtQzU2dTNmbGFEY1JtelUrZUl1cnE2?=
- =?utf-8?B?K3p4N1FLYXV6YUlBRkI2aHp2emE2OXc3OWhmRkVjZnZpRDR5a1gwVVZCdEJa?=
- =?utf-8?B?NTB5bUtTQkVOa0NmWG8wOHlPK1Z0bVB6dkFpejJsMEJlRVRPTTVZVWlZT05P?=
- =?utf-8?B?dGJ5N21XT2x2b1g0cFpPcWtJenEwNHJUSWxWSmdYSVUzbVNta2ZIVXJsTmtO?=
- =?utf-8?B?Q3JteU1SbFhrekdMYVNvNHlwR1lTWHJoMUhlNUYzWnYxSTF2emxHQUZ5bjBK?=
- =?utf-8?B?RWlOcUR4OEdXSEhUL3A2akR1NERIUURycTlMQUVJZkprcC9pZjdNYjV2TnFo?=
- =?utf-8?B?aTNOdmFwVmFPN0JqR2M1RVRjaDlYOU1IWkV0cEkxdW1CaWVxYUhsNjRhdFFC?=
- =?utf-8?B?U1d0dmxhTzNBWHROcHdYSi8yd3BnQkpFOWwwN3FkYzJSSmZXdUtpQWFUbEJo?=
- =?utf-8?B?Y280NUMzOVRaTTRhS2d6VEh1TGNUL251S2ExQmk3TGE2R0h5U3BzOGxzL0ow?=
- =?utf-8?B?dk0vVHliQTJzdFl1RVM5N2xFdm9NeHcvOUFSVkN4WWIxeXg4aWQ4UG9BS2w4?=
- =?utf-8?B?bXlkNFdsMTBSME1UeWRycWVaV3lDVzJiSll3aGZQRk5SRlNaSThIT3hFOWhS?=
- =?utf-8?B?dWw5RTNDMzZkd2l1eTUrdlZFdkpRcnpPbTBRbWRQTFZod2FoLzBScWdXRjg2?=
- =?utf-8?B?dUNldFhoMXZvc2dBR1VyR3o0ZjRZajNEWnZMcGVGMFVZVW9KTzBGdEZEZVpj?=
- =?utf-8?B?Ti8rU05UU1BBd3o2MGlxSkg2TWNOZStsQ2RZSnN1SmZrbFc5Wmx2ZGtBZG5l?=
- =?utf-8?B?b1JtQnJoTUphTll1cHc0WG56Y3dsYWx4NUxOSHBBellnMERBQmxzaVNVVlk0?=
- =?utf-8?B?aVJwRGJ4L1dRbjdEV1M0d1F4YkJ5ZndJTVFrblJ5Q1grcUR6b2ZYY3BXVjM0?=
- =?utf-8?B?M015Vm5VVFoycituWVJ6R2cyR2JmbmdBaDQ1WWJEdmJyeU9SRitCb2QySmtG?=
- =?utf-8?B?ZkpNQWYrU1NtazVqRFVHLzZuQXVQOUlIU3ZkbGp0UllNTUg4U3ZjcnJHRjRj?=
- =?utf-8?B?YU4zYVpON3hsblBZNlFIck80TUdJZ2VncHE0b256ZmwyME9qT2Roc29UWFJk?=
- =?utf-8?B?Q0FHS3RvUUdHMXJ2My9mTW9vQjI1THY2RlN4bk1GYmp0N1FQbG41RDQycGM0?=
- =?utf-8?B?dGU4dy9BaVI4cmZ6THNlTFNOUjFYY3dpZWVsZGVWblpEMEwvbzh6aUVUOWVX?=
- =?utf-8?B?MlloWW5pdzFNSXl0S3NibStGMHlkTWNnWEk4SlpCajl0TW1LL1AwRTZNREJ6?=
- =?utf-8?B?M053WmRRQm1sdFNVVUtHVzU3THdoVE9hV0FZWmFIVkFENjNZWUdJdGRPbUtx?=
- =?utf-8?B?ZDZFZ2kreVRSeHBiRWhqdkNNZmJnN2RQalJoNy9HQWtQK0V2aFpxQ1paVkNr?=
- =?utf-8?B?YUNuVnhiR3NKZGZuVnVpUzdVbTJ0dnplUW5zK1hoRW1WTWpPZHFJRVNSY21K?=
- =?utf-8?B?andoYmQzVjFBelgxK2tFWENrM1R6VHE4cWl6TGF0ZnlpVkw3R1k1TE5jcG5W?=
- =?utf-8?B?YldVMWZ2TThUZURHUHhnVGc5dnlOQ2Q5eVRpWEJ5d2tTSU5CL1VpVmR5bmtl?=
- =?utf-8?B?Q2RkQzJVSFNOaUV6bjZkNFp0K2V0L1RIOFZ2N2c3WkUwUDRSbEVuMzhYMlNC?=
- =?utf-8?B?RitKaVdwNzQyRVprTGp1Sm1FMGp5OXNpTUp5M053eDN3VmM4Y0VwSmhZYVh3?=
- =?utf-8?B?bDl5VXg5aFhxamVDN2d3ZkRiSzBNZlVldWlkLzA2UnhkL01JYlBSc0ZnT0Zp?=
- =?utf-8?B?akxGaVBjakEwRDN0STcwQlJJWGIvZjRMNTlSZ29FM3VaOEZZQVZjOFBiMGJi?=
- =?utf-8?B?MVFLQ2VGWXRDZk81L3laeGhoTXhrTFZtdVRvR1liaFhkWFozTU5ISWFqTWFP?=
- =?utf-8?B?bDNEU2lRWjVUaWFLYWN1Ti9vRlNuNWhHbVZpTllpempmS2VVZGtxclMzNGNR?=
- =?utf-8?B?OW9PRHVzeWhpVGREMHk0NUV0R2JFUjdSaVpGSEhJbmNWbWRjcTNMZE9iY0tN?=
- =?utf-8?B?VVlTWXZPZmljU29COHJNTDJRUUxMUWNnV3Jkd25YODRBVEEzeVhJREtqdTRQ?=
- =?utf-8?Q?CO3asoztUDX4YKOK28?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aYsHIRYZ"
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-3f551ad50d1so4919972fac.0
+        for <arm-scmi@vger.kernel.org>; Mon, 05 Jan 2026 01:16:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1767604581; x=1768209381; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xS4Pieemzy4r1o+XZyR7jxfKf1/JCiqumXmtg6ZAf0Y=;
+        b=aYsHIRYZmEqubVaB/nFOB2ZSyZ5mdUAJQ2e8vK7U6xa1ASeFd6LWH955d9+nh53ktb
+         xr1P49S3syRT14RFGDCfbl+SIJj8H1shK6l/HJyqERcZfy8YT9XcW9ovCyPlV1JPbept
+         stVuPPdDv4O0rskrIVR6VeYaEnAM5RPbtavEumXMM3wqDI/5YZbPJj/fIsEwMgjbttlW
+         vq78fx3LM7I7y53tg3lpxh5jqIHVy7So3PmCqVqS6shGFcQdOC2kuMGEH3Kt5Owzm2Qm
+         rjvtr+TvOeiiwnoqs3PniCzuVCCjBVzPM3FD6VXVz+bPcHzpEmbFp1Ii0V1COQygdl4e
+         lteA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767604581; x=1768209381;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=xS4Pieemzy4r1o+XZyR7jxfKf1/JCiqumXmtg6ZAf0Y=;
+        b=CntniEyN6oWyMTD/7mUEpRBsP+lY+9XuDPU7KyuYQW3USsy32noCSIy2aFcGNU5ilG
+         CaHJOGsbiqkI3PUO36ExhWjRjrJIEI12fNGqGJpVAES2K5d8KINXvL/eIaFMr7TNGkdh
+         PkK8Alt+DgQw5PkD40NbtWNwdJCqGzDgN/zqD/qTWt1deYjlrrbNMRoLjg0QKqbZmGod
+         +NhATD5FsBEs3Qm4H1kyTmkf/1ubcb3oBgBSOyGncrQ+DUhpDhBAFyCTg0c0ioCMZEVF
+         1ARjFmVRuzAzbe7Za9WvoAyyn95nNJrHFeFQJSUv5lIgfVj7plOTZe5XuTWnkRsH+fUT
+         BTtw==
+X-Forwarded-Encrypted: i=1; AJvYcCWyPp9ElnjxfA0YC+iL+1Mc91ECCXKXxnOBP6ikPTSyzYpfBWehD2tZ4XWv8uVBXVaoicFVddjkTw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwI9wY2zcSs+Z4Jhw33BxaquL24c+hbm9Uhw1evWsHFXidSyAI0
+	TwS8CttJYVzQ/LpGXqDppoiOpwoEaQT5sDMqbvLz+dIu5wUKqZm0Iz1qt59G2Zb8IukJTcuRP4L
+	hHMfeguN/UcSivAaO2pWkuz2+2ekhDkAK+BI7n1NoMg==
+X-Gm-Gg: AY/fxX4i9Zj9W5tClSmRnkhnjA7DKCrBjgJv0jW08QQs3GgfkwL1pOP33kYyQ3D6vit
+	c76TIPw4o+N6QIglkNpf+QZaozJNzLEt4NYv737MfNfEr7eWaKY7XWOhKOVyrTYhwqPxIfJ0aGe
+	21KZK0HclxXPsy3OLQa5dKAYVweDQa2DN0/ESrKMDIrnQzK9fb7Cf66JE/dJzCCCI9eXPiInsI9
+	e/tKjlWzNpQneS0HAYFJIgZQEclM3wZvTinLb/1mmY4ysQRnmBW2QCFXfle8UHS/aQOkNBmREuc
+	hfkkkiyWwa97NpLiqDx+Qa+ToA==
+X-Google-Smtp-Source: AGHT+IHdtu3uK1YvLPvRXmBmsYletnr+Fy6yEnWw7FcQJMBZUAFsUyE2L/0PG3GpU/2KGeBY95bkFD0S8glmAzrpFaU=
+X-Received: by 2002:a05:6820:2289:b0:65c:f9c1:cba0 with SMTP id
+ 006d021491bc7-65d0ea16a88mr23376881eaf.37.1767604581140; Mon, 05 Jan 2026
+ 01:16:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: caca0cc7-3d68-4615-eb9c-08de4a6264a8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jan 2026 00:52:38.8758
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aklEz7s7lZx5Jr6yNS7VjnTgsCtzi5pYZOOqJOGXVPixc+g81wO/33fhF2IPbOq/aVFsA0JyK/ds/mOPk1Yt/Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7828
+References: <cover.1765791463.git.u.kleine-koenig@baylibre.com>
+ <CAHUa44FrDZbvRvfN8obf80_k=Eqxe9YxHpjaE5jU7nkxPUwfag@mail.gmail.com>
+ <20251218135332f323fa91@mail.local> <CAHUa44GpW5aO26GDyL9RZub9vVYvVcJ7etwO0yXBN_mUi0W4AA@mail.gmail.com>
+In-Reply-To: <CAHUa44GpW5aO26GDyL9RZub9vVYvVcJ7etwO0yXBN_mUi0W4AA@mail.gmail.com>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Mon, 5 Jan 2026 10:16:09 +0100
+X-Gm-Features: AQt7F2q8lTcIoa5xBnvz2Mkjx2axWX5OMGPJpQNfFM5WoFI2KGlEdVoT6sJvPQg
+Message-ID: <CAHUa44HqRbCJTXsrTCm0G5iwtkQtq+Si=yOspCjpAn-N2uVSVg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/17] tee: Use bus callbacks instead of driver callbacks
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Sumit Garg <sumit.garg@kernel.org>, 
+	Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	=?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, 
+	Ard Biesheuvel <ardb@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Sumit Garg <sumit.garg@oss.qualcomm.com>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Jan Kiszka <jan.kiszka@siemens.com>, 
+	Sudeep Holla <sudeep.holla@arm.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, 
+	Michael Chan <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>, 
+	James Bottomley <James.Bottomley@hansenpartnership.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
+	Mimi Zohar <zohar@linux.ibm.com>, David Howells <dhowells@redhat.com>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Peter Huewe <peterhuewe@gmx.de>, op-tee@lists.trustedfirmware.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-rtc@vger.kernel.org, 
+	linux-efi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, 
+	Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org, 
+	linux-mips@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, keyrings@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SGkgTGludXMsDQoNCj4gU3ViamVjdDogUmU6IFtQQVRDSCAyLzJdIHBpbmN0cmw6IGlteDogQWRk
-IHN1cHBvcnQgZm9yIE5YUCBpLk1YOTUyDQo+IA0KPiBPbiBXZWQsIERlYyAxNywgMjAyNSBhdCAz
-OjQx4oCvQU0gUGVuZyBGYW4gKE9TUykNCj4gPHBlbmcuZmFuQG9zcy5ueHAuY29tPiB3cm90ZToN
-Cj4gDQo+ID4gIHN0YXRpYyBjb25zdCBjaGFyICogY29uc3Qgc2NtaV9waW5jdHJsX2lteF9hbGxv
-d2xpc3RbXSA9IHsNCj4gPiAtICAgICAgICJmc2wsaW14OTUiLA0KPiA+ICAgICAgICAgImZzbCxp
-bXg5NCIsDQo+ID4gKyAgICAgICAiZnNsLGlteDk1IiwNCj4gPiArICAgICAgICJmc2wsaW14OTUy
-IiwNCj4gDQo+IFdoZXJlIGlzIHRoZSBiaW5kaW5nIGZvciBmc2wsaW14OTUyIG1lcmdlZD8NCj4g
-DQo+ICQgZ2l0IGdyZXAgZnNsLGlteDk1Mg0KDQpJdCBpcyBpbiBTaGF3bidzIGkuTVggZm9yLW5l
-eHQgdHJlZS4gSXQgc2hvdWxkIGJlDQppbiBsaW51eC1uZXh0IG1hc3RlciBicmFuY2ggd2hlbiBs
-aW51eC1uZXh0DQpnZXRzIHVwZGF0ZWQuDQoNCmh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3Nj
-bS9saW51eC9rZXJuZWwvZ2l0L3NoYXduZ3VvL2xpbnV4LmdpdC9jb21taXQvP2g9Zm9yLW5leHQm
-aWQ9NmI0YmNlZjA1NDllMzViNzc3ODk2ZTVkYTBlYzhhZjAwZmE5NDJjMSANCg0KVGhhbmtzLA0K
-UGVuZy4NCg0KPiANCj4gb24gdjYuMTktcmMxIHlpZWxkcyBub3RoaW5nLg0KPiANCj4gWW91cnMs
-DQo+IExpbnVzIFdhbGxlaWoNCg==
+Hi,
+
+On Thu, Dec 18, 2025 at 5:29=E2=80=AFPM Jens Wiklander
+<jens.wiklander@linaro.org> wrote:
+>
+> On Thu, Dec 18, 2025 at 2:53=E2=80=AFPM Alexandre Belloni
+> <alexandre.belloni@bootlin.com> wrote:
+> >
+> > On 18/12/2025 08:21:27+0100, Jens Wiklander wrote:
+> > > Hi,
+> > >
+> > > On Mon, Dec 15, 2025 at 3:17=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+> > > <u.kleine-koenig@baylibre.com> wrote:
+> > > >
+> > > > Hello,
+> > > >
+> > > > the objective of this series is to make tee driver stop using callb=
+acks
+> > > > in struct device_driver. These were superseded by bus methods in 20=
+06
+> > > > (commit 594c8281f905 ("[PATCH] Add bus_type probe, remove, shutdown
+> > > > methods.")) but nobody cared to convert all subsystems accordingly.
+> > > >
+> > > > Here the tee drivers are converted. The first commit is somewhat
+> > > > unrelated, but simplifies the conversion (and the drivers). It
+> > > > introduces driver registration helpers that care about setting the =
+bus
+> > > > and owner. (The latter is missing in all drivers, so by using these
+> > > > helpers the drivers become more correct.)
+> > > >
+> > > > v1 of this series is available at
+> > > > https://lore.kernel.org/all/cover.1765472125.git.u.kleine-koenig@ba=
+ylibre.com
+> > > >
+> > > > Changes since v1:
+> > > >
+> > > >  - rebase to v6.19-rc1 (no conflicts)
+> > > >  - add tags received so far
+> > > >  - fix whitespace issues pointed out by Sumit Garg
+> > > >  - fix shutdown callback to shutdown and not remove
+> > > >
+> > > > As already noted in v1's cover letter, this series should go in dur=
+ing a
+> > > > single merge window as there are runtime warnings when the series i=
+s
+> > > > only applied partially. Sumit Garg suggested to apply the whole ser=
+ies
+> > > > via Jens Wiklander's tree.
+> > > > If this is done the dependencies in this series are honored, in cas=
+e the
+> > > > plan changes: Patches #4 - #17 depend on the first two.
+> > > >
+> > > > Note this series is only build tested.
+> > > >
+> > > > Uwe Kleine-K=C3=B6nig (17):
+> > > >   tee: Add some helpers to reduce boilerplate for tee client driver=
+s
+> > > >   tee: Add probe, remove and shutdown bus callbacks to tee_client_d=
+river
+> > > >   tee: Adapt documentation to cover recent additions
+> > > >   hwrng: optee - Make use of module_tee_client_driver()
+> > > >   hwrng: optee - Make use of tee bus methods
+> > > >   rtc: optee: Migrate to use tee specific driver registration funct=
+ion
+> > > >   rtc: optee: Make use of tee bus methods
+> > > >   efi: stmm: Make use of module_tee_client_driver()
+> > > >   efi: stmm: Make use of tee bus methods
+> > > >   firmware: arm_scmi: optee: Make use of module_tee_client_driver()
+> > > >   firmware: arm_scmi: Make use of tee bus methods
+> > > >   firmware: tee_bnxt: Make use of module_tee_client_driver()
+> > > >   firmware: tee_bnxt: Make use of tee bus methods
+> > > >   KEYS: trusted: Migrate to use tee specific driver registration
+> > > >     function
+> > > >   KEYS: trusted: Make use of tee bus methods
+> > > >   tpm/tpm_ftpm_tee: Make use of tee specific driver registration
+> > > >   tpm/tpm_ftpm_tee: Make use of tee bus methods
+> > > >
+> > > >  Documentation/driver-api/tee.rst             | 18 +----
+> > > >  drivers/char/hw_random/optee-rng.c           | 26 ++----
+> > > >  drivers/char/tpm/tpm_ftpm_tee.c              | 31 +++++---
+> > > >  drivers/firmware/arm_scmi/transports/optee.c | 32 +++-----
+> > > >  drivers/firmware/broadcom/tee_bnxt_fw.c      | 30 ++-----
+> > > >  drivers/firmware/efi/stmm/tee_stmm_efi.c     | 25 ++----
+> > > >  drivers/rtc/rtc-optee.c                      | 27 ++-----
+> > > >  drivers/tee/tee_core.c                       | 84 ++++++++++++++++=
+++++
+> > > >  include/linux/tee_drv.h                      | 12 +++
+> > > >  security/keys/trusted-keys/trusted_tee.c     | 17 ++--
+> > > >  10 files changed, 164 insertions(+), 138 deletions(-)
+> > > >
+> > > > base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+> > > > --
+> > > > 2.47.3
+> > > >
+> > >
+> > > Thank you for the nice cleanup, Uwe.
+> > >
+> > > I've applied patch 1-3 to the branch tee_bus_callback_for_6.20 in my
+> > > tree at https://git.kernel.org/pub/scm/linux/kernel/git/jenswi/linux-=
+tee.git/
+> > >
+> > > The branch is based on v6.19-rc1, and I'll try to keep it stable for
+> > > others to depend on, if needed. Let's see if we can agree on taking
+> > > the remaining patches via that branch.
+> >
+> > 6 and 7 can go through your branch.
+>
+> Good, I've added them to my branch now.
+
+This entire patch set should go in during a single merge window. I
+will not send any pull request until I'm sure all patches will be
+merged.
+
+So far (if I'm not mistaken), only the patches I've already added to
+next have appeared next. I can take the rest of the patches, too, but
+I need OK for the following:
+
+Jarkko, you seem happy with the following patches
+- KEYS: trusted: Migrate to use tee specific driver registration function
+- KEYS: trusted: Make use of tee bus methods
+- tpm/tpm_ftpm_tee: Make use of tee specific driver registration
+- tpm/tpm_ftpm_tee: Make use of tee bus methods
+OK if I take them via my tree, or would you rather take them yourself?
+
+Herbert, you seem happy with the following patches
+- hwrng: optee - Make use of module_tee_client_driver()
+- hwrng: optee - Make use of tee bus methods
+OK if I take them via my tree, or would you rather take them yourself?
+
+Sudeep, you seem happy with the following patches
+- firmware: arm_scmi: optee: Make use of module_tee_client_driver()
+- firmware: arm_scmi: Make use of tee bus methods
+OK if I take them via my tree, or would you rather take them yourself?
+
+Michael, Pavan, are you OK with the following patches
+- firmware: tee_bnxt: Make use of module_tee_client_driver()
+- firmware: tee_bnxt: Make use of tee bus methods
+OK if I take them via my tree, or would you rather take them yourself?
+
+Thanks,
+Jens
