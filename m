@@ -1,116 +1,69 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C1CF2C029C;
-	Mon, 12 Jan 2026 16:02:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail.auroraos.dev (unknown [95.181.193.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E3B2FD689;
+	Tue, 13 Jan 2026 19:48:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.181.193.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768233755; cv=none; b=fy9pvHtM77qKAtgrmhtNpslAb/8b+AIieO3RKD6eK88jfgNiv5/l4fOM3tvOkJ8eU8iGeN3gQK+lPu6sDcRLPebpOcPhHTKr4FfdKYpQG5sDWK0t5Y5DOMrWCtdPtOC9RGEmpoQk5ZVJ8FarPs0MF4zkktF5ZP9bCLn+exJb808=
+	t=1768333730; cv=none; b=febZR9I/SFkkhhWA4R8wSTV2Wr8Lf8VmD0pSgCi80bAx+errxx9mFBAgBEXRjfslErGzU/6ohpIoV7sgl6wViNMXBAL/n7+/D56MOngmtf1o71byecnoZrLUnElMi+g8XcWcRIaDjUKAwcWwSEWrgEYQBb9OeRXcloeqf9lc9c8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768233755; c=relaxed/simple;
-	bh=r7W/5Rvn8GXF8i+ZSGISxrn/JcAZLLE2wuXZidCV3hc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z7k/UgiFYZLJDQAxpjG3P9rc6PWia9W63AJfEH2lzCoC9BrmYKhpyIXthwj3v2LQW1NpcwPsLroK/+dpU9/EZ0rp0pv3PnUUGLXrGFN2RT2SkNaNpwqUi4zAY+jYFlvCwtL8+DKLH5qKqrR6ehz+jHqefoI74vfVDY9/gWZCAE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C9745497;
-	Mon, 12 Jan 2026 08:02:26 -0800 (PST)
-Received: from bogus (e133711.arm.com [10.1.197.51])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1B4AC3F59E;
-	Mon, 12 Jan 2026 08:02:32 -0800 (PST)
-Date: Mon, 12 Jan 2026 16:02:29 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, arm-scmi@vger.kernel.org,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: firmware: arm,scmi: Document
- arm,poll-transport property
-Message-ID: <aWUbFb0q2-XuAySm@bogus>
-References: <20251231213016.185575-1-marek.vasut+renesas@mailbox.org>
- <20260102-masked-spirited-labrador-33eae0@quoll>
+	s=arc-20240116; t=1768333730; c=relaxed/simple;
+	bh=TBSdy3Rr/LOCqjf4wut0AiYPYytXGCwDLIEfWM9wiBI=;
+	h=Message-ID:Date:MIME-Version:To:CC:From:Subject:Content-Type; b=R8i1ZYlFN9RlSujDRvvRvVlaMMFHekx+a/zZDhQ06lm45YfhKJZesImwaVopyJ3wQKjYRS0aZn+7zePGvy0IOLOOAIArDb3M7w1smeJXd8DDz/po3+ByDcJ33Og28sxKVRYUlcqvzERKC78WtJ3c0soHhfO2xF3sE+58PtyfM2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev; spf=pass smtp.mailfrom=auroraos.dev; arc=none smtp.client-ip=95.181.193.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=auroraos.dev
+Received: from [192.168.2.104] (213.87.161.90) by exch16.corp.auroraos.dev
+ (10.189.209.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1847.3; Tue, 13 Jan
+ 2026 22:33:29 +0300
+Message-ID: <e6c2e7af-ad87-4d38-9dbb-f9d6ae81fe83@auroraos.dev>
+Date: Tue, 13 Jan 2026 22:33:30 +0300
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260102-masked-spirited-labrador-33eae0@quoll>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Sudeep Holla <sudeep.holla@arm.com>, Cristian Marussi
+	<cristian.marussi@arm.com>, "Rafael J. Wysocki" <rafael@kernel.org>, Viresh
+ Kumar <viresh.kumar@linaro.org>, <arm-scmi@vger.kernel.org>,
+	<linux-pm@vger.kernel.org>
+CC: <linux-arm-kernel@lists.infradead.org>, Sergey Shtylyov
+	<s.shtylyov@auroraos.dev>
+From: Sergey Shtylyov <s.shtylyov@auroraos.dev>
+Subject: [PATCH] cpufreq: scmi: correct SCMI explanation
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: exch16.corp.auroraos.dev (10.189.209.38) To
+ exch16.corp.auroraos.dev (10.189.209.38)
 
-On Fri, Jan 02, 2026 at 12:39:12PM +0100, Krzysztof Kozlowski wrote:
-> On Wed, Dec 31, 2025 at 10:29:18PM +0100, Marek Vasut wrote:
-> > Document new property arm,poll-transport, which sets all SCMI operation into
-> 
-> Please wrap commit message according to Linux coding style / submission
-> process (neither too early nor over the limit):
-> https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
-> 
-> > poll mode. This is meant to work around uncooperative SCP implementations,
-> > which do not generate completion interrupts. This applies primarily on mbox
-> > shmem based implementations.
-> > 
-> > With this property set, such implementations which do not generate interrupts
-> > can be interacted with, until they are fixed to generate interrupts properly.
-> > 
-> > Note that, because the original base protocol exchange also requires some
-> > sort of completion mechanism, it is not possible to query SCMI itself for
-> > this property and it must be described in DT. While this does look a bit
-> > like policy, the SCMI provider is part of the hardware, hence DT.
-> > 
-> > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> > ---
-> > Cc: Conor Dooley <conor+dt@kernel.org>
-> > Cc: Cristian Marussi <cristian.marussi@arm.com>
-> > Cc: Florian Fainelli <florian.fainelli@broadcom.com>
-> > Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: Sudeep Holla <sudeep.holla@arm.com>
-> > Cc: arm-scmi@vger.kernel.org
-> > Cc: devicetree@vger.kernel.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-renesas-soc@vger.kernel.org
-> > ---
-> > V2: s@mean@&t and limit poll transport to mailbox/shmem only
-> > ---
-> >  .../devicetree/bindings/firmware/arm,scmi.yaml         | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> > index be817fd9cc34b..f4bf4173c5c7e 100644
-> > --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> > +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> > @@ -146,6 +146,13 @@ properties:
-> >        this platform. If set, the value should be non-zero.
-> >      minimum: 1
-> >  
-> > +  arm,poll-transport:
-> > +    type: boolean
-> > +    description:
-> > +      An optional property which unconditionally forces polling in all transports.
-> > +      This is mainly meant to work around uncooperative SCP, which does not generate
-> 
-> Also not wrapped.
-> 
-> Anyway, you described the desired Linux feature or behavior, not the
-> actual hardware. The bindings are about the latter, so instead you need
-> to rephrase the property and its description to match actual hardware
-> capabilities/features/configuration etc.
-> 
+SCMI stands for System Control and Management Interface, not System Control
+and Power Interface -- apparently, Sudeep Holla copied this line from his
+SCPI driver and then just forgot to update the acronym explanation... :-)
 
-I agree with this assessment. Rephrasing the property to reflect the actual
-hardware/firmware characteristics makes more sense. Something along the lines
-of `arm,no-completion-interrupt`, or a similar name, would better capture the
-underlying reality, namely that the platform or firmware does not generate a
-completion interrupt without encoding OS-specific policy or behavior.
+Fixes: 99d6bdf33877 ("cpufreq: add support for CPU DVFS based on SCMI message protocol")
+Signed-off-by: Sergey Shtylyov <s.shtylyov@auroraos.dev>
+---
+The patch is against the cpufreq/arm/linux-next branch of Viresh Kumar's pm.git
+repo...
 
+ drivers/cpufreq/scmi-cpufreq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/cpufreq/scmi-cpufreq.c b/drivers/cpufreq/scmi-cpufreq.c
+index d2a110079f5f..e0e1756180b0 100644
+--- a/drivers/cpufreq/scmi-cpufreq.c
++++ b/drivers/cpufreq/scmi-cpufreq.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * System Control and Power Interface (SCMI) based CPUFreq Interface driver
++ * System Control and Management Interface (SCMI) based CPUFreq Interface driver
+  *
+  * Copyright (C) 2018-2021 ARM Ltd.
+  * Sudeep Holla <sudeep.holla@arm.com>
 -- 
-Regards,
-Sudeep
+2.52.0
