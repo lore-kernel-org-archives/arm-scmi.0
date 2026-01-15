@@ -1,125 +1,130 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404F930C618
-	for <arm-scmi@vger.kernel.org>; Thu, 15 Jan 2026 19:34:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB512E0925;
+	Thu, 15 Jan 2026 19:58:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768505700; cv=none; b=eUhLQgpLeqcC5rDlCsElyjOKveU609e6PSO81yxdTkLr2z6/rYP56AWGU3Y5jna7BGkMN/pQPyAnDeJNWcyDw0SGksAWNcA+HisFDP7i1KwMc/BKZtPu0MfuEjTI5UJ79rBKRnGnLNct1MR5uEuNhx6+dWkrYMRKDoLs/AaWFBw=
+	t=1768507091; cv=none; b=uaW17YTDWNKf/9/hiAfRSk6vY0XH4JNAIDpO86wyLKElfOwfQyqv/1/tLW0L1cXrjlM8yRc3MasFEoEPg2pOipcZGN3o/RbdrV861gPT2FVTaj+DhNM2UeQ1pyx93SgH/PDqkiFFYWpHpgMCoMhgy8IZ8sdvZoD+EIys2k7bAyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768505700; c=relaxed/simple;
-	bh=BVuRcIp9C9aDs7YujmRCIsJWyiCOSqmqC7FZNs5wMUU=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=D/kIwbeWI399j4JP7YPGl7Youx5pZWsP7V+ANv15+7LJzviesfKed+wRXxZFY62IVLj52WKlJXFDuCNruvnSRvW5qF3vFyZPO/EsqFE3uhNGTqhp8Ixipm8Psv5OkIGYM24ETkeEBH154/8tllxKb5yqMF1GIeEGN54xVEUUsrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oasis-open.org; spf=pass smtp.mailfrom=oasis-open.org; dkim=pass (2048-bit key) header.d=oasis-open-org.20230601.gappssmtp.com header.i=@oasis-open-org.20230601.gappssmtp.com header.b=p4OYThRV; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oasis-open.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oasis-open.org
+	s=arc-20240116; t=1768507091; c=relaxed/simple;
+	bh=CEPptNSL/+FCLqFJSQnu0FQS/H+mROxmw2mYR4q5S3I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QG9vDpyRPQe/rYJ4p2URiuHeXQFleAKO+Qe4PKEG4lraVqzpaN0ecr2s2nqy/akaNo4eYInFKpWPe6P0/ndogcOsnXm1TCNW1zcUu9TvTnuLrISO3KhYFlrqsRV0baMTKAriIGwKPor3AuOB0odyO13zZxQuIPi1chuXaJYqqQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JEPlgZRn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oasis-open-org.20230601.gappssmtp.com header.i=@oasis-open-org.20230601.gappssmtp.com header.b="p4OYThRV"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-8c6a5c57e01so34277185a.2
-        for <arm-scmi@vger.kernel.org>; Thu, 15 Jan 2026 11:34:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oasis-open-org.20230601.gappssmtp.com; s=20230601; t=1768505698; x=1769110498; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BVuRcIp9C9aDs7YujmRCIsJWyiCOSqmqC7FZNs5wMUU=;
-        b=p4OYThRVj7k/VmOV3+W8oZHXQNO5n0JWtMuzBBNNqPZWT4So7IM22zjVksw/X87yVT
-         XHYwTS6WmnNL4VlIZwCo49QJjqyQhiNR1TGd7KyErUCsUpDS3of0kOasGJ2wuc3pTikS
-         P4gqcWiCerDmA9aCa+7LXyodHoq/wamhZ+FbVM41k2NjoYcYgIXS0PFRd4j5lsMzkBIR
-         GIUjRAvgHghfSaQoaqx8zzb6lqsSr1iNFvZOVvVULgbA0prsLObPxHqaWb2ThgOilKmi
-         ELy0qCA9F37hSfTcKIbNQUuk3y4vYpYRes9uiJkdlFyG9DNvm54r3AU0h4t9sKIu11pr
-         pJfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768505698; x=1769110498;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BVuRcIp9C9aDs7YujmRCIsJWyiCOSqmqC7FZNs5wMUU=;
-        b=iwXjPmPbn2asBnENseFqZvBnU7Wuaa9o4NQ7uW/v1pqYcE9p7qreiF0w74XpkQP2Iu
-         pM8CAu4R1Gy8Qa+zHRhU+XpyY4Q4FIdjM3aKUbsWo3kl8Qdiojs2YIk6e0TCJmvjP8Rf
-         CTEm4gFrJN4jWCut9azDPP+WS3ohY6rjxeHwPpHFyqP5DPN057XRCz3akTYg8+97M5SE
-         6AZPhIzJ9runR2AKIicGQzjAkwZsRaKd7EEiK/1IqTBGRz1z0+Yj2cuYhkk8zdYKPHKP
-         XUW9+8xvKNwXtYJQyjxgOLSYmLW4EwZsZ57P2TW8UFJ1s1zAqsfAHA7b4UPl5kBRgSG6
-         x47g==
-X-Gm-Message-State: AOJu0YzmGMR4a6S5AQH6C4hX2ejc/Y1iMBiAeGIDPnnFt4zBJ21Sju+6
-	8F9p5LC+UMuan6y3ClKb0RNm8d0dRCbLsMh1NAd3UB+bkSGW2H0HOOlivWrFHJbKlnnjnKSmxub
-	D17j0BMKryoF3gWYdku0NNn4lGhWNjkJHMkV95hW3Qlt/n/22bnUO7kc=
-X-Gm-Gg: AY/fxX729mbThnmm2EDDldv+C+qLz8BraCl8Ejht4jHJfSs2gPyt+huB1rgei/2PrRK
-	KQ90JEiD0g1H5GZNJOVYjDkxQINhjw8dbzl0WIcRlWw+UgIWOtspsEWJMheIfeGsDQcLe7DSua/
-	7mc1GpOg4k54vxijHlLtPTJ56S5dzoNP5MSlbH1jCRLN39gdP+KP2Mx4t0CpiB9vwuazI7rjuLl
-	hUwfwcb6xRqcbV+36zTA6AAIwyE5OJY4Lldh6mqHSkIkYdCjF0hjOGBLrtAcWft6IJXUZQwJXlA
-	pzJfUvA1/6/SWUX1izQdGjVVDsJGEesQI/ZQvylvKHmczjx6Poj3i2Ov84ZC
-X-Received: by 2002:a05:620a:1a86:b0:8b2:4a1b:b80a with SMTP id
- af79cd13be357-8c6a66e4ec2mr101238285a.25.1768505697784; Thu, 15 Jan 2026
- 11:34:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JEPlgZRn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CF78C16AAE;
+	Thu, 15 Jan 2026 19:58:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768507090;
+	bh=CEPptNSL/+FCLqFJSQnu0FQS/H+mROxmw2mYR4q5S3I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JEPlgZRng09trAPveVtwXvgcHKps1k0fUJ2zhoqG2dKqvdXMhqvQMl51wRaoyBLIq
+	 6PaCs+NTIV2LsMOFdLWHKnqVLO8sL8OlvqIXKxyKrr+oEvuYQ64Ray+ESEQYWace4u
+	 a4fVxB6EE4jb+b3CRqoTyQ/TMkvpHKeJL4piRC+YoNd+0BJkrGHKTw9D53tWz+tXtA
+	 0vlbdsZwn1UNywwkuVmfbMoB1LKByrZJgnb5ACab9yDFChRekuV03d3Xg8p2rQxaXP
+	 awilHQsY9PaIpmWyazw6cRhqIS0SkwUdeVCsCou7+Aki9k8Al18/g8hU4u3u/fpb47
+	 KydNrFr4yLZfA==
+Date: Thu, 15 Jan 2026 13:58:09 -0600
+From: Rob Herring <robh@kernel.org>
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, arm-scmi@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: firmware: arm,scmi: Document
+ arm,no-completion-irq property
+Message-ID: <20260115195809.GA1086054-robh@kernel.org>
+References: <20260115004921.548282-1-marek.vasut+renesas@mailbox.org>
+ <aWjWLFi6xUIn3_GQ@bogus>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Kelly Cullinane <kelly.cullinane@oasis-open.org>
-Date: Thu, 15 Jan 2026 14:34:20 -0500
-X-Gm-Features: AZwV_QjddGhLjZXCW0Ea6FLX52-iMhg8aSnZxDeDmIlSP0USYQOH1UHFdbcR4XE
-Message-ID: <CAAiF60368DpEyCq_ES+7TDZWXwT40-di-N8Aeu0v33NgDvf2jg@mail.gmail.com>
-Subject: Invitation to comment on VIRTIO v1.4 CSD01
-To: arm-scmi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aWjWLFi6xUIn3_GQ@bogus>
 
-OASIS members and other interested parties,
+On Thu, Jan 15, 2026 at 11:57:32AM +0000, Sudeep Holla wrote:
+> On Thu, Jan 15, 2026 at 01:48:56AM +0100, Marek Vasut wrote:
+> > Document new property arm,no-completion-irq, which sets all SCMI
+> > operation into poll mode. This is meant to work around uncooperative
+> > SCP implementations, which do not generate completion interrupts.
+> > This applies primarily on mbox shmem based implementations.
+> > 
+> > With this property set, such implementations which do not generate
+> > interrupts can be interacted with, until they are fixed to generate
+> > interrupts properly.
+> > 
+> > Note that, because the original base protocol exchange also requires
+> > some sort of completion mechanism, it is not possible to query SCMI
+> > itself for this property and it must be described in DT. While this
+> > does look a bit like policy, the SCMI provider is part of the
+> > hardware, hence DT.
+> > 
+> > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> > ---
+> > Cc: Conor Dooley <conor+dt@kernel.org>
+> > Cc: Cristian Marussi <cristian.marussi@arm.com>
+> > Cc: Florian Fainelli <florian.fainelli@broadcom.com>
+> > Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> > Cc: Rob Herring <robh@kernel.org>
+> > Cc: Sudeep Holla <sudeep.holla@arm.com>
+> > Cc: arm-scmi@vger.kernel.org
+> > Cc: devicetree@vger.kernel.org
+> > Cc: linux-arm-kernel@lists.infradead.org
+> > Cc: linux-renesas-soc@vger.kernel.org
+> > ---
+> > V2: s@mean@&t and limit poll transport to mailbox/shmem only
+> > V3: - Reformat the commit message, expand property description to
+> >       explicitly spell out this is hardware description.
+> >     - Rename property from arm,poll-transport to arm,no-completion-irq
+> > ---
+> >  .../devicetree/bindings/firmware/arm,scmi.yaml        | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> > index be817fd9cc34b..46d9a0a9a0e58 100644
+> > --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> > +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> > @@ -146,6 +146,14 @@ properties:
+> >        this platform. If set, the value should be non-zero.
+> >      minimum: 1
+> >  
+> > +  arm,no-completion-irq:
+> > +    type: boolean
+> > +    description:
+> > +      An optional property which unconditionally forces polling in all transports,
+> > +      meant for hardware which does not generate completion interrupts. This is
+> > +      mainly meant to work around uncooperative SCP or SCP firmware, which does
+> > +      not generate completion interrupts.
+> > +
+> 
+> I would swap the order of the above two points.
+> 
+> “This optional property is intended for hardware that does not generate
+> completion interrupts and can be used to unconditionally enable forced polling
+> mode of operation.”
+> 
+> You need to update the commit message accordingly. We do not want to indicate
+> how this property should be used, as that is left to the implementation. The
+> emphasis should be on what this property indicates to its users.
+> 
+> Please update only if DT maintainers are also in agreement. I have just
+> expressed my opinion. IIUC, it is aligned to standard DT binding rules but
+> I may be wrong.
 
-OASIS and the VIRTIO TC are pleased to announce that VIRTIO v1.4 CSD01
-is now available for public review and comment.
+Makes sense to me.
 
-VIRTIO TC aims to enhance the performance of virtual devices by
-standardizing key features of the VIRTIO (Virtual I/O) Device
-Specification.
+With Sudeep's suggestion:
 
-Virtual I/O Device (VIRTIO) Version 1.4
-Committee Specification Draft 01 / Public Review Draft 01
-09 December 2025
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-TEX: https://docs.oasis-open.org/virtio/virtio/v1.4/csprd01/virtio-v1.4-csp=
-rd01.html
-(Authoritative)
-HTML: https://docs.oasis-open.org/virtio/virtio/v1.4/csprd01/virtio-v1.4-cs=
-prd01.html
-PDF: https://docs.oasis-open.org/virtio/virtio/v1.4/csprd01/virtio-v1.4-csp=
-rd01.pdf
-
-The ZIP containing the complete files of this release is found in the direc=
-tory:
-https://docs.oasis-open.org/virtio/virtio/v1.4/csprd01/virtio-v1.4-csprd01.=
-zip
-
-How to Provide Feedback
-OASIS and the VIRTIO TC value your feedback. We solicit input from
-developers, users and others, whether OASIS members or not, for the
-sake of improving the interoperability and quality of its technical
-work.
-
-The public review is now open and ends Friday, February 13 2026 at 23:59 UT=
-C.
-
-Comments may be submitted to the project=E2=80=99s comment mailing list at
-virtio-comment@lists.linux.dev. You can subscribe to the list by
-sending an email to
-virtio-comment+subscribe@lists.linux.dev.
-
-All comments submitted to OASIS are subject to the OASIS Feedback
-License, which ensures that the feedback you provide carries the same
-obligations at least as the obligations of the TC members. In
-connection with this public review, we call your attention to the
-OASIS IPR Policy applicable especially to the work of this technical
-committee. All members of the TC should be familiar with this
-document, which may create obligations regarding the disclosure and
-availability of a member's patent, copyright, trademark and license
-rights that read on an approved OASIS specification.
-
-OASIS invites any persons who know of any such claims to disclose
-these if they may be essential to the implementation of the above
-specification, so that notice of them may be posted to the notice page
-for this TC's work.
-
-Additional information about the specification and the VIRTIO TC can
-be found at the TC=E2=80=99s public homepage.
+Rob
