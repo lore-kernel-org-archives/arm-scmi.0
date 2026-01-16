@@ -1,130 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB512E0925;
-	Thu, 15 Jan 2026 19:58:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612A42EAB64;
+	Fri, 16 Jan 2026 02:50:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768507091; cv=none; b=uaW17YTDWNKf/9/hiAfRSk6vY0XH4JNAIDpO86wyLKElfOwfQyqv/1/tLW0L1cXrjlM8yRc3MasFEoEPg2pOipcZGN3o/RbdrV861gPT2FVTaj+DhNM2UeQ1pyx93SgH/PDqkiFFYWpHpgMCoMhgy8IZ8sdvZoD+EIys2k7bAyE=
+	t=1768531801; cv=none; b=ZgpCbY5Ys7/MgGoy3pjDSAx0iSItqRz1/h13lziFTJCTvHbLgjMvLFjtqE20+ptThgUlOPAKW0JU4Q8BvbkcBGjJjRuhheJ9DSHEBNK+7idErGDxcUTlQARVJxkGsuTtsISLusZna9ckjFYijCXyPBbswDcaQYMHDxpwTmMnttU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768507091; c=relaxed/simple;
-	bh=CEPptNSL/+FCLqFJSQnu0FQS/H+mROxmw2mYR4q5S3I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QG9vDpyRPQe/rYJ4p2URiuHeXQFleAKO+Qe4PKEG4lraVqzpaN0ecr2s2nqy/akaNo4eYInFKpWPe6P0/ndogcOsnXm1TCNW1zcUu9TvTnuLrISO3KhYFlrqsRV0baMTKAriIGwKPor3AuOB0odyO13zZxQuIPi1chuXaJYqqQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JEPlgZRn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768531801; c=relaxed/simple;
+	bh=r3Jva90IEIEzzjSj6QCrxX8cTuh1SiHfpusgkKjtJRM=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=nGTj+wTmHhPzatpVGH9T9wLy3G2Omus94SsriIxlNRac7Dg4JPRJdBZS/+y+3tkoR85/6fo5uGshtPlB+bKgCe7EF+4clknJeeELI9DgrEfFEPHfcw1WWwO9MsbonQj2rP/UVyeIaqMbULQJT6MtCUYEJd5lr7iMdhyEwFcmvSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O4Goxoen; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JEPlgZRn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CF78C16AAE;
-	Thu, 15 Jan 2026 19:58:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O4Goxoen"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3F02C116D0;
+	Fri, 16 Jan 2026 02:50:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768507090;
-	bh=CEPptNSL/+FCLqFJSQnu0FQS/H+mROxmw2mYR4q5S3I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JEPlgZRng09trAPveVtwXvgcHKps1k0fUJ2zhoqG2dKqvdXMhqvQMl51wRaoyBLIq
-	 6PaCs+NTIV2LsMOFdLWHKnqVLO8sL8OlvqIXKxyKrr+oEvuYQ64Ray+ESEQYWace4u
-	 a4fVxB6EE4jb+b3CRqoTyQ/TMkvpHKeJL4piRC+YoNd+0BJkrGHKTw9D53tWz+tXtA
-	 0vlbdsZwn1UNywwkuVmfbMoB1LKByrZJgnb5ACab9yDFChRekuV03d3Xg8p2rQxaXP
-	 awilHQsY9PaIpmWyazw6cRhqIS0SkwUdeVCsCou7+Aki9k8Al18/g8hU4u3u/fpb47
-	 KydNrFr4yLZfA==
-Date: Thu, 15 Jan 2026 13:58:09 -0600
-From: Rob Herring <robh@kernel.org>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, arm-scmi@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: firmware: arm,scmi: Document
- arm,no-completion-irq property
-Message-ID: <20260115195809.GA1086054-robh@kernel.org>
-References: <20260115004921.548282-1-marek.vasut+renesas@mailbox.org>
- <aWjWLFi6xUIn3_GQ@bogus>
+	s=k20201202; t=1768531801;
+	bh=r3Jva90IEIEzzjSj6QCrxX8cTuh1SiHfpusgkKjtJRM=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=O4GoxoenZ0jdMpTJh6n7/FYxPjAWOmLfrcGOFYBneqioD8A+W4sLKprtKEQchq7K7
+	 CiZVtlGIZsN8Z5DX637gogpbP/s0xnw/lnt+qR04WBwPuMiI7vfV1tNGFtIKZu4mj5
+	 i99m4DTHozGgGbApSJDX4RUrwRBAzVM16T1ZZWHNpdTnp8BXa/8CYMZrDMcXEe3hdY
+	 thTNxLDKSTb79DqUVKPJxyUrWfohHjYfow5RFnIAHqg3nT3/1fwxWX/ieTwXP2NFBi
+	 b0aYrTafBR7hhsZulnrODUi6E1lhwdTc0kZQNq31/TbiQRvgggwKP9wf3trJMfO6nz
+	 KuaoypT/zu6TA==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aWjWLFi6xUIn3_GQ@bogus>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20251224112239.83735-6-krzysztof.kozlowski@oss.qualcomm.com>
+References: <20251224112239.83735-4-krzysztof.kozlowski@oss.qualcomm.com> <20251224112239.83735-6-krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH 3/3] clk: versatile: impd1: Simplify with scoped for each OF child loop
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Cristian Marussi <cristian.marussi@arm.com>, Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, Linus Walleij <linusw@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Sudeep Holla <sudeep.holla@arm.com>, arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Thu, 15 Jan 2026 19:49:59 -0700
+Message-ID: <176853179908.4027.13756853598348225764@lazor>
+User-Agent: alot/0.11
 
-On Thu, Jan 15, 2026 at 11:57:32AM +0000, Sudeep Holla wrote:
-> On Thu, Jan 15, 2026 at 01:48:56AM +0100, Marek Vasut wrote:
-> > Document new property arm,no-completion-irq, which sets all SCMI
-> > operation into poll mode. This is meant to work around uncooperative
-> > SCP implementations, which do not generate completion interrupts.
-> > This applies primarily on mbox shmem based implementations.
-> > 
-> > With this property set, such implementations which do not generate
-> > interrupts can be interacted with, until they are fixed to generate
-> > interrupts properly.
-> > 
-> > Note that, because the original base protocol exchange also requires
-> > some sort of completion mechanism, it is not possible to query SCMI
-> > itself for this property and it must be described in DT. While this
-> > does look a bit like policy, the SCMI provider is part of the
-> > hardware, hence DT.
-> > 
-> > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> > ---
-> > Cc: Conor Dooley <conor+dt@kernel.org>
-> > Cc: Cristian Marussi <cristian.marussi@arm.com>
-> > Cc: Florian Fainelli <florian.fainelli@broadcom.com>
-> > Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: Sudeep Holla <sudeep.holla@arm.com>
-> > Cc: arm-scmi@vger.kernel.org
-> > Cc: devicetree@vger.kernel.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-renesas-soc@vger.kernel.org
-> > ---
-> > V2: s@mean@&t and limit poll transport to mailbox/shmem only
-> > V3: - Reformat the commit message, expand property description to
-> >       explicitly spell out this is hardware description.
-> >     - Rename property from arm,poll-transport to arm,no-completion-irq
-> > ---
-> >  .../devicetree/bindings/firmware/arm,scmi.yaml        | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> > index be817fd9cc34b..46d9a0a9a0e58 100644
-> > --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> > +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> > @@ -146,6 +146,14 @@ properties:
-> >        this platform. If set, the value should be non-zero.
-> >      minimum: 1
-> >  
-> > +  arm,no-completion-irq:
-> > +    type: boolean
-> > +    description:
-> > +      An optional property which unconditionally forces polling in all transports,
-> > +      meant for hardware which does not generate completion interrupts. This is
-> > +      mainly meant to work around uncooperative SCP or SCP firmware, which does
-> > +      not generate completion interrupts.
-> > +
-> 
-> I would swap the order of the above two points.
-> 
-> “This optional property is intended for hardware that does not generate
-> completion interrupts and can be used to unconditionally enable forced polling
-> mode of operation.”
-> 
-> You need to update the commit message accordingly. We do not want to indicate
-> how this property should be used, as that is left to the implementation. The
-> emphasis should be on what this property indicates to its users.
-> 
-> Please update only if DT maintainers are also in agreement. I have just
-> expressed my opinion. IIUC, it is aligned to standard DT binding rules but
-> I may be wrong.
+Quoting Krzysztof Kozlowski (2025-12-24 04:22:42)
+> Use scoped for-each loop when iterating over device nodes to make code a
+> bit simpler.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> ---
 
-Makes sense to me.
-
-With Sudeep's suggestion:
-
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-
-Rob
+Applied to clk-next
