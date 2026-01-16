@@ -1,25 +1,40 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B04CBEACD;
-	Fri, 16 Jan 2026 13:35:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E57461C8626;
+	Fri, 16 Jan 2026 13:37:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768570511; cv=none; b=T3qQ0ycGYZvVEwJkXrN/WjWjTx1FOWVfhMFk5N4jT1qvq/LkCqcyYS1ReXzOIUL0ibuq1SzZJjJMMmW/fQqrybQzWy5hE6C55Z4zVgRzmkzSxD8cs9/DCwyPT70oTSgarBqxRHK0g2feORot3fCGQQBTmGH7FejMP6lUVJDWy6Q=
+	t=1768570641; cv=none; b=UBEe3Ryh6kqI5cy2iSsD9UlBmsldv0vF4mk7SVPyn8s6H9+dhykha3e4YdABTMf7bZPJJSc8zlLusXtJJMS+gWMlEHvuXAPqGNPOFFswiqkHJqggqWN1yTXW1xFqvTAhnm7cEF05AREadt2US0DIkWkkxIFscVlXMzesOZ7NJyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768570511; c=relaxed/simple;
-	bh=ZF1G6Hrt9fkmzoJOMhtb/HAgUD3jMAhgnMFeAg7IOUg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mvo3Axlpsw5R6QJQT0M6gbO+aZC1c8IvY6kxaMq0t9PaJmF+Eda7JmK/Kq9yE9zEFNVfnuExMERsQtoJRGgzxNB6wvF6YTKYov4H7jtxV2dMH+8ddxlWHWCnOecL06KapKrTeM8yi/OSMU9SfPmd2sBl8SyKzZelIvJASueOvxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E2CDA1515;
-	Fri, 16 Jan 2026 05:35:00 -0800 (PST)
-Received: from [10.57.66.155] (unknown [10.57.66.155])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3FB0B3F59E;
-	Fri, 16 Jan 2026 05:35:03 -0800 (PST)
-Message-ID: <c720119f-0991-4112-a080-829a7b2de908@arm.com>
-Date: Fri, 16 Jan 2026 13:35:00 +0000
+	s=arc-20240116; t=1768570641; c=relaxed/simple;
+	bh=KHpRgz+DVocTzrnU1TIJvn0osNKKjoDVn0wN1dGIybk=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=Q8F/qPvSwCThaXf8N6uT9tC7Ts5DvPDG+7h5EwTd7TxLp8bbSRfI3kdnkYT0zu4zsU4+hd3J02IlZ4xKwSLT/TE3KzFwiPyThCoqlK5VvYUb+vk81Dm2jRAr+zxMdBsD6/8eD1cEQ9OERiSQLqXclb+VmzKNp2j5rSpvUDFQ7KQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=NCce1NvV; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="NCce1NvV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1768570620; x=1769175420; i=markus.elfring@web.de;
+	bh=KHpRgz+DVocTzrnU1TIJvn0osNKKjoDVn0wN1dGIybk=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=NCce1NvVUtxQ9/HCfpTMmtXABafFucdPJGV3rUeewMxdfcINQCnnBZwovXD2tXgD
+	 Rb6tEnCerV/FDAWKQ1rbiKs0AOFJmYmLm6ITq2TKckzGpsxotyJyMppxLcOcHMnu5
+	 0UyNI+60m4W9WmKYk4NEEYYppCxk0Bje9QYlRk9VlqDkbV3epThu5XzFjl1Pnam4G
+	 ht/q/juJIxwknYenff9qsmpI2p/SCBYGDBh4TS3ZN8vF3ze9RdclhGbsfYOpZGvuq
+	 /VHgZ3inOpHzud/jLwH7Ojjwum0R4QTnSANCIFJ0APr4kaiF/0h+QRjpQCpy7UrNQ
+	 d0xKFePx0zeklgsOpg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.69.218]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MxpmW-1w1GMM0CJK-00zybU; Fri, 16
+ Jan 2026 14:37:00 +0100
+Message-ID: <9d44f5c6-9197-44ec-b7fe-50c2a686a751@web.de>
+Date: Fri, 16 Jan 2026 14:36:58 +0100
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -27,775 +42,104 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 12/17] firmware: arm_scmi: Add Telemetry components
- view
-To: Cristian Marussi <cristian.marussi@arm.com>,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- arm-scmi@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Cc: sudeep.holla@arm.com, james.quinlan@broadcom.com, f.fainelli@gmail.com,
- vincent.guittot@linaro.org, etienne.carriere@st.com, peng.fan@oss.nxp.com,
- michal.simek@amd.com, dan.carpenter@linaro.org, d-gole@ti.com,
- jonathan.cameron@huawei.com, lukasz.luba@arm.com, philip.radford@arm.com,
- souvik.chakravarty@arm.com, elif.topuz@arm.com
-References: <20260114114638.2290765-1-cristian.marussi@arm.com>
- <20260114114638.2290765-13-cristian.marussi@arm.com>
-Content-Language: en-US
-From: Elif Topuz <elif.topuz@arm.com>
-In-Reply-To: <20260114114638.2290765-13-cristian.marussi@arm.com>
+To: Felix Gu <gu_0233@qq.com>, arm-scmi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ Sudeep Holla <sudeep.holla@arm.com>
+Cc: LKML <linux-kernel@vger.kernel.org>
+References: <tencent_A3E20C513BBE7D268B863A5CE473FBA10B06@qq.com>
+Subject: Re: [PATCH] firmware: arm_scpi: Fix a reference leak on device node
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <tencent_A3E20C513BBE7D268B863A5CE473FBA10B06@qq.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:scVktPog1ELB7vrH3fjN7Nu2yYX6OVjys/ZhSUO5tRnfylYag4s
+ vldH9vVcGByHbzYAdVkb/q+fGnhfw6vA1iRD5X0F4V6ah4VCbvuPI/dyTGlaBImpUsMJ9QG
+ S2kUmpzvXDwP5fYzggrnkDpGZZAoXImS9b7sWNbSxECoU6PNPCNTJ8KfDJSJczGEVqACHe5
+ /XrKQy41R+2rK1W0R44cQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:F4ADTZJUXN8=;Q/M0qCbOdwEKMitUYRt3um3lbVZ
+ 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
+ FO/tKCjI=
 
+=E2=80=A6
+> In scpi_dev_domain_id, it does not release the reference.
 
-Hi Cristian,
+See also once more:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.19-rc5#n94
 
-On 14/01/2026 11:46, Cristian Marussi wrote:
-> Add an alternative filesystem view for the discovered Data Events, where
-> the tree of DEs is laid out following the discovered topological order
-> instead of the existing flat layout.
-> 
-> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> ---
-> v1 --> v2
->  - Use new FS API
->  - Introduce new stlmfs_lookup_by_name helper
-> ---
->  .../firmware/arm_scmi/scmi_system_telemetry.c | 684 ++++++++++++++++++
->  1 file changed, 684 insertions(+)
-> 
-> diff --git a/drivers/firmware/arm_scmi/scmi_system_telemetry.c b/drivers/firmware/arm_scmi/scmi_system_telemetry.c
-> index 721de615bec3..1221520356fd 100644
-> --- a/drivers/firmware/arm_scmi/scmi_system_telemetry.c
-> +++ b/drivers/firmware/arm_scmi/scmi_system_telemetry.c
-> @@ -174,6 +174,7 @@ struct scmi_tlm_inode {
->   * @top_dentry: A reference to the top dentry for this instance.
->   * @des_dentry: A reference to the DES dentry for this instance.
->   * @grps_dentry: A reference to the groups dentry for this instance.
-> + * @compo_dentry: A reference to the components dentry for this instance.
->   * @info: A handy reference to this instance SCMI Telemetry info data.
->   *
->   */
-> @@ -188,6 +189,7 @@ struct scmi_tlm_instance {
->  	struct dentry *top_dentry;
->  	struct dentry *des_dentry;
->  	struct dentry *grps_dentry;
-> +	struct dentry *compo_dentry;
->  	const struct scmi_telemetry_info *info;
->  };
->  
-> @@ -196,6 +198,526 @@ static int scmi_telemetry_instance_register(struct super_block *sb,
->  
->  static LIST_HEAD(scmi_telemetry_instances);
->  
-> +#define TYPES_ARRAY_SZ		256
-> +
-> +static const char *compo_types[TYPES_ARRAY_SZ] = {
-> +	"unspec",
-> +	"cpu",
-> +	"cluster",
-> +	"gpu",
-> +	"npu",
-> +	"interconnnect",
-> +	"mem_cntrl",
-> +	"l1_cache",
-> +	"l2_cache",
-> +	"l3_cache",
-> +	"ll_cache",
-> +	"sys_cache",
-> +	"disp_cntrl",
-> +	"ipu",
-> +	"chiplet",
-> +	"package",
-> +	"soc",
-> +	"system",
-> +	"smcu",
-> +	"accel",
-> +	"battery",
-> +	"charger",
-> +	"pmic",
-> +	"board",
-> +	"memory",
-> +	"periph",
-> +	"periph_subc",
-> +	"lid",
-> +	"display",
-> +	"res_29",
-> +	"res_30",
-> +	"res_31",
-> +	"res_32",
-> +	"res_33",
-> +	"res_34",
-> +	"res_35",
-> +	"res_36",
-> +	"res_37",
-> +	"res_38",
-> +	"res_39",
-> +	"res_40",
-> +	"res_41",
-> +	"res_42",
-> +	"res_43",
-> +	"res_44",
-> +	"res_45",
-> +	"res_46",
-> +	"res_47",
-> +	"res_48",
-> +	"res_49",
-> +	"res_50",
-> +	"res_51",
-> +	"res_52",
-> +	"res_53",
-> +	"res_54",
-> +	"res_55",
-> +	"res_56",
-> +	"res_57",
-> +	"res_58",
-> +	"res_59",
-> +	"res_60",
-> +	"res_61",
-> +	"res_62",
-> +	"res_63",
-> +	"res_64",
-> +	"res_65",
-> +	"res_66",
-> +	"res_67",
-> +	"res_68",
-> +	"res_69",
-> +	"res_70",
-> +	"res_71",
-> +	"res_72",
-> +	"res_73",
-> +	"res_74",
-> +	"res_75",
-> +	"res_76",
-> +	"res_77",
-> +	"res_78",
-> +	"res_79",
-> +	"res_80",
-> +	"res_81",
-> +	"res_82",
-> +	"res_83",
-> +	"res_84",
-> +	"res_85",
-> +	"res_86",
-> +	"res_87",
-> +	"res_88",
-> +	"res_89",
-> +	"res_90",
-> +	"res_91",
-> +	"res_92",
-> +	"res_93",
-> +	"res_94",
-> +	"res_95",
-> +	"res_96",
-> +	"res_97",
-> +	"res_98",
-> +	"res_99",
-> +	"res_100",
-> +	"res_101",
-> +	"res_102",
-> +	"res_103",
-> +	"res_104",
-> +	"res_105",
-> +	"res_106",
-> +	"res_107",
-> +	"res_108",
-> +	"res_109",
-> +	"res_110",
-> +	"res_111",
-> +	"res_112",
-> +	"res_113",
-> +	"res_114",
-> +	"res_115",
-> +	"res_116",
-> +	"res_117",
-> +	"res_118",
-> +	"res_119",
-> +	"res_120",
-> +	"res_121",
-> +	"res_122",
-> +	"res_123",
-> +	"res_124",
-> +	"res_125",
-> +	"res_126",
-> +	"res_127",
-> +	"res_128",
-> +	"res_129",
-> +	"res_130",
-> +	"res_131",
-> +	"res_132",
-> +	"res_133",
-> +	"res_134",
-> +	"res_135",
-> +	"res_136",
-> +	"res_137",
-> +	"res_138",
-> +	"res_139",
-> +	"res_140",
-> +	"res_141",
-> +	"res_142",
-> +	"res_143",
-> +	"res_144",
-> +	"res_145",
-> +	"res_146",
-> +	"res_147",
-> +	"res_148",
-> +	"res_149",
-> +	"res_150",
-> +	"res_151",
-> +	"res_152",
-> +	"res_153",
-> +	"res_154",
-> +	"res_155",
-> +	"res_156",
-> +	"res_157",
-> +	"res_158",
-> +	"res_159",
-> +	"res_160",
-> +	"res_161",
-> +	"res_162",
-> +	"res_163",
-> +	"res_164",
-> +	"res_165",
-> +	"res_166",
-> +	"res_167",
-> +	"res_168",
-> +	"res_169",
-> +	"res_170",
-> +	"res_171",
-> +	"res_172",
-> +	"res_173",
-> +	"res_174",
-> +	"res_175",
-> +	"res_176",
-> +	"res_177",
-> +	"res_178",
-> +	"res_179",
-> +	"res_180",
-> +	"res_181",
-> +	"res_182",
-> +	"res_183",
-> +	"res_184",
-> +	"res_185",
-> +	"res_186",
-> +	"res_187",
-> +	"res_188",
-> +	"res_189",
-> +	"res_190",
-> +	"res_191",
-> +	"res_192",
-> +	"res_193",
-> +	"res_194",
-> +	"res_195",
-> +	"res_196",
-> +	"res_197",
-> +	"res_198",
-> +	"res_199",
-> +	"res_200",
-> +	"res_201",
-> +	"res_202",
-> +	"res_203",
-> +	"res_204",
-> +	"res_205",
-> +	"res_206",
-> +	"res_207",
-> +	"res_208",
-> +	"res_209",
-> +	"res_210",
-> +	"res_211",
-> +	"res_212",
-> +	"res_213",
-> +	"res_214",
-> +	"res_215",
-> +	"res_216",
-> +	"res_217",
-> +	"res_218",
-> +	"res_219",
-> +	"res_220",
-> +	"res_221",
-> +	"res_222",
-> +	"res_223",
-> +	"oem_224",
-> +	"oem_225",
-> +	"oem_226",
-> +	"oem_227",
-> +	"oem_228",
-> +	"oem_229",
-> +	"oem_230",
-> +	"oem_231",
-> +	"oem_232",
-> +	"oem_233",
-> +	"oem_234",
-> +	"oem_235",
-> +	"oem_236",
-> +	"oem_237",
-> +	"oem_238",
-> +	"oem_239",
-> +	"oem_240",
-> +	"oem_241",
-> +	"oem_242",
-> +	"oem_243",
-> +	"oem_244",
-> +	"oem_245",
-> +	"oem_246",
-> +	"oem_247",
-> +	"oem_248",
-> +	"oem_249",
-> +	"oem_250",
-> +	"oem_251",
-> +	"oem_252",
-> +	"oem_253",
-> +	"oem_254",
-> +	"oem_255",
-> +};
-> +
-> +static const char *unit_types[TYPES_ARRAY_SZ] = {
-> +	"none",
-> +	"unspec",
-> +	"celsius",
-> +	"fahrenheit",
-> +	"kelvin",
-> +	"volts",
-> +	"amps",
-> +	"watts",
-> +	"joules",
-> +	"coulombs",
-> +	"va",
-> +	"nits",
-> +	"lumens",
-> +	"lux",
-> +	"candelas",
-> +	"kpa",
-> +	"psi",
-> +	"newtons",
-> +	"cfm",
-> +	"rpm",
-> +	"hertz",
-> +	"seconds",
-> +	"minutes",
-> +	"hours",
-> +	"days",
-> +	"weeks",
-> +	"mils",
-> +	"inches",
-> +	"feet",
-> +	"cubic_inches",
-> +	"cubic_feet",
-> +	"meters",
-> +	"cubic_centimeters",
-> +	"cubic_meters",
-> +	"liters",
-> +	"fluid_ounces",
-> +	"radians",
-> +	"steradians",
-> +	"revolutions",
-> +	"cycles",
-> +	"gravities",
-> +	"ounces",
-> +	"pounds",
-> +	"foot_pounds",
-> +	"ounce_inches",
-> +	"gauss",
-> +	"gilberts",
-> +	"henries",
-> +	"farads",
-> +	"ohms",
-> +	"siemens",
-> +	"moles",
-> +	"becquerels",
-> +	"ppm",
-> +	"decibels",
-> +	"dba",
-> +	"dbc",
-> +	"grays",
-> +	"sieverts",
-> +	"color_temp_kelvin",
-> +	"bits",
-> +	"bytes",
-> +	"words",
-> +	"dwords",
-> +	"qwords",
-> +	"percentage",
-> +	"pascals",
-> +	"counts",
-> +	"grams",
-> +	"newton_meters",
-> +	"hits",
-> +	"misses",
-> +	"retries",
-> +	"overruns",
-> +	"underruns",
-> +	"collisions",
-> +	"packets",
-> +	"messages",
-> +	"chars",
-> +	"errors",
-> +	"corrected_err",
-> +	"uncorrectable_err",
-> +	"square_mils",
-> +	"square_inches",
-> +	"square_feet",
-> +	"square_centimeters",
-> +	"square_meters",
-> +	"radians_per_secs",
-> +	"beats_per_minute",
-> +	"meters_per_secs_squared",
-> +	"meters_per_secs",
-> +	"cubic_meter_per_secs",
-> +	"millimeters_mercury",
-> +	"radians_per_secs_squared",
-> +	"state",
-> +	"bps",
-> +	"res_96",
-> +	"res_97",
-> +	"res_98",
-> +	"res_99",
-> +	"res_100",
-> +	"res_101",
-> +	"res_102",
-> +	"res_103",
-> +	"res_104",
-> +	"res_105",
-> +	"res_106",
-> +	"res_107",
-> +	"res_108",
-> +	"res_109",
-> +	"res_110",
-> +	"res_111",
-> +	"res_112",
-> +	"res_113",
-> +	"res_114",
-> +	"res_115",
-> +	"res_116",
-> +	"res_117",
-> +	"res_118",
-> +	"res_119",
-> +	"res_120",
-> +	"res_121",
-> +	"res_122",
-> +	"res_123",
-> +	"res_124",
-> +	"res_125",
-> +	"res_126",
-> +	"res_127",
-> +	"res_128",
-> +	"res_129",
-> +	"res_130",
-> +	"res_131",
-> +	"res_132",
-> +	"res_133",
-> +	"res_134",
-> +	"res_135",
-> +	"res_136",
-> +	"res_137",
-> +	"res_138",
-> +	"res_139",
-> +	"res_140",
-> +	"res_141",
-> +	"res_142",
-> +	"res_143",
-> +	"res_144",
-> +	"res_145",
-> +	"res_146",
-> +	"res_147",
-> +	"res_148",
-> +	"res_149",
-> +	"res_150",
-> +	"res_151",
-> +	"res_152",
-> +	"res_153",
-> +	"res_154",
-> +	"res_155",
-> +	"res_156",
-> +	"res_157",
-> +	"res_158",
-> +	"res_159",
-> +	"res_160",
-> +	"res_161",
-> +	"res_162",
-> +	"res_163",
-> +	"res_164",
-> +	"res_165",
-> +	"res_166",
-> +	"res_167",
-> +	"res_168",
-> +	"res_169",
-> +	"res_170",
-> +	"res_171",
-> +	"res_172",
-> +	"res_173",
-> +	"res_174",
-> +	"res_175",
-> +	"res_176",
-> +	"res_177",
-> +	"res_178",
-> +	"res_179",
-> +	"res_180",
-> +	"res_181",
-> +	"res_182",
-> +	"res_183",
-> +	"res_184",
-> +	"res_185",
-> +	"res_186",
-> +	"res_187",
-> +	"res_188",
-> +	"res_189",
-> +	"res_190",
-> +	"res_191",
-> +	"res_192",
-> +	"res_193",
-> +	"res_194",
-> +	"res_195",
-> +	"res_196",
-> +	"res_197",
-> +	"res_198",
-> +	"res_199",
-> +	"res_200",
-> +	"res_201",
-> +	"res_202",
-> +	"res_203",
-> +	"res_204",
-> +	"res_205",
-> +	"res_206",
-> +	"res_207",
-> +	"res_208",
-> +	"res_209",
-> +	"res_210",
-> +	"res_211",
-> +	"res_212",
-> +	"res_213",
-> +	"res_214",
-> +	"res_215",
-> +	"res_216",
-> +	"res_217",
-> +	"res_218",
-> +	"res_219",
-> +	"res_220",
-> +	"res_221",
-> +	"res_222",
-> +	"res_223",
-> +	"res_224",
-> +	"res_225",
-> +	"res_226",
-> +	"res_227",
-> +	"res_228",
-> +	"res_229",
-> +	"res_230",
-> +	"res_231",
-> +	"res_232",
-> +	"res_233",
-> +	"res_234",
-> +	"res_235",
-> +	"res_236",
-> +	"res_237",
-> +	"res_238",
-> +	"res_239",
-> +	"res_240",
-> +	"res_241",
-> +	"res_242",
-> +	"res_243",
-> +	"res_244",
-> +	"res_245",
-> +	"res_246",
-> +	"res_247",
-> +	"res_248",
-> +	"res_249",
-> +	"res_250",
-> +	"res_251",
-> +	"res_252",
-> +	"res_253",
-> +	"res_254",
-> +	"oem_unit",
-> +};
-> +
->  static struct inode *stlmfs_get_inode(struct super_block *sb)
->  {
->  	struct inode *inode = new_inode(sb);
-> @@ -815,6 +1337,18 @@ DEFINE_TLM_CLASS(persistent_tlmo, "persistent", 0,
->  DEFINE_TLM_CLASS(value_tlmo, "value", 0,
->  		 S_IFREG | S_IRUSR, &de_read_fops, NULL);
->  
-> +static inline struct dentry *
-> +stlmfs_lookup_by_name(struct dentry *parent, const char *dname)
-> +{
-> +	struct qstr qstr;
-> +
-> +	qstr.name = dname;
-> +	qstr.len = strlen(dname);
-> +	qstr.hash = full_name_hash(parent, qstr.name, qstr.len);
-> +
-> +	return d_lookup(parent, &qstr);
-> +}
-> +
->  static int scmi_telemetry_de_populate(struct super_block *sb,
->  				      struct scmi_tlm_setup *tsp,
->  				      struct dentry *parent,
-> @@ -1659,6 +2193,150 @@ static struct dentry *stlmfs_create_root_dentry(struct super_block *sb)
->  	return dentry;
->  }
->  
-> +static int scmi_telemetry_de_subdir_symlink(struct super_block *sb,
-> +					    struct scmi_tlm_setup *tsp,
-> +					    const struct scmi_telemetry_de *de,
-> +					    struct dentry *parent)
-> +{
-> +	struct dentry *dentry;
-> +	struct inode *inode;
-> +	int ret;
-I notice that ret isn't assigned a value and the function returns ret without
-initialising.
-
-> +
-> +	if (IS_ERR(parent))
-> +		return 0;
-> +
-> +	char *name __free(kfree) = kasprintf(GFP_KERNEL, "0x%08X", de->info->id);
-> +	if (!name)
-> +		return -ENOMEM;
-> +
-> +	char *link __free(kfree) =
-> +		kasprintf(GFP_KERNEL, "../../../../../des/0x%08X", de->info->id);
-> +	if (!link)
-> +		return -ENOMEM;
-> +
-> +	dentry = simple_start_creating(parent, name);
-> +	if (IS_ERR(dentry))
-> +		return PTR_ERR(dentry);
-> +
-> +	inode = stlmfs_get_inode(sb);
-> +	if (unlikely(!inode)) {
-> +		dev_err(tsp->dev,
-> +			"out of free dentries, cannot create '%s'", name);
-> +		return stlmfs_failed_creating(dentry);
-> +	}
-> +
-> +	inode->i_mode = S_IFLNK | 0777;
-> +	inode->i_op = &simple_symlink_inode_operations;
-> +	inode_init_owner(&nop_mnt_idmap, inode, NULL, inode->i_mode);
-> +	inode->i_link = no_free_ptr(link);
-> +
-> +	//d_add(dentry, inode);
-> +	d_make_persistent(dentry, inode);
-> +
-> +	simple_done_creating(dentry);
-> +
-> +	return ret;
-> +}
-> +
-> +static struct dentry *
-> +scmi_telemetry_topology_path_get(struct super_block *sb,
-> +				 struct scmi_tlm_setup *tsp,
-> +				 struct dentry *parent, const char *dname)
-> +{
-> +	struct dentry *dentry;
-> +
-> +	dentry = stlmfs_lookup_by_name(parent, dname);
-> +	if (!dentry) {
-> +		struct scmi_tlm_class *dir_tlm_cls __free(kfree) =
-> +			kzalloc(sizeof(*dir_tlm_cls), GFP_KERNEL);
-> +		if (!dir_tlm_cls)
-> +			return NULL;
-> +
-> +		dir_tlm_cls->name = kasprintf(GFP_KERNEL, "%s", dname);
-> +		if (!dir_tlm_cls->name)
-> +			return NULL;
-> +
-> +		dir_tlm_cls->mode = S_IFDIR | S_IRWXU;
-> +		dir_tlm_cls->flags = TLM_IS_DYNAMIC;
-> +
-> +		dentry = stlmfs_create_dentry(sb, tsp, parent,
-> +					      dir_tlm_cls, NULL);
-> +		if (!IS_ERR(dentry))
-> +			retain_and_null_ptr(dir_tlm_cls);
-> +	}
-> +
-> +	return dentry;
-> +}
-> +
-> +static int scmi_telemetry_topology_add_node(struct super_block *sb,
-> +					    struct scmi_tlm_instance *ti,
-> +					    const struct scmi_telemetry_de *de)
-> +{
-> +	struct dentry *ctype, *cinst, *cunit, *dinst;
-> +	struct scmi_tlm_de_info *dei = de->info;
-> +	char inst_str[32];
-> +	int ret;
-> +
-> +	/* by_compo_type/<COMPO_TYPE_STR>/ */
-> +	ctype = scmi_telemetry_topology_path_get(sb, ti->tsp, ti->compo_dentry,
-> +						 compo_types[dei->compo_type]);
-> +	if (!ctype)
-> +		return -ENOMEM;
-> +
-> +	/* by_compo_type/<COMPO_TYPE_STR>/<N>/ */
-> +	snprintf(inst_str, 32, "%u", dei->compo_instance_id);
-> +	cinst = scmi_telemetry_topology_path_get(sb, ti->tsp, ctype, inst_str);
-> +	dput(ctype);
-> +	if (!cinst)
-> +		return -ENOMEM;
-> +
-> +	/* by_compo_type/<COMPO_TYPE_STR>/<N>/<DE_UNIT_TYPE_STR>/ */
-> +	cunit = scmi_telemetry_topology_path_get(sb, ti->tsp, cinst,
-> +						 unit_types[dei->unit]);
-> +	dput(cinst);
-> +	if (!cunit)
-> +		return -ENOMEM;
-> +
-> +	/* by_compo_type/<COMPO_TYPE_STR>/<N>/<DE_UNIT_TYPE_STR>/<N> */
-> +	snprintf(inst_str, 32, "%u", dei->instance_id);
-> +	dinst = scmi_telemetry_topology_path_get(sb, ti->tsp, cunit, inst_str);
-> +	dput(cunit);
-> +	if (!dinst)
-> +		return -ENOMEM;
-> +
-> +	ret = scmi_telemetry_de_subdir_symlink(sb, ti->tsp, de, dinst);
-> +	dput(dinst);
-> +
-> +	return ret;
-> +}
-> +
-> +DEFINE_TLM_CLASS(compo_dir_cls, "components", 0, S_IFDIR | S_IRWXU, NULL, NULL);
-> +
-> +static int scmi_telemetry_topology_view_add(struct scmi_tlm_instance *ti)
-> +{
-> +	const struct scmi_telemetry_res_info *rinfo;
-> +	struct scmi_tlm_setup *tsp = ti->tsp;
-> +	struct device *dev = tsp->dev;
-> +
-> +	rinfo = scmi_telemetry_res_info_get(tsp);
-> +	if (!rinfo || !rinfo->fully_enumerated)
-> +		return -ENODEV;
-> +
-> +	ti->compo_dentry =
-> +		stlmfs_create_dentry(ti->sb, tsp, ti->top_dentry, &compo_dir_cls, NULL);
-> +
-> +	for (int i = 0; i < rinfo->num_des; i++) {
-> +		int ret;
-> +
-> +		ret = scmi_telemetry_topology_add_node(ti->sb, ti, rinfo->des[i]);
-> +		if (ret)
-> +			dev_err(dev, "Fail to add node %s to topology. Skip.\n",
-> +				rinfo->des[i]->info->name);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int scmi_tlm_root_dentries_initialize(struct scmi_tlm_instance *ti)
->  {
->  	struct scmi_tlm_setup *tsp = ti->tsp;
-> @@ -1712,6 +2390,12 @@ static int scmi_telemetry_instance_register(struct super_block *sb,
->  			 ti->top_cls.name);
->  	}
->  
-> +	ret = scmi_telemetry_topology_view_add(ti);
-> +	if (ret)
-> +		dev_warn(ti->tsp->dev,
-> +			 "Failed to create topology view for instance %s.\n",
-> +			 ti->top_cls.name);
-> +
->  	return 0;
->  }
->  
-
-I will continue reviewing,
-Thanks,
-Elif
+Regards,
+Markus
