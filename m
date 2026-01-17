@@ -1,153 +1,94 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A439A135A53;
-	Sat, 17 Jan 2026 01:03:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9158F1F0991;
+	Sat, 17 Jan 2026 02:34:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768611782; cv=none; b=GcKGs5DHSo0pfM87dtsbJFLNkfp6G7bXIwivQpf4EMXn/BFPNP73tGM+thfqpQJq1K80Fai+o/XCVovtCOwFXbe2t7o0jgYjewVYPa/8C6DcIxYdT0UzAzj0TRwdLhUUtECIBOrxLX2IMqvI8RD9bFR65s9DEWrvR3hzQ0oAIO4=
+	t=1768617253; cv=none; b=FTdUryc08liwcZaPnbZhaxBymoqHQk2jNxIa0XZ5c7Jyf+PkQDZoQiNqFl+SyulfK0WMgGWBcPE8usPHPGyo6GXuFFXlBQnnjuBnuAdIZNJoTWvPgBWV+dyS7lV+UTBCWjhkeDg7OhRA3VSS0ShngBF3iv0tpbb796jHTsbGgVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768611782; c=relaxed/simple;
-	bh=f8fo0SvAOjbxMGp/InDAGLFeXKZCyNo/Izhim/CrExA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FSbDl3LUckWxKiadcTsGnaeMO6Qs/y+b45lSPFE47BD7KDy+lSXOnIeNSsJhd3VN2C/PU4MkmcsldlfKpmKVxKIDRgadlHyNaD9VIXKW9F15Yl4Om2H6DaqEIr9mwO6NIN38sqgp42PdmUDSsS1c4Xr6Ep5Oy1IkQIWmao/2V9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=yWW6bQ22; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ipvjzjmm; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1768617253; c=relaxed/simple;
+	bh=ZHT4FwSvrHdlntgWg5o2UVfQ6X6/Gh/zS5tYKlScw1Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jBvjEwKBGXBl1lmWB/f+Qo7Q6jk/qSDh5bh+5GH0Tbp5dMoJMwwnOEWnHpYzFD6s9wZWqTEdK7T0dMbSzsyXg5o45s7ziKBLjk9KnLb67/WpS/0DLHzn3kj+F2ZnU8HD8q+vDfjcqdaJS26xKeJqhm/wKZMEb0R3A+5OnRUKLiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tC7y9fZ5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="yWW6bQ22";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ipvjzjmm"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4dtJNr5XH4z9twH;
-	Sat, 17 Jan 2026 02:02:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1768611772;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BIMy8yDIZFc3vCLph+L6vr3OpFe2zAoNw7tBRg23UQo=;
-	b=yWW6bQ22rNO399AsGIyNquA/5yUDhjk4871WbI0ndxjI21zX/U/20JfowCPr30lOKN5Ezn
-	xkp9zGD76rJkjnXhtSJ7hfF8tg0KciyCcpHwuGqmlVaKmu4UdV7aGuKcl45dORVWAwpVit
-	b/s1lNY+TOGe8kzgakW2th0S2l79M+nBsDD8S5l7AcWoyRy3DUmvI7/9QKpqvSfqrHEDnS
-	CaKSptbCBYy51jFlnJjFtOyphFS5s+glQPkuL/ehlj4rvPeENdFoS2Y6DoqTVnINcpGAnx
-	dEr+CWT1DI7gvh2WcHOZOCXW8Ef4K2C6k65GFJBCKoj1DYjTK4C18S352Re8ZA==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1768611770;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BIMy8yDIZFc3vCLph+L6vr3OpFe2zAoNw7tBRg23UQo=;
-	b=ipvjzjmmdftndG9XdlrNtvIj6v/mK/pfvyPRJF3yQV2htLpt5LWS6I0zNjCZSP3/3Pua1v
-	9GXbaJdGb68ouG4aIsMCHvkqeKg6u+1QYi4cXXt8IMswIW6O0wBJIuZxdItyqWJYhcWDXz
-	2TXRZvT5RbqmpH7O/E8DL87pbQEZoK46UHQpOLIKzkvm6EmQ9z63A4xa5X3gUn9nKlzfpN
-	NGm7XVz3uMVul2p4tB2c0BoujEKzLqkNTwerdvLDaMMlC6aAM5TC6eeUiXbFYlDzuOyLBO
-	1sy4UfaDQwN7dnZTz10N0eYvFR1zf0cT5PKwLSTWQvGENPvhgCuQLaryImUhSA==
-To: arm-scmi@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tC7y9fZ5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E53A8C116C6;
+	Sat, 17 Jan 2026 02:34:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768617253;
+	bh=ZHT4FwSvrHdlntgWg5o2UVfQ6X6/Gh/zS5tYKlScw1Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tC7y9fZ5aRK2X9vNDw+oI3NCnw4kxydoc5EG2VkM88gAy00E8qAjKNe/zlGryz880
+	 syEhxs3UPHJF3n7gN4Bc5KOmzerb4LphNpime1WjRZLl/8nqHFXfkz06nYfVBB6246
+	 RI5ZOaWXIDbpXiI4kq8xWJHLVmWSexG5OFDLhV+IFOBe5DGLsP+JzlvSvjlz1XL6ow
+	 5jInDfwoi1PNURRVEmqPBpviqK4cIXf9KYytV//DQmk5ljMDYSCBgPjs/LILaKxSQW
+	 QwN8jSwb213CQK2z8HeAejcS0u9aDm75JCXuAXvQiM+YpCWzpHMTcM9jBLOXFvrTBD
+	 j9HbnE5WNbe7A==
+Date: Sat, 17 Jan 2026 10:34:06 +0800
+From: Shawn Guo <shawnguo@kernel.org>
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: Peng Fan <peng.fan@oss.nxp.com>, Peng Fan <peng.fan@nxp.com>,
 	Cristian Marussi <cristian.marussi@arm.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v4 2/2] firmware: arm_scmi: Implement arm,no-completion-irq property
-Date: Sat, 17 Jan 2026 02:02:29 +0100
-Message-ID: <20260117010241.186685-2-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20260117010241.186685-1-marek.vasut+renesas@mailbox.org>
-References: <20260117010241.186685-1-marek.vasut+renesas@mailbox.org>
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, arm-scmi@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] firmware: arm_scmi/imx: Support dump syslog
+Message-ID: <aWr1Hgw26ZKW3k2S@dragon>
+References: <20251029-sm-syslog-v3-v3-0-64e14a6e3f87@nxp.com>
+ <aUCy5+vAPzDGeux3@shlinux89>
+ <aVuzVNmG2l-igiEB@nxa18884-linux.ap.freescale.net>
+ <aV0uVXXbxKQ5qzLD@bogus>
+ <aV24N72FoGeGwgqm@shlinux89>
+ <aWTiC78PXRoadeJy@bogus>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 25a0f1a54ec24069373
-X-MBO-RS-META: qfujatekmmsnu1b9r7pn4z7uf37ihcqt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aWTiC78PXRoadeJy@bogus>
 
-Implement new property arm,no-completion-irq, which sets all SCMI
-operation into poll mode. This is meant to work around uncooperative
-SCP implementations, which do not generate completion interrupts.
-This applies to mbox/shmem based implementations.
+On Mon, Jan 12, 2026 at 11:59:07AM +0000, Sudeep Holla wrote:
+> On Wed, Jan 07, 2026 at 09:34:47AM +0800, Peng Fan wrote:
+> > On Tue, Jan 06, 2026 at 03:46:29PM +0000, Sudeep Holla wrote:
+> > >On Mon, Jan 05, 2026 at 08:49:24PM +0800, Peng Fan wrote:
+> > >> Hi Sudeep,
+> > >> 
+> > >> Hope you're doing well. Apologies for following up again, but this v3 patchset
+> > >> has been pending for quite some time. I wanted to check if everything looks
+> > >> good on your end.
+> > >> 
+> > >
+> > >Yes overall it looks good to me.
+> > 
+> > Thanks a lot.
+> > 
+> > >
+> > ...
+> > >> Alternatively, I can ask Shawn to pick patch 2 if you only intend to take patch 1.
+> > >
+> > >I think that would break build or need to wait for another cycle.
+> > >I can ack if it can be routed via i.MX tree or need ACK to pick it up myself.
+> > 
+> > Shawn,
+> > 
+> > Do you plan to pick the two patches with Sudeep's Ack in patch 1? Or
+> > you prefer to route the patches via SCMI tree with your Ack?
+> 
+> I noticed this morning we are already at -rc5, which is later than my usual PR
+> timing (I generally aim to send to the SoC team between -rc4 and -rc5). I have
+> already sent the SCMI PR.
+> 
+> For these changes, would it be acceptable to route them via the i.MX tree if
+> they are still intended for v7.0/v6.20? If not, I am happy to defer and pick
+> them up for the merge window after next.
 
-With this property set, such implementations which do not generate
-interrupts can be interacted with, until they are fixed to generate
-interrupts properly.
+I picked them up for v7.0/v6.20, thanks!
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Sudeep Holla <sudeep.holla@arm.com>
-Cc: arm-scmi@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-renesas-soc@vger.kernel.org
----
-V2: Drop no IRQ handling from SMC transport and update commit message
-V3: Rename property from arm,poll-transport to arm,no-completion-irq
-V4: No change
----
- drivers/firmware/arm_scmi/common.h | 4 ++++
- drivers/firmware/arm_scmi/driver.c | 4 ++++
- 2 files changed, 8 insertions(+)
-
-diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-index 7c35c95fddbaf..7c9617d080a02 100644
---- a/drivers/firmware/arm_scmi/common.h
-+++ b/drivers/firmware/arm_scmi/common.h
-@@ -235,6 +235,9 @@ struct scmi_transport_ops {
-  *		      to have an execution latency lesser-equal to the threshold
-  *		      should be considered for atomic mode operation: such
-  *		      decision is finally left up to the SCMI drivers.
-+ * @no_completion_irq: Flag to indicate that this transport has no completion
-+ *		       interrupt and has to be polled. This is similar to the
-+ *		       force_polling below, except this is set via DT property.
-  * @force_polling: Flag to force this whole transport to use SCMI core polling
-  *		   mechanism instead of completion interrupts even if available.
-  * @sync_cmds_completed_on_ret: Flag to indicate that the transport assures
-@@ -254,6 +257,7 @@ struct scmi_desc {
- 	int max_msg;
- 	int max_msg_size;
- 	unsigned int atomic_threshold;
-+	bool no_completion_irq;
- 	const bool force_polling;
- 	const bool sync_cmds_completed_on_ret;
- 	const bool atomic_enabled;
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 3e76a3204ba4f..f167194f7cf67 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -2735,6 +2735,7 @@ static int scmi_chan_setup(struct scmi_info *info, struct device_node *of_node,
- 	cinfo->is_p2a = !tx;
- 	cinfo->rx_timeout_ms = info->desc->max_rx_timeout_ms;
- 	cinfo->max_msg_size = info->desc->max_msg_size;
-+	cinfo->no_completion_irq = info->desc->no_completion_irq;
- 
- 	/* Create a unique name for this transport device */
- 	snprintf(name, 32, "__scmi_transport_device_%s_%02X",
-@@ -3150,6 +3151,9 @@ static const struct scmi_desc *scmi_transport_setup(struct device *dev)
- 	if (ret && ret != -EINVAL)
- 		dev_err(dev, "Malformed arm,max-msg DT property.\n");
- 
-+	trans->desc.no_completion_irq = of_property_read_bool(dev->of_node,
-+							      "arm,no-completion-irq");
-+
- 	dev_info(dev,
- 		 "SCMI max-rx-timeout: %dms / max-msg-size: %dbytes / max-msg: %d\n",
- 		 trans->desc.max_rx_timeout_ms, trans->desc.max_msg_size,
--- 
-2.51.0
-
+Shawn
