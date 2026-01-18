@@ -1,49 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9158F1F0991;
-	Sat, 17 Jan 2026 02:34:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885E728030E
+	for <arm-scmi@vger.kernel.org>; Sun, 18 Jan 2026 12:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768617253; cv=none; b=FTdUryc08liwcZaPnbZhaxBymoqHQk2jNxIa0XZ5c7Jyf+PkQDZoQiNqFl+SyulfK0WMgGWBcPE8usPHPGyo6GXuFFXlBQnnjuBnuAdIZNJoTWvPgBWV+dyS7lV+UTBCWjhkeDg7OhRA3VSS0ShngBF3iv0tpbb796jHTsbGgVc=
+	t=1768741128; cv=none; b=pViPGBBtLW/zVgWczyhefRrj+EEvC3z0RARWHPacbgACZKLmBVQjnJJKuwSFebHjGH7qgX6eqf3fkASQCWEwr+gnSwdKS1q+6/Z149Fa/N9EjtbHHh/dOMmMElAx3TkhPUO++zOw0l1+3JL+AoavAIV8yeEOWJlxt84zk7bWfhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768617253; c=relaxed/simple;
-	bh=ZHT4FwSvrHdlntgWg5o2UVfQ6X6/Gh/zS5tYKlScw1Q=;
+	s=arc-20240116; t=1768741128; c=relaxed/simple;
+	bh=gbJ/Le8qHZExPKVU8bebvYYY/CMoAwcquX2inoQoldQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jBvjEwKBGXBl1lmWB/f+Qo7Q6jk/qSDh5bh+5GH0Tbp5dMoJMwwnOEWnHpYzFD6s9wZWqTEdK7T0dMbSzsyXg5o45s7ziKBLjk9KnLb67/WpS/0DLHzn3kj+F2ZnU8HD8q+vDfjcqdaJS26xKeJqhm/wKZMEb0R3A+5OnRUKLiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tC7y9fZ5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=qhdiKwrYgrJv+ohVbZBW/GwY5f/ethRMsD520LIfMfOLr/j2qvNiDVclceDEO62abf2Dprh4wMJNs8IgHYvr/GVy6djnFQ1Bbgz/y4zMdKJpd5z8zHUkR6YEcWci+TVrcugd3uI3cTdwEsHj/hO81o6EKZQAYU4YlejDUJ2hAyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JTQY6Byr; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tC7y9fZ5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E53A8C116C6;
-	Sat, 17 Jan 2026 02:34:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768617253;
-	bh=ZHT4FwSvrHdlntgWg5o2UVfQ6X6/Gh/zS5tYKlScw1Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tC7y9fZ5aRK2X9vNDw+oI3NCnw4kxydoc5EG2VkM88gAy00E8qAjKNe/zlGryz880
-	 syEhxs3UPHJF3n7gN4Bc5KOmzerb4LphNpime1WjRZLl/8nqHFXfkz06nYfVBB6246
-	 RI5ZOaWXIDbpXiI4kq8xWJHLVmWSexG5OFDLhV+IFOBe5DGLsP+JzlvSvjlz1XL6ow
-	 5jInDfwoi1PNURRVEmqPBpviqK4cIXf9KYytV//DQmk5ljMDYSCBgPjs/LILaKxSQW
-	 QwN8jSwb213CQK2z8HeAejcS0u9aDm75JCXuAXvQiM+YpCWzpHMTcM9jBLOXFvrTBD
-	 j9HbnE5WNbe7A==
-Date: Sat, 17 Jan 2026 10:34:06 +0800
-From: Shawn Guo <shawnguo@kernel.org>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: Peng Fan <peng.fan@oss.nxp.com>, Peng Fan <peng.fan@nxp.com>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JTQY6Byr"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42fb0fc5aa4so2966589f8f.1
+        for <arm-scmi@vger.kernel.org>; Sun, 18 Jan 2026 04:58:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1768741126; x=1769345926; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8jA2WQ8d6BTr0aS7jLj7RgtEbZFsRy9udOY7D18i2rQ=;
+        b=JTQY6Byr7BUEPRj7LpO/rM2uChBNZzlsV8+VVZLcA/57Vhep8JFReVRLVMTfpIreCg
+         +zUGe+5hGYH0MBALkxrGIrWq/V6kdPqj0xgoThmIpVrq2FjTt/p1sPCFnQhw8nNdNHn0
+         a9KgEE4GyIj4rVqcGn9FvG87fhSOitLlQ9rwoLRjn753JyUZr2U6kvoUCzHMw38OhhDp
+         dpFbT+kKI1bXxpTsqCJx8ieahIU5CubYZWPYvXbV/M8fwCNjjyqQl1uVCsvIX0bDWjpT
+         DFovHEDYCUbgEMvbLhAcSnW7Gukv2KyxaoJIuiNSq87aq3yZE+p09tfD40N7AsJ6urkB
+         TGzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768741126; x=1769345926;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8jA2WQ8d6BTr0aS7jLj7RgtEbZFsRy9udOY7D18i2rQ=;
+        b=e9Dg0+s/fZeNp/LWiL0XjTBZEmSK7oxcOWe97XY0TW5hexB83+TbMMfPngpp8rdjg7
+         6G/6t7BrDsOASQTuH9XiNDUyJWJgpjslLMT94HyzV817J7WW9WAdkUHWOLubywwhJh9+
+         9DpfXG4JQ2GLsIz0B/TfQ5cgCMCiojhLj04al/1swqkdmAa40bD/RYYsj8RQLGTbYFfR
+         9o2De+EwLD0SiFw+7JLTPal8Z/uEaszxgFwTY8Jf0SkeHn0gEVtgZQz77NCGWhGC6z7i
+         8g3T+SLdFuVai0SMT2IsV4wgs7d05OpW2UhdrKx5ZkZ2v0GlMqDoLiDyPQKBY68Rjekt
+         OW9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUoh17HXUEukRjx2oDWWurDzvBmyS9UazrRwQXfbTsCpagmMKfanCallga5za2YaycvXl+sCMNnGg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxheTh0B1p6rrlG2SdFwvIrSocLwhbbjcHDOIDa+EYg8DbHqCM+
+	pgB/IlJVr2k/0l79Ub5rZNJKH2id4oko2aFI3ZanhjINij9ImQ1ZWgmWZxdJve3vhOE=
+X-Gm-Gg: AY/fxX7Na1e0TH91Hey8ja84kb/6QF7yfS6zfhSRrUlj0h5ppsjrfRcmBrL8zPmH1TG
+	j8chC/3NORNoerpKcwoGaJ8sgOQhljjr0nXxf+Db3Dj3jNK0v4zm4Ec8jvfA5S1A2Yc18Wx//55
+	lgFAHbbbktIYqhMxU6zt83ozCqG26vtK12CSMGF2x2G+qTqVoyCOZcha2nxZ6Vn7MBGqQW3fVb0
+	Cpib33wBKC2A4Mysra5nZpqR/2MPcrnRdLoZp7PXN+QkCs7wHOigRmS8oNlpIYKkVcRkJAZCQcp
+	PLtA0XjTw0zKnT6flHPUYOOomMgPkzqDdRceA6cAyEe9vx6ZaONKnZ2QBJTUvqY4fH4yDUtGP4Z
+	hr9U8gk869mtMGJw0BzBnRs4dj1bqU00GxbhEK/GaZuGVDaTnio74JmEZs2NfsWOCjrSqnuFtKS
+	w08svvZFsS39ToKoO3
+X-Received: by 2002:a05:6000:1861:b0:432:dd71:8f2c with SMTP id ffacd0b85a97d-4356a03321dmr11019244f8f.10.1768741125893;
+        Sun, 18 Jan 2026 04:58:45 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569998240sm16311789f8f.43.2026.01.18.04.58.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Jan 2026 04:58:45 -0800 (PST)
+Date: Sun, 18 Jan 2026 15:58:42 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Sudeep Holla <sudeep.holla@arm.com>, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, Felix Gu <gu_0233@qq.com>,
 	Cristian Marussi <cristian.marussi@arm.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, arm-scmi@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] firmware: arm_scmi/imx: Support dump syslog
-Message-ID: <aWr1Hgw26ZKW3k2S@dragon>
-References: <20251029-sm-syslog-v3-v3-0-64e14a6e3f87@nxp.com>
- <aUCy5+vAPzDGeux3@shlinux89>
- <aVuzVNmG2l-igiEB@nxa18884-linux.ap.freescale.net>
- <aV0uVXXbxKQ5qzLD@bogus>
- <aV24N72FoGeGwgqm@shlinux89>
- <aWTiC78PXRoadeJy@bogus>
+	LKML <linux-kernel@vger.kernel.org>
+Subject: Re: firmware: arm_scpi: Fix a reference leak on device node
+Message-ID: <aWzZAqhGIYIpoalf@stanley.mountain>
+References: <tencent_A3E20C513BBE7D268B863A5CE473FBA10B06@qq.com>
+ <9d44f5c6-9197-44ec-b7fe-50c2a686a751@web.de>
+ <aWpaOYy6M_wNiMJU@bogus>
+ <9438c328-c5be-42c3-b7b0-17dae62fac98@web.de>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -52,43 +78,10 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aWTiC78PXRoadeJy@bogus>
+In-Reply-To: <9438c328-c5be-42c3-b7b0-17dae62fac98@web.de>
 
-On Mon, Jan 12, 2026 at 11:59:07AM +0000, Sudeep Holla wrote:
-> On Wed, Jan 07, 2026 at 09:34:47AM +0800, Peng Fan wrote:
-> > On Tue, Jan 06, 2026 at 03:46:29PM +0000, Sudeep Holla wrote:
-> > >On Mon, Jan 05, 2026 at 08:49:24PM +0800, Peng Fan wrote:
-> > >> Hi Sudeep,
-> > >> 
-> > >> Hope you're doing well. Apologies for following up again, but this v3 patchset
-> > >> has been pending for quite some time. I wanted to check if everything looks
-> > >> good on your end.
-> > >> 
-> > >
-> > >Yes overall it looks good to me.
-> > 
-> > Thanks a lot.
-> > 
-> > >
-> > ...
-> > >> Alternatively, I can ask Shawn to pick patch 2 if you only intend to take patch 1.
-> > >
-> > >I think that would break build or need to wait for another cycle.
-> > >I can ack if it can be routed via i.MX tree or need ACK to pick it up myself.
-> > 
-> > Shawn,
-> > 
-> > Do you plan to pick the two patches with Sudeep's Ack in patch 1? Or
-> > you prefer to route the patches via SCMI tree with your Ack?
-> 
-> I noticed this morning we are already at -rc5, which is later than my usual PR
-> timing (I generally aim to send to the SoC team between -rc4 and -rc5). I have
-> already sent the SCMI PR.
-> 
-> For these changes, would it be acceptable to route them via the i.MX tree if
-> they are still intended for v7.0/v6.20? If not, I am happy to defer and pick
-> them up for the merge window after next.
+Markus, there are real issues to discuss with this patch.  You're
+derailing the email thread for no reason.
 
-I picked them up for v7.0/v6.20, thanks!
-
-Shawn
+regards,
+dan carpenter
