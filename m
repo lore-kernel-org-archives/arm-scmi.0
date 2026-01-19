@@ -1,100 +1,113 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F4E21E0AF
-	for <arm-scmi@vger.kernel.org>; Sun, 18 Jan 2026 19:15:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A502D979C;
+	Mon, 19 Jan 2026 11:18:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768763744; cv=none; b=eJx8+D2oozv+CYh8t3rpAB5ZtCa3Hi4gq2PaQ5qkTacb820xdPYeDeOUV+PiQXWcV61/e/+J1pDYYRL30TunLNDeR5GDSRM6btVhDjVgc9/0N0N3qC1QctRRRMwAkA2upJV8PigyYD/SMZYNgHgQr9PG3pKs0BoxI/y+O9wsagw=
+	t=1768821512; cv=none; b=A2/XcPeyUeKJm9wXkv7l6eQEtgYeJJOpcE4j00ZgHO4K63pSIejLEyZDLoTNXbB7C17Zr9/iKMGFXYX1Q/9zOJneKAmDECHs+SLXWJKUIZLxBNXRW8LIJdOejZrW1aoXLMk4eQheiSvFY/yv3Asl21Z0WYUnablGWP4PlAo17G8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768763744; c=relaxed/simple;
-	bh=Pyb3ZVCl2W20pvak8WFvwOGzpxZn5BT74Q6321nAW5Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IAvBbTxAqknue8w+FYxMBviv51LDUeOKUfeA8/hZEIjdE4FTrHZLPDXWJTIBbXXhCrF9A+cDs5vy1JYoIA4oeqT/DmXTiT17QGb7DWPZlOsLihUuwou6bqnIm+6/OLL+per2Gu7MkgqXCCE8CZq9SBHWC1mJ7gHy8lp14dqqLYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NlQjcg7R; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NlQjcg7R"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-42fed090e5fso1915017f8f.1
-        for <arm-scmi@vger.kernel.org>; Sun, 18 Jan 2026 11:15:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768763741; x=1769368541; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=g7eq9NZWv+jfQYvwT7GWinc/1t08cW4LlGcRYfwgt1M=;
-        b=NlQjcg7RQyVW0q54uzrAtuGcX90hx6QprhuiRt3t9P/AjAFMZlP7wmQjSzsIBYtZfX
-         GM/OO33XFEpQkUvtRxXGQ1kfK7u4WRdCY6gP/10w6vTh0QtAkaNlPp7k2aJWcufSaKDI
-         OrSZFNydMbd71XaThhKbfloQHyEX84+RMsqplH3tbQudhxi1gXGPzdCVOgsKnE+dNfTT
-         Nw4XVk42UbAEeDgqLFtYaJmST+UxQavGi2hPrDMvqdgIE8WW8y5c5OUgg1+gvWtpTS8g
-         ASXTgwlcQswsa3Fxd7jJ+7v2U5FrDXMkgoHBbzwRQBMDGoc2t5BjlHnVXeC2BLbBQJyZ
-         5c5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768763741; x=1769368541;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g7eq9NZWv+jfQYvwT7GWinc/1t08cW4LlGcRYfwgt1M=;
-        b=Kw29BfTcQz9qxCIBW/78jEthpI6excWJASz48PXcEesqf5d8CnhpwhosJzvKNe9sJq
-         70VD/2nS3jEe3Pldy9HuwAQY6s5E71JWwX/FpE468tb2dHzAKYg2pSAl7AcMmktBf9Z8
-         FXDybDOxfkECyZW3oFSfJkMnRFK8TNf9Hgu2GU3gzudOLTPd20FEGogs+gxnITqb12pF
-         gAGOCajYs6VqJWR+4kgsY5LOjw5erQKLPchQsskg9DFhMkb4UrZ2J15L9kcS/mRSu2gv
-         72jcVTx5lxbm9ICLhyg+LqVRIz0dNGz40xVkKGD/chDzdwe52cP25SxzlWeMjaV21Usg
-         73EA==
-X-Forwarded-Encrypted: i=1; AJvYcCUwkk7V/JlRdSPgSACrro9mDF45w+QHIzI5eKcgdbzziHeFSJ/SS1iWFG2aDfVfCDEwdpPHah5t5w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6xu5tO/+AWpCb7vtYOb3uXA348lFXYYPm28bUwWRWR/zTRcL4
-	KrrK+nu+gf86EQVlmkrS8Lm3vo7C8HGD9s+L0KxG3iBfucUF9dWcU6ui/qRDw6vlU8YDO5/X9vB
-	vi37A
-X-Gm-Gg: AY/fxX4rzDvowyH42QN0KMSpicQ9Xre/HVHui6uyNQuMmQ+z7GV17dmBOsmpSEGANSi
-	Vp/OpxdLnppd7OPy/EK6c8nbwhX4mE4ZtteYHxDbbPcvTelMBNT+ru3q8iHtjpHDf2aMS7iYhVF
-	z3Wh9lfxzUvWKDPi22UrhfdMVaEC51P/6xN2RPzhUxIIQQeqkVhzdntkEF5KcW1egJXtDklXgdK
-	1CCqwRv+aURSIkzikRKH5Yh07l+Zuu3ISHCkne4qPET6u/t8n8hB9TIuqLeKMKsoDuB9/z/S0a1
-	dPfQzKzfhzgBDfX6unYOPO5mzDEDC9cRMOLx1x3o0a3aSOYNFBVIAelvdykM0ENSAGlDzCYwJYt
-	VYsew09xuXKDVtt6rVHEfp6e2mnNCW5AzFBUL8IW+P5MGczK53l0iSeFWrNSRGkttCq0CkBy+Bn
-	0oGviE9aJVfysgrzMM
-X-Received: by 2002:a05:600c:4fd2:b0:46e:506b:20c5 with SMTP id 5b1f17b1804b1-4801e34c9b4mr122573745e9.26.1768763741271;
-        Sun, 18 Jan 2026 11:15:41 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801e8d77besm158279375e9.14.2026.01.18.11.15.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 11:15:40 -0800 (PST)
-Date: Sun, 18 Jan 2026 22:15:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Felix Gu <gu_0233@qq.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] firmware: arm_scpi: Fix a reference leak on device node
-Message-ID: <aW0xWZ-KylipPF7M@stanley.mountain>
-References: <tencent_A3E20C513BBE7D268B863A5CE473FBA10B06@qq.com>
+	s=arc-20240116; t=1768821512; c=relaxed/simple;
+	bh=eIo99rlD9Wx9sQQi8w/hFXG9Chudp3vEC6CGHELuuXY=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tSqcHolCOeSH9ED7q039onha4VcmySdxdIk+qvTAAB2Jqr48Kim59AnREvBdr8+P/QbQRGljf+sTjct/nc5j/3aCowqvAfVNKNAueJSLkzVike6DYtDC+xmivaF3ULdTGQ7bWfWo34enfDp3iqAhZU7LDiMzHinXvkHHRQY1jCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.107])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dvnxh1ms2zHnHFg;
+	Mon, 19 Jan 2026 19:18:00 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id E139E40570;
+	Mon, 19 Jan 2026 19:18:29 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 19 Jan
+ 2026 11:18:28 +0000
+Date: Mon, 19 Jan 2026 11:18:27 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<arm-scmi@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<sudeep.holla@arm.com>, <james.quinlan@broadcom.com>, <f.fainelli@gmail.com>,
+	<vincent.guittot@linaro.org>, <etienne.carriere@st.com>,
+	<peng.fan@oss.nxp.com>, <michal.simek@amd.com>, <dan.carpenter@linaro.org>,
+	<d-gole@ti.com>, <elif.topuz@arm.com>, <lukasz.luba@arm.com>,
+	<philip.radford@arm.com>, <souvik.chakravarty@arm.com>
+Subject: Re: [PATCH v2 01/17] firmware: arm_scmi: Define a common
+ SCMI_MAX_PROTOCOLS value
+Message-ID: <20260119111827.00001704@huawei.com>
+In-Reply-To: <20260114114638.2290765-2-cristian.marussi@arm.com>
+References: <20260114114638.2290765-1-cristian.marussi@arm.com>
+	<20260114114638.2290765-2-cristian.marussi@arm.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_A3E20C513BBE7D268B863A5CE473FBA10B06@qq.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-On Fri, Jan 16, 2026 at 08:54:39PM +0800, Felix Gu wrote:
-> When calling of_parse_phandle_with_args(), the caller is responsible
-> to call of_node_put() to release the reference of device node.
-> In scpi_dev_domain_id, it does not release the reference.
+On Wed, 14 Jan 2026 11:46:05 +0000
+Cristian Marussi <cristian.marussi@arm.com> wrote:
+
+> Add a common definition of SCMI_MAX_PROTOCOLS and use it all over the
+> SCMI stack.
 > 
-> Fixes: 45ca7df7c345 ("firmware: arm_scpi: add support to populate OPPs and get transition latency")
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+Hi Cristian,
+
+Mention the introduction of SCMI_PROTOCOL_LAST in the patch description
+and probably say why it takes that value (which is much less than
+the SCMI_MAX_PROTOCOLS value).
+
+Jonathan
+
+> ---
+>  drivers/firmware/arm_scmi/notify.c | 4 +---
+>  include/linux/scmi_protocol.h      | 3 +++
+>  2 files changed, 4 insertions(+), 3 deletions(-)
 > 
-
-nit: delete the blank line after the Fixes tag.
-
-> Signed-off-by: Felix Gu <gu_0233@qq.com>
-
-Did you find this issue just by reviewing the code?  I read the comments
-and then looked at a sample of four other callers and none of them
-called of_node_put().  So it's a weird thing.  If this is really the rule
-then we should have a static checker heuristic to enforce it.
-
-regards,
-dan carpenter
+> diff --git a/drivers/firmware/arm_scmi/notify.c b/drivers/firmware/arm_scmi/notify.c
+> index dee9f238f6fd..78e9e27dc9ec 100644
+> --- a/drivers/firmware/arm_scmi/notify.c
+> +++ b/drivers/firmware/arm_scmi/notify.c
+> @@ -94,8 +94,6 @@
+>  #include "common.h"
+>  #include "notify.h"
+>  
+> -#define SCMI_MAX_PROTO		256
+> -
+>  #define PROTO_ID_MASK		GENMASK(31, 24)
+>  #define EVT_ID_MASK		GENMASK(23, 16)
+>  #define SRC_ID_MASK		GENMASK(15, 0)
+> @@ -1673,7 +1671,7 @@ int scmi_notification_init(struct scmi_handle *handle)
+>  	ni->gid = gid;
+>  	ni->handle = handle;
+>  
+> -	ni->registered_protocols = devm_kcalloc(handle->dev, SCMI_MAX_PROTO,
+> +	ni->registered_protocols = devm_kcalloc(handle->dev, SCMI_MAX_PROTOCOLS,
+>  						sizeof(char *), GFP_KERNEL);
+>  	if (!ni->registered_protocols)
+>  		goto err;
+> diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
+> index aafaac1496b0..c6efe4f371ac 100644
+> --- a/include/linux/scmi_protocol.h
+> +++ b/include/linux/scmi_protocol.h
+> @@ -926,8 +926,11 @@ enum scmi_std_protocol {
+>  	SCMI_PROTOCOL_VOLTAGE = 0x17,
+>  	SCMI_PROTOCOL_POWERCAP = 0x18,
+>  	SCMI_PROTOCOL_PINCTRL = 0x19,
+> +	SCMI_PROTOCOL_LAST = 0x7f,
+>  };
+>  
+> +#define SCMI_MAX_PROTOCOLS	256
+> +
+>  enum scmi_system_events {
+>  	SCMI_SYSTEM_SHUTDOWN,
+>  	SCMI_SYSTEM_COLDRESET,
 
