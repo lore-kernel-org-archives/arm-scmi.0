@@ -1,24 +1,24 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E826738B9A3;
-	Mon, 19 Jan 2026 15:43:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7727C278E47;
+	Mon, 19 Jan 2026 15:45:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768837419; cv=none; b=SlMi0z3wM5/AHI7DSqqJSDE7RWuKBTFRFkg5jYqqtVg1tffcz8HzqZ/RvyoS6V8fl5q7Tgt6XClHSi3/1XvL5/Kun+JXZlIbw2C0zCAa1piXDB7eJ7Bdd08ESIbIMKkEqOi/aoxdFGc7HeBjnjwPrS2yRRewmXswvntlPEsUK1U=
+	t=1768837519; cv=none; b=J7IKtzbXsE8aoOhUfy8KVZ+FGWar7bHhwMt1ev7CKbfjoH0OL5rf7AgC96oXAfoxkQh4S0SMNrORw/6oR//gCtcKQA/KstcBgp1Pvkd6ch5HWGta2FFny72VoW1mOHhW+bqvT17sMrHOC2Ali+gLPyEwH3gHK7tA9cObwNcvsqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768837419; c=relaxed/simple;
-	bh=MPjOyINpfQZXqbO9V0iDd+Uo33hIU1fUW/ZEltS13QQ=;
+	s=arc-20240116; t=1768837519; c=relaxed/simple;
+	bh=4g1/FrueJxkVwUmLw0512e3qtr6xVgwg7YVMH5uX3Xk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kU5Ro5VX7OMlxd13OkiHQ7bJX1qil/Kg4ukqRhMsO8z+NVMMhia8LgsemsCNOnX4tB9+T3/o1graxOLiCESGfkXOlq/Jl5l+kwiHL1GRuIaneSetzJDbQHCe1NWekJQ/VU2fVeGDM56SqiS32VfL9ZBk9FDibZokqF77jYrOlxY=
+	 Content-Type:Content-Disposition:In-Reply-To; b=LMSl9rAlbz8LEuhMzHD3/9Ck/7aOkXGMcScG0kUHqf+JgDwVq2KZnNJvu6rc1QP/MLGdHJ313stqlFJNhAiCbODYyVXL3wru7AE9+kJ0HNCUn3qEgTCelcm7ApZRfQDhZydE6sS7pmsYxMam2YgB/gE/R05gNVBx7rVUtcq9i/M=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C7AA8497;
-	Mon, 19 Jan 2026 07:43:30 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34EB2497;
+	Mon, 19 Jan 2026 07:45:10 -0800 (PST)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BFF4A3F694;
-	Mon, 19 Jan 2026 07:43:34 -0800 (PST)
-Date: Mon, 19 Jan 2026 15:43:32 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 936F23F694;
+	Mon, 19 Jan 2026 07:45:14 -0800 (PST)
+Date: Mon, 19 Jan 2026 15:45:12 +0000
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: Jonathan Cameron <jonathan.cameron@huawei.com>
 Cc: Cristian Marussi <cristian.marussi@arm.com>,
@@ -30,12 +30,12 @@ Cc: Cristian Marussi <cristian.marussi@arm.com>,
 	dan.carpenter@linaro.org, d-gole@ti.com, elif.topuz@arm.com,
 	lukasz.luba@arm.com, philip.radford@arm.com,
 	souvik.chakravarty@arm.com
-Subject: Re: [PATCH v2 01/17] firmware: arm_scmi: Define a common
- SCMI_MAX_PROTOCOLS value
-Message-ID: <aW5RJGz0ashv4txN@pluto>
+Subject: Re: [PATCH v2 02/17] firmware: arm_scmi: Reduce the scope of
+ protocols mutex
+Message-ID: <aW5RiHlkX0HGkAzT@pluto>
 References: <20260114114638.2290765-1-cristian.marussi@arm.com>
- <20260114114638.2290765-2-cristian.marussi@arm.com>
- <20260119111827.00001704@huawei.com>
+ <20260114114638.2290765-3-cristian.marussi@arm.com>
+ <20260119112154.0000029d@huawei.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -44,23 +44,33 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260119111827.00001704@huawei.com>
+In-Reply-To: <20260119112154.0000029d@huawei.com>
 
-On Mon, Jan 19, 2026 at 11:18:27AM +0000, Jonathan Cameron wrote:
-> On Wed, 14 Jan 2026 11:46:05 +0000
+On Mon, Jan 19, 2026 at 11:21:54AM +0000, Jonathan Cameron wrote:
+> On Wed, 14 Jan 2026 11:46:06 +0000
 > Cristian Marussi <cristian.marussi@arm.com> wrote:
 > 
-> > Add a common definition of SCMI_MAX_PROTOCOLS and use it all over the
-> > SCMI stack.
+> > Currently the mutex dedicated to the protection of the list of registered
+> > protocols is held during all the protocol initialization phase.
+
+Hi Jonathan,
+
+> > 
+> > Such a wide locking region is not needed and causes problem when trying to
+> > initialize notifications from within a protocol initialization routine.
+> > 
+> > Reduce the scope of the protocol mutex.
 > > 
 > > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> Hi Cristian,
+> I haven't checked carefully that the new scope is appropriate but
+> as a change in of itself, the code is correct and clean.
+> With that in mind.
+
+I will double check after more testing.
+
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 > 
-> Mention the introduction of SCMI_PROTOCOL_LAST in the patch description
-> and probably say why it takes that value (which is much less than
-> the SCMI_MAX_PROTOCOLS value).
 
-I'll do.
+Thanks for having a look.
 
-Thanks,
 Cristian
