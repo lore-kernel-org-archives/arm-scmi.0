@@ -1,124 +1,127 @@
-Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com [162.62.58.216])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108D54266BF;
-	Tue, 20 Jan 2026 12:15:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001FD500955;
+	Tue, 20 Jan 2026 22:03:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768911310; cv=none; b=MZNJEzPjMpO2mzYjL8U3MS5x9ZDmaHOLbdhH1GDf+XhH3tNT9m59CfhXxDGcK4c/nnemzla2bp2ULKsFjR35pRMNVtI32NgD8T0dDMDMBX76uPN0yqZsTPODEPRrY7dA7Seucq08iZRLsW3p0zch9VWZW8XEqz+mpAj/HS6O+6k=
+	t=1768946642; cv=none; b=GUqk1kegllXvCrG96AKBaNjNbCVECYv2YWbkfBvibCmM3QYWhFqe78xdrSkTxys9VMYlCTuI63Yr2asPnyAd2BceatBDIHrELPLIB4F4SfSB4TIX0Qcg+WJ9ljkcjQFG93ZhbOj+lo7D2bVwAKvj1aU0/S7xyDT2zoXm1x8PafQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768911310; c=relaxed/simple;
-	bh=ZmBDPdflrwlSIeYk3/Ms4Wt4lAKU0iixasdKi/524SU=;
-	h=Message-ID:From:Date:Subject:MIME-Version:Content-Type:To:Cc; b=DMe62Xo638eCVkeU13Q/e43mmSgy0wKa04+u9SmrjdTkdcAT/VWgIK5ZF2auKlUdsjI1hjF0SSU8+HRXxnTK+F1t4ob9NfpnR/5DgiezGxzNhi1H9vZ2Bw1NOopzDBXPFSfBch+4zfzej1Ag5ILYAtIr9iIdojb9Nw+xawK1vsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=GXDjm9Bk; arc=none smtp.client-ip=162.62.58.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1768946642; c=relaxed/simple;
+	bh=zip5ATIXcGnPOSFQUuvHx03GlQS1rEwh0UF9MXE7tg8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fz2AdASP5U2E8dgw9EpMoHjUUw3qDEGPn0Tm0SqbxovaOHNzrzG2X1FM+ZgY8qTSailUc3EpITEOLVODXs9j1rCEbhDnFuylQl7EI2KINCBY9bIs+rSuUPcDwOuVUWdzE9MbjGmUe8fIguitrtrQIITTbAvhZIp9b/EckrfPHEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R3choPYM; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="GXDjm9Bk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1768911297; bh=4kKJyyNGMP+zZQgr44uk/UpbP1kT96tBOF82npRgiOE=;
-	h=From:Date:Subject:To:Cc;
-	b=GXDjm9BkkqwZdC1/vOVGeIa7UWWD3xKGolAt3sG0ilq/CaCobG6j0wJFUnkZritPo
-	 YW6QM38wCCQbheNHlRQGWvPprYTj2j0LDOAoo8pmiRyrazbe8i9m6gw/TAaNuim+/1
-	 1GgXetMBTqoRe7TQFIk/9+tLRTUCFykA2EJsoAqo=
-Received: from junjungu-PC.localdomain ([223.166.246.160])
-	by newxmesmtplogicsvrszc41-0.qq.com (NewEsmtp) with SMTP
-	id 3B790A03; Tue, 20 Jan 2026 20:14:55 +0800
-X-QQ-mid: xmsmtpt1768911295tl1p7gjwg
-Message-ID: <tencent_845B889AF1A932F1347EE0C09F350E491009@qq.com>
-X-QQ-XMAILINFO: MokxBf7CFy2KAZPKfaaGhz/6Xh0dnUhP3Nyksr8QXxFWkw7mWbmbeeWX1DjU5n
-	 6u6m3cH3zf+WM3wDSkRpo0MO5m4ERgUG5z9YbS+8o6cH19oMV+e2KmS6kPhQvktv5lcBV4jAQyoO
-	 ZzH8ABOn4Bcn0gB376orX84cmJnv4XsxmChNiOoMMwnG2g887Y4pbhtK0vOiudmwBpN/cS+jMCEB
-	 b6bkMiEc1gnbODfTv3FQXRE/KmhQksqXAzeZqDys7rJlvR1kBU13buYfYmZTNpvu3UGFqsTG7SFq
-	 MB3NR2qoC91LvZ+yPfvgIe1fycnqNySfRDRtodHAFZ3R2a3TAlHCKWmNKQYobndILPVxst5aFAeh
-	 TZZ0a4gIyO5JRQ/iOd8e8J5j9oLdCf4jXtqEu0Gp2zwOx5QcSUnT9ovoWafwoEIG86MiXKjkKyFN
-	 SV7o6jmQuQPVFrZSm8rdCyr6t8t9FvQ+3gwOKZLbMwwjATOnDmhdPwkO+hBJXn8veB2F5B3C//lX
-	 TZ6JerwxoymRK7WwPnz7EUNLq8zxDsqc/evo/D6vK/GRcOEtZerr3UsnUkXUuH40DQKk8KqQ5SKZ
-	 ch4YMDtIvXLxORa8P0wf3xI1UrnFEL6Px58N7wY9u0vgsKMeOP5s3bHkQdDFTp5cZ6iTmOr0a/tU
-	 RB0W8xIA9EOEXqcRmKPlkixK32eXBbPRH4y3Ymtlt0591RYIhAFKVClkaCIoDrOsgv3OmjgdiSlf
-	 Z8L5j803aGJ7FJCEDdSegrvI99YFkWt7drjJJyPkiV3qHCtPhsZV2XIPbyAyGLw6siRAlwl6YE0U
-	 GfXTKGyVjW9Xhulbc4Mp9YQsziNXq5QGWDgpKxS7pOvvIB3vvQawXKWfY3z1tpSUiQGHQ0MUzmn+
-	 K58+uAx4E7snUI53bwwJYys1csHZLuwZbktAHyfTJ7PVzLb5aBeAOEQovXOjv4uJKhZEfj72j7I2
-	 aq3sY/pFaHwub5PIn1S6gsJhV0NM7Ni5Ooh2SsO0TGuK7ZN/ejO3rPM+mz7a28NdXP3Zv1zKASuc
-	 hgu1S8qszFqTST4dQvjMqNxvX/VFMuKYsEyHanMwSDNFo/D3+t5S/0ifE+7qBG7b6bNIsPCzq8pE
-	 j1mQY2OwLQmH869PbNMVbUyDDLz0bhf3DhPgGZJ0V6wQRbFpE41c7AVrDSTXi04lchoNbTToSIaj
-	 QlgU/ZKzCA2+yCAozAE+zN24nI
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
-From: Felix Gu <gu_0233@qq.com>
-Date: Tue, 20 Jan 2026 20:14:55 +0800
-Subject: [PATCH] firmware: arm_scpi: Fix device_node reference leak in
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R3choPYM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768946640; x=1800482640;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zip5ATIXcGnPOSFQUuvHx03GlQS1rEwh0UF9MXE7tg8=;
+  b=R3choPYMFvufTPjLENfg7rXxkK9O0whQ2InxO2WVB/h78f5Bh8v39nVg
+   mKZD+Bq8vZXrOsZ0ZCBj6fst/jIdJFaErj561ZdjCgDbZS49BA/QmSMpK
+   FExw1qTZ8H8XT+BJuOcbv2g+FZdz5kvlm2YlQFDFsBv1ttqj9A4YEoBwW
+   akl3wgbMfUgwO+FYAP2THtAu2CicltUnqBdCYm2M20vTJX2b6PttAz3D0
+   RjFuOCcbIPnYjZjr+Ohj4iSUFYfP386RO5ypzP+7D2Sl2IdmyggyXje1z
+   t+wVI2ylw2SS3Gk97ZdgNBe8RuMRKsdsSeXqljsaoTlOZxoW8Llg5Bb7I
+   Q==;
+X-CSE-ConnectionGUID: rrfmIHhoQ7aVz/lRtj0Eyg==
+X-CSE-MsgGUID: mb5S5W3fRlefBCs0LdfbmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="80473246"
+X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; 
+   d="scan'208";a="80473246"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 14:03:59 -0800
+X-CSE-ConnectionGUID: 73eAFPAGT/WDIQ971AOI4w==
+X-CSE-MsgGUID: usykPe85S06Yq/5VD5O3Og==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; 
+   d="scan'208";a="205879081"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 20 Jan 2026 14:03:57 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1viJpK-00000000Pbh-1pJw;
+	Tue, 20 Jan 2026 22:03:54 +0000
+Date: Wed, 21 Jan 2026 06:03:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Felix Gu <gu_0233@qq.com>, Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Felix Gu <gu_0233@qq.com>
+Subject: Re: [PATCH] firmware: arm_scpi: Fix device_node reference leak in
  scpi_probe()
+Message-ID: <202601210508.3BaBN2n8-lkp@intel.com>
+References: <tencent_845B889AF1A932F1347EE0C09F350E491009@qq.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-OQ-MSGID: <20260120-arm_scpi_of_node-v1-1-0e4273d026a8@qq.com>
-X-B4-Tracking: v=1; b=H4sIAL5xb2kC/x3MQQqAIBBA0avErBPMRWZXiRAbx5pFGgoRSHdPW
- r7F/xUKZaYCc1ch082FU2wY+g7wcHEnwb4ZlFSjHJQULp+24MU2BRuTJ4HO6G2cvMZgoGVXpsD
- Pv1zW9/0AlW5F+GIAAAA=
-X-Change-ID: 20260120-arm_scpi_of_node-ca97b68d7cf9
-To: Sudeep Holla <sudeep.holla@arm.com>, 
- Cristian Marussi <cristian.marussi@arm.com>
-Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Felix Gu <gu_0233@qq.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768911296; l=1613;
- i=gu_0233@qq.com; h=from:subject:message-id;
- bh=ZmBDPdflrwlSIeYk3/Ms4Wt4lAKU0iixasdKi/524SU=;
- b=iKlKg8ef//jKIjJiE6xYTajpj4O7LjcJYnGXxl1w86RqMJia3Lr6ck/fKPJhXkPiASR6OFmRV
- XxKfbG697eHC9hEr5igviaHJEgerLkKHyz/rWMvbIURlGwzdFwjvdhv
-X-Developer-Key: i=gu_0233@qq.com; a=ed25519;
- pk=fjUXwmjchVN7Ja6KGP55IXOzFeCl9edaHoQIEUA+/hw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_845B889AF1A932F1347EE0C09F350E491009@qq.com>
 
-In scpi_probe(), if of_match_node() fails and the function returns
-early, the shmem reference is not released.
-Use __free(device_node) scope-based cleanup to automatically release
-the reference when the variable goes out of scope.
+Hi Felix,
 
-Fixes: ed7ecb883901 ("firmware: arm_scpi: Add compatibility checks for shmem node")
-Signed-off-by: Felix Gu <gu_0233@qq.com>
----
- drivers/firmware/arm_scpi.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/firmware/arm_scpi.c b/drivers/firmware/arm_scpi.c
-index 87c323de17b9..6bf999a6ccf5 100644
---- a/drivers/firmware/arm_scpi.c
-+++ b/drivers/firmware/arm_scpi.c
-@@ -18,6 +18,7 @@
- 
- #include <linux/bitmap.h>
- #include <linux/bitfield.h>
-+#include <linux/clean.h>
- #include <linux/device.h>
- #include <linux/err.h>
- #include <linux/export.h>
-@@ -940,13 +941,13 @@ static int scpi_probe(struct platform_device *pdev)
- 		int idx = scpi_drvinfo->num_chans;
- 		struct scpi_chan *pchan = scpi_drvinfo->channels + idx;
- 		struct mbox_client *cl = &pchan->cl;
--		struct device_node *shmem = of_parse_phandle(np, "shmem", idx);
-+		struct device_node *shmem __free(device_node) =
-+			of_parse_phandle(np, "shmem", idx);
- 
- 		if (!of_match_node(shmem_of_match, shmem))
- 			return -ENXIO;
- 
- 		ret = of_address_to_resource(shmem, 0, &res);
--		of_node_put(shmem);
- 		if (ret) {
- 			dev_err(dev, "failed to get SCPI payload mem resource\n");
- 			return ret;
+[auto build test ERROR on d08c85ac8894995d4b0d8fb48d2f6a3e53cd79ab]
 
----
-base-commit: d08c85ac8894995d4b0d8fb48d2f6a3e53cd79ab
-change-id: 20260120-arm_scpi_of_node-ca97b68d7cf9
+url:    https://github.com/intel-lab-lkp/linux/commits/Felix-Gu/firmware-arm_scpi-Fix-device_node-reference-leak-in-scpi_probe/20260120-203159
+base:   d08c85ac8894995d4b0d8fb48d2f6a3e53cd79ab
+patch link:    https://lore.kernel.org/r/tencent_845B889AF1A932F1347EE0C09F350E491009%40qq.com
+patch subject: [PATCH] firmware: arm_scpi: Fix device_node reference leak in scpi_probe()
+config: arm-randconfig-001-20260121 (https://download.01.org/0day-ci/archive/20260121/202601210508.3BaBN2n8-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601210508.3BaBN2n8-lkp@intel.com/reproduce)
 
-Best regards,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601210508.3BaBN2n8-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/firmware/arm_scpi.c:21:10: fatal error: 'linux/clean.h' file not found
+      21 | #include <linux/clean.h>
+         |          ^~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +21 drivers/firmware/arm_scpi.c
+
+    18	
+    19	#include <linux/bitmap.h>
+    20	#include <linux/bitfield.h>
+  > 21	#include <linux/clean.h>
+    22	#include <linux/device.h>
+    23	#include <linux/err.h>
+    24	#include <linux/export.h>
+    25	#include <linux/io.h>
+    26	#include <linux/kernel.h>
+    27	#include <linux/list.h>
+    28	#include <linux/mailbox_client.h>
+    29	#include <linux/module.h>
+    30	#include <linux/of.h>
+    31	#include <linux/of_address.h>
+    32	#include <linux/of_platform.h>
+    33	#include <linux/platform_device.h>
+    34	#include <linux/printk.h>
+    35	#include <linux/property.h>
+    36	#include <linux/pm_opp.h>
+    37	#include <linux/scpi_protocol.h>
+    38	#include <linux/slab.h>
+    39	#include <linux/sort.h>
+    40	#include <linux/spinlock.h>
+    41	
+
 -- 
-Felix Gu <gu_0233@qq.com>
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
