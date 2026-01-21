@@ -1,124 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6463033D1;
-	Wed, 21 Jan 2026 02:05:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4522481242
+	for <arm-scmi@vger.kernel.org>; Wed, 21 Jan 2026 13:08:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768961129; cv=none; b=pu2BBJliul28h5FbtW8A+xqGu4tbcia9UOB01C2ivGabQk3Ze9rCOg44AAFcwxVsavT92bqvE+0fOA9Dx+x+Ei4HTzNJT6iOLE/9hE0m7vOccnCCoiZzvx47wFW63aExfEV0ZYvtkwTMZALb8c/q2CRHAG0/EB0NnaTvKN5qIRE=
+	t=1769000910; cv=none; b=kp/19fBGCHnJY046P4AwuAiRvAxQxOaO9W5oLeoTnayYUnv29mviSapusMTBmjKuQu2Wi7QrPFh5FhqKrPQ7WWV6RDxQMar5eb0F8Uyf2BMD4QQXwbp1xD9WdyIDTjTC33dyBvnSlFXevRuWIRakVpZ3riiQk+k2I2jjzGPhiXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768961129; c=relaxed/simple;
-	bh=ilN4HPAMj6+h3erNVdSiAUhOdMjO3QbTUbLpJ8T6sfs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ExWn+39IDINqDr6/BEGz+YUtSSsGMeoYHyR4/CKUqenJdMZBIVfZ40KfHuiugSIkRkG/QsE3ztUYrc5XF+vwBI6GqlfgCHZlnyzV0Mxi+b5WRkIHD+tVqKPD1ryhI9HpmdT2gwzVp31UrvrWGvuLziKz0KL5MAqV/dzDi0DLwYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XCLtweSp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769000910; c=relaxed/simple;
+	bh=WrpyBYrLRPsDYxS10ClCNybzyU3ZizE078W5ZmsR7jg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=K7PHSbfH3TMys/FCJUIFI5Y4VeVHjn8YaaFYlaiHZ7j0xlnRrPIuiNmwE+BUCQ/f6ZJWjbyF6QQw3uh9ud5hWAfTxmdkUvZ698RpSrytTPDzqjTRwYGCgHCXrPYJFgjOjb05aXhgYid4UDHViDiEH0pgDwYykkYt5BgMOB2FTrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P1RFNSfH; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XCLtweSp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F0CDC16AAE;
-	Wed, 21 Jan 2026 02:05:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768961128;
-	bh=ilN4HPAMj6+h3erNVdSiAUhOdMjO3QbTUbLpJ8T6sfs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XCLtweSplCNXPwSs9uPWVo9gyIfyeEJ7s8mu+QV0Tj2/1Wd7jnexVVhh3Hu4yMahp
-	 w1akrc4iImGxGCzDXYr7IhAhER61UjpsABfDYwsGkop13VPaYi0bQBkbSuyPRoFXuA
-	 6z/B4vE6lDcX61tskOaO/a4Js1/R0FRkgJ16nHEvTwjEYWAVK+VKMIVjVqEGMvxHIV
-	 /ndUC1ozccQb1zsr/XdzHGhcBe5cu0pkcA/6LfTLcnQG23memqFFFbTU+7YTfcN7VZ
-	 LuwuQDCihOxUKI24mGZPweUa3SHtpjcVvaIWs5aZsrZYS7dzP/566RlcMXCm0EPcWf
-	 vF+N5h2JmRblQ==
-Date: Tue, 20 Jan 2026 20:05:27 -0600
-From: Rob Herring <robh@kernel.org>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	arm-scmi@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] dt-bindings: firmware: arm,scmi: Document
- arm,no-completion-irq property
-Message-ID: <20260121020527.GA1659809-robh@kernel.org>
-References: <20260117010241.186685-1-marek.vasut+renesas@mailbox.org>
- <aW5hmb9tyw1Gv388@pluto>
- <aW5jwtoYCFs-Pzpk@bogus>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P1RFNSfH"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-81f4c0e2b42so3424052b3a.1
+        for <arm-scmi@vger.kernel.org>; Wed, 21 Jan 2026 05:08:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769000908; x=1769605708; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NMHqsnCQRyn8ggYcyKGe99xv1siVufF+RsMTHXZ7p+M=;
+        b=P1RFNSfHQBv6LSvfnCxyYe88AbXk42OAYDt7zR51oiHvL9Now60Tb+Hv3c4P920/0H
+         Q96ngRE6Uu5eo4hlndPfoMcSJvm3tGvqq5U9EO0v7w7CPLGPeXqCb79vEC9VCuzZXq/u
+         P/ymei2g4ErroD9Woq5HyyM29PFSBbFX82P6awOcZlfXQ/uH3zss20yZA7JfPyp3h/MJ
+         7fQpIIkrAIWgIcAv3DYlungmj5Bl9vYo2Hse2y4bW1syasCAR5E8TebUd+scOjbu4tOd
+         qho02W2qrfCNX/W20AHEGqMHfPG8t3urNvJVp1yh0mx2tOPseWhC1aPshFWlUvOztr/U
+         CiRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769000908; x=1769605708;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NMHqsnCQRyn8ggYcyKGe99xv1siVufF+RsMTHXZ7p+M=;
+        b=NCveDkUxD3xadibv592N8uktsZZclI5TOqVvV6/Fb1atjrLu9N0w2lve0aXtYOoSmQ
+         8Bci8kwNgHCGCya3brqdmI9HtxkJJ5EO/5ikPwledb8ymeu+10KETQIZ1yIeDSGSu4jt
+         ZOYzz0JqZvRkxrI5AXRfd7Ol0o17bpt1EJDTXfrYJqbHTOrHR02XjLf8bfUlZ7JbXjrE
+         ALR4X4IpOjgWNtdWe8fPlDBzQYGox/b06Jcej7Z3kFufTZCMVMVgXb3wBmkWa6Uy00fO
+         Rmfh40oXcnuyFATQA1bTfBwWV3OSOQXrQ/DBK+1dyhXtR298BGWgVcGlfmwEWWw86ikX
+         OKIQ==
+X-Gm-Message-State: AOJu0YyqgOf5lrgnrscHb3dC+YsCJDnPssoErQM3UTUsU7wZ67L47koj
+	0KjWJsu77G/TIBhJnSxKdAYbEc8vdQxzFTSHRnK2pn5F0U0o81pVS/Cj
+X-Gm-Gg: AZuq6aK8YCMTH2VLkC3A6rIUriKEUuhKeTFX+qe7+PYuq8OS93+kh5ORDerIbstgUAu
+	y9EFLPYeiioLRKHUEofHR0cw/ic8+/81YWCxE2268WoNm55DM1qCHBsYMgdVskchFp0wNkkH9zI
+	O5vga7NHR5r6Kk5JyXaurGWrMtlTyJhmmfd1RNfGDk4wJPre/t2TdR3kx+fpcs1NmJ1HIFI+QZS
+	Em9Hd6eRigOtUl2zg8T3WBr0A2KZ/zvjc7GFz2/+LaDrP0ixsaMUxFDW2YZNq5JpKhZCmI9bRTn
+	Ywc2CaH1vt9P64IRD57B34klQsdBYYh/KIwd3tFueAk3TQd/6AKLd5ozQ7Fb2qjvFj92I/UUfnq
+	3roXneJYJ45Ou4vKfmZl+FwYgbtAvOVGdykT4sePl29iN7A7ZNJhsethwU/Cw4RrIbCjyQV31HI
+	ADEbNGNBGds916fHMBl4OSXaDg
+X-Received: by 2002:a05:6a00:1388:b0:81f:45ff:48b0 with SMTP id d2e1a72fcca58-81fe87db4d4mr4982900b3a.13.1769000907655;
+        Wed, 21 Jan 2026 05:08:27 -0800 (PST)
+Received: from junjungu-PC.localdomain ([188.253.124.89])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-821812a12aesm379876b3a.43.2026.01.21.05.08.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jan 2026 05:08:27 -0800 (PST)
+From: Felix Gu <ustc.gu@gmail.com>
+Date: Wed, 21 Jan 2026 21:08:19 +0800
+Subject: [PATCH v2] firmware: arm_scpi: Fix device_node reference leak in
+ scpi_probe()
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aW5jwtoYCFs-Pzpk@bogus>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260121-arm_scpi_2-v2-1-702d7fa84acb@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAMLPcGkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHQUlJIzE
+ vPSU3UzU4B8JSMDIzMDQyND3cSi3Pji5ILMeCNdE5NUA4MkA+M0E1MzJaCGgqLUtMwKsGHRsbW
+ 1AKQF5cJcAAAA
+X-Change-ID: 20260121-arm_scpi_2-44e00b03f456
+To: Sudeep Holla <sudeep.holla@arm.com>, 
+ Cristian Marussi <cristian.marussi@arm.com>
+Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Felix Gu <ustc.gu@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1769000903; l=1791;
+ i=ustc.gu@gmail.com; h=from:subject:message-id;
+ bh=WrpyBYrLRPsDYxS10ClCNybzyU3ZizE078W5ZmsR7jg=;
+ b=Wuqb9gFAWeVQpz2me9m/Lf1notADMj2TBwywBe9OwE7Ku2k6ISfu734YtWAiG6v8tzEzBCnWd
+ icQ+770y/XaB3ON8aHW9aomXLWuM1MOTxCfeV74szl+qFe/yw2Cu942
+X-Developer-Key: i=ustc.gu@gmail.com; a=ed25519;
+ pk=fjUXwmjchVN7Ja6KGP55IXOzFeCl9edaHoQIEUA+/hw=
 
-On Mon, Jan 19, 2026 at 05:02:58PM +0000, Sudeep Holla wrote:
-> On Mon, Jan 19, 2026 at 04:53:45PM +0000, Cristian Marussi wrote:
-> > On Sat, Jan 17, 2026 at 02:02:28AM +0100, Marek Vasut wrote:
-> > > Document new property arm,no-completion-irq . This optional property
-> > > is intended for hardware that does not generate completion interrupts
-> > > and can be used to unconditionally enable forced polling mode of
-> > > operation.
-> > > 
-> > > With this property set, such implementations which do not generate
-> > > interrupts can be interacted with, until they are fixed to generate
-> > > interrupts properly.
-> > > 
-> > > Note that, because the original base protocol exchange also requires
-> > > some sort of completion mechanism, it is not possible to query SCMI
-> > > itself for this property and it must be described in DT. While this
-> > > does look a bit like policy, the SCMI provider is part of the
-> > > hardware, hence DT.
-> > > 
-> > > Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> > > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> > > ---
-> > > Cc: Conor Dooley <conor+dt@kernel.org>
-> > > Cc: Cristian Marussi <cristian.marussi@arm.com>
-> > > Cc: Florian Fainelli <florian.fainelli@broadcom.com>
-> > > Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> > > Cc: Rob Herring <robh@kernel.org>
-> > > Cc: Sudeep Holla <sudeep.holla@arm.com>
-> > > Cc: arm-scmi@vger.kernel.org
-> > > Cc: devicetree@vger.kernel.org
-> > > Cc: linux-arm-kernel@lists.infradead.org
-> > > Cc: linux-renesas-soc@vger.kernel.org
-> > > ---
-> > > V2: s@mean@&t and limit poll transport to mailbox/shmem only
-> > > V3: - Reformat the commit message, expand property description to
-> > >       explicitly spell out this is hardware description.
-> > >     - Rename property from arm,poll-transport to arm,no-completion-irq
-> > > V4: - Update first paragraph of commit message and property description
-> > >     - Add RB from Rob
-> > > ---
-> > >  .../devicetree/bindings/firmware/arm,scmi.yaml         | 10 ++++++++++
-> > >  1 file changed, 10 insertions(+)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> > > index be817fd9cc34b..d06cca9273c48 100644
-> > > --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> > > +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> > > @@ -146,6 +146,13 @@ properties:
-> > >        this platform. If set, the value should be non-zero.
-> > >      minimum: 1
-> > >  
-> > > +  arm,no-completion-irq:
-> > > +    type: boolean
-> > > +    description:
-> > 
-> > Shouldn't these two points have to be swapped as per Sudeep and Rob
-> > suggestions ?
-> > 
-> >     description:
-> > 	....
-> >     type: boolean
-> > 
-> 
-> I was just referring to the points covered under the `description` and not
-> the order of `type` and `description`. I am not sure if there is any such
-> requirement as well.
+In scpi_probe(), if of_match_node() fails and the function returns
+early, the shmem reference is not released.
+Use __free(device_node) scope-based cleanup to automatically release
+the reference when the variable goes out of scope.
 
-There isn't. The only preference is to be consistent within a file of 
-description either first or last.
+Fixes: ed7ecb883901 ("firmware: arm_scpi: Add compatibility checks for shmem node")
+Signed-off-by: Felix Gu <ustc.gu@gmail.com>
+---
+Changes in v2:
+- Fixed build failure reported by kernel test robot.
+- Link to v1: https://lore.kernel.org/arm-scmi/tencent_845B889AF1A932F1347EE0C09F350E491009@qq.com/
+---
+ drivers/firmware/arm_scpi.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Rob
+diff --git a/drivers/firmware/arm_scpi.c b/drivers/firmware/arm_scpi.c
+index 87c323de17b9..398642cc25d9 100644
+--- a/drivers/firmware/arm_scpi.c
++++ b/drivers/firmware/arm_scpi.c
+@@ -18,6 +18,7 @@
+ 
+ #include <linux/bitmap.h>
+ #include <linux/bitfield.h>
++#include <linux/cleanup.h>
+ #include <linux/device.h>
+ #include <linux/err.h>
+ #include <linux/export.h>
+@@ -940,13 +941,13 @@ static int scpi_probe(struct platform_device *pdev)
+ 		int idx = scpi_drvinfo->num_chans;
+ 		struct scpi_chan *pchan = scpi_drvinfo->channels + idx;
+ 		struct mbox_client *cl = &pchan->cl;
+-		struct device_node *shmem = of_parse_phandle(np, "shmem", idx);
++		struct device_node *shmem __free(device_node) =
++			of_parse_phandle(np, "shmem", idx);
+ 
+ 		if (!of_match_node(shmem_of_match, shmem))
+ 			return -ENXIO;
+ 
+ 		ret = of_address_to_resource(shmem, 0, &res);
+-		of_node_put(shmem);
+ 		if (ret) {
+ 			dev_err(dev, "failed to get SCPI payload mem resource\n");
+ 			return ret;
+
+---
+base-commit: 053966c344dbd346e71305f530e91ea77916189f
+change-id: 20260121-arm_scpi_2-44e00b03f456
+
+Best regards,
+-- 
+Felix Gu <ustc.gu@gmail.com>
+
