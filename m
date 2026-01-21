@@ -1,63 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C84ED301708;
-	Wed, 21 Jan 2026 01:25:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6463033D1;
+	Wed, 21 Jan 2026 02:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768958718; cv=none; b=T0Y5s4CpUYIpTudKBS/3pIiKGYXkSI9QR2VTVFexDgfUmF6x6CT3T7Mb8Rm07UK0PIRTvkK0CFRWgGqZF5NT0C+YNoBrJXp32RnIiEyM9S3kd1uMNLpVF/9VpsQqZdEIpl7cWvsa54AGmaGSFS1hP9bznNQQVNi29W2R54EHF1U=
+	t=1768961129; cv=none; b=pu2BBJliul28h5FbtW8A+xqGu4tbcia9UOB01C2ivGabQk3Ze9rCOg44AAFcwxVsavT92bqvE+0fOA9Dx+x+Ei4HTzNJT6iOLE/9hE0m7vOccnCCoiZzvx47wFW63aExfEV0ZYvtkwTMZALb8c/q2CRHAG0/EB0NnaTvKN5qIRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768958718; c=relaxed/simple;
-	bh=jg5BpT5100sdtoSuwQ6SgHaMH0aIdKCiN/KiOpnG2m0=;
+	s=arc-20240116; t=1768961129; c=relaxed/simple;
+	bh=ilN4HPAMj6+h3erNVdSiAUhOdMjO3QbTUbLpJ8T6sfs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YsIssXrzfvC0bSHkq7OlAJ+dbL45OT8qUP7F8sXSyMb3n1BhW9Bv+kuLbozUKq4mO55ZvTSfD7CjIpk9hVXXwRI0GgE/3E2h4BIHkAArzODTI+A98wmmby6bqUI+zmKZ/Kp4q22abb/LUjUk4kF3aNKg7xh4W57PEI6bZINtgLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HxNPJ8+J; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ExWn+39IDINqDr6/BEGz+YUtSSsGMeoYHyR4/CKUqenJdMZBIVfZ40KfHuiugSIkRkG/QsE3ztUYrc5XF+vwBI6GqlfgCHZlnyzV0Mxi+b5WRkIHD+tVqKPD1ryhI9HpmdT2gwzVp31UrvrWGvuLziKz0KL5MAqV/dzDi0DLwYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XCLtweSp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HxNPJ8+J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768958717; x=1800494717;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jg5BpT5100sdtoSuwQ6SgHaMH0aIdKCiN/KiOpnG2m0=;
-  b=HxNPJ8+JTQ/+pcRUcibhIHV7dgTYjsRM4eHBBy98nWlvg1XbT3LGH0mb
-   IDwv6OQVprNFpyiNbupg27yIQjeLe2H0tfxmmg4pJx24Zo+DmHKfySow7
-   b2nx8OPz6/vZ/fLy0/WVnlyHoLcT/hD1HS437AOcz7ja9vAAKJHKn46ik
-   1us7Zr+eH41rVgUnykyLxPjGZp4ewG8pXFYrRrnwWRZaaivcS4absdkAh
-   qIET2otqaJ6RoqCcWOrCf5WOrD3pjBt4fO3Ai+XptDwBDowZTcK0fFcxU
-   AHPezxYIus4hMfSIo6AQ++ROU+gayQwQj6wTXrdlCQJCpWulUx7YEvkws
-   Q==;
-X-CSE-ConnectionGUID: jbSkBUqkTeSm5gfFF4a5JA==
-X-CSE-MsgGUID: IGDNe/uITxqR2gTzu/hiAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="70347495"
-X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="70347495"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 17:25:16 -0800
-X-CSE-ConnectionGUID: S68r+NPxRpOmSaCNok0Zvw==
-X-CSE-MsgGUID: fQ6N/Ny/ThibSnDZFdoCUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="206197445"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Jan 2026 17:25:14 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1viMy8-00000000PoD-1826;
-	Wed, 21 Jan 2026 01:25:12 +0000
-Date: Wed, 21 Jan 2026 09:24:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Felix Gu <gu_0233@qq.com>, Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Felix Gu <gu_0233@qq.com>
-Subject: Re: [PATCH] firmware: arm_scpi: Fix device_node reference leak in
- scpi_probe()
-Message-ID: <202601210817.qdAqWG2J-lkp@intel.com>
-References: <tencent_845B889AF1A932F1347EE0C09F350E491009@qq.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XCLtweSp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F0CDC16AAE;
+	Wed, 21 Jan 2026 02:05:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768961128;
+	bh=ilN4HPAMj6+h3erNVdSiAUhOdMjO3QbTUbLpJ8T6sfs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XCLtweSplCNXPwSs9uPWVo9gyIfyeEJ7s8mu+QV0Tj2/1Wd7jnexVVhh3Hu4yMahp
+	 w1akrc4iImGxGCzDXYr7IhAhER61UjpsABfDYwsGkop13VPaYi0bQBkbSuyPRoFXuA
+	 6z/B4vE6lDcX61tskOaO/a4Js1/R0FRkgJ16nHEvTwjEYWAVK+VKMIVjVqEGMvxHIV
+	 /ndUC1ozccQb1zsr/XdzHGhcBe5cu0pkcA/6LfTLcnQG23memqFFFbTU+7YTfcN7VZ
+	 LuwuQDCihOxUKI24mGZPweUa3SHtpjcVvaIWs5aZsrZYS7dzP/566RlcMXCm0EPcWf
+	 vF+N5h2JmRblQ==
+Date: Tue, 20 Jan 2026 20:05:27 -0600
+From: Rob Herring <robh@kernel.org>
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	arm-scmi@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] dt-bindings: firmware: arm,scmi: Document
+ arm,no-completion-irq property
+Message-ID: <20260121020527.GA1659809-robh@kernel.org>
+References: <20260117010241.186685-1-marek.vasut+renesas@mailbox.org>
+ <aW5hmb9tyw1Gv388@pluto>
+ <aW5jwtoYCFs-Pzpk@bogus>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -66,62 +50,75 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_845B889AF1A932F1347EE0C09F350E491009@qq.com>
+In-Reply-To: <aW5jwtoYCFs-Pzpk@bogus>
 
-Hi Felix,
+On Mon, Jan 19, 2026 at 05:02:58PM +0000, Sudeep Holla wrote:
+> On Mon, Jan 19, 2026 at 04:53:45PM +0000, Cristian Marussi wrote:
+> > On Sat, Jan 17, 2026 at 02:02:28AM +0100, Marek Vasut wrote:
+> > > Document new property arm,no-completion-irq . This optional property
+> > > is intended for hardware that does not generate completion interrupts
+> > > and can be used to unconditionally enable forced polling mode of
+> > > operation.
+> > > 
+> > > With this property set, such implementations which do not generate
+> > > interrupts can be interacted with, until they are fixed to generate
+> > > interrupts properly.
+> > > 
+> > > Note that, because the original base protocol exchange also requires
+> > > some sort of completion mechanism, it is not possible to query SCMI
+> > > itself for this property and it must be described in DT. While this
+> > > does look a bit like policy, the SCMI provider is part of the
+> > > hardware, hence DT.
+> > > 
+> > > Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> > > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> > > ---
+> > > Cc: Conor Dooley <conor+dt@kernel.org>
+> > > Cc: Cristian Marussi <cristian.marussi@arm.com>
+> > > Cc: Florian Fainelli <florian.fainelli@broadcom.com>
+> > > Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> > > Cc: Rob Herring <robh@kernel.org>
+> > > Cc: Sudeep Holla <sudeep.holla@arm.com>
+> > > Cc: arm-scmi@vger.kernel.org
+> > > Cc: devicetree@vger.kernel.org
+> > > Cc: linux-arm-kernel@lists.infradead.org
+> > > Cc: linux-renesas-soc@vger.kernel.org
+> > > ---
+> > > V2: s@mean@&t and limit poll transport to mailbox/shmem only
+> > > V3: - Reformat the commit message, expand property description to
+> > >       explicitly spell out this is hardware description.
+> > >     - Rename property from arm,poll-transport to arm,no-completion-irq
+> > > V4: - Update first paragraph of commit message and property description
+> > >     - Add RB from Rob
+> > > ---
+> > >  .../devicetree/bindings/firmware/arm,scmi.yaml         | 10 ++++++++++
+> > >  1 file changed, 10 insertions(+)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> > > index be817fd9cc34b..d06cca9273c48 100644
+> > > --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> > > +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+> > > @@ -146,6 +146,13 @@ properties:
+> > >        this platform. If set, the value should be non-zero.
+> > >      minimum: 1
+> > >  
+> > > +  arm,no-completion-irq:
+> > > +    type: boolean
+> > > +    description:
+> > 
+> > Shouldn't these two points have to be swapped as per Sudeep and Rob
+> > suggestions ?
+> > 
+> >     description:
+> > 	....
+> >     type: boolean
+> > 
+> 
+> I was just referring to the points covered under the `description` and not
+> the order of `type` and `description`. I am not sure if there is any such
+> requirement as well.
 
-kernel test robot noticed the following build errors:
+There isn't. The only preference is to be consistent within a file of 
+description either first or last.
 
-[auto build test ERROR on d08c85ac8894995d4b0d8fb48d2f6a3e53cd79ab]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Felix-Gu/firmware-arm_scpi-Fix-device_node-reference-leak-in-scpi_probe/20260120-203159
-base:   d08c85ac8894995d4b0d8fb48d2f6a3e53cd79ab
-patch link:    https://lore.kernel.org/r/tencent_845B889AF1A932F1347EE0C09F350E491009%40qq.com
-patch subject: [PATCH] firmware: arm_scpi: Fix device_node reference leak in scpi_probe()
-config: riscv-randconfig-r064-20260121 (https://download.01.org/0day-ci/archive/20260121/202601210817.qdAqWG2J-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601210817.qdAqWG2J-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601210817.qdAqWG2J-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/firmware/arm_scpi.c:21:10: fatal error: linux/clean.h: No such file or directory
-      21 | #include <linux/clean.h>
-         |          ^~~~~~~~~~~~~~~
-   compilation terminated.
-
-
-vim +21 drivers/firmware/arm_scpi.c
-
-    18	
-    19	#include <linux/bitmap.h>
-    20	#include <linux/bitfield.h>
-  > 21	#include <linux/clean.h>
-    22	#include <linux/device.h>
-    23	#include <linux/err.h>
-    24	#include <linux/export.h>
-    25	#include <linux/io.h>
-    26	#include <linux/kernel.h>
-    27	#include <linux/list.h>
-    28	#include <linux/mailbox_client.h>
-    29	#include <linux/module.h>
-    30	#include <linux/of.h>
-    31	#include <linux/of_address.h>
-    32	#include <linux/of_platform.h>
-    33	#include <linux/platform_device.h>
-    34	#include <linux/printk.h>
-    35	#include <linux/property.h>
-    36	#include <linux/pm_opp.h>
-    37	#include <linux/scpi_protocol.h>
-    38	#include <linux/slab.h>
-    39	#include <linux/sort.h>
-    40	#include <linux/spinlock.h>
-    41	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Rob
