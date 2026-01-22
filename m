@@ -1,282 +1,297 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE82B43DA5C
-	for <arm-scmi@vger.kernel.org>; Wed, 21 Jan 2026 22:30:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A3A34B18E
+	for <arm-scmi@vger.kernel.org>; Thu, 22 Jan 2026 01:16:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769034641; cv=none; b=PD2FXtB+2Phr3akaBwwKQqQn/IhVkfyVWt0BIKCB8jL8DMsiEBVuyDPtryCun8q7GYxRG2zkyOtNqtlg499cKa+GX8WTkA0KwHudKFe3G7UY+1TM7ySBUDD6+v3RPvW6PFLcxYhQf47tbBw4FIsWOYKLZYJS3u5rDMMsjxpYI3k=
+	t=1769044574; cv=none; b=tqoz3FYGTD+BD13t9iKva8tmPKRuSrtB3m2OgSnCJPKuWMNWMrJ0Ql7+hKWpJH1rpOB7oWRkKxxvCMap7Qmnv4G7ZJMoRicgVgYx5FELk0JAR64KpFP1z1TPhrnoqr79N55fnyVL09aPM2+/aSzUqmawwLAvOlUrRyOuOPrAIWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769034641; c=relaxed/simple;
-	bh=5hFp/21h+uLKVO4+mY8xnOdOPowH5bBJcZ1ykjeIhj0=;
+	s=arc-20240116; t=1769044574; c=relaxed/simple;
+	bh=jqqaW2BxxsmEU0aFqYQDCxb3LGBQ3x2DI42L84wdJmU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=jIwZhKYxC256dejajWDSrIRGVWw7njPvyg0uUaYX85DruUjBy2L7PIBSazXKhhJ0Vl0q+Ch1QaDiBLshV7J627nbCxi/yq664O8P4DWhcVlxckHQS3xBqzBB+DrsmB2kd4c3Fvft2YMa4wUvHK9ajpDoB47064osA/UiYuds3Vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=qeX4Fk0w; arc=none smtp.client-ip=209.85.215.182
+	 MIME-Version:Content-Type; b=rU7/Cb/mwBj3ySliuxIMhglfH0kIAFd45Z1vO2/2Vg45YP2D57WXojVx1SxCgt7zlcLaeXMN2S3UEErUcBhPkZrAa3/2rsMcPtltjIRnYbyJzxjy4fnjta9szqi8sLLxicCyrX78v6qSvtoZN6pR8G8AkkaPDGdZCcotDaNflFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=zym84CyM; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="qeX4Fk0w"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c2dc870e194so101694a12.2
-        for <arm-scmi@vger.kernel.org>; Wed, 21 Jan 2026 14:30:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="zym84CyM"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-8217f2ad01eso434557b3a.2
+        for <arm-scmi@vger.kernel.org>; Wed, 21 Jan 2026 17:16:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1769034629; x=1769639429; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0tJn68TPaZpkJplzkCMANwUW6ksbuIjJy5fmGVUej7o=;
-        b=qeX4Fk0wDQVMKCAh2knuAbShU42j6Jd4UrWys/czYRdO4G7p04UA7niSbGcnM/MEex
-         KnPHKvjmwxyZN057ahC53TJttUlHDQffXqhtG21AamEyklD9/rno3M09oGYU/yzKKgHm
-         xnKAGIThS7k/q7L65EfkNwDnoS35YbpSgijdHBMFz4GaF6ew7Y66mO26HgoAZVUQuF3a
-         aKqr3swHcMeMUReUJkjISKR9UHZSrXzdZrxefsMdRxEx9oO2954dpxpgD4n7vfxFCMBK
-         GwFT19YFS/uNfo7tPn7MATY8Y6Ov5FhSTP4WwbZUYbHqruVeenGtk5Oe0UhszPg81VBi
-         RP3A==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1769044564; x=1769649364; darn=vger.kernel.org;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lGeSjZ9YQbprMhk0/2IWvvFkHe84g+iu/Za5NoKtD6w=;
+        b=zym84CyMNg7Hs8dMw9BMItXV/qGhaIHmkwTxxf59rVH3tNarStBAj788ED1922nbxt
+         XZ0TUXp1xbgiLXay+gGPK+vWnk5GjJNOGBit7yEpSctF5wN8FTqMmJ3Oa0FWmtGetiIT
+         KCjEPe0swzwaUGyLz5fMzKtp5Q/Wqfrqj0usItPvXbGhU1KOZWXnf67VeA3eztDX299M
+         p2xZfqD5JskebXb1ZWc8kyAwkrn5MEEcHweZl/b1F/DughLcWtoUmAg9mAi4nwH1TdYG
+         +Wl1QWl1ldkBNrrz/R9vZeIYB+DnDp130pCyasL6PPabHmD0RoIC7ukMvRMH7rKhF+92
+         aeLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769034629; x=1769639429;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=0tJn68TPaZpkJplzkCMANwUW6ksbuIjJy5fmGVUej7o=;
-        b=vTtQGVy1QCOI1h4+KvbitwPrrQHQBEEnfI9NsJ5XnNM4fx/B22DJegR9JdoFK7Uhd7
-         g5S7laLnv7k9VoImeuVKOkoa+lc9zldPNzEsiV7tWlzKv1FJ+DpzDxpa8FIrlg3S3Jlv
-         6TvNPhBvZDFVgfwLpLOhjeHgEcJqY+2VzLevGXJspDqUCAdN4QNQv81Z+UQ7Pf92MCZ9
-         mdhutwQFQXdSy80k45Fdc4JXd8VstTh9xEfdH/8B9xuZKmv+4uqvXtRh0wZc6jnLBqaO
-         0gWtFgwNb1Tp5yaHZg8h6cSBd336rLZTMe7qX+qjrfZqdUD2DefKzeVR+rKERiC+6sFr
-         bMBw==
-X-Forwarded-Encrypted: i=1; AJvYcCXDHgO2qSyNGQBS4UvwaQefV1+YbwH5rFoKNIpplP6iMvVtppqcw9NdxC7+65H2mlUN73/mdjEB2w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVplVsbuFXdfhOu17Ho/fuOVh8Fig0LH8d2gbuUSiGOXZbmXLQ
-	ku9h2S5cGcrS3hpMzPf3C+708RPmsg6JkHsS8L4cUzHFxP85+4scfsHWX/etsRiKdII=
-X-Gm-Gg: AZuq6aJedBuNUAHv76jOARAduwILQs3hxP1Al2+48m8FMYmtP3WOIAy0FYZJUgBYeO1
-	aMTbCmrXTb8IT1PwyHhMvG+p5gBt3+kmbKag5VOWaurZHep1xDwsJQwZ3ZQnHSROK24C2oLfjx6
-	p7BwXO7dD2JQUKRNJfGAw5Cn8AHimSKirOFJ1wil8D2XJI/17ktfSdufP0gwrU2e9rn61VjTqsW
-	qTQ+YWlsIjNZNHBCVPdGbIYMf2GC8azW1mraqmVhC27JAPWgwfcWq1NK1S/E+Yl9jeGulwTqZqL
-	yVQu3Tcd383hyYdbE5vJPwtNDD5kAP2OnDBcKnUc+ChEkqtdg9laz4y4YFKq5QeNOUih/bNmHpB
-	yIKSpQpEkq/K9mkHhrQExgT5wyl+NcKnSxp2OZHirvHpqMe+qMzczDf9fE/dATBNag72Q4ETTiJ
-	P3stmgILqp
-X-Received: by 2002:a17:90b:3889:b0:340:d511:e164 with SMTP id 98e67ed59e1d1-352c4045646mr5200916a91.19.1769034629307;
-        Wed, 21 Jan 2026 14:30:29 -0800 (PST)
+        d=1e100.net; s=20230601; t=1769044564; x=1769649364;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lGeSjZ9YQbprMhk0/2IWvvFkHe84g+iu/Za5NoKtD6w=;
+        b=sOxV5fTl6HCj6y9yly1wSbDgwJLhdT6+5MOcqHf2ebqh6C7RQYYlHNyLkM+R+3IfFT
+         LFLyqaUjXD2Fru7hx9nQSTB+4/bzfppyzpoVgEScKXj9WElZ7CKmiEf7enMUi42NeriO
+         cYkCoh4BPrkDnG5V3TZwoyttVPc/C7L4AJ1Ynz6saQBL+YqXRmJEdEkEpOwFeEffEZZS
+         gOFr2u5osdErH46xhTFRtoczuqmRUo66/H7ZoNJJlPzQUYW4gVo+wIvSBn3Ck0n4RGde
+         PsThRXH628DH0mgy512ARnAirHffsg73hlb1VfRjB9J2kHjKcm1DdHf/+vYzJxpqze9j
+         d9Eg==
+X-Forwarded-Encrypted: i=1; AJvYcCW6AGw/5sg2rg0FVokDufBrMgBTop3BtHNXhbM7v10ilFe/A0TINKkQof8QPCins13esKgapnCfVQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVlQgmJhCpgoujA2w2NjHByjE6enMzKCqMPUlR1YUIpROpFKnB
+	wA1A9Wlwnmw0Ok8Dsg223qMQZH0wOW3GoVnAz2MhTJoLgC2gQVdTsNxqrIAarpSZ1LM=
+X-Gm-Gg: AZuq6aKheZ1d/dXu+eQ5n3dX/PrW/8OmmVmewdrqa/9S4zyw/gOzNmXQKTmgkJwYNrq
+	EB66kz2u715n07f12QIx9IZILSqUVfSkKhJfJfLYY3XmAQQUzd6gibwkQGgFif+ZYWRPvWAKbQN
+	QCxT2KafB+/cz9uKP3AMxC95iUtLxVG4ZNMe8DMH8X3XjJdOFXGET2RX4+b69melY+Y3onwGTP0
+	hvTNOjXQOL7/TkQs5eRDB4Ew/+Le8gFBWcwmzx0FMwkdwColXqEL2knBKeIumVQ3w0Xd+iVH1qH
+	8Yp1cvzHMn+ryajsX3sOwqoNTtChvq9H95GoHiTpOGwTgjI/L4doqstLyuLUYv4IZF336AHfxOI
+	XdpvRMAoHfrgh5eA4kRt6ERrM4JtY+grvmCy9akPv8XLB0i7PfN71CXc0DWxwpphNzn36CwUf6D
+	o9RPHR1SCI
+X-Received: by 2002:a05:6a00:27a3:b0:821:81ef:5dec with SMTP id d2e1a72fcca58-82181ef6acdmr1855521b3a.8.1769044563642;
+        Wed, 21 Jan 2026 17:16:03 -0800 (PST)
 Received: from localhost ([71.212.200.220])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35335229834sm489801a91.9.2026.01.21.14.30.28
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81fa108b21fsm16266577b3a.13.2026.01.21.17.16.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jan 2026 14:30:28 -0800 (PST)
+        Wed, 21 Jan 2026 17:16:03 -0800 (PST)
 From: Kevin Hilman <khilman@baylibre.com>
-To: Rob Herring <robh@kernel.org>, Herve Codina <herve.codina@bootlin.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-pm@vger.kernel.org, arm-scmi@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC] of: Add of_parse_map_iter() helper for nexus node
- map iteration
-In-Reply-To: <CAL_Jsq+2sFzQb8j5bBWbwgyYn5apLTfWOTZW3+9n74uVyph16A@mail.gmail.com>
-References: <20251119-topic-lpm-of-map-iterator-v6-18-v1-1-1f0075d771a3@baylibre.com>
- <CAL_Jsq+2sFzQb8j5bBWbwgyYn5apLTfWOTZW3+9n74uVyph16A@mail.gmail.com>
-Date: Wed, 21 Jan 2026 14:30:28 -0800
-Message-ID: <7hwm1ay4xn.fsf@baylibre.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+ arm-scmi@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC v4 1/2] pmdomain: core: support domain hierarchy via
+ power-domain-map
+In-Reply-To: <CAPDyKFoU10ASgtXVUiCyj+rWehkMhkX=w=W1ieTksPdpskUN0Q@mail.gmail.com>
+References: <20251119-pmdomain-hierarchy-onecell-v4-0-f25a1d5022f8@baylibre.com>
+ <20251119-pmdomain-hierarchy-onecell-v4-1-f25a1d5022f8@baylibre.com>
+ <CAPDyKFoU10ASgtXVUiCyj+rWehkMhkX=w=W1ieTksPdpskUN0Q@mail.gmail.com>
+Date: Wed, 21 Jan 2026 17:16:02 -0800
+Message-ID: <7hpl72wip9.fsf@baylibre.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Rob Herring <robh@kernel.org> writes:
+Ulf Hansson <ulf.hansson@linaro.org> writes:
 
-> +Herve
->
-> On Wed, Nov 19, 2025 at 6:41=E2=80=AFPM Kevin Hilman (TI.com)
+> On Thu, 20 Nov 2025 at 01:58, Kevin Hilman (TI.com)
 > <khilman@baylibre.com> wrote:
 >>
->> Add a new helper function of_parse_map_iter() to iterate over nexus
->> node maps (c.f. DT spec, section 2.5.1.)
+>> Add of_genpd_add_subdomain_map() helper function to support
+>> hierarchical PM domains defined by using power-domains-map
+>> property (c.f. nexus node maps in DT spec, section 2.5.1).
 >>
->> This function provides an iterator interface for traversing map
->> entries, handling the complexity of variable-sized entries based on
->> <stem>-cells properties, as well as handling the <stem>-skip and
->> <stem>-pass-thru properties.
+>> This enables PM domain providers with #power-domain-cells > 0 to
+>> establish subdomain relationships via the power-domain-map property,
+>> which was not previously possible.
 >>
->> RFC: There's a lot of overlap between this function and
->> of_parse_phandle_with_args_map().  However the key differences are:
+>> This new helper function
+>> - uses an OF helper to iterate to over entries in power-domain-map
+>> - For each mapped entry: extracts child specifier, resolves parent phandle,
+>>   extracts parent specifier args, and establishes subdomain relationship
+>> - Uses genpd_add_subdomain() with proper gpd_list_lock mutex protection
 >>
->>   - of_parse_phandle_with_args_map() does matching
->>     it searches for an entry that matches specific child args
->>   - of_parse_map_iter() does iteration
->>     it simply walks through all entries sequentially
->
-> There's also this in flight for interrupt-map:
->
-> https://lore.kernel.org/all/20251027123601.77216-2-herve.codina@bootlin.c=
-om/
->
-> There's probably enough quirks with interrupt-map that we can't use
-> the same code. Though it may boil down to handling #address-cells and
-> how the parent is looked up.
-
-Yeah, as Herve pointed out[1], the interrupt-map has enough quirks that
-a generic parser isn't going to work.
-
->> There are likely ways to extract some shared code between these two
->> functions into some shared helpers, but I'm hoping someone more
->> familiar with this OF code can help here.
->
-> I would expect of_parse_phandle_with_args_map() could be implemented
-> in terms of the iterator.
-
-OK, let's first get the iterator implementation figured out, and then we
-can see if that can be implemented by the iterator.
-
->> However, before refactoring the shared code, it would be good to have
->> some feedback on this approach.
+>> Example from k3-am62l.dtsi:
 >>
->> Signed-off-by: Kevin Hilman (TI.com) <khilman@baylibre.com>
->> ---
->>  drivers/of/base.c  | 167 ++++++++++++++++++++++++++++++++++++++++++++++=
-++++++
->>  include/linux/of.h |  13 ++++
->>  2 files changed, 180 insertions(+)
+>>   scmi_pds: protocol@11 {
+>>       #power-domain-cells = <1>;
+>>       power-domain-map = <15 &MAIN_PD>,  /* TIMER0 */
+>>                          <19 &WKUP_PD>;  /* WKUP_TIMER0 */
+>>   };
 >>
->> diff --git a/drivers/of/base.c b/drivers/of/base.c
->> index 7043acd971a0..bdb4fde1bfa9 100644
->> --- a/drivers/of/base.c
->> +++ b/drivers/of/base.c
->> @@ -1594,6 +1594,173 @@ int of_parse_phandle_with_args_map(const struct =
-device_node *np,
->>  }
->>  EXPORT_SYMBOL(of_parse_phandle_with_args_map);
+>>   MAIN_PD: power-controller-main {
+>>       #power-domain-cells = <0>;
+>>   };
 >>
->> +/**
->> + * of_parse_map_iter() - Iterate through entries in a nexus node map
->> + * @np:                        pointer to a device tree node containing=
- the map
->> + * @stem_name:         stem of property names (e.g., "power-domain" for=
- "power-domain-map")
->> + * @index:             pointer to iteration index (set to 0 for first c=
-all)
->> + * @child_args:                pointer to structure to fill with child =
-specifier (can be NULL)
->> + * @parent_args:       pointer to structure to fill with parent phandle=
- and specifier
->> + *
->> + * This function iterates through a nexus node map property as defined =
-in DT spec 2.5.1.
->> + * Each map entry has the format: <child_specifier phandle parent_speci=
-fier>
->> + *
->> + * On each call, it extracts one map entry and fills child_args (if pro=
-vided) with the
->> + * child specifier and parent_args with the parent phandle and specifie=
-r.
->> + * The index pointer is updated to point to the next entry for the foll=
-owing call.
->> + *
->> + * Example usage::
->> + *
->> + *  int index =3D 0;
->> + *  struct of_phandle_args child_args, parent_args;
->> + *
->> + *  while (!of_parse_map_iter(np, "power-domain", &index, &child_args, =
-&parent_args)) {
->> + *      // Process child_args and parent_args
->> + *      of_node_put(parent_args.np);
->> + *  }
->> + *
->> + * Caller is responsible for calling of_node_put() on parent_args.np.
->> + *
->> + * Return: 0 on success, -ENOENT when iteration is complete, or negativ=
-e error code on failure.
->> + */
->> +int of_parse_map_iter(const struct device_node *np,
->> +                      const char *stem_name,
->> +                      int *index,
->> +                      struct of_phandle_args *child_args,
->> +                      struct of_phandle_args *parent_args)
->> +{
->> +       char *cells_name __free(kfree) =3D kasprintf(GFP_KERNEL, "#%s-ce=
-lls", stem_name);
->> +       char *map_name __free(kfree) =3D kasprintf(GFP_KERNEL, "%s-map",=
- stem_name);
->> +       char *mask_name __free(kfree) =3D kasprintf(GFP_KERNEL, "%s-map-=
-mask", stem_name);
->> +       char *pass_name __free(kfree) =3D kasprintf(GFP_KERNEL, "%s-map-=
-pass-thru", stem_name);
->> +       static const __be32 dummy_mask[] =3D { [0 ... MAX_PHANDLE_ARGS] =
-=3D cpu_to_be32(~0) };
->> +       static const __be32 dummy_pass[] =3D { [0 ... MAX_PHANDLE_ARGS] =
-=3D cpu_to_be32(0) };
->> +       const __be32 *map, *mask, *pass;
->> +       __be32 child_spec[MAX_PHANDLE_ARGS];
->> +       u32 child_cells, parent_cells;
->> +       int map_len, i, entry_idx;
->> +
->> +       if (!np || !stem_name || !index || !parent_args)
->> +               return -EINVAL;
->> +
->> +       if (!cells_name || !map_name || !mask_name || !pass_name)
->> +               return -ENOMEM;
->> +
->> +       /* Get the map property */
->> +       map =3D of_get_property(np, map_name, &map_len);
->> +       if (!map)
->> +               return -ENOENT;
->> +
->> +       map_len /=3D sizeof(u32);
->> +
->> +       /* Get child #cells */
->> +       if (of_property_read_u32(np, cells_name, &child_cells))
->> +               return -EINVAL;
->> +
->> +       /* Get the mask property (optional) */
->> +       mask =3D of_get_property(np, mask_name, NULL);
->> +       if (!mask)
->> +               mask =3D dummy_mask;
->> +
->> +       /* Get the pass-thru property (optional) */
->> +       pass =3D of_get_property(np, pass_name, NULL);
->> +       if (!pass)
->> +               pass =3D dummy_pass;
+>>   WKUP_PD: power-controller-main {
+>>       #power-domain-cells = <0>;
+>>   };
+>>
+>> This allows SCMI power domain 15 to become a subdomain of MAIN_PD, and
+>> domain 19 to become a subdomain of WKUP_PD.
 >
-> Generally the DT iterators need some state maintained, so there's an
-> init function to do all/most of the above and stash that into a state
-> struct for the iterator.
-
-OK, I'm assuming you're referring to of_phandle_iterator_init()?
-
->> +
->> +       /* Iterate through map to find the entry at the requested index =
-*/
->> +       entry_idx =3D 0;
->> +       while (map_len > child_cells + 1) {
->> +               /* If this is the entry we're looking for, extract it */
->> +               if (entry_idx =3D=3D *index) {
->> +                       /* Save masked child specifier for pass-thru pro=
-cessing */
->> +                       for (i =3D 0; i < child_cells && i < MAX_PHANDLE=
-_ARGS; i++)
->> +                               child_spec[i] =3D map[i] & mask[i];
->> +
->> +                       /* Extract child specifier if requested */
->> +                       if (child_args) {
->> +                               child_args->np =3D (struct device_node *=
-)np;
->> +                               child_args->args_count =3D child_cells;
->> +                               for (i =3D 0; i < child_cells && i < MAX=
-_PHANDLE_ARGS; i++)
->> +                                       child_args->args[i] =3D be32_to_=
-cpu(map[i]);
->> +                       }
->> +
->> +                       /* Move past child specifier */
->> +                       map +=3D child_cells;
->> +                       map_len -=3D child_cells;
->> +
->> +                       /* Extract parent phandle */
->> +                       parent_args->np =3D of_find_node_by_phandle(be32=
-_to_cpup(map));
->
-> Before you update the parent node, you need to put the previous parent.
+> Nitpick:
+> As long as possible, please use the terminology "parent-domain" and
+> "child-domain" and avoid "subdomain". There are a couple of cases of
+> this, in the code too, can you please update all of them?
 
 OK.
 
-Kevin
+>>
+>> Signed-off-by: Kevin Hilman (TI.com) <khilman@baylibre.com>
+>> ---
+>>  drivers/pmdomain/core.c   | 64 ++++++++++++++++++++++++++++++++++++++++++++++
+>>  include/linux/pm_domain.h |  9 +++++++
+>>  2 files changed, 73 insertions(+)
+>>
+>> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
+>> index 61c2277c9ce3..592e9126896c 100644
+>> --- a/drivers/pmdomain/core.c
+>> +++ b/drivers/pmdomain/core.c
+>> @@ -3483,6 +3483,70 @@ int of_genpd_parse_idle_states(struct device_node *dn,
+>>  }
+>>  EXPORT_SYMBOL_GPL(of_genpd_parse_idle_states);
+>>
+>
+> We need to add some description of the function here.
 
-[1] https://lore.kernel.org/all/20251125085521.451ea208@bootlin.com/
+OK.
+
+>> +int of_genpd_add_subdomain_map(struct device_node *np,
+>
+> Nitpick:
+> Hmm, either we should keep consistency with the name
+> "of_genpd_add_subdomain", according to what you propose - or we should
+> take the opportunity to move to use "child" in the name instead
+> (of_genpd_add_child_domain_map()).
+>
+> Sooner or later it would be nice if we could rename
+> of_genpd_add_subdomain() (and friends) to of_genpd_add_child_domain().
+>
+> No big deal at this point, I am fine with whatever name you decide to use.
+
+I will update the changelogs/comments/descriptions etc. to use
+parent/child, but I will leave subdomain in the function name since
+that's what all the other APIs use.  Then in a later cleanup step, we
+could rename the subdomain APIs to child APIs.
+
+>> +                              struct genpd_onecell_data *data)
+>> +{
+>> +       struct generic_pm_domain *genpd, *parent_genpd;
+>
+> Maybe use "child" and "parent" as variable names instead. This should
+> make the code a bit more clear.
+
+OK.
+
+>> +       struct of_phandle_args child_args, parent_args;
+>> +       int index = 0;
+>> +       int ret = 0;
+>> +       u32 child_index;
+>> +
+>> +       if (!np || !data)
+>> +               return -EINVAL;
+>> +
+>> +       /* Iterate through power-domain-map entries using the OF helper */
+>> +       while (!of_parse_map_iter(np, "power-domain", &index,
+>> +                                  &child_args, &parent_args)) {
+>> +               /* Extract the child domain index from the child specifier */
+>> +               if (child_args.args_count < 1) {
+>
+> This should be exactly 1, right?
+
+Hmm, I'm not sure exactly what you mean.  Are you suggesting this check
+should be "!= 1" instead of "< 1"?
+
+I think args_count should match #power-domain-cells.  So for SCMI, this
+should indeed be 1.  But if this function is used for other domains
+where #power-domain-cells is > 1, then the current check for "< 1" is
+correct.
+
+>> +                       of_node_put(parent_args.np);
+>> +                       ret = -EINVAL;
+>> +                       break;
+>
+> If we fail here, we should remove child domains that we added for the
+> earlier indexes in the while loop, rather than just bailing out.
+>
+> This applies to other error paths below too.
+
+Yeah, the current error handling isn't really in place (hence the RFC)
+but I will add it for the next version.
+
+I'm planning to take the approach that all children in the map have to
+be successfully added in order for this function to be considered
+successful.  If any of the children fail to get added (for any reason),
+then they all should be removed.
+
+This remove function will look *very* similar to the add function
+because it will have to parse the map (again), finding parent and child
+info and attempting to remove each child from the parent.
+
+At first, this seems pretty inefficient, but I think it's better than
+the add function being required to keep track of the state of which
+domains were successfully added.  Which gets even more complicated if
+there are multiple domains which use power-domain-map.
+
+So fora now, I plan to avoid tracking all that state, and have the
+remove function be a simple reversal of the add, but looping through the
+whole map, even if it fails to remove some items (because they may not
+have been added in the first place.)
+
+>> +               }
+>> +               child_index = child_args.args[0];
+>> +
+>> +               /* Validate child domain index */
+>> +               if (child_index >= data->num_domains) {
+>> +                       of_node_put(parent_args.np);
+>> +                       continue;
+>
+> I don't think we should just continue here, but instead treat this as an error.
+
+Yes.
+
+>> +               }
+>> +
+>> +               genpd = data->domains[child_index];
+>> +               if (!genpd) {
+>> +                       of_node_put(parent_args.np);
+>> +                       continue;
+>
+> Ditto.
+
+Yes.
+
+>> +               }
+>> +
+>> +               /* Get parent power domain from provider and establish subdomain relationship */
+>> +               mutex_lock(&gpd_list_lock);
+>> +
+>> +               parent_genpd = genpd_get_from_provider(&parent_args);
+>> +               if (IS_ERR(parent_genpd)) {
+>> +                       mutex_unlock(&gpd_list_lock);
+>> +                       of_node_put(parent_args.np);
+>> +                       ret = PTR_ERR(parent_genpd);
+>> +                       dev_err(&genpd->dev, "failed to get parent domain: %d\n", ret);
+>
+> Perhaps clarify the print by changing the text to state that we can't
+> find the parent's OF provider. If the print is needed at all.
+
+Print probably isn't needed at all, but just useful for development
+debug purposes.
+
+>> +                       break;
+>> +               }
+>> +
+>> +               ret = genpd_add_subdomain(parent_genpd, genpd);
+>> +               mutex_unlock(&gpd_list_lock);
+>> +               of_node_put(parent_args.np);
+>> +
+>> +               if (ret) {
+>> +                       dev_err(&genpd->dev, "failed to add as subdomain of %s: %d\n",
+>> +                               parent_genpd->name, ret);
+>> +                       break;
+>> +               }
+>> +
+>> +               dev_info(&genpd->dev, "added as subdomain of %s\n",
+>> +                       parent_genpd->name);
+>> +       }
+>> +
+>> +       return ret;
+>> +}
+>
+> Except for taking better care in the error path, it also looks like we
+> are missing a corresponding function to remove the child-domains that
+> was added with the above new function.
+>
+> Perhaps that function can be used in the error paths too?
+
+Yeah, I as describe above.  I will add that for the next version.
+
+Kevin
