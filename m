@@ -1,236 +1,180 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E192430E0D1;
-	Fri, 23 Jan 2026 11:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92E92248A5;
+	Sun, 25 Jan 2026 20:15:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769168642; cv=none; b=BvcKcpeZsbl8HQP/WRl4yxswSCWdIHq0dGe0Ya8NUgR9NFAhRumbtYcDlMY5jNI6dgizXIQg97nTKa1KJwZmVhFQjlETsx4R/cvD95JW+9TVwq9C5Z47gJOKUZcXQlrRpqVmo/UIM6dN/KDjcfncZkajvNXBWqB28ABdULstGII=
+	t=1769372152; cv=none; b=o5t748Nk/1SzVnKPL8Inrzr2VgiStdnLQ5X/11G/XqhA7oASQJXwq+mWuQZjtgTx4tXq9JDG5p9u9TTIzZG7KMPFkIZKAsHOGMjEN2b1cLwurDl1kmKIklMwNc63YZwP9RC5J9zS7TdvZHk+5uA0VE2hIgwMgn3sLqP7MxEmNw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769168642; c=relaxed/simple;
-	bh=RRgI10KOGT/uUrrk2t0+sW81QffSTCCG7/X2ZpsJt3M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B9F6F2KwhbOq1CS+vPb4DIIQEyDwrrYefW87Za2hBNVUm0H7goOHgyM0p9JHRI1GXYgOoBEfzKHU8VIArZOwdKfZrAZ9LG8y/3IAVLXHiVG+iGqiAcMjL6zRATeJZ7RrnknHNZflQpkNYEbLKnDc2rs6zMcv+gL2iT2n5pHieqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C041C1476;
-	Fri, 23 Jan 2026 03:43:52 -0800 (PST)
-Received: from [10.57.52.8] (unknown [10.57.52.8])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2637C3F632;
-	Fri, 23 Jan 2026 03:43:54 -0800 (PST)
-Message-ID: <3c6bddfd-a674-486c-add4-35ef93ec88c4@arm.com>
-Date: Fri, 23 Jan 2026 11:43:37 +0000
+	s=arc-20240116; t=1769372152; c=relaxed/simple;
+	bh=vNxC6UtTj1W10uEOM1GRQMoI9lpOlgXLjmJOV5jRTdg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eTWMmBOsqShU7xGvwr3AEYG/Xxgh+5+JtLMGyZz//3lTUhNxWVkC2aQ5rRWavKaygvtjDHRjw1uqkJ8Rx4tlaGVOy2nXjnySDzILIO1yBGrcWY/UhnwyQCf+RdTREgS/ADTThYCOhz8lstCEtS9+RXsIkVXwYTYILshqGueYmoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qH1wAXo1; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qH1wAXo1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 240E8C4CEF1;
+	Sun, 25 Jan 2026 20:15:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769372152;
+	bh=vNxC6UtTj1W10uEOM1GRQMoI9lpOlgXLjmJOV5jRTdg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qH1wAXo1pnlVRGhueNSahUtd7XIKbHY9J0IDJfGi6WgdDtCLTW8plx4GoL+1kqrCR
+	 jDDDDr4k4d1abxxt2fxw5l14wiMubK/I6yAGJF/U3ckwVhIDlsope7rkHWwyShE8su
+	 ocTqpUyQHed3fcB4pHkvRl6bA3XlORmy3VopGT/uYNPdHWzJg3jwK0z7RCvhx7zTk5
+	 nC66mNjzBlFE3EVKUei8ojuFqW96ubZDVos/3dLyQggA2Yb5BGNQMM/7c0Sl4kGtTq
+	 Cics6VKkxEKUF8JyklzgrwDNOaxJUzLG0Ete8hIe37oy8UrG4PVnXgcuYYSto7yptZ
+	 hYrTlXhQZiSgw==
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: soc@kernel.org
+Cc: arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Sudeep Holla <sudeep.holla@kernel.org>
+Subject: [PATCH] MAINTAINERS: Change Sudeep Holla's email address
+Date: Sun, 25 Jan 2026 20:15:45 +0000
+Message-ID: <20260125201545.3461463-1-sudeep.holla@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/17] firmware: arm_scmi: Use new Telemetry traces
-To: Cristian Marussi <cristian.marussi@arm.com>,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- arm-scmi@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Cc: sudeep.holla@arm.com, james.quinlan@broadcom.com, f.fainelli@gmail.com,
- vincent.guittot@linaro.org, etienne.carriere@st.com, peng.fan@oss.nxp.com,
- michal.simek@amd.com, dan.carpenter@linaro.org, d-gole@ti.com,
- jonathan.cameron@huawei.com, lukasz.luba@arm.com, philip.radford@arm.com,
- souvik.chakravarty@arm.com, elif.topuz@arm.com
-References: <20260114114638.2290765-1-cristian.marussi@arm.com>
- <20260114114638.2290765-8-cristian.marussi@arm.com>
-Content-Language: en-US
-From: Elif Topuz <elif.topuz@arm.com>
-In-Reply-To: <20260114114638.2290765-8-cristian.marussi@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Switch to my kernel.org email address going forward.
 
-Hi Cristian,
+Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
+---
+ .mailmap    |  3 ++-
+ MAINTAINERS | 22 +++++++++++-----------
+ 2 files changed, 13 insertions(+), 12 deletions(-)
 
-On 14/01/2026 11:46, Cristian Marussi wrote:
-> Track failed SHMTI accesses and received notifications.
-> 
-> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> ---
->  drivers/firmware/arm_scmi/telemetry.c | 57 ++++++++++++++++++++++-----
->  1 file changed, 48 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/firmware/arm_scmi/telemetry.c b/drivers/firmware/arm_scmi/telemetry.c
-> index 16bcdcdc1dc3..443e032a3553 100644
-> --- a/drivers/firmware/arm_scmi/telemetry.c
-> +++ b/drivers/firmware/arm_scmi/telemetry.c
-> @@ -25,6 +25,8 @@
->  #include "protocols.h"
->  #include "notify.h"
->  
-> +#include <trace/events/scmi.h>
-> +
->  /* Updated only after ALL the mandatory features for that version are merged */
->  #define SCMI_PROTOCOL_SUPPORTED_VERSION		0x10000
->  
-> @@ -1366,8 +1368,10 @@ static void scmi_telemetry_tdcf_blkts_parse(struct telemetry_info *ti,
->  
->  	/* Check for spec compliance */
->  	if (USE_LINE_TS(payld) || USE_BLK_TS(payld) ||
-> -	    DATA_INVALID(payld) || (PAYLD_ID(payld) != 0))
-> +	    DATA_INVALID(payld) || (PAYLD_ID(payld) != 0)) {
-> +		trace_scmi_tlm_access(0, "BLK_TS_INVALID", 0, 0);
->  		return;
-> +	}
->  
->  	/* A BLK_TS descriptor MUST be returned: it is found or it is crated */
->  	bts = scmi_telemetry_blkts_lookup(ti->ph->dev, &ti->xa_bts, payld);
-> @@ -1376,6 +1380,9 @@ static void scmi_telemetry_tdcf_blkts_parse(struct telemetry_info *ti,
->  
->  	/* Update the descriptor with the lastest TS*/
->  	scmi_telemetry_blkts_update(shmti->last_magic, bts);
-> +
-> +	trace_scmi_tlm_collect(bts->last_ts, (u64)payld,
-> +			       bts->last_magic, "SHMTI_BLK_TS");
->  }
->  
->  static void scmi_telemetry_tdcf_data_parse(struct telemetry_info *ti,
-> @@ -1393,8 +1400,10 @@ static void scmi_telemetry_tdcf_data_parse(struct telemetry_info *ti,
->  	/* Is thi DE ID know ? */
->  	tde = scmi_telemetry_tde_lookup(ti, de_id);
->  	if (!tde) {
-> -		if (mode != SCAN_DISCOVERY)
-> +		if (mode != SCAN_DISCOVERY) {
-> +			trace_scmi_tlm_access(de_id, "DE_INVALID", 0, 0);
->  			return;
-> +		}
->  
->  		/* In SCAN_DISCOVERY mode we allocate new DEs for unknown IDs */
->  		tde = scmi_telemetry_tde_get(ti, de_id);
-> @@ -1462,6 +1471,8 @@ static void scmi_telemetry_tdcf_data_parse(struct telemetry_info *ti,
->  		tde->last_ts = tstamp;
->  	else
->  		tde->last_ts = 0;
-> +
-> +	trace_scmi_tlm_collect(0, tde->de.info->id, tde->last_val, "SHMTI_DE_UPDT");
+Hi SoC Team,
 
-tde->last_ts instead of 0?
+Can you apply this directly ?
 
->  }
->  
->  static int scmi_telemetry_tdcf_line_parse(struct telemetry_info *ti,
-> @@ -1507,8 +1518,10 @@ static int scmi_telemetry_shmti_scan(struct telemetry_info *ti,
->  		fsleep((SCMI_TLM_TDCF_MAX_RETRIES - retries) * 1000);
->  
->  		startm = TDCF_START_SEQ_GET(tdcf);
-> -		if (IS_BAD_START_SEQ(startm))
-> +		if (IS_BAD_START_SEQ(startm)) {
-> +			trace_scmi_tlm_access(0, "MSEQ_BADSTART", startm, 0);
->  			continue;
-> +		}
->  
->  		/* On a BAD_SEQ this will be updated on the next attempt */
->  		shmti->last_magic = startm;
-> @@ -1520,18 +1533,25 @@ static int scmi_telemetry_shmti_scan(struct telemetry_info *ti,
->  
->  			used_qwords = scmi_telemetry_tdcf_line_parse(ti, next,
->  								     shmti, mode);
-> -			if (qwords < used_qwords)
-> +			if (qwords < used_qwords) {
-> +				trace_scmi_tlm_access(PAYLD_ID(next),
-> +						      "BAD_QWORDS", startm, 0);
->  				return -EINVAL;
-> +			}
->  
->  			next += used_qwords * 8;
->  			qwords -= used_qwords;
->  		}
->  
->  		endm = TDCF_END_SEQ_GET(eplg);
-> +		if (startm != endm)
-> +			trace_scmi_tlm_access(0, "MSEQ_MISMATCH", startm, endm);
->  	} while (startm != endm && --retries);
->  
-> -	if (startm != endm)
-> +	if (startm != endm) {
-> +		trace_scmi_tlm_access(0, "TDCF_SCAN_FAIL", startm, endm);
->  		return -EPROTO;
-> +	}
->  
->  	return 0;
->  }
-> @@ -1923,6 +1943,8 @@ static void scmi_telemetry_scan_update(struct telemetry_info *ti, u64 ts)
->  			tde->last_ts = tstamp;
->  		else
->  			tde->last_ts = 0;
-> +
-> +		trace_scmi_tlm_collect(ts, tde->de.info->id, tde->last_val, "FC_UPDATE");
+Regards
+Sudeep
 
-tde->last_ts instead of ts?
+diff --git a/.mailmap b/.mailmap
+index 1873cfa15937..584876248c1f 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -779,7 +779,8 @@ Subash Abhinov Kasiviswanathan <quic_subashab@quicinc.com> <subashab@codeaurora.
+ Subbaraman Narayanamurthy <quic_subbaram@quicinc.com> <subbaram@codeaurora.org>
+ Subhash Jadavani <subhashj@codeaurora.org>
+ Sudarshan Rajagopalan <quic_sudaraja@quicinc.com> <sudaraja@codeaurora.org>
+-Sudeep Holla <sudeep.holla@arm.com> Sudeep KarkadaNagesha <sudeep.karkadanagesha@arm.com>
++Sudeep Holla <sudeep.holla@kernel.org> Sudeep KarkadaNagesha <sudeep.karkadanagesha@arm.com>
++Sudeep Holla <sudeep.holla@kernel.org> <sudeep.holla@arm.com>
+ Sumit Garg <sumit.garg@kernel.org> <sumit.garg@linaro.org>
+ Sumit Semwal <sumit.semwal@ti.com>
+ Surabhi Vishnoi <quic_svishnoi@quicinc.com> <svishnoi@codeaurora.org>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a0dd762f5648..17d9472e1f4e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -334,7 +334,7 @@ F:	tools/power/acpi/
+ ACPI FOR ARM64 (ACPI/arm64)
+ M:	Lorenzo Pieralisi <lpieralisi@kernel.org>
+ M:	Hanjun Guo <guohanjun@huawei.com>
+-M:	Sudeep Holla <sudeep.holla@arm.com>
++M:	Sudeep Holla <sudeep.holla@kernel.org>
+ L:	linux-acpi@vger.kernel.org
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ S:	Maintained
+@@ -350,7 +350,7 @@ F:	drivers/acpi/riscv/
+ F:	include/linux/acpi_rimt.h
+ 
+ ACPI PCC(Platform Communication Channel) MAILBOX DRIVER
+-M:	Sudeep Holla <sudeep.holla@arm.com>
++M:	Sudeep Holla <sudeep.holla@kernel.org>
+ L:	linux-acpi@vger.kernel.org
+ S:	Supported
+ F:	drivers/mailbox/pcc.c
+@@ -3677,7 +3677,7 @@ N:	uniphier
+ 
+ ARM/VERSATILE EXPRESS PLATFORM
+ M:	Liviu Dudau <liviu.dudau@arm.com>
+-M:	Sudeep Holla <sudeep.holla@arm.com>
++M:	Sudeep Holla <sudeep.holla@kernel.org>
+ M:	Lorenzo Pieralisi <lpieralisi@kernel.org>
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ S:	Maintained
+@@ -6506,7 +6506,7 @@ F:	drivers/i2c/busses/i2c-cp2615.c
+ 
+ CPU FREQUENCY DRIVERS - VEXPRESS SPC ARM BIG LITTLE
+ M:	Viresh Kumar <viresh.kumar@linaro.org>
+-M:	Sudeep Holla <sudeep.holla@arm.com>
++M:	Sudeep Holla <sudeep.holla@kernel.org>
+ L:	linux-pm@vger.kernel.org
+ S:	Maintained
+ W:	http://www.arm.com/products/processors/technologies/biglittleprocessing.php
+@@ -6602,7 +6602,7 @@ F:	include/linux/platform_data/cpuidle-exynos.h
+ 
+ CPUIDLE DRIVER - ARM PSCI
+ M:	Lorenzo Pieralisi <lpieralisi@kernel.org>
+-M:	Sudeep Holla <sudeep.holla@arm.com>
++M:	Sudeep Holla <sudeep.holla@kernel.org>
+ M:	Ulf Hansson <ulf.hansson@linaro.org>
+ L:	linux-pm@vger.kernel.org
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+@@ -9806,7 +9806,7 @@ F:	include/uapi/linux/firewire*.h
+ F:	tools/firewire/
+ 
+ FIRMWARE FRAMEWORK FOR ARMV8-A
+-M:	Sudeep Holla <sudeep.holla@arm.com>
++M:	Sudeep Holla <sudeep.holla@kernel.org>
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ S:	Maintained
+ F:	drivers/firmware/arm_ffa/
+@@ -10504,7 +10504,7 @@ S:	Maintained
+ F:	scripts/gendwarfksyms/
+ 
+ GENERIC ARCHITECTURE TOPOLOGY
+-M:	Sudeep Holla <sudeep.holla@arm.com>
++M:	Sudeep Holla <sudeep.holla@kernel.org>
+ L:	linux-kernel@vger.kernel.org
+ S:	Maintained
+ F:	drivers/base/arch_topology.c
+@@ -15089,7 +15089,7 @@ F:	drivers/mailbox/arm_mhuv2.c
+ F:	include/linux/mailbox/arm_mhuv2_message.h
+ 
+ MAILBOX ARM MHUv3
+-M:	Sudeep Holla <sudeep.holla@arm.com>
++M:	Sudeep Holla <sudeep.holla@kernel.org>
+ M:	Cristian Marussi <cristian.marussi@arm.com>
+ L:	linux-kernel@vger.kernel.org
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+@@ -23614,7 +23614,7 @@ F:	include/uapi/linux/sed*
+ SECURE MONITOR CALL(SMC) CALLING CONVENTION (SMCCC)
+ M:	Mark Rutland <mark.rutland@arm.com>
+ M:	Lorenzo Pieralisi <lpieralisi@kernel.org>
+-M:	Sudeep Holla <sudeep.holla@arm.com>
++M:	Sudeep Holla <sudeep.holla@kernel.org>
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ S:	Maintained
+ F:	drivers/firmware/smccc/
+@@ -25378,7 +25378,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git
+ F:	drivers/mfd/syscon.c
+ 
+ SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE (SCPI/SCMI) Message Protocol drivers
+-M:	Sudeep Holla <sudeep.holla@arm.com>
++M:	Sudeep Holla <sudeep.holla@kernel.org>
+ R:	Cristian Marussi <cristian.marussi@arm.com>
+ L:	arm-scmi@vger.kernel.org
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+@@ -26530,7 +26530,7 @@ F:	samples/tsm-mr/
+ 
+ TRUSTED SERVICES TEE DRIVER
+ M:	Balint Dobszay <balint.dobszay@arm.com>
+-M:	Sudeep Holla <sudeep.holla@arm.com>
++M:	Sudeep Holla <sudeep.holla@kernel.org>
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ L:	trusted-services@lists.trustedfirmware.org
+ S:	Maintained
+-- 
+2.43.0
 
->  	}
->  }
->  
-> @@ -2001,8 +2023,11 @@ static int scmi_telemetry_tdcf_de_parse(struct telemetry_de *tde,
->  		fsleep((SCMI_TLM_TDCF_MAX_RETRIES - retries) * 1000);
->  
->  		startm = TDCF_START_SEQ_GET(tdcf);
-> -		if (IS_BAD_START_SEQ(startm))
-> +		if (IS_BAD_START_SEQ(startm)) {
-> +			trace_scmi_tlm_access(tde->de.info->id, "MSEQ_BADSTART",
-> +					      startm, 0);
->  			continue;
-> +		}
->  
->  		/* Has anything changed at all at the SHMTI level ? */
->  		scoped_guard(mutex, &tde->mtx) {
-> @@ -2018,11 +2043,16 @@ static int scmi_telemetry_tdcf_de_parse(struct telemetry_de *tde,
->  		if (DATA_INVALID(payld))
->  			return -EINVAL;
->  
-> -		if (IS_BLK_TS(payld))
-> +		if (IS_BLK_TS(payld)) {
-> +			trace_scmi_tlm_access(tde->de.info->id,
-> +					      "BAD_DE_META", 0, 0);
->  			return -EINVAL;
-> +		}
->  
-> -		if (PAYLD_ID(payld) != tde->de.info->id)
-> +		if (PAYLD_ID(payld) != tde->de.info->id) {
-> +			trace_scmi_tlm_access(tde->de.info->id, "DE_INVALID", 0, 0);
->  			return -EINVAL;
-> +		}
->  
->  		/* Data is always valid since NOT handling BLK TS lines here */
->  		*val = LINE_DATA_GET(&payld->l);
-> @@ -2046,10 +2076,16 @@ static int scmi_telemetry_tdcf_de_parse(struct telemetry_de *tde,
->  		}
->  
->  		endm = TDCF_END_SEQ_GET(tde->eplg);
-> +		if (startm != endm)
-> +			trace_scmi_tlm_access(tde->de.info->id, "MSEQ_MISMATCH",
-> +					      startm, endm);
->  	} while (startm != endm && --retries);
->  
-> -	if (startm != endm)
-> +	if (startm != endm) {
-> +		trace_scmi_tlm_access(tde->de.info->id, "TDCF_DE_FAIL",
-> +				      startm, endm);
->  		return -EPROTO;
-> +	}
->  
->  	guard(mutex)(&tde->mtx);
->  	tde->last_magic = startm;
-> @@ -2230,6 +2266,9 @@ scmi_telemetry_msg_payld_process(struct telemetry_info *ti,
->  			tde->last_ts = LINE_TSTAMP_GET(&payld->tsl);
->  		else
->  			tde->last_ts = 0;
-> +
-> +		trace_scmi_tlm_collect(timestamp, tde->de.info->id, tde->last_val,
-> +				       "MESSAGE");
-
-tde->last_ts instead of timestamp? If I understand correctly, tde->last_ts
-corresponds to the time coming from the platform. We have kernel time anyway
-coming from ftrace format.
-
->  	}
->  }
->  
-
-Thanks,
-Elif
