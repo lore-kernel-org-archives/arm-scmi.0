@@ -1,148 +1,170 @@
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606B127AC45
-	for <arm-scmi@vger.kernel.org>; Tue,  3 Feb 2026 23:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B44A2BEFEB
+	for <arm-scmi@vger.kernel.org>; Sun,  8 Feb 2026 04:04:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770160377; cv=none; b=brBBNtzFiS5n4f4zSNaRZDURUXCsCVTkQDRzVV5ZCrX/LoU+u4YW2H+wLKhwgPQIgMx7Qc4eOl6Dm7mJyfPj12KuCxwD8Yu/RUtjnG8R9MfOs6jZSJNqTQwNJdRXoHawcJE/UfxWbpZtXyK7L6WPjsx+huQ/lUDGRR5GjPHe6bQ=
+	t=1770523443; cv=none; b=kV3KIyj3z+JfL85rJ9Ratbn2DyOGKZk/k9bBMULAbwqBEz3IaetVpZ2hNcSpLr09axlJHdWGIxiF7baHMjpO03FiFm3FAUQS/92kcrMbD9ETsacoeyEqO572dkaaKQWreyJGVI6zyeFGxPdUCFoFtaNCa1ii8urEeMw5wY17A9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770160377; c=relaxed/simple;
-	bh=b+6ezU8PaueXB2DpM+akcgePYGBcPLLporezIjuLT+g=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=p0IBhHluOyCPcnLUggn6/uEbPLdTY+kY0vAnZJhWFNEIuPxkf/0ZUplj6hLUFIKO87ZtonS7NbWbz61lqHLOrjtA0QNS51bME3qBOddlKOhucG8V6fUmwkgybePZQFL0It6GHCvp+vrgruXnZhCxgKQFfl6TBkDumsJHMW7C8rI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=gNFazDB1; arc=none smtp.client-ip=209.85.210.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1770523443; c=relaxed/simple;
+	bh=gVLYpM9coDM1ziPBdzZCYGdJwdE7dELsKzKbZ2xsotU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ibZKX1Eo/63syKK1FnxVjTcF5d5d+pSq8B1HnaryCjTDsdQEVmqDTWkqnOupf2VSDhGfDbKKM+/qxAmbbU1uvneEvQKLtbiU8Qd5L8qUYq6LlPht2ikODqvacqdbXSEy/U6P7RusHjz9rBRpKs90pbEcGWDURuyoAxcu6seI8sE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=P7qE1WmT; arc=none smtp.client-ip=74.125.82.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="gNFazDB1"
-Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-8220bd582ddso3683703b3a.2
-        for <arm-scmi@vger.kernel.org>; Tue, 03 Feb 2026 15:12:54 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="P7qE1WmT"
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1233c155a42so4195558c88.1
+        for <arm-scmi@vger.kernel.org>; Sat, 07 Feb 2026 20:04:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1770160374; x=1770765174; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hCOjNNMnUuznv6tosNTA/iIRiTXu2wBeg3Ia+sthXnc=;
-        b=gNFazDB1fEFOxYJalqDLQnf2a9KU5UxQM/7PkxkGtDV1nok7eq3eZveSWzBoI8jd7w
-         3aAy7gNFXbkum1bc1XR7TP4nvkqBrlIBd1CI8VTkEVJkgPBK0+i/vdf+VIou32iFFDoF
-         3FwjHmPqRIRcFbvdKe2QqpAlMUsCTEjyv6esizdi+gglNAoTdyJ/niobMbs67Gm7UkUq
-         OgVkjl5lVs00rpiaKmLVRWhGiPFgOm10RJlOTgpv5DnIEHqWi2NkTgfPpAfyTSH3qq3d
-         QilVD2rfiBGOZ9K8pSZpLnQOaANb2d/Tw+ykFOpAjPBNuZcJ7rDAGbJjxZCqvqX8NgRj
-         8vgA==
+        d=chromium.org; s=google; t=1770523442; x=1771128242; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oUKaI1Jl6BOBoZBMk5DmhJ8i+x4ONVWqzInJUK5fe+o=;
+        b=P7qE1WmTEd5I37fInOyQx1w45mjLTo3qys+INfnu8t5IC9k+n6eN+ZAZ3b87UDXN2R
+         v1vJuuW32wtajMDyRxLYu5uO5V3+NEqo2KKby93w25FfGf47VyoRpWyBNa5sxkx60LU+
+         stMtq3lODGpYytxQofsfgc5yc+ToC+xJyk3qI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770160374; x=1770765174;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hCOjNNMnUuznv6tosNTA/iIRiTXu2wBeg3Ia+sthXnc=;
-        b=uheQFOI8c6pe2W3ZjO2sqUqA8FoI0/q/5xEgiF4o6MusVy38PE02kzOqmatRaSOaHu
-         flF/uVZwlZrZzd451n2ngVMj7w4bNf/7glQTB6zjBIhDAeQ46N61Moc/DaQUqV7RTHy1
-         jmNO8kYYzu4/33u9wwi1CPnBC3QI0+smKLRI6d2dD15on4rTSiiUaj3E8gg8ZPezICT3
-         5esbml4IlxQwwJ+KFpU+n+/rvWdW4yi9rcduZfP+RXt9aaBDKWaxegv6xsf47UFyfu/Q
-         F8owVatuWH1LBEVrjY4Wp5di/hZNWyAVmow4l3GKQ8xeFEdHQ/Juai/LtW8yWLpo6piq
-         ZL6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUdXaVo7+7vqUF16qT3ImPLH/bPTaYoCdF0BVtYU9A7mHbh1lld2sXlB7GkSYNHSY3Ymj9v9R8hcg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8aSCswKmT7abjhHmmHFa8hqcHQbhxWBThMAoDTEbVfW619kSE
-	J4PBNmwe0CbCFARGBoWmHWJWXeKPOMfcwmzeW+HZyJ7rIPhqvFNqh8FG1TWxkvntDzQ=
-X-Gm-Gg: AZuq6aJedEOgOJba3oYw1YI5W1DiV0W6qk/oT38h3sDKtVgzaVUQ1U+NGvDuFiQLQG+
-	TogvaQ5VmCaiUJrRMGmtNqHEWti5aOvCPxwkwcuJriAhPhWJiwahF2YQKgsrSpfjG21zqiq7cC5
-	Py0fEXrBILCgmFf0zOi2wknpxlM7zw5EKQ2G9jHhV/lrlMmwV7Wxrn1hPY8Yv8dYEhWmmapg3d9
-	e3QpHH9rSx0ULDvm3Pq+u28TnhnXtBQ0zpcmeEUD0vm/ZhoZjqdqBAFcy+F8+Kay/XpCkSB7O97
-	tdli9vbrie4vCrHYmplZzfF817pK+cA6FsB9yodBb/gfKBo589pffppJwbVnIN9a7zNkUlNwCrT
-	GTacoSM9C066+HxKTx4vYjjl7Ks9WHDyNasBwL52uXtVTKypngNY0WxxCPxhmOJmQZaapxkfY0c
-	/JykESF5VmLuwsgJCHka0=
-X-Received: by 2002:a05:6a20:9185:b0:366:58cc:b74b with SMTP id adf61e73a8af0-393720cfdddmr966865637.21.1770160374489;
-        Tue, 03 Feb 2026 15:12:54 -0800 (PST)
-Received: from localhost ([71.212.200.220])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c6c84c70e08sm321672a12.20.2026.02.03.15.12.53
+        d=1e100.net; s=20230601; t=1770523442; x=1771128242;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oUKaI1Jl6BOBoZBMk5DmhJ8i+x4ONVWqzInJUK5fe+o=;
+        b=Ez1mE+BIrHo9dbZWxbFEEA9owrQF8a6rE2VRvKO34+I1MrLOlk1MV5j+n9zyDEC2w5
+         2/5cXdhXzc5LubocPx8GnUcoFWxegtbbv5VXCiIRh4LSswe7o3C0MMVwAB7GQSYVNDn/
+         wjATB7CsPh4+lFQGVQ0JeDXgFPCnfJvgp6+YSIyE2IB28YH5PG4fGGkTmWAQdM+77g/G
+         65K0GJ3n/fsrA+uZMtTI2vTGytdDLG8HcHFn8B3Q7eShsccSTjNtoTnpxb5Pxo/gth+3
+         sLrauItjck0NXFts64V1RQ7R7BxeuypAvqql0O8vBw5cwVSnLAAhkvJ/a45Vo8DARtij
+         NNyg==
+X-Forwarded-Encrypted: i=1; AJvYcCW8N8fBQIbjFHC0OLFlQXuIdV7JKMkR7jwRRsxl0N96AMgIgyI1aNwiAMjOantMq0KwetcIE3qO0Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YweUa73I+ek8C7tYY5bdhlE0h+fLmft+bUA29g4/8zwQv1DiDxE
+	BLxAmQ0izWdovLx9aJYA1cAQgtwCf1ZbFPiQp8KtJD/Jl8+E1Zk8DtKdMotbnZufTA==
+X-Gm-Gg: AZuq6aKqpMgMY1y0TPlj7F3FXAxYD8K6I2A98ubu6t3e4o6kEZjk7/6/PKl9l5SnlCp
+	wEMLay1IrrO8jde48ECRHpIOU9hnZoK5EhkPSbF9oQF3kM5t9yet86g0TlkDz/+c0WsqdMzHAOF
+	Z4Yl0Lfiae19YRX3VXEiWEDOviLC5KuOZvNEaBBfCSV2MXyjN/EPFHlyXNYKChmqqy+Erp7H202
+	ZSOqC1Tawx74gKxeS2T8EdoQI+pZzwjsXCIMwRTdu4wuvKuKGvhso1pOohKvCVubo7yaCDpCJbn
+	Kn+gEkLTGXofTywg9pAlqvhlTAgQCMBFGhkn0HU9mFlaroQH8iAFkjwND7UZHwK0YbVzEvgbwwR
+	UmSTMg8/ybTC+8NEs7pW93SkJB9f+JE8wC4RdHI1G+67VRy+yTSLXlnh1ctUBEuw/C8Wv/FvHK9
+	KyBGJNfvy0R3DAuTrgwIgGoG250TUAuy8fXCIoH2K9zIndqTVV0wNizA0AAs9WKCvIpXK8VVk=
+X-Received: by 2002:a05:7022:6184:b0:123:2d38:928d with SMTP id a92af1059eb24-1270405aa72mr3860925c88.36.1770523442099;
+        Sat, 07 Feb 2026 20:04:02 -0800 (PST)
+Received: from dianders.sjc.corp.google.com ([2a00:79e0:2e7c:8:6d43:22d7:40eb:81e6])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-127041e61b9sm7085064c88.8.2026.02.07.20.03.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Feb 2026 15:12:53 -0800 (PST)
-From: Kevin Hilman <khilman@baylibre.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, Cristian Marussi
- <cristian.marussi@arm.com>, devicetree@vger.kernel.org,
- linux-pm@vger.kernel.org, arm-scmi@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH RFC v5 1/2] pmdomain: core: support domain hierarchy via
- power-domain-map
-In-Reply-To: <20260127151735.GA1699112-robh@kernel.org>
-References: <20260122-pmdomain-hierarchy-onecell-v5-0-76855ec856bd@baylibre.com>
- <20260122-pmdomain-hierarchy-onecell-v5-1-76855ec856bd@baylibre.com>
- <20260127151735.GA1699112-robh@kernel.org>
-Date: Tue, 03 Feb 2026 15:12:53 -0800
-Message-ID: <7hjywtzaiy.fsf@baylibre.com>
+        Sat, 07 Feb 2026 20:03:59 -0800 (PST)
+From: Douglas Anderson <dianders@chromium.org>
+To: jassisinghbrar@gmail.com
+Cc: Douglas Anderson <dianders@chromium.org>,
+	Frank.Li@nxp.com,
+	Santosh Shilimkar <ssantosh@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	andersson@kernel.org,
+	arm-scmi@vger.kernel.org,
+	cristian.marussi@arm.com,
+	festevam@gmail.com,
+	imx@lists.linux.dev,
+	jay.buddhabhatti@amd.com,
+	jonathanh@nvidia.com,
+	kernel@pengutronix.de,
+	konradybcio@kernel.org,
+	krzk@kernel.org,
+	lenb@kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	mathieu.poirier@linaro.org,
+	michal.simek@amd.com,
+	nm@ti.com,
+	rafael@kernel.org,
+	robh@kernel.org,
+	shawn.guo@linaro.org,
+	sudeep.holla@kernel.org,
+	tglx@kernel.org,
+	thierry.reding@gmail.com
+Subject: [PATCH v2 00/15] mailbox: Stop sending NULL mailbox messages
+Date: Sat,  7 Feb 2026 20:01:22 -0800
+Message-ID: <20260208040240.1971442-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.53.0.rc2.204.g2597b5adb4-goog
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Rob Herring <robh@kernel.org> writes:
+As talked about in the first patch in this series, passing NULL as the
+'mssg' argument to mbox_send_message() ends up causing confusion and
+quirky behavior inside the mailbox core. Despite this, there are a
+number of drivers that pass NULL.
 
-> On Thu, Jan 22, 2026 at 05:14:00PM -0800, Kevin Hilman (TI) wrote:
->> Add of_genpd_[add|remove]_subdomain_map() helper functions to support
->> hierarchical PM domains defined by using power-domains-map
->
-> power-domain-map. No 's'.
->
->> property (c.f. nexus node maps in DT spec, section 2.5.1).
->> 
->> This enables PM domain providers with #power-domain-cells > 0 to
->> establish subdomain relationships via the power-domain-map property,
->> which was not previously possible.
->> 
->> These new helper functions:
->> - uses an OF helper to iterate to over entries in power-domain-map
->> - For each mapped entry: extracts child specifier, resolves parent phandle,
->>   extracts parent specifier args, and establishes subdomain relationship
->> - Calls genpd_[add|remove]_subdomain() with proper gpd_list_lock mutex protection
->> 
->> Example from k3-am62l.dtsi:
->> 
->>   scmi_pds: protocol@11 {
->>       #power-domain-cells = <1>;
->>       power-domain-map = <15 &MAIN_PD>,  /* TIMER0 */
->>                          <19 &WKUP_PD>;  /* WKUP_TIMER0 */
->>   };
->> 
->>   MAIN_PD: power-controller-main {
->>       #power-domain-cells = <0>;
->>   };
->> 
->>   WKUP_PD: power-controller-main {
->>       #power-domain-cells = <0>;
->>   };
->> 
->> This allows SCMI power domain 15 to become a subdomain of MAIN_PD, and
->> domain 19 to become a subdomain of WKUP_PD.
->
-> One concern I have here is generally *-map is transparent meaning when 
-> you lookup <&scmi_pds 15>, &MAIN_PD is returned as the provider. It's 
-> also possible to have a map point to another map until you get to the 
-> final provider. The only way we have to support both behaviors is the 
-> consumer has to specify (i.e. with of_parse_phandle_with_args_map() vs. 
-> of_parse_phandle_with_args()), but the consumer shouldn't really know 
-> this detail.
->
-> Maybe a transparent map of power-domains would never make sense. IDK. If 
-> so, then there's not really any issue since the pmdomain core handles 
-> everyone the same way.
+It is plausible that some of the drivers passing NULL may have been
+taking advantage of the quirks of the mailbox core. Specifically, they
+may have been taking advantage that calling "tx_done" wasn't truly
+necessary for NULL messages (it was a noop) or that NULL messages were
+passed onto the mailbox controller right away without queuing.
 
-I don't really know enough about potential usage of maps to know if
-there's ever a usecase for transparent maps.  However, the problem I'm
-trying to solve is less about transparent maps, and more about
-describing hierarchy in a situation where "leaf" domains of the same
-type (e.g. SCMI) can have different parent domains.
+This series introduces a new API call: mbox_ring_doorbell(). The new
+API call tries to mimic the specific quirks that were helpful in the
+old behavior and it's expected to be a nearly drop-in replacement.
 
-When I first proposed this[1], I didn't use a map, but you suggested I
-try using a map[2].  So I'm not sure if I misunderstood what you
-proposed, or if now that you see it implemented, you're second guessing if
-the map is the right approach.
+There are some subtle differences between the new call and the old
+behavior, but it's expected that all of these differences are only for
+cases where the old behavior made little sense. The description of the
+first patch details these differences.
 
-Kevin
+The series attempts to convert all in-tree users to stop passing NULL
+for mssg. As per above, there are some slight differences in behavior.
+If any of the patches are causing problems, they can safely be
+reverted while debugging the problems. Eventually, all code should be
+converted over to stop passing NULL mssg.
 
-[1] https://lore.kernel.org/r/20250528-pmdomain-hierarchy-onecell-v1-1-851780700c68@baylibre.com
-[2] https://lore.kernel.org/r/20250528203532.GA704342-robh@kernel.org
+Changes in v2:
+- Instead of just documenting NULL, introduce a new function
+
+Douglas Anderson (15):
+  mailbox: Deprecate NULL mbox messages; Introduce mbox_ring_doorbell()
+  ACPI: PCC: Use mbox_ring_doorbell() instead of NULL message
+  firmware: arm_scmi: Use mbox_ring_doorbell() instead of NULL message
+  firmware: imx-dsp: Use mbox_ring_doorbell() instead of NULL message
+  firmware: tegra: bpmp: Use mbox_ring_doorbell() instead of NULL
+    message
+  irqchip/qcom-mpm: Use mbox_ring_doorbell() instead of NULL message
+  remoteproc: xlnx: Use mbox_ring_doorbell() instead of NULL message
+  rpmsg: qcom_glink_rpm: Use mbox_ring_doorbell() instead of NULL
+    message
+  rpmsg: glink: smem: Use mbox_ring_doorbell() instead of NULL message
+  rpmsg: qcom_smd: Use mbox_ring_doorbell() instead of NULL message
+  soc: qcom: aoss: Use mbox_ring_doorbell() instead of NULL message
+  soc: qcom: smp2p: Use mbox_ring_doorbell() instead of NULL message
+  soc: qcom: smsm: Use mbox_ring_doorbell() instead of NULL message
+  soc: ti: wkup_m3_ipc: Use mbox_ring_doorbell() instead of NULL message
+  drivers: firmware: xilinx: Use mbox_ring_doorbell() instead of NULL
+    message
+
+ drivers/acpi/acpi_pcc.c                       |  4 +-
+ .../firmware/arm_scmi/transports/mailbox.c    |  8 +-
+ drivers/firmware/imx/imx-dsp.c                |  2 +-
+ drivers/firmware/tegra/bpmp-tegra186.c        |  4 +-
+ drivers/irqchip/irq-qcom-mpm.c                |  2 +-
+ drivers/mailbox/mailbox.c                     | 82 ++++++++++++++++++-
+ drivers/remoteproc/xlnx_r5_remoteproc.c       |  2 +-
+ drivers/rpmsg/qcom_glink_rpm.c                |  3 +-
+ drivers/rpmsg/qcom_glink_smem.c               |  3 +-
+ drivers/rpmsg/qcom_smd.c                      | 13 +--
+ drivers/soc/qcom/qcom_aoss.c                  |  3 +-
+ drivers/soc/qcom/smp2p.c                      |  8 +-
+ drivers/soc/qcom/smsm.c                       |  8 +-
+ drivers/soc/ti/wkup_m3_ipc.c                  | 10 +--
+ drivers/soc/xilinx/zynqmp_power.c             |  2 +-
+ include/linux/mailbox_client.h                |  1 +
+ include/linux/mailbox_controller.h            |  4 +-
+ 17 files changed, 108 insertions(+), 51 deletions(-)
+
+-- 
+2.53.0.rc2.204.g2597b5adb4-goog
+
