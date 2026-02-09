@@ -1,43 +1,48 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B019C1C8603;
-	Mon,  9 Feb 2026 13:00:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C40B37E2F1;
+	Mon,  9 Feb 2026 15:40:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770642034; cv=none; b=kbbNsQ9K8rKbVKiorPP0eBn0V7Z1VX1YA2rUL/ZxA9kIRnN+DsW0GE+efMMWM2iclBhKGjIY5bG8vy3BEbxfifhSwPBqQSVdpxA56Pdgl/lx0c8E4G0mDRVNSBDk/i7U2KYjCSLR1CyOyRDJGWAXL4ODwSSHVbWuBHWrC1p2avo=
+	t=1770651620; cv=none; b=t8ipfRNmTOeLhKea6BwvHSDR2wUfN7Mc3TpjjmbhudDSmpgt3gF/pgBnQEjEZAO1BzXbjDpPCm9gpfWxDIoTNJx/CbJJzVXeS87Mo/x6TIHHDZOByRBhYYSmtqFBo6ZmC0LRNz1juww7Eruxht4HE5EsXVLMin6q5eSxFJhbR9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770642034; c=relaxed/simple;
-	bh=MqENoUlrZcSSK0UNEd5cVb/7bfOg7Y8qXBBaAL7dvvc=;
+	s=arc-20240116; t=1770651620; c=relaxed/simple;
+	bh=5DRu3dMpaADpDKLopx8dO5LEkVz+35Fl6LlXv05MFMY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ivCLFdxy3Jd5eSuG8RJ2XrmmKda2a7logGqC4hJLSboUOYyAQ12+vA6G1jRI+7xyWDYXBqx+p0oFzj6LleZSh9wv8wia09KZGybype+uW0/b1arfAwQJqXwJdDBPm169hQWHObh4McPLUwG27R/7c93Lpv0v9lLyaYX48qEGk7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9AB09339;
-	Mon,  9 Feb 2026 05:00:26 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DCACE3F740;
-	Mon,  9 Feb 2026 05:00:30 -0800 (PST)
-Date: Mon, 9 Feb 2026 13:00:23 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Marek Vasut <marek.vasut@mailbox.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>, arm-scmi@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] firmware: arm_scmi: Implement
- arm,no-completion-irq property
-Message-ID: <aYnaZ_SrH55LumeH@pluto>
-References: <20260117010241.186685-1-marek.vasut+renesas@mailbox.org>
- <20260117010241.186685-2-marek.vasut+renesas@mailbox.org>
- <aW5ifVcxVf6uux3m@pluto>
- <9175b8aa-18c6-4dc1-8904-c26fa1dc7428@mailbox.org>
- <aYm9Waibey1yG1o4@ninjato>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xd8sG7S6t7IWV/SNaOy9whrrQaDcq2LnzpPaEXkdJa9d1AcjApbyBrmC6V7KAhWNvLx/V81yWCfkyQXX6kkXR43a9Aq5BloxhNu8Wr2nQm6ujEvww6PHXGRgFnCaBPAeDfe5S401Z3jWCqRg+WJRsCPeGBeNiEihVm6tTeso2mg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E3giKneR; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E3giKneR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3742C116C6;
+	Mon,  9 Feb 2026 15:40:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770651620;
+	bh=5DRu3dMpaADpDKLopx8dO5LEkVz+35Fl6LlXv05MFMY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E3giKneRdTIS8o5HAfKsCgyA3Vk576TJHuj27G++WpF4bVwo8cqDkL6Qmv+VYPGZ8
+	 cuixX8S9UWdGdgfLNEhjWW+EobdUEmwbMpxPsUxHYKe2KuU+agUKPUb/oWYn35b27L
+	 +GtecYO4Men19p1sVRPAWK38hPds7C0lkC1Rq2OvR9enQA/5TK2AbLY7olteRNqLCq
+	 xJz0El8ZBaNm7AuLJLQxUx/LZGECtS+u6RnXBYid20/LgnxlvkWnspo+l0HdqD8tw6
+	 cj29zBhNWE9FTbRHQQ2HoCrzcD3K5DGDHNgsfMuP9tHFWAvFpfgDJ/z1ciUy6p6Lr2
+	 MqqCGfPCz2Nig==
+Date: Mon, 9 Feb 2026 09:40:15 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Douglas Anderson <dianders@chromium.org>
+Cc: jassisinghbrar@gmail.com, Frank.Li@nxp.com, arm-scmi@vger.kernel.org, 
+	cristian.marussi@arm.com, festevam@gmail.com, imx@lists.linux.dev, 
+	jay.buddhabhatti@amd.com, jonathanh@nvidia.com, kernel@pengutronix.de, 
+	konradybcio@kernel.org, krzk@kernel.org, lenb@kernel.org, linux-acpi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-remoteproc@vger.kernel.org, linux-tegra@vger.kernel.org, mathieu.poirier@linaro.org, 
+	michal.simek@amd.com, nm@ti.com, rafael@kernel.org, robh@kernel.org, 
+	s.hauer@pengutronix.de, shawn.guo@linaro.org, ssantosh@kernel.org, 
+	sudeep.holla@kernel.org, tglx@kernel.org, thierry.reding@gmail.com
+Subject: Re: [PATCH v2 01/15] mailbox: Deprecate NULL mbox messages;
+ Introduce mbox_ring_doorbell()
+Message-ID: <yotr3aia3gra4jmlykqadqwi45lphhdyx7tt4n5cdwcungfpbd@gns6bb6m3vmz>
+References: <20260208040240.1971442-1-dianders@chromium.org>
+ <20260207200128.v2.1.I600d04c0553f5c5ba39c2f92201da313aedfe746@changeid>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -46,40 +51,101 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aYm9Waibey1yG1o4@ninjato>
+In-Reply-To: <20260207200128.v2.1.I600d04c0553f5c5ba39c2f92201da313aedfe746@changeid>
 
-On Mon, Feb 09, 2026 at 11:56:25AM +0100, Wolfram Sang wrote:
-> Hi all,
+On Sat, Feb 07, 2026 at 08:01:23PM -0800, Douglas Anderson wrote:
+> The way the mailbox core behaves when you pass a NULL `mssg` parameter
+> to mbox_send_message() is a little questionable. Specifically, the
+> mailbox core stores the currently active message directly in its
+> `active_req` field. In at least two places it decides that if this
+> field is `NULL` then there is no active request. That means if `mssg`
+> is ever NULL it will cause the mailbox core to think is no active
+> request. The two places where it does this are:
 > 
-> > > > Implement new property arm,no-completion-irq, which sets all SCMI
-> > > > operation into poll mode. This is meant to work around uncooperative
-> > > > SCP implementations, which do not generate completion interrupts.
-> > > > This applies to mbox/shmem based implementations.
-> > > > 
-> > > > With this property set, such implementations which do not generate
-> > > > interrupts can be interacted with, until they are fixed to generate
-> > > > interrupts properly.
-> > > > 
-> > > > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> > > > ---
+> 1. When a client calls mbox_send_message(), if `active_req` is NULL
+>    then it will call the mailbox controller to send the new message
+>    even if the mailbox controller hasn't yet called mbox_chan_txdone()
+>    on the previous (NULL) message.
+> 2. The mailbox core will never call the client's `tx_done()` callback
+>    with a NULL message because `tx_tick()` returns early whenever the
+>    message is NULL.
 > 
-> ...
+> Though the above doesn't look like it was a conscious design choice,
+> it does have the benefit of providing a simple way to assert an
+> edge-triggered interrupt to the remote processor on the other side of
+> the mailbox. Specifically:
 > 
-> > > 
-> > > LGTM.
-> > > 
-> > > Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
-> > 
-> > Is there anything left to do with these patches, or can this now be picked
-> > up ?
+> 1. Like a normal edge-triggered interrupt, if multiple edges arrive
+>    before the interrupt is Acked they are coalesced.
+> 2. Like a normal edge-triggered interrupt, as long as the receiver
+>    (the remote processor in this case) "Ack"s the interrupt _before_
+>    checking for work and the sender (the mailbox client in this case)
+>    posts the interrupt _after_ adding new work then we can always be
+>    certain that new work will be noticed. This assumes that the
+>    mailbox client and remote processor have some out-of-band way to
+>    communicate work and the mailbox is just being used as an
+>    interrupt.
 > 
-> Would love to see this going in. I also work with the firmware which
-> needs this functionality.
+> Doing a `git grep -A1 mbox_send_message | grep NULL` shows 14 hits in
+> mainline today, but it's not 100% clear if all of those users are
+> relying on the benefits/quirks of the existing behavior.
+> 
+> Since the current NULL `mssg` behavior is a bit questionable but has
+> some benefits, let's:
+> 
+> 1. Deprecate the NULL behavior and print a warning.
+> 2. Add a new mbox_ring_doorbell() function that is very similar to the
+>    existing NULL `mssg` case but a tad bit cleaner.
+> 
+> The design of the new mbox_ring_doorbell() will be to maximize
+> compatibility with the old NULL `mssg` behavior. Specifically:
+> 
+> * We'll still pass NULL to the mailbox controller to indicate a
+>   doorbell.
+> * Doorbells will not be queued and won't have txdone.
+> * We'll call immediately into the mailbox controller when a doorbell
+>   is posted.
+> 
+> With the above, any mailbox clients that don't mix doorbells and
+> normal messages are intended to see no change in behavior when
+> switching to the new API. Using the new API, which officiall documents
+> that mbox_client_txdone() shouldn't be called for doorbells, does
+> allow us to remove those calls.
+> 
+> There are two differences in behavior between the old sending a NULL
+> message and the new mbox_ring_doorbell():
+> 
+> 1. If the mailbox controller returned an error when trying to send a
+>    NULL message, the old NULL message could have ended up being queued
+>    up in the core's FIFO. Now we will just return the error.
+> 2. If a client rings a doorbell while a non-doorbell message is in
+>    progress, previously NULL messages would have been "queued" in that
+>    case and now doorbells will be immediately posted.
+> 
+> I'm hoping that nobody was relying on either of the two differences.
+> In general holding NULL messages in the mailbox core's queue has odd
+> behavior and is hard to reason about. Hopefully it's reasonable to
+> assume nobody was doing this.
+> 
+> As mentioned above, it should be noted that it's now documented that
+> "txdone" shouldn't be called (by both mailbox drivers and clients) for
+> doorbells. That being said, in most cases it won't hurt since the
+> mailbox core will ignore the bogus "txdone". The only case where it's
+> critical for a mailbox controller not to call "txdone" for a doorbell
+> is when a mailbox channel mixes normal messages and doorbells and
+> cares about the txdone callback. Specifically, when you ring a
+> doorbell and immediately send a normal message, if the controller
+> calls "txdone" for the doorbell it could look as if the normal message
+> finished before it should have. This issue also would have happened
+> with the old NULL `mssg`, though.
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-I have not seen anymore push back around this, but I think it was late
-anyway to be picked up as an update for this cycle given that it was
-already -rc6 when the last series landed...so I guess it could picked up
-now for the next cycle ...but I have not checked with Sudeep..
+I like how this cleans up the logic hacks, but perhaps even more so how
+it takes a step towards cleaning up the mailbox API when it comes to
+expectations between client and provider implementations.
 
-Thanks,
-Cristian
+Reviewed-by: Bjorn Andersson <andersson@kernel.org>
+
+Regards,
+Bjorn
