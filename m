@@ -1,150 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61B523D291;
-	Mon,  9 Feb 2026 15:44:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948B51F3BA4;
+	Mon,  9 Feb 2026 16:20:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770651885; cv=none; b=IKcv29xwqug2o9Ie8zL7Ty83Ybc4b8J9tMhzogwuYg4NHWTbYCk7XwIDixE7AI/ciKrZmyU0rtIW1RZEWuBr5CRoMmpy7mbZjHP3ZiMqaCBKZF2vIQ2v6MV/5QIjPRKAr6hihaAoKizHTSGHugV3oX0IqGWFEsHKFUMUK4LhCqw=
+	t=1770654012; cv=none; b=tAr50h1X2+EicLLTitmVaNL5xI8xsTm5Ehb7Lx66X95IyUNIobzsq5Aiz6fckWx9Rvt62lAcom9eXKQ6sb9hT0stX0aUjQWwFUZ+SajQIBYj+XGw2K+NcWRqp3rxgsW23/1TOmv+fdln+5UbMCD1Czks/EM2dBw1mD0ROqBq0uQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770651885; c=relaxed/simple;
-	bh=GvM3s2O65gK18I39hGtyeztUQDYF3w7gL7m0UjnQuUU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sICuAvD+ucOq1JkqW14V96OzpJJIOLU8T50UnbXMvtW2nSAd5uxUlOfy4rOBEGqjtXcwnn07m4WbjF7N3e82+BA7HYriUHEyQ/amOU17Z9Bucqx1y6jcq7wlMEx+ICEaOGhxNG2Qd8nGWUr3CG4kum4TKKWKvU+CsbXCVAiI/FE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yg2EXP+I; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770654012; c=relaxed/simple;
+	bh=sRVcQwDVq6e2uWgaZQhS01lsXJcLMZ1Ppawm0dOnK5Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Tb9+ainQ4R7AcHwurN8VWDpsSv5u3TS71T4tVImtvEqcaJhk1YBjqRROZT+eEq0i+ojLvywqLVmA4YXmRRVFi3CP9ADOtQAIStFefMwv+cljPsNedJ2bDZmu7sNOSIVT+jp5cmZpv+oXNf3yNphC11j/rBfaoIdNhQE+MmJCz00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ToSjream; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yg2EXP+I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38CA3C116C6;
-	Mon,  9 Feb 2026 15:44:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770651885;
-	bh=GvM3s2O65gK18I39hGtyeztUQDYF3w7gL7m0UjnQuUU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Yg2EXP+ILq2Rn3fxB8/j/piTRYrTNUkCe+a83cTkPyC/FMaEilXcQdwkNVESBrANc
-	 +CdInaoIS/MEi5p3dfJ3ebMk2/T5IMoWCyUrKMVIj04Rq3O9+glJ9hnl6cVNjSXF1a
-	 oOR53ceZ6rAxbCL97uM5NF+OvseHqBDZ2G8xSUPWt50zgXUIvRPVrj+26TYdKfoKa4
-	 CbXq43fRfONLa4N/rneSu/jcaNFhR4QS5iVUJXNBftu2Yr1+44V/thLRp2t4CTrSLx
-	 RKzC5s64Tqlv9JQEdotMQAOrk9l6Q3sCsHARe2sp29lYyPvhunXwyBOvVi5+nR1dYk
-	 av29WcKbKYhSA==
-Date: Mon, 9 Feb 2026 15:44:39 +0000
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH v4 2/2] firmware: arm_scmi: Implement
- arm,no-completion-irq property
-Message-ID: <20260209-quixotic-offbeat-stork-f1d310@sudeepholla>
-References: <20260117010241.186685-1-marek.vasut+renesas@mailbox.org>
- <20260117010241.186685-2-marek.vasut+renesas@mailbox.org>
- <aW5ifVcxVf6uux3m@pluto>
- <9175b8aa-18c6-4dc1-8904-c26fa1dc7428@mailbox.org>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ToSjream"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4f8qfb4c8Zz9vGT;
+	Mon,  9 Feb 2026 17:20:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1770654007;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mheOQ3ZsEitKxTfDWvElUu/CWXpGhuWicvtisrl9azA=;
+	b=ToSjreamnbDhZ+ckfkQfh7To3b50S/SvtMGUmX6pm93aFO5cwtHPAEq7Ts5dgluYhbTY8Y
+	2VxCSwxAGp94nVVd6Q+p02EU/8sLw31Ab7k0aqRGo4ggkVrjTloPJ09KSG4aKovphv1EJ8
+	GN8KZs0gOGr6PjHPSWBGQRYVPt2aRQdEH+uIRtA0YllZIqxGGHR5agfsl28sxLnnphgDwD
+	fYPtmrY/owxlbA0RD+VFvGFC9i/TCJckbK9WFQPAkIHrB2r4CxBbO2trjLpxXXtD+QimS4
+	gRDm8THR4YWrIHq50fdTUfChWdPvq9Z7W9te2KaiFVuVtMilnD6z8ZvXiLt8Eg==
+Message-ID: <6ba32e90-9db9-49ab-886b-966e0aa171c4@mailbox.org>
+Date: Mon, 9 Feb 2026 17:19:59 +0100
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9175b8aa-18c6-4dc1-8904-c26fa1dc7428@mailbox.org>
+Subject: Re: [PATCH v4 2/2] firmware: arm_scmi: Implement
+ arm,no-completion-irq property
+To: Sudeep Holla <sudeep.holla@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+References: <20260117010241.186685-1-marek.vasut+renesas@mailbox.org>
+ <20260117010241.186685-2-marek.vasut+renesas@mailbox.org>
+ <aW5ifVcxVf6uux3m@pluto> <9175b8aa-18c6-4dc1-8904-c26fa1dc7428@mailbox.org>
+ <20260209-quixotic-offbeat-stork-f1d310@sudeepholla>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <20260209-quixotic-offbeat-stork-f1d310@sudeepholla>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: e1q3d1hmpyss1sw191f8k6td7mfr1fpp
+X-MBO-RS-ID: aff92f44e05a52bfbda
 
-On Mon, Feb 09, 2026 at 11:53:19AM +0100, Marek Vasut wrote:
-> On 1/19/26 5:57 PM, Cristian Marussi wrote:
-> > On Sat, Jan 17, 2026 at 02:02:29AM +0100, Marek Vasut wrote:
-> > > Implement new property arm,no-completion-irq, which sets all SCMI
-> > > operation into poll mode. This is meant to work around uncooperative
-> > > SCP implementations, which do not generate completion interrupts.
-> > > This applies to mbox/shmem based implementations.
-> > > 
-> > > With this property set, such implementations which do not generate
-> > > interrupts can be interacted with, until they are fixed to generate
-> > > interrupts properly.
-> > > 
-> > > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> > > ---
-> > > Cc: Conor Dooley <conor+dt@kernel.org>
-> > > Cc: Cristian Marussi <cristian.marussi@arm.com>
-> > > Cc: Florian Fainelli <florian.fainelli@broadcom.com>
-> > > Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> > > Cc: Rob Herring <robh@kernel.org>
-> > > Cc: Sudeep Holla <sudeep.holla@arm.com>
-> > > Cc: arm-scmi@vger.kernel.org
-> > > Cc: devicetree@vger.kernel.org
-> > > Cc: linux-arm-kernel@lists.infradead.org
-> > > Cc: linux-renesas-soc@vger.kernel.org
-> > > ---
-> > > V2: Drop no IRQ handling from SMC transport and update commit message
-> > > V3: Rename property from arm,poll-transport to arm,no-completion-irq
-> > > V4: No change
-> > > ---
-> > >   drivers/firmware/arm_scmi/common.h | 4 ++++
-> > >   drivers/firmware/arm_scmi/driver.c | 4 ++++
-> > >   2 files changed, 8 insertions(+)
-> > > 
-> > > diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-> > > index 7c35c95fddbaf..7c9617d080a02 100644
-> > > --- a/drivers/firmware/arm_scmi/common.h
-> > > +++ b/drivers/firmware/arm_scmi/common.h
-> > > @@ -235,6 +235,9 @@ struct scmi_transport_ops {
-> > >    *		      to have an execution latency lesser-equal to the threshold
-> > >    *		      should be considered for atomic mode operation: such
-> > >    *		      decision is finally left up to the SCMI drivers.
-> > > + * @no_completion_irq: Flag to indicate that this transport has no completion
-> > > + *		       interrupt and has to be polled. This is similar to the
-> > > + *		       force_polling below, except this is set via DT property.
-> > >    * @force_polling: Flag to force this whole transport to use SCMI core polling
-> > >    *		   mechanism instead of completion interrupts even if available.
-> > >    * @sync_cmds_completed_on_ret: Flag to indicate that the transport assures
-> > > @@ -254,6 +257,7 @@ struct scmi_desc {
-> > >   	int max_msg;
-> > >   	int max_msg_size;
-> > >   	unsigned int atomic_threshold;
-> > > +	bool no_completion_irq;
-> > >   	const bool force_polling;
-> > >   	const bool sync_cmds_completed_on_ret;
-> > >   	const bool atomic_enabled;
-> > > diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-> > > index 3e76a3204ba4f..f167194f7cf67 100644
-> > > --- a/drivers/firmware/arm_scmi/driver.c
-> > > +++ b/drivers/firmware/arm_scmi/driver.c
-> > > @@ -2735,6 +2735,7 @@ static int scmi_chan_setup(struct scmi_info *info, struct device_node *of_node,
-> > >   	cinfo->is_p2a = !tx;
-> > >   	cinfo->rx_timeout_ms = info->desc->max_rx_timeout_ms;
-> > >   	cinfo->max_msg_size = info->desc->max_msg_size;
-> > > +	cinfo->no_completion_irq = info->desc->no_completion_irq;
-> > >   	/* Create a unique name for this transport device */
-> > >   	snprintf(name, 32, "__scmi_transport_device_%s_%02X",
-> > > @@ -3150,6 +3151,9 @@ static const struct scmi_desc *scmi_transport_setup(struct device *dev)
-> > >   	if (ret && ret != -EINVAL)
-> > >   		dev_err(dev, "Malformed arm,max-msg DT property.\n");
-> > > +	trans->desc.no_completion_irq = of_property_read_bool(dev->of_node,
-> > > +							      "arm,no-completion-irq");
-> > > +
-> > >   	dev_info(dev,
-> > >   		 "SCMI max-rx-timeout: %dms / max-msg-size: %dbytes / max-msg: %d\n",
-> > >   		 trans->desc.max_rx_timeout_ms, trans->desc.max_msg_size,
-> > 
-> > LGTM.
-> > 
-> > Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
+On 2/9/26 4:44 PM, Sudeep Holla wrote:
+> On Mon, Feb 09, 2026 at 11:53:19AM +0100, Marek Vasut wrote:
+>> On 1/19/26 5:57 PM, Cristian Marussi wrote:
+>>> On Sat, Jan 17, 2026 at 02:02:29AM +0100, Marek Vasut wrote:
+>>>> Implement new property arm,no-completion-irq, which sets all SCMI
+>>>> operation into poll mode. This is meant to work around uncooperative
+>>>> SCP implementations, which do not generate completion interrupts.
+>>>> This applies to mbox/shmem based implementations.
+>>>>
+>>>> With this property set, such implementations which do not generate
+>>>> interrupts can be interacted with, until they are fixed to generate
+>>>> interrupts properly.
+>>>>
+>>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>>>> ---
+>>>> Cc: Conor Dooley <conor+dt@kernel.org>
+>>>> Cc: Cristian Marussi <cristian.marussi@arm.com>
+>>>> Cc: Florian Fainelli <florian.fainelli@broadcom.com>
+>>>> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+>>>> Cc: Rob Herring <robh@kernel.org>
+>>>> Cc: Sudeep Holla <sudeep.holla@arm.com>
+>>>> Cc: arm-scmi@vger.kernel.org
+>>>> Cc: devicetree@vger.kernel.org
+>>>> Cc: linux-arm-kernel@lists.infradead.org
+>>>> Cc: linux-renesas-soc@vger.kernel.org
+>>>> ---
+>>>> V2: Drop no IRQ handling from SMC transport and update commit message
+>>>> V3: Rename property from arm,poll-transport to arm,no-completion-irq
+>>>> V4: No change
+>>>> ---
+>>>>    drivers/firmware/arm_scmi/common.h | 4 ++++
+>>>>    drivers/firmware/arm_scmi/driver.c | 4 ++++
+>>>>    2 files changed, 8 insertions(+)
+>>>>
+>>>> diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
+>>>> index 7c35c95fddbaf..7c9617d080a02 100644
+>>>> --- a/drivers/firmware/arm_scmi/common.h
+>>>> +++ b/drivers/firmware/arm_scmi/common.h
+>>>> @@ -235,6 +235,9 @@ struct scmi_transport_ops {
+>>>>     *		      to have an execution latency lesser-equal to the threshold
+>>>>     *		      should be considered for atomic mode operation: such
+>>>>     *		      decision is finally left up to the SCMI drivers.
+>>>> + * @no_completion_irq: Flag to indicate that this transport has no completion
+>>>> + *		       interrupt and has to be polled. This is similar to the
+>>>> + *		       force_polling below, except this is set via DT property.
+>>>>     * @force_polling: Flag to force this whole transport to use SCMI core polling
+>>>>     *		   mechanism instead of completion interrupts even if available.
+>>>>     * @sync_cmds_completed_on_ret: Flag to indicate that the transport assures
+>>>> @@ -254,6 +257,7 @@ struct scmi_desc {
+>>>>    	int max_msg;
+>>>>    	int max_msg_size;
+>>>>    	unsigned int atomic_threshold;
+>>>> +	bool no_completion_irq;
+>>>>    	const bool force_polling;
+>>>>    	const bool sync_cmds_completed_on_ret;
+>>>>    	const bool atomic_enabled;
+>>>> diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+>>>> index 3e76a3204ba4f..f167194f7cf67 100644
+>>>> --- a/drivers/firmware/arm_scmi/driver.c
+>>>> +++ b/drivers/firmware/arm_scmi/driver.c
+>>>> @@ -2735,6 +2735,7 @@ static int scmi_chan_setup(struct scmi_info *info, struct device_node *of_node,
+>>>>    	cinfo->is_p2a = !tx;
+>>>>    	cinfo->rx_timeout_ms = info->desc->max_rx_timeout_ms;
+>>>>    	cinfo->max_msg_size = info->desc->max_msg_size;
+>>>> +	cinfo->no_completion_irq = info->desc->no_completion_irq;
+>>>>    	/* Create a unique name for this transport device */
+>>>>    	snprintf(name, 32, "__scmi_transport_device_%s_%02X",
+>>>> @@ -3150,6 +3151,9 @@ static const struct scmi_desc *scmi_transport_setup(struct device *dev)
+>>>>    	if (ret && ret != -EINVAL)
+>>>>    		dev_err(dev, "Malformed arm,max-msg DT property.\n");
+>>>> +	trans->desc.no_completion_irq = of_property_read_bool(dev->of_node,
+>>>> +							      "arm,no-completion-irq");
+>>>> +
+>>>>    	dev_info(dev,
+>>>>    		 "SCMI max-rx-timeout: %dms / max-msg-size: %dbytes / max-msg: %d\n",
+>>>>    		 trans->desc.max_rx_timeout_ms, trans->desc.max_msg_size,
+>>>
+>>> LGTM.
+>>>
+>>> Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
+>>
+>> Is there anything left to do with these patches, or can this now be picked
+>> up ?
+>>
 > 
-> Is there anything left to do with these patches, or can this now be picked
-> up ?
-> 
-
-As I had mentioned here[1], I am happy with it and I will pick it up for
-v7.1 once I start collecting the patches after v7.0-rc1. It just came in after
-I had sent my PR to SoC team for v7.0
-
--- 
-Regards,
-Sudeep
-
-[1] https://lore.kernel.org/all/aW5jwtoYCFs-Pzpk@bogus/
+> As I had mentioned here[1], I am happy with it and I will pick it up for
+> v7.1 once I start collecting the patches after v7.0-rc1. It just came in after
+> I had sent my PR to SoC team for v7.0
+OK, thank you
