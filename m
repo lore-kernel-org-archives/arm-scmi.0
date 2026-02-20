@@ -1,31 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5E1313555;
-	Fri, 20 Feb 2026 09:53:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781E8331A66
+	for <arm-scmi@vger.kernel.org>; Fri, 20 Feb 2026 09:55:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771581219; cv=none; b=nbXdP/sS37iK0pd0Q73WQ18bHqSiWqPXKCeWEK2s1qMZJPnRMIdmxyf7uxL1AHUEIrcOH7Re03SxH4vdSwE972upCwk98bcll9u3zIo5SOQW2erA3B4YJZKUusPN+SR43+88OXnxcLw9NzeRSPvUJQq6xnBefTBnVtZzJYpz5jc=
+	t=1771581323; cv=none; b=mvdIGwAJ+CsOxcn8QMuAM4UTY8fd+8th9dmODUaT20CNXp+B/8RycazHjc9/pqEtzjiKiwl6HGL0Ut+fwCbQiNzpcrZNL9WZOPHRvSiylBffXQ+uGGS9c+Bq2P8AYPZdyD6bKm2iS5+kdCd+8hMyim2wxU+z3s6R2/TigrjEBDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771581219; c=relaxed/simple;
-	bh=JROdh8NkTFwLwYX8OH5YVR9U6FFJhnS2Gf94RcaA0KU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=A/5poVBOwnQCQS7BilulSSy1vW23l+rLUWoEv2bOddbq1p7SrwFJujBmL6uwFdLPZRyjHJGQJpNn4wO7TqnF/ZcXhK09yGsPwQZ4Gm0+mxv0y73vW+3qmF8cDXbCHC2NSW21eN2ON7IXPyVM0nbP54uJS+95sibi4cfr1SAC/Hs=
+	s=arc-20240116; t=1771581323; c=relaxed/simple;
+	bh=bE3CXU5CT2TAjGkFruDLECyxzw1SWUQVgJIZhFl8h3g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hwXKdMJCgsnrGbTuopDURcTaCidQ/ieU1JjQ0/IlRfeB+4YcAR4c64b4LKNfdze3ByJi2ju+aa6ZGSmPY0z51MswU4vQAndTkASDMmp5jg5X6e6paI/ZhqYE9sPvHTURE47zXGLb2felLpxMaYNSuhSUYFkEhCOg3XIkLEGWXzM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 109A2C116C6;
-	Fri, 20 Feb 2026 09:53:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E202FC116C6;
+	Fri, 20 Feb 2026 09:55:21 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Etienne Carriere <etienne.carriere@foss.st.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>
+	Cristian Marussi <cristian.marussi@arm.com>
 Cc: arm-scmi@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/RFC] firmware: arm_scmi: Increase SCMI_MAX_NUM_RATES to 64
-Date: Fri, 20 Feb 2026 10:53:31 +0100
-Message-ID: <bc2b9f5e361f1c50e661aa80fe1c2bcfd93c9c56.1771580928.git.geert+renesas@glider.be>
+Subject: [PATCH] firmware: arm_scmi: Spelling s/mulit/multi/, s/currenly/currently/
+Date: Fri, 20 Feb 2026 10:55:15 +0100
+Message-ID: <6735401861e0c2f3e5e680533cd6f71c4d6fd5eb.1771581270.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -33,51 +29,35 @@ List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Currently, the SCMI clock driver supports up to 16 clock rates.
-However, the SCMI specification v3.2 does not explicitly specify the
-maximum number of clock rates that can be returned (the theoretical
-maximum is 4095 in the first call of the CLOCK_DESCRIBE_RATES command,
-followed by 65535 remaining rates in subsequent calls).
-
-In Renesas R-Car X5H SCP FW SDK v4.28.0, some clocks have 32 or 64
-rates, which are returned in blocks of maximum 27 entries.  When SCMI
-firmware returns more than 16 clock rates, Linux ignores all clock
-rates, this reducing functionality of the affected clocks.
-
-Fix this by increasing the maximum number of clock rates to 64.
+Fix misspellings of "multi" and "currently".
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-This does increase the size of each scmi_clock_info object by 384
-bytes, which is way too much on a system with nearly 2000 clocks.
-As currrently all scmi_clock_info structures are allocated together as a
-single array, the .rates[] member cannot just be converted to a flexible
-array, without splitting the allocation.
+ drivers/firmware/arm_scmi/protocols.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-An alternative solution would be to no longer store all rates, as
-proposed by Étienne Carrière in "[PATCH v2 1/2] firmware: arm_scmi: get
-only min/max clock rates"
-(https://lore.kernel.org/20241203173908.3148794-2-etienne.carriere@foss.st.com)
----
- include/linux/scmi_protocol.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
-index aafaac1496b06a6e..707f616d9fc9afbf 100644
---- a/include/linux/scmi_protocol.h
-+++ b/include/linux/scmi_protocol.h
-@@ -15,7 +15,7 @@
- 
- #define SCMI_MAX_STR_SIZE		64
- #define SCMI_SHORT_NAME_MAX_SIZE	16
--#define SCMI_MAX_NUM_RATES		16
-+#define SCMI_MAX_NUM_RATES		64
+diff --git a/drivers/firmware/arm_scmi/protocols.h b/drivers/firmware/arm_scmi/protocols.h
+index 4c75970326e655de..f51245aca2594c75 100644
+--- a/drivers/firmware/arm_scmi/protocols.h
++++ b/drivers/firmware/arm_scmi/protocols.h
+@@ -189,13 +189,13 @@ struct scmi_protocol_handle {
  
  /**
-  * struct scmi_revision_info - version information structure
+  * struct scmi_iterator_state  - Iterator current state descriptor
+- * @desc_index: Starting index for the current mulit-part request.
++ * @desc_index: Starting index for the current multi-part request.
+  * @num_returned: Number of returned items in the last multi-part reply.
+  * @num_remaining: Number of remaining items in the multi-part message.
+  * @max_resources: Maximum acceptable number of items, configured by the caller
+  *		   depending on the underlying resources that it is querying.
+  * @loop_idx: The iterator loop index in the current multi-part reply.
+- * @rx_len: Size in bytes of the currenly processed message; it can be used by
++ * @rx_len: Size in bytes of the currently processed message; it can be used by
+  *	    the user of the iterator to verify a reply size.
+  * @priv: Optional pointer to some additional state-related private data setup
+  *	  by the caller during the iterations.
 -- 
 2.43.0
 
