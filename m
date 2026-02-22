@@ -1,63 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781E8331A66
-	for <arm-scmi@vger.kernel.org>; Fri, 20 Feb 2026 09:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1C4F78F26;
+	Sun, 22 Feb 2026 14:51:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771581323; cv=none; b=mvdIGwAJ+CsOxcn8QMuAM4UTY8fd+8th9dmODUaT20CNXp+B/8RycazHjc9/pqEtzjiKiwl6HGL0Ut+fwCbQiNzpcrZNL9WZOPHRvSiylBffXQ+uGGS9c+Bq2P8AYPZdyD6bKm2iS5+kdCd+8hMyim2wxU+z3s6R2/TigrjEBDE=
+	t=1771771917; cv=none; b=CDI3iqyTy56Tul/B1z1syE+IvT2LmondaK2qb756wQjH+9PeU6dgwMaH57+J6osmVDoM4thIHXNksyPbVZCSCXLEPoLvOK08OaMYdEleRc8foGm1csDJmZrWKSG9tdXFWHt4WP995IDZK40Y5aPO4s8qtPuBhFlVlnFEGaEBT/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771581323; c=relaxed/simple;
-	bh=bE3CXU5CT2TAjGkFruDLECyxzw1SWUQVgJIZhFl8h3g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hwXKdMJCgsnrGbTuopDURcTaCidQ/ieU1JjQ0/IlRfeB+4YcAR4c64b4LKNfdze3ByJi2ju+aa6ZGSmPY0z51MswU4vQAndTkASDMmp5jg5X6e6paI/ZhqYE9sPvHTURE47zXGLb2felLpxMaYNSuhSUYFkEhCOg3XIkLEGWXzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E202FC116C6;
-	Fri, 20 Feb 2026 09:55:21 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>
-Cc: arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] firmware: arm_scmi: Spelling s/mulit/multi/, s/currenly/currently/
-Date: Fri, 20 Feb 2026 10:55:15 +0100
-Message-ID: <6735401861e0c2f3e5e680533cd6f71c4d6fd5eb.1771581270.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1771771917; c=relaxed/simple;
+	bh=RxqlOpyWWTWN+ztiWCzxhPuP/Tk2WGIgMWSwYZbFfnM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HReMUNWtshsn723JSGPUeK/b6x7kHVskH59gpWMvoDvVmOkpkZs8GYjHJlyP0pauDdjt1hPDRFOTs2sFkGUpe9nJRIxgR0BGJR33HJf/nZv0hkfofMXO8PzXvBUL/NHRgOI8241dT6i2Dzm7120QD1yZ5Pa3fkOTA0iKu3qwOMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8ED2A339;
+	Sun, 22 Feb 2026 06:51:41 -0800 (PST)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6CB193F59E;
+	Sun, 22 Feb 2026 06:51:46 -0800 (PST)
+Date: Sun, 22 Feb 2026 14:51:38 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Etienne Carriere <etienne.carriere@foss.st.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH/RFC] firmware: arm_scmi: Increase SCMI_MAX_NUM_RATES to 64
+Message-ID: <aZsX-oplR6fiLBBN@pluto>
+References: <bc2b9f5e361f1c50e661aa80fe1c2bcfd93c9c56.1771580928.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <bc2b9f5e361f1c50e661aa80fe1c2bcfd93c9c56.1771580928.git.geert+renesas@glider.be>
 
-Fix misspellings of "multi" and "currently".
+On Fri, Feb 20, 2026 at 10:53:31AM +0100, Geert Uytterhoeven wrote:
+> Currently, the SCMI clock driver supports up to 16 clock rates.
+> However, the SCMI specification v3.2 does not explicitly specify the
+> maximum number of clock rates that can be returned (the theoretical
+> maximum is 4095 in the first call of the CLOCK_DESCRIBE_RATES command,
+> followed by 65535 remaining rates in subsequent calls).
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/firmware/arm_scmi/protocols.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hi Geert,
 
-diff --git a/drivers/firmware/arm_scmi/protocols.h b/drivers/firmware/arm_scmi/protocols.h
-index 4c75970326e655de..f51245aca2594c75 100644
---- a/drivers/firmware/arm_scmi/protocols.h
-+++ b/drivers/firmware/arm_scmi/protocols.h
-@@ -189,13 +189,13 @@ struct scmi_protocol_handle {
- 
- /**
-  * struct scmi_iterator_state  - Iterator current state descriptor
-- * @desc_index: Starting index for the current mulit-part request.
-+ * @desc_index: Starting index for the current multi-part request.
-  * @num_returned: Number of returned items in the last multi-part reply.
-  * @num_remaining: Number of remaining items in the multi-part message.
-  * @max_resources: Maximum acceptable number of items, configured by the caller
-  *		   depending on the underlying resources that it is querying.
-  * @loop_idx: The iterator loop index in the current multi-part reply.
-- * @rx_len: Size in bytes of the currenly processed message; it can be used by
-+ * @rx_len: Size in bytes of the currently processed message; it can be used by
-  *	    the user of the iterator to verify a reply size.
-  * @priv: Optional pointer to some additional state-related private data setup
-  *	  by the caller during the iterations.
--- 
-2.43.0
+> 
+> In Renesas R-Car X5H SCP FW SDK v4.28.0, some clocks have 32 or 64
+> rates, which are returned in blocks of maximum 27 entries.  When SCMI
+> firmware returns more than 16 clock rates, Linux ignores all clock
+> rates, this reducing functionality of the affected clocks.
+> 
+> Fix this by increasing the maximum number of clock rates to 64.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> This does increase the size of each scmi_clock_info object by 384
+> bytes, which is way too much on a system with nearly 2000 clocks.
+> As currrently all scmi_clock_info structures are allocated together as a
+> single array, the .rates[] member cannot just be converted to a flexible
+> array, without splitting the allocation.
+> 
 
+Indeed the clock protocol does NOT dynamically allocate based on
+discovery outcome, like other SCMI protocols do, so that's a waste
+of resources that does NOT scale...I am gonna fix this, first, by
+allocating dynamically strictly for the effectively discovered
+resources (liek other protos do)
+
+> An alternative solution would be to no longer store all rates, as
+> proposed by Étienne Carrière in "[PATCH v2 1/2] firmware: arm_scmi: get
+> only min/max clock rates"
+> (https://lore.kernel.org/20241203173908.3148794-2-etienne.carriere@foss.st.com)
+
+Yes, the other further optimization could be to just query for min/max that
+are, indeed, the only rates needed currently, BUT Etienne series open code a
+brand new SCMI enumeration instead of rework and use existing SCMI iterators...
+
+...I have an old incomplete series of mine that rework this...not tesetd and
+partially working of course :P...I think I will try to give it a respin to
+put such optimization on top of the above rework...
+
+I will try to post something this week...let's see
+
+Thanks,
+Cristian
