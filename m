@@ -1,93 +1,139 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1C4F78F26;
-	Sun, 22 Feb 2026 14:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E8029AAF3
+	for <arm-scmi@vger.kernel.org>; Mon, 23 Feb 2026 14:33:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771771917; cv=none; b=CDI3iqyTy56Tul/B1z1syE+IvT2LmondaK2qb756wQjH+9PeU6dgwMaH57+J6osmVDoM4thIHXNksyPbVZCSCXLEPoLvOK08OaMYdEleRc8foGm1csDJmZrWKSG9tdXFWHt4WP995IDZK40Y5aPO4s8qtPuBhFlVlnFEGaEBT/8=
+	t=1771857207; cv=none; b=maFpIgv9+QRhtyASK+wfvWLyqFgVMjDcCyL8oklIP0CEjZ/hHkGPoTL2DUcp5mjVsTsDDvuvfI46oUFCyUEP4dlIVNtDjiTi73jhKr8xi2uMVSzQkYV56nC7k8rNquoLPXgXDe780Ohdbpay/RrdvY+CJC+sH9fkSsT1bL1uQRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771771917; c=relaxed/simple;
-	bh=RxqlOpyWWTWN+ztiWCzxhPuP/Tk2WGIgMWSwYZbFfnM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HReMUNWtshsn723JSGPUeK/b6x7kHVskH59gpWMvoDvVmOkpkZs8GYjHJlyP0pauDdjt1hPDRFOTs2sFkGUpe9nJRIxgR0BGJR33HJf/nZv0hkfofMXO8PzXvBUL/NHRgOI8241dT6i2Dzm7120QD1yZ5Pa3fkOTA0iKu3qwOMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8ED2A339;
-	Sun, 22 Feb 2026 06:51:41 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6CB193F59E;
-	Sun, 22 Feb 2026 06:51:46 -0800 (PST)
-Date: Sun, 22 Feb 2026 14:51:38 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Etienne Carriere <etienne.carriere@foss.st.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH/RFC] firmware: arm_scmi: Increase SCMI_MAX_NUM_RATES to 64
-Message-ID: <aZsX-oplR6fiLBBN@pluto>
-References: <bc2b9f5e361f1c50e661aa80fe1c2bcfd93c9c56.1771580928.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1771857207; c=relaxed/simple;
+	bh=iQzJsYUMl5J9LLm/zeLnrLkZ2GJD9GYvaSZCQwRfmWU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ks4N4sS+RgeVmvPW/AeyNb6zaxiD0QXXQ/RXb56y5ae6fC2Y3h1Hr/7ek+qdx+dzP+j8q1evd4MXhO1mhcJ/amdTlCNDXtwkOxd/KVetVpcqdt4h5b8gK8HDaViIkkW0eiDrtWDwpJQZW8/wW+IoITpGI1drTkhgcwB2BY0QbUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pRYFMcjL; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pRYFMcjL"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-435f177a8f7so4385584f8f.1
+        for <arm-scmi@vger.kernel.org>; Mon, 23 Feb 2026 06:33:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1771857205; x=1772462005; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=moSc302gAjDRrtUrWXAJWDcoxOudjLfjJ4Bp0OW9LCs=;
+        b=pRYFMcjLAG7bcgOqsivojlBI3zTAwA/hoTpNpy1oA7g1jJpliCFtjYyudHRW++EHUO
+         WoJx00vl+e8FTFFg5uGOMCkQ/i1B2K93Xv6cDEqBlGl47jxfUjTShbkZmoAOhqRfiOgp
+         OwlR/9B6AM0Ir1GwcLPLqeUXwfPUYvovaGZslmTHtDCSO2GC1DvgI0DY3lWnef0mPN+1
+         PJ0+0IzZENqempMa+R3Cq9pNWaR3e8FS6ltJ8vS4seQK7vF/SjMqHdMEG3LU3CaViIzA
+         rdWzi35vI+gp28oByq0ZD6jQcd5kQvezFzcV5rBwsrKFloBKfi7MhyIn/rnoo81Z763i
+         LTNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771857205; x=1772462005;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=moSc302gAjDRrtUrWXAJWDcoxOudjLfjJ4Bp0OW9LCs=;
+        b=mPTxr4Fyi7n2Xg5PdglLGUudq4s0H9+s104VvVYEOl661FVjrrg2jCk22pygbBd3J/
+         2Gu3VFT05VLZMSycTM6nIxhV7mozP5H8Oqxi1Sq3r4O/XODUl7dxup+14X2hwNI3k5C0
+         fc0KMxUA7XOwakxNeHyDFXG47miJRkUf7N1AeFno+C2xJzgDcbv2VYe+WOHGKlseWm7M
+         uyE5L6m00NDZYUR0gRLocgagYOd3U54wSbPIRw4oh+yolR4db4wgUgaKIjNDfD+qW6u3
+         GCISxaXzEORZtDSlIpR7xNW+hL0g1DaTnl/GWcF795QGJ43A5xOpHJ9v+D8KbavaVhzZ
+         Ey8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXkbxNgHImT1sS9+LbM9RvlIesqbgjoJBbg+ipS74PE8E6+MD+oKj5AjbBANH5EL7sWGtgWcder+g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwB/CsFy+8bn1ogOysqpZf467FlgjsyIy7BkFuUzr4vJVXaFXwn
+	ukWcNEj7AF9u353fWk0K283aqTaOBZoaS+uUwNcvpIcW9qKfm2t53VJaEzN61nVXh94=
+X-Gm-Gg: ATEYQzxpA3+CNRmcD635LUwzRGlz20E2t3cqW7DiNnt265vPg2HQvxYegkGLdNYHCYh
+	LlADjQCRj/dYwJzRlDCfWXEv2xMGDMV0nOcutOE4IP4nVB8n85RtUb3I2/dPCfu25lo+b4DD8LH
+	dfiOa2f16RCW+e+HmNI84sNT+YCcjmgs1DG5Z/KNvq8c5xN2fn9eTXdIG6JRn1sUEFqycnond+C
+	yGjsjR1++qGDjJkycjFFUTxVqvhGnpzFRlt+cVbWslZOlcNxhtTW1/Kkp6XZn1AEuEMPOCStJlu
+	qgnHsn/bOrva8XD3lOuyVvaDdwnFdJMsiTzcZeaaEzeJOo88afozMQwwBL8prd38n3HhDp0ZJq7
+	EE/3R5cC2noI0oKOV4yjIjKtAQn7bz4/u8bNSSF7CfIUC3u6TLPJOe9a63J5ONAxzWkTBazJWPy
+	UyRQTIgNYNl7vXF7cZRypAz/2ddJuzRbiXOUQOvCQ=
+X-Received: by 2002:a05:6000:2203:b0:435:add0:3d68 with SMTP id ffacd0b85a97d-4396f1856f2mr15972730f8f.58.1771857204217;
+        Mon, 23 Feb 2026 06:33:24 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970b703f4sm21374023f8f.0.2026.02.23.06.33.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Feb 2026 06:33:23 -0800 (PST)
+Date: Mon, 23 Feb 2026 17:33:20 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Peng Fan <peng.fan@nxp.com>
+Cc: Alice Guo <alice.guo@nxp.com>, Anis Chali <chalianis1@gmail.com>,
+	Arturs Artamonovs <arturs.artamonovs@analog.com>,
+	Eoin Dickson <eoin.dickson@microchip.com>,
+	Greg Malysa <malysagreg@gmail.com>,
+	Ian Roberts <ian.roberts@timesys.com>, Jacky Bai <ping.bai@nxp.com>,
+	Leo Yu-Chi Liang <ycliang@andestech.com>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Marek Vasut <marex@denx.de>,
+	Nathan Barrett-Morrison <nathan.morrison@timesys.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Oliver Gaskell <Oliver.Gaskell@analog.com>,
+	Philip Molloy <philip.molloy@analog.com>,
+	Rasmus Villemoes <ravi@prevas.dk>,
+	Tanmay Kathpalia <tanmay.kathpalia@altera.com>,
+	Tom Rini <trini@konsulko.com>, u-boot@lists.denx.de,
+	Utsav Agarwal <utsav.agarwal@analog.com>,
+	Valentin Caron <valentin.caron@foss.st.com>,
+	Vasileios Bimpikas <vasileios.bimpikas@analog.com>,
+	Vinh Nguyen <vinh.nguyen.xz@renesas.com>, Yao Zi <me@ziyao.cc>,
+	Ye Li <ye.li@nxp.com>, Vincent Guittot <vincent.guittot@linaro.org>,
+	Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>,
+	Michal Simek <michal.simek@amd.com>, arm-scmi@vger.kernel.org,
+	Linus Walleij <linusw@kernel.org>
+Subject: [PATCH 0/4] u-boot: add SCMI GPIO/Pinctrl support
+Message-ID: <cover.1771856828.git.dan.carpenter@linaro.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <bc2b9f5e361f1c50e661aa80fe1c2bcfd93c9c56.1771580928.git.geert+renesas@glider.be>
 
-On Fri, Feb 20, 2026 at 10:53:31AM +0100, Geert Uytterhoeven wrote:
-> Currently, the SCMI clock driver supports up to 16 clock rates.
-> However, the SCMI specification v3.2 does not explicitly specify the
-> maximum number of clock rates that can be returned (the theoretical
-> maximum is 4095 in the first call of the CLOCK_DESCRIBE_RATES command,
-> followed by 65535 remaining rates in subsequent calls).
+There is an existing SCMI pinctrl driver in drivers/pinctrl/nxp/ which
+lets you configure the initial state of the pins via device tree.  This
+patchset is a more generic version which provides GPIO as well.
 
-Hi Geert,
+I wrote two small cleanup patches to the NXP driver, one which renamed
+an enum and another which made some white space changes.
 
-> 
-> In Renesas R-Car X5H SCP FW SDK v4.28.0, some clocks have 32 or 64
-> rates, which are returned in blocks of maximum 27 entries.  When SCMI
-> firmware returns more than 16 clock rates, Linux ignores all clock
-> rates, this reducing functionality of the affected clocks.
-> 
-> Fix this by increasing the maximum number of clock rates to 64.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> This does increase the size of each scmi_clock_info object by 384
-> bytes, which is way too much on a system with nearly 2000 clocks.
-> As currrently all scmi_clock_info structures are allocated together as a
-> single array, the .rates[] member cannot just be converted to a flexible
-> array, without splitting the allocation.
-> 
+The next patch adds an pinctrl driver which lets you configure the
+initial state for the pins.  But the main thing is that we need one
+driver to handle the SCMI pinctrl protocol so the pinctrl driver does
+this.
 
-Indeed the clock protocol does NOT dynamically allocate based on
-discovery outcome, like other SCMI protocols do, so that's a waste
-of resources that does NOT scale...I am gonna fix this, first, by
-allocating dynamically strictly for the effectively discovered
-resources (liek other protos do)
+The last patch adds GPIO support over SCMI.
 
-> An alternative solution would be to no longer store all rates, as
-> proposed by Étienne Carrière in "[PATCH v2 1/2] firmware: arm_scmi: get
-> only min/max clock rates"
-> (https://lore.kernel.org/20241203173908.3148794-2-etienne.carriere@foss.st.com)
+I tested this code using the SCP SCMI server on OP-TEE over Qemu.  I
+created a custom mock pinctrl device in SCP.
 
-Yes, the other further optimization could be to just query for min/max that
-are, indeed, the only rates needed currently, BUT Etienne series open code a
-brand new SCMI enumeration instead of rework and use existing SCMI iterators...
+Dan Carpenter (4):
+  scmi: pinctrl: add pinctrl message IDs
+  scmi: update comments for scmi_pinctrl_config_set_in()
+  scmi: pinctrl: add pinctrl driver for SCMI
+  gpio: scmi: Add gpio_scmi driver
 
-...I have an old incomplete series of mine that rework this...not tesetd and
-partially working of course :P...I think I will try to give it a respin to
-put such optimization on top of the above rework...
+ drivers/firmware/scmi/Makefile            |   1 +
+ drivers/firmware/scmi/pinctrl.c           | 363 +++++++++++++++++++++
+ drivers/firmware/scmi/scmi_agent-uclass.c |   4 +-
+ drivers/gpio/Kconfig                      |   6 +
+ drivers/gpio/Makefile                     |   1 +
+ drivers/gpio/gpio_scmi.c                  | 221 +++++++++++++
+ drivers/pinctrl/Kconfig                   |   9 +
+ drivers/pinctrl/Makefile                  |   1 +
+ drivers/pinctrl/nxp/pinctrl-imx-scmi.c    |   2 +-
+ drivers/pinctrl/pinctrl-scmi.c            | 357 ++++++++++++++++++++
+ include/scmi_agent-uclass.h               |   2 +-
+ include/scmi_protocols.h                  | 379 +++++++++++++++++++++-
+ 12 files changed, 1334 insertions(+), 12 deletions(-)
+ create mode 100644 drivers/firmware/scmi/pinctrl.c
+ create mode 100644 drivers/gpio/gpio_scmi.c
+ create mode 100644 drivers/pinctrl/pinctrl-scmi.c
 
-I will try to post something this week...let's see
+-- 
+2.51.0
 
-Thanks,
-Cristian
