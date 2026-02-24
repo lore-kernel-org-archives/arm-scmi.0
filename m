@@ -1,85 +1,86 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F8A37996F
-	for <arm-scmi@vger.kernel.org>; Tue, 24 Feb 2026 10:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C345379964
+	for <arm-scmi@vger.kernel.org>; Tue, 24 Feb 2026 10:43:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771929832; cv=none; b=PuFjPZxqJZuiDoLydwGJ4L7rUaMUYCx4ass5LomHZskckPS1b1AzqZAlCYM5Od9WIwN7JKCMnN6iM22el/c6M5ChVAZ4nmVn70rLT3rcjAF6jrutVj7c8I/M3VBvO0PaEk3mbpV+o9UAtMosUVR+CxsmJ0p670wPY6UINjZ54kc=
+	t=1771929835; cv=none; b=eKBnOODuMeJtn17sh6xx717m6lvvT2vNl/A1mXC+dpNsw97OvDhMthmQGCvBscCVhvSKqptrOZ7HxfsW5U6OB8l4S9zDdSzIN0xeJrsIWKPfbm9dpOUZK7tkSUN1bGnpvxT0BNueVBfw2ubdHfjmY3NbsL3kOjYLe97yITh/s0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771929832; c=relaxed/simple;
-	bh=rdvBOwT1w+fOKzKlMJ4qCaqyF5VXzQXu8RFGhV4wPWA=;
+	s=arc-20240116; t=1771929835; c=relaxed/simple;
+	bh=MtfFLt1YenfsJ/wZknYcaqCTSZ5/bjAtaD9/JYLsnnQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KYi/oN8WU1B5OZtk+jqufcvS/rxaDPzaajCSiaHV6FJvfTmVkvnXg7v4+60tnwujP73XK8FTAtJmmFqvLRqR/x6gl8iziEuJHc8ZkQ1tURvKtwsw3EvnRLIWlyF+vaQ/cvNO1Q5FpYwORaivuUZNuhWqJpJ6rWlHgDT2brDjfPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=H4DOzgVA; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Dw+dG3XU; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:Cc; b=SJCWbGZLJTUV6sSpON8h0otRghK6DfOX6jrfGnC7uI4mkKzugdjF/vV7sROvlAs3BlU+S5pGXaKwGGxkLRQ1Mtqc9u7b6KCwCE25lH30PQ5uSVqZD6Xy+XbXGjDEUEp+XFo4/R7BKCjZvW01HS+ecfNDbBqZSPmlak2AC7UzrJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cPaYdboO; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=khh1HqRR; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="H4DOzgVA";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Dw+dG3XU"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61OAFQ4J3324711
-	for <arm-scmi@vger.kernel.org>; Tue, 24 Feb 2026 10:43:49 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cPaYdboO";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="khh1HqRR"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61OAFYqm1446560
+	for <arm-scmi@vger.kernel.org>; Tue, 24 Feb 2026 10:43:51 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Dcx9Fb9RAhIPBMtW22u+1jg9hETgYE9w0yg+16sdIuA=; b=H4DOzgVA83UHDgOM
-	VVUnvWAYTLNOLPanpo4QupRYaWBh1QxF944TCbYx88pbymRFzDVawGttNM0lIv1N
-	OAIJordGF5UDSK/c+qa+HpzR/3laOnj+Vq8+dUUI6f0+VqjvNHoF9NNbgs6slhDn
-	usF4sPZ2ZO1C8eEJPwL6rd9Nk0CNGDVcflRdQref2T9u/ORNXr2kIbOTL/WYf9zX
-	93cyZ8xqZ3nx25GYa0Kyx8g5utiIACl349wERwD/2WxWT4ConMD/lA+AwFBwhfss
-	Z77+KjN/3XFhyxvVhpVf3xhAcQIDrzVrD8WMt0Bfl6Nz0Qc5Uu+NGFcxFtEbxr6A
-	o6MMGg==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cgn8y3wbw-1
+	EN2/oaoWAN9Y1ndJ/NXYNONg9LQ3Nd3Tzaq4ZTvo8i0=; b=cPaYdboOJOtS7ulU
+	F+gmThGKKzIQQpHO32G4tCZofOrtl9Mi2ccHv8fQvLAU/099SCESdOMAFH0fwKej
+	zJl2i4yGVsFdd5z19P92egoMpiiwNytSOy0YhTEmQxRT+AUAzmLcHvtT+i65X3OH
+	cdaxxg4u5xDucaSg5G3VNLGRkEos6yVnDW9tiSw72U4+kS3H4s0bCoXRWBOsfjf6
+	1Eio3U5VXiHlqR7tQA3td0DkGrHFfz3To2anQ0yZjclAcPR5d9UCC+EVBe8vZBTu
+	dDc85W3rc30lHjSFhzCHfMq6PdQllFDq8A1k8beM0Cz0ap/5hP5YA9uINV2bfkgF
+	UVbMGg==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cgtv9tthv-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Tue, 24 Feb 2026 10:43:49 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8cb0595def4so6075124485a.0
-        for <arm-scmi@vger.kernel.org>; Tue, 24 Feb 2026 02:43:49 -0800 (PST)
+	for <arm-scmi@vger.kernel.org>; Tue, 24 Feb 2026 10:43:51 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8cb37db8b79so2869496685a.3
+        for <arm-scmi@vger.kernel.org>; Tue, 24 Feb 2026 02:43:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1771929829; x=1772534629; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1771929830; x=1772534630; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Dcx9Fb9RAhIPBMtW22u+1jg9hETgYE9w0yg+16sdIuA=;
-        b=Dw+dG3XUQUm/PHFpMKyHM8ZqNyUBhAV0OLKIOp3C1KQZgiCiMZm0nejujuse6sDy83
-         gg9GBBzlL1nO0vzkMsbjXpT7RcspqsQxIAhSvit6lpUJGv5gkelMcMntBJbm+qQr+UG+
-         19w5dYgdkanqXnu63H0mw6k7NVFrl6XR4j5iID4RBoQbbRTOWEL6Zp+stEP8Dl+O569B
-         RXcWYiD7a10yU+Zusc/ACVjeNSYcOx4qdXci0k7H24m9mhmje8gTE8baptXutAWZEU8a
-         zrJYlPG+cNEt6nxY1QcGUC5RG4XvWg1OihVXLPmI6LyRw21fyoWqsritMl30UOM2Z2aT
-         shzQ==
+        bh=EN2/oaoWAN9Y1ndJ/NXYNONg9LQ3Nd3Tzaq4ZTvo8i0=;
+        b=khh1HqRRAvX6WGjEQQyoCkGOYmnwI7FfZhHZsp7xvMvulcoyrnLGIWCLWzedU5YJqA
+         KIy1YKafut3Z54KcOcrJ7lE3FX/o0giIpKlwIssovLLMqq1oPnr4nqk7vafVU5fiGJa1
+         PyCr73KwX4d4wnMzetZ3VoDzXAimWrW5sQ6ITGASFCfCm4apzeqM7zzPHzCqT5rs/3xl
+         GID9qy8e91X4jFUskxFvHm3Ohw10PTjtajJgWyhAATjQeSfta7+ehpNV9TiyL8CU59a4
+         CJSPoIOAaP/60EMsR9cYwFEH6KwwZLO0FLrNy3O2Z7Rle26FXVoq/6ASam7k9ZiS5/eP
+         8r9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771929829; x=1772534629;
+        d=1e100.net; s=20230601; t=1771929830; x=1772534630;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Dcx9Fb9RAhIPBMtW22u+1jg9hETgYE9w0yg+16sdIuA=;
-        b=wY56ERtSkKvGLSp37pcmRS4mAuzik5AFMTj0MUV7SyLHbtRU/de+18IxEcFdwQv+Ji
-         aEAIAzZzBK7N06vmZJRxlcvPDZuj9JxfkDnQ7vn2iUs8xXwL0BJTNjnjHxgXEraeEy9T
-         /NuNB/vari9+d4zKJOXoKllkEgfMUQQcwf3z/CklxRRVnQTgUStZrCHmpfJpIJKLajYd
-         BQTO3irxGcB7jNASWHkTPTdMlM6mJHNl5zvGptuvuHtqaVQo3SU0/h5z1AeVeK7ou2Xb
-         mJJSbCOtEAFdejghomKSVY6H5o2iTD9pkS7ZDL1WYoMLJ4ZOz5OQ8CQ9VwCapagWJ1Ax
-         JQLQ==
-X-Gm-Message-State: AOJu0Yx7DIpl7QvRfDeeNTrLxWzuUu29IlabJ35zj6XcmLTQU6JJdR6V
-	iYyGmonliO/ocRaOs01Az65KqYL3lzNbVZieI4s/5zF4cu/rRoxrGY6Olx5Mpl3tgQx1cVLIs0Q
-	0G1msocDEQAJvuIQQ/et0uDj2COo9ch7IgzVng2bkVorB2+0wulG6b3iOcmqXAg==
-X-Gm-Gg: AZuq6aKHGeBGLUVNa94QWR5yckaFNn7R6kVUpQApKJDYLcSf3E5cS8ccjvvk82G+GfD
-	2x79DCX9GjZCbrQKC7FmGNSPsHAmkpRI4I4Em+diEIRL/SV6eiXwYECz/pIYPxh4cvWUt7UWiij
-	wxQqe/FKRyNiWMSXnn65yfZvXFwHYQEkLd00rmRxc6B8tNLvcx1C6VQ715D+qZCbnOSdkj14+1H
-	T7EaTymunJPG6JWNzYCV4M43NIwcANnZHvnAMlik8WTpyTK+TnxM7820QznAl/P7XokboJ6kxhq
-	aUoquW5UaoGCgSWaVYTsNfNz0Im1+3iEJSvvWAgIHXiiugoFY9bxwdeZSyU+CtpNgprAmtNqRB/
-	4K1SZv6z7u5AQ3RMKCntZTTPdpmrJYKOGBhVl5X20YWeAhg==
-X-Received: by 2002:a05:620a:1a20:b0:8c7:110e:9cd5 with SMTP id af79cd13be357-8cb7c02208cmr1910193885a.45.1771929828470;
-        Tue, 24 Feb 2026 02:43:48 -0800 (PST)
-X-Received: by 2002:a05:620a:1a20:b0:8c7:110e:9cd5 with SMTP id af79cd13be357-8cb7c02208cmr1910190885a.45.1771929827852;
-        Tue, 24 Feb 2026 02:43:47 -0800 (PST)
+        bh=EN2/oaoWAN9Y1ndJ/NXYNONg9LQ3Nd3Tzaq4ZTvo8i0=;
+        b=KUQ5MReMjciixBHo0An0XFU+C0j5eEcmXjuRJsX2/mmm63mzgJ241N1rK4TY47/qzU
+         kEG+T1AWEiUq6eYQTsS5vNMrQ+MVmCf6nlD6qr5ivcx031B++wsLt0Nme7P4kP/GQgcB
+         BAGAqTpxvNaG3zTkJ7CsNzSV/tfolvhrFB4Gf17o3QuFSoLbfMVI6Yvd8fUfPrnlUGZ1
+         tPFAHsNu1vfXzOHEeYr90pLk7qoeGv0JZ2/fyZ4k5WyckIP5jMHha6m5hSkke0p7hpER
+         gTkT7JHTLmPkcRPROJjqpkDuwvf6GiYWFyIUJoa+JgqaKxhIehp/y7TpSW6ITRCV/aEs
+         2vkQ==
+X-Gm-Message-State: AOJu0YxFmIOPtoWa51N5xFMEaw7OoZOWouNzyA7iXuhHXtvHZQ4iN8A1
+	8yMU3wZGmVIo02uD6OndNR7J41q/OT9NjqNTdWUbXu79o0Ald2826AAc3gsAYWTYXT8zQgMGudn
+	8kGFNyivVN9/UCai+Zi6o5h8P4qW1DPeIN3EEyR4YbUi07otqlYIn/tRd6S+tAw==
+X-Gm-Gg: AZuq6aJzYwbSGGIk/pgOlDDDkqRRkAXa6795H9DiYMo3Mq/zggdR7IhNPRdcmvacIAJ
+	Mu/MZF2yUAvGxoStV0qqkvihQEGSdhvWlvtNsrR3JHJLMynV/AbmPb+jH5Gj3dV/KGUHkzecBe1
+	vaaYfecTHx3w99E+Y6JqD1smtdeDJz13NKGoexbZr0ACruHCb8GetOy3YfmSrzhdvsK76xWmLOR
+	BM6JI4bg2ioPG/47Arejvl9HGah9iIzOYJF7WwgkinoOopb0Q8mNc2/izUo8n2tVRb/bA1WotCs
+	kAccOXM4qgkmHevZUhll1U9WsVFHLRl974mtvmchbjuSToFOYJvDqFzG7vvSiQrX3E+4F9q/2k4
+	70eCuhQuKZA3ACn6iYt1zAM61Z88Vhh4GUxOEBumrL2bqMg==
+X-Received: by 2002:a05:620a:1904:b0:8b6:1877:3689 with SMTP id af79cd13be357-8cb8ca14a2amr1432280785a.35.1771929830377;
+        Tue, 24 Feb 2026 02:43:50 -0800 (PST)
+X-Received: by 2002:a05:620a:1904:b0:8b6:1877:3689 with SMTP id af79cd13be357-8cb8ca14a2amr1432278985a.35.1771929829895;
+        Tue, 24 Feb 2026 02:43:49 -0800 (PST)
 Received: from [127.0.1.1] ([178.197.223.140])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970d40004sm25685906f8f.21.2026.02.24.02.43.46
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970d40004sm25685906f8f.21.2026.02.24.02.43.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 02:43:47 -0800 (PST)
+        Tue, 24 Feb 2026 02:43:48 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Date: Tue, 24 Feb 2026 11:43:39 +0100
-Subject: [PATCH 1/4] firmware: arm_scmi: Drop fake 'const' on scmi_handle
+Date: Tue, 24 Feb 2026 11:43:40 +0100
+Subject: [PATCH 2/4] firmware: arm_scmi: Drop fake 'const' on
+ scmi_protocol_handle
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -88,7 +89,7 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260224-handle-not-const-v1-1-90bf93b53e27@oss.qualcomm.com>
+Message-Id: <20260224-handle-not-const-v1-2-90bf93b53e27@oss.qualcomm.com>
 References: <20260224-handle-not-const-v1-0-90bf93b53e27@oss.qualcomm.com>
 In-Reply-To: <20260224-handle-not-const-v1-0-90bf93b53e27@oss.qualcomm.com>
 To: Sudeep Holla <sudeep.holla@kernel.org>,
@@ -103,320 +104,318 @@ Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         imx@lists.linux.dev, stable@vger.kernel.org,
         Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11852;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11774;
  i=krzysztof.kozlowski@oss.qualcomm.com; h=from:subject:message-id;
- bh=rdvBOwT1w+fOKzKlMJ4qCaqyF5VXzQXu8RFGhV4wPWA=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpnYDdTaa70Ye5luvvU/8VfllC+pftv/qtWoBPV
- 3buBcqZcgeJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaZ2A3QAKCRDBN2bmhouD
- 1w8QD/9hJgj7Ium0TabC0RFOre/lPkhH80ZbNT0C7u3H72t80b9a9oXATiFxDqfMFn7onM2QmAQ
- M4iQ2VLzIT5u2i+dE85kbk7w7BD0HDHX8iTDl44DDfudhhOlhZIf+qq4A+cd+MRNHv7FoB4mSH8
- TK1K6BTOytpaQM7P8BDz/qeN19Guercv31IYV/0yQVb++rV3G/CiRM1vVjiGs+MCN/9bPxteGyE
- q2vKegAYvp0KMqdMme8RCTB990GeOcrj1aaKnidRgBo7hiAgmWf1aTSU4gp4zKKYWH4rkM5+7/A
- GFECFw2Mfp4QPs993wWOYvruO0jWC21EdKKZ8hQDe8z7QAczC8IdyKIUsBYI88ocldlc1W5k8LN
- ItvOLcSqCrUmIgd7jzTEkUComIAui37o4BAndrsxHN+bRa2AcB9pd2Tu9/2VeUOII88WUFYMXDM
- D08TbnJtqxefQAH6hKwHG3Dt2RO/P9xlmJNL9qNv9/KIE0/XPzBIh+VHyQ7oix0ifPWH82/8N5R
- m6I+MXPgn/artpE+JEa/PQl8qaVMuywYXgLCvNg3OtNb0ABfYVXppKDZt8or7dPZb5MnBGlGWaQ
- Kfiv7JuRUsLv8gHLiLKG2JjlbrMTpWL677RuQ1Mvy9LGMr6CjJtSSCsFy8IuDsVTzc1+qrymRNx
- M4z9//C0G6j43wQ==
+ bh=MtfFLt1YenfsJ/wZknYcaqCTSZ5/bjAtaD9/JYLsnnQ=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpnYDenvwWp+Df+vhEBzfsFyDfJYzjKv/jlKST0
+ 85yGntKMS2JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaZ2A3gAKCRDBN2bmhouD
+ 173fD/9N+O5OTQ5QmfRdqz4D8cWMNwN9LGcibNK0uSezOak//l35xH2ZllrAQyk+rUU2Ewv5+US
+ r9O02OyXEQhwZwffW1KGyRq/4JNwVBEPwoZrZ1HacFOiZuvrmIGa4nh4GpRu0eWMLD3giALvetR
+ yweybtVUR/g9ghF3ZueROwSANuwdXseWdJFrzFK1nbVe5+pgBxS5nSF3q+kZn5yFlZUHoxbG4aj
+ wOG7mGHSgM5RH54+SITR3DaeN+3b9aQPl9yUUyZUHNmUaXiN6RaN3ERcnYli3rOJBNj6aDdBrPj
+ Vfpz2Ap5Hq47Q7kOQ27q6aXQk6fX4LQ+ItKiF8mPCHgt6htCiPRm36/k3AN8+hgbX4JVvwWyAbp
+ sOuMcleIy+/OtH6CxTmsnRXCniOuXof2YZybukRFER8fjoh7J9Ej2SlpOZkHK9OWgGfC7GS4nrQ
+ z8UinGGV5GDZZtAr37unCsWVhqh6EyhsyjYi+MdIHBwAkUE+pXPbvgON25368JXxtPQQ81jg1If
+ wUdByQT0kNOLAJHelHoXC4GJTSYco88WUFKlPAn1eUE7rr0TJOdCph4OReDaDOSga856jDVTLeE
+ Bt0GCCTu28sMiLuwwKCoqj3NiEBeRSX3mcsMwIPJfBxtPgDS/izQuTZ8GcWChKl8FBI/R9drC8j
+ TUEjhd4poi1gumQ==
 X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI0MDA4NyBTYWx0ZWRfXytxG5F1rVJ+6
- O2reaSJeHXsYbLGPRQtF/15P1xM/8r5+qz4rcK15xwE2VO9yga/GY0Kuw/LbbszuwUadz9K7ifx
- RrZmLLeFjoKFfgcI2PtGPuR9DE80gXAZGZLUryaWQh2geQEZVeLTHhu/9K8NO/RmFkAB7mTicFV
- DG5Jduzb37syJIVAZ/ooK/madjjTr4kvoANNADAz1nh9JfRSgF1UGp8bC8mdyxGPqxXji0nZr5h
- PuICZ+z6Kha9jQE9Jfp5zFnXj51ib91O17a93mTJOvZPmIiggKa1S1AGa69+0KDeoCMmi5Bkb98
- ou63O3xX6bHj1ttKf1ROZDDhWGs43CzMqDllI0Nr8UE7VtqKv4OGS7CAl2/4J7/HpigEI2HGH7D
- Q7WYPdwheNVJ736Z7kl6IuXnWVWqEb1zJiQFPV4ShwRD+/jMsncN9BxbQG3LlIPyPYLhG8Xwil7
- xxGPBJx+hFkh8m0TFiA==
-X-Authority-Analysis: v=2.4 cv=edYwvrEH c=1 sm=1 tr=0 ts=699d80e5 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=6nO30s3o7FuWeffXwhKHTA==:17
+X-Authority-Analysis: v=2.4 cv=Vaf6/Vp9 c=1 sm=1 tr=0 ts=699d80e7 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=6nO30s3o7FuWeffXwhKHTA==:17
  a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=YWpryjrgZ2of67SKuAYA:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-GUID: fIcyHY5MqnvVVV_EyxxVN5Nbbn-qoEuO
-X-Proofpoint-ORIG-GUID: fIcyHY5MqnvVVV_EyxxVN5Nbbn-qoEuO
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=QOiUi5lJWKzMiGfd4uMA:9 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI0MDA4NyBTYWx0ZWRfX9gfhY9XVoENv
+ xRO1D41+0Dw2GSrT5vEFaWf7Hu0zIogPmwIbuFIB9RXZyBkdC82/KeYTJwm4Kpb4z1VgIGOZ4iX
+ Uq040fGoWSSNVH0IcfP4g5FljErV4PkxVYrrGB1rXNZvs0i5HHllaGleDaCBrGcwPNHq5zY1lfw
+ p1q3lls7Ksnr/tajo5I3/3G0dwfm2bIRSpGeDHpID/Y8yzpo+EpZAro51i2MAQODxPuuTDH3CLs
+ GF7PgwcXe1U+wzgHo53bVkil/nuWASoCaoS7PvbIOuKb5ExpKA8LtIsYMCJzVkq0BMpu8RdX94o
+ lTpZpRr8gSu72IG5L1mJZrKXPaImppjHq1wFrpViMG3LJmH4OFeok36KTEPvfBA840WgkNkiU50
+ qXSbPxxv4s73oJTDwjjSyVHNBEKKAP2YCm9Uc2e/tWnjgYK0V3fS1KIGfJOiYfttdsCpkRgGrfU
+ tz4wkHbcjnE6PI43xhA==
+X-Proofpoint-ORIG-GUID: X7RHolPW-V3ZH8xm2y8357eim-c38L5V
+X-Proofpoint-GUID: X7RHolPW-V3ZH8xm2y8357eim-c38L5V
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-02-24_01,2026-02-23_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0 phishscore=0 clxscore=1015 priorityscore=1501
- spamscore=0 impostorscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0
+ priorityscore=1501 phishscore=0 bulkscore=0 malwarescore=0 suspectscore=0
+ clxscore=1015 spamscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602240087
 
 Severale functions operating on the 'handle' pointer, like
-scmi_handle_put() or scmi_xfer_raw_get(), are claiming it is a pointer
-to const thus they should not modify the handle.  In fact that's a false
-statement, because first thing these functions do is drop the cast to
-const with container_of:
+scmi_set_protocol_priv(), are claiming it is a pointer to const thus
+they should not modify the handle.  In fact that's a false statement,
+because first thing these functions do is drop the cast to const with
+container_of:
 
-  struct scmi_info *info = handle_to_scmi_info(handle);
+  struct scmi_protocol_instance *pi = ph_to_pi(ph);
 
 And with such cast the handle is easily writable with simple:
 
-  info->handle.dev = NULL;
+  pi->ph.dev = NULL;
 
 If the function really was not modifying the pointed handle, it would
 use the container_of_const() call.
 
 The code is not correct logically, either, because functions like
-scmi_notification_instance_data_set() are meant to modify the data
-behind the handle (in containing struct).
+scmi_set_protocol_priv() are meant to modify the data behind the handle
+(in containing struct).
 
 The code does not have actual visible bug, but incorrect 'const'
 annotations could lead to incorrect compiler decisions.
 
-Fixes: 3095a3e25d8f ("firmware: arm_scmi: Add xfer helpers to provide raw access")
+Fixes: d7b6cc563a60 ("firmware: arm_scmi: Introduce protocol handle definitions")
 Cc: <stable@vger.kernel.org>
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
- drivers/clk/clk-scmi.c               |  2 +-
- drivers/firmware/arm_scmi/common.h   | 15 +++++++--------
- drivers/firmware/arm_scmi/driver.c   | 26 +++++++++++++-------------
- drivers/firmware/arm_scmi/notify.c   |  2 +-
- drivers/firmware/arm_scmi/raw_mode.c |  4 ++--
- drivers/firmware/arm_scmi/raw_mode.h |  2 +-
- include/linux/scmi_protocol.h        |  2 +-
- 7 files changed, 26 insertions(+), 27 deletions(-)
+ drivers/firmware/arm_scmi/base.c                    | 2 +-
+ drivers/firmware/arm_scmi/clock.c                   | 2 +-
+ drivers/firmware/arm_scmi/driver.c                  | 2 +-
+ drivers/firmware/arm_scmi/perf.c                    | 2 +-
+ drivers/firmware/arm_scmi/pinctrl.c                 | 4 ++--
+ drivers/firmware/arm_scmi/power.c                   | 2 +-
+ drivers/firmware/arm_scmi/powercap.c                | 2 +-
+ drivers/firmware/arm_scmi/protocols.h               | 4 ++--
+ drivers/firmware/arm_scmi/reset.c                   | 2 +-
+ drivers/firmware/arm_scmi/sensors.c                 | 2 +-
+ drivers/firmware/arm_scmi/system.c                  | 2 +-
+ drivers/firmware/arm_scmi/vendors/imx/imx-sm-bbm.c  | 2 +-
+ drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c  | 2 +-
+ drivers/firmware/arm_scmi/vendors/imx/imx-sm-lmm.c  | 2 +-
+ drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c | 2 +-
+ drivers/firmware/arm_scmi/voltage.c                 | 2 +-
+ 16 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/clk/clk-scmi.c b/drivers/clk/clk-scmi.c
-index 6b286ea6f121..f9efe14a95ab 100644
---- a/drivers/clk/clk-scmi.c
-+++ b/drivers/clk/clk-scmi.c
-@@ -405,7 +405,7 @@ static int scmi_clocks_probe(struct scmi_device *sdev)
- 	struct clk_hw_onecell_data *clk_data;
- 	struct device *dev = &sdev->dev;
- 	struct device_node *np = dev->of_node;
--	const struct scmi_handle *handle = sdev->handle;
-+	struct scmi_handle *handle = sdev->handle;
- 	struct scmi_protocol_handle *ph;
- 	const struct clk_ops *scmi_clk_ops_db[SCMI_MAX_CLK_OPS] = {};
- 	struct scmi_clk *sclks;
-diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-index 7c35c95fddba..a18babacebf2 100644
---- a/drivers/firmware/arm_scmi/common.h
-+++ b/drivers/firmware/arm_scmi/common.h
-@@ -154,8 +154,8 @@ struct scmi_device *scmi_device_create(struct device_node *np,
- 				       const char *name);
- void scmi_device_destroy(struct device *parent, int protocol, const char *name);
+diff --git a/drivers/firmware/arm_scmi/base.c b/drivers/firmware/arm_scmi/base.c
+index 22267bbd0f4d..8302aaacdf43 100644
+--- a/drivers/firmware/arm_scmi/base.c
++++ b/drivers/firmware/arm_scmi/base.c
+@@ -371,7 +371,7 @@ static const struct scmi_protocol_events base_protocol_events = {
+ 	.num_sources = SCMI_BASE_NUM_SOURCES,
+ };
  
--int scmi_protocol_acquire(const struct scmi_handle *handle, u8 protocol_id);
--void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id);
-+int scmi_protocol_acquire(struct scmi_handle *handle, u8 protocol_id);
-+void scmi_protocol_release(struct scmi_handle *handle, u8 protocol_id);
+-static int scmi_base_protocol_init(const struct scmi_protocol_handle *ph)
++static int scmi_base_protocol_init(struct scmi_protocol_handle *ph)
+ {
+ 	int id, ret;
+ 	u8 *prot_imp;
+diff --git a/drivers/firmware/arm_scmi/clock.c b/drivers/firmware/arm_scmi/clock.c
+index ab36871650a1..58cc392c1c80 100644
+--- a/drivers/firmware/arm_scmi/clock.c
++++ b/drivers/firmware/arm_scmi/clock.c
+@@ -1064,7 +1064,7 @@ static const struct scmi_protocol_events clk_protocol_events = {
+ 	.num_events = ARRAY_SIZE(clk_events),
+ };
  
- /* SCMI Transport */
- /**
-@@ -277,13 +277,12 @@ static inline bool is_polling_enabled(struct scmi_chan_info *cinfo,
- 		is_transport_polling_capable(desc);
- }
- 
--void scmi_xfer_raw_put(const struct scmi_handle *handle,
--		       struct scmi_xfer *xfer);
--struct scmi_xfer *scmi_xfer_raw_get(const struct scmi_handle *handle);
-+void scmi_xfer_raw_put(struct scmi_handle *handle, struct scmi_xfer *xfer);
-+struct scmi_xfer *scmi_xfer_raw_get(struct scmi_handle *handle);
- struct scmi_chan_info *
--scmi_xfer_raw_channel_get(const struct scmi_handle *handle, u8 protocol_id);
-+scmi_xfer_raw_channel_get(struct scmi_handle *handle, u8 protocol_id);
- 
--int scmi_xfer_raw_inflight_register(const struct scmi_handle *handle,
-+int scmi_xfer_raw_inflight_register(struct scmi_handle *handle,
- 				    struct scmi_xfer *xfer);
- 
- int scmi_xfer_raw_wait_for_message_response(struct scmi_chan_info *cinfo,
-@@ -522,7 +521,7 @@ static struct platform_driver __drv = {					       \
- 	.probe = __tag##_probe,						       \
- }
- 
--void scmi_notification_instance_data_set(const struct scmi_handle *handle,
-+void scmi_notification_instance_data_set(struct scmi_handle *handle,
- 					 void *priv);
- void *scmi_notification_instance_data_get(const struct scmi_handle *handle);
- int scmi_inflight_count(const struct scmi_handle *handle);
+-static int scmi_clock_protocol_init(const struct scmi_protocol_handle *ph)
++static int scmi_clock_protocol_init(struct scmi_protocol_handle *ph)
+ {
+ 	int clkid, ret;
+ 	struct clock_info *cinfo;
 diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 3e76a3204ba4..8b27e74d8a19 100644
+index 8b27e74d8a19..951711aa7d33 100644
 --- a/drivers/firmware/arm_scmi/driver.c
 +++ b/drivers/firmware/arm_scmi/driver.c
-@@ -438,7 +438,7 @@ static void scmi_destroy_protocol_devices(struct scmi_info *info,
- 	mutex_unlock(&info->devreq_mtx);
+@@ -1630,7 +1630,7 @@ static int version_get(const struct scmi_protocol_handle *ph, u32 *version)
+  *
+  * Return: 0 on Success
+  */
+-static int scmi_set_protocol_priv(const struct scmi_protocol_handle *ph,
++static int scmi_set_protocol_priv(struct scmi_protocol_handle *ph,
+ 				  void *priv)
+ {
+ 	struct scmi_protocol_instance *pi = ph_to_pi(ph);
+diff --git a/drivers/firmware/arm_scmi/perf.c b/drivers/firmware/arm_scmi/perf.c
+index 4583d02bee1c..1c0a150612a8 100644
+--- a/drivers/firmware/arm_scmi/perf.c
++++ b/drivers/firmware/arm_scmi/perf.c
+@@ -1266,7 +1266,7 @@ static const struct scmi_protocol_events perf_protocol_events = {
+ 	.num_events = ARRAY_SIZE(perf_events),
+ };
+ 
+-static int scmi_perf_protocol_init(const struct scmi_protocol_handle *ph)
++static int scmi_perf_protocol_init(struct scmi_protocol_handle *ph)
+ {
+ 	int domain, ret;
+ 	struct scmi_perf_info *pinfo;
+diff --git a/drivers/firmware/arm_scmi/pinctrl.c b/drivers/firmware/arm_scmi/pinctrl.c
+index a020e23d7c49..99f98eb6808d 100644
+--- a/drivers/firmware/arm_scmi/pinctrl.c
++++ b/drivers/firmware/arm_scmi/pinctrl.c
+@@ -827,7 +827,7 @@ static const struct scmi_pinctrl_proto_ops pinctrl_proto_ops = {
+ 	.pin_free = scmi_pinctrl_pin_free,
+ };
+ 
+-static int scmi_pinctrl_protocol_init(const struct scmi_protocol_handle *ph)
++static int scmi_pinctrl_protocol_init(struct scmi_protocol_handle *ph)
+ {
+ 	int ret;
+ 	struct scmi_pinctrl_info *pinfo;
+@@ -861,7 +861,7 @@ static int scmi_pinctrl_protocol_init(const struct scmi_protocol_handle *ph)
+ 	return ph->set_priv(ph, pinfo);
  }
  
--void scmi_notification_instance_data_set(const struct scmi_handle *handle,
-+void scmi_notification_instance_data_set(struct scmi_handle *handle,
- 					 void *priv)
- {
- 	struct scmi_info *info = handle_to_scmi_info(handle);
-@@ -638,7 +638,7 @@ static int scmi_xfer_inflight_register(struct scmi_xfer *xfer,
-  *
-  * Return: 0 on Success, error otherwise
-  */
--int scmi_xfer_raw_inflight_register(const struct scmi_handle *handle,
-+int scmi_xfer_raw_inflight_register(struct scmi_handle *handle,
- 				    struct scmi_xfer *xfer)
- {
- 	struct scmi_info *info = handle_to_scmi_info(handle);
-@@ -730,7 +730,7 @@ static struct scmi_xfer *scmi_xfer_get(const struct scmi_handle *handle,
-  *
-  * Return: A valid xfer on Success, or an error-pointer otherwise
-  */
--struct scmi_xfer *scmi_xfer_raw_get(const struct scmi_handle *handle)
-+struct scmi_xfer *scmi_xfer_raw_get(struct scmi_handle *handle)
- {
- 	struct scmi_xfer *xfer;
- 	struct scmi_info *info = handle_to_scmi_info(handle);
-@@ -757,7 +757,7 @@ struct scmi_xfer *scmi_xfer_raw_get(const struct scmi_handle *handle)
-  * Return: A reference to the channel to use, or an ERR_PTR
-  */
- struct scmi_chan_info *
--scmi_xfer_raw_channel_get(const struct scmi_handle *handle, u8 protocol_id)
-+scmi_xfer_raw_channel_get(struct scmi_handle *handle, u8 protocol_id)
- {
- 	struct scmi_chan_info *cinfo;
- 	struct scmi_info *info = handle_to_scmi_info(handle);
-@@ -820,7 +820,7 @@ __scmi_xfer_put(struct scmi_xfers_info *minfo, struct scmi_xfer *xfer)
-  * Note that as with other xfer_put() handlers the xfer is really effectively
-  * released only if there are no more users on the system.
-  */
--void scmi_xfer_raw_put(const struct scmi_handle *handle, struct scmi_xfer *xfer)
-+void scmi_xfer_raw_put(struct scmi_handle *handle, struct scmi_xfer *xfer)
- {
- 	struct scmi_info *info = handle_to_scmi_info(handle);
- 
-@@ -2202,7 +2202,7 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
- 	int ret = -ENOMEM;
- 	void *gid;
- 	struct scmi_protocol_instance *pi;
--	const struct scmi_handle *handle = &info->handle;
-+	struct scmi_handle *handle = &info->handle;
- 
- 	/* Protocol specific devres group */
- 	gid = devres_open_group(handle->dev, NULL, GFP_KERNEL);
-@@ -2282,7 +2282,7 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
-  *	   NOT be found.
-  */
- static struct scmi_protocol_instance * __must_check
--scmi_get_protocol_instance(const struct scmi_handle *handle, u8 protocol_id)
-+scmi_get_protocol_instance(struct scmi_handle *handle, u8 protocol_id)
- {
- 	struct scmi_protocol_instance *pi;
- 	struct scmi_info *info = handle_to_scmi_info(handle);
-@@ -2317,7 +2317,7 @@ scmi_get_protocol_instance(const struct scmi_handle *handle, u8 protocol_id)
-  *
-  * Return: 0 if protocol was acquired successfully.
-  */
--int scmi_protocol_acquire(const struct scmi_handle *handle, u8 protocol_id)
-+int scmi_protocol_acquire(struct scmi_handle *handle, u8 protocol_id)
- {
- 	return PTR_ERR_OR_ZERO(scmi_get_protocol_instance(handle, protocol_id));
- }
-@@ -2330,7 +2330,7 @@ int scmi_protocol_acquire(const struct scmi_handle *handle, u8 protocol_id)
-  * Remove one user for the specified protocol and triggers de-initialization
-  * and resources de-allocation once the last user has gone.
-  */
--void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
-+void scmi_protocol_release(struct scmi_handle *handle, u8 protocol_id)
- {
- 	struct scmi_info *info = handle_to_scmi_info(handle);
- 	struct scmi_protocol_instance *pi;
-@@ -2372,7 +2372,7 @@ void scmi_setup_protocol_implemented(const struct scmi_protocol_handle *ph,
- }
- 
- static bool
--scmi_is_protocol_implemented(const struct scmi_handle *handle, u8 prot_id)
-+scmi_is_protocol_implemented(struct scmi_handle *handle, u8 prot_id)
+-static int scmi_pinctrl_protocol_deinit(const struct scmi_protocol_handle *ph)
++static int scmi_pinctrl_protocol_deinit(struct scmi_protocol_handle *ph)
  {
  	int i;
- 	struct scmi_info *info = handle_to_scmi_info(handle);
-@@ -2388,7 +2388,7 @@ scmi_is_protocol_implemented(const struct scmi_handle *handle, u8 prot_id)
- }
- 
- struct scmi_protocol_devres {
--	const struct scmi_handle *handle;
-+	struct scmi_handle *handle;
- 	u8 protocol_id;
+ 	struct scmi_pinctrl_info *pi = ph->get_priv(ph);
+diff --git a/drivers/firmware/arm_scmi/power.c b/drivers/firmware/arm_scmi/power.c
+index bb5062ab8280..00a9f53295f6 100644
+--- a/drivers/firmware/arm_scmi/power.c
++++ b/drivers/firmware/arm_scmi/power.c
+@@ -319,7 +319,7 @@ static const struct scmi_protocol_events power_protocol_events = {
+ 	.num_events = ARRAY_SIZE(power_events),
  };
  
-@@ -2525,7 +2525,7 @@ static void scmi_devm_protocol_put(struct scmi_device *sdev, u8 protocol_id)
-  *
-  * Return: True if transport is configured as atomic
-  */
--static bool scmi_is_transport_atomic(const struct scmi_handle *handle,
-+static bool scmi_is_transport_atomic(struct scmi_handle *handle,
- 				     unsigned int *atomic_threshold)
+-static int scmi_power_protocol_init(const struct scmi_protocol_handle *ph)
++static int scmi_power_protocol_init(struct scmi_protocol_handle *ph)
  {
- 	bool ret;
-@@ -2582,7 +2582,7 @@ static struct scmi_handle *scmi_handle_get(struct device *dev)
-  * Return: 0 is successfully released
-  *	if null was passed, it returns -EINVAL;
-  */
--static int scmi_handle_put(const struct scmi_handle *handle)
-+static int scmi_handle_put(struct scmi_handle *handle)
- {
- 	struct scmi_info *info;
- 
-diff --git a/drivers/firmware/arm_scmi/notify.c b/drivers/firmware/arm_scmi/notify.c
-index dee9f238f6fd..bfc1d57ce052 100644
---- a/drivers/firmware/arm_scmi/notify.c
-+++ b/drivers/firmware/arm_scmi/notify.c
-@@ -1464,7 +1464,7 @@ static int scmi_notifier_unregister(const struct scmi_handle *handle,
- }
- 
- struct scmi_notifier_devres {
--	const struct scmi_handle *handle;
-+	struct scmi_handle *handle;
- 	u8 proto_id;
- 	u8 evt_id;
- 	u32 __src_id;
-diff --git a/drivers/firmware/arm_scmi/raw_mode.c b/drivers/firmware/arm_scmi/raw_mode.c
-index 73db5492ab44..efae99febdde 100644
---- a/drivers/firmware/arm_scmi/raw_mode.c
-+++ b/drivers/firmware/arm_scmi/raw_mode.c
-@@ -172,7 +172,7 @@ struct scmi_raw_queue {
-  */
- struct scmi_raw_mode_info {
- 	unsigned int id;
--	const struct scmi_handle *handle;
-+	struct scmi_handle *handle;
- 	const struct scmi_desc *desc;
- 	int tx_max_msg;
- 	struct scmi_raw_queue *q[SCMI_RAW_MAX_QUEUE];
-@@ -1210,7 +1210,7 @@ static int scmi_raw_mode_setup(struct scmi_raw_mode_info *raw,
-  *
-  * Return: An opaque handle to the Raw instance on Success, an ERR_PTR otherwise
-  */
--void *scmi_raw_mode_init(const struct scmi_handle *handle,
-+void *scmi_raw_mode_init(struct scmi_handle *handle,
- 			 struct dentry *top_dentry, int instance_id,
- 			 u8 *channels, int num_chans,
- 			 const struct scmi_desc *desc, int tx_max_msg)
-diff --git a/drivers/firmware/arm_scmi/raw_mode.h b/drivers/firmware/arm_scmi/raw_mode.h
-index 8af756a83fd1..49895b81bc3b 100644
---- a/drivers/firmware/arm_scmi/raw_mode.h
-+++ b/drivers/firmware/arm_scmi/raw_mode.h
-@@ -17,7 +17,7 @@ enum {
- 	SCMI_RAW_MAX_QUEUE
+ 	int domain, ret;
+ 	struct scmi_power_info *pinfo;
+diff --git a/drivers/firmware/arm_scmi/powercap.c b/drivers/firmware/arm_scmi/powercap.c
+index ab9733f4458b..ac527f59bc1e 100644
+--- a/drivers/firmware/arm_scmi/powercap.c
++++ b/drivers/firmware/arm_scmi/powercap.c
+@@ -957,7 +957,7 @@ static const struct scmi_protocol_events powercap_protocol_events = {
  };
  
--void *scmi_raw_mode_init(const struct scmi_handle *handle,
-+void *scmi_raw_mode_init(struct scmi_handle *handle,
- 			 struct dentry *top_dentry, int instance_id,
- 			 u8 *channels, int num_chans,
- 			 const struct scmi_desc *desc, int tx_max_msg);
-diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
-index aafaac1496b0..17095e41f5c6 100644
---- a/include/linux/scmi_protocol.h
-+++ b/include/linux/scmi_protocol.h
-@@ -909,7 +909,7 @@ struct scmi_handle {
- 		(*devm_protocol_get)(struct scmi_device *sdev, u8 proto,
- 				     struct scmi_protocol_handle **ph);
- 	void (*devm_protocol_put)(struct scmi_device *sdev, u8 proto);
--	bool (*is_transport_atomic)(const struct scmi_handle *handle,
-+	bool (*is_transport_atomic)(struct scmi_handle *handle,
- 				    unsigned int *atomic_threshold);
+ static int
+-scmi_powercap_protocol_init(const struct scmi_protocol_handle *ph)
++scmi_powercap_protocol_init(struct scmi_protocol_handle *ph)
+ {
+ 	int domain, ret;
+ 	struct powercap_info *pinfo;
+diff --git a/drivers/firmware/arm_scmi/protocols.h b/drivers/firmware/arm_scmi/protocols.h
+index 4c75970326e6..309e834e5392 100644
+--- a/drivers/firmware/arm_scmi/protocols.h
++++ b/drivers/firmware/arm_scmi/protocols.h
+@@ -183,7 +183,7 @@ struct scmi_protocol_handle {
+ 	unsigned int version;
+ 	const struct scmi_xfer_ops *xops;
+ 	const struct scmi_proto_helpers_ops *hops;
+-	int (*set_priv)(const struct scmi_protocol_handle *ph, void *priv);
++	int (*set_priv)(struct scmi_protocol_handle *ph, void *priv);
+ 	void *(*get_priv)(const struct scmi_protocol_handle *ph);
+ };
  
- 	const struct scmi_notify_ops *notify_ops;
+@@ -315,7 +315,7 @@ struct scmi_xfer_ops {
+ 			 struct scmi_xfer *xfer);
+ };
+ 
+-typedef int (*scmi_prot_init_ph_fn_t)(const struct scmi_protocol_handle *);
++typedef int (*scmi_prot_init_ph_fn_t)(struct scmi_protocol_handle *);
+ 
+ /**
+  * struct scmi_protocol  - Protocol descriptor
+diff --git a/drivers/firmware/arm_scmi/reset.c b/drivers/firmware/arm_scmi/reset.c
+index 4bc5c24c2d72..532ebac3286a 100644
+--- a/drivers/firmware/arm_scmi/reset.c
++++ b/drivers/firmware/arm_scmi/reset.c
+@@ -351,7 +351,7 @@ static const struct scmi_protocol_events reset_protocol_events = {
+ 	.num_events = ARRAY_SIZE(reset_events),
+ };
+ 
+-static int scmi_reset_protocol_init(const struct scmi_protocol_handle *ph)
++static int scmi_reset_protocol_init(struct scmi_protocol_handle *ph)
+ {
+ 	int domain, ret;
+ 	struct scmi_reset_info *pinfo;
+diff --git a/drivers/firmware/arm_scmi/sensors.c b/drivers/firmware/arm_scmi/sensors.c
+index 882d55f987d2..0a2b3bb83cc9 100644
+--- a/drivers/firmware/arm_scmi/sensors.c
++++ b/drivers/firmware/arm_scmi/sensors.c
+@@ -1144,7 +1144,7 @@ static const struct scmi_protocol_events sensor_protocol_events = {
+ 	.num_events = ARRAY_SIZE(sensor_events),
+ };
+ 
+-static int scmi_sensors_protocol_init(const struct scmi_protocol_handle *ph)
++static int scmi_sensors_protocol_init(struct scmi_protocol_handle *ph)
+ {
+ 	int ret;
+ 	struct sensors_info *sinfo;
+diff --git a/drivers/firmware/arm_scmi/system.c b/drivers/firmware/arm_scmi/system.c
+index 0f51c36f6a9d..dfb7183d1f14 100644
+--- a/drivers/firmware/arm_scmi/system.c
++++ b/drivers/firmware/arm_scmi/system.c
+@@ -138,7 +138,7 @@ static const struct scmi_protocol_events system_protocol_events = {
+ 	.num_sources = SCMI_SYSTEM_NUM_SOURCES,
+ };
+ 
+-static int scmi_system_protocol_init(const struct scmi_protocol_handle *ph)
++static int scmi_system_protocol_init(struct scmi_protocol_handle *ph)
+ {
+ 	struct scmi_system_info *pinfo;
+ 
+diff --git a/drivers/firmware/arm_scmi/vendors/imx/imx-sm-bbm.c b/drivers/firmware/arm_scmi/vendors/imx/imx-sm-bbm.c
+index 33f9ebf6092b..1f569951bb31 100644
+--- a/drivers/firmware/arm_scmi/vendors/imx/imx-sm-bbm.c
++++ b/drivers/firmware/arm_scmi/vendors/imx/imx-sm-bbm.c
+@@ -342,7 +342,7 @@ static const struct scmi_imx_bbm_proto_ops scmi_imx_bbm_proto_ops = {
+ 	.button_get = scmi_imx_bbm_button_get,
+ };
+ 
+-static int scmi_imx_bbm_protocol_init(const struct scmi_protocol_handle *ph)
++static int scmi_imx_bbm_protocol_init(struct scmi_protocol_handle *ph)
+ {
+ 	int ret;
+ 	struct scmi_imx_bbm_info *binfo;
+diff --git a/drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c b/drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c
+index 753274af11d2..928d93a8603f 100644
+--- a/drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c
++++ b/drivers/firmware/arm_scmi/vendors/imx/imx-sm-cpu.c
+@@ -230,7 +230,7 @@ static int scmi_imx_cpu_attributes_get(const struct scmi_protocol_handle *ph,
+ 	return ret;
+ }
+ 
+-static int scmi_imx_cpu_protocol_init(const struct scmi_protocol_handle *ph)
++static int scmi_imx_cpu_protocol_init(struct scmi_protocol_handle *ph)
+ {
+ 	struct scmi_imx_cpu_info *info;
+ 	int ret, i;
+diff --git a/drivers/firmware/arm_scmi/vendors/imx/imx-sm-lmm.c b/drivers/firmware/arm_scmi/vendors/imx/imx-sm-lmm.c
+index c56ae247774d..0a9af7ed1981 100644
+--- a/drivers/firmware/arm_scmi/vendors/imx/imx-sm-lmm.c
++++ b/drivers/firmware/arm_scmi/vendors/imx/imx-sm-lmm.c
+@@ -223,7 +223,7 @@ static int scmi_imx_lmm_protocol_attributes_get(const struct scmi_protocol_handl
+ 	return ret;
+ }
+ 
+-static int scmi_imx_lmm_protocol_init(const struct scmi_protocol_handle *ph)
++static int scmi_imx_lmm_protocol_init(struct scmi_protocol_handle *ph)
+ {
+ 	struct scmi_imx_lmm_priv *info;
+ 	int ret;
+diff --git a/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c b/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c
+index 0ada753367ef..79c7966888be 100644
+--- a/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c
++++ b/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c
+@@ -459,7 +459,7 @@ static const struct scmi_imx_misc_proto_ops scmi_imx_misc_proto_ops = {
+ 	.misc_syslog = scmi_imx_misc_syslog_get,
+ };
+ 
+-static int scmi_imx_misc_protocol_init(const struct scmi_protocol_handle *ph)
++static int scmi_imx_misc_protocol_init(struct scmi_protocol_handle *ph)
+ {
+ 	struct scmi_imx_misc_info *minfo;
+ 	int ret;
+diff --git a/drivers/firmware/arm_scmi/voltage.c b/drivers/firmware/arm_scmi/voltage.c
+index b9391c1ee8a0..60c3405b4999 100644
+--- a/drivers/firmware/arm_scmi/voltage.c
++++ b/drivers/firmware/arm_scmi/voltage.c
+@@ -401,7 +401,7 @@ static const struct scmi_voltage_proto_ops voltage_proto_ops = {
+ 	.level_get = scmi_voltage_level_get,
+ };
+ 
+-static int scmi_voltage_protocol_init(const struct scmi_protocol_handle *ph)
++static int scmi_voltage_protocol_init(struct scmi_protocol_handle *ph)
+ {
+ 	int ret;
+ 	struct voltage_info *vinfo;
 
 -- 
 2.51.0
