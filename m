@@ -1,192 +1,137 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012005.outbound.protection.outlook.com [52.101.66.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CF134B68F
-	for <arm-scmi@vger.kernel.org>; Tue, 24 Feb 2026 23:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771974688; cv=none; b=Ni4Usq0G2VfNBijMB6Sf+TpzTCZJkC7JMy8QrqqBYytnpu6VdwMsosIwotzePbrjuNztRswALl8sGVDcBw9HJyf0/BenA/wqMqYvy9qk6QfFkec86lrUKzSN16ZIPI/kfEOALuftqhb1PO+bh7haKkjPkO/hWc3vw+MxNcofk98=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771974688; c=relaxed/simple;
-	bh=C6dKs709R8QkP96qnTwbzemrD3f3toqG3vduzVJ7m7w=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=O9J2HHEsBI9lAX6DeDEelaxMzlX0eqb2nIexfCpz/Ec7PDdnLphKqiDcuA+6Cm1gWlAFLjTazSkXMWLABi7PFMWt8GpkswegAhXIoQd4cAHqzg2lo9hCFO605uXI5THe62UPFMTuRTGu5O5dzJq1WR7YBWSZVK++nlnreG88Uv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=a7zt2RPp; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC4A33CE91
+	for <arm-scmi@vger.kernel.org>; Wed, 25 Feb 2026 09:37:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.5
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772012222; cv=fail; b=V2Cs01kjakHTKupHOoCBXqiojRlqbvyyPc4dq9xLUSCbxpLE+vvR4YzY5ZgExFXuWY4JVsQ+L1ukN72iEIg7jih1RMF1iu+9DWU+ycqaFk1ZVtXlp9R0P/4PM7KoQETlQKZ9FZTYQQ3Om28e14pit84ck7QcuX2kY6fDzgWbgCI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772012222; c=relaxed/simple;
+	bh=8waqtQ1+e62f+14zaevIRt4c6RQrTiQCCT0cYuRHCTw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=AKUFNEE/3LasjnaI0u/eaXq26AIu2ygGdW7CVYKuJ2yVQzdeAs2oMEqjs3Jog5bZhaG+uqp1Rks1vDtVREBoVAfdZn8tlrVMAixzt1MIWOIEBTi++0dVWIqnvyXts7ItnQQqKN/p0Aqe3PpLjAliV2XEmf7YxZEu96ee06ij9fU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=G5Qk7+8A; arc=fail smtp.client-ip=52.101.66.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="a7zt2RPp"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-8231061d234so4790024b3a.1
-        for <arm-scmi@vger.kernel.org>; Tue, 24 Feb 2026 15:11:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771974686; x=1772579486; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aaFTBYE7pFhQ5Wo9wLOr+Dlo/OUF/sPft+MdYSKIvhA=;
-        b=a7zt2RPpITAfVZkvqDHokn1wHTT8CPiw5kOdeYnN5nZn01FPOnSKhNk9mlqRrPoSqD
-         O2H7fXkGSV07sE6nJ9et9bAy8R0Y6lEBvcZgXO3i+a87B2rSKA4E1Xvfzv9ayrnc9LrY
-         w96Y67rEnY/ZviPJPy2Ez7VhsxVRXjM2sxeN85fZqbkiUlnGEDb4/6u0vLZTEqXPwU9/
-         gPJ+x3IxXCdA3WKrtt+TTeUr4hVMr+pTreZ43tcjelplhRzqqdKn9iOaosF0HYP0QsxO
-         WTHmcpkZ4lzFfaM6qd/YM05+geAUfmHxqHKb/zUYUN2o/Jh7A7FSdsgKZayPgUFX83Bu
-         4qRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771974686; x=1772579486;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aaFTBYE7pFhQ5Wo9wLOr+Dlo/OUF/sPft+MdYSKIvhA=;
-        b=d2Khnq4Ac11XF3E9drUTp1n+CxWPzMVbE5IYwBzQhnsr/2LLyr6NW0iG20B11gMOFy
-         mprrm7eSGdevmm4qLuLTgk8Xh9dDqoyNxmwxlAaSZLB3UCuXr1JBT0tSA/1JTA4uuCYV
-         Xd287NwdQx4VPDwdysmeDAlI0kFp6m1t1s9kGvggUVwmhnYlVASotCZmH0sQ60tm2Lpw
-         1jSMMPHrRDfIozgCIlJZNo/pHD0OXBOGwBZUMQyBEfI2zW8UD97ll0myXu5qA2ozcpK2
-         eMZ40ToIZcVgoARZQ9cRm1+ntkwsq7dgmfTROCnmycN/tjtMnzB2HoOeYrzzMtJJN0Am
-         8MUw==
-X-Forwarded-Encrypted: i=1; AJvYcCVUl/XO2Byb5IqKByu0m3oyHar+y4dOaMDrtpLzsjVsXFf/jtVVpPmF4kz9d7ipZ01ghWyeuRRVLg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxs7q0I7i/8ZQIOpIi2ZKB5Oyyr0IGoh5AwcwjL7ZultELTyePO
-	A6SULaQ6t0egGjkePgWPPBpVkGw8uprB+bxYt1DdmDoog3fXLh//N6JbQydLWGFS8R4=
-X-Gm-Gg: ATEYQzw1gj2b+23evyZ/4WrF1Mq6Bi3ojAfSrO/l0bIcwpqsKtbpfxY/fajJBe3IG/S
-	og32BSpyCbYoUTWP6M8IQIK2KX6yLe8uq/6eZWuEz885cGD2zODx9mK4MOvVB9iWoAY/iZirok2
-	mDpz2CPbuLs4AIx8OrkwxLqHtJoFcCl49E5AYuoo6fQmuyN7Bq55Ps9TVVGh2v7U3HIKuYXUOyg
-	1aJvXcpOqKyankvBYfQrmbyDtmgtAh2Qrsl1fYyqnT8KsiaRuZf+ZJxi8kI8lDpWp+gcqznTQtp
-	VHRcIJqXSEoK7Lk5I8D9bPVJXuaAVQAtDfcdvk07otTEYttjvzucZyesgMZJ9zSPEgiUkiGWwy1
-	GP69LXhZee0yuAhfRDdTox4Sjbmn8Pi/r4l6yITXs5fal2eDaLZEs9SOJ9NtTV+vFqHOjv1YOMM
-	7FH5agS4TdLzkL1iCRF/8q
-X-Received: by 2002:a05:6a00:1746:b0:81f:b1d4:b486 with SMTP id d2e1a72fcca58-826da8bf4a2mr12692323b3a.8.1771974686262;
-        Tue, 24 Feb 2026 15:11:26 -0800 (PST)
-Received: from localhost ([71.212.200.220])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-826dd63f1b3sm11486793b3a.3.2026.02.24.15.11.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 15:11:25 -0800 (PST)
-From: Kevin Hilman <khilman@baylibre.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Rob Herring <robh@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Sudeep Holla
- <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>,
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
- arm-scmi@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH RFC v5 1/2] pmdomain: core: support domain hierarchy via
- power-domain-map
-In-Reply-To: <CAMuHMdURxN=kBQHJKnsTVEQPeuB41r5kZy4sgFNqg=U2ynuZMw@mail.gmail.com>
-References: <20260122-pmdomain-hierarchy-onecell-v5-0-76855ec856bd@baylibre.com>
- <20260122-pmdomain-hierarchy-onecell-v5-1-76855ec856bd@baylibre.com>
- <20260127151735.GA1699112-robh@kernel.org> <7hjywtzaiy.fsf@baylibre.com>
- <CAMuHMdURxN=kBQHJKnsTVEQPeuB41r5kZy4sgFNqg=U2ynuZMw@mail.gmail.com>
-Date: Tue, 24 Feb 2026 15:11:25 -0800
-Message-ID: <7hv7flrb36.fsf@baylibre.com>
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="G5Qk7+8A"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hOjgVoPZUMxOe03x7z8pZgeIkT6kAI7v59Mv/tZfpc1ed9UzdkDzEX7OXRXRCTtiRZjBjyBSoItOnMgEKw/sGFUJtDUbypr6XpSO9ICURjy+qhnvmX9rjNS01QqA562FDP4adECHNHIZ2YpTFBoEpSyIRI2JlhDLkQHRtNIdbWhIO5w+98z9BDw0lIR8PIxqpG32o7op5GJyMfIdeunmsyd2vakJszII+tw+4tG4fQgzkWJeGARRxUsgqrnbCq5zp/6rzPwm5IO3qn/QTJ7tf1L90gheFUtsqkiQ4pX5E+1gX34fV4yAcC394peBZO8fqf0XjdXEpGUpJLYb9Bmdeg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+vJIaTg0H/ulJlmPC7TUEYhG1pzQ7te03NPkIfPsXdI=;
+ b=CRXW7XODDbgNxdPkJwBJ1dofeeVztKTILxA4FZ7L7m6XCUbTmZdk52eLZ5J9JCGrNcJPjpCf0ogCvcspsRZ/WPaVOUQXT6zl0WQ+3XF0H88cdJkk2gZ3kvP65M0oo3DZWtFxgXJpCmJKZ5iVQZPX55NNnsIBTLdfvARn3849qL63wAX7S7V2O1WuJE0HWLweAyWcV8IjaHEZ5ZX7cRa1znM5u8AC+DfvfvLvmaVSP33YeYb2Ourh5Zxf/6AGqPTmH2XvmP4EDByam9sTaRvRHMq92HmLqAQnxZCL8ysy9J8t5DqpEYScApb+xSd4gTelpoJCw807SaUk5BanJS4L2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+vJIaTg0H/ulJlmPC7TUEYhG1pzQ7te03NPkIfPsXdI=;
+ b=G5Qk7+8A+9lBBRzloumxPAepGMdcL2FlRPepRyczNOGI1Rd7jDT2N1LlcdsdpYyzThqvoYhfveqhgxwtzGqb4xiMqygU1WOml1pJzXOgbXpQUFrqcIiIjmSmLQG3z3EpYW2wjMnJrCEaiAvlIDRFrIDIPgCbwc/DUzJ3WAwka15Yh94cj92pqDnMm+UCwPw++gUl7Y33iirTagHdzMG52zTduDPROq4v6V6KJrJF8lnD9fgkWeh/32sbv7q575Jnno2TC/b80bSRTns450Kyzu7JQIznJ/bETSLMJ7VRtyue42tcPV87kOdkOItpfuPDtY3Ej+HmeO4jPejNe5oVhQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
+ by AM8PR04MB7233.eurprd04.prod.outlook.com (2603:10a6:20b:1df::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.19; Wed, 25 Feb
+ 2026 09:36:58 +0000
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::4972:7eaa:b9f6:7b5e]) by PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::4972:7eaa:b9f6:7b5e%7]) with mapi id 15.20.9632.017; Wed, 25 Feb 2026
+ 09:36:57 +0000
+Date: Wed, 25 Feb 2026 18:52:06 +0800
+From: Peng Fan <peng.fan@oss.nxp.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Peng Fan <peng.fan@nxp.com>, Tom Rini <trini@konsulko.com>,
+	Alice Guo <alice.guo@nxp.com>, Ye Li <ye.li@nxp.com>,
+	Jacky Bai <ping.bai@nxp.com>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Vinh Nguyen <vinh.nguyen.xz@renesas.com>,
+	Valentin Caron <valentin.caron@foss.st.com>, u-boot@lists.denx.de,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>,
+	Michal Simek <michal.simek@amd.com>, arm-scmi@vger.kernel.org,
+	Linus Walleij <linusw@kernel.org>
+Subject: Re: [PATCH 1/4] scmi: pinctrl: add pinctrl message IDs
+Message-ID: <aZ7UVtJV-tWyP1dd@nxa18884-linux.ap.freescale.net>
+References: <cover.1771856828.git.dan.carpenter@linaro.org>
+ <62727b8bc822e07ad546d9e9fe4373a372a3f1b9.1771856828.git.dan.carpenter@linaro.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <62727b8bc822e07ad546d9e9fe4373a372a3f1b9.1771856828.git.dan.carpenter@linaro.org>
+X-ClientProxiedBy: SG2PR04CA0208.apcprd04.prod.outlook.com
+ (2603:1096:4:187::10) To PAXPR04MB8459.eurprd04.prod.outlook.com
+ (2603:10a6:102:1da::15)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|AM8PR04MB7233:EE_
+X-MS-Office365-Filtering-Correlation-Id: 31dd5376-067c-4331-31b7-08de74516b64
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|52116014|376014|19092799006|366016|1800799024|38350700014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	hzsftknk5D1sD9sftgy2h0Jr5YyrXUKhvyG1XvBos/V6pUxBxuyzLJfWPT3pWfWo8MVBfTRYWFJJHKWokAQiMsCA5ZRazgvBl/WnuGSkTBuWaybtrTk0WW3CnM2Eyc0dfFOnLN031H3jfbiyyjQewZlPaNdEcaLIqRCtvZ3q46014D4OgLOuKRJQ1uxaUFFI0jOZHq/n2DuSY8w4xuqJcBsYLTqp0jna92IgIHlPDvHm38z7+5HOg2BPjRJne4rrk4v1z4oH1ImjTzXHX5i/D/xBPBrSBbQUl4tiT10ZCycCXnhHnon/OaUAUu66d6JPlf4sM3QFBfakVqafADHiTqCrUIpVhbNV90xVrN4MJEC1S+qhSZ7jW37pYbEzmvgct2wqNiGBFGaVK2uZkPrqMMjWE1pu+pB5oZ4XCBS59tio3GxSipeQaggZOPUvUgSOEbXgN9Dbkdt2BvW5+5KhtVZ3RmtwQVQRowJmEUExmcvrlhxam8xwfya1D9uryaQ/HkWJZheDkaqCgY4EoByowz8DNu+mvSuVYiySjhsqYt/ssu7CyIyJPat3Yn7aJ+ILK8j0hoY/rUTHlpdHO9tTz+G/uuJsSaRCMm/U+k7tcwGG/jl9dRAiVxP+kHbz5kaV28h7tFAgbCSr9jUEMiQS4o205z5TA76KyVAOpqopGltOTXIRfJKbnmiXp9Tltdd3rOL9ReEWdyCrLGS5EEdgytrt2+D15UrdRyIHPVHjCbToZYN8voJveGTw/7R9IiJRX23rSsr3TyAG7706O92p+TwjNUJLSy5HrgzfYVDpUFQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(52116014)(376014)(19092799006)(366016)(1800799024)(38350700014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?1KtR1s1BPDmlCnttnOvMYp6krZKoPxH9lDHZI8FQA0Tn44iFBkeDe7iP2pNY?=
+ =?us-ascii?Q?kGYLfUZ3zL0cTYDL67HFXtWEtqwdBpzTjhpeSiPVLP1jjxXWNm5X4HPZCHh0?=
+ =?us-ascii?Q?8I6jKEGQacgbxWqOG8TOfPV5DDXXaN209f6KbSm+C30pxdzsdlNdvxJQfdwB?=
+ =?us-ascii?Q?sjd6YROn+HhXCDPNfWLCYKG56j49Zga2U0OSJpRpmFINfYNe0pXbdClRRpp9?=
+ =?us-ascii?Q?K+WNxgnGeCOHOa/RmusALh5bg0fkCYocJcgqh4p2VFwADPlqkX50xh4zaHwu?=
+ =?us-ascii?Q?vcbp3AQAefXfPDjs/js600rdmXG5VMjK49ys9jUJ3SV5iN+Iw5o25jKuBHja?=
+ =?us-ascii?Q?ulbz/0hERQkuEUpnBs4QbcZJxbmO4oeOUVO4PqT/0Lc7xbG6F6ohotEvFYuy?=
+ =?us-ascii?Q?QRaghXUk5TGSvAFNNpJ7q3U0dDhQZRqijUlv+1wY0LbbOiwxI57sJqFCvgka?=
+ =?us-ascii?Q?hLoXi5X5v5mk07H0tQ9klZ3q4JZo83N808kh0+lMr/fjaIAE18rLXxIrz1VE?=
+ =?us-ascii?Q?xlMWsDnkyk2KhM/WdpAjM9q3uJw9yOpkpTWPf3oLgAGh92vbZ4/417JIon1g?=
+ =?us-ascii?Q?iKWKh4HRxzeyUL5k6af0xzWPuhPsSgon1xeWHdc9j7ibSuztH5EQ/EyEMYJ6?=
+ =?us-ascii?Q?bxg9SlAtjOQzW8ymw9mKplktivENBGNpatZKfENqHf3avO7u8U0HBnd214pg?=
+ =?us-ascii?Q?hy+UUfc7EaaJ69sVwygxf37GQkpIBlFhIjD02939+KA+JPPbRBxCKWuM75ls?=
+ =?us-ascii?Q?qvqvlQZ64mcIdwa27Z0Ij2B4MZZTmDb8Icdtp9lNN/okTL0AHchLIzXqA4Pm?=
+ =?us-ascii?Q?ucvtvyOJQ2ZnVSOvKVp3cQNEy5Y0v/ncwl3PTEMJPUYgl+3iG9izcwkNCk/g?=
+ =?us-ascii?Q?MFUDGWctu5dnesp+8hGWVdQiMx+Iyx5iZHH0APT0ZOMaG/7drHEjjp73a8II?=
+ =?us-ascii?Q?qt7wMhl9g5GzEZbKPnDDSd5KFGc4BLMdD69wzq484Mgj2Z+vPTwKkLu8WlXw?=
+ =?us-ascii?Q?RetHGHURJTlb/XKtihI/GJ5OnlWffbzVoA9dENijh771Q6D90pEbeFkTtTpF?=
+ =?us-ascii?Q?eYZ+sTFdPUtsXdUTC1yDiXBjyM/8VZpcraI3J/Wj/8y4f8923BRsDwhfe0vP?=
+ =?us-ascii?Q?gHECCCCVixX3+KpifuTCWRcb91gx9TY1YfwffJD1ygKUmQhVmdct/rST1u2K?=
+ =?us-ascii?Q?aMFBOzD+qSyCRVQnsPoW/ZJOdEtVt5nbXKGJKsUlfNTapUIoq6alQLybg+e7?=
+ =?us-ascii?Q?jAlwP1JbVu0BJCvFYjzLJGQ6o4zeJ5YrKwMfVi9rhQBYtMCo97azpsx0IGgB?=
+ =?us-ascii?Q?8v3xxQahfhYhFioAGiTlAfd3knwPvpYLyfXQ0oXakqieon8aPQRY9yd89w1J?=
+ =?us-ascii?Q?MKzfPPmf5/lmIBj6XtC/ttXPf07209hw49PGZqd5hR/7aAg++226IZ/iEJ5M?=
+ =?us-ascii?Q?SfHxIHjA+kARzVnpIjARhmCnKYxPVlKBjquH0AGlCbiHyzM/+3ecPuk04A++?=
+ =?us-ascii?Q?qjoxN8CdHWekr+QN/DVgKeXg+iB69wlIvkOj2ngOSQbBf/iJVo6f0/wET0cm?=
+ =?us-ascii?Q?ts3BLmBfj+Q4rOHnztslNFPWmGzInjGmHBkE7WKNZ6/CBXUUv0Hyfss1ZZRO?=
+ =?us-ascii?Q?5Ndui8LIoEP1Svyf9MJzN59fJOJiafBr5hCCXrYcS0lhcZfQk6quenKTLj5/?=
+ =?us-ascii?Q?Nll21EkLmO/H6T1YU3D+Yf11d87lhrlEwDSAvwVbHKgCPx1ddM/LwDNiBGVx?=
+ =?us-ascii?Q?HS4t9aAhXA=3D=3D?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31dd5376-067c-4331-31b7-08de74516b64
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2026 09:36:57.8670
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CrRe8PUn7BYKwd+1sCqOVkV0N43GGnyzzUn81iV9q43qOtO+NxFUBXbn7eSOuHQ8jG8otG9qPvcu+3BkxiP4JQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7233
 
-Geert Uytterhoeven <geert@linux-m68k.org> writes:
-
-> Hi Kevin,
+On Mon, Feb 23, 2026 at 05:33:25PM +0300, Dan Carpenter wrote:
+>Add all the pinctrl message IDs.  I renamed SCMI_MSG_PINCTRL_CONFIG_SET
+>to SCMI_PINCTRL_SETTINGS_CONFIGURE so the naming matches the spec better.
 >
-> Thanks for your series! I became aware of it only recently, and read
-> it and its history with great interest...
->
-> On Wed, 4 Feb 2026 at 00:13, Kevin Hilman <khilman@baylibre.com> wrote:
->> Rob Herring <robh@kernel.org> writes:
->> > On Thu, Jan 22, 2026 at 05:14:00PM -0800, Kevin Hilman (TI) wrote:
->> >> Add of_genpd_[add|remove]_subdomain_map() helper functions to support
->> >> hierarchical PM domains defined by using power-domains-map
->> >
->> > power-domain-map. No 's'.
->> >
->> >> property (c.f. nexus node maps in DT spec, section 2.5.1).
->> >>
->> >> This enables PM domain providers with #power-domain-cells > 0 to
->> >> establish subdomain relationships via the power-domain-map property,
->> >> which was not previously possible.
->> >>
->> >> These new helper functions:
->> >> - uses an OF helper to iterate to over entries in power-domain-map
->> >> - For each mapped entry: extracts child specifier, resolves parent phandle,
->> >>   extracts parent specifier args, and establishes subdomain relationship
->> >> - Calls genpd_[add|remove]_subdomain() with proper gpd_list_lock mutex protection
->> >>
->> >> Example from k3-am62l.dtsi:
->> >>
->> >>   scmi_pds: protocol@11 {
->> >>       #power-domain-cells = <1>;
->> >>       power-domain-map = <15 &MAIN_PD>,  /* TIMER0 */
->> >>                          <19 &WKUP_PD>;  /* WKUP_TIMER0 */
->> >>   };
->> >>
->> >>   MAIN_PD: power-controller-main {
->> >>       #power-domain-cells = <0>;
->> >>   };
->> >>
->> >>   WKUP_PD: power-controller-main {
->> >>       #power-domain-cells = <0>;
->> >>   };
->> >>
->> >> This allows SCMI power domain 15 to become a subdomain of MAIN_PD, and
->> >> domain 19 to become a subdomain of WKUP_PD.
->> >
->> > One concern I have here is generally *-map is transparent meaning when
->> > you lookup <&scmi_pds 15>, &MAIN_PD is returned as the provider. It's
->> > also possible to have a map point to another map until you get to the
->> > final provider. The only way we have to support both behaviors is the
->> > consumer has to specify (i.e. with of_parse_phandle_with_args_map() vs.
->> > of_parse_phandle_with_args()), but the consumer shouldn't really know
->> > this detail.
->
-> This is also the first thing I was worried about, when I noticed you are
-> not doing transparent mapping, but add an explicit hierarchy instead,
-> based on the map.
+>Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-Yeah, the map wasn't my original idea, and TBH, I had never really even
-heard of nexus node maps before it was suggested by Rob[1] that I could
-use it to describe hierarchy.
-
-But... I'm gathering from Rob's and your recent feedback that my current
-approach to using a map is an abuse/misuse of the map because it's just
-being used to describe hierarchy, and because it's not transparent.
-
-I'm still waiting to hear from Rob to see if I understood that right,
-but your feedback is making me think that's the case.
-
-If so, I'm honestly not sure where to go next.
-
->> > Maybe a transparent map of power-domains would never make sense. IDK. If
->> > so, then there's not really any issue since the pmdomain core handles
->> > everyone the same way.
->
-> AFAIUI, SCMI is not limited to the SoC, but may be used for the whole
-> hardware platform, so it could control power to external devices, too.
-> Once we need to map a power domain through a connector, we need
-> support for transparent mapping through a nexus node.
->
->> I don't really know enough about potential usage of maps to know if
->> there's ever a usecase for transparent maps.  However, the problem I'm
->> trying to solve is less about transparent maps, and more about
->> describing hierarchy in a situation where "leaf" domains of the same
->> type (e.g. SCMI) can have different parent domains.
->
-> Hierarchy is indeed something that cannot be described with the current
-> SCMI power domain management protocol.  This includes external hierarchy
-> (your use case), and internal hierarchy: AFAIK, Linux cannot be made
-> aware of the hierarchical relationship among the different power
-> domains controlled through SCMI either.
-
-Yes, the limitations of SCMI (both the protocol, and the Linux
-implementation) are the root cause here.  In case you didn't see it,
-before I posted the original version of this series, I started a thread
-on the arm-scmi list to discuss implementation options[2]
-
-So since this is primarily and SCMI limitation, maybe I should just go
-back to the original proposal of using power-domains-child-ids[3]?
-
-I'm definitely open to suggestions here as I'm a bit out of my depth
-here.
-
-Kevin
-
-[1] https://lore.kernel.org/r/20250528203532.GA704342-robh@kernel.org
-[2] https://lore.kernel.org/arm-scmi/7hecy3h7ky.fsf@baylibre.com/
-[3] https://lore.kernel.org/all/20250528-pmdomain-hierarchy-onecell-v1-1-851780700c68@baylibre.com/
+Reviewed-by: Peng Fan <peng.fan@nxp.com>
