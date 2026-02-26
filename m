@@ -1,150 +1,129 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F39EB3B52E4;
-	Thu, 26 Feb 2026 13:55:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA3EE3624A1;
+	Thu, 26 Feb 2026 14:18:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772114128; cv=none; b=Qhv1mJQBQCa4QWt2h7oI8ZVSCI60RPKovS+9xqTIriXaHJE+EUsMLqob2LEmJrWSHhValnAnRqAayN74tb9qUA5D2hKByixIIdCa4PtSbQ21FxW5Rk6/Wc0HbUaTG6LAabtVSTRQV/vb6eHvd5vV9s+qaN8gaGa8wTQ8AIC3e2k=
+	t=1772115525; cv=none; b=HoQo5e6njUsGGTghvmEut6hVNTu5zpde+v+RX1NDU7nG4qCvVIls791ZN0RvmVkjcvp0C1vDTtA4PlkSKBPAR8XsYBNCU+tNdnshrM9+Yegt+WtJ4Lxx3HQGbGD7z6SJjhZiNGJ7Nb4pp6Qs8x64Biq1BVSDO9dg1LpG1hLXT4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772114128; c=relaxed/simple;
-	bh=NxatYKgP/OzTCLlin/VcjXCcZs4g30Boni3dtcqSfoE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sTQaxHnZ1Zq3tdqVJ/tLgzmEnQgvicpMS7vxiVcyQ0nG5FT1XY3rZpFkr/d/Hsrii8Yjl3q1r29VhJ6jxY8RulO1eP/mRO0MsEygXbQmKy7RUTlkYQ0d5Z5LVgE/d4F/mM6W6jPdzHaD6aBng8x9pZjikM/fydwq7nATLdVk0x4=
+	s=arc-20240116; t=1772115525; c=relaxed/simple;
+	bh=6kGz6xviglIyw05t9b17V0sNmTLRK51y6oxe1JYLewg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=inITBOxe2Lya0Wg4l7rpsOPmj96jJ8Jc+NVS5Qlw0SqZy4bue/I7A+SrrwYTPBK+uxtZ9yI6edBVy3WxprsA44URm2PMqtF2pm7Y2lT+HBgY4oa56HcJnvmTYqCXDeKidhhguhmq5GQg932whLJJGozyU56uzZMr29G7KCCLxds=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C8740497;
-	Thu, 26 Feb 2026 05:55:17 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AA7673F62B;
-	Thu, 26 Feb 2026 05:55:21 -0800 (PST)
-Date: Thu, 26 Feb 2026 13:55:13 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Peng Fan <peng.fan@nxp.com>,
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 0/4] firmware: arm_scmi: Drop fake 'const' on scmi_handle
-Message-ID: <aaBQwXHA1pAQ4XHF@pluto>
-References: <20260224-handle-not-const-v1-0-90bf93b53e27@oss.qualcomm.com>
- <aZ2aBD_u_RVhgsei@pluto>
- <b4c42f88-80fb-488b-9ca5-95f5795fd2f8@oss.qualcomm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 197CE497;
+	Thu, 26 Feb 2026 06:18:37 -0800 (PST)
+Received: from donnerap.manchester.arm.com (donnerap.manchester.arm.com [10.33.8.81])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1E9AB3F73B;
+	Thu, 26 Feb 2026 06:18:40 -0800 (PST)
+From: Philip Radford <philip.radford@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Cc: sudeep.holla@arm.com,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	etienne.carriere@st.com,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	quic_sibis@quicinc.com,
+	dan.carpenter@linaro.org,
+	d-gole@ti.com,
+	souvik.chakravarty@arm.com,
+	Philip Radford <philip.radford@arm.com>
+Subject: [PATCH v3 0/9] Add support for SCMIv4.0 Powercap Extensions
+Date: Thu, 26 Feb 2026 14:18:21 +0000
+Message-ID: <20260226141830.3400924-1-philip.radford@arm.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b4c42f88-80fb-488b-9ca5-95f5795fd2f8@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 25, 2026 at 12:42:08PM +0100, Krzysztof Kozlowski wrote:
-> On 24/02/2026 13:31, Cristian Marussi wrote:
-> > On Tue, Feb 24, 2026 at 11:43:38AM +0100, Krzysztof Kozlowski wrote:
-> >> Severale functions operating on the 'handle' pointer, like
-> > 
-> > Hi Krzysztof,
+Hi all,
 
-Hi,
+I will be taking over this series from Cristian and in doing so I have
+addressed a couple of issues raised by the first version and added two
+additional patches since Cristian's original series:
 
-> > 
-> >> scmi_handle_put() or scmi_xfer_raw_get(), are claiming it is a pointer
-> >> to const thus they should not modify the handle.  In fact that's a false
-> >> statement, because first thing these functions do is drop the cast to
-> >> const with container_of:
-> > 
-> > Thanks for this first of all...
-> > 
-> > ...but :D
-> > 
-> > ... the SCMI stack attempts to follow a sort of layered design, so roughly
-> > we have transport, core, protocols and finally SCMI Drivers.
-> > 
-> > Each of these layers has its own responsabilities and the aim was to
-> > enforce some sort of isolation between these layers, OR even between
-> > different disjoint features within the same layer, if it made sense,
-> > like with the notification subsystem within the core...
-> > 
-> > Now, given that all of the above must be attained using our beloved C
-> > language, such attempt to enforce isolation between such 'islands' with
-> > different responsibilities is based on:
-> > 
-> >  - fully opaque pointers/handles...like the ph protocol handels within
-> >    SCMI drivers...best way to do it..if you cannot even peek into an
-> >    object you certainly cannot mess with it...
-> > 
-> >  - some 'constification' when passing around some nonm-opaque references
-> >    across such boundaries
-> > 
-> > So, when you say that some of these functions sports a fake const
-> > reference, is certainly true to some extent, BUT you miss the fact that
-> > usually the const is meant to stop the CALLER from messing freely with
-> > the handle and instead enforce the usage of a dedicated helper that sits
-> > in another layer...
-> 
-> The caller can mess with the handle, because of container_of() cast, so
-> there is nothing stopping it. I understand you want to express that
-> handle is somehow unchangeable but then as you mentioned - it should be
-> opaque pointer.
-> 
+[6/9] exposes the measurement averaging interval (MAI) value when the
+agent has registered to receive power measurement change notifications
+for the power capping domain.
 
-Well no, the caller who calls from within the _protocol_init code can only
-do what the available function (set_priv) allows him to do when called....
-...like setting the priv field....and scmi_set_protocol_priv, which live in
-another 'logical island', embeds that logic....from within protocol_init
-you cannot get to the protocol instance directly simply because you dont
-have the definition of struct nor the ph_to_pi() macros...
+[9/9] adds MAI get and set support for the powercap protocol.
 
-Also scmi_set_protocol_priv() uses the const ph to access the container
-pi and change that...NOT the ph object...even though clearly it could once
-it has pi (as you pointed out)....but that would be a bug...no ?
+The original series was based on v6.17-rc1 whereas this version has been
+based on v7.0-rc1.
 
-... on the other side dropping the const from the protocol_init funcs as
-you suggest would mean that immediately you could do from within the protocol
-layer stuff like:
+The rest of Cristian's series is explained below;
 
-	ph->version = 0x12345;
+SCMIv4.0 [1] introduces some new features and commands into the Powercap
+protocol. In a nutshell, such protocol changes add support for:
 
-...while now you can only read ph->version, since it is discovered
-negoatiated and set by the core SCMI stack and so it is NOT meant to be
-touched by the protocol layer, while it has to be freely modificable by
-the core...(sp it cannot be real const in the core)
+ - setting multiple powercap limit/interval constraints for each SCMI
+   powercap domain which supports multiple Concurrent Power Limit
+ - enabling more Powercap commands to use Fastchannels mechanism
+ - adding multiple constraints support to the existing notifications
 
-Yes, ideally ph would be better as an opaque object of course, like it
-appears to the SCMI drivers when it is used to call proto_ops, BUT the
-attempt here was to maximize isolation while also keeping the thing
-practically usable AND without having to export zillion symbols...
+After a bit of needed updates in the SCMI core this series adds:
 
-...that is the reason also for ph-embeeded xops/hops...if you make ph fully
-opaque also to the protocol layer you will have to expose and EXPORT
-xops/hops since vendor protocols can be loadable modules, and in general
-all across the SCMI stack we generally always chose to export the minimum
-possible number of symbols and a few handles with attached ops to let the
-stack work, since if not, given the nature of the SCMI protocol that is
-highly extensible, we would have ended up with a constantly increasing
-number of exported symbols to maintain...
-(imagine to export all of scmi_protocol.h)
+- support for the idea of optional multiple Concurrent Power Limit (CPLs)
+- support for the new FCs
+- support for extended notifications
+- enable usage of such multiple constraint in the ARM SCMI Powercap driver
 
-I agree that the current const usage patterns in the stack are semantically
-slightly off at time, but what is the real benefit of dropping such fake
-const ?
+Note that the public SCMIv4.0 spec at [1] is currently still BETA0, so
+this series could anyway need some minor rework along the way and
+definitely will need to wait for a final public release before being
+possibly merged.
 
-...because on one side they do stop any attempt to mess with the internals
-of the handles IF such attempts comes from a context in which the objects
-are NOT supposed to be touched, and so, in some way enforce and constraint
-the developer writing these protocols (standard or vendor) to 'behave'
-
-...BUT, on the other side,  what would be the gain in having such consts
-insteaD more pedantically applied (dropepd) ? What are the compilation time
-benefits that you mention ?
+Tested in a mocked setup implementing the new protocol extensions.
+Based on v7.0-rc1.
 
 Thanks,
-Cristian
+Phil
+---
+V2->V3
+- Added powercap MAI get/set support
+V1->V2
+- Rebased on sudeep/for-next/scmi/updates
+- Amended Copyright to include 2026
+- Added patch to extend powercap report to include MAI
+- Removed creation of pi powercap_info struct due to legacy code change
+- Amended references to pi->version and similar, which were based on
+  legacy code
+- Wrapped two variables in le32_to_cpu() to appease Sparse warnings
+- Amended comparing operator value in response to feedback
+
+Cristian Marussi (7):
+  firmware: arm_scmi: Add an optional custom parameter to fastchannel
+    helpers
+  firmware: arm_scmi: Refactor powercap domain layout
+  firmware: arm_scmi: Add SCMIv4.0 Powercap basic support
+  firmware: arm_scmi: Add SCMIv4.0 Powercap FCs support
+  firmware: arm_scmi: Add SCMIV4.0 Powercap notifications support
+  include: trace: Add new parameter to trace_scmi_fc_call
+  powercap: arm_scmi: Enable multiple constraints support
+
+Philip Radford (2):
+  firmware: arm_scmi: Extend powercap report to include MAI
+  firmware: arm_scmi: add Powercap MAI get/set support
+
+ drivers/firmware/arm_scmi/driver.c    |  12 +-
+ drivers/firmware/arm_scmi/perf.c      |  16 +-
+ drivers/firmware/arm_scmi/powercap.c  | 976 ++++++++++++++++++++------
+ drivers/firmware/arm_scmi/protocols.h |   2 +-
+ drivers/powercap/arm_scmi_powercap.c  |  54 +-
+ include/linux/scmi_protocol.h         |  87 ++-
+ include/trace/events/scmi.h           |  12 +-
+ 7 files changed, 889 insertions(+), 270 deletions(-)
+
+--
+2.47.3
+
