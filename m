@@ -1,237 +1,186 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7199A3D6462;
-	Thu, 26 Feb 2026 14:19:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02543859FB
+	for <arm-scmi@vger.kernel.org>; Thu, 26 Feb 2026 18:17:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772115551; cv=none; b=coCP3m7UXzmpXsX+hTE6sp0qUMEn03Jv8fKWZNN5exd+FFloZ2YdS30wtuaWQArZEfliaHDqj1RJbup230EyyZHnyh3K0NYZ2KaziqjCwFgZSB/kh3YirwnvKlW7oy8CgsaB1/lilIoFjGre6kDhbFAwv/mPB2geeTG3B9/0VaM=
+	t=1772129863; cv=none; b=Ht4OhZRd+k7q8ExXCOAhifno4xs/xA7z+W62arqxg60/GY5zVhaDdqq+gj+fmGWs3eqg9NYn8gHFssAKLf2i3GqMzT6QOxoxBVOsNYUkY0cyL1ArDz0R3RHqhkjn3sntj3zu02Jdg1onk3QjujwLy8zbR4M9o4QORsizHpFuk44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772115551; c=relaxed/simple;
-	bh=dgNL9mklHsHx6AX1PqVKnUbfJT+sDKivW5kaK/7NYnc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LDj7Ao40H9ygLmil9u7NqdhlG4Pccwu1ShOLxgNiUjY4RoiAsI8ZfDU3ATbNADKzH8IBhjEe6376qwGBNb8Esw76y7cYBSYBvC9kh+qrVCZR3kLYJd2DFYOBJXrzKFOkPo5nSGqVOx918zaIjdRs/mzPb3FEfZ5RrOpiZ+Bx+wI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8B5EC153B;
-	Thu, 26 Feb 2026 06:19:01 -0800 (PST)
-Received: from donnerap.manchester.arm.com (donnerap.manchester.arm.com [10.33.8.81])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8F5373F99C;
-	Thu, 26 Feb 2026 06:19:05 -0800 (PST)
-From: Philip Radford <philip.radford@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Cc: sudeep.holla@arm.com,
-	james.quinlan@broadcom.com,
-	f.fainelli@gmail.com,
-	vincent.guittot@linaro.org,
-	etienne.carriere@st.com,
-	peng.fan@oss.nxp.com,
-	michal.simek@amd.com,
-	quic_sibis@quicinc.com,
-	dan.carpenter@linaro.org,
-	d-gole@ti.com,
-	souvik.chakravarty@arm.com,
-	Philip Radford <philip.radford@arm.com>
-Subject: [PATCH v3 9/9] firmware: arm_scmi: add Powercap MAI get/set support
-Date: Thu, 26 Feb 2026 14:18:30 +0000
-Message-ID: <20260226141830.3400924-10-philip.radford@arm.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260226141830.3400924-1-philip.radford@arm.com>
-References: <20260226141830.3400924-1-philip.radford@arm.com>
+	s=arc-20240116; t=1772129863; c=relaxed/simple;
+	bh=QA/oDtTW/MklJzlzkqeDnO3jkZ3ncrUHMklBQka/GKQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:To:Cc:Content-Type; b=E6OJXo5+pUpllujmrMROkUWr35Q7+s+buQA/BGqyTXLLmhYBIxsbHFWMg5OzrcFx4lzSyEVIaadcgw32YXDf3IhUMCHu0qurZijLSU7luhMrN3M/mON0b6FzU7P0gZuaO70YNfFrFefngdwXGY5VLwOFIU997P/FtCMS98tph/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TVVY8IUa; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TVVY8IUa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772129860;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=g8QKOBVmvfZrBhcXhbKXa1XP4Mqh3aZ9oHJhophil2g=;
+	b=TVVY8IUakn4stR7o0i4WX4zMfQKrl+r6nVKEtjD1WQs5rccLCKHIcw1urMIN9LsNQcQWmZ
+	c6+jHxLSvBsFWDF/FRs2z+dwJdTtItGUs0MyxFZage03hK8IB8YdH+Cln2wrXMEej4oLnX
+	lwwUB9q5xa6clNM9uK6GlEZi6232EuM=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-54-M2Uv9CUaMt-4HL3A4JV_xw-1; Thu, 26 Feb 2026 13:17:37 -0500
+X-MC-Unique: M2Uv9CUaMt-4HL3A4JV_xw-1
+X-Mimecast-MFC-AGG-ID: M2Uv9CUaMt-4HL3A4JV_xw_1772129857
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8ca3ef536ddso915628085a.0
+        for <arm-scmi@vger.kernel.org>; Thu, 26 Feb 2026 10:17:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772129857; x=1772734657;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g8QKOBVmvfZrBhcXhbKXa1XP4Mqh3aZ9oHJhophil2g=;
+        b=nYTEZoMuVNDmxK+wfStYHUsaVhnqU+Uh41rrPhEAJSa/V8aitgyPkCVth4CFBkHqRB
+         2eJYUYlNGNPDcxRXvwTtSsjjbL3y6uFBIaGdw/TnBgBdQplXxgdKLBAPF/UPC8/a//Bf
+         +t0W2CWnFYdSlqyshvvnZNnlPHrH5qf1HqtT3Vky1Acq6csuJQ6Iw4hy1vM1ROT8393c
+         Yfo0CYW+i3T4SiCDuoz8EXz1nx9lGE6vXF1MIFbUSb8OLbVDInRLKeUs7zLF/wz2swRL
+         OBIeVp/vgLYAqUg5iSEtIzbAtOC3MfXF1eWBZD645rsBmpM662EzvMsEkxLydL1U2++D
+         McSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXZVcTRO7fSlWIOGEKZYCLfvClQI+aF/qZYBi2wyPEibGfKcEjr7pB+ASxO6FkZZMRvcu2p7y2BIQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/1Hped+h/kdiZFwia3iJWJ8UXWMi1RUbL6g92YJIq28w12Fqw
+	UwKENc7SoQb5wj8OpTBbQYGT3yT9Ik8Ag3lSOCUJYuS9i93P3S6DQB/kjK6+jMwtuB8jelBQXS2
+	OvV9exhF9UNtLG+BboXO2RFSjeGEqip8BDSh3Vo1/eEyVhr6XB7XgoYRIhPJJ
+X-Gm-Gg: ATEYQzxcuEOSFkZ5Lnq5lMtgrflwaKtqCfw+hf2BM1/4rYCavVSQZ8UwOZqSo5lR/rx
+	MGgr4+Hi1Bzxd/q9tq3JBxGlZDdpFzNa/b4zphjvFaXb7dGAUJV8Wb98M0+Z5mWectYOCn33lPY
+	iPAnKAoXjTnbqfVlItHvHA64v3HTm7+2QOYYcL3nK9MST6mQYF9qmqEi4VfFBneVRzfu1/sGDv9
+	1OPMrkACh5KgPoxmieyhKs/3+yiQWHAPWxjFUlKlkWe3B9niWTgmq2O79Ywfg1tcMS1E8NyO3dt
+	rsgeuV52XENtSglH14yMaiKsJHTM9MEoGiNb3ZyvicGgkIk/36NYYOtMJdD+x3Tp9/zFDORffYv
+	0fPa6Pu4eFyLl1xjG7OKIWX1uu/ll0Qdt1MCA7+Z9tNdoP+/L1Y3Ci28LuFhl
+X-Received: by 2002:a05:620a:44cf:b0:8cb:4c:3ad9 with SMTP id af79cd13be357-8cb8ca93060mr2498304285a.80.1772129856793;
+        Thu, 26 Feb 2026 10:17:36 -0800 (PST)
+X-Received: by 2002:a05:620a:44cf:b0:8cb:4c:3ad9 with SMTP id af79cd13be357-8cb8ca93060mr2498299885a.80.1772129856254;
+        Thu, 26 Feb 2026 10:17:36 -0800 (PST)
+Received: from [192.168.1.3] (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cbbf717f2bsm247046685a.35.2026.02.26.10.17.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Feb 2026 10:17:32 -0800 (PST)
+From: Brian Masney <bmasney@redhat.com>
+Subject: [PATCH 00/13] clk: add new flag CLK_ROUNDING_FW_MANAGED
+Date: Thu, 26 Feb 2026 13:16:44 -0500
+Message-Id: <20260226-clk-det-rate-fw-managed-v1-0-4421dd2f6dc6@redhat.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/1WNy2oDMQwAf2XxuQbLL8n5lZKDbMnJ0iZNd7cPC
+ Pn3ugkUehxJM7qaVZdZV7ObrmbRz3md384D4Gky7cjng9pZBhvvfHbeZ9teX6zoZhfe1PYve+I
+ zH1RsrCQuQw9Q1Qz7smifv+/l5/2DF33/GA+2x9BceGvHkd9NqUAhlVYSNybPvgSPEJDFcyevD
+ YIvqeZ798+icaWALseCAIJMriVEii4EDtiZRRKU+t8q0LACJWhJEDW52GJpmmuHWEOnSlHJZ/6
+ 1Kq9q29vpNG+7CSXnDISh55piw5FOSI6jG4vKEiSSF+pmf7v9AG4wZ05XAQAA
+X-Change-ID: 20260226-clk-det-rate-fw-managed-4b8d061f31be
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Brian Masney <bmasney@redhat.com>, Abel Vesa <abelvesa@kernel.org>, 
+ Andrea della Porta <andrea.porta@suse.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Frank Li <Frank.Li@nxp.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Sudeep Holla <sudeep.holla@kernel.org>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Tudor Ambarus <tudor.ambarus@linaro.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, arm-scmi@vger.kernel.org, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, 
+ Cristian Marussi <cristian.marussi@arm.com>, 
+ Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+ Peng Fan <peng.fan@nxp.com>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3457; i=bmasney@redhat.com;
+ s=20250903; h=from:subject:message-id;
+ bh=QA/oDtTW/MklJzlzkqeDnO3jkZ3ncrUHMklBQka/GKQ=;
+ b=owGbwMvMwCW2/dJd9di6A+2Mp9WSGDIX9KnuOuJ6XcNWyYYj7ExcnUvVrhUq6ncvsXXmVDFFv
+ 53j/0Kho5SFQYyLQVZMkWVJrlFBROoq23t3NFlg5rAygQxh4OIUgIkI2TP8FemuVDc3P32hy/BM
+ ysTr7yXqj3mZLhXRVJfPLf4vLnrNnpFhzSUGL9VghpOdinWLVOsKth37reYzn+/qAqe3hxxn+/7
+ hBAA=
+X-Developer-Key: i=bmasney@redhat.com; a=openpgp;
+ fpr=A46D32705865AA3DDEDC2904B7D2DD275D7EC087
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: ogrrQwt-IFAWw1mb5-Kmk8B5vGBdtBhnHFBsBfvVpeY_1772129857
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Add support for Power Measurement Averaging Interval (MAI)
-get and set operations to the SCMI powercap protocol driver.
-Extends scmi_powercap_info to store MAI configuration and
-implement MAI get/set via xfer and optional fast-channel
-support.
+There are some clocks where the rounding is managed by the hardware, and
+the determine_rate() clk ops is just a noop that simply returns 0. Based
+on discussions with Stephen at Linux Plumbers Conference, he suggested
+adding a flag for this particular case. So let's add a new flag, and
+update the clk core so that the determine_rate() clk op is not required
+when this flag is set.
+    
+This series adds the flag, some kunit tests, and updates all of the
+relevant drivers under drivers/clk to use the new flag.
+    
+Once this is merged, and in Linus's tree, I can update the few remaining
+clk drivers that are outside of drivers/clk via those subsystems at a
+later time.
 
-Signed-off-by: Philip Radford <philip.radford@arm.com>
+Merge Strategy
+--------------
+All of this needs to be directly merged by Stephen as one series into
+his tree. Subsystem maintainers: please leave a Reviewed-by or Acked-by.
+To reduce the noise, I am only CCing people on their respective drivers.
+
+Note this series depends on 3 previously-posted patches in this git pull
+to Stephen for v7.1.
+https://lore.kernel.org/linux-clk/aZuK4-QJCXUeSxtL@redhat.com/
+Hopefully I set the depeendencies up correctly in b4.
+
+Signed-off-by: Brian Masney <bmasney@redhat.com>
 ---
- drivers/firmware/arm_scmi/powercap.c | 120 +++++++++++++++++++++++++++
- include/linux/scmi_protocol.h        |   8 ++
- 2 files changed, 128 insertions(+)
+Brian Masney (13):
+      clk: add new flag CLK_ROUNDING_FW_MANAGED
+      clk: test: add test suite for CLK_ROUNDING_FW_MANAGED flag
+      clk: rp1: drop determine_rate op and use CLK_ROUNDING_FW_MANAGED flag
+      clk: scpi: drop determine_rate op and use CLK_ROUNDING_FW_MANAGED flag
+      clk: hisilicon: hi3660-stub: drop determine_rate op and use CLK_ROUNDING_FW_MANAGED flag
+      clk: imx: scu: drop redundant init.ops variable assignment
+      clk: imx: scu: drop determine_rate op and use CLK_ROUNDING_FW_MANAGED flag
+      clk: qcom: rpm: drop determine_rate op and use CLK_ROUNDING_FW_MANAGED flag
+      clk: qcom: rpmh: drop determine_rate op and use CLK_ROUNDING_FW_MANAGED flag
+      clk: qcom: smd-rpm: drop determine_rate op and use CLK_ROUNDING_FW_MANAGED flag
+      clk: renesas: rzg2l-cpg: drop determine_rate op and use CLK_ROUNDING_FW_MANAGED flag
+      clk: samsung: acpm: drop determine_rate op and use CLK_ROUNDING_FW_MANAGED flag
+      clk: sprd: drop determine_rate op and use CLK_ROUNDING_FW_MANAGED flag
 
-diff --git a/drivers/firmware/arm_scmi/powercap.c b/drivers/firmware/arm_scmi/powercap.c
-index 1087d59ac873..7dc6d3001637 100644
---- a/drivers/firmware/arm_scmi/powercap.c
-+++ b/drivers/firmware/arm_scmi/powercap.c
-@@ -401,6 +401,34 @@ scmi_powercap_domain_attrs_process(const struct scmi_protocol_handle *ph,
- 		dom_info->notify_powercap_measurement_change =
- 			SUPPORTS_POWERCAP_MEASUREMENTS_CHANGE_NOTIFY(flags);
- 
-+	if (PROTOCOL_REV_MAJOR(ph->version) >= 0x3) {
-+		struct scmi_msg_resp_powercap_domain_attributes_v3 *resp_v3 = r;
-+
-+		flags = le32_to_cpu(resp_v3->attributes);
-+		if (pinfo->notify_measurements_cmd)
-+			dom_info->notify_powercap_measurement_change =
-+			       SUPPORTS_POWERCAP_MEASUREMENTS_CHANGE_NOTIFY(flags);
-+
-+		dom_info->mai_config = SUPPORTS_POWERCAP_MAI_CONFIGURATION(flags);
-+		dom_info->min_mai = le32_to_cpu(resp_v3->min_mai);
-+		dom_info->max_mai = le32_to_cpu(resp_v3->max_mai);
-+		dom_info->mai_step = le32_to_cpu(resp_v3->mai_step);
-+
-+		if (dom_info->mai_config) {
-+			ret = scmi_powercap_validate(dom_info->min_mai,
-+						     dom_info->max_mai,
-+						     dom_info->mai_step,
-+						     dom_info->mai_config);
-+
-+			if (ret) {
-+				dev_warn(ph->dev, "Platform reported problem MAI config for domain %d - %s\n",
-+					 dom_info->id, dom_info->name);
-+
-+				return ret;
-+			}
-+		}
-+	}
-+
- 	dom_info->extended_names = SUPPORTS_EXTENDED_NAMES(flags);
- 
- 	dom_info->async_powercap_cap_set =
-@@ -1082,6 +1110,96 @@ static int scmi_powercap_cap_enable_get(const struct scmi_protocol_handle *ph,
- 	return 0;
- }
- 
-+static int scmi_powercap_xfer_mai_get(const struct scmi_protocol_handle *ph, u32 domain_id,
-+				      u32 *mai)
-+{
-+	int ret;
-+	struct scmi_xfer *t;
-+
-+	ret = ph->xops->xfer_get_init(ph, POWERCAP_MAI_GET, sizeof(u32),
-+								sizeof(u32), &t);
-+
-+	if (ret)
-+		return ret;
-+
-+	put_unaligned_le32(domain_id, t->tx.buf);
-+
-+	ret = ph->xops->do_xfer(ph, t);
-+	if (!ret)
-+		*mai = get_unaligned_le32(t->rx.buf);
-+
-+	ph->xops->xfer_put(ph, t);
-+	return ret;
-+}
-+
-+static int scmi_powercap_xfer_mai_set(const struct scmi_protocol_handle *ph, u32 domain_id, u32 mai)
-+{
-+	int ret;
-+	struct scmi_xfer *t;
-+	struct scmi_msg_powercap_cap_or_pai_set *msg;
-+
-+	ret = ph->xops->xfer_get_init(ph, POWERCAP_MAI_SET, sizeof(*msg), 0, &t);
-+	if (ret)
-+		return ret;
-+
-+	msg = t->tx.buf;
-+	msg->domain_id = cpu_to_le32(domain_id);
-+	msg->flags = cpu_to_le32(0);
-+	msg->value = cpu_to_le32(mai);
-+
-+	ret = ph->xops->do_xfer(ph, t);
-+
-+	ph->xops->xfer_put(ph, t);
-+	return ret;
-+}
-+
-+static int scmi_powercap_measurements_interval_get(const struct scmi_protocol_handle *ph,
-+						   u32 domain_id, u32 *val)
-+{
-+	const struct scmi_powercap_info *pc;
-+	struct scmi_fc_info *fci;
-+
-+	if (!val)
-+		return -EINVAL;
-+
-+	pc = scmi_powercap_dom_info_get(ph, domain_id);
-+	if (!pc)
-+		return -EINVAL;
-+
-+	fci = pc->cpli[CPL0].fc_info;
-+	if (fci && fci[POWERCAP_FC_MAI].get_addr) {
-+		*val = ioread32(fci[POWERCAP_FC_MAI].get_addr);
-+		trace_scmi_fc_call(SCMI_PROTOCOL_POWERCAP, POWERCAP_MAI_GET, domain_id, 0, *val, 0);
-+		return 0;
-+	}
-+
-+	return scmi_powercap_xfer_mai_get(ph, domain_id, val);
-+}
-+
-+static int scmi_powercap_measurements_interval_set(const struct scmi_protocol_handle *ph,
-+						   u32 domain_id, u32 val)
-+{
-+	const struct scmi_powercap_info *pc;
-+	struct scmi_fc_info *fci;
-+
-+	pc = scmi_powercap_dom_info_get(ph, domain_id);
-+	if (!pc)
-+		return -EINVAL;
-+
-+	if (!pc->mai_config || !val || val < pc->min_mai || val > pc->max_mai)
-+		return -EINVAL;
-+
-+	fci = pc->cpli[CPL0].fc_info;
-+	if (fci && fci[POWERCAP_FC_MAI].set_addr) {
-+		iowrite32(val, fci[POWERCAP_FC_MAI].set_addr);
-+		ph->hops->fastchannel_db_ring(fci[POWERCAP_FC_MAI].set_db);
-+		trace_scmi_fc_call(SCMI_PROTOCOL_POWERCAP, POWERCAP_MAI_SET, domain_id, 0, val, 0);
-+		return 0;
-+	}
-+
-+	return scmi_powercap_xfer_mai_set(ph, domain_id, val);
-+}
-+
- static const struct scmi_powercap_proto_ops powercap_proto_ops = {
- 	.num_domains_get = scmi_powercap_num_domains_get,
- 	.info_get = scmi_powercap_dom_info_get,
-@@ -1094,6 +1212,8 @@ static const struct scmi_powercap_proto_ops powercap_proto_ops = {
- 	.measurements_get = scmi_powercap_measurements_get,
- 	.measurements_threshold_set = scmi_powercap_measurements_threshold_set,
- 	.measurements_threshold_get = scmi_powercap_measurements_threshold_get,
-+	.measurements_interval_get = scmi_powercap_measurements_interval_get,
-+	.measurements_interval_set = scmi_powercap_measurements_interval_set,
- };
- 
- static void scmi_powercap_domain_init_fc(const struct scmi_protocol_handle *ph,
-diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
-index d0f6c0102559..73d66281dcc3 100644
---- a/include/linux/scmi_protocol.h
-+++ b/include/linux/scmi_protocol.h
-@@ -675,6 +675,10 @@ struct scmi_powercap_info {
- 	bool powercap_scale_uw;
- 	bool extended_names;
- 	bool fastchannels;
-+	bool mai_config;
-+	u32 min_mai;
-+	u32 max_mai;
-+	u32 mai_step;
- 	char name[SCMI_MAX_STR_SIZE];
- 	unsigned int sustainable_power;
- 	unsigned int accuracy;
-@@ -758,6 +762,10 @@ struct scmi_powercap_proto_ops {
- 	int (*measurements_threshold_get)(const struct scmi_protocol_handle *ph,
- 					  u32 domain_id, u32 *power_thresh_low,
- 					  u32 *power_thresh_high);
-+	int (*measurements_interval_get)(const struct scmi_protocol_handle *ph,
-+					 u32 domain_id, u32 *val);
-+	int (*measurements_interval_set)(const struct scmi_protocol_handle *ph,
-+					 u32 domain_id, u32 val);
- };
- 
- enum scmi_pinctrl_selector_type {
+ drivers/clk/clk-rp1.c                   | 11 +----
+ drivers/clk/clk-scpi.c                  | 14 +-----
+ drivers/clk/clk.c                       | 24 ++++++++--
+ drivers/clk/clk_test.c                  | 85 +++++++++++++++++++++++++++++++++
+ drivers/clk/hisilicon/clk-hi3660-stub.c | 14 +-----
+ drivers/clk/imx/clk-scu.c               | 23 +--------
+ drivers/clk/qcom/clk-rpm.c              | 16 ++-----
+ drivers/clk/qcom/clk-rpmh.c             |  8 +---
+ drivers/clk/qcom/clk-smd-rpm.c          | 15 +-----
+ drivers/clk/renesas/rzg2l-cpg.c         |  9 +---
+ drivers/clk/samsung/clk-acpm.c          | 14 +-----
+ drivers/clk/sprd/pll.c                  |  7 ---
+ drivers/clk/sprd/pll.h                  |  2 +-
+ include/linux/clk-provider.h            |  2 +
+ 14 files changed, 123 insertions(+), 121 deletions(-)
+---
+base-commit: 7d6661873f6b54c75195780a40d66bad3d482d8f
+change-id: 20260226-clk-det-rate-fw-managed-4b8d061f31be
+prerequisite-patch-id: 59198edc95aca82a29327137ad2af82ec13295b6
+prerequisite-patch-id: 8932e170649711d7a80c57784033a37faadd519b
+prerequisite-patch-id: 91c7b1851c5d77e504c49ce6bf14b3f8b84e826a
+
+Best regards,
 -- 
-2.47.3
+Brian Masney <bmasney@redhat.com>
 
