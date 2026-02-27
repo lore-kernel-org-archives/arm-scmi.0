@@ -1,239 +1,215 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010018.outbound.protection.outlook.com [52.101.229.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E74279DC3;
-	Fri, 27 Feb 2026 12:00:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772193660; cv=fail; b=WFAugGJAn1KfQo4lE4rL9jN92Zl5rgSQz/zHne+88x17kTvjEncNkdof91o5aMfaIR/g1obZIjGn+sOdPzAb2wKdgm77Wc+f2KGon2m9YK5nfNc68Uvp0dRUihga0+JN2s6wLEKOmUApPjEtAL9zbyDTibn/kOR2aOETNsgqIA8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772193660; c=relaxed/simple;
-	bh=ddQYHuzkv1Ww4VgsfKoKCUjxrpHO2lCmSGB48bv9a70=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=gi3eod7N7pnH93yiGx1+GlD/2PAkRg91jssm8C1V3+FnZfcHg8Op2WlJlQBRrls2M0g8SZ7RtaqMbGytUZKf6p+fY2WQzTczcxkYRRNF44Bng7O1MbG1L4qkQ2LtaTKPzoLx5ZCLJ7CrrA07L4zmaOkDz1Y0YHmE4pBzoF4yFsw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=OMlylFng; arc=fail smtp.client-ip=52.101.229.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BBD421885
+	for <arm-scmi@vger.kernel.org>; Fri, 27 Feb 2026 14:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772203504; cv=none; b=Sl7aKpiV785bWORmcX0NuNMDp8PMUjWyPy1nGxZ8o2fJKMko3ISZyux92dKb0yAkyQhzx7Q69Fpg49tUt73EO2fZy7VjvgJD7YxL3CCl3Kan8uyOi66g4alf5saF4lX8LJefqvN2V+ou/vrT/jNvzpte6HZyCfAq3QmJoJCtjnA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772203504; c=relaxed/simple;
+	bh=eQ7qXAOyj81yfe/+OeMnHJ4AQMCfEecRpWABhPohsPc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=oJj6/pROQK4kvQ7iOz2GZaXYs+tnqukwQNRU8lrvDZJwPoYKSpOAaLwVVU//QxTPi9rQKtCom9svsSdKHPZdDEYKn1jzkmOkmKrs7fTvfTRU6NyA596gThHORcCYK8U9ffnmVkj0PyBD0njP8fBAVbj1ozjP9hZaQFXzDLqzJKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Uua0fC8f; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="OMlylFng"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wYyoT15wOHoXgcT2Z904R52tnHRawivMNu8YpiV91FKrm9DMHgVztN9utlJRHNr/ZHyxXdPpgvZX1l63O2htNJ54/ZbaXvCI5Akeb8vN8WucxZ/hTeLb7GeBvRfNxcymWv21f5yFroHNeUjhNyIlk2zFtLHCLr6jqzTX5g4jWugp7V4SVj7L/vF6COjFbxCsQLCj/f/EFkrlaIVtVsRMk7dja23VR91rErOhzaA3OKBOhYoIYkX3LnwHlpJUYDWfp8br4C08qW3y2xQinRx+ULPqFySbVASgBITdDOFx854Gv6B2nk4xdrTBTimZo+W+9gfnyXWSXMxhmImftJBrpQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ddQYHuzkv1Ww4VgsfKoKCUjxrpHO2lCmSGB48bv9a70=;
- b=YCJ+gie9VaqQ9d1LWePuAmQ8MBgWwYPRrPtvK0qBclz5BjLaLa2+qHZjzF/+4PDdoWv9x79nu5qE07f990xGJA35p/6+VGVU7T7Q36dCwdmV/5RQTmC1uOYSTZps0Bq6c/SzPCTx2nTEih7iug/EJ+W48PoJd7DEM1djJwncepKdOQyNWUTcVIG/AII9YNgr2Zds67+60elvRYP3FaBBjmioLIKKIWVtKpNUB2EQQEn4pvrK9KOM+JRn6V1/5dp5/5abFe4KZrUqc3ILPLkenecr/8iYF/EcrSCeb4LZMaufK+ocn2uqBc99g3QdHlnyomWQ/5HzZrr1SIBF/J/+tg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ddQYHuzkv1Ww4VgsfKoKCUjxrpHO2lCmSGB48bv9a70=;
- b=OMlylFng8cuLLj+qC9OtMdTtMy3G/M146TiM88ATNVIiJ+u/xK7S0L93O1GEMNEgbBPUDahuToq92hNWtP0ButfnFYH6Z2IfN/k7rmcx78/yVn6mLbJt2mxWAjGXdIwRa7GmNs29IZLajW+M8++tVQtnHw9QW3VwPtx/JKORg/o=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by OSZPR01MB9410.jpnprd01.prod.outlook.com (2603:1096:604:1d8::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.13; Fri, 27 Feb
- 2026 12:00:55 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de%4]) with mapi id 15.20.9654.014; Fri, 27 Feb 2026
- 12:00:55 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Brian Masney <bmasney@redhat.com>, Michael Turquette
-	<mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-CC: "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Abel Vesa
-	<abelvesa@kernel.org>, Andrea della Porta <andrea.porta@suse.com>, Baolin
- Wang <baolin.wang@linux.alibaba.com>, Bjorn Andersson <andersson@kernel.org>,
-	Chanwoo Choi <cw00.choi@samsung.com>, Frank Li <Frank.Li@nxp.com>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Krzysztof Kozlowski
-	<krzk@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, Sascha Hauer
-	<s.hauer@pengutronix.de>, Sudeep Holla <sudeep.holla@kernel.org>, Sylwester
- Nawrocki <s.nawrocki@samsung.com>, Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>, "arm-scmi@vger.kernel.org"
-	<arm-scmi@vger.kernel.org>, Chunyan Zhang <zhang.lyra@gmail.com>, Cristian
- Marussi <cristian.marussi@arm.com>, Fabio Estevam <festevam@gmail.com>,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Uua0fC8f"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772203502;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pjpP6CrvDx4JRD336SFvsZfBjEjd+fqZc06LPodyXOg=;
+	b=Uua0fC8fsiwn9RWG5DaRKfjOcJvXQwSOYIHFOiqLtwaFGksJ1pqx2f6uR9Ddt8n4lCzO41
+	JLRy5n/t154LbGmfUlabxckKm2xSgvGvuXxu2a5QsHIuOCmkvSo3dtedKKR9tKD/eY58c5
+	l54cVlJjVhVzwtII4SSM55yOsqzuqVE=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-597-0SSEwENQOfuqANsojK_wMg-1; Fri, 27 Feb 2026 09:44:59 -0500
+X-MC-Unique: 0SSEwENQOfuqANsojK_wMg-1
+X-Mimecast-MFC-AGG-ID: 0SSEwENQOfuqANsojK_wMg_1772203499
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-89546cbb998so201880946d6.0
+        for <arm-scmi@vger.kernel.org>; Fri, 27 Feb 2026 06:44:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772203499; x=1772808299;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pjpP6CrvDx4JRD336SFvsZfBjEjd+fqZc06LPodyXOg=;
+        b=h9j3tx7ROucvhFX802S5rkYzrVn0fv+C5B/jlzBqRBPmUTHsfp5pjdScu/y7x/VDQ6
+         XA5YLMI5k+dqqh52rEr2TlW9/WhSxh8Q6MSng9+c19pGAIYCaSgeXpXkIuVZP8RXKlab
+         kKay2VORmdarqRY5YSagbExVqYQJV6Oc4xsauPNSe85BwvaxdgT/pQyEeUt3AoN6T9ER
+         Q9TWAZXaijAJeFeBOgzJTOAw2OeoxGQEZmHqgW+TZxpjFRn+w2ttaGAkmyAm6bFwxrNm
+         Xi8lTBVSniKebS7dDdQMQRQJ0FammZGCf0ALV8EBEf23bDuy/h3ghG837NuXGm0mCMXB
+         UsSA==
+X-Forwarded-Encrypted: i=1; AJvYcCWORNxMOzapS4lXNYrL73aRp1y4x1hND/3uIZDfTbZ0M1t1m62j8StMopzUl5CKUEb8lLXkTCqHQw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/VjGBK1YzjPD4QtA/a/nta8oYpk3uwEVN0q2yoWBylwKXm3MR
+	IWYQmYfx62DRbB63okTZumSxJ8qlTKKDtsjOP5yAbu5cj+JXxge9iqzCmTkhBoZ7PqEX1FwvWEw
+	7sScn0x9zSNzsaHmXdIKs/kWjKvtfAfWv7LRJPWZ+tJIp4EkbEzq9wsVrc90/
+X-Gm-Gg: ATEYQzzdU3KgFOzHvj2TqhgQpmwaE97O7gPjOpZj+n0pqAsK9ivRosIEZF665cQCZGm
+	3LjYo33Jk+HqqOeJPgcEDtOJGKNmi5lqEc5+s20OkgwEbS+Cvx9eAaC3RaiNj6dbCkp0Rqy07Wk
+	juXLo9eh9ymCGqH4qjsuUo+P4RoSBgAVQgpmXzxXLINZiC1aPXPJGqG+YXnl9Jdrlkg+HkYtLql
+	sRzGLPMdLqyKi+N2dGIDBEzeoX3A34USBv+Xd53WmelkS/pJTMD0bRLcFW8ZgkeV4TevUFa+J6P
+	67dPcxAFLATEH3LW9s0W0uERwa90Qr261BDWTCO94BVO83cCwyYleXzk8WIEb0n73hJ++77kIDy
+	jMrI1et10gnBLrh7qZC7wu4Q4S9Gm9uDrMbc1aOtXD9Mf/zKVXnydFao7
+X-Received: by 2002:a05:6214:2481:b0:88a:2360:7f15 with SMTP id 6a1803df08f44-899d1d86467mr45187676d6.12.1772203498551;
+        Fri, 27 Feb 2026 06:44:58 -0800 (PST)
+X-Received: by 2002:a05:6214:2481:b0:88a:2360:7f15 with SMTP id 6a1803df08f44-899d1d86467mr45187146d6.12.1772203498037;
+        Fri, 27 Feb 2026 06:44:58 -0800 (PST)
+Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-899c73a3130sm45123526d6.49.2026.02.27.06.44.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Feb 2026 06:44:57 -0800 (PST)
+Date: Fri, 27 Feb 2026 09:44:55 -0500
+From: Brian Masney <bmasney@redhat.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Abel Vesa <abelvesa@kernel.org>,
+	Andrea della Porta <andrea.porta@suse.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Chanwoo Choi <cw00.choi@samsung.com>, Frank Li <Frank.Li@nxp.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Fabio Estevam <festevam@gmail.com>,
 	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-arm-msm@vger.kernel.org"
-	<linux-arm-msm@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, "linux-samsung-soc@vger.kernel.org"
-	<linux-samsung-soc@vger.kernel.org>, Peng Fan <peng.fan@nxp.com>, Pengutronix
- Kernel Team <kernel@pengutronix.de>
-Subject: RE: [PATCH 01/13] clk: add new flag CLK_ROUNDING_FW_MANAGED
-Thread-Topic: [PATCH 01/13] clk: add new flag CLK_ROUNDING_FW_MANAGED
-Thread-Index: AQHcp0w/AFgImz3nkUSRSU+NP4hsMLWWccFg
-Date: Fri, 27 Feb 2026 12:00:55 +0000
-Message-ID:
- <TY3PR01MB113465A96D1EEBB43C82C12A98673A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+	Peng Fan <peng.fan@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>
+Subject: Re: [PATCH 01/13] clk: add new flag CLK_ROUNDING_FW_MANAGED
+Message-ID: <aaGt5-ZWoXQ9Hz74@redhat.com>
 References: <20260226-clk-det-rate-fw-managed-v1-0-4421dd2f6dc6@redhat.com>
  <20260226-clk-det-rate-fw-managed-v1-1-4421dd2f6dc6@redhat.com>
-In-Reply-To: <20260226-clk-det-rate-fw-managed-v1-1-4421dd2f6dc6@redhat.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OSZPR01MB9410:EE_
-x-ms-office365-filtering-correlation-id: 115050cf-fb02-4ebf-d963-08de75f7dc8c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|7416014|376014|38070700021;
-x-microsoft-antispam-message-info:
- mhcyalmFQ+4l/Ipd4IwLyigT3KTYkmeCnSPigjAB1wdtx6k1KYgI1Ohy9HUV8iYzuO92uKf7oRkbEC7Zu7y9J1yePr1LvgmCnMrLudcgRK/BcesGwR1G1bgND1of/DAReOhCTYi5//rF1SXXSPpLUwwD/rOu6IrFZCseXOWnjHJ7t0UKaM0wL5kNKaqklpgoto4KwHcHPlO9xQt4OVF2dZ7IxmEnIUGjr2G0/xwP6Um/rd8I9VjCAkovC0FKfqJi8D5r+Ilt8G7BJ2uuzGCkccrEU9jRAafAN0W8SNdRVWNttYVGjsbHTwKFXLL8op0SWx+nv6qcsHACoxHCL8/UTwdDnNRXa+NR+f1p/gI51t/9PEkD1lDAP44Rs65M/Uogyc7rpUl6AdgzCDWhwy3ZKhUaPOGoJpye9X/L7+v3VxJ4qpoaBrOCdxZfRq1dGpCpeA2JnyolavuEHfB6fbB/d9VFE3Xfrmc+/UerClJGW2DKdVX7l/fKtzu+4q3w9mXSxT2ytymYtWyO8Td1tJySQ/JVwjJcXSZitRaQK7fpLQCL+4fPvmVCDtXsq7l2LzcH8/vd8v0v4FINO34pxJXUignu5PPYQ0ZklxgPllz1AF9eaqZ3jpS4WnjerO/2uVKOGw/T+uVlhdmjUu0h2/AdAJzLwAk1CBGdkUcVL2OZlX4KzaKbfw0h0UH6NTIOHdtM9ZxTCfSCVlGzDCN6jniQlxM/WVQncMeq+OvXk0d3eAqIVz1R1sGsTWTp/A0ThRvD3p3eMlKhNypYGs3S54UtJgsVAcphdY/8r2owTyG3Nfk=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?Y2NTb0ZSMndRNCswQTBpQ0xUMzdxSXV3R2dhS0t4UWszRnBzbFNZQldBWDE5?=
- =?utf-8?B?a0VFS1E2M1ZFaXRoMTgyczFOWHJnRDNiNzU0YUU1OG5ZV1cyRjZhWDFCZXZl?=
- =?utf-8?B?MGg2RW55VkwxelFMQlNxWXh1TVAzRitTbVVwMUdXMlhQY0FaS3QrMmE2OWVO?=
- =?utf-8?B?V0o2dFdua0hEdXdCMDZLWWFjdFl3ZWFhWXRqU24vSmVoSXZtRUFsWk9zQ2hC?=
- =?utf-8?B?aENuOEljdUxwWEtacTB2SEpTcDZILzVTSUM3MG5NZjB1TkM2TU1yckllN3FR?=
- =?utf-8?B?azZJZU1aUUlUWFNRZTh0WWJoMEttVlR4UWJ5b2dkdE9FY2lsdUFCS0J6ZWF2?=
- =?utf-8?B?cHBFd2VzdXhNeXlqZFVGRTBwektybmlkblZuV2ZqZFRUL204dEFFRjdQODJW?=
- =?utf-8?B?cVdoTEM4TklEOUhDVEtYaWEzWEp3Tm4wcG14WmdPUyt2MmpqTUdDbFBxeXdu?=
- =?utf-8?B?bHZXQU5ZSEZ4cnZpWUU3Vkh2c3NmdURDMmtDVFlSOUNwUVMxaWJWVUJjdlB1?=
- =?utf-8?B?QVRVTGdzSUt3NTQvai9kUzNSVFZ5b0dBbzNlcDRNdjM5Y2tlNEVXZXdmazR5?=
- =?utf-8?B?eW5ocnR6MWtGUTJkbkRvQU8wQ09zazQvMTRYK3FXT2o1Z21MYVNIbjNjQ1ds?=
- =?utf-8?B?cmwzN2NsTXZKNUZEWHVMRGhmUE9YRWJLVW9jMldvRWg4WmRLZGNsbXJEOVR1?=
- =?utf-8?B?UllMNTFkUS9BdThQTWthbmdPWDBlZnFkR2pRcUNUVXlZU3U0WklNTEwzOUhY?=
- =?utf-8?B?akN0RlVVUjZrN09zZURuRkxwS0ZKa3hsc2toK3JFKzkwQ2VXUFlSU1U5M0NV?=
- =?utf-8?B?UWtEaDg3NWJJQ1N6TmFRdGMySU12eUVBdWRZeC9icGhvV25uSEtFb1diMmRV?=
- =?utf-8?B?K0luNzFEeDRLUTgwNTJVZmdUVnFZTVc1UG9GRlFUSzA1MndYNGZOZDd3Q3Rj?=
- =?utf-8?B?Uk92NDNiRllNczVQcXFCTVBpN0hoYXhvTS9oaDk2Y0xaYlVQNmh1Y01CV1pn?=
- =?utf-8?B?blZEQXhoYnFaTFdRNEtUR3plWVI3L0RxWXB3aytLdE1GQWlMeEJJZ3lxMkpK?=
- =?utf-8?B?a09JTHFSc2tLbmtKdE1tcGh4WmlPc2VpRk4vM1VYL2Y2UVhTTkJVT0x6Nkhk?=
- =?utf-8?B?cUJQZEt3OUR3V1dXU0VQenNnWlUyU3lXbDJKZ3JsVVRwcmZLQ2cvcEQ4SFN5?=
- =?utf-8?B?SHdSS3I2T1MyZU80VEZVcks0QnZWNEZxckhuRlM5U2ExcFZEQXJETkwzTGtD?=
- =?utf-8?B?N0ZvTDdLOGJFc3pDcEhRUlRwbkdMdEIzNFFqUDh3Z1JtVTlLY09hSG95QmFC?=
- =?utf-8?B?Q0tMSE83NmNPMzRMN01OTmQ0K29SbVRISVpXWWk3R0NSOUdqZWd1SmxQVWoz?=
- =?utf-8?B?NU83UURQdWl3WjJqMmVmQVBpdGE3b2hTSWJnYjcvL1ozbzJVVDhYTFdRSXBF?=
- =?utf-8?B?enorMXhnOTNhZ0VCRUJNR1RicjQvR0JER2lJYVNJcVlxU29seHkxN0s5Z3RF?=
- =?utf-8?B?T0xxcGdDVHFCUlhadUVzTC8yZW9rcXNEZng4L2N5a0JDSW0vYVB3QTliZCt4?=
- =?utf-8?B?eDVJYXhCd2dCMnVNeFZyejZaWlhaV2FWZm11Q2lxMDFJVEhHdlJ3YjZsbjNK?=
- =?utf-8?B?emZNQWcyaWdVdVozbjFab3hzMEVwT0tGeUJhQjI5Qmx4dXJjMTVtOVRBR25X?=
- =?utf-8?B?eDE5b0ZOVExZVnAzK0tEdlFJZ3VzdjRPRkYzNjV3SVdManMwMlBzZ0xlZHRn?=
- =?utf-8?B?VUJQN0NtVDlPMnpRZXNZSHc5UlVDeEgrd3BrYTRWL2kwQTNON2dCd2IyZ2Y0?=
- =?utf-8?B?WjV5bzU0TThBU0VxcGp3WEtXQ0Y3dWV5bGJSVnZ5dVBhL1pZTDkyVkFaNENt?=
- =?utf-8?B?dmZheE15dUpjSDNBc3dqVU1QbXVyZllyUWZqZjFZWkRNOVV0aVdmMndsdkc4?=
- =?utf-8?B?c0NtYWovdVRpOFRIWHQzVjlVelgrWXV1OFUxSDZFbVNQYVJ2ZmJhWkJlcFRU?=
- =?utf-8?B?dmNQKzFKVExFVGs5MnNFeGdHWjQ5ZjhlQUxSTFg3YkxBUjVHcTZIT01wTUow?=
- =?utf-8?B?ek4vRnVoaFR2MitUcm5sdmREaDc0L2syd3JSemN0b2crckZ4SVlpbVJ6eWwz?=
- =?utf-8?B?UTJJdDBXRmdld0daTmd1T3I1VlEvQXpGek1ENFR1ZDJFOFV6UElXOHdoVWZL?=
- =?utf-8?B?QVpLUEFvUlpiaE5BSWcyZzBLWmp5ZzB5RTR1UHpJUGlYQjRIZzVTU0hUSVdz?=
- =?utf-8?B?Um5FS0Y2M0d0N1JVSzRQWVo5aDNIL2ZLY0JGQkJlNXpneWVaR0NiZUZQMFRK?=
- =?utf-8?B?ZXVZd2kySmdVQ1A5NUQ3YUs1UTN1d1I2cy8relFqekM2WENHSFpMZz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <TY3PR01MB113465A96D1EEBB43C82C12A98673A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 115050cf-fb02-4ebf-d963-08de75f7dc8c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2026 12:00:55.0235
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WfdDM4BLj+4fUFstYlF5u2W1TB7VkMajGBHpMguWyH3fs9N9IxfjQDN8KO2GEvunyXvsuvlAr4nwRoa8alBhjcyoU1SeRm44aOHyyBNRcU4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB9410
+In-Reply-To: <TY3PR01MB113465A96D1EEBB43C82C12A98673A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+User-Agent: Mutt/2.2.14 (2025-02-20)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: cUd233eX9vWn_igj-ZdL7zlEF-wE9eTwbCrCSTW7M1Q_1772203499
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-SGkgQnJhaW4sDQoNClRoYW5rcyBmb3IgdGhlIHBhdGNoDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNz
-YWdlLS0tLS0NCj4gRnJvbTogbGludXgtYXJtLWtlcm5lbCA8bGludXgtYXJtLWtlcm5lbC1ib3Vu
-Y2VzQGxpc3RzLmluZnJhZGVhZC5vcmc+IE9uIEJlaGFsZiBPZiBCcmlhbiBNYXNuZXkNCj4gU2Vu
-dDogMjYgRmVicnVhcnkgMjAyNiAxODoxNw0KPiBTdWJqZWN0OiBbUEFUQ0ggMDEvMTNdIGNsazog
-YWRkIG5ldyBmbGFnIENMS19ST1VORElOR19GV19NQU5BR0VEDQo+IA0KPiBUaGVyZSBhcmUgc29t
-ZSBjbG9ja3Mgd2hlcmUgdGhlIHJvdW5kaW5nIGlzIG1hbmFnZWQgYnkgdGhlIGhhcmR3YXJlLCBh
-bmQgdGhlIGRldGVybWluZV9yYXRlKCkgY2xrIG9wcw0KPiBpcyBqdXN0IGEgbm9vcCB0aGF0IHNp
-bXBseSByZXR1cm5zIDAuIEFkZCBhIG5ldyBmbGFnIGZvciB0aGVzZSB0eXBlIG9mIGNsb2Nrcywg
-YW5kIHVwZGF0ZSB0aGUgY2xrIGNvcmUNCj4gc28gdGhhdCB0aGUNCj4gZGV0ZXJtaW5lX3JhdGUo
-KSBjbGsgb3AgaXMgbm90IHJlcXVpcmVkIHdoZW4gdGhpcyBmbGFnIGlzIHNldC4NCj4gDQo+IFNp
-Z25lZC1vZmYtYnk6IEJyaWFuIE1hc25leSA8Ym1hc25leUByZWRoYXQuY29tPg0KPiANCj4gLS0t
-DQo+IFRvOiBNaWNoYWVsIFR1cnF1ZXR0ZSA8bXR1cnF1ZXR0ZUBiYXlsaWJyZS5jb20+DQo+IFRv
-OiBTdGVwaGVuIEJveWQgPHNib3lkQGtlcm5lbC5vcmc+DQo+IFRvOiBBYmVsIFZlc2EgPGFiZWx2
-ZXNhQGtlcm5lbC5vcmc+DQo+IFRvOiBBbmRyZWEgZGVsbGEgUG9ydGEgPGFuZHJlYS5wb3J0YUBz
-dXNlLmNvbT4NCj4gVG86IEJhb2xpbiBXYW5nIDxiYW9saW4ud2FuZ0BsaW51eC5hbGliYWJhLmNv
-bT4NCj4gVG86IEJqb3JuIEFuZGVyc3NvbiA8YW5kZXJzc29uQGtlcm5lbC5vcmc+DQo+IFRvOiBD
-aGFud29vIENob2kgPGN3MDAuY2hvaUBzYW1zdW5nLmNvbT4NCj4gVG86IEZyYW5rIExpIDxGcmFu
-ay5MaUBueHAuY29tPg0KPiBUbzogR2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydCtyZW5lc2FzQGds
-aWRlci5iZT4NCj4gVG86IEtyenlzenRvZiBLb3psb3dza2kgPGtyemtAa2VybmVsLm9yZz4NCj4g
-VG86IE9yc29uIFpoYWkgPG9yc29uemhhaUBnbWFpbC5jb20+DQo+IFRvOiBTYXNjaGEgSGF1ZXIg
-PHMuaGF1ZXJAcGVuZ3V0cm9uaXguZGU+DQo+IFRvOiBTdWRlZXAgSG9sbGEgPHN1ZGVlcC5ob2xs
-YUBrZXJuZWwub3JnPg0KPiBUbzogU3lsd2VzdGVyIE5hd3JvY2tpIDxzLm5hd3JvY2tpQHNhbXN1
-bmcuY29tPg0KPiBUbzogVHVkb3IgQW1iYXJ1cyA8dHVkb3IuYW1iYXJ1c0BsaW5hcm8ub3JnPg0K
-PiBDYzogbGludXgtY2xrQHZnZXIua2VybmVsLm9yZw0KPiBDYzogbGludXgta2VybmVsQHZnZXIu
-a2VybmVsLm9yZw0KPiBDYzogQWxpbSBBa2h0YXIgPGFsaW0uYWtodGFyQHNhbXN1bmcuY29tPg0K
-PiBDYzogYXJtLXNjbWlAdmdlci5rZXJuZWwub3JnDQo+IENjOiBDaHVueWFuIFpoYW5nIDx6aGFu
-Zy5seXJhQGdtYWlsLmNvbT4NCj4gQ2M6IENyaXN0aWFuIE1hcnVzc2kgPGNyaXN0aWFuLm1hcnVz
-c2lAYXJtLmNvbT4NCj4gQ2M6IEZhYmlvIEVzdGV2YW0gPGZlc3RldmFtQGdtYWlsLmNvbT4NCj4g
-Q2M6IGlteEBsaXN0cy5saW51eC5kZXYNCj4gQ2M6IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5m
-cmFkZWFkLm9yZw0KPiBDYzogbGludXgtYXJtLW1zbUB2Z2VyLmtlcm5lbC5vcmcNCj4gQ2M6IGxp
-bnV4LXJlbmVzYXMtc29jQHZnZXIua2VybmVsLm9yZw0KPiBDYzogbGludXgtc2Ftc3VuZy1zb2NA
-dmdlci5rZXJuZWwub3JnDQo+IENjOiBQZW5nIEZhbiA8cGVuZy5mYW5AbnhwLmNvbT4NCj4gQ2M6
-IFBlbmd1dHJvbml4IEtlcm5lbCBUZWFtIDxrZXJuZWxAcGVuZ3V0cm9uaXguZGU+DQo+IC0tLQ0K
-PiAgZHJpdmVycy9jbGsvY2xrLmMgICAgICAgICAgICB8IDI0ICsrKysrKysrKysrKysrKysrKysr
-Ky0tLQ0KPiAgaW5jbHVkZS9saW51eC9jbGstcHJvdmlkZXIuaCB8ICAyICsrDQo+ICAyIGZpbGVz
-IGNoYW5nZWQsIDIzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9jbGsvY2xrLmMgYi9kcml2ZXJzL2Nsay9jbGsuYyBpbmRleA0KPiBmZDQx
-OGRjOTg4YjFjNjBjNDllM2FjOWMwYzQ0YWExMzJkZDVkYTI4Li4wYTUyMmEwODE3NDExYzdmN2M2
-ZTljZmZkNmYwMjRlNjcyYTMzMWE4IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2Nsay9jbGsuYw0K
-PiArKysgYi9kcml2ZXJzL2Nsay9jbGsuYw0KPiBAQCAtMTU1Nyw2ICsxNTU3LDIwIEBAIHN0YXRp
-YyBpbnQgX19pbml0IGNsa19kaXNhYmxlX3VudXNlZCh2b2lkKSAgfQ0KPiBsYXRlX2luaXRjYWxs
-X3N5bmMoY2xrX2Rpc2FibGVfdW51c2VkKTsNCj4gDQo+ICsvKioNCj4gKyAqIGNsa19pc19yb3Vu
-ZGluZ19md19tYW5hZ2VkIC0gQ2hlY2sgdG8gc2VlIGlmIGNsayByb3VuZGluZyBpcyBoYW5kbGVk
-DQo+ICtieSB0aGUNCj4gKyAqIGZpcm13YXJlLg0KPiArICogQGNvcmU6IHRoZSBjbGsgdG8gY2hl
-Y2sNCj4gKyAqDQo+ICsgKiBDbGtzIHRoYXQgaGF2ZSB0aGlzIGZsYWcgZW5hYmxlZCBkbyBub3Qg
-bmVlZCB0byBoYXZlIGENCj4gK2RldGVybWluZV9yYXRlKCkgb3ANCj4gKyAqIHNldCwgYW5kIHdp
-bGwgYWx3YXlzIHJldHVybiBzdWNjZXNzIGZvciBhbnkgcm91bmRpbmcgb3BlcmF0aW9uIHNpbmNl
-DQo+ICt0aGUNCj4gKyAqIGZpcm13YXJlIHdpbGwgZGVhbCB3aXRoIHRoZSByb3VuZGluZy4NCj4g
-KyAqLw0KPiArc3RhdGljIGlubGluZSBib29sIGNsa19pc19yb3VuZGluZ19md19tYW5hZ2VkKHN0
-cnVjdCBjbGtfY29yZSAqY29yZSkgew0KPiArCXJldHVybiBjb3JlLT5mbGFncyAmIENMS19ST1VO
-RElOR19GV19NQU5BR0VEOyB9DQo+ICsNCj4gIHN0YXRpYyBpbnQgY2xrX2NvcmVfZGV0ZXJtaW5l
-X3JvdW5kX25vbG9jayhzdHJ1Y3QgY2xrX2NvcmUgKmNvcmUsDQo+ICAJCQkJCSAgIHN0cnVjdCBj
-bGtfcmF0ZV9yZXF1ZXN0ICpyZXEpDQo+ICB7DQo+IEBAIC0xNTg5LDYgKzE2MDMsOCBAQCBzdGF0
-aWMgaW50IGNsa19jb3JlX2RldGVybWluZV9yb3VuZF9ub2xvY2soc3RydWN0IGNsa19jb3JlICpj
-b3JlLA0KPiAgCQlyZXEtPnJhdGUgPSBjb3JlLT5yYXRlOw0KPiAgCX0gZWxzZSBpZiAoY29yZS0+
-b3BzLT5kZXRlcm1pbmVfcmF0ZSkgew0KPiAgCQlyZXR1cm4gY29yZS0+b3BzLT5kZXRlcm1pbmVf
-cmF0ZShjb3JlLT5odywgcmVxKTsNCj4gKwl9IGVsc2UgaWYgKGNsa19pc19yb3VuZGluZ19md19t
-YW5hZ2VkKGNvcmUpKSB7DQo+ICsJCXJldHVybiAwOw0KPiAgCX0gZWxzZSB7DQo+ICAJCXJldHVy
-biAtRUlOVkFMOw0KPiAgCX0NCj4gQEAgLTE2NzMsNyArMTY4OSw3IEBAIEVYUE9SVF9TWU1CT0xf
-R1BMKGNsa19od19mb3J3YXJkX3JhdGVfcmVxdWVzdCk7DQo+IA0KPiAgc3RhdGljIGJvb2wgY2xr
-X2NvcmVfY2FuX3JvdW5kKHN0cnVjdCBjbGtfY29yZSAqIGNvbnN0IGNvcmUpICB7DQo+IC0JcmV0
-dXJuIGNvcmUtPm9wcy0+ZGV0ZXJtaW5lX3JhdGU7DQo+ICsJcmV0dXJuIGNvcmUtPm9wcy0+ZGV0
-ZXJtaW5lX3JhdGUgfHwgY2xrX2lzX3JvdW5kaW5nX2Z3X21hbmFnZWQoY29yZSk7DQo+ICB9DQo+
-IA0KPiAgc3RhdGljIGludCBjbGtfY29yZV9yb3VuZF9yYXRlX25vbG9jayhzdHJ1Y3QgY2xrX2Nv
-cmUgKmNvcmUsIEBAIC0zNTI4LDYgKzM1NDQsNyBAQCBzdGF0aWMgY29uc3QNCj4gc3RydWN0IHsN
-Cj4gIAlFTlRSWShDTEtfSVNfQ1JJVElDQUwpLA0KPiAgCUVOVFJZKENMS19PUFNfUEFSRU5UX0VO
-QUJMRSksDQo+ICAJRU5UUlkoQ0xLX0RVVFlfQ1lDTEVfUEFSRU5UKSwNCj4gKwlFTlRSWShDTEtf
-Uk9VTkRJTkdfRldfTUFOQUdFRCksDQo+ICAjdW5kZWYgRU5UUlkNCj4gIH07DQo+IA0KPiBAQCAt
-MzkwNiw3ICszOTIzLDcgQEAgc3RhdGljIGludCBfX2Nsa19jb3JlX2luaXQoc3RydWN0IGNsa19j
-b3JlICpjb3JlKQ0KPiANCj4gIAkvKiBjaGVjayB0aGF0IGNsa19vcHMgYXJlIHNhbmUuICBTZWUg
-RG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL2Nsay5yc3QgKi8NCj4gIAlpZiAoY29yZS0+b3BzLT5z
-ZXRfcmF0ZSAmJiAhY29yZS0+b3BzLT5kZXRlcm1pbmVfcmF0ZSAmJg0KPiAtCSAgICAgIGNvcmUt
-Pm9wcy0+cmVjYWxjX3JhdGUpIHsNCj4gKwkgICAgICBjb3JlLT5vcHMtPnJlY2FsY19yYXRlICYm
-ICFjbGtfaXNfcm91bmRpbmdfZndfbWFuYWdlZChjb3JlKSkgew0KPiAgCQlwcl9lcnIoIiVzOiAl
-cyBtdXN0IGltcGxlbWVudCAuZGV0ZXJtaW5lX3JhdGUgaW4gYWRkaXRpb24gdG8gLnJlY2FsY19y
-YXRlXG4iLA0KPiAgCQkgICAgICAgX19mdW5jX18sIGNvcmUtPm5hbWUpOw0KPiAgCQlyZXQgPSAt
-RUlOVkFMOw0KPiBAQCAtMzkyMCw3ICszOTM3LDggQEAgc3RhdGljIGludCBfX2Nsa19jb3JlX2lu
-aXQoc3RydWN0IGNsa19jb3JlICpjb3JlKQ0KPiAgCQlnb3RvIG91dDsNCj4gIAl9DQo+IA0KPiAt
-CWlmIChjb3JlLT5vcHMtPnNldF9wYXJlbnQgJiYgIWNvcmUtPm9wcy0+ZGV0ZXJtaW5lX3JhdGUp
-IHsNCj4gKwlpZiAoY29yZS0+b3BzLT5zZXRfcGFyZW50ICYmICFjb3JlLT5vcHMtPmRldGVybWlu
-ZV9yYXRlICYmDQo+ICsJICAgICFjbGtfaXNfcm91bmRpbmdfZndfbWFuYWdlZChjb3JlKSkgew0K
-DQo+ICAJCXByX2VycigiJXM6ICVzIG11c3QgaW1wbGVtZW50IC5zZXRfcGFyZW50ICYgLmRldGVy
-bWluZV9yYXRlXG4iLA0KPiAgCQkJX19mdW5jX18sIGNvcmUtPm5hbWUpOw0KPiAgCQlyZXQgPSAt
-RUlOVkFMOw0KDQoNCkFmdGVyIGFwcGx5aW5nIHBhdGNoIzExLCBJIGdldCBhIG1lc3NhZ2UgYXMg
-eW91IHJlbW92ZWQgLmRldGVybWluZV9yYXRlLCBBbHNvIGl0IGJyZWFrcyBkaXNwbGF5Lg0KDQpb
-ICAgIDAuMDk2NDE0XSBfX2Nsa19jb3JlX2luaXQ6IC5wbGw1X2ZvdXRwb3N0ZGl2IG11c3QgaW1w
-bGVtZW50IC5yb3VuZF9yYXRlIG9yIC5kZXRlcm1pbmVfcmF0ZSBpbiBhZGRpdGlvbiB0byAucmVj
-YWxjX3JhdGUNCg0KDQpDaGVlcnMsDQpCaWp1DQo=
+On Fri, Feb 27, 2026 at 12:00:55PM +0000, Biju Das wrote:
+> > -----Original Message-----
+> > From: linux-arm-kernel <linux-arm-kernel-bounces@lists.infradead.org> On Behalf Of Brian Masney
+> > Sent: 26 February 2026 18:17
+> > Subject: [PATCH 01/13] clk: add new flag CLK_ROUNDING_FW_MANAGED
+> > 
+> > There are some clocks where the rounding is managed by the hardware, and the determine_rate() clk ops
+> > is just a noop that simply returns 0. Add a new flag for these type of clocks, and update the clk core
+> > so that the
+> > determine_rate() clk op is not required when this flag is set.
+> > 
+> > Signed-off-by: Brian Masney <bmasney@redhat.com>
+> > 
+[snip]
+> >  drivers/clk/clk.c            | 24 +++++++++++++++++++++---
+> >  include/linux/clk-provider.h |  2 ++
+> >  2 files changed, 23 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c index
+> > fd418dc988b1c60c49e3ac9c0c44aa132dd5da28..0a522a0817411c7f7c6e9cffd6f024e672a331a8 100644
+> > --- a/drivers/clk/clk.c
+> > +++ b/drivers/clk/clk.c
+> > @@ -1557,6 +1557,20 @@ static int __init clk_disable_unused(void)  }
+> > late_initcall_sync(clk_disable_unused);
+> > 
+> > +/**
+> > + * clk_is_rounding_fw_managed - Check to see if clk rounding is handled
+> > +by the
+> > + * firmware.
+> > + * @core: the clk to check
+> > + *
+> > + * Clks that have this flag enabled do not need to have a
+> > +determine_rate() op
+> > + * set, and will always return success for any rounding operation since
+> > +the
+> > + * firmware will deal with the rounding.
+> > + */
+> > +static inline bool clk_is_rounding_fw_managed(struct clk_core *core) {
+> > +	return core->flags & CLK_ROUNDING_FW_MANAGED; }
+> > +
+> >  static int clk_core_determine_round_nolock(struct clk_core *core,
+> >  					   struct clk_rate_request *req)
+> >  {
+> > @@ -1589,6 +1603,8 @@ static int clk_core_determine_round_nolock(struct clk_core *core,
+> >  		req->rate = core->rate;
+> >  	} else if (core->ops->determine_rate) {
+> >  		return core->ops->determine_rate(core->hw, req);
+> > +	} else if (clk_is_rounding_fw_managed(core)) {
+> > +		return 0;
+> >  	} else {
+> >  		return -EINVAL;
+> >  	}
+> > @@ -1673,7 +1689,7 @@ EXPORT_SYMBOL_GPL(clk_hw_forward_rate_request);
+> > 
+> >  static bool clk_core_can_round(struct clk_core * const core)  {
+> > -	return core->ops->determine_rate;
+> > +	return core->ops->determine_rate || clk_is_rounding_fw_managed(core);
+> >  }
+> > 
+> >  static int clk_core_round_rate_nolock(struct clk_core *core, @@ -3528,6 +3544,7 @@ static const
+> > struct {
+> >  	ENTRY(CLK_IS_CRITICAL),
+> >  	ENTRY(CLK_OPS_PARENT_ENABLE),
+> >  	ENTRY(CLK_DUTY_CYCLE_PARENT),
+> > +	ENTRY(CLK_ROUNDING_FW_MANAGED),
+> >  #undef ENTRY
+> >  };
+> > 
+> > @@ -3906,7 +3923,7 @@ static int __clk_core_init(struct clk_core *core)
+> > 
+> >  	/* check that clk_ops are sane.  See Documentation/driver-api/clk.rst */
+> >  	if (core->ops->set_rate && !core->ops->determine_rate &&
+> > -	      core->ops->recalc_rate) {
+> > +	      core->ops->recalc_rate && !clk_is_rounding_fw_managed(core)) {
+> >  		pr_err("%s: %s must implement .determine_rate in addition to .recalc_rate\n",
+> >  		       __func__, core->name);
+> >  		ret = -EINVAL;
+> > @@ -3920,7 +3937,8 @@ static int __clk_core_init(struct clk_core *core)
+> >  		goto out;
+> >  	}
+> > 
+> > -	if (core->ops->set_parent && !core->ops->determine_rate) {
+> > +	if (core->ops->set_parent && !core->ops->determine_rate &&
+> > +	    !clk_is_rounding_fw_managed(core)) {
+> 
+> >  		pr_err("%s: %s must implement .set_parent & .determine_rate\n",
+> >  			__func__, core->name);
+> >  		ret = -EINVAL;
+> 
+> 
+> After applying patch#11, I get a message as you removed .determine_rate, Also it breaks display.
+> 
+> [    0.096414] __clk_core_init: .pll5_foutpostdiv must implement .round_rate or .determine_rate in addition to .recalc_rate
+
+Thanks for testing. This happens because rzg2l_cpg_pll_clk_register()
+doesn't have the new flag set. I'll fix this, and go through all of the
+others again just to make sure I don't miss any others.
+
+Brian
+
