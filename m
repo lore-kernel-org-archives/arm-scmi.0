@@ -1,56 +1,56 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E986C3AE6E8
-	for <arm-scmi@vger.kernel.org>; Mon,  2 Mar 2026 13:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A63378830
+	for <arm-scmi@vger.kernel.org>; Mon,  2 Mar 2026 13:25:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772456971; cv=none; b=TKEed43Z9Qz2c/IxeEq8/p8h3JM07GtF5aj8qyK9Az6I9y224bdswxFZXKzDrFgZF8xcPiU6lNAlNvKrwriUkwwLFwMTUn3kivjw78HProOMNp1Kz2Aktkalytf1pAAm6KTeVvUnoItk5yjAAWVy+Dx8YWrQmDPqNgtpRr4jpRs=
+	t=1772457927; cv=none; b=FDyR1bDTCz+KESMXwGoZwhmX1PVKG62disCLaoAfrPjY3INYsMxZo4YUCnqFVeYSXG11Heo6a2p/kizhbtvObdTYltJeR6y/9XhLl9w6SzZ3q4P4ZiE8RRIZ5aYzFF2y21FQMJyXNCCkTEhj/Dm1u1NuZWMF+MBlIF0ztFGWAbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772456971; c=relaxed/simple;
-	bh=flPzsF7PzOvMEnCHPNRVbaZwyCdjFf5LYGl94bUvKVA=;
+	s=arc-20240116; t=1772457927; c=relaxed/simple;
+	bh=sgxnmhj2rQgljJRNTMAEIU71ZOKKmdvca0WN6HsSkl4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LgutlpQZ4hrSxaUG4aTHhfkzhz7hSnt9B6KZk8uW6rHDyYZIo+rfPaHQV5g9WaNQcOepFXt3l5IjxeIleMTErKw0i+JPDGQVkMZh1R+u84xsBZeD3rwcv97A9J9tFqHkDOuyjSstIw5serJEMqLP6f+r5P6TBTQ2TYhOBPukxPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.52
+	 To:Cc:Content-Type; b=Pxs3bApYikVWRF4K3OaEB27unhW9cMGnlwu8Py4pyHQcTCR8VJEkiV92ileHCHNnAm2M6QbomIGPUIIdxuRZxs1YIPQaHTvmRvFKkKwjCSrWGZQ4gD6tQkjx+jQgtEY/cAVXHX8+b+PzWxfZnWlr/KzCk7lPeNhvvNBme0cWmGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-94acb3d6cceso2710196241.2
-        for <arm-scmi@vger.kernel.org>; Mon, 02 Mar 2026 05:09:29 -0800 (PST)
+Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-5ff09bb668cso2960939137.0
+        for <arm-scmi@vger.kernel.org>; Mon, 02 Mar 2026 05:25:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772456969; x=1773061769;
+        d=1e100.net; s=20230601; t=1772457914; x=1773062714;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HbpBDECGTuxrjZK2784Rn4svmYdxHMnNQNyQJ/QvvFQ=;
-        b=LkxEwU6jpnnR4GMt4rHv4qEdKaOLSwxi7wDCl96PExtEIuUJLZPmqJYsRlorQsOfBN
-         OPeBT+UuJZOqG+BeuGiy0SnubWzkeDKapIyWS5EP2uwpwOZhvCinPGhUHFC/Gv8bpAzg
-         uCiiwVC8b67EWcpR8t3T5MjVsRyea0QqMtOQyvZeHdgDEkAH9sAIf0HkXAEJp1H9X8Lk
-         o/dz2udRrLLgVkWxiTL2P9zCuFLMd0Ra559Y+w5jNLFXe4q4kUHocGVKWsz5zH89KpLm
-         Bq4WLx0bkimFGaWjISWHBwU0vBFYzzfFxms59IAkOL8ehE8zCzW0Bnq3oDsST76pDL3R
-         Mimw==
-X-Forwarded-Encrypted: i=1; AJvYcCX3Bdw5SL900MKmbNwqRJwiwGQXtTGMdFCqjsjoc9DZwkw+3/js2bMXfGytpr6idv9n7ZOBtaBzAQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2bYFzpULHSRh0rR2qtv4nuC0dWkV6ORHvr3BXtTJKblQ5qEj7
-	n5vsFvA8gchvJxwxX6pHWnlm7jen/XlZCZWxBJ0IcOln3tNycmPDmbK+Op2ickVU
-X-Gm-Gg: ATEYQzyF15tfwe6dNxxhmV8Ev42Phyy7WopYHDN/pU29MKOp+HwusE3gqmHBSehwxTg
-	CRjrdFGgb9NUlONp5E9Wkj7b+xtKMmSIomiG6LpdVHGBAjoOzKXddq92Ih8Pmmq+RL5j2EiXKxh
-	0rHsFFcBovD0haASzIBTNCYMu1hPnuXX6ULT+ZfytgfIOA/75CkcgvFMQj4sXVcmURYZqOeaMWr
-	pdB9mboA+iWp6FRGMUdyLQxpa8+lPpnPm/ILG7Ao7RplO/ogxEH3lUW/i99KBDb2UKM4hjfZ4CF
-	6QQ+IvHznMtTCqtN7KryIfDucCS9pCzsEsQA9rsrGzPvuQViX4oRoQSRByY9E71sByuduIwDPFN
-	WEtCUSnFdlOnUqwZGkf9ZnuEJUN5x5TgET/zw+ei4WTShtpJZzAeDM+HQboQ0UhSsq5D756lgit
-	baxGlNcpIr7QsJpaH6lEsRp8a8MG0z5ti7DEO+m639SDTMV9mzWzEyey0mDGX+
-X-Received: by 2002:a05:6102:4422:b0:5ef:af7e:1ddd with SMTP id ada2fe7eead31-5ff325ac159mr5276005137.37.1772456968695;
-        Mon, 02 Mar 2026 05:09:28 -0800 (PST)
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5ff1e80818dsm13168451137.5.2026.03.02.05.09.27
+        bh=u/KgeLtXmZOUh5kr82wm/EePACuyTgS6gfBGBNvywTM=;
+        b=rvMemLoBFiOj4ipzQMkMYWIRK44RFRnB/tAHHU7NkMzT9/40qM8kC8iq5lWQ/1dwjl
+         EpGG3Nf1oc5/bJT94rCTxA/G9twC6ezkxqwIWVeHhV+8EaS3EH+11zgha5ztn1YbICMt
+         7scHGmIGchrYRiJkvXn7GfI/MM5cDo87vji2EwGsiSeVqSHaDauyCB4NLASULtaA/lTA
+         5o1YOsBCKKWY93bEuJz3cnmdxvXJGcYRmCPJz2RR9SWm7nS+CvvX8ggSQs9yn5XQuTsW
+         Gj5pUAt581NErttuzL87yXV9YViBBzVZKNyjL+39QTMUScZnRusNCtF9082Vl0I4jt7j
+         2LyA==
+X-Forwarded-Encrypted: i=1; AJvYcCU9B3676CFdIefGcvD7q80wqS3+qaOuKvC2dFXGfaeAoIO45zv8HKUEo96voQ0tQF1wGn1DCrwBKg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfCNAcSxoqjlOg24vkG1Lop0+I4P5r3Mg1/uBzM/y20CE3IJbY
+	ByOzYcWVf039bY4/fUYP4hTyJhTtBUbflutFd7W+T8iUNMKK9d93eSe95ubxPDPd
+X-Gm-Gg: ATEYQzxhFG4M76HLZ14EtH1E0l+LbuqxZGh5wfX9u8BPcvjwfdW5FSBPJuHvDjR42Rm
+	zPTOyFJ3rd+U1GaW9EXxOVmQVrlisG1u7PmHnQw1kTIE7vcxaKl5XktBmF289RfPWeJ7V8QsoSL
+	h8C2zdwvUCP//cKXJi8cvENr6CDG3GgxreuFTKxcqztJzs3An+vkyovZMsFifGv88NRAr6KYD+F
+	hgSgzxuNzf2i0QAykGQDS1hwoy/IppGu+RJWB313/RDSfBRuAa6T40sHp2n24lg1Y+rVaZ2z76Q
+	b61AK/LyQ/uV1q8squqiYFFMtym8H+CMRItK+cuNB2sZgPFxeIEvm/SOYiWIZv9ZqR5XmzzGQXr
+	adWpFqOMRGW09BKWpZmuEFvqmuwSz5o96oHtcgztd5yZ9xzBywmtvwQ/rvVsYjAcnIDmIG9to/8
+	QSb/e/ghWM4kOJ8U/AwyzX1Cj0cq62dRZdxrO1p1joSzbxV8CaMzCUmTLrf0zw
+X-Received: by 2002:a05:6102:e08:b0:5f5:320c:4d36 with SMTP id ada2fe7eead31-5ff325b7a61mr5680623137.40.1772457913758;
+        Mon, 02 Mar 2026 05:25:13 -0800 (PST)
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com. [209.85.217.42])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5ff1e7af30asm13119172137.3.2026.03.02.05.25.12
         for <arm-scmi@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Mar 2026 05:09:27 -0800 (PST)
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-5ff1699312bso2637560137.3
-        for <arm-scmi@vger.kernel.org>; Mon, 02 Mar 2026 05:09:27 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWjfEh9cQ40KAc5bPDHlNYSFyPxonXRcpCeWJanJUezUW4j8h1eQ3gvozvp9omr+vWbLZ6ZcrL3wg==@vger.kernel.org
+        Mon, 02 Mar 2026 05:25:12 -0800 (PST)
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-5ff1703cb93so2872566137.1
+        for <arm-scmi@vger.kernel.org>; Mon, 02 Mar 2026 05:25:12 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVxiK97TPECQyfW1K4qV1a0g7Tvya/lk7hjgQDNC61wL+CJEtXzjQdToFR3HG6HWD5Z2vwZI6tHPQ==@vger.kernel.org
 X-Received: by 2002:a05:6102:304c:b0:5ff:1d94:b746 with SMTP id
- ada2fe7eead31-5ff32519f2emr6199626137.27.1772456966817; Mon, 02 Mar 2026
- 05:09:26 -0800 (PST)
+ ada2fe7eead31-5ff32519f2emr6218672137.27.1772457912000; Mon, 02 Mar 2026
+ 05:25:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -58,14 +58,13 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260227153225.2778358-1-cristian.marussi@arm.com>
- <20260227153225.2778358-4-cristian.marussi@arm.com> <CAMuHMdW7e45rc5VmHQV5GxzMvJ3r6=04sWOoFsu4JJPAqDUiJA@mail.gmail.com>
-In-Reply-To: <CAMuHMdW7e45rc5VmHQV5GxzMvJ3r6=04sWOoFsu4JJPAqDUiJA@mail.gmail.com>
+In-Reply-To: <20260227153225.2778358-1-cristian.marussi@arm.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 2 Mar 2026 14:09:14 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVwVsYxsQj+du-uEN77H6UHDVFO4T6-_7VJ0E4Pfa=sSg@mail.gmail.com>
-X-Gm-Features: AaiRm50gWrUOn4xlq8V0dsaXBHr2iE-RWJy6NrWL5o5U_z-q0G3KqmZt-0p4hrs
-Message-ID: <CAMuHMdVwVsYxsQj+du-uEN77H6UHDVFO4T6-_7VJ0E4Pfa=sSg@mail.gmail.com>
-Subject: Re: [PATCH 03/11] firmware: arm_scmi: Simplify clock rates exposed interface
+Date: Mon, 2 Mar 2026 14:25:00 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW9dtAnT2E103kp1zK=LJrER7k1ib8_WPk5aorPRw80uQ@mail.gmail.com>
+X-Gm-Features: AaiRm50Tkxhc-oCHlHPyabn9QxR4wbHw_RTC9z1g5dQZe_w9JY9CV7dca6PXC-4
+Message-ID: <CAMuHMdW9dtAnT2E103kp1zK=LJrER7k1ib8_WPk5aorPRw80uQ@mail.gmail.com>
+Subject: Re: [PATCH 00/11] SCMI Clock rates discovery rework
 To: Cristian Marussi <cristian.marussi@arm.com>
 Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
 	arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org, 
@@ -73,65 +72,68 @@ Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	philip.radford@arm.com, james.quinlan@broadcom.com, f.fainelli@gmail.com, 
 	vincent.guittot@linaro.org, etienne.carriere@foss.st.com, 
 	peng.fan@oss.nxp.com, michal.simek@amd.com, dan.carpenter@linaro.org, 
-	geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com, 
-	marek.vasut+renesas@gmail.com
+	kuninori.morimoto.gx@renesas.com, marek.vasut+renesas@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 
 Hi Cristian,
 
-On Mon, 2 Mar 2026 at 13:48, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Fri, 27 Feb 2026 at 16:33, Cristian Marussi <cristian.marussi@arm.com> wrote:
-> > Move needlessly exposed fields away from scmi_clock_info into the new
-> > internal struct scmi_clock_desc while keeping exposed only the two new
-> > min_rate and max_rate fields for each clock.
-> >
-> > No functional change.
-> >
-> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
->
-> > --- a/drivers/firmware/arm_scmi/clock.c
-> > +++ b/drivers/firmware/arm_scmi/clock.c
-> > @@ -157,13 +157,27 @@ struct scmi_clock_rate_notify_payld {
-> >         __le32 rate_high;
-> >  };
-> >
-> > +struct scmi_clock_desc {
-> > +       u32 id;
-> > +       bool rate_discrete;
-> > +       unsigned int num_rates;
-> > +       u64 rates[SCMI_MAX_NUM_RATES];
-> > +#define        RATE_MIN        0
-> > +#define        RATE_MAX        1
-> > +#define        RATE_STEP       2
->
-> Any specific reason you are not using a union here, like in
-> scmi_clock_info?
+Thanks for your series!
 
-Ah, "[PATCH 06/11] firmware: arm_scmi: Make clock rates allocation
-dynamic" answers that.
+On Fri, 27 Feb 2026 at 16:33, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> it was a known limitation, in the SCMI Clock protocol support, the lack of
+> dynamic allocation around per-clock rates discovery: fixed size statically
+> per-clock rates arrays did not scale and was increasingly a waste of memory
+> (see [1]).
+>
+> This series aim at solving this in successive steps:
+>
+>  - simplify and reduce to the minimum possible the rates data info exposed
+>    to the SCMI driver by scmi_clock_info
+>  - move away from static fixed allocation of per-clock rates arrays in
+>    favour of a completely dynamic runtime allocation: just allocate what
+>    is needed based on the effectively discovered
+>
+> This is done in patches 1-6.
+>
+> A further bigger optimization suggested in a past series [1] by Etienne
 
->
-> > +       struct scmi_clock_info info;
-> > +};
->
-> > --- a/include/linux/scmi_protocol.h
-> > +++ b/include/linux/scmi_protocol.h
-> > @@ -51,6 +51,8 @@ struct scmi_clock_info {
-> >         bool rate_ctrl_forbidden;
-> >         bool parent_ctrl_forbidden;
-> >         bool extended_config;
-> > +       u64 min_rate;
-> > +       u64 max_rate;
-> >         union {
-> >                 struct {
-> >                         int num_rates;
->
-> You patch description read like the actual rates would be moved
-> from scmi_clock_info to scmi_clock_desc, i.e. _removed_ here?
+s/[1]/[2]/
 
-And these members are actually removed in "[PATCH 05/11] firmware:
-arm_scmi: Drop unused clock rate interfaces".  Please reflect that in
-this patch description.
+> would be, whenever allowed by the spec, to limit upfront the number of
+> queries in order to simply retrieve min and max rate, that are indeed the
+> only rates needed by the CLK SCMI driver.
+>
+> The approach proposed in [1] was open coding and duplicating some of the
+
+What does [1] refer to?
+
+> functionalities already provided by SCMI iterators, though.
+>
+> Patch 7-10 implement such optimization instead by:
+>
+>  - reworking core SCMI iterators to support bound enumerations
+>  - use such new bound iterators to perform the minimum number of queries
+>    in order to ony retrieve min an max rate
+>
+> As a final result now the rates enumeration triggered by the CLK SCMI
+> driver, while still allocating for all the existent rates, miminize the
+> number of SCMI CLK_DESCRIBE_RATE messages needed to obtain min and max.
+>
+> Finally, patch 11 introduces a new clock protocol operation to be able to
+> trigger anytime on demand a full enumeration and obtain the full list of
+> rates when needed, not only min/max: this latter method is really only used
+> currently by some dowstream SCMI Test driver of mine.
+>
+> Based on v7.0-rc1.
+>
+> Tested on JUNO and an emulated environment.
+
+Thank you, this removes the need for increasing SCMI_MAX_NUM_RATES on
+R-Car X5H, while decreasing memory usage.
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> [1]: https://lore.kernel.org/arm-scmi/aZsX-oplR6fiLBBN@pluto/T/#t
+> [2]: https://lore.kernel.org/20241203173908.3148794-2-etienne.carriere@foss.st.com
 
 Gr{oetje,eeting}s,
 
