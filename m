@@ -1,101 +1,146 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C290541C0CB;
-	Mon,  2 Mar 2026 15:54:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B740A42EEB0
+	for <arm-scmi@vger.kernel.org>; Mon,  2 Mar 2026 17:11:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772466867; cv=none; b=QmkhFplEEDLcsVCRRVLxy6/Q93Ze8Os5zaZkgdW9jYBP5osV3lFNjyqyuFPBOVGX5rxx7jn3+1db3Gi8jmzTb/G5H7VD4sSsoT27f4Nwk4ljRbBA/DRv3bkM9Ss1zjsysCgE7MsZrPEcMovaBGCIYvbI2oDKo4SOHnfpr0QAb8U=
+	t=1772471487; cv=none; b=On6Ge0+M9O6i+3O9zkvIkcg7otSJD2j48yYtbcOz9HbVtRPpdqYfNkq0V3SzApJdMuryALFKx60Y2tasnk2ZFhEU5ql84A9fF6qfm7S5eIqkfUVV1coP24AsJbKiubITVbUhB0g/hIs+dwKFZBbLcQcSHfWPeYhHoZdP5q6AAJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772466867; c=relaxed/simple;
-	bh=faGDlxTpGgDgf5lft1dr/LUhyCXcbET5nTyAJhZn1rc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RJ6u/4LuZJq4ZKZHW6zBWkC1nVQjWjpAB/qzBPFRVQbZV035eLp5BroxRBLSP4g8/vFlv7GJitCo0Ziy5YomND+r12dWSTnD+mu1c00x6iQXq5sbSlhw6P59Pkf0mUAlP5i/BSnIw9mnDZPzw1V4tYrRO6OsM9X8P7c24yWbLJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=koUJWiJa; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1772471487; c=relaxed/simple;
+	bh=Lds6rOZ7X/3g6xC/UqVG/xiT2+rkqLBII+J5UpiKeEk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=aXPcxXoIal34Qs+wLLpFR/9RcS+2uKb6eApeMS3cOVUml8j/oQ7o1SM/1L/UB9+r6XoNcL55hPq3mw2QcmaDiplMbsRv1AeTzE5KE8VcigTNLjMfwD/tiGTSrpQhNxms6v7PKhVgHPOD/7M9J+PJCHvpFj4I9yXeZ0GzUmNB01c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=A3ZOVilY; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="koUJWiJa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=MB
-	NRmuJe+0PPQ4BIarWTighfyiqD0+gta5zQYlDF/yk=; b=koUJWiJa65TZE3NOiR
-	jshin6wHuOBLR9vxA1nAEz5xkJGMjEKyqLYmA/IvDDS6dmz1OdViytSNlKj4uHHA
-	bo6BFdRe7s/gdHf1whIG67ejgu4aHoNURc2k2Qhh2X8ASw9GEuBjhhZQB4ITCjh5
-	WfTWsOCjCKFOqLd1tshKEhL2Q=
-Received: from zhb.. (unknown [])
-	by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id _____wCX1weOsqVpju7dNg--.43634S2;
-	Mon, 02 Mar 2026 23:53:51 +0800 (CST)
-From: Hans Zhang <18255117159@163.com>
-To: sudeep.holla@kernel.org,
-	rafael@kernel.org,
-	viresh.kumar@linaro.org
-Cc: cristian.marussi@arm.com,
-	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Hans Zhang <18255117159@163.com>
-Subject: [PATCH] cpufreq: scmi: Fix of_node use-after-free in scmi_dev_used_by_cpus()
-Date: Mon,  2 Mar 2026 23:53:48 +0800
-Message-Id: <20260302155348.26374-1-18255117159@163.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="A3ZOVilY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772471480;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dTT0P65qbG5CTQSoBKTT9PgPPtpnw8OX1DWXnZ+KTiU=;
+	b=A3ZOVilY2d98ppWsTwrVLfdOqYhWl9KF8Ob1FvP3OK5Xx6l6XNSrwbdK4qFpggrGLeONwf
+	w3dTZLE7wuXyDYpFeM7KfPXYWoTRZKiTvVIsPILFjBEwQ9RV0T9chOUdy3UodMereadq9G
+	g/VseJjy02GGvOJypLe41tUKM/BgJxM=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-563-uQ70U8ayO8meYf61BtKO3w-1; Mon, 02 Mar 2026 12:11:19 -0500
+X-MC-Unique: uQ70U8ayO8meYf61BtKO3w-1
+X-Mimecast-MFC-AGG-ID: uQ70U8ayO8meYf61BtKO3w_1772471479
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8cbb8040f48so3924191585a.0
+        for <arm-scmi@vger.kernel.org>; Mon, 02 Mar 2026 09:11:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772471479; x=1773076279;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dTT0P65qbG5CTQSoBKTT9PgPPtpnw8OX1DWXnZ+KTiU=;
+        b=xGA6IjyT9/oCzd54+REhcEdkS06rcBh5rOzHTG70bMZg7hG2CNfccmLdUVKpJ8ouWs
+         lY81ZN4LxqWD0rrp98+uDkF1lADLaP3XHAA9YgDIdBowMC0Wp7u4738/Ph3dhUgQUv3+
+         ZtMnJP0TfEIM/oZUphd5EWcgXkbSk2S08JaiK2VvpZAbK5nBQyaKwfQw6PFrD2cwGYFU
+         yuqrTVktXPnAEaoKzdxsklu8CnNoaHZRL6plP+McAT0Rgs4TvBtbM9g9n41ieu5C8bF1
+         sLTTMdU3lLdrO4GxWydU0fy/StDEA6+gBwEkCcqb/oELj6npEWSPEBpDn7BYUpoNZ6CX
+         eAPw==
+X-Forwarded-Encrypted: i=1; AJvYcCUADj7tGtggAM6+LhgSBq8kt3hARQ00pg9da1WKwrPtxCpJM2U6r8nA+Ko/CYMy8WL0fhRRnr8kFg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxrxabVm6BH2+XBhQQ3tbwjkAbfZ9qRd3XriWlPnYJ0tVsTxATk
+	E/9eiMZCX/QKPDdcgoGwecUESmuFBu0UuS8HU2hryxLGQXjpDiMdAgTKWfr8htm/rrWMGDm8Z0x
+	5cQW13d6E1wwTSoIoI6Zua8x7PtZ3bGK/Bh2PMU4RxTq5A2w6pSc4LAiz+9oZ
+X-Gm-Gg: ATEYQzzg9W7ToFvkJDDcjS50s0UiRf8/ZruG4hammA/MlKBqQOBshQbRzojSKUXcAWY
+	s9tyac4dCH3h+l5LvNRNiBAK7uu2h+TzEqpV8FfZYrKPc2WcGppNawOsRHrQCsCT2DxsOWX027q
+	5RIEXqcvb5Dyub/WJmVJpuFm5yyp3CuBysckjjZdPlkdkGK/Vr82KZGZ7FSZcoD2M9LexOPCNp9
+	awEHOLij+FLFSsEDZDxLJkyFZbcFrfml43axgaogR2m1gxb/iAsrmz4hwG+sMBknjxIhR3XJfyu
+	93KTp69tIQKjsmoJ2TCYDrZcgKTZ50BIJGIuyutdifTLNBHe0/Jhp3G0zvjYiLnPUQAOg0M0Mzf
+	aN7nY0b6npUFnj7EY0cpiTg8NmZoHas6CtK+YFtMK5kcz62oUTKquWtJV
+X-Received: by 2002:a05:620a:28d6:b0:8c9:fb0e:ca43 with SMTP id af79cd13be357-8cbc8deb20fmr1599861185a.24.1772471478988;
+        Mon, 02 Mar 2026 09:11:18 -0800 (PST)
+X-Received: by 2002:a05:620a:28d6:b0:8c9:fb0e:ca43 with SMTP id af79cd13be357-8cbc8deb20fmr1599855585a.24.1772471478512;
+        Mon, 02 Mar 2026 09:11:18 -0800 (PST)
+Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cbbf6534f3sm1172998185a.5.2026.03.02.09.11.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2026 09:11:17 -0800 (PST)
+Date: Mon, 2 Mar 2026 12:11:16 -0500
+From: Brian Masney <bmasney@redhat.com>
+To: Peng Fan <peng.fan@oss.nxp.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, sudeep.holla@arm.com,
+	philip.radford@arm.com, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@foss.st.com, michal.simek@amd.com,
+	dan.carpenter@linaro.org, geert+renesas@glider.be,
+	kuninori.morimoto.gx@renesas.com, marek.vasut+renesas@gmail.com,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH 02/11] clk: scmi: Use new determine_rate clock operation
+Message-ID: <aaXEtNilpRYhwmYc@redhat.com>
+References: <20260227153225.2778358-1-cristian.marussi@arm.com>
+ <20260227153225.2778358-3-cristian.marussi@arm.com>
+ <aaI9JBwWaMmfBbd/@shlinux89>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wCX1weOsqVpju7dNg--.43634S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ZF15tryrGr1xGr4ruw4kZwb_yoW8Xr4rpF
-	W3C3yFyry8JFsrJw10vr4UWrWYvan3ZrW5uasxKwnava98XFy5Xryag3WUXr98CF93Xa4Y
-	yr1rta4xWayxA3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JUUfQiUUUUU=
-X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbCww+TN2mlso+dEgAA3W
+In-Reply-To: <aaI9JBwWaMmfBbd/@shlinux89>
+User-Agent: Mutt/2.2.14 (2025-02-20)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: NWi-2PzPbJRp1NbAv0Z_Xi2Dsc1iChzz3sFQKasDSxc_1772471479
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-In scmi_dev_used_by_cpus(), the code previously released the of_node
-reference via of_node_put(np) before checking whether np equals scmi_np.
-This could lead to a use-after-free if the node pointer was accessed
-after being freed. Reorder the logic to perform the comparison first
-and only put the node after the check, or immediately return if they
-match. This ensures safe reference counting and avoids potential kernel
-crashes.
+On Sat, Feb 28, 2026 at 08:56:04AM +0800, Peng Fan wrote:
+> On Fri, Feb 27, 2026 at 03:32:16PM +0000, Cristian Marussi wrote:
+> >Use the Clock protocol layer determine_rate logic to calculate the closest
+> >rate that can be supported by a specific clock.
+> >
+> >No functional change.
+> >
+> >Cc: Brian Masney <bmasney@redhat.com>
+> >Cc: Michael Turquette <mturquette@baylibre.com>
+> >Cc: Stephen Boyd <sboyd@kernel.org>
+> >Cc: linux-clk@vger.kernel.org
+> >Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> >---
+> >Note that the calculation logic in the protocol layer is exactly the same
+> >as it wes here.
+> >
+> >@Brian I suppose once your CLK_ROUNDING_FW_MANAGED sereis is merged I can flag
+> >such SCMI clocks.
+> 
+> Per my reading of Brain's thread, if ->determine_rate exists,
+> ->determine_rate() will be used.
+> 
+>  	} else if (core->ops->determine_rate) {
+>  		return core->ops->determine_rate(core->hw, req);
+> +	} else if (clk_is_rounding_fw_managed(core)) {
+> +		return 0;
+> 
+> So unless update scmi_clk_determine_rate() to something:
+> --------
+> if (clk & CLK_ROUNDING_FW_MANAGED)
+> 	return 0;
+> 
+> return scmi_proto_clk_ops->determine_rate(clk->ph, clk->id, &req->rate);
+> --------
+> 
+> It maybe better to update Brain's patch to move clk_is_rounding_fw_managed()
+> above the check of core->ops->determine_rate().
 
-Fixes: 6c9bb8692272 ("cpufreq: scmi: Skip SCMI devices that aren't used by the CPUs")
-Signed-off-by: Hans Zhang <18255117159@163.com>
----
- drivers/cpufreq/scmi-cpufreq.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+The clk framework has some basic sanity checks in place that are called
+during device probe to ensure that various ops are configured properly. I
+could add a check that if CLK_ROUNDING_FW_MANAGED [*] is set, and a
+determine_rate() op is set, then it gives an error.
 
-diff --git a/drivers/cpufreq/scmi-cpufreq.c b/drivers/cpufreq/scmi-cpufreq.c
-index 4edb4f7a8aa9..187aeb65e221 100644
---- a/drivers/cpufreq/scmi-cpufreq.c
-+++ b/drivers/cpufreq/scmi-cpufreq.c
-@@ -413,17 +413,19 @@ static bool scmi_dev_used_by_cpus(struct device *scmi_dev)
- 		cpu_np = dev_of_node(cpu_dev);
- 
- 		np = of_parse_phandle(cpu_np, "clocks", 0);
--		of_node_put(np);
--
--		if (np == scmi_np)
-+		if (np == scmi_np) {
-+			of_node_put(np);
- 			return true;
-+		}
-+		of_node_put(np);
- 
- 		idx = of_property_match_string(cpu_np, "power-domain-names", "perf");
- 		np = of_parse_phandle(cpu_np, "power-domains", idx);
--		of_node_put(np);
--
--		if (np == scmi_np)
-+		if (np == scmi_np) {
-+			of_node_put(np);
- 			return true;
-+		}
-+		of_node_put(np);
- 	}
- 
- 	/*
--- 
-2.34.1
+[*] Note: I am tentatively planning to rename that to CLK_ROUNDING_NOOP
+in v2 in about a week.
+
+Brian
 
