@@ -1,72 +1,42 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBEF20A5C4
-	for <arm-scmi@vger.kernel.org>; Tue,  3 Mar 2026 04:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B52261A6801;
+	Tue,  3 Mar 2026 12:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772511656; cv=none; b=DsTPxqyMlZOiMw9IlYNf5pQ2CfzSaRTQ6b8d6KxDzYKX4Fv9IpcBdbeqtm8xsftn7l+xtT5Vqy+/3oMw3Cmohrg94C8SbuqpEz1C2Tu55v1ivsgDZjAtc4CenPvW3NAvoG+FjhwdbCFccvF7/MZHCPs6gHKVLmj02L2ehnv1rH8=
+	t=1772541652; cv=none; b=ngBwCjJ6R3kdgi4DrCceieO7Dz9T8BaTq25w3j1343xZR0oNDOKaG5oDYgaPAJEKrneP72ilSSptNEi1ZxA18l7pqOlditi0psdAdoruPWxyOoBaQorMaPiEHzlhDZxn69uROszU/tbkyxAYsGZO15DhArutUKohmJ5XyyqCdk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772511656; c=relaxed/simple;
-	bh=ZlweBBkTC0OCv962O061FeSDYVEi9pTQcwxBEDylOc0=;
+	s=arc-20240116; t=1772541652; c=relaxed/simple;
+	bh=n8iVkBkMAvJyu+SEQHcaGGK7g7S4SlOowfgbvqlEoJw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Se8dOd0d3cwhA9dlmulakmh9z6pJKmkOivjo6SUqkfwds8R5IYj0nt3QT+2PPQhx8QpGVnyU/S95Zi501jzfi+agXHq6l/JvDOkdas7unaAsuC1XGX7e/SHzQwOXLcgW993p/+va/Y8Fz/WkRaDLoC8ULgFHA5shJI3kWK7WvNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V7iDdk/k; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V7iDdk/k"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-824ac5d28f9so5285748b3a.0
-        for <arm-scmi@vger.kernel.org>; Mon, 02 Mar 2026 20:20:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772511654; x=1773116454; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RjlYlr+TitWbiFWv5AnEceJILSm/y3zmJ+HZjyFCTd0=;
-        b=V7iDdk/kExmwTCM53YXPZBPilfHAy28voolH6ZeOXrkI0rmAnprgmf/Adh2eMgs0MP
-         WlsPeXer3GjifrZ0/nRjMlNlcFrR1r+aYptMw+iv2sx2uxor+y5prgDeTyZchU+HdY92
-         SK2S6Zu0PeG3fujmBlpPSkpFb54VR0PYTZarI9gku8tFfCVx1G94Ql+97VPEkVmPXyev
-         p/g4+7QqzbpGnCsQt/RhXQoNisUJdBwvFRgzzj8MzTTxuNtyHOm7EGd68LiGeLL00SeT
-         pSqQcLw7wG07axfvzjLEmvbg9e8rdl1VHf1MqrOpOVyTEyLPikOrpSHJWnzRmewPdvik
-         i5RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772511654; x=1773116454;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RjlYlr+TitWbiFWv5AnEceJILSm/y3zmJ+HZjyFCTd0=;
-        b=JQQFG23i4B17QKxf5hc82WcE+Op/UFxK9veDKibl+qvVtJJKE9ntuKJD1DU2udVNjF
-         h63lpawp1MZKV7pDpWkh2p9Xw54lQOZ7oMNSqDC+ufwwvi457l02EK3U1nh+v+4O4gtJ
-         pp/seYLIX2vhOME4AW/QvSgn7nYDlAE4uujLq23SrMA3m83aZTL0QUYrX6mIIh+Bpnb/
-         bFYHOPUEi7BexdGY6lilS5wTtwqvIvzCrQK89DGONdbHXAaujPcmmIPAucQkvnr9gGCa
-         4DKXkSPgxQvST12ZfvIf1opfdEvBdRXP0A7VokUJxXWxkLIqiqnyQu11hmfrmTmBlSNg
-         Y53g==
-X-Forwarded-Encrypted: i=1; AJvYcCW/9pMUJ0yOeF9EX+WyLtpnzKLJ0Q7f9UZHh+4+39ZffJ7sU10IuOtwY/0hSnSgwXzhVE3sM6YYXQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyM4JQPHCtm0iSe1/udHRyOs/snJHLR2otobR9/3pnN3kORIr4F
-	JJLK41M0QdAEcu4fnroI9t0pP7FHsQyog9PXXZaA+gVqlWPXiWgIRcPnP25Lm5aI7VM=
-X-Gm-Gg: ATEYQzyOr5rdT3GzU0+M5xCtfqVfU7nGbeFuiMKidwDe/zN95jCvedP7/0hKmAPi11G
-	rAS6i17dTdjUsEHjax1T0gN8HWZ9FRWpxpgO+er0CL6V3FfS56dUjLW9iLVbESu9WW84cNjcgL9
-	ccvFEU+Onvoz2rPX9C60lUQa+Bz2MptvnusGczuX7PQrSi1XdOb+zJzr6oHT3y1cYvuG/Jy722y
-	W23lRwiklsuic+JEDWFGMY/XrTECHTODoNzStw9zW+i53Y8YUkzhjGdDPIeTgymNzu1+rsZEm5k
-	tOcV/eQsmHgf9257WjypLauLU+Q4rnwlceKFdM0V0CjIpj49JE/Q5TEQtFZD3hYF04Rxbrjp/d+
-	PNpmfFN70lCJ19kyzuhbo6XBka22LACsm3qon/u4h3AqgVmaSMVktwM/aRaHa6iVKq+sSdLJMHh
-	ttaH5m3QNCMwbfs0Dexvvj/5Br
-X-Received: by 2002:a05:6a00:2ea5:b0:827:3d52:5d1a with SMTP id d2e1a72fcca58-8274d7927ffmr14626637b3a.0.1772511654084;
-        Mon, 02 Mar 2026 20:20:54 -0800 (PST)
-Received: from localhost ([122.172.81.200])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82739d8805esm15330809b3a.16.2026.03.02.20.20.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 20:20:52 -0800 (PST)
-Date: Tue, 3 Mar 2026 09:50:50 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Hans Zhang <18255117159@163.com>
-Cc: sudeep.holla@kernel.org, rafael@kernel.org, cristian.marussi@arm.com, 
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] cpufreq: scmi: Fix of_node use-after-free in
- scmi_dev_used_by_cpus()
-Message-ID: <4lbgs3xszh75i4nucdhkbi2j33xvu6y3qfkilrshswbn73kpo4@kp36dhmrpogk>
-References: <20260302155348.26374-1-18255117159@163.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=VIst4pp6JUUbtg72FH5jxxWNlFAtFEhqJIFD67xhdxR/8SLs0u+W5ruyjN2cskr8c/4xa+j2OvfuAiTWHxyktEjSikBcFf9z3oTk5YBUNTb9wYdoQT5SC9Wwi4cqBjp3hteNaL/5xUvv8zo0rF0cjkB1cW4bqGjNq+ktT7MxJGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8B0D9497;
+	Tue,  3 Mar 2026 04:40:43 -0800 (PST)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B8B7A3F7BD;
+	Tue,  3 Mar 2026 04:40:45 -0800 (PST)
+Date: Tue, 3 Mar 2026 12:40:32 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, sudeep.holla@arm.com,
+	philip.radford@arm.com, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@foss.st.com, peng.fan@oss.nxp.com,
+	michal.simek@amd.com, dan.carpenter@linaro.org,
+	geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com,
+	marek.vasut+renesas@gmail.com
+Subject: Re: [PATCH 03/11] firmware: arm_scmi: Simplify clock rates exposed
+ interface
+Message-ID: <aabWwICzAzAwlhGd@pluto>
+References: <20260227153225.2778358-1-cristian.marussi@arm.com>
+ <20260227153225.2778358-4-cristian.marussi@arm.com>
+ <CAMuHMdW7e45rc5VmHQV5GxzMvJ3r6=04sWOoFsu4JJPAqDUiJA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -75,19 +45,67 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260302155348.26374-1-18255117159@163.com>
+In-Reply-To: <CAMuHMdW7e45rc5VmHQV5GxzMvJ3r6=04sWOoFsu4JJPAqDUiJA@mail.gmail.com>
 
-On 02-03-26, 23:53, Hans Zhang wrote:
-> In scmi_dev_used_by_cpus(), the code previously released the of_node
-> reference via of_node_put(np) before checking whether np equals scmi_np.
-> This could lead to a use-after-free if the node pointer was accessed
-> after being freed. Reorder the logic to perform the comparison first
-> and only put the node after the check, or immediately return if they
-> match. This ensures safe reference counting and avoids potential kernel
-> crashes.
+On Mon, Mar 02, 2026 at 01:48:00PM +0100, Geert Uytterhoeven wrote:
+> Hi Cristian,
+> 
+> Thanks for your patch!
 
-It shouldn't lead to a use-after-free problem as we aren't using the `np` for
-anything apart from simple comparison of value.
+Hi,
 
--- 
-viresh
+> 
+> On Fri, 27 Feb 2026 at 16:33, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> > Move needlessly exposed fields away from scmi_clock_info into the new
+> > internal struct scmi_clock_desc while keeping exposed only the two new
+> > min_rate and max_rate fields for each clock.
+> >
+> > No functional change.
+> >
+> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> 
+> > --- a/drivers/firmware/arm_scmi/clock.c
+> > +++ b/drivers/firmware/arm_scmi/clock.c
+> > @@ -157,13 +157,27 @@ struct scmi_clock_rate_notify_payld {
+> >         __le32 rate_high;
+> >  };
+> >
+> > +struct scmi_clock_desc {
+> > +       u32 id;
+> > +       bool rate_discrete;
+> > +       unsigned int num_rates;
+> > +       u64 rates[SCMI_MAX_NUM_RATES];
+> > +#define        RATE_MIN        0
+> > +#define        RATE_MAX        1
+> > +#define        RATE_STEP       2
+> 
+> Any specific reason you are not using a union here, like in
+> scmi_clock_info?
+>
+
+No, I will fix in v2.
+ 
+> > +       struct scmi_clock_info info;
+> > +};
+> 
+> > --- a/include/linux/scmi_protocol.h
+> > +++ b/include/linux/scmi_protocol.h
+> > @@ -51,6 +51,8 @@ struct scmi_clock_info {
+> >         bool rate_ctrl_forbidden;
+> >         bool parent_ctrl_forbidden;
+> >         bool extended_config;
+> > +       u64 min_rate;
+> > +       u64 max_rate;
+> >         union {
+> >                 struct {
+> >                         int num_rates;
+> 
+> You patch description read like the actual rates would be moved
+> from scmi_clock_info to scmi_clock_desc, i.e. _removed_ here?
+> 
+
+Yes they will be removed later in the series to avoid breaking the
+build...I will add a _removed_ tag for clarity (that TIL that exist :D)
+
+Thanks,
+Cristian
