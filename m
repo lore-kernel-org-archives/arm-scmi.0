@@ -1,90 +1,232 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mx-relay09-hz2.antispameurope.com (mx-relay09-hz2.antispameurope.com [83.246.65.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27A831985C
-	for <arm-scmi@vger.kernel.org>; Thu,  5 Mar 2026 07:17:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772695081; cv=none; b=IP7n6iIHaRqMRLt2YVg7lBBfcbMDgjwc2r0B+/yEhEszZO+TpIxbbEupc1XXv4H9cnd80mY0h+pTs4M0prKgbkLVIEg4QvqsqXeCXnHKozp5pi+BNrvQGhOK1rFrT1EhSZnITkBpbdws2H8rxmMe0jhyvAXN2zEPqmX/bW4ak6I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772695081; c=relaxed/simple;
-	bh=3xUVpc2YUr74/j5r9KrI5AkFN71lf331sjRUmsNnU8A=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SYvsPcOBrcw/XjCSqH9kLyoMUslg/iLFkgNVTNVghmvhlCROazitMjDJ0uUQ7AW7+BPRWftX4S4UVnQb1cMtaG9B4N24umBu8+UdGpWoxTk/V7VnHnWiWA8w8OYbSV3Jc2tkG/l59KtY9OsqSASO5LFDkwQ/VLEA6xiuLFjJuOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-01 (Coremail) with SMTP id qwCowADXgGwfLqlpGypHCQ--.538S2;
-	Thu, 05 Mar 2026 15:17:51 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: sudeep.holla@kernel.org,
-	cristian.marussi@arm.com
-Cc: sumit.garg@oss.qualcomm.com,
-	jens.wiklander@linaro.org,
-	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] firmware: arm_scmi: optee: Check return value of tee_shm_get_va()
-Date: Thu,  5 Mar 2026 15:15:33 +0800
-Message-Id: <20260305071533.930896-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685E132720D
+	for <arm-scmi@vger.kernel.org>; Thu,  5 Mar 2026 07:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=83.246.65.95
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772696707; cv=pass; b=YJs6yLDBi7NqpzQp99pVwWVgy/532s7zXppTPkjGMeaux5aiqRZh5qV6KtnxhMJkOnzuoN3Qg2zUugsJ6P0okGaErviudbYxSrt8SLr33kGPvg7eCyd5fchRhVeVwTHOWIPjft84Ty9gb6WrYVTOHmkn48g9oLO0TOQtGEafB0Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772696707; c=relaxed/simple;
+	bh=VkfXdhFkXXGCFaGF/PKuBChEyHWQEoWfG/+cE8foJMI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HdOqTtexps/9tEgThv+Znkh6tx76kmfB+w9HNxTIZTsVCDlLGjoalGlNGdSYN3HBPSi7NBua49npwecOvfXkJbqVIyCYNJjIMVwkoDxVBB8rLZ5mbzeLICm/l/hkVwp+kFC3h6Kxi6vkY+PjIcLsmAvIel928xwYL18yUUbsqL4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=eo8aeDd6; arc=pass smtp.client-ip=83.246.65.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="eo8aeDd6"
+ARC-Authentication-Results: i=1; mx-gate09-hz2.hornetsecurity.com 1; spf=pass
+ reason=mailfrom (ip=94.100.132.6, headerfrom=ew.tq-group.com)
+ smtp.mailfrom=ew.tq-group.com
+ smtp.helo=hmail-p-smtp01-out03-hz1.hornetsecurity.com; dmarc=pass
+ header.from=ew.tq-group.com orig.disposition=pass
+ARC-Message-Signature: a=rsa-sha256;
+ bh=OdvhvZ4bHSo/yG9FNjUp1pK4DykQel3I0Di4UK28igI=; c=relaxed/relaxed;
+ d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=1; s=hse1;
+ t=1772696670;
+ b=LHO29hIfidHXVE5jFHLBynSbVM45GgXgtnEV0LCHD1OLTAo/O83qps5qCWp0seSF7SCs+PQF
+ ApvkqPuZX2nJd3iteMRiZ/9bhzcv/ApVFvbSc6NjV6zsSCHGvqLneU+HRhTYUNY4IAiGDIInQl+
+ SfZ0y8a/q5ykBjn0OaUf6KSHG+AIlKPjDWy6PkNkBf8BO/5PzkRfdiFQLIHrnx0i6ZDi/g08x5n
+ nczQp+MMwfJ7DiiCy++7rW0Xo6KH21igFTSvyPLxEu5k9MdcdZVl8GBupumn8vztpwbm+JAILQw
+ SNGTZHCm/vZMQ3XwjYSmSOLaPaWwy6fcAwY4K3pcxCIkA==
+ARC-Seal: a=rsa-sha256; cv=none; d=hornetsecurity.com; i=1; s=hse1;
+ t=1772696670;
+ b=pMXPKwNWxDttMJKE4nXH+r9yBfd2EwKr/XxkkHfrS20qsuC0RAzche7x/uplBXNY5l6fsNuW
+ tJn4ANJtsKkCRFPmOEOjIG6+74Gqk7H2rHyufhjlaVqg2oNGL3zMNyiHGhjmCBk/wrmGLCoHTiN
+ /SEKGIC8F94fuvvLuCVBjQ6cLZ325YNEq3WfjrTgoOy0X4HW6pzIGSOpcfvuVGu81J7c5oPdcZy
+ sCZHpenBCTS+YPhi5dUT3rUe6F8BbPLEFo746d35JZj6m5wkwTFHm+4Sjjgh5wDyUHeZGOj+mRZ
+ sIyHhlBd2Fyjwd6nUnCFa1mtlQodAPKYAAuRo609dBDnw==
+Received: from he-nlb01-hz1.hornetsecurity.com ([94.100.132.6]) by mx-relay09-hz2.antispameurope.com;
+ Thu, 05 Mar 2026 08:44:30 +0100
+Received: from steina-w.localnet (host-82-135-125-110.customer.m-online.net [82.135.125.110])
+	(Authenticated sender: alexander.stein@ew.tq-group.com)
+	by hmail-p-smtp01-out03-hz1.hornetsecurity.com (Postfix) with ESMTPSA id A6767CC0E88;
+	Thu,  5 Mar 2026 08:44:26 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Sudeep Holla <sudeep.holla@kernel.org>,
+ Cristian Marussi <cristian.marussi@arm.com>, Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, linux-arm-kernel@lists.infradead.org
+Cc: arm-scmi@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Peng Fan <peng.fan@nxp.com>, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Subject: Re: [PATCH 2/2] firmware: imx: sm-misc: Print boot/shutdown reasons
+Date: Thu, 05 Mar 2026 08:44:26 +0100
+Message-ID: <24409695.EfDdHjke4D@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20260305-scmi-imx-reset-v1-2-18de78978ba9@nxp.com>
+References:
+ <20260305-scmi-imx-reset-v1-0-18de78978ba9@nxp.com>
+ <20260305-scmi-imx-reset-v1-2-18de78978ba9@nxp.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowADXgGwfLqlpGypHCQ--.538S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7WF4xGFyrAFy5Xry7Ww1kGrg_yoW8JFy8pF
-	4YgayUtr47tF4ft34Iqrs7uFy5J3W8Gr9rKa4vya4kAwn8ArykGryUta4jgF98Ar4xt3y5
-	K3WFqrZ0gFyUJrJanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
-	AVWUtwCY02Avz4vE14v_GF4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
-	1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
-	14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
-	IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
-	87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73Uj
-	IFyTuYvjfU5FApDUUUU
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-cloud-security-sender:alexander.stein@ew.tq-group.com
+X-cloud-security-recipient:arm-scmi@vger.kernel.org
+X-cloud-security-crypt: load encryption module
+X-cloud-security-Mailarchiv: E-Mail archived for: alexander.stein@ew.tq-group.com
+X-cloud-security-Mailarchivtype:outbound
+X-cloud-security-Virusscan:CLEAN
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-relay09-hz2.antispameurope.com with 4fRM4W2hZhz20nLZ
+X-cloud-security-connect: he-nlb01-hz1.hornetsecurity.com[94.100.132.6], TLS=1, IP=94.100.132.6
+X-cloud-security-Digest:135cf0209f1aa8681b8239cf7f35b7f4
+X-cloud-security:scantime:1.604
+DKIM-Signature: a=rsa-sha256;
+ bh=OdvhvZ4bHSo/yG9FNjUp1pK4DykQel3I0Di4UK28igI=; c=relaxed/relaxed;
+ d=ew.tq-group.com;
+ h=content-type:mime-version:subject:from:to:message-id:date; s=hse1;
+ t=1772696670; v=1;
+ b=eo8aeDd6Pk8yIO0ZVi8TIcLkITp89Xl0xYIiBFtzCfFFu02sYq8wRJ5leMxxh1B1Pv0dEWdx
+ QqjsVWHi8M/GyIdyUdLunIA5Tr+P7Xtyye67HEWkUJiHobdzyMLY93GoSrw/D6PeS6QXd3EiTvw
+ k2DlPoiAoToVMq2suQIkvf+KLF2Jms1JjFl3fkXIzZ/d7lMc0slbLm2ks/r4phyZkhLaYJsSY9h
+ iwVANDNLR0NQamleAHgTHBTXIdAEct2wRO9lxnExyNg8HAj66iBdulbSNZoYWDM5+QFNA3r4FHR
+ uHAlSqNfDJUz4tA60Zq1kZ+18tGn4Tbcvk2pnrTbApFsw==
 
-The function tee_shm_get_va() can return an error pointer if the shared
-memory is not properly mapped or if the offset is invalid. Without this
-check, passing the error pointer to subsequent memory operations could
-lead to a kernel panic.
+Hi,
 
-Add a check for IS_ERR() on the return value of tee_shm_get_va().
+Am Donnerstag, 5. M=E4rz 2026, 02:56:45 CET schrieb Peng Fan (OSS):
+> From: Peng Fan <peng.fan@nxp.com>
+>=20
+> Add reset reason string table for i.MX95 and introduce a helper
+> (scmi_imx_misc_get_reason) to query and print both system and LM
+> (Logical Machine) reset reasons via the SCMI MISC protocol.
+>=20
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
+>  drivers/firmware/imx/sm-misc.c | 73 ++++++++++++++++++++++++++++++++++++=
+++++++
+>  1 file changed, 73 insertions(+)
+>=20
+> diff --git a/drivers/firmware/imx/sm-misc.c b/drivers/firmware/imx/sm-mis=
+c.c
+> index 0a8ada329c9de3c1627da241bf142fa91a8085d7..16b5ff833d21274403a4c55ab=
+e2fa1f49fce3e73 100644
+> --- a/drivers/firmware/imx/sm-misc.c
+> +++ b/drivers/firmware/imx/sm-misc.c
+> @@ -18,6 +18,29 @@ static const struct scmi_imx_misc_proto_ops *imx_misc_=
+ctrl_ops;
+>  static struct scmi_protocol_handle *ph;
+>  struct notifier_block scmi_imx_misc_ctrl_nb;
+> =20
+> +static const char * const rst_imx95[] =3D {
+> +	"cm33_lockup", "cm33_swreq", "cm7_lockup", "cm7_swreq", "fccu",
+> +	"jtag_sw", "ele", "tempsense", "wdog1", "wdog2", "wdog3", "wdog4",
+> +	"wdog5", "jtag", "cm33_exc", "bbm", "sw", "sm_err", "fusa_sreco",
+> +	"pmic", "unused", "unused", "unused", "unused", "unused", "unused",
+> +	"unused", "unused", "unused", "unused", "unused", "por",
+> +};
+> +
+> +static const char * const rst_imx94[] =3D {
+> +	"cm33_lockup", "cm33_swreq", "cm70_lockup", "cm70_swreq", "fccu",
+> +	"jtag_sw", "ele", "tempsense", "wdog1", "wdog2", "wdog3", "wdog4",
+> +	"wdog5", "jtag", "wdog6", "wdog7", "wdog8", "wo_netc", "cm33s_lockup",
+> +	"cm33s_swreq", "cm71_lockup", "cm71_swreq", "cm33_exc", "bbm", "sw",
+> +	"sm_err", "fusa_sreco", "pmic", "unused", "unused", "unused", "por",
+> +};
+> +
+> +static const struct of_device_id allowlist[] =3D {
+> +	{ .compatible =3D "fsl,imx952", .data =3D rst_imx95 },
+> +	{ .compatible =3D "fsl,imx95", .data =3D rst_imx95 },
+> +	{ .compatible =3D "fsl,imx94", .data =3D rst_imx94 },
+> +	{ /* Sentinel */ }
+> +};
+> +
+>  int scmi_imx_misc_ctrl_set(u32 id, u32 val)
+>  {
+>  	if (!ph)
+> @@ -75,6 +98,54 @@ static void scmi_imx_misc_put(void *p)
+>  	debugfs_remove((struct dentry *)p);
+>  }
+> =20
+> +static int scmi_imx_misc_get_reason(struct scmi_device *sdev)
+> +{
+> +	struct scmi_imx_misc_reset_reason boot, shutdown;
+> +	const char **rst;
+> +	bool system =3D true;
+> +	int ret;
+> +
+> +	if (!of_machine_device_match(allowlist))
+> +		return 0;
+> +
+> +	rst =3D (const char **)of_machine_get_match_data(allowlist);
+> +
+> +	ret =3D imx_misc_ctrl_ops->misc_reset_reason(ph, system, &boot, &shutdo=
+wn, NULL);
+> +	if (!ret) {
+> +		if (boot.valid)
+> +			dev_info(&sdev->dev, "%s Boot reason: %s, origin: %d, errid: %d\n",
+> +				 system ? "SYS" : "LM", rst[boot.reason],
+> +				 boot.orig_valid ? boot.origin : -1,
+> +				 boot.err_valid ? boot.errid : -1);
+> +		if (shutdown.valid)
+> +			dev_info(&sdev->dev, "%s shutdown reason: %s, origin: %d, errid: %d\n=
+",
+> +				 system ? "SYS" : "LM", rst[shutdown.reason],
+> +				 shutdown.orig_valid ? shutdown.origin : -1,
+> +				 shutdown.err_valid ? shutdown.errid : -1);
+> +	} else {
+> +		dev_err(&sdev->dev, "Failed to get system reset reason: %d\n", ret);
+> +	}
+> +
+> +	system =3D false;
+> +	ret =3D imx_misc_ctrl_ops->misc_reset_reason(ph, system, &boot, &shutdo=
+wn, NULL);
+> +	if (!ret) {
+> +		if (boot.valid)
+> +			dev_info(&sdev->dev, "%s Boot reason: %s, origin: %d, errid: %d\n",
+> +				 system ? "SYS" : "LM", rst[boot.reason],
+> +				 boot.orig_valid ? boot.origin : -1,
+> +				 boot.err_valid ? boot.errid : -1);
+> +		if (shutdown.valid)
+> +			dev_info(&sdev->dev, "%s shutdown reason: %s, origin: %d, errid: %d\n=
+",
+> +				 system ? "SYS" : "LM", rst[shutdown.reason],
+> +				 shutdown.orig_valid ? shutdown.origin : -1,
+> +				 shutdown.err_valid ? shutdown.errid : -1);
 
-Fixes: db9cc5e67778 ("firmware: arm_scmi: Make OPTEE transport a standalone driver")
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- drivers/firmware/arm_scmi/transports/optee.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Is there a way to query this from userspace programs instead of printing in=
+to kernel log?
 
-diff --git a/drivers/firmware/arm_scmi/transports/optee.c b/drivers/firmware/arm_scmi/transports/optee.c
-index 07ae18d5279d..a6774152c205 100644
---- a/drivers/firmware/arm_scmi/transports/optee.c
-+++ b/drivers/firmware/arm_scmi/transports/optee.c
-@@ -340,6 +340,13 @@ static int setup_dynamic_shmem(struct device *dev, struct scmi_optee_channel *ch
- 	}
- 
- 	shbuf = tee_shm_get_va(channel->tee_shm, 0);
-+	if (IS_ERR(shbuf)) {
-+		dev_err(channel->cinfo->dev, "failed to get shared memory VA\n");
-+		tee_shm_free(channel->tee_shm);
-+		channel->tee_shm = NULL;
-+		return PTR_ERR(shbuf);
-+	}
-+
- 	memset(shbuf, 0, msg_size);
- 	channel->req.msg = shbuf;
- 	channel->rx_len = msg_size;
--- 
-2.25.1
+Best regards,
+Alexander
+
+> +	} else {
+> +		dev_err(&sdev->dev, "Failed to get lm reset reason: %d\n", ret);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int scmi_imx_misc_ctrl_probe(struct scmi_device *sdev)
+>  {
+>  	const struct scmi_handle *handle =3D sdev->handle;
+> @@ -133,6 +204,8 @@ static int scmi_imx_misc_ctrl_probe(struct scmi_devic=
+e *sdev)
+>  	scmi_imx_dentry =3D debugfs_create_dir("scmi_imx", NULL);
+>  	debugfs_create_file("syslog", 0444, scmi_imx_dentry, &sdev->dev, &syslo=
+g_fops);
+> =20
+> +	scmi_imx_misc_get_reason(sdev);
+> +
+>  	return devm_add_action_or_reset(&sdev->dev, scmi_imx_misc_put, scmi_imx=
+_dentry);
+>  }
+> =20
+>=20
+>=20
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
