@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870803603F2;
-	Sun,  8 Mar 2026 12:56:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEA4335F17A;
+	Sun,  8 Mar 2026 12:57:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772974565; cv=none; b=graj+mtqoqCtRn+dtOnU0QlZwwld4cEsw79IZXGwgCDkDqDx8gdz6/Li2KAy/ONZ1JnSQOH5j0b3C/qsx0BNWkHleSaRzPKnw82l2WEGm7HeF+ZJ8MxSp8ajwy5pQTEm9eFOGyLP1fY49ZR6TiHL1nL8Eb5k8eyFmIbUvRjIVC4=
+	t=1772974674; cv=none; b=pAGqYLHFH1dT04/WwUXptn9LFV+2UegCXZHP8fih+YhTY964VOLTHCc4uqZ4gpTUtXzXR7sBMoBtnwjwoDOXHEgMnWq9hDXj+nB7mso8yrc4wMFFhSSx/HwxhZfEsG9mP8XANBL3b7RXUQiILl5xZbeGqblokLaebzA70pQX/Us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772974565; c=relaxed/simple;
-	bh=zheaREXa3/SztyapPG2qTsQZeAzWrb9Y+f1J2mfH5R4=;
+	s=arc-20240116; t=1772974674; c=relaxed/simple;
+	bh=qmerQN/MNFLleJjYoj2ghmUyJS/la0Y4En0Gjn2rpY8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dmP5gjJ0VeUccsCWbB1Vs1x7N/yW1dsZnaxjUFH5TnkbFW9Qgl+dWMO50xfdufvYcVb8m1W9fwjF/kV3Kveq8V90Q/jt1Vsf8jy4B+g45q8C0g30V8qvjr1mWug1wA+c60ixsuBaVj9gyBhxuNSicJoZuQfuHBtAs+e0f3AiObo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wv+JoF12; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=cbg87uTbly18QEOZi0xfSm6gfWyQX0vHnLIcjq6cnmL/2shmC39GBsc+LsWUbl1e+s5vFrjwVzb9pLHtJqCorZa/HsEsaRT2iV1pVH5cZ/MI6AZfmIz3bYYl1OuxFHd/d8e+2/6gqBdzVLbhPFHsNes+SlqCA4boyEMtIA4uUdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YE7i7Do6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wv+JoF12"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A229C19423;
-	Sun,  8 Mar 2026 12:56:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YE7i7Do6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17629C116C6;
+	Sun,  8 Mar 2026 12:57:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772974565;
-	bh=zheaREXa3/SztyapPG2qTsQZeAzWrb9Y+f1J2mfH5R4=;
+	s=k20201202; t=1772974674;
+	bh=qmerQN/MNFLleJjYoj2ghmUyJS/la0Y4En0Gjn2rpY8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Wv+JoF12V4+ZpX4kaj9qRE3tnJzmO4cGX9WRCSC22GF8W9dm92C6Xsgk/5XDx99q+
-	 Ya8DQpg24UcdrUVCAtY7gyBWmpEDA2fDMqd4la0QcJRzozACorIP4HqaeVPQw4woJG
-	 25Fdwzmvk+9gmbffeODZwMV8iRCBNZvW5x1CGx56VTzF6Xq+P9KKJlqJQH2eYVrfLp
-	 vclU7ijfwwFnsBXut4sVOqPxhPY8q33AqE1OejEAmJDBDSbjp4fC26jpWHym8rBotu
-	 UxBlIcjDt3jHQEcQoDcK7qh8K6oNiefwftUAPXZIizgCTssuE0MS/CAHw50ThzO8WN
-	 vxfRu6WmteKfA==
+	b=YE7i7Do6PwV0OjY9PQBqV7fBMsfuno9wQwaJzINRw/vBh+USU/V+a/xl4BRnWudNz
+	 SQV9dgD2E2V5W65fgJFmX1aTySb0uZr/G8J+V/VgCINuAmzPKoWpPTIsuu7D02ijmp
+	 fe4zle+Zv13vqlwYDxKAInufA1FwnhCKO3Cv001T2knPUSJHZLY4LETmIccmUrGnW9
+	 ATCUa55rkjhtfvAHhA2xFBWgmrXg8wlapgpQhbEi6hClXs+9ZsQstPiBvadMh0pgDr
+	 pbXrj3anI2ER7pDLWmjpFacg9tQ+CXWZkg+lefWT717gg6j7reoVxbMBtlGYPL7e71
+	 W9PWo04UWqefw==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-To: linux-kernel@vger.kernel.org,
+To: Cristian Marussi <cristian.marussi@arm.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Felix Gu <ustc.gu@gmail.com>
+Cc: arm-scmi@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org,
-	Cristian Marussi <cristian.marussi@arm.com>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
-	philip.radford@arm.com
-Subject: Re: [PATCH] firmware: arm_scmi: Fix NULL dereference on notify error path
-Date: Sun,  8 Mar 2026 12:55:59 +0000
-Message-ID: <177297451748.1087321.15158816110689424363.b4-ty@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] firmware: arm_scpi: Fix device_node reference leak in scpi_probe()
+Date: Sun,  8 Mar 2026 12:57:46 +0000
+Message-ID: <177297460000.1087540.1235389041649410289.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260305131011.541444-1-cristian.marussi@arm.com>
-References: <20260305131011.541444-1-cristian.marussi@arm.com>
+In-Reply-To: <20260121-arm_scpi_2-v2-1-702d7fa84acb@gmail.com>
+References: <20260121-arm_scpi_2-v2-1-702d7fa84acb@gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -48,21 +48,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 05 Mar 2026 13:10:11 +0000, Cristian Marussi wrote:
-> Since commit b5daf93b809d1 ("firmware: arm_scmi: Avoid notifier
-> registration for unsupported events") the call chains leading to the helper
-> __scmi_event_handler_get_ops expect an ERR_PTR to be returned on failure to
-> get an handler for the requested event key, while the current helper can
-> still return a NULL when no handler could be found or created.
+On Wed, 21 Jan 2026 21:08:19 +0800, Felix Gu wrote:
+> In scpi_probe(), if of_match_node() fails and the function returns
+> early, the shmem reference is not released.
+> Use __free(device_node) scope-based cleanup to automatically release
+> the reference when the variable goes out of scope.
 > 
-> Fix by forcing an ERR_PTR return value when the handler reference is NULL.
 > 
-> [...]
 
 Applied to sudeep.holla/linux (for-next/scmi/fixes), thanks!
 
-[1/1] firmware: arm_scmi: Fix NULL dereference on notify error path
-      https://git.kernel.org/sudeep.holla/c/555317d61001
+
+[1/1] firmware: arm_scpi: Fix device_node reference leak in scpi_probe()
+      https://git.kernel.org/sudeep.holla/c/879c001afbac
+
 --
 Regards,
 Sudeep
