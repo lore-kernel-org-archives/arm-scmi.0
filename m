@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEA4335F17A;
-	Sun,  8 Mar 2026 12:57:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4150C37DEBF
+	for <arm-scmi@vger.kernel.org>; Sun,  8 Mar 2026 13:01:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772974674; cv=none; b=pAGqYLHFH1dT04/WwUXptn9LFV+2UegCXZHP8fih+YhTY964VOLTHCc4uqZ4gpTUtXzXR7sBMoBtnwjwoDOXHEgMnWq9hDXj+nB7mso8yrc4wMFFhSSx/HwxhZfEsG9mP8XANBL3b7RXUQiILl5xZbeGqblokLaebzA70pQX/Us=
+	t=1772974894; cv=none; b=AEq4JHuirLycBvX/FASwlMTtnKEfTh/P1jpucSUDoacTs62KzTu3F2DC5fVyRmSIwO59EkqrBcvsc5xXcrknbdcikGl7n7hK3YILO9/rr8tru/8wq/KdftuxownZ3F0VybPW+2xAvYeJBWbyhW9Vtna5WfGmop7hAVMgo/u+TaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772974674; c=relaxed/simple;
-	bh=qmerQN/MNFLleJjYoj2ghmUyJS/la0Y4En0Gjn2rpY8=;
+	s=arc-20240116; t=1772974894; c=relaxed/simple;
+	bh=PegtPUAx1ynhrJYgVNPAky69gIj62ODvpNtpEi7eu6g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cbg87uTbly18QEOZi0xfSm6gfWyQX0vHnLIcjq6cnmL/2shmC39GBsc+LsWUbl1e+s5vFrjwVzb9pLHtJqCorZa/HsEsaRT2iV1pVH5cZ/MI6AZfmIz3bYYl1OuxFHd/d8e+2/6gqBdzVLbhPFHsNes+SlqCA4boyEMtIA4uUdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YE7i7Do6; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=NE9Vr3gOhIXykk2hhht5jesRyMwxR/SWtm9fttmJf8On3tOdQaBKfOId2fhcQZcY/Evdf+WpqJqz4GoLIXNNos2BcrthQ6NEXztREhCPY99ILu2Qsvy1ZEOLQBdpxzCco6VohuRaMXR6EDeOmCcpb718yO2ZkFwLbdHWYPMC0Co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dDRVSEtK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YE7i7Do6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17629C116C6;
-	Sun,  8 Mar 2026 12:57:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dDRVSEtK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF22CC116C6;
+	Sun,  8 Mar 2026 13:01:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772974674;
-	bh=qmerQN/MNFLleJjYoj2ghmUyJS/la0Y4En0Gjn2rpY8=;
+	s=k20201202; t=1772974893;
+	bh=PegtPUAx1ynhrJYgVNPAky69gIj62ODvpNtpEi7eu6g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YE7i7Do6PwV0OjY9PQBqV7fBMsfuno9wQwaJzINRw/vBh+USU/V+a/xl4BRnWudNz
-	 SQV9dgD2E2V5W65fgJFmX1aTySb0uZr/G8J+V/VgCINuAmzPKoWpPTIsuu7D02ijmp
-	 fe4zle+Zv13vqlwYDxKAInufA1FwnhCKO3Cv001T2knPUSJHZLY4LETmIccmUrGnW9
-	 ATCUa55rkjhtfvAHhA2xFBWgmrXg8wlapgpQhbEi6hClXs+9ZsQstPiBvadMh0pgDr
-	 pbXrj3anI2ER7pDLWmjpFacg9tQ+CXWZkg+lefWT717gg6j7reoVxbMBtlGYPL7e71
-	 W9PWo04UWqefw==
+	b=dDRVSEtKDHf48WEJjRDU36s45dZxbWqf2Yjm4IumQCnV1VCv7XGZQ2w7uad9MAJ4W
+	 ciZaPHn8roZ2eg60VTfL5zEP/rAPuI3WNPEnEH+jMTZYocNdy0OIaxLU43jrlqXwKP
+	 dCV3Mv9ZNOPLdXOU0SXWDtoQBC+YpPoh1f6/xblNndYDGMmSN7zmcdWnZqVZZRrhLS
+	 t7m+qvzDuXPEDH3etOABm3WCw/KlwskZzwaaYkKkBmSpwellBp834OHojHqnxQhw51
+	 66VK8OeIsQaFbW8eC1anhsC5EzyDXjBiFiNYv1E0cxb/drLgn5XPGdb5bXgBtyqEqd
+	 U0PQmbqLEfpoA==
 From: Sudeep Holla <sudeep.holla@kernel.org>
 To: Cristian Marussi <cristian.marussi@arm.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Felix Gu <ustc.gu@gmail.com>
-Cc: arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] firmware: arm_scpi: Fix device_node reference leak in scpi_probe()
-Date: Sun,  8 Mar 2026 12:57:46 +0000
-Message-ID: <177297460000.1087540.1235389041649410289.b4-ty@kernel.org>
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>,
+	arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] firmware: arm_scmi: Spelling s/mulit/multi/, s/currenly/currently/
+Date: Sun,  8 Mar 2026 13:01:28 +0000
+Message-ID: <177297485599.1088487.13156698600769816077.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260121-arm_scpi_2-v2-1-702d7fa84acb@gmail.com>
-References: <20260121-arm_scpi_2-v2-1-702d7fa84acb@gmail.com>
+In-Reply-To: <6735401861e0c2f3e5e680533cd6f71c4d6fd5eb.1771581270.git.geert+renesas@glider.be>
+References: <6735401861e0c2f3e5e680533cd6f71c4d6fd5eb.1771581270.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -48,20 +47,15 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Wed, 21 Jan 2026 21:08:19 +0800, Felix Gu wrote:
-> In scpi_probe(), if of_match_node() fails and the function returns
-> early, the shmem reference is not released.
-> Use __free(device_node) scope-based cleanup to automatically release
-> the reference when the variable goes out of scope.
+On Fri, 20 Feb 2026 10:55:15 +0100, Geert Uytterhoeven wrote:
+> Fix misspellings of "multi" and "currently".
 > 
 > 
 
 Applied to sudeep.holla/linux (for-next/scmi/fixes), thanks!
 
-
-[1/1] firmware: arm_scpi: Fix device_node reference leak in scpi_probe()
-      https://git.kernel.org/sudeep.holla/c/879c001afbac
-
+[1/1] firmware: arm_scmi: Spelling s/mulit/multi/, s/currenly/currently/
+      https://git.kernel.org/sudeep.holla/c/4e701b47c3ba
 --
 Regards,
 Sudeep
