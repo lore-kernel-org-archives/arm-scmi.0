@@ -1,44 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04AC437AA89
-	for <arm-scmi@vger.kernel.org>; Mon,  9 Mar 2026 09:38:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7080E36BCE6;
+	Mon,  9 Mar 2026 09:43:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773049111; cv=none; b=AkNkudv/7oAClHh0jWHFc3Ov6VmSzPFOPotALUdVMuiBwXgcKPoQ9JQhQTTWqloMXFS0TG/W+jckxAJSvmCeYcSOS5yo7UifVI1xgkV88xtL6EA8E9Ajr9Qpk1XwWu2/fjPKRszG4Hw1b/3F2jD3E7ywHj1K180f6nqUVlnAJLY=
+	t=1773049412; cv=none; b=aA1wV4LqwSzbvYKCXQFkmRcpew2nMfmpI03EDZn9MWtaDxXGwrSyYNo5IIR8bQfOEPhmNax4HaQXsdq0q1DQFxJkcuior+62NkD7tECP/BtQ+24P3BaWS7csHAiRpLqoyxDpKTHYwp76m+RBeso+AS+zFbXxGMEIeNre5nepTJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773049111; c=relaxed/simple;
-	bh=r+gzEksCqKxFBjsj75G36A9y534AyJH+xrAw0HmvU4o=;
+	s=arc-20240116; t=1773049412; c=relaxed/simple;
+	bh=2lGo3t1RntZTSXyLwgxBc8rDVEWOtf0wRiWH5p0NqEY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=szqt9eolmo4e8mL7NSyNMUYd+fDPE7Eyxa0IMaTQVkKa9itByb8Ot22kKdH7VP+Q1Dqvve2XcU1gvOJ9UhSwrtyO3DVj/EQE4onq8yWKGSxwReqh2u01N7ZBKAxH2x9qg6DrgqzggLyJj/kszYSO4ocVvXzdy5Ryqs1vXE5dqCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=soFZC1Pu; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=cCRv0KoJXOZPEiOVla+w+bnNWhbC9/FsXNB4yKaUNb+CKVxXUfFkhCmqY2Ce/1gvJUlrMgxAcjBdbn3S4FdFRBIoJeM1Y043EzWa0YQEIMVxuDura4S20dXjtVRskHmH3se9zADV77cswhxKNssOm8HWXEJMdvBcVktiX4Z9QFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pi6uSJTd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="soFZC1Pu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A22A3C4CEF7;
-	Mon,  9 Mar 2026 09:38:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pi6uSJTd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FA2AC4CEF7;
+	Mon,  9 Mar 2026 09:43:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773049110;
-	bh=r+gzEksCqKxFBjsj75G36A9y534AyJH+xrAw0HmvU4o=;
+	s=k20201202; t=1773049412;
+	bh=2lGo3t1RntZTSXyLwgxBc8rDVEWOtf0wRiWH5p0NqEY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=soFZC1PuyuJeC66KRnXtr9PEHil+9JB9s3I/xeMt+Hyh9YkxhDZEkFPIdH39TcnRZ
-	 rhT97NBqx5ef7mHtHeO91wFiTkgvP5XwkYlVyyXbP4hbl7tkJ9i9Tj6dUwpP6Mu1Uh
-	 bE1U1QA44E9iTC8Q3EfDjaz9AvNaPnMorf3c4cipOLqLf9FSkdhR9tx12WxIlXB67X
-	 FCy7oEcOxDsZMlE/LPu1b68y3AvGvFVnoiWbC8oYjx6uLW2kwN2GQ+OCZmInu7G7ex
-	 BUJXDsfhcJqVX+Bu2OezRIYsuA1pqKy9xb/ekIBpkI9549yW4FwcINuyIabtgwUVIM
-	 fCgEH6fX2GqFg==
-Date: Mon, 9 Mar 2026 09:38:27 +0000
+	b=pi6uSJTdeVJsjuruAOk6ckUNvZwU3AXUYiYYYsSIhq6opeYHnuE4gmuquMR0cztRC
+	 nqRC6Nc4GX3YqCXsk4+LDu5O8cSqWyxa5w0fGkan6fcfvpN1m7+rozTfLyZQo7p1TK
+	 kiB+oUtdGmqD2+jeRMBSCA7fAcdsTDGaLUPSvjbTJk0AT3ZMpGngJXhNICQJhEK78h
+	 GfvXcXwopHYTxuIJWxDjnWeuZOjYGAlJ1C7Kix6np6FgK1kYHs5PKlDvQH/XKv6lXY
+	 ypyFQ/amMNOemvj5SRkTKHLdIQf53sPwLCdI1PupnY/u/abcZ2olOEWqkzv00NtF06
+	 brit18q6B1LkA==
+Date: Mon, 9 Mar 2026 09:43:27 +0000
 From: Sudeep Holla <sudeep.holla@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] firmware: arm_scmi: Spelling s/mulit/multi/,
- s/currenly/currently/
-Message-ID: <20260309-frisky-proficient-gecko-b8d7be@sudeepholla>
-References: <6735401861e0c2f3e5e680533cd6f71c4d6fd5eb.1771581270.git.geert+renesas@glider.be>
- <177297485599.1088487.13156698600769816077.b4-ty@kernel.org>
- <CAMuHMdXkyrDRLyDf77TFFjAX_Q_fnA_OwmbkoaEicd+F9JP2aA@mail.gmail.com>
- <20260309-bold-space-ibis-fbff63@sudeepholla>
+To: Philip Radford <philip.radford@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Sudeep Holla <sudeep.holla@kernel.org>, arm-scmi@vger.kernel.org,
+	linux-pm@vger.kernel.org, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+	quic_sibis@quicinc.com, dan.carpenter@linaro.org, d-gole@ti.com,
+	souvik.chakravarty@arm.com, cristian.marussi@arm.com
+Subject: Re: [PATCH v2 5/9] firmware: arm_scmi: Add SCMIv4.0 Powercap FCs
+ support
+Message-ID: <20260309-jade-salmon-of-education-7c901c@sudeepholla>
+References: <20260204111950.3648160-1-philip.radford@arm.com>
+ <20260204111950.3648160-6-philip.radford@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -47,40 +49,140 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260309-bold-space-ibis-fbff63@sudeepholla>
+In-Reply-To: <20260204111950.3648160-6-philip.radford@arm.com>
 
-On Mon, Mar 09, 2026 at 09:29:29AM +0000, Sudeep Holla wrote:
-> On Mon, Mar 09, 2026 at 09:16:29AM +0100, Geert Uytterhoeven wrote:
-> > Hi Sudeep,
-> > 
-> > On Sun, 8 Mar 2026 at 14:01, Sudeep Holla <sudeep.holla@kernel.org> wrote:
-> > > On Fri, 20 Feb 2026 10:55:15 +0100, Geert Uytterhoeven wrote:
-> > > > Fix misspellings of "multi" and "currently".
-> > >
-> > > Applied to sudeep.holla/linux (for-next/scmi/fixes), thanks!
-> > >
-> > > [1/1] firmware: arm_scmi: Spelling s/mulit/multi/, s/currenly/currently/
-> > >       https://git.kernel.org/sudeep.holla/c/4e701b47c3ba
-> > 
-> > Thank you!
-> > 
-> > BTW, I noticed some of your commits use the non-standard
-> > "Message-Id:"-tag, while others use the standard "Link:"-tag (albeit
-> > with the lore.kernel.org instead of the recommended patch.msgid.link
-> > domain) to record the origin of patches.  Do you have different git
-> > setups on different machines?
-> > 
+On Wed, Feb 04, 2026 at 11:19:46AM +0000, Philip Radford wrote:
+> From: Cristian Marussi <cristian.marussi@arm.com>
 > 
-> Not really. I used to use "Link:" and switched to "Message-Id" a while ago.
-> I use only one setup and if you are observing something like above, I am
-> doing something different. I need to check what is that, but the intention
-> is to use "Message-Id". Let me have a look.
+> Add support for new SCMIv4.0 Powercap Fastchannels.
 > 
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> [Philip: removed reference to old versioning logic]
+> Signed-off-by: Philip Radford <philip.radford@arm.com>
+> ---
+> V1->V2
+> - Removed creation of pi powercap_info struct due to legacy code
+>   change
+> ---
+>  drivers/firmware/arm_scmi/powercap.c | 323 ++++++++++++++++++---------
+>  1 file changed, 221 insertions(+), 102 deletions(-)
+> 
+> diff --git a/drivers/firmware/arm_scmi/powercap.c b/drivers/firmware/arm_scmi/powercap.c
+> index 3291bde78367..22bf8e480450 100644
+> --- a/drivers/firmware/arm_scmi/powercap.c
+> +++ b/drivers/firmware/arm_scmi/powercap.c
+>  
 
-OK, did a quick check and see last time I used "Link:" was an year ago and
-that's when I saw some discussions about use of "Link:" for other purposes and
-switched to "Message-Id". Let me know if I am messing up something still,
-happy to look into it and fix it up.
+[...]
+
+> @@ -1019,37 +1092,77 @@ static const struct scmi_powercap_proto_ops powercap_proto_ops = {
+>  };
+>  
+>  static void scmi_powercap_domain_init_fc(const struct scmi_protocol_handle *ph,
+> -					 u32 domain, struct scmi_fc_info **p_fc)
+> +					 struct scmi_powercap_info *dom_info)
+>  {
+> -	struct scmi_fc_info *fc;
+> -
+> -	fc = devm_kcalloc(ph->dev, POWERCAP_FC_MAX, sizeof(*fc), GFP_KERNEL);
+> -	if (!fc)
+> -		return;
+> -
+> -	ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
+> -				   POWERCAP_CAP_SET, 4, domain, NULL,
+> -				   &fc[POWERCAP_FC_CAP].set_addr,
+> -				   &fc[POWERCAP_FC_CAP].set_db,
+> -				   &fc[POWERCAP_FC_CAP].rate_limit);
+> -
+> -	ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
+> -				   POWERCAP_CAP_GET, 4, domain, NULL,
+> -				   &fc[POWERCAP_FC_CAP].get_addr, NULL,
+> -				   &fc[POWERCAP_FC_CAP].rate_limit);
+> -
+> -	ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
+> -				   POWERCAP_PAI_SET, 4, domain, NULL,
+> -				   &fc[POWERCAP_FC_PAI].set_addr,
+> -				   &fc[POWERCAP_FC_PAI].set_db,
+> -				   &fc[POWERCAP_FC_PAI].rate_limit);
+> -
+> -	ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
+> -				   POWERCAP_PAI_GET, 4, domain, NULL,
+> -				   &fc[POWERCAP_FC_PAI].get_addr, NULL,
+> -				   &fc[POWERCAP_FC_PAI].rate_limit);
+> -
+> -	*p_fc = fc;
+> +	for (int id = 0; id < dom_info->num_cpli; id++) {
+> +		struct scmi_fc_info *fc;
+> +		u32 *cpl_id, zero_cpl_id = 0;
+> +
+> +		fc = devm_kcalloc(ph->dev, POWERCAP_FC_MAX, sizeof(*fc), GFP_KERNEL);
+> +		if (!fc)
+> +			return;
+> +
+> +		/* NOTE THAT when num_cpli == 1 the arg *cpl_id is 0 */
+> +		cpl_id = (PROTOCOL_REV_MAJOR(ph->version) >= 0x3) ? &id : NULL;
+> +
+> +		ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
+> +					   POWERCAP_CAP_SET, 4, dom_info->id,
+> +					   cpl_id,
+> +					   &fc[POWERCAP_FC_CAP].set_addr,
+> +					   &fc[POWERCAP_FC_CAP].set_db,
+> +					   &fc[POWERCAP_FC_CAP].rate_limit);
+> +
+> +		ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
+> +					   POWERCAP_CAP_GET, 4, dom_info->id,
+> +					   cpl_id,
+> +					   &fc[POWERCAP_FC_CAP].get_addr, NULL,
+> +					   &fc[POWERCAP_FC_CAP].rate_limit);
+> +
+> +		if (PROTOCOL_REV_MAJOR(ph->version) < 0x3) {
+> +			ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
+> +						   POWERCAP_PAI_SET, 4,
+> +						   dom_info->id, NULL,
+> +						   &fc[POWERCAP_FC_XAI].set_addr,
+> +						   &fc[POWERCAP_FC_XAI].set_db,
+> +						   &fc[POWERCAP_FC_XAI].rate_limit);
+> +
+> +			ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
+> +						   POWERCAP_PAI_GET, 4,
+> +						   dom_info->id, NULL,
+> +						   &fc[POWERCAP_FC_XAI].get_addr, NULL,
+> +						   &fc[POWERCAP_FC_XAI].rate_limit);
+> +		} else {
+> +			ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
+> +						   POWERCAP_CAI_SET, 4,
+> +						   dom_info->id, &id,
+> +						   &fc[POWERCAP_FC_XAI].set_addr,
+> +						   &fc[POWERCAP_FC_XAI].set_db,
+> +						   &fc[POWERCAP_FC_XAI].rate_limit);
+> +			ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
+> +						   POWERCAP_CAI_GET, 4,
+> +						   dom_info->id, &id,
+> +						   &fc[POWERCAP_FC_XAI].get_addr, NULL,
+> +						   &fc[POWERCAP_FC_XAI].rate_limit);
+
+Can the above "&id" changed to cpl_id like the first 2 instance for consistency
+unless I am reading it wrong.
+
+> +			ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
+> +						   POWERCAP_MAI_SET, 4,
+> +						   dom_info->id, &zero_cpl_id,
+> +						   &fc[POWERCAP_FC_MAI].set_addr,
+> +						   &fc[POWERCAP_FC_MAI].set_db,
+> +						   &fc[POWERCAP_FC_MAI].rate_limit);
+> +			ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
+> +						   POWERCAP_MAI_GET, 4,
+> +						   dom_info->id, &zero_cpl_id,
+> +						   &fc[POWERCAP_FC_MAI].get_addr, NULL,
+> +						   &fc[POWERCAP_FC_MAI].rate_limit);
+> +			ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
+> +						   POWERCAP_MEASUREMENTS_GET, 4,
+> +						   dom_info->id, &zero_cpl_id,
+> +						   &fc[POWERCAP_FC_MEASUREMENT].get_addr, NULL,
+> +						   &fc[POWERCAP_FC_MEASUREMENT].rate_limit);
+
+Also why should the above 3 as well as the NULL cpl_id calls be inside this
+loop ?
 
 -- 
 Regards,
