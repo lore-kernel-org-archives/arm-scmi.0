@@ -1,162 +1,164 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5173D3CFC
-	for <arm-scmi@vger.kernel.org>; Mon,  9 Mar 2026 14:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EB53DA7F8
+	for <arm-scmi@vger.kernel.org>; Mon,  9 Mar 2026 15:25:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773067175; cv=none; b=PjIZFhYibKSC6mgZbKuCuUGkGh0xRxkJ5p/BEBwpC6t+31ncDsi8n5jTdy1t3wqhOmEf3aCP0Wj7gbg0DRQEDdHy5yr4vhhXijUk4aa4tE6swmGQTlxuweSkZSNR5jJI9PGefRdHPdO0V+UyeyjLnQlXIHj7wNMzCM/B0CtFG54=
+	t=1773069930; cv=none; b=U2GbCldmeGeO7m+q6RcLOuTPnVSe37HuFNCupCy01k2wVwOwQK/X+n8+0DJeliDVx5a1UiPzqoEOaMbkYFvyhRiS7/A+vXcPnyLNZ8VbN2xJNLbCA0IEgagqpF8Wdkbq6/f756E4eURMHzM9n2+tOCVmsqowVf4ZrAebMNVyQJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773067175; c=relaxed/simple;
-	bh=tymwA6aOVgvpUXCdRW570073ObBEekDbhvu93ohwWbM=;
-	h=From:Date:Subject:MIME-Version:Message-Id:References:In-Reply-To:
-	 To:Cc:Content-Type; b=oA7hdLVrwzRHx/AnHRcebU/56nyD4bcqMA81jcvT4ZMtJV9CQI6D/VV5U6vDVEWTto/WjtrvJf3JE2MMuai8tYtRvWIhCME4tXctcl08PmOEZ0c8iCwarwjykvUWsxVwbElVcfw4yczonW8nZxdTMD/PUo8Z8TZhj8TRuUodT8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZE7UZBGP; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1773069930; c=relaxed/simple;
+	bh=fLdlgK54rTn34EKZI8AHzVRLbm2SJ8RTjlamikvXF3o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sALPwUFMX7ZdL0W/hBg8aQG2S1g2Rq4qWGlzT5cvL8V/MRC9J9XTOgYlhdAaJn22qZ/ZA1H0U5G0qptXSQmqHFJJIcEkUX2fJIAAw8WzTWMeAgMdKn+V01JGi7ZVkxzav7xM/8SAne/bF3UMJphStvWace+Iw37bHLxWi5cocwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jhBhD312; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZE7UZBGP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773067170;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TKRdIQSuF0YF0hFHlaN5osUy3+6J9BqzDRRtNXtYusM=;
-	b=ZE7UZBGPKD+sCWlT4D1+hJWPF3rk0Ka13UI+m4G4DuRP3DHMv08DLs2uOtgrTXezLPV5ad
-	ht2Zr2Uwvm9Z98IUZuzzvZmvRvW44OOWEQaxfVbfF6L2SIIT2+4Ly6iUOvgglCWYJHjbKt
-	3qP12pEH8scOw7kKzn0Xad7hAc3bSzY=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-631-etsC1nv3P-2_VrkhmBCWBw-1; Mon, 09 Mar 2026 10:39:29 -0400
-X-MC-Unique: etsC1nv3P-2_VrkhmBCWBw-1
-X-Mimecast-MFC-AGG-ID: etsC1nv3P-2_VrkhmBCWBw_1773067169
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8cd7c4ab845so768272485a.1
-        for <arm-scmi@vger.kernel.org>; Mon, 09 Mar 2026 07:39:29 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jhBhD312"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a12cd0bcd8so6156103e87.3
+        for <arm-scmi@vger.kernel.org>; Mon, 09 Mar 2026 08:25:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1773069926; x=1773674726; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xKq8ulzy5MHQKDxfFMVcrLftpi/uwWVl0kgu6a2rhEE=;
+        b=jhBhD31274pYpr3Qg2ynVKQMJgA+IFGCLfCAKabFMmhe9FAWUhluReLFzwqSd15vwN
+         Dp+cxUj+r8OPpb/zl+TcEc2/FNIqLoM0RkVHcqbMJxPLyPFjbq2bY4U3Mrn0dvy+obtT
+         j7cesz01199ABVVOsoPAPUR4ZbO/8f9tej7hM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773067169; x=1773671969;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=TKRdIQSuF0YF0hFHlaN5osUy3+6J9BqzDRRtNXtYusM=;
-        b=gQaQFgKoql3qopz1KweXKpQOzv44ASFC47Vs6HQUnJFGEGSDl/uUPP4CfhJ87ym8dU
-         qElwlmLNqIXqlKZubX4qtzXJHFQGHqiPvIOkwWGwmpfqCQne+5AvCh7BKO3LuCKxP8VS
-         AHQxxDTMeCNDu108bon3aiGqtJL2auJWPGdcaYMHyuv0YB2LgAF3rSA8sZVRx1L7g39t
-         BL+K+mCHRxGJJ2jTzNLoFzbqjsXnurl++BKzdi5Lo6nhY8gAMMXSJ2WMHpVB07ohcs1F
-         QWVj4EmSVHs62qND0PbfRPQZ8kHbqKHw7nEtAU0tI/naGUJTsnpXYhejp9z64zGhHqY4
-         qhxg==
-X-Forwarded-Encrypted: i=1; AJvYcCVwrc54HbnO+q/T2zdrgATLanjbWG1ootxw4ncUNiZ013EYAs4qFsxxGRDLu65hh28UjgX61YHbWg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxen2xc+rdJgjI2WC1vj5Hr1rqQVbAkPLmqyvvgk5tMwB/QL/k7
-	mtPXbzPbVcOxhjf/UKTrO5FMpX5aTU6k9JFNNX3bYJQSn9vih0ivpYGau8LHZ5qO4mDcDh+nOqM
-	N28TK69/6olgxOJdksCjf7prBDIuzS/XVvE40NbVxiY5MXyNn6c70rB+EDUEx
-X-Gm-Gg: ATEYQzw1nQ15iaDjEy6ohsw8gFIaDiCsU/Yg1oY5rpySLN2VMJlBJ7UWYv+FzIvK8qA
-	Q+2H6UQfBAHhREw5YJrTHo6dq+LKLI4xfjoDz33JGcXFRVLLZ+l4okLG7UJvcXUspWJDNoWqShV
-	EqAGxqTTk5S3dde9YFHx+i1MWhLKXCaAf543mLBEITZIRPZYnx8UeF90WQvb3aqFCTjcox+ZaqO
-	bJLGCVvwZ2QAWEWybKfsr6NXScfSCZdqZOGc2wEkKgZYob+8v7Pt8SxAqKMsRaKnfU0bIyohjcO
-	6M1FFJes+yVRhTNxoXhNP4qGF3Ljfh5/O3qRjXJePLNCSZ3Ip4OgKMAJPkNii8hpBuqdUCl5TAf
-	/1htQEjznFkn47gKvYFstkcT+REp6XGWjFvJ2mej/kFABS8cOT66o5G+Wf5NMtg==
-X-Received: by 2002:a05:620a:3726:b0:8cd:91f5:7a10 with SMTP id af79cd13be357-8cd91f57b74mr118055685a.82.1773067168708;
-        Mon, 09 Mar 2026 07:39:28 -0700 (PDT)
-X-Received: by 2002:a05:620a:3726:b0:8cd:91f5:7a10 with SMTP id af79cd13be357-8cd91f57b74mr118051085a.82.1773067168174;
-        Mon, 09 Mar 2026 07:39:28 -0700 (PDT)
-Received: from [192.168.1.15] (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cd6f49fcafsm756064985a.16.2026.03.09.07.39.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 07:39:27 -0700 (PDT)
-From: Brian Masney <bmasney@redhat.com>
-Date: Mon, 09 Mar 2026 10:38:43 -0400
-Subject: [PATCH v2 04/12] clk: scpi: drop determine_rate op and use
- CLK_ROUNDING_NOOP flag
+        d=1e100.net; s=20230601; t=1773069926; x=1773674726;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=xKq8ulzy5MHQKDxfFMVcrLftpi/uwWVl0kgu6a2rhEE=;
+        b=jJAznQikmvbfqtatxDJKGsodElcqJsW9TNSHS/C+F1X57ux++lvgqTaWTaFXLXz8Bj
+         amOacWVOSgmDI05pY3Iz5aEULYVXhpzFJl7kxsCdI724ZnhQBwu/li9wfsGYBjbGK2mA
+         SZ/sF0VpJyWk38gBBaiGL2pAl/+A+wvI/hps+ipKCwOGxLPkmQr3Ys87LIVfvl4Ejwoh
+         s1uHAaaPJQRla5t/qfJ3KRnM6fcxKLpDxomWXkl3+w0GMi3xm4AiOBweE/V1xulDTPX3
+         Aw9S2NnVZa6POLQpxjs5C1+oD+7nTBOKFCWi3T27E0aSiXUOapFxEvEukfvPjeggWHm0
+         +ZPw==
+X-Forwarded-Encrypted: i=1; AJvYcCWF0a+TlL8ZYNSk+k2vqMu+HHIic1ZQHyap9+FHn0qII3mHFOIE9UgY73fZ683pCSTlovg+B1hB3g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjIKiHn/NMXz4u45KHwCAiLEABXqAKDaDVkHZfBotsXExLDJrB
+	5NiDObQm1RY5JwFw/+G9gwrOHhTSskUhZKE/4a6vgWEr4/DIU/AsY1AEJ80kVbNw2cz6J0tjA4s
+	ohlmOP+sd
+X-Gm-Gg: ATEYQzwcBXmauWKgTaxvw58RB28It3s2GmuKEKmHWmbu8/sPmpERLgqJmXGPpe+E6oC
+	VuIKoQAp9Jr1MJAkzPbsqnkcmfq4ES0jTgk5BeMhHW9vakJMnPEtK732/TbHZLDfyYIJpjAcjqG
+	zx58AN53FYhHaGfIR3lB4rrRInGq6A20pLhFcqLmTObY7Ioi4zoLanLZqo2cV67ilmGFDCQmJ5x
+	3fgxVAegrJ/syPcxRnNLjWLLhXl9Pb1JN0FcTqqZqcbA7L2K1yAV+bHhR4480TGXjhbyEdjhE7V
+	ppeR4zJRUdEo5AhmQH7dj8KVVsYRbbbdwITp2/pvkUbgiwUcIiQB1KLNlJjZ0jHl45z1UoelwFq
+	E3KpUtC6s7ZxCHGua3Jp/X6m1BpVyERV6JizL00ZKOpd+rCpePoPQppHs5luJ+OZEB4LccLx4+2
+	y0rHQO69gsbKuwDTUACQIBmSsRmVA8cMcfrL5i1x/zxX87XqENuDVKAwqJebMAnA==
+X-Received: by 2002:a05:6512:230d:b0:5a1:476f:bbcd with SMTP id 2adb3069b0e04-5a1476fbedbmr1775490e87.44.1773069925900;
+        Mon, 09 Mar 2026 08:25:25 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com. [209.85.167.41])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a13d08cba4sm2145992e87.83.2026.03.09.08.25.25
+        for <arm-scmi@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Mar 2026 08:25:25 -0700 (PDT)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-59e5aa4ca41so4844966e87.2
+        for <arm-scmi@vger.kernel.org>; Mon, 09 Mar 2026 08:25:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWLccBr7ogI3Qn+jUMX0kh99N5FzIPLP+04G3ghYq6SxmvW+yaPY61KZPTQrXFAmHa7JmAJdbn40A==@vger.kernel.org
+X-Received: by 2002:a17:907:1c2a:b0:b96:dcc0:2e19 with SMTP id
+ a640c23a62f3a-b96dcc03e2bmr431706766b.56.1773069586848; Mon, 09 Mar 2026
+ 08:19:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <20260309-clk-det-rate-fw-managed-v2-4-c48ef5a3100a@redhat.com>
-References: <20260309-clk-det-rate-fw-managed-v2-0-c48ef5a3100a@redhat.com>
-In-Reply-To: <20260309-clk-det-rate-fw-managed-v2-0-c48ef5a3100a@redhat.com>
-To: Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Brian Masney <bmasney@redhat.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
- Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2083; i=bmasney@redhat.com;
- s=20250903; h=from:subject:message-id;
- bh=tymwA6aOVgvpUXCdRW570073ObBEekDbhvu93ohwWbM=;
- b=owGbwMvMwCW2/dJd9di6A+2Mp9WSGDLX3e7f+/+TCVedu1DA7rYTEY2FXtOcK9p1t8meYGKJ2
- n9KUbGro5SFQYyLQVZMkWVJrlFBROoq23t3NFlg5rAygQxh4OIUgIkUBzP8zwtgvM55yW21VvxW
- OyX2HX1rfHZu1pnevWm2S/f73nruSEaGSbcXxbmu3RHcpZyvUcPbfzpy2UenzFkTc27vK9mxVvU
- mIwA=
-X-Developer-Key: i=bmasney@redhat.com; a=openpgp;
- fpr=A46D32705865AA3DDEDC2904B7D2DD275D7EC087
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: jAWmNBRLIkB5OHHolth5SigAc-6cCeHc30K9EAmb34s_1773067169
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+References: <20260216181002.3475421-1-dianders@chromium.org>
+In-Reply-To: <20260216181002.3475421-1-dianders@chromium.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 9 Mar 2026 08:19:33 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XosP+rpT7w1Dcr=Xu7K8MCnA-=hndCgvsdwRAeVXuUdA@mail.gmail.com>
+X-Gm-Features: AaiRm52PitiYzwSf40xttz_JauQBZgQS8kA13tji_SRNQ2F75XcOox36FcsJy20
+Message-ID: <CAD=FV=XosP+rpT7w1Dcr=Xu7K8MCnA-=hndCgvsdwRAeVXuUdA@mail.gmail.com>
+Subject: Re: [PATCH v3 00/15] mailbox: Stop sending NULL mailbox messages
+To: jassisinghbrar@gmail.com
+Cc: Frank.Li@nxp.com, Santosh Shilimkar <ssantosh@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, andersson@kernel.org, arm-scmi@vger.kernel.org, 
+	cristian.marussi@arm.com, daniel.baluta@nxp.com, festevam@gmail.com, 
+	imx@lists.linux.dev, jay.buddhabhatti@amd.com, jonathanh@nvidia.com, 
+	kernel@pengutronix.de, konradybcio@kernel.org, krzk@kernel.org, 
+	lenb@kernel.org, linux-acpi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, lucaswei@google.com, marco.crivellari@suse.com, 
+	mathieu.poirier@linaro.org, michal.simek@amd.com, nm@ti.com, 
+	rafael@kernel.org, robh@kernel.org, shawn.guo@linaro.org, 
+	sudeep.holla@kernel.org, tglx@kernel.org, thierry.reding@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This clk driver has a noop determine_rate clk op. Drop this empty
-function, and enable the CLK_ROUNDING_NOOP flag.
+Hi Jassi,
 
-Reviewed-by: Sudeep Holla <sudeep.holla@kernel.org>
-Signed-off-by: Brian Masney <bmasney@redhat.com>
----
-To: Sudeep Holla <sudeep.holla@kernel.org>
-To: Michael Turquette <mturquette@baylibre.com>
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>
-Cc: arm-scmi@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-clk@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
- drivers/clk/clk-scpi.c | 14 +-------------
- 1 file changed, 1 insertion(+), 13 deletions(-)
+On Mon, Feb 16, 2026 at 10:11=E2=80=AFAM Douglas Anderson <dianders@chromiu=
+m.org> wrote:
+>
+> As talked about in the first patch in this series, passing NULL as the
+> 'mssg' argument to mbox_send_message() ends up causing confusion and
+> quirky behavior inside the mailbox core. Despite this, there are a
+> number of drivers that pass NULL.
+>
+> It is plausible that some of the drivers passing NULL may have been
+> taking advantage of the quirks of the mailbox core. Specifically, they
+> may have been taking advantage that calling "tx_done" wasn't truly
+> necessary for NULL messages (it was a noop) or that NULL messages were
+> passed onto the mailbox controller right away without queuing.
+>
+> This series introduces a new API call: mbox_ring_doorbell(). The new
+> API call tries to mimic the specific quirks that were helpful in the
+> old behavior and it's expected to be a nearly drop-in replacement.
+>
+> There are some subtle differences between the new call and the old
+> behavior, but it's expected that all of these differences are only for
+> cases where the old behavior made little sense. The description of the
+> first patch details these differences.
+>
+> The series attempts to convert all in-tree users to stop passing NULL
+> for mssg. As per above, there are some slight differences in behavior.
+> If any of the patches are causing problems, they can safely be
+> reverted while debugging the problems. Eventually, all code should be
+> converted over to stop passing NULL mssg.
+>
+> Changes in v3:
+> - Suggest mbox_ring_doorbell in the warning message
+> - Updated patch description based on Cristian's response.
+>
+> Changes in v2:
+> - Instead of just documenting NULL, introduce a new function
+>
+> Douglas Anderson (15):
+>   mailbox: Deprecate NULL mbox messages; Introduce mbox_ring_doorbell()
+>   ACPI: PCC: Use mbox_ring_doorbell() instead of NULL message
+>   firmware: arm_scmi: Use mbox_ring_doorbell() instead of NULL message
+>   firmware: imx-dsp: Use mbox_ring_doorbell() instead of NULL message
+>   firmware: tegra: bpmp: Use mbox_ring_doorbell() instead of NULL
+>     message
+>   irqchip/qcom-mpm: Use mbox_ring_doorbell() instead of NULL message
+>   remoteproc: xlnx: Use mbox_ring_doorbell() instead of NULL message
+>   rpmsg: qcom_glink_rpm: Use mbox_ring_doorbell() instead of NULL
+>     message
+>   rpmsg: glink: smem: Use mbox_ring_doorbell() instead of NULL message
+>   rpmsg: qcom_smd: Use mbox_ring_doorbell() instead of NULL message
+>   soc: qcom: aoss: Use mbox_ring_doorbell() instead of NULL message
+>   soc: qcom: smp2p: Use mbox_ring_doorbell() instead of NULL message
+>   soc: qcom: smsm: Use mbox_ring_doorbell() instead of NULL message
+>   soc: ti: wkup_m3_ipc: Use mbox_ring_doorbell() instead of NULL message
+>   drivers: firmware: xilinx: Use mbox_ring_doorbell() instead of NULL
+>     message
 
-diff --git a/drivers/clk/clk-scpi.c b/drivers/clk/clk-scpi.c
-index 7806569cd0d5c4e32700edb10e4edf2185610a81..f5d0234ad4ad77e4333613139a8ee034b949d01f 100644
---- a/drivers/clk/clk-scpi.c
-+++ b/drivers/clk/clk-scpi.c
-@@ -32,18 +32,6 @@ static unsigned long scpi_clk_recalc_rate(struct clk_hw *hw,
- 	return clk->scpi_ops->clk_get_val(clk->id);
- }
- 
--static int scpi_clk_determine_rate(struct clk_hw *hw,
--				   struct clk_rate_request *req)
--{
--	/*
--	 * We can't figure out what rate it will be, so just return the
--	 * rate back to the caller. scpi_clk_recalc_rate() will be called
--	 * after the rate is set and we'll know what rate the clock is
--	 * running at then.
--	 */
--	return 0;
--}
--
- static int scpi_clk_set_rate(struct clk_hw *hw, unsigned long rate,
- 			     unsigned long parent_rate)
- {
-@@ -54,7 +42,6 @@ static int scpi_clk_set_rate(struct clk_hw *hw, unsigned long rate,
- 
- static const struct clk_ops scpi_clk_ops = {
- 	.recalc_rate = scpi_clk_recalc_rate,
--	.determine_rate = scpi_clk_determine_rate,
- 	.set_rate = scpi_clk_set_rate,
- };
- 
-@@ -156,6 +143,7 @@ scpi_clk_ops_init(struct device *dev, const struct of_device_id *match,
- 		if (IS_ERR(sclk->info))
- 			return PTR_ERR(sclk->info);
- 	} else if (init.ops == &scpi_clk_ops) {
-+		init.flags |= CLK_ROUNDING_NOOP;
- 		if (sclk->scpi_ops->clk_get_range(sclk->id, &min, &max) || !max)
- 			return -EINVAL;
- 	} else {
+Just checking to see if there is any addional changes you need from me
+on this series. It looks like it's -rc3 which is maybe an ideal time
+for this series to get some linux-next bake time? A good number of the
+patches in this series have Acks from maintainers so they could all go
+in your tree, I think. For those that don't, I guess worst case they
+just don't land right now and I can re-post them later. ...or if you
+think they would be OK to pickup that would be cool too.
 
--- 
-2.53.0
+Thanks!
 
+-Doug
