@@ -1,62 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4150C37DEBF
-	for <arm-scmi@vger.kernel.org>; Sun,  8 Mar 2026 13:01:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E7222256F;
+	Mon,  9 Mar 2026 02:21:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772974894; cv=none; b=AEq4JHuirLycBvX/FASwlMTtnKEfTh/P1jpucSUDoacTs62KzTu3F2DC5fVyRmSIwO59EkqrBcvsc5xXcrknbdcikGl7n7hK3YILO9/rr8tru/8wq/KdftuxownZ3F0VybPW+2xAvYeJBWbyhW9Vtna5WfGmop7hAVMgo/u+TaU=
+	t=1773022886; cv=none; b=lVO4x4PBQ3bAQU1oR/03Pnz2q917G/P5LXFt7e1N2U+rZXvXqJsPsH3WIZzIzME5j9pqKk+hY9WJAWX/RJuwKotLa1Aqfxk3Uw6gSGIh4gr4KCaBAtTp2lWlCsDPUpcZTshzQ43IpqmwKJ49pu8L+PijDTDoBQ7Zw+cFxj4aFuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772974894; c=relaxed/simple;
-	bh=PegtPUAx1ynhrJYgVNPAky69gIj62ODvpNtpEi7eu6g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NE9Vr3gOhIXykk2hhht5jesRyMwxR/SWtm9fttmJf8On3tOdQaBKfOId2fhcQZcY/Evdf+WpqJqz4GoLIXNNos2BcrthQ6NEXztREhCPY99ILu2Qsvy1ZEOLQBdpxzCco6VohuRaMXR6EDeOmCcpb718yO2ZkFwLbdHWYPMC0Co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dDRVSEtK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773022886; c=relaxed/simple;
+	bh=Z4FQS5o6LdrxZtJZPJZcL+20cH6ENQ2QjzYwvbhF45E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=APtAE3FLemtLMAaV7LR4Sqi1HmI5zkQA/JJh4vjj8z8djpGjei6v4WAbCbjvJ1DnGo1fo6wSw16+IxBGDkKhExSWDSCZhCEChRLHWZ+mQEWh65f7u5w0uz1deLhIfXvmngbVksHoeMNPlf1EWnQ/2vd+CjwSSY9J+AS/36se/3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=NadfPqtz; arc=none smtp.client-ip=220.197.31.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dDRVSEtK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF22CC116C6;
-	Sun,  8 Mar 2026 13:01:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772974893;
-	bh=PegtPUAx1ynhrJYgVNPAky69gIj62ODvpNtpEi7eu6g=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dDRVSEtKDHf48WEJjRDU36s45dZxbWqf2Yjm4IumQCnV1VCv7XGZQ2w7uad9MAJ4W
-	 ciZaPHn8roZ2eg60VTfL5zEP/rAPuI3WNPEnEH+jMTZYocNdy0OIaxLU43jrlqXwKP
-	 dCV3Mv9ZNOPLdXOU0SXWDtoQBC+YpPoh1f6/xblNndYDGMmSN7zmcdWnZqVZZRrhLS
-	 t7m+qvzDuXPEDH3etOABm3WCw/KlwskZzwaaYkKkBmSpwellBp834OHojHqnxQhw51
-	 66VK8OeIsQaFbW8eC1anhsC5EzyDXjBiFiNYv1E0cxb/drLgn5XPGdb5bXgBtyqEqd
-	 U0PQmbqLEfpoA==
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: Cristian Marussi <cristian.marussi@arm.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
-	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] firmware: arm_scmi: Spelling s/mulit/multi/, s/currenly/currently/
-Date: Sun,  8 Mar 2026 13:01:28 +0000
-Message-ID: <177297485599.1088487.13156698600769816077.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <6735401861e0c2f3e5e680533cd6f71c4d6fd5eb.1771581270.git.geert+renesas@glider.be>
-References: <6735401861e0c2f3e5e680533cd6f71c4d6fd5eb.1771581270.git.geert+renesas@glider.be>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="NadfPqtz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=X/qAWoaZQqfb6mtpn3RUbhKRNiQ6ePUEK1WQXiHHbIU=;
+	b=NadfPqtz8oMWrUpzwmHqTpokdiv1d47DKAMKLBDP6WE9yRx0GDycuB2GWUuo8Z
+	z1dGYXltA4A+rdof6bquGxHhi05pA1P0etHRAvUKSUguBgjGCHi+CqJSwu7L76eW
+	rNFhMBzmd+bilj7sCTCe4k7dJgh1zymw5MRpG9dRYjses=
+Received: from [192.168.50.71] (unknown [])
+	by gzsmtp4 (Coremail) with SMTP id PygvCgAnya99Lq5ptIx5Rg--.66S2;
+	Mon, 09 Mar 2026 10:20:48 +0800 (CST)
+Message-ID: <5507e0c8-9733-47e1-bd8e-a335d39ad5ce@163.com>
+Date: Mon, 9 Mar 2026 10:20:45 +0800
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] cpufreq: scmi: Fix of_node use-after-free in
+ scmi_dev_used_by_cpus()
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: sudeep.holla@kernel.org, rafael@kernel.org, cristian.marussi@arm.com,
+ arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260302155348.26374-1-18255117159@163.com>
+ <4lbgs3xszh75i4nucdhkbi2j33xvu6y3qfkilrshswbn73kpo4@kp36dhmrpogk>
+Content-Language: en-US
+From: Hans Zhang <18255117159@163.com>
+In-Reply-To: <4lbgs3xszh75i4nucdhkbi2j33xvu6y3qfkilrshswbn73kpo4@kp36dhmrpogk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:PygvCgAnya99Lq5ptIx5Rg--.66S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrKw47WFy3tF4DuF4fZrykAFb_yoW3uFcEgF
+	WkK39xuw1UGF1IkwsxKFW3AwsrKFW5Z3y2vw1kJF4fX34fZFW3ZFWkZ3yaq3yxXw4vqrnx
+	CryYqF4ayryxZjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRic_-tUUUUU==
+X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/xtbCxACxVWmuLoCodAAA3V
 
-On Fri, 20 Feb 2026 10:55:15 +0100, Geert Uytterhoeven wrote:
-> Fix misspellings of "multi" and "currently".
+
+
+On 3/3/26 12:20, Viresh Kumar wrote:
+> On 02-03-26, 23:53, Hans Zhang wrote:
+>> In scmi_dev_used_by_cpus(), the code previously released the of_node
+>> reference via of_node_put(np) before checking whether np equals scmi_np.
+>> This could lead to a use-after-free if the node pointer was accessed
+>> after being freed. Reorder the logic to perform the comparison first
+>> and only put the node after the check, or immediately return if they
+>> match. This ensures safe reference counting and avoids potential kernel
+>> crashes.
 > 
+> It shouldn't lead to a use-after-free problem as we aren't using the `np` for
+> anything apart from simple comparison of value.
 > 
 
-Applied to sudeep.holla/linux (for-next/scmi/fixes), thanks!
+Hi Viresh,
 
-[1/1] firmware: arm_scmi: Spelling s/mulit/multi/, s/currenly/currently/
-      https://git.kernel.org/sudeep.holla/c/4e701b47c3ba
---
-Regards,
-Sudeep
+Thank you very much for your reply. Then, do you think this patch is 
+necessary? Or should I revise the commit message?
+
+Best regards,
+Hans
+
+
+
 
