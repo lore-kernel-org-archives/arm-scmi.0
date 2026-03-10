@@ -1,194 +1,217 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013000.outbound.protection.outlook.com [52.101.83.0])
+Received: from send239.i.mail.ru (send239.i.mail.ru [95.163.59.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45E338BF80;
-	Tue, 10 Mar 2026 05:08:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.0
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773119298; cv=fail; b=fZQ0OUC+i5J5Im7VjeaWauEr6WDAWTcn2EqJC3AWXUrTQf9xCAQuXciR/QNQe8g0dskH44Fz38ORxrTqvuT5HAnwWDUygN2QQ2Z1vYjcTmyEj+OyeJvB0+t/Wi4lxzVgyYGNa/hyCu+M1QtzKZGIcuVQbYKLUkuYYJ7VpTXr0es=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773119298; c=relaxed/simple;
-	bh=4mcKNL1iPAJsbn5J0IplImyC9x6DEVgjZqsGpjgE32Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Pma+2wTt9VoULNiaeQVTHhT8p74Pr5dC4VyltA1qASKiov66dnRY56FLMKud74IPxA4NgDQAAydq6J7H+Evg213m3NhYPNfuJhEaePMccvWZqc16NYytbPcN8RZZzbmrIb8rWze5vJEavcPo5Yr1l7p0v4pDmLp5mNwI1ApFnRg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=fail (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=c9Jqcffj reason="signature verification failed"; arc=fail smtp.client-ip=52.101.83.0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DA534B1B4
+	for <arm-scmi@vger.kernel.org>; Tue, 10 Mar 2026 08:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.163.59.78
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773131374; cv=none; b=ENaqZ1L2e5NbmwZ8iDdI4XObnMVi571okqoGh9XzITLYadIDW/8t60+tounvn2xZVKX61JBFUDNUuQCOVZvPw+jLdKZzz0PC9fOpxkl0yxAINaPFJGjV9LdtWaJgnQ3WG7n1jkDxphGgs8VvtLqhstZ4gV531S7Y1sr4euIT9yI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773131374; c=relaxed/simple;
+	bh=s5EHNhYmf9kuC5Yi58o3pgE1VPUgUP2qnoafwZJg/jk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pDOjgn+t2egJN8esqrAShMtDooZZZQA0dyv1Hq6wj79AHGrEqb88H/dEAboLWyX/Q1+hQef33W355+MhY6mIh1Q2W3dZ1CPE5umfjayb7Lib2Ju8pFX2hacsLaXCOU4RRsBkP2i8yUq1HZp3bzDOEUNGN/ouVwvt0nprHopkPXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inbox.ru; spf=pass smtp.mailfrom=inbox.ru; dkim=pass (2048-bit key) header.d=inbox.ru header.i=@inbox.ru header.b=Ijct4oAt; dkim=pass (2048-bit key) header.d=inbox.ru header.i=@inbox.ru header.b=pAdypsbF; arc=none smtp.client-ip=95.163.59.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inbox.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inbox.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="c9Jqcffj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n4YsDXRCaWGtXh8kwvDy4ntBo09TPEuO/m80YhHIIoc2/sH7q5nr9FtCUPGZkiu2Hb2g7cLDvulRzigMU6srzR34JYn2i0KTRUvfipCCM0y2C7eCfZOc03FKwoe9U09UeOpn3yJGR0MXwA/amGRB3LuljTNu/GDUfPNE1NzQOVqM+uUPr1p1rkPEp7XIURpLkWTw4b+MEq/RnLqoCK58EeACpNoSqKsbi7R2oOsM5P4V/SRuzT/WMUNKad4bDyg64Yfpdp3iH0sxWcLhJ/geZ5fdg902OhTC91FXc5RAJKxTZd04rSCUScJ90H681g8iUjw3bEjZUzVe+osuNg9JFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PSVYUWPmtn9ry8OluASIKabc3vlVCT339hQTI27nqCc=;
- b=fp0rv8hhfkF2CaWWkEE6xZUl83efZ6lB2k1pqJnaVVGK9w3w3QQf5J3mjD3MmrsbwKabe5874k6RSO+syFjRHumvxYnVsqnUlXH3OZogb9If8b1sfhGcGIpys1qTpjg1fEgCugaNSnnj1JSG8TSftTvSH5FVZkYgOVb1W3WlMsnTCmVO63gGndC+XthVhbZEpQr+mh8Xx9nVAxmkZL/UcnTRsgA4VxiQxqppwNestNoap6Jqekprz9Krs7Nl2g3VEMOuFRd3Olj9tnCKLcrnMCaC9HaK6LRb6imTYufNP+IMq/VfgoXpz5YLg//uTyPdgUfhhdZmrxwoQ6JYQouaGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PSVYUWPmtn9ry8OluASIKabc3vlVCT339hQTI27nqCc=;
- b=c9Jqcffj3LHJEuk+ccHVkz0+Q9AL5L/0F3Ywhi2FVXuxThooKsbWyhEaZtoqgxekdSFnnMnYUkzuP4uIE1DLnUnI7OtUaUqmxq4sxy7+0cYqyrc2Rpz+quGzqw3YPi/Qb2gA0Rqp+25Kl/IUD0UTxemCiYgAB0gnmiXQ3NZCmzXGHtT7F05Aok3vtrQDVFT7E9XaF7X1tCEDFnWbNsEqLyRs+21ftcvRbzz7aftxGVgGKifohyx/56pJvtgVIcFj21e/pPI+RL6dT5nxZOc102g6OmjwoLlW0NgyJwdOhqhU0BuPbr0CU6NEXRyt6LUlySh895DDzMD5KFzcLCSbVQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
- by GV1PR04MB9151.eurprd04.prod.outlook.com (2603:10a6:150:26::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Tue, 10 Mar
- 2026 05:08:05 +0000
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::4972:7eaa:b9f6:7b5e]) by PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::4972:7eaa:b9f6:7b5e%7]) with mapi id 15.20.9678.017; Tue, 10 Mar 2026
- 05:08:05 +0000
-Date: Tue, 10 Mar 2026 13:10:04 +0800
-From: Peng Fan <peng.fan@oss.nxp.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org,
-	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH 2/2] firmware: imx: sm-misc: Print boot/shutdown reasons
-Message-ID: <aa+nrCbgR52liaMl@shlinux89>
-References: <20260305-scmi-imx-reset-v1-0-18de78978ba9@nxp.com>
- <20260305-scmi-imx-reset-v1-2-18de78978ba9@nxp.com>
- <24409695.EfDdHjke4D@steina-w>
- <aalZV981HAneFWiC@shlinux89>
- <aalff2CtcIeln0NG@pengutronix.de>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aalff2CtcIeln0NG@pengutronix.de>
-X-ClientProxiedBy: SG2PR01CA0130.apcprd01.prod.exchangelabs.com
- (2603:1096:4:40::34) To PAXPR04MB8459.eurprd04.prod.outlook.com
- (2603:10a6:102:1da::15)
+	dkim=pass (2048-bit key) header.d=inbox.ru header.i=@inbox.ru header.b="Ijct4oAt";
+	dkim=pass (2048-bit key) header.d=inbox.ru header.i=@inbox.ru header.b="pAdypsbF"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=inbox.ru;
+	s=mail4; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:
+	To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive:X-Cloud-Ids;
+	bh=tiKx9WABxJZt5HkJ9/YI2ataNRBlaoh7xNYzxIvBwSk=; t=1773131370; x=1773221370; 
+	b=Ijct4oAtJAqqVdXmf95Oi1hX4sSs4z/XJrVlsXU7OpPfw3WMONJPoQZIvO4Ls0vBp5jY1GG4Ein
+	KA8JsxhP2Poj+lsdBMY9vPxrTFXlYT2ite3GiVFryXoXZxyC3cCXzRgdrXIDjneWq68tpb5j1L0J2
+	9UOLpIMZRh5prm7kVph2HLd8CYUXVL4ZLIHm0nP94GnX3zK8hzQmKTGOA+yaJM3Tcr6mAB1eEEoEI
+	/KTVM7t1NhANq8BfUyBQ/wR4xGyqmkfbetRVk93TqKDsBv2XVXtGM/Bx8R4VUmivmRkI51mcuTvQJ
+	tBHijqFRwDc8VWc6gBXjfq7qpHIGeXUcXtkg==;
+Received: from [10.113.69.130] (port=50738 helo=send279.i.mail.ru)
+	by exim-fallback-cbf6f846c-zmg26 with esmtp (envelope-from <fido_max@inbox.ru>)
+	id 1vzsEN-00000000SC6-0TMz
+	for arm-scmi@vger.kernel.org; Tue, 10 Mar 2026 11:14:19 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=inbox.ru;
+	s=mail4; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:
+	To:From:From:Sender:Reply-To:To:Cc:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
+	X-Cloud-Ids:Disposition-Notification-To;
+	bh=tiKx9WABxJZt5HkJ9/YI2ataNRBlaoh7xNYzxIvBwSk=; t=1773130459; x=1773220459; 
+	b=pAdypsbFZNZA8CfvhqwTntr7SW65jxJJHGdLM+u6wj5chIktWcnGzyQdRw7ROGHnh2uaRfIt9h2
+	OwynfbTHvJt9VGLYpYykHOjxJnHytjWF11znPTik9W1SYkDM+H9zI0H2k+XkHYpfvJqbEgmNXWfks
+	gxDV8STvqy4VXZybWmkMC7F7Ppr3fkz0QB1kmaSpLzHZw2p8PtGDJlF+l4Ul8F0jQU3izIXxKBSgD
+	czcabeBh2qWqM3SPeTtLHdy9WEgFWaidc4WN2s8wGH4xF8ZUSEY6pBTddXzz36V8MGSi/BF1FHb1Z
+	+VuYj9LfZhhWIJfiR7SXLEYi8XHsYhRQqgKw==;
+Received: by exim-smtp-695fc89d9f-8whg4 with esmtpa (envelope-from <fido_max@inbox.ru>)
+	id 1vzsDa-0000000097K-0091; Tue, 10 Mar 2026 11:13:30 +0300
+From: Maxim Kochetkov <fido_max@inbox.ru>
+To: arm-scmi@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org,
+	Jonathan.Cameron@huawei.com,
+	cristian.marussi@arm.com,
+	sudeep.holla@kernel.org,
+	a.shimko.dev@gmail.com,
+	Maxim Kochetkov <fido_max@inbox.ru>
+Subject: [PATCH v2] firmware: arm_scmi: move scmi_channels_setup() after SCMI stack init
+Date: Tue, 10 Mar 2026 11:12:59 +0300
+Message-ID: <20260310081259.36888-1-fido_max@inbox.ru>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|GV1PR04MB9151:EE_
-X-MS-Office365-Filtering-Correlation-Id: 30f18ee4-ad3f-4ceb-0364-08de7e6302c4
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|376014|366016|7416014|52116014|1800799024|7053199007|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	R6vkFoqJgsGry5kktK4r7k25aW5TlHj9+xlfcw60bArdl6CjE4XnbQzsjinichMMXkmNbOW/2UbHwjlpnnXkS05MPN3uxzm84aiav/2SW0ReJvkVf/8c1xtXk3SGs0qMjoZBVlLr6JyrtT0sM6MEZD1a/iQHFl6rCaQVq1R662j/qaYw9VeR9wapTZiksEHZp7vBe49Nb4fxoo7jXk2/MOFozuD7/s50byP50gpq7HSufYXVA/QehBHAPsDgnvmap5aN9wrwYtgb7V5OpeSfOZK8Fp01oL5dQRf3qU/DE1k69ydlXZRqJPf3vxI8xV7AHETRurPl6Grjy9pSZy+052YRau6PUPhaFWXhRadOEvUZ6xM0szm1NOIyexTe1Nwo6Pfta/M38HREpcDHGd4TAZUpJlZUm1+z4SCRuS26KnxjKx7NIEFaUWjovCUSkwE//LlVlVgr8dnrLuNeUFNwxwb2yTx8OeHzwPp6k9mHLu7aNcG2/BsZVl6xbnjMj0hMOF9kxbS0ZVpmZnJGWQ8hTXe1JzZftxp181KqIWhQ1zGMo7mvQKa9RzKSYNYaB/ss3XQaesJkBR92YCHVg2ILhlXQOn1SLNlHgDaVRYUO0UMaB30nQyRsbZBdAHUOFKy2yoNR6MlJmjib8sexj72W88Zi1A76PED2QwPd1iz8b8Gjrtk5LX/IwWEL16+6YsjZI4BwkH/v5RXrgBAtoyYt/BHTNKHdofnVH86GUfz9E1/W8RH8aM281wVBwkjsBJsklaWKxlso2z1hZt2ild4c/3/vQX5FFXrIYHenyBN0Vzo=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(366016)(7416014)(52116014)(1800799024)(7053199007)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?Rcv0l7EHQz0NuQUjGla4g1HD0Sg8gPli+P+P3D08XnyzYBySDdrXPpIb26?=
- =?iso-8859-1?Q?lyJSP8cu40ne1Bm/mEoGN6LEGgWkXiMSuulevz3Zwm7PIocBbcF4NPjujq?=
- =?iso-8859-1?Q?EnT+XzqfAp4kxk/V+yZ1nboH+5upH75kpWhH82/yCCIKCb0oTQF9qRHC/w?=
- =?iso-8859-1?Q?m5VNh5MUEkxPQuhSgXNX91bnNV0chqeYnBn2ERvMCntJYsL64mLakTxL5q?=
- =?iso-8859-1?Q?+R80hLBqTAdwade6i60EpiT6Z5vRgY/O60mPqVJV5PK4z61hGB7qp1/oZb?=
- =?iso-8859-1?Q?kHceN4oiETed1H5Qp2JNgyU0y7DJoBzf5r/CexeTLxt4Db2dnXM/58m0ne?=
- =?iso-8859-1?Q?7iM8hKO0cUROSre5zyHQsTkw+miP/jALWo2lQ+JQlHGdGUa9R77llA+SqD?=
- =?iso-8859-1?Q?wrIs0F0Pw6WfTNVn75N189D/vvpmRRQ7pywAcSDVV3uScel5AXUF1JcDKJ?=
- =?iso-8859-1?Q?FRo48VdLKDSOV+pKNJL/aPS1EkjIEIAByoumqHEtfNZEGsnhsyqaNaevR9?=
- =?iso-8859-1?Q?bZ5X41qaEm3y/G/0ilDeeSbNM3t9Smgb4YVDkCCL/F/gaXYlpH/7rEoaeF?=
- =?iso-8859-1?Q?Azp1j7ATLZotDuYlSyR7Dn0yppKLo2aTuwJS0QXbcrkAXqjZDnTKpTEFfZ?=
- =?iso-8859-1?Q?cosFRukGrXG1HaRmpeh/92g09hcsKlsuF4697Qh8ZLhnYtHaX7JI8gQj6r?=
- =?iso-8859-1?Q?e7WpsDWHTHOjJlNIcRzKQwIOY7wAuHt3mY6c8WTbgOo5FA+olcgHH0TKXj?=
- =?iso-8859-1?Q?RVMttS2i3QBFB1KPUEg3AM0HYEVJbyxEPjUk1+MEsqX39WHBMvXDmALymG?=
- =?iso-8859-1?Q?FAO3lIQAvH0alwB0u2094SrUHs4qXToMVxD+WP/iwr6PKABjxR079GJPrT?=
- =?iso-8859-1?Q?SKO8cGwtNWOAQ5e7rIK608YHBXLq8WPDCH2o24hTj71BP2dDM5n+xSK270?=
- =?iso-8859-1?Q?LyiKFzJjBTmpBOJJuBCD2f6iE2OlqYbnG08SVJIja0rl2QDJNd5JrX8eDU?=
- =?iso-8859-1?Q?Fc7iSOnJtXXausn6khNKskWLMFCpe/5JqqA3A/TwLBeMvUe7Lr9V47bko4?=
- =?iso-8859-1?Q?ozmhecLXvYNBPkt9wWDw54wHHtz6QQwQb0hOMyFct6eWCLTp7/rbC+1H6V?=
- =?iso-8859-1?Q?sdUMbpMUclb6+f8oQcZg51X/OuniR74lMoX1qu4+lyHzAUvgOgmDoK1w/d?=
- =?iso-8859-1?Q?ogQbmeohHFcGT41tAVW3JSzXgFQ6UgjfIbSNyQqdb4jcswBYuf2/2z7Ejc?=
- =?iso-8859-1?Q?C/n9NzJLzYSwTgZSk9Sq21zb6rV+ohoZfDqKgfKbXuAEeeU1xjLSISTnGR?=
- =?iso-8859-1?Q?fu54+crZnJxlPVb6j882F10i4IKb7cDvzRMAWyI9Ulp+1mmxUgYXjBrwYX?=
- =?iso-8859-1?Q?mmHeOxePPHLOQrBKKiFn3HLHqkvpxoxJMVMva84d7VBwFawtTCvEcLQoGk?=
- =?iso-8859-1?Q?nPCA+RM3GyouTagBMgZkUNySjYEviz0vm1qAhPcHeYy+CHyKNd4M3seZXa?=
- =?iso-8859-1?Q?YPAyADSTOLBNhselUNhhVGzZrvGnEUKciMHX4FlCTbgaM9jXUxdm5yuPFD?=
- =?iso-8859-1?Q?y6Mm09kS5PZirDj46n9slTPasNHozrOYD1Ofvb2AFV6guxu8yNWBdxQJa+?=
- =?iso-8859-1?Q?/5dp2bIE9cSSGSyarN0g7HxVspjkLYdmHGXMI5KiPoGiqWhJbmMkYNB1we?=
- =?iso-8859-1?Q?MMS4rgf7cdvFEH581riG2L1CRqtWw+VPxyK2NoYH8NEfDNHWTmdttQuXaU?=
- =?iso-8859-1?Q?UZ8SmC+dtxGUALOZBN/qY6ZuZvBB7QCud56vTniiKNjtL65xvj/XbS3g0x?=
- =?iso-8859-1?Q?QbzIoRe0Ww=3D=3D?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30f18ee4-ad3f-4ceb-0364-08de7e6302c4
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 05:08:04.9701
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jWBIl1cbOnfzIEZfGWTWuKgBkyntvcfUwVU/lKYwD/1ekeAJP/UDLfhWsg3eUjTQzS77dKtcSO9gP0iTSdnNSg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB9151
+Content-Transfer-Encoding: 8bit
+X-Mailru-Src: smtp
+X-7564579A: B8F34718100C35BD
+X-77F55803: 4F1203BC0FB41BD91ABAE9865AC7DC8850146831463F184C5FE898FE311831A4182A05F538085040738ABA0E1B5439943DE06ABAFEAF67051955F2D4F0BBCCE540F3430AE692E2BAB14F0FA0E0289DA8
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE777D9B7C31E2C1495EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637AC83A81C8FD4AD23D82A6BABE6F325AC2E85FA5F3EDFCBAA7353EFBB553375665A08EF23E7B416ABAA7EACF75EE252DC33579F13381E11F68E578C39FEC72B928EEF46B7454FC60B9742502CCDD46D0D457EE4B4996FC546F6B57BC7E64490618DEB871D839B73339E8FC8737B5C2249A50BD5087FBFCDAACC7F00164DA146DAFE8445B8C89999729449624AB7ADAF37F6B57BC7E64490611E7FA7ABCAF51C92176DF2183F8FC7C0E8801E8C4F941C018941B15DA834481F9449624AB7ADAF372E808ACE2090B5E14AD6D5ED66289B5259CC434672EE63711DD303D21008E298D5E8D9A59859A8B6B372FE9A2E580EFC725E5C173C3A84C315AF0D0D4FC4FA3D35872C767BF85DA2F004C90652538430E4A6367B16DE6309
+X-C1DE0DAB: 0D63561A33F958A5B49FB850C1B6C4A25002B1117B3ED69630243DF515AAAFC9F09842853758E9E5277AA237ED671D4372AF3B35EA4094CCA7DFDF579AB090EF9C5DF10A05D560A9D2B5782620B851B7C8C84E951CD0BE2F58C12E6D310A6D53566404C906FA8ADEA71A35648BE338CEED902CAAD3CD6B00BA7CCD254A1CF5E853016C5BF4D76643638A446BE3E5C627BF0CFE790FC11A7261332C5CB50AE517BDAD6C7F3747799A
+X-C8649E89: 1C3962B70DF3F0AD73CAD6646DEDE191716CD42B3DD1D34CA0CBE312C330D7D583CD26C36C883521FC0B9F89525902EE6F57B2FD27647F25E66C117BDB76D659E503FAE6DEA603C30664F9266136918D93FAFCD2B52D691A69203ACED7CE61856B6E7495D7D1EF25B8341EE9D5BE9A0AD75C86C2DA17540B0ECF33F1555143A7B90D84CE924CA6D5DABE3362BFED2FD64C41F94D744909CEE921556F0E976A29E6EC0772259F8F8F8815B87D7EC76CB9
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu53w8ahmwBjZKM/YPHZyZHvz5uv+WouB9+ObcCpyrx6l7KImUglyhkEat/+ysWwi0gdhEs0JGjl6ggRWTy1haxBpVdbIX1nthFXMZebaIdHP2ghjoIc/363UZI6Kf1ptIMVYrk7BQKFwEtn93Sv3gtl/Mmu+clJvSDQw==
+X-Mailru-Sender: 689FA8AB762F7393DDD5FD59B456EAD2AFA19C54DC1AFD9C2E8FFDBA3618F8BC733250E5C4543EE790DE4A6105A3658D481B2AED7BCCC0A49AE3A01A4DD0D55C6C99E19F044156F45FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
+X-Mailru-Src: fallback
+X-7564579A: 646B95376F6C166E
+X-77F55803: 6242723A09DB00B4A8F96BD43067EAD61675375D802A6BFACC58E300EE2EEC70049FFFDB7839CE9E85E2A6C8184F95412E2AF03222FD2387D8D624316F41C3F859878C39247090EA67E56B32FEC8D838
+X-7FA49CB5: 0D63561A33F958A5C47789CEB6AC3A825002B1117B3ED6960533020333CEE9C64E82D2634811542802ED4CEA229C1FA827C277FBC8AE2E8BEECFD4AEF418E5F1
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu53w8ahmwBjZKM/YPHZyZHvz5uv+WouB9+OYcBso8Zm+oliTz8oZwnDrFsY77LZRcHyw5ht0smWrfSeTW5FiI8avd9v29gUBslpEZ9wIMwqVP4jLQVQ+dVm7x9BpDHadBV9RMjI809PraZfO+dF0zUW/UzAdJHa8MmYQ==
+X-Mailru-MI: 20000000020000000000601000
+X-Mras: Ok
 
-On Thu, Mar 05, 2026 at 11:48:31AM +0100, Oleksij Rempel wrote:
->Hi all,
->
->On Thu, Mar 05, 2026 at 06:22:15PM +0800, Peng Fan wrote:
->> Hi Alexander,
->>
->> Thanks for giving a look.
->>
->> On Thu, Mar 05, 2026 at 08:44:26AM +0100, Alexander Stein wrote:
->> >Hi,
->> >
->> >Am Donnerstag, 5. März 2026, 02:56:45 CET schrieb Peng Fan (OSS):
->> >> From: Peng Fan <peng.fan@nxp.com>
->> >>
->> >> Add reset reason string table for i.MX95 and introduce a helper
->> >> (scmi_imx_misc_get_reason) to query and print both system and LM
->> >> (Logical Machine) reset reasons via the SCMI MISC protocol.
->> >>
->> >> Signed-off-by: Peng Fan <peng.fan@nxp.com>
->> >> ---
->> [...]
->> >> +		if (boot.valid)
->> >> +			dev_info(&sdev->dev, "%s Boot reason: %s, origin: %d, errid: %d\n",
->> >> +				 system ? "SYS" : "LM", rst[boot.reason],
->> >> +				 boot.orig_valid ? boot.origin : -1,
->> >> +				 boot.err_valid ? boot.errid : -1);
->> >> +		if (shutdown.valid)
->> >> +			dev_info(&sdev->dev, "%s shutdown reason: %s, origin: %d, errid: %d\n",
->> >> +				 system ? "SYS" : "LM", rst[shutdown.reason],
->> >> +				 shutdown.orig_valid ? shutdown.origin : -1,
->> >> +				 shutdown.err_valid ? shutdown.errid : -1);
->> >
->> >Is there a way to query this from userspace programs instead of printing into kernel log?
->>
->> I not add sysfs or debugfs to get the information in this patchset, since our
->> customer only want the information could be shown in kernel boot log.
->>
->> But I could add also sysfs interface to allow userspace get the information if
->> you need this feature.
->
->I started to working on corresponding framework:
->https://lore.kernel.org/all/20250618120255.3141862-1-o.rempel@pengutronix.de/
+scmi_channels_setup() makes channels enabled and ready to receive
+messages immediately. In some cases channel may receive message from
+firmware here (i.e. notification). This message will be passed to
+SCMI RX path scmi_rx_callback(). Then in scmi_handle_notification()
+scmi_xfer_get() is called to get message buffer to unpack.
+scmi_xfer_get() uses xfer_lock spinlock. But xfer_lock init is
+located in scmi_xfer_info_init() which is called after
+scmi_channels_setup() in scmi_probe().
+So here we have trying to access to uninitialized spinlok:
 
-Thanks for sharing the thread.
+[    9.978360] BUG: spinlock bad magic on CPU#0, irq/16-1e200000/123
+[    9.979236]  lock: 0xffffffd6035500c8, .magic: 00000000, .owner: <none>/-1, .owner_cpu: 0
+[    9.980633] CPU: 0 UID: 0 PID: 123 Comm: irq/16-1e200000 Not tainted 6.12.0-01250-g7fb379e5f78e-dirty #2
+[    9.983157] Call Trace:
+[    9.983422] [<ffffffff80007ab4>] dump_backtrace+0x1c/0x24
+[    9.983972] [<ffffffff80b5d380>] show_stack+0x2e/0x38
+[    9.984523] [<ffffffff80b6e58e>] dump_stack_lvl+0x52/0x74
+[    9.985336] [<ffffffff80b6e5c4>] dump_stack+0x14/0x1c
+[    9.985556] [<ffffffff80b5dfa8>] spin_dump+0x62/0x6e
+[    9.985942] [<ffffffff8007df7a>] do_raw_spin_lock+0xd2/0x12c
+[    9.986213] [<ffffffff80b78f16>] _raw_spin_lock_irqsave+0x22/0x2e
+[    9.986585] [<ffffffff80823442>] scmi_rx_callback+0x158/0x7ca
 
->
->but it is stalled due to devicetree decisions. I wont to respin the
->discussion tomorrow
+So move scmi_channels_setup() after full SCMI stack init to make
+sure we are ready to receive messages before enabling channels.
+Also drop check to see if the platform supports any receive channels
+because chanels are not allocated yet.
 
-TBH, I have not look into the details. If the generic framework could land
-into linux kernel, we could use this in i.MX SCMI reset reason. But I would
-not add dependency for now, so I will still just keep printing the log into
-kernel log.
+Fixes: 4ebd8f6dea81 ("firmware: arm_scmi: Add receive buffer support for notifications")
+Signed-off-by: Maxim Kochetkov <fido_max@inbox.ru>
+---
+Changes in v2:
+- Drop check to see if the platform supports any receive channels
+---
+ drivers/firmware/arm_scmi/driver.c | 29 ++++++++++++++---------------
+ 1 file changed, 14 insertions(+), 15 deletions(-)
 
-Thanks,
-Peng
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index adff81a3d233..4dd4f2d9a9ae 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -2710,7 +2710,7 @@ static int scmi_xfer_info_init(struct scmi_info *sinfo)
+ 		return ret;
+ 
+ 	ret = __scmi_xfer_info_init(sinfo, &sinfo->tx_minfo);
+-	if (!ret && !idr_is_empty(&sinfo->rx_idr))
++	if (!ret)
+ 		ret = __scmi_xfer_info_init(sinfo, &sinfo->rx_minfo);
+ 
+ 	return ret;
+@@ -3237,17 +3237,10 @@ static int scmi_probe(struct platform_device *pdev)
+ 	handle->devm_protocol_put = scmi_devm_protocol_put;
+ 	handle->is_transport_atomic = scmi_is_transport_atomic;
+ 
+-	/* Setup all channels described in the DT at first */
+-	ret = scmi_channels_setup(info);
+-	if (ret) {
+-		err_str = "failed to setup channels\n";
+-		goto clear_ida;
+-	}
+-
+ 	ret = bus_register_notifier(&scmi_bus_type, &info->bus_nb);
+ 	if (ret) {
+ 		err_str = "failed to register bus notifier\n";
+-		goto clear_txrx_setup;
++		goto clear_ida;
+ 	}
+ 
+ 	ret = blocking_notifier_chain_register(&scmi_requested_devices_nh,
+@@ -3291,6 +3284,12 @@ static int scmi_probe(struct platform_device *pdev)
+ 		dev_err(dev,
+ 			"Transport is not polling capable. Atomic mode not supported.\n");
+ 
++	ret = scmi_channels_setup(info);
++	if (ret) {
++		err_str = "failed to setup channels\n";
++		goto notification_exit;
++	}
++
+ 	/*
+ 	 * Trigger SCMI Base protocol initialization.
+ 	 * It's mandatory and won't be ever released/deinit until the
+@@ -3303,7 +3302,7 @@ static int scmi_probe(struct platform_device *pdev)
+ 			dev_err(dev, "%s", err_str);
+ 			return 0;
+ 		}
+-		goto notification_exit;
++		goto clear_txrx_setup;
+ 	}
+ 
+ 	mutex_lock(&scmi_list_mutex);
+@@ -3345,6 +3344,8 @@ static int scmi_probe(struct platform_device *pdev)
+ 
+ 	return 0;
+ 
++clear_txrx_setup:
++	scmi_cleanup_txrx_channels(info);
+ notification_exit:
+ 	if (IS_ENABLED(CONFIG_ARM_SCMI_RAW_MODE_SUPPORT))
+ 		scmi_raw_mode_cleanup(info->raw);
+@@ -3354,8 +3355,6 @@ static int scmi_probe(struct platform_device *pdev)
+ 					   &info->dev_req_nb);
+ clear_bus_notifier:
+ 	bus_unregister_notifier(&scmi_bus_type, &info->bus_nb);
+-clear_txrx_setup:
+-	scmi_cleanup_txrx_channels(info);
+ clear_ida:
+ 	ida_free(&scmi_id, info->id);
+ 
+@@ -3379,6 +3378,9 @@ static void scmi_remove(struct platform_device *pdev)
+ 	list_del(&info->node);
+ 	mutex_unlock(&scmi_list_mutex);
+ 
++	/* Safe to free channels since no more users */
++	scmi_cleanup_txrx_channels(info);
++
+ 	scmi_notification_exit(&info->handle);
+ 
+ 	mutex_lock(&info->protocols_mtx);
+@@ -3393,9 +3395,6 @@ static void scmi_remove(struct platform_device *pdev)
+ 					   &info->dev_req_nb);
+ 	bus_unregister_notifier(&scmi_bus_type, &info->bus_nb);
+ 
+-	/* Safe to free channels since no more users */
+-	scmi_cleanup_txrx_channels(info);
+-
+ 	ida_free(&scmi_id, info->id);
+ }
+ 
+-- 
+2.53.0
 
->
->Best Regards,
->Oleksij
