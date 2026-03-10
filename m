@@ -1,150 +1,194 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013000.outbound.protection.outlook.com [52.101.83.0])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0062C2AD3D
-	for <arm-scmi@vger.kernel.org>; Tue, 10 Mar 2026 03:24:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45E338BF80;
+	Tue, 10 Mar 2026 05:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.0
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773113048; cv=pass; b=rMjIhatgrWbH5N1xRJVFeKwwSPG8A2+m/RcIlolRi/uLQS5ZaS3c8Mj7Kh5u4kAvDiuiq+AJAMvzdmtHvIBGo03q9GvLktfyngdXzZmnuM9tKZPL59+IIC30EySQTO6TR4wP4on9xHWQMOk5XSA9D9WHFesbPfjVciKTucHFXMg=
+	t=1773119298; cv=fail; b=fZQ0OUC+i5J5Im7VjeaWauEr6WDAWTcn2EqJC3AWXUrTQf9xCAQuXciR/QNQe8g0dskH44Fz38ORxrTqvuT5HAnwWDUygN2QQ2Z1vYjcTmyEj+OyeJvB0+t/Wi4lxzVgyYGNa/hyCu+M1QtzKZGIcuVQbYKLUkuYYJ7VpTXr0es=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773113048; c=relaxed/simple;
-	bh=Lcr5dVXyCC6NuA15tJ5l/HwAKYVsMmOxotK4MXcexts=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ixE4jjMLNpEQNKTWxBmNr8SY/mc2bB0A0N6omJmB2Pe4EIFGgxsyrbMVrSKFtSeKjwUDMJRhJFKQ1+shh1nhq5EAUiWX6QstN3akE+gR5XKn1NPeJ/b8RryB7/aBgfhBa0acnuYoZF3c+UZ0wrTTxCiS+d7B/pAOVp110gPUkdg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jBSWzME5; arc=pass smtp.client-ip=209.85.160.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773119298; c=relaxed/simple;
+	bh=4mcKNL1iPAJsbn5J0IplImyC9x6DEVgjZqsGpjgE32Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Pma+2wTt9VoULNiaeQVTHhT8p74Pr5dC4VyltA1qASKiov66dnRY56FLMKud74IPxA4NgDQAAydq6J7H+Evg213m3NhYPNfuJhEaePMccvWZqc16NYytbPcN8RZZzbmrIb8rWze5vJEavcPo5Yr1l7p0v4pDmLp5mNwI1ApFnRg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=fail (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=c9Jqcffj reason="signature verification failed"; arc=fail smtp.client-ip=52.101.83.0
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jBSWzME5"
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-41706b23543so1793798fac.1
-        for <arm-scmi@vger.kernel.org>; Mon, 09 Mar 2026 20:24:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773113046; cv=none;
-        d=google.com; s=arc-20240605;
-        b=QsZoeOdhDVhQGSPDzM2tuCGYmImGHQo/UkNTV+NBMdi1+01Rzs7mm+08HUq4op35qn
-         /I+0yuD/YLsSKkJRXnf/UNqFxWs5ZLvJhWMFSo1tYl7upIRZ90GD0YhsVb1WAclMIBxr
-         TYUDpZT/lxjeuXMZ7hkZFwDX4A1TNRFRRU10y9/A95VFl62UnWGB+YHA40hhT4/E3eQ6
-         SVg6s4HbDKS9m6yM7o2errsEac6FT436qRsFXXL6X/Btkw3t7G68nluFzIE6iaBxkow6
-         J6Hy86TL0UIQQ1vtpj7z4gjLkujYFi7pZ4XKsVWPDrIsZpStSVAltCKLLGxD5kZWEYXe
-         Ajnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=a9IUAxs7VdJbIzLXaHTJJ0fopPqXXR7atfJlc6YXf10=;
-        fh=FEZy9Xd0KEXsrPxkh41YlucuPJV9VlLog3mRrBauHWg=;
-        b=i6WIVyrwYnKRh1T8xiXn7VOfkooe2emUAnfKAFew1lm/I+TYqfvKyJXUL30UlI1mEz
-         KJjRjQY06UjQfS9jmyemEhkPKIN8Xm55tNWw4MLils+qT9Kx/Rwbfvs1KiJ7CbreBrba
-         3R7kPNdqWohtJlw2I5MfJEmjvogwM9vW53w51Dt5KRN4FDAZkuK5ti5Tvh/6LTIj4EVn
-         0OiTa+O4A8mrSbsnZDZ77ivqcsr+wtdBI4suuQm61QUtDnlETJDw1KZ5LGeQ8LZ/LNCc
-         ++FfjbFxArCPzTKulNsjkD6oF776rR2Jo9UcvJjsL7280QwYk5hBMK8aNQyxb4EgxRN0
-         yqHg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773113046; x=1773717846; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a9IUAxs7VdJbIzLXaHTJJ0fopPqXXR7atfJlc6YXf10=;
-        b=jBSWzME5mmDt+P73t+DCqn3BR9/LRYmvJLwD3COsdTW7jJAeGeMD7vWegQm0kO1jnb
-         eposRxG/wfW+/sbnaM4TG9QD1wZBVQPsBzT0GUBOmLWmj7BVZmKAu41tyRm0eZ8d9dvE
-         c4mknSfMgR6NUzyqe/8wJnqLpWmRshN7I9+LX0AHpop3O3zEvE9hH6cZL7XoGSlgfgx6
-         aOlisPIL1Gnilx7ZE+GObnfzLuLz4q7C+gcPuOhjjwpMyHnX+Ns995kFh30BvgeonYDy
-         SXhEHm9/ml0cG6yEFdQpyAmV4NOSrM1kvI2NFWmJN90zz54ahqvjYjMMbBVrl6CyqGq5
-         4m5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773113046; x=1773717846;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=a9IUAxs7VdJbIzLXaHTJJ0fopPqXXR7atfJlc6YXf10=;
-        b=GPWgtv1vcSflyUYsODrHkBPWwMX+lvXvhaqvcTw/EN8aqWIlkm0wIzmDLP3eXqrSQw
-         wXTUzxoz6FyUk/vChiFoT6d7zNss6kRgBsxPgtq8tS84Nj8rkcRi9L6zC4DUfNylFOSU
-         PougSLbXgcG08woQcouuroXLlYIYEnQEgJLfUvF0QWG+cER8yddvdxteJd29X8YlK9n5
-         +3YBKpG+4w4to1F/3yPHAjvMnW2UlUpVh+F4iGTmqf9FowH/iicIH5vOlEtBiuOzGsW9
-         Aj3yTze4OUsgo4wXPo04dyoVm5KxiZUo5WkyQcfycDzTRduf93Bb7+QA2auodYNtl4e8
-         ynRg==
-X-Forwarded-Encrypted: i=1; AJvYcCVk6A7aC9y5gqJFRbeoQ63E0/E8v+QKNXzSGrDdg6kiGso7bp5BjHzShsTrgXNnrLMXSqwOr2D/ZQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoHyBTSvcg4nOqaul/bTOhzmJftwqbFcFnw90yqh4yMq7k4s6x
-	QfbenoodZAhhEJRQjo8MCs1RioCZ0zp1WusZiorUqq6S1IMhArMZvFs2pYl/Ieguo9iM1x7ojG3
-	OhVnxHGBLl/lWaLwSiHTcHuRi44T/B6c=
-X-Gm-Gg: ATEYQzyJQSGGoQ3mL1DvjUMmbiFa11JJbx8iL9msZinP9lsNtZLil3xSLfAutN5P/q8
-	s1LQ0DKqmsIu/0T0e3Qyav9hCXv4BR5/hragUip8uJYc2J5lP2IXChN9tIXtBvxjJISF8j+2IkT
-	D5GRic8VsIlbwvmMTR2sEQwSRMfG1fifMnrS+nnL43Y5+IftfKgw9FSYPb76qOZ7ffy0PYst00q
-	ro/MiBuKs3AmNDtJvFMMl2tW9WH3S2pvPa1u5anNTHL8j9Eoah4oLIDwUlfloGbykNMgswhuQps
-	XuSlm26t
-X-Received: by 2002:a05:6870:a0b1:b0:416:42f9:8d86 with SMTP id
- 586e51a60fabf-417568d4325mr1271236fac.10.1773113045873; Mon, 09 Mar 2026
- 20:24:05 -0700 (PDT)
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="c9Jqcffj"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=n4YsDXRCaWGtXh8kwvDy4ntBo09TPEuO/m80YhHIIoc2/sH7q5nr9FtCUPGZkiu2Hb2g7cLDvulRzigMU6srzR34JYn2i0KTRUvfipCCM0y2C7eCfZOc03FKwoe9U09UeOpn3yJGR0MXwA/amGRB3LuljTNu/GDUfPNE1NzQOVqM+uUPr1p1rkPEp7XIURpLkWTw4b+MEq/RnLqoCK58EeACpNoSqKsbi7R2oOsM5P4V/SRuzT/WMUNKad4bDyg64Yfpdp3iH0sxWcLhJ/geZ5fdg902OhTC91FXc5RAJKxTZd04rSCUScJ90H681g8iUjw3bEjZUzVe+osuNg9JFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PSVYUWPmtn9ry8OluASIKabc3vlVCT339hQTI27nqCc=;
+ b=fp0rv8hhfkF2CaWWkEE6xZUl83efZ6lB2k1pqJnaVVGK9w3w3QQf5J3mjD3MmrsbwKabe5874k6RSO+syFjRHumvxYnVsqnUlXH3OZogb9If8b1sfhGcGIpys1qTpjg1fEgCugaNSnnj1JSG8TSftTvSH5FVZkYgOVb1W3WlMsnTCmVO63gGndC+XthVhbZEpQr+mh8Xx9nVAxmkZL/UcnTRsgA4VxiQxqppwNestNoap6Jqekprz9Krs7Nl2g3VEMOuFRd3Olj9tnCKLcrnMCaC9HaK6LRb6imTYufNP+IMq/VfgoXpz5YLg//uTyPdgUfhhdZmrxwoQ6JYQouaGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PSVYUWPmtn9ry8OluASIKabc3vlVCT339hQTI27nqCc=;
+ b=c9Jqcffj3LHJEuk+ccHVkz0+Q9AL5L/0F3Ywhi2FVXuxThooKsbWyhEaZtoqgxekdSFnnMnYUkzuP4uIE1DLnUnI7OtUaUqmxq4sxy7+0cYqyrc2Rpz+quGzqw3YPi/Qb2gA0Rqp+25Kl/IUD0UTxemCiYgAB0gnmiXQ3NZCmzXGHtT7F05Aok3vtrQDVFT7E9XaF7X1tCEDFnWbNsEqLyRs+21ftcvRbzz7aftxGVgGKifohyx/56pJvtgVIcFj21e/pPI+RL6dT5nxZOc102g6OmjwoLlW0NgyJwdOhqhU0BuPbr0CU6NEXRyt6LUlySh895DDzMD5KFzcLCSbVQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
+ by GV1PR04MB9151.eurprd04.prod.outlook.com (2603:10a6:150:26::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Tue, 10 Mar
+ 2026 05:08:05 +0000
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::4972:7eaa:b9f6:7b5e]) by PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::4972:7eaa:b9f6:7b5e%7]) with mapi id 15.20.9678.017; Tue, 10 Mar 2026
+ 05:08:05 +0000
+Date: Tue, 10 Mar 2026 13:10:04 +0800
+From: Peng Fan <peng.fan@oss.nxp.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org,
+	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH 2/2] firmware: imx: sm-misc: Print boot/shutdown reasons
+Message-ID: <aa+nrCbgR52liaMl@shlinux89>
+References: <20260305-scmi-imx-reset-v1-0-18de78978ba9@nxp.com>
+ <20260305-scmi-imx-reset-v1-2-18de78978ba9@nxp.com>
+ <24409695.EfDdHjke4D@steina-w>
+ <aalZV981HAneFWiC@shlinux89>
+ <aalff2CtcIeln0NG@pengutronix.de>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aalff2CtcIeln0NG@pengutronix.de>
+X-ClientProxiedBy: SG2PR01CA0130.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:40::34) To PAXPR04MB8459.eurprd04.prod.outlook.com
+ (2603:10a6:102:1da::15)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260216181002.3475421-1-dianders@chromium.org> <20260216100943.v3.1.I600d04c0553f5c5ba39c2f92201da313aedfe746@changeid>
-In-Reply-To: <20260216100943.v3.1.I600d04c0553f5c5ba39c2f92201da313aedfe746@changeid>
-From: Jassi Brar <jassisinghbrar@gmail.com>
-Date: Mon, 9 Mar 2026 22:23:54 -0500
-X-Gm-Features: AaiRm53275_H0CT6bFAmFiNzU5-bzNSMm5pKGBVqlCEoP2LLCsiLm-21V_J1GP8
-Message-ID: <CABb+yY2RKJgyNQ6789ua6s8C4tuOvhWqdcS16_4yU3AHjAiv_A@mail.gmail.com>
-Subject: Re: [PATCH v3 01/15] mailbox: Deprecate NULL mbox messages; Introduce mbox_ring_doorbell()
-To: Douglas Anderson <dianders@chromium.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, Frank.Li@nxp.com, arm-scmi@vger.kernel.org, 
-	cristian.marussi@arm.com, festevam@gmail.com, imx@lists.linux.dev, 
-	jay.buddhabhatti@amd.com, jonathanh@nvidia.com, kernel@pengutronix.de, 
-	konradybcio@kernel.org, krzk@kernel.org, lenb@kernel.org, 
-	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-remoteproc@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	lucaswei@google.com, mathieu.poirier@linaro.org, michal.simek@amd.com, 
-	nm@ti.com, rafael@kernel.org, robh@kernel.org, s.hauer@pengutronix.de, 
-	shawn.guo@linaro.org, ssantosh@kernel.org, sudeep.holla@kernel.org, 
-	tglx@kernel.org, thierry.reding@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|GV1PR04MB9151:EE_
+X-MS-Office365-Filtering-Correlation-Id: 30f18ee4-ad3f-4ceb-0364-08de7e6302c4
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|19092799006|376014|366016|7416014|52116014|1800799024|7053199007|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	R6vkFoqJgsGry5kktK4r7k25aW5TlHj9+xlfcw60bArdl6CjE4XnbQzsjinichMMXkmNbOW/2UbHwjlpnnXkS05MPN3uxzm84aiav/2SW0ReJvkVf/8c1xtXk3SGs0qMjoZBVlLr6JyrtT0sM6MEZD1a/iQHFl6rCaQVq1R662j/qaYw9VeR9wapTZiksEHZp7vBe49Nb4fxoo7jXk2/MOFozuD7/s50byP50gpq7HSufYXVA/QehBHAPsDgnvmap5aN9wrwYtgb7V5OpeSfOZK8Fp01oL5dQRf3qU/DE1k69ydlXZRqJPf3vxI8xV7AHETRurPl6Grjy9pSZy+052YRau6PUPhaFWXhRadOEvUZ6xM0szm1NOIyexTe1Nwo6Pfta/M38HREpcDHGd4TAZUpJlZUm1+z4SCRuS26KnxjKx7NIEFaUWjovCUSkwE//LlVlVgr8dnrLuNeUFNwxwb2yTx8OeHzwPp6k9mHLu7aNcG2/BsZVl6xbnjMj0hMOF9kxbS0ZVpmZnJGWQ8hTXe1JzZftxp181KqIWhQ1zGMo7mvQKa9RzKSYNYaB/ss3XQaesJkBR92YCHVg2ILhlXQOn1SLNlHgDaVRYUO0UMaB30nQyRsbZBdAHUOFKy2yoNR6MlJmjib8sexj72W88Zi1A76PED2QwPd1iz8b8Gjrtk5LX/IwWEL16+6YsjZI4BwkH/v5RXrgBAtoyYt/BHTNKHdofnVH86GUfz9E1/W8RH8aM281wVBwkjsBJsklaWKxlso2z1hZt2ild4c/3/vQX5FFXrIYHenyBN0Vzo=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(366016)(7416014)(52116014)(1800799024)(7053199007)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-1?Q?Rcv0l7EHQz0NuQUjGla4g1HD0Sg8gPli+P+P3D08XnyzYBySDdrXPpIb26?=
+ =?iso-8859-1?Q?lyJSP8cu40ne1Bm/mEoGN6LEGgWkXiMSuulevz3Zwm7PIocBbcF4NPjujq?=
+ =?iso-8859-1?Q?EnT+XzqfAp4kxk/V+yZ1nboH+5upH75kpWhH82/yCCIKCb0oTQF9qRHC/w?=
+ =?iso-8859-1?Q?m5VNh5MUEkxPQuhSgXNX91bnNV0chqeYnBn2ERvMCntJYsL64mLakTxL5q?=
+ =?iso-8859-1?Q?+R80hLBqTAdwade6i60EpiT6Z5vRgY/O60mPqVJV5PK4z61hGB7qp1/oZb?=
+ =?iso-8859-1?Q?kHceN4oiETed1H5Qp2JNgyU0y7DJoBzf5r/CexeTLxt4Db2dnXM/58m0ne?=
+ =?iso-8859-1?Q?7iM8hKO0cUROSre5zyHQsTkw+miP/jALWo2lQ+JQlHGdGUa9R77llA+SqD?=
+ =?iso-8859-1?Q?wrIs0F0Pw6WfTNVn75N189D/vvpmRRQ7pywAcSDVV3uScel5AXUF1JcDKJ?=
+ =?iso-8859-1?Q?FRo48VdLKDSOV+pKNJL/aPS1EkjIEIAByoumqHEtfNZEGsnhsyqaNaevR9?=
+ =?iso-8859-1?Q?bZ5X41qaEm3y/G/0ilDeeSbNM3t9Smgb4YVDkCCL/F/gaXYlpH/7rEoaeF?=
+ =?iso-8859-1?Q?Azp1j7ATLZotDuYlSyR7Dn0yppKLo2aTuwJS0QXbcrkAXqjZDnTKpTEFfZ?=
+ =?iso-8859-1?Q?cosFRukGrXG1HaRmpeh/92g09hcsKlsuF4697Qh8ZLhnYtHaX7JI8gQj6r?=
+ =?iso-8859-1?Q?e7WpsDWHTHOjJlNIcRzKQwIOY7wAuHt3mY6c8WTbgOo5FA+olcgHH0TKXj?=
+ =?iso-8859-1?Q?RVMttS2i3QBFB1KPUEg3AM0HYEVJbyxEPjUk1+MEsqX39WHBMvXDmALymG?=
+ =?iso-8859-1?Q?FAO3lIQAvH0alwB0u2094SrUHs4qXToMVxD+WP/iwr6PKABjxR079GJPrT?=
+ =?iso-8859-1?Q?SKO8cGwtNWOAQ5e7rIK608YHBXLq8WPDCH2o24hTj71BP2dDM5n+xSK270?=
+ =?iso-8859-1?Q?LyiKFzJjBTmpBOJJuBCD2f6iE2OlqYbnG08SVJIja0rl2QDJNd5JrX8eDU?=
+ =?iso-8859-1?Q?Fc7iSOnJtXXausn6khNKskWLMFCpe/5JqqA3A/TwLBeMvUe7Lr9V47bko4?=
+ =?iso-8859-1?Q?ozmhecLXvYNBPkt9wWDw54wHHtz6QQwQb0hOMyFct6eWCLTp7/rbC+1H6V?=
+ =?iso-8859-1?Q?sdUMbpMUclb6+f8oQcZg51X/OuniR74lMoX1qu4+lyHzAUvgOgmDoK1w/d?=
+ =?iso-8859-1?Q?ogQbmeohHFcGT41tAVW3JSzXgFQ6UgjfIbSNyQqdb4jcswBYuf2/2z7Ejc?=
+ =?iso-8859-1?Q?C/n9NzJLzYSwTgZSk9Sq21zb6rV+ohoZfDqKgfKbXuAEeeU1xjLSISTnGR?=
+ =?iso-8859-1?Q?fu54+crZnJxlPVb6j882F10i4IKb7cDvzRMAWyI9Ulp+1mmxUgYXjBrwYX?=
+ =?iso-8859-1?Q?mmHeOxePPHLOQrBKKiFn3HLHqkvpxoxJMVMva84d7VBwFawtTCvEcLQoGk?=
+ =?iso-8859-1?Q?nPCA+RM3GyouTagBMgZkUNySjYEviz0vm1qAhPcHeYy+CHyKNd4M3seZXa?=
+ =?iso-8859-1?Q?YPAyADSTOLBNhselUNhhVGzZrvGnEUKciMHX4FlCTbgaM9jXUxdm5yuPFD?=
+ =?iso-8859-1?Q?y6Mm09kS5PZirDj46n9slTPasNHozrOYD1Ofvb2AFV6guxu8yNWBdxQJa+?=
+ =?iso-8859-1?Q?/5dp2bIE9cSSGSyarN0g7HxVspjkLYdmHGXMI5KiPoGiqWhJbmMkYNB1we?=
+ =?iso-8859-1?Q?MMS4rgf7cdvFEH581riG2L1CRqtWw+VPxyK2NoYH8NEfDNHWTmdttQuXaU?=
+ =?iso-8859-1?Q?UZ8SmC+dtxGUALOZBN/qY6ZuZvBB7QCud56vTniiKNjtL65xvj/XbS3g0x?=
+ =?iso-8859-1?Q?QbzIoRe0Ww=3D=3D?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30f18ee4-ad3f-4ceb-0364-08de7e6302c4
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 05:08:04.9701
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jWBIl1cbOnfzIEZfGWTWuKgBkyntvcfUwVU/lKYwD/1ekeAJP/UDLfhWsg3eUjTQzS77dKtcSO9gP0iTSdnNSg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB9151
 
-Hi Doug,
-
-On Mon, Feb 16, 2026 at 12:11=E2=80=AFPM Douglas Anderson <dianders@chromiu=
-m.org> wrote:
-> @@ -249,6 +255,28 @@ int mbox_send_message(struct mbox_chan *chan, void *=
-mssg)
->         if (!chan || !chan->cl)
->                 return -EINVAL;
+On Thu, Mar 05, 2026 at 11:48:31AM +0100, Oleksij Rempel wrote:
+>Hi all,
 >
-> +       /*
-> +        * The mailbox core gets confused when mbox_send_message() is cal=
-led
-> +        * with NULL messages since the code directly stores messages in
-> +        * `active_req` and assumes that a NULL `active_req` means no req=
-uest
-> +        * is active. This causes the core to call the mailbox controller=
- a
-> +        * second time even if the previous message hasn't finished and a=
-lso
-> +        * means the client's tx_done() callback will never be called. Ho=
-wever,
-> +        * clients historically passed NULL anyway. Deprecate passing NUL=
-L
-> +        * here by adding a warning.
-> +        *
-> +        * Clients who don't have a message should switch to using
-> +        * mbox_ring_doorbell(), which explicitly documents the immediate
-> +        * sending of doorbells, the lack of txdone, and what happens if =
-you
-> +        * mix doorbells and normal messages.
-> +        *
-> +        * TODO: when it's certain that all clients have transitioned, co=
-nsider
-> +        * changing this to return -EINVAL.
-> +        */
-> +       if (!mssg)
-> +               dev_warn_once(chan->mbox->dev,
-> +                             "NULL mbox messages are deprecated; use mbo=
-x_ring_doorbell\n");
-> +
-Does this patchset leave some such clients out?  If not, should we
-drop this block and return -EINVAL already?
+>On Thu, Mar 05, 2026 at 06:22:15PM +0800, Peng Fan wrote:
+>> Hi Alexander,
+>>
+>> Thanks for giving a look.
+>>
+>> On Thu, Mar 05, 2026 at 08:44:26AM +0100, Alexander Stein wrote:
+>> >Hi,
+>> >
+>> >Am Donnerstag, 5. März 2026, 02:56:45 CET schrieb Peng Fan (OSS):
+>> >> From: Peng Fan <peng.fan@nxp.com>
+>> >>
+>> >> Add reset reason string table for i.MX95 and introduce a helper
+>> >> (scmi_imx_misc_get_reason) to query and print both system and LM
+>> >> (Logical Machine) reset reasons via the SCMI MISC protocol.
+>> >>
+>> >> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+>> >> ---
+>> [...]
+>> >> +		if (boot.valid)
+>> >> +			dev_info(&sdev->dev, "%s Boot reason: %s, origin: %d, errid: %d\n",
+>> >> +				 system ? "SYS" : "LM", rst[boot.reason],
+>> >> +				 boot.orig_valid ? boot.origin : -1,
+>> >> +				 boot.err_valid ? boot.errid : -1);
+>> >> +		if (shutdown.valid)
+>> >> +			dev_info(&sdev->dev, "%s shutdown reason: %s, origin: %d, errid: %d\n",
+>> >> +				 system ? "SYS" : "LM", rst[shutdown.reason],
+>> >> +				 shutdown.orig_valid ? shutdown.origin : -1,
+>> >> +				 shutdown.err_valid ? shutdown.errid : -1);
+>> >
+>> >Is there a way to query this from userspace programs instead of printing into kernel log?
+>>
+>> I not add sysfs or debugfs to get the information in this patchset, since our
+>> customer only want the information could be shown in kernel boot log.
+>>
+>> But I could add also sysfs interface to allow userspace get the information if
+>> you need this feature.
+>
+>I started to working on corresponding framework:
+>https://lore.kernel.org/all/20250618120255.3141862-1-o.rempel@pengutronix.de/
+
+Thanks for sharing the thread.
+
+>
+>but it is stalled due to devicetree decisions. I wont to respin the
+>discussion tomorrow
+
+TBH, I have not look into the details. If the generic framework could land
+into linux kernel, we could use this in i.MX SCMI reset reason. But I would
+not add dependency for now, so I will still just keep printing the log into
+kernel log.
 
 Thanks,
-Jassi
+Peng
+
+>
+>Best Regards,
+>Oleksij
