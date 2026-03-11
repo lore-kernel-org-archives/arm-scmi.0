@@ -1,282 +1,141 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA6443DDDA3;
-	Tue, 10 Mar 2026 18:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255422BE05F
+	for <arm-scmi@vger.kernel.org>; Wed, 11 Mar 2026 00:16:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773168100; cv=none; b=OIKprhdC8MoWYpPvjmsFj4xywsSdbRFGoveCks7L0MCcd+m+LWj5F1qpH/Lwrd/bJPaaRakqFEyRCLnYFGLCEZKRE/KipzSQk5DrpCSQSsBnzxyNNCt48tqYg6ofBa2JCTI4FNqkkbnQAhYYDFB7ePu77Gh0vnUT4vLzwdfv1KA=
+	t=1773188188; cv=none; b=YAeKKBqYG3Gu/53fE4flB05dusCLYpmtNbWTGsz0pZnE4w4D9YccJCcEKIRCUbtc/OxfEPrloR8Q7Vu6B/SJNbGOFaT6uAiGgC4ljGzf66KvS6qWmCmab47eNIXKEjVtgfSi6CYdhTq5mn+y2d1mhcFu0HTZ9/1TRfGWRN4jc3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773168100; c=relaxed/simple;
-	bh=1QkmU4Mi4WIOxOY2NsEGq0vCDogKf52p+0AlpEx0gks=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MnJFnUjdgdwPPCilcvn6UgFWxx0LI7PUvvADUBI29dNeaRlhv08yXhyyDC5hCdqeOLCEQKh4NVP9Bnwjs6TWqDuVkAfkTJRdz/KpgYxQOQr+plmde0rGsiXd3sts/7eqmmqqNV4mrNYQMpA52d32vOqYcMRPfMsIMRjuWnzrn3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1290A14BF;
-	Tue, 10 Mar 2026 11:41:27 -0700 (PDT)
-Received: from pluto.guest.local (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CCBB13F7BD;
-	Tue, 10 Mar 2026 11:41:29 -0700 (PDT)
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Cc: sudeep.holla@arm.com,
-	philip.radford@arm.com,
-	james.quinlan@broadcom.com,
-	f.fainelli@gmail.com,
-	vincent.guittot@linaro.org,
-	etienne.carriere@foss.st.com,
-	peng.fan@oss.nxp.com,
-	michal.simek@amd.com,
-	dan.carpenter@linaro.org,
-	geert+renesas@glider.be,
-	kuninori.morimoto.gx@renesas.com,
-	marek.vasut+renesas@gmail.com,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH v2 13/13] firmware: arm_scmi: Introduce all_rates_get clock operation
-Date: Tue, 10 Mar 2026 18:40:30 +0000
-Message-ID: <20260310184030.3669330-14-cristian.marussi@arm.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260310184030.3669330-1-cristian.marussi@arm.com>
-References: <20260310184030.3669330-1-cristian.marussi@arm.com>
+	s=arc-20240116; t=1773188188; c=relaxed/simple;
+	bh=RkQr/oJ5AVva8ppnZ/QxljiNwt7nDUcsbBiCUPkROPA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Wd3E8n3Kdgb61nFXd+OiDB+KGjD8pLnuoiwI7w+NMIUWMbmiYA9lYYa+oHxOvGHNAAxVUCx1I8Hf6t2mjeyALzEUGV09zLitRepv3EFYMxNJssBFaamiOE7URSDbX6DGBtpgC42YD2oGPAkGn8dPoYppZVgt48Kom+v3vx9BRxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OKa9lxx+; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OKa9lxx+"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b94358796a1so658247166b.2
+        for <arm-scmi@vger.kernel.org>; Tue, 10 Mar 2026 17:16:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1773188183; x=1773792983; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RkQr/oJ5AVva8ppnZ/QxljiNwt7nDUcsbBiCUPkROPA=;
+        b=OKa9lxx+I8PMER7QzgrfnLXUFTwZ+LEnB0LyqNytQbJpnsZEHosPG9sliJTI2lpher
+         VpHFQ8nhrgHwN8bnSmyuA/jyDAC/3AlzQ0ZfWsoqk1cz6csf3CIbQpubhaPCsBUBYRRK
+         Le828tWYTWnW11RxJ+YijLFEOkOoG3S3rVb3Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773188183; x=1773792983;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=RkQr/oJ5AVva8ppnZ/QxljiNwt7nDUcsbBiCUPkROPA=;
+        b=fUko0fjcK7KO2qlRiwrolPYob+PNa1IK7Jz9RLtDlSH02Co46OOstJN6zM4XNys+HR
+         +euVo8+VHCg/2dbd5/aCYGj7F0MwuiNtOd2lETRJs+B2vHr955ym0ADE+kn+bGZK2/uB
+         ASJX3Lh+8G0MZWB+OY5tvl62Tg/Qy2zYG7S0s6QSUWV3LSOEF+MFf6o1itptmY0SMZsP
+         rhsL2s9GNM/16b2Mz4EyAdJAbt8D+9JumlN3oX/PQx+ciBdqXjaqYsN3/85JbguWmQtE
+         kx+BvZT3QNGOJTASYgu1BpmCi7diYb4ZijdumnZW4wRzKxUbM6L/mynkZ2oSTUeGgupB
+         Udog==
+X-Forwarded-Encrypted: i=1; AJvYcCUJszrp1QRyQbailU2QxUQfrGU8EMn8kDx6vVgitAx9yiujD4O7XnMFD9lXUnE0chNIWr+52a3izA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqGRm5mp1CN4/GdL4uIqAnUTfzir0mn6lfptEXvRw41qil6fH8
+	b4+HRtfBoSjDNfZ1q/jW1z2Bk/2Pu8un787bVZRS7yrqS6mfxg6RuhVc2s0ea/DmqZ0TVqTgjYW
+	AEQ2TlfUk
+X-Gm-Gg: ATEYQzz1kgTRpEqMpOvelrXcw2N0pNHgKkgcj3n7UkARjr2ekcMrQCFh3TPjmLkoVKZ
+	OwlH3XU+uimInSk4hkSwFVIyWYyATcIrrD4EJsgnqzXQeGaNwI/JGa0oJWMYWdcG+hBcuyiBdYD
+	4I64pSHU9ItkLk2Tk8JRPL2bJXwC4H0ZDeDeMhd8MiwqbB9+g1yrmmNOg2SETH85GJWTB7dynIU
+	LlZLuyFLSrMcpLSKwflZ94HgQn+cNLgoakdlpJ3R1xanKr+mzRNjgHsiXzPjNeh63lSwJmrpkxo
+	Z+Ac/F1f1y+BuatUB/RDLN3VJL95hlouyIfSuv60MZykJziewdmKcqQptBRNuyTMQCl5GsQ2j5Q
+	bJP0uTrTYCBK3t5u01dCmkHKb8oDPLDdWENFK2GRQO4AJFmdyuV+CIy98DwI3CHaJeH3Hvhnx5c
+	6O+RcCXlEi5BPwt2BXwnKtlXkrS9NGrD4QyiOitgbbP8IOSttxMPxaBqUsdzix2w==
+X-Received: by 2002:a17:907:6eaa:b0:b8e:fad0:6c97 with SMTP id a640c23a62f3a-b972e2693a1mr23667866b.8.1773188183505;
+        Tue, 10 Mar 2026 17:16:23 -0700 (PDT)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com. [209.85.221.53])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b972de4847asm14203766b.21.2026.03.10.17.16.20
+        for <arm-scmi@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Mar 2026 17:16:20 -0700 (PDT)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-439af00d33cso10631115f8f.1
+        for <arm-scmi@vger.kernel.org>; Tue, 10 Mar 2026 17:16:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXOPeVCuEWhMXyGGThgu2t+RREgVe6hrX2eUxn+XAEt1uUo07Dz92/7HkNaor2vqFn/Ie/XAnvv9A==@vger.kernel.org
+X-Received: by 2002:a05:6000:2913:b0:439:b3d2:3768 with SMTP id
+ ffacd0b85a97d-439f81c8cc0mr1467675f8f.21.1773188179252; Tue, 10 Mar 2026
+ 17:16:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260216181002.3475421-1-dianders@chromium.org>
+In-Reply-To: <20260216181002.3475421-1-dianders@chromium.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 10 Mar 2026 17:16:08 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VUUNDgcOMjhA3Tiptwm3-s+LiUNeObAoV4tTQbkg0mPQ@mail.gmail.com>
+X-Gm-Features: AaiRm50L1dSQfXqKqL2lF5VIOHGsndPMM8bpxj2iTcUPN8asbNOQBrAMfnlkmEo
+Message-ID: <CAD=FV=VUUNDgcOMjhA3Tiptwm3-s+LiUNeObAoV4tTQbkg0mPQ@mail.gmail.com>
+Subject: Re: [PATCH v3 00/15] mailbox: Stop sending NULL mailbox messages
+To: jassisinghbrar@gmail.com
+Cc: Frank.Li@nxp.com, Santosh Shilimkar <ssantosh@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, andersson@kernel.org, arm-scmi@vger.kernel.org, 
+	cristian.marussi@arm.com, daniel.baluta@nxp.com, festevam@gmail.com, 
+	imx@lists.linux.dev, jay.buddhabhatti@amd.com, jonathanh@nvidia.com, 
+	kernel@pengutronix.de, konradybcio@kernel.org, krzk@kernel.org, 
+	lenb@kernel.org, linux-acpi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, lucaswei@google.com, marco.crivellari@suse.com, 
+	mathieu.poirier@linaro.org, michal.simek@amd.com, nm@ti.com, 
+	rafael@kernel.org, robh@kernel.org, shawn.guo@linaro.org, 
+	sudeep.holla@kernel.org, tglx@kernel.org, thierry.reding@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a clock operation to get the whole set of rates available to a specific
-clock: when needed this request could transparently trigger a full rate
-discovery enumeration if this specific clock-rates were previously only
-lazily enumerated.
+Hi,
 
-Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
----
- drivers/firmware/arm_scmi/clock.c | 85 +++++++++++++++++++++----------
- include/linux/scmi_protocol.h     |  9 ++++
- 2 files changed, 67 insertions(+), 27 deletions(-)
+On Mon, Feb 16, 2026 at 10:11=E2=80=AFAM Douglas Anderson <dianders@chromiu=
+m.org> wrote:
+>
+> As talked about in the first patch in this series, passing NULL as the
+> 'mssg' argument to mbox_send_message() ends up causing confusion and
+> quirky behavior inside the mailbox core. Despite this, there are a
+> number of drivers that pass NULL.
+>
+> It is plausible that some of the drivers passing NULL may have been
+> taking advantage of the quirks of the mailbox core. Specifically, they
+> may have been taking advantage that calling "tx_done" wasn't truly
+> necessary for NULL messages (it was a noop) or that NULL messages were
+> passed onto the mailbox controller right away without queuing.
+>
+> This series introduces a new API call: mbox_ring_doorbell(). The new
+> API call tries to mimic the specific quirks that were helpful in the
+> old behavior and it's expected to be a nearly drop-in replacement.
+>
+> There are some subtle differences between the new call and the old
+> behavior, but it's expected that all of these differences are only for
+> cases where the old behavior made little sense. The description of the
+> first patch details these differences.
+>
+> The series attempts to convert all in-tree users to stop passing NULL
+> for mssg. As per above, there are some slight differences in behavior.
+> If any of the patches are causing problems, they can safely be
+> reverted while debugging the problems. Eventually, all code should be
+> converted over to stop passing NULL mssg.
+>
+> Changes in v3:
+> - Suggest mbox_ring_doorbell in the warning message
+> - Updated patch description based on Cristian's response.
+>
+> Changes in v2:
+> - Instead of just documenting NULL, introduce a new function
 
-diff --git a/drivers/firmware/arm_scmi/clock.c b/drivers/firmware/arm_scmi/clock.c
-index f50689bf5414..082fb0db8681 100644
---- a/drivers/firmware/arm_scmi/clock.c
-+++ b/drivers/firmware/arm_scmi/clock.c
-@@ -159,10 +159,8 @@ struct scmi_clock_rate_notify_payld {
- 
- struct scmi_clock_desc {
- 	u32 id;
--	bool rate_discrete;
- 	unsigned int tot_rates;
--	unsigned int num_rates;
--	u64 *rates;
-+	struct scmi_clock_rates r;
- #define	RATE_MIN	0
- #define	RATE_MAX	1
- #define	RATE_STEP	2
-@@ -475,10 +473,10 @@ iter_clk_describe_update_state(struct scmi_iterator_state *st,
- 	flags = le32_to_cpu(r->num_rates_flags);
- 	st->num_remaining = NUM_REMAINING(flags);
- 	st->num_returned = NUM_RETURNED(flags);
--	p->clkd->rate_discrete = RATE_DISCRETE(flags);
-+	p->clkd->r.rate_discrete = RATE_DISCRETE(flags);
- 
- 	/* Warn about out of spec replies ... */
--	if (!p->clkd->rate_discrete &&
-+	if (!p->clkd->r.rate_discrete &&
- 	    (st->num_returned != 3 || st->num_remaining != 0)) {
- 		dev_warn(p->dev,
- 			 "Out-of-spec CLOCK_DESCRIBE_RATES reply for %s - returned:%d remaining:%d rx_len:%zd\n",
-@@ -492,9 +490,9 @@ iter_clk_describe_update_state(struct scmi_iterator_state *st,
- 	if (!st->max_resources) {
- 		unsigned int tot_rates = st->num_returned + st->num_remaining;
- 
--		p->clkd->rates = devm_kcalloc(p->dev, tot_rates,
--					      sizeof(*p->clkd->rates), GFP_KERNEL);
--		if (!p->clkd->rates)
-+		p->clkd->r.rates = devm_kcalloc(p->dev, tot_rates,
-+						sizeof(*p->clkd->r.rates), GFP_KERNEL);
-+		if (!p->clkd->r.rates)
- 			return -ENOMEM;
- 
- 		/* max_resources is used by the iterators to control bounds */
-@@ -513,10 +511,10 @@ iter_clk_describe_process_response(const struct scmi_protocol_handle *ph,
- 	struct scmi_clk_ipriv *p = priv;
- 	const struct scmi_msg_resp_clock_describe_rates *r = response;
- 
--	p->clkd->rates[p->clkd->num_rates] = RATE_TO_U64(r->rate[st->loop_idx]);
-+	p->clkd->r.rates[p->clkd->r.num_rates] = RATE_TO_U64(r->rate[st->loop_idx]);
- 
- 	/* Count only effectively discovered rates */
--	p->clkd->num_rates++;
-+	p->clkd->r.num_rates++;
- 
- 	return 0;
- }
-@@ -537,7 +535,13 @@ scmi_clock_describe_rates_get_full(const struct scmi_protocol_handle *ph,
- 		.dev = ph->dev,
- 	};
- 
--	iter = ph->hops->iter_response_init(ph, &ops, 0, CLOCK_DESCRIBE_RATES,
-+	/*
-+	 * Using tot_rates as max_resources parameter here so as to trigger
-+	 * the dynamic allocation only when strictly needed: when trying a
-+	 * full enumeration after a lazy one tot_rates will be non-zero.
-+	 */
-+	iter = ph->hops->iter_response_init(ph, &ops, clkd->tot_rates,
-+					    CLOCK_DESCRIBE_RATES,
- 					    sizeof(struct scmi_msg_clock_describe_rates),
- 					    &cpriv);
- 	if (IS_ERR(iter))
-@@ -548,12 +552,12 @@ scmi_clock_describe_rates_get_full(const struct scmi_protocol_handle *ph,
- 		return ret;
- 
- 	/* empty set ? */
--	if (!clkd->num_rates)
-+	if (!clkd->r.num_rates)
- 		return 0;
- 
--	if (clkd->rate_discrete)
--		sort(clkd->rates, clkd->num_rates,
--		     sizeof(clkd->rates[0]), rate_cmp_func, NULL);
-+	if (clkd->r.rate_discrete && PROTOCOL_REV_MAJOR(ph->version) == 0x1)
-+		sort(clkd->r.rates, clkd->r.num_rates,
-+		     sizeof(clkd->r.rates[0]), rate_cmp_func, NULL);
- 
- 	return 0;
- }
-@@ -589,7 +593,7 @@ scmi_clock_describe_rates_get_lazy(const struct scmi_protocol_handle *ph,
- 		goto out;
- 
- 	/* If discrete grab the last value, which should be the max */
--	if (clkd->rate_discrete && clkd->tot_rates > 3) {
-+	if (clkd->r.rate_discrete && clkd->tot_rates > 3) {
- 		first = clkd->tot_rates - 1;
- 		last = clkd->tot_rates - 1;
- 		ret = ph->hops->iter_response_run_bound(iter, &first, &last);
-@@ -621,16 +625,16 @@ scmi_clock_describe_rates_get(const struct scmi_protocol_handle *ph,
- 	if (ret)
- 		return ret;
- 
--	clkd->info.min_rate = clkd->rates[RATE_MIN];
--	if (!clkd->rate_discrete) {
--		clkd->info.max_rate = clkd->rates[RATE_MAX];
-+	clkd->info.min_rate = clkd->r.rates[RATE_MIN];
-+	if (!clkd->r.rate_discrete) {
-+		clkd->info.max_rate = clkd->r.rates[RATE_MAX];
- 		dev_dbg(ph->dev, "Min %llu Max %llu Step %llu Hz\n",
--			clkd->rates[RATE_MIN], clkd->rates[RATE_MAX],
--			clkd->rates[RATE_STEP]);
-+			clkd->r.rates[RATE_MIN], clkd->r.rates[RATE_MAX],
-+			clkd->r.rates[RATE_STEP]);
- 	} else {
--		clkd->info.max_rate = clkd->rates[clkd->num_rates - 1];
-+		clkd->info.max_rate = clkd->r.rates[clkd->r.num_rates - 1];
- 		dev_dbg(ph->dev, "Clock:%s DISCRETE:%d -> Min %llu Max %llu\n",
--			clkd->info.name, clkd->rate_discrete,
-+			clkd->info.name, clkd->r.rate_discrete,
- 			clkd->info.min_rate, clkd->info.max_rate);
- 	}
- 
-@@ -735,7 +739,7 @@ static int scmi_clock_determine_rate(const struct scmi_protocol_handle *ph,
- 	 * If we can't figure out what rate it will be, so just return the
- 	 * rate back to the caller.
- 	 */
--	if (clkd->rate_discrete)
-+	if (clkd->r.rate_discrete)
- 		return 0;
- 
- 	fmin = clk->min_rate;
-@@ -749,14 +753,40 @@ static int scmi_clock_determine_rate(const struct scmi_protocol_handle *ph,
- 	}
- 
- 	ftmp = *rate - fmin;
--	ftmp += clkd->rates[RATE_STEP] - 1; /* to round up */
--	ftmp = div64_ul(ftmp, clkd->rates[RATE_STEP]);
-+	ftmp += clkd->r.rates[RATE_STEP] - 1; /* to round up */
-+	ftmp = div64_ul(ftmp, clkd->r.rates[RATE_STEP]);
- 
--	*rate = ftmp * clkd->rates[RATE_STEP] + fmin;
-+	*rate = ftmp * clkd->r.rates[RATE_STEP] + fmin;
- 
- 	return 0;
- }
- 
-+static const struct scmi_clock_rates *
-+scmi_clock_all_rates_get(const struct scmi_protocol_handle *ph, u32 clk_id)
-+{
-+	struct clock_info *ci = ph->get_priv(ph);
-+	struct scmi_clock_desc *clkd;
-+	struct scmi_clock_info *clk;
-+
-+	clk = scmi_clock_domain_lookup(ci, clk_id);
-+	if (IS_ERR(clk) || !clk->name[0])
-+		return NULL;
-+
-+	clkd = to_desc(clk);
-+	/* Needs full enumeration ? */
-+	if (clkd->r.rate_discrete && clkd->tot_rates != clkd->r.num_rates) {
-+		int ret;
-+
-+		/* rates[] is already allocated BUT we need to re-enumerate */
-+		clkd->r.num_rates = 0;
-+		ret = scmi_clock_describe_rates_get_full(ph, clkd);
-+		if (ret)
-+			return NULL;
-+	}
-+
-+	return &clkd->r;
-+}
-+
- static int
- scmi_clock_config_set(const struct scmi_protocol_handle *ph, u32 clk_id,
- 		      enum clk_state state,
-@@ -1070,6 +1100,7 @@ static const struct scmi_clk_proto_ops clk_proto_ops = {
- 	.rate_get = scmi_clock_rate_get,
- 	.rate_set = scmi_clock_rate_set,
- 	.determine_rate = scmi_clock_determine_rate,
-+	.all_rates_get = scmi_clock_all_rates_get,
- 	.enable = scmi_clock_enable,
- 	.disable = scmi_clock_disable,
- 	.state_get = scmi_clock_state_get,
-diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
-index 5552ac04c820..c710107c2120 100644
---- a/include/linux/scmi_protocol.h
-+++ b/include/linux/scmi_protocol.h
-@@ -40,6 +40,12 @@ struct scmi_revision_info {
- 	char sub_vendor_id[SCMI_SHORT_NAME_MAX_SIZE];
- };
- 
-+struct scmi_clock_rates {
-+	bool rate_discrete;
-+	unsigned int num_rates;
-+	u64 *rates;
-+};
-+
- struct scmi_clock_info {
- 	char name[SCMI_MAX_STR_SIZE];
- 	unsigned int enable_latency;
-@@ -85,6 +91,7 @@ enum scmi_clock_oem_config {
-  *		    clock calculating the closest allowed rate.
-  *		    Note that @rate is an input/output parameter used both to
-  *		    describe the requested rate and report the closest match
-+ * @all_rates_get: get the list of all available rates for the specified clock.
-  * @enable: enables the specified clock
-  * @disable: disables the specified clock
-  * @state_get: get the status of the specified clock
-@@ -104,6 +111,8 @@ struct scmi_clk_proto_ops {
- 			u64 rate);
- 	int (*determine_rate)(const struct scmi_protocol_handle *ph, u32 clk_id,
- 			      unsigned long *rate);
-+	const struct scmi_clock_rates __must_check *(*all_rates_get)
-+		(const struct scmi_protocol_handle *ph, u32 clk_id);
- 	int (*enable)(const struct scmi_protocol_handle *ph, u32 clk_id,
- 		      bool atomic);
- 	int (*disable)(const struct scmi_protocol_handle *ph, u32 clk_id,
--- 
-2.53.0
+In case any mailbox client API users want to comment, Jassi has
+proposed an alternative to this series:
 
+https://lore.kernel.org/r/20260310234616.334498-1-jassisinghbrar@gmail.com/
+
+Feel free to join the conversation over there. :-)
+
+-Doug
