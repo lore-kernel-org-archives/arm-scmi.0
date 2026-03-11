@@ -1,86 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 307273019D9;
-	Wed, 11 Mar 2026 20:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F3222126C
+	for <arm-scmi@vger.kernel.org>; Wed, 11 Mar 2026 21:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773261283; cv=none; b=BHhYODDBNJc8j+gBXDTZePTrx0zlA5opzr9wS/XX1S2vX44Y+auvXEfEHQg/Qu48Lk3lDgucYZh24Lxc23kc/0k03iU10oYtES6Ca4Tt6ejimCIrnxGJi8kMVNx8kYf7WWG3IoDBCTbzKw+G+b/wP8dMhOTNsgsHX0Y3NRuTxik=
+	t=1773264852; cv=none; b=gWfOR0fRVPs5v1lVTHKaJeY+U6Jx/2eCYWaXHtsI+oc1qLA+JYPUBSBUoPkCDXOtuftUyARkZRjWOVSuL7P57vPKRsgEiJhvhimPzM6iS/ANagif5773WlF72z/Cw3tC2eB8yuxoLdDNEtYo601tgd07BBc4zn81KUjUJAW/w4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773261283; c=relaxed/simple;
-	bh=nhGqnHBNhb6lR77jGSbn+iK+EoARzRmTjgeIKb+1+Xk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AXSzuRAzKgxrzH7fFdnMwpW7W2p9xdPsFO9VgKszeY80f782mHE7QxPcfNA1bimk1YiqOd5Z4DbZL8Auq1w/rjVbpyujCgJYYouVtMhS7wnpvIlRFPXE3rF11uueYE6orX8st7mXLLMpdEilQh/YMtN1kzWGMviaubwpIhsELJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XaIKjO7H; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773264852; c=relaxed/simple;
+	bh=MzEyGSpOEQTPXhyx29xRDaWjW9jMTuWE29zrMeXP5A0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=oIC4QSAm7UOqIPl+Ao6R5NnIS7icJdbCbVb0crLrn7eeUMxDrIGl/LAyWQMACgTLh/VyKkj7w50CyuiR8FO6KTwwwTImaEvA4ArJmF2MDIDfoeI49kw3EdY2oCypgLN0qZB6Vc0IcFuleomyF/XewKB2EwvWUvVS19ZZbnYREps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=vhcInlkV; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XaIKjO7H"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773261280; x=1804797280;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nhGqnHBNhb6lR77jGSbn+iK+EoARzRmTjgeIKb+1+Xk=;
-  b=XaIKjO7H7cfNRWIqcDUoKgXRdWTAbezhPFKq7+oxqGAAp3xYnoRcAIB8
-   2QJPbAk5NZrS8gOZ1wYJ4b07ngWedH7ZeZ3JsrtkneGQ5fNQeQ+7WKE5Q
-   t2j03DLQcggni9h0oI2P/G0ygtHvl1VCA4mhjmdcA1qMO2hm5UrrdoD10
-   zzrVtBaN1y7XhXeUfBG5NpmGXdUbNJYo679sZploFAkqb4weI72ZHc3lL
-   FEHgVMXPfItH+1heUFJAPgseCNN+tGZyFnWqVdfgJ3OQSEsNlgMxi1ElZ
-   gCXgTxPWpTXfHymGBhpw9ol3Ox7ohWoo3ZKqa91FRO2D8ekKy2nhJCq3a
-   Q==;
-X-CSE-ConnectionGUID: fTKEjvcbQ1iy9K0Msc3Tdw==
-X-CSE-MsgGUID: 9elzlPLDTMejiZo1pW7s+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="91916492"
-X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="91916492"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 13:34:40 -0700
-X-CSE-ConnectionGUID: WapVllgXS6m5Z/wQ8LZi4g==
-X-CSE-MsgGUID: A82fTHGUTPKb2NkcgE/mzA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="220760382"
-Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.244.178])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 13:34:37 -0700
-Date: Wed, 11 Mar 2026 22:34:34 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Linus Walleij <linusw@kernel.org>,
-	AKASHI Takahiro <akashi.tkhro@gmail.com>,
-	Bartosz Golaszewski <brgl@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	arm-scmi@vger.kernel.org
-Subject: Re: [PATCH v3 7/7] gpio: add pinctrl based generic gpio driver
-Message-ID: <abHR2nnC9jJWK2eW@ashevche-desk.local>
-References: <cover.1773150895.git.dan.carpenter@linaro.org>
- <93920f541564bc4e6aaf0f2b6df2f5aca721d452.1773150895.git.dan.carpenter@linaro.org>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="vhcInlkV"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-82748257f5fso841997b3a.1
+        for <arm-scmi@vger.kernel.org>; Wed, 11 Mar 2026 14:34:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1773264848; x=1773869648; darn=vger.kernel.org;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7T6BzAyZ6zvZPDDyyrSv8iqVUUqxy8QrR8kmFoTvh3E=;
+        b=vhcInlkVa42qc4szL3ZcFG87p3GQjuTTCjvr4AGT58FdxOZ5c2RCow045cr8qkbSUK
+         YQYZi2JE7o7P6/FjVSGS02EcEIL+xseR45Nueuf8mJEliF1gaEgQdCU0WhEWFgM3QLY1
+         DAUOX9RDbWXcvCZ7esYb7sk1yOoMfR2braWqO1WoeUC7eVJDn1kI17rlw70zc3RgqRA8
+         vgBplWT1srEKc7fMbjD8+C8iAo+oh/zN38qqtQ6ezFW9N796Jy5e7H3rhsyR2S7fRx1w
+         UeGJYtS+YDybJtJDd/OLoi7vREBBNodSs1OID735udGoQIHMX7hDFBmqpnFWNxmGq1xb
+         UKdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773264848; x=1773869648;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7T6BzAyZ6zvZPDDyyrSv8iqVUUqxy8QrR8kmFoTvh3E=;
+        b=OxOYSTyiBy8YBaAOhvIbssX6O9cVypkjiZ329t+lwaeaCo3Fm+h9MJF1qaD0mNckph
+         VUjUQrUcWn4uXmaVtSO9ZnG18RY+94Yeun3eJ1PpYG01hi/CHbD54IGoeCf5SkIiYdfQ
+         JA5ly3kGxSffimEnXUmcxJNFjCbIYTqPNL8tx3mAzCTJ++AOPH3FZ3wiClGBAmM3N5Lm
+         uRFeRuSSOyspvlGvPo/ovLYbf/NKjv7dMdJXVammCUxId310ISM2NkpDN3pDx22idngc
+         o2mOErQOaTGZuhcm9dx6UfBI0lmV3b6Kz6dtrqkrVFf91Buv6Uv+jtd/Qbxx7N1hj9MU
+         y1GA==
+X-Forwarded-Encrypted: i=1; AJvYcCUToLJeayZqPBbyhqeWsB28MHn+1tFoi0G8/sugEPUXChkYuHJhrI8+h/1jMEzLNSSL7jex9wREJw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZtFtJAJ3aQpHHWZYVxbn70Htb+AMOe4mhN2Lrec+PYylIfr78
+	FidmvYaRhT3nEbQGqKiS7DjOwBZebmiv6RnN9JOzVzyw69BvR/jejyvULRQTptxGDPA=
+X-Gm-Gg: ATEYQzwB4ztTIPGIYdK8wytcter527b+rb/RGS+/NwYRXjJmRg6kNgojlESEl3538ST
+	bDd9i1NHRhcAcLmjb/6xXiIMS894yiRBW/zCas30oKgENghWv4raGKCVmbQc2hP0HvDFav0tRiB
+	VAvEBfgvGRtxOofzV1O8FZjoeZ+vbhtw550nnRnywhC/p/pD0Cw5BTzn0QCERmcYb/M6BIKR+PT
+	SdApLFmPYZrw92mWuqnBZQdq09hQ83CK/H2vavqOs1Zwo2O2jXAW9uJJ8+BT+k7IRXfc+DSWLFa
+	XhF5NXLLNDx5UNfhT22pqe/Wz/rlyETD6nRN3Hz0fMZLTSUhSy080UZYnkr7SE71t7E9qVgnJPl
+	v/HcpqXPmMMzc4eVwPwu4+h3wmh0mVaTxMf/ipJRnPEb7QAXKUwsqB487fMlNCStUCgD0D22sGb
+	NFPQ9i50r+gkUDVLGSlUMg2YVNsqf0Jxk=
+X-Received: by 2002:a05:6a00:9501:b0:81f:be27:8d16 with SMTP id d2e1a72fcca58-82a0722304fmr941796b3a.21.1773264848531;
+        Wed, 11 Mar 2026 14:34:08 -0700 (PDT)
+Received: from localhost ([71.212.200.220])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a0738422esm595730b3a.55.2026.03.11.14.34.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Mar 2026 14:34:07 -0700 (PDT)
+From: Kevin Hilman <khilman@baylibre.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-pm@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>, Geert
+ Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
+ arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: power: Add power-domains-child-ids
+ property
+In-Reply-To: <177319309976.1426147.15580608651927678828.robh@kernel.org>
+References: <20260310-topic-lpm-pmdomain-child-ids-v1-0-5361687a18ff@baylibre.com>
+ <20260310-topic-lpm-pmdomain-child-ids-v1-1-5361687a18ff@baylibre.com>
+ <177319309976.1426147.15580608651927678828.robh@kernel.org>
+Date: Wed, 11 Mar 2026 14:34:07 -0700
+Message-ID: <7hms0eyrsg.fsf@baylibre.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <93920f541564bc4e6aaf0f2b6df2f5aca721d452.1773150895.git.dan.carpenter@linaro.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain
 
-On Wed, Mar 11, 2026 at 10:39:24PM +0300, Dan Carpenter wrote:
+"Rob Herring (Arm)" <robh@kernel.org> writes:
 
-> The ARM SCMI pinctrl protocol allows GPIO access.  Instead of creating
-> a new SCMI gpio driver, this driver is a generic GPIO driver that uses
-> standard pinctrl interfaces.
+> On Tue, 10 Mar 2026 17:19:23 -0700, Kevin Hilman (TI) wrote:
+>> Add binding documentation for the new power-domains-child-ids property,
+>> which works in conjunction with the existing power-domains property to
+>> establish parent-child relationships between a multi-domain power domain
+>> provider and external parent domains.
+>> 
+>> Each element in the uint32 array identifies the child domain
+>> ID (index) within the provider that should be made a child domain of
+>> the corresponding phandle entry in power-domains. The two arrays must
+>> have the same number of elements.
+>> 
+>> Signed-off-by: Kevin Hilman (TI) <khilman@baylibre.com>
+>> ---
+>>  Documentation/devicetree/bindings/power/power-domain.yaml | 35 +++++++++++++++++++++++++++++++++++
+>>  1 file changed, 35 insertions(+)
+>> 
+>
+> My bot found errors running 'make dt_binding_check' on your patch:
+>
+> yamllint warnings/errors:
+>
+> dtschema/dtc warnings/errors:
+> Documentation/devicetree/bindings/power/power-domain.example.dts:136.13-26: Warning (reg_format): /example-3/protocol@11:reg: property has invalid length (4 bytes) (#address-cells == 1, #size-cells == 1)
+> Documentation/devicetree/bindings/power/power-domain.example.dtb: Warning (pci_device_reg): Failed prerequisite 'reg_format'
+> Documentation/devicetree/bindings/power/power-domain.example.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
+> Documentation/devicetree/bindings/power/power-domain.example.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
+> Documentation/devicetree/bindings/power/power-domain.example.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
+> Documentation/devicetree/bindings/power/power-domain.example.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
 
-Similar wondering here... Can't this code be integrated with one of
-the existing generic things, like gpio-aggregator?
+Noted, and fix will be included in next rev.
 
-I really don't want to see yet another generic code in this folder.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Kevin
