@@ -1,115 +1,124 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501BE27B327
-	for <arm-scmi@vger.kernel.org>; Wed, 11 Mar 2026 13:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FE926A08A
+	for <arm-scmi@vger.kernel.org>; Wed, 11 Mar 2026 16:59:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773234080; cv=none; b=OPKEMFmp9joJ5NVWtYhujn/FvqwH66ZV1En3TXoB7Zuo9+8TmBkfbLVXtdjOXrByhIG6Mo2ubwwOVYPKF45VPNv0oF4zHUTGA8Z3yxW0qrlue9jLgpLJRRWj0PyHQPcdrjeUWMKfzXY0JlL/MizCffAfY4ck4q1EgJs6eWBImmM=
+	t=1773248397; cv=none; b=Q/wbAmViPHwHcCJ615sbW/qgG4KOeYb7NtAs3Bfu9lq5t+KEv2sCCcbtyEoX0W3TBqaeAIZBUP/R5n9fpY/sSRndw/7ILx1S+5zYijT3NMuSaDXEkBzuxRQ4ijedPP5zOjO6x3098yU4nMdx+2zaA95B4y4yKP4cdEPtIB65E1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773234080; c=relaxed/simple;
-	bh=5omYf3UBejq4qWG7tPFgWTcjtBLBdAAToujIJ2lCAvg=;
+	s=arc-20240116; t=1773248397; c=relaxed/simple;
+	bh=3dMJxR9TjCJ9S3Lg7LcRJbtat+eyZPt3SNqC/m6FxkM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rWjQFAf9KzYWi0BE+neAZQUjc+55q2RLKBJb+aPZlTOVe4qEXmgeNqZHAX/ApraBecSUgoIt8+jPHCzf8vTC80ynvYVDN7ZcMYK8vgezutVpNzHQI9YZjikTErWhjTOLPsdEgsUPl3TsWK6HkPytHhH3uAP87IA8GwRUo9jmCVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=V2ltN/R5; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V2ltN/R5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773234078;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5omYf3UBejq4qWG7tPFgWTcjtBLBdAAToujIJ2lCAvg=;
-	b=V2ltN/R5DomoiTVJscPK02zhS8zVD1jO+xN+BF/5f7/6fWVEZZacZIgx2/RChHWiN3t8/Y
-	otilyztiyKbUMd8OULoMwrhcl+1GglOu/mHhosW3VNuzlRH7fRNSGRiX8K3id9o4tg4x11
-	ynr22KBPn7uE+liaDIi/YPmVqL6auu8=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-634-jDRj6UA-NyGwNgS4JYIvJA-1; Wed, 11 Mar 2026 09:01:16 -0400
-X-MC-Unique: jDRj6UA-NyGwNgS4JYIvJA-1
-X-Mimecast-MFC-AGG-ID: jDRj6UA-NyGwNgS4JYIvJA_1773234075
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-b94062e85f9so677185566b.2
-        for <arm-scmi@vger.kernel.org>; Wed, 11 Mar 2026 06:01:16 -0700 (PDT)
+	 To:Cc:Content-Type; b=iV8/mCswmx0+3WIj3c7Bd7Zy/7ctQCMV5w2ME21ECfhtIQDqr/pfuWN3CVL2bZBHVkIreBx1GTcPMwtsLiaZeMp1Mfb7n1skN2Pm8F+LV1fBLXgIfT/hKF0BYu8VmacCkO5iun5cr6DczCjkmq7g38jZsMjjh7jW8slMjdyrqcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-94ddba39060so13670241.1
+        for <arm-scmi@vger.kernel.org>; Wed, 11 Mar 2026 09:59:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773234075; x=1773838875;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5omYf3UBejq4qWG7tPFgWTcjtBLBdAAToujIJ2lCAvg=;
-        b=PVQdJS3/F+kSbTHXenMii6uX86uDGQg+i136iSk9XYFwv6eyQQzzC0VWlLScDeadm3
-         rXnSU5kY9tQOOoKWyhlLxP/AMJWmqoin9k8ctCxNH6pjaY6qAmKyXU7joKTYP+pyQRGA
-         I4sXhsJ8swlf+cQM9GTjOYf5uGSDkBD9GbHt/Ec85cDhR5v+8F5QM4OGGhZwp+K1gdeg
-         qth0hMaD2d7+hW5hEl1XwEkO9DM3EYTY6OoChFcCnuKNVTGp18EF33qe6yLmjm8OqFwT
-         pT5iOqZqaejmOPfktwkrjEat2Ea93R1tpcO+oDzDdzJswPPK9GgjdC458OCz7js851a5
-         wHqg==
-X-Forwarded-Encrypted: i=1; AJvYcCXp0cQz5gwRDqoaW/79gAXHxPH3pTUpuRc8UNAHSrQ43cjwFvrxOKELF5rZ/JBY4hMDWcNXhKecAw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxpx7653NW/6MPNBVvzWB0YDwo5rG3nOne5/UbSz1syRictrjvR
-	CdFZzlhftcrRZeR23k28DrtFysX25MJqGQo6w64w/3ZK72FzMgYMBYeJDOZBWr54ffd6f37u9Zf
-	KS/gRd3t+TrFMNAhkyuao/zBINrp7rSf87figElUc/tGN+S3YOK2ED9KdX4kLeU7Xo+UR1q1uPY
-	Pw4ZeD9XiI40Z/t1R1MWjemRCoBa8xWErVi6g=
-X-Gm-Gg: ATEYQzyZ+O0/jJ3BbOqzk7yd8yOXOVAMzevWrB95Cn8XkkNHmNmbntkBCoYElRv0uuZ
-	AY3JHxMXQOfSp6/ajMWiXwi20MRhRXFGBFaDhU2f+GAS3y1ULFxiCAHbad28inZ8WOUqUAqU81I
-	NHVdNyZA2/Q7bkcE9qfNtyAwPKbgXNwMSTnAIiNRxyZom2s8RiT/Zyo2gbfAvlpTlG0sQp0aR4X
-	yg+uw==
-X-Received: by 2002:a17:906:7314:b0:b93:edc0:e2e8 with SMTP id a640c23a62f3a-b972e6069a2mr143086166b.48.1773234075186;
-        Wed, 11 Mar 2026 06:01:15 -0700 (PDT)
-X-Received: by 2002:a17:906:7314:b0:b93:edc0:e2e8 with SMTP id
- a640c23a62f3a-b972e6069a2mr143080266b.48.1773234074508; Wed, 11 Mar 2026
- 06:01:14 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1773248395; x=1773853195;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MHqYyMyxNQscHKqebkYfjh9WcEHBmwP9uSBnn8fEJDk=;
+        b=QfuJFdfhVuAdv7H7cU9FuQWtdWXHMgl1ylN98JDDUTmbVZTI3b818BGMiN3eV+Tb26
+         /zfOUBftAzy3hQVMIypuFZe/7IVUcf2FaI29jkb7tanWtyTQn6lraa5LgocZame68svh
+         HYfRSLQTr1TZ18RuwblnTEyPLYB2aQBeV8a18TPNY8si4TSqAKkEqZiryRGVqQ+0V8Ki
+         Jl6oeyCgtou/MQ++Wcio2DPBfkzt6/+ZF7WvnJ1FcF3cN4ZSOb7lVOCVpXOGGL5KGJqm
+         WrU5KMsXwl19HtyumGeMShCTBnGDiXp3aCgw73enBh37Cu/mbbeFvI2ulkb4sApo0FK6
+         VrLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVBjWTnQqeUYeVFX6Y+6EOiBtSP+mSINOPRWyHv7CTC9rxmgYuuCh73llc2dhOfLmciMg37CuTrIw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOaK5ot3hPH4lIlL0aBMWvGaWgSKV8DywzD2x+GEQsrq3/ti4Y
+	xCGTU4G87LdX2y3KNO6ION7QrHdgYNJWOGlznvb5o8/Owoy9+apSByBf1OSkGais72k=
+X-Gm-Gg: ATEYQzw18hh8GClReFAl5UPZDLWe1OuB3B93TVSHYwF63u+obq4oJ1KmigXSrIRXcPX
+	SktPA4ipcN7bvwi+dAuuLi3/Fn59ZAVo6mXqINZzsdgCVqEI1Q16pPtYeZlD9YuvGhHQn6DBIUi
+	aOAtA3ZfpLOZdtZa74Hv5boqDYUFzEzAjj6ofKn9e1zG2AUnyputkshjUjsM3uNP5vW222GSGf+
+	zSpgL3Oew5sZC7XDN97c4XVraLx0L2RoScPWog1c3d1dsnuYOCF45jivBtmVtoKUhCy7k49XUnI
+	zyMHxn7C+KBt+HBMVYkRtKJB+sP28hYXFv7vNwMWF6QnvxWY3M05Cf2P0VJ3njGTxxXbwEWEy+M
+	23qAOSk2/Z0fPUXFsGB+qoVNHABBFK9mhzUfWsp5a91ZJ35blJyYPr8yu2KXKoHsJDmqQUCm9JU
+	olN+GMwQpIOzUYspM3xMVonS6RJ4/JVCCMs/Sm9Ri7kuttp77MRJxJsTgR5tpLAagR
+X-Received: by 2002:a05:6102:1606:b0:5ff:a4e0:193d with SMTP id ada2fe7eead31-601deaefeb8mr1110858137.2.1773248395004;
+        Wed, 11 Mar 2026 09:59:55 -0700 (PDT)
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-94ecfc9cb40sm784296241.5.2026.03.11.09.59.54
+        for <arm-scmi@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Mar 2026 09:59:54 -0700 (PDT)
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-56afbcd8adbso67171e0c.2
+        for <arm-scmi@vger.kernel.org>; Wed, 11 Mar 2026 09:59:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUx39WEtsILb3WjvXRmlRpT5c2W+1n1oHTonrdSWk8Ux0pllgLXVoTeidDxLuWLSRSqLM+vU82ceg==@vger.kernel.org
+X-Received: by 2002:a05:6102:e0c:b0:5ff:a16b:93f8 with SMTP id
+ ada2fe7eead31-601deaf0a5cmr1083265137.6.1773248394584; Wed, 11 Mar 2026
+ 09:59:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260309-clk-det-rate-fw-managed-v2-0-c48ef5a3100a@redhat.com> <c7d47b6d-caf7-426b-944e-7debb7d69045@linaro.org>
-In-Reply-To: <c7d47b6d-caf7-426b-944e-7debb7d69045@linaro.org>
-From: Brian Masney <bmasney@redhat.com>
-Date: Wed, 11 Mar 2026 09:01:02 -0400
-X-Gm-Features: AaiRm52EdqmkwN8CGi7SEvZrCO9M1f6Y7hYTKKNfjOzM3D3aXhP9MAnWBZaRjqI
-Message-ID: <CABx5tqKC_KocCp+_uJ-t7AhJNa9MZOG=5Dry4UoZXzUvSryiFQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/12] clk: add new flag CLK_ROUNDING_NOOP
-To: Tudor Ambarus <tudor.ambarus@linaro.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Sudeep Holla <sudeep.holla@kernel.org>, 
-	Abel Vesa <abelvesa@kernel.org>, Andrea della Porta <andrea.porta@suse.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Chanwoo Choi <cw00.choi@samsung.com>, Frank Li <Frank.Li@nxp.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Orson Zhai <orsonzhai@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Sylwester Nawrocki <s.nawrocki@samsung.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	arm-scmi@vger.kernel.org, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Cristian Marussi <cristian.marussi@arm.com>, Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	Peng Fan <peng.fan@nxp.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: jwJZ_nFZh7ymOlJammQaYBEPdqVyvrBIyBTG0v8Kobs_1773234075
-X-Mimecast-Originator: redhat.com
+References: <20260310184030.3669330-1-cristian.marussi@arm.com> <20260310184030.3669330-9-cristian.marussi@arm.com>
+In-Reply-To: <20260310184030.3669330-9-cristian.marussi@arm.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 11 Mar 2026 17:59:43 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUdqrA9kYeDpjwj-y6-4aALkAi2g2Od81Kxh-EVW2e2Nw@mail.gmail.com>
+X-Gm-Features: AaiRm52tcdDuztFkx9k48Wz50kutFch70oo-cU-eA7FFMTwppL_ACNeUC0TZgzs
+Message-ID: <CAMuHMdUdqrA9kYeDpjwj-y6-4aALkAi2g2Od81Kxh-EVW2e2Nw@mail.gmail.com>
+Subject: Re: [PATCH v2 08/13] firmware: arm_scmi: Harden clock protocol initialization
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, sudeep.holla@arm.com, 
+	philip.radford@arm.com, james.quinlan@broadcom.com, f.fainelli@gmail.com, 
+	vincent.guittot@linaro.org, etienne.carriere@foss.st.com, 
+	peng.fan@oss.nxp.com, michal.simek@amd.com, dan.carpenter@linaro.org, 
+	geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com, 
+	marek.vasut+renesas@gmail.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 11, 2026 at 7:51=E2=80=AFAM Tudor Ambarus <tudor.ambarus@linaro=
-.org> wrote:
-> On 3/9/26 4:38 PM, Brian Masney wrote:
-> > Note this series depends on 3 previously-posted patches in this git pul=
-l
-> > to Stephen for v7.1.
-> > https://lore.kernel.org/linux-clk/aZuK4-QJCXUeSxtL@redhat.com/
+Hi Cristian,
+
+On Tue, 10 Mar 2026 at 19:56, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> Add proper error handling on failure to enumerate clocks features or
+> rates.
 >
-> There's no tags/clk-remove-deprecated-apis-v7.1 on
-> https://github.com/masneyb/linux
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 
-It is here, unless I am missing something?
+Thanks for your patch!
 
-https://github.com/masneyb/linux/releases/tag/clk-remove-deprecated-apis-v7=
-.1
+> --- a/drivers/firmware/arm_scmi/clock.c
+> +++ b/drivers/firmware/arm_scmi/clock.c
 
-Brian
+> @@ -1143,8 +1149,12 @@ static int scmi_clock_protocol_init(const struct scmi_protocol_handle *ph)
+>         for (clkid = 0; clkid < cinfo->num_clocks; clkid++) {
+>                 cinfo->clkds[clkid].id = clkid;
+>                 ret = scmi_clock_attributes_get(ph, clkid, cinfo);
+> -               if (!ret)
+> -                       scmi_clock_describe_rates_get(ph, clkid, cinfo);
+> +               if (ret)
+> +                       return ret;
 
+This change breaks R-Car X5H with SCP FW SDKv4.28.0, as some clocks
+do not support the SCMI CLOCK_ATTRIBUTES command.
+Before, these clocks were still instantiated, but were further unusable.
+After, the whole clock driver fails to initialize, and no SCMI clocks
+are available at all.
+
+> +
+> +               ret = scmi_clock_describe_rates_get(ph, clkid, cinfo);
+> +               if (ret)
+> +                       return ret;
+>         }
+>
+>         if (PROTOCOL_REV_MAJOR(ph->version) >= 0x3) {
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
