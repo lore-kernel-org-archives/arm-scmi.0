@@ -1,42 +1,79 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60CEE2C1593;
-	Wed, 11 Mar 2026 18:45:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405D92DCC08
+	for <arm-scmi@vger.kernel.org>; Wed, 11 Mar 2026 19:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773254751; cv=none; b=e858ngl6e/847C1jfndCjT6yeijTzAz8C25gGaz965abYOy0wtCAZ8+h7rgu8rkExyR5whu/66pLksQzfRK1+GK0RpS6KD1KxMrMoOxqWTcjTe7V+KPgGGRszxv0GnwGcsRXDZThm/EbjtNktgu27VpQ/T2jfAiyoWFi9sNQK2g=
+	t=1773257888; cv=none; b=SWwkk6PKzsZGWsaLY9vCZ3grANJf9ucCUJRWA9WhR4E1lOsxl8PNWFYDaPCCniWyHo5Gn8gltKPHGT42iqffGe7vPX3PNhOqXg/JxydCD/PUiCj5UpVfKQfjznhMGjbiXGGMVF3h4wSdWdV7jNcHHjIdE8Lavh/+BDctbWyaCMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773254751; c=relaxed/simple;
-	bh=PP+gKeZHj6awJu60TEqCWO+NV5OBJhAGWJEkQ4k3h7M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f3RMtoYp1np6PSg+gtVo1ekWx2JOYHKzYEYoEDDH4cF36zlDh5CPg3W6LcG9O/5ITgbBihG2MNIOaJMQvpQp7KONRoBN/YPVM7lr7KwkvlZiE5AyLbO2tbuK/g29FZezvhVvtqY6YFDU1lE8VPzTX/QtyQaxzVKMG+iBMFTK3E8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 62FF61682;
-	Wed, 11 Mar 2026 11:45:42 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CA51B3F73B;
-	Wed, 11 Mar 2026 11:45:44 -0700 (PDT)
-Date: Wed, 11 Mar 2026 18:45:41 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, sudeep.holla@arm.com,
-	philip.radford@arm.com, james.quinlan@broadcom.com,
-	f.fainelli@gmail.com, vincent.guittot@linaro.org,
-	etienne.carriere@foss.st.com, peng.fan@oss.nxp.com,
-	michal.simek@amd.com, dan.carpenter@linaro.org,
-	geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com,
-	marek.vasut+renesas@gmail.com
-Subject: Re: [PATCH v2 08/13] firmware: arm_scmi: Harden clock protocol
- initialization
-Message-ID: <abG4VfyB2C-gBa5Q@pluto>
-References: <20260310184030.3669330-1-cristian.marussi@arm.com>
- <20260310184030.3669330-9-cristian.marussi@arm.com>
- <CAMuHMdUdqrA9kYeDpjwj-y6-4aALkAi2g2Od81Kxh-EVW2e2Nw@mail.gmail.com>
+	s=arc-20240116; t=1773257888; c=relaxed/simple;
+	bh=uk+w+sTtMCxK5SSLAnjnJ8LuG+64ZZOSctjkGQ2I/K0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Yjp9n+bjiLDV0H4Ka9FJb8L4jAQPp64dueUTWXeFxjlW2ztzreE5quRJT6eg3d+/SZ3qGwadtTZUIySV5ZxuWyMiKUoSy/MEadCKi/Bh2SPh2suDMrIDp0j+2f1QS2UmlcMXi3BGSJa8lYNfZ7j6M05rV211Ho+Oz5oaQ+4U5G4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=E5ATBm9g; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="E5ATBm9g"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-439b7a87fb5so175667f8f.3
+        for <arm-scmi@vger.kernel.org>; Wed, 11 Mar 2026 12:38:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1773257883; x=1773862683; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=E+AkwVqaWf8hy65M6kQXD8z5ogodn290MdxFGjaBkgY=;
+        b=E5ATBm9gH+pn7du6rh6hllyL+wj/XBoB9c86m2W94wTGwRnsHBTD4Y3oFFGzqux1v4
+         H0+18KNUOU7DiOj30VbkZObJCaBfjlEiSgLX4GgaPQAxFy/gKK5QCIWxe7GltJZfjrxu
+         8U0Gn2J+1/8jWzA6LFULWxkNraKUZM3quO398k4+s5xpUlvvwbHGMQJ/UcmrEFtdcOTw
+         I9TkkJ/KuPpDBUWxHoF/g6HUUv+ZQKR7dRmCpJ50OrtEdIxC5ZTJv2DYZ0Ui77DENU5Y
+         7vIp6vodT28GANPPvkBoJ0KkH+4/WBBCOLlMtPngxkX8cGv33GRb77B+qpsp10b2aTdj
+         OOYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773257883; x=1773862683;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=E+AkwVqaWf8hy65M6kQXD8z5ogodn290MdxFGjaBkgY=;
+        b=p5IPCfoPF3BG1glj0/gwXvECNhAp91F6jQEFovbe8gvMcJLnWR4E8FfLrQHuEYWp0r
+         eNfcebZypCK3Cv7gDpAdPl71rJXlThiq1xdllNC+SslGQuj8ryNS68DnxGPbhBHFE1QQ
+         RiqejTgoPI7ibYCiQEf1ilzJ7kD2tspl2jLcGciwZ3z2G9uqPrQLdJMandIZHEYnn/AT
+         UTTRv4Wwx77n23ZQ7CxifCNTeIzkZdCXXH8kqDppC16nfDo64By7EjaAu/jCvgLVoUBN
+         h9gy0N78Cdonx1A24GyZgeiInemM4DQhKcXuXWSQaZfpwwjDV9tbKsN7EzQMF92GmAxG
+         ImMQ==
+X-Gm-Message-State: AOJu0Yxq0L704cssOd3Mjk/tFwNYae+O7tk/e+agzkLlTlG4P1HxijoQ
+	nu3RnZ9q/GrSUgpS61xe192RJmwAEknYZcNTlmukJ2kdamqJrcv4d0fXJ2X2bWHe6Io=
+X-Gm-Gg: ATEYQzzAk8pm5o71fJRRC8hSNbQBOdEIiCF93SpoOGlno97J7eKBakCESF3xpr89vSM
+	HkgMLNL450FgdJ71AddOBLDNnvM64fk0knBTTnUk/sWzGpYLAlyaTeuBO+NFPpZeoWmTDQtmbCo
+	dXsPzkQvNOLuOlZSB4kSzORiHlgplGKVdn1HHX+K8H1la+6zCKYQNIyd9qS4pC+mdIwTbD3LAIK
+	+WjiyVCcMUOKHQVLPk/bMIlVQoiGnITH/EpLVG6sd/g/HCM0SVBfeiuCqkEU6CPmIlKLbCfeXh1
+	bowVdqnGwqeNgcQcJZ1TvLS4TyFpViqQ+9hc9kZ/PySKY0HT+Y+OYY1yMYFcDShI/xeBdFuSnwi
+	vSOPHzfM6ysPH1FmXPs+aLwh18fS9Qjn5iD18w8isEHJhuP/qXXse8BS6Hg1XTG3lGGASBNNdK5
+	Lqey48Kho0e/hd0UTtQFFmc/VcogHJ
+X-Received: by 2002:a05:6000:1a8f:b0:439:bdd7:425d with SMTP id ffacd0b85a97d-439f8200089mr7617923f8f.23.1773257883423;
+        Wed, 11 Mar 2026 12:38:03 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe1a76e5sm1426159f8f.12.2026.03.11.12.38.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Mar 2026 12:38:02 -0700 (PDT)
+Date: Wed, 11 Mar 2026 22:37:59 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Linus Walleij <linusw@kernel.org>,
+	AKASHI Takahiro <akashi.tkhro@gmail.com>
+Cc: arm-scmi@vger.kernel.org, Bartosz Golaszewski <brgl@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Dan Carpenter <dan.carpenter@linaro.og>, devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Michal Simek <michal.simek@amd.com>
+Subject: [PATCH v3 0/7] gpio: introduce a gpio driver for SCMI
+Message-ID: <cover.1773150895.git.dan.carpenter@linaro.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -45,67 +82,53 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdUdqrA9kYeDpjwj-y6-4aALkAi2g2Od81Kxh-EVW2e2Nw@mail.gmail.com>
 
-On Wed, Mar 11, 2026 at 05:59:43PM +0100, Geert Uytterhoeven wrote:
-> Hi Cristian,
-> 
-> On Tue, 10 Mar 2026 at 19:56, Cristian Marussi <cristian.marussi@arm.com> wrote:
-> > Add proper error handling on failure to enumerate clocks features or
-> > rates.
-> >
-> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+This basically abandons my earlier attempts and goes back to Takahiro
+Akashi's driver.  Here is the link to Takahiro's patchset:
 
-Hi,
+https://lore.kernel.org/all/20231005025843.508689-1-takahiro.akashi@linaro.org/
 
-> 
-> Thanks for your patch!
-> 
-> > --- a/drivers/firmware/arm_scmi/clock.c
-> > +++ b/drivers/firmware/arm_scmi/clock.c
-> 
-> > @@ -1143,8 +1149,12 @@ static int scmi_clock_protocol_init(const struct scmi_protocol_handle *ph)
-> >         for (clkid = 0; clkid < cinfo->num_clocks; clkid++) {
-> >                 cinfo->clkds[clkid].id = clkid;
-> >                 ret = scmi_clock_attributes_get(ph, clkid, cinfo);
-> > -               if (!ret)
-> > -                       scmi_clock_describe_rates_get(ph, clkid, cinfo);
-> > +               if (ret)
-> > +                       return ret;
-> 
-> This change breaks R-Car X5H with SCP FW SDKv4.28.0, as some clocks
-> do not support the SCMI CLOCK_ATTRIBUTES command.
-> Before, these clocks were still instantiated, but were further unusable.
-> After, the whole clock driver fails to initialize, and no SCMI clocks
-> are available at all.
+In the review comments, to that patchset we had discussed putting the
+gpio section inside the pinctrl section.  The ordering problems are a
+bit tricky because you want the pinctrl driver to finish probing before
+you start probing the gpio driver.  To me it seems nicer to put the
+pinctrl things such as pinmuxing in the pinctrl block and the gpio things
+in the gpio block.
 
-...and this is exactly what I feared while doing this sort of hardening :P
+I updated Takahiro's patch to work on current kernels.  I've had added a
+few other patches to make things work on current kernels.  The most
+noteworthy change is that instead of calculating the ngpios, I changed
+it so you have to specify the ngpios in the device tree.
 
-So there are a few possible solutions (beside reverting this straight away)
+I updated the device tree spec file to address review comments.  I
+changed the compatible to scmi-pinctrl-gpio.  I also updated the
+examples to show how pinmuxing works.  I didn't know how to include all
+the potential GPIO configuration options so I set
+"additionalProperties: true".  Hopefully, that's okay.
 
-The easy fix would be instead change the above in a
+AKASHI Takahiro (3):
+  pinctrl: introduce pinctrl_gpio_get_config()
+  dt-bindings: gpio: Add bindings for pinctrl based generic gpio driver
+  gpio: add pinctrl based generic gpio driver
 
-	if (ret)
-		continue;
+Dan Carpenter (4):
+  pinctrl: scmi: Add SCMI_PIN_INPUT_VALUE
+  pinctrl: Delete PIN_CONFIG_OUTPUT_IMPEDANCE_OHMS support
+  pinctrl-scmi: ignore PIN_CONFIG_PERSIST_STATE
+  arm_scmi: pinctrl: allow PINCTRL_REQUEST to return EOPNOTSUPP
 
-...with a bit of annoying accompanying FW_BUG logs, of course, to cause future
-FW releases to fix this :D
+ .../bindings/gpio/pin-control-gpio.yaml       |  70 ++++++++++
+ drivers/firmware/arm_scmi/pinctrl.c           |   2 +
+ drivers/gpio/Kconfig                          |   7 +
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-by-pinctrl.c                | 124 ++++++++++++++++++
+ drivers/pinctrl/core.c                        |  30 +++++
+ drivers/pinctrl/pinctrl-scmi.c                |  46 +++++--
+ include/linux/pinctrl/consumer.h              |   9 ++
+ 8 files changed, 276 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/gpio/pin-control-gpio.yaml
+ create mode 100644 drivers/gpio/gpio-by-pinctrl.c
 
-Another option could be leave it as it is, since indeed it is the correct enforced
-behaviour, being CLOCK_ATTRIBUTES a mandatory command, BUT add on top an ad-hoc SCMI
-quirk targeting the affected FW releases...
-
-This latter option, though, while enforcing the correct behaviour AND
-fixing your R-Car issue, leaves open the door for a number of possible
-failures of other unknowingly buggy Vendors similarly deployed firmwares...
-
-...that could be solved with more quirks of course...but...worth it ?
-
-Thoughts ?
-
-Let's see also what @Sudeep thinks about this...
-
-Thanks for testing !
-
-Cristian
+-- 
+2.51.0
 
