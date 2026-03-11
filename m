@@ -1,79 +1,75 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405D92DCC08
-	for <arm-scmi@vger.kernel.org>; Wed, 11 Mar 2026 19:38:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4340D2C0285
+	for <arm-scmi@vger.kernel.org>; Wed, 11 Mar 2026 19:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773257888; cv=none; b=SWwkk6PKzsZGWsaLY9vCZ3grANJf9ucCUJRWA9WhR4E1lOsxl8PNWFYDaPCCniWyHo5Gn8gltKPHGT42iqffGe7vPX3PNhOqXg/JxydCD/PUiCj5UpVfKQfjznhMGjbiXGGMVF3h4wSdWdV7jNcHHjIdE8Lavh/+BDctbWyaCMw=
+	t=1773257893; cv=none; b=KxsvQLtd6uI/9nGjz/3V1HN/sc/F6MeXU108WlY7VbNBJamqcdndPPnPUwwh6OE9ue6gMxvRanvFaJBGyJtViRY8JsPwbhjuWhSUWeVMbBfTRuBW8Lkg4Boehn6r9wxGsz0a6Xd6X6RQwHtr34xTq/R/bX+wiJYJngqI0/z8vo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773257888; c=relaxed/simple;
-	bh=uk+w+sTtMCxK5SSLAnjnJ8LuG+64ZZOSctjkGQ2I/K0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Yjp9n+bjiLDV0H4Ka9FJb8L4jAQPp64dueUTWXeFxjlW2ztzreE5quRJT6eg3d+/SZ3qGwadtTZUIySV5ZxuWyMiKUoSy/MEadCKi/Bh2SPh2suDMrIDp0j+2f1QS2UmlcMXi3BGSJa8lYNfZ7j6M05rV211Ho+Oz5oaQ+4U5G4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=E5ATBm9g; arc=none smtp.client-ip=209.85.221.52
+	s=arc-20240116; t=1773257893; c=relaxed/simple;
+	bh=qub0cc9B89QJXNhuj7o8afjimwUoYhU3mwesp3uHexI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DqwA/Pvg/OlgFEc+bk0x9w5nbhSv0IFCYGkPPCfz7d/Ed1VKUoBA/RnYELiRyQiEhn5DRlNPqsCmhCIdDOCS5EZZmMelWx8y8vjXBBsnJfOVnkipSk9bPvFJEIKOpLVHOwrmSFdoWPrNxPrPdbkeB937lr/kOtrM2qcLQqE1toE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Acp+cQtW; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="E5ATBm9g"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-439b7a87fb5so175667f8f.3
-        for <arm-scmi@vger.kernel.org>; Wed, 11 Mar 2026 12:38:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Acp+cQtW"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-439b790af67so1149975f8f.0
+        for <arm-scmi@vger.kernel.org>; Wed, 11 Mar 2026 12:38:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773257883; x=1773862683; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=E+AkwVqaWf8hy65M6kQXD8z5ogodn290MdxFGjaBkgY=;
-        b=E5ATBm9gH+pn7du6rh6hllyL+wj/XBoB9c86m2W94wTGwRnsHBTD4Y3oFFGzqux1v4
-         H0+18KNUOU7DiOj30VbkZObJCaBfjlEiSgLX4GgaPQAxFy/gKK5QCIWxe7GltJZfjrxu
-         8U0Gn2J+1/8jWzA6LFULWxkNraKUZM3quO398k4+s5xpUlvvwbHGMQJ/UcmrEFtdcOTw
-         I9TkkJ/KuPpDBUWxHoF/g6HUUv+ZQKR7dRmCpJ50OrtEdIxC5ZTJv2DYZ0Ui77DENU5Y
-         7vIp6vodT28GANPPvkBoJ0KkH+4/WBBCOLlMtPngxkX8cGv33GRb77B+qpsp10b2aTdj
-         OOYw==
+        d=linaro.org; s=google; t=1773257891; x=1773862691; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UVoIoUgEnohfcDrGeS0vAZ3ak+mSxJEtVllXouTurmg=;
+        b=Acp+cQtWY0DIRn+cy1y3ejBUa1Ap7tCi7dC0zkGibobglFeT+dsUh+3OvstUoJR6tP
+         tkBv7/j9EZDobUhgEpusPAss0XkNTCBCHfEh3fsaIbAZzgCz8TK9/lfQ4xOEy4NfZuVU
+         jitzDSWmtemJ/5BVQtFpZH1ot3v1FjQBoN8OeFeJjDmZ8jbshbz6KYbL2d9tztB0q9IX
+         sqf6Z7UcSqlA9R5I7jIXNDCf8l5Qc5/GNpK5wEtc/0uq3406OlntM9vfNb0aWd5hnL5j
+         Vp71aamtGg5Gg7hk57psMksLkrt/xo2Zp6ykL6PblfHob37FyIf09jeXp5NNywf9YQQx
+         KSTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773257883; x=1773862683;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=E+AkwVqaWf8hy65M6kQXD8z5ogodn290MdxFGjaBkgY=;
-        b=p5IPCfoPF3BG1glj0/gwXvECNhAp91F6jQEFovbe8gvMcJLnWR4E8FfLrQHuEYWp0r
-         eNfcebZypCK3Cv7gDpAdPl71rJXlThiq1xdllNC+SslGQuj8ryNS68DnxGPbhBHFE1QQ
-         RiqejTgoPI7ibYCiQEf1ilzJ7kD2tspl2jLcGciwZ3z2G9uqPrQLdJMandIZHEYnn/AT
-         UTTRv4Wwx77n23ZQ7CxifCNTeIzkZdCXXH8kqDppC16nfDo64By7EjaAu/jCvgLVoUBN
-         h9gy0N78Cdonx1A24GyZgeiInemM4DQhKcXuXWSQaZfpwwjDV9tbKsN7EzQMF92GmAxG
-         ImMQ==
-X-Gm-Message-State: AOJu0Yxq0L704cssOd3Mjk/tFwNYae+O7tk/e+agzkLlTlG4P1HxijoQ
-	nu3RnZ9q/GrSUgpS61xe192RJmwAEknYZcNTlmukJ2kdamqJrcv4d0fXJ2X2bWHe6Io=
-X-Gm-Gg: ATEYQzzAk8pm5o71fJRRC8hSNbQBOdEIiCF93SpoOGlno97J7eKBakCESF3xpr89vSM
-	HkgMLNL450FgdJ71AddOBLDNnvM64fk0knBTTnUk/sWzGpYLAlyaTeuBO+NFPpZeoWmTDQtmbCo
-	dXsPzkQvNOLuOlZSB4kSzORiHlgplGKVdn1HHX+K8H1la+6zCKYQNIyd9qS4pC+mdIwTbD3LAIK
-	+WjiyVCcMUOKHQVLPk/bMIlVQoiGnITH/EpLVG6sd/g/HCM0SVBfeiuCqkEU6CPmIlKLbCfeXh1
-	bowVdqnGwqeNgcQcJZ1TvLS4TyFpViqQ+9hc9kZ/PySKY0HT+Y+OYY1yMYFcDShI/xeBdFuSnwi
-	vSOPHzfM6ysPH1FmXPs+aLwh18fS9Qjn5iD18w8isEHJhuP/qXXse8BS6Hg1XTG3lGGASBNNdK5
-	Lqey48Kho0e/hd0UTtQFFmc/VcogHJ
-X-Received: by 2002:a05:6000:1a8f:b0:439:bdd7:425d with SMTP id ffacd0b85a97d-439f8200089mr7617923f8f.23.1773257883423;
-        Wed, 11 Mar 2026 12:38:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1773257891; x=1773862691;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UVoIoUgEnohfcDrGeS0vAZ3ak+mSxJEtVllXouTurmg=;
+        b=dyJpKEiu5dAsU/Tv7eVyv8TkOWV5h4ungx+HkGOgvzd4KRnVQ0xki2eF9Pz8mjO9Y4
+         pGRef+qCeo05V3apm9zrZNOrUJ3AUTIIOgeRRKL1VZ/3tV+FW/a7nuSe+AKx3MFA4guX
+         F0CIIa19Awof/FaBBtGotGECfl8Us3FJN7c5irmJOzIPO3p0AaK6iopZZiBv4lzZgVhY
+         vWWG872kPhPuMutO1EmtY457yIxB4ig0Wuj7hXlBmmc/HM3vVkpwIIJ/d2LTyKUyVqJ7
+         g2S2ST0/m8ZAmVJv6UYusK22kDAg+5lrLNxiHZwPwUaU5WQJdC17zImtN1f7mukn6xos
+         DzvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXPEf+wMqreMsbOF6qHnHVHjS8keaUOlbskkrivv5UITuRSoeFMn7GbomHATAWt4U7ivA00LiIyuw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzeP3I/XhiN0k0NWhdgA26IMwivw16art2hTyGQMQs9bbcPREd
+	ZatiHieSIpKUNZibe6ISPw8ISvqz28WNc2fxTkprDQ7KHqa2hDEzU38YeoewOiQyTIs=
+X-Gm-Gg: ATEYQzxAwD0fbpsAjii09bdzZi5LbBX0n1cEn7gBTNwz0da1zufisEgwLVPIE1svTOD
+	YfZlmUYLV/nh2V1+NIr5tHndguTnu7EdlcpBRJh/GAvFuzFvYujiize1exGza3MFNWdE9EhxJtH
+	sPTIdRWsOqf1WRWDqnzIqWxEK+d9+8VlknnftTeFxPNE5oRwoifFI7KMTLDROqoCYQthVxK4+EX
+	sn39jDWlaAtElPV/ypb0WALGXY9Pev2LbyV0xUB3egGd/OnJqXgdRrrhKF+bKW2IQ9LRmcHiLsU
+	OCWlgxfeMEm1iWXEjWjkbGPpj+AwvlDcdZmOr6rsgqB1kFbnWe2dJo9EirIB9xGMUPIxTInFALV
+	suDpDMms4LOVbRyFE32p8fYooBJDfAXn4e91uFH/sJYqs1J8MP7daBXflssxa3Xzy69ZceFH+I5
+	5XbOTLMiXjDJi5C2XCuxBPqXYzSxdd
+X-Received: by 2002:a05:6000:24c2:b0:439:bb46:7457 with SMTP id ffacd0b85a97d-439fe192ab8mr1738510f8f.16.1773257890603;
+        Wed, 11 Mar 2026 12:38:10 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe1a76e5sm1426159f8f.12.2026.03.11.12.38.02
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe219c41sm1408413f8f.29.2026.03.11.12.38.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2026 12:38:02 -0700 (PDT)
-Date: Wed, 11 Mar 2026 22:37:59 +0300
+        Wed, 11 Mar 2026 12:38:10 -0700 (PDT)
+Date: Wed, 11 Mar 2026 22:38:07 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Linus Walleij <linusw@kernel.org>,
 	AKASHI Takahiro <akashi.tkhro@gmail.com>
-Cc: arm-scmi@vger.kernel.org, Bartosz Golaszewski <brgl@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Dan Carpenter <dan.carpenter@linaro.og>, devicetree@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
+Cc: Bartosz Golaszewski <brgl@kernel.org>, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Andy Shevchenko <andriy.shevchenko@intel.com>,
 	Linus Walleij <linusw@kernel.org>,
 	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Michal Simek <michal.simek@amd.com>
-Subject: [PATCH v3 0/7] gpio: introduce a gpio driver for SCMI
-Message-ID: <cover.1773150895.git.dan.carpenter@linaro.org>
+	arm-scmi@vger.kernel.org
+Subject: [PATCH v3 1/7] pinctrl: introduce pinctrl_gpio_get_config()
+Message-ID: <350d922ad791ac72756caa91e1551e16d7f511eb.1773150895.git.dan.carpenter@linaro.org>
+References: <cover.1773150895.git.dan.carpenter@linaro.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -82,53 +78,95 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1773150895.git.dan.carpenter@linaro.org>
 
-This basically abandons my earlier attempts and goes back to Takahiro
-Akashi's driver.  Here is the link to Takahiro's patchset:
+From: AKASHI Takahiro <takahiro.akashi@linaro.org>
 
-https://lore.kernel.org/all/20231005025843.508689-1-takahiro.akashi@linaro.org/
+This is a counterpart of pinctrl_gpio_set_config(), which will be used
+to implement the ->get() interface in a GPIO driver for SCMI.
 
-In the review comments, to that patchset we had discussed putting the
-gpio section inside the pinctrl section.  The ordering problems are a
-bit tricky because you want the pinctrl driver to finish probing before
-you start probing the gpio driver.  To me it seems nicer to put the
-pinctrl things such as pinmuxing in the pinctrl block and the gpio things
-in the gpio block.
+Signed-off-by: AKASHI Takahiro <takahiro.akashi@linaro.org>
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/pinctrl/core.c           | 30 ++++++++++++++++++++++++++++++
+ include/linux/pinctrl/consumer.h |  9 +++++++++
+ 2 files changed, 39 insertions(+)
 
-I updated Takahiro's patch to work on current kernels.  I've had added a
-few other patches to make things work on current kernels.  The most
-noteworthy change is that instead of calculating the ngpios, I changed
-it so you have to specify the ngpios in the device tree.
-
-I updated the device tree spec file to address review comments.  I
-changed the compatible to scmi-pinctrl-gpio.  I also updated the
-examples to show how pinmuxing works.  I didn't know how to include all
-the potential GPIO configuration options so I set
-"additionalProperties: true".  Hopefully, that's okay.
-
-AKASHI Takahiro (3):
-  pinctrl: introduce pinctrl_gpio_get_config()
-  dt-bindings: gpio: Add bindings for pinctrl based generic gpio driver
-  gpio: add pinctrl based generic gpio driver
-
-Dan Carpenter (4):
-  pinctrl: scmi: Add SCMI_PIN_INPUT_VALUE
-  pinctrl: Delete PIN_CONFIG_OUTPUT_IMPEDANCE_OHMS support
-  pinctrl-scmi: ignore PIN_CONFIG_PERSIST_STATE
-  arm_scmi: pinctrl: allow PINCTRL_REQUEST to return EOPNOTSUPP
-
- .../bindings/gpio/pin-control-gpio.yaml       |  70 ++++++++++
- drivers/firmware/arm_scmi/pinctrl.c           |   2 +
- drivers/gpio/Kconfig                          |   7 +
- drivers/gpio/Makefile                         |   1 +
- drivers/gpio/gpio-by-pinctrl.c                | 124 ++++++++++++++++++
- drivers/pinctrl/core.c                        |  30 +++++
- drivers/pinctrl/pinctrl-scmi.c                |  46 +++++--
- include/linux/pinctrl/consumer.h              |   9 ++
- 8 files changed, 276 insertions(+), 13 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/gpio/pin-control-gpio.yaml
- create mode 100644 drivers/gpio/gpio-by-pinctrl.c
-
+diff --git a/drivers/pinctrl/core.c b/drivers/pinctrl/core.c
+index b5e97689589f..732ca6785c67 100644
+--- a/drivers/pinctrl/core.c
++++ b/drivers/pinctrl/core.c
+@@ -30,6 +30,7 @@
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/pinctrl/devinfo.h>
+ #include <linux/pinctrl/machine.h>
++#include <linux/pinctrl/pinconf.h>
+ #include <linux/pinctrl/pinctrl.h>
+ 
+ #include "core.h"
+@@ -938,6 +939,35 @@ int pinctrl_gpio_set_config(struct gpio_chip *gc, unsigned int offset,
+ }
+ EXPORT_SYMBOL_GPL(pinctrl_gpio_set_config);
+ 
++/**
++ * pinctrl_gpio_get_config() - Get the config for a given GPIO pin
++ * @gc: GPIO chip structure from the GPIO subsystem
++ * @offset: hardware offset of the GPIO relative to the controller
++ * @config: the configuration to query.  On success it holds the result
++ */
++int pinctrl_gpio_get_config(struct gpio_chip *gc, unsigned int offset, unsigned long *config)
++{
++	struct pinctrl_gpio_range *range;
++	struct pinctrl_dev *pctldev;
++	int ret, pin;
++
++	ret = pinctrl_get_device_gpio_range(gc, offset, &pctldev, &range);
++	if (ret)
++		return ret;
++
++	mutex_lock(&pctldev->mutex);
++	pin = gpio_to_pin(range, gc, offset);
++	ret = pin_config_get_for_pin(pctldev, pin, config);
++	mutex_unlock(&pctldev->mutex);
++
++	if (ret)
++		return ret;
++
++	*config = pinconf_to_config_argument(*config);
++	return 0;
++}
++EXPORT_SYMBOL_GPL(pinctrl_gpio_get_config);
++
+ static struct pinctrl_state *find_state(struct pinctrl *p,
+ 					const char *name)
+ {
+diff --git a/include/linux/pinctrl/consumer.h b/include/linux/pinctrl/consumer.h
+index 63ce16191eb9..11b8f0b8da0c 100644
+--- a/include/linux/pinctrl/consumer.h
++++ b/include/linux/pinctrl/consumer.h
+@@ -35,6 +35,8 @@ int pinctrl_gpio_direction_output(struct gpio_chip *gc,
+ 				  unsigned int offset);
+ int pinctrl_gpio_set_config(struct gpio_chip *gc, unsigned int offset,
+ 				unsigned long config);
++int pinctrl_gpio_get_config(struct gpio_chip *gc, unsigned int offset,
++			    unsigned long *config);
+ 
+ struct pinctrl * __must_check pinctrl_get(struct device *dev);
+ void pinctrl_put(struct pinctrl *p);
+@@ -101,6 +103,13 @@ pinctrl_gpio_direction_output(struct gpio_chip *gc, unsigned int offset)
+ 	return 0;
+ }
+ 
++static inline int
++pinctrl_gpio_get_config(struct gpio_chip *gc, unsigned int offset,
++			unsigned long *config)
++{
++	return 0;
++}
++
+ static inline int
+ pinctrl_gpio_set_config(struct gpio_chip *gc, unsigned int offset,
+ 			    unsigned long config)
 -- 
 2.51.0
 
