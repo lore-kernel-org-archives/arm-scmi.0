@@ -1,124 +1,111 @@
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FE926A08A
-	for <arm-scmi@vger.kernel.org>; Wed, 11 Mar 2026 16:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A93F829405;
+	Wed, 11 Mar 2026 18:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773248397; cv=none; b=Q/wbAmViPHwHcCJ615sbW/qgG4KOeYb7NtAs3Bfu9lq5t+KEv2sCCcbtyEoX0W3TBqaeAIZBUP/R5n9fpY/sSRndw/7ILx1S+5zYijT3NMuSaDXEkBzuxRQ4ijedPP5zOjO6x3098yU4nMdx+2zaA95B4y4yKP4cdEPtIB65E1M=
+	t=1773254009; cv=none; b=ELxfX4OfSL9tfOyvRuLCTt/O5bSl82TsE3h8i+I4XrqmHKddoH89P/hMoKPepzgUdoNpEQprHvfanpganrKY3F8YwgJbMJkyQQsI+zrEvSvZYgHQzg5gxel/0rsVf+F5wGzR7AUioxDlXaa2AXZ0MMED2cQUlF9ckzDx9fxtTyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773248397; c=relaxed/simple;
-	bh=3dMJxR9TjCJ9S3Lg7LcRJbtat+eyZPt3SNqC/m6FxkM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iV8/mCswmx0+3WIj3c7Bd7Zy/7ctQCMV5w2ME21ECfhtIQDqr/pfuWN3CVL2bZBHVkIreBx1GTcPMwtsLiaZeMp1Mfb7n1skN2Pm8F+LV1fBLXgIfT/hKF0BYu8VmacCkO5iun5cr6DczCjkmq7g38jZsMjjh7jW8slMjdyrqcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-94ddba39060so13670241.1
-        for <arm-scmi@vger.kernel.org>; Wed, 11 Mar 2026 09:59:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773248395; x=1773853195;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MHqYyMyxNQscHKqebkYfjh9WcEHBmwP9uSBnn8fEJDk=;
-        b=QfuJFdfhVuAdv7H7cU9FuQWtdWXHMgl1ylN98JDDUTmbVZTI3b818BGMiN3eV+Tb26
-         /zfOUBftAzy3hQVMIypuFZe/7IVUcf2FaI29jkb7tanWtyTQn6lraa5LgocZame68svh
-         HYfRSLQTr1TZ18RuwblnTEyPLYB2aQBeV8a18TPNY8si4TSqAKkEqZiryRGVqQ+0V8Ki
-         Jl6oeyCgtou/MQ++Wcio2DPBfkzt6/+ZF7WvnJ1FcF3cN4ZSOb7lVOCVpXOGGL5KGJqm
-         WrU5KMsXwl19HtyumGeMShCTBnGDiXp3aCgw73enBh37Cu/mbbeFvI2ulkb4sApo0FK6
-         VrLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVBjWTnQqeUYeVFX6Y+6EOiBtSP+mSINOPRWyHv7CTC9rxmgYuuCh73llc2dhOfLmciMg37CuTrIw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOaK5ot3hPH4lIlL0aBMWvGaWgSKV8DywzD2x+GEQsrq3/ti4Y
-	xCGTU4G87LdX2y3KNO6ION7QrHdgYNJWOGlznvb5o8/Owoy9+apSByBf1OSkGais72k=
-X-Gm-Gg: ATEYQzw18hh8GClReFAl5UPZDLWe1OuB3B93TVSHYwF63u+obq4oJ1KmigXSrIRXcPX
-	SktPA4ipcN7bvwi+dAuuLi3/Fn59ZAVo6mXqINZzsdgCVqEI1Q16pPtYeZlD9YuvGhHQn6DBIUi
-	aOAtA3ZfpLOZdtZa74Hv5boqDYUFzEzAjj6ofKn9e1zG2AUnyputkshjUjsM3uNP5vW222GSGf+
-	zSpgL3Oew5sZC7XDN97c4XVraLx0L2RoScPWog1c3d1dsnuYOCF45jivBtmVtoKUhCy7k49XUnI
-	zyMHxn7C+KBt+HBMVYkRtKJB+sP28hYXFv7vNwMWF6QnvxWY3M05Cf2P0VJ3njGTxxXbwEWEy+M
-	23qAOSk2/Z0fPUXFsGB+qoVNHABBFK9mhzUfWsp5a91ZJ35blJyYPr8yu2KXKoHsJDmqQUCm9JU
-	olN+GMwQpIOzUYspM3xMVonS6RJ4/JVCCMs/Sm9Ri7kuttp77MRJxJsTgR5tpLAagR
-X-Received: by 2002:a05:6102:1606:b0:5ff:a4e0:193d with SMTP id ada2fe7eead31-601deaefeb8mr1110858137.2.1773248395004;
-        Wed, 11 Mar 2026 09:59:55 -0700 (PDT)
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-94ecfc9cb40sm784296241.5.2026.03.11.09.59.54
-        for <arm-scmi@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Mar 2026 09:59:54 -0700 (PDT)
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-56afbcd8adbso67171e0c.2
-        for <arm-scmi@vger.kernel.org>; Wed, 11 Mar 2026 09:59:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUx39WEtsILb3WjvXRmlRpT5c2W+1n1oHTonrdSWk8Ux0pllgLXVoTeidDxLuWLSRSqLM+vU82ceg==@vger.kernel.org
-X-Received: by 2002:a05:6102:e0c:b0:5ff:a16b:93f8 with SMTP id
- ada2fe7eead31-601deaf0a5cmr1083265137.6.1773248394584; Wed, 11 Mar 2026
- 09:59:54 -0700 (PDT)
+	s=arc-20240116; t=1773254009; c=relaxed/simple;
+	bh=GUYwxiPsaz2DH4G/sAtqHJzr876hjNheBO2S7/59Pk4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sFHt5IFPB+DSY++Id4DAHMBzsDAjNj5HR6FVyfGidzvipd3mCiboLhPvyj831gv2A/v1U7e1GFPmhlf0NKIUUpo5xKnHNL3c6CcZjbq1aEqzGLCgffq/G8uQfrJGSDIMxINef0a7e9NkR18mYy/q6YqEX0Zd8UZHFZJXOLNan+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BF3BC1682;
+	Wed, 11 Mar 2026 11:33:20 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 25BA43F73B;
+	Wed, 11 Mar 2026 11:33:22 -0700 (PDT)
+Date: Wed, 11 Mar 2026 18:33:15 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, sudeep.holla@arm.com,
+	philip.radford@arm.com, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@foss.st.com, peng.fan@oss.nxp.com,
+	michal.simek@amd.com, dan.carpenter@linaro.org,
+	geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com,
+	marek.vasut+renesas@gmail.com,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH v2 01/13] clk: scmi: Fix clock rate rounding
+Message-ID: <abG1a_E_7gBmc3ec@pluto>
+References: <20260310184030.3669330-1-cristian.marussi@arm.com>
+ <20260310184030.3669330-2-cristian.marussi@arm.com>
+ <CAMuHMdX5T-7ERcjEK_=z7joEftC2cMLqDkyy8iO65U21S-umng@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260310184030.3669330-1-cristian.marussi@arm.com> <20260310184030.3669330-9-cristian.marussi@arm.com>
-In-Reply-To: <20260310184030.3669330-9-cristian.marussi@arm.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 11 Mar 2026 17:59:43 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUdqrA9kYeDpjwj-y6-4aALkAi2g2Od81Kxh-EVW2e2Nw@mail.gmail.com>
-X-Gm-Features: AaiRm52tcdDuztFkx9k48Wz50kutFch70oo-cU-eA7FFMTwppL_ACNeUC0TZgzs
-Message-ID: <CAMuHMdUdqrA9kYeDpjwj-y6-4aALkAi2g2Od81Kxh-EVW2e2Nw@mail.gmail.com>
-Subject: Re: [PATCH v2 08/13] firmware: arm_scmi: Harden clock protocol initialization
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, sudeep.holla@arm.com, 
-	philip.radford@arm.com, james.quinlan@broadcom.com, f.fainelli@gmail.com, 
-	vincent.guittot@linaro.org, etienne.carriere@foss.st.com, 
-	peng.fan@oss.nxp.com, michal.simek@amd.com, dan.carpenter@linaro.org, 
-	geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com, 
-	marek.vasut+renesas@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdX5T-7ERcjEK_=z7joEftC2cMLqDkyy8iO65U21S-umng@mail.gmail.com>
 
-Hi Cristian,
+On Wed, Mar 11, 2026 at 12:30:34PM +0100, Geert Uytterhoeven wrote:
+> Hi Cristian,
+> 
+> On Tue, 10 Mar 2026 at 19:40, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> > While the do_div() helper used for rounding expects its divisor argument
+> > to be a 32bits quantity, the currently provided divisor parameter is a
+> > 64bit value that, as a consequence, is silently truncated and a possible
+> > source of bugs.
+> >
+> > Fix by using the proper div64_ul helper.
+> >
+> > Cc: Michael Turquette <mturquette@baylibre.com>
+> > Cc: Stephen Boyd <sboyd@kernel.org>
+> > Cc: linux-clk@vger.kernel.org
+> > Fixes: 7a8655e19bdb ("clk: scmi: Fix the rounding of clock rate")
+> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> 
+> Thanks for your patch!
+> 
+> > --- a/drivers/clk/clk-scmi.c
+> > +++ b/drivers/clk/clk-scmi.c
+> 
+> > @@ -83,7 +83,7 @@ static int scmi_clk_determine_rate(struct clk_hw *hw,
+> >
+> >         ftmp = req->rate - fmin;
+> >         ftmp += clk->info->range.step_size - 1; /* to round up */
+> > -       do_div(ftmp, clk->info->range.step_size);
+> > +       ftmp = div64_ul(ftmp, clk->info->range.step_size);
+> 
+> include/linux/math64.h has:
+> 
+>     #if BITS_PER_LONG == 64
+>     #define div64_ul(x, y)   div64_u64((x), (y))
+>     #elif BITS_PER_LONG == 32
+>     #define div64_ul(x, y)   div_u64((x), (y))
+>     #endif
+> 
+> I.e. div64_ul() is meant for the case where the divisor is unsigned
+> long.  Hence div64_ul() may still truncate step_size on 32-bit
+> platforms, and thus should use div64_u64() unconditionally.
+> 
 
-On Tue, 10 Mar 2026 at 19:56, Cristian Marussi <cristian.marussi@arm.com> wrote:
-> Add proper error handling on failure to enumerate clocks features or
-> rates.
->
-> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+Ah...my bad, I missed that...
 
-Thanks for your patch!
+> I am aware clock rates are "unsigned long" on 32-bit platforms, and
+> thus cannot support rates that do not fit in a 32-bit value.
+> If that is the reason you are using div64_ul(), it should be documented
+> properly.  And probably the SCMI core code should reject any rate values
+> (incl. min, max, step) that do not fit in unsigned long, as such clocks
+> cannot be used on 32-bit platforms.
 
-> --- a/drivers/firmware/arm_scmi/clock.c
-> +++ b/drivers/firmware/arm_scmi/clock.c
+As per the SCMI spec Clock rates are reported as 64bit, so I suppose
+that, yes I will have to add the checks you mentioned to avoid trying to
+fit a reported clock rate where the upper 32bits are not zero into an
+unsigned long on a 32bit machine...
 
-> @@ -1143,8 +1149,12 @@ static int scmi_clock_protocol_init(const struct scmi_protocol_handle *ph)
->         for (clkid = 0; clkid < cinfo->num_clocks; clkid++) {
->                 cinfo->clkds[clkid].id = clkid;
->                 ret = scmi_clock_attributes_get(ph, clkid, cinfo);
-> -               if (!ret)
-> -                       scmi_clock_describe_rates_get(ph, clkid, cinfo);
-> +               if (ret)
-> +                       return ret;
+Seems like there will be a V3 (together with your other reports..)
 
-This change breaks R-Car X5H with SCP FW SDKv4.28.0, as some clocks
-do not support the SCMI CLOCK_ATTRIBUTES command.
-Before, these clocks were still instantiated, but were further unusable.
-After, the whole clock driver fails to initialize, and no SCMI clocks
-are available at all.
+Thanks for your reviews !
 
-> +
-> +               ret = scmi_clock_describe_rates_get(ph, clkid, cinfo);
-> +               if (ret)
-> +                       return ret;
->         }
->
->         if (PROTOCOL_REV_MAJOR(ph->version) >= 0x3) {
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cristian
