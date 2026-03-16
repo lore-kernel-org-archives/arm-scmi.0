@@ -1,62 +1,88 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BADDB2BE630;
-	Mon, 16 Mar 2026 16:53:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6718363094
+	for <arm-scmi@vger.kernel.org>; Mon, 16 Mar 2026 21:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773680005; cv=none; b=iN8cJRKFkhjGlNiYj9t7R/EwuvLKtzkwgwxsc2NEiaKxwAnmYaps2nlxYHUQSL2SWk1NgTOF3eA0hxxYq61+Joo65Yqz9u5xyYtHvArZt9JpiGJz8BBDMUp7hhD3/R0/VX7wgkdJXrxEUgJZg4ntgd9OmnFycHGD1iI2vv9iwHo=
+	t=1773695311; cv=none; b=gMEifNAOM25bUOf58/ih2FmsZhZrBYcctLSEegnSYWLVDHTWHdnZt2NMcTHF+SR4zk6jSC7xs8caE+pCyCC0+W6fJ1yLN+mOeyMwJiFgTexP6Zw95Wk9ckfIgZNyq48HTh8iapASdOP4OO0Kwa0csd6bcAcLN9DiXy/r8/v7pug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773680005; c=relaxed/simple;
-	bh=d6EWIf+nBpJCMTTPJ/fIjQU9ACBQvgjbW5lAnonFLtg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gp0Uq1I3yp1C8yYM1wo7Pdn5Djumk5Tg64ocG+doudme+Xu4Q7xtAhcc0Wf45UXsutGHFIoQpdqL7hqciKdLZQB80sBmUK4QsEfwnVJPNfWASjpb+C43oFv/0VGGrV54TrD6avjyQDXL7r9gl44grcaPHxd+wG8KitV4cSPCsfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DD16D1477;
-	Mon, 16 Mar 2026 09:53:17 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DA9D43F73B;
-	Mon, 16 Mar 2026 09:53:22 -0700 (PDT)
-Date: Mon, 16 Mar 2026 16:53:19 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] firmware: arm_scmi: Support loop control in quirk code
- snippets
-Message-ID: <abg1fwXpRf7s0wZu@pluto>
-References: <51de914cddef8fa86c2e7dd5397e5df759c45464.1773675224.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1773695311; c=relaxed/simple;
+	bh=Htz9WcWSJ7v3g96Z/bPQenu2XMHNZj09d6bGTN/cGZ4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BRkNXK7Fg6nqOb2fxylUagwGt3K+8TDvN75RN43zq3SqcKK6tsXtv2F68/aUs8YQVuwRQi6O4oxe/zXarHKxBZmNr2HtcorvtBvN53AWfnmsrhiDvEjciSS322mNpRIuCJqGrvMYqD5wCKE0almXH1KRR7mHc3NSWOAbk3kIM40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kmim/3D4; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kmim/3D4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88D0DC4AF09
+	for <arm-scmi@vger.kernel.org>; Mon, 16 Mar 2026 21:08:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773695311;
+	bh=Htz9WcWSJ7v3g96Z/bPQenu2XMHNZj09d6bGTN/cGZ4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=kmim/3D4ZHfgjj6IYPnMcNLYG9sv8XqCiBZ5KfllJzJHh5C9C/u7IfTZyZInLH8k9
+	 t3l38jmoApes15LRH5RkCGzAtZOJEBH1jtmgR43737lsBI2LX+nUFDjpJlq6FoNVV9
+	 6IPIBLQkxAGN0vhDi1Oy5LeYo2GJOwstnWD3X+HIMHZauaOmZSQI3sNAFkPJNzOarY
+	 k4aDGrE0Vl4xXfgh8P/mu9IBioJxzkOFw3b5ZkiIC8oigmgTceZQl18kdOT9zl3zZ6
+	 fThuLLhUlxVxrQbtKQ9GQrcnjU13O8Pryk0eY/oPA9RgESlJqrxEzC54pz8F1ly9eL
+	 HJeQmBJz4DMlQ==
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-79827d28fc4so44820597b3.1
+        for <arm-scmi@vger.kernel.org>; Mon, 16 Mar 2026 14:08:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV/TbVEtnLyRAkiKoAaM66h0qC3pjo/rp/8pEnN756vxcADEM14hd0l9PM0s7Y+2aEC7CqPZAFK/w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9aCZLnkDWBCB73rb/BUOvnUvahJdhE0V/YhSpANDz9iYeOHoN
+	WM0yHlCOOkT5rQIrRQyXOaFCSO+i9wKUVfuQ6zE8GqKt2FdLgtMk5oXtGNevnvWgcwRt4Kaajh+
+	omqbI2ahaPvBKEjw4VVXR9Ww0IUePMqE=
+X-Received: by 2002:a05:690c:6504:b0:799:182:17d1 with SMTP id
+ 00721157ae682-79a1c200ad0mr140633457b3.45.1773695310833; Mon, 16 Mar 2026
+ 14:08:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <51de914cddef8fa86c2e7dd5397e5df759c45464.1773675224.git.geert+renesas@glider.be>
+References: <cover.1773150895.git.dan.carpenter@linaro.org>
+ <93920f541564bc4e6aaf0f2b6df2f5aca721d452.1773150895.git.dan.carpenter@linaro.org>
+ <abHR2nnC9jJWK2eW@ashevche-desk.local> <CAD++jLnTJidg20wUYXf+cH4hTsVhAsPwi+CcCdRL5n12kwaTmA@mail.gmail.com>
+ <abKYXJCXPpVIEVlQ@ashevche-desk.local>
+In-Reply-To: <abKYXJCXPpVIEVlQ@ashevche-desk.local>
+From: Linus Walleij <linusw@kernel.org>
+Date: Mon, 16 Mar 2026 22:08:19 +0100
+X-Gmail-Original-Message-ID: <CAD++jL=RoYb-V-kOMoXjnbH24c-YrejqyEEUNeu6hX+HipTwiA@mail.gmail.com>
+X-Gm-Features: AaiRm51seapTHcba7LjSTTCnu2qGnW1tbdfEo_CD20pLihSJy4bap4bCjdDblIA
+Message-ID: <CAD++jL=RoYb-V-kOMoXjnbH24c-YrejqyEEUNeu6hX+HipTwiA@mail.gmail.com>
+Subject: Re: [PATCH v3 7/7] gpio: add pinctrl based generic gpio driver
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, AKASHI Takahiro <akashi.tkhro@gmail.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, arm-scmi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 16, 2026 at 04:34:40PM +0100, Geert Uytterhoeven wrote:
-> Each SCMI firmware quirk contains a code snippet, which handles the
-> quirk, and has full access to the surrounding context.  When this
-> context is (part of) a loop body, the code snippet may want to use loop
-> control statements like "break" and "continue".  Unfortunately the
-> SCMI_QUIRK() macro implementation contains a dummy loop, taking
-> precedence over any outer loops.  Hence quirk code cannot use loop
-> control statements, but has to resort to polluting the surrounding
-> context with a label, and use goto.
+On Thu, Mar 12, 2026 at 11:41=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+> On Wed, Mar 11, 2026 at 11:00:02PM +0100, Linus Walleij wrote:
 
-Hi,
+> > What this does is essentially take the gpio-ranges, find the
+> > backing pins on the pin controller, and creates a GPIOchip
+> > from them.
+>
+> Thanks for elaboration! But why is it done this way? It doesn't sound
+> like a usual (generic) problem to solve.
 
-indeed...good catch, thanks for this.
-I think, no need to backport as Fixes since existing quirks are NOT
-impacted.
+The experts can confirm, but I think this was done to simplify
+the SCMI firmware, both the specification and the implementation.
 
-LGTM.
-Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
+It was identified that it was necessary to have a pin control
+SCMI specification and implementation, but no separate GPIO
+specification and implementation was defined, leading to just
+one spec, and one single firmware service to
+implement that will support both pin control and GPIO.
 
-Thanks,
-Cristian
+These days, if we were re-specifying ACPI we could do the
+same there, but alas it already has legacy GPIO-only interfaces.
+SCMI has the upside of being able to start from scratch
+and upend a few traditions.
+
+Yours,
+Linus Walleij
