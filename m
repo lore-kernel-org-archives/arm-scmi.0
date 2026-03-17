@@ -1,40 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771003A4F56
-	for <arm-scmi@vger.kernel.org>; Tue, 17 Mar 2026 10:11:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65DE1FF7B3
+	for <arm-scmi@vger.kernel.org>; Tue, 17 Mar 2026 10:12:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773742284; cv=none; b=L/yqtoEJ68ERVWFt/2knms9HfcBSpydOJM1mvGvASisr4OIt2HC8gaOQSRFtPyo9Rofq2qRAXi9DAfXmzHqu2WKN0H4AeVHNEHWFwHDqhwULEgulqCi62j5jn55oBkypO54pYmYKpIC7iz2/IeAN2gyXUc1EIWax1O+9J5ncyvM=
+	t=1773742324; cv=none; b=Bipyh0OXw+21XlbLOCoGzc1HestyyPVKqJ0nZOETlM8bbc1sDHFUaMWrghzEdOo/hvDkZGVSYjR6PLJebcZlbqPn1NHWfVX5O+AZOux90e3wNOsypAALdEN8sPsUJCXahtm83Ae/x3AjnDpjCrMz85VMqbL9VFtHnd9tnEAcWXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773742284; c=relaxed/simple;
-	bh=7vBVC397CoGIya1ctMudRcRai4xV9ibDB4MtaoCBrys=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I/y0rg8bqol077AlZHN8kS4j3wyfQCDMv48Ari8nufmAmapP8XyYF8EZz6QuJh9D7fZCBPfeZk8lPcJ6GnHt0kUmzzl19F/M4l6+Tig7XvDJTRIaoaoViIQgPufc2S8FJ0FBnDt5PJA3Cb4HBic/1Ie7Ve/ngN/i2/d9ELA53cA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EwGu6zoJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773742324; c=relaxed/simple;
+	bh=KvGCpcTjWQCs0s2dSC7IrzOWH5KgMs4DoVxV2p4XZqw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WLtoqGskTl77uaQ5E1+2fXyVGVsC2yOuHDYkMiUDu0+EMlxWjdPPjDz4bdN2hM0rc/5K0w/NgaXbySdx2qDJdmhjaTI5YaqMwDorETdI3728mGv1gb8pufu6M8oYcwhz9LzJsuXGlvM5e0hcpoq6q3HsTnwzBms6plRK3uxJxaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=miANjL6o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EwGu6zoJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA9C6C4CEF7;
-	Tue, 17 Mar 2026 10:11:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="miANjL6o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03D72C4CEF7;
+	Tue, 17 Mar 2026 10:12:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773742284;
-	bh=7vBVC397CoGIya1ctMudRcRai4xV9ibDB4MtaoCBrys=;
+	s=k20201202; t=1773742324;
+	bh=KvGCpcTjWQCs0s2dSC7IrzOWH5KgMs4DoVxV2p4XZqw=;
 	h=From:To:Cc:Subject:Date:From;
-	b=EwGu6zoJnXt/3S1s975RwtYkS4ohXR4OHOQC33pULA2GR/d8EM51XHJs6aehtSNFR
-	 KVq5lCNHQX4AMJcZLTQuRWKIxahUvoBFRWEgenT3tXTsmmc54Hfk3rv1msbjSzDTYC
-	 Eah1H95leKd5OMr0ikC4ougyyXljh7wE9lBR48On+NfFdLGoM8YZJogycH3XRF77xt
-	 ytT3Hdr2/omS0vASp7NP2ObTXjYlv1mhFEYeg1noblpvFhnpFa7BGxbRWV1I3DVlkc
-	 EJbyrYJfZLRdzfVWenLWEnlvGivMo7MCqHzuJg3m7f8/CxRnJhiDTPB93GW87iGixj
-	 s9bq6K+yDOvWQ==
+	b=miANjL6odISaX11fd8SWg7tQzlD2eUmNoCrSMfbL1nGAiXODi7kJMPb5Gih1/5F4A
+	 nbD4XQN8lni2/eEHGJP9Q06MkCLpDesb9G6tV4btJYYexqXtDa0vlA7Ra1k9fa9d+p
+	 pTd7msewTXiJjnrKrAqUAh8Ad7JWZWMoWtMQvluUmvvp3417gObU+O+FjFqSbdtHwh
+	 Jt27DFH2GgGH+9UnW8/VBjc0zdhles8/OunQ4IOYzzn487ZXLTotAhjkBha/2g3ao7
+	 V9lngFJwrSOnBnxuteo7tFaQglyjlaMsQF4RaxD2fUfvabYYwSDlakdYrAygcEYLmt
+	 Hf01tP4cr3NPQ==
 From: Sudeep Holla <sudeep.holla@kernel.org>
 To: ARM SoC Team <arm@kernel.org>,
 	SoC Team <soc@kernel.org>,
 	arm-scmi@vger.kernel.org,
 	ALKML <linux-arm-kernel@lists.infradead.org>
 Cc: Sudeep Holla <sudeep.holla@kernel.org>,
-	Arnd Bergmann <arnd@kernel.org>
-Subject: [GIT PULL] firmware: arm_ffa: Fix for v7.0
-Date: Tue, 17 Mar 2026 10:11:12 +0000
-Message-ID: <20260317101115.3873019-1-sudeep.holla@kernel.org>
+	Arnd Bergmann <arnd@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [GIT PULL] firmware: arm_scmi: Fixes for v7.0
+Date: Tue, 17 Mar 2026 10:11:52 +0000
+Message-ID: <20260317101155.3873122-1-sudeep.holla@kernel.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -59,22 +60,34 @@ The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git tags/ffa-fix-7.0
+  git://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git tags/scmi-fixes-7.0
 
-for you to fetch changes up to a4e8473b775160f3ce978f621cf8dea2c7250433:
+for you to fetch changes up to 4e701b47c3ba8f4eaf51d676732b11204bc75b35:
 
-  firmware: arm_ffa: Remove vm_id argument in ffa_rxtx_unmap() (2026-03-06 16:26:08 +0000)
-
-----------------------------------------------------------------
-Arm FF-A fix for v7.0
-
-Fix removing the vm_id argument from ffa_rxtx_unmap(), as the FF-A
-specification mandates this field be zero in all contexts except a
-non-secure physical FF-A instance, where the ID is inherently 0.
+  firmware: arm_scmi: Spelling s/mulit/multi/, s/currenly/currently/ (2026-03-08 13:00:15 +0000)
 
 ----------------------------------------------------------------
-Yeoreum Yun (1):
-      firmware: arm_ffa: Remove vm_id argument in ffa_rxtx_unmap()
+Arm SCMI fixes for v7.0
 
- drivers/firmware/arm_ffa/driver.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Few fixes to:
+1. Address a NULL dereference in the SCMI notify error path by ensurin
+   __scmi_event_handler_get_ops() consistently returns an ERR_PTR on
+   failure, as expected by callers.
+2. Fix a device_node reference leak in the SCPI probe path by introducing
+   scope-based cleanup for acquired DT nodes.
+3. Correct minor spelling errors.
+
+----------------------------------------------------------------
+Cristian Marussi (1):
+      firmware: arm_scmi: Fix NULL dereference on notify error path
+
+Felix Gu (1):
+      firmware: arm_scpi: Fix device_node reference leak in probe path
+
+Geert Uytterhoeven (1):
+      firmware: arm_scmi: Spelling s/mulit/multi/, s/currenly/currently/
+
+ drivers/firmware/arm_scmi/notify.c    | 4 ++--
+ drivers/firmware/arm_scmi/protocols.h | 4 ++--
+ drivers/firmware/arm_scpi.c           | 5 +++--
+ 3 files changed, 7 insertions(+), 6 deletions(-)
