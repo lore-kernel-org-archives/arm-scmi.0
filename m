@@ -1,166 +1,146 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013048.outbound.protection.outlook.com [40.107.162.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A818F192D97;
-	Tue, 17 Mar 2026 07:50:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773733826; cv=fail; b=ssGlaJCaLZ9QlqVygusCTE4zf4JBiaq8XVqqlqSo2VQghZFbLoqfkanr+dU+s9SsgABBWOkd0KQI9yqnaAB6zJoul0ylyQSdznc2LoGhmnCWrL+qLZaL+xIVUJ3OmM5TOlDXblhQtP2F0bNJ5gAAWFc20D38NkXqFUVn+jMIsnI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773733826; c=relaxed/simple;
-	bh=ZeNcKeW49BLowA9z0KqP+tN5BmsNUR2HM6Bl1VELR8c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=oENTrwyku1/TlrRDJSx4qCYNKyd9dObZXVOWlFEzOmQnY1mA0yn6UhIUxdfiFEVVaQIh7UGqwxavCNH5FTV9xU7JWgzyOgk1x+eppLh3m325FLzUoU3zEuG6kv70kJnuaNMahX+wKpMMokt7ZlbDSV1JVbpiWxMBztfkGeUhpjk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=JCsBCIRw; arc=fail smtp.client-ip=40.107.162.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="JCsBCIRw"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iFCvtRBSAKdlc9BccDCgtPhreyXIPuvsSNeb8jzHIVzprJ1uyH618hB/seTvOtQWqudiehVgF82jbUWWL6dgB6PWF8/8dS0XSFrQ+H1r6XA2VNdUDKcj3I9zOiLR4yMFpf6boKrZlF9W/lPzvtBrwoCVLjrRK0JpP3JiclWsoUTEFuYlaQOTXdXefJf21tNtDeIYfCWbuhC/ut2rHAg0l1ywJU2IRbvuMZaIUitLFQ40IPFzT+fi2D/xhDKn6FhVJ0zgJEzxF3SqB2mKAOCRnRUvrebPpfYv8kcr+sb8bg0/2JHTY9vT9XQRbGDOUOUtANgSyWgqIbS8M9Fc/UynXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IATFCaP6RbcaykxmDy50fSqw2abqojQ6sOWtaumK35w=;
- b=xKBsNumOy9vW8hCkSvKVvGlMOEhAfWssVqusNGTeVd8iqJdflsvQAScIapx+nN7Y5tW/xtOfAd5Muc4s8ksueDy3f3OEw4ZwT/T/SzHKx7xNJ3KRcbs/SYk8sZg5E98i/A5JomckMLamJPpH99kqbwXr9hrnIQYan5aJOiGLmt+I/ME3Ih3iRTlkq4yOMuWkU65f1ZGuRPktTcb1D3jQpFeSBziQ+R4tuvMG6PM5MKsKmoe9thrAbQZnTz+GSd2ntCrbU+MAwle098nDNFjA3hJMeGQwVbS8MQgmVY2eIbpcE17+g9RiRXSiHuZldZDR+OpGQKsoVv5zHW5SgEHWQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IATFCaP6RbcaykxmDy50fSqw2abqojQ6sOWtaumK35w=;
- b=JCsBCIRwl2buzYRhycmTcRuC6mTzlh6ulcoDCkZ/iwEPl6IBN+NE/9gCJ/4htZPHiM7u64xpzmwbDF2XNAHuyDViQKQkehiRmVicnkjWG/AOFAm/rEVoE2abw8GNAi5xZkzmTMX1aY0aKB5NzKMu183l6kC6lDp6f0vzk1q8SdRHXnTxAisj4ISdyjtiSFMzhZS/L8TrNM8jHujNhKWulZuOMjbqFmK7UXNkoI7vCSah3idkG7WaRy0grLobbc0ucYvYZdsMdYdTy9Az6kZQC5frtWdn2LFl7vfNF941aDabGrKGXiaTdp2KiagaTLpUzXz0cJaUCkPvvz/360xPCA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from DB9PR04MB8461.eurprd04.prod.outlook.com (2603:10a6:10:2cf::20)
- by GV1PR04MB11527.eurprd04.prod.outlook.com (2603:10a6:150:280::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.21; Tue, 17 Mar
- 2026 07:50:20 +0000
-Received: from DB9PR04MB8461.eurprd04.prod.outlook.com
- ([fe80::21f6:947a:1f40:18af]) by DB9PR04MB8461.eurprd04.prod.outlook.com
- ([fe80::21f6:947a:1f40:18af%4]) with mapi id 15.20.9700.024; Tue, 17 Mar 2026
- 07:49:50 +0000
-Date: Tue, 17 Mar 2026 17:05:41 +0800
-From: Peng Fan <peng.fan@oss.nxp.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Tom Rini <trini@konsulko.com>, AKASHI Takahiro <akashi.tkhro@gmail.com>,
-	Peng Fan <peng.fan@nxp.com>, Greg Malysa <malysagreg@gmail.com>,
-	Utsav Agarwal <utsav.agarwal@analog.com>,
-	Vasileios Bimpikas <vasileios.bimpikas@analog.com>,
-	Ian Roberts <ian.roberts@timesys.com>,
-	Oliver Gaskell <Oliver.Gaskell@analog.com>,
-	Yegor Yefremov <yegorslists@googlemail.com>,
-	Philip Molloy <philip.molloy@analog.com>,
-	Nathan Barrett-Morrison <nathan.morrison@timesys.com>,
-	Eoin Dickson <eoin.dickson@microchip.com>,
-	Arturs Artamonovs <arturs.artamonovs@analog.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Tanmay Kathpalia <tanmay.kathpalia@altera.com>,
-	u-boot@lists.denx.de, Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	arm-scmi@vger.kernel.org, linux-gpio@vger.kernel.org,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>,
-	Michal Simek <michal.simek@amd.com>
-Subject: Re: [PATCH v2 4/4] gpio: scmi: Add gpio_scmi driver
-Message-ID: <abkZVAGMB-AEnE9i@nxa18884-linux.ap.freescale.net>
-References: <cover.1773256350.git.dan.carpenter@linaro.org>
- <f8e1dcb617917dfe69efce0b3407f8786e4c971d.1773256350.git.dan.carpenter@linaro.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f8e1dcb617917dfe69efce0b3407f8786e4c971d.1773256350.git.dan.carpenter@linaro.org>
-X-ClientProxiedBy: MA5PR01CA0096.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:1a8::8) To AS8PR04MB8450.eurprd04.prod.outlook.com
- (2603:10a6:20b:346::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B6D39B4A2
+	for <arm-scmi@vger.kernel.org>; Tue, 17 Mar 2026 08:28:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773736111; cv=none; b=c88+swhVzIXyWuzK6EdgtDm6nKdNASEaqw6Y4UBOXsyJmsc76nIpog+iUOns0KGDqVcgsSsCkgOwPZlT8JeVj6zV1uR1BHQ4G+uq/qAg/CK9Vss7OdZdNmMsdm8IPOmDUuTM+sLTeiGLBjkBDE04icPMKYNtGbjHDPd9bcS5dvU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773736111; c=relaxed/simple;
+	bh=DAXjupgOdwZoikKs5JyJB8iXIyxbkLJF1f1ATpyhV6Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZX1AirG78LtweiLwvonqBm0KISdlExtoAP8p9rWGPEYwsgbTCpkDKFtLhogdSfNHTIJxK4Mao8O4GsYOsKmR8fi4IMPF6yycM4vCWGjhKSYzrs/jDk8JLr3Lw4JEja1KlAIf0DwdsQ7E/BvAEqYhZl5YWBHZtyQyvI2gv+qwbBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7d556c1a79eso6009897a34.3
+        for <arm-scmi@vger.kernel.org>; Tue, 17 Mar 2026 01:28:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773736107; x=1774340907;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3MZrBOzWKX3a3J3HCcGoedqBZCxLLoAjByNA5cYsB/Y=;
+        b=edXhOtAITXr5KXn+XVQSDaEWWCVAAJ09/ePffwKP6lO37VTx5B84k5O72FeV57uGHm
+         DrxsE7cLBEORGPEMWLp0MHXCA3qU9nu60+ICI9p0WxgMznX+X2m+Ys1ZTHJ9sS0L/tlx
+         qjIoiu+yEgu0h//VZRHdWUTDYGGuHUmU8FYVxy24sx7qRGn0PumuSb2qJNnt62DuqM6B
+         Daw6i307vj/jGxfY7a7rT1uhxbo6RECQkKKhn6AOMrGHVyiAIRMpu1ctGkGmAiX0NEaN
+         xfFiekrLZeC8fjpfJN1UlFCGPI3pogQO9cggDKnw87oX7k//a10/xGTcbyQi9jaFjItq
+         EBHA==
+X-Forwarded-Encrypted: i=1; AJvYcCVdx4iCWH6Y5a1U9TRXBSouFO3G0nzwXoxZ44DIPg0ewdWpjSsdLgnRkXhv2OVxd4dAF+XEq3jwlQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoU8mjWBb5PrgWYAzwbKFiU4NN3YLbOzDKdPUaA+K3DmrOjnlb
+	3hFkEQrf1v/+C35qO2NuPS3i4GPFK9iVUD29Tb3VAgjTIAhhqgGwaZPAPVRGRxcj
+X-Gm-Gg: ATEYQzwOBIrI7qP0GTRfGmkEr01mdtBHfwcPfBLHfptNkRr6GvXH+1L+kE/lcH/kl2A
+	Us8hr3SzMNKTH7MU0UU/xV/8BOb9/otZ2BOGuj69/zIX4654peXm4QkWH7IsSQRTM16eEpQQfwv
+	7lppOaQdIKcoMAygj+z9xXCWI9na14QvM0H0Xf8XpL94BXJZys98KpvbZ06FJgEYDEMh2GO9/Wz
+	n6a9rME4TkFD35bpuNlHPkfJXGWRYJuVsO14UcKWjQn3xDamMBBq0hipCPSOb91AYecksWN5N6E
+	clpB3lwtSgEegZkaDv7jNOQ5tqeg+z7Sb4LWe/AqxkRPF6n11ES/of88H8/xNweaL+PyK2DXHPq
+	hS1abfi2XkcBnpW+weDA36ksUgC6Oe4KYiw0m2WNzJcAtPw+r+Crc9sldF7vJzuYqxl3UJ3E/pj
+	8aI7Gnki0zZlljj65F5C/DNqXSY0ya7S4P5FtlTwwYyaPVuIsOaLeWWMVZRL/4Yy00xI98Dhk=
+X-Received: by 2002:a05:6830:3142:b0:7d7:b89d:30be with SMTP id 46e09a7af769-7d7b89d317fmr2605460a34.33.1773736107128;
+        Tue, 17 Mar 2026 01:28:27 -0700 (PDT)
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com. [209.85.210.48])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d76ae6a361sm13999219a34.20.2026.03.17.01.28.26
+        for <arm-scmi@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Mar 2026 01:28:26 -0700 (PDT)
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7d556c1a79eso6009887a34.3
+        for <arm-scmi@vger.kernel.org>; Tue, 17 Mar 2026 01:28:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWfW59Xmi2hRIxncpdqqbKUuZ/gzSRxKadB8QAHC1mVJ1Q9LjJ6CUXNz/nvUa/79GE7hwSVBtUKdQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:442b:b0:5ff:cc82:744b with SMTP id
+ ada2fe7eead31-6020e4b8061mr7168193137.19.1773735619991; Tue, 17 Mar 2026
+ 01:20:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR04MB8461:EE_|GV1PR04MB11527:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1ff4b263-8a01-497c-63a0-08de83f9d144
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|52116014|19092799006|366016|1800799024|38350700014|22082099003|56012099003|18002099003|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	jIWaPRm78HaUNvvM5N7JubVvjG3b7B6knXghrnIxuyW8bUriB17NDbgBYjQJCH0IPBrKo1w+rWqx+q2IPIy13V45qJv/Ls+y7gzRscGmYDlBK4LQCAwuLggleWnyVXCU8EMhMM1N9epASWAg66tvpfUvjBVWnnWaUp5daJ2ccM0C6lNONcwBhqHJvPH9PDxfrIIhUWpCVB/o8ex9DvvhcwPVlZgtMh1/1IUkPQARpcng3HByH8h57LUlAvlBXda8+YKjNylxBSQ/vlh2q4Ucdch9x+xHImPsaGQvsLSZ4wJUNG1eZCcyKOLpyT3pPxOlbKRVNNpwwD5DhSi9eebXmXfJArSxZwUGGPTNcL2R9g4X+5HLis1xDzRZCkxXKMhuQScB4amEGM99AEtHeenFEta5ORwrwg01HC6EnWHJMs7KupWzIS6xSx5S94QsSEnpAQjHaFVTz5t2e6XnY5bNvAuc2Ql+tMxVN9JOx7Ly37lqTqWpMrK+USc3T+fJQtF6f31G21mAdIfFSffsCu9Mcf0YPrHaLXjEaGWMHtu6GC7G4aXQuqyiJGg/d0qCgUUJspUGZoW2z3esFqMIMZeKQVz2IiMmToB3Z7MLGov621toOPQI/tc8JXtpOMgcMotI/8mgH85OzDVJTKj8Xm8DEUzIBfukVYgjf7hyvyt+xV1f6XnZOC/vPhBf7Y0bSY9dfBziriXSmJWfw37lDb6sjgIFPOT5sv/MaoJM5TDW/8bVgYYVcvlIM26oKFK9ahrO3Dcuvh406e3PiHr5Rw0DW50qahdK/z/NoDtXe/p+j20=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB8461.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(19092799006)(366016)(1800799024)(38350700014)(22082099003)(56012099003)(18002099003)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?gWj1bnjLGA5+6ae+uMlDQ5TW2OGMlrcPOIPQ9gKTnmUu/UH6WKp7wX+6rmYn?=
- =?us-ascii?Q?PCjT9xlSj5FbP61gIgilcW5zgEN8VbjvwGHQIgmGc8p0J6q3ToyU5k7/1GvM?=
- =?us-ascii?Q?OZL4iDOnMhdmKTxLbi4dCbnl9+aArnf5jOK6djSnDAmj7UjVMTmxEjOwEA0R?=
- =?us-ascii?Q?G3CbBFcjAbLBWMJnRMUbma4BDZPqF3VrYx0hShvmQkyAg3Lb6FIFjLGUoaB1?=
- =?us-ascii?Q?NYvB40hdNCTDGKbWWN7vd+RYD5HVIt3kKXD9aUgK9tpaEqJjl9ondLeUr/Cq?=
- =?us-ascii?Q?SPiADBUeOzHceMzCIFY66/tI4fOhRuwsC1nVKwbiOaibSx+waGXnbc91/8k0?=
- =?us-ascii?Q?EXXpfZXppGazAAdGri4IAWrpm0qblmVT6oe8j+tmErn4hA4rldHILTfVzkW4?=
- =?us-ascii?Q?kwY+qyCgeON32XoCbfDA+q317xr3jn95VL50AkZ/g5wtv4HEhA/kJW9lWIh9?=
- =?us-ascii?Q?DQpz7MoIPDpSNXU4KdOoOoGwhPuscyj14awSJKHob0eiK1sGdwZEbOqPW6dV?=
- =?us-ascii?Q?xamHVgWXbTJfsMyMeX7ENeab1+ip/lrUchkxO38sRg5N7Pr9U+ZEgrPUZ98L?=
- =?us-ascii?Q?N07J0rFygeBZUsdCsGsWtjKHAjno+nfidgJLI7H7oo0xREjJ3gWPmouiO1xh?=
- =?us-ascii?Q?lQUrJ7LCcgFIXgFfgdjH3+VQJ8Cl+ZkELg9/b8WTvISbS65ZM0W/VY1l0fch?=
- =?us-ascii?Q?vdOWHDqOGhmO0mJDNVHJuepS4G+b4RxabwVM1U/Swu2Bc/AUXgmtVl83nfly?=
- =?us-ascii?Q?kEXd6A7NDfNvQkLiBxnN8ljI09uXov8mkR6FqOGUZP86hKB/3j0U9YXLSc1o?=
- =?us-ascii?Q?RjlgXs6dHfde/NU+avyJ/2dYnVno8gNozK8W4dE822LPM+NpZ+YviHR1xUWy?=
- =?us-ascii?Q?F1tdDqBPSzWEYQaGm/fJozFYgXS2XNwYUZdf97467JYve1BcJ0Ulmdrd2W3P?=
- =?us-ascii?Q?UThjRjHw+kh2xfvBYcd5K7Aytkfu2BUd0AvNRubT9E/hJj19jHxHLeI5LBSt?=
- =?us-ascii?Q?fGZLxyGIvh7MXcQS9HpqYQgysuge7XOis5299nJv5/ThxezyX/Knjl+Jgxrt?=
- =?us-ascii?Q?P4B0eIhOzRRFnrXhadJxTAjQBhOvs5K6vhKU16ZcEX/Fh9Aux9q6lTYJlN8F?=
- =?us-ascii?Q?iG5RchZhVmBnLWgGS8lSuw0HEm5HYf6PuBuExRQn4eBOCZJuMIVznCKMZMYX?=
- =?us-ascii?Q?tlB6aCtVaWATr/z08n9476cpeY7KmGDy7RWxyEQk3bYHnkTzExut3KeNdwar?=
- =?us-ascii?Q?VBgQrj40DP3nHSmzfrbD+1VqvqOAVCTetfhdrD2QzqBQogJpl4DOfm7gZB9x?=
- =?us-ascii?Q?9g69vp7x6pDtyK4L3vugRC3gjs3b7ulDvwJo9lMGu1sFURTGVZlpIDm7M7E4?=
- =?us-ascii?Q?dd2DyCRICmlK0n1nDHQcFvv0XwAdhHdEIft0GmBNZjfm7BgqpxAZqezbwfYl?=
- =?us-ascii?Q?sfYr/YarxyyByARcm/C7od7gomob0t6BQbSBwRzVOuRFIOkYVUPTb6SCqxdC?=
- =?us-ascii?Q?OfiRh71qnPdx7H2gdnQWacvc2z7pBomDjsK2ONQmRJ8200i8kG4mJtaC1ksl?=
- =?us-ascii?Q?dZM8gQrBk2wsbpg1seKH6moUOMsMNiw0m+1w3/79zcdwpFqZJEokjKVKL2+F?=
- =?us-ascii?Q?/sOdyVl7EJMtrjuCu9S7pLq3ws/8BMJtQJxMdVwP5d8P2PP4E4yCq11IstTG?=
- =?us-ascii?Q?ekTi5OXxuiKLiceWwwKFTtD05IbR+j/DziTQByTr0VigN7VR0DwkbtKoNq9U?=
- =?us-ascii?Q?08cyPDOF8g=3D=3D?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1ff4b263-8a01-497c-63a0-08de83f9d144
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8450.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2026 07:49:50.4889
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4dA+9baGTS8WV34n5gStOOF84BXB2XsQyzoQxqsydji6xlX9PEz3q4xW1wnQ3aSrCVpFchrArKOl8wZs1Ivjiw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB11527
+References: <20260310184030.3669330-1-cristian.marussi@arm.com>
+In-Reply-To: <20260310184030.3669330-1-cristian.marussi@arm.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 17 Mar 2026 09:20:08 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXMdn4Uu+bLunb0g68rmV=AT523C1=sMdNFK47ZADU09g@mail.gmail.com>
+X-Gm-Features: AaiRm51yyOA7w0a8XkB8aVbP3N6VXftKc6GGkOKP6ReYYiu4pm3s3wiL1ZOxXBM
+Message-ID: <CAMuHMdXMdn4Uu+bLunb0g68rmV=AT523C1=sMdNFK47ZADU09g@mail.gmail.com>
+Subject: Re: [PATCH v2 00/13] SCMI Clock rates discovery rework
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, sudeep.holla@arm.com, 
+	philip.radford@arm.com, james.quinlan@broadcom.com, f.fainelli@gmail.com, 
+	vincent.guittot@linaro.org, etienne.carriere@foss.st.com, 
+	peng.fan@oss.nxp.com, michal.simek@amd.com, dan.carpenter@linaro.org, 
+	geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com, 
+	marek.vasut+renesas@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Dan,
+Hi Cristian,
 
-On Wed, Mar 11, 2026 at 10:41:36PM +0300, Dan Carpenter wrote:
->This provides GPIO support over SCMI.  It is built on top of the
->pinctrl-scmi driver.  The device tree entry would work the same as
->in linux.  Perhaps something like this.
+On Tue, 10 Mar 2026 at 19:40, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> it was a known limitation, in the SCMI Clock protocol support, the lack of
+> dynamic allocation around per-clock rates discovery: fixed size statically
+> per-clock rates arrays did not scale and was increasingly a waste of memory
+> (see [1]).
 >
->        gpio1 {
->            compatible = "scmi-pinctrl-gpio";
->            gpio-controller;
->            #gpio-cells = <2>;
->            ngpios = <10>;
->            gpio-ranges = <&scmi_pinctrl 0 8 4>,
->                          <&scmi_pinctrl 4 12 1>,
->                          <&scmi_pinctrl 5 15 1>,
->                          <&scmi_pinctrl 6 17 4>;
->            pinctrl-names = "default";
->            pinctrl-0 = <&i2c2_pins>;
->        };
+> This series aim at solving this in successive steps:
 >
->The &i2c2_pins phandle from the pinctrl section does pin muxing
->and the gpio-ranges property describes the pins.
+>  - simplify and reduce to the minimum possible the rates data info exposed
+>    to the SCMI driver by scmi_clock_info
+>  - move away from static fixed allocation of per-clock rates arrays in
+>    favour of a completely dynamic runtime allocation: just allocate what
+>    is needed based on the effectively discovered
 >
->Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> This is done in patches 2-6.
+>
+> A further bigger optimization suggested in a past series [2] by Etienne
+> would be, whenever allowed by the spec, to limit upfront the number of
+> queries in order to simply retrieve min and max rate, that are indeed the
+> only rates needed by the CLK SCMI driver.
+>
+> The approach proposed in [1] was open coding and duplicating some of the
+> functionalities already provided by SCMI iterators, though.
+>
+> Patch 7-12 implement such optimization instead by:
+>
+>  - reworking core SCMI iterators to support bound enumerations
+>  - use such new bound iterators to perform the minimum number of queries
+>    in order to only retrieve min an max rate
+>
+> As a final result now the rates enumeration triggered by the CLK SCMI
+> driver, while still allocating for all the existent rates, miminize the
+> number of SCMI CLK_DESCRIBE_RATE messages needed to obtain min and max.
+>
+> Finally, patch 13 introduces a new clock protocol operation to be able to
+> trigger anytime on demand a full enumeration and obtain the full list of
+> rates when needed, not only min/max: this latter method is really only used
+> currently by some dowstream SCMI Test driver of mine.
+>
+> Based on v7.0-rc3.
+> Tested on JUNO and an emulated environment.
+>
+> Beside addressing a few review comments, in V2:
+>
+>  - patch [1/13] introduces a fix for the pre-existing rounding algorithm,
+>    before relocating the algorithm logic as alreday done in V1.
+>  - patch [8/13] hardens clock protocol initialization by adding some
+>    missing retval checks
 
-Acked-by: Peng Fan <peng.fan@nxp.com>
+Thank you, this removes the need for increasing SCMI_MAX_NUM_RATES on
+R-Car X5H, while decreasing memory usage.
+
+As upstream does not support SCMI on R-Car X5H yet, I am ignoring
+the hardening for now (it may be fixed by a quirk), so
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
