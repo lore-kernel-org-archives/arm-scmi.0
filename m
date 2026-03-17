@@ -1,65 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518C23E5ED6;
-	Tue, 17 Mar 2026 15:38:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9AA3ECBE2;
+	Tue, 17 Mar 2026 15:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773761926; cv=none; b=LWdG0AzaCOVXFVGOuyVsMYnBEgtGzp2vtqbJeFApNcRU04yPzlp4LA7Xrx3spbvxKIlJzanL+j6jmjmVDcFT5/Db4axFwxurEvQWYtotJlY+invj8E01dStokJoijASHIt1hLEtON5COURchgWJNz4FECFFgo3wfRU/Yut8OPZs=
+	t=1773762035; cv=none; b=Jm2SIMEII2emtjBVsAZFtT0bAvEUfS0K5e3yWkvBynoTf3UMdJ9mue5elspXyHt8trZwxxx/hr8ErZQk8wBGCBSpo+JBDJX4bCHCoKB1zrHtg3hW/2zvhDkMnV+Xesby5c5Wl7ganb6nuMnPOviUoq0LH0t1FNDVc2WEcKLWaos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773761926; c=relaxed/simple;
-	bh=x1gSLvzKsw5RxCMGtUcdm7YX+5lOyd2zRpU8JHZgXO4=;
+	s=arc-20240116; t=1773762035; c=relaxed/simple;
+	bh=BVfGgsU0dq7oLRa6iuFSj41rR3BBEHd0nSeCzegLF/A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LMA7hwcPohFYrqX/q+6u6Gum8HVULKcfFuFMmvXybZt/t4CS3FOrlYUHGuW7wkvwrr5U0/p0Y/C6UtPbvIyWB5Zq6/lVP6Pxd1ssVyjBE6u6JhlFm7du/miOaTIl5j+kq9Fd+Yp0Z1ZHluhZeEnTMelxvSar7rP1d875SaYooGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fZfnN39h; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=jqypVMP1tBncM3GnQQzI5HGKkyPalKQJ93AsMOCJjDHxwDq5eitu20Y8ZJaQP0Qj7/9vC9onas3+HzMHPGhMTYKGruvM3u3sKSqGSu0wdDGMldhkH7VCTVZck1Dwl7iUvVzrZTUSE91Yw+wBiW7mKT/uTVyN7Fpy2Kuqr6bzetM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QIybufMZ; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fZfnN39h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QIybufMZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773761924; x=1805297924;
+  t=1773762031; x=1805298031;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=x1gSLvzKsw5RxCMGtUcdm7YX+5lOyd2zRpU8JHZgXO4=;
-  b=fZfnN39hQe6zJ8+qMNytu+eydVDhs/OlP+G1etI7bfIMi2vUlH9gtVTL
-   uOrMfKxb/OCuhi7VQpSX4Mh4ChY+dWpEvuUnXYiPOxUREjf450EHl2N1I
-   oPDaOPNwSVbSCmCzXWKYmUriUJfW+EQp9rng1Pj1aYU9LyxI0LYaiTAHj
-   wnnxz4fUzW74aq6399qR58WFtz6bNK/dvWk32nU59vDQIh+4udJVvsXeC
-   f6MtTBPCATRpD4cZj4pLecMxk9IQy9lUc3WMc+8PB1zG0PwOwiriB9KoK
-   bGIpp24IGOEhscMnOwuw9EQ9DuFBdUkvxjNbK+wHUx/UKg9h98hg7pdE4
+  bh=BVfGgsU0dq7oLRa6iuFSj41rR3BBEHd0nSeCzegLF/A=;
+  b=QIybufMZhIkvHRMN3+7/SYKaeq+hqjtQglZr7llTmUzEEd/fNb/z9I9a
+   j14nfEoZQfwnAn45IGGaCARR38MN4iggnOAKL7Ep5EZTqfxaLjXTkUcAG
+   QoFaC5WyEzQ3V/1PU/FQCptb4QenSlnk0h/RcUAkcx0SSUp2Ntw9bXyeQ
+   LYyqGa5yTOI6CpUkoBDfvpZls2CkNzXiXlReJ+jWARduWNVyek/esiSZ5
+   WTZn1oqTpvXXQo7hDEObuKY7wB5rRHCWeXPXzPOHq5F0tn2Pb6MsKzCE+
+   3ardMMWA/ljDpxvJ4PhLt6QHr9/x4ZPJUooNNgkJ/6a1bU9EmfZi3QI2O
    Q==;
-X-CSE-ConnectionGUID: hnUf30r7Qoq2rQJDLAcRxQ==
-X-CSE-MsgGUID: XCzrHIv4TRSSRNjwXig7tg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="78651507"
+X-CSE-ConnectionGUID: oq9dhSuVQqeiuatakbEmjQ==
+X-CSE-MsgGUID: nnoqO5bNR9yk8MZ/TBJEsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="86153026"
 X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="78651507"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 08:38:44 -0700
-X-CSE-ConnectionGUID: +Eu8r4TETdWrWgU4PeUEew==
-X-CSE-MsgGUID: tDIkp/UlRNmQmrlTxCG9kQ==
+   d="scan'208";a="86153026"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 08:40:30 -0700
+X-CSE-ConnectionGUID: CZUY3ldaQwuDvx0rCf8Erw==
+X-CSE-MsgGUID: Hp6r3VnxQEGg5t9tvTyB+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="226989411"
+   d="scan'208";a="222528333"
 Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.97])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 08:38:40 -0700
-Date: Tue, 17 Mar 2026 17:38:36 +0200
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 08:40:28 -0700
+Date: Tue, 17 Mar 2026 17:40:24 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
+Cc: Linus Walleij <linusw@kernel.org>,
 	AKASHI Takahiro <akashi.tkhro@gmail.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Linus Walleij <linusw@kernel.org>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	Bartosz Golaszewski <brgl@kernel.org>, linux-gpio@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	arm-scmi@vger.kernel.org,
 	Vincent Guittot <vincent.guittot@linaro.org>,
 	Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>,
 	Michal Simek <michal.simek@amd.com>
-Subject: Re: [PATCH v4 2/7] pinctrl: scmi: Add SCMI_PIN_INPUT_VALUE
-Message-ID: <abl1fPQEDE38KZQN@ashevche-desk.local>
+Subject: Re: [PATCH v4 1/7] pinctrl: introduce pinctrl_gpio_get_config()
+Message-ID: <abl16AXUQwQKr1L_@ashevche-desk.local>
 References: <cover.1773757772.git.dan.carpenter@linaro.org>
- <940ff48bd53e35e19a4cda081170d9198c20675e.1773757772.git.dan.carpenter@linaro.org>
+ <22af6c960a7d20eb09e57e91821abe7ffbc52b9c.1773757772.git.dan.carpenter@linaro.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -68,24 +67,16 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <940ff48bd53e35e19a4cda081170d9198c20675e.1773757772.git.dan.carpenter@linaro.org>
+In-Reply-To: <22af6c960a7d20eb09e57e91821abe7ffbc52b9c.1773757772.git.dan.carpenter@linaro.org>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Mar 17, 2026 at 05:40:27PM +0300, Dan Carpenter wrote:
-> The PIN_CONFIG_LEVEL parameter represents the value of the pin, whether
-> reading or writing to the pin.  In SCMI, the parameter is represented by
-> two different values SCMI_PIN_OUTPUT_VALUE for writing to a pin and
-> SCMI_PIN_INPUT_VALUE for reading.  The current code translates
-> PIN_CONFIG_LEVEL as SCMI_PIN_OUTPUT_VALUE (writing).
-> 
-> Add a function to translate it to either INPUT or OUTPUT depending on
-> whether it is called from a _get or _set() operation.
+On Tue, Mar 17, 2026 at 05:40:20PM +0300, Dan Carpenter wrote:
 
-In three consecutive patches against the same file you have three (!) different
-prefixes. Please, align with what is being used most in the driver and/or subsystem
-(the driver seems has no consensus with itself, so subsystem then, something like
- "pinctrl: scmi: ").
+> This is a counterpart of pinctrl_gpio_set_config(), which will be used
+> to implement the ->get() interface in a GPIO driver for SCMI.
+
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
 -- 
 With Best Regards,
