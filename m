@@ -1,36 +1,81 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C9C8352927;
-	Thu, 19 Mar 2026 11:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1588E3033C6
+	for <arm-scmi@vger.kernel.org>; Sat, 21 Mar 2026 10:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773920789; cv=none; b=GmLmQ373/HogqGQmwSsdRST9viScg2PPubcuUKC+ecHqrEZpKd2iIT5Bx3HpZ7NbUilQjP+mNV4IBbVYenz42i6uZ7RzzupZ/AT4VIrrco6CSpgGe97Frt6EX0spYCDHkHqHmkln9hV+5MtFS4yZRIuvrwJzJYXQXxc1YZjAfIM=
+	t=1774088004; cv=none; b=gRNXVxpijL1BrDgjFuUYJoX861D2lCwBdFUl4LZI5zU1Wg+v0DWe4+MDU/PthucAPvQJ1FFWODyKCtnBhe/vyi22cbwfOSxe+tIc6SmAmLNmDlIep3qMvnvHHoPkIrEcxQb3fcpiz0B9bDL1LxPWqrQ7FEa/xsHGydBg2+iJc8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773920789; c=relaxed/simple;
-	bh=kypcxapqqt6pZ1oGDFy+vRhLLajcqCe1bUvLmHdRNtQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PEfL4uJ5eidqClqfNlKfvQBrNVyVnHDvp4oeS1Ut1phQ+a6ny17nr82rmL2jGdrs4/+UcGDao2PX7Ux8oATGWQjDbXBUTOHQ5P+Z6btTSgPjhdQFJJJw1pFWuzZocs2cNl/kGS52LdU8K9hTc4wt2/zj8nRPP/lvYFahPRIKpFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3C61F1A25;
-	Thu, 19 Mar 2026 04:46:20 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A6313F778;
-	Thu, 19 Mar 2026 04:46:24 -0700 (PDT)
-Date: Thu, 19 Mar 2026 11:46:18 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org
-Cc: sudeep.holla@kernel.org, philip.radford@arm.com,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, etienne.carriere@foss.st.com,
-	peng.fan@oss.nxp.com, michal.simek@amd.com,
-	dan.carpenter@linaro.org, gatien.chevallier@foss.st.com,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: Re: [RFC PATCH 0/4] Rework SCMI transport drivers probing sequence
-Message-ID: <abviCkBeX9uzsgxy@pluto>
-References: <20260317165811.3352752-1-cristian.marussi@arm.com>
+	s=arc-20240116; t=1774088004; c=relaxed/simple;
+	bh=dY1qL4oiruMLLPPOfCTpq/3L4rUbkzScjCoW0ifJR+g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RfmE120EVw2g2r0gbDJQsoRb26xwxiMJXlse7jzYLo8jZwjxVHc5egYihTTC6h79e4TpXYtlOH0SRuV2TGyOvLHFKUpNUqoWci17Xw6G4FTYQt5D2cavRpD15JTATjOyH3HYampKJt5eP5upHa5utzFD9xo5XZNp3krCAY45D6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wy8Cjpnl; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wy8Cjpnl"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-486fe655187so19051955e9.2
+        for <arm-scmi@vger.kernel.org>; Sat, 21 Mar 2026 03:13:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1774088000; x=1774692800; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vxcTJFOmewD2GhiVVB+6YPckSGMQdPbVx332O/W6xHg=;
+        b=wy8Cjpnl2Bfu0PsOn4ROCFPXGahT9sjEL53kkUTwk7m0nWUoTg9kbEipScJTgC7BVw
+         JR+Jo8HDbHmhuS9t9V7UgVFCu6FXUFCkksveZvahIre6RKfsgm5JC1fYUKB4dSot+NGa
+         dtaFbZk1z/o/VI2wua1ssQq+u4xJ9NGg5GU5GTMahrEMKeArdZd0HvRqEI29A+Q6QJQx
+         LR1XlipRcewSMUf1C3DNdJcSNGkTin+gvA2nTO9NHNneO44fmo4abzIbg96RxYQ3G3Xv
+         miaFRtgU1eof/Xeom7cgViK31C8wdAeQq9ZyDCR653oTAvD4IAa76tM97nj7L/Sw1U+9
+         12VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774088000; x=1774692800;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vxcTJFOmewD2GhiVVB+6YPckSGMQdPbVx332O/W6xHg=;
+        b=qYjV9CPZxJ1ngIVoYooitYtQohv/mHINHv/ULh5nGHa2LPkA7In0/p2or7raF0I9zE
+         J4XR6mnS67DjiTOmvxjjUZGdfk4ZLZ4krEK5YFOUWg5+XLhL+TovFyLC8bQo1Z8R61yB
+         Q2Uwv1b963R7XIXnTq+8lrZVSkJxK1VMHXcOuFrYA/qKeKqxZRLVbzgspG/QHuYyMX2u
+         tIiXIMn9CxgYJg3Hk2slkK1JyLWsH32h4V/q9soxvAdXBAt+dkPa08cFIlKvksDQgdXw
+         CAYOgrbJGbTgSpIvIDq6daF0zBJYyyCyUXXZhUHYikc12YBhmsXgrfQJT/M6OINf85Lb
+         FjgQ==
+X-Gm-Message-State: AOJu0Yzx1+5yCc13w6LFIWcUqSmLpoNpMVfwxHgc6qsBYaCjCXtPqdlJ
+	YZE5DPn35du7tgYxkyIP6rvmVuUuULzEMW333UShllUMeQ6foWAUAhHLZfIhTXZuIi8=
+X-Gm-Gg: ATEYQzwAt3jjoCjh3fiEvwGkYlsNq8JkjTCqY5BIDMhzdo2r7ulL+4htvfHCpZFDs6b
+	uUgs7b6h5+7O98hWWqUcy6Yb96y6UQHHVOnORSbxdZsg9Zg220MXOuKr6JQGElEIT33AAMlpAe5
+	yWy8gEnR+MW6uGEOpqC2axvMCUWDl2sN1cnc0p3f8vhCzOidTNhlZCG25UKLGTxVFOadbAFpUN5
+	Sem0Gfrhf7qgZzkRYa1F99YbrtzAnyDtiBSmIayQywEEI+fKkClGuixzT3uas1Ui0V/4UT9i/Zc
+	A/hJY0+rNIqefYXw5IA36jWRJgOjStmcKz6CJOsMXdWoEIjGvYnEMiGlKzNtH2rVUWg/HfQCils
+	x/XKE7FauLJw3JkMi++t3vc3k+oaRlnbPIidhemXGgI726ZT5+IcqX8df5z1suP3J0gfdgVtauM
+	TSfcBPdU75rTzUA98ixmByYVRZPqBR
+X-Received: by 2002:a05:600c:3490:b0:487:300:d9ca with SMTP id 5b1f17b1804b1-4870300db54mr39007055e9.31.1774088000252;
+        Sat, 21 Mar 2026 03:13:20 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487031790fdsm68147015e9.3.2026.03.21.03.13.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Mar 2026 03:13:19 -0700 (PDT)
+Date: Sat, 21 Mar 2026 13:13:16 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Linus Walleij <linusw@kernel.org>,
+	AKASHI Takahiro <akashi.tkhro@gmail.com>
+Cc: arm-scmi@vger.kernel.org, Bartosz Golaszewski <brgl@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Dan Carpenter <dan.carpenter@linaro.og>, devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>,
+	Michal Simek <michal.simek@amd.com>
+Subject: [PATCH v5 0/7] gpio: introduce a gpio driver for SCMI
+Message-ID: <cover.1774087290.git.dan.carpenter@linaro.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -39,85 +84,45 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260317165811.3352752-1-cristian.marussi@arm.com>
 
-On Tue, Mar 17, 2026 at 04:58:07PM +0000, Cristian Marussi wrote:
-> Hi,
-> 
+This basically abandons my earlier attempts and goes back to Takahiro
+Akashi's driver.  Here is the link to Takahiro's patchset:
 
-Hi,
+https://lore.kernel.org/all/20231005025843.508689-1-takahiro.akashi@linaro.org/
 
-a clarification replying to myself down-below... O_o
+v5: Addresses Andy's cleanups to the driver.
+    Adrresses Krzysztof's comments about the dt spec file.
+    And almost all the subsystem prefixes were wrong.
 
-> when the SCMI transports were split out into standalone drivers [1] the
-> probe sequence was laid out in such a way that:
-> 
->  - the transport drivers would have probed first, triggered by the firmware
->    driven discovery process (DT/ACPI)
-> 
->  - afterwards the control would have been passed to the core SCMI stack
->    driver via the creation of a dedicated device that would have inherited
->    the original firmware descriptor (since that same DT/ACPI node would
->    have still needed by the SCMI core driver to be parsed)
-> 
-> The tricky part came around with some transport driver like virtio and
-> optee since they are, in turn, upfront dependent on an external distinct
-> kernel subsystem; IOW these have first to undergo their own subsystem
-> specific probe/initialization to become fully operational as transports:
-> this kind of initialization sequencing of course must deal with the
-> possibility of probe deferrals BUT at that time we avoid this by using the
-> trick in virtio/optee transports to register the next stage transport
-> drivers ONLY at the end of the subsystem specific probe routine, from
-> within the probe itself.
-> 
-> This behaviour has 2 issues:
-> 
->  - it is frowned upon and can lead to hangs in the driver core whenever
->    some core locking is changed as exposed in [2]
->  - it limits these transport drivers to a single instance probing since of
->    course you cannot register the same driver more than once
-> 
-> All of this was tolerable because optee/virtio are generally only employed
-> in a single SCMI instance scenario AND because no hang where triggered in
-> the core driver subsystem... (not saying that was perfectly fine :P)
-> 
-> This RFC series aims to solve both of the above issue by:
-> 
->  - moving the problematic platform driver registation away from the probe
->    into its own module_init/exit
-> 
->  - introducing an optional mechanism for the transport drivers to provide
->    to the SCMI core some sort of transport specific handle so that multiple
->    instances can be supported and multiple probed transports instances can
->    be registered and identified by the core. (who is who)
->    Note that at the same time this optional handle-mechanism is used to
->    synchronize the drivers probing sequences and possibly trigger, when
->    needed, the probe deferrals, if the transport driver has still to
->    undergo its own subsystem initialization and as such is still NOT fully
->    operational.
+v4: Addressed Andy's comments about kernel-doc
+    Addressed Rob's comments on the spec file
 
-Implementation issues aside, one thing that I failed to make clear about
-this series is that, while this series addresses the platform registration
-@probe-time issue above and enables the capability to technically support
-multiple SCMI instances also for optee/virtio transports (like it is
-already for mailbox and smc), the multi instance support for optee/virtio,
-as of now, still suffers from some 'structural' limitations that make it
-unfit for production and useful ONLY on a testing scenario (...like in my
-virtio based setup :D)
+v3: Forward ported Takahiro's patches and added some fixes ups to make
+    it work on current kernels.
 
-The crux of the matter lays in the fact that there is still not a way
-in such transports to be able to match a specific probed transport instance
-(device) with the corresponding SCMI DT top node instance descriptor that
-usually, in a multi instance scenario, describes a different set of
-protocols, or the same set of protocols enumerating a different set of
-resources...so, e.g., if you want to match and reference by phandle a
-specific clock domain from a specific instance you cannot really be sure
-that the instance reference that you have is the instance that you wanted
-since depends on how that was associated during the probe.
-(in mailbox and smc you have an explicit channel/shmem association ...)
+AKASHI Takahiro (3):
+  pinctrl: introduce pinctrl_gpio_get_config()
+  gpio: dt-bindings: Add bindings for pinctrl based generic gpio driver
+  gpio: gpio-by-pinctrl: add pinctrl based generic GPIO driver
 
-Still a lot to reason about this as of now...any suggestion about this
-is even more very much welcome :P
+Dan Carpenter (4):
+  pinctrl: scmi: Add SCMI_PIN_INPUT_VALUE
+  pinctrl: scmi: Delete PIN_CONFIG_OUTPUT_IMPEDANCE_OHMS support
+  pinctrl: scmi: ignore PIN_CONFIG_PERSIST_STATE
+  firmware: arm_scmi: Allow PINCTRL_REQUEST to return EOPNOTSUPP
 
-Thanks,
-Cristian
+ .../bindings/gpio/pin-control-gpio.yaml       |  59 ++++++++++
+ drivers/firmware/arm_scmi/pinctrl.c           |   2 +
+ drivers/gpio/Kconfig                          |  13 +++
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-by-pinctrl.c                | 101 ++++++++++++++++++
+ drivers/pinctrl/core.c                        |  31 ++++++
+ drivers/pinctrl/pinctrl-scmi.c                |  46 +++++---
+ include/linux/pinctrl/consumer.h              |   9 ++
+ 8 files changed, 249 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/gpio/pin-control-gpio.yaml
+ create mode 100644 drivers/gpio/gpio-by-pinctrl.c
+
+-- 
+2.51.0
+
