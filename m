@@ -1,70 +1,68 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D4D314B6A
-	for <arm-scmi@vger.kernel.org>; Mon, 23 Mar 2026 19:01:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C713631F987
+	for <arm-scmi@vger.kernel.org>; Mon, 23 Mar 2026 19:01:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774292512; cv=none; b=XpZJw4iTm2nL/EfWykFRqZLOpp1pCIunOdG8DKaqvs5Am2hHuGuZdHEJUpEPnojRROzvk+p8e/Y+XcDa8k4xz5V/stWZIsUwC+8JFKn7ONW+FoNWHmxrFDMW/zBdvateADOMTOuPUsKeAR++s/mqopSVyoI6WuqjDILfesjT8KY=
+	t=1774292513; cv=none; b=fz7eXaRLk5lTXzDNVxj9WXl/dOkxwVp8n0soLVmE3+9kAookDJ+YkggHiQ8wMqMbOs/lmXBFvoGdxJSSP/oQs+UO41tuULw7udj3/NQeqMqRkHnIJP7KhVi2Iuh6p3WkSt5OmRwiDO+ndcvq4eA9pXd8yIrHoQwHiBD0f9R8Fjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774292512; c=relaxed/simple;
-	bh=HwXxD/Mvckwc9RensaO5rKc7xsT38UOSxYK2/xxw7d4=;
+	s=arc-20240116; t=1774292513; c=relaxed/simple;
+	bh=78h6zo0OmGYwoE9jXpMgQ5eL1Q+6zRrrpxk2B2OYgvs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dShR4oMrZIZkRfxEPilxajMGz9yR8CjOx7xmd9HlJk6OwNkbyZ5yW35L5LEEEDw0SdvS/Uu6vsVQiqTLNhXaThin37BMnUcwcFezudyhjV8Ewb1BPCAaBFfSfEh44nEjNrKNazcWk/HOyM7njyaXG/eLBXwA3laW5iYdAuhAmF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VCsTMxEC; arc=none smtp.client-ip=209.85.128.53
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZAQN1C7CsbniCJioFxLEJGAsVNA2SHAVi5wWMfahJ9eg7MjoDMOjVsQ7enzs2NHzm85cA+Gsz+5JNiOWg3/npi03J2XEu/p4LhtVgghcitXJdo8QW6qPpQPuDFr8NwCOuQcU6QwV7AZ/IH0sYGJCa6UCy57Ctz3AcBNGpv+aGAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fV+Y5bfb; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VCsTMxEC"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-48702d51cd0so30827955e9.2
-        for <arm-scmi@vger.kernel.org>; Mon, 23 Mar 2026 12:01:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fV+Y5bfb"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43b7ffed973so278327f8f.2
+        for <arm-scmi@vger.kernel.org>; Mon, 23 Mar 2026 12:01:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774292506; x=1774897306; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1774292510; x=1774897310; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NvES5asAEJe0f+U9lkKESn8eUh5IqEP6vkqyZhx4vo4=;
-        b=VCsTMxECs1+Tf9bOrw+28UVAEhC2a6Go3DLk/9hBOjZNWCUP1fyFeoR57HVrZ3Pi4d
-         LAmXtugh8WwFt3VK3Q2MZ/TOu/iZjNA5WosqvBJhHYA/9XssdfUKvaFJdMd+aIzeO00i
-         XYUYAaTXYrfdll3cRlxd5jTug1IauGRmg6Hs4sp67pV5+CJwTxFun1sbS7IYeh1zBZxw
-         1CimWpGUFdSXprFmb1XvdZrpTCLK2N+IUMS/61NgxTxCxuq75+g4s746y5fMxTqr8YoJ
-         4l6Mvr+dE6yLpw9E5dfbL08O1UBtF+cHa51FuVC9T+GvAPbOaKHr3qSUCNeCxtl0c4GL
-         PRyQ==
+        bh=YC5M6Gei+tjtXgncpnAEt2N0RrhP9pRpNjEcwCa4CLI=;
+        b=fV+Y5bfblPjFkJ961WGi0rUyIyBKwC4HabC7T8ODnCTisgWLZKLfIEcuhxk9PP2iD4
+         E0Nbm1ZHzp0x2k4iTapeaSq1EBriOO3szTVBDTVUR6VGWR9MSBnz6717zcg6JkaT4frF
+         Qrr7/r59jZyiVtT4bwlzMtkGGy7LuA/hcvvLJw6WbcZ18x3H6Xi9ZILPb85HBoo24VCb
+         NC2M1Ms3INzq7HOyWWWN0CwrnjwpmYFwY5ZIyZbP7TmrjGSaM6BhXa+IW+ZQ//Ib/ND9
+         HO0FjoZqRaFPDGnNXljzh879UgJQAHKLTq/kMR2ert05tD1AT1w0GCrGioMb9/CNVlye
+         aFTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774292506; x=1774897306;
+        d=1e100.net; s=20251104; t=1774292510; x=1774897310;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NvES5asAEJe0f+U9lkKESn8eUh5IqEP6vkqyZhx4vo4=;
-        b=qnmmLBZUDI39y3Tn7bAGYLWyg1BO0WexAoY8JfRTnq+HmER065gE2Dwh0m4qJWwOAQ
-         bkds32wtzyLkdypt3uw0tl1uN7CycApLssLc+nuxUkV213MPMa8a88aq5QUVFFELdUXL
-         xrFkiAmKfW6arCN8PMOYLCFvjPPRnvAuyo7uC+ltvAMYCHznb1zEoBeKKA6LNLRrRoZ0
-         lvz0BO7I/wWxbqNahxtvROBkrBQ1tMMRwGkTwqIOyO/QaoFHuUDGdm2myMnTRt5u9E8C
-         wGRqHLudhbbP0NAYOcj4J29BEgjfHB7rW7UUNq3rVRav6NdMqMlyRBAlECzEGqU5NTzp
-         2ZoA==
-X-Forwarded-Encrypted: i=1; AJvYcCVqetPwpOXsVV42QLc4+RwIKV+pgPadMFZ0tfWv+Acr1VWJIXwzvYUk25nLmK6+gYHW79UB152ljg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSU3voOHVrrhOjvmKPnssufXJkXvPzMIYSr/jefKmwNlTI26Id
-	swtI+G22SrFF+lFarTsnj+nb3GmOigL4Ba0cca6GQyom0v9XyWPKrlukWLhU4n35jkk=
-X-Gm-Gg: ATEYQzwwe3V1WlNWbjXns1OE2VhftWak3TuuCBPy8XZ3jldrzTsVnMzqx4VZYCzkcd2
-	RT3mRqCkAaOn8VFfCdopdTZIarlEmHyN5VoV0j/we5uifbk6v7QFickDcUpPNaM43NKE+I0IsUy
-	sSMmc7+lhiudE607MnLOLJBKflsqRz7FSsRxjF0xljr52deMqj3K+1txH8MYkk2+kMVOMNZo1H/
-	a99hULNRGVDFkA0s8d9wq7vJNULVuGkJtex5dvaxn7FxLxKlCe6J+ruzooM9FVFbDG7vAcwNpDd
-	c/DEJJzoBX2j3aqgy+0B/Jujgmhx9n3eoPl1ITqMtb6l4zafc6qmgMNZPG08UUb9seOtdX6gOMz
-	Sp7bPjIFCqwmt/sqTP2upb5dXFIbYtrR1qDVl6ivHNITEdFYYaem7DotP7bxS0X62X2fd0SN0lM
-	FpWhYk8Qbm5xyAdM8zZIHC8dX+uj3k
-X-Received: by 2002:a05:6000:186c:b0:43b:42e2:f4fc with SMTP id ffacd0b85a97d-43b64263ff2mr21553564f8f.26.1774292505939;
-        Mon, 23 Mar 2026 12:01:45 -0700 (PDT)
+        bh=YC5M6Gei+tjtXgncpnAEt2N0RrhP9pRpNjEcwCa4CLI=;
+        b=g/RcQGVUeWpHhnXupqoyPBbVLwm9Ld02RZa2gl0JM/xkGAJgUlbs3sk2xYWni8AQUF
+         s+Ui5R/TZ3V3ccUowspdia7Ojq1IoQ3OT4Shj6q76Qm+YIWjeVmqGvU8syywF/Ywg1nx
+         CBIqGvUTC+QKqkAB6ai2hzQeuBDCV9LDbKGq6slBjkXmB7ruuGv0W4oSCx3gMZ1AG1Xz
+         ETf6zF60QbcXSV32R1j0mlzzlXtIi47QuYw78dmpH+p2C0Ia9u+6oGv+jvt1ECP0SDU6
+         2iQxswTroUoXARDu7phm/vSSvUzXe1L5gIOfaAo9h1cZOhnhuQIWw0Ug5/LwRQA47VsB
+         rqFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW8N3XidkZD943Gcla/1EVSoiVROkkkK11j0HXzg9UVHNp5zn71jVYgFmv6SV6hPbgmEtPmSE9yrw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzomojQb7jFhO/BQiPn2LtANZk5kZezlLbEXdsJy19bXaOFr0AE
+	59Tp8vSX4KVTK6ia1/72R/qmxpJqhcy3BZzuHpypcNYIcJLyYWGiEmXSkVdhZG1hOos=
+X-Gm-Gg: ATEYQzw5rF0ImT6QGj1BEIRgiTeXkxNVNS+jvRD+pZVhk/QM2HgGDNadmYM+pPavhLX
+	/7bkIWFiiSvqY3X2JaGcgqNmR5wOI5xHzC8wVXUlAZdRUOr61nkWoqQjUbp5//mYDYBEYe/ogAs
+	31F40kW9oZtMfWbN8V+9L2Xv19a+dARg53XCi6oyMkWmdJELy4VvSaLtyvLZLU1JqSJ454PTiX+
+	KRRF0PpnolbS2/CBwWunfOzX65wjNR+j8H2wZyFzZYcXNkKu0fjTww2tbkA6JZDRYB38RRN3+s/
+	iAbDH7z8Ate9nxZLfFBQF+ZONm9IHJNHTYiZbpTQINx5MSUC+U6A+3Jua6hQwvKLCUdqqNcEPta
+	yrOoQFsYo6fKnWsp7nIu+byVSrBvrpGhqh2qBFPIdtbhdQpfcul//2Q6jPks/jMcPHTQyEEffPO
+	IKBlcLjibWrxGxRFUrVFsRImnTG28j
+X-Received: by 2002:a05:6000:2486:b0:43b:4951:6479 with SMTP id ffacd0b85a97d-43b642800a7mr20717468f8f.37.1774292510222;
+        Mon, 23 Mar 2026 12:01:50 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b64714decsm28606638f8f.31.2026.03.23.12.01.45
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644bdaf8sm36940550f8f.13.2026.03.23.12.01.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 12:01:45 -0700 (PDT)
-Date: Mon, 23 Mar 2026 22:01:42 +0300
+        Mon, 23 Mar 2026 12:01:49 -0700 (PDT)
+Date: Mon, 23 Mar 2026 22:01:47 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Linus Walleij <linusw@kernel.org>,
 	AKASHI Takahiro <akashi.tkhro@gmail.com>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc: Bartosz Golaszewski <brgl@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
 	Andy Shevchenko <andriy.shevchenko@intel.com>,
 	Linus Walleij <linusw@kernel.org>,
 	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
@@ -72,9 +70,9 @@ Cc: Bartosz Golaszewski <brgl@kernel.org>, Rob Herring <robh@kernel.org>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
 	Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>,
 	Michal Simek <michal.simek@amd.com>
-Subject: [PATCH v6 6/7] gpio: dt-bindings: Add GPIO on top of generic pin
- control
-Message-ID: <3ff8504571babfc0acaa74fccd1e12024d33dd11.1774283146.git.dan.carpenter@linaro.org>
+Subject: [PATCH v6 7/7] gpio: gpio-by-pinctrl: add pinctrl based generic GPIO
+ driver
+Message-ID: <edd789f8fc87f294211adf84b09c2af9f4aa6a6f.1774283146.git.dan.carpenter@linaro.org>
 References: <cover.1774283146.git.dan.carpenter@linaro.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -88,103 +86,174 @@ In-Reply-To: <cover.1774283146.git.dan.carpenter@linaro.org>
 
 From: AKASHI Takahiro <takahiro.akashi@linaro.org>
 
-Traditionally, firmware will provide a GPIO interface or a pin control
-interface.  However, the SCMI protocol provides a generic pin control
-interface and the GPIO support is built on top of that using the normal
-pin control interfaces.  Potentially, other firmware will adopt a
-similar generic approach in the future.
-
-Document how to configure the GPIO device.
+The ARM SCMI pinctrl protocol allows GPIO access.  Instead of creating
+a new SCMI GPIO driver, this driver is a generic GPIO driver that uses
+standard pinctrl interfaces.
 
 Signed-off-by: AKASHI Takahiro <takahiro.akashi@linaro.org>
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 Reviewed-by: Linus Walleij <linusw@kernel.org>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 ---
-v6: Fix the subject.  Sorry!
-    Fix typo in my email.
-    Add Krzysztof's reviewed-by tag.
-v5: Fix subsystem prefix
-    Re-word the commit message
-    I removed all references to the driver.  I also removed the
-    reference to pin muxing because that's described in the pin control
-    spec file.
-    Fix 3 vs 4 typo in the example.
-v4: Changed additionalProperties: true to false.
-    Add gpio-line-names.
-    Deleted one example.
-    Add r-b tags
+v6: Use pinconf_to_config_packed() instead of PIN_CONF_PACKED()
+v5: Clean up based on Andy's feedback:
+    Update Kconfig entry
+    Update Copyright date
+    Fix includes
+    Get rid of unused private data
+    Simplify pin_control_gpio_get_direction()
+v4: Add r-b tags
 v3: Forward port and update
+---
+ drivers/gpio/Kconfig           |  13 +++++
+ drivers/gpio/Makefile          |   1 +
+ drivers/gpio/gpio-by-pinctrl.c | 101 +++++++++++++++++++++++++++++++++
+ 3 files changed, 115 insertions(+)
+ create mode 100644 drivers/gpio/gpio-by-pinctrl.c
 
- .../bindings/gpio/pin-control-gpio.yaml       | 59 +++++++++++++++++++
- 1 file changed, 59 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/gpio/pin-control-gpio.yaml
-
-diff --git a/Documentation/devicetree/bindings/gpio/pin-control-gpio.yaml b/Documentation/devicetree/bindings/gpio/pin-control-gpio.yaml
+diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
+index b45fb799e36c..c631ecb01e07 100644
+--- a/drivers/gpio/Kconfig
++++ b/drivers/gpio/Kconfig
+@@ -246,6 +246,19 @@ config GPIO_BRCMSTB
+ 	help
+ 	  Say yes here to enable GPIO support for Broadcom STB (BCM7XXX) SoCs.
+ 
++config GPIO_BY_PINCTRL
++	tristate "GPIO support based on a pure pin control backend"
++	depends on GPIOLIB
++	help
++	  Support for generic GPIO handling based on top of pin control.
++	  Traditionally, firmware creates a GPIO interface or a pin
++	  controller interface and we have a driver to support it.  But
++	  in SCMI, the pin control interface is generic and we can
++	  create a simple GPIO device based on the pin control interface
++	  without doing anything custom.
++
++	  This driver used to do GPIO over the ARM SCMI protocol.
++
+ config GPIO_CADENCE
+ 	tristate "Cadence GPIO support"
+ 	depends on OF_GPIO
+diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
+index c05f7d795c43..20d4a57afdaa 100644
+--- a/drivers/gpio/Makefile
++++ b/drivers/gpio/Makefile
+@@ -51,6 +51,7 @@ obj-$(CONFIG_GPIO_BD9571MWV)		+= gpio-bd9571mwv.o
+ obj-$(CONFIG_GPIO_BLZP1600)		+= gpio-blzp1600.o
+ obj-$(CONFIG_GPIO_BRCMSTB)		+= gpio-brcmstb.o
+ obj-$(CONFIG_GPIO_BT8XX)		+= gpio-bt8xx.o
++obj-$(CONFIG_GPIO_BY_PINCTRL)		+= gpio-by-pinctrl.o
+ obj-$(CONFIG_GPIO_CADENCE)		+= gpio-cadence.o
+ obj-$(CONFIG_GPIO_CGBC)			+= gpio-cgbc.o
+ obj-$(CONFIG_GPIO_CLPS711X)		+= gpio-clps711x.o
+diff --git a/drivers/gpio/gpio-by-pinctrl.c b/drivers/gpio/gpio-by-pinctrl.c
 new file mode 100644
-index 000000000000..a05cd339253a
+index 000000000000..ddfdc479d38a
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/gpio/pin-control-gpio.yaml
-@@ -0,0 +1,59 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/gpio/pin-control-gpio.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/gpio/gpio-by-pinctrl.c
+@@ -0,0 +1,101 @@
++// SPDX-License-Identifier: GPL-2.0
++//
++// Copyright (C) 2026 Linaro Inc.
++//   Author: AKASHI takahiro <takahiro.akashi@linaro.org>
 +
-+title: Pin control based generic GPIO controller
++#include <linux/errno.h>
++#include <linux/gpio/driver.h>
++#include <linux/mod_devicetable.h>
++#include <linux/module.h>
++#include <linux/pinctrl/consumer.h>
++#include <linux/platform_device.h>
++#include <linux/types.h>
 +
-+description:
-+  The pin control-based GPIO will facilitate a pin controller's ability
-+  to drive electric lines high/low and other generic properties of a
-+  pin controller to perform general-purpose one-bit binary I/O.
++#include "gpiolib.h"
 +
-+maintainers:
-+  - Dan Carpenter <dan.carpenter@linaro.org>
++static int pin_control_gpio_get_direction(struct gpio_chip *gc, unsigned int offset)
++{
++	unsigned long config;
++	int ret;
 +
-+properties:
-+  compatible:
-+    const: scmi-pinctrl-gpio
++	config = PIN_CONFIG_OUTPUT_ENABLE;
++	ret = pinctrl_gpio_get_config(gc, offset, &config);
++	if (ret)
++		return ret;
++	if (config)
++		return GPIO_LINE_DIRECTION_OUT;
 +
-+  gpio-controller: true
++	return GPIO_LINE_DIRECTION_IN;
++}
 +
-+  "#gpio-cells":
-+    const: 2
++static int pin_control_gpio_direction_output(struct gpio_chip *chip,
++					     unsigned int offset, int val)
++{
++	return pinctrl_gpio_direction_output(chip, offset);
++}
 +
-+  gpio-line-names: true
++static int pin_control_gpio_get(struct gpio_chip *chip, unsigned int offset)
++{
++	unsigned long config;
++	int ret;
 +
-+  gpio-ranges: true
++	config = PIN_CONFIG_LEVEL;
++	ret = pinctrl_gpio_get_config(chip, offset, &config);
++	if (ret)
++		return ret;
 +
-+  ngpios: true
++	return !!config;
++}
 +
-+patternProperties:
-+  "^.+-hog(-[0-9]+)?$":
-+    type: object
++static int pin_control_gpio_set(struct gpio_chip *chip, unsigned int offset,
++				int val)
++{
++	unsigned long config;
 +
-+    required:
-+      - gpio-hog
++	config = pinconf_to_config_packed(PIN_CONFIG_LEVEL, val);
++	return pinctrl_gpio_set_config(chip, offset, config);
++}
 +
-+required:
-+  - compatible
-+  - gpio-controller
-+  - "#gpio-cells"
-+  - gpio-ranges
-+  - ngpios
++static int pin_control_gpio_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct gpio_chip *chip;
 +
-+additionalProperties: false
++	chip = devm_kzalloc(dev, sizeof(*chip), GFP_KERNEL);
++	if (!chip)
++		return -ENOMEM;
 +
-+examples:
-+  - |
-+    gpio {
-+        compatible = "scmi-pinctrl-gpio";
-+        gpio-controller;
-+        #gpio-cells = <2>;
-+        ngpios = <4>;
-+        gpio-line-names = "gpio_5_17", "gpio_5_20", "gpio_5_22", "gpio_2_1";
-+        gpio-ranges = <&scmi_pinctrl 0 30 4>;
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&keys_pins>;
-+    };
++	chip->label = dev_name(dev);
++	chip->parent = dev;
++	chip->base = -1;
++
++	chip->request = gpiochip_generic_request;
++	chip->free = gpiochip_generic_free;
++	chip->get_direction = pin_control_gpio_get_direction;
++	chip->direction_input = pinctrl_gpio_direction_input;
++	chip->direction_output = pin_control_gpio_direction_output;
++	chip->get = pin_control_gpio_get;
++	chip->set = pin_control_gpio_set;
++	chip->set_config = gpiochip_generic_config;
++
++	return devm_gpiochip_add_data(dev, chip, NULL);
++}
++
++static const struct of_device_id pin_control_gpio_match[] = {
++	{ .compatible = "scmi-pinctrl-gpio" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, pin_control_gpio_match);
++
++static struct platform_driver pin_control_gpio_driver = {
++	.probe = pin_control_gpio_probe,
++	.driver = {
++		.name = "pin-control-gpio",
++		.of_match_table = pin_control_gpio_match,
++	},
++};
++module_platform_driver(pin_control_gpio_driver);
++
++MODULE_AUTHOR("AKASHI Takahiro <takahiro.akashi@linaro.org>");
++MODULE_DESCRIPTION("Pinctrl based GPIO driver");
++MODULE_LICENSE("GPL");
 -- 
 2.53.0
 
