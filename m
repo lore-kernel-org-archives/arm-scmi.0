@@ -1,100 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5E5389E01;
-	Mon, 23 Mar 2026 10:05:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4AB13AC0EB
+	for <arm-scmi@vger.kernel.org>; Mon, 23 Mar 2026 13:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774260356; cv=none; b=r7isGl5KV6Q8AYxx3xYkLajTvwS41Yr7+UYPAfPT/xYFpNoej30IXuh6qHUINj8+dbFKH9WSTlCnEPdyMJ1YkbI4hJz5WHr+Nwk/UPR1CtkJoDKu18fikD2NTCp4RlbhJ5OHC9snDf8sC4YUDnt0Tvr/7X5dZHcq8MCv0Pw8XnA=
+	t=1774273171; cv=none; b=KK9XSDOc8ydDGsjYaTNiA3bGhdcLtbQVAzk8zir2rmhXaJ18jIs4O7A1OZdM5di9eilJqMJlKxqYhrEoUFg4Ttm4XtmQgK0uowgPiUQT4J+YnA3Ilr8Fp9q9RNUKbjhejSi2Q5mn48qmHvni6x4Y4+hMU9DGatxG/T5DAfCQOuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774260356; c=relaxed/simple;
-	bh=JJBE2H54vRz4zf4sW7rcTUZyA0w7Q6cpKGACdGRCEZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oMOtRviI7Az4Z32x5/d1j7gWdd2YniiQNqXeY1rR5to7zLI/okthloObYh42Ji2kF5KS8pbl+8xinYvDTTIXLv57Kae7KDkU8XF0Sh+nTEIdQvY06dv7b72ENq/9c9DDVprDR1s2krUpSc1jMGrsBd7BZpgKQDPue6i5F3W69+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BK8moRF6; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774273171; c=relaxed/simple;
+	bh=jkCUIidsz7gwYxrlA4jSqte/TYWbtveVTLHXjkLdtKw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IWjgYTgdtWfPKPKSvk8TYWiC7AYdSc41LijpdPB99jA0gqoaSySp/WhLXB8RsyklD1ViPs8o21S2mEcU3TkZlYNwLGJHl7UENa7vQLPJYCg98DPZ7XS7PPNDOdKn26MhrU1Fj0MwmvJMsLYEnW7KiqJTtnfy8nYsyD6Bq18/7Pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mx9l142j; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BK8moRF6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774260354; x=1805796354;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JJBE2H54vRz4zf4sW7rcTUZyA0w7Q6cpKGACdGRCEZE=;
-  b=BK8moRF66vbpFZPsS8TbDCVAoHnV+qL7P46w77Pv+7tqZ06QFwR/3K2w
-   uOEoVHaZfowtHw9n3RHPRKIpWbXTX1FD2CmekXGWltOAguppDce7KkQZl
-   LDgxKi0Ys7ik3Bi1IJ0NnrDfUpaII24JVPwb+7+7GMy5jCk7+MW6XDKrW
-   +gRSym7R7YIPremFv7ZKdprEgH9NiUD1DzooXK16HMW7JrPWnV9Kb6DMn
-   hApBJwzelVOAVZ1whWUDNjw2M1TePy3iBOP3t7ef1XLH3VYh8Xb2WBEK1
-   AMp3MXH31Hm1MS4i8n1V08yUFMd0Gai1hwO3VPsnTgmfJtRzHp6pryIBK
-   w==;
-X-CSE-ConnectionGUID: /UbQnRJETXG9A5j7NcFAzA==
-X-CSE-MsgGUID: C/RNA7aRQDWDpuSGDy/+XQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="77864013"
-X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="77864013"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 03:05:53 -0700
-X-CSE-ConnectionGUID: eb4czH4MSYiQrLKddUYIAQ==
-X-CSE-MsgGUID: cl0PiHs1Qw+V/iGcbH9/wQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="217498130"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.22])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 03:05:51 -0700
-Date: Mon, 23 Mar 2026 12:05:49 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Linus Walleij <linusw@kernel.org>,
-	AKASHI Takahiro <akashi.tkhro@gmail.com>,
-	Bartosz Golaszewski <brgl@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	arm-scmi@vger.kernel.org,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>,
-	Michal Simek <michal.simek@amd.com>
-Subject: Re: [PATCH v5 7/7] gpio: gpio-by-pinctrl: add pinctrl based generic
- GPIO driver
-Message-ID: <acEQfZlh7SrQ-k8a@ashevche-desk.local>
-References: <cover.1774087290.git.dan.carpenter@linaro.org>
- <4aabafcd30c1e5549dde11d6c2fe5f3f9976bce8.1774087290.git.dan.carpenter@linaro.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mx9l142j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84477C2BCB6
+	for <arm-scmi@vger.kernel.org>; Mon, 23 Mar 2026 13:39:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774273171;
+	bh=jkCUIidsz7gwYxrlA4jSqte/TYWbtveVTLHXjkLdtKw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=mx9l142j9/m0UI46OOb+GWAW1pORGNXxaDBuc9v6ZkakFQbzroNLCavqBJqh1RAjm
+	 Dw1zr5ANEorif8nAfn1I6Icu+TzvNKp/YRggzNo7Qmrfj1UhhPAFUPMQRJCngTQVET
+	 jZNxpVTD6YKXRqCdhLIUvq9UOpXy2K0ETB2nqWl43pSEskVkLJ4m9Yg9oBrFlAZ3Mc
+	 EmSQ+/RbbbRdPXRrPv/1N/uhKnWDoiJ7HD7lDQP/I47QDrFGVHLT/6SKfSpD8iyQLg
+	 axqzmSdYlSgx330ba43p93g20+p41gV4eI2w4TjX1qWR1392Li/APrPuy76fICRvjv
+	 xSDL/C15IkqTA==
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-64ad46a44easo3807464d50.0
+        for <arm-scmi@vger.kernel.org>; Mon, 23 Mar 2026 06:39:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXx7iLvQDVHGFYhOnnQX4dJYqqnEYZZV5MggTHAZNXiGgGnshf7S+/fz1Do39sWD4e7cPVi/on7vQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVmbRsLppbmyCiKfdscWvQ4gnH0nkseK72RMP0IdjLCaqvZbnZ
+	5uMkuTrDWs+0ipnMi32IxjK9A5azjxVk/rLLYQVFkW9SCIg1Km/upar57ubgDgIqQ3nNLi5gf/7
+	rRpdpMztTjWtTuYsklqqnyHkWd1tUlIA=
+X-Received: by 2002:a53:ee4a:0:b0:64e:8baa:3b09 with SMTP id
+ 956f58d0204a3-64eaa8245a5mr9789768d50.76.1774273170889; Mon, 23 Mar 2026
+ 06:39:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4aabafcd30c1e5549dde11d6c2fe5f3f9976bce8.1774087290.git.dan.carpenter@linaro.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <cover.1774087290.git.dan.carpenter@linaro.org> <CAMRc=McyeeEaagvkoU3MDAof_N_e+f-sVwCDak5Y7F5cQZd-7w@mail.gmail.com>
+In-Reply-To: <CAMRc=McyeeEaagvkoU3MDAof_N_e+f-sVwCDak5Y7F5cQZd-7w@mail.gmail.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Mon, 23 Mar 2026 14:39:18 +0100
+X-Gmail-Original-Message-ID: <CAD++jLnmRHZ+0UFp9EppfmwLf71Qnyq40SNpvweFELdJJKeSYw@mail.gmail.com>
+X-Gm-Features: AQROBzCbLfOCkGBtA0I38z2oF7Dbu2aCapqqw5ne1lBSzv9Hd8XJ8sI2hrdw5Zs
+Message-ID: <CAD++jLnmRHZ+0UFp9EppfmwLf71Qnyq40SNpvweFELdJJKeSYw@mail.gmail.com>
+Subject: Re: [PATCH v5 0/7] gpio: introduce a gpio driver for SCMI
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, AKASHI Takahiro <akashi.tkhro@gmail.com>, 
+	arm-scmi@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+	Cristian Marussi <cristian.marussi@arm.com>, Dan Carpenter <dan.carpenter@linaro.og>, 
+	devicetree@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>, 
+	Sudeep Holla <sudeep.holla@kernel.org>, Andy Shevchenko <andriy.shevchenko@intel.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>, 
+	Michal Simek <michal.simek@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 21, 2026 at 01:14:06PM +0300, Dan Carpenter wrote:
+On Mon, Mar 23, 2026 at 10:58=E2=80=AFAM Bartosz Golaszewski <brgl@kernel.o=
+rg> wrote:
+> On Sat, Mar 21, 2026 at 11:13=E2=80=AFAM Dan Carpenter <dan.carpenter@lin=
+aro.org> wrote:
+> >
+> > This basically abandons my earlier attempts and goes back to Takahiro
+> > Akashi's driver.  Here is the link to Takahiro's patchset:
+> >
+> > https://lore.kernel.org/all/20231005025843.508689-1-takahiro.akashi@lin=
+aro.org/
+> >
+> > v5: Addresses Andy's cleanups to the driver.
+> >     Adrresses Krzysztof's comments about the dt spec file.
+> >     And almost all the subsystem prefixes were wrong.
+> >
+> > v4: Addressed Andy's comments about kernel-doc
+> >     Addressed Rob's comments on the spec file
+> >
+> > v3: Forward ported Takahiro's patches and added some fixes ups to make
+> >     it work on current kernels.
+>
+> Once ready, how should this go in? Immutable branch in pinctrl and
+> final two patches through GPIO tree?
 
-> The ARM SCMI pinctrl protocol allows GPIO access.  Instead of creating
-> a new SCMI GPIO driver, this driver is a generic GPIO driver that uses
-> standard pinctrl interfaces.
+Sounds like a plan, let's do that.
 
-...
-
-> +static int pin_control_gpio_set(struct gpio_chip *chip, unsigned int offset,
-> +				int val)
-> +{
-> +	unsigned long config;
-> +
-> +	config = PIN_CONF_PACKED(PIN_CONFIG_LEVEL, val);
-
-No driver uses this macro directly.
-pinconf_to_config_packed() is.
-
-> +	return pinctrl_gpio_set_config(chip, offset, config);
-> +}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Yours,
+Linus Walleij
