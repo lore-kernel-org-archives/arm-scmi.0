@@ -1,76 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABAA2C187;
-	Mon, 23 Mar 2026 08:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A74638645F;
+	Mon, 23 Mar 2026 09:31:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774252986; cv=none; b=MKFvKCzX+Qq2heX0Kr4OzrXKSiGrl0AhT7xy6s2lVoBUn4fn1GRyqNMEyi6u6sZzeYLhFR8Iu42NYQ9Zcda1FVFlepujy3PvkAbMB1UbAtW4bqCcsGTqd8pmcAubDvdXoLCUmLi+zWy9xLicDrPKZIRDCm8NElXoz3qGFWkDAfg=
+	t=1774258279; cv=none; b=H167RyIXtnC7D6W2rsBSPIEMiIo3kK/9xrOcgbqdQd95YvEX25Ogf6wINg837VoMD8XUdo7sFpMRPzH/e+Hl2jvrYGRIcIVHVBXQiXdWO1CV8QBghr9JXshJuPbPyIOaagk+4tejKNe8WHL0PdiQQePd05PZbNEidK4rzXnhkac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774252986; c=relaxed/simple;
-	bh=23wvUupD7z2heMh29Yvr/0kT7GzmUPE/AucCHNKTs8s=;
+	s=arc-20240116; t=1774258279; c=relaxed/simple;
+	bh=/xaKgDzdUXAip4kiZ3mBDtc5Io2Fo7/8TxIhCfHpVcE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BfJy4Qa1woqtDsqzHvli583CzezyUsTeMdZPRQ3BCr/Lj1ofjh4XuYDKx6WQlyqKc+4uCMfx9KwpbsmBoJnvFVgs/PnEwW8wnNWu4ETP9IHM6nq56ikXRR4kK2/1WdsDsDErcTFjbwHeCTmiaSCblZN2szU2Vk04LO/+ym90oGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T8eZFjZM; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=ay5apGXmXzq4syIOrutA/fN5gfS3Ilt2x7hIEnRsIBILIBfsqiGa7V5LzLwQkurmPNTs9+q5pXa/sneX6bRLqfOV5DwrZLrAoRCc9i3YNhEf2wGu9aS3syqVyQLi0hrG7Ozdmeha2U8OSPPfdNx0d63vdBwvm+zIpyDnGcMEvwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EzEPDdhT; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T8eZFjZM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EzEPDdhT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774252983; x=1805788983;
+  t=1774258278; x=1805794278;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=23wvUupD7z2heMh29Yvr/0kT7GzmUPE/AucCHNKTs8s=;
-  b=T8eZFjZMozNlNh9MlJzZxFHIZkWQCbYQrWm923x+QcfDH+KVeFpEJrFw
-   N9oAKjcDtYN4jGYA/xKU41p41eu5DWIZhyoE4aMF/kSeX0zORqp6s4TME
-   O3LfE4B0x6/vDvMDbU4NsB70KOyX4M6241O/1F42YPUj3IkXNb19h2Wvv
-   1ghAYZNsDkHeGBWmokS6MFBtc0/63jog1PsNgkmYJ4ncGLmak86PzX/xj
-   uDS51o9XUdJ3mTvErhpmGYQboUuJtsYu/M/5avVaKq6ERYX3z/cOZzT1x
-   USwStylokFdp5ImD1KZn6Z/kMEuMBHpk8MPZFiy/zMnZFi3WVSJLQTSaf
-   w==;
-X-CSE-ConnectionGUID: IckGdHz8Qo6/YIiBIKpdyg==
-X-CSE-MsgGUID: oMMtHaAtRYOtmqjaiFmq1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="97866291"
-X-IronPort-AV: E=Sophos;i="6.23,136,1770624000"; 
-   d="scan'208";a="97866291"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 01:03:03 -0700
-X-CSE-ConnectionGUID: VnDVyWwnS0ipzDBp/IPZvg==
-X-CSE-MsgGUID: RsnSiDuUSKWZiIBlERxpCA==
+  bh=/xaKgDzdUXAip4kiZ3mBDtc5Io2Fo7/8TxIhCfHpVcE=;
+  b=EzEPDdhTTASbb39eEzF8OJrmqUy/LnHxHD7pfioFCpyfYwhtYp/7kMOc
+   WKCWuquLilg77GWY/2q7dCa1b5yAfhSX34QLt9+ehxIJ8McRekfdF23vS
+   aC6VAO7phHvIPRoZNmyc4egjn/FqqtQ+N5nyem7LA2fkiNhGsRwWj9bXd
+   vDdXZurvqXxrOfmKlDaFNPfjmpUU6PWi5mQmjOetxzxcgv4iz5ZXiLPSM
+   5z2jaCrp4veIYwWJqVjI7QQvrqKIBondcLVWid+LRUSh8IOa5fbh1O2ev
+   dDqJ7rLABs89i4B7JtH+WjO9Q+sSc+2LcTSL5EzX2OP8i6kMTHq9di6UZ
+   Q==;
+X-CSE-ConnectionGUID: mdO5bbRUSgaQXL6f5amDsg==
+X-CSE-MsgGUID: 2Eg1H9C/SnOH1eAOZ6ZqrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="100703342"
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="100703342"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 02:31:17 -0700
+X-CSE-ConnectionGUID: CJiAscDmSviIbs8GWRklRg==
+X-CSE-MsgGUID: 1ViZh9WrShO4BC1TPb3Y+w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,136,1770624000"; 
-   d="scan'208";a="223021677"
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="247003880"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.22])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 01:02:59 -0700
-Date: Mon, 23 Mar 2026 10:02:56 +0200
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 02:31:14 -0700
+Date: Mon, 23 Mar 2026 11:31:12 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Peng Fan <peng.fan@oss.nxp.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, Tom Rini <trini@konsulko.com>,
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Linus Walleij <linusw@kernel.org>,
 	AKASHI Takahiro <akashi.tkhro@gmail.com>,
-	Peng Fan <peng.fan@nxp.com>, Greg Malysa <malysagreg@gmail.com>,
-	Utsav Agarwal <utsav.agarwal@analog.com>,
-	Vasileios Bimpikas <vasileios.bimpikas@analog.com>,
-	Ian Roberts <ian.roberts@timesys.com>,
-	Oliver Gaskell <Oliver.Gaskell@analog.com>,
-	Yegor Yefremov <yegorslists@googlemail.com>,
-	Philip Molloy <philip.molloy@analog.com>,
-	Nathan Barrett-Morrison <nathan.morrison@timesys.com>,
-	Eoin Dickson <eoin.dickson@microchip.com>,
-	Arturs Artamonovs <arturs.artamonovs@analog.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Tanmay Kathpalia <tanmay.kathpalia@altera.com>,
-	u-boot@lists.denx.de, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	arm-scmi@vger.kernel.org, linux-gpio@vger.kernel.org,
+	arm-scmi@vger.kernel.org,
 	Vincent Guittot <vincent.guittot@linaro.org>,
 	Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>,
 	Michal Simek <michal.simek@amd.com>
-Subject: Re: [PATCH v2 4/4] gpio: scmi: Add gpio_scmi driver
-Message-ID: <acDzsKoMdfcXecca@ashevche-desk.local>
-References: <cover.1773256350.git.dan.carpenter@linaro.org>
- <f8e1dcb617917dfe69efce0b3407f8786e4c971d.1773256350.git.dan.carpenter@linaro.org>
- <acC2fSdjDmj5Wp1a@nxa18884-linux.ap.freescale.net>
+Subject: Re: [PATCH v5 1/7] pinctrl: introduce pinctrl_gpio_get_config()
+Message-ID: <acEIYI-O8WrsowSS@ashevche-desk.local>
+References: <cover.1774087290.git.dan.carpenter@linaro.org>
+ <f7a41ed017fba4a0986ffe72e06933cc1bba2406.1774087290.git.dan.carpenter@linaro.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -79,23 +67,20 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <acC2fSdjDmj5Wp1a@nxa18884-linux.ap.freescale.net>
+In-Reply-To: <f7a41ed017fba4a0986ffe72e06933cc1bba2406.1774087290.git.dan.carpenter@linaro.org>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Mar 23, 2026 at 11:41:49AM +0800, Peng Fan wrote:
+On Sat, Mar 21, 2026 at 01:13:22PM +0300, Dan Carpenter wrote:
 
-[....]
+> This is a counterpart of pinctrl_gpio_set_config(), which will be used
+> to implement the ->get() interface in a GPIO driver for SCMI.
 
-> >+	ret = snprintf(NULL, 0, "gpio_scmi%d_", bank_cnt);
-> >+	uc_priv->bank_name = devm_kzalloc(dev, ret + 1, GFP_KERNEL);
-> >+	if (!uc_priv->bank_name)
-> >+		return -ENOMEM;
-> >+	snprintf(uc_priv->bank_name, ret + 1, "gpio_scmi%d_", bank_cnt);
-> 
-> build fail in CI [1]:
+...
 
-Moreover, this is reinvention of devm_kasprintf() to begin with.
+> +	ret = pin_config_get_for_pin(pctldev, pin, config);
+
+Seems you need also add a stub for this for !CONFIG_GENERIC_PINCONF.
 
 -- 
 With Best Regards,
