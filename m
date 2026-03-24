@@ -1,186 +1,143 @@
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D803FCB3C
-	for <arm-scmi@vger.kernel.org>; Tue, 24 Mar 2026 13:43:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.45
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 022E53FF89F;
+	Tue, 24 Mar 2026 14:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774359835; cv=none; b=NoZvdYxqeDLkEz4XFie3xhxl1TVw/zAWDw1yN0LlK/kZUZbCqPixYfLAkG4hXSgJey/9ILWCtBZ2ztfCzWF/Bjv34T7UU3wYtbo1X/mhJFwQhc/qvhZaN37aHYXsfss1BstTNeqa4FnjZQG+jq5D7WHvJvTL/NzEi5z9DCeSuSs=
+	t=1774362934; cv=none; b=mJghS9aaNXNYSSwchlV/65No0mfISFn3XHn0v4uqQxXbBijmGIv+kVFh7M85hKtBYRUFkjOz6SJtvEUHcMW7D97kuvglr5W8XtV5zKpso+4gK+gW6SR4AqhUkz9TmSjCNV5gijsGk5XSLE0jPPqBTidG8Pg79nzv/wKg6HprpzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774359835; c=relaxed/simple;
-	bh=v0TQlWPzu8GTPZY9FpXVbuwaCxkxoZDN7EjwI6xWIr0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lH5wQ9ZhEJohC/bqWudwVZhoPoh5WZbR3xjPnzuiadRDWjoNZ2B24zCSV180/xfWsCrWPZSCSwB9jKF0ZIiApocMy3mUqxEG6/8IUzj7iio3UVotbZg77bkVJGBe+BXb0sZBMKaGgx7/YyzGddd7oVkePHXKuUOhQJqA63CeiHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-5ffe9a5b128so1412644137.2
-        for <arm-scmi@vger.kernel.org>; Tue, 24 Mar 2026 06:43:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774359834; x=1774964634;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D3UNdFM/2oVC0aBHnMmb6liNAkmGmbywgRrpmh1ChmU=;
-        b=bZTyR4KrYlN2QiZU0GWI6ZNfMBHYmLEjOy/7K1uRz+LwgNq11SHyUPQMSCNsMYi4uu
-         dmzS2klSiFPgoIGof3axdxdxK2rtZ0eqVtrRezoHxBF6hy0BrPbgxv3J7Fv1Hc1S0MyE
-         wQxBuaOIwJ0tCBvavMtUPUi5iEaVKvLeY8ANt3h68JnP3MaCt0pja2Xtk2dP3bySBZhc
-         NwK+DT41VDcT7ImWoZLzEyTLLajwxd+qiftsAejvE1e844d4+RjjKMlrIHMYB4CBooFM
-         VBSQakiObuuks2FGbZxCuI0DL2Ymh6u7gNgJY+soJyyRTLI1u0btnBtbAjc88y7hzzbQ
-         ZzJw==
-X-Forwarded-Encrypted: i=1; AJvYcCV0hgU07S7zqhSHKrS+CTbvZYTeb6kGwQXMZQJu42o1BOEjRfyq8HUhf5GGX4AfwtbgPI/6f2qGUA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfBM8IGRPnF3FHa7p6lsoKQoStO5CHWXTw3TyxP+I302sBPrN4
-	Fou566V4Dzh3pAXZA5Cn6Dl6vMGpN8TQ/bAZ0ydH/RQnMZA7+27sQzPlaG4nHLKI06s=
-X-Gm-Gg: ATEYQzz9HrG9K1f2P+JsBNfkdFDuU1Jb4l2716W82YgtlcIv7AmanUqkXXy+iVJsS3e
-	mtAyXk9IcjPAWdJ+FxsZ/7lhrxayaP3hsW/E9z42UBJuQzcLtZeM/BKZ0hPMB3c+FG16AlbE08o
-	7sjOdqxeo3tWppiflie1DQexpCsuzTct7zaEgEdVzWsVBH3SzBGyMJax0b5PeSK2IUbkVnyRRM7
-	W+8dIZbDWgC1SU5+24ZGaIqtZJ0lZ/wxa1EU8DimvRZ17O6YSuopeSr+D42jYONxYTXVqT78zyd
-	5MgoXzbGQ3ibtZ7kNQPTYSpOAnTeY0Env7Lw4OP8TWM2vjVhitgkxXdgwdj7/tsY7ZcnKrmDAWW
-	nZFXcpjnJzPEsByptkA5QIIR/+BrOe5bL2b1yVWj39jwXTEWJiVTHIOIDDtA3Co1lKKlNrb61mU
-	nsXulsI0wbiY+VrhPMWuv6KKoRSRfesY2+kWt9Nw1Ex/cXcUITrPRPxPmMuRurfMlWPnFsvNI=
-X-Received: by 2002:a05:6102:6b01:b0:602:86a6:986a with SMTP id ada2fe7eead31-602aed277a0mr7885005137.27.1774359833549;
-        Tue, 24 Mar 2026 06:43:53 -0700 (PDT)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-602af8ae780sm10787944137.4.2026.03.24.06.43.52
-        for <arm-scmi@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Mar 2026 06:43:52 -0700 (PDT)
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-950d235b500so1450501241.0
-        for <arm-scmi@vger.kernel.org>; Tue, 24 Mar 2026 06:43:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWMqmtkxC5FvwH8y0iQ7vVZn+YeI9vhHNIFXRVifjdGAK4zrBMVh0d5m1U/jacsBWvGF0YR1NFhBw==@vger.kernel.org
-X-Received: by 2002:a05:6102:5812:b0:602:71a7:63c2 with SMTP id
- ada2fe7eead31-602aecd0de0mr7186355137.23.1774359832015; Tue, 24 Mar 2026
- 06:43:52 -0700 (PDT)
+	s=arc-20240116; t=1774362934; c=relaxed/simple;
+	bh=WPd4At4OVeMrUVA1K/Eh5KCs9ljuPJONJ4dUEZvo+yU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EFs+2slpdijEONsr0zF5mQlow2TJhV2edCUxth7kCn+3X+T6A3eA36xLWI/MiE25pBOBlFYh9nrWFeNIbEJL2aH4Bq6hF4QTpYnWRfacyBioCEBPiH942vhzIWpM3HOU1aN9v6uKY/rr5ULOLw0uFK6S/bjfLsUr5AyXsglVvuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=M2/sRZnu; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="M2/sRZnu"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 65324153B;
+	Tue, 24 Mar 2026 07:35:26 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3170A3F915;
+	Tue, 24 Mar 2026 07:35:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1774362932; bh=WPd4At4OVeMrUVA1K/Eh5KCs9ljuPJONJ4dUEZvo+yU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=M2/sRZnuEHdGGxSh8fetnbPDv9Tzmjl49RncTarSgMEQ1PcaSmLkZe6mDhfIlQ9LU
+	 f3Q6Jsu2Z9M/6unjZOs/7tSNWINpHREURdtuY1+/uRcMx+4zykJuHygYgmSZmUW2Fw
+	 ECkOwyzuZ6S8Hc5F6fTzKglynpEqIkKDqHjbHeBc=
+Date: Tue, 24 Mar 2026 14:35:19 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	"Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+	Jacky Bai <ping.bai@nxp.com>, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH] firmware: arm_scmi: clock: Relax check in
+ scmi_clock_protocol_init
+Message-ID: <acKhJ8Z9WDvHEnYL@pluto>
+References: <20260324-scmi-clock-fix-v1-v1-1-65c21935824b@nxp.com>
+ <20260324-lean-bobcat-of-reputation-6628b5@sudeepholla>
+ <acJI7o79lVNMjV_d@pluto>
+ <CAMuHMdVcE439Cyn-TCoioLZXP-YpqObZ0UF8F2NvMCZ41eO6QQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260310184030.3669330-1-cristian.marussi@arm.com>
- <20260310184030.3669330-9-cristian.marussi@arm.com> <CAMuHMdUdqrA9kYeDpjwj-y6-4aALkAi2g2Od81Kxh-EVW2e2Nw@mail.gmail.com>
- <abG4VfyB2C-gBa5Q@pluto> <20260312-classy-misty-platypus-5baea1@sudeepholla>
- <abLrm7x8ggzAhYOg@pluto> <CAMuHMdVWL4rVTPnsMofPKFKCozjCPqF0K95ZFmrdrBD8EUt22A@mail.gmail.com>
- <abgsW1yoGtMNE3c7@pluto> <CAMuHMdU1Z9NiQOd10zsimMcOfSC=dVYbfjAKKT4aD3Zx9KttVQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdU1Z9NiQOd10zsimMcOfSC=dVYbfjAKKT4aD3Zx9KttVQ@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 24 Mar 2026 14:43:40 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWm9X5TLaAHgCsMqjFZLvUsDjrf4CqzNiO-Hsr4X9bDtw@mail.gmail.com>
-X-Gm-Features: AQROBzDvNZgLoQvhVJc-PSdP06Iq5zvkWOybQz-6zVMkfKMPvuuu_fBc0vUNAPY
-Message-ID: <CAMuHMdWm9X5TLaAHgCsMqjFZLvUsDjrf4CqzNiO-Hsr4X9bDtw@mail.gmail.com>
-Subject: Re: [PATCH v2 08/13] firmware: arm_scmi: Harden clock protocol initialization
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	philip.radford@arm.com, james.quinlan@broadcom.com, f.fainelli@gmail.com, 
-	vincent.guittot@linaro.org, etienne.carriere@foss.st.com, 
-	peng.fan@oss.nxp.com, michal.simek@amd.com, dan.carpenter@linaro.org, 
-	geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com, 
-	marek.vasut+renesas@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdVcE439Cyn-TCoioLZXP-YpqObZ0UF8F2NvMCZ41eO6QQ@mail.gmail.com>
 
-Hi Cristian,
+On Tue, Mar 24, 2026 at 02:15:36PM +0100, Geert Uytterhoeven wrote:
+> Hi Cristian,
 
-On Mon, 16 Mar 2026 at 17:35, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Mon, 16 Mar 2026 at 17:14, Cristian Marussi <cristian.marussi@arm.com> wrote:
-> > On Mon, Mar 16, 2026 at 04:50:17PM +0100, Geert Uytterhoeven wrote:
-> > > Then I came up with the following preliminary (have to check more
-> > > firmware versions) quirk (Gmail whitespace-damaged):
+Hi Geert,
+
+> 
+> On Tue, 24 Mar 2026 at 09:41, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> > On Tue, Mar 24, 2026 at 07:49:22AM +0000, Sudeep Holla wrote:
+> > > On Tue, Mar 24, 2026 at 02:24:14PM +0800, Peng Fan (OSS) wrote:
+> > > > On i.MX95, the SCMI Clock protocol defines several reserved clock IDs that
+> > > > are not backed by real clock devices
+> > > > (see arch/arm64/boot/dts/freescale/imx95-clock.h).
+> > > >
+> > > > For these reserved IDs, the SCMI firmware correctly returns NOT_FOUND in
+> > > > response to the CLOCK_ATTRIBUTES command. According to the SCMI Clock
+> > > > specification, NOT_FOUND is expected when a clock_id does not correspond to
+> > > > a valid clock device.
+> > > >
+> > > > The recent hardening added in scmi_clock_protocol_init() treats any error
+> > > > return as fatal, causing SCMI clock probe to fail and preventing i.MX9
+> > > > platforms from booting.
+> > > >
+> > > > Relax the check so that -ENOENT is treated as a non-fatal condition.
 > > >
-> > > diff --git a/drivers/firmware/arm_scmi/clock.c
-> > > b/drivers/firmware/arm_scmi/clock.c
-> > > index f62f9492bd42afbc..6f2af6e9084836c6 100644
-> > > --- a/drivers/firmware/arm_scmi/clock.c
-> > > +++ b/drivers/firmware/arm_scmi/clock.c
-> > > @@ -1230,6 +1230,18 @@ static const struct scmi_protocol_events
-> > > clk_protocol_events = {
-> > >         .num_events = ARRAY_SIZE(clk_events),
-> > >  };
+> > > I understand the use-case and the fix here, but still wonder if this
+> > > should be treated as quirk or handle it in the core. I am inclined to
+> > > latter as reserved SCMI clock/resource ID seems to be trend in its usage
+> > > and hard to classify as quirks.
 > > >
-> > > +#define QUIRK_RCAR_X5H_NO_ATTRIBUTES                                   \
-> > > +       ({                                                              \
-> > > +               if (ret == -EREMOTEIO || ret == -EOPNOTSUPP)            \
-> > > +                       continue;                                       \
-> > > +       })
-> > > +
-> > > +#define QUIRK_RCAR_X5H_NO_RATES
-> > >          \
-> > > +       ({                                                              \
-> > > +               if (ret == -EOPNOTSUPP)                                 \
-> > > +                       ret = 0;                                        \
-> > > +       })
-> > > +
-> > >  static int scmi_clock_protocol_init(const struct scmi_protocol_handle *ph)
-> > >  {
-> > >         int clkid, ret;
-> > > @@ -1254,10 +1266,12 @@ static int scmi_clock_protocol_init(const
-> > > struct scmi_protocol_handle *ph)
-> > >         for (clkid = 0; clkid < cinfo->num_clocks; clkid++) {
-> > >                 cinfo->clkds[clkid].id = clkid;
-> > >                 ret = scmi_clock_attributes_get(ph, clkid, cinfo);
-> > > +               SCMI_QUIRK(clock_rcar_x5h_no_attributes,
-> > > QUIRK_RCAR_X5H_NO_ATTRIBUTES);
-> > >                 if (ret)
-> > >                         return ret;
-> > >
-> > >                 ret = scmi_clock_describe_rates_get(ph, clkid, cinfo);
-> > > +               SCMI_QUIRK(clock_rcar_x5h_no_attributes,
-> > > QUIRK_RCAR_X5H_NO_RATES);
-> > >                 if (ret)
-> > >                         return ret;
-> > >         }
->
-> > > Does that look like what you have in mind?
-> > > Thanks!
+> > > Cristain, agree or have a different view ?
 > >
-> > Yes in quirk I was only addressing NOT_ATTRIBUTES and mimicing the old
-> > behaviour with continue, BUT if the set of clocks not supporting attributes
-> > and the set of clocks not suppporting rates is disjoint, I feel we need your
-> > double quirks :P
->
-> I could have used
->
->     SCMI_QUIRK(clock_rcar_x5h_no_attributes, QUIRK_RCAR_X5H_NO_ATTRIBUTES);
->
-> after both scmi_clock_attributes_get() and
-> scmi_clock_describe_rates_get(), but I wanted to keep the check as
-> strict as possible: the former returns two error codes to ignore,
-> the latter only one.
+> > I was just replying...
+> >
+> > Looking at the spec 3.6.2.5 CLOCK_ATTRIBUTES
+> >
+> > "This command returns the attributes that are associated with a specific clock. An agent might be allowed access to only
+> > a subset of the clocks available in the system. The platform must thus guarantee that clocks that an agent cannot access
+> > are not visible to it."
+> >
+> > ...not sure if this sheds some light or it is ambiguos anyway...I'd say that
+> > NOT_FOUND does NOT equate to be invisible...
+> >
+> > ...BUT at the same time I think that this practice of exposing a non-contiguos
+> > set of resources IDs (a set with holes in it) is the a well-known spec-loophole
+> > used by many vendors to deploy one single FW image across all of their platforms
+> > without having to reconfigure their reosurces IDs ro expose a common set of
+> > contiguos IDs like the spec would suggest...
+> >
+> > Having said that, since we unfortunately left this door open in the
+> > implementation, now this loophole has become common practice
+> > apparently...
+> 
+> When I first read that paragraph, I was also confused.
+> What does "not visible" mean?
+>   - Not present in the clock ID space exposed to that client of
+>     the system?
+>     Yeah, multiple different sequences of contiguous IDs, depending
+>     on client!
 
-So these are two mitigations:
+Yes that is the most spec-compliant interpretation usually; in general
+across all protocols the SCMI server, through customized enumeration
+results, should provide a per-agent view of the system: this should help
+handling shared or virtualized resources, since the agent always see
+only the 'illusion' provided by the server...
 
-    #define QUIRK_RCAR_X5H_NO_ATTRIBUTES    ({ ... })
-    SCMI_QUIRK(clock_rcar_x5h_no_attributes, QUIRK_RCAR_X5H_NO_ATTRIBUTES);
+...under this assumption if you dont even need a resource at all (not
+RW nor RO) you should NOT even be able to see it...this in turn of
+course means that in order to expose a contiguous set of IDs you should
+be able to properly configure at build time the FW resources on a per
+platform basis...
 
-and
+>   - Return failure on CLOCK_ATTRIBUTES?
+>     Which is what implementations seem to do.
 
-    #define QUIRK_RCAR_X5H_NO_RATES         ({ ... })
-    SCMI_QUIRK(clock_rcar_x5h_no_attributes, QUIRK_RCAR_X5H_NO_RATES);
+Yes this is what is done leveraging the gap in the implementation...I am
+not sure that the non-contiguous set of IDs is supported if not by
+chance as of now :P (especially in other protocols)
 
-gated by a single quirk entry clock_rcar_x5h_no_attributes:
+> 
+> The next step in the fun is when the system actually needs to know the
+> clock rate of such a clock...
 
-    DECLARE_SCMI_QUIRK(clock_rcar_x5h_no_attributes);
-    DEFINE_SCMI_QUIRK(clock_rcar_x5h_no_attributes, "Renesas", NULL,
-                      "0x10a0000", "renesas,r8a78000");
-    __DECLARE_SCMI_QUIRK_ENTRY(clock_rcar_x5h_no_attributes),
+Well...that seems a bit of wishful thinking ...
 
-In general, when a specific SCMI implementation has multiple quirks
-and needs multiple mitigations, do you prefer to have individual
-entries for each quirk plus mitigation, or just a single entry with
-multiple mitigations (which may not be limited to a single protocol,
-unlike my example above)?
+...sort of a Schrödinger's clock :P .. it is NOT_FOUND but does have rates ?
 
-Thanks!
-
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+Cristian
