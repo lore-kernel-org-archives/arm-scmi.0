@@ -1,36 +1,75 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D606723C39A;
-	Tue, 24 Mar 2026 08:19:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C3338A704
+	for <arm-scmi@vger.kernel.org>; Tue, 24 Mar 2026 08:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774340351; cv=none; b=qId8MKddBlMdHc0OPuXLA8UtCnMAo53himzEzFN2mqQWOFv0khsMUYUPGK2O6oQUQf1QSOf5x879rW2ydHxojVfVjBm9a3HDbQiroSzeyKdUcZcSJ6+4bCMN1K3SpbHeBtYotOhb1EzC2aPLXf+nwna3PzsXm06jp0l/OHVZ5es=
+	t=1774341893; cv=none; b=Do7m1ZdPGf5Zp97N7kUIQ4VotN/zJxwpVhcsVuhat7gwuDfFDJkgfq6iTfW1IKi6J/U3QRNLVqx+bW/8E0V/TN386BEWUBOHZZSdcnW1cfA8UasPIcZZYHvOggoemAvoT3CF68Y1h0eA9Kc4Zp0I3ly4olF0QsYhRAyKt1mnu9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774340351; c=relaxed/simple;
-	bh=e/Dq7NYDFQdGG8flGJOMFKnKb0IgmvX/864Uyge0xi8=;
+	s=arc-20240116; t=1774341893; c=relaxed/simple;
+	bh=udPrt/KAxsrJYRa8C59qXClcTqavIwLcvvnP9zDDsMs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CVMKrYUS3tyNaJyS+8IDdPdXoHmV0GZ7nLG/WCaftpvJAg86ebg9A3w3IEgCCZOy1NrKLellxHfzNkyhhz9RhPIl77eHY4EYGB72uEERXOwFeZ62FR+hT1/EYTGcyiKZxlZR9cI42hvhGRveu/SQSrRyiGlSJFAfoz5CyNKeOD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C40281476;
-	Tue, 24 Mar 2026 01:18:58 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 83CE03F63F;
-	Tue, 24 Mar 2026 01:19:01 -0700 (PDT)
-Date: Tue, 24 Mar 2026 08:18:54 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Jacky Bai <ping.bai@nxp.com>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH] firmware: arm_scmi: clock: Relax check in
- scmi_clock_protocol_init
-Message-ID: <acJI7o79lVNMjV_d@pluto>
-References: <20260324-scmi-clock-fix-v1-v1-1-65c21935824b@nxp.com>
- <20260324-lean-bobcat-of-reputation-6628b5@sudeepholla>
+	 Content-Type:Content-Disposition:In-Reply-To; b=XYsdmpc7vPyAXDbMl7Ks+hq1Qv4YerC5j3j9wpNkvygY4v/594cv6QIMJqFOWs+ShWzWA3EyBOl95xF7YCMn57e1XY5Oa0ZpM3my4EmI8i1RBZ4CsJRBzgUrvPJBTTO5g1ENg5tc5/i0KPuxSn2ztHltoXDYxyCQnuAmBObv6x0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hppCAceL; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hppCAceL"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-486fc4725f0so43119485e9.1
+        for <arm-scmi@vger.kernel.org>; Tue, 24 Mar 2026 01:44:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1774341885; x=1774946685; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=U83+x6wkw+25P6UMyxbBBiZbmuWAuI7CckONNyqN5Mo=;
+        b=hppCAceLg6S5aBHm0LB1/WaDPMo6muAvVe/BY7YauQsHvOFPZACElI8n73TfjVu1DB
+         rNZtZE0P32KsD32X/ghZZEwI8bHMrA7QZyJSjP1W4DFR5R7ejkY8DmK6r6nztBs8ZZPU
+         ofE5FxTVXL4OK+qIQii8iA5XNgorA6IEDFiz09ZxvXDoVKRSsePjqEYUfphpa8TMmWqu
+         qw0y2mulwwY8MhFL/QAv3hBJ1XccYjleXvkE4N/ltubaHs6rFSmlen1KYxgtMYWtzzjQ
+         2G7BeGZIfw74KoiHfSp43w+yY300+NZ/47aN6JR/qMJ+7hUpLodYdNAf205qg+eZTEOM
+         EOOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774341885; x=1774946685;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=U83+x6wkw+25P6UMyxbBBiZbmuWAuI7CckONNyqN5Mo=;
+        b=gwXCGG2A12mNQS6gZAKHGBuksPG5fsJuhiw7CJ6Oa6Y82E85GxrFGHARgIfX+j2XqI
+         FJbRKtJTFZu9h6MfnhpeveBKHbf9PdeRZ51CGd8uqlvyGjPH8zjyLViYppC984N8mz1H
+         BybvnzDatqFGxQTyJj3r2m2tpQwPJnry0/KrcEqMvN/mU3Tb070rjwvrHKVCaZex4uXI
+         kE7fMd8GE8RTtBGjWcO9kX/W7WPrwemc+Qet6gpXQ0eDNrzkszON5IDloVwK2qF/LhiD
+         gC8mHFJH24pmA6cg0ZsKbjUmiCVyXuHN6zWpmrGBkzcJnfpNZiEe/IMv073WFbEhOTR3
+         NO0w==
+X-Forwarded-Encrypted: i=1; AJvYcCUW4EkGvU6uTB4vm3H+JqDdAQ0YrCun8Q/k9sBsSaYo4kvSE8S5LXWQrIna8ecF/A82KoM6N5C40Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmEClGadKl0wrRFdrHsKqLd4fVe0wyDdukzeBVilTXpy59EaGf
+	CbunBXHnbYNM0UdK00vLd73p9Wi6whytGi43Zl1Zo24hgx4yiRe+lghcJwNSaPoDmG8=
+X-Gm-Gg: ATEYQzy2SXsARMr91M17cwi5+422q2fUR5Bwff0PaW3Mzk73FngnfmmK4ZRC9WKfhb2
+	VrGwK4R8RKEkp+/mrCIrVjXetilPEuGTdJlo4VqbhihBxgKrNL3BCZxEJ2ajHOFJp7GLhwkbTeD
+	0dLZRjPinV471P6ksirO7cl8Wp3gqiUUDwwPDdQRV36OdeseG8+PL/sMJw3VNORTMQUgsMKd9XB
+	Vx2rqkQmxBYQO/+gjc7IDs5WxdRIDvn6srGmOHBsgwaCdJ60G8Qyuabqmdhm9NmkD5DfCYR8IW1
+	PIkOIvTMqkeaJZbO47RC4FAL8qMxKcNbYmDOaveFX+/BKRlyD2405cq15ks8cq7pbnbcJEXb+bu
+	H11PgyV5DP7hWKfWGkVNdhuR9XKWy7lmkTsCigDQfUGrg75OnKikOWPjIKMhmKSpawWJ6CygPGT
+	tIQ3+99FgCpACeYnEEr3z5hfh3yReR
+X-Received: by 2002:a05:600c:4ed2:b0:47e:e48f:43b5 with SMTP id 5b1f17b1804b1-4870f23d28dmr43386555e9.18.1774341884540;
+        Tue, 24 Mar 2026 01:44:44 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644ae048sm36111394f8f.1.2026.03.24.01.44.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2026 01:44:44 -0700 (PDT)
+Date: Tue, 24 Mar 2026 11:44:41 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>
+Cc: Jens Wiklander <jens.wiklander@linaro.org>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"op-tee@lists.trustedfirmware.org" <op-tee@lists.trustedfirmware.org>,
+	Mohamed Omar Asaker <Mohamed.OmarAsaker@arm.com>,
+	James King <James.King@arm.com>
+Subject: Re: OP-TEE: memory corruption in
+ scmi_pin_control_list_associations_handler()
+Message-ID: <acJO-etj8Xu7Nssb@stanley.mountain>
+References: <aXyVSfxbrff_GX8A@stanley.mountain>
+ <GV2PR08MB79551A173F9B2762E6860FD5EB65A@GV2PR08MB7955.eurprd08.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -39,80 +78,23 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260324-lean-bobcat-of-reputation-6628b5@sudeepholla>
+In-Reply-To: <GV2PR08MB79551A173F9B2762E6860FD5EB65A@GV2PR08MB7955.eurprd08.prod.outlook.com>
 
-On Tue, Mar 24, 2026 at 07:49:22AM +0000, Sudeep Holla wrote:
-> On Tue, Mar 24, 2026 at 02:24:14PM +0800, Peng Fan (OSS) wrote:
-> > From: Peng Fan <peng.fan@nxp.com>
-> > 
+On Mon, Feb 09, 2026 at 02:57:17PM +0000, Khaled Ali Ahmed wrote:
+> Hi Dan,
+> Thank you for sharing the proposal. We are happy to accept this solution once
+> it has been pushed to a public repository so we can review and track it
+> properly.
 
-Hi,
+Thanks Khaled,
 
-> > On i.MX95, the SCMI Clock protocol defines several reserved clock IDs that
-> > are not backed by real clock devices
-> > (see arch/arm64/boot/dts/freescale/imx95-clock.h).
-> > 
-> > For these reserved IDs, the SCMI firmware correctly returns NOT_FOUND in
-> > response to the CLOCK_ATTRIBUTES command. According to the SCMI Clock
-> > specification, NOT_FOUND is expected when a clock_id does not correspond to
-> > a valid clock device.
-> > 
-> > The recent hardening added in scmi_clock_protocol_init() treats any error
-> > return as fatal, causing SCMI clock probe to fail and preventing i.MX9
-> > platforms from booting.
-> > 
-> > Relax the check so that -ENOENT is treated as a non-fatal condition.
-> > 
-> 
-> I understand the use-case and the fix here, but still wonder if this
-> should be treated as quirk or handle it in the core. I am inclined to
-> latter as reserved SCMI clock/resource ID seems to be trend in its usage
-> and hard to classify as quirks.
-> 
-> Cristain, agree or have a different view ?
-> 
+I've pushed this to:
+https://github.com/error27/SCP-firmware.git optee-fix
 
-I was just replying...
+I had a mistake in my original patch that I sent because I accidentally
+sent the wrong version which still had parameters as const so it didn't
+compile...  :/  Fixed now in the commit on github.
 
-Looking at the spec 3.6.2.5 CLOCK_ATTRIBUTES
+regards,
+dan carpenter
 
-"This command returns the attributes that are associated with a specific clock. An agent might be allowed access to only
-a subset of the clocks available in the system. The platform must thus guarantee that clocks that an agent cannot access
-are not visible to it."
-
-...not sure if this sheds some light or it is ambiguos anyway...I'd say that
-NOT_FOUND does NOT equate to be invisible...
-
-...BUT at the same time I think that this practice of exposing a non-contiguos
-set of resources IDs (a set with holes in it) is the a well-known spec-loophole
-used by many vendors to deploy one single FW image across all of their platforms
-without having to reconfigure their reosurces IDs ro expose a common set of
-contiguos IDs like the spec would suggest...
-
-Having said that, since we unfortunately left this door open in the
-implementation, now this loophole has become common practice
-apparently...
-
-...I am more concerned about the impact that this COULD have on underlying
-resources allocations that at the driver level was certainly conceived
-to manage a contiguos set of IDs, even though it was certanly the
-usecase until my harden patches...so it could be safe but to be double
-checked...
-
-Quirk or core I suppose it depends on how much we want to 'legalize' this
-trick for the future (thinking also about other protocols)...
-
-...a middle ground could be to implement it as an always-on quirk that
-matches any FW (like the existing out_of_spec_triplet quirk)... as a way
-to keep on allowing the existing behaviour but sort of discouraging it...
-
-Not really strong opinions about this, BUT at this point, in general I
-would keep all of this series on hold for further testing, given these
-issues together the bugs fixed by Geert on iterators and the lack of
-clock-MAINTs acks...
-
-...also Geert was investigating the need of a different quirks in these
-regards for the Renesas boards...
-
-Thanks,
-Cristian
