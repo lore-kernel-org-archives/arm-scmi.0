@@ -1,130 +1,143 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 362084035CB
-	for <arm-scmi@vger.kernel.org>; Tue, 24 Mar 2026 15:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2320386C38
+	for <arm-scmi@vger.kernel.org>; Tue, 24 Mar 2026 15:33:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774364841; cv=none; b=JRawAXINyI/eXY6DVdKrc8QRR9yzXyGpEAZxhzruqN66TniQRRbLv6fRni/z2uJsctRjdX/hBBHRw2X9txtzLvVfe8xhS604/YK33wqnGnsrn6M+Y5I8X3goP2bwkfFLDtpF9Vb5Lyv/yK6tJhTy/5IjLEou/HR1dlLIbiUoh68=
+	t=1774366392; cv=none; b=KDAA6aI2eY+ZMzq7Ce2YHsPe/Q8vuewxsf0Mi5Gc295h5NzktEoMSnR5CBHrPwVW6vhsH+qJyV/UDTIqtc25RvrLuiEehwKb1xdGRFW1l2UUqBQISmMIfAVttXf5BTKmpaYvBfho9hiAyeDEjBDVc2ruKwcw9MyzPNsaqd8N5Cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774364841; c=relaxed/simple;
-	bh=Q04xTA47YRKeBfrjPIYFQ1qHCYl+rBBRZENWaoTJKQQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aU6aWtge5m8Ylmhccn4ec28e+o8+3LEAr2sWrz/9Fgk1MUdJxQq8C7P8g4drQrxO8GaBdQdcY7B0zB3o7tmY6EVoYum6OoGtniayn45ZdrORtDiIzC09RbtoLyLVRZMfKmof2c195ORKRQhyob//0qc10tdeB9JLSE+hHxGkd54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WPYgVs1v; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WPYgVs1v"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43b41b545d9so1410840f8f.2
-        for <arm-scmi@vger.kernel.org>; Tue, 24 Mar 2026 08:07:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774364838; x=1774969638; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=P5ZdFYh1bLXmKv/xLtFTZBUW421AXSY/+eTav2poOSM=;
-        b=WPYgVs1vvlJxrW66Dv7qlUt66UywnTrZCBQSndwjltVBxvl5tShGCI9OFgTwCSH3gt
-         X2IsrfLQ4aT6Lg2Y671cSJQnKKIy/h2OYhtJrqxj+j+z+wDJvbWBxiUU+JgkkbkcVpVs
-         XtcfaMSIEjogdtVFD+BSwIqo+4ykm61hctBuqKWOosihwRd0A0TYbyx7tRs7UUx8iA+m
-         B/abbvqNiGcpJvWFHqbLXoM5S6oDEpF6ATVu1u4rQXDvj7yJUcuwIcVw/mbElTQ5RPLJ
-         N+sW9jy+BLtVrNDmLQPa3PoCJfZxE+Qzy4ecoEEo/QK6RoisU3fsbslcyuaET9UKMwGl
-         7AJA==
+	s=arc-20240116; t=1774366392; c=relaxed/simple;
+	bh=KaQjYumsYMcWfc8vtCYt/kFSYK3h1OhtYSBTNjozRFo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ddKK156Vdtd67eB39iqJWFYRZ8XrwQjuhtxV7/88AGnb1W78tJyd5x8iB+1gb3feDDQnCiq6VcUITOawbRQ+VoHDKAfw3nlwmT7MWxb8UhmBkMM6M7T/YSbHHlvfgzqKdo4ANOqkQ94Nud8bL7NcQUnAcQuxAM6gsOnAJwu/zn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-602a0648aa3so901159137.2
+        for <arm-scmi@vger.kernel.org>; Tue, 24 Mar 2026 08:33:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774364838; x=1774969638;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P5ZdFYh1bLXmKv/xLtFTZBUW421AXSY/+eTav2poOSM=;
-        b=SmqMywpncBnO9T2M7adm33m6Y1t3lHEByWNZfiUEZdaDUQA/yqpxpVxiWnRkCz/8X6
-         gU3R+c1ujbbJsEZNv66LpvlqBQ/YJoO3OYcxx6v06yrPvHhF6eRwtHetpM+JM4st27Qo
-         aC99oUfS73yTlDnkiyx0rlCfcxmAt0B77Wz7M9bl7VgP+n8qZuIpVOzPqziFbjYQ2sNW
-         aHS8U6W3W4G5RNHzHGup8Z8rYvmWCPZGyP+EJZesUhw/QD5rCwg1h+u3TAQXausFL/tJ
-         Kyw1PJu3YfdrCBbW/1wytuFSpqjeQtEALbXfbrARwYWxnVHPi9O1/JA3kowCGa7XWgJr
-         DkCA==
-X-Forwarded-Encrypted: i=1; AJvYcCW+qZG17LPEtEKEfJNqaYj8o04tH5EdeBK+RHpycwDu2c2peyuIQU7mkmH85RNACNaFMgAr4FL3KA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyk8qdsiSsk8iZMZfCZB1W7ZszWVcaQaIuyv6RTVy6c9bykh4CW
-	m3J1Vfm/lcNRHlp0/cJv3HZeIk+50A0yeuQipWM3nmNpNn7lvrWHVJxyH+dEhwgehPg=
-X-Gm-Gg: ATEYQzxNOdlmPPL5k78Pgc+jmIgjzuuM2r98f8XadFGarKO7MB7LNfkCXBmMChBEgak
-	kv0UpB477U/qFaCh5SZWEz5FkrVcY1KJeSK3N+5/dR+s6/v6+Zfr1pdQ2p94oeNZeBuBKFTzfQV
-	Mcj9NN5pKcFoEZkxLwOif9MF6maIJ/51/xVaOE/1XFcIyfrCb6n61YOD6I7S8anokS36KTguKFN
-	mRDPTxwLvCLCSfZZMUQDdycFztQj/z42Cq4+ISbl8MwZ1kBCCa8PK3tpxhK2KFbbJkt2mn/umgA
-	aMcz4tZFnI9j0oxg0edxGFCkgn41EDYZTGOaUjP6tc6GnoVrSXu9gkras59kyss0hf8mPoASdRI
-	37rNqjTa1h5q3HTVM/PXOuAEc7Ie+esM2BlORa5GaT1WQuBXWnkuKOThI16wzqL+DQ6OykyUwMu
-	9wKm9V0n2WZj/eknx99W/jnlAaFu39
-X-Received: by 2002:a5d:64c6:0:b0:439:b4dc:1e1e with SMTP id ffacd0b85a97d-43b6426493fmr24948925f8f.29.1774364838270;
-        Tue, 24 Mar 2026 08:07:18 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b6470393fsm39839147f8f.17.2026.03.24.08.07.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 08:07:17 -0700 (PDT)
-Date: Tue, 24 Mar 2026 18:07:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Linus Walleij <linusw@kernel.org>
-Cc: Tom Rini <trini@konsulko.com>, AKASHI Takahiro <akashi.tkhro@gmail.com>,
-	Peng Fan <peng.fan@nxp.com>, Alice Guo <alice.guo@nxp.com>,
-	Marek Vasut <marex@denx.de>, Greg Malysa <malysagreg@gmail.com>,
-	Michael Trimarchi <michael@amarulasolutions.com>,
-	Yao Zi <me@ziyao.cc>,
-	Arturs Artamonovs <arturs.artamonovs@analog.com>,
-	Anis Chali <chalianis1@gmail.com>,
-	Nathan Barrett-Morrison <nathan.morrison@timesys.com>,
-	Paul Barker <paul.barker.ct@bp.renesas.com>,
-	Utsav Agarwal <utsav.agarwal@analog.com>, Ye Li <ye.li@nxp.com>,
-	Valentin Caron <valentin.caron@foss.st.com>,
-	Vinh Nguyen <vinh.nguyen.xz@renesas.com>, u-boot@lists.denx.de,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	arm-scmi@vger.kernel.org, linux-gpio@vger.kernel.org,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: Re: [PATCH v2 3/4] scmi: pinctrl: add pinctrl driver for SCMI
-Message-ID: <acKooSHo_FB45nYH@stanley.mountain>
-References: <cover.1773256350.git.dan.carpenter@linaro.org>
- <1048331f5d3c8e0cdbe1542bcb65bbf942a4275b.1773256350.git.dan.carpenter@linaro.org>
- <CAD++jLmfRVGGHH1EqMAeSVHVCr1-s2JPyuY_w=2h35_mKUXj2Q@mail.gmail.com>
+        d=1e100.net; s=20251104; t=1774366389; x=1774971189;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dX91cjvlM2yf0by5+MQRb4126il7+nZRZllt3soyyC4=;
+        b=F3XsmXlLkjH6nCKQBpR8A0nxjxfpPM4dYXeGAvN23N4FZmTy7hFuaTy5E+q9wZfjCj
+         gbjBcpRVugP4JDkGu227GcDpppKt36cbAVHuy3113sGPR66aKIKSoMpkenJid9GgnNcT
+         nR8xWZFAQndNx7N/7hKFunrdR5DTBR465ky/DfJKCCS4xTnjTswwQVE587LLxgIPPW1W
+         LXj4vfORqzHsucXRDCYI4ea7h+qdfUy9E+aV3Ct9NZNzJp9Zy9Th0VAa5PAqp+8U9ZnR
+         /Z73PFwh47a8/B+05zrG4QNeplPx3lGNHexH3tlXpdiL3j6wzlhBbcMJNvXRlh825HvD
+         GkXw==
+X-Forwarded-Encrypted: i=1; AJvYcCVpe9/FnHiCW0uQlgxGmZ8ci/XHekGEIB7Nyabzjw0w9IduwLVUJTfyRauN7VJe8MpKt70+h6XOQA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7vMBoh0yQl7Anu3ULbMCEhLcywbzZSpkg5QAUM7X/JF9jVaAf
+	vW0/awBqofgKXHNMMDNvuFsNCoNPYm8RxxQAV31QPJPkAxW9w+p0zdFb1/Nz/ddOWos=
+X-Gm-Gg: ATEYQzy1/k6Dyim3PqY62xewbyG4AytbgPcD3HwicXq/a80sHGxC3GBSsGL7gFxhMOZ
+	XImnaU87MMWnJx1P0zYKS6nwhZ+tgpGVbJHhcQg269LgMMbirmzzHJZf6VtJ8liH+W8LsCa0J11
+	iRnJcWyIz8GGyuVXjpO94C2Kt6fOh1x4ZYz6qD9TuK/X6sMTtVek1w6RDFKKYpUSK2qmTei/Kqa
+	IcDWx9asUJ+bulKXJIntk05FANeO9WPLDRoqTNrbeCskR7gffk4RPChv/11MPC5ABl7zSKn+GGf
+	7mSSc7rnwMUeiy6RTslwjK/mzCsAeHmZTMSnsI7ovjNH0eBQkh8Rw4dzftvfkwXdSNQzI3LwdWy
+	Rj4CyflFH3klECEkznUF55IJL7J55qz+Pj5SyfX39WHPn7T610kRmiqTaEwhn64om1nF+tPPrq5
+	axU5F33bODAIx7xiZ+s0XeyCjz1gTAhgl/FEnleGq387VPundElX16tR7oNeae
+X-Received: by 2002:a05:6102:508b:b0:602:98a4:3395 with SMTP id ada2fe7eead31-60394935addmr147184137.30.1774366389423;
+        Tue, 24 Mar 2026 08:33:09 -0700 (PDT)
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-602af8ea547sm10868824137.6.2026.03.24.08.33.08
+        for <arm-scmi@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Mar 2026 08:33:08 -0700 (PDT)
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-5ffabb1dfbaso877286137.3
+        for <arm-scmi@vger.kernel.org>; Tue, 24 Mar 2026 08:33:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUU1AD284GVmKoN5cxV6J9d7SxXYu29J8GDkuUB0jFL21C68qvtCp2o0ISj7JgpzkkIzyc2G2N7Bw==@vger.kernel.org
+X-Received: by 2002:a05:6102:3710:b0:602:6c8b:4c1 with SMTP id
+ ada2fe7eead31-60394984ea4mr160731137.34.1774366387796; Tue, 24 Mar 2026
+ 08:33:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD++jLmfRVGGHH1EqMAeSVHVCr1-s2JPyuY_w=2h35_mKUXj2Q@mail.gmail.com>
+References: <20260324-scmi-clock-fix-v1-v1-1-65c21935824b@nxp.com>
+ <20260324-lean-bobcat-of-reputation-6628b5@sudeepholla> <acJI7o79lVNMjV_d@pluto>
+ <CAMuHMdVcE439Cyn-TCoioLZXP-YpqObZ0UF8F2NvMCZ41eO6QQ@mail.gmail.com> <acKhJ8Z9WDvHEnYL@pluto>
+In-Reply-To: <acKhJ8Z9WDvHEnYL@pluto>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 24 Mar 2026 16:32:55 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW==oMpCS==L8ADexPC=4uczNwK5UD6DequBjGOKQfOZw@mail.gmail.com>
+X-Gm-Features: AQROBzBN0dbSC98PQ2QVW1vr96tinjmd_XI_AcUn3qO4saxxiTbxjn88h5qmDk0
+Message-ID: <CAMuHMdW==oMpCS==L8ADexPC=4uczNwK5UD6DequBjGOKQfOZw@mail.gmail.com>
+Subject: Re: [PATCH] firmware: arm_scmi: clock: Relax check in scmi_clock_protocol_init
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, 
+	Jacky Bai <ping.bai@nxp.com>, arm-scmi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Peng Fan <peng.fan@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Mar 24, 2026 at 02:19:34PM +0100, Linus Walleij wrote:
-> On Wed, Mar 11, 2026 at 8:41 PM Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> 
-> >         scmi_pinctrl: protocol@19 {
-> >                 reg = <0x19>;
-> >                 pinmux1: pinmux_test {
-> >                         pinmux = <0 1 0xFFFFFFFF 18 1
-> >                                   0 2 0xFFFFFFFF 18 1
-> >                                   0 3 0xFFFFFFFF 18 1>;
-> >                         function = "f_gpio1";
-> >                         groups = "grp_1", "grp_3";
-> >                 };
-> >         };
+Hi Cristian,
+
+On Tue, 24 Mar 2026 at 15:35, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> On Tue, Mar 24, 2026 at 02:15:36PM +0100, Geert Uytterhoeven wrote:
+> > On Tue, 24 Mar 2026 at 09:41, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> > > Looking at the spec 3.6.2.5 CLOCK_ATTRIBUTES
+> > >
+> > > "This command returns the attributes that are associated with a specific clock. An agent might be allowed access to only
+> > > a subset of the clocks available in the system. The platform must thus guarantee that clocks that an agent cannot access
+> > > are not visible to it."
+> > >
+> > > ...not sure if this sheds some light or it is ambiguos anyway...I'd say that
+> > > NOT_FOUND does NOT equate to be invisible...
+> > >
+> > > ...BUT at the same time I think that this practice of exposing a non-contiguos
+> > > set of resources IDs (a set with holes in it) is the a well-known spec-loophole
+> > > used by many vendors to deploy one single FW image across all of their platforms
+> > > without having to reconfigure their reosurces IDs ro expose a common set of
+> > > contiguos IDs like the spec would suggest...
+> > >
+> > > Having said that, since we unfortunately left this door open in the
+> > > implementation, now this loophole has become common practice
+> > > apparently...
 > >
-> > Under linux the pinctrl subsystem will parse the function and group
-> > properties and use that to handle muxing.  However, under u-boot the
-> > pin muxing is done using the "pinmux" property, which feeds raw SCMI
-> > pinctrl PINCTRL_SETTINGS_CONFIGURE commands to the server.  The
-> > numbers are: selector, identifier, function_id, config_type, and
-> > config_value.  In the example above, it sets pins 1, 2, and 3 to 1.
-> > The linux-kernel ignores this pinmux property.
-> 
-> This whole thing is a bit of a hack and shortcut to make hard things
-> simple isn't it?
+> > When I first read that paragraph, I was also confused.
+> > What does "not visible" mean?
+> >   - Not present in the clock ID space exposed to that client of
+> >     the system?
+> >     Yeah, multiple different sequences of contiguous IDs, depending
+> >     on client!
+>
+> Yes that is the most spec-compliant interpretation usually; in general
+> across all protocols the SCMI server, through customized enumeration
+> results, should provide a per-agent view of the system: this should help
+> handling shared or virtualized resources, since the agent always see
+> only the 'illusion' provided by the server...
+>
+> ...under this assumption if you dont even need a resource at all (not
+> RW nor RO) you should NOT even be able to see it...this in turn of
+> course means that in order to expose a contiguous set of IDs you should
+> be able to properly configure at build time the FW resources on a per
+> platform basis...
+>
+> >   - Return failure on CLOCK_ATTRIBUTES?
+> >     Which is what implementations seem to do.
+>
+> Yes this is what is done leveraging the gap in the implementation...I am
+> not sure that the non-contiguous set of IDs is supported if not by
+> chance as of now :P (especially in other protocols)
+>
+> > The next step in the fun is when the system actually needs to know the
+> > clock rate of such a clock...
+>
+> Well...that seems a bit of wishful thinking ...
 
-I'm not disagreeing with you at all, but handling the default pinmux
-property is the only mandatory part of a pin controller driver in
-u-boot.
+Unfortunately it is real... [cliffhanger, to be continued... :-]
 
-regards,
-dan carpenter
+Gr{oetje,eeting}s,
 
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
