@@ -1,75 +1,65 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C3338A704
-	for <arm-scmi@vger.kernel.org>; Tue, 24 Mar 2026 08:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E333E3E9F7C;
+	Tue, 24 Mar 2026 11:15:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774341893; cv=none; b=Do7m1ZdPGf5Zp97N7kUIQ4VotN/zJxwpVhcsVuhat7gwuDfFDJkgfq6iTfW1IKi6J/U3QRNLVqx+bW/8E0V/TN386BEWUBOHZZSdcnW1cfA8UasPIcZZYHvOggoemAvoT3CF68Y1h0eA9Kc4Zp0I3ly4olF0QsYhRAyKt1mnu9U=
+	t=1774350956; cv=none; b=c0NR4bUCwVSh8s3pmBVUNDD3w8V+9MzbylVtu+cYiaN48NqqS3r16nYhT4+qbrYSVKjdD3RgKrLa8DI2TBF7SEvIQ0TXTqXzo5gG5sP4bAHj0SYaYIWeuml58YA/drf5+kdRscjjRz1cLiMEnsyLax47LjHu7pXd5F/45aQUQR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774341893; c=relaxed/simple;
-	bh=udPrt/KAxsrJYRa8C59qXClcTqavIwLcvvnP9zDDsMs=;
+	s=arc-20240116; t=1774350956; c=relaxed/simple;
+	bh=XzQaaymKb1x+m7GD9B9Foc8m37ERJtZPwOtDyzbsATY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XYsdmpc7vPyAXDbMl7Ks+hq1Qv4YerC5j3j9wpNkvygY4v/594cv6QIMJqFOWs+ShWzWA3EyBOl95xF7YCMn57e1XY5Oa0ZpM3my4EmI8i1RBZ4CsJRBzgUrvPJBTTO5g1ENg5tc5/i0KPuxSn2ztHltoXDYxyCQnuAmBObv6x0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hppCAceL; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kqum09e3HXsQ5hIEXKutF863lT12rXdbvO0lW/1kGQvZp9kG5KyydQdaqAF6egmPqzaplQrtkH/wENM83nXW4hx8k6O/dmkFjZ9N8Xtfgf3StN8UTA3PEF7aaaYEPFi2JcmLWyKTqlwXPzgYijMtdG/d7oiGm74h3FkBa25dSdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iVnNX4VQ; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hppCAceL"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-486fc4725f0so43119485e9.1
-        for <arm-scmi@vger.kernel.org>; Tue, 24 Mar 2026 01:44:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774341885; x=1774946685; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=U83+x6wkw+25P6UMyxbBBiZbmuWAuI7CckONNyqN5Mo=;
-        b=hppCAceLg6S5aBHm0LB1/WaDPMo6muAvVe/BY7YauQsHvOFPZACElI8n73TfjVu1DB
-         rNZtZE0P32KsD32X/ghZZEwI8bHMrA7QZyJSjP1W4DFR5R7ejkY8DmK6r6nztBs8ZZPU
-         ofE5FxTVXL4OK+qIQii8iA5XNgorA6IEDFiz09ZxvXDoVKRSsePjqEYUfphpa8TMmWqu
-         qw0y2mulwwY8MhFL/QAv3hBJ1XccYjleXvkE4N/ltubaHs6rFSmlen1KYxgtMYWtzzjQ
-         2G7BeGZIfw74KoiHfSp43w+yY300+NZ/47aN6JR/qMJ+7hUpLodYdNAf205qg+eZTEOM
-         EOOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774341885; x=1774946685;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=U83+x6wkw+25P6UMyxbBBiZbmuWAuI7CckONNyqN5Mo=;
-        b=gwXCGG2A12mNQS6gZAKHGBuksPG5fsJuhiw7CJ6Oa6Y82E85GxrFGHARgIfX+j2XqI
-         FJbRKtJTFZu9h6MfnhpeveBKHbf9PdeRZ51CGd8uqlvyGjPH8zjyLViYppC984N8mz1H
-         BybvnzDatqFGxQTyJj3r2m2tpQwPJnry0/KrcEqMvN/mU3Tb070rjwvrHKVCaZex4uXI
-         kE7fMd8GE8RTtBGjWcO9kX/W7WPrwemc+Qet6gpXQ0eDNrzkszON5IDloVwK2qF/LhiD
-         gC8mHFJH24pmA6cg0ZsKbjUmiCVyXuHN6zWpmrGBkzcJnfpNZiEe/IMv073WFbEhOTR3
-         NO0w==
-X-Forwarded-Encrypted: i=1; AJvYcCUW4EkGvU6uTB4vm3H+JqDdAQ0YrCun8Q/k9sBsSaYo4kvSE8S5LXWQrIna8ecF/A82KoM6N5C40Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmEClGadKl0wrRFdrHsKqLd4fVe0wyDdukzeBVilTXpy59EaGf
-	CbunBXHnbYNM0UdK00vLd73p9Wi6whytGi43Zl1Zo24hgx4yiRe+lghcJwNSaPoDmG8=
-X-Gm-Gg: ATEYQzy2SXsARMr91M17cwi5+422q2fUR5Bwff0PaW3Mzk73FngnfmmK4ZRC9WKfhb2
-	VrGwK4R8RKEkp+/mrCIrVjXetilPEuGTdJlo4VqbhihBxgKrNL3BCZxEJ2ajHOFJp7GLhwkbTeD
-	0dLZRjPinV471P6ksirO7cl8Wp3gqiUUDwwPDdQRV36OdeseG8+PL/sMJw3VNORTMQUgsMKd9XB
-	Vx2rqkQmxBYQO/+gjc7IDs5WxdRIDvn6srGmOHBsgwaCdJ60G8Qyuabqmdhm9NmkD5DfCYR8IW1
-	PIkOIvTMqkeaJZbO47RC4FAL8qMxKcNbYmDOaveFX+/BKRlyD2405cq15ks8cq7pbnbcJEXb+bu
-	H11PgyV5DP7hWKfWGkVNdhuR9XKWy7lmkTsCigDQfUGrg75OnKikOWPjIKMhmKSpawWJ6CygPGT
-	tIQ3+99FgCpACeYnEEr3z5hfh3yReR
-X-Received: by 2002:a05:600c:4ed2:b0:47e:e48f:43b5 with SMTP id 5b1f17b1804b1-4870f23d28dmr43386555e9.18.1774341884540;
-        Tue, 24 Mar 2026 01:44:44 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644ae048sm36111394f8f.1.2026.03.24.01.44.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 01:44:44 -0700 (PDT)
-Date: Tue, 24 Mar 2026 11:44:41 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>
-Cc: Jens Wiklander <jens.wiklander@linaro.org>,
-	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-	"op-tee@lists.trustedfirmware.org" <op-tee@lists.trustedfirmware.org>,
-	Mohamed Omar Asaker <Mohamed.OmarAsaker@arm.com>,
-	James King <James.King@arm.com>
-Subject: Re: OP-TEE: memory corruption in
- scmi_pin_control_list_associations_handler()
-Message-ID: <acJO-etj8Xu7Nssb@stanley.mountain>
-References: <aXyVSfxbrff_GX8A@stanley.mountain>
- <GV2PR08MB79551A173F9B2762E6860FD5EB65A@GV2PR08MB7955.eurprd08.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iVnNX4VQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774350952; x=1805886952;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XzQaaymKb1x+m7GD9B9Foc8m37ERJtZPwOtDyzbsATY=;
+  b=iVnNX4VQGfjhgxFsBKqIIoDcUwKbqm82q5AkZw1tTPF9L2HNbUX7XIf2
+   KJp3oFt0LkH4TAltYFx0odRJdsiWT3J6b9f6FJUCvGYgPQhwqzTeN1OEQ
+   f5nICpYHZV24YakPVaznC47gjniF4tMxN+HseHe0tPkn7L3n0T5ar+W24
+   h8UxighGMVwu5fzIKXT5L6FCSLvKRCAEerYQWYUEdH1Ib0IFVqVwv+NrK
+   FGn6Wf0wW11zDH1XP+f9rrzcAfRATzMGvP0qT3ZAR6dUSkwUz3OU8wAJB
+   KKW2dwxt0jqRYHt4ucnxygOe4LuirdCtoXtN1r2+iNM0yPGhhiBrNFzH0
+   g==;
+X-CSE-ConnectionGUID: DePGGDCzRDq9mJCuSru3Qg==
+X-CSE-MsgGUID: SL1UtC+zR1uTiWH6P07vwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75431791"
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="75431791"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 04:15:51 -0700
+X-CSE-ConnectionGUID: xmaytABaQ4CPk0IJ81u5gg==
+X-CSE-MsgGUID: RE/tylX5RNitjcAQaFObuw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="220984899"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.214])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 04:15:49 -0700
+Date: Tue, 24 Mar 2026 13:15:46 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Linus Walleij <linusw@kernel.org>,
+	AKASHI Takahiro <akashi.tkhro@gmail.com>,
+	Bartosz Golaszewski <brgl@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	arm-scmi@vger.kernel.org,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>,
+	Michal Simek <michal.simek@amd.com>
+Subject: Re: [PATCH v6 7/7] gpio: gpio-by-pinctrl: add pinctrl based generic
+ GPIO driver
+Message-ID: <acJyYirIONH3sYvi@ashevche-desk.local>
+References: <cover.1774283146.git.dan.carpenter@linaro.org>
+ <edd789f8fc87f294211adf84b09c2af9f4aa6a6f.1774283146.git.dan.carpenter@linaro.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -78,23 +68,20 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <GV2PR08MB79551A173F9B2762E6860FD5EB65A@GV2PR08MB7955.eurprd08.prod.outlook.com>
+In-Reply-To: <edd789f8fc87f294211adf84b09c2af9f4aa6a6f.1774283146.git.dan.carpenter@linaro.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Feb 09, 2026 at 02:57:17PM +0000, Khaled Ali Ahmed wrote:
-> Hi Dan,
-> Thank you for sharing the proposal. We are happy to accept this solution once
-> it has been pushed to a public repository so we can review and track it
-> properly.
+On Mon, Mar 23, 2026 at 10:01:47PM +0300, Dan Carpenter wrote:
 
-Thanks Khaled,
+> The ARM SCMI pinctrl protocol allows GPIO access.  Instead of creating
+> a new SCMI GPIO driver, this driver is a generic GPIO driver that uses
+> standard pinctrl interfaces.
 
-I've pushed this to:
-https://github.com/error27/SCP-firmware.git optee-fix
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
-I had a mistake in my original patch that I sent because I accidentally
-sent the wrong version which still had parameters as const so it didn't
-compile...  :/  Fixed now in the commit on github.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-regards,
-dan carpenter
 
