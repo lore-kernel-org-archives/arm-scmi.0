@@ -1,150 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1198F3DDDDA;
-	Wed, 25 Mar 2026 12:14:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 748AD3D332F;
+	Wed, 25 Mar 2026 12:19:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774440885; cv=none; b=PzHyWhi5TrbMYS4h1FxRF0dulmtw5IaBnT8MJP8wJME/bbR6XWojMOO98G9SyCl9KhOE+DyouPBAxORJnce5OKkS1i9Owky8+uwRNUPYBUJ5bilYrJAU/qoRfuE11Pmsk+mvkWO0Am7eR2LDCjG3GgbEk7GF4SKoLqp2Q6gixek=
+	t=1774441146; cv=none; b=SvDdyXKFQBtbxw/5rUBL9rPp4rZ4mzzgOxeXeySr9/mKHPR43e0lBypzRelBzamaxiLevyLMzUgc575jVkdvoWylJylZTdDu9tBeKfIgQHT0F3PShoCyqn+TaR2Q4vCwF8yluEnjk1r10qyJ+dFB5f36+k4lq9b8tbUzj1/Ziek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774440885; c=relaxed/simple;
-	bh=ddmo43ydD3DzDMQ4kgM7JV/r98vLaJXcKhiK8DEbdhg=;
+	s=arc-20240116; t=1774441146; c=relaxed/simple;
+	bh=1VtDicBwAjX99lDG8d/05N68hlmGlfDw/kov2CzrAp4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dswioCfeNS4S3YSyOp/8Sgm0DCwQNZFZA9c/pFwZgORROe5FotHPAELW4hWdSOWXMSlpbE7KtUoIHGqCfj8TXnswHkhiSjMQUNwY5y/CtlyDCYjsRFHoS8D5OXLFWxz9bbE8M0FIFB539JFe2bJNwtJ+2Al49VDFAIP6dB6lrsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ux8Cj21p; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=n7x60bzwSzbXciwGMlRqdAXIXHfEoNp2084JcLUhmHWgf3CIqUInp+BLIs1ZJpFztmT+jHu9bEvb1QY912HYU7la9qfsskCAeuRXUkqDxKbjB3+0heCIjnyerTTQDYZXe7Q0iGYTfLGHqZ+FYpcXQ3Kf7XA1ettYdNffvQUOF1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=aYBkDpc2; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ux8Cj21p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F32FC2BCB0;
-	Wed, 25 Mar 2026 12:14:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774440884;
-	bh=ddmo43ydD3DzDMQ4kgM7JV/r98vLaJXcKhiK8DEbdhg=;
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="aYBkDpc2"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 93DEE1CDD;
+	Wed, 25 Mar 2026 05:18:55 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AA8CB3F915;
+	Wed, 25 Mar 2026 05:18:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1774441141; bh=1VtDicBwAjX99lDG8d/05N68hlmGlfDw/kov2CzrAp4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ux8Cj21pNOzMC7o/XaAZAEfVbpqDqYGxtvUt+BSUapBGnOVUi4FLduFkxxoJ7pFzJ
-	 hj7B1UE87Oasj3Cb9dAbamKn46FKcFuD/Bj0qRCG3PbRnZgCPZpYP6dzf4+wgj4psB
-	 ovpwrqouF9crN9y+ut5APZUl0zwt+mT8Dh83Dmtz+m87tBLnkglCVZYENJ7Xjbgiuv
-	 gGoivSbtropAF/n4IhThf2WnZHQAC7nlZfjYS9gi7u70hr5cci26WTcCORZzIkL60c
-	 dLormc1nmp22Ss6kUox5m2Y82twYnvMfxSClOyztKOwn0mFAPGs/xHCh1Bv3pv7KOB
-	 ZE8m5gVv8ByWw==
-Date: Wed, 25 Mar 2026 12:14:40 +0000
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, Jacky Bai <ping.bai@nxp.com>,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-kernel@vger.kernel.org, Peng Fan <peng.fan@nxp.com>
+	b=aYBkDpc2eDgHZyQYHUoLAJt2BHIwIuu/WzM82njvOdvPK44tY2BTYfF1eKgyd4v8L
+	 jkFp7WvXP3UcDuR8vZ5f+fHqBfqf7lwWgAgvqmrtuTH2NUXqd/eVS9CHL+PHz3AY1T
+	 bZfjCEdbZQgEA1N7owJazQjmtMlplncihp3GV5LE=
+Date: Wed, 25 Mar 2026 12:18:53 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Sudeep Holla <sudeep.holla@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	"Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+	Jacky Bai <ping.bai@nxp.com>, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Peng Fan <peng.fan@nxp.com>
 Subject: Re: [PATCH] firmware: arm_scmi: clock: Relax check in
  scmi_clock_protocol_init
-Message-ID: <20260325-dainty-hilarious-rhino-affa78@sudeepholla>
+Message-ID: <acPSrTxMkfdeNOfr@pluto>
 References: <20260324-scmi-clock-fix-v1-v1-1-65c21935824b@nxp.com>
  <20260324-lean-bobcat-of-reputation-6628b5@sudeepholla>
  <acJI7o79lVNMjV_d@pluto>
+ <CAMuHMdVcE439Cyn-TCoioLZXP-YpqObZ0UF8F2NvMCZ41eO6QQ@mail.gmail.com>
+ <acKhJ8Z9WDvHEnYL@pluto>
+ <CAMuHMdW==oMpCS==L8ADexPC=4uczNwK5UD6DequBjGOKQfOZw@mail.gmail.com>
+ <20260325-spiffy-analytic-sloth-eabfea@sudeepholla>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <acJI7o79lVNMjV_d@pluto>
+In-Reply-To: <20260325-spiffy-analytic-sloth-eabfea@sudeepholla>
 
-On Tue, Mar 24, 2026 at 08:18:54AM +0000, Cristian Marussi wrote:
-> On Tue, Mar 24, 2026 at 07:49:22AM +0000, Sudeep Holla wrote:
-> > On Tue, Mar 24, 2026 at 02:24:14PM +0800, Peng Fan (OSS) wrote:
-> > > From: Peng Fan <peng.fan@nxp.com>
-> > > 
-> 
-> Hi,
-> 
-> > > On i.MX95, the SCMI Clock protocol defines several reserved clock IDs that
-> > > are not backed by real clock devices
-> > > (see arch/arm64/boot/dts/freescale/imx95-clock.h).
-> > > 
-> > > For these reserved IDs, the SCMI firmware correctly returns NOT_FOUND in
-> > > response to the CLOCK_ATTRIBUTES command. According to the SCMI Clock
-> > > specification, NOT_FOUND is expected when a clock_id does not correspond to
-> > > a valid clock device.
-> > > 
-> > > The recent hardening added in scmi_clock_protocol_init() treats any error
-> > > return as fatal, causing SCMI clock probe to fail and preventing i.MX9
-> > > platforms from booting.
-> > > 
-> > > Relax the check so that -ENOENT is treated as a non-fatal condition.
-> > > 
+On Wed, Mar 25, 2026 at 12:06:15PM +0000, Sudeep Holla wrote:
+> On Tue, Mar 24, 2026 at 04:32:55PM +0100, Geert Uytterhoeven wrote:
+> > Hi Cristian,
 > > 
-> > I understand the use-case and the fix here, but still wonder if this
-> > should be treated as quirk or handle it in the core. I am inclined to
-> > latter as reserved SCMI clock/resource ID seems to be trend in its usage
-> > and hard to classify as quirks.
+
+Hi Sudeep,
+
+> > On Tue, 24 Mar 2026 at 15:35, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> > > On Tue, Mar 24, 2026 at 02:15:36PM +0100, Geert Uytterhoeven wrote:
+> > > > On Tue, 24 Mar 2026 at 09:41, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> > > > > Looking at the spec 3.6.2.5 CLOCK_ATTRIBUTES
+> > > > >
+> > > > > "This command returns the attributes that are associated with a specific clock. An agent might be allowed access to only
+> > > > > a subset of the clocks available in the system. The platform must thus guarantee that clocks that an agent cannot access
+> > > > > are not visible to it."
+> > > > >
+> > > > > ...not sure if this sheds some light or it is ambiguos anyway...I'd say that
+> > > > > NOT_FOUND does NOT equate to be invisible...
+> > > > >
+> > > > > ...BUT at the same time I think that this practice of exposing a non-contiguos
+> > > > > set of resources IDs (a set with holes in it) is the a well-known spec-loophole
+> > > > > used by many vendors to deploy one single FW image across all of their platforms
+> > > > > without having to reconfigure their reosurces IDs ro expose a common set of
+> > > > > contiguos IDs like the spec would suggest...
+> > > > >
+> > > > > Having said that, since we unfortunately left this door open in the
+> > > > > implementation, now this loophole has become common practice
+> > > > > apparently...
+> > > >
+> > > > When I first read that paragraph, I was also confused.
+> > > > What does "not visible" mean?
+> > > >   - Not present in the clock ID space exposed to that client of
+> > > >     the system?
+> > > >     Yeah, multiple different sequences of contiguous IDs, depending
+> > > >     on client!
+> > >
+> > > Yes that is the most spec-compliant interpretation usually; in general
+> > > across all protocols the SCMI server, through customized enumeration
+> > > results, should provide a per-agent view of the system: this should help
+> > > handling shared or virtualized resources, since the agent always see
+> > > only the 'illusion' provided by the server...
+> > >
+> > > ...under this assumption if you dont even need a resource at all (not
+> > > RW nor RO) you should NOT even be able to see it...this in turn of
+> > > course means that in order to expose a contiguous set of IDs you should
+> > > be able to properly configure at build time the FW resources on a per
+> > > platform basis...
+> > >
+> > > >   - Return failure on CLOCK_ATTRIBUTES?
+> > > >     Which is what implementations seem to do.
+> > >
+> > > Yes this is what is done leveraging the gap in the implementation...I am
+> > > not sure that the non-contiguous set of IDs is supported if not by
+> > > chance as of now :P (especially in other protocols)
+> > >
+> > > > The next step in the fun is when the system actually needs to know the
+> > > > clock rate of such a clock...
+> > >
+> > > Well...that seems a bit of wishful thinking ...
 > > 
-> > Cristain, agree or have a different view ?
+> > Unfortunately it is real... [cliffhanger, to be continued... :-]
 > > 
 > 
-> I was just replying...
-> 
-> Looking at the spec 3.6.2.5 CLOCK_ATTRIBUTES
-> 
-> "This command returns the attributes that are associated with a specific
-> clock. An agent might be allowed access to only a subset of the clocks
-> available in the system. The platform must thus guarantee that clocks that
-> an agent cannot access are not visible to it."
-> 
-> ...not sure if this sheds some light or it is ambiguos anyway...I'd say that
-> NOT_FOUND does NOT equate to be invisible...
-> 
-> ...BUT at the same time I think that this practice of exposing a non-contiguos
-> set of resources IDs (a set with holes in it) is the a well-known spec-loophole
-> used by many vendors to deploy one single FW image across all of their platforms
-> without having to reconfigure their reosurces IDs ro expose a common set of
-> contiguos IDs like the spec would suggest...
-> 
-> Having said that, since we unfortunately left this door open in the
-> implementation, now this loophole has become common practice
-> apparently...
-> 
+> I am late to the discussion. Based on all the discussion so far, I don't
+> want to rush the clk changes from Cristian that adds the hardening yet.
 
-Indeed, I agree. I wasn't fully convinced to relax and this discussion
-seem to strive towards right direction IMO.
+Agreed, the whole series with the iterators and hardening needs fixes from
+Geert upfront...
 
-> ...I am more concerned about the impact that this COULD have on underlying
-> resources allocations that at the driver level was certainly conceived
-> to manage a contiguos set of IDs, even though it was certanly the
-> usecase until my harden patches...so it could be safe but to be double
-> checked...
+> I won't make it part of my SCMI v7.1 PR. However is it good idea to keep
+> it in the next so that we can converge towards some solution in v7.2 ?
 > 
-> Quirk or core I suppose it depends on how much we want to 'legalize' this
-> trick for the future (thinking also about other protocols)...
-> 
+> So, the question is if I add the fixes from Geert[1] to my queue, will it
+> be a good baseline for all these changes and discussions ?
 
-Agreed. I am more nervous about legalising it. Let us see what are the
-issues with the firmware in the wild before we can decide. That's one reason
-I would like keep your changes in -next even though I have now dropped the
-idea of pushing in for v7.1
+Yes having my iterator series plus Geert fixes on top would be a good
+starting point to have a sane kernel...then we'll see how many quirks or
+de-Hardening will be needed on top of that to make all firmware
+survive...
 
-> ...a middle ground could be to implement it as an always-on quirk that
-> matches any FW (like the existing out_of_spec_triplet quirk)... as a way
-> to keep on allowing the existing behaviour but sort of discouraging it...
-> 
+I will re-test on my side in the coming days but anything that goes on
+linux-next from your next of course has a more broad audience...
 
-Fair enough, worth an attempt at the least.
-
-> Not really strong opinions about this, BUT at this point, in general I
-> would keep all of this series on hold for further testing, given these
-> issues together the bugs fixed by Geert on iterators and the lack of
-> clock-MAINTs acks...
-> 
-
-Agreed.
-
-> ...also Geert was investigating the need of a different quirks in these
-> regards for the Renesas boards...
-> 
-
-Yes still waiting for the outcome from the cliffhanger Geert left us 😉.
-Just kidding take your time Geert, no rush.
-
--- 
-Regards,
-Sudeep
+Thanks,
+Cristian 
