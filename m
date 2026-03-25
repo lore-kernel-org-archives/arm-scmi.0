@@ -1,100 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D833F38F65D
-	for <arm-scmi@vger.kernel.org>; Wed, 25 Mar 2026 10:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3413C9EC4
+	for <arm-scmi@vger.kernel.org>; Wed, 25 Mar 2026 11:02:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774434268; cv=none; b=jIAz3BOoDwj5sBNo0k23kc5Bqkx0QfK3p1G5Axdtlcf3oscfgs5GgV92aQw2NArd4aDcy8+PWZZjlIxZrn5rBnEZUGa20H+HUHeWMDJutYuzB9hntN6M+j0PKjHUOyWhtcdIIxjKlcua8u/Y/fxOVeDU1DFt99yKrXVQ7VixEwo=
+	t=1774436569; cv=none; b=P++XsHx4njmJIZdo7078s6c5g5DyxlYDJ28LaMql07UtkGUU62S4zfnaMJng3wxaxaHu78dMNttmUdJKuYq4ZujaQWE7z4cfZQBUm5DXLdc1sOyaaGIpvt051P+zI6WIK7YQmwhlFgS+kDSLqvYwKMQAIxhd812ETJzOwnfEYTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774434268; c=relaxed/simple;
-	bh=DQWAjarmAEIR12f+N5kRbQsMdjqbb6LUni3iSD57BnA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ClPlOi6eh61dlZNY1UBVSwBTRnNjVSyDa0ydAUQTDr0iG2P+DyQw2EpA4fQ/lNgG+yuvaULIVuZ2NuDm1KPDBKyPRDhQDYD2c5F70iRdGGmn3QEkaaS+Kc9Omn2yuSeIK9asZS2zQK7cdJSjRfngxhaszxkf159h2sQ7x9eOsnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bEQrkKEz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774436569; c=relaxed/simple;
+	bh=qs3lZMqQEg4enzgFnIcVeyjtpcmV+MdUo1kmK2zvUJ4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=JJcpN/TsWFMNoTSGLSFxzMEOBTh2niZJtWkrjWCpKaGU62LJrQQx1VbNGYY/aDApDU2iOooJPC1jombj9TauXC3Guc+C9WMKaMEr7zGtdJiLa/fRUS6CjkHHlW/ZQ1OBZlAv1U1PBRqjRiG6hIQVG7V4thJMdcIpbyEKpAyJ858=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=jdmNBq0G; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bEQrkKEz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CC6EC2BCC7
-	for <arm-scmi@vger.kernel.org>; Wed, 25 Mar 2026 10:24:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774434268;
-	bh=DQWAjarmAEIR12f+N5kRbQsMdjqbb6LUni3iSD57BnA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=bEQrkKEzQxDGG2rRmwMwwzN1PH2pUmPqRZOMb7514c+kC5R2sVannMWLpgjySJZVe
-	 mbV+bE/TRHqs/ehwzg20kGw9dIaKov4LyqKeOg0JDwDgW84Bk2zOWCJ1thteWuIOKm
-	 pTPqPAOOCcooBmPBydv03XO29dmd9KDMaPDzA9ew2sjRhNnTsRP0TnNTwZy88n83Z4
-	 cuY6nJP5L7IN/VFyC6ZCF+m8vEywUbh4PWv31+bbtWma0mkO9TK79+f4Jf0FBzGmtc
-	 dVefH9QRJYh1T75xstMx0JOCKh6AZjLbU93SSPNR2iI/no0EE4DyOjTxgZclmdErBM
-	 DNK+jKKaLi7Bg==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-38bf85e4810so17909521fa.2
-        for <arm-scmi@vger.kernel.org>; Wed, 25 Mar 2026 03:24:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXyz1/zfuTZBqhuhy86FOhDJ7AyNGmjonSPhjYk7gLRZ72uGcqYFwBU/3ffcqG3EgEyrS2Lut+pxw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzTul1bB1gQZHqGoTvKGYbWqIOpLuRWLgkZjkhwlksN5fgffhc
-	14mQrjeadLcwefvMwWbqwPmVscl2uoVpWPElaP63ePzP8nibWOCRrV9VNY1loFku50uDdfoZEke
-	66SddUsJ14Zn3WJdyKTe0vjyz/myHa8w/rrf+ivevrw==
-X-Received: by 2002:a05:651c:1582:b0:38b:f0f0:e3cd with SMTP id
- 38308e7fff4ca-38c4320ca56mr8033351fa.36.1774434267149; Wed, 25 Mar 2026
- 03:24:27 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="jdmNBq0G"
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20260325110244euoutp01a1b419768cb71677b4a5aecea8222faf~gEKdws0XH0136701367euoutp01b
+	for <arm-scmi@vger.kernel.org>; Wed, 25 Mar 2026 11:02:44 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20260325110244euoutp01a1b419768cb71677b4a5aecea8222faf~gEKdws0XH0136701367euoutp01b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1774436564;
+	bh=5TENbPqJiqN8gJ2OLLr9A5N0XRqryi/AdnBno+1Cr8Q=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=jdmNBq0G3l0ac+iBrxQvKk7jBdm8Zev7dgMOfhi+D/7Ej4x5MrWHYigVa0E5wgHsf
+	 3TEuafXXl1Ar/TmSWgBIWJIJ1se31P4h18iP/wCue1rLlaaIoU8IJ2XSYEVT3Er/41
+	 DqneuAyE259ggexAMCAMBFyomLdnBkMUPNU8FLXE=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20260325110244eucas1p1ea280137c0b94e1f5b79d5578da7fedf~gEKdfMCHg2549225492eucas1p1r;
+	Wed, 25 Mar 2026 11:02:44 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260325110242eusmtip266f05f327a6eb6ca9d92996263e0cba0~gEKbsHQ5z1659816598eusmtip2Y;
+	Wed, 25 Mar 2026 11:02:42 +0000 (GMT)
+Message-ID: <9b574ac5-09fa-4e7a-b2bb-a339fbb319bc@samsung.com>
+Date: Wed, 25 Mar 2026 12:02:41 +0100
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1774283146.git.dan.carpenter@linaro.org> <CAD++jL=mz5jOLkq6GA6ZWzfGfFnVOLTCoXKOd38YHj2UZaZ9ww@mail.gmail.com>
-In-Reply-To: <CAD++jL=mz5jOLkq6GA6ZWzfGfFnVOLTCoXKOd38YHj2UZaZ9ww@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Wed, 25 Mar 2026 11:24:13 +0100
-X-Gmail-Original-Message-ID: <CAMRc=Me2pyUshFZeXqWU0DF2eTkNjNvVDUP3LL9DO0ZfMOPJDA@mail.gmail.com>
-X-Gm-Features: AaiRm50nqwnVr1AXzgZWPax30PNVL9bQfMa7oruOnr447gPeYYgO3Xx86_ZMZ5g
-Message-ID: <CAMRc=Me2pyUshFZeXqWU0DF2eTkNjNvVDUP3LL9DO0ZfMOPJDA@mail.gmail.com>
-Subject: Re: [PATCH v6 0/7] gpio: introduce a GPIO driver for SCMI
-To: Linus Walleij <linusw@kernel.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, AKASHI Takahiro <akashi.tkhro@gmail.com>, 
-	arm-scmi@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
-	Cristian Marussi <cristian.marussi@arm.com>, devicetree@vger.kernel.org, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Rob Herring <robh@kernel.org>, Sudeep Holla <sudeep.holla@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>, 
-	Michal Simek <michal.simek@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH v2 08/13] firmware: arm_scmi: Harden clock protocol
+ initialization
+To: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Cc: sudeep.holla@arm.com, philip.radford@arm.com,
+	james.quinlan@broadcom.com, f.fainelli@gmail.com,
+	vincent.guittot@linaro.org, etienne.carriere@foss.st.com,
+	peng.fan@oss.nxp.com, michal.simek@amd.com, dan.carpenter@linaro.org,
+	geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com,
+	marek.vasut+renesas@gmail.com
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20260310184030.3669330-9-cristian.marussi@arm.com>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20260325110244eucas1p1ea280137c0b94e1f5b79d5578da7fedf
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260325110244eucas1p1ea280137c0b94e1f5b79d5578da7fedf
+X-EPHeader: CA
+X-CMS-RootMailID: 20260325110244eucas1p1ea280137c0b94e1f5b79d5578da7fedf
+References: <20260310184030.3669330-1-cristian.marussi@arm.com>
+	<20260310184030.3669330-9-cristian.marussi@arm.com>
+	<CGME20260325110244eucas1p1ea280137c0b94e1f5b79d5578da7fedf@eucas1p1.samsung.com>
 
-On Tue, Mar 24, 2026 at 2:11=E2=80=AFPM Linus Walleij <linusw@kernel.org> w=
-rote:
+On 10.03.2026 19:40, Cristian Marussi wrote:
+> Add proper error handling on failure to enumerate clocks features or
+> rates.
 >
-> On Mon, Mar 23, 2026 at 8:01=E2=80=AFPM Dan Carpenter <dan.carpenter@lina=
-ro.org> wrote:
->
-> > This basically abandons my earlier attempts and goes back to Takahiro
-> > Akashi's driver.  Here is the link to Takahiro's patchset:
-> >
-> > https://lore.kernel.org/all/20231005025843.508689-1-takahiro.akashi@lin=
-aro.org/
-> >
-> > v6: Fix a build error when CONFIG_PINCONF is disabled
-> >     Fix the dt-binding subject and my email address
-> >     Use pinconf_to_config_packed() instead of PIN_CONF_PACKED()
->
-> v6 applied to this immutable branch:
-> https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git/=
-log/?h=3Dib-scmi-pinctrl-gpio
->
-> Then merged into my devel branch for next.
->
-> Bartosz, you might want to pull it in!
->
-> Dan: thanks for your efforts to fix up the remaining hurdles and
-> bringing this to completion! Sometimes the last few % of work are
-> the hardest.
->
-> Also thanks to Takahiro for this idea: it worked out just like you
-> imagined.
->
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 
-Pulled, thanks!
+This patch landed yesterday in linux-next as commit 0d8b0c8068a8 
+("firmware: arm_scmi: Harden clock protocol initialization"). In my 
+tests I found that it causes a regression on RK3568 Odroid-M1 board 
+(arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dts), cpufreq and GPU 
+device are not probed properly:
 
-Bart
+# dmesg | grep scmi
+scmi_core: SCMI protocol bus registered
+arm-scmi arm-scmi.0.auto: Using scmi_smc_transport
+arm-scmi arm-scmi.0.auto: SCMI max-rx-timeout: 30ms / max-msg-size: 
+104bytes / max-msg: 20
+scmi_protocol scmi_dev.1: Enabled polling mode TX channel - prot_id:16
+arm-scmi arm-scmi.0.auto: SCMI Notifications - Core Enabled.
+arm-scmi arm-scmi.0.auto: Malformed reply - real_sz:8 calc_sz:4  
+(loop_num_ret:1)
+arm-scmi arm-scmi.0.auto: SCMI Protocol v2.0 'rockchip:' Firmware 
+version 0x0
+arm-scmi arm-scmi.0.auto: Enabling SCMI Quirk 
+[quirk_clock_rates_triplet_out_of_spec]
+scmi-clocks scmi_dev.3: probe with driver scmi-clocks failed with error -22
+
+# cat /sys/kernel/debug/devices_deferred
+fde60000.gpu
+cpufreq-dt
+
+# dmesg | grep fde60000.gpu
+rockchip-pm-domain fdd90000.power-management:power-controller: 
+sync_state() pending due to fde60000.gpu
+panfrost fde60000.gpu: get clock failed -517
+panfrost fde60000.gpu: clk init failed -517
+panfrost fde60000.gpu: get clock failed -517
+panfrost fde60000.gpu: clk init failed -517
+
+...
+
+> ---
+>   drivers/firmware/arm_scmi/clock.c | 22 ++++++++++++++++------
+>   1 file changed, 16 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/firmware/arm_scmi/clock.c b/drivers/firmware/arm_scmi/clock.c
+> index c9b62edce4fd..bf956305a8fe 100644
+> --- a/drivers/firmware/arm_scmi/clock.c
+> +++ b/drivers/firmware/arm_scmi/clock.c
+> @@ -402,10 +402,16 @@ static int scmi_clock_attributes_get(const struct scmi_protocol_handle *ph,
+>   		    SUPPORTS_RATE_CHANGE_REQUESTED_NOTIF(attributes))
+>   			clk->rate_change_requested_notifications = true;
+>   		if (PROTOCOL_REV_MAJOR(ph->version) >= 0x3) {
+> -			if (SUPPORTS_PARENT_CLOCK(attributes))
+> -				scmi_clock_possible_parents(ph, clk_id, cinfo);
+> -			if (SUPPORTS_GET_PERMISSIONS(attributes))
+> -				scmi_clock_get_permissions(ph, clk_id, clk);
+> +			if (SUPPORTS_PARENT_CLOCK(attributes)) {
+> +				ret = scmi_clock_possible_parents(ph, clk_id, cinfo);
+> +				if (ret)
+> +					return ret;
+> +			}
+> +			if (SUPPORTS_GET_PERMISSIONS(attributes)) {
+> +				ret = scmi_clock_get_permissions(ph, clk_id, clk);
+> +				if (ret)
+> +					return ret;
+> +			}
+>   			if (SUPPORTS_EXTENDED_CONFIG(attributes))
+>   				clk->extended_config = true;
+>   		}
+> @@ -1143,8 +1149,12 @@ static int scmi_clock_protocol_init(const struct scmi_protocol_handle *ph)
+>   	for (clkid = 0; clkid < cinfo->num_clocks; clkid++) {
+>   		cinfo->clkds[clkid].id = clkid;
+>   		ret = scmi_clock_attributes_get(ph, clkid, cinfo);
+> -		if (!ret)
+> -			scmi_clock_describe_rates_get(ph, clkid, cinfo);
+> +		if (ret)
+> +			return ret;
+> +
+> +		ret = scmi_clock_describe_rates_get(ph, clkid, cinfo);
+> +		if (ret)
+> +			return ret;
+>   	}
+>   
+>   	if (PROTOCOL_REV_MAJOR(ph->version) >= 0x3) {
+
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
