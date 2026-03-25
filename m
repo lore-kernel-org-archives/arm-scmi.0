@@ -1,101 +1,104 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAD8C3A2570;
-	Wed, 25 Mar 2026 12:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE2FC3BE16E
+	for <arm-scmi@vger.kernel.org>; Wed, 25 Mar 2026 16:01:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774441676; cv=none; b=TDmVEggMVNcuS9z6Tshn58htsrUXqvs6DwLC9aBLoumaZqPlRmD884GEBWaQqJCR1yFD8orAMnyNJSOhs4enE/oEuo2C1pv9IUWEgO9ooqt4zdgZIwk4xod0KsoVM9Lm+3hBW0qCZMdXHDRX0Aa3oOr939oB0eObbHtMXo1c+I4=
+	t=1774454470; cv=none; b=CaIyyC1xkpIqCNGz+XZ0Uv/c68AzFQVoJHmANOUKYVdBIU6vJL6e0exS2dW5mnwUXEy9SSquU6R+MQlm0Og0ydMO3bjYU6Q/NF3DzMY9vZpg/dd2YpjiGP+rGZJV83sOptRJCBCCvdO0whNlrHgeFvinBH71XlNuyzpHi3ImioM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774441676; c=relaxed/simple;
-	bh=r2XgYTZSdCM7G0IZbpb3iOsmIHn+g3Bg7hWAC/Kzi3A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AkESCDbiBIOQSOfRr4h+TnejxrrRNDljvlLDEmNKd1n1AJEgom6NMirBOhzRSoM77qDqYoVnayC8AzYQLuXqxa4cQ4gupO1DjqpIkQGpcOWTzWb44AMaqaqoCJcKmoyak4wocXi/5o4JqiahygR59SLJ0m3M2jAPSe4uBmGEjNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=UpdxeQt2; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1774454470; c=relaxed/simple;
+	bh=LfNoREmWlpHbohY+uXMlBTfKpK6tUoS4osyTxIVRhZU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SvCKqhK4ui1BUyV0MTCfU9pZwnynoW/n0eeraCGKRzEYvzfL8ifC/iZAzDCxUj45O+NGFHl89lfWz+UqsioxXm2Y90tj4nOr3etUEAIczUb4ngOLTSQ2WEyF6cXqRJ9qAXTAG3HH7a8YmmBwPk0AGuhKEIo4nDlYD7NMGqi+g0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FzOcXT//; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="UpdxeQt2"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 38E641CDD;
-	Wed, 25 Mar 2026 05:27:48 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6EFC33F915;
-	Wed, 25 Mar 2026 05:27:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1774441674; bh=r2XgYTZSdCM7G0IZbpb3iOsmIHn+g3Bg7hWAC/Kzi3A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UpdxeQt2YbXJHkZ26e0AGm4UKPobmeEc8zYHDPIQ7d+3Dp7TGfaxvbUJmQoUNeHt/
-	 Ld+hmZJroKy4k9k3GMVoJEcCYtwB2eiAG8IurXt0H2v7nhT1fAfw9AsJyWBI8QHK7E
-	 EF+csPDTqlILpKJ9qJAnCjmNTtj5kLbbV6V2sohM=
-Date: Wed, 25 Mar 2026 12:27:48 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, sudeep.holla@arm.com,
-	philip.radford@arm.com, james.quinlan@broadcom.com,
-	f.fainelli@gmail.com, vincent.guittot@linaro.org,
-	etienne.carriere@foss.st.com, peng.fan@oss.nxp.com,
-	michal.simek@amd.com, dan.carpenter@linaro.org,
-	geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com,
-	marek.vasut+renesas@gmail.com
-Subject: Re: [PATCH v2 08/13] firmware: arm_scmi: Harden clock protocol
- initialization
-Message-ID: <acPUxJ3N0QptmtlJ@pluto>
-References: <20260310184030.3669330-1-cristian.marussi@arm.com>
- <20260310184030.3669330-9-cristian.marussi@arm.com>
- <CGME20260325110244eucas1p1ea280137c0b94e1f5b79d5578da7fedf@eucas1p1.samsung.com>
- <9b574ac5-09fa-4e7a-b2bb-a339fbb319bc@samsung.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FzOcXT//"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5172EC4CEF7;
+	Wed, 25 Mar 2026 16:01:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774454470;
+	bh=LfNoREmWlpHbohY+uXMlBTfKpK6tUoS4osyTxIVRhZU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=FzOcXT//TcFlpcMcwGwiJFGiAKq1a0YsBuXWf+H+6CzThS74lyDtFUoE1ICWLlxnl
+	 8ltN9R0MkgKpCndZBQdCFnv0A+4UoyQWJk9JfPeukdrPKHqmlgrhfyrXQd8NWw+Nq+
+	 jR5C6tIzFAWmaVphs+KE4XwV9Tl00jnXZzkQ8eTXj83oCpsNys40je8z+ol3WLmPWV
+	 eMmOCQ6GCRQsMAty+8sX3LnD28Wardv79/5gJjD3OgrVW5/En13bciL2xz7qy4fmP5
+	 rDJN+uv/RjjqEgmBxicZAK9ckdMPd/hVcA0J9Vzk81kt9C/Fhdat1V8vHtCS7+PTyU
+	 zyG9hN8o+6deQ==
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: ARM SoC Team <arm@kernel.org>,
+	SoC Team <soc@kernel.org>,
+	arm-scmi@vger.kernel.org,
+	ALKML <linux-arm-kernel@lists.infradead.org>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>,
+	Arnd Bergmann <arnd@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [GIT PULL] firmware: arm_scmi: Updates for v7.1
+Date: Wed, 25 Mar 2026 16:00:59 +0000
+Message-ID: <20260325160104.4115956-1-sudeep.holla@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9b574ac5-09fa-4e7a-b2bb-a339fbb319bc@samsung.com>
 
-On Wed, Mar 25, 2026 at 12:02:41PM +0100, Marek Szyprowski wrote:
-> On 10.03.2026 19:40, Cristian Marussi wrote:
-> > Add proper error handling on failure to enumerate clocks features or
-> > rates.
-> >
-> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> 
+Hi ARM SoC Team,
 
-Hi Marek,
+Please pull !
 
-> This patch landed yesterday in linux-next as commit 0d8b0c8068a8 
-> ("firmware: arm_scmi: Harden clock protocol initialization"). In my 
-> tests I found that it causes a regression on RK3568 Odroid-M1 board 
-> (arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dts), cpufreq and GPU 
-> device are not probed properly:
-> 
-> # dmesg | grep scmi
-> scmi_core: SCMI protocol bus registered
-> arm-scmi arm-scmi.0.auto: Using scmi_smc_transport
-> arm-scmi arm-scmi.0.auto: SCMI max-rx-timeout: 30ms / max-msg-size: 
-> 104bytes / max-msg: 20
-> scmi_protocol scmi_dev.1: Enabled polling mode TX channel - prot_id:16
-> arm-scmi arm-scmi.0.auto: SCMI Notifications - Core Enabled.
-> arm-scmi arm-scmi.0.auto: Malformed reply - real_sz:8 calc_sz:4  
-> (loop_num_ret:1)
-> arm-scmi arm-scmi.0.auto: SCMI Protocol v2.0 'rockchip:' Firmware 
-> version 0x0
-> arm-scmi arm-scmi.0.auto: Enabling SCMI Quirk 
-> [quirk_clock_rates_triplet_out_of_spec]
-> scmi-clocks scmi_dev.3: probe with driver scmi-clocks failed with error -22
-> 
+Regards,
+Sudeep
 
-Yes there are multiple reports of issues on this hardening, the series
-is on hold and wont go into v7.1 as of now...it needs some basic fixes
-and various quirks probably to address non-compliant firmwares...
+-->8
 
-It will be pushed to next again with a few more fixes in the coming
-days and then we'll need to figure out how many quirks will be needed on
-top of that and if it is acceptable at all...
+The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f:
 
-Thanks for the report,
-Cristian
+  Linux 7.0-rc1 (2026-02-22 13:18:59 -0800)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git tags/scmi-updates-7.1
+
+for you to fetch changes up to 0a7ec808abecaf0d5c3ecc0d1b87d58f29c85604:
+
+  firmware: arm_scmi: Support loop control in quirk code snippets (2026-03-17 07:30:22 +0000)
+
+----------------------------------------------------------------
+Arm SCMI updates for v7.1
+
+This batch mainly improves SCMI robustness on systems where the SCP does
+not generate completion interrupts, and includes two small follow-up
+cleanups in the SCMI core.
+
+The main functional change adds support for the new DT property
+'arm,no-completion-irq'. When present for mailbox/shared-memory based
+SCMI implementations, the driver forces SCMI operations into polling
+mode so affected platforms can continue to operate even with broken
+firmware interrupt behavior.
+
+In addition, it
+ - replaces open-coded size rounding in the base protocol path with
+   round_up() for clarity, with no functional change
+ - updates the SCMI quirk snippet macro implementation so quirk handlers
+  can use break and continue directly when invoked inside loop contexts
+
+----------------------------------------------------------------
+Geert Uytterhoeven (1):
+      firmware: arm_scmi: Support loop control in quirk code snippets
+
+Marek Vasut (2):
+      dt-bindings: firmware: arm,scmi: Document arm,no-completion-irq property
+      firmware: arm_scmi: Implement arm,no-completion-irq property
+
+Peng Fan (1):
+      firmware: arm_scmi: Use round_up() for base protocol list size calculation
+
+ Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 10 ++++++++++
+ drivers/firmware/arm_scmi/base.c                         |  4 ++--
+ drivers/firmware/arm_scmi/common.h                       |  4 ++++
+ drivers/firmware/arm_scmi/driver.c                       |  4 ++++
+ drivers/firmware/arm_scmi/quirks.h                       |  8 ++++----
+ 5 files changed, 24 insertions(+), 6 deletions(-)
