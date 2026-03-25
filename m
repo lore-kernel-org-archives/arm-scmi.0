@@ -1,142 +1,101 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 748AD3D332F;
-	Wed, 25 Mar 2026 12:19:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAD8C3A2570;
+	Wed, 25 Mar 2026 12:27:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774441146; cv=none; b=SvDdyXKFQBtbxw/5rUBL9rPp4rZ4mzzgOxeXeySr9/mKHPR43e0lBypzRelBzamaxiLevyLMzUgc575jVkdvoWylJylZTdDu9tBeKfIgQHT0F3PShoCyqn+TaR2Q4vCwF8yluEnjk1r10qyJ+dFB5f36+k4lq9b8tbUzj1/Ziek=
+	t=1774441676; cv=none; b=TDmVEggMVNcuS9z6Tshn58htsrUXqvs6DwLC9aBLoumaZqPlRmD884GEBWaQqJCR1yFD8orAMnyNJSOhs4enE/oEuo2C1pv9IUWEgO9ooqt4zdgZIwk4xod0KsoVM9Lm+3hBW0qCZMdXHDRX0Aa3oOr939oB0eObbHtMXo1c+I4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774441146; c=relaxed/simple;
-	bh=1VtDicBwAjX99lDG8d/05N68hlmGlfDw/kov2CzrAp4=;
+	s=arc-20240116; t=1774441676; c=relaxed/simple;
+	bh=r2XgYTZSdCM7G0IZbpb3iOsmIHn+g3Bg7hWAC/Kzi3A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n7x60bzwSzbXciwGMlRqdAXIXHfEoNp2084JcLUhmHWgf3CIqUInp+BLIs1ZJpFztmT+jHu9bEvb1QY912HYU7la9qfsskCAeuRXUkqDxKbjB3+0heCIjnyerTTQDYZXe7Q0iGYTfLGHqZ+FYpcXQ3Kf7XA1ettYdNffvQUOF1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=aYBkDpc2; arc=none smtp.client-ip=217.140.110.172
+	 Content-Type:Content-Disposition:In-Reply-To; b=AkESCDbiBIOQSOfRr4h+TnejxrrRNDljvlLDEmNKd1n1AJEgom6NMirBOhzRSoM77qDqYoVnayC8AzYQLuXqxa4cQ4gupO1DjqpIkQGpcOWTzWb44AMaqaqoCJcKmoyak4wocXi/5o4JqiahygR59SLJ0m3M2jAPSe4uBmGEjNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=UpdxeQt2; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="aYBkDpc2"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="UpdxeQt2"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 93DEE1CDD;
-	Wed, 25 Mar 2026 05:18:55 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 38E641CDD;
+	Wed, 25 Mar 2026 05:27:48 -0700 (PDT)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AA8CB3F915;
-	Wed, 25 Mar 2026 05:18:59 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6EFC33F915;
+	Wed, 25 Mar 2026 05:27:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1774441141; bh=1VtDicBwAjX99lDG8d/05N68hlmGlfDw/kov2CzrAp4=;
+	t=1774441674; bh=r2XgYTZSdCM7G0IZbpb3iOsmIHn+g3Bg7hWAC/Kzi3A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aYBkDpc2eDgHZyQYHUoLAJt2BHIwIuu/WzM82njvOdvPK44tY2BTYfF1eKgyd4v8L
-	 jkFp7WvXP3UcDuR8vZ5f+fHqBfqf7lwWgAgvqmrtuTH2NUXqd/eVS9CHL+PHz3AY1T
-	 bZfjCEdbZQgEA1N7owJazQjmtMlplncihp3GV5LE=
-Date: Wed, 25 Mar 2026 12:18:53 +0000
+	b=UpdxeQt2YbXJHkZ26e0AGm4UKPobmeEc8zYHDPIQ7d+3Dp7TGfaxvbUJmQoUNeHt/
+	 Ld+hmZJroKy4k9k3GMVoJEcCYtwB2eiAG8IurXt0H2v7nhT1fAfw9AsJyWBI8QHK7E
+	 EF+csPDTqlILpKJ9qJAnCjmNTtj5kLbbV6V2sohM=
+Date: Wed, 25 Mar 2026 12:27:48 +0000
 From: Cristian Marussi <cristian.marussi@arm.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	"Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
-	Jacky Bai <ping.bai@nxp.com>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH] firmware: arm_scmi: clock: Relax check in
- scmi_clock_protocol_init
-Message-ID: <acPSrTxMkfdeNOfr@pluto>
-References: <20260324-scmi-clock-fix-v1-v1-1-65c21935824b@nxp.com>
- <20260324-lean-bobcat-of-reputation-6628b5@sudeepholla>
- <acJI7o79lVNMjV_d@pluto>
- <CAMuHMdVcE439Cyn-TCoioLZXP-YpqObZ0UF8F2NvMCZ41eO6QQ@mail.gmail.com>
- <acKhJ8Z9WDvHEnYL@pluto>
- <CAMuHMdW==oMpCS==L8ADexPC=4uczNwK5UD6DequBjGOKQfOZw@mail.gmail.com>
- <20260325-spiffy-analytic-sloth-eabfea@sudeepholla>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, sudeep.holla@arm.com,
+	philip.radford@arm.com, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@foss.st.com, peng.fan@oss.nxp.com,
+	michal.simek@amd.com, dan.carpenter@linaro.org,
+	geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com,
+	marek.vasut+renesas@gmail.com
+Subject: Re: [PATCH v2 08/13] firmware: arm_scmi: Harden clock protocol
+ initialization
+Message-ID: <acPUxJ3N0QptmtlJ@pluto>
+References: <20260310184030.3669330-1-cristian.marussi@arm.com>
+ <20260310184030.3669330-9-cristian.marussi@arm.com>
+ <CGME20260325110244eucas1p1ea280137c0b94e1f5b79d5578da7fedf@eucas1p1.samsung.com>
+ <9b574ac5-09fa-4e7a-b2bb-a339fbb319bc@samsung.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260325-spiffy-analytic-sloth-eabfea@sudeepholla>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9b574ac5-09fa-4e7a-b2bb-a339fbb319bc@samsung.com>
 
-On Wed, Mar 25, 2026 at 12:06:15PM +0000, Sudeep Holla wrote:
-> On Tue, Mar 24, 2026 at 04:32:55PM +0100, Geert Uytterhoeven wrote:
-> > Hi Cristian,
-> > 
-
-Hi Sudeep,
-
-> > On Tue, 24 Mar 2026 at 15:35, Cristian Marussi <cristian.marussi@arm.com> wrote:
-> > > On Tue, Mar 24, 2026 at 02:15:36PM +0100, Geert Uytterhoeven wrote:
-> > > > On Tue, 24 Mar 2026 at 09:41, Cristian Marussi <cristian.marussi@arm.com> wrote:
-> > > > > Looking at the spec 3.6.2.5 CLOCK_ATTRIBUTES
-> > > > >
-> > > > > "This command returns the attributes that are associated with a specific clock. An agent might be allowed access to only
-> > > > > a subset of the clocks available in the system. The platform must thus guarantee that clocks that an agent cannot access
-> > > > > are not visible to it."
-> > > > >
-> > > > > ...not sure if this sheds some light or it is ambiguos anyway...I'd say that
-> > > > > NOT_FOUND does NOT equate to be invisible...
-> > > > >
-> > > > > ...BUT at the same time I think that this practice of exposing a non-contiguos
-> > > > > set of resources IDs (a set with holes in it) is the a well-known spec-loophole
-> > > > > used by many vendors to deploy one single FW image across all of their platforms
-> > > > > without having to reconfigure their reosurces IDs ro expose a common set of
-> > > > > contiguos IDs like the spec would suggest...
-> > > > >
-> > > > > Having said that, since we unfortunately left this door open in the
-> > > > > implementation, now this loophole has become common practice
-> > > > > apparently...
-> > > >
-> > > > When I first read that paragraph, I was also confused.
-> > > > What does "not visible" mean?
-> > > >   - Not present in the clock ID space exposed to that client of
-> > > >     the system?
-> > > >     Yeah, multiple different sequences of contiguous IDs, depending
-> > > >     on client!
-> > >
-> > > Yes that is the most spec-compliant interpretation usually; in general
-> > > across all protocols the SCMI server, through customized enumeration
-> > > results, should provide a per-agent view of the system: this should help
-> > > handling shared or virtualized resources, since the agent always see
-> > > only the 'illusion' provided by the server...
-> > >
-> > > ...under this assumption if you dont even need a resource at all (not
-> > > RW nor RO) you should NOT even be able to see it...this in turn of
-> > > course means that in order to expose a contiguous set of IDs you should
-> > > be able to properly configure at build time the FW resources on a per
-> > > platform basis...
-> > >
-> > > >   - Return failure on CLOCK_ATTRIBUTES?
-> > > >     Which is what implementations seem to do.
-> > >
-> > > Yes this is what is done leveraging the gap in the implementation...I am
-> > > not sure that the non-contiguous set of IDs is supported if not by
-> > > chance as of now :P (especially in other protocols)
-> > >
-> > > > The next step in the fun is when the system actually needs to know the
-> > > > clock rate of such a clock...
-> > >
-> > > Well...that seems a bit of wishful thinking ...
-> > 
-> > Unfortunately it is real... [cliffhanger, to be continued... :-]
-> > 
+On Wed, Mar 25, 2026 at 12:02:41PM +0100, Marek Szyprowski wrote:
+> On 10.03.2026 19:40, Cristian Marussi wrote:
+> > Add proper error handling on failure to enumerate clocks features or
+> > rates.
+> >
+> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 > 
-> I am late to the discussion. Based on all the discussion so far, I don't
-> want to rush the clk changes from Cristian that adds the hardening yet.
 
-Agreed, the whole series with the iterators and hardening needs fixes from
-Geert upfront...
+Hi Marek,
 
-> I won't make it part of my SCMI v7.1 PR. However is it good idea to keep
-> it in the next so that we can converge towards some solution in v7.2 ?
+> This patch landed yesterday in linux-next as commit 0d8b0c8068a8 
+> ("firmware: arm_scmi: Harden clock protocol initialization"). In my 
+> tests I found that it causes a regression on RK3568 Odroid-M1 board 
+> (arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dts), cpufreq and GPU 
+> device are not probed properly:
 > 
-> So, the question is if I add the fixes from Geert[1] to my queue, will it
-> be a good baseline for all these changes and discussions ?
+> # dmesg | grep scmi
+> scmi_core: SCMI protocol bus registered
+> arm-scmi arm-scmi.0.auto: Using scmi_smc_transport
+> arm-scmi arm-scmi.0.auto: SCMI max-rx-timeout: 30ms / max-msg-size: 
+> 104bytes / max-msg: 20
+> scmi_protocol scmi_dev.1: Enabled polling mode TX channel - prot_id:16
+> arm-scmi arm-scmi.0.auto: SCMI Notifications - Core Enabled.
+> arm-scmi arm-scmi.0.auto: Malformed reply - real_sz:8 calc_sz:4  
+> (loop_num_ret:1)
+> arm-scmi arm-scmi.0.auto: SCMI Protocol v2.0 'rockchip:' Firmware 
+> version 0x0
+> arm-scmi arm-scmi.0.auto: Enabling SCMI Quirk 
+> [quirk_clock_rates_triplet_out_of_spec]
+> scmi-clocks scmi_dev.3: probe with driver scmi-clocks failed with error -22
+> 
 
-Yes having my iterator series plus Geert fixes on top would be a good
-starting point to have a sane kernel...then we'll see how many quirks or
-de-Hardening will be needed on top of that to make all firmware
-survive...
+Yes there are multiple reports of issues on this hardening, the series
+is on hold and wont go into v7.1 as of now...it needs some basic fixes
+and various quirks probably to address non-compliant firmwares...
 
-I will re-test on my side in the coming days but anything that goes on
-linux-next from your next of course has a more broad audience...
+It will be pushed to next again with a few more fixes in the coming
+days and then we'll need to figure out how many quirks will be needed on
+top of that and if it is acceptable at all...
 
-Thanks,
-Cristian 
+Thanks for the report,
+Cristian
