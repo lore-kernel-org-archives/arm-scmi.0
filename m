@@ -1,163 +1,125 @@
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3413C9EC4
-	for <arm-scmi@vger.kernel.org>; Wed, 25 Mar 2026 11:02:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62AF3BF678;
+	Wed, 25 Mar 2026 12:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774436569; cv=none; b=P++XsHx4njmJIZdo7078s6c5g5DyxlYDJ28LaMql07UtkGUU62S4zfnaMJng3wxaxaHu78dMNttmUdJKuYq4ZujaQWE7z4cfZQBUm5DXLdc1sOyaaGIpvt051P+zI6WIK7YQmwhlFgS+kDSLqvYwKMQAIxhd812ETJzOwnfEYTE=
+	t=1774440379; cv=none; b=uoCkfuddESJRnxvc5rPct0ZJsIF1qheF9tweFAiyO/6MnW/uPG2C4rxaKtEIaFhOV8+ZlSAhdAa0cYrsVoSpy+vIdfWrZb0a/IsBjIUgUn4pCRlUNF4w9juZ0THEgzMbZCUSBUuc0j8AWycY6TuRozL5fPwlQ8a/q+pEr840fIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774436569; c=relaxed/simple;
-	bh=qs3lZMqQEg4enzgFnIcVeyjtpcmV+MdUo1kmK2zvUJ4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=JJcpN/TsWFMNoTSGLSFxzMEOBTh2niZJtWkrjWCpKaGU62LJrQQx1VbNGYY/aDApDU2iOooJPC1jombj9TauXC3Guc+C9WMKaMEr7zGtdJiLa/fRUS6CjkHHlW/ZQ1OBZlAv1U1PBRqjRiG6hIQVG7V4thJMdcIpbyEKpAyJ858=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=jdmNBq0G; arc=none smtp.client-ip=210.118.77.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1774440379; c=relaxed/simple;
+	bh=GLFCeOJiFLT5z6XuUp/haZuUWke7Kk3EIhUX4sc5SiI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q3Rus5LMfWmatc1jYp15451H3o5faVzdX/vHmXSxSdvvySLuwEpDT6qYF0b/l/9k2lrlG6rTOFXqvZxLvldnlVAQj5ZSRpeedySFD2032BThX0MKi1GHx9gF9C2OL1pJMamQn9eOM1mwjHOyXEQAN/BK78QCeJcBqWmjVdJFXm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oytF71RE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="jdmNBq0G"
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20260325110244euoutp01a1b419768cb71677b4a5aecea8222faf~gEKdws0XH0136701367euoutp01b
-	for <arm-scmi@vger.kernel.org>; Wed, 25 Mar 2026 11:02:44 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20260325110244euoutp01a1b419768cb71677b4a5aecea8222faf~gEKdws0XH0136701367euoutp01b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1774436564;
-	bh=5TENbPqJiqN8gJ2OLLr9A5N0XRqryi/AdnBno+1Cr8Q=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=jdmNBq0G3l0ac+iBrxQvKk7jBdm8Zev7dgMOfhi+D/7Ej4x5MrWHYigVa0E5wgHsf
-	 3TEuafXXl1Ar/TmSWgBIWJIJ1se31P4h18iP/wCue1rLlaaIoU8IJ2XSYEVT3Er/41
-	 DqneuAyE259ggexAMCAMBFyomLdnBkMUPNU8FLXE=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20260325110244eucas1p1ea280137c0b94e1f5b79d5578da7fedf~gEKdfMCHg2549225492eucas1p1r;
-	Wed, 25 Mar 2026 11:02:44 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20260325110242eusmtip266f05f327a6eb6ca9d92996263e0cba0~gEKbsHQ5z1659816598eusmtip2Y;
-	Wed, 25 Mar 2026 11:02:42 +0000 (GMT)
-Message-ID: <9b574ac5-09fa-4e7a-b2bb-a339fbb319bc@samsung.com>
-Date: Wed, 25 Mar 2026 12:02:41 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oytF71RE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D738C2BC9E;
+	Wed, 25 Mar 2026 12:06:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774440379;
+	bh=GLFCeOJiFLT5z6XuUp/haZuUWke7Kk3EIhUX4sc5SiI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oytF71REZveCJZgrtlhlQ1Ax5N+yZFQ+GRvmFgX6TXhAOLGJ7tDExr3J2fYmrdi71
+	 NVLYE5IJVD0iCLLMdjo2PqUP5YQ/yvzmRToC+rMf3WtIlG4Zlm66GJ98pLwo67jdL4
+	 Wbr4INcFhFVuspC93PS6sm6c4DYooDqzN6iL/6xWB49qMKaCBTi6ycieHwbyELrtd0
+	 Xt45aw3m+AUT5eYAZX5F9brGeFeksamm8hXUqmDYP00nzeLwr38lITgi7KhoE0LD2a
+	 SQsWelR2dLB2iFl+ydUTXkuUmhY85PEC9QQcMmCTBiyea0VIHfvlCo6H3L/+atalIN
+	 WhkF7+MD3z1hg==
+Date: Wed, 25 Mar 2026 12:06:15 +0000
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	"Peng Fan (OSS)" <peng.fan@oss.nxp.com>,
+	Jacky Bai <ping.bai@nxp.com>, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH] firmware: arm_scmi: clock: Relax check in
+ scmi_clock_protocol_init
+Message-ID: <20260325-spiffy-analytic-sloth-eabfea@sudeepholla>
+References: <20260324-scmi-clock-fix-v1-v1-1-65c21935824b@nxp.com>
+ <20260324-lean-bobcat-of-reputation-6628b5@sudeepholla>
+ <acJI7o79lVNMjV_d@pluto>
+ <CAMuHMdVcE439Cyn-TCoioLZXP-YpqObZ0UF8F2NvMCZ41eO6QQ@mail.gmail.com>
+ <acKhJ8Z9WDvHEnYL@pluto>
+ <CAMuHMdW==oMpCS==L8ADexPC=4uczNwK5UD6DequBjGOKQfOZw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH v2 08/13] firmware: arm_scmi: Harden clock protocol
- initialization
-To: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Cc: sudeep.holla@arm.com, philip.radford@arm.com,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, etienne.carriere@foss.st.com,
-	peng.fan@oss.nxp.com, michal.simek@amd.com, dan.carpenter@linaro.org,
-	geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com,
-	marek.vasut+renesas@gmail.com
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20260310184030.3669330-9-cristian.marussi@arm.com>
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20260325110244eucas1p1ea280137c0b94e1f5b79d5578da7fedf
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20260325110244eucas1p1ea280137c0b94e1f5b79d5578da7fedf
-X-EPHeader: CA
-X-CMS-RootMailID: 20260325110244eucas1p1ea280137c0b94e1f5b79d5578da7fedf
-References: <20260310184030.3669330-1-cristian.marussi@arm.com>
-	<20260310184030.3669330-9-cristian.marussi@arm.com>
-	<CGME20260325110244eucas1p1ea280137c0b94e1f5b79d5578da7fedf@eucas1p1.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdW==oMpCS==L8ADexPC=4uczNwK5UD6DequBjGOKQfOZw@mail.gmail.com>
 
-On 10.03.2026 19:40, Cristian Marussi wrote:
-> Add proper error handling on failure to enumerate clocks features or
-> rates.
->
-> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+On Tue, Mar 24, 2026 at 04:32:55PM +0100, Geert Uytterhoeven wrote:
+> Hi Cristian,
+> 
+> On Tue, 24 Mar 2026 at 15:35, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> > On Tue, Mar 24, 2026 at 02:15:36PM +0100, Geert Uytterhoeven wrote:
+> > > On Tue, 24 Mar 2026 at 09:41, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> > > > Looking at the spec 3.6.2.5 CLOCK_ATTRIBUTES
+> > > >
+> > > > "This command returns the attributes that are associated with a specific clock. An agent might be allowed access to only
+> > > > a subset of the clocks available in the system. The platform must thus guarantee that clocks that an agent cannot access
+> > > > are not visible to it."
+> > > >
+> > > > ...not sure if this sheds some light or it is ambiguos anyway...I'd say that
+> > > > NOT_FOUND does NOT equate to be invisible...
+> > > >
+> > > > ...BUT at the same time I think that this practice of exposing a non-contiguos
+> > > > set of resources IDs (a set with holes in it) is the a well-known spec-loophole
+> > > > used by many vendors to deploy one single FW image across all of their platforms
+> > > > without having to reconfigure their reosurces IDs ro expose a common set of
+> > > > contiguos IDs like the spec would suggest...
+> > > >
+> > > > Having said that, since we unfortunately left this door open in the
+> > > > implementation, now this loophole has become common practice
+> > > > apparently...
+> > >
+> > > When I first read that paragraph, I was also confused.
+> > > What does "not visible" mean?
+> > >   - Not present in the clock ID space exposed to that client of
+> > >     the system?
+> > >     Yeah, multiple different sequences of contiguous IDs, depending
+> > >     on client!
+> >
+> > Yes that is the most spec-compliant interpretation usually; in general
+> > across all protocols the SCMI server, through customized enumeration
+> > results, should provide a per-agent view of the system: this should help
+> > handling shared or virtualized resources, since the agent always see
+> > only the 'illusion' provided by the server...
+> >
+> > ...under this assumption if you dont even need a resource at all (not
+> > RW nor RO) you should NOT even be able to see it...this in turn of
+> > course means that in order to expose a contiguous set of IDs you should
+> > be able to properly configure at build time the FW resources on a per
+> > platform basis...
+> >
+> > >   - Return failure on CLOCK_ATTRIBUTES?
+> > >     Which is what implementations seem to do.
+> >
+> > Yes this is what is done leveraging the gap in the implementation...I am
+> > not sure that the non-contiguous set of IDs is supported if not by
+> > chance as of now :P (especially in other protocols)
+> >
+> > > The next step in the fun is when the system actually needs to know the
+> > > clock rate of such a clock...
+> >
+> > Well...that seems a bit of wishful thinking ...
+> 
+> Unfortunately it is real... [cliffhanger, to be continued... :-]
+> 
 
-This patch landed yesterday in linux-next as commit 0d8b0c8068a8 
-("firmware: arm_scmi: Harden clock protocol initialization"). In my 
-tests I found that it causes a regression on RK3568 Odroid-M1 board 
-(arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dts), cpufreq and GPU 
-device are not probed properly:
+I am late to the discussion. Based on all the discussion so far, I don't
+want to rush the clk changes from Cristian that adds the hardening yet.
+I won't make it part of my SCMI v7.1 PR. However is it good idea to keep
+it in the next so that we can converge towards some solution in v7.2 ?
 
-# dmesg | grep scmi
-scmi_core: SCMI protocol bus registered
-arm-scmi arm-scmi.0.auto: Using scmi_smc_transport
-arm-scmi arm-scmi.0.auto: SCMI max-rx-timeout: 30ms / max-msg-size: 
-104bytes / max-msg: 20
-scmi_protocol scmi_dev.1: Enabled polling mode TX channel - prot_id:16
-arm-scmi arm-scmi.0.auto: SCMI Notifications - Core Enabled.
-arm-scmi arm-scmi.0.auto: Malformed reply - real_sz:8 calc_sz:4  
-(loop_num_ret:1)
-arm-scmi arm-scmi.0.auto: SCMI Protocol v2.0 'rockchip:' Firmware 
-version 0x0
-arm-scmi arm-scmi.0.auto: Enabling SCMI Quirk 
-[quirk_clock_rates_triplet_out_of_spec]
-scmi-clocks scmi_dev.3: probe with driver scmi-clocks failed with error -22
+So, the question is if I add the fixes from Geert[1] to my queue, will it
+be a good baseline for all these changes and discussions ?
 
-# cat /sys/kernel/debug/devices_deferred
-fde60000.gpu
-cpufreq-dt
-
-# dmesg | grep fde60000.gpu
-rockchip-pm-domain fdd90000.power-management:power-controller: 
-sync_state() pending due to fde60000.gpu
-panfrost fde60000.gpu: get clock failed -517
-panfrost fde60000.gpu: clk init failed -517
-panfrost fde60000.gpu: get clock failed -517
-panfrost fde60000.gpu: clk init failed -517
-
-...
-
-> ---
->   drivers/firmware/arm_scmi/clock.c | 22 ++++++++++++++++------
->   1 file changed, 16 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/firmware/arm_scmi/clock.c b/drivers/firmware/arm_scmi/clock.c
-> index c9b62edce4fd..bf956305a8fe 100644
-> --- a/drivers/firmware/arm_scmi/clock.c
-> +++ b/drivers/firmware/arm_scmi/clock.c
-> @@ -402,10 +402,16 @@ static int scmi_clock_attributes_get(const struct scmi_protocol_handle *ph,
->   		    SUPPORTS_RATE_CHANGE_REQUESTED_NOTIF(attributes))
->   			clk->rate_change_requested_notifications = true;
->   		if (PROTOCOL_REV_MAJOR(ph->version) >= 0x3) {
-> -			if (SUPPORTS_PARENT_CLOCK(attributes))
-> -				scmi_clock_possible_parents(ph, clk_id, cinfo);
-> -			if (SUPPORTS_GET_PERMISSIONS(attributes))
-> -				scmi_clock_get_permissions(ph, clk_id, clk);
-> +			if (SUPPORTS_PARENT_CLOCK(attributes)) {
-> +				ret = scmi_clock_possible_parents(ph, clk_id, cinfo);
-> +				if (ret)
-> +					return ret;
-> +			}
-> +			if (SUPPORTS_GET_PERMISSIONS(attributes)) {
-> +				ret = scmi_clock_get_permissions(ph, clk_id, clk);
-> +				if (ret)
-> +					return ret;
-> +			}
->   			if (SUPPORTS_EXTENDED_CONFIG(attributes))
->   				clk->extended_config = true;
->   		}
-> @@ -1143,8 +1149,12 @@ static int scmi_clock_protocol_init(const struct scmi_protocol_handle *ph)
->   	for (clkid = 0; clkid < cinfo->num_clocks; clkid++) {
->   		cinfo->clkds[clkid].id = clkid;
->   		ret = scmi_clock_attributes_get(ph, clkid, cinfo);
-> -		if (!ret)
-> -			scmi_clock_describe_rates_get(ph, clkid, cinfo);
-> +		if (ret)
-> +			return ret;
-> +
-> +		ret = scmi_clock_describe_rates_get(ph, clkid, cinfo);
-> +		if (ret)
-> +			return ret;
->   	}
->   
->   	if (PROTOCOL_REV_MAJOR(ph->version) >= 0x3) {
-
-Best regards
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+Regards,
+Sudeep
