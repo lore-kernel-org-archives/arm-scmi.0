@@ -1,79 +1,231 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0DC33F7A9D
-	for <arm-scmi@vger.kernel.org>; Thu, 26 Mar 2026 12:18:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99B751A6820;
+	Thu, 26 Mar 2026 13:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774527535; cv=none; b=Dr4YxoLhvgWWAWXptltllZnG4ELEZme5X5SkLF2+PozG0+u7mRQEx7JNMF2YgvuQOBEFIceqo4Yv2Dh73WrrvAnmexSS7rJGCIThrLNWAdLL7X1VMu8XqGAFkwJLmPyf5Ir3PJBg7uMD6REgPv+0k5QFz/7pMK1MDMpP7GpMtSk=
+	t=1774531963; cv=none; b=af5VvZL17PfWfABu0yf/tTLoDabiw02IaIT4TsBatUNvw5jMS5mNLpX6fHfNWn0fhC78FWOUbXlXJvARlX83DCT28A1tKflK+c7dnF2haagh+VmBB7ETUF7FaGqjMORw0JSU69bPTw/IUgK5iL5EjMcH0C6yDpVm8kXu7QYAnQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774527535; c=relaxed/simple;
-	bh=HIUrLQKuXUz87aJ2RCdAPwzeOral2MaX3sd6kq80VeU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cDMqAZeK+Tonm2cMkFiohf6Ee3+FJmYnQTiYovbtxsogRV5iKs4GmFEWYtK4XjOXy31khfO3D/D7Fky/9mSXG1OjVwoRWCT/R0zZsXgtMBrOfwHzkWhLGTjKaF6ejRLXh9ivnutybMdUsXQ6lnPV/FHMBsQv3m8N5AGtUb2iUZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TtZ8swj8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774531963; c=relaxed/simple;
+	bh=pVRjgvx4sRKipOcdpOu4GP6wR1axgO9rbtcZeKZScNY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rCM38K9wyKXHZ2nzsbw9melIr3fXBkwddb1pZN0J2hgVO8s3W9tAtY81lQD9BdamWsjapBFMXZ2agC1cy5zLkh8MqN2bvoj+r8kKehUBcK9ha7QBTwYx2Mg457jKKMrqV4ezguZl8dWHkNYCVZ+/7/B7fwOrm8oLb0sa3jOBCfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=WkRhNBZx; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TtZ8swj8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52F18C2BC87
-	for <arm-scmi@vger.kernel.org>; Thu, 26 Mar 2026 12:18:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774527535;
-	bh=HIUrLQKuXUz87aJ2RCdAPwzeOral2MaX3sd6kq80VeU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=TtZ8swj8CDGI4c9WClKIkiBGLcmfqItkpcRX9gpGj4nlzRXb37emwzteEtz8Pb9zG
-	 zYz2xDGsyW66fYc9T0QEzaDRhKG3vPz7YaF4DL87uqNNhgnSGjQ+vxF8wDLbz6PwmA
-	 K6q1q+fVbACoqm1JtYC7UlJPUUR0/5+ueEslofJ30BiidzqlQuRzi/7lNvwltd7BsP
-	 DmWge/rauvNuLm38Qju32mFW854k2NvqLv3UC1CHh24TswHNcRp9EU7u+X0Az39UrY
-	 MXLOJmul8IBHPShNfWLZhXVbe03bmWVnqLFydZww3cjHHEeOXQhPL4lULGRNW76Yo1
-	 2Yg4a3NV9xaDw==
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-79a8e873ca1so24718247b3.1
-        for <arm-scmi@vger.kernel.org>; Thu, 26 Mar 2026 05:18:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXbsWlss8fnyHFBWgItH4SCIfmlRQ6Bagvm3gYHxriW0QkOU+cs7XueRaC37sUJOEoFm6n6QrnEIQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzg4OcdlUgKth2hm7VHmj3Z7lL5EKxQ4/BwSlqUD1qtByhHLkUb
-	XvVKyVuFQdL9h2EFcFXtDhksVHSKsPzHiLR3q4KZFmHbw/PJwddkhDmQtwkBcwCa4YRZ6bWvcO3
-	EHIArXCbaO+qkrYrK4KjxsEeb6VCL4Wg=
-X-Received: by 2002:a05:690c:260e:b0:79a:3470:3151 with SMTP id
- 00721157ae682-79bd0276576mr10940717b3.31.1774527534682; Thu, 26 Mar 2026
- 05:18:54 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="WkRhNBZx"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A83C5175A;
+	Thu, 26 Mar 2026 06:32:33 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 82A0D3F836;
+	Thu, 26 Mar 2026 06:32:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1774531959; bh=pVRjgvx4sRKipOcdpOu4GP6wR1axgO9rbtcZeKZScNY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WkRhNBZxbwBjOCmbpa+Vpq7Tow/n2qGhq6CWYdm45Wl5AHWL/y03ILfao74YspWWc
+	 ZHJ670bVj/ewGZuWDBdEKXxi+LwmgCdQoT/pZi2KvyS/fYs1yNg1N/CsS6cfNdNhzP
+	 2lVYtUwrkqNP+rYzL06890rAOpYAT9fbxbgQY9y0=
+Date: Thu, 26 Mar 2026 13:32:26 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Elif Topuz <elif.topuz@arm.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	sudeep.holla@arm.com, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+	dan.carpenter@linaro.org, d-gole@ti.com,
+	jonathan.cameron@huawei.com, lukasz.luba@arm.com,
+	philip.radford@arm.com, souvik.chakravarty@arm.com
+Subject: Re: [PATCH v2 05/17] firmware: arm_scmi: Add Telemetry protocol
+ support
+Message-ID: <acU1arT1tMZVbe2m@pluto>
+References: <20260114114638.2290765-1-cristian.marussi@arm.com>
+ <20260114114638.2290765-6-cristian.marussi@arm.com>
+ <02534a48-6795-4948-9348-fe507e8810fd@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1774526652.git.dan.carpenter@linaro.org> <46f9b46210436e73d17a866424a00529439ce1ba.1774526652.git.dan.carpenter@linaro.org>
-In-Reply-To: <46f9b46210436e73d17a866424a00529439ce1ba.1774526652.git.dan.carpenter@linaro.org>
-From: Linus Walleij <linusw@kernel.org>
-Date: Thu, 26 Mar 2026 13:18:43 +0100
-X-Gmail-Original-Message-ID: <CAD++jLmxKJ+nfOaPk-n0_9Hi82Hf6LpTAgzq+1MUN8V2or7pDg@mail.gmail.com>
-X-Gm-Features: AQROBzC4CW51JFqSXDuCGtrxpNW6oAzclgU63UsS9ybuC13rPB4E9MTO2i3LDSU
-Message-ID: <CAD++jLmxKJ+nfOaPk-n0_9Hi82Hf6LpTAgzq+1MUN8V2or7pDg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] pinctrl: scmi: Use standard device tree pin muxing format
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Peng Fan <peng.fan@nxp.com>, Tom Rini <trini@konsulko.com>, u-boot@lists.denx.de, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Michal Simek <michal.simek@amd.com>, 
-	arm-scmi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <02534a48-6795-4948-9348-fe507e8810fd@arm.com>
 
-On Thu, Mar 26, 2026 at 1:08=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
+On Fri, Jan 23, 2026 at 11:00:46AM +0000, Elif Topuz wrote:
+> 
+> Hi Cristian,
 
-> In the original code, I wrote a custom pin muxing parser but the
-> upstream device trees wouldn't accept something like that so it would
-> have complicated mergine the device tree files.
->
-> Use the standard device tree format with function and groups:
->
->         pinmux1: pinmux1 {
->                 function =3D "f_gpio1";
->                 groups =3D "grp_1", "grp_3";
->         };
->
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+HI Elif,
 
-I can't verify the code but the change I want is exactly this so:
-Acked-by: Linus Walleij <linusw@kernel.org>
+a long overdue reply from me !
 
-Yours,
-Linus Walleij
+Thanks for having a look at this series...
+
+> 
+> On 14/01/2026 11:46, Cristian Marussi wrote:
+> > Add basic support for SCMI V4.0 Telemetry protocol including SHMTI,
+> > FastChannels, Notifications and Single Sample Reads collection methods.
+> > 
+> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> > ---
+> > v1 --> v2
+> >  - Add proper ioread accessors for TDCF areas
+> >  - Rework resource allocation logic and lifecycle
+> >  - Introduce new resources accessors and res_get() operation to
+> >    implement lazy enumeration
+> >  - Support boot-on telemetry:
+> >    + Add DE_ENABLED_LIST cmd support
+> >    + Add CONFIG_GET cmd support
+> >    + Add TDCF_SCAN for best effort enumeration
+> >    + Harden driver against out-of-spec FW with out of spec cmds
+> >  - Use FCs list
+> >  - Rework de_info_lookup to a moer general de_lookup
+> >  - Fixed reset to use CONFIG_GET and DE_ENABLED_LIST to gather initial
+> >    state
+> >  - Using sign_extend32 helper
+> >  - Added counted_by marker where appropriate
+> > ---
+> >  drivers/firmware/arm_scmi/Makefile    |    2 +-
+> >  drivers/firmware/arm_scmi/driver.c    |    2 +
+> >  drivers/firmware/arm_scmi/protocols.h |    1 +
+> >  drivers/firmware/arm_scmi/telemetry.c | 2671 +++++++++++++++++++++++++
+> >  include/linux/scmi_protocol.h         |  188 +-
+> >  5 files changed, 2862 insertions(+), 2 deletions(-)
+> >  create mode 100644 drivers/firmware/arm_scmi/telemetry.c
+> > 
+
+[snip]
+
+> > +	/* Build composing DES string */
+> > +	for (int i = 0; i < ti->info.base.num_groups; i++) {
+> > +		struct scmi_telemetry_group *grp = &rinfo->grps[i];
+> > +		size_t bufsize = grp->info->num_des * 11 + 1;
+> > +		char *buf = grp->des_str;
+> > +
+> > +		for (int j = 0; j < grp->info->num_des; j++) {
+> > +			char term = j != (grp->info->num_des - 1) ? ' ' : '\0';
+> > +			int len;
+> > +
+> > +			len = scnprintf(buf, bufsize, "0x%04X%c",
+> 
+> I think it should be 0x%08X%c to print 8 bytes.
+> 
+
+Good catch ! I will fix..
+
+> > +					rinfo->des[grp->des[j]]->info->id, term);
+> > +
+> > +			buf += len;
+> > +			bufsize -= len;
+> > +		}
+> > +	}
+> > +
+
+[snip]
+
+> > +
+> > +static int scmi_telemetry_tdcf_line_parse(struct telemetry_info *ti,
+> > +					  struct payload __iomem *payld,
+> > +					  struct telemetry_shmti *shmti,
+> > +					  enum scan_mode mode)
+> > +{
+> > +	int used_qwords;
+> > +
+> > +	used_qwords = (USE_LINE_TS(payld) && TS_VALID(payld)) ?
+> > +		QWORDS_TS_LINE_DATA_PAYLD : QWORDS_LINE_DATA_PAYLD;
+> 
+> If I understand correctly from the "chat with ATG" comments below, when
+> timestamp is disabled (after DE is enabled with timestamp), physically ts line
+> is still there (use_line_ts = 1 and ts_valid = 0). That's why I think we need to
+> drop TS_VALID(payld) check. Otherwise qwords will be QWORDS_LINE_DATA_PAYLD
+> although ts line exists.
+> 
+> Also, for the alpha version of the spec, the combination of use_line_ts = 1 and
+> ts_valid = 0 doesn't seem to be possible as I understand. But I think beta
+> version allows us?
+
+Yes indeed ALPHA_0 definition of TS Line fields was ambiguos but now in
+BETA the field is more explicitly called as LineExtension bit field...so
+the code in the upcoming V3 will change accordingly.
+
+> 
+> > +
+> > +	/* Invalid lines are not an error, could simply be disabled DEs */
+> > +	if (DATA_INVALID(payld))
+> > +		return used_qwords;
+> > +
+> > +	if (!IS_BLK_TS(payld))
+> > +		scmi_telemetry_tdcf_data_parse(ti, payld, shmti, mode);
+> > +	else
+> > +		scmi_telemetry_tdcf_blkts_parse(ti, payld, shmti);
+> > +
+> > +	return used_qwords;
+> > +}
+> > +
+> > +static int scmi_telemetry_shmti_scan(struct telemetry_info *ti,
+> > +				     unsigned int shmti_id, u64 ts,
+> > +				     enum scan_mode mode)
+> 
+> ts is not used in the function.
+> 
+
+Yes indeed I have removed it in V3.
+
+> > +{
+> > +	struct telemetry_shmti *shmti = &ti->shmti[shmti_id];
+> > +	struct tdcf __iomem *tdcf = shmti->base;
+> > +	int retries = SCMI_TLM_TDCF_MAX_RETRIES;
+> > +	u64 startm = 0, endm = TDCF_BAD_END_SEQ;
+> > +	void *eplg = SHMTI_EPLG(shmti);
+> > +
+> > +	if (!tdcf)
+> > +		return -ENODEV;
+> > +
+
+[snip]
+
+> > +
+> > +		de_id = le32_to_cpu(payld->id);
+> > +		de = xa_load(&ti->xa_des, de_id);
+> > +		if (!de || !de->enabled) {
+> > +			dev_err(ti->ph->dev,
+> > +				"MSG - Received INVALID DE - ID:%u  enabled:%d\n",
+> 
+> enabled:%c?
+> 
+
+Yep
+
+> > +				de_id, de ? (de->enabled ? 'Y' : 'N') : 'X');
+> > +			continue;
+
+[snip]
+
+> >  struct scmi_power_state_changed_report {
+> > @@ -1114,4 +1292,12 @@ struct scmi_powercap_meas_changed_report {
+> >  	unsigned int	domain_id;
+> >  	unsigned int	power;
+> >  };
+> > +
+> > +struct scmi_telemetry_update_report {
+> > +	ktime_t		timestamp;
+> > +	unsigned int	agent_id;
+> > +	int		status;
+> > +	unsigned int	num_dwords;
+> > +	unsigned int	dwords[];
+> > +};
+> >  #endif /* _LINUX_SCMI_PROTOCOL_H */
+> 
+> Thanks,
+> Elif
+
+Thanks for the review !
+Cristian
+
+PS: (nitpick) you should trim your review replies to remove all the long
+bunch of code that you are not comenting on  (leaving a [snip] placeholder
+as I did above)... it helps finding your comments in the sea of code...
+
