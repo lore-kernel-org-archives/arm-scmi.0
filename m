@@ -1,153 +1,108 @@
-Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC6428314C;
-	Thu, 26 Mar 2026 08:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.3.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE049346FDB
+	for <arm-scmi@vger.kernel.org>; Thu, 26 Mar 2026 09:30:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774515333; cv=none; b=GN1PSBlJLKxgCdha4w7Pm1om0drBp59m19Gu5twz0Bz8Uc5CuH6u97Nbh9OSIeXwa/kXa+/iqJcdcjim/i91NdXOSgzV43YB5kvbaSA3rb/K1CvHzaoAcfBp2R4GounC6DGpHAi//HESRjKv9IyZ6mJzI4dvOfGly8qkai+eihk=
+	t=1774517420; cv=none; b=EMCqdX552VCkvikxEgDKj+Bu/JsGdnTUPtw8px2xbM0JTWVvgR3Zq9lj2Gb6hiOsGM1/zQWuqJxCV0gYsF1Tjhb/kiUPxgCMmzF23b5eQNTRSMwKvNx5viAQCtFnp0ZRHLaGxFEcxQGwefH7ACao+W0zAJ9/hS1M7upRrqTfXv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774515333; c=relaxed/simple;
-	bh=eYd+rt4Ybh+8fIo14ss1tVAEBWWEIGFqk9TPJNkQ8Ho=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dsPkzNueGpN1vd0ZoS2Xn52RfNPm0l0L+yYJFZX2fP/Yl9kSN1tP0VO/3anORR1gHi1XlTGs/ceaG9KCSRE+7DupIIIeRBS1W2X1dm+bJyglSisNBd55piG/fzvNBVZzRWYV5kDCpR5i9jS2M8rwRgK+j2ZUnwKOcevzgZwf9rU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=iEAGnl2V; arc=none smtp.client-ip=188.40.3.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+	s=arc-20240116; t=1774517420; c=relaxed/simple;
+	bh=76P6MTojWxyS09DUsQY26VIzSMM8yABXimmKyWGPyY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OMggd/mqHBmk59VCfC4bUyqDSumt5Dekozp1gg66Fz4AHSTmWQX/ozwBN8HPTvSHRwR8de817QFx2MbSmiI/sH3VbRVeafP0AZP3yGu/SnnjAQ+QNRcZ+kQvP6hCcN7ebeEbVO6oZbqpmFfZ3kUNG9tb7DRrf4GgxMpeGMLUAGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xMzSEWc3; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="iEAGnl2V"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=ew.tq-group.com; s=default2602; h=Content-Type:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=16+VF+5NHe0xa6HKIQJNpMGjFD6+6C6+LsFOsle4G8I=; b=iEAGnl2VulXKw6ECzvCLf8JTFu
-	tXygYWgoPUrKW0tfgmjj4Tw+qE0vUIKYTj7zEwbGhXAPicnyPggeBdLeOXbL2hnVllkggz8WvMqNY
-	WOMACd0OLcDD8f9uIBq4/PcVKPe5xU+HH80+sUn09sBlfI9TaSpo8t5tSvBrftoq7qvE1YKu89xmG
-	oZBw2yfgr4WknsgL5VXZfcifqg1hBtnd884r4B2L9Ycm85ZKB1ADkpWA24h+fhIsIkU7YOS5I9ERh
-	bfY70C36/SRc83nVdCfPoZzSVfwHyb4shU/+k/iUhyPRuiz3eKUx4UlQYJVoOrfQ0vXevMcYmUVEY
-	tcYob3vw==;
-Received: from sslproxy01.your-server.de ([78.46.139.224])
-	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <alexander.stein@ew.tq-group.com>)
-	id 1w5gUq-000Lpa-1r;
-	Thu, 26 Mar 2026 09:55:20 +0100
-Received: from localhost ([127.0.0.1])
-	by sslproxy01.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <alexander.stein@ew.tq-group.com>)
-	id 1w5gUp-0005Ky-2v;
-	Thu, 26 Mar 2026 09:55:19 +0100
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- Cristian Marussi <cristian.marussi@arm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- sudeep.holla@arm.com, philip.radford@arm.com, james.quinlan@broadcom.com,
- f.fainelli@gmail.com, vincent.guittot@linaro.org,
- etienne.carriere@foss.st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
- dan.carpenter@linaro.org, geert+renesas@glider.be,
- kuninori.morimoto.gx@renesas.com, marek.vasut+renesas@gmail.com
-Subject:
- Re: [PATCH v2 08/13] firmware: arm_scmi: Harden clock protocol initialization
-Date: Thu, 26 Mar 2026 09:55:18 +0100
-Message-ID: <5980695.DvuYhMxLoT@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <acPUxJ3N0QptmtlJ@pluto>
-References:
- <20260310184030.3669330-1-cristian.marussi@arm.com>
- <9b574ac5-09fa-4e7a-b2bb-a339fbb319bc@samsung.com> <acPUxJ3N0QptmtlJ@pluto>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xMzSEWc3"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4852a9c6309so7010125e9.0
+        for <arm-scmi@vger.kernel.org>; Thu, 26 Mar 2026 02:30:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1774517417; x=1775122217; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=u/1E3XJVA4/n+ORYtOSJ9uubj2svA1SkWoojEpFcseQ=;
+        b=xMzSEWc31iIsmPSEPeul0DUvV+oPgXWbgcmonc8IfjZKZ3NO/IhJfMexFI4O3Woq/i
+         Ws6k5w/clkjHyVqnH0bcN9gr+Pq+8vsvxSFcSq1e0v3KRgwBYFVx6XuvMinUc1KuTyGR
+         eMNPgFB3Kwfe1un3giuikcZJWs/bs3GqngfuK27L7zd3b+9IirS5tyJPMMnVRfa++R8I
+         0/FTddAjvXiB82iadERqkeiWOfT2zbTQ5systiIpXOmmpj0BpjHtmEsgaPgcFgg0Y7OE
+         gM1LfF4sXMC6Oo+6Kppu0/x2vdalwEefXC3vRPoe6Ye6XFoZqzAG9MZ4oZ85mm4ufJhm
+         cCNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774517417; x=1775122217;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u/1E3XJVA4/n+ORYtOSJ9uubj2svA1SkWoojEpFcseQ=;
+        b=Mtv7ZO/xGokxNNkJPVjS+Fn/zB/61BLwZwlpum1OhiewslPxUS6rYWQTa95lpC0uda
+         eH45Im6auYHCD1duurJCH6ViTAMhgBQjFrD9AGR/Yr6VQdWQ6+T8EQoKbgId9gJA89Qe
+         kUQOyKjth74Ykh2pf/mD4uuJ0r0JznWCzIHwac1+pV+VEzdvnmqRspp9arMG3Fyj1uHy
+         8s89NJxL+LvtpQ4xfJU8wqhg33NVrgvoiBqgXLuEq+ldLZSISxGBQxDL8kVPGTzIy/2F
+         zmoyg57Tb0oIzatnH8GqdHwqFSnjiW0opvVqwY7yu9sGok1PtacQa0zqezwrhgERrkUt
+         ZoVA==
+X-Forwarded-Encrypted: i=1; AJvYcCWTLGx2BQRUUC0TtwykS0WqZ1FpPT8YRdmQBpYLBRKvh1dn15i9P/wu49ypsYq7kRb0YRSwBDtvZw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmNEAH3Ej1bCl5rpLzfmhi/uWFluoyIGHr9gXkVbJ+gXGBElfv
+	ptCPomLLpkrkyNPpso0q0QdEOluZrzmLAESWQAGnN5Pm7QzltceeSthPwvdnZu6AVPMbqnEdF9l
+	YpB4J
+X-Gm-Gg: ATEYQzxTwFOFllaiK3Q555fWynDZvs6QwqI9jzixSZ0fUL0052dZa4erazhPwhWiYjy
+	OxlAzL8zLVhOhGJm6cVhx2b4YijqmBZ8Z4+tPYxC1oDvJQiIVVkx0MEEr+wl0ovIYG5r5q711Qy
+	GaYD/3W50ZlU38meZIFIeO3fkB0hbNk6bcetP0afFbsd1JWjLSHhrvKngSvOykW+DnzEfMzz8nJ
+	sJU3Zjh8wFL+j9vMb55AWsT7E6iTTsxMRp+7pcJkegTazu0AcFasYElH9Sxn2EEj83jawBxCdTi
+	OQy2DONuc5RRncH7eLuJ1xYT9jprjgFKtH1w5OmUr0IGqUHyty3n7W4RfQUeUojgX5qGA/iQ660
+	iuN5ygLHWWbLFjetOYf0ao1/1SfUqaqHH2a4tYbwQiwANGS20TyJrIxZ+aRglCOWE98YUFOiBvq
+	HInL8TFT4zASJssB1yO59IU5cE/IIc
+X-Received: by 2002:a05:600c:3490:b0:486:f8e9:add5 with SMTP id 5b1f17b1804b1-48716042c08mr101023585e9.19.1774517416931;
+        Thu, 26 Mar 2026 02:30:16 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722c957b9sm35804605e9.8.2026.03.26.02.30.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2026 02:30:16 -0700 (PDT)
+Date: Thu, 26 Mar 2026 12:30:12 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Linus Walleij <linusw@kernel.org>
+Cc: Tom Rini <trini@konsulko.com>, AKASHI Takahiro <akashi.tkhro@gmail.com>,
+	Peng Fan <peng.fan@nxp.com>, Alice Guo <alice.guo@nxp.com>,
+	Marek Vasut <marex@denx.de>, Greg Malysa <malysagreg@gmail.com>,
+	Michael Trimarchi <michael@amarulasolutions.com>,
+	Yao Zi <me@ziyao.cc>,
+	Arturs Artamonovs <arturs.artamonovs@analog.com>,
+	Anis Chali <chalianis1@gmail.com>,
+	Nathan Barrett-Morrison <nathan.morrison@timesys.com>,
+	Paul Barker <paul.barker.ct@bp.renesas.com>,
+	Utsav Agarwal <utsav.agarwal@analog.com>, Ye Li <ye.li@nxp.com>,
+	Valentin Caron <valentin.caron@foss.st.com>,
+	Vinh Nguyen <vinh.nguyen.xz@renesas.com>, u-boot@lists.denx.de,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	arm-scmi@vger.kernel.org, linux-gpio@vger.kernel.org,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: Re: [PATCH v2 3/4] scmi: pinctrl: add pinctrl driver for SCMI
+Message-ID: <acT8pMQkFd2NKMTf@stanley.mountain>
+References: <cover.1773256350.git.dan.carpenter@linaro.org>
+ <1048331f5d3c8e0cdbe1542bcb65bbf942a4275b.1773256350.git.dan.carpenter@linaro.org>
+ <CAD++jLmfRVGGHH1EqMAeSVHVCr1-s2JPyuY_w=2h35_mKUXj2Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Virus-Scanned: Clear (ClamAV 1.4.3/27952/Thu Mar 26 07:24:52 2026)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAD++jLmfRVGGHH1EqMAeSVHVCr1-s2JPyuY_w=2h35_mKUXj2Q@mail.gmail.com>
 
-Hi,
+On Tue, Mar 24, 2026 at 02:19:34PM +0100, Linus Walleij wrote:
+> I really can't endorse it though: with deviant device trees and
+> information stored in paralllel in two places we create a
+> maintenance hurdle.
 
-Am Mittwoch, 25. M=E4rz 2026, 13:27:48 CET schrieb Cristian Marussi:
-> On Wed, Mar 25, 2026 at 12:02:41PM +0100, Marek Szyprowski wrote:
-> > On 10.03.2026 19:40, Cristian Marussi wrote:
-> > > Add proper error handling on failure to enumerate clocks features or
-> > > rates.
-> > >
-> > > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> >=20
->=20
-> Hi Marek,
->=20
-> > This patch landed yesterday in linux-next as commit 0d8b0c8068a8=20
-> > ("firmware: arm_scmi: Harden clock protocol initialization"). In my=20
-> > tests I found that it causes a regression on RK3568 Odroid-M1 board=20
-> > (arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dts), cpufreq and GPU=20
-> > device are not probed properly:
-> >=20
-> > # dmesg | grep scmi
-> > scmi_core: SCMI protocol bus registered
-> > arm-scmi arm-scmi.0.auto: Using scmi_smc_transport
-> > arm-scmi arm-scmi.0.auto: SCMI max-rx-timeout: 30ms / max-msg-size:=20
-> > 104bytes / max-msg: 20
-> > scmi_protocol scmi_dev.1: Enabled polling mode TX channel - prot_id:16
-> > arm-scmi arm-scmi.0.auto: SCMI Notifications - Core Enabled.
-> > arm-scmi arm-scmi.0.auto: Malformed reply - real_sz:8 calc_sz:4 =20
-> > (loop_num_ret:1)
-> > arm-scmi arm-scmi.0.auto: SCMI Protocol v2.0 'rockchip:' Firmware=20
-> > version 0x0
-> > arm-scmi arm-scmi.0.auto: Enabling SCMI Quirk=20
-> > [quirk_clock_rates_triplet_out_of_spec]
-> > scmi-clocks scmi_dev.3: probe with driver scmi-clocks failed with error=
- -22
-> >=20
->=20
-> Yes there are multiple reports of issues on this hardening, the series
-> is on hold and wont go into v7.1 as of now...it needs some basic fixes
-> and various quirks probably to address non-compliant firmwares...
->=20
-> It will be pushed to next again with a few more fixes in the coming
-> days and then we'll need to figure out how many quirks will be needed on
-> top of that and if it is acceptable at all...
+Yeah.  Looking at this more carefully, you're right.  Let me do
+this in the right way.
 
-Just for the records: imx95 (maybe imx94 as well) is also affected by this.
-My board doesn't boot at all, because all the clocks are provided by SCMI.
-
-With this diff I can see it's the 'ext' clock
-=2D->8---
-=2D-- a/drivers/firmware/arm_scmi/clock.c
-+++ b/drivers/firmware/arm_scmi/clock.c
-@@ -1253,8 +1253,11 @@ static int scmi_clock_protocol_init(const struct scm=
-i_protocol_handle *ph)
-        for (clkid =3D 0; clkid < cinfo->num_clocks; clkid++) {
-                cinfo->clkds[clkid].id =3D clkid;
-                ret =3D scmi_clock_attributes_get(ph, clkid, cinfo);
-=2D               if (ret)
-+               if (ret) {
-+                       dev_warn(ph->dev, "scmi_clock_attributes_get failed=
- for '%s': %d\n",
-+                                cinfo->clkds->info.name, ret);
-                        return ret;
-+               }
-=20
-                ret =3D scmi_clock_describe_rates_get(ph, clkid, cinfo);
-                if (ret)
-=2D->8---
-> arm-scmi arm-scmi.0.auto: scmi_clock_attributes_get failed for 'ext': -2
-> scmi-clocks scmi_dev.6: probe with driver scmi-clocks failed with error -2
-
-What's the idea of how to proceeed as apparently several platforms are
-affected?
-
-Best regards,
-Alexander
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
+regards,
+dan carpenter
 
