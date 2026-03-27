@@ -1,207 +1,148 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011044.outbound.protection.outlook.com [40.93.194.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5264F2882B4
-	for <arm-scmi@vger.kernel.org>; Fri, 27 Mar 2026 11:45:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774611913; cv=fail; b=sG/UW8SkTKCAa09burPyRJ6ir3b4kfPcU6d6KlLWzcvVKAC/kQB0jX/7HfNyaqqSv5M9OXTajILLFZ3DTqzMlUQBFldl2XGBCWCu/+wkVxioU8uLhyC5KBNtz/Pnww12ATzICleuxmqQ4FoziW8O4eQpdBfkamrkSJq3P/FaxmU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774611913; c=relaxed/simple;
-	bh=WxBBHmJPDnmx2Hic5L0Jp2hNw7o3zBKJMwG01kmO17A=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=q3qZk4jh2eGI3Sgke+DZ/TpgYPch3NYo4MX1xC0tAe6VdSWti6NARTyDJH5WrfhNbs+nxq4xvPWvRGq0qo01cxa/IqjFFjJgx4LG4NGA8HLvm9HfZAFMaInXKO7sTUCVyVrJ6EGGDrMKhMnnRs8Fqz3dsFrE5mNpDb+nLv55++I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Zqn7Q+fA; arc=fail smtp.client-ip=40.93.194.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 889893EE1D6
+	for <arm-scmi@vger.kernel.org>; Fri, 27 Mar 2026 13:12:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774617170; cv=none; b=tr4Zegag1/xgHSCwFLHSCmcU95+i610Dsc6/p0JVH9YRnSgpsIE95wsKRAF1PyA+WYf/kLD8494DXviXrEHOed2BFCoU7virf7TofdaoJkaWbgyGVVpB0agoUMZywxAkPFtVtofUFTlQf6VMJNc8N6KxizJNb6586aTrmMEGeBI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774617170; c=relaxed/simple;
+	bh=6oGJhNhZmGU+yJ7Tz1KcPPgsv6YSSjgbM1ypOImE1TI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kubGA4J1cI1/u02JWr7peDUEQDjTxzjJKgAjkCBoiMpi134xhqKC8/+WYfquoudRe4hkIFTOnNP+D7A1ojGT2mzJVGW9BuAofQfFLRv8SIO/ig0EfstRr6ZM3sVcepuKbVbxKW0kL4Zil1e778TG8uTzQgzX3PqYat9d/JNGF2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q0i+ur0Z; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Zqn7Q+fA"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=awT9I6s0dc0X7rkqZtCXFBa7g4osQIkAmbKbrudlDJa2bOpYtUXNiRiXnxZ4LhQWk0ZkmppsMDBJ7Xs8euwNkOPItPikUO+/DDjX5k+SdUTsvL5beOJeZ+2uz9pN4RZYUFAa2YCk/YlAM2QkZw0/Y/NqODmL7C2oZEDdLF6F0axRaskRI4l+i6oHhnPLSYFh4xVVjd8G9hQpppabH9ZcnBGlq6kffrCxZD5RVCTFmplPpqNdbZM0ZGa0aezP1b1qG8mog82/pKuojJjHBOhg5ZOnBaMjbJkmqrDrbIrffBV2TglsHpRkpTco73MR87iLhpWYzIZNJPCMdPghGUkoYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e84kq9tQASnC2Gn84rQjhd4K7RMzwA1JqZ12BNTvj1w=;
- b=CQQNvxUwzSiVpVl1lH0Q5UPa915uZ2KNu5bALKbIQzC6lZojZw6rwn+eWygw9v+sUS9p0xlk8csyq9YmYCAqLa9gJQOf76INXZS/C0VfsCKXjoy78R149CeyRdRyvTHez1XJqh8C7XtBJacYGrZAk4jCSRbw64TPz/hHlvG32n8T5aZMvR4jjLB90YK04fUFWT7xnjUuV+aB7zX4nd2L2jkCs5HXWIveK/wMh0gZcnyUzuxD6Qd9Wh/NWrONzfyVK9I2m83nkJYQsRVQCItFz09jk0zCNUeZVBEElq/Iv2rqqw1NesKE0FJNBMbHU/AmmpBgscz9GoB05aiMBJuJcw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e84kq9tQASnC2Gn84rQjhd4K7RMzwA1JqZ12BNTvj1w=;
- b=Zqn7Q+fAaeAGi8SlO5XEa5I5JbGr0GxXgwqfHNWu1bSrhZ52ugdr2dECXwnM0Kar9gESooLLvp+Ok0zDzXO0r+v5/gz7AG0IH3OeM2s8odnu6MxHjopdSonPOgPRvFHJWGam/LzoaOFac/izxwi2O3i9SfRd5kW1Dzh8bdyQ3WI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from LV5PR12MB9779.namprd12.prod.outlook.com (2603:10b6:408:301::14)
- by LV8PR12MB9205.namprd12.prod.outlook.com (2603:10b6:408:191::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.7; Fri, 27 Mar
- 2026 11:45:05 +0000
-Received: from LV5PR12MB9779.namprd12.prod.outlook.com
- ([fe80::8ac8:e862:8ae9:9287]) by LV5PR12MB9779.namprd12.prod.outlook.com
- ([fe80::8ac8:e862:8ae9:9287%4]) with mapi id 15.20.9769.006; Fri, 27 Mar 2026
- 11:45:05 +0000
-Message-ID: <93019930-f082-445c-a3c4-90024aadbf60@amd.com>
-Date: Fri, 27 Mar 2026 12:45:00 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] firmware: scmi: Fix setting the function
-To: Dan Carpenter <dan.carpenter@linaro.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q0i+ur0Z"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4852e9ca034so21343105e9.2
+        for <arm-scmi@vger.kernel.org>; Fri, 27 Mar 2026 06:12:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1774617167; x=1775221967; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yFcQ4Sl0ZMU698JmoMJ07dM7B4EObVEuLCmaVE+8m2E=;
+        b=Q0i+ur0Z16H4TR4Ps3EM14bMQBuLIn/p2ZBFYtnYACX0KLnpV7+xIOqcMVF/UDaDfD
+         lCJu9iV4myghEewb/Bcu3i58Ybr934EjDNpoqKcsPURDDOsHhO5bzLhOKIFtN/OKHqc6
+         xBedLiVeM0gsjJsTYXidV9zG7LB8kuIT8rC6MhnJqAjtYum1Ym0HThHUDtnC9Rkmkylu
+         IempubHwk/RugfKcXr6SVIfohJGcfiX1V2jRg5iS9Ffa+D+lPN2t1qgCGHem21SJQc7/
+         uZVOwAt5V3Ax7ENUuIVoLPHshtyFzK+25tvuNBJD6HcGimkbDYiJxEykdYshn1+NV3Zw
+         8+vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774617167; x=1775221967;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yFcQ4Sl0ZMU698JmoMJ07dM7B4EObVEuLCmaVE+8m2E=;
+        b=ApimosQOpuRyHNzRqfRmKoGkl7ZD4/0xfsTDfm8J/bWJWBUpsVN42SDHC6ZPJjyGXF
+         vwLUpdxRK61Gtm/8f7Oz9Az75NIssoTDFu4WrvP6tDX+i915oC5sjUiBnVl6Jqzho4Z1
+         06FgB4WABkfpqJnDVAxIixMrWu7HsJqQfkorJUFyH9AM5s1+Nuqt2PI5BN6ZVyxmuLVY
+         56v7xezBExRUKkpnAR4ZPDOjiT391rVjkJg0aaaYr6WrNxgtr/qdxQ3mTgHVMYtTR7qh
+         wtbHSGiZuB/hzqdK8kwUvkyvpN3BZawfFOsKoXGkPA5qdkuyATL7dpgq1jZDRFVAiNSi
+         EwhA==
+X-Forwarded-Encrypted: i=1; AJvYcCXQvPB7ZmZi/TGMlk4/PcFbusxRGpohSGO5jd9AlY8UQN/en0010zrn0uMjKIZwKoLdER4O2v75Og==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9nGo4CEeU4VorGAeWcVyqdi4fZGyBAA2R17VDIkCtkikicHBK
+	3k0MzHf67b1zy4qBOhfy9AgIGzKsEEasr+qfFP/w/2E206pGUFYEC5IdPg7FkCRcajA=
+X-Gm-Gg: ATEYQzzhpNk+kOtUMoXK2faxlRxKSxAtzFxvvHnVzRtsRtBgrpyMSaXXE4Vd2puxBs2
+	+8gGYqZhtOfDSqbIF0FAWuuw2Lx6WBsPGzytUxDgNPE8K4JSjzhdcUsYcu0UyoHCFMFlddtuQT+
+	X/6/yzncVz6byIHqzOY+aUek16t7KHRob7Vsh7TRLXEyiYolcwqGaXPlb383pna5Zp+R1MunV/E
+	dyLpaBYwXH9cDYK0c+mLCoDAQIsLw0IvrMz1uG+JfB40YVhuweyolCqV836WrhCpFgueNhm8tnF
+	4hIBYn/2cPklARx+HokHZ4FCqYNCWuNLlghy8GuowvH2pxADFqAI//94EdwgLn/MzhJJhmnZi6U
+	KayrQNoNx/tLnXuuKqpiBK0q0OjdixqC+KGnJziKiQPdsCeRaWJUzHtW+9jiA+XMwY2JdBAJbnp
+	7Menn800kkB58TyDtXsZ30R0SpAJZu
+X-Received: by 2002:a05:600c:a44:b0:486:fbf6:abd4 with SMTP id 5b1f17b1804b1-48727efc11dmr36124745e9.9.1774617166813;
+        Fri, 27 Mar 2026 06:12:46 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48725eb5417sm25845595e9.3.2026.03.27.06.12.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2026 06:12:46 -0700 (PDT)
+Date: Fri, 27 Mar 2026 16:12:43 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Michal Simek <michal.simek@amd.com>
 Cc: Peng Fan <peng.fan@nxp.com>, Tom Rini <trini@konsulko.com>,
- u-boot@lists.denx.de, Vincent Guittot <vincent.guittot@linaro.org>,
- arm-scmi@vger.kernel.org, Linus Walleij <linusw@kernel.org>
+	u-boot@lists.denx.de, Vincent Guittot <vincent.guittot@linaro.org>,
+	arm-scmi@vger.kernel.org, Linus Walleij <linusw@kernel.org>
+Subject: Re: [PATCH 1/2] firmware: scmi: Fix setting the function
+Message-ID: <acaCS0DdVEilbygK@stanley.mountain>
 References: <cover.1774526652.git.dan.carpenter@linaro.org>
  <401560217b674c299cb0f344e6f24c271fa7583a.1774526652.git.dan.carpenter@linaro.org>
-Content-Language: en-US
-From: Michal Simek <michal.simek@amd.com>
-Autocrypt: addr=michal.simek@amd.com; keydata=
- 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
- mpwx1d8=
-In-Reply-To: <401560217b674c299cb0f344e6f24c271fa7583a.1774526652.git.dan.carpenter@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR13CA0021.namprd13.prod.outlook.com
- (2603:10b6:a03:2c0::26) To LV5PR12MB9779.namprd12.prod.outlook.com
- (2603:10b6:408:301::14)
+ <93019930-f082-445c-a3c4-90024aadbf60@amd.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV5PR12MB9779:EE_|LV8PR12MB9205:EE_
-X-MS-Office365-Filtering-Correlation-Id: b6fab17a-2279-498f-df1a-08de8bf649eb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	FH/hEjEQn1MMigHZ8WdbLzrIOiZMf6hE/pldTjlhHX8IhbmfsZf7pr5VTebZDMM8MxFTqowkqoqQE8jXFICbEGT0RU88wAGVQhc55APVvY1r0wVAIDr4D+KmwAXwu18hVOVN/VugHYlWlf12mWCSkAT0fF+VK3KDYi814erti3vCrVJr7l49toG13GFYcQiebSDPQtJUkIC0iTFnWhTsgNXFMQoqSqtyrXs+W3vk5fee2SRpHK777SnJtJLe5w0RWR9KxClRO8wlR917UHssqTGAeohTPdCFFOunCV5k2sWcRSKNbq0muto3Xi4r1KVpuff0eG4VV6O34JeudBSUCY0DHYmQPoBObc7yIjXWpR527IyaT+YI48Kut0U/vhZfm/KpaGdnwTGiqmntBGvQtqthmVHbsUdUUqpJugXhxMms4Fo3174SN7ptjbdfnqlTjj++1e557f3YDLB1Gt7VYVuS03O/Z8jpcEzZ88xNcH71WELDmKLFj8Mxdd1+akcXUVZAbilg8BRl6Xtfkcx5O6ckefl2pDtL5UO7dscLvYcrJNcrGVYiflGqJU56ZY/bCqRMYH4HcP0EujtCNz8OqnPjBnbG+mivKomWjSA7mtWWciPgT59ImYH1WvuUoc/SplfzYeKSipmYHFBZwn5w6fz94TVBCshO2v7eJot1NqtAvA/hB1341vdZA2bP3Yper+fy+K0wdcxdek8Dg7X25wrTrX86SteqAzJG0wSItJQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV5PR12MB9779.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Y25zT0taK0kxeWliL3VadGdVYjFhdmZrQ2J0bXpMZjhQU0hmdGdCY0RZV2g0?=
- =?utf-8?B?TzJBQWNuR3VrdXFkZUNVTDdHcENiSWFBZFFUaDU2b3VZQ2JrUTl4Tms0YzBo?=
- =?utf-8?B?L2s4eU8xNUJDRThvOGtpSko5Vjg5VXdicmtJbjBLVFQzOFhBdWRMRkFHenVP?=
- =?utf-8?B?dkFHZTd5Tjk2bGd2Z1BhSmdhZFRRZjRNNkRiaEZma0NkTzA3RGJCV29MaGNM?=
- =?utf-8?B?U1FWUFBIZktsb0xQbStUY1hRa0FNM2lsWFFlaldaZGJqL3BTZzl3S3o1VzEv?=
- =?utf-8?B?NDY0ZDVFY2hLT2FyWmh4bmFJRlREREo4aWx3Q2tBSzVIZHQ0SUFoVUpFYXph?=
- =?utf-8?B?Y1RTMERvSit0TjRtbFlMdmRUdGg5TldMYWtNRnk2b1V2eDcxWXg4WFhKODBh?=
- =?utf-8?B?aTAxM1ZCSzF6SjgxN1ovNmN6RkRrdXNzcEhrQmN6RW51SFVDV1ppdkJyRXdY?=
- =?utf-8?B?d09FVkwvTlEwRVU4SDhZc1prM3h4N0JSM1o3U3RuNk10ZUgrTDh6eHNQbzZM?=
- =?utf-8?B?ZEhoV3hZbjF4VnRLUXVjNzNuaTBqUnhISmNLWWMwM0VsaktZV0pXV3N2YzR1?=
- =?utf-8?B?VjZac3NuVzhER1dlSUtTN1hYa3RjRm4vZmxwVnRnNENIZzM4WkVpVXArWDVO?=
- =?utf-8?B?L2h4bFhRNHpVdzJqRVBuOFRwSE1IQ0kvWk1RMVVSNUlTUW5ZNW05b1lhbXVY?=
- =?utf-8?B?R1RRejVKZzhlTmZHV0JCRFNYNWFvSDJEaGltUys5VTJtZjVlVkkxVjFHVEVo?=
- =?utf-8?B?clZZaVdpKzRjeDNGRWZ1YTF4a20wcTNvdmIzV3g0eG5sVTFVT1d2MHJmRm1L?=
- =?utf-8?B?eCtWdExFaGhVZUtzanE2TnBGQTBqaFdZY1hCUGM5eWgxWmhQS0RmY0ptVXZF?=
- =?utf-8?B?a2V6NW0zNUJhaUU3d0ZtdUk0d25heHlxTnIvYTRobVdreWwxSkJnek1ucFVk?=
- =?utf-8?B?c2dEZGptVXVCc2lPV1Bvalh2K3psbzFBbkFyckYzZVMxTmFndlVSekhpZVR6?=
- =?utf-8?B?cmdiNmJpT0xCWnJ5RTJQK0tBNVNtOUMraFlHQWluYXNlcE9iVCtoMWowQnJq?=
- =?utf-8?B?UmZsWmRQOHlSNkRKdkNyWWgzMVpoUVdxMXZNanRDbTdVa0I4VWxLUzlPZyt1?=
- =?utf-8?B?WHhEaTYzeVpDR20yNFBFaEdVdndUMS84b0Q3cmdMdUxtOGtFWW1oMFJqMWpq?=
- =?utf-8?B?NWRBNVdBYlo2d3RrdFJReWZqMU1EcytMRGlLUnRWNmxBM0tEZG9NQ2xuYS9W?=
- =?utf-8?B?TzIxaFdyOWltMGRkUjFFSEMrWnFZd0U5N3NQSDI5WVI4ZnptSktOL1RJcTZF?=
- =?utf-8?B?L0dzTDROK3lodkFiaVZoTndtQmRGS2ErT2RBNWdZbkVJQVdIeFJ0VnVnY3FW?=
- =?utf-8?B?YnRJWk0wUE1yRWx4OFdCTG9zWldoOHo5d3diVkUrK0NMbDNnTUdia1loTzB1?=
- =?utf-8?B?UGttZTl5eWlMZkgvNEt3KzFLRTZ1dHkrK2VKbjl1di96dUhiSHl1VzhmVzl1?=
- =?utf-8?B?aWl6Z0V4OUhNQWdQTE9lVElDQmhONjVnbEd0MVU2UVhHazlXRm9Ya1dLcnJI?=
- =?utf-8?B?OW9iNTdmQ3VxbzBlK09XZElHMnFzallOamJjY25nQmVsMW14MHZOamwwQ2Zx?=
- =?utf-8?B?cWd2dlh1eTRDUzhHWjdnQkRaTFF2cEN1MHNhQkhJakhjbHNKS0FNSW4zQjRM?=
- =?utf-8?B?T3ZjVG9ETHd0L3gweW5oZ0ZITVd0U0xFRDJwellpYUdTNVhlL1RraTExeThm?=
- =?utf-8?B?NzAxcFpHOVgzbXFSVFJwdC9OQWZMM3pGaERROUhCUVdLT2dUck5mRTVhNFZk?=
- =?utf-8?B?aGpxamFyc3dxYm5Kc2pmenJ3ZmhBS0tJcnlLWmJLeU8wSHI1ckJMWUxrYXpX?=
- =?utf-8?B?aFo0T2hQSEYyajZPQ1gzSHRnNUpkQmd5b3lFcW55MUNDWndDVk5kY3VWU2RN?=
- =?utf-8?B?MHJ3d21CWVptKzg1UzBZNENLenpJRkJSWWxnaDJoMXpXSWtFZi94OUpzNVBh?=
- =?utf-8?B?djl0SXlUSTJ1ZkxOSWdzVTFRRlpsbXFuZnhXaitjcTFobDFNQzhtTjRwemhW?=
- =?utf-8?B?OVl4dk1NWjJhSFp2VDZiM1IxcWpkYWhIL3dUZWZzNW4wa2V3eVlpRFo1Y3Vn?=
- =?utf-8?B?cktmWVRkQUdsdnFKVHBVWlZmUzZMQjZoOTlvTUlmd053b3RML0NmQ0hhMFRu?=
- =?utf-8?B?aGVGcXZ3bjQ2ODZvRVArZmNVdGVtRnRzMVZRZEZvdDAzVXFyeno3RzNkWmh3?=
- =?utf-8?B?RURzaGV4UGdFdkI1cis4T0kvUGp5ZVJpR0EvL3hCRmNGUVV2VVJaZW41bWVR?=
- =?utf-8?B?V0hVZ0p6RlBhYVJTSlVROW1vb2FKdUdybW1LNkpEYkNUNHN5cHhVdz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b6fab17a-2279-498f-df1a-08de8bf649eb
-X-MS-Exchange-CrossTenant-AuthSource: LV5PR12MB9779.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2026 11:45:05.3615
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j/Wl3bjfy+woFhuvYSYfCT3fgRyIQfW2EIEHMtf36OokWtkCBh5UkizCAdAtPN0W
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9205
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <93019930-f082-445c-a3c4-90024aadbf60@amd.com>
 
-
-
-On 3/26/26 13:08, Dan Carpenter wrote:
-> Set BIT(10) when the function needs to be set, otherwise the setting is
-> ignored.
+On Fri, Mar 27, 2026 at 12:45:00PM +0100, Michal Simek wrote:
 > 
-> Fixes: 1048331f5d3c ("scmi: pinctrl: add pinctrl driver for SCMI")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
->   drivers/firmware/scmi/pinctrl.c | 2 ++
->   1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/firmware/scmi/pinctrl.c b/drivers/firmware/scmi/pinctrl.c
-> index 47f7a8ad9b81..e670538c87f9 100644
-> --- a/drivers/firmware/scmi/pinctrl.c
-> +++ b/drivers/firmware/scmi/pinctrl.c
-> @@ -259,6 +259,8 @@ static int scmi_pinctrl_settings_configure_helper(struct udevice *dev,
->   	in->attr = 0;
->   	in->attr |= FIELD_PREP(GENMASK(9, 2), num_configs);
->   	in->attr |= FIELD_PREP(GENMASK(1, 0), select_type);
-> +	if (function_id != SCMI_PINCTRL_FUNCTION_NONE)
-> +		in->attr |= BIT(10);
+> On 3/26/26 13:08, Dan Carpenter wrote:
+> > Set BIT(10) when the function needs to be set, otherwise the setting is
+> > ignored.
+> > 
+> > Fixes: 1048331f5d3c ("scmi: pinctrl: add pinctrl driver for SCMI")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > ---
+> >   drivers/firmware/scmi/pinctrl.c | 2 ++
+> >   1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/drivers/firmware/scmi/pinctrl.c b/drivers/firmware/scmi/pinctrl.c
+> > index 47f7a8ad9b81..e670538c87f9 100644
+> > --- a/drivers/firmware/scmi/pinctrl.c
+> > +++ b/drivers/firmware/scmi/pinctrl.c
+> > @@ -259,6 +259,8 @@ static int scmi_pinctrl_settings_configure_helper(struct udevice *dev,
+> >   	in->attr = 0;
+> >   	in->attr |= FIELD_PREP(GENMASK(9, 2), num_configs);
+> >   	in->attr |= FIELD_PREP(GENMASK(1, 0), select_type);
+> > +	if (function_id != SCMI_PINCTRL_FUNCTION_NONE)
+> > +		in->attr |= BIT(10);
+> 
+> hm shouldn't be macros to use for holding that value instead?
+> 
+> As I see GENMASK above is the same case.
+> 
 
-hm shouldn't be macros to use for holding that value instead?
+I think adding macros here would make the code less readable...  If we
+were going to re-use them then, sure.  But really, the code is shoving
+the num_configs into bits 2-9, there isn't any special meaning beyond
+that.
 
-As I see GENMASK above is the same case.
+> >   	memcpy(in->configs, configs, num_configs * sizeof(u32) * 2);
+> 
+> Another magic here.
 
->   	memcpy(in->configs, configs, num_configs * sizeof(u32) * 2);
+Sure, I'll send this patch on Monday.
 
-Another magic here.
+regards,
+dan carpenter
 
-M
+diff --git a/drivers/firmware/scmi/pinctrl.c b/drivers/firmware/scmi/pinctrl.c
+index e670538c87f9..2ae02ffc81b8 100644
+--- a/drivers/firmware/scmi/pinctrl.c
++++ b/drivers/firmware/scmi/pinctrl.c
+@@ -245,7 +245,9 @@ static int scmi_pinctrl_settings_configure_helper(struct udevice *dev,
+ 		.out_msg = (u8 *)&out,
+ 		.out_msg_sz = sizeof(out),
+ 	};
+-	size_t in_sz = sizeof(*in) + (num_configs * sizeof(u32) * 2);
++	/* configs are type/value pairs of size u32 */
++	size_t config_size = (num_configs * sizeof(u32) * 2);
++	size_t in_sz = sizeof(*in) + config_size;
+ 	int ret;
+ 
+ 	in = kzalloc(in_sz, GFP_KERNEL);
+@@ -261,7 +263,7 @@ static int scmi_pinctrl_settings_configure_helper(struct udevice *dev,
+ 	in->attr |= FIELD_PREP(GENMASK(1, 0), select_type);
+ 	if (function_id != SCMI_PINCTRL_FUNCTION_NONE)
+ 		in->attr |= BIT(10);
+-	memcpy(in->configs, configs, num_configs * sizeof(u32) * 2);
++	memcpy(in->configs, configs, config_size);
+ 
+ 	ret = devm_scmi_process_msg(dev, &msg);
+ 	if (ret)
+
