@@ -1,148 +1,184 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 889893EE1D6
-	for <arm-scmi@vger.kernel.org>; Fri, 27 Mar 2026 13:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E5C336EA8F;
+	Sun, 29 Mar 2026 16:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774617170; cv=none; b=tr4Zegag1/xgHSCwFLHSCmcU95+i610Dsc6/p0JVH9YRnSgpsIE95wsKRAF1PyA+WYf/kLD8494DXviXrEHOed2BFCoU7virf7TofdaoJkaWbgyGVVpB0agoUMZywxAkPFtVtofUFTlQf6VMJNc8N6KxizJNb6586aTrmMEGeBI=
+	t=1774802062; cv=none; b=FEEjy4mxjG8PwcXOl18U/47itHMJJc4LyXIJdkKB74NoxbJDqDOfCMRY3qN7DGBOFHn0+W+r/1FrUIStyT4dXL/Q734NMCxUlIOZ6jmaUWtXikudFlND8ehvdxXyqBWyYwgAzmjSiLG/oHdTUpYgELBuxQJpqzi0JNcz/9eK3Lc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774617170; c=relaxed/simple;
-	bh=6oGJhNhZmGU+yJ7Tz1KcPPgsv6YSSjgbM1ypOImE1TI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kubGA4J1cI1/u02JWr7peDUEQDjTxzjJKgAjkCBoiMpi134xhqKC8/+WYfquoudRe4hkIFTOnNP+D7A1ojGT2mzJVGW9BuAofQfFLRv8SIO/ig0EfstRr6ZM3sVcepuKbVbxKW0kL4Zil1e778TG8uTzQgzX3PqYat9d/JNGF2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q0i+ur0Z; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1774802062; c=relaxed/simple;
+	bh=Ag7HfN/sgVc3bbbOya8yLcKEKW6cVwh7BkFYxrWVnNE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gMVL3AkeZ6fclIPs8gOIcBdb83Yu79S+WwW2FxIgwkEyYmLDBjO6jEgkhxPbG+XTfaG3KgoAtdOvlWdIvA5I/6bwJ6/6S7lxwobuKQwxXx7lP69QQBUkQ+XCM59Pb27BBOsAoOYjoq2i8u7jMlSZT5A6u/b3+U6Dqd7bqHBatvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=KF6yt0JD; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q0i+ur0Z"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4852e9ca034so21343105e9.2
-        for <arm-scmi@vger.kernel.org>; Fri, 27 Mar 2026 06:12:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774617167; x=1775221967; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yFcQ4Sl0ZMU698JmoMJ07dM7B4EObVEuLCmaVE+8m2E=;
-        b=Q0i+ur0Z16H4TR4Ps3EM14bMQBuLIn/p2ZBFYtnYACX0KLnpV7+xIOqcMVF/UDaDfD
-         lCJu9iV4myghEewb/Bcu3i58Ybr934EjDNpoqKcsPURDDOsHhO5bzLhOKIFtN/OKHqc6
-         xBedLiVeM0gsjJsTYXidV9zG7LB8kuIT8rC6MhnJqAjtYum1Ym0HThHUDtnC9Rkmkylu
-         IempubHwk/RugfKcXr6SVIfohJGcfiX1V2jRg5iS9Ffa+D+lPN2t1qgCGHem21SJQc7/
-         uZVOwAt5V3Ax7ENUuIVoLPHshtyFzK+25tvuNBJD6HcGimkbDYiJxEykdYshn1+NV3Zw
-         8+vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774617167; x=1775221967;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yFcQ4Sl0ZMU698JmoMJ07dM7B4EObVEuLCmaVE+8m2E=;
-        b=ApimosQOpuRyHNzRqfRmKoGkl7ZD4/0xfsTDfm8J/bWJWBUpsVN42SDHC6ZPJjyGXF
-         vwLUpdxRK61Gtm/8f7Oz9Az75NIssoTDFu4WrvP6tDX+i915oC5sjUiBnVl6Jqzho4Z1
-         06FgB4WABkfpqJnDVAxIixMrWu7HsJqQfkorJUFyH9AM5s1+Nuqt2PI5BN6ZVyxmuLVY
-         56v7xezBExRUKkpnAR4ZPDOjiT391rVjkJg0aaaYr6WrNxgtr/qdxQ3mTgHVMYtTR7qh
-         wtbHSGiZuB/hzqdK8kwUvkyvpN3BZawfFOsKoXGkPA5qdkuyATL7dpgq1jZDRFVAiNSi
-         EwhA==
-X-Forwarded-Encrypted: i=1; AJvYcCXQvPB7ZmZi/TGMlk4/PcFbusxRGpohSGO5jd9AlY8UQN/en0010zrn0uMjKIZwKoLdER4O2v75Og==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9nGo4CEeU4VorGAeWcVyqdi4fZGyBAA2R17VDIkCtkikicHBK
-	3k0MzHf67b1zy4qBOhfy9AgIGzKsEEasr+qfFP/w/2E206pGUFYEC5IdPg7FkCRcajA=
-X-Gm-Gg: ATEYQzzhpNk+kOtUMoXK2faxlRxKSxAtzFxvvHnVzRtsRtBgrpyMSaXXE4Vd2puxBs2
-	+8gGYqZhtOfDSqbIF0FAWuuw2Lx6WBsPGzytUxDgNPE8K4JSjzhdcUsYcu0UyoHCFMFlddtuQT+
-	X/6/yzncVz6byIHqzOY+aUek16t7KHRob7Vsh7TRLXEyiYolcwqGaXPlb383pna5Zp+R1MunV/E
-	dyLpaBYwXH9cDYK0c+mLCoDAQIsLw0IvrMz1uG+JfB40YVhuweyolCqV836WrhCpFgueNhm8tnF
-	4hIBYn/2cPklARx+HokHZ4FCqYNCWuNLlghy8GuowvH2pxADFqAI//94EdwgLn/MzhJJhmnZi6U
-	KayrQNoNx/tLnXuuKqpiBK0q0OjdixqC+KGnJziKiQPdsCeRaWJUzHtW+9jiA+XMwY2JdBAJbnp
-	7Menn800kkB58TyDtXsZ30R0SpAJZu
-X-Received: by 2002:a05:600c:a44:b0:486:fbf6:abd4 with SMTP id 5b1f17b1804b1-48727efc11dmr36124745e9.9.1774617166813;
-        Fri, 27 Mar 2026 06:12:46 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48725eb5417sm25845595e9.3.2026.03.27.06.12.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2026 06:12:46 -0700 (PDT)
-Date: Fri, 27 Mar 2026 16:12:43 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Michal Simek <michal.simek@amd.com>
-Cc: Peng Fan <peng.fan@nxp.com>, Tom Rini <trini@konsulko.com>,
-	u-boot@lists.denx.de, Vincent Guittot <vincent.guittot@linaro.org>,
-	arm-scmi@vger.kernel.org, Linus Walleij <linusw@kernel.org>
-Subject: Re: [PATCH 1/2] firmware: scmi: Fix setting the function
-Message-ID: <acaCS0DdVEilbygK@stanley.mountain>
-References: <cover.1774526652.git.dan.carpenter@linaro.org>
- <401560217b674c299cb0f344e6f24c271fa7583a.1774526652.git.dan.carpenter@linaro.org>
- <93019930-f082-445c-a3c4-90024aadbf60@amd.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="KF6yt0JD"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E39E64456;
+	Sun, 29 Mar 2026 09:34:13 -0700 (PDT)
+Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EB6E03F915;
+	Sun, 29 Mar 2026 09:34:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1774802059; bh=Ag7HfN/sgVc3bbbOya8yLcKEKW6cVwh7BkFYxrWVnNE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=KF6yt0JDNsyke0Oa1S5cK9K7mw7Eus0AStDWeywFUv5oLK3U/sl+f25ABxnp62S3x
+	 MZtP98hQFT/9yYJqsl5Qwtr4YkoV3cAyusfxesJ7hE6YiIg8uiJTXFT02T3ZmzNcYw
+	 hoITN7LGw7e5uwhbdm1inWsspmAGVxwPsdyJ9aTE=
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: sudeep.holla@kernel.org,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	etienne.carriere@st.com,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	dan.carpenter@linaro.org,
+	d-gole@ti.com,
+	jonathan.cameron@huawei.com,
+	elif.topuz@arm.com,
+	lukasz.luba@arm.com,
+	philip.radford@arm.com,
+	brauner@kernel.org,
+	souvik.chakravarty@arm.com,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [PATCH v3 02/24] firmware: arm_scmi: Reduce the scope of protocols mutex
+Date: Sun, 29 Mar 2026 17:33:13 +0100
+Message-ID: <20260329163337.637393-3-cristian.marussi@arm.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260329163337.637393-1-cristian.marussi@arm.com>
+References: <20260329163337.637393-1-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <93019930-f082-445c-a3c4-90024aadbf60@amd.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 27, 2026 at 12:45:00PM +0100, Michal Simek wrote:
-> 
-> 
-> On 3/26/26 13:08, Dan Carpenter wrote:
-> > Set BIT(10) when the function needs to be set, otherwise the setting is
-> > ignored.
-> > 
-> > Fixes: 1048331f5d3c ("scmi: pinctrl: add pinctrl driver for SCMI")
-> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > ---
-> >   drivers/firmware/scmi/pinctrl.c | 2 ++
-> >   1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/firmware/scmi/pinctrl.c b/drivers/firmware/scmi/pinctrl.c
-> > index 47f7a8ad9b81..e670538c87f9 100644
-> > --- a/drivers/firmware/scmi/pinctrl.c
-> > +++ b/drivers/firmware/scmi/pinctrl.c
-> > @@ -259,6 +259,8 @@ static int scmi_pinctrl_settings_configure_helper(struct udevice *dev,
-> >   	in->attr = 0;
-> >   	in->attr |= FIELD_PREP(GENMASK(9, 2), num_configs);
-> >   	in->attr |= FIELD_PREP(GENMASK(1, 0), select_type);
-> > +	if (function_id != SCMI_PINCTRL_FUNCTION_NONE)
-> > +		in->attr |= BIT(10);
-> 
-> hm shouldn't be macros to use for holding that value instead?
-> 
-> As I see GENMASK above is the same case.
-> 
+Currently the mutex dedicated to the protection of the list of registered
+protocols is held during all the protocol initialization phase.
 
-I think adding macros here would make the code less readable...  If we
-were going to re-use them then, sure.  But really, the code is shoving
-the num_configs into bits 2-9, there isn't any special meaning beyond
-that.
+Such a wide locking region is not needed and causes problem when trying to
+initialize notifications from within a protocol initialization routine.
 
-> >   	memcpy(in->configs, configs, num_configs * sizeof(u32) * 2);
-> 
-> Another magic here.
+Reduce the scope of the protocol mutex.
 
-Sure, I'll send this patch on Monday.
+Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+---
+v1-->v2
+ - Fixed improper mixed usage of cleanup and goto constructs
+---
+ drivers/firmware/arm_scmi/driver.c | 50 ++++++++++++++----------------
+ 1 file changed, 24 insertions(+), 26 deletions(-)
 
-regards,
-dan carpenter
-
-diff --git a/drivers/firmware/scmi/pinctrl.c b/drivers/firmware/scmi/pinctrl.c
-index e670538c87f9..2ae02ffc81b8 100644
---- a/drivers/firmware/scmi/pinctrl.c
-+++ b/drivers/firmware/scmi/pinctrl.c
-@@ -245,7 +245,9 @@ static int scmi_pinctrl_settings_configure_helper(struct udevice *dev,
- 		.out_msg = (u8 *)&out,
- 		.out_msg_sz = sizeof(out),
- 	};
--	size_t in_sz = sizeof(*in) + (num_configs * sizeof(u32) * 2);
-+	/* configs are type/value pairs of size u32 */
-+	size_t config_size = (num_configs * sizeof(u32) * 2);
-+	size_t in_sz = sizeof(*in) + config_size;
- 	int ret;
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index 3e76a3204ba4..26f192b8d7a9 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -17,6 +17,7 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
  
- 	in = kzalloc(in_sz, GFP_KERNEL);
-@@ -261,7 +263,7 @@ static int scmi_pinctrl_settings_configure_helper(struct udevice *dev,
- 	in->attr |= FIELD_PREP(GENMASK(1, 0), select_type);
- 	if (function_id != SCMI_PINCTRL_FUNCTION_NONE)
- 		in->attr |= BIT(10);
--	memcpy(in->configs, configs, num_configs * sizeof(u32) * 2);
-+	memcpy(in->configs, configs, config_size);
- 
- 	ret = devm_scmi_process_msg(dev, &msg);
+ #include <linux/bitmap.h>
++#include <linux/cleanup.h>
+ #include <linux/debugfs.h>
+ #include <linux/device.h>
+ #include <linux/export.h>
+@@ -2190,7 +2191,6 @@ static void scmi_protocol_version_initialize(struct device *dev,
+  * all resources management is handled via a dedicated per-protocol devres
+  * group.
+  *
+- * Context: Assumes to be called with @protocols_mtx already acquired.
+  * Return: A reference to a freshly allocated and initialized protocol instance
+  *	   or ERR_PTR on failure. On failure the @proto reference is at first
+  *	   put using @scmi_protocol_put() before releasing all the devres group.
+@@ -2236,8 +2236,10 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
  	if (ret)
+ 		goto clean;
+ 
+-	ret = idr_alloc(&info->protocols, pi, proto->id, proto->id + 1,
+-			GFP_KERNEL);
++	/* Finally register the initialized protocol */
++	mutex_lock(&info->protocols_mtx);
++	ret = idr_alloc(&info->protocols, pi, proto->id, proto->id + 1, GFP_KERNEL);
++	mutex_unlock(&info->protocols_mtx);
+ 	if (ret != proto->id)
+ 		goto clean;
+ 
+@@ -2284,27 +2286,25 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
+ static struct scmi_protocol_instance * __must_check
+ scmi_get_protocol_instance(const struct scmi_handle *handle, u8 protocol_id)
+ {
+-	struct scmi_protocol_instance *pi;
+ 	struct scmi_info *info = handle_to_scmi_info(handle);
++	const struct scmi_protocol *proto;
+ 
+-	mutex_lock(&info->protocols_mtx);
+-	pi = idr_find(&info->protocols, protocol_id);
+-
+-	if (pi) {
+-		refcount_inc(&pi->users);
+-	} else {
+-		const struct scmi_protocol *proto;
++	scoped_guard(mutex, &info->protocols_mtx) {
++		struct scmi_protocol_instance *pi;
+ 
+-		/* Fails if protocol not registered on bus */
+-		proto = scmi_protocol_get(protocol_id, &info->version);
+-		if (proto)
+-			pi = scmi_alloc_init_protocol_instance(info, proto);
+-		else
+-			pi = ERR_PTR(-EPROBE_DEFER);
++		pi = idr_find(&info->protocols, protocol_id);
++		if (pi) {
++			refcount_inc(&pi->users);
++			return pi;
++		}
+ 	}
+-	mutex_unlock(&info->protocols_mtx);
+ 
+-	return pi;
++	/* Fails if protocol not registered on bus */
++	proto = scmi_protocol_get(protocol_id, &info->version);
++	if (!proto)
++		return ERR_PTR(-EPROBE_DEFER);
++
++	return scmi_alloc_init_protocol_instance(info, proto);
+ }
+ 
+ /**
+@@ -2335,10 +2335,11 @@ void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
+ 	struct scmi_info *info = handle_to_scmi_info(handle);
+ 	struct scmi_protocol_instance *pi;
+ 
+-	mutex_lock(&info->protocols_mtx);
+-	pi = idr_find(&info->protocols, protocol_id);
+-	if (WARN_ON(!pi))
+-		goto out;
++	scoped_guard(mutex, &info->protocols_mtx) {
++		pi = idr_find(&info->protocols, protocol_id);
++		if (WARN_ON(!pi))
++			return;
++	}
+ 
+ 	if (refcount_dec_and_test(&pi->users)) {
+ 		void *gid = pi->gid;
+@@ -2357,9 +2358,6 @@ void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
+ 		dev_dbg(handle->dev, "De-Initialized protocol: 0x%X\n",
+ 			protocol_id);
+ 	}
+-
+-out:
+-	mutex_unlock(&info->protocols_mtx);
+ }
+ 
+ void scmi_setup_protocol_implemented(const struct scmi_protocol_handle *ph,
+-- 
+2.53.0
 
