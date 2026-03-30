@@ -1,106 +1,152 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9C4C386C26;
-	Sun, 29 Mar 2026 18:01:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C772382F01;
+	Mon, 30 Mar 2026 05:54:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774807270; cv=none; b=Us8QLFLecgECcM893iRlY6LzbfTnuNMHh39qCX4SItp42z7PsHhp/ijVZCD76CJBXsZtF5U15PLhD4FxD8x2I6pIpsOWU1VY3E6LFW3TA3Ssew3aspm7K/JANdAwbluP6UZa0/CMyZvGy98smAQO+EtAdFUE7h8Qzsc2hD6ivc0=
+	t=1774850076; cv=none; b=VrXlcg2vQY9EyEL+h+5H5y5C09Hf5r2FncuyeNwmZv7sFRNsQzbcOpOQpXAuOsa0gIEtwcDcQu7hP5pcv45+9dWI8iWCiWXLjCsMuyAFuSlnlS6OfjhLuuiS3Yd8ucMY4lXzMVPRUMJQE/pXU9f9xYHGDE7kXk/SMdwyQyRHdDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774807270; c=relaxed/simple;
-	bh=HKatBNWBO7yrOGYf1pOvBsP48x6K9AIg6H3XVc/TJbI=;
+	s=arc-20240116; t=1774850076; c=relaxed/simple;
+	bh=dFIflD8J6Bfuj9Sl1pB2+4e1A5GxZPMlNoQIe6/wxQE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SgxP+Nnw26Iz9EA+GRrLsE9bszyYV7qzfKz8mmV0O6zqJG6trYoAmievu95QRKnAU0RQiEHgifHLz/c2rGvnMSWiUnw3psaNnl6KTFCwnSf6e9IbsJi81o3m+1fi2o9Qs9rgMPPce9pyT9xKQSs5byglLnColbcPUeIPMTaaTMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=YCwOPgcZ; arc=none smtp.client-ip=217.140.110.172
+	 Content-Type:Content-Disposition:In-Reply-To; b=qyk0vE0bYPv755rGWIL1EhM3eNK7Bm+Ozl+c40BPo40TxOAiYeP7HbE4xHHvA3ZSxNqa7pVuW4Wlg/DcC2kUTvccH42/W+8byC8TKgMCUGucuF/4RHarUxJEhUl5pV8tkYXU5UeoKZgagv5odFkx5ABCRsorvzG73OzUJnaU/pM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=YJ7lOtVL; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="YCwOPgcZ"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="YJ7lOtVL"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1379A1595;
-	Sun, 29 Mar 2026 11:00:59 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 703491C2B;
+	Sun, 29 Mar 2026 22:54:26 -0700 (PDT)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8A8BA3F7D8;
-	Sun, 29 Mar 2026 11:01:01 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0E0B83F641;
+	Sun, 29 Mar 2026 22:54:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1774807264; bh=HKatBNWBO7yrOGYf1pOvBsP48x6K9AIg6H3XVc/TJbI=;
+	t=1774850072; bh=dFIflD8J6Bfuj9Sl1pB2+4e1A5GxZPMlNoQIe6/wxQE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YCwOPgcZIVYs3aDQ0ppSMQfkYBYlGucjp7xkJ5OFSjnc9K/ooxAme9pTzGioZXxsv
-	 4y2ctyjetjwvKVc+2YlDF1AEb+p7VdsB7ICiSxpHIZiADz1MhL8stn2jTBscXBKW9i
-	 v84HJwGTet3zeESOelw+I13CF6GhWbUH8++3TEB4=
-Date: Sun, 29 Mar 2026 19:00:54 +0100
+	b=YJ7lOtVLOzX2QjKKKD1sjBjhxzV7JBGJOFdMdt7bvVHTOfSMo8+krSsKQYjTce3eO
+	 WsZ8LM3Cd0DIMleAXAFayUS4EZlr58dAA/kNnKbuoi0i/fH+sJr9ZzdK2OU3aKOdlo
+	 jl2v09wVfkWXczr3J0T/FZED7o3pSNep7NXgikGE=
+Date: Mon, 30 Mar 2026 06:54:21 +0100
 From: Cristian Marussi <cristian.marussi@arm.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, etienne.carriere@st.com,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, d-gole@ti.com,
-	linux-fsdevel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	linux-doc@vger.kernel.org, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, philip.radford@arm.com,
-	souvik.chakravarty@arm.com, peng.fan@oss.nxp.com,
-	dan.carpenter@linaro.org, lukasz.luba@arm.com,
-	arm-scmi@vger.kernel.org, sudeep.holla@kernel.org,
-	michal.simek@amd.com, linux-kernel@vger.kernel.org,
-	jonathan.cameron@huawei.com, elif.topuz@arm.com,
-	linux-arm-kernel@lists.infradead.org, james.quinlan@broadcom.com,
-	devicetree@vger.kernel.org, brauner@kernel.org
-Subject: Re: [PATCH v3 06/24] dt-bindings: firmware: arm,scmi: Add support
- for telemetry protocol
-Message-ID: <aclo1laTrsQFSan6@pluto>
-References: <20260329163337.637393-1-cristian.marussi@arm.com>
- <20260329163337.637393-7-cristian.marussi@arm.com>
- <177480549380.3925363.5137815678176793743.robh@kernel.org>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, sudeep.holla@arm.com,
+	philip.radford@arm.com, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@foss.st.com, peng.fan@oss.nxp.com,
+	michal.simek@amd.com, dan.carpenter@linaro.org,
+	geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com,
+	marek.vasut+renesas@gmail.com
+Subject: Re: [PATCH v2 08/13] firmware: arm_scmi: Harden clock protocol
+ initialization
+Message-ID: <acoQDQ_Ytezv8KPC@pluto>
+References: <20260310184030.3669330-1-cristian.marussi@arm.com>
+ <9b574ac5-09fa-4e7a-b2bb-a339fbb319bc@samsung.com>
+ <acPUxJ3N0QptmtlJ@pluto>
+ <5980695.DvuYhMxLoT@steina-w>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <177480549380.3925363.5137815678176793743.robh@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5980695.DvuYhMxLoT@steina-w>
 
-On Sun, Mar 29, 2026 at 12:31:33PM -0500, Rob Herring (Arm) wrote:
+On Thu, Mar 26, 2026 at 09:55:18AM +0100, Alexander Stein wrote:
+> Hi,
 > 
-> On Sun, 29 Mar 2026 17:33:17 +0100, Cristian Marussi wrote:
-> > Add new SCMI v4.0 Telemetry protocol bindings definitions.
+
+Hi,
+
+> Am Mittwoch, 25. März 2026, 13:27:48 CET schrieb Cristian Marussi:
+> > On Wed, Mar 25, 2026 at 12:02:41PM +0100, Marek Szyprowski wrote:
+> > > On 10.03.2026 19:40, Cristian Marussi wrote:
+> > > > Add proper error handling on failure to enumerate clocks features or
+> > > > rates.
+> > > >
+> > > > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> > > 
 > > 
-> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> > ---
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> > Cc: Conor Dooley <conor+dt@kernel.org>
-> > Cc: devicetree@vger.kernel.org
-> > ---
-> >  Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
+> > Hi Marek,
 > > 
+> > > This patch landed yesterday in linux-next as commit 0d8b0c8068a8 
+> > > ("firmware: arm_scmi: Harden clock protocol initialization"). In my 
+> > > tests I found that it causes a regression on RK3568 Odroid-M1 board 
+> > > (arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dts), cpufreq and GPU 
+> > > device are not probed properly:
+> > > 
+> > > # dmesg | grep scmi
+> > > scmi_core: SCMI protocol bus registered
+> > > arm-scmi arm-scmi.0.auto: Using scmi_smc_transport
+> > > arm-scmi arm-scmi.0.auto: SCMI max-rx-timeout: 30ms / max-msg-size: 
+> > > 104bytes / max-msg: 20
+> > > scmi_protocol scmi_dev.1: Enabled polling mode TX channel - prot_id:16
+> > > arm-scmi arm-scmi.0.auto: SCMI Notifications - Core Enabled.
+> > > arm-scmi arm-scmi.0.auto: Malformed reply - real_sz:8 calc_sz:4  
+> > > (loop_num_ret:1)
+> > > arm-scmi arm-scmi.0.auto: SCMI Protocol v2.0 'rockchip:' Firmware 
+> > > version 0x0
+> > > arm-scmi arm-scmi.0.auto: Enabling SCMI Quirk 
+> > > [quirk_clock_rates_triplet_out_of_spec]
+> > > scmi-clocks scmi_dev.3: probe with driver scmi-clocks failed with error -22
+> > > 
+> > 
+> > Yes there are multiple reports of issues on this hardening, the series
+> > is on hold and wont go into v7.1 as of now...it needs some basic fixes
+> > and various quirks probably to address non-compliant firmwares...
+> > 
+> > It will be pushed to next again with a few more fixes in the coming
+> > days and then we'll need to figure out how many quirks will be needed on
+> > top of that and if it is acceptable at all...
 > 
-> My bot found errors running 'make dt_binding_check' on your patch:
-> 
-> yamllint warnings/errors:
-> 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/firmware/arm,scmi.example.dtb: scmi (arm,scmi): protocol@19: Unevaluated properties are not allowed ('i2c2-pins', 'keys-pins', 'mdio-pins' were unexpected)
-> 	from schema $id: http://devicetree.org/schemas/firmware/arm,scmi.yaml
-> 
-> doc reference errors (make refcheckdocs):
-> 
-> See https://patchwork.kernel.org/project/devicetree/patch/20260329163337.637393-7-cristian.marussi@arm.com
-> 
-> The base for the series is generally the latest rc1. A different dependency
-> should be noted in *this* patch.
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
-> 
-> pip3 install dtschema --upgrade
+> Just for the records: imx95 (maybe imx94 as well) is also affected by this.
+> My board doesn't boot at all, because all the clocks are provided by SCMI.
 > 
 
-Yes...the new protocol block definition ended up intermixed with the
-previous protocol block...totally wrong.
+Sorry for the late reply, thanks for the report...
 
-My bad.
+> With this diff I can see it's the 'ext' clock
+> -->8---
+> --- a/drivers/firmware/arm_scmi/clock.c
+> +++ b/drivers/firmware/arm_scmi/clock.c
+> @@ -1253,8 +1253,11 @@ static int scmi_clock_protocol_init(const struct scmi_protocol_handle *ph)
+>         for (clkid = 0; clkid < cinfo->num_clocks; clkid++) {
+>                 cinfo->clkds[clkid].id = clkid;
+>                 ret = scmi_clock_attributes_get(ph, clkid, cinfo);
+> -               if (ret)
+> +               if (ret) {
+> +                       dev_warn(ph->dev, "scmi_clock_attributes_get failed for '%s': %d\n",
+> +                                cinfo->clkds->info.name, ret);
+>                         return ret;
+> +               }
+>  
+>                 ret = scmi_clock_describe_rates_get(ph, clkid, cinfo);
+>                 if (ret)
+> -->8---
+> > arm-scmi arm-scmi.0.auto: scmi_clock_attributes_get failed for 'ext': -2
+> > scmi-clocks scmi_dev.6: probe with driver scmi-clocks failed with error -2
+> 
+> What's the idea of how to proceeed as apparently several platforms are
+> affected?
+> 
 
-I will fix in V4.
+The series is on hold of course due to some residual bugs and all of
+these reports of misbehaving firmwares...as I was saying elsewhere we
+dont want of course to break existing boards in the wild that will most
+probably never get a FW fix, BUT at the same time we do NOT want to
+legalise/normalize this out of spec behaviour by leaving the kernel
+code as it is...I mean at least we'd like to try to discourage this
+mis-implementations in the future FWs ...
+
+At the end, this could mean some quirks applied to multiple platforms
+and vendors and maybe some relaxation in the checks, certainly some noisy
+annoying logs on the side :P
 
 Thanks,
 Cristian
