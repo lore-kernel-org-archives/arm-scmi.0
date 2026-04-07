@@ -1,258 +1,137 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39DC2848A7;
-	Mon,  6 Apr 2026 15:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7A639A078
+	for <arm-scmi@vger.kernel.org>; Tue,  7 Apr 2026 10:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775490833; cv=none; b=T1Z5hRgFXRlE8JuPZbU8Ewu7z7wSxjfIb8jRLUJ1d7NuSLK+ZC1yClIWXA2L3KJOFGmxE6RwjLDTn0wpAjEVq3qvkNVAmHu7hv9gS5xJ/wxQxfEKYJao1sknUcEeNryfI/XggBMfMULLwuuMroto6ujQ8x4Bz9aZZQQ/NjlHrpA=
+	t=1775557316; cv=none; b=kEuAvn4MoRi7d8TetYpXuoEy254a3W6kqVX6bXmiwMMUqrp28orXtTkMvqVatva5IffEUdAV5CH4LYOxXZcOVbtQL9sPdljMXDtrU0UmgPooIm90UJ+4e9tznRETDz41PAd7WPkN+OUVyUK0D9vBrZ+22Evw6UsgNihwGvIRi0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775490833; c=relaxed/simple;
-	bh=ZOUU58cuPoDuZF3pxGlWzHNB2Ar1XmUFDmuQn4lOUmQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NmtKMZZA0tVTcbv9C4q7RBjOwZPXSmpeb0r2VA/lBrQ2op4Pse7vA2nudrhk/vNdTnqBG2dGkXwhwZljxG5Mb47NytquxB1IYDSCZBQ2QdRGWuBp5UuQ9JAJosPOg4yLpaOt9BPJfs8/1/lKXFOl4QVUqOX6728fLzcm+hmbeSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=tQBtZ3+Q; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=DD/gq8Qh; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="tQBtZ3+Q";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="DD/gq8Qh"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fqDQN3LNXz9tSw;
-	Mon,  6 Apr 2026 17:53:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1775490828;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=CTIp6PYmhxw2yxDPfMwjhrEaZe3DIpYSpXyQJZiM6Bs=;
-	b=tQBtZ3+QdFCh8HetGdgL7k6cbzkPLanUKpjTx6EjdXoqLqplLZTRD2PrWqVlztlcHdr62L
-	r6pT5YlAznARax6qBNuDyMmKWmJugM93A/MOmCzq+Zyuh/DMEu77mBXekdsg/579blIxF/
-	n0tlYFUNNlbw0xMj8HdP0Bi5yOd83RHma/S4EborSZcZbE5XmwqAGZERiK+K0vCDfinZii
-	v7G6z0gBNS4xbkGXqf94PftQDzSBUXyQGHoc45oxuD1XoETqO8ipM8f8Ujt+UlMUI0qB0/
-	Cam6xQ91elEtgHPqYE/nBjJluhBDjEClLBLsM0o904caQVqDpIjlsh7UV7n2rQ==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="DD/gq8Qh";
-	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1775490826;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=CTIp6PYmhxw2yxDPfMwjhrEaZe3DIpYSpXyQJZiM6Bs=;
-	b=DD/gq8QhbBEVad1i5qgLgyFF3vOOiQiJ19QZV6JAcDegCZLyGy7F019Qy0KNT7sFFQPJJi
-	RswqdEslBP4j1vHEKbIN7UUnYI8bRqt71ChEx+8wR5bM1G+cAMj1/LfLB3JS6Y0Gxoqs1/
-	FZPy2TuGDcUVxrljr2uUuT7texuDJsfFRv13AK6xAIwGl2OwmnWw77IYWDTAlR8OakboB4
-	XSbod4LdYFnvrt2JKWClfnSTSHCQM7D5cq+YYYE9pUX9c7SLXzIjbGmFvV4wUsIhWSldkj
-	r5eZPqes5VWHmKSSCcH9aItHiZcFA/9+n1OzpDNTJVEfGcKqYbB0LturWeVowQ==
-To: arm-scmi@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [RFC][PATCH] firmware: arm_scmi: Rename struct scmi_revision_info to scmi_base_info
-Date: Mon,  6 Apr 2026 17:52:54 +0200
-Message-ID: <20260406155343.72087-1-marek.vasut+renesas@mailbox.org>
+	s=arc-20240116; t=1775557316; c=relaxed/simple;
+	bh=tktu9XsoG2RfvvZNNs1LDTN6klQpEatUvU8LT9mGrbo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bRHo1ZeobJF2U8vKzJydwWl9GwMYFXY3EGAYGPfmDvoTdXCnsAya4v4fZkn7Ad3gbd9EFJ289sIFs4XTBRqHgZynX3cjbHHcZw+j9kBGgikFk5H6k0BjHza0wYpT8TEkWgIuv0J07D34kTm0ZDK0lU13V7HQtEV9sLbLlIWnth8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-94e2ad66abcso1405363241.1
+        for <arm-scmi@vger.kernel.org>; Tue, 07 Apr 2026 03:21:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775557313; x=1776162113;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gMnqiwkd26gjhp+7IbyHb9ESCX/5jdc78bBmqANU+lE=;
+        b=YTVKlL9vxgvZYYffcLPKx6rMBc/NgZQ9JEegV5aw6YZ1OSiXb0QO4+QsuHKpyC/QyA
+         W+9k7/FhCOqsFB9KKpTTwJQrfzzIJN47C5Cl2ZkJd6r2MWL8I2lIWrbRkVO7i2oeIByC
+         vMj7tVKWHJdxncu6dXVeg+Lj9BtqYY1qiDBl2iFYW2jRyvzmilAnAKNyrxvqPZuwdvxQ
+         sxTARX0YtrZz0Xoc1e0ZLVFGgLWq1W/51HO3EccHCqoP4P6y/hIdrbHhyyfSOjDe+7lw
+         8ETOLpaeR25jAydxdalih/IMupLY3PF8G/NWwnJ9M2GBefq1R7qyovGfFJfNF0KJ7KQq
+         vQrw==
+X-Forwarded-Encrypted: i=1; AJvYcCWD4pWRVZb6Rz7hIOhfwCKQDZePvSN37yrxS+0S+t8sMYoU/lHjTrXx6jljMCvyOX/fq0YsuqywLw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKQlGOoGWEB8vPiiwFV+f7RZv/c+phDJYFL6X0bLKNK8DG8kNF
+	q8yLlNlQfc0bNIk10xDdoBshC53yYZD9U5rnoCEWEeH26uUzKwGNolPrFiZKg7QH
+X-Gm-Gg: AeBDievJ9E/QM0k4lFBJCClnNXdQ1IcAO7IUP5DTD57nXRN6f9CVCICKENm+Vna5Mw2
+	p7zCY1nHuRfiBqNeM04XE23cgdXqpV14HCt7Ln17ftPAG/Dc5ZiC6arTbAlwoPtdAGNjRxuETQ9
+	CWJb1mRcqnnexyPLGFaTiybrcWtd5EdlIjAjRM/Z9GatrNeu63thk9JzMSvOOfdcPkYcNBqNBFH
+	N9cg1yrtGsVVBbNpeKh0NfUus6LLs32Wloc1IgJE+M0nzea63sKFeG+Y5eOB7GDbcWN8xDSPzmZ
+	6CSsJen2eXKDSvtRdDk07hrltSCRokmwjy3swQv0zR4aqyiEVLEKYJIoMv5ge2BBid7ihp6LDIl
+	4egNBwj3VRSK8ACe8q0bYBguHr8tEoPwNmzARFZqIg82LnBFKA6LKz75++WOesRStjjiTIfWYAN
+	ux3AsC75pLhuFzFb6xjluMjeIKwlt3j4uVtyoCdnZMUWIsSEhwAf9yMHmjUVYjzxiiHqf6FyA=
+X-Received: by 2002:a05:6102:5692:b0:602:b345:6cdd with SMTP id ada2fe7eead31-605a4e4aa2bmr5043025137.8.1775557313540;
+        Tue, 07 Apr 2026 03:21:53 -0700 (PDT)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-954206339b0sm9550041241.1.2026.04.07.03.21.52
+        for <arm-scmi@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Apr 2026 03:21:52 -0700 (PDT)
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-94e2ad66abcso1405360241.1
+        for <arm-scmi@vger.kernel.org>; Tue, 07 Apr 2026 03:21:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWnPfT9jSMa2nqNQxR+8LwzB6gRcgnVGEQQK6eqd21icna+ku+ZJmTqCvBmvXrkcoOpsFMC2Ju/rA==@vger.kernel.org
+X-Received: by 2002:a05:6102:f13:b0:604:e063:4fa8 with SMTP id
+ ada2fe7eead31-605a510033bmr4709992137.26.1775557312414; Tue, 07 Apr 2026
+ 03:21:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: csqpo6g64h8qr9irwbwzpf9dqam9ghtb
-X-MBO-RS-ID: 38eced4b8dc950e2456
-X-Rspamd-Queue-Id: 4fqDQN3LNXz9tSw
+References: <cover.1774283146.git.dan.carpenter@linaro.org> <edd789f8fc87f294211adf84b09c2af9f4aa6a6f.1774283146.git.dan.carpenter@linaro.org>
+In-Reply-To: <edd789f8fc87f294211adf84b09c2af9f4aa6a6f.1774283146.git.dan.carpenter@linaro.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 7 Apr 2026 12:21:41 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWRgkAE-eSzRif6DSqRgOySiN48vcogESN1s2gs2k7bJQ@mail.gmail.com>
+X-Gm-Features: AQROBzAIjWX-ymyQ91Ydg4QhzkmLosdw5bqMGDf5_aVfbRMiqgAMy27BrJESM2U
+Message-ID: <CAMuHMdWRgkAE-eSzRif6DSqRgOySiN48vcogESN1s2gs2k7bJQ@mail.gmail.com>
+Subject: Re: [PATCH v6 7/7] gpio: gpio-by-pinctrl: add pinctrl based generic
+ GPIO driver
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Linus Walleij <linusw@kernel.org>, AKASHI Takahiro <akashi.tkhro@gmail.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	Andy Shevchenko <andriy.shevchenko@intel.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, arm-scmi@vger.kernel.org, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Khaled Ali Ahmed <Khaled.AliAhmed@arm.com>, 
+	Michal Simek <michal.simek@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Rename struct scmi_revision_info to struct scmi_base_info , to
-accurately represent its content. The scmi_revision_info is no
-longer accurate, because the structure now contains more than
-only SCMI base protocol revision, it now also contains number
-of protocols, agents, vendor and subvendor strings. All those
-are fetched from the base protocol, so rename the structure to
-scmi_base_info, to match the other scmi_*_info structure names.
-No functional change.
+Hi Dan,
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: arm-scmi@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/firmware/arm_scmi/base.c   | 10 +++++-----
- drivers/firmware/arm_scmi/common.h |  2 +-
- drivers/firmware/arm_scmi/driver.c | 14 +++++++-------
- include/linux/scmi_protocol.h      |  6 +++---
- 4 files changed, 16 insertions(+), 16 deletions(-)
+On Mon, 23 Mar 2026 at 20:04, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> From: AKASHI Takahiro <takahiro.akashi@linaro.org>
+>
+> The ARM SCMI pinctrl protocol allows GPIO access.  Instead of creating
+> a new SCMI GPIO driver, this driver is a generic GPIO driver that uses
+> standard pinctrl interfaces.
+>
+> Signed-off-by: AKASHI Takahiro <takahiro.akashi@linaro.org>
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Reviewed-by: Linus Walleij <linusw@kernel.org>
+> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-diff --git a/drivers/firmware/arm_scmi/base.c b/drivers/firmware/arm_scmi/base.c
-index cd1331c2fc403..4df2620e3c5d0 100644
---- a/drivers/firmware/arm_scmi/base.c
-+++ b/drivers/firmware/arm_scmi/base.c
-@@ -69,7 +69,7 @@ static int scmi_base_attributes_get(const struct scmi_protocol_handle *ph)
- 	int ret;
- 	struct scmi_xfer *t;
- 	struct scmi_msg_resp_base_attributes *attr_info;
--	struct scmi_revision_info *rev = ph->get_priv(ph);
-+	struct scmi_base_info *rev = ph->get_priv(ph);
- 
- 	ret = ph->xops->xfer_get_init(ph, PROTOCOL_ATTRIBUTES,
- 				      0, sizeof(*attr_info), &t);
-@@ -103,7 +103,7 @@ scmi_base_vendor_id_get(const struct scmi_protocol_handle *ph, bool sub_vendor)
- 	int ret, size;
- 	char *vendor_id;
- 	struct scmi_xfer *t;
--	struct scmi_revision_info *rev = ph->get_priv(ph);
-+	struct scmi_base_info *rev = ph->get_priv(ph);
- 
- 	if (sub_vendor) {
- 		cmd = BASE_DISCOVER_SUB_VENDOR;
-@@ -143,7 +143,7 @@ scmi_base_implementation_version_get(const struct scmi_protocol_handle *ph)
- 	int ret;
- 	__le32 *impl_ver;
- 	struct scmi_xfer *t;
--	struct scmi_revision_info *rev = ph->get_priv(ph);
-+	struct scmi_base_info *rev = ph->get_priv(ph);
- 
- 	ret = ph->xops->xfer_get_init(ph, BASE_DISCOVER_IMPLEMENT_VERSION,
- 				      0, sizeof(*impl_ver), &t);
-@@ -180,7 +180,7 @@ scmi_base_implementation_list_get(const struct scmi_protocol_handle *ph,
- 	__le32 *num_skip, *num_ret;
- 	u32 tot_num_ret = 0, loop_num_ret;
- 	struct device *dev = ph->dev;
--	struct scmi_revision_info *rev = ph->get_priv(ph);
-+	struct scmi_base_info *rev = ph->get_priv(ph);
- 
- 	ret = ph->xops->xfer_get_init(ph, BASE_DISCOVER_LIST_PROTOCOLS,
- 				      sizeof(*num_skip), 0, &t);
-@@ -377,7 +377,7 @@ static int scmi_base_protocol_init(const struct scmi_protocol_handle *ph)
- 	u8 *prot_imp;
- 	char name[SCMI_SHORT_NAME_MAX_SIZE];
- 	struct device *dev = ph->dev;
--	struct scmi_revision_info *rev = scmi_revision_area_get(ph);
-+	struct scmi_base_info *rev = scmi_revision_area_get(ph);
- 
- 	rev->major_ver = PROTOCOL_REV_MAJOR(ph->version);
- 	rev->minor_ver = PROTOCOL_REV_MINOR(ph->version);
-diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-index 7c9617d080a02..07a127dec0319 100644
---- a/drivers/firmware/arm_scmi/common.h
-+++ b/drivers/firmware/arm_scmi/common.h
-@@ -138,7 +138,7 @@ static inline void unpack_scmi_header(u32 msg_hdr, struct scmi_msg_hdr *hdr)
- 	xfer_;							\
- })
- 
--struct scmi_revision_info *
-+struct scmi_base_info *
- scmi_revision_area_get(const struct scmi_protocol_handle *ph);
- void scmi_setup_protocol_implemented(const struct scmi_protocol_handle *ph,
- 				     u8 *prot_imp);
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 57785c0c04241..00329935926d3 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -134,7 +134,7 @@ struct scmi_protocol_instance {
-  *	       usage.
-  * @protocols_mtx: A mutex to protect protocols instances initialization.
-  * @protocols_imp: List of protocols implemented, currently maximum of
-- *		   scmi_revision_info.num_protocols elements allocated by the
-+ *		   scmi_base_info.num_protocols elements allocated by the
-  *		   base protocol
-  * @active_protocols: IDR storing device_nodes for protocols actually defined
-  *		      in the DT and confirmed as implemented by fw.
-@@ -152,7 +152,7 @@ struct scmi_info {
- 	int id;
- 	struct device *dev;
- 	const struct scmi_desc *desc;
--	struct scmi_revision_info version;
-+	struct scmi_base_info version;
- 	struct scmi_handle handle;
- 	struct scmi_xfers_info tx_minfo;
- 	struct scmi_xfers_info rx_minfo;
-@@ -266,7 +266,7 @@ scmi_vendor_protocol_lookup(int protocol_id, char *vendor_id,
- }
- 
- static const struct scmi_protocol *
--scmi_vendor_protocol_get(int protocol_id, struct scmi_revision_info *version)
-+scmi_vendor_protocol_get(int protocol_id, struct scmi_base_info *version)
- {
- 	const struct scmi_protocol *proto;
- 
-@@ -304,7 +304,7 @@ scmi_vendor_protocol_get(int protocol_id, struct scmi_revision_info *version)
- }
- 
- static const struct scmi_protocol *
--scmi_protocol_get(int protocol_id, struct scmi_revision_info *version)
-+scmi_protocol_get(int protocol_id, struct scmi_base_info *version)
- {
- 	const struct scmi_protocol *proto = NULL;
- 
-@@ -2095,7 +2095,7 @@ static const struct scmi_proto_helpers_ops helpers_ops = {
-  * Return: A reference to the version memory area associated to the SCMI
-  *	   instance underlying this protocol handle.
-  */
--struct scmi_revision_info *
-+struct scmi_base_info *
- scmi_revision_area_get(const struct scmi_protocol_handle *ph)
- {
- 	const struct scmi_protocol_instance *pi = ph_to_pi(ph);
-@@ -2408,7 +2408,7 @@ scmi_is_protocol_implemented(const struct scmi_handle *handle, u8 prot_id)
- {
- 	int i;
- 	struct scmi_info *info = handle_to_scmi_info(handle);
--	struct scmi_revision_info *rev = handle->version;
-+	struct scmi_base_info *rev = handle->version;
- 
- 	if (!info->protocols_imp)
- 		return false;
-@@ -3203,7 +3203,7 @@ static const struct scmi_desc *scmi_transport_setup(struct device *dev)
- 
- static void scmi_enable_matching_quirks(struct scmi_info *info)
- {
--	struct scmi_revision_info *rev = &info->version;
-+	struct scmi_base_info *rev = &info->version;
- 
- 	dev_dbg(info->dev, "Looking for quirks matching: %s/%s/0x%08X\n",
- 		rev->vendor_id, rev->sub_vendor_id, rev->impl_ver);
-diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
-index c710107c2120a..49cc39e0cbca5 100644
---- a/include/linux/scmi_protocol.h
-+++ b/include/linux/scmi_protocol.h
-@@ -17,7 +17,7 @@
- #define SCMI_SHORT_NAME_MAX_SIZE	16
- 
- /**
-- * struct scmi_revision_info - version information structure
-+ * struct scmi_base_info - version information structure
-  *
-  * @major_ver: Major ABI version. Change here implies risk of backward
-  *	compatibility break.
-@@ -30,7 +30,7 @@
-  * @vendor_id: A vendor identifier(Null terminated ASCII string)
-  * @sub_vendor_id: A sub-vendor identifier(Null terminated ASCII string)
-  */
--struct scmi_revision_info {
-+struct scmi_base_info {
- 	u16 major_ver;
- 	u16 minor_ver;
- 	u8 num_protocols;
-@@ -906,7 +906,7 @@ struct scmi_notify_ops {
-  */
- struct scmi_handle {
- 	struct device *dev;
--	struct scmi_revision_info *version;
-+	struct scmi_base_info *version;
- 
- 	int __must_check (*devm_protocol_acquire)(struct scmi_device *sdev,
- 						  u8 proto);
+Thanks for your patch, which is now commit 7671f4949a6c9111
+("gpio: gpio-by-pinctrl: add pinctrl based generic GPIO driver")
+in gpio/for-next.
+
+> --- a/drivers/gpio/Kconfig
+> +++ b/drivers/gpio/Kconfig
+> @@ -246,6 +246,19 @@ config GPIO_BRCMSTB
+>         help
+>           Say yes here to enable GPIO support for Broadcom STB (BCM7XXX) SoCs.
+>
+> +config GPIO_BY_PINCTRL
+> +       tristate "GPIO support based on a pure pin control backend"
+> +       depends on GPIOLIB
+
+Should this depend on ARM_SCMI *|| COMPILE_TEST)?  The driver only
+matches against the "scmi-pinctrl-gpio" compatible value.
+Or do you envision a use case without SCMI?
+
+> +       help
+> +         Support for generic GPIO handling based on top of pin control.
+> +         Traditionally, firmware creates a GPIO interface or a pin
+> +         controller interface and we have a driver to support it.  But
+> +         in SCMI, the pin control interface is generic and we can
+> +         create a simple GPIO device based on the pin control interface
+> +         without doing anything custom.
+> +
+> +         This driver used to do GPIO over the ARM SCMI protocol.
+                        ^
+I have sent a patch to add the missing "is".
+https://lore.kernel.org/b1ecb31a37f8e35447122554a38985cb6240eb11.1775556619.git.geert+renesas@glider.be
+
+> +
+>  config GPIO_CADENCE
+>         tristate "Cadence GPIO support"
+>         depends on OF_GPIO
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.53.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
