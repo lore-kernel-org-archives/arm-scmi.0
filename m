@@ -1,146 +1,238 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DEF01C84C0
-	for <arm-scmi@vger.kernel.org>; Fri, 10 Apr 2026 01:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775782904; cv=none; b=ZFqqHaT1j9VbnBNOcTR0xJbzHun+dJuF6KD+NgIPbbq9TL1ywkXfC+jb3MM9RsxX1nV9ZZp/MjnIpGjUKjrRep1CowTrmlX4bLfxelNSZjCwoEiyPDIRPhAAb4cfs3EDCKVTTurSTUZxlmJBAXugAqYVub8vAtZ0aC4ap3qF18Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775782904; c=relaxed/simple;
-	bh=O1oqU5q5okVp6Eq7KhaJYRT8N5oZTYs7sw6L2W1OpmE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=rwitWm0Z41galnkV5dNrLl9vbottMF4Gi4kgCyhAEpyG32dR9iqODhGzuDs4RnGK6LjJ9fFW9POXSsB8gW9hbei4HmqDrJd9LE2C48A3VNcQE+zXuMQnVJ7QmqaLnQdo1tL2yxoy4drSkhiDKGR+xz+KeNY7rWC5gqCKCXDHEVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=0zifnLjt; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230B01DC1AB
+	for <arm-scmi@vger.kernel.org>; Fri, 10 Apr 2026 08:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775811485; cv=pass; b=nZgrJo4TpaaFufHDjxtsRohw5lFfJgTSVo8v3OlRijb8OxMwZyg+4uoojHbNuZ74T/TaYL0uh6T02twYTXRnn+cycLv8yNTAV851/JQe9jnpr/aMzgWYZsK+4sdwixlNI/B0/C5YvdPv8akKIQBg+ZoeFsilgrNgi21QFgDvIqg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775811485; c=relaxed/simple;
+	bh=iaYKT1sl2Tr/cLZwPA0Zvqg9ubw9wCPbruk9AwA0cek=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OKcwVIDYzmA0l1D77ATgDnyx5Z3hUrKQEFe2lYhhlXNvedtFd0tMTzwFLFBmhd6sAw8HNMpW29g9v29yDLzFVGEBugqNhV9hoVt3XhO0meWeH+fdWn8lmVKIVFIjq+9V+FrCymmnSxWq36uksyscdmNUF/2MPpwr/TtDXL5wMGE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qW/kT/NF; arc=pass smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="0zifnLjt"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-82ce49785a0so709005b3a.2
-        for <arm-scmi@vger.kernel.org>; Thu, 09 Apr 2026 18:01:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qW/kT/NF"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-38cbb1ad0b6so16169011fa.2
+        for <arm-scmi@vger.kernel.org>; Fri, 10 Apr 2026 01:58:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775811482; cv=none;
+        d=google.com; s=arc-20240605;
+        b=jZFVphiOnDOqgF+uHMW69nQ8iQWnBb2awcwQfF/6cHSLqnZiyduRqEv5OanFloSSw2
+         vY3JK2t4pfBEh/P3tqlx26LoVjqVEQVIRX4ynaO5GPSauvLai5TR9dmFtVBiDSf0yUvK
+         zGnXGRVkw+VnsRPtjJDdNhCsZxHJWedgEx98ABeirC9SMPQv5WpJ6uTUn3bozrjzoL7k
+         /nr7sYpEDhRB0wL6TEgmlhbg8GNMlpMFODum06RcuxcDRP+B9hA3Z+9kMiKRuJhshGC1
+         Ja9pVD8ALKlJBB6ti9aqZU/vvQfCBYhM0zvTPd678E4frzlyJVVuJwUh8Na/+v9fvOZO
+         iZSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Z1vmmkZcYrQbBuSPIBwVZCij2+2X5p9lbMUk5Tsb6wM=;
+        fh=QLyB9ZO7b7sA+X/UUiSfLWphnud698f/1Yl2WGCWUgk=;
+        b=DJeQYqYO1liACfr0O18HTt05nulcVRAxCudJbEbKFUZij9tb9pqK7OSXJtYZx+lF3p
+         HZzMPP63sPW2I6/t4a40QT/OndI53tnjlZAyTRr9H0gtbW93NKjSj6IZK7BdDWHJi5a5
+         AlA/Akg5R4G7Ehxrq9AkX9f6wnDMnvxwekXZzmAaBS5lJEKsmmjc+M0Fqb9lLZa9ndKL
+         /XIYZjQn7r6izm0VR+Fkt9T41R5h1W+zHXSiP8bsS43AN11KNx1awZYwlZah5vLITNSO
+         a1kvVxqpT/20xGmVi5Ah3ko5cNfJ8tDVVkuar7pR4eciYbryU2K0aCVMU6eMppAXNLzT
+         A73A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1775782901; x=1776387701; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CDukKgIxUDFhviJEhQQl8OKCJeL8VtYjziTmoESltr0=;
-        b=0zifnLjt59ENXbULyxV2hfv8CI1gn3xLGicwajRFjCR0S4mubP1/RgLFNpsSVVMHOP
-         6K1X0S4laaWRf0e/4nlJ0SbA5ivP8Wmox39Uc5ShzkRH13RO7GdLd3cgatQRZX/OzSbE
-         lKQArwm9HLiAzVZ1m9emyVU6V+hrs98vWWJS0zVCyrSTc1QvrWfMPLm1YiHEcMH1UM+Y
-         CtmhkV5oOLnxSMGv/WkaIK4MXUAHKzvV0phgjhTKe5TSq/qNR+iryIAj8e87xVQ/5Rsr
-         /1RVQhtNHSAFEGDTSRth+TMY3B5KFT6EuskVNG7bAENnmYSqEN8XF4Ecy3Pc7dBiZQAf
-         t4vw==
+        d=linaro.org; s=google; t=1775811482; x=1776416282; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z1vmmkZcYrQbBuSPIBwVZCij2+2X5p9lbMUk5Tsb6wM=;
+        b=qW/kT/NFo+XhkEqKBwLgGwFMLH+rH4rsWbCuYQHqlqBoIVsGX3AFU8FsJ5LyrqMCgG
+         u92Rw8ZKiwWCdVr5TrFD6S2Q3lVNWvAwtBiazEHryzoWM68NyEO3tEZnsuMlG94qPAaS
+         REZjxiVsOILaxQzEsmhRI72TSVZia7M8617I8HHJmiQwAUwYsfJjHTHu+GiehjhH9V+x
+         CcjNZzJGVadFLKT4V9EPy5EPxtzSba0ZySbSZ2s2xXc3ELq7zTclCF7ufUKFEeoUvt26
+         gCsJlqO6pG2y6xGY5DqKd4T8xd847j+lbuibBPZ9HLAFJl2NsXEWieUjMOSmtuJVGnaa
+         rAWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775782901; x=1776387701;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CDukKgIxUDFhviJEhQQl8OKCJeL8VtYjziTmoESltr0=;
-        b=i1VFqvX7V/vTUMndbUXyCaFXQ7aDdqH+abHC3rQ8OO/UzuK3ZQFhFYL+UGnM9aV4H/
-         Opvn71rQ0zUnKD30HMbiShdhRK5WCIneJkbWgttgCuCFUlQLjK+ZvPllbIPCBm5YY8XR
-         Vs4qw4/DMVgQRxO+4sbpzldNiH0fKj0e8XuiUJ2gVXkK8KAIgIN+MhVPoQOc+Pjd0kZs
-         RT2Tlf3EMCT0FhthoZIUAfOTtIDU6au54dE/eCvipRoi5CjgG5uWpD6AIzsPSlMsf2QU
-         wYVGVxOGEk70JrQy42qqS85j5TcQBIh1f0WT8Qsl9mmSYr6CykrTK7BcCWW6S2rISHA9
-         m02g==
-X-Forwarded-Encrypted: i=1; AJvYcCWNnpV8OTufd/n9UgOMvec0CVv5DlsiRgUkDZjS/vJsC8cVk0wE4GhTNhy3xeY1im/Ph9MaqS4FXQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtHjjwjoPIUMqrmIyQeScODQAVPnYZDFCNlCJBRwUYS7xhDlhx
-	UJ4dbZXkgs/V7iCtQEmPyTcwb0VI2/rPD11Ed9TrMYr+9nl4Gm35+67BLMJt/D+s58M=
-X-Gm-Gg: AeBDieu8t7uJ8eHK29HUM3CP8Q/NRy06NllAbeokqn7vflssZ6UUaTMoIh6Py8SX2oj
-	qhW7NAvFvarcsw0Kj4JdblTK426EL7IYmXESwIhRk+mI5uwPpSH+Iv/RKzpT2OdIHo3p3gjA8l1
-	WeP8r0u6lDPlW74d7CXJuUPyVAlJ04Qk9Xq8ZKi4ylpyEpXehkihd2CQ3xLZHFpx3XjOYrUYvzn
-	XSZiJoSB6QyA4vicCQxtX1Sj07NZj1e2sot84UL5Ux/+OojhleeIT/JW6vEhvDCjjEukH07vkfh
-	Fxon61AwfpLn8zFCJb6bLNJiAQY+y7lzYCNkMVpLsMVsuNp02km3knYEK0PW7ESWIxxXj0t1iTo
-	wYpWxK+qcjJBNvu59ugRRt2FeKPAfVShUK4cKpgq/V9MJFhaQF5M8mtjFv8zw32rxoErjatov2E
-	cEhvnSBngwTv37Xr/PPtY=
-X-Received: by 2002:a05:6a00:1bcd:b0:82c:24d5:63e6 with SMTP id d2e1a72fcca58-82f0c169049mr1259317b3a.15.1775782900710;
-        Thu, 09 Apr 2026 18:01:40 -0700 (PDT)
-Received: from localhost ([97.126.187.42])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f0c30f5c3sm731115b3a.3.2026.04.09.18.01.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2026 18:01:40 -0700 (PDT)
-From: Kevin Hilman <khilman@baylibre.com>
-To: Dhruva Gole <d-gole@ti.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-pm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 3/3] pmdomain: arm_scmi: add support for domain hierarchies
-In-Reply-To: <20260313120707.jhkyd772wzuwmlhd@lcpd911>
-References: <20260310-topic-lpm-pmdomain-child-ids-v1-0-5361687a18ff@baylibre.com>
- <20260310-topic-lpm-pmdomain-child-ids-v1-3-5361687a18ff@baylibre.com>
- <20260313120707.jhkyd772wzuwmlhd@lcpd911>
-Date: Thu, 09 Apr 2026 18:01:39 -0700
-Message-ID: <7hwlyfr5l8.fsf@baylibre.com>
+        d=1e100.net; s=20251104; t=1775811482; x=1776416282;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z1vmmkZcYrQbBuSPIBwVZCij2+2X5p9lbMUk5Tsb6wM=;
+        b=iFCmJoxGI8IjeHjK2sP6p7Naia10yLPpYdRwZNUVgVfZd32OAyyKz2ehypdEgek/9b
+         WgsI8/BDEc7IZDANNiH8IgpI4fZxUocsb57tpfXjlESh1vDhstQuTfyJF9DypZi9Fo4S
+         zLxZG+ATDXBRAIHoXpvBs6s3sd30AqUHnxvhNSuIbS/Zv0aIPkmOG3KJkGGZyiBy2RiN
+         +AWM+bhot28YdYagTDWU5SUnFryWf9jLOpCVnpdlGdQDZdYGRJUNiff2D++0rdvHtTJU
+         35t+qkjnTjsFEs7QrTrqwFB3CvEXIUNBuKweNDFH4U7kngKs5iJDfHD7GHpMvBg833tn
+         bJ1w==
+X-Forwarded-Encrypted: i=1; AJvYcCWmCWZxEiqGT4MLln/YaAb6LMGh7L/Ag8VO9A2MB2KSv+5gL8n25Y8fuQNJFeq4YkZdFGge74R1xA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7GpGpWFLlNF0litj9HSbBoILPzKX7saJGunvATd0K0/H79Z25
+	y3XcVAbaSF5equfcqi6evplp8SJgcmuYEA/dTLqhPqmVwGVPQkyzGCafXMIvjWIMOqpF6wcf8bd
+	BrkHplqgTUUKvX4825bz1mdhqITny86Odc5YNYQCzEg==
+X-Gm-Gg: AeBDieuDsPVgQexD/wIRiFYFc8mPF04XsBx8TrXZkA7R/jsruEBCKAwtGSBJevlVz7h
+	ZEEgGXfF40Co4K6Qa+EL3/VYwqbHOTa4Gd0nnKkBgStDejGHgJvhugZ9SeNPlf48grBJ+WILXZQ
+	LQ6/lgFJNXlIh6sWb+6WdR1d9oHiU+Vr3m31/NgRCAm85QZ3KDUsEAVDRNb9wdorMgnZv9STWDD
+	fQ8UkrVQ6cyPPUIOX9ABx31sTGghUQ/lT1siC65aMYiWbLw7N1LeNLOSoybCqvbhxeKVBxg7SDH
+	ZPizInQW
+X-Received: by 2002:a05:6512:1396:b0:5a2:c8d9:ec4a with SMTP id
+ 2adb3069b0e04-5a3ef9127demr836109e87.19.1775811482189; Fri, 10 Apr 2026
+ 01:58:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20260310-topic-lpm-pmdomain-child-ids-v1-0-5361687a18ff@baylibre.com>
+ <20260310-topic-lpm-pmdomain-child-ids-v1-2-5361687a18ff@baylibre.com>
+ <CAPDyKFquJ7K4NcWuKMr1sjrnFVVPGAeLCiSF_FhvJf9Frbn1uA@mail.gmail.com> <7h4iljskvz.fsf@baylibre.com>
+In-Reply-To: <7h4iljskvz.fsf@baylibre.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Fri, 10 Apr 2026 10:57:24 +0200
+X-Gm-Features: AQROBzDhT0oW3z8LEIG1Euo0M3-dmugaTMajHzsT9TLnPM4O-8m4J3dOe0QMXE4
+Message-ID: <CAPDyKFrR2zyMFXTAkKs1XRgB-u5jSP256g730s=7SLuOZKsKVg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] pmdomain: core: add support for power-domains-child-ids
+To: Kevin Hilman <khilman@baylibre.com>
+Cc: Rob Herring <robh@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, linux-pm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-Dhruva Gole <d-gole@ti.com> writes:
-
-> On Mar 10, 2026 at 17:19:25 -0700, Kevin Hilman (TI) wrote:
->> After primary SCMI pmdomain is created, use new of_genpd helper which
->> checks for child domain mappings defined in power-domains-child-ids.
->> 
->> Also remove any child domain mappings when SCMI domain is removed.
->> 
->> Signed-off-by: Kevin Hilman (TI) <khilman@baylibre.com>
->> ---
+On Fri, 10 Apr 2026 at 02:45, Kevin Hilman <khilman@baylibre.com> wrote:
 >
-> Again, since it worked fine on my AM62L,
-> Tested-by: Dhruva Gole <d-gole@ti.com>
-
-Thanks for testing & reviewing!
-
-> But I had some thoughts further down...
+> Ulf Hansson <ulf.hansson@linaro.org> writes:
 >
->>  drivers/pmdomain/arm/scmi_pm_domain.c | 14 +++++++++++++-
->>  1 file changed, 13 insertions(+), 1 deletion(-)
->> 
->> diff --git a/drivers/pmdomain/arm/scmi_pm_domain.c b/drivers/pmdomain/arm/scmi_pm_domain.c
->> index b5e2ffd5ea64..9d8faef44aa9 100644
->> --- a/drivers/pmdomain/arm/scmi_pm_domain.c
->> +++ b/drivers/pmdomain/arm/scmi_pm_domain.c
->> @@ -114,6 +114,14 @@ static int scmi_pm_domain_probe(struct scmi_device *sdev)
->>  
->>  	dev_set_drvdata(dev, scmi_pd_data);
->>  
->> +	/*
->> +	 * Parse (optional) power-domains-child-ids property to
->> +	 * establish parent-child relationships
->> +	 */
->> +	ret = of_genpd_add_child_ids(np, scmi_pd_data);
->> +	if (ret < 0 && ret != -ENOENT)
->> +		pr_err("Failed to parse power-domains-child-ids for %pOF: %d\n", np, ret);
+> > On Wed, 11 Mar 2026 at 01:19, Kevin Hilman (TI) <khilman@baylibre.com> wrote:
+> >>
+> >> Currently, PM domains can only support hierarchy for simple
+> >> providers (e.g. ones with #power-domain-cells = 0).
+> >>
+> >> Add support for oncell providers as well by adding a new property
+> >> `power-domains-child-ids` to describe the parent/child relationship.
+> >>
+> >> For example, an SCMI PM domain provider has multiple domains, each of
+> >> which might be a child of diffeent parent domains. In this example,
+> >> the parent domains are MAIN_PD and WKUP_PD:
+> >>
+> >>     scmi_pds: protocol@11 {
+> >>         reg = <0x11>;
+> >>         #power-domain-cells = <1>;
+> >>         power-domains = <&MAIN_PD>, <&WKUP_PD>;
+> >>         power-domains-child-ids = <15>, <19>;
+> >>     };
+> >>
+> >> With this example using the new property, SCMI PM domain 15 becomes a
+> >> child domain of MAIN_PD, and SCMI domain 19 becomes a child domain of
+> >> WKUP_PD.
+> >>
+> >> To support this feature, add two new core functions
+> >>
+> >> - of_genpd_add_child_ids()
+> >> - of_genpd_remove_child_ids()
+> >>
+> >> which can be called by pmdomain providers to add/remove child domains
+> >> if they support the new property power-domains-child-ids.
+> >>
+> >> Signed-off-by: Kevin Hilman (TI) <khilman@baylibre.com>
+> >
+> > Thanks for working on this! It certainly is a missing feature!
 >
-> Nit: I think the style of this driver is to use dev_err than pr_err
-
-Agreed.
-
-> Also, maybe a dev_warn makes more sense since we're not even returning
-> the error or doing anything different if we get certain error path.
-
-OK.
-
-> I am wondering if it makes sense to just abort the whole idea of
-> creating power-domain child ids if anything goes wrong?
+> You're welcome, thanks for the detailed review.
 >
-> Basically just of_genpd_remove_child_ids if we face a condition where we
-> have different number of parents/ children or id > num etc...
+> >> ---
+> >>  drivers/pmdomain/core.c   | 169 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> >>  include/linux/pm_domain.h |  16 ++++++++++++++++
+> >>  2 files changed, 185 insertions(+)
+> >>
+> >> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
+> >> index 61c2277c9ce3..acb45dd540b7 100644
+> >> --- a/drivers/pmdomain/core.c
+> >> +++ b/drivers/pmdomain/core.c
+> >> @@ -2909,6 +2909,175 @@ static struct generic_pm_domain *genpd_get_from_provider(
+> >>         return genpd;
+> >>  }
+> >>
+> >> +/**
+> >> + * of_genpd_add_child_ids() - Parse power-domains-child-ids property
+> >> + * @np: Device node pointer associated with the PM domain provider.
+> >> + * @data: Pointer to the onecell data associated with the PM domain provider.
+> >> + *
+> >> + * Parse the power-domains and power-domains-child-ids properties to establish
+> >> + * parent-child relationships for PM domains. The power-domains property lists
+> >> + * parent domains, and power-domains-child-ids lists which child domain IDs
+> >> + * should be associated with each parent.
+> >> + *
+> >> + * Returns 0 on success, -ENOENT if properties don't exist, or negative error code.
+> >
+> > I think we should avoid returning specific error codes for specific
+> > errors, simply because it usually becomes messy.
+> >
+> > If I understand correctly the intent here is to allow the caller to
+> > check for -ENOENT and potentially avoid bailing out as it may not
+> > really be an error, right?
 >
-> All are error cases where the system behaviour can go on to become very
-> unpredictable if we end up making a false/ incomplete parent-child ID
-> map.
+> Right, -ENOENT is not an error of parsing, it's to indicate that there
+> are no child-ids to be parsed.
 >
-> Thoughts?
+> > Perhaps a better option is to return the number of children for whom
+> > we successfully assigned parents. Hence 0 or a positive value allows
+> > the caller to understand what happened. More importantly, a negative
+> > error code then really becomes an error for the caller to consider.
+>
+> I explored this a bit, but it gets messy quick.  It means we have to
+> track cases where only some of the children were added as well as when
+> all children were added.   Personally, I think this should be an "all or
+> nothing" thing.  If all the children cannot be parsed/added, then none
+> of them should be added.
+>
+> This also allows the remove to not have to care about how many were
+> added, and just remove them all, with the additional benefit of not
+> having to track the state of how many children were successfully added.
+>
 
-I agree.  After thinking through some of Ulf's suggestions on the
-different error handling ideas, I think this should really be "all or
-nothing".  If we we cannot parse & add all the children in the list, we
-should add none of them.  I think partial additions will be come
-unwieldy to manage rather quickly, and require the pmdomain core to keep
-state.
+I fully agree, it should be all or nothing. Failing with one
+child/parent should end up with an error code being returned.
 
-Kevin
+That said, it still seems to make perfect sense to return the number
+of children for whom we assigned parents for, no?
+
+[...]
+
+> >> +int of_genpd_remove_child_ids(struct device_node *np,
+> >> +                          struct genpd_onecell_data *data)
+> >> +{
+> >> +       struct of_phandle_args parent_args;
+> >> +       struct generic_pm_domain *parent_genpd, *child_genpd;
+> >> +       struct of_phandle_iterator it;
+> >> +       const struct property *prop;
+> >> +       const __be32 *item;
+> >> +       u32 child_id;
+> >> +       int ret;
+> >> +
+> >> +       /* Check if both properties exist */
+> >> +       if (of_count_phandle_with_args(np, "power-domains", "#power-domain-cells") <= 0)
+> >> +               return -ENOENT;
+> >> +
+> >> +       prop = of_find_property(np, "power-domains-child-ids", NULL);
+> >> +       if (!prop)
+> >> +               return -ENOENT;
+> >> +
+> >> +       item = of_prop_next_u32(prop, NULL, &child_id);
+> >
+> > Similar comments as for of_genpd_add_child_ids().
+> >
+> > Moreover, I think we should remove the children in the reverse order
+> > of how we added them.
+>
+> I'm curious why does the order matter?  The children are all siblings
+> (no hierarchy), so why would the order be important?
+
+It might not be that important, but generally, it seems like a good
+idea to me to reverse the order when undoing things.
+
+>
+> I'm not ware of a phandle iterator/helper to parse in the reverse, so
+> that would mean iterating once to create a list, and then walking it in
+> reverse.  Seems unnecessary.
+
+Sure, I leave the call to you, to see what fits best.
+
+Kind regards
+Uffe
