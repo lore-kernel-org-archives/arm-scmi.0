@@ -1,77 +1,75 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565552FD7BE
-	for <arm-scmi@vger.kernel.org>; Fri, 10 Apr 2026 00:45:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DEF01C84C0
+	for <arm-scmi@vger.kernel.org>; Fri, 10 Apr 2026 01:01:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775781957; cv=none; b=daaErL9cIFqjvR/gA6cF+iNU2NdLDL4HyxiGowVMQuxhccJyA7LTkB5xL0W0Z2aFiN2gSdWRYyhQEY3sgK4PncAWWXwixyndMYLgBMNzwGJ5Mto1VsA1gzZNHUQvm7FwSl+oaNI/DwMMdoZxHsTAPyxfTNBV6Jo+xxCCvr3D4ho=
+	t=1775782904; cv=none; b=ZFqqHaT1j9VbnBNOcTR0xJbzHun+dJuF6KD+NgIPbbq9TL1ywkXfC+jb3MM9RsxX1nV9ZZp/MjnIpGjUKjrRep1CowTrmlX4bLfxelNSZjCwoEiyPDIRPhAAb4cfs3EDCKVTTurSTUZxlmJBAXugAqYVub8vAtZ0aC4ap3qF18Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775781957; c=relaxed/simple;
-	bh=UQhzYqt7iG9PW7NJ/l/0O3inCh2nzIcBNTSfeZv/d0Y=;
+	s=arc-20240116; t=1775782904; c=relaxed/simple;
+	bh=O1oqU5q5okVp6Eq7KhaJYRT8N5oZTYs7sw6L2W1OpmE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=nbCZb1aikDgs2ID9hKpKdR0Hy/iVf6+9Mq5kPTvkekMaXs4ACiqCHI6BS+RLEDrS5n5V4lp6Q+FYs4l6613KOv+oVEXMz/Oju8mTMK3ZwCExV3dDwHlUiTYbJ39nse5S/gnSme3VxMZxcRGxT2qxMmVV1/Bc2nrOMEXU7HuPqqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=XuSckE6r; arc=none smtp.client-ip=209.85.214.169
+	 MIME-Version:Content-Type; b=rwitWm0Z41galnkV5dNrLl9vbottMF4Gi4kgCyhAEpyG32dR9iqODhGzuDs4RnGK6LjJ9fFW9POXSsB8gW9hbei4HmqDrJd9LE2C48A3VNcQE+zXuMQnVJ7QmqaLnQdo1tL2yxoy4drSkhiDKGR+xz+KeNY7rWC5gqCKCXDHEVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=0zifnLjt; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="XuSckE6r"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a8fba3f769so7495955ad.2
-        for <arm-scmi@vger.kernel.org>; Thu, 09 Apr 2026 17:45:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="0zifnLjt"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-82ce49785a0so709005b3a.2
+        for <arm-scmi@vger.kernel.org>; Thu, 09 Apr 2026 18:01:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1775781954; x=1776386754; darn=vger.kernel.org;
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1775782901; x=1776387701; darn=vger.kernel.org;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tqN2cIzftfYEekrpgNPDXUdrBnoMgDEUwL6BuRfPeX8=;
-        b=XuSckE6rRVwsLhH/D2vaLaS11GJyFJ6YMKE+nEo6P6AGI56RePbyxwalcqXhA3hZMs
-         +9sTtGUuzQb6oznIY2tsEme5JIVxVb7O9N+FBjsuovmVcp8YYxmxHn2VjX9tkZylwv01
-         y+pDb6BbEf0KQc/AcOIToh9tUIFN+PITl/wt8RYm/njW1Mrj7864RGXzSixFBrEAZMLo
-         drV5TRbD0VIqr9I/WPS2t2HorrO8919/U7UmUDk5iHwhwqW2qQJbUnIefSG2WMHca2op
-         EEyLawJbDEwtHxvO6kFX/c5oKlwmdluO2e9TAQDeyKUu74WlB3QOe5qwo37J8NrxRS9j
-         obXg==
+        bh=CDukKgIxUDFhviJEhQQl8OKCJeL8VtYjziTmoESltr0=;
+        b=0zifnLjt59ENXbULyxV2hfv8CI1gn3xLGicwajRFjCR0S4mubP1/RgLFNpsSVVMHOP
+         6K1X0S4laaWRf0e/4nlJ0SbA5ivP8Wmox39Uc5ShzkRH13RO7GdLd3cgatQRZX/OzSbE
+         lKQArwm9HLiAzVZ1m9emyVU6V+hrs98vWWJS0zVCyrSTc1QvrWfMPLm1YiHEcMH1UM+Y
+         CtmhkV5oOLnxSMGv/WkaIK4MXUAHKzvV0phgjhTKe5TSq/qNR+iryIAj8e87xVQ/5Rsr
+         /1RVQhtNHSAFEGDTSRth+TMY3B5KFT6EuskVNG7bAENnmYSqEN8XF4Ecy3Pc7dBiZQAf
+         t4vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775781954; x=1776386754;
+        d=1e100.net; s=20251104; t=1775782901; x=1776387701;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tqN2cIzftfYEekrpgNPDXUdrBnoMgDEUwL6BuRfPeX8=;
-        b=ASJuXVdQTmHjIKD6/dXKGI4tpZOis6Sn/CvtNbn9H0XRHbo7LuaoV6wXbL2biLznOz
-         a6hNJMINWlPSW0hxgYb0H3FDYbiVgh6fkf+Iv5+VcjTwGbVA2o9PfiCf7XnSSG7HgXa6
-         e4oFkS4+sJlMOG9EBnDqjcUKaDIqntpKHPPS0ir55cA5xanYpWGuzDVyshO3zMdxaLM2
-         6dpDELKmyK6Xyy1d3EzXpzhJqwWTZ56ZzlGRfKC60s1Mq5Ge4e+AN1XmIL42qo69d5yR
-         Ual4Wx4E56IxBhbrzYRYQ9wPhEzVGFhase4OdyZynooNsSd6ki0QZe+JUk83lwa/+lvk
-         LfHA==
-X-Forwarded-Encrypted: i=1; AJvYcCVinJu2d9JOucSndSnh5zmFMZIPdgvvvwi1WrPMTswPaYdZfrCqidRv9lEJyeeAhHf1fZQb8COXgQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyblgvdOOep2G9y4JQ4qMimh9gmzC75FXzRwMd8LQ7yTN/eIovq
-	sAVVB8miDW7DMj8NPd2BesrjOMxMgmyJBS2XaAhs/J11bYDIgadF9Xw7BZp7afDjIrrnHQR4nEr
-	rDbpexjc=
-X-Gm-Gg: AeBDietHjaH26CU5Sw8g/YXwcb0vBsgtdKaIdUlXigdLFWUkXa+jU8oao4G5e0CzjJL
-	eLjNpyikDLaunOJZJLXpTQECu26Xe+qSBtN/vfdDRft+OWZVf/+oRHn1yfDxgO36tbCx3beZv3h
-	lIz7Y9v5AgkDAeNWUiuC87N/Cg0HAtGVIUeaIAVH3S5wTCYod5WCWEFXq57e8MdTU3I0P8A/fgx
-	Flq704/mithVdjh95Zuk/kVRXdokqeAPdS/5KRHQG75PBhmeFJ6qsoo3/RINLK/O0eISo8q+JdX
-	yEx5vdpO6l1Xj5KLXqH1MKWTFwSeuwGAXGiZtXumZrH7ELQB/moBcx0zBpbyc7JLV9A8FLLCw0h
-	IGsogrnaapdvDznhBJgmDHQzBtaULvkM5xCjrlN3H10eb+S7olO3u09jSY57pwuSzqiwYnweqaR
-	yIGJ6y9yGKLKnMMhB7Hu8=
-X-Received: by 2002:a17:903:1b6e:b0:2ae:3b9b:db34 with SMTP id d9443c01a7336-2b2d5aa0becmr10846795ad.42.1775781953566;
-        Thu, 09 Apr 2026 17:45:53 -0700 (PDT)
+        bh=CDukKgIxUDFhviJEhQQl8OKCJeL8VtYjziTmoESltr0=;
+        b=i1VFqvX7V/vTUMndbUXyCaFXQ7aDdqH+abHC3rQ8OO/UzuK3ZQFhFYL+UGnM9aV4H/
+         Opvn71rQ0zUnKD30HMbiShdhRK5WCIneJkbWgttgCuCFUlQLjK+ZvPllbIPCBm5YY8XR
+         Vs4qw4/DMVgQRxO+4sbpzldNiH0fKj0e8XuiUJ2gVXkK8KAIgIN+MhVPoQOc+Pjd0kZs
+         RT2Tlf3EMCT0FhthoZIUAfOTtIDU6au54dE/eCvipRoi5CjgG5uWpD6AIzsPSlMsf2QU
+         wYVGVxOGEk70JrQy42qqS85j5TcQBIh1f0WT8Qsl9mmSYr6CykrTK7BcCWW6S2rISHA9
+         m02g==
+X-Forwarded-Encrypted: i=1; AJvYcCWNnpV8OTufd/n9UgOMvec0CVv5DlsiRgUkDZjS/vJsC8cVk0wE4GhTNhy3xeY1im/Ph9MaqS4FXQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtHjjwjoPIUMqrmIyQeScODQAVPnYZDFCNlCJBRwUYS7xhDlhx
+	UJ4dbZXkgs/V7iCtQEmPyTcwb0VI2/rPD11Ed9TrMYr+9nl4Gm35+67BLMJt/D+s58M=
+X-Gm-Gg: AeBDieu8t7uJ8eHK29HUM3CP8Q/NRy06NllAbeokqn7vflssZ6UUaTMoIh6Py8SX2oj
+	qhW7NAvFvarcsw0Kj4JdblTK426EL7IYmXESwIhRk+mI5uwPpSH+Iv/RKzpT2OdIHo3p3gjA8l1
+	WeP8r0u6lDPlW74d7CXJuUPyVAlJ04Qk9Xq8ZKi4ylpyEpXehkihd2CQ3xLZHFpx3XjOYrUYvzn
+	XSZiJoSB6QyA4vicCQxtX1Sj07NZj1e2sot84UL5Ux/+OojhleeIT/JW6vEhvDCjjEukH07vkfh
+	Fxon61AwfpLn8zFCJb6bLNJiAQY+y7lzYCNkMVpLsMVsuNp02km3knYEK0PW7ESWIxxXj0t1iTo
+	wYpWxK+qcjJBNvu59ugRRt2FeKPAfVShUK4cKpgq/V9MJFhaQF5M8mtjFv8zw32rxoErjatov2E
+	cEhvnSBngwTv37Xr/PPtY=
+X-Received: by 2002:a05:6a00:1bcd:b0:82c:24d5:63e6 with SMTP id d2e1a72fcca58-82f0c169049mr1259317b3a.15.1775782900710;
+        Thu, 09 Apr 2026 18:01:40 -0700 (PDT)
 Received: from localhost ([97.126.187.42])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2d4f469casm7488445ad.81.2026.04.09.17.45.52
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f0c30f5c3sm731115b3a.3.2026.04.09.18.01.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2026 17:45:52 -0700 (PDT)
+        Thu, 09 Apr 2026 18:01:40 -0700 (PDT)
 From: Kevin Hilman <khilman@baylibre.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Rob Herring <robh@kernel.org>, Geert Uytterhoeven
- <geert@linux-m68k.org>, linux-pm@vger.kernel.org,
+To: Dhruva Gole <d-gole@ti.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-pm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/3] pmdomain: core: add support for
- power-domains-child-ids
-In-Reply-To: <CAPDyKFquJ7K4NcWuKMr1sjrnFVVPGAeLCiSF_FhvJf9Frbn1uA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] pmdomain: arm_scmi: add support for domain hierarchies
+In-Reply-To: <20260313120707.jhkyd772wzuwmlhd@lcpd911>
 References: <20260310-topic-lpm-pmdomain-child-ids-v1-0-5361687a18ff@baylibre.com>
- <20260310-topic-lpm-pmdomain-child-ids-v1-2-5361687a18ff@baylibre.com>
- <CAPDyKFquJ7K4NcWuKMr1sjrnFVVPGAeLCiSF_FhvJf9Frbn1uA@mail.gmail.com>
-Date: Thu, 09 Apr 2026 17:45:52 -0700
-Message-ID: <7h4iljskvz.fsf@baylibre.com>
+ <20260310-topic-lpm-pmdomain-child-ids-v1-3-5361687a18ff@baylibre.com>
+ <20260313120707.jhkyd772wzuwmlhd@lcpd911>
+Date: Thu, 09 Apr 2026 18:01:39 -0700
+Message-ID: <7hwlyfr5l8.fsf@baylibre.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -80,268 +78,69 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Ulf Hansson <ulf.hansson@linaro.org> writes:
+Dhruva Gole <d-gole@ti.com> writes:
 
-> On Wed, 11 Mar 2026 at 01:19, Kevin Hilman (TI) <khilman@baylibre.com> wrote:
->>
->> Currently, PM domains can only support hierarchy for simple
->> providers (e.g. ones with #power-domain-cells = 0).
->>
->> Add support for oncell providers as well by adding a new property
->> `power-domains-child-ids` to describe the parent/child relationship.
->>
->> For example, an SCMI PM domain provider has multiple domains, each of
->> which might be a child of diffeent parent domains. In this example,
->> the parent domains are MAIN_PD and WKUP_PD:
->>
->>     scmi_pds: protocol@11 {
->>         reg = <0x11>;
->>         #power-domain-cells = <1>;
->>         power-domains = <&MAIN_PD>, <&WKUP_PD>;
->>         power-domains-child-ids = <15>, <19>;
->>     };
->>
->> With this example using the new property, SCMI PM domain 15 becomes a
->> child domain of MAIN_PD, and SCMI domain 19 becomes a child domain of
->> WKUP_PD.
->>
->> To support this feature, add two new core functions
->>
->> - of_genpd_add_child_ids()
->> - of_genpd_remove_child_ids()
->>
->> which can be called by pmdomain providers to add/remove child domains
->> if they support the new property power-domains-child-ids.
->>
+> On Mar 10, 2026 at 17:19:25 -0700, Kevin Hilman (TI) wrote:
+>> After primary SCMI pmdomain is created, use new of_genpd helper which
+>> checks for child domain mappings defined in power-domains-child-ids.
+>> 
+>> Also remove any child domain mappings when SCMI domain is removed.
+>> 
 >> Signed-off-by: Kevin Hilman (TI) <khilman@baylibre.com>
->
-> Thanks for working on this! It certainly is a missing feature!
-
-You're welcome, thanks for the detailed review.
-
 >> ---
->>  drivers/pmdomain/core.c   | 169 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->>  include/linux/pm_domain.h |  16 ++++++++++++++++
->>  2 files changed, 185 insertions(+)
->>
->> diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
->> index 61c2277c9ce3..acb45dd540b7 100644
->> --- a/drivers/pmdomain/core.c
->> +++ b/drivers/pmdomain/core.c
->> @@ -2909,6 +2909,175 @@ static struct generic_pm_domain *genpd_get_from_provider(
->>         return genpd;
->>  }
->>
->> +/**
->> + * of_genpd_add_child_ids() - Parse power-domains-child-ids property
->> + * @np: Device node pointer associated with the PM domain provider.
->> + * @data: Pointer to the onecell data associated with the PM domain provider.
->> + *
->> + * Parse the power-domains and power-domains-child-ids properties to establish
->> + * parent-child relationships for PM domains. The power-domains property lists
->> + * parent domains, and power-domains-child-ids lists which child domain IDs
->> + * should be associated with each parent.
->> + *
->> + * Returns 0 on success, -ENOENT if properties don't exist, or negative error code.
 >
-> I think we should avoid returning specific error codes for specific
-> errors, simply because it usually becomes messy.
+> Again, since it worked fine on my AM62L,
+> Tested-by: Dhruva Gole <d-gole@ti.com>
+
+Thanks for testing & reviewing!
+
+> But I had some thoughts further down...
 >
-> If I understand correctly the intent here is to allow the caller to
-> check for -ENOENT and potentially avoid bailing out as it may not
-> really be an error, right?
-
-Right, -ENOENT is not an error of parsing, it's to indicate that there
-are no child-ids to be parsed.
-
-> Perhaps a better option is to return the number of children for whom
-> we successfully assigned parents. Hence 0 or a positive value allows
-> the caller to understand what happened. More importantly, a negative
-> error code then really becomes an error for the caller to consider.
-
-I explored this a bit, but it gets messy quick.  It means we have to
-track cases where only some of the children were added as well as when
-all children were added.   Personally, I think this should be an "all or
-nothing" thing.  If all the children cannot be parsed/added, then none
-of them should be added.
-
-This also allows the remove to not have to care about how many were
-added, and just remove them all, with the additional benefit of not
-having to track the state of how many children were successfully added.
-
->> + */
->> +int of_genpd_add_child_ids(struct device_node *np,
->> +                          struct genpd_onecell_data *data)
->> +{
->> +       struct of_phandle_args parent_args;
->> +       struct generic_pm_domain *parent_genpd, *child_genpd;
->> +       struct of_phandle_iterator it;
->> +       const struct property *prop;
->> +       const __be32 *item;
->> +       u32 child_id;
->> +       int ret;
->> +
->> +       /* Check if both properties exist */
->> +       if (of_count_phandle_with_args(np, "power-domains", "#power-domain-cells") <= 0)
->> +               return -ENOENT;
->> +
->> +       prop = of_find_property(np, "power-domains-child-ids", NULL);
->> +       if (!prop)
->> +               return -ENOENT;
->> +
->> +       item = of_prop_next_u32(prop, NULL, &child_id);
+>>  drivers/pmdomain/arm/scmi_pm_domain.c | 14 +++++++++++++-
+>>  1 file changed, 13 insertions(+), 1 deletion(-)
+>> 
+>> diff --git a/drivers/pmdomain/arm/scmi_pm_domain.c b/drivers/pmdomain/arm/scmi_pm_domain.c
+>> index b5e2ffd5ea64..9d8faef44aa9 100644
+>> --- a/drivers/pmdomain/arm/scmi_pm_domain.c
+>> +++ b/drivers/pmdomain/arm/scmi_pm_domain.c
+>> @@ -114,6 +114,14 @@ static int scmi_pm_domain_probe(struct scmi_device *sdev)
+>>  
+>>  	dev_set_drvdata(dev, scmi_pd_data);
+>>  
+>> +	/*
+>> +	 * Parse (optional) power-domains-child-ids property to
+>> +	 * establish parent-child relationships
+>> +	 */
+>> +	ret = of_genpd_add_child_ids(np, scmi_pd_data);
+>> +	if (ret < 0 && ret != -ENOENT)
+>> +		pr_err("Failed to parse power-domains-child-ids for %pOF: %d\n", np, ret);
 >
-> Perhaps it's easier to check if of_property_count_u32_elems() returns
-> the same number as of_count_phandle_with_args() above? If it doesn't,
-> something is wrong, and there is no need to continue.
+> Nit: I think the style of this driver is to use dev_err than pr_err
 
-Agreed. Will add.
+Agreed.
 
-> This way you also know the number of loops upfront that must iterate
-> through all indexes. This should allow us to use a simpler for-loop
-> below, I think. In this case you can also use
-> of_property_read_u32_index() instead.
+> Also, maybe a dev_warn makes more sense since we're not even returning
+> the error or doing anything different if we get certain error path.
 
 OK.
 
->> +
->> +       /* Iterate over power-domains phandles and power-domains-child-ids in lockstep */
->> +       of_for_each_phandle(&it, ret, np, "power-domains", "#power-domain-cells", 0) {
->> +               if (!item) {
->> +                       pr_err("power-domains-child-ids shorter than power-domains for %pOF\n", np);
->> +                       ret = -EINVAL;
->> +                       goto err_put_node;
->> +               }
->> +
->> +               /*
->> +                * Fill parent_args from the iterator. it.node is released by
->> +                * the next of_phandle_iterator_next() call at the top of the
->> +                * loop, or by the of_node_put() on the error path below.
->> +                */
->> +               parent_args.np = it.node;
->> +               parent_args.args_count = of_phandle_iterator_args(&it, parent_args.args,
->> +                                                                 MAX_PHANDLE_ARGS);
->> +
->> +               /* Get the parent domain */
->> +               parent_genpd = genpd_get_from_provider(&parent_args);
+> I am wondering if it makes sense to just abort the whole idea of
+> creating power-domain child ids if anything goes wrong?
 >
-> Before getting the parent_genpd like this, we need to take the
-> gpd_list_lock. The lock must be held when genpd_add_subdomain() is
-> being called.
-
-Good catch, thanks.
-
->> +               if (IS_ERR(parent_genpd)) {
->> +                       pr_err("Failed to get parent domain for %pOF: %ld\n",
->> +                              np, PTR_ERR(parent_genpd));
->> +                       ret = PTR_ERR(parent_genpd);
->> +                       goto err_put_node;
->> +               }
->> +
->> +               /* Validate child ID is within bounds */
->> +               if (child_id >= data->num_domains) {
->> +                       pr_err("Child ID %u out of bounds (max %u) for %pOF\n",
->> +                              child_id, data->num_domains - 1, np);
->> +                       ret = -EINVAL;
->> +                       goto err_put_node;
->> +               }
->> +
->> +               /* Get the child domain */
->> +               child_genpd = data->domains[child_id];
->> +               if (!child_genpd) {
->> +                       pr_err("Child domain %u is NULL for %pOF\n", child_id, np);
->> +                       ret = -EINVAL;
->> +                       goto err_put_node;
->> +               }
->> +
->> +               /* Establish parent-child relationship */
->> +               ret = genpd_add_subdomain(parent_genpd, child_genpd);
->> +               if (ret) {
->> +                       pr_err("Failed to add child domain %u to parent in %pOF: %d\n",
->> +                              child_id, np, ret);
->> +                       goto err_put_node;
->> +               }
->> +
->> +               pr_debug("Added child domain %u (%s) to parent %s for %pOF\n",
->> +                        child_id, child_genpd->name, parent_genpd->name, np);
->> +
->> +               item = of_prop_next_u32(prop, item, &child_id);
->> +       }
->> +
->> +       /* of_for_each_phandle returns -ENOENT at natural end-of-list */
->> +       if (ret && ret != -ENOENT)
->> +               return ret;
->> +
->> +       /* All power-domains phandles were consumed; check for trailing child IDs */
->> +       if (item) {
->> +               pr_err("power-domains-child-ids longer than power-domains for %pOF\n", np);
->> +               return -EINVAL;
->> +       }
->> +
->> +       return 0;
->> +
->> +err_put_node:
+> Basically just of_genpd_remove_child_ids if we face a condition where we
+> have different number of parents/ children or id > num etc...
 >
-> This isn't a suffient error handling.
+> All are error cases where the system behaviour can go on to become very
+> unpredictable if we end up making a false/ incomplete parent-child ID
+> map.
 >
-> If we successfully added child domains using genpd_add_subdomain(), we
-> must remove them here, by calling pm_genpd_remove_subdomain() in the
-> reverse order as we just added them.
+> Thoughts?
 
-OK, I was relying on the remove function to cleanup, but you're right,
-if there's a falure during the add, it should be unwound before
-returning.
-
->> +       of_node_put(it.node);
->> +       return ret;
->> +}
->> +EXPORT_SYMBOL_GPL(of_genpd_add_child_ids);
->> +
->> +/**
->> + * of_genpd_remove_child_ids() - Remove parent-child PM domain relationships
->> + * @np: Device node pointer associated with the PM domain provider.
->> + * @data: Pointer to the onecell data associated with the PM domain provider.
->> + *
->> + * Reverses the effect of of_genpd_add_child_ids() by parsing the same
->> + * power-domains and power-domains-child-ids properties and calling
->> + * pm_genpd_remove_subdomain() for each established relationship.
->> + *
->> + * Returns 0 on success, -ENOENT if properties don't exist, or negative error
->> + * code on failure.
->> + */
->> +int of_genpd_remove_child_ids(struct device_node *np,
->> +                          struct genpd_onecell_data *data)
->> +{
->> +       struct of_phandle_args parent_args;
->> +       struct generic_pm_domain *parent_genpd, *child_genpd;
->> +       struct of_phandle_iterator it;
->> +       const struct property *prop;
->> +       const __be32 *item;
->> +       u32 child_id;
->> +       int ret;
->> +
->> +       /* Check if both properties exist */
->> +       if (of_count_phandle_with_args(np, "power-domains", "#power-domain-cells") <= 0)
->> +               return -ENOENT;
->> +
->> +       prop = of_find_property(np, "power-domains-child-ids", NULL);
->> +       if (!prop)
->> +               return -ENOENT;
->> +
->> +       item = of_prop_next_u32(prop, NULL, &child_id);
->
-> Similar comments as for of_genpd_add_child_ids().
->
-> Moreover, I think we should remove the children in the reverse order
-> of how we added them.
-
-I'm curious why does the order matter?  The children are all siblings
-(no hierarchy), so why would the order be important?
-
-I'm not ware of a phandle iterator/helper to parse in the reverse, so
-that would mean iterating once to create a list, and then walking it in
-reverse.  Seems unnecessary.
-
-Thanks again for the detailed review,
+I agree.  After thinking through some of Ulf's suggestions on the
+different error handling ideas, I think this should really be "all or
+nothing".  If we we cannot parse & add all the children in the list, we
+should add none of them.  I think partial additions will be come
+unwieldy to manage rather quickly, and require the pmdomain core to keep
+state.
 
 Kevin
