@@ -1,101 +1,243 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7BC3D6470
-	for <arm-scmi@vger.kernel.org>; Tue, 21 Apr 2026 14:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DD235972;
+	Tue, 21 Apr 2026 18:11:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776783474; cv=none; b=drQNFwPLPx8HOKXmeT5mbTZOFbLs3eKb7zS3q6aLE9Y6AxvnZsmADxCd9cPvWW8YGls67KfH6em1HflV6OMlthsKnXRuxBgCWXnUHr7be7+hCSQrE0PWglwWcYopLnBwY4CQ8Su88LESIbp/MP9lCXKf2qf6Qf49JNdRYJ/29NI=
+	t=1776795117; cv=none; b=TtWj3PezT8QRBXdfub8agB0LYgKZfvr7gVv/YR/rlZWc4/oEi1xsN/hymk10C0GNHXj3qYk0VEek+aklwWo8LA3Nq8NoQnRlye/i/9ZjuGE16/mXb/XQhyre28I9/wLTeMGa1dzVhuA7f4cJZ5J/RfHLD6fFhezW+MuRBquaRbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776783474; c=relaxed/simple;
-	bh=sI4tU695bTV6TvPOEAsLoW97lOBDjDwkIEx1VlCb8sU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=OhWRuYHBUR1l+zOgpZMbnfEfIDsCeUOrUybv5+WduCLLeFTzqT8r8o8LJvqcQ12o9DTZudvnutruT24cMgKQ6MewL0Nk9X9U47ryTMgvtvW02K2GpVIVVot2ackRb5ObuuXXs0/9QaQtXL8wvvhmFBjGX+7z8JyU6qMpi2qABvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=NqmGB8xJ; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="NqmGB8xJ"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-82f8bf96b46so2138955b3a.2
-        for <arm-scmi@vger.kernel.org>; Tue, 21 Apr 2026 07:57:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1776783472; x=1777388272; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5mjuJmdvwe7PzDVz8q3vHSG4MYXWlbBcdt3fOBIwOXE=;
-        b=NqmGB8xJ5atxCZ6ANMHcZ7HWjhaOT3MghDb/266say1LCjumu2ASpVKA/Pxfo/Rm5e
-         05qcXey7B4aDxUZazeYqcCzdSuZWfmwJoMGW5zH7lHuDCfuUk/Zu4ggFgGCGovFw0ViZ
-         d6qn8KbDUlenmVvUQVFq9LetKA0Fqp1+Z/+UTi7PdBtS8RRt+sedLQss22HSnbvX8/+z
-         YECJ30Ulk7L9QqlpbnANw4T3qTuM9ZDQvdvCiE+Tr72LUJ/zSXAE/iritYuuCX82OsNm
-         SVlqAk1ypEtCF2TvfNHdKV8GnfBpH//mKlUHvWksvJ5MMMWtB8R3u2SHfS3zsExQOzQZ
-         SY8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776783472; x=1777388272;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5mjuJmdvwe7PzDVz8q3vHSG4MYXWlbBcdt3fOBIwOXE=;
-        b=sEnNRAIV+zMV1CPo9Gi+z7pFSyc+oj6EXKePI7YPc1zBEvpiu4yUGYsUHxR6j7gTXc
-         DOEeDRMm8KL0c5OAzQ3kKLI4Kc/unDPanoNU3obXbcePHWp9NNJoQhH2WEmGMjPlW6kQ
-         8gi3C/RYxRWTvSn2Zncp0DRVAevq6Ldud91A7NdifnpQkrvWMnfY5DFsrluhHxBchxlL
-         v3OH/Dfob7q9Ok/BlbPd5PYdmzaZAY4bj+4CEUtIT4rjQVdG5aiMo3nmbkbKaQSCtiC0
-         CxSbFsC8wtZbeRH7MdrRRk3IhNgrNxuIN6uodXACHb8kKky7GZHF4pWWx7+4JbsQCpLS
-         mBWA==
-X-Forwarded-Encrypted: i=1; AFNElJ80/zKahfe+Ny3yyzoJwDAj1jDKQZ9XJdkHZ0Jx0fPC0dtAa9LUUPos8sqrzWUbEa8P/sGpf8hffg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmGIGTBD5y41nnwexRipttqeCfaTykqYzWh6ffQVqW0dWRshUh
-	ChQMeXWYPAAvVI5JrUm6IG2EO5KowQFvvBGr2S51KfE3byJ0u2jwBk3OUJ5rj1bVJaw=
-X-Gm-Gg: AeBDieszekqM+zSMeBzECWv6LzpyEX2BPw5zeCzlvWsmcHXvT3PfSBhXGCfOGSrpim5
-	ARGENSPpML95wGO8HZcXH6P0jVHKKrq7xO9SPD04dqOK59EAWOTSALVyHjn3uuBhquekpLzday0
-	HU/4EcBtPSqHebkdcgI7V1A0K8yL6xbvR0FI4q6EoGNnlSHd5g3H9Fq4GZZSNBLDe0WgaxhzSKE
-	eEpaMhFrbzLhr9KnSD8PT08qhFDxZ18psufCh+6XysW1lAGkwjYMGZj3gY3Ht5kHj4L/3OykqFy
-	00asdE01bjqmTZqCQN6Q0kIJMhHqHrqEd2Oy1/pFvbion8SP6fjh5V0aX8v9i1bQODGkh5PWMmd
-	Fj5GhLZcHZuQVhA+oD4667NUVNQr4PfszICxNZZ7MS6p+KwjsjrgDIoOXg4dJQeznO2xYJjZJK9
-	ntkBOksn9cY2yjtez5dIbSuQuoItxKiw==
-X-Received: by 2002:a05:6a00:3c86:b0:81f:40e5:34c2 with SMTP id d2e1a72fcca58-82f8c8bee9dmr18805718b3a.32.1776783472262;
-        Tue, 21 Apr 2026 07:57:52 -0700 (PDT)
-Received: from localhost ([97.126.187.42])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8e9819fesm14280551b3a.4.2026.04.21.07.57.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 07:57:51 -0700 (PDT)
-From: Kevin Hilman <khilman@baylibre.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Geert Uytterhoeven
- <geert@linux-m68k.org>, linux-pm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 1/3] dt-bindings: power: Add power-domains-child-ids
- property
-In-Reply-To: <20260421134949.GA1045294-robh@kernel.org>
-References: <20260420-topic-lpm-pmdomain-child-ids-v3-0-c2c40bef238c@baylibre.com>
- <20260420-topic-lpm-pmdomain-child-ids-v3-1-c2c40bef238c@baylibre.com>
- <20260421134949.GA1045294-robh@kernel.org>
-Date: Tue, 21 Apr 2026 07:57:51 -0700
-Message-ID: <7hh5p4qs28.fsf@baylibre.com>
+	s=arc-20240116; t=1776795117; c=relaxed/simple;
+	bh=B9nFgKTWR6k7yI984BsM+U9VG2P9hLAU/HsWEzxO+xw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wkmo0Lxiniyt9NvHPaGky2GOZjiGg3NJ3vbQ/lYzXx1jwL3DL6qKPTHxYU2y5gH4CPZx6mI2VHeYIaWJaZkNX5m34CGt7lci0g+KhfrBlypSeSOB0wAjdNNha2tWAANIYEkVGmkFqSJtGqj1Uc2VphYnWxngN2cyswLVFzligdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4D48C2BCB0;
+	Tue, 21 Apr 2026 18:11:52 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Sudeep Holla <sudeep.holla@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Ulf Hansson <ulfh@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/RFC 00/14] R-Car X5H Ironhide SCMI CPG/MDLC remapping
+Date: Tue, 21 Apr 2026 20:11:33 +0200
+Message-ID: <cover.1776793163.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Rob Herring <robh@kernel.org> writes:
+	Hi all,
 
-> On Mon, Apr 20, 2026 at 04:51:17PM -0700, Kevin Hilman (TI) wrote:
->> Add binding documentation for the new power-domains-child-ids property,
->> which works in conjunction with the existing power-domains property to
->> establish parent-child relationships between a multi-domain power domain
->> provider and external parent domains.
->> 
->> Each element in the uint32 array identifies the child domain
->> ID (index) within the provider that should be made a child domain of
->> the corresponding phandle entry in power-domains. The two arrays must
->> have the same number of elements.
->> 
->> Signed-off-by: Kevin Hilman (TI) <khilman@baylibre.com>
->
-> Missing my Reviewed-by.
+TL;DR:
 
-Oops, I thought I had grabbed it with b4, but I didn't.  Sorry.
+    Describe hardware in DT, and perform the mapping to SCMI in Linux.
 
-Kevin
+The Renesas R-Car X5H-based Ironhide board is the first Renesas
+SoC/board combination that implements the ARM System Control and
+Management Interface (SCMI).
+
+This means Linux can no longer perform various system operations (e.g.
+clock, power domain, and reset control) by accessing the hardware
+directly.  Instead, these operations are abstracted according to various
+SCMI sub-protocols, and Linux has to send messages to an SCMI-compliant
+firmware running on a System Control Processor (SCP).
+More specifically, the R-Car X5H SCP FW SCMI controls access to:
+  1. Core clocks and module clocks,
+  2. Module resets,
+  3. Power domains,
+  4. System power.
+The latter is not relevant for this discussion.
+
+Using SCMI also has an impact on the board DTS: besides the addition of
+a firmware/scmi node with protocol-specific subnodes, devices using
+SCMI-abstracted system resources now have to refer to these resources
+using resource specifiers containing phandles to the SCMI protocol
+subnodes, and firmware-specific object IDs[1].
+
+Unfortunately we encountered several issues with this:
+  - The clock, reset, and power domain IDs are not stable, and may
+    change from one SCP firmware release to another, causing DTB
+    incompatibilities,
+  - There may be different SCP firmware lineages, e.g. proprietary and
+    certified variants, and FLOSS variants,
+  - SCMI features and quirks may differ across firmware versions,
+  - Not all quirks can be handled as SCMI quirks,
+  - Some core clocks do not support the CLOCK_ATTRIBUTES command, and
+    thus are not accessible to Linux, while Linux may need them,
+    requiring dummy clocks,
+  - Some module clocks are not accessible to Linux, or report a zero
+    clock rate and have no parent, while several existing drivers need
+    to know their clock rates,
+  - SCMI does not support the concept of a clock domain, so existing
+    drivers can no longer rely on Runtime PM, but need to be changed to
+    explicit management of functional clocks,
+  - Some clocks and power domains are critical and must not be disabled,
+    or even touched,
+  - Some module resets are reserved, and operating them returns an
+    error,
+  - U-Boot IPL (Initial Program Loader) needs a proper hardware
+    description in DT, not using SCMI.
+
+During last OSSJ/LPC, Marek Vasut pondered if we could keep our own ID
+lists stable, and perform a mapping to the IDs used by the actual SCMI
+implementation running on the system.  This was also briefly discussed
+at LPC[2].  After some refining of the initial idea, this series takes a
+slightly different approach, by:
+  1. Describing the actual hardware components in DT, plus a minimum
+     SCMI glue,
+  2. Mapping DT hardware descriptions to SCMI-backed objects (or
+     replacements in case they are unusable), in Linux drivers, based on
+     the detected firmware version.
+
+This has the following advantages:
+  1. The DT ABI is stable,
+  2. Current and future firmware quirks can be handled in driver code,
+  3. If ever needed, the Clock Pulse Generator (CPG) and Module
+     Controller (MDLC) drivers can be extended to program the hardware
+     directly if SCMI is not present,
+  4. U-Boot IPL can use almost the same DTS; it just needs stripping of
+     SCMI-related nodes and properties.
+
+This series is based on renesas-drivers-2026-04-14-v7.0, which includes
+a.o. the scmi/for-linux-next branch.  It consists of multiple parts:
+  1. Patches 1-3 add various quirks to the SCMI driver code,
+  2. Patch 4 enables more SCMI protocols on R-Car X5H Ironhide,
+  3. Patches 5-8 add new interfaces needed by the remapping drivers,
+  4. Patches 9-10 add DT bindings for the R-Car X5H Clock Pulse Generator
+     (CPG) and Module Controller (MDLC) blocks,
+  5. Patches 11-12 add remapping drivers for the R-Car X5H Clock Pulse
+     Generator (CPG) and Module Controller (MDLC) blocks,
+  6. Patches 13-14 add DTS description for R-Car X5H Ironhide.
+
+Dependencies:
+  - Lifting "#define SCMI_MAX_NUM_RATES 16" (e.g. scmi/for-linux-next),
+  - "[PATCH v4 0/3] soc: renesas: add MFIS driver"[3],
+  - R-Car X5H MFIS and Ironhide SCMI DTS enablement (not yet posted).
+
+For testing, I have pushed this series and its dependencies to the
+topic/rcar-x5h-ironhide-scmi-cpg-mdlc-remapping-v1 branch of
+https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git.
+With this, Ironhide can boot into a serial console shell from a ramdisk,
+without needing any of "clk_ignore_unused" and "pd_ignore_unused".
+
+FTR, alternative locations to do remapping that we considered:
+  - Inside the SCMI clock, reset, and power-domain drivers,
+  - Inside the subsystem driver core (e.g. of_parse_clkspec()),
+  - Inside the OF driver core,
+  - Inside the DTB.
+
+Remapping inside DT is usually done through a nexus node (see Devicetree
+Specification, Section 2.5 Nexus Nodes and Specifier Mapping), using
+"<specifier>-map", "<specifier>-map-mask", and
+"<specifier>-map-pass-thru" properties.  Linux has support for e.g.
+remapping interrupts (open-coded in drivers/of/irq.c), and gpios or pwms
+(using the of_parse_phandle_with_args_map()) helper.  So far there is no
+support for remapping clocks or power domains, but at least for clocks
+patches have been posted[4].  Then the remapping can be done by adding
+e.g. "clocks-map{,-mask,-pass-thru}" properties with translation data
+to the CPG/MDLC DT node, using a DT overlay.  The DT overlay could be
+applied by the firmware or bootloader (e.g. in in fitImage script), or
+even by the CPG/MDLC Linux driver at runtime (based on detected SCP
+firmware version).  Consumer nodes do not need to be modified.
+Note that such translations can only support simple cases.  If e.g. a
+workaround is needed to map a single DT clock to multiple SCMI clocks,
+this cannot be done using a simple translation table.
+While a DT overlay is quite flexible and can also do other fixup, it is
+less user-friendly than doing the remapping in a Linux driver.
+
+Thanks for your comments!
+
+[1] Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+[2] "Firmware ABI stability" at Linux Plumbers Conference 2025
+    https://lpc.events/event/19/contributions/2153/
+[3] "[PATCH v4 0/3] soc: renesas: add MFIS driver"
+    https://lore.kernel.org/20260402112709.13002-1-wsa+renesas@sang-engineering.com/
+[4] "[PATCH] clk: Add support for clock nexus dt bindings"
+     https://lore.kernel.org/20260129201003.288605-1-miquel.raynal@bootlin.com/
+
+Geert Uytterhoeven (14):
+  firmware: arm_scmi: quirk: Handle bad power domains on R-Car X5H
+  firmware: arm_scmi: quirk: Handle bad clocks on R-Car X5H
+  firmware: arm_scmi: quirk: Handle critical clocks on R-Car X5H
+  arm64: dts: renesas: ironhide: Enable SCMI devpd, sys, and reset
+  firmware: arm_scmi: Add scmi_get_base_info()
+  of: property: fw_devlink: Add support for firmware
+  pmdomain: Make genpd_get_from_provider() public
+  reset: Add reset_controller_get_provider()
+  dt-bindings: clock: Document Renesas R-Car X5H Clock Pulse Generator
+  dt-bindings: power: Document Renesas R-Car X5H Module Controller
+  clk: renesas: Add R-Car X5H CPG SCMI remapping driver
+  pmdomain: renesas: Add R-Car X5H MDLC SCMI remapping driver
+  arm64: dts: renesas: r8a78000: Add CPG/MDLC nodes
+  arm64: dts: renesas: ironhide: Add CPG/MDLC firmware properties
+
+ .../bindings/clock/renesas,r8a78000-cpg.yaml  |   62 +
+ .../bindings/power/renesas,r8a78000-mdlc.yaml |   63 +
+ .../boot/dts/renesas/r8a78000-ironhide.dts    |  130 +++
+ arch/arm64/boot/dts/renesas/r8a78000.dtsi     |  300 ++++-
+ drivers/clk/renesas/Kconfig                   |    4 +
+ drivers/clk/renesas/Makefile                  |    1 +
+ drivers/clk/renesas/r8a78000-cpg.c            |  335 ++++++
+ drivers/firmware/arm_scmi/clock.c             |   37 +
+ drivers/firmware/arm_scmi/driver.c            |   31 +
+ drivers/firmware/arm_scmi/power.c             |   20 +
+ drivers/firmware/arm_scmi/quirks.c            |   12 +
+ drivers/firmware/arm_scmi/quirks.h            |    4 +
+ drivers/of/property.c                         |    2 +
+ drivers/pmdomain/core.c                       |    4 +-
+ drivers/pmdomain/renesas/Kconfig              |    4 +
+ drivers/pmdomain/renesas/Makefile             |    1 +
+ drivers/pmdomain/renesas/r8a78000-mdlc.c      | 1021 +++++++++++++++++
+ drivers/reset/core.c                          |   11 +
+ drivers/soc/renesas/Kconfig                   |    1 +
+ .../dt-bindings/clock/renesas,r8a78000-cpg.h  |   15 +
+ .../dt-bindings/power/renesas,r8a78000-mdlc.h |   16 +
+ include/linux/pm_domain.h                     |    7 +
+ include/linux/reset-controller.h              |    6 +
+ include/linux/scmi_protocol.h                 |    8 +
+ 24 files changed, 2068 insertions(+), 27 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml
+ create mode 100644 Documentation/devicetree/bindings/power/renesas,r8a78000-mdlc.yaml
+ create mode 100644 drivers/clk/renesas/r8a78000-cpg.c
+ create mode 100644 drivers/pmdomain/renesas/r8a78000-mdlc.c
+ create mode 100644 include/dt-bindings/clock/renesas,r8a78000-cpg.h
+ create mode 100644 include/dt-bindings/power/renesas,r8a78000-mdlc.h
+
+-- 
+2.43.0
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
