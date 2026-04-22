@@ -1,154 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D012DA759;
-	Wed, 22 Apr 2026 18:51:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5227C372B3C
+	for <arm-scmi@vger.kernel.org>; Wed, 22 Apr 2026 22:48:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776883869; cv=none; b=TlARYadJYD6mGepwT55cxf7CNyvtHgZIsuGnEPt1CxJDWo3DgqgYs6zHSr/D05HAiH77MvANjBZ6zGWej9NZgY70bT6wSbE4AzDCsHi3Khp2iNsN1aD7o6BeYgmm/ohUGE1SirMj8exHxF8WugUc6R5PjlCp3o0wZv6XNd3gBK8=
+	t=1776898121; cv=none; b=afcKZZWAOHNwiII7/KKwHd5W9jzqKxPhkIEe88n7ZzxMPlxSVf/i/rUD3TPoPrhyS5Ww3ii3hU44ZlOXnGj0FxpeCG3tiiUaxOW0Se5aHPTyFGdr2J3oYAu3/js+IS626TMlcvLZ10oHVsgo4T0zLhe8t57jY49Ohbnsns1hwqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776883869; c=relaxed/simple;
-	bh=QAnJAPXdDP9ZUgfbNMD+G/bRQFx5oM9LjIYK7IpcsGc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CBznxE2de2CybKVNTJMe+589S56UNa/+dvDTexudDeyjEnrqIeuRhJw4vBxLUUyuEpmRzsGS8u1DvVCMICvVMkM8gQHSsmZ+bQMVdN4l+sJMl31zVf3VEE2OWeHBrUjtCnEX7BkjawDlrVasN7X4quCtDFPf0OK3+gIjULifJho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bCAp4JPX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776898121; c=relaxed/simple;
+	bh=NRWSIj1awYbKDb7XDOAYoJaNnOVQ29rl0pbbuAh0CXA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Vhxn77BmXpTDnu6HbdM4GTMMnFPdC3mA0XMif2R/tLQ+9afQz5e26BwdOMxXc5yachAKp62bfGaqGS3TWsKVKafXgobgIeJz+4dNCSAXoPQQPtaSiPxaJvAykyf6G/Xeqe3pRk+tpSypQiyWqiyWwN955/CrAlJpqPPgKMQI0Tg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=xP0Kzkm4; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bCAp4JPX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 334ACC19425;
-	Wed, 22 Apr 2026 18:51:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776883869;
-	bh=QAnJAPXdDP9ZUgfbNMD+G/bRQFx5oM9LjIYK7IpcsGc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bCAp4JPX+e+nvkLxiw3/olEBTK1qHhsLYsH+n2yn2yUAKZQD2u/v3Z9BU4H4gDnNl
-	 +y9aEGTLvpbfYVWWLf/ArlanlmwwVD0Ik1jGbeTGev6Al8B5MOdItw01rn0X0iP2sO
-	 q+o4rxGAIA+mlVi1VFFn24gQaGvmpK2SAfjtQn6ReEE5VWHybOEVUVgsiHfeMAAUZR
-	 VBlH7XyyS59i82MBTaTy5nIzrbjlszTJNt8S4E/0SSGRxM9Q4h+OyuqZr7lVncaSZ2
-	 9svshMGjxS8h5aMHXTzWbpDk+PIjVom8nEJ4HSbOx6Ngt5BAl9+lIt7sNWrAoZUd9W
-	 1owGLZ18teIPg==
-Date: Wed, 22 Apr 2026 19:51:03 +0100
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: Peng Fan <peng.fan@oss.nxp.com>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH RFC 2/2] clk: scmi: Add support for two #clock-cells to
- pass rate rounding mode
-Message-ID: <20260422-satisfied-rough-mongrel-aabca1@sudeepholla>
-References: <20260306-scmi-clk-round-v1-0-61e2a5df9051@nxp.com>
- <20260306-scmi-clk-round-v1-2-61e2a5df9051@nxp.com>
- <20260422-huge-kiwi-of-tornado-4fce89@sudeepholla>
- <aejUd6L1AfbsflxR@shlinux89>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="xP0Kzkm4"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-82f1f6103afso2831725b3a.1
+        for <arm-scmi@vger.kernel.org>; Wed, 22 Apr 2026 15:48:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1776898118; x=1777502918; darn=vger.kernel.org;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4qI6kGELEoPNIDxXAqpiIcX3kz3Y96gemHsRdJV8MIo=;
+        b=xP0Kzkm4cdE8FArVwyURRIHBqxgKXjsZXcCImcT9GabegLK8BxG5yXw7MeEN+gWO7c
+         2iJgGQFINJgAKN4BIjv2ysJkJXWZlOQxbXwci6oucu29d124FfVSkzHu8hXbi/VexCWw
+         hjwhyIsDf6MUPD82KchjGOPlF86Z5AZ0DIdldkzm/ImvFY5UnGqprIWIN/8ggT8MHI7x
+         C7bkUNY/zv9Slh+EsjBw7mM+szwXkfl5dyNd+ipkpHdIFjyG3Dc2g+IoVn7132uP1t7O
+         wXQk5Z9aE5FO4TfJFxv4BHrYkyNiuRepGZURqK7AOiZEUE8x6Gx8H0zBwRCrirocoUvd
+         v4/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776898118; x=1777502918;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4qI6kGELEoPNIDxXAqpiIcX3kz3Y96gemHsRdJV8MIo=;
+        b=mfWHRDSOimwCBkxnOSinWFaMydwIhXfGcSu3tTqVurG4GIureCdCaJMr/llZmsV2UJ
+         iR5Z4+ljl5FY5pFVWHonOOrQoTAqfzvQuLpR0N5GyuedoLZyjq9e5oDtOHv8cOT6hI20
+         0tBEf/IWK8mO7UOLlXLb5kIY8bSyJUijDuunAQB5CM7kaHAQQNdgC1wJaITY65wDvdQn
+         17JKi6OzDA/9rCxTlOj9V6Oq7I/PX7EM9XhksqJmVRCJ+dMBUqKVpDDkST7FRYY1MROR
+         83jlziR2cOMJo6u17VGN96gVhcy+tJm+uiYXMU4kerc6WvX+ME8eYyLJwf0mRSTBBFXJ
+         1+AA==
+X-Gm-Message-State: AOJu0YxyCfkLv1p/bovvRejADig29ygdywLLgdIpyiJHvjNOQ55cghXB
+	kidNh74yl1S5xfLsSGX3Em2DIvNRftfhCPJY+ZdPRKUloBGIamn45S/Q9dgLGs6B1T4=
+X-Gm-Gg: AeBDievgkv3pTzriKeQ7fr9nNjofOfIArhrTdvziE8FWGePY4Pkc6pFcVRrYdkCArub
+	x7eCqADuKe1nESLYhQnsF+PVVDrPJHcZYQP/hXn1YHQ9Y1SN8TZm5a0w2jmoLb95HpOScoZIMgX
+	0lH2fZHewZhV6nVpPwC2lAZeN7AY5YnUTtrCuakMgSLw4p+EK/rYmfCNIXrn8+FRZXczNxH1qW2
+	ep6Hd1IJAnC4vn60eLH4nY1ejGS9+7WN9GXWLlJuY0bhp5cqIXMJ2g3Mr8kOj6VQlADm98j8zE8
+	WVkqdoz65Kc03SFDvnLIDpzdqIoyEvtAvbrogJMh6MnSX4twDnRZtRiB0tnv8qVuYo154f5hQzF
+	SKnvKKe9tE6MlfY+7iD9q/KyD54HRGdOZ1JK4MILHm4iChcqnhexbs8BUWOU2LsV12qKJyNZ0Yh
+	6ylrKPTCeOS/QWyAlt3MJ9QRl9MSUnmw==
+X-Received: by 2002:a05:6a00:c8a:b0:82f:98c:1465 with SMTP id d2e1a72fcca58-82f8c8fb258mr26682792b3a.27.1776898118539;
+        Wed, 22 Apr 2026 15:48:38 -0700 (PDT)
+Received: from localhost ([97.126.187.42])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ec04448sm21836313b3a.55.2026.04.22.15.48.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Apr 2026 15:48:37 -0700 (PDT)
+From: Kevin Hilman <khilman@baylibre.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Sudeep Holla
+ <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Saravana Kannan <saravanak@kernel.org>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Ulf Hansson <ulfh@kernel.org>, "Rafael J .
+ Wysocki" <rafael@kernel.org>, Florian Fainelli
+ <florian.fainelli@broadcom.com>, Wolfram Sang
+ <wsa+renesas@sang-engineering.com>, Marek Vasut
+ <marek.vasut+renesas@mailbox.org>, Kuninori Morimoto
+ <kuninori.morimoto.gx@renesas.com>
+Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH/RFC 00/14] R-Car X5H Ironhide SCMI CPG/MDLC remapping
+In-Reply-To: <cover.1776793163.git.geert+renesas@glider.be>
+References: <cover.1776793163.git.geert+renesas@glider.be>
+Date: Wed, 22 Apr 2026 15:48:37 -0700
+Message-ID: <7hcxzqr4qi.fsf@baylibre.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aejUd6L1AfbsflxR@shlinux89>
+Content-Type: text/plain
 
-On Wed, Apr 22, 2026 at 10:00:23PM +0800, Peng Fan wrote:
-> Hi Sudeep,
-> 
-> Thanks for giving a look.
-> 
-> On Wed, Apr 22, 2026 at 02:14:56PM +0100, Sudeep Holla wrote:
-> >On Fri, Mar 06, 2026 at 02:20:13PM +0800, Peng Fan (OSS) wrote:
-> >> From: Peng Fan <peng.fan@nxp.com>
-> >> 
-> >> SCMI CLOCK_RATE_SET allows the caller to specify the rounding behaviour
-> >> when setting a clock rate. The previously added dt-bindings header
-> >> defines three modes:
-> >> 
-> >>   ROUND_DOWN / ROUND_UP / ROUND_AUTO
-> >> 
-> >> To enable device tree clients to select a rounding mode, extend the
-> >> SCMI clock provider to support "#clock-cells = <2>", where the second
-> >> cell encodes the desired rounding mode. The default remains
-> >> ROUND_DOWN for backwards compatibility with existing device trees.
-> >> 
-> >
-> >Where is the binding update documented ? It's not in 1/2.
-> 
-> This was missed in this patchset, I will fix in new version, if this
-> patchset does not have big design flaw.
-> 
-> >
-> >Also if it can be static in the device tree, why can't it be
-> >autonomously handled in the platform firmware ? I think I know the
-> 
-> Linux passes ROUND_DOWN, SCMI firmware uses round down for clk calculation.
-> 
-> >answer for this but I want to make sure it is a valid use-case and
-> >gets documented here as part of binding updates.
-> 
-> Per info from our video software team.
-> We have some video modes where the best pixel clock rate is slightly above the
-> nominal rate, and the default round down rule (CLOCK_ROUND_RULE_CEILING in SM
-> firmware) can cause the resulting clock rate to be much lower than expected.
-> 
-> disp1pix = 96200000 Hz (desired pixel clock rate)
-> 
-> The MIPI DPHY cannot hit the exact frequency of 288600000 Hz needed for this
-> pixel clock rate, so the next best DPHY PLL frequency is 289000000 Hz. This
-> corresponds to a pixel clock frequency of 96333333 Hz, which is slightly higher
-> than the nominal rate of 96200000 Hz the video mode specifies.
-> 
-> Setting the VIDEOPLL (disp1pix parent) to 289000000 Hz should divide down to
-> the adjusted disp1pix frequency of 96333333 Hz, but here is what happens in the
-> SM firmware:
-> 
-> quotient = 289000000 / (96200000 + 1) = 3.004 => 3 (notice that the SM always
-> receives the nominal clock rate, not the adjusted rate)
-> 
-> If the rounding rule is round down (CLOCK_ROUND_RULE_CEILING),
-> quotient = quotient + 1. Therefore, quotient becomes 4.
-> 
-> disp1pix = 289000000 / 4 = 72250000, which is nowhere close to the target of
-> 96333333.
-> 
+Geert Uytterhoeven <geert+renesas@glider.be> writes:
 
-I do not think this is the correct interpretation of `CLOCK_ROUND_DOWN/UP`.
+> 	Hi all,
+>
+> TL;DR:
+>
+>     Describe hardware in DT, and perform the mapping to SCMI in Linux.
+>
+> The Renesas R-Car X5H-based Ironhide board is the first Renesas
+> SoC/board combination that implements the ARM System Control and
+> Management Interface (SCMI).
+>
+> This means Linux can no longer perform various system operations (e.g.
+> clock, power domain, and reset control) by accessing the hardware
+> directly.  Instead, these operations are abstracted according to various
+> SCMI sub-protocols, and Linux has to send messages to an SCMI-compliant
+> firmware running on a System Control Processor (SCP).
+> More specifically, the R-Car X5H SCP FW SCMI controls access to:
+>   1. Core clocks and module clocks,
+>   2. Module resets,
+>   3. Power domains,
 
-`CLOCK_ROUND_DOWN/UP` should apply to the requested `disp1pix` rate itself,
-not to the divider choice in a way that forces selection of the next integer
-divisor and produces a much lower output clock.
+I'm very curious how power domain hierarchy is described on this SoC,
+because one more issue to add to your list is that hierarchy cannot be
+described for power domains in SCMI.
 
-Here, the requested `disp1pix` is `96,200,000 Hz`, and the parent rate is
-`289,000,000 Hz`. The achievable child rates nearby are:
+I know you're aware of it already, but just FYI for anyone else
+exploring this space, I have a series[1] in-flight right now to address
+this limitation of SCMI so that we can at least describe this hierarchy
+in DT and the pmdomain framework.
 
-`289,000,000 / 3 = 96,333,333 Hz`
-`289,000,000 / 4 = 72,250,000 Hz`
+Kevin
 
-Given those options, the firmware should be able to round the request
-autonomously to the nearest supported `disp1pix` rate, which is `96,333,333
-Hz` (`289,000,000 / 3`).
+[1] https://lore.kernel.org/linux-pm/20260420-topic-lpm-pmdomain-child-ids-v3-0-c2c40bef238c@baylibre.com/
 
-Under that interpretation:
-
-`CLOCK_ROUND_UP` would permit choosing `96,333,333`
-`CLOCK_ROUND_AUTO` would also likely choose `96,333,333`
-Choosing `/4` and ending up at `72,250,000` does not look like a meaningful
-rounding of `96,200,000`
-
-So the issue appears to be that the firmware is applying the rounding rule to
-divider selection rather than to the resulting `disp1pix` frequency.
-
-> However, if we can use `ROUND_AUTO` the SM firmware would select a quotient of 3
-> in this case, and `disp1pix` would match our target: `289000000 / 3 = 96333333`.
-
-Given the explanation above, I would not support this approach. `ROUND_AUTO`
-should be sufficient for this case if the firmware is making a sensible
-selection.
-
--- 
-Regards,
-Sudeep
