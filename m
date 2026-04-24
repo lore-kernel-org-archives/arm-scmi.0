@@ -1,169 +1,139 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013066.outbound.protection.outlook.com [40.107.162.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868933EF0B7;
-	Thu, 23 Apr 2026 13:09:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776949787; cv=fail; b=rX205Nvr28qAhYsZov0PQ28BBqDyZ1V8ZCXsB/8ALCsyz88nUEtH3csrPyP64wpGf4XnJXfpt0wRLIQB3IrkJl/doARjdBHDb/5CPHk2BysgDZ424VmNnd5dkQWsBJonIISxcsaUpO1aCem/lfLVj60WZWibNrscgY2DtNf6A2s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776949787; c=relaxed/simple;
-	bh=1C+TugTbAGT4waMlxbZchwMeQPKKt+RgfSBXRR2HLVU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=YQYOjNNwI76bFhXw2F9WGfFhbkV2WDLHXD5ihvo8DpgtpTm5fbv7kWm2xOsf8obM0dPUOFZSmB5AVeYxVqMwJkwMfnVL2pa+tFBsvYBlbGuMUTTSypSZPwc/MYws5RrKDO0haBIv42a61guxarudd0CQ4nPslGYw1pbKVanLtBI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=G+Zt2opk; arc=fail smtp.client-ip=40.107.162.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="G+Zt2opk"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MT2V6StmZ9SKAdkdTLRXNh2J4YkN2ZR/L8iwMgeAIAue1HwMua/azs9uWj8t+qaUU8Q6AdkOXWHlcN+043lEUqyps4XW+EYQF+7Ja53a+14fJUv9VSHodiAAvHb/X70hfiwUab8CFmSHUaZusfR8xe5t+b2luS21dIWPOKcy3Oge7AUCbs/H4UL97C7/QIGlxPyRCe5iSNz2QjS83r072gzGc84PH81kXfFJLrGsU3CR6d1+e/uVCVIV3uVQSe1ZYypVfLG5avdF26fuqxzYcaQIKD55OVZrmiCvXn0HVfDbNCnrP/dLRtqHWhBNUhvxtppO0VXNv3c93JtrHfg84g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CHuuNz6ptgQ8XmEhDBsMJrqEkVn/WMuAEJkDEJl0uyw=;
- b=k44Xctt2f2Ckh9Ah/W2SUr94yWwZfVuVYpmwW0735IifU9YiMBVp0p2Guv2HprfXCjGDQZH+kyxeo/fLiqwiXH3YccEmB2917PlMjYrHIHjPjI+qiwsM6ZS+ItuSL4BmzWgVnpOAkXNCGIRcje792s5iYLuUaA6xGfv8q/HcPbLe13ElGHg8ByrByr8LWKFsapNBIwmc3UfXLN2SRw5qfnx2ptHyZ9/62kDso3L4hrgx+0gyv2lcesyyArgn+VCdBPrtOU/x+mdngf7W4Kx0uNvXSPFhya4WTKWFgadDZPkeEig4zCcjbwEOu37gKiznASy/K6IrpzWia916MtZ7iw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CHuuNz6ptgQ8XmEhDBsMJrqEkVn/WMuAEJkDEJl0uyw=;
- b=G+Zt2opkKRpi/rT9hRd/I554xayWluLVOFPJmIzoZ+nOTwekCpGZiKfywFfjcgenOCqDArwFlCPZg3qWF0q61wkLpY6KuBeNYZNyrlViv6xI4kTY4OmaSAdiyMt2HsKWfAACh2qFq4mNhMDkscQObrN4g4QlepPH0P43VHmPqSW+sW4Y75pEdhlhpUMafyIZrerMjBqUzZD6MjjKUtFIiHcTKB0DJcsP4dRjpbwLRiesjLWhv/E/hOT2nSaimo/joTGHmz7vl9GmAITS076QpYBmEliWJOuwOzkz/vdYVIpmwr5kIemalMceMp0q5JVCXVVSVf3Oju1DsQ5Y0IYB4Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
- by PAWPR04MB9935.eurprd04.prod.outlook.com (2603:10a6:102:387::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.18; Thu, 23 Apr
- 2026 13:09:43 +0000
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::4972:7eaa:b9f6:7b5e]) by PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::4972:7eaa:b9f6:7b5e%3]) with mapi id 15.20.9846.021; Thu, 23 Apr 2026
- 13:09:43 +0000
-Date: Thu, 23 Apr 2026 21:12:13 +0800
-From: Peng Fan <peng.fan@oss.nxp.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH RFC 2/2] clk: scmi: Add support for two #clock-cells to
- pass rate rounding mode
-Message-ID: <aeoarZHOTrinRELb@shlinux89>
-References: <20260306-scmi-clk-round-v1-0-61e2a5df9051@nxp.com>
- <20260306-scmi-clk-round-v1-2-61e2a5df9051@nxp.com>
- <20260422-huge-kiwi-of-tornado-4fce89@sudeepholla>
- <aejUd6L1AfbsflxR@shlinux89>
- <20260422-satisfied-rough-mongrel-aabca1@sudeepholla>
- <aelzO5W2HD8zAgxf@shlinux89>
- <20260423-pompous-hissing-tanuki-16c5f6@sudeepholla>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260423-pompous-hissing-tanuki-16c5f6@sudeepholla>
-X-ClientProxiedBy: SI2PR01CA0001.apcprd01.prod.exchangelabs.com
- (2603:1096:4:191::13) To PAXPR04MB8459.eurprd04.prod.outlook.com
- (2603:10a6:102:1da::15)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FEAB3AF674
+	for <arm-scmi@vger.kernel.org>; Fri, 24 Apr 2026 11:28:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777030106; cv=none; b=SqgSwtjBdlStcxRuEHKCuxkkbwIYfDzevu0MnYASPsuHwkfkbipVRd5n3fz4kq08cJrAmXD8ubRqUtyGB9fEapNYi0iamR9J6H3EYATmrZid31yoFeQ8bcFuh2uuAt0cjMZAHRjGtJvPJQ7MbE3brwRTqXzLM23+BIgMz2k15UQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777030106; c=relaxed/simple;
+	bh=NrNB0Z4JheJ9/gWbOMPohCnZWZtAqhLPKDbrHylRWo0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TFjVTEMTAee0jKu2E2vu2kUoVqM+frLuG3THz/M67+hqxQzAOTM7LMPcl11kgh34z6XBrwoaMZ/KhxXXymLW67RsJqGrc98Eq23A6y2eC3ORWAct+L714G9RGLujauVdCgz/JzuVMTfXRAAzBmjNjl9a/pzCf7h45hCS7iwtZgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-6057723d553so4128348137.2
+        for <arm-scmi@vger.kernel.org>; Fri, 24 Apr 2026 04:28:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777030103; x=1777634903;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eTjTO3Vp0zB9Wc0GJptJYSFqlnWOG96HJNT3Sm1YIxY=;
+        b=VSnVccjFzYJ7Et6fvpcmR4iar/8pOtYlil8vVl0BThu27f6OOibiQOj+GQpTrCsWbN
+         gnPxFCiweF4EB7FyMWq7g0QlTasZJHHv05BzLg/N2n88PA3qozb7BA+GerRRPLOD85+4
+         C/J7jAiLzH9XcNfboNCypFSwjpkDqF+ofz147QWlBnr5TZwMbd+/nqlJhQEGry3e6kia
+         B+9S/NmyEMZiyUu8LkZtY8VLmtR7uQRzwcrQEQ5c8ZuarC/xL5EuykS5F1SkaJXC9CSj
+         qOfTAiMuy+bz+7VVxHEfDlc741Cu7b2INlWwbgQkuOZQhCh8Jr5uuFxu2iOFmj7IuiJx
+         qzOg==
+X-Forwarded-Encrypted: i=1; AFNElJ8u2VYkCIyZleXwRjRJcK/Jiaz+KlUF/eZUmI3DSp+A67Yd1PAmcLCp4OB6uy1JLle4bo+u8RSBRw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhdnYmJoQhPS7WwWiM54KTPxkk3nEhA+cWfNcXZ/Skg0edq4t3
+	mDmlIzIZwzwNnaSxi86RDsWunvxVv4pb4csMm7sOw/zGaM6zXN0UnL+5CIKOb5E3hvY=
+X-Gm-Gg: AeBDiet80An3tQYvxe5Kv6B3wWYYav+svqQsUu32MbWs5xD+7F4x0wNgSy5Softmnav
+	zsHY2W22sn5Ce7WE0gIkdzk+kbY9+ZvSjeI7tUuRh7Onml7ppIhDC1zRBrzOIFgmoqW4/wW9ZJz
+	+T1JmjjHo+5qZFrldJZkMRy80q0MLzzw0ciZ8zFSQ3PWptZeQMCXEi8qms5MLdKN8+FZJoDnUYx
+	Av206oO4z8k6/3+Atn+ahXA7a6SjUS5mgweIgABOeeJjZmQ/bTHGByDDLf4eueByrmHvi2om8pm
+	V23SL6GDKzjiyd+ntQKfn9kg2C4llhj8o/5tKDbWX3b3P7k7NKn4h3cb40OGNEnZEcDt4WTZDLG
+	Oa7L0CKsuw0myw9xtnuF9oBsJvoVOjCHttY1wTBAw9A+Z1zdlGq3DY5ltZGK78E6j++QO0CJ7Nd
+	bu2eVXobdCe16oxUZK3p39XI0uLMk82z8Bie34rM2KHj4b8clXODBArRzqAjcTB09DCMgDzpU=
+X-Received: by 2002:a05:6102:8029:b0:60f:86de:c878 with SMTP id ada2fe7eead31-616f7c4b806mr17213768137.30.1777030103389;
+        Fri, 24 Apr 2026 04:28:23 -0700 (PDT)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-95890c0a526sm10735237241.11.2026.04.24.04.28.19
+        for <arm-scmi@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Apr 2026 04:28:20 -0700 (PDT)
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-6057723d553so4128307137.2
+        for <arm-scmi@vger.kernel.org>; Fri, 24 Apr 2026 04:28:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+LMJYi7X1hxSnV3d2RAcKgETCeL3ypejpUuBF7ulLfbwaT7zyM4mje7gFluNVHnEzVDOS8xjPN2w==@vger.kernel.org
+X-Received: by 2002:a05:6102:292a:b0:60a:cd0e:5cee with SMTP id
+ ada2fe7eead31-616f4f84fdamr16386481137.12.1777030099174; Fri, 24 Apr 2026
+ 04:28:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|PAWPR04MB9935:EE_
-X-MS-Office365-Filtering-Correlation-Id: 64d22997-d1eb-41cf-7b43-08dea139958f
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|52116014|7416014|1800799024|366016|19092799006|38350700014|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	yBPx7MxO96rBNtyFZ9TTpCGsH05oxfFjdPVWkb2CvZbKiIbqG10kyhYvePIgfPp//XV++GvT73ws1OwXJepFzIGoA7AAzKe412KpHts9AyCdEB1fiQUcO1PUr5r1o0ryFa4Yb9g71PS1mq3XwzP2Oil1izlJr821x5aILDw9xxt72lPrOvzbuqb3ZD2ycfhPwaV29xznJkKC3GvkfdPZTW9zW1rIz9kZIJC03TBp09W8uguwEI8nIVOobH8YPoi6ge0x9lcXSlcMxd3GCyd9uV66Xw1bGCZNh9ekKWdbODlM6MD7i3fVREVG9zvGZcLxCCL8Ya/MG+KhDlXiePUtZdIFwiSXiZJV3uPTtRPxag6Bdua520Vl/O5x9NBSWAzBLicwoTqewO0vmhwlefyjY/VVlB45ygMgIks8Inck+KiKq9gSNe2Kp9vCDNyZRdNuRS4QzVfkBHShc1rtbWaxxjosZXpuTf1uzDjAWq4vKClQUVF56ac/PBg00uhvXYwba27SXYZwGTS1L3L9w8CHXPpOhj8cEUVg5j+BLSrGIegSG0wh6WWBLDM8UVpF04zP9EYRgXx/OSdgYbQu1EWuUSL6Q9Xwh/g+ZPxzp4vwscOi32l6RDM3QdPTIi8q7TNG5BheQKGcOPtj9iw0U+z5gFZCnr8bmmtzKHNkyB5IZX8gAXrYrv82M54noGPZ1Xd1hFjSVH6wq3d+6ZUcJc5SncG95ZeD4IceidqAx8jiIPy+lwN6yhPAovX9ia94+9r8vCOvJhlkbMHdVGPhhiFu1GQYk6HGt0csbYqsQMtcpmI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(7416014)(1800799024)(366016)(19092799006)(38350700014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?rLVnOLVhk8Cjj+yhIlHlnr0S2okvHhJ393GOzx04YIukG/fu/hCPFKIQ30eP?=
- =?us-ascii?Q?J7y+4kdxxvYxwiiwAE8gbkxts47BEjKgmi1enOem7fVKVrjnN1M7oYeT74I9?=
- =?us-ascii?Q?2wada5mc75j+vcuZCD5fMrZv3tdgxX2kMQgCMp9Wnzf1ToocqDBftxF5EYRI?=
- =?us-ascii?Q?iK2WG31g6BGyRmQLedcu80s1/wwlb8uxKD9mDMWyKyW0Q/5DUetEm5gfbQEr?=
- =?us-ascii?Q?faoCcXjilI62WgqcXYrDGukpxOXT/ez/F8rVTIpKmlapzrGfujeye5CeFWkg?=
- =?us-ascii?Q?rD79qZTGbWX7dfmd+ZdUmBO9CT2Lz3rf8hB82UgY88/XBktsQfk3gscR1kia?=
- =?us-ascii?Q?DJAvrXGrjpPG574nMl7NUF9zVuAZfLQPulzvJbG616HGyz/ItrAO+MoI57Uk?=
- =?us-ascii?Q?e1IkUAqY7ca8CApW/mNZ3+OW6D53kYhNgb7Or6o7GjkkdJq0XMwNBsaheuUU?=
- =?us-ascii?Q?xVukn79kQorqLm3+bDHa5QanOBT3+6Sh9LOoYq04f00qRk26/ml4334EA4M8?=
- =?us-ascii?Q?gkDXOyel697Efx3nlJ3QFUgauQ8nWA7BE9FFRcXjJ+iGoAdqZbkQCEMIRqM7?=
- =?us-ascii?Q?58+60NWrPphx2/cDhqqZwuaTGBY74GXzehcKQSVLeCaZuz0CH1aeWPgfpLyq?=
- =?us-ascii?Q?usPQa+kWq3nxwMct5er1QtXDRMDVfrRn8fu0rYNl1hQMrit+BaW4Fttrf7+w?=
- =?us-ascii?Q?ofq0vRVNssGFdgIdJs02yBV6JP1kz9vTYVc/QpQtN8SLnVdjEEU7jRIlFbvE?=
- =?us-ascii?Q?gF3S8AkGNG2v24RFg5T5fr+FjiRiWpMehZMYfYHPkIhH6BVQfwosxEVR2fEk?=
- =?us-ascii?Q?GZvq/i1nUxX1Ka8tDe+5fVre07rr1FBFJeFrrIeD1P174APnXEKXki8dyB+K?=
- =?us-ascii?Q?+eySykNCExggfGsKD26ObMjpIqXaAzQLnVpgGfKj/S05zjlixi3Mw1Q4SIrq?=
- =?us-ascii?Q?HthVLg3MjXihmZZ6+5LePlLhej7oikv1Y2ysIyJm3kwpZjDhAXTpnzM8hEr0?=
- =?us-ascii?Q?Uqtz93hvuFepca7WTNsOwYuf8tG3HE5kcv0/jHSQ3arr6jRPX3vjf/sOXnpQ?=
- =?us-ascii?Q?tv3fp7TuBXbp0GDWldjaBLSxntSUlGehEETDpNxxfUZKT/dwdinmYq4U+Knm?=
- =?us-ascii?Q?jEvcxSka32TydbFp0RPo+yIQgtBF/VLz4DaNlcbErdFMsT7D00CPy1E7+aSc?=
- =?us-ascii?Q?zE289ciIZzMwOcP98nPUJq5pL37SLEJ7AX4TBA4L6Op1VfAIAw8176TY28/h?=
- =?us-ascii?Q?IY40EI4NHM7h9uRPDjVnsPbFzOJ2uvE6eLEqkmUoHPGmCKXepsUnD7xQ4JTI?=
- =?us-ascii?Q?huFdvniJPTUUW7+v+8k3Bgl52EKMRYDLyGuAN9pFGBW+U6HIaUa6RtuQ4lXn?=
- =?us-ascii?Q?pT38F8Sibg06PeEm8s+l06U19zWbYc95cCwAt+x8fIz4KZ/dft02fEBIa1AM?=
- =?us-ascii?Q?y36cxntXQWaWQq61hye/r+yyIumLRt+f7s9jW6FXWQBufI9pCNsKwNFNVRCb?=
- =?us-ascii?Q?6w85eBsgYqeB1tyQpvw2b44NWnEq9i3OQKkAba9t5vCW/oURpKZJk04X0D+8?=
- =?us-ascii?Q?pQ1o1pJIJIwOdO/3nzxO7ByX8BMy0tyBRAG30ocVpStSy7DlMjDEkHdOU1oH?=
- =?us-ascii?Q?1Dmhn72YcrTRjF4gaC5UJ+XjO4LRKVEjmKRAZcn0sfewC6AwHu3eZfuiuf6p?=
- =?us-ascii?Q?nUdGDQbfJarZV07gMb4inAANNO3Ul65Bq6/Dx/noUqmHb65hkN8Y/Or64wbw?=
- =?us-ascii?Q?0JKFGs3WpQ=3D=3D?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64d22997-d1eb-41cf-7b43-08dea139958f
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2026 13:09:43.1091
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rOWRM59NDEYLVJ2o5vVY/phiy6E8m7XcJqg1EvJxhrQYV1hK7PGONbZ0D7VyNxnhcOYTeStQ5Tau7H0KazFR4Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR04MB9935
+References: <cover.1776793163.git.geert+renesas@glider.be> <7hcxzqr4qi.fsf@baylibre.com>
+In-Reply-To: <7hcxzqr4qi.fsf@baylibre.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 24 Apr 2026 13:28:06 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU=3AN8wHbnO2Cx4WsLuYWhv_fRfTA50fmrqyREO3nrbQ@mail.gmail.com>
+X-Gm-Features: AQROBzBE70P7irgYnQUYx63AIUadZqGfMGlPrac0wi4EECHihh00jV8ht_DYoMI
+Message-ID: <CAMuHMdU=3AN8wHbnO2Cx4WsLuYWhv_fRfTA50fmrqyREO3nrbQ@mail.gmail.com>
+Subject: Re: [PATCH/RFC 00/14] R-Car X5H Ironhide SCMI CPG/MDLC remapping
+To: Kevin Hilman <khilman@baylibre.com>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Ulf Hansson <ulfh@kernel.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, arm-scmi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Apr 23, 2026 at 09:25:42AM +0100, Sudeep Holla wrote:
->On Thu, Apr 23, 2026 at 09:17:47AM +0800, Peng Fan wrote:
-[...]
->> 
->> My question is: if the firmware were to select divider 3 and produce
->> 96,333,333 Hz (only ~0.13% higher than the request), would that be
->> considered a violation of ROUND_DOWN semantics, or is ROUND_DOWN intended
->> to select the closest achievable output frequency rather than enforcing
->> a strict inequality against the requested rate?
->> 
+Hi Kevin,
+
+On Thu, 23 Apr 2026 at 00:48, Kevin Hilman <khilman@baylibre.com> wrote:
+> Geert Uytterhoeven <geert+renesas@glider.be> writes:
+> > TL;DR:
+> >
+> >     Describe hardware in DT, and perform the mapping to SCMI in Linux.
+> >
+> > The Renesas R-Car X5H-based Ironhide board is the first Renesas
+> > SoC/board combination that implements the ARM System Control and
+> > Management Interface (SCMI).
+> >
+> > This means Linux can no longer perform various system operations (e.g.
+> > clock, power domain, and reset control) by accessing the hardware
+> > directly.  Instead, these operations are abstracted according to various
+> > SCMI sub-protocols, and Linux has to send messages to an SCMI-compliant
+> > firmware running on a System Control Processor (SCP).
+> > More specifically, the R-Car X5H SCP FW SCMI controls access to:
+> >   1. Core clocks and module clocks,
+> >   2. Module resets,
+> >   3. Power domains,
 >
->We can change the driver to default to ROUND_AUTO if that helps. I fully
->understand the default ROUND_DOWN is not good but if firmware can't handle
->your use case with ROUND_AUTO, it is firmware issue.
+> I'm very curious how power domain hierarchy is described on this SoC,
+> because one more issue to add to your list is that hierarchy cannot be
+> described for power domains in SCMI.
 
-Thanks for the suggestion.
+So far I had no need for such a description. AFAIK, this is handled
+inside the SCMI firmware, which does know the hierarchy.  Hence the
+firmware can power up a domain when any of its children is powered up,
+and power it down when the last of its children is powered down?
 
-Switching the default to ROUND_AUTO could indeed resolve the video clock
-configuration issue we are seeing.
+I think the clue lies in having a PSCI top-level domain, cfr. what
+you wrote in [1]:
 
-I understand the concern that if firmware cannot handle a given use-case
-correctly with ROUND_AUTO, then it is fundamentally a firmware issue rather
-than something to be worked around in the OS.
+   "But... how do I describe the relationship of this hierarchy? In
+    particular, when the SCMI-controlled PDs are actually subdomains of a
+    top-level, non-SCMI PD."
 
-I will check internally with our firmware team to confirm whether using
-ROUND_AUTO as the default is safe and applicable for all clocks supported
-on our platforms.
+Or am I missing something?
 
-Thanks,
-Peng
+So far I have used only a few devices on R-Car X5H, and e.g. the
+serial ports are in the always-on domain.  I did experiment with
+a dummy UFS driver, as UFS is inside a real power domain, and that
+seemed to work fine.
 
->
->-- 
->Regards,
->Sudeep
+[1] https://lore.kernel.org/arm-scmi/7hecy3h7ky.fsf@baylibre.com/
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
