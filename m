@@ -1,54 +1,52 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB6F83EF0A8;
-	Tue, 28 Apr 2026 09:10:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B0D27404E;
+	Tue, 28 Apr 2026 20:16:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777367410; cv=none; b=FfxRyGbedZOxgYGjsjS9bxncr5hlGotVfSmPiPbX3F7iG4ztkK9tS6xPV6s/i07wY9413zw4Xd45XRtmogp/Jw5EWWoEsXTXOqxsOxLoBdXnxchTtCVvV8BAaPg2WsdBxF/jHFmIekPPBTAD1+DM5EY9mgmI2oEOUbofYZh3el0=
+	t=1777407393; cv=none; b=OIzyt25hfE0iJkcGNFX35IlRofBJZUqqeTiyfHEQEWrvA1kn3PjgM6LBzgL5J/AuwX5XJXtIdOubQsVY9KBw4qIlwaQlav2aff5HHX9hDWG8AkUHZpXSXeSLChIHt6N170KpR1zjF8eyx9AdgOYkqHXk7Nt4pz6QSMw5deVHZ58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777367410; c=relaxed/simple;
-	bh=JUOAYUoA6ZULBMyS9cgEcmGlJ6DkFAap892e25+ywaQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lMx/eHXYTgOCH8lk8vpXS6yonf8I2MWCmgOygWgA1PrpezdwTRYIbRIFBOdafJ0pTfNCFzVPyQbkDTQzBxg+ifi1rKULzOjbzzfOOldkwtpdT97oHOmrhgyHwMIZFn3bVaZKD1jS1mZNhEnS9+TdNJMgAlM4hf6kS6x9aWQY7SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ZVJraegf; arc=none smtp.client-ip=217.140.110.172
+	s=arc-20240116; t=1777407393; c=relaxed/simple;
+	bh=uTKbKl30bgDu2zqJF05DsLcaVd61v3Wew2eLkLzCPkM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZxdshuFK65nF72Zt6XRzh/Q1KIxPMiCEOv6B2R/EANcpZNrqa1IgE4/S+3XOBvBR29IPctetaWa9hP2FWfUqfOm0IF7IGwaAqnFs5TZ5B3XmjnankQv/sEXpWkITXzF0dB5DFBMRZXVK3MYNXDBT8wIQyhQgnJfUh3bBn43VMPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=iSU33CVN; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ZVJraegf"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="iSU33CVN"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0E8CE15A1;
-	Tue, 28 Apr 2026 02:10:03 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (donnerap.manchester.arm.com [10.33.8.81])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3B2433F62B;
-	Tue, 28 Apr 2026 02:10:06 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9AC3C1C01;
+	Tue, 28 Apr 2026 13:16:24 -0700 (PDT)
+Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1FE423F763;
+	Tue, 28 Apr 2026 13:16:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1777367408; bh=JUOAYUoA6ZULBMyS9cgEcmGlJ6DkFAap892e25+ywaQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZVJraegfG9O8iooQVT2WNbzCPlvjOV49BNZvoeGwVD6sMzmVT+jAf/F2g3o2YwUqG
-	 wloV5dRDS/I+bud801RIyS4/RTiRjHsV7aCccgWKMfNYVOD37FTMg2H08QieNBVgqB
-	 RR283x7tkLOAU8yAgvQc2dNp353q29NPkpqORTMU=
-From: Philip Radford <philip.radford@arm.com>
+	t=1777407390; bh=uTKbKl30bgDu2zqJF05DsLcaVd61v3Wew2eLkLzCPkM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=iSU33CVNona6WtvoAAbVTfZRptHIEUnlrnZLUWFWlEAhFAv+IUHcGFtDgAVmVk/r/
+	 Q4BF+GrxQNKJvhIt1yAuTLDlTtN3GRStQvMh8DZDuT9HEERKNoMrwViePFiAg9yl/H
+	 gIpWEVqwg7OevKs4WycGRMESLApqu6E/uatmFj30=
+From: Cristian Marussi <cristian.marussi@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	arm-scmi@vger.kernel.org,
-	linux-pm@vger.kernel.org
+	linux-clk@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
 Cc: sudeep.holla@arm.com,
+	philip.radford@arm.com,
 	james.quinlan@broadcom.com,
 	f.fainelli@gmail.com,
 	vincent.guittot@linaro.org,
-	etienne.carriere@st.com,
+	etienne.carriere@foss.st.com,
 	peng.fan@oss.nxp.com,
 	michal.simek@amd.com,
-	quic_sibis@quicinc.com,
-	dan.carpenter@linaro.org,
-	d-gole@ti.com,
-	souvik.chakravarty@arm.com,
-	Philip Radford <philip.radford@arm.com>
-Subject: [PATCH v5 12/12] powercap: arm_scmi: Synthetic zone enable/disable
-Date: Tue, 28 Apr 2026 10:09:21 +0100
-Message-ID: <20260428090922.346069-13-philip.radford@arm.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260428090922.346069-1-philip.radford@arm.com>
-References: <20260428090922.346069-1-philip.radford@arm.com>
+	geert+renesas@glider.be,
+	kuninori.morimoto.gx@renesas.com,
+	marek.vasut+renesas@gmail.com,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [PATCH v3 00/15] SCMI Clock rates discovery rework
+Date: Tue, 28 Apr 2026 21:15:07 +0100
+Message-ID: <20260428201522.903875-1-cristian.marussi@arm.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -57,114 +55,107 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add functionality to disable and enable the synthetic zone which
-also affects the immediate children of the synthetic zone by applying
-the same command to them.
+Hi,
 
-Signed-off-by: Philip Radford <philip.radford@arm.com>
+it was a known limitation, in the SCMI Clock protocol support, the lack of
+dynamic allocation around per-clock rates discovery: fixed size statically
+per-clock rates arrays did not scale and was increasingly a waste of memory
+(see [1]).
+
+This series aim at solving this in successive steps:
+
+ - simplify and reduce to the minimum possible the rates data info exposed
+   to the SCMI driver by scmi_clock_info
+ - move away from static fixed allocation of per-clock rates arrays in
+   favour of a completely dynamic runtime allocation: just allocate what
+   is needed based on the effectively discovered
+
+This is done in patches 2-6.
+
+A further bigger optimization suggested in a past series [2] by Etienne
+would be, whenever allowed by the spec, to limit upfront the number of
+queries in order to simply retrieve min and max rate, that are indeed the
+only rates needed by the CLK SCMI driver.
+
+The approach proposed in [1] was open coding and duplicating some of the
+functionalities already provided by SCMI iterators, though.
+
+Patch 7-14 implement such optimization instead by:
+
+ - reworking core SCMI iterators to support bound enumerations
+ - use such new bound iterators to perform the minimum number of queries
+   in order to only retrieve min an max rate
+
+As a final result now the rates enumeration triggered by the CLK SCMI
+driver, while still allocating for all the existent rates, miminize the
+number of SCMI CLK_DESCRIBE_RATE messages needed to obtain min and max.
+
+Finally, patch 15 introduces a new clock protocol operation to be able to
+trigger anytime on demand a full enumeration and obtain the full list of
+rates when needed, not only min/max: this latter method is really only used
+currently by some dowstream SCMI Test driver of mine.
+
+Most notably in this V3 I had:
+
+ - picked up Geert fixes on V2: these could have been squashed in the
+   original series while maintaining proper Geert's authorship but as of
+   now I have simply picked them up and changed their order to be near the
+   commit they fix
+
+ - dropped the "Harden Clock protocol initialization" patch that caused a
+   number of out-of-spec vendor FW to break
+
+Based on v7.1-rc1. 
+Tested on ARM/JUNO, RADXA/ROCK5B and an emulated environment.
+
+Any feeback welcome.
+
+Thanks,
+Cristian
+
+[1]: https://lore.kernel.org/arm-scmi/aZsX-oplR6fiLBBN@pluto/T/#t
+[2]: https://lore.kernel.org/20241203173908.3148794-2-etienne.carriere@foss.st.com
 ---
- drivers/powercap/arm_scmi_powercap.c | 81 ++++++++++++++++++++++++++++
- 1 file changed, 81 insertions(+)
+v2 --> v3
+ - Rebased on v7.1-rc1
+ - Picked up Geert fixes
+ - Dropped patch breaking out-of-spec FW (Harden Clock Protocol init)
+ - Collected Reviewed tags
 
-diff --git a/drivers/powercap/arm_scmi_powercap.c b/drivers/powercap/arm_scmi_powercap.c
-index 81b5214acda4..1ed2949b06cb 100644
---- a/drivers/powercap/arm_scmi_powercap.c
-+++ b/drivers/powercap/arm_scmi_powercap.c
-@@ -270,6 +270,85 @@ static int instance_root_release(struct powercap_zone *pz)
- 	return 0;
- }
- 
-+static int instance_root_set_enable_state(struct powercap_zone *pz, bool enable)
-+{
-+	struct scmi_powercap_zone *root;
-+	struct scmi_powercap_root *pr;
-+	struct scmi_powercap_zone *child;
-+	int ret, first_err = 0;
-+
-+	if (!pz)
-+		return -EINVAL;
-+
-+	root = to_scmi_powercap_zone(pz);
-+	pr = container_of(root, struct scmi_powercap_root, instance_root);
-+
-+	list_for_each_entry(child, &pr->registered_zones[0], node) {
-+		if (child == &pr->instance_root)
-+			continue;
-+
-+		if (child->info->parent_id != SCMI_POWERCAP_ROOT_ZONE_ID)
-+			continue;
-+
-+		if (!child->info->cpli[0].cap_config)
-+			continue;
-+
-+		ret = powercap_ops->cap_enable_set(child->ph, child->info->id, enable);
-+
-+		if (ret && !first_err) {
-+			first_err = ret;
-+			dev_err(child->dev, "failed to %s zone %s: %d\n",
-+				enable ? "enable" : "disable",
-+				child->info->name, ret);
-+		}
-+	}
-+
-+	return first_err;
-+}
-+
-+static int instance_root_set_enable(struct powercap_zone *pz, bool mode)
-+{
-+	return instance_root_set_enable_state(pz, mode);
-+}
-+
-+static int instance_root_get_enable(struct powercap_zone *pz, bool *mode)
-+{
-+	struct scmi_powercap_zone *root;
-+	struct scmi_powercap_root *pr;
-+	struct scmi_powercap_zone *child;
-+	bool enabled;
-+	int ret;
-+
-+	if (!pz || !mode)
-+		return -EINVAL;
-+
-+	root = to_scmi_powercap_zone(pz);
-+	pr = container_of(root, struct scmi_powercap_root, instance_root);
-+
-+	*mode = true;
-+
-+	list_for_each_entry(child, &pr->registered_zones[0], node) {
-+		if (child == &pr->instance_root)
-+			continue;
-+		if (child->info->parent_id != SCMI_POWERCAP_ROOT_ZONE_ID)
-+			continue;
-+		if (!child->info->cpli[0].cap_config)
-+			continue;
-+
-+		ret = powercap_ops->cap_enable_get(child->ph, child->info->id, &enabled);
-+
-+		if (ret)
-+			return ret;
-+
-+		if (!enabled) {
-+			*mode = false;
-+			return 0;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static int instance_root_get_power_uw(struct powercap_zone *pz, u64 *power_uw)
- {
- 	struct scmi_powercap_zone *root = to_scmi_powercap_zone(pz);
-@@ -315,6 +394,8 @@ static const struct powercap_zone_ops instance_root_ops = {
- 	.get_max_power_range_uw = scmi_powercap_get_max_power_range_uw,
- 	.get_power_uw = instance_root_get_power_uw,
- 	.release = instance_root_release,
-+	.set_enable = instance_root_set_enable,
-+	.get_enable = instance_root_get_enable,
- };
- 
- static const struct powercap_zone_constraint_ops instance_root_const_ops = {
+v1 --> v2
+ - Rebased on v7.0-rc3
+ - Added a Fixes patch to rectify bug in rounding algo
+ - Removed useless parenthesis in macros
+ - Collected a few Reviewed-by tags
+ - Clarified commit message
+
+
+Cristian Marussi (12):
+  clk: scmi: Fix clock rate rounding
+  firmware: arm_scmi: Add clock determine_rate operation
+  clk: scmi: Use new determine_rate clock operation
+  firmware: arm_scmi: Simplify clock rates exposed interface
+  clk: scmi: Use new simplified per-clock rate properties
+  firmware: arm_scmi: Drop unused clock rate interfaces
+  firmware: arm_scmi: Make clock rates allocation dynamic
+  firmware: arm_scmi: Harden clock parents discovery
+  firmware: arm_scmi: Refactor iterators internal allocation
+  firmware: arm_scmi: Add bound iterators support
+  firmware: arm_scmi: Use bound iterators to minimize discovered rates
+  firmware: arm_scmi: Introduce all_rates_get clock operation
+
+Geert Uytterhoeven (3):
+  firmware: arm_scmi: Fix bound iterators returning too many items
+  firmware: arm_scmi: Use proper iter_response_bound_cleanup() name
+  firmware: arm_scmi: Fix OOB in scmi_clock_describe_rates_get_lazy()
+
+ drivers/clk/clk-scmi.c                |  48 +---
+ drivers/firmware/arm_scmi/clock.c     | 301 ++++++++++++++++++++------
+ drivers/firmware/arm_scmi/driver.c    |  80 +++++--
+ drivers/firmware/arm_scmi/protocols.h |  13 +-
+ include/linux/scmi_protocol.h         |  29 ++-
+ 5 files changed, 324 insertions(+), 147 deletions(-)
+
 -- 
-2.47.3
+2.53.0
 
