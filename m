@@ -1,148 +1,159 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BEE282F3F
-	for <arm-scmi@vger.kernel.org>; Tue, 28 Apr 2026 00:52:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19DBB3DE420;
+	Tue, 28 Apr 2026 09:09:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777337575; cv=none; b=q9Whh8QZs81GaT7r61VPQhUb6HZBt187Pspr3lEWhTMaBm4Lq1829oOSIYUe7MEsAq8aNSYVjFuIhA3hiIWFd2lqMTO2ma+QuHWKHek5UI6/86SeIxUQGuoiIRWrYZpRY9OKwlO0lEOVXvtmum6n+L3vRYusGh1+TO4qDeshdEw=
+	t=1777367381; cv=none; b=bXR1Zkbvm5qqkfXVY7rTOgZMAUD1ukfZFEOfZl1tlt6b2tzv7LVoZp1fFAAp67YW6/x6/Yq6plxT05ZCOq0O3cidrh8Yf8ckztrtUSdywsuchT4gFO8gxkLWpgm3YX1WGr76RK3uFX7RZt5Qr5E3dYwfuF+CoU0xpFqRagCDWV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777337575; c=relaxed/simple;
-	bh=8Uem3oqRD7Kri2DSyAgANGL+qzMirF3VGc9HlXIQYOs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=LALFqhnwe/zcTFGynD2V5yU//e87bOrKqe/Qw5culGWvxGyuHEg1qHA1M2XUvBXifhG8pyN2R7GoFWZLj52m4tJxECPQa0gzuiNgylHe/Ri3a64oneuXpS3W5HFAMO/NiY5mOtZfUit/qdlByAMkUoW1vgWxVjkItrTogpvD3FA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=UmLvCjgn; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1777367381; c=relaxed/simple;
+	bh=Args02vC7ufHcOsK1lIdG/wj0Yi0DEK78CIUPWUKCkU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iogDzOGgaayszDEhYoEGL413CW7oGmw2oB/ZXR47udajSDtvaSWXUTEpfhjr3AiKTeyQTud1L5jZlEGEzc9q5RObLlAVrLUNLQc2ZhbA67rGcxDF2ApcQ064w22F61aQcTd5p6dTtWqOK0WTZ3BJS7a0XLHCvbIRgphrOP5oYds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=tHdznVRF; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="UmLvCjgn"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-82f69a286dbso8153943b3a.2
-        for <arm-scmi@vger.kernel.org>; Mon, 27 Apr 2026 17:52:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1777337573; x=1777942373; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=t3FnaIBp0espZORVL/rfnjBPdcVtbw4VckmuHvIfsjM=;
-        b=UmLvCjgncUFnkOkej4+wGBHe0fTbbx54IoP/u0gXvql2aNFmqqno+yqwl+Ccx54FTN
-         gkS26kFBc2qdrgwLMIhHZo9xqUwAylAU2efyVow9NXrRClAnEBtKOtj/Mp0qDcDB/4pb
-         j2zd9BfXxrR086oPDlyxqLHwu+R15O3ovW4uYngGN7f5NWjRPVzDTRD+39B9JVFrd16p
-         DobTC1E1tD9X+FTQaV5U2PD9+FJcFOxI/fIqxRCnGTh9g/geoS2QDELG7DPvgPquAd8u
-         YrsmS/8TVtKpJgNA9HeCptCErNwn5dpt/rcBqDGk/iUM1o8rRq4SZxubM1IjxyIxGeAj
-         +hGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777337573; x=1777942373;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=t3FnaIBp0espZORVL/rfnjBPdcVtbw4VckmuHvIfsjM=;
-        b=jnrNv7oCvVLF3J2nBqdfif0+Q9rneLHsOwArVE4RMAZ624lTnuzA688SkJ7fJze+SD
-         o2Dt+STb38UC9diGIEh4GGKchszrXwvtKwwY/PgFvlRSzhS30s8qHUI2u9A/hj86+CuV
-         znz9s9DgVxrHyu+jY2Nng/ZijsnIVGuN+qzn1Rng8wWM2/PQRexPbkOs7mi+apqKMfMe
-         Z5kik+MO2garA3h40h+BtVTGTaqKHxktQlhH2smtzuu2YXai2k4AumjFiF6pzmihiZVk
-         7pBWlGg6+CQFSymGpDYeIGezULX+J3oi10dHDov+CT1HbHu59tfKtrwWRtzYb8JtNARk
-         bhDg==
-X-Forwarded-Encrypted: i=1; AFNElJ9oXTfvtuw2d0+ykI9odZdubWHPSxAWwdhtdjU06+DA1YK8nmFb+IR0+M4hnL56bg5X5wvmLFKzsQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyb/kgNPiZBLq8MKEXk0PvJRc0Rn3sav1cgLKzjNyTWwZPGynqK
-	udH3dK66C5J1yJMdXLvc+pUgbembaBqliCeP6W15zaYqixvIELCpicH2FumwDfy7edM=
-X-Gm-Gg: AeBDieuFf2odDgv4N5PROD/wQ98HtJrtpqSkZjtKFuzR7Sy2keSs6ZzKURUVxcsWRuw
-	wu5u9ywbDGJ5GfvIrgpF5fBRogOBJFXSm2wMkmqPCRQUpgzmCvsCyCkfXJDR0GEEQVqhO2SU0Wo
-	TaUtsUX0qGIcyNI3UT3WoBxgfJmI/rsNtkwlFwSBHGvhcY4f7ciizUnG4SVHzISGjnMSO3uhRDp
-	NS0vdS8xky9rfK5aC0SUX4viZGHh8Oj/TP/5XyNBIRG+TibM2350HEzxpbPFNiITOnV0qguHZjh
-	EOQjBqdSIVrJGm04cMyrU90oHH2HlRSEiPMUu23y8WDNQBiBNYrWeaUS1QYgX2IK1h9y3ML5YGf
-	qV7c3F+lddspicXelQ6OpKsy5ZZuGh1R4yVapi7n8Tg6tEY/wJK+y13bCIKeALMk8xbJn/TD7t3
-	TkB7KifGvt+L9L+Q79kZAcQgcadYrg2Q==
-X-Received: by 2002:a05:6a21:339a:b0:3a2:ecb8:56f0 with SMTP id adf61e73a8af0-3a39c214537mr1036677637.33.1777337572752;
-        Mon, 27 Apr 2026 17:52:52 -0700 (PDT)
-Received: from localhost ([97.126.187.42])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-834dae1ff95sm798672b3a.17.2026.04.27.17.52.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 17:52:52 -0700 (PDT)
-From: Kevin Hilman <khilman@baylibre.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>, Cristian Marussi
- <cristian.marussi@arm.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Magnus
- Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Ulf Hansson
- <ulfh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, Florian
- Fainelli <florian.fainelli@broadcom.com>, Wolfram Sang
- <wsa+renesas@sang-engineering.com>, Marek Vasut
- <marek.vasut+renesas@mailbox.org>, Kuninori Morimoto
- <kuninori.morimoto.gx@renesas.com>, arm-scmi@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH/RFC 00/14] R-Car X5H Ironhide SCMI CPG/MDLC remapping
-In-Reply-To: <CAMuHMdU=3AN8wHbnO2Cx4WsLuYWhv_fRfTA50fmrqyREO3nrbQ@mail.gmail.com>
-References: <cover.1776793163.git.geert+renesas@glider.be>
- <7hcxzqr4qi.fsf@baylibre.com>
- <CAMuHMdU=3AN8wHbnO2Cx4WsLuYWhv_fRfTA50fmrqyREO3nrbQ@mail.gmail.com>
-Date: Mon, 27 Apr 2026 17:52:51 -0700
-Message-ID: <7hcxzjewik.fsf@baylibre.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="tHdznVRF"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 76D5115A1;
+	Tue, 28 Apr 2026 02:09:30 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (donnerap.manchester.arm.com [10.33.8.81])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A1D083F62B;
+	Tue, 28 Apr 2026 02:09:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1777367375; bh=Args02vC7ufHcOsK1lIdG/wj0Yi0DEK78CIUPWUKCkU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=tHdznVRFGyC0NgbhxeV1+dU2xMFpstF681U36jZoy+mFn5c4yxGt2TCWYaoOgXATF
+	 7FCgk+VMfTSWr/DTCNIFWXPdjsIwnVt74PHsC/J5boTetVFAG/tEZKiCtUID1RKMEZ
+	 1t41k3hryF4nlu3sUFmWhcNK4asIT35a0yFODhCo=
+From: Philip Radford <philip.radford@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Cc: sudeep.holla@arm.com,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	etienne.carriere@st.com,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	quic_sibis@quicinc.com,
+	dan.carpenter@linaro.org,
+	d-gole@ti.com,
+	souvik.chakravarty@arm.com,
+	Philip Radford <philip.radford@arm.com>
+Subject: [PATCH v5 00/12] Add support for SCMIv4.0 Powercap Extensions
+Date: Tue, 28 Apr 2026 10:09:09 +0100
+Message-ID: <20260428090922.346069-1-philip.radford@arm.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Geert Uytterhoeven <geert@linux-m68k.org> writes:
+Hi all,
 
-> Hi Kevin,
->
-> On Thu, 23 Apr 2026 at 00:48, Kevin Hilman <khilman@baylibre.com> wrote:
->> Geert Uytterhoeven <geert+renesas@glider.be> writes:
->> > TL;DR:
->> >
->> >     Describe hardware in DT, and perform the mapping to SCMI in Linux.
->> >
->> > The Renesas R-Car X5H-based Ironhide board is the first Renesas
->> > SoC/board combination that implements the ARM System Control and
->> > Management Interface (SCMI).
->> >
->> > This means Linux can no longer perform various system operations (e.g.
->> > clock, power domain, and reset control) by accessing the hardware
->> > directly.  Instead, these operations are abstracted according to various
->> > SCMI sub-protocols, and Linux has to send messages to an SCMI-compliant
->> > firmware running on a System Control Processor (SCP).
->> > More specifically, the R-Car X5H SCP FW SCMI controls access to:
->> >   1. Core clocks and module clocks,
->> >   2. Module resets,
->> >   3. Power domains,
->>
->> I'm very curious how power domain hierarchy is described on this SoC,
->> because one more issue to add to your list is that hierarchy cannot be
->> described for power domains in SCMI.
->
-> So far I had no need for such a description. AFAIK, this is handled
-> inside the SCMI firmware, which does know the hierarchy.  Hence the
-> firmware can power up a domain when any of its children is powered up,
-> and power it down when the last of its children is powered down?
+I will be taking over this series from Cristian and in doing so I have
+addressed a couple of issues raised by the first version and added five
+additional patches since Cristian's original series:
 
-Yes, but this firwmare behavior is subject to the normal list of 
-limitations/quirks/lack-of-bugs/etc. that we usually run into with
-firmware.  So if there's ever a need for linux to understand hierarchy
-for those reasons, you may find yourself stuck. :)
+[6/12] exposes the measurement averaging interval (MAI) value when the
+agent has registered to receive power measurement change notifications
+for the power capping domain.
 
-> I think the clue lies in having a PSCI top-level domain, cfr. what
-> you wrote in [1]:
->
->    "But... how do I describe the relationship of this hierarchy? In
->     particular, when the SCMI-controlled PDs are actually subdomains of a
->     top-level, non-SCMI PD."
->
-> Or am I missing something?
+[9/12] adds MAI get and set support for the powercap protocol.
 
-Indeed, the tricky part is when the domains may have CPUs/clusters in
-them, and in my case with the TI SoCs, the top-level domain with CPU
-clusters is PSCI controlled.
+[10/12] introduces a synthetic root zone to act as a common parent for all
+top-level domains.
 
-It wouldn't suprise me that other SoCs have similar features where some
-domains are children or siblings of domains with CPUs in them.  This
-kind of dependency is pretty complex to manage in just SCP firmware,
-because it involves TF-A/PSCI as well, so it's a likely spot for
-firmware "quirks".
+[11/12] adds get_power_uw to synthetic root zone, summing the per-zone
+power of immediate child zones.
 
-Kevin
+[12/12] adds enable/disable functionality to synthetic root zone to
+enable/disable immediate children.
+
+The original series was based on v6.17-rc1 whereas this version has been
+based on v7.1-rc1.
+
+The rest of Cristian's series is explained below;
+
+SCMIv4.0 [1] introduces some new features and commands into the Powercap
+protocol. In a nutshell, such protocol changes add support for:
+
+ - setting multiple powercap limit/interval constraints for each SCMI
+   powercap domain which supports multiple Concurrent Power Limit
+ - enabling more Powercap commands to use Fastchannels mechanism
+ - adding multiple constraints support to the existing notifications
+
+After a bit of needed updates in the SCMI core this series adds:
+
+- support for the idea of optional multiple Concurrent Power Limit (CPLs)
+- support for the new FCs
+- support for extended notifications
+- enable usage of such multiple constraint in the ARM SCMI Powercap driver
+
+Note that the public SCMIv4.0 spec at [1] is currently still BETA0, so
+this series could anyway need some minor rework along the way and
+definitely will need to wait for a final public release before being
+possibly merged.
+
+Tested on a single and multi-instance scenario on an emulated setup
+implementing the new protocol extensions.
+
+Based on v7.1-rc1.
+
+Thanks,
+Phil
+---
+V4->V5
+- Added enable/disable functionality to synthetic node
+- Rebased on v7.1-rc1
+V3->V4
+- Rebased on v7.0-rc4
+- Added sythentic parent node and functionality
+- Moved fastchannel inits outside of loop
+- Renamed arguments for consistency
+V2->V3
+- Added powercap MAI get/set support
+V1->V2
+- Rebased on sudeep/for-next/scmi/updates
+- Amended Copyright to include 2026
+- Added patch to extend powercap report to include MAI
+- Removed creation of pi powercap_info struct due to legacy code change
+- Amended references to pi->version and similar, which were based on
+  legacy code
+- Wrapped two variables in le32_to_cpu() to appease Sparse warnings
+- Amended comparing operator value in response to feedback
+
+Cristian Marussi (7):
+  firmware: arm_scmi: Add an optional custom parameter to fastchannel
+    helpers
+  firmware: arm_scmi: Refactor powercap domain layout
+  firmware: arm_scmi: Add SCMIv4.0 Powercap basic support
+  firmware: arm_scmi: Add SCMIv4.0 Powercap FCs support
+  firmware: arm_scmi: Add SCMIV4.0 Powercap notifications support
+  include: trace: Add new parameter to trace_scmi_fc_call
+  powercap: arm_scmi: Enable multiple constraints support
+
+Philip Radford (5):
+  firmware: arm_scmi: Extend powercap report to include MAI
+  firmware: arm_scmi: add Powercap MAI get/set support
+  powercap: arm_scmi: Create synthetic parent node for multi-instance
+  powercap: arm_scmi: Add get_power_uw to synthetic node
+  powercap: arm_scmi: Synthetic zone enable/disable
+
+ drivers/firmware/arm_scmi/driver.c    |  12 +-
+ drivers/firmware/arm_scmi/perf.c      |  16 +-
+ drivers/firmware/arm_scmi/powercap.c  | 984 ++++++++++++++++++++------
+ drivers/firmware/arm_scmi/protocols.h |   2 +-
+ drivers/powercap/arm_scmi_powercap.c  | 227 +++++-
+ include/linux/scmi_protocol.h         |  87 ++-
+ include/trace/events/scmi.h           |  12 +-
+ 7 files changed, 1067 insertions(+), 273 deletions(-)
+
+--
+2.47.3
+
