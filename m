@@ -1,167 +1,193 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f226.google.com (mail-dy1-f226.google.com [74.125.82.226])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2FB631326B
-	for <arm-scmi@vger.kernel.org>; Wed, 29 Apr 2026 13:55:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A334337BAC
+	for <arm-scmi@vger.kernel.org>; Wed, 29 Apr 2026 15:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.226
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777470947; cv=none; b=tJO4UtZ7OLHB2CBPZVFrCl/t3JgS109AU/uA6G+8mIndygZxEczUvRwaIjgwgojNQAtuQSI04mkxTXg7POPlpMlKfkIRpTEqpw0/w2/h6WjsXY+LeXzkyi5PKaBWR1waNHEzm9AnUFXqcYfGXwg3zdj22fBPtVGLXvqSmDdswVE=
+	t=1777477198; cv=none; b=CNtkJrvxRNjc9d3AuErEyZwMqKt6LOeUij2ntuvoLstPp5/1znM/+hyo+ECQK4OJIR41P1+0UXtcsgyRRiEbzz4IGznFi4ZEIRCKysMWasrzSXuAlZZePOe0BuB4DRJSPUIWdt5gssHrKzxEqCyvm6pZTXmAIcYGAubk3bA9HYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777470947; c=relaxed/simple;
-	bh=buDqtxL5iiA+P59BL7gOogsMTPfTAbw/6u3MZ3bRXX0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=FSdy5fA4Lx1znBa+UXZ9Eg8IDROBuTQSmLb0t1YqxPnB6HO/zrsrodYH12fOxP/nOLQx8T42Qv6YI2DWxb3LbcRJ9wCn+rb8gga00Pe3dR8S1YVyoWjDELCFc7gTksHjx/zn5YzDCZ8OLlQ80LW0z7L/ysl2BTtOiAqrEX489W0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aaye5le9; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1777477198; c=relaxed/simple;
+	bh=z9tjCiDomJUS16kqSqnbRm4EHxgfQjNSyK2cJXYp/VA=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=YF4cxFfaxGyJ4cW6MDtq44D6V7dY1s6H3O5R0M/viGJFGeidBTrTKyDio2m4ML/uPoDM/aCb85rD2oDqoZR+TEvA7Bf/ZVJ2Sw6We5F+1rKJSSk/RTUNhg4QXaZhEosLXydTNWBvyAbEvVENhoE2BOwXk8vFeelG1/+EHb0IRV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=MkIO8/Na; arc=none smtp.client-ip=74.125.82.226
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aaye5le9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777470945;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=E4gmtst5bATy4vi+nqQOmDuupzzNRv5w7Vbola4ydK4=;
-	b=aaye5le9VF60v6sPq4CiCo/9qzuijopOb5flH3s2LuBRfAMvPzMGoAoqOxQUO0Mah2s6I7
-	xZwl9Rt/ndjWlsIfBeDqIBI5tNcIpm5MaQnpq6TY6iuFhvQPjgIjN4ZmdwPGdTCf/gn/hW
-	6NQxs60dSSYqLLlGdFhQxLqCDm4jyOA=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-659-KJy0l_YyMMiHNKJTJAk6Ig-1; Wed, 29 Apr 2026 09:55:44 -0400
-X-MC-Unique: KJy0l_YyMMiHNKJTJAk6Ig-1
-X-Mimecast-MFC-AGG-ID: KJy0l_YyMMiHNKJTJAk6Ig_1777470943
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-8954803bd74so116309656d6.0
-        for <arm-scmi@vger.kernel.org>; Wed, 29 Apr 2026 06:55:44 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="MkIO8/Na"
+Received: by mail-dy1-f226.google.com with SMTP id 5a478bee46e88-2bdd40d3c61so12519340eec.1
+        for <arm-scmi@vger.kernel.org>; Wed, 29 Apr 2026 08:39:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777470943; x=1778075743;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=E4gmtst5bATy4vi+nqQOmDuupzzNRv5w7Vbola4ydK4=;
-        b=S/ndvbM7Z8QntV/ULPRkbL1oGqXyIiJBx54ePv186yRXBanzQDI3hIdN6TNRk2wxGe
-         kkrsdreDaHUg0WUkSOOGUfm+Qubdg4Ce3b54XHRiupOSXRlqni4Nz6TZzYiAi9N1/Ty6
-         PsonktZBHGNDz+A4jXLRNzCiD2aKcYwhQCtbl/UPQ0istx2N+5QZz+D42yn5CfJ9pB5E
-         Jx8kwtQ4uPWPkAAmyL/182WLEQC42THKGeImHv0Rf1KVaFg7L2YkiM++SeVEJRRNYVIN
-         uKfv7xXmH75mzm5TExKIT+MZsCMubriXQQE3c3yuQsjxRLgrmQrM3HDLLzhSPpku23a0
-         JW+A==
-X-Forwarded-Encrypted: i=1; AFNElJ8lCgu94uOoqsqFU+FlhuXi92uYC9tyMY2jZrIhLm8IDhPFSKwOifTDF8kLk/59vfSvS1o2+4xv0A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yznozip6cp9S6BMa8jp06m4Q0hmWs14nRa/4UgKOocAlsoYCy5g
-	o38voteewdD+rNYa+G7CHtyX7TotgLbINXW8w0kngxJyE974BOALp3I3BqGeFri/AyRnn05fhi7
-	JsklbtfbHx7UiCJ69sh8CV+h+N2RzzAHH/Ktuqru9JeCr3geIQoK8vQtL9hn4
-X-Gm-Gg: AeBDievXZsJDwh2N0wtsuTurYO4DDA/TlibbhCH1a1Nunw+DpvD9ZmCQHzpPFdGQOh/
-	so9U73vTeAlCV9DioTUFzb6B4D27WtgF4jlfadYi0Tpm3lyvndMXZh4on1E5x8xjUi6bO2u+Z52
-	mBf45EUtZhY5A/o47l4WMnhleVgKCsV3xXhZ1Mp+zw94dhbIMFCk0zrK7UylBhrs/206Cw1L9PO
-	dqk1WzjJv2hZIAtX10zaSztiBpHcu9mN3fsGOLS0XkB4e7pya5sdkVH/HJaoq5jJ0QPtDyLe/cN
-	AY0ZHRYpeXhjo02EORFlOOYYl3nnCJVpZ5p67FQMV18GZJXKzSHW8/Hv7PIj4Mvn+bZECEKxn/y
-	EM5JXr1T+DTObAKRE/cTmym7U8QJC/LH+zhmKBhebq3zZkLd7AofLeucr0nMi1y58UHg=
-X-Received: by 2002:a05:6214:600e:b0:8ac:aeb0:2eb4 with SMTP id 6a1803df08f44-8b3ede04448mr57443766d6.45.1777470943491;
-        Wed, 29 Apr 2026 06:55:43 -0700 (PDT)
-X-Received: by 2002:a05:6214:600e:b0:8ac:aeb0:2eb4 with SMTP id 6a1803df08f44-8b3ede04448mr57443326d6.45.1777470943011;
-        Wed, 29 Apr 2026 06:55:43 -0700 (PDT)
-Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b3ef86e2f1sm21005096d6.48.2026.04.29.06.55.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 06:55:42 -0700 (PDT)
-Date: Wed, 29 Apr 2026 09:55:39 -0400
-From: Brian Masney <bmasney@redhat.com>
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Abel Vesa <abelvesa@kernel.org>,
-	Andrea della Porta <andrea.porta@suse.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Chanwoo Choi <cw00.choi@samsung.com>, Frank Li <Frank.Li@nxp.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>, arm-scmi@vger.kernel.org,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>
-Subject: Re: [PATCH v2 01/12] clk: add new flag CLK_ROUNDING_NOOP
-Message-ID: <afIN2y_PCGofGAKD@redhat.com>
-References: <20260309-clk-det-rate-fw-managed-v2-0-c48ef5a3100a@redhat.com>
- <20260309-clk-det-rate-fw-managed-v2-1-c48ef5a3100a@redhat.com>
- <177742893645.5403.3938693995862346406@localhost.localdomain>
+        d=1e100.net; s=20251104; t=1777477196; x=1778081996;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:cc:to:subject:from:user-agent:mime-version:date
+         :message-id:dkim-signature:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dNID+xnAT4/eagYcPb2Np/6K90V+gH/f73uugiIiXTw=;
+        b=JYRSa+RQt94o/krB6l/G+0G+l4/Uwlv1fmHbWtn3KtzpAO2kVmtEhCOVa3ABkSv79d
+         7LCapiZvEoOpD+8Xwfth5yvFawdT4BoAD5fuS6EzmKx7mMW0/bPdfxFStZXhFDA17Gsh
+         41YnTdci3qAYa4UrcWhIcxLURZkmBVsgXiP8FctNF77egBje0NsaewODfEi4nm5fSoIl
+         u2up+3U9aI58NLtTPqx8BEHiR2LEiqsISYXtvPYSfL5lew97HYwqZ/4huYRWvJNtoYll
+         bxXMDueYqFefeozlXL2xbjYm0SdM0rr4qYKZRfEwnVRGNwMUR4DQcwHmEvvJ7N46f6Nx
+         PGVA==
+X-Forwarded-Encrypted: i=1; AFNElJ/cTDk+/mf5c/ltMrjZV4NWgaLf7ncymhLkLL5sisTX0aobZt8bSGBp8RBHm6Sfsr96RePQKflejw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSrHtUoHf1prpHVtAG6NdGSjTopsHrg7DskJlgyfXQwyJaLdF/
+	FuftntD1AmNRZhKHVBlI2a0C5ryoADiASOYOM96EAywYLeOU/s9e9dvHUpC1vANAiDZwSbxbK3D
+	nqrlQAHCpRBos1dq9DffyroJ5/R5Qxf1/g1i8e4Z3CyoiYVLCdsVfPGCiOKQs9pCghpEx7w3Dse
+	RDeZZvAsDnMDUh6yhhXPdi57ui1aXk9W8lNukg/fNaN4LzwOKV/Xz6DXOa74cBEqKM0OOGfLQMz
+	//0Vv4w+sooMffT84M=
+X-Gm-Gg: AeBDietYEcme6L70tQUm72Wa5BcjUBSW1iFPdUXC1lqRCydHI1yjLhFFa8fTRtnBAa6
+	Hvz26QYDeg1hvZk+IIUTNwPFZdJJN0L25Mv/fRGj0U1zJPS1w9WO9YOO18zFCjxsZ+5GF4vsDL7
+	xDPxMxmS+nJppOZLZUzOfnPcPfu0aezvu/Pjbb41X7EUuA0EGFf91lTU9Jog2i5ZI4XTdeYVafe
+	e99AMVTw1JrcreC7l3rzTOm/yAdIfE9O44OQlJB8cv5EAHKruWB7sjrMfqGSYtYy0XNhZOEaqwr
+	5UqpMGEEKnH0Sh9L0B7yJbeTLGje7VdzRSGyL2pcvnazzm4eYJBcNhvHQ6LU4caHfLMbzdv0kEs
+	zEjUbCEnyZ4VLEEVL/MbQbVUBXNv7s8MyKpHWCa4HgLS4B4zrEM4ZFi4UrfR51I1No0VvaxHPF1
+	Vg87p2I3TP1yTqnQb3d2sTP+oPnHNxtq6gzFWkgmtSefwW3TK30Ni07lQ0oFzyYerA/TLZ4fEvM
+	JE=
+X-Received: by 2002:a05:693c:3001:b0:2da:1874:f3bb with SMTP id 5a478bee46e88-2ed0a0b1050mr3709710eec.23.1777477196032;
+        Wed, 29 Apr 2026 08:39:56 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-121.dlp.protect.broadcom.com. [144.49.247.121])
+        by smtp-relay.gmail.com with ESMTPS id 5a478bee46e88-2ed1c065515sm179977eec.21.2026.04.29.08.39.55
+        for <arm-scmi@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 29 Apr 2026 08:39:56 -0700 (PDT)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-2c0f6593ef5so17097743eec.1
+        for <arm-scmi@vger.kernel.org>; Wed, 29 Apr 2026 08:39:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1777477194; x=1778081994; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:cc:to:subject:from:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=dNID+xnAT4/eagYcPb2Np/6K90V+gH/f73uugiIiXTw=;
+        b=MkIO8/NaEllsIa/cKn40SrRP1E/A3vFWkhhJyuZ27V90nA2y7tgiBMhANuNxxrJOUb
+         R9nqFOhtedJ1qGANcP9KxXI/iqOAXf/rvmg/Vj+iwtwyz0IjFBGqBcAycfUN67QK1wzp
+         1vUe0rwh18uORmNM2MVTjMaMr1H2gjIanygf4=
+X-Forwarded-Encrypted: i=1; AFNElJ/kS1YylAe6JWHYApJieybvqAyka3Sps2QtLyttLfpjwWETZM52meakL7MA+ztSSsfaWYKV1QRFgA==@vger.kernel.org
+X-Received: by 2002:a05:7022:eacd:b0:12c:2cf8:2f30 with SMTP id a92af1059eb24-12ddd9614a5mr3768788c88.15.1777477193998;
+        Wed, 29 Apr 2026 08:39:53 -0700 (PDT)
+X-Received: by 2002:a05:7022:eacd:b0:12c:2cf8:2f30 with SMTP id a92af1059eb24-12ddd9614a5mr3768748c88.15.1777477193388;
+        Wed, 29 Apr 2026 08:39:53 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12de3216e81sm3765626c88.4.2026.04.29.08.39.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Apr 2026 08:39:52 -0700 (PDT)
+Message-ID: <25d267b9-7839-413a-ad91-9c6802bcf292@broadcom.com>
+Date: Wed, 29 Apr 2026 08:39:51 -0700
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <177742893645.5403.3938693995862346406@localhost.localdomain>
-User-Agent: Mutt/2.3.1 (2026-03-20)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: N0RdSIUAPWYIhPDflRvXAJ2cTPLASkXso76APNE6iO0_1777470943
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+Subject: Re: [PATCH v3 00/15] SCMI Clock rates discovery rework
+To: Cristian Marussi <cristian.marussi@arm.com>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+Cc: sudeep.holla@arm.com, philip.radford@arm.com, james.quinlan@broadcom.com,
+ vincent.guittot@linaro.org, etienne.carriere@foss.st.com,
+ peng.fan@oss.nxp.com, michal.simek@amd.com, geert+renesas@glider.be,
+ kuninori.morimoto.gx@renesas.com, marek.vasut+renesas@gmail.com
+References: <20260428201522.903875-1-cristian.marussi@arm.com>
+Content-Language: en-US
+Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
+ xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
+ M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
+ JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
+ PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
+ KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
+ AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
+ IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
+ ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
+ bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
+ Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
+ tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
+ TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
+ zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
+ WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
+ IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
+ U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
+ 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
+ pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
+ MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
+ IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
+ gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
+ obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
+ N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
+ CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
+ C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
+ wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
+ EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
+ fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
+ MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
+ 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
+ 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
+In-Reply-To: <20260428201522.903875-1-cristian.marussi@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
-On Tue, Apr 28, 2026 at 07:15:36PM -0700, Stephen Boyd wrote:
-> Quoting Brian Masney (2026-03-09 07:38:40)
-> > diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> > index fd418dc988b1c60c49e3ac9c0c44aa132dd5da28..1187e5b1dbc123d2d2c1f43690d7dcf75a7c4ac3 100644
-> > --- a/drivers/clk/clk.c
-> > +++ b/drivers/clk/clk.c
-> > @@ -1673,7 +1690,7 @@ EXPORT_SYMBOL_GPL(clk_hw_forward_rate_request);
-> >  
-> >  static bool clk_core_can_round(struct clk_core * const core)
-> >  {
-> > -       return core->ops->determine_rate;
-> > +       return core->ops->determine_rate || clk_is_rounding_noop(core);
-> >  }
-> >  
-> >  static int clk_core_round_rate_nolock(struct clk_core *core,
-> > @@ -3528,6 +3545,7 @@ static const struct {
-> >         ENTRY(CLK_IS_CRITICAL),
-> >         ENTRY(CLK_OPS_PARENT_ENABLE),
-> >         ENTRY(CLK_DUTY_CYCLE_PARENT),
-> > +       ENTRY(CLK_ROUNDING_NOOP),
-> >  #undef ENTRY
-> >  };
-> >  
-> > @@ -3906,13 +3924,19 @@ static int __clk_core_init(struct clk_core *core)
-> >  
-> >         /* check that clk_ops are sane.  See Documentation/driver-api/clk.rst */
-> >         if (core->ops->set_rate && !core->ops->determine_rate &&
-> > -             core->ops->recalc_rate) {
-> > +             core->ops->recalc_rate && !clk_is_rounding_noop(core)) {
-> >                 pr_err("%s: %s must implement .determine_rate in addition to .recalc_rate\n",
-> >                        __func__, core->name);
-> >                 ret = -EINVAL;
-> >                 goto out;
-> >         }
-> >  
-> > +       if (clk_is_rounding_noop(core) && core->ops->determine_rate) {
-> > +               pr_err("%s: %s cannot implement both .determine_rate and CLK_ROUNDING_NOOP\n",
-> > +                      __func__, core->name);
-> > +               goto out;
-> > +       }
-> > +
+
+
+On 4/28/2026 1:15 PM, Cristian Marussi wrote:
+> Hi,
 > 
-> This hunk has me irked. I'd rather we export some function like
-> clk_determine_rate_noop() that just returns 0 instead of adding another
-> flag. The chance that someone can get it wrong goes down and you can
-> naturally grep for any clks that are using determine_rate() without
-> having to also include this flag in the grep. It makes it easier to
-> reason about as well because we can have code that just checks for
-> determine_rate presence instead of both (i.e. clk_core_can_round() isn't
-> changed). Plus a clk_ops structure is more self-contained because it
-> doesn't rely on the clk flags to go with it.
+> it was a known limitation, in the SCMI Clock protocol support, the lack of
+> dynamic allocation around per-clock rates discovery: fixed size statically
+> per-clock rates arrays did not scale and was increasingly a waste of memory
+> (see [1]).
+> 
+> This series aim at solving this in successive steps:
+> 
+>   - simplify and reduce to the minimum possible the rates data info exposed
+>     to the SCMI driver by scmi_clock_info
+>   - move away from static fixed allocation of per-clock rates arrays in
+>     favour of a completely dynamic runtime allocation: just allocate what
+>     is needed based on the effectively discovered
+> 
+> This is done in patches 2-6.
+> 
+> A further bigger optimization suggested in a past series [2] by Etienne
+> would be, whenever allowed by the spec, to limit upfront the number of
+> queries in order to simply retrieve min and max rate, that are indeed the
+> only rates needed by the CLK SCMI driver.
+> 
+> The approach proposed in [1] was open coding and duplicating some of the
+> functionalities already provided by SCMI iterators, though.
+> 
+> Patch 7-14 implement such optimization instead by:
+> 
+>   - reworking core SCMI iterators to support bound enumerations
+>   - use such new bound iterators to perform the minimum number of queries
+>     in order to only retrieve min an max rate
+> 
+> As a final result now the rates enumeration triggered by the CLK SCMI
+> driver, while still allocating for all the existent rates, miminize the
+> number of SCMI CLK_DESCRIBE_RATE messages needed to obtain min and max.
+> 
+> Finally, patch 15 introduces a new clock protocol operation to be able to
+> trigger anytime on demand a full enumeration and obtain the full list of
+> rates when needed, not only min/max: this latter method is really only used
+> currently by some dowstream SCMI Test driver of mine.
+> 
+> Most notably in this V3 I had:
+> 
+>   - picked up Geert fixes on V2: these could have been squashed in the
+>     original series while maintaining proper Geert's authorship but as of
+>     now I have simply picked them up and changed their order to be near the
+>     commit they fix
+> 
+>   - dropped the "Harden Clock protocol initialization" patch that caused a
+>     number of out-of-spec vendor FW to break
+> 
+> Based on v7.1-rc1.
+> Tested on ARM/JUNO, RADXA/ROCK5B and an emulated environment.
 
-I also like the clk_determine_rate_noop() approach much better as well.
-I'll send a new version.
-
-Thanks,
-Brian
-
+Tested-by: Florian Fainelli <florian.fainelli@broadcom.com>
+-- 
+Florian
