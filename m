@@ -1,193 +1,82 @@
-Received: from mail-dy1-f226.google.com (mail-dy1-f226.google.com [74.125.82.226])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A334337BAC
-	for <arm-scmi@vger.kernel.org>; Wed, 29 Apr 2026 15:39:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.226
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B5981ACA;
+	Thu, 30 Apr 2026 09:13:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777477198; cv=none; b=CNtkJrvxRNjc9d3AuErEyZwMqKt6LOeUij2ntuvoLstPp5/1znM/+hyo+ECQK4OJIR41P1+0UXtcsgyRRiEbzz4IGznFi4ZEIRCKysMWasrzSXuAlZZePOe0BuB4DRJSPUIWdt5gssHrKzxEqCyvm6pZTXmAIcYGAubk3bA9HYY=
+	t=1777540432; cv=none; b=meuinCsZsLI3XSebUIDwev5DuouCegDd9WxoNS7XkYQX4tPRpQMsEh7gNzhBT3x4mk1DNP91PuZerWT4JivLY9o4d1uuGTSBh8bmJ70Kbd5j91N8AxIxYwMFQCk/Tq3IxiM29cnaaKgZtMQU3tUqd5PPqleK6uSU4NGXRs+V1qE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777477198; c=relaxed/simple;
-	bh=z9tjCiDomJUS16kqSqnbRm4EHxgfQjNSyK2cJXYp/VA=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=YF4cxFfaxGyJ4cW6MDtq44D6V7dY1s6H3O5R0M/viGJFGeidBTrTKyDio2m4ML/uPoDM/aCb85rD2oDqoZR+TEvA7Bf/ZVJ2Sw6We5F+1rKJSSk/RTUNhg4QXaZhEosLXydTNWBvyAbEvVENhoE2BOwXk8vFeelG1/+EHb0IRV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=MkIO8/Na; arc=none smtp.client-ip=74.125.82.226
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1777540432; c=relaxed/simple;
+	bh=UdNB1egWYjpUHiiwp2CFfEtBa7QoII0RZrh0xQbjLGM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=chMk4mlW/NWEyqOGOf9MlWZL66WmJtKxHL/7+8twzG/2aKOWsOqTTVSe4y47h9Q+UR/+AGerCvl/sDlaoAsWgruH4TaVidnS/cU+inz1WUQRo8Tep/Bd11WfhVbICwZJRnmyxkOGjL7fJ4VUjhXE1+Mt7FGqKHf3O6KVcn51ffY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RAtE09c/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="MkIO8/Na"
-Received: by mail-dy1-f226.google.com with SMTP id 5a478bee46e88-2bdd40d3c61so12519340eec.1
-        for <arm-scmi@vger.kernel.org>; Wed, 29 Apr 2026 08:39:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777477196; x=1778081996;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:dkim-signature:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dNID+xnAT4/eagYcPb2Np/6K90V+gH/f73uugiIiXTw=;
-        b=JYRSa+RQt94o/krB6l/G+0G+l4/Uwlv1fmHbWtn3KtzpAO2kVmtEhCOVa3ABkSv79d
-         7LCapiZvEoOpD+8Xwfth5yvFawdT4BoAD5fuS6EzmKx7mMW0/bPdfxFStZXhFDA17Gsh
-         41YnTdci3qAYa4UrcWhIcxLURZkmBVsgXiP8FctNF77egBje0NsaewODfEi4nm5fSoIl
-         u2up+3U9aI58NLtTPqx8BEHiR2LEiqsISYXtvPYSfL5lew97HYwqZ/4huYRWvJNtoYll
-         bxXMDueYqFefeozlXL2xbjYm0SdM0rr4qYKZRfEwnVRGNwMUR4DQcwHmEvvJ7N46f6Nx
-         PGVA==
-X-Forwarded-Encrypted: i=1; AFNElJ/cTDk+/mf5c/ltMrjZV4NWgaLf7ncymhLkLL5sisTX0aobZt8bSGBp8RBHm6Sfsr96RePQKflejw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSrHtUoHf1prpHVtAG6NdGSjTopsHrg7DskJlgyfXQwyJaLdF/
-	FuftntD1AmNRZhKHVBlI2a0C5ryoADiASOYOM96EAywYLeOU/s9e9dvHUpC1vANAiDZwSbxbK3D
-	nqrlQAHCpRBos1dq9DffyroJ5/R5Qxf1/g1i8e4Z3CyoiYVLCdsVfPGCiOKQs9pCghpEx7w3Dse
-	RDeZZvAsDnMDUh6yhhXPdi57ui1aXk9W8lNukg/fNaN4LzwOKV/Xz6DXOa74cBEqKM0OOGfLQMz
-	//0Vv4w+sooMffT84M=
-X-Gm-Gg: AeBDietYEcme6L70tQUm72Wa5BcjUBSW1iFPdUXC1lqRCydHI1yjLhFFa8fTRtnBAa6
-	Hvz26QYDeg1hvZk+IIUTNwPFZdJJN0L25Mv/fRGj0U1zJPS1w9WO9YOO18zFCjxsZ+5GF4vsDL7
-	xDPxMxmS+nJppOZLZUzOfnPcPfu0aezvu/Pjbb41X7EUuA0EGFf91lTU9Jog2i5ZI4XTdeYVafe
-	e99AMVTw1JrcreC7l3rzTOm/yAdIfE9O44OQlJB8cv5EAHKruWB7sjrMfqGSYtYy0XNhZOEaqwr
-	5UqpMGEEKnH0Sh9L0B7yJbeTLGje7VdzRSGyL2pcvnazzm4eYJBcNhvHQ6LU4caHfLMbzdv0kEs
-	zEjUbCEnyZ4VLEEVL/MbQbVUBXNv7s8MyKpHWCa4HgLS4B4zrEM4ZFi4UrfR51I1No0VvaxHPF1
-	Vg87p2I3TP1yTqnQb3d2sTP+oPnHNxtq6gzFWkgmtSefwW3TK30Ni07lQ0oFzyYerA/TLZ4fEvM
-	JE=
-X-Received: by 2002:a05:693c:3001:b0:2da:1874:f3bb with SMTP id 5a478bee46e88-2ed0a0b1050mr3709710eec.23.1777477196032;
-        Wed, 29 Apr 2026 08:39:56 -0700 (PDT)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-121.dlp.protect.broadcom.com. [144.49.247.121])
-        by smtp-relay.gmail.com with ESMTPS id 5a478bee46e88-2ed1c065515sm179977eec.21.2026.04.29.08.39.55
-        for <arm-scmi@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 Apr 2026 08:39:56 -0700 (PDT)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-2c0f6593ef5so17097743eec.1
-        for <arm-scmi@vger.kernel.org>; Wed, 29 Apr 2026 08:39:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1777477194; x=1778081994; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=dNID+xnAT4/eagYcPb2Np/6K90V+gH/f73uugiIiXTw=;
-        b=MkIO8/NaEllsIa/cKn40SrRP1E/A3vFWkhhJyuZ27V90nA2y7tgiBMhANuNxxrJOUb
-         R9nqFOhtedJ1qGANcP9KxXI/iqOAXf/rvmg/Vj+iwtwyz0IjFBGqBcAycfUN67QK1wzp
-         1vUe0rwh18uORmNM2MVTjMaMr1H2gjIanygf4=
-X-Forwarded-Encrypted: i=1; AFNElJ/kS1YylAe6JWHYApJieybvqAyka3Sps2QtLyttLfpjwWETZM52meakL7MA+ztSSsfaWYKV1QRFgA==@vger.kernel.org
-X-Received: by 2002:a05:7022:eacd:b0:12c:2cf8:2f30 with SMTP id a92af1059eb24-12ddd9614a5mr3768788c88.15.1777477193998;
-        Wed, 29 Apr 2026 08:39:53 -0700 (PDT)
-X-Received: by 2002:a05:7022:eacd:b0:12c:2cf8:2f30 with SMTP id a92af1059eb24-12ddd9614a5mr3768748c88.15.1777477193388;
-        Wed, 29 Apr 2026 08:39:53 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12de3216e81sm3765626c88.4.2026.04.29.08.39.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Apr 2026 08:39:52 -0700 (PDT)
-Message-ID: <25d267b9-7839-413a-ad91-9c6802bcf292@broadcom.com>
-Date: Wed, 29 Apr 2026 08:39:51 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RAtE09c/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 116A3C2BCB3;
+	Thu, 30 Apr 2026 09:13:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777540432;
+	bh=UdNB1egWYjpUHiiwp2CFfEtBa7QoII0RZrh0xQbjLGM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RAtE09c/Pq4kL4koWknd9JnUKr6X7YSZn8+aOr84h3F8VuzIw9nGbNfYjzgVOVStb
+	 PfZ9zaOTiIdfH7QSRpAadzDY3cLewijCk+xAKzI+08bUll2fq9Ac8VjZg6db9HFPG1
+	 bg3amLo6SkLBFzvfr1DGUGaG/7WQ6Ra3wgdcjtvFTtCMd+AfW6GXuFBMv+EXt8mt9J
+	 +izL3jjVhVoBhyblugNDVbjqVTz/FELwo9lXE31lUJNQTyOBKUja2qtbICMUob7K0a
+	 QeW/C1DlNJOogoiSoUaxU4nLGbvLrdHYhfEKggYjgL2F245krxrYnQ2fnCBkIOAg3t
+	 uEfbvQj29D0Qg==
+Date: Thu, 30 Apr 2026 10:13:48 +0100
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, arm-scmi@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH 1/2] firmware: arm_scmi: imx: Support getting reset
+ reason of MISC protocol
+Message-ID: <20260430-private-versatile-jacamar-fd932f@sudeepholla>
+References: <20260305-scmi-imx-reset-v1-0-18de78978ba9@nxp.com>
+ <20260305-scmi-imx-reset-v1-1-18de78978ba9@nxp.com>
+ <20260318-savvy-courageous-mule-b3f9ae@sudeepholla>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-Subject: Re: [PATCH v3 00/15] SCMI Clock rates discovery rework
-To: Cristian Marussi <cristian.marussi@arm.com>,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- arm-scmi@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-Cc: sudeep.holla@arm.com, philip.radford@arm.com, james.quinlan@broadcom.com,
- vincent.guittot@linaro.org, etienne.carriere@foss.st.com,
- peng.fan@oss.nxp.com, michal.simek@amd.com, geert+renesas@glider.be,
- kuninori.morimoto.gx@renesas.com, marek.vasut+renesas@gmail.com
-References: <20260428201522.903875-1-cristian.marussi@arm.com>
-Content-Language: en-US
-Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
- xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
- M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
- JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
- PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
- KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
- AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
- IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
- ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
- bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
- Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
- tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
- TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
- zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
- WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
- IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
- U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
- 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
- pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
- MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
- IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
- gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
- obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
- N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
- CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
- C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
- wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
- EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
- fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
- MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
- 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
- 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20260428201522.903875-1-cristian.marussi@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260318-savvy-courageous-mule-b3f9ae@sudeepholla>
 
+On Wed, Mar 18, 2026 at 03:25:03PM +0000, Sudeep Holla wrote:
+> On Thu, Mar 05, 2026 at 09:56:44AM +0800, Peng Fan (OSS) wrote:
+> > From: Peng Fan <peng.fan@nxp.com>
+> > 
+> > MISC protocol supports getting reset reason per Logical Machine or
+> > System. Add the API for user to retrieve the information from System
+> > Manager.
+> > 
+> 
+> Sorry for missing this earlier. It looks good though my usual rant is that
+> this MISC protocol is becoming never ending dumping ground for all sorts of
+> info you want kernel to dump in dmesg. Anyways, I am not too bothered as it
+> is not any user ABI.
+> 
+> If, you plan to ask i.MX maintainers to pick this up,
+> 
+> Reviewed-by: Sudeep Holla <sudeep.holla@kernel.org>
+> 
+> If not, I need their ack for 2/2/
+> 
 
+I have left it in my -next queue assuming I would get ack if I need to take
+it. But I haven't received any, so not sure if I need to take it or drop it
+assuming it will go via i.MX tree ?
 
-On 4/28/2026 1:15 PM, Cristian Marussi wrote:
-> Hi,
-> 
-> it was a known limitation, in the SCMI Clock protocol support, the lack of
-> dynamic allocation around per-clock rates discovery: fixed size statically
-> per-clock rates arrays did not scale and was increasingly a waste of memory
-> (see [1]).
-> 
-> This series aim at solving this in successive steps:
-> 
->   - simplify and reduce to the minimum possible the rates data info exposed
->     to the SCMI driver by scmi_clock_info
->   - move away from static fixed allocation of per-clock rates arrays in
->     favour of a completely dynamic runtime allocation: just allocate what
->     is needed based on the effectively discovered
-> 
-> This is done in patches 2-6.
-> 
-> A further bigger optimization suggested in a past series [2] by Etienne
-> would be, whenever allowed by the spec, to limit upfront the number of
-> queries in order to simply retrieve min and max rate, that are indeed the
-> only rates needed by the CLK SCMI driver.
-> 
-> The approach proposed in [1] was open coding and duplicating some of the
-> functionalities already provided by SCMI iterators, though.
-> 
-> Patch 7-14 implement such optimization instead by:
-> 
->   - reworking core SCMI iterators to support bound enumerations
->   - use such new bound iterators to perform the minimum number of queries
->     in order to only retrieve min an max rate
-> 
-> As a final result now the rates enumeration triggered by the CLK SCMI
-> driver, while still allocating for all the existent rates, miminize the
-> number of SCMI CLK_DESCRIBE_RATE messages needed to obtain min and max.
-> 
-> Finally, patch 15 introduces a new clock protocol operation to be able to
-> trigger anytime on demand a full enumeration and obtain the full list of
-> rates when needed, not only min/max: this latter method is really only used
-> currently by some dowstream SCMI Test driver of mine.
-> 
-> Most notably in this V3 I had:
-> 
->   - picked up Geert fixes on V2: these could have been squashed in the
->     original series while maintaining proper Geert's authorship but as of
->     now I have simply picked them up and changed their order to be near the
->     commit they fix
-> 
->   - dropped the "Harden Clock protocol initialization" patch that caused a
->     number of out-of-spec vendor FW to break
-> 
-> Based on v7.1-rc1.
-> Tested on ARM/JUNO, RADXA/ROCK5B and an emulated environment.
-
-Tested-by: Florian Fainelli <florian.fainelli@broadcom.com>
 -- 
-Florian
+Regards,
+Sudeep
