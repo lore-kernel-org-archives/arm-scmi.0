@@ -1,72 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429D6156C6A;
-	Tue,  5 May 2026 15:37:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BD923D0914;
+	Tue,  5 May 2026 20:13:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777995441; cv=none; b=VoShI8mlfeHEyAUZPx3v4CwxyiVc255bwdL5k2t8iav2oF2VJqwasHcycb6F0W+XdDEnUMRVer0T2Js7dGEatfH8sOET9N55DVqkpAYNANuuC9wvDH9zcOeAB4yWFsuiuRLN7qsOgGl8rAlG89/CnTFcxwPco5BSm+WbSxmaStE=
+	t=1778012027; cv=none; b=rpHJzt2XtKDbMlo+eSLrIrSeLvpHpv8QG12GbK5a1bssgYmT+XjRCh9V2A8HdTdoninaj6+O136bO71gQJ9tFcODe/BnMQmp3XhF99LKBnQLJJChKhdaG13xoYryVXDpS82QZQH6hzXMX878XMEaYoEB0SAZBCqEmCdaV9Od4sQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777995441; c=relaxed/simple;
-	bh=q215iWUMbXp86E5trCc9BqE+TbdpfYR9pjH0bK8ACX4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XcMCtSuVeAz4icM84LJZhJgZzh+ch/bTVxheaEo+EuTMnaLbZaNi5YtTMGe25fW/qHen70aJ/wWe7W8kxYqfGcx8Q37BUe4oRmNMsobKAsoDKUHefsatfYZag1gnCi9QS/Q90zhCn3k6ovpBKn/iPsbQ4RyfdMR+VWC0TC8rpWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lx8GCC+Q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778012027; c=relaxed/simple;
+	bh=ynAbCMg2qQJVXRYbA6ts9gqhSiOUCgGSYE0bBVHxnsc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W1h7hujIIIi33fHe8yzsGR8BlRrUIDA2wL+nPgmLhoAzY+tYrSqI/fBgNag3f8brJnaBKOZB44i45qzlOjxioaJMp5j7prZeCU8On24y2Gt2oWzgLWbaM6OgVCkeetnLLP4gCqxn9BJ90ozhX3aZ8kHOwT/f7msPg6PRhtFICo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=VBmwRDCc; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lx8GCC+Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A47DEC2BCF4;
-	Tue,  5 May 2026 15:37:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777995441;
-	bh=q215iWUMbXp86E5trCc9BqE+TbdpfYR9pjH0bK8ACX4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lx8GCC+QcC/Jt7eypkdc5f0X8D1DJ8Bx9CC6AD+iLfnZKS+mJmkkaINCKj3mT1KKU
-	 8EYZi6tr97PWFJKG5NEHZRPVkfucSEXqv+YPGlUvXyxYXjQxoOZGX8K3Jt95BipM3h
-	 Q852FL38q1KEBJIcnEi+9pig3eaAT5GA8UWGoIZBoGXYh8iq3Vv7a6bojCo+FpvT8j
-	 Af7blbePLSbRn9kpJ4sN0ErsG+j25PDLF6C0J6Ad2XNMTWyJ9NBwDQTrQwbBF4ZbpI
-	 iLGZlwjskDeeSGVThwHJFJ0AsOg7B8t7KN+K93iBVLxqWJ+PAJllkds9bsw0I8zghZ
-	 DG6LaB/zxusfQ==
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: arm-scmi@vger.kernel.org,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [RFC][PATCH] firmware: arm_scmi: Rename struct scmi_revision_info to scmi_base_info
-Date: Tue,  5 May 2026 16:37:15 +0100
-Message-ID: <177799542159.2897058.8611655484605854510.b4-ty@b4>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260406155343.72087-1-marek.vasut+renesas@mailbox.org>
-References: <20260406155343.72087-1-marek.vasut+renesas@mailbox.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="VBmwRDCc"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B7A4C1BB0;
+	Tue,  5 May 2026 13:13:37 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9C9383F763;
+	Tue,  5 May 2026 13:13:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1778012023; bh=ynAbCMg2qQJVXRYbA6ts9gqhSiOUCgGSYE0bBVHxnsc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VBmwRDCc0L1cw4zLU+zTUNzgXz2NbrRwLCbgnkFP1rkdLhEqhpUNe7oxGqlaZeg2z
+	 vua1SsfGoEsgdqpKayF1Mawrc2PdTs5A6wBFXd6hxLDGKoQyUds2S0hFeq9gH7EIOP
+	 EZvyVz5Ggk2I1yb42cso9mRXhe/Qisi9iQ99JNco=
+Date: Tue, 5 May 2026 21:13:32 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Philip Radford <philip.radford@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-pm@vger.kernel.org,
+	sudeep.holla@arm.com, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+	quic_sibis@quicinc.com, dan.carpenter@linaro.org, d-gole@ti.com,
+	souvik.chakravarty@arm.com, cristian.marussi@arm.com
+Subject: Re: [PATCH v5 06/12] firmware: arm_scmi: Extend powercap report to
+ include MAI
+Message-ID: <afpPbHkvNE0ijM9n@pluto>
+References: <20260428090922.346069-1-philip.radford@arm.com>
+ <20260428090922.346069-7-philip.radford@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260428090922.346069-7-philip.radford@arm.com>
 
-On Mon, 06 Apr 2026 17:52:54 +0200, Marek Vasut wrote:
-> Rename struct scmi_revision_info to struct scmi_base_info , to
-> accurately represent its content. The scmi_revision_info is no
-> longer accurate, because the structure now contains more than
-> only SCMI base protocol revision, it now also contains number
-> of protocols, agents, vendor and subvendor strings. All those
-> are fetched from the base protocol, so rename the structure to
-> scmi_base_info, to match the other scmi_*_info structure names.
-> No functional change.
+On Tue, Apr 28, 2026 at 10:09:15AM +0100, Philip Radford wrote:
+> Extend scmi_powercap_meas_changed_report to include MAI change
+> notifications.
 > 
-> [...]
 
-Applied to sudeep.holla/linux (for-next/scmi/updates), thanks!
+Hi
 
-[1/1] firmware: arm_scmi: Rename struct scmi_revision_info to scmi_base_info
-      https://git.kernel.org/sudeep.holla/c/0c6eb5d019c1
+> Signed-off-by: Philip Radford <philip.radford@arm.com>
+> ---
+>  drivers/firmware/arm_scmi/powercap.c | 20 ++++++++++++--------
+>  include/linux/scmi_protocol.h        |  1 +
+>  2 files changed, 13 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/firmware/arm_scmi/powercap.c b/drivers/firmware/arm_scmi/powercap.c
+> index 1d1188e98d49..b9d50f4e8ae5 100644
+> --- a/drivers/firmware/arm_scmi/powercap.c
+> +++ b/drivers/firmware/arm_scmi/powercap.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/io.h>
+>  #include <linux/module.h>
+>  #include <linux/scmi_protocol.h>
+> +#include <linux/stddef.h>
+>  
+>  #include <trace/events/scmi.h>
+>  
+> @@ -164,6 +165,7 @@ struct scmi_powercap_meas_changed_notify_payld {
+>  	__le32 agent_id;
+>  	__le32 domain_id;
+>  	__le32 power;
+> +	__le32 mai;
+>  };
+>  
+>  struct scmi_msg_powercap_cpc {
+> @@ -1212,13 +1214,6 @@ static int scmi_powercap_notify(const struct scmi_protocol_handle *ph,
+>  		if (ret)
+>  			return ret;
+>  
+> -		if (enable && !low && !high) {
+> -			dev_err(ph->dev,
+> -				"Invalid Measurements Notify thresholds: %u/%u\n",
+> -				low, high);
+> -			return -EINVAL;
+> -		}
+> -
 
---
-Regards,
-Sudeep
+Ok so you removed this check because now that a notification can be
+emitted even only to notify a MAI change, it is possible that the
+thresholds are zero and the notification will be emitted anyway due to
+a MAI change....BUT you have to review or completely remove the comment
+block that precedes this that says:
 
+   /*                                                               
+    * Note that we have to pick the most recently configured        
+    * thresholds to build a proper POWERCAP_MEASUREMENTS_NOTIFY     
+    * enable request and we fail, complaining, if no thresholds     
+    * were ever set, since this is an indication the API has been   
+    * used wrongly.                                                 
+    */                                                              
+
+...becasue NOW is no more true and misleading, since you just removed the
+fail and complain part...
+
+It would be good to shortly explain in a comment the new possible
+scenarios in which notification can be enabled...
+
+>  		ret = ph->xops->xfer_get_init(ph, message_id,
+>  					      sizeof(*notify), 0, &t);
+>  		if (ret)
+> @@ -1333,14 +1328,23 @@ scmi_powercap_fill_custom_report(const struct scmi_protocol_handle *ph,
+>  	{
+>  		const struct scmi_powercap_meas_changed_notify_payld *p = payld;
+>  		struct scmi_powercap_meas_changed_report *r = report;
+> +		const size_t sz_v2 = offsetofend(struct scmi_powercap_meas_changed_notify_payld,
+> +						 power);
+> +		const size_t sz_v3 = sizeof(*p);
+
+While this is a valid and nice construct, I think is overkill here since
+these offsets/sizes will never change at runtime....
+
+...you can just define above a couples of DEFINE that hardcodes the
+sizes of the v2 and v3 by using the
+
+	#define SZ_V2 	(sizeof(struct scmi_powercap_meas_changed_notify_payld))
+
+and
+	#define SZ_V3   (SZ_V2 - sizeof(__le32))
+
+>  
+> -		if (sizeof(*p) != payld_sz)
+> +		if (payld_sz != sz_v2 && payld_sz != sz_v3)
+>  			break;
+>  
+>  		r->timestamp = timestamp;
+>  		r->agent_id = le32_to_cpu(p->agent_id);
+>  		r->domain_id = le32_to_cpu(p->domain_id);
+>  		r->power = le32_to_cpu(p->power);
+
+maybe more clear to simply:
+		
+		r->mai = 0;
+		if (payld_sz == SZ_V3 && PROTOCOL_REV_MAJOR(ph->version) >= 0x3)
+			r->mai = le32_to_cpu(p->mai);
+
+		
+> +
+> +		if (payld_sz == sz_v3 && PROTOCOL_REV_MAJOR(ph->version) >= 0x3)
+> +			r->mai = le32_to_cpu(p->mai);
+> +		else
+> +			r->mai = 0;
+> +
+>  		*src_id = r->domain_id;
+
+Thanks,
+Cristian
