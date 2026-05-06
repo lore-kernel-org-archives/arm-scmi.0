@@ -1,189 +1,103 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DC95282F0E;
-	Wed,  6 May 2026 10:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA33770809;
+	Wed,  6 May 2026 22:40:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778064705; cv=none; b=YxDdhQWWqKfPSADailawQXqatXzd8EcMDw4wSkdb4Hqnjei4DOfazXcO/NBJYKXIp19Kclu9frhHMuyevVUuNZlM7oD0xTRHQz1hPm51ydFnLuXSTj7aYKkDkLFvTm8Qm5fzjK6G6D6t1gv38j4sC8+xV9ZZg+K5e3MDyHsAS2g=
+	t=1778107237; cv=none; b=kZy1pLT6Jdl++T2z5OFvOKTwS2w07cEbNtY8/uWCPMheEPSaBF0+RlY647mYlEDqUxdNBlkQkRRvS4nBGvWACM8ClH5/yeOKIXK+r8fgACa8Cz3jFt1nw9EphU9ibNKBu8to2SThtm737aTNaKLll3x6Eq6VD8lVeENHTcCKoXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778064705; c=relaxed/simple;
-	bh=iYNXb++hIJ9OfRQc9+FWnMLqhZrlCDWvv412uOnwE/g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KxJsdLMdEuDKoN/sL1ELma5xVJ9iXXzKPbkud7Gb4iTo8z35owkt1zSH0G3HkHU340AL/mkJuyrVonmhobuR2qbOo3WqGD2TcEcEohpu+XN0mZ7NHIqf8fWKdcTw7re4tq3SowmB95eAtpz+qyf7Ks6dMRAgDSGFKgvh9caPAds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=CLbSYu+s; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1778107237; c=relaxed/simple;
+	bh=gsK1AubfywTgARP6ZBJNFwZCqCGKnL32OBn6DpxUoug=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HoDKR6gN9JcE9r9S7OMoHHqE1u//yypqaIj9kuRQdbGays0c/ez9L22b/BC0nPfHdggZC4O66kh/MKWRoa3yTC6A/BS6mnfqYiDXgXS1H4ZuYXOCp79yIvyKkmdazJyL0zf/MjoKfcuA9VtLOB48nTG14k1yQ4gd/aFioPjABL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=u3artJhS; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ZjG1yuH0; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="CLbSYu+s"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 867413319;
-	Wed,  6 May 2026 03:51:37 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (donnerap.manchester.arm.com [10.33.8.81])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 49EA53F836;
-	Wed,  6 May 2026 03:51:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1778064702; bh=iYNXb++hIJ9OfRQc9+FWnMLqhZrlCDWvv412uOnwE/g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CLbSYu+sRwtJr3t9K16SL9rXHW8Z+pbVRQ+RJhmov6xkSlmuLFbW/FfcaeqvTpJ+V
-	 p9B3F82aA9Gq8jU87onEpr6LkVcoe/pE5Co5Z+plDH5fLGRiM2Kvox/A4beffwA4Rq
-	 QCTUJyzR9QEdd3QKEfZIbyYQdzHUy8dROaLjdR3E=
-Date: Wed, 6 May 2026 11:51:37 +0100
-From: Philip Radford <philip.radford@arm.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-pm@vger.kernel.org,
-	sudeep.holla@arm.com, james.quinlan@broadcom.com,
-	f.fainelli@gmail.com, vincent.guittot@linaro.org,
-	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
-	quic_sibis@quicinc.com, dan.carpenter@linaro.org, d-gole@ti.com,
-	souvik.chakravarty@arm.com
-Subject: Re: [PATCH v5 12/12] powercap: arm_scmi: Synthetic zone
- enable/disable
-Message-ID: <afsdOZ690p_vn9sq@donnerap.manchester.arm.com>
-References: <20260428090922.346069-1-philip.radford@arm.com>
- <20260428090922.346069-13-philip.radford@arm.com>
- <afpu-Wf01J3l0gAu@pluto>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="u3artJhS";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ZjG1yuH0"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4g9r1r2Ttmz9tcW;
+	Thu,  7 May 2026 00:40:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1778107232;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UWBO9OrNKl3GTFxm6utkM2kR6qRM8Jvldyy+o4BbU4s=;
+	b=u3artJhSfM9zXA2x7lW545FTky+TIoZWzk/3CfrCYXEjwSlSgwkUBzoSj0YzXpzW3e76GJ
+	X7SyyDUQLems76Yhh5ll8G1nMcwSaFNkjjp5MIaf1BP/pyEwROiPTAlsCx8TCTVW6lPPX9
+	LFGsy4NKYsw1tQXy0LjhU8W9fhPzN9U16HUWROVltzLGZUrmwDiBw5rIsEjY6j73ChguJX
+	TNxuJrhjHLKdRRx8diWToLDraSFVQPi9w93RIj+SVr2foNZouGU63Gv2aZIVvLlg2GMBxg
+	7h6C8BpZCKJ25CYaI7YCJ6I47SzEuLyTv9i4pPGT+Wu7sJ/h/fksjIJjZ1f9kA==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=ZjG1yuH0;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
+Message-ID: <1670fef1-2ff7-4902-b7ae-34ffaead64e3@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1778107230;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UWBO9OrNKl3GTFxm6utkM2kR6qRM8Jvldyy+o4BbU4s=;
+	b=ZjG1yuH0ILULcGS7bEug6HuEedgWQZCNd+IFrNBSRhpDUdICgYgCmqNTHk9UJJD2TnSedT
+	6cILmcmJNOUhtfdciSI87HEUGpeizo1XgPXemS8wUoGGpWDPAWpe/6ncaf4OnMBMLN5GK/
+	+/ixf6H6QEfFEE7rCsBDMFNriwdjQ/V547tWGWnTL2v4G7KczKxrn2A7TKA6Q6E89c8zxa
+	viwkF6b5o8RV27zeYBz6V1mQg9rBqx7EzChi4kokGc79YjybqgHxmILclGRdPUWmx4aZI0
+	XIZA1yD+c1DtSnnKmzF921/ckrhh0w+W+5xWAzcYyIypRkMGzI93RERM7D63kw==
+Date: Thu, 7 May 2026 00:40:22 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <afpu-Wf01J3l0gAu@pluto>
+Subject: Re: [PATCH/RFC 09/14] dt-bindings: clock: Document Renesas R-Car X5H
+ Clock Pulse Generator
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Sudeep Holla <sudeep.holla@kernel.org>,
+ Cristian Marussi <cristian.marussi@arm.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Saravana Kannan <saravanak@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Ulf Hansson <ulfh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1776793163.git.geert+renesas@glider.be>
+ <f8c98dbf6b32c0d467606d59b071e9c2bfc29dbc.1776793163.git.geert+renesas@glider.be>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <f8c98dbf6b32c0d467606d59b071e9c2bfc29dbc.1776793163.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: qcuenbn8cnr7hi8yath89o8qnw76r9qk
+X-MBO-RS-ID: a83454511542bb04792
+X-Rspamd-Queue-Id: 4g9r1r2Ttmz9tcW
 
-On Tue, May 05, 2026 at 11:28:09PM +0100, Cristian Marussi wrote:
-> On Tue, Apr 28, 2026 at 10:09:21AM +0100, Philip Radford wrote:
-> > Add functionality to disable and enable the synthetic zone which
-> > also affects the immediate children of the synthetic zone by applying
-> > the same command to them.
-> > 
-
-Hi,
-
-> > Signed-off-by: Philip Radford <philip.radford@arm.com>
-> > ---
-> >  drivers/powercap/arm_scmi_powercap.c | 81 ++++++++++++++++++++++++++++
-> >  1 file changed, 81 insertions(+)
-> > 
-> > diff --git a/drivers/powercap/arm_scmi_powercap.c b/drivers/powercap/arm_scmi_powercap.c
-> > index 81b5214acda4..1ed2949b06cb 100644
-> > --- a/drivers/powercap/arm_scmi_powercap.c
-> > +++ b/drivers/powercap/arm_scmi_powercap.c
-> > @@ -270,6 +270,85 @@ static int instance_root_release(struct powercap_zone *pz)
-> >  	return 0;
-> >  }
-> >  
-> > +static int instance_root_set_enable_state(struct powercap_zone *pz, bool enable)
-> > +{
-> > +	struct scmi_powercap_zone *root;
-> > +	struct scmi_powercap_root *pr;
-> > +	struct scmi_powercap_zone *child;
+On 4/21/26 8:11 PM, Geert Uytterhoeven wrote:
+> Document support for the Renesas R-Car X5H Clock Pulse Generator,
+> and add definitions for a very limited and preliminary set of clocks.
 > 
-> ...child and root on the same line of declarations...
-> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Noted.
+I managed to implement U-Boot CPG remap driver based on these bindings, 
+and the bindings also fit for U-Boot on RSIP direct hardware access CPG 
+driver.
 
-> > +	int ret, first_err = 0;
-> > +
-> > +	if (!pz)
-> > +		return -EINVAL;
-> > +
-> > +	root = to_scmi_powercap_zone(pz);
-> > +	pr = container_of(root, struct scmi_powercap_root, instance_root);
-> 
-> ...another user of you new macro !
-> 
-
-:)
-
-> > +
-> > +	list_for_each_entry(child, &pr->registered_zones[0], node) {
-> > +		if (child == &pr->instance_root)
-> > +			continue;
-> > +
-> > +		if (child->info->parent_id != SCMI_POWERCAP_ROOT_ZONE_ID)
-> > +			continue;
-> > +
-> > +		if (!child->info->cpli[0].cap_config)
-> > +			continue;
-> > +
-> > +		ret = powercap_ops->cap_enable_set(child->ph, child->info->id, enable);
-> > +
-> > +		if (ret && !first_err) {
-> 
-> ...mmm what is the logic here ? why not bailing out on any error ?
-> 
-
-Good point. I was initially trying to prevent one error stopping everything without
-checking the other children, but even as I'm writing this out I can see the fault in
-that logic.
-
-> > +			first_err = ret;
-> > +			dev_err(child->dev, "failed to %s zone %s: %d\n",
-> > +				enable ? "enable" : "disable",
-> > +				child->info->name, ret);
-> > +		}
-> > +	}
-> > +
-> > +	return first_err;
-> 
-> ...especially if you anyway fails globally on any error....
-> ..I am not completely sure bit given that youare operating on a
-> synthetic zone that you enable as a whole, while acting on its children
-> in the backstage...I would say that if any enable/disable fails on a
-> chidlren you should revert the enable status of the children thate were
-> succesffull and report the error...I mean the state of top synthatic
-> zones AND the states of the children MUST remain consistent...
-> ...it CANNOT be that some chidlren fails, some succeeds and you report
-> an error..it must be all or nothing...
-> ...example..top syntethic zone is OFF if all children were successfully
-> disabled...on a failure with one of the children you shoudl revert the
-> already successfully set children and report the global error...
-> 
-
-Point taken, this needs reworking.
-
-> > +}
-> > +
-> > +static int instance_root_set_enable(struct powercap_zone *pz, bool mode)
-> > +{
-> > +	return instance_root_set_enable_state(pz, mode);
-> > +}
-> > +
-> > +static int instance_root_get_enable(struct powercap_zone *pz, bool *mode)
-> > +{
-> > +	struct scmi_powercap_zone *root;
-> > +	struct scmi_powercap_root *pr;
-> > +	struct scmi_powercap_zone *child;
-> > +	bool enabled;
-> > +	int ret;
-> > +
-> > +	if (!pz || !mode)
-> > +		return -EINVAL;
-> > +
-> > +	root = to_scmi_powercap_zone(pz);
-> > +	pr = container_of(root, struct scmi_powercap_root, instance_root);
-> > +
-> > +	*mode = true;
-> > +
-> > +	list_for_each_entry(child, &pr->registered_zones[0], node) {
-> 
-> mmm...what is the point here of scanning the children to GET the
-> state...you should report the top syntethic zone state right ?
-> You could have disable children directly...that wont be reflected in the
-> Linux powercap hiearcrhy right ?
-> I mean should you NOT simply return the stae of the top syntethic zone
-> which is should have saved in the previous state_set operation above ?
-> 
-> I think that anyway if you disable a zone...any zone...ONLY that zone is
-> marked as disable in Lnux powercap ... am I right ? 
-> 
-> Then probably our SCMI fw will do much more on all the children..
-> 
-
-Good point, I'll simplify it to report a saved state for the synthetic root.
-
-Regards,
-Phil
+Reviewed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Tested-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
