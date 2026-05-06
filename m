@@ -1,154 +1,279 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B703253F13
-	for <arm-scmi@vger.kernel.org>; Wed,  6 May 2026 00:50:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B8CD3EB807;
+	Wed,  6 May 2026 10:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778028660; cv=none; b=XxSp3l5Rg56Hv/N4KxPfPFzzr5Uno4PAFM81zwAf9ZMcPtzWdpOY6uxHU/uf49I6yEf0xDxaPUXYVjuL2BXvmdlsvYJr1W1E9a9PeHWeG+G/JW8AYT2HspcFD5N8SziV2Mnt9rWm9TgUeBCZfOG9QHfVeAZHUIwc+JgNgbTNQj0=
+	t=1778063735; cv=none; b=Hmlvh1Cx4f7HdZkBINX7u3N9BMJKu2PfrkbGsuAOLBK5TPlFn3iS8Pn0LIeqJo0243mU+fqAUxWzBDNTzEyfM6eqTVmURjvDOnhe8RwUn0C15s1xDZ+vFTkCqezvp/hcKWXH21vZx+sPwGmFPpmjRh+CHYd1e9YTwpXMXNbFhRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778028660; c=relaxed/simple;
-	bh=uUN1TpCq5A1biDW7SQgzXIgDhMit0DTFvaH+q74KNes=;
-	h=From:Date:Subject:MIME-Version:Message-Id:References:In-Reply-To:
-	 To:Cc:Content-Type; b=cpzK1fi5+LzNIjpnK99Uvl+9uQGGkqjZsoATQ2B7ZUR2vfQf9yBBH8gu7yC2ejCGCBwk1Lo0KblSECDcP7wI+blexvFVLBPAglAYo9/ADeqeFr9rfs5sK19UhFnIQ4fZ8caFhiSAy4mXW27RyY8CW9feuADS3foGI5wN5YP5GI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EYXz6jBW; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1778063735; c=relaxed/simple;
+	bh=lFBt7cX5hmxlQcwDFjhXc5XRX3lnJKyd2KhSymeJKco=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=diMhFY1Uf6yXDTLb+fvak2kJf21znEwZS11uHf9GmXhIH92/9wPoTaAcXYBuaenbWI9b5E8kPgRoP9MZr1BYVcJ5VBu39guxqbz7/MeEuiiMzb/BLzTPvmMFrIxNoorUEMFQP3IusCCfkUFItsa3wPtIdm77i1Trnz6L1NjeQH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=XSHmFbca; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EYXz6jBW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778028654;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c1NS3MB4nA8GhCODr9+c9hyS+UbNOcqm6SUmib9q3KY=;
-	b=EYXz6jBW4Lq1Jk7z5SK3t82J/RT8wtag9yjozWKW8nOKWZR8kH3Zwmol72DAICQL53VQiw
-	4SC25shZvYhoHGaIykTOvKruTQc/U3fKakpyxTXjbWribVCF6Ij/+BVcCfIPr/ApcwfXQY
-	udgADd4FgKyeC9ALR6SmdEssRbgqF0s=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-28-N37XBEHOPYGW__N6_f9boQ-1; Tue, 05 May 2026 20:50:53 -0400
-X-MC-Unique: N37XBEHOPYGW__N6_f9boQ-1
-X-Mimecast-MFC-AGG-ID: N37XBEHOPYGW__N6_f9boQ_1778028653
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-8bc5ab12bb5so4394066d6.3
-        for <arm-scmi@vger.kernel.org>; Tue, 05 May 2026 17:50:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778028653; x=1778633453;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=c1NS3MB4nA8GhCODr9+c9hyS+UbNOcqm6SUmib9q3KY=;
-        b=pYz3bzOknwdyfFkEMVp8EwrSyDuikCrRO2rGdKh2y00hk0z1JjRTn7AcycvUTGlIWo
-         YyefEoq1rMXVocxygK31Orok2HyPRInSY3cMguR4HNJ88ejhBnVta+nFQpOn7BfT5qPV
-         PulHJZoCfim7jHL2IONhtf6uteVkAmGyAeetpLqkNvo8yV6ql/cIExMkSNUzGbZ5wCQ2
-         MThLeDY75cXu7ILlknfir908mgkQBqVgkphhzvqUSi+6J5HOrWTIE1R6/YFoUvXrxQTl
-         xmkYMGQ9qPivxxddNooNeuYH4Vk6a7JLooocMVCbtuqwekTgqb9i4WBNQGbWlidjC02l
-         EXkA==
-X-Forwarded-Encrypted: i=1; AFNElJ/J/CKJ2QFt75jJsg1SjuxWq/zbGS18cIrK8OHL5vSFHOiDkW0eNWNs/UMaTSqbAzBPAghMLP5V3w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6dBLa2LKIXRVHlAtxRfziQwv5/jYc6Q8xUTaG7c8ILkIE3M5f
-	97TWDASG5ezlAKxJFXOhF3mxcaI0QPqekAvCf9CBcO9pQY+dtxzr8ujwYdA9/XqtnjJ9emY0h0T
-	cNHu4j+yqBheDyy1MMPpJIeyJb6IY3UhjRrgGKq77fX4jUkRetCMIcAiCrfjo
-X-Gm-Gg: AeBDieuKd61zKrqmBDhuQIGnvPbDixQg5w9BIoQTP7/FPsA0Fa+6goY6Rd/8s0it/X4
-	NozAt3urI15W9wgTLADzWTyJ+IBOObcFA9kkBCi+yKhFl9JqzCjKaPR6Oy9qIg9zVwidSyo9sYb
-	us7T2iQ/J2k45VJq65rnoM5SnvyLepOBDdhNjAJi9A+SGxPxIPu80fsM4FmhkMbipnFwIkxwS/4
-	HlDZfnLegppE1KCZxgSuEhxj3YffU95FjmgZXw20B8N+jHzyhdzTapezF8+rm92mfU0rf5Ux+Ur
-	MCysqtvbdOreS0sbvqKq5WUUHeyBlxCx8gFL4X2jn/8DeTfhdm/RSVpBFkx+MeBdWAWartK8PAW
-	rNjgh8ZYMeQMV7ZV/2H3HikdcxNzVONMsUOHcDFzVWCTO2mxHQPU/2fAEuSqqpeEi+Yx2QWYG
-X-Received: by 2002:a05:620a:1a19:b0:8e4:ebbb:b162 with SMTP id af79cd13be357-904d3eac012mr213947585a.9.1778028653003;
-        Tue, 05 May 2026 17:50:53 -0700 (PDT)
-X-Received: by 2002:a05:620a:1a19:b0:8e4:ebbb:b162 with SMTP id af79cd13be357-904d3eac012mr213944785a.9.1778028652575;
-        Tue, 05 May 2026 17:50:52 -0700 (PDT)
-Received: from [192.168.1.15] (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8fc2c91fb3bsm1464933385a.41.2026.05.05.17.50.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 17:50:51 -0700 (PDT)
-From: Brian Masney <bmasney@redhat.com>
-Date: Tue, 05 May 2026 20:49:07 -0400
-Subject: [PATCH v3 11/15] clk: scpi: use clk_determine_rate_noop()
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="XSHmFbca"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 461173319;
+	Wed,  6 May 2026 03:35:26 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (donnerap.manchester.arm.com [10.33.8.81])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 903EB3F836;
+	Wed,  6 May 2026 03:35:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1778063731; bh=lFBt7cX5hmxlQcwDFjhXc5XRX3lnJKyd2KhSymeJKco=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XSHmFbcaMIX7DwiulDd8W4KXYW7o/+2OKEwZA0mbEVgbjTQVFXMtDMLnZLjMvmpEK
+	 MkpTGQzO35C6VAxBd26OmTVz4Xa/kVaB3hRRGeB9XawxsiwvkeHpbewTD8L8gm//SX
+	 ZfDDsXNsxWFC/uFxk7cG/vKCn41Lcn56+M/FT6z8=
+Date: Wed, 6 May 2026 11:35:27 +0100
+From: Philip Radford <philip.radford@arm.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-pm@vger.kernel.org,
+	sudeep.holla@arm.com, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+	quic_sibis@quicinc.com, dan.carpenter@linaro.org, d-gole@ti.com,
+	souvik.chakravarty@arm.com
+Subject: Re: [PATCH v5 10/12] powercap: arm_scmi: Create synthetic parent
+ node for multi-instance
+Message-ID: <afsZbxQO5Akcvgnl@donnerap.manchester.arm.com>
+References: <20260428090922.346069-1-philip.radford@arm.com>
+ <20260428090922.346069-11-philip.radford@arm.com>
+ <afppNhDnS3IuwelG@pluto>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <20260505-clk-determine-rate-noop-v3-11-f3f829fbacdf@redhat.com>
-References: <20260505-clk-determine-rate-noop-v3-0-f3f829fbacdf@redhat.com>
-In-Reply-To: <20260505-clk-determine-rate-noop-v3-0-f3f829fbacdf@redhat.com>
-To: Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>
-Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Sudeep Holla <sudeep.holla@kernel.org>, 
- Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1722; i=bmasney@redhat.com;
- s=20250903; h=from:subject:message-id;
- bh=uUN1TpCq5A1biDW7SQgzXIgDhMit0DTFvaH+q74KNes=;
- b=owGbwMvMwCW2/dJd9di6A+2Mp9WSGDJ/TfC5ocugJFak4SEcpDV3dvLfRGGpIu3MTFEVqeJSh
- akmFy50lLIwiHExyIopsizJNSqISF1le++OJgvMHFYmkCEMXJwCMJH+uYwMHwyW3E489X77H/ne
- hbXsFi63otiCTsoUrXPOEE7VCp5TwfBPT26bDlto571A73XFyXvmZoiofOlws9J2ncPJ/N+x4DM
- PAA==
-X-Developer-Key: i=bmasney@redhat.com; a=openpgp;
- fpr=A46D32705865AA3DDEDC2904B7D2DD275D7EC087
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: n-H7pkhU-pRK2L9Dc-0IGjULlIrHw9twe4IGvQ88sIk_1778028653
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <afppNhDnS3IuwelG@pluto>
 
-Drop the driver-specific empty determine_rate() function and use the new
-shared clk_determine_rate_noop() helper.
+On Tue, May 05, 2026 at 11:03:34PM +0100, Cristian Marussi wrote:
+> On Tue, Apr 28, 2026 at 10:09:19AM +0100, Philip Radford wrote:
+> > SCMI powercap domains are exposed as a flat list and may include
+> > multiple top-level domains without a parent. When registered with
+> > the powercap framework, these appear as independent root zones
+> > with no common hierarchy. The driver probes domains per SCMI
+> > instance, but when registering with the powercap framework, these
+> > would be combined into a single tree. This is particularly evident
+> > in multi-instance setups where zone IDs and parent zones can only
+> > coexist with other zones and parents from the same instance.
+> 
+> Hi,
+> 
 
-Signed-off-by: Brian Masney <bmasney@redhat.com>
----
-To: Sudeep Holla <sudeep.holla@kernel.org>
-To: Michael Turquette <mturquette@baylibre.com>
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Brian Masney <bmasney@redhat.com>
-Cc: arm-scmi@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-clk@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
- drivers/clk/clk-scpi.c | 14 +-------------
- 1 file changed, 1 insertion(+), 13 deletions(-)
+Hi, thanks for the review.
 
-diff --git a/drivers/clk/clk-scpi.c b/drivers/clk/clk-scpi.c
-index 7806569cd0d5..650c85aa0328 100644
---- a/drivers/clk/clk-scpi.c
-+++ b/drivers/clk/clk-scpi.c
-@@ -32,18 +32,6 @@ static unsigned long scpi_clk_recalc_rate(struct clk_hw *hw,
- 	return clk->scpi_ops->clk_get_val(clk->id);
- }
- 
--static int scpi_clk_determine_rate(struct clk_hw *hw,
--				   struct clk_rate_request *req)
--{
--	/*
--	 * We can't figure out what rate it will be, so just return the
--	 * rate back to the caller. scpi_clk_recalc_rate() will be called
--	 * after the rate is set and we'll know what rate the clock is
--	 * running at then.
--	 */
--	return 0;
--}
--
- static int scpi_clk_set_rate(struct clk_hw *hw, unsigned long rate,
- 			     unsigned long parent_rate)
- {
-@@ -54,7 +42,7 @@ static int scpi_clk_set_rate(struct clk_hw *hw, unsigned long rate,
- 
- static const struct clk_ops scpi_clk_ops = {
- 	.recalc_rate = scpi_clk_recalc_rate,
--	.determine_rate = scpi_clk_determine_rate,
-+	.determine_rate = clk_determine_rate_noop,
- 	.set_rate = scpi_clk_set_rate,
- };
- 
+> I know the problem you are trying to solve is real and advised for this
+> solution BUT saying that the domains are exposed in a flat list upfront
+> is not correct and misleading I think...the problem revolves around the
+> fact that...
+> 
+> SCMI powercap domains are represented with a hierarchical structure
+> (if any such structure exists platform side) which can be comprised
+> of multiple trees (a forest of powercap zones trees) each with its own
+> top root powercap zone.
+> On a system designed to expose multipe SCMI instances each of such
+> instance could enumerate a pretty much similar/simmetrical hierarchy of
+> powercap zomes, all sharing most probably the same IDs for children and
+> parents...all of these simmetrical hierarchies can coexist as long as
+> they are confined into their own instance 'space'.
+> 
+> Given that the Powercap framework does NOT have the concept of instances
+> collating all of these zones into the same Linux Powercap top node leads
+> to an artificially flattened tree of powercap where all the boudnaries
+> between instances are squashes into one single structure....possibly
+> combining multiple unrelated SCMI zones under a single unrelated Linux
+> powercap zone (by virtue of simmetrical parent-child relations)
+> 
+> So the need for a (functionally limited) unifying synthetic top root for
+> each instance...
+> 
+> I am sure you can summarize all of these better :P):
+> 
 
--- 
-2.54.0
+Understood. I will re-work the explanation in a better way.
 
+> > 
+> > Create a synthetic root zone to act as a common parent for all
+> > top-level domains. Creates a single hierarchy and unified entry
+> > point per-instance for userspace.
+> > 
+> > Signed-off-by: Philip Radford <philip.radford@arm.com>
+> > ---
+> > ---
+> >  drivers/powercap/arm_scmi_powercap.c | 67 ++++++++++++++++++++++++++--
+> >  1 file changed, 64 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/powercap/arm_scmi_powercap.c b/drivers/powercap/arm_scmi_powercap.c
+> > index 7f2bb162f96c..d74869af1633 100644
+> > --- a/drivers/powercap/arm_scmi_powercap.c
+> > +++ b/drivers/powercap/arm_scmi_powercap.c
+> > @@ -36,6 +36,7 @@ struct scmi_powercap_root {
+> >  	struct scmi_powercap_zone *spzones;
+> >  	struct list_head *registered_zones;
+> >  	struct list_head scmi_zones;
+> > +	struct scmi_powercap_zone instance_root;
+> >  };
+> >  
+> >  static struct powercap_control_type *scmi_top_pcntrl;
+> > @@ -263,12 +264,47 @@ static const struct powercap_zone_constraint_ops constraint_ops  = {
+> >  	.get_name = scmi_powercap_get_name,
+> >  };
+> >  
+> > +/* Multi-instance constraints to meet driver requrements */
+> > +static int instance_root_release(struct powercap_zone *pz)
+> > +{
+> > +	return 0;
+> > +}
+> > +
+> > +static int instance_root_get_power_uw(struct powercap_zone *pz, u64 *v)
+> > +{
+> > +	*v = 0;
+> > +	return 0;
+> > +}
+> > +
+> > +static int instance_root_set_constraint(struct powercap_zone *pz, int cid, u64 v)
+> > +{
+> > +	return -EOPNOTSUPP;
+> > +}
+> > +
+> > +static int instance_root_get_constraint(struct powercap_zone *pz, int cid, u64 *v)
+> > +{
+> > +	return -EOPNOTSUPP;
+> > +}
+> 
+> I would explain here better WHY you cannot really implement all the
+> fuctionalities on these toproot syntehtc zones...and WHY it is NOT an
+> issue but STILL it is enough to solve our problem with the multiple
+> instances configurations...
+> 
+
+No probs. I'll include the fact that full zone semantics aren't available for the
+synthetic zone.
+
+> > +
+> > +static const struct powercap_zone_ops instance_root_ops = {
+> > +	.get_max_power_range_uw = scmi_powercap_get_max_power_range_uw,
+> > +	.get_power_uw = instance_root_get_power_uw,
+> > +	.release = instance_root_release,
+> > +};
+> > +
+> > +static const struct powercap_zone_constraint_ops instance_root_const_ops = {
+> > +	.set_power_limit_uw = instance_root_set_constraint,
+> > +	.get_power_limit_uw = instance_root_get_constraint,
+> > +	.set_time_window_us = instance_root_set_constraint,
+> > +	.get_time_window_us = instance_root_get_constraint,
+> > +};
+> > +
+> >  static void scmi_powercap_unregister_all_zones(struct scmi_powercap_root *pr)
+> >  {
+> >  	int i;
+> >  
+> >  	/* Un-register children zones first starting from the leaves */
+> > -	for (i = pr->num_zones - 1; i >= 0; i--) {
+> > +	for (i = pr->num_zones; i >= 0; i--) {
+> >  		if (!list_empty(&pr->registered_zones[i])) {
+> >  			struct scmi_powercap_zone *spz;
+> >  
+> > @@ -313,7 +349,6 @@ static int scmi_powercap_register_zone(struct scmi_powercap_root *pr,
+> >  				   parent ? &parent->zone : NULL,
+> >  				   &zone_ops, spz->info->num_cpli, &constraint_ops);
+> >  	if (!IS_ERR(z)) {
+> > -		spz->height = scmi_powercap_get_zone_height(spz);
+> 
+> I have to admit I'd have to look back at how I implemneted this powercap zone
+> walking at registration tome :D .. but HOW can you get rid of spz->height here ?
+> 
+
+I've overlooked this, sorry. I'd removed it to set spz to include the synthetic zone if it
+was teh parent zone and ignore it if not. I can't rememeber removing the new logic but I'll
+rectify it for V6.
+
+> ...also because now spz->height is NOT set anywhere (presumable zeroed
+> at init) and also why you have NOT removed also scmi_powercap_get_zone_height
+> since nobody is calling it ?
+> 
+> ...also because I am pretty sure that all the management of the height of
+> the nodes in the binary trees where crucial when tearing down the hierarchy of
+> powercap zones ... (see explanation preceding scmi_zones_register())
+> 
+> ...mmmm.... have you tried to unload the arm_scmi_powercap driver with these
+> new changes for the syntethic powercap zones ?
+> 
+> I just did :P
+> 
+> ---8<----
+> root@deb-guest:~# modprobe -r arm_scmi_powercap
+> [   28.939470] Unable to handle kernel paging request at virtual address fffffffffffffc90
+> [   28.942910] Mem abort info:
+> [   28.947866]   ESR = 0x0000000096000006
+> [   28.953034]   EC = 0x25: DABT (current EL), IL = 32 bits
+> [   28.957189]   SET = 0, FnV = 0
+> [   28.957437]   EA = 0, S1PTW = 0
+> [   28.958254]   FSC = 0x06: level 2 translation fault
+> [   28.959025] Data abort info:
+> [   28.959511]   ISV = 0, ISS = 0x00000006, ISS2 = 0x00000000
+> [   28.960049]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+> [   28.961191]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+> [   28.962227] swapper pgtable: 4k pages, 48-bit VAs, pgdp=000000010261b000
+> [   28.963105] [fffffffffffffc90] pgd=0000000000000000, p4d=00000001030ff403, pud=0000000103100403, pmd=0000000000000000
+> [   28.964189] Internal error: Oops: 0000000096000006 [#1]  SMP
+> [   28.964994] Modules linked in: arm_scmi_powercap(-) cpufreq_powersave cpufreq_conservative
+> [   28.966300] CPU: 2 UID: 0 PID: 227 Comm: modprobe Not tainted 7.1.0-rc1-00012-g383eb3db9548 #2 PREEMPT 
+> [   28.967170] Hardware name: linux,dummy-virt (DT)
+> [   28.967925] pstate: 61400005 (nZCv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
+> [   28.969245] pc : device_del+0x3c/0x3b0
+> [   28.969963] lr : device_unregister+0x28/0x90
+> [   28.970342] sp : ffff800083b73b30
+> [   28.970753] x29: ffff800083b73b50 x28: ffff000005d86000 x27: 0000000000000000
+> [   28.971448] x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000000000
+> [   28.972159] x23: fffffffffffffff0 x22: ffff80007b1e30c0 x21: ffff000006f3c080
+> [   28.972701] x20: fffffffffffffc30 x19: fffffffffffffc50 x18: 0000000000000000
+> [   28.973237] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
+> [   28.973899] x14: 0000000000000000 x13: 0000000000000000 x12: ffff000007338880
+> [   28.974795] x11: ffff0000056bbc10 x10: ffff000009ca0c00 x9 : ffff800080c44480
+> [   28.975483] x8 : 0101010101010101 x7 : 7f7f7f7f7f7f7f7f x6 : fefefeff6364626d
+> [   28.976161] x5 : 8080808000000000 x4 : 0000000000000020 x3 : ffff80008243c534
+> [   28.976842] x2 : ffff000005d86000 x1 : 0000000000000000 x0 : fffffffffffffce0
+> [   28.977511] Call trace:
+> [   28.977738]  device_del+0x3c/0x3b0 (P)
+> [   28.978047]  device_unregister+0x28/0x90
+> [   28.978371]  powercap_unregister_zone+0x54/0x78
+> [   28.978781]  scmi_powercap_unregister_all_zones+0x84/0xc8 [arm_scmi_powercap]
+> [   28.979344]  scmi_powercap_remove+0x1c/0x38 [arm_scmi_powercap]
+> [   28.979821]  scmi_dev_remove+0x28/0x40
+> [   28.980136]  device_remove+0x54/0x90
+> [   28.980428]  device_release_driver_internal+0x1cc/0x230
+> [   28.980845]  driver_detach+0x54/0xc0
+> [   28.981136]  bus_remove_driver+0x74/0x100
+> [   28.981454]  driver_unregister+0x38/0x68
+> [   28.981774]  scmi_driver_unregister+0x28/0x1a0
+> [   28.982147]  scmi_powercap_exit+0x18/0xe20 [arm_scmi_powercap]
+> [   28.982560]  __arm64_sys_delete_module+0x1b0/0x2e0
+> [   28.982870]  invoke_syscall.constprop.0+0x48/0x120
+> [   28.983219]  el0_svc_common.constprop.0+0x40/0xe8
+> [   28.983628]  do_el0_svc+0x24/0x38
+> [   28.983916]  el0_svc+0x38/0x138
+> [   28.984201]  el0t_64_sync_handler+0xa0/0xe8
+> [   28.984557]  el0t_64_sync+0x198/0x1a0
+> [   28.984901] Code: f9429c01 f9000fe1 d2800001 91024260 (f9402276) 
+> [   28.985443] ---[ end trace 0000000000000000 ]---
+> Segmentation fault
+> --->8----
+> 
+> This does NOT happen without your syntethic node changes since the driver on
+> unload took care to remove/unregister powercap zones starting from the
+> leaves so as not to remove parents that were still referenced ....
+> 
+> .... you should always test also as a loadable module and manually load/unload
+> then testing...
+> 
+> I will review this again in V6...plesse double check to preserve the
+> original zone-walking algo...
+
+Understood. Sorry, I'll fully test for V6.
