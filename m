@@ -1,167 +1,196 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3F6434BA5B;
-	Tue,  5 May 2026 22:28:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80B92264C7
+	for <arm-scmi@vger.kernel.org>; Wed,  6 May 2026 00:50:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778020101; cv=none; b=PlUsE4qQcyB4wekcEw+hmTWlwtVec+5+Sbseq9YLAb+ibTEJu5ccl8qRNQbL2BUp88+dT4jHnkwVPgUS6csW9QKaiZqJnkpj4w8+Qpd80wqMUDxEp3xwh+MVDiI+PtR9rgC+1NqvDz8MSlm5RJs6pJzshD37NoiOTJdzHSx9Q6Y=
+	t=1778028632; cv=none; b=akeED+AIxiHl3ucqLK5htnF5d05CWihXz6n3tlvpH6Kg5F+Th0MAbwcDMb+X4mTQ9lWVWWlf4nXqrojnmsjAfBMntVZ1awFtMOqNrzL51aIMqRWgK/bV7ngwimmSXHOFz3MIcN/VFkbV9x3UD75mHDslPkgBMbIqyPHliflSk0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778020101; c=relaxed/simple;
-	bh=XfWxOyUGLD2q5cof5u5Eo/MmH1s8P7/d+G6YyWOX2e0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lygWJBI8Wwyt2C7R3yD4UIbLgU0s9M+1RG8rayTllA65xzC4NeTHBKBSFwyluRwG5i9a8pFQOj1yy32FNoalli8203ptg+lrou+jZUYc9KiEzftNfDuqZieIj1nSvn3ZaDgMhKB8PtAnDgbJ/tAJ2iYqRnMENJxtrxvANYh4EXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=nbhvuImU; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1778028632; c=relaxed/simple;
+	bh=zMeXAyyLpb1ycANNIw7NwRnIidpI1as921qDmQJS1JY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:To:Cc:Content-Type; b=D9Amhbc6KNL4q2KvL++N1PZNOGa9bhilZWH3AxHpWWN8IA0ABNARcAt9OuTBLjxWyqGfwCcLAXO1YPAm86Zuj2kL7ocLzbpTmJYduEB8vkwZKHGh/X68VG18RSi16ZVaRyqdfgAg27XHDmMGyGkeEyhwzeP/kqTuVoeBj3J27Fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZohWz6HQ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="nbhvuImU"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 84E281A9A;
-	Tue,  5 May 2026 15:28:13 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E51593F763;
-	Tue,  5 May 2026 15:28:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1778020098; bh=XfWxOyUGLD2q5cof5u5Eo/MmH1s8P7/d+G6YyWOX2e0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nbhvuImUGE4b0qAbtBjMGQQQnDSIO7MvehIX21CZkMQAR+8dHPU8pP2bURbOtaEDj
-	 rxFOhZolX/2jijLkPvaMkhzvSk2z/2Lco4cPYmiTL1CfK/b0Dfm0LNH/Um67mI9Bfg
-	 gw2hvi4R1dYwu7NwUuDYF6FuPSQqT/76B3yxteUs=
-Date: Tue, 5 May 2026 23:28:09 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Philip Radford <philip.radford@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-pm@vger.kernel.org,
-	sudeep.holla@arm.com, james.quinlan@broadcom.com,
-	f.fainelli@gmail.com, vincent.guittot@linaro.org,
-	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
-	quic_sibis@quicinc.com, dan.carpenter@linaro.org, d-gole@ti.com,
-	souvik.chakravarty@arm.com, cristian.marussi@arm.com
-Subject: Re: [PATCH v5 12/12] powercap: arm_scmi: Synthetic zone
- enable/disable
-Message-ID: <afpu-Wf01J3l0gAu@pluto>
-References: <20260428090922.346069-1-philip.radford@arm.com>
- <20260428090922.346069-13-philip.radford@arm.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZohWz6HQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1778028629;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=b9H8cYKTCyIKnl9+d/AL5JHJT5IYmUArCaFMH4v5EuY=;
+	b=ZohWz6HQUllvYrwQGEODoMsIiQ3IY3+ACIHrwjzLt7LaVHKXDKqcWHSTZ9lir9SiDQDZmB
+	b/jQW6qFvbPBB9ikCFxjYhr3F9jnJHYhJOnjB+Pf4b1qIajGNB43tnpw7SCulgAZxRfgSG
+	HBs1ZwsXGyfyjkAkxaeQKnTdtKN0eaw=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-456-IomBexeNNYyQt8M46fv8Pg-1; Tue, 05 May 2026 20:50:28 -0400
+X-MC-Unique: IomBexeNNYyQt8M46fv8Pg-1
+X-Mimecast-MFC-AGG-ID: IomBexeNNYyQt8M46fv8Pg_1778028628
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8f4ef450191so1226615785a.2
+        for <arm-scmi@vger.kernel.org>; Tue, 05 May 2026 17:50:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778028628; x=1778633428;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b9H8cYKTCyIKnl9+d/AL5JHJT5IYmUArCaFMH4v5EuY=;
+        b=MatVzy21o1/DnewUOZLX7GHcuIh6pnhWML6QupilnpU8QD3y8Vzx0eri5UkMmaGMd6
+         EVW4mZDBhOUcBT+zsfWTZ4fvr7DTjQ7FSLfz29BFoldqBR35AN8Y2hSu+q+kD0jqRIYd
+         UPIM2UOQoR1BMod0LK3n/GNG37vDD3D29zEo7NDQztOumdr+rp948fWJ3DkkDRbvOKj+
+         xHn/oKsvkaGxn5HR56I3f61fjTrJAgE2ytozUiufKQk/Y84eFyMaNdiJ/WJjTEru+/6g
+         ac4o+8/dMFCb6uFqra9tAhZdrhaw23+tpe9fCObWa8kNfMy7gP79xkGwAhYs+MaVYcwm
+         bjwA==
+X-Forwarded-Encrypted: i=1; AFNElJ+rkOmwnhLPgkkxNMcmb7raprd4XHP+9rmfyDfWzzS/mNxAVEr6FXMfqJpVkCu/C8oOI5kmpLvCzw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAZKIyp1mV/qooU8mQCjGV40KAjIAaGqPLd6+0WWVn0dt6tNwQ
+	GtZGcr9sMsVdB/hmsez7xa6O7ZZVWFBAsPyrsmaGzWMHfTqPZ41OUq3N8CaClyDr2UgJgZVaknP
+	yy7SRPrLLu1bbYgjt8MfudbDqAqyGcqqBzLCFWK5lPPyaw2dUXGnWogYP1bVj
+X-Gm-Gg: AeBDievSEg/v7DiG8TOzb6HcaP34ZO54wa4DdKh629dJlyKY7Bsdrx77U5BE86Cwwyy
+	pe4KAPsrSSprXuJJ7a1xk9YqLv3XswrZOf9W8DWnWmBi55wqyosSpeKLpgWUI702WJNK7mMUGhu
+	QsuF1OPS9qY4744dQQ9ABn/J0adm287ZqUJKRPjwFhW7tyawU0mr97sKfNVubcOr/dUBKvHZyBd
+	VZfdTvEcKZ7jOTwtG32YcyFzZrShO6JGnHJcoJdYiCGcDrWKHeTnKpFx0ObSzx1QfxTzbgrQYSo
+	nuCxZhTtQcu5GHrO5Th1Af2Ium4S30gNNcQa1njX43VtJqMj6H61/n8hzfUCwlPQkQcL6ghmsyB
+	/N1NixJPmuaajPuyD77UOlRVebJz55F3uaLJnXiIZSk+Ap8Bygm111U2vj5XtyXcScVE1MVTN
+X-Received: by 2002:a05:620a:454d:b0:8cd:7952:d449 with SMTP id af79cd13be357-904d5f00d9emr231850985a.29.1778028627947;
+        Tue, 05 May 2026 17:50:27 -0700 (PDT)
+X-Received: by 2002:a05:620a:454d:b0:8cd:7952:d449 with SMTP id af79cd13be357-904d5f00d9emr231848285a.29.1778028627449;
+        Tue, 05 May 2026 17:50:27 -0700 (PDT)
+Received: from [192.168.1.15] (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8fc2c91fb3bsm1464933385a.41.2026.05.05.17.50.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2026 17:50:26 -0700 (PDT)
+From: Brian Masney <bmasney@redhat.com>
+Subject: [PATCH v3 00/15] clk: introduce clk_determine_rate_noop() and
+ update drivers to use it
+Date: Tue, 05 May 2026 20:48:56 -0400
+Message-Id: <20260505-clk-determine-rate-noop-v3-0-f3f829fbacdf@redhat.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260428090922.346069-13-philip.radford@arm.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQqDMBBG4avIrDsQNVHpVYqLoH90aJvIREpBv
+ LvB5bd476AMFWR6VgcpfpIlxYL2UdG0+riAZS6mxjSdccbx9HnzjB36lQhWv4NjShvXvXfWhn4
+ w9UCl3hRB/vf5NZ7nBVsAcIVpAAAA
+X-Change-ID: 20260505-clk-determine-rate-noop-17a544f78018
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>
+Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Peng Fan <peng.fan@nxp.com>, Abel Vesa <abelvesa@kernel.org>, 
+ Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, Anson Huang <anson.huang@nxp.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Andrea della Porta <andrea.porta@suse.com>, 
+ Tudor Ambarus <tudor.ambarus@linaro.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
+ Sudeep Holla <sudeep.holla@kernel.org>, 
+ Cristian Marussi <cristian.marussi@arm.com>, 
+ Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, Vinod Koul <vkoul@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Ulf Hansson <ulfh@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+ arm-scmi@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org, 
+ linux-pm@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3477; i=bmasney@redhat.com;
+ s=20250903; h=from:subject:message-id;
+ bh=zMeXAyyLpb1ycANNIw7NwRnIidpI1as921qDmQJS1JY=;
+ b=owGbwMvMwCW2/dJd9di6A+2Mp9WSGDJ/TXBhDD/HJ+irfPCG5f8LBYvv8Dx9dmqr4NPkLyFFK
+ ++kbGS41lHKwiDGxSArpsiyJNeoICJ1le29O5osMHNYmUCGMHBxCsBEFrEwMqxq53uRvrC91Ddt
+ SpiPrVzUGZG/vn+yPrXy74upe2fVfJGRYcr2/5NeNj+qTdRbHh6S2B+gniyyo6Z0VsK7yHUStra
+ VbAA=
+X-Developer-Key: i=bmasney@redhat.com; a=openpgp;
+ fpr=A46D32705865AA3DDEDC2904B7D2DD275D7EC087
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Gg4ssSa_9iUro5KDmWtT9pT_vg8BfKuYvgPEvZXMi5U_1778028628
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 28, 2026 at 10:09:21AM +0100, Philip Radford wrote:
-> Add functionality to disable and enable the synthetic zone which
-> also affects the immediate children of the synthetic zone by applying
-> the same command to them.
-> 
-> Signed-off-by: Philip Radford <philip.radford@arm.com>
-> ---
->  drivers/powercap/arm_scmi_powercap.c | 81 ++++++++++++++++++++++++++++
->  1 file changed, 81 insertions(+)
-> 
-> diff --git a/drivers/powercap/arm_scmi_powercap.c b/drivers/powercap/arm_scmi_powercap.c
-> index 81b5214acda4..1ed2949b06cb 100644
-> --- a/drivers/powercap/arm_scmi_powercap.c
-> +++ b/drivers/powercap/arm_scmi_powercap.c
-> @@ -270,6 +270,85 @@ static int instance_root_release(struct powercap_zone *pz)
->  	return 0;
->  }
->  
-> +static int instance_root_set_enable_state(struct powercap_zone *pz, bool enable)
-> +{
-> +	struct scmi_powercap_zone *root;
-> +	struct scmi_powercap_root *pr;
-> +	struct scmi_powercap_zone *child;
+There are some clocks where the determine_rate clk op is just an empty
+function that returns 0. This can be either because the rounding is
+managed by the firmware/hardware, or the clock is capable of any rate.
+Let's add a new new shared function to clk.c named
+clk_determine_rate_noop(), and update all of the drivers that have an
+empty determine_rate() ops to use this new shared function.
 
-...child and root on the same line of declarations...
+The first patch in this series also includes a minor cleanup to
+drivers/clk/imx/clk-scu.c. I included it as the first patch so it
+doesn't get buried in the middle of this series. I change this same
+driver later in the series to use clk_determine_rate_noop().
 
-> +	int ret, first_err = 0;
-> +
-> +	if (!pz)
-> +		return -EINVAL;
-> +
-> +	root = to_scmi_powercap_zone(pz);
-> +	pr = container_of(root, struct scmi_powercap_root, instance_root);
+Changes since v2:
+https://lore.kernel.org/all/20260309-clk-det-rate-fw-managed-v2-0-c48ef5a3100a@redhat.com/
+- Dropped the NOOP flag and just use a dedicated noop function.
 
-...another user of you new macro !
+Merge Strategy
+--------------
+All of this needs to be directly merged by Stephen as one series into
+his tree. Subsystem maintainers: please leave a Reviewed-by or Acked-by
+for Stephen. To reduce the noise, I am only CCing people on their
+respective drivers.
 
-> +
-> +	list_for_each_entry(child, &pr->registered_zones[0], node) {
-> +		if (child == &pr->instance_root)
-> +			continue;
-> +
-> +		if (child->info->parent_id != SCMI_POWERCAP_ROOT_ZONE_ID)
-> +			continue;
-> +
-> +		if (!child->info->cpli[0].cap_config)
-> +			continue;
-> +
-> +		ret = powercap_ops->cap_enable_set(child->ph, child->info->id, enable);
-> +
-> +		if (ret && !first_err) {
+Since there's only 3 drivers outside of drivers/clk that need to be
+updated, I included them in this same series for completeness. These
+should go through Stephen's tree as well.
 
-...mmm what is the logic here ? why not bailing out on any error ?
+Signed-off-by: Brian Masney <bmasney@redhat.com>
+---
+Brian Masney (15):
+      clk: imx: scu: drop redundant init.ops variable assignment
+      clk: add clk_determine_rate_noop()
+      clk: hisilicon: hi3660-stub: use clk_determine_rate_noop()
+      clk: imx: scu: use clk_determine_rate_noop()
+      clk: qcom: rpm: use clk_determine_rate_noop()
+      clk: qcom: rpmh: use clk_determine_rate_noop()
+      clk: qcom: smd-rpm: use clk_determine_rate_noop()
+      clk: renesas: rzg2l-cpg: use clk_determine_rate_noop()
+      clk: rp1: use clk_determine_rate_noop()
+      clk: samsung: acpm: use clk_determine_rate_noop()
+      clk: scpi: use clk_determine_rate_noop()
+      clk: sprd: use clk_determine_rate_noop()
+      phy: mediatek: phy-mtk-hdmi-mt2701: use clk_determine_rate_noop()
+      pmdomain: mediatek: airoha: use clk_determine_rate_noop()
+      pmdomain: mediatek: mtk-mfg: use clk_determine_rate_noop()
 
-> +			first_err = ret;
-> +			dev_err(child->dev, "failed to %s zone %s: %d\n",
-> +				enable ? "enable" : "disable",
-> +				child->info->name, ret);
-> +		}
-> +	}
-> +
-> +	return first_err;
+ drivers/clk/clk-rp1.c                           |  8 +-------
+ drivers/clk/clk-scpi.c                          | 14 +-------------
+ drivers/clk/clk.c                               | 18 ++++++++++++++++++
+ drivers/clk/hisilicon/clk-hi3660-stub.c         | 12 +-----------
+ drivers/clk/imx/clk-scu.c                       | 24 +++---------------------
+ drivers/clk/qcom/clk-rpm.c                      | 15 ++-------------
+ drivers/clk/qcom/clk-rpmh.c                     |  8 +-------
+ drivers/clk/qcom/clk-smd-rpm.c                  | 13 +------------
+ drivers/clk/renesas/rzg2l-cpg.c                 |  8 +-------
+ drivers/clk/samsung/clk-acpm.c                  | 14 +-------------
+ drivers/clk/sprd/pll.c                          |  8 +-------
+ drivers/phy/mediatek/phy-mtk-hdmi-mt2701.c      |  8 +-------
+ drivers/pmdomain/mediatek/airoha-cpu-pmdomain.c |  8 +-------
+ drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c    | 23 ++---------------------
+ include/linux/clk-provider.h                    |  1 +
+ 15 files changed, 36 insertions(+), 146 deletions(-)
+---
+base-commit: 4cd074ae20bbcc293bbbce9163abe99d68ae6ae0
+change-id: 20260505-clk-determine-rate-noop-17a544f78018
 
-...especially if you anyway fails globally on any error....
-..I am not completely sure bit given that youare operating on a
-synthetic zone that you enable as a whole, while acting on its children
-in the backstage...I would say that if any enable/disable fails on a
-chidlren you should revert the enable status of the children thate were
-succesffull and report the error...I mean the state of top synthatic
-zones AND the states of the children MUST remain consistent...
-...it CANNOT be that some chidlren fails, some succeeds and you report
-an error..it must be all or nothing...
-...example..top syntethic zone is OFF if all children were successfully
-disabled...on a failure with one of the children you shoudl revert the
-already successfully set children and report the global error...
+Best regards,
+-- 
+Brian Masney <bmasney@redhat.com>
 
-> +}
-> +
-> +static int instance_root_set_enable(struct powercap_zone *pz, bool mode)
-> +{
-> +	return instance_root_set_enable_state(pz, mode);
-> +}
-> +
-> +static int instance_root_get_enable(struct powercap_zone *pz, bool *mode)
-> +{
-> +	struct scmi_powercap_zone *root;
-> +	struct scmi_powercap_root *pr;
-> +	struct scmi_powercap_zone *child;
-> +	bool enabled;
-> +	int ret;
-> +
-> +	if (!pz || !mode)
-> +		return -EINVAL;
-> +
-> +	root = to_scmi_powercap_zone(pz);
-> +	pr = container_of(root, struct scmi_powercap_root, instance_root);
-> +
-> +	*mode = true;
-> +
-> +	list_for_each_entry(child, &pr->registered_zones[0], node) {
-
-mmm...what is the point here of scanning the children to GET the
-state...you should report the top syntethic zone state right ?
-You could have disable children directly...that wont be reflected in the
-Linux powercap hiearcrhy right ?
-I mean should you NOT simply return the stae of the top syntethic zone
-which is should have saved in the previous state_set operation above ?
-
-I think that anyway if you disable a zone...any zone...ONLY that zone is
-marked as disable in Lnux powercap ... am I right ? 
-
-Then probably our SCMI fw will do much more on all the children..
-
-Thanks,
-Cristian
