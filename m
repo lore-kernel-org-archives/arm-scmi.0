@@ -1,168 +1,135 @@
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB5532E6BD
-	for <arm-scmi@vger.kernel.org>; Fri,  8 May 2026 10:26:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1636E3DA7E0;
+	Fri,  8 May 2026 12:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778235993; cv=none; b=FqnWq89YTGp54YJEbgxg5X1YzeI9K6XY7TA2QiUojvtLpbXeQuWJ8HRLOinRCvBZzdzrR8nbDkbILvMfvfp03h3saex+a2iTNIMDTOI0BDJeTLJcVc0DWoctDYcS055fN4x3/+7BqGiVntpt9c0kRYG1eTUDTbVZfHp1egMP72w=
+	t=1778242365; cv=none; b=JP1h/GepETdlelhvZOLPKAvXNgG0EwKRfYEBZljf3HrrBCRpj1icfgtA6S0hBhmaIRuyL9GzIEaly2Al6h+EEc1k6ALTvFOvuEGyR61oLwZVgTDIxICT5dkGiznBnFNMgEqm4eOIJMmQCh1r0BTffoFSde/Fcqi8Y8vexdL2M6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778235993; c=relaxed/simple;
-	bh=36lBpAkEr0H2Wsx1O/r0B32FSIwBe2F6o8wScyIxU0A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RoJozSy8DDjr1T9Za6lJen+h7OkeKpq02an8F2uXtSLTnX/B+olpF+W3A91gPJ8ZPUtm/P0FztHg6z0CDIgUSEftGRehPHX5ldpcR+JCYw8QZBcTrAwA5O7ZgW2aiwtADLBZx+XAgbUbeOrjO5Fqxj3UTtGi/vfGUasLMUI/Q3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-56a86f0a23bso1755376e0c.0
-        for <arm-scmi@vger.kernel.org>; Fri, 08 May 2026 03:26:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778235991; x=1778840791;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LZIqmD8zZ0qFeOi8hR6tlVmjP85Y0OQ26EIUPvE1H2I=;
-        b=GJpsLEE7IZi1UOHwBxv3Sv2Kqptmw4MK0zxvte2h4wsGpdb5+8Z5tagUewKcBXAoOF
-         mUGjLBzk8siXJTDVvf96rrq3m15yXB2x0VsKCVR5AedtGjvEcxyXMIi6yja7hg3RwciW
-         mR3IdF6Hy2k3voqNAhZuGm2p9QHNX0Vs84osZCKuQt+/FGzDbTZ+//xEQCBkhrID34E2
-         YQPowtggN8Qi5wRtOX1TzAFD83lnUBINBtj4/G+ubBmPwqaeysk2ea0f8Lle8ZTGR+V3
-         YHXqxO+ikPad50KGADdTPezBSwAWibKEj1y1v6YMIEhgvJd0qcop1fVEReSVqyHA6bl7
-         xP9g==
-X-Forwarded-Encrypted: i=1; AFNElJ8bsXB0tmt/61FIaD+cQ7nUVZ5dXZlFA5a02dqbcNNcghuv1P/r8MSaXT0a1AjwWuXI2BTPGxyGUQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAH2CM7X6KLWOPDYOIcApUsa0BJ4PbgoKWg8LS+14uNQBAWI0v
-	GxSW2xc7UrD8mmdxmo79mT1ypzC5sKoJnqswXE3Q6Cv9a+XUJ6B74kgsZnrTwJFF2Us=
-X-Gm-Gg: Acq92OGzzBKmxNSwL2Athc4oNiEgqHK5UXfdkILBH2KmGvjiA5K6D0c+rnLIlMJUiV1
-	19272bMdISXdfqMfjPlEwQAAOTBl0kY4Ws+UJRfkt34xfo/3mFemwmXSHQS+ITWLg4/bgxHHYU+
-	BqKJlrnW7O8Y5Xs7obmf/6jdjoQE4drVtlreE9cO+keVH3JG9Vm/CFNmr1aBrJq97lw9ErFHt5u
-	zBUuvrdNnWZiFkVShWRaQMhj+puCGu5BUgzz9XkQ+mo+ouRsEWWQ1/wMbzIeZPxgGD3WfwWm+fr
-	WqVwDZQLuN2+9CBQNfk8Kn4WaJw43gJOiumGJJ7WNeqGRjskqZEHyjKBYEyfpopfjZ+dcVxh3vb
-	ri6QMeztfSlLeh46NVDfyZnB78H3+ZdULHy4ZBuaZUXL8R6au5n49AsmPnVxe4s3QBB6LCkbhcP
-	n3fU7dwJbjDCZMoim9HAo7OJDzdaTLPbQ3ryNneR1whhbVhZ6S2tYuWZA71ouz
-X-Received: by 2002:a05:6122:4d09:b0:56f:7c7e:f33a with SMTP id 71dfb90a1353d-57559269776mr7490044e0c.0.1778235991397;
-        Fri, 08 May 2026 03:26:31 -0700 (PDT)
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-95f219c6d64sm588298241.3.2026.05.08.03.26.30
-        for <arm-scmi@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 May 2026 03:26:31 -0700 (PDT)
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-6314287380bso225247137.3
-        for <arm-scmi@vger.kernel.org>; Fri, 08 May 2026 03:26:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9cT1c8v5dLqWzHPx1FXkJoQHaLWeN7K8hNLdbyWiYN0+YhzQ57O9B9DvnMAvF+Sessn4paqezJGQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:3048:b0:614:bef5:637c with SMTP id
- ada2fe7eead31-630f8c2bb7dmr6450388137.0.1778235990622; Fri, 08 May 2026
- 03:26:30 -0700 (PDT)
+	s=arc-20240116; t=1778242365; c=relaxed/simple;
+	bh=8wQJi7Z/6oiDDjXY4PUnzHS4rctTBv4o5UzgnqFWSBM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=u3N+W646pcdmZm0BnxEoRSKAMDx6y6VvbcnOs1lpszqIaVtsy8wa7lxNRdk6C5sVEpV0OezQ5oQJ7sRWdXC0HYAQZiFIaDCpt9vEIDRTx+RxsKJbi2Xfm120PxnkdxNj1nmElZ+0leBhsRDNnmzD6+F1yDZMcnf2RsMlLC9IJpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=igUGQkq1; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=GdGtGgnT; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="igUGQkq1";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="GdGtGgnT"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gBp0T75jZz9tqy;
+	Fri,  8 May 2026 14:12:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1778242362;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tSZZrgOpw7cfjEQSWr1n0bcdUbY4FHu0Sk24TvUJj0A=;
+	b=igUGQkq1Qgum4i5uly3XIvnas34fiFJEzCz1YSgK3g4judFZN28XucXGKTb0C5y7RSyf+G
+	/jubVnTcJ/wLe9D6yOFcPHAXC1evYIt9luCy/g3IrsCjDSjkyiaZse9R2xI4dgVDuTS5RK
+	T8qc5mVNDt+v7VCGALOmkwEt2QJNmnfzzyhND34pZK5IXfaFc+t5nfVqx/z4Zu7zIdYQx5
+	BpG4SEFjCACMt1JpsomqcATItCbCwSDNPczkQ5f4da70920RHoKKKiOovGKdW4HYav/UMN
+	9VFn+z5oNS0UL0Bv0cyYqc8YzNXTCrXwKYysz4fcRPtpd9KX017K4RlLmpEzIQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=GdGtGgnT;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
+Message-ID: <adbe4c78-2899-47e7-8529-49eb8f99666d@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1778242360;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tSZZrgOpw7cfjEQSWr1n0bcdUbY4FHu0Sk24TvUJj0A=;
+	b=GdGtGgnTJkUqospHm6XSwRHJEXRKCDhqIib8UOwm27/2aixmEcsvbroWxpOKQScz6O+LH6
+	+2D9KVeXOU70h+toSAPyI7rZwbUlzsrZBXpg8/qmW2hJwAlarlYcX1YWBjts43zXYrB82v
+	Ds6Up4Bmm4XXFYU+NbQjHS5nW0ZVQ6rK3+ImRdnMamp9ktBzRu/u8+xouxBzVaUx0XNNfW
+	DgX+OAW2u3qRpLeWW/XHKf2Ir5tSOKjg/Xk6FqF1dS+EmVY2lb0SJ9m3LqOSMYdVcmpXCt
+	sZXsa69OB0jIvn0N5I/zcDdYU57pj8lBCkcr6LGEK36geCH9JqvJLZJkoVtqDQ==
+Date: Fri, 8 May 2026 14:12:31 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1776793163.git.geert+renesas@glider.be> <72e2a0e7a5abda02fe36b3f5851842f7a77b2593.1776793163.git.geert+renesas@glider.be>
- <aekXUvIPb8nkhdKu@pluto> <CAMuHMdWJvMH+a1RqozbaCxxH_8M569JcruTFa8PW+87FysnjHw@mail.gmail.com>
- <ae6Zp54NhKlVes8J@pluto>
-In-Reply-To: <ae6Zp54NhKlVes8J@pluto>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 8 May 2026 12:26:19 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWK3Noh5ZQVWT9C0EKyXZePMaJ97C0A_syK+xCb_=abeQ@mail.gmail.com>
-X-Gm-Features: AVHnY4J3TVnOKvIG81cskhXstanCgVV2EYjhdTAUgyNfFJiiKyj4H0BCwyLVTfY
-Message-ID: <CAMuHMdWK3Noh5ZQVWT9C0EKyXZePMaJ97C0A_syK+xCb_=abeQ@mail.gmail.com>
-Subject: Re: [PATCH/RFC 05/14] firmware: arm_scmi: Add scmi_get_base_info()
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Ulf Hansson <ulfh@kernel.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Marek Vasut <marek.vasut+renesas@mailbox.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, arm-scmi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH/RFC 10/14] dt-bindings: power: Document Renesas R-Car X5H
+ Module Controller
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Sudeep Holla <sudeep.holla@kernel.org>,
+ Cristian Marussi <cristian.marussi@arm.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Saravana Kannan <saravanak@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Ulf Hansson <ulfh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1776793163.git.geert+renesas@glider.be>
+ <053c312d07445517d8f9c84bfe3cc8fb72d4cd9a.1776793163.git.geert+renesas@glider.be>
+ <39879eae-39dd-4b4d-9469-d238cd7d120a@mailbox.org>
+ <CAMuHMdVumfXkBtxzVBY27SRngHG2eOoWP+cgbkWQDNDkAW1mOg@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <CAMuHMdVumfXkBtxzVBY27SRngHG2eOoWP+cgbkWQDNDkAW1mOg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: zu4rz6kobcocxfr7aqatpn5ssy85cf67
+X-MBO-RS-ID: f4fb5f452a7f67cf7c3
+X-Rspamd-Queue-Id: 4gBp0T75jZz9tqy
 
-Hi Cristian,
+On 5/8/26 9:47 AM, Geert Uytterhoeven wrote:
 
-On Mon, 27 Apr 2026 at 01:03, Cristian Marussi <cristian.marussi@arm.com> wrote:
-> On Fri, Apr 24, 2026 at 02:08:55PM +0200, Geert Uytterhoeven wrote:
-> > On Wed, 22 Apr 2026 at 20:45, Cristian Marussi <cristian.marussi@arm.com> wrote:
-> > > Also because this should be one of the selling point of the SCMI stack
-> > > in a virtualized environment: you can ship the same kernel drivers with
-> > > the same DT and you know that ID=<N> will always identify the specific
-> > > resource that is needed by your driver without worrying about the fact
-> > > that in reality in the backstage the effectively managed physical resource
-> > > could be different across different platforms, because that does not matter
-> >
-> > This sounds strange to me, do I understand it correctly?
-> > So the ID should (1) be tied to the use-case, and not to the underlying
-> > hardware, and (2) be the same for different platforms?
-> >
-> > For (1): Then we must not put these IDs in DT at all, as DT is supposed
-> >     to describe the hardware (and firmware IDs in DT were IMHO already
-> >     a stretch before).
-> > For (2): How can there be a contiguous list of IDs, as not all platforms
-> >     may have the same underlying hardware?
->
-> I would NOT say that an SCMI FW must behave like this regarding IDs, but it
-> is a possible SCMI deployed setup that can be useful in virtualized setups
->
-> I mean, the DT describes the hardware of course BUT when you refer to
-> some of this hardware DT bits from some other subsystem by referencing a
-> phandle, even in the non-SCMI world, you are in fact selecting a specific
-> resource that fit you use case, right ? Can we say this ?
-> I mean you needed that specific clock or regulator that you described
-> previously so as to be able to enable some other piece of HW...
->
-> Now, the SCMI provides an abstraction on top of this, since you really
-> discover domain IDs of a specific class (clocks/regulators etc) you are
-> in fact describing an HW abstraction that you then refer with the usual
-> phandle...also because there is NOT so much SCMI hardware to describe,
-> given that the HW is handled transparently (opaquely really :P) by the
-> driver on the FW side...
->
-> ...you basically obtain such domain ID, usable as phandles through dynamic
-> SCMI enumeration so that you can use it all over your DT to make use of such
-> resources...
->
-> ...on top of this, consider that the SCMI server CAN provide to its agents
-> a per-agent-view of the world, IOW it can (and should) expose to a specific
-> agent ONLY the resources needed by that agent, i.e. it can expose the set
-> of resources 1-N to two distinct agents and that does NOT mean that the
-> underlying physical resource mapped by ID=3 in both agents has to be
-> effectively the same piece of hardware: it could be the case, and this
-> would be useful to exposed and managed properly a shared resource, or
-> it could also be that the same ID=3 could refer to completely distinct
-> pieces of the same class of hardware...(same protocol same class of
-> resource...)
+Hello Geert,
 
-Exposing only the clocks/reset/power domains the agent can use,
-in a contiguous list of IDS, means that the number space changes,
-depending on which resources are exposed.
+> On Thu, 7 May 2026 at 23:53, Marek Vasut <marek.vasut@mailbox.org> wrote:
+>> On 4/21/26 8:11 PM, Geert Uytterhoeven wrote:
+>>> +  '#power-domain-cells':
+>>> +    description: |
+>>> +      - The first power domain specifier cell must be either the Module
+>>> +        Power Domain Gating (MPDG) register index (0x00-0x3f) from the
+>>> +        datasheet, or a Power Domain number, as defined in
+>>> +        <dt-bindings/power/renesas,r8a78000-mdlc.h>,
+>>> +      - The second power domain specifier cell must be the module number
+>>> +        (0x00-0xff), composed of the Module System Reset (MSRES) register index
+>>> +        in the high nibble, and the Module Reset Destination bitfield index in
+>>> +        the low nibble.
+>>> +    const: 2
+>>> +
+>>> +  '#reset-cells':
+>>> +    description:
+>>> +      The single reset specifier cell must be the module number (0x00-0xff).
+>>> +    const: 1
+>> Just one more question -- the power-domain-cells second cell and
+>> reset-cells are always going to be identical values, correct ? If so, it
+> 
+> Yes they are.
+> 
+>> would be nice to keep the description: aligned, and maybe even indicate
+>> in the description that those two values have to be the same.
+> 
+> I thought that was obvious (but apparently it is not)? The descriptions
+> are identical, except for the latter not explaining again what a module
+> number is composed of...
 
-Suppose you have a system where you want to assign a specific hardware
-block in the SoC to the realtime CPU core instead of the application
-CPU core running Linux.
-That means all resources used by that block must no longer be exposed
-to the Linux agent, and the corresponding IDs must be removed from
-the ID space exposed to Linux.  As the ID space must be sequential
-and contiguous, the IDs must be renumbered, impacting resources that
-are exposed to Linux.  As these IDs are used in the SoC .dtsi, they
-must be changed there, too, However, these IDs have become part of
-the stable DT ABI, and thus cannot be changed.
+Please do spell it out in the document, this is a complicated topic and 
+every little bit of extra clarity helps.
 
-This patch series fixes that issue, too, by describing the actual
-hardware in DT, and doing the mapping to exposed SCMI features in the
-kernel, based on which firmware version is running on the SCP.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+Thank you !
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Marek Vasut
