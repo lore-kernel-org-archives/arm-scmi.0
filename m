@@ -1,76 +1,75 @@
-Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com [209.85.222.68])
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B41533CE9A
-	for <arm-scmi@vger.kernel.org>; Fri,  8 May 2026 08:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB5532E6BD
+	for <arm-scmi@vger.kernel.org>; Fri,  8 May 2026 10:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778228785; cv=none; b=OdxqaLg+O3L/yn8lPEVAXHP0+lB0ndTDl5ECPMmNhJrIlVC4J9WmKnK4U8HJyvygBmvMMjZ/UF/W41D7GBp4u3wGLD8pl2GkY2Pu5j5Q6/3Y2yTUVUSfKBEw+8MLaP8B6IW+SL5uRrlqnrOe/XgXWGrb5EUoEjdXV04HvmbrbjE=
+	t=1778235993; cv=none; b=FqnWq89YTGp54YJEbgxg5X1YzeI9K6XY7TA2QiUojvtLpbXeQuWJ8HRLOinRCvBZzdzrR8nbDkbILvMfvfp03h3saex+a2iTNIMDTOI0BDJeTLJcVc0DWoctDYcS055fN4x3/+7BqGiVntpt9c0kRYG1eTUDTbVZfHp1egMP72w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778228785; c=relaxed/simple;
-	bh=OF+KbbPBry4fiTqCO/A0vEBAM9IFzJmbWYXTqxwsniM=;
+	s=arc-20240116; t=1778235993; c=relaxed/simple;
+	bh=36lBpAkEr0H2Wsx1O/r0B32FSIwBe2F6o8wScyIxU0A=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A9M+BEZ4DDUB7nfT+jbkFOJXwdtK5CXHnikF7OPmKPa356ZDBQVNNbhsiO1WpOgc99IxTMLXdbnhkAz1c8IrfJxdBACdNfaa3if4f1WnJfWSnlbYrChn67lJxTbF5Da5SOQJHst630NyRPzCSDfEwiZa9VTB5l5z1EUkkHRzhZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.68
+	 To:Cc:Content-Type; b=RoJozSy8DDjr1T9Za6lJen+h7OkeKpq02an8F2uXtSLTnX/B+olpF+W3A91gPJ8ZPUtm/P0FztHg6z0CDIgUSEftGRehPHX5ldpcR+JCYw8QZBcTrAwA5O7ZgW2aiwtADLBZx+XAgbUbeOrjO5Fqxj3UTtGi/vfGUasLMUI/Q3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f68.google.com with SMTP id a1e0cc1a2514c-956995b5bb6so553812241.3
-        for <arm-scmi@vger.kernel.org>; Fri, 08 May 2026 01:26:23 -0700 (PDT)
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-56a86f0a23bso1755376e0c.0
+        for <arm-scmi@vger.kernel.org>; Fri, 08 May 2026 03:26:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778228782; x=1778833582;
+        d=1e100.net; s=20251104; t=1778235991; x=1778840791;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vUNwtFp7LXv7nOLjMf/BlzJYT09wzG6WamyTo0Ov/no=;
-        b=epiYMakFAVRu/RW08zo8q+bQhlCh4YzUJ/eo2htHSwNmp/jkPbQew00omNaTR7I6m4
-         HZcupXb/E9e81pSEPpKon+apQKJIB3IX79W3/8MSeF3eTtvKCH4HuhOJ5zWc/mithTs6
-         g4p1wYS5dw+3lmbH0j0f07nkFDNTsCMawhdTdv+EgCyElwtoGFr0SbzgBLLmL8QD2XJj
-         Dby1tguD3kIUe7s5Qome0jXf15RznjJb6fPQA5mHr2x0jRWrBZxmZiUWMzPDj4GwgfPq
-         MES1iJvs3wlUp9r27O7lSd66tQdx/9iCTcy9xjXEv7IS9e+HGhL8yJHfcLnYcltZQKwZ
-         7MpA==
-X-Forwarded-Encrypted: i=1; AFNElJ+fT40Bjgd6SzAVBnvvhJfEqFOxWAS9VhQ3fa2/Ny0hTpTNvpZ4I1bCBHWb1/nFv+hP7u3i1eRlVQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxqhi7V2PoSE5dKHjDColGqvizfVYZlxDsVvMq1wiJ/Yy9Usa31
-	FsCoCXXZaUZgpMRjtQ9n09cvGu6Yp7SJFRephNwQAd4QxnFe2cYpaMyKRLDG//Wv/aLtKw==
-X-Gm-Gg: Acq92OFXQ8YPH1igd48f3Ltow7BIzjofFv6O1f+BMfOXhVwFmnDiVlX36Ae8AOJtY5s
-	OptpSMOMhromMyaj/L9pmhZExKNhcC78AkHAH6efc5kHLo3upIdwLUQ4dpU3K657TSXAXWUd9ND
-	5j3G9QvB83E0Itub7UHo9axbS364gOCZGyoVuxxum/ThdLK/5Sz/CY4K51TWMF4Ldzz26JNzy/A
-	hGDYqBAW3EvgfZAxayrOnMxZyw3xnz6JAIIBlLuNqNd/xFNq55PoqsbBQWuocrQOR6NM6AmMlSV
-	CNpcYCGBdbrhX4ZFLyI7HxaMBnSr3O4OMmz52tdfL3KEg/4Gn0r8R537cDJ4JBpn+G82kQQPlGT
-	e5XkbdkMpTbbXjyx/c//VneNq/NboIme7cTcOqMZ/Cr0PtAxSqzVynoVaKPyIKr1UBrJL0/pSlT
-	cFqwrzWS6hF5tBVysJKl5jz0lYeGDZbf2MZXEJ+E1bgzHtmRi6Teu4fyni77EMTqF4T7KIC4U=
-X-Received: by 2002:a05:6102:508a:b0:62f:34db:9474 with SMTP id ada2fe7eead31-630f90076afmr5828892137.20.1778228782136;
-        Fri, 08 May 2026 01:26:22 -0700 (PDT)
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-63140035928sm516801137.4.2026.05.08.01.26.22
+        bh=LZIqmD8zZ0qFeOi8hR6tlVmjP85Y0OQ26EIUPvE1H2I=;
+        b=GJpsLEE7IZi1UOHwBxv3Sv2Kqptmw4MK0zxvte2h4wsGpdb5+8Z5tagUewKcBXAoOF
+         mUGjLBzk8siXJTDVvf96rrq3m15yXB2x0VsKCVR5AedtGjvEcxyXMIi6yja7hg3RwciW
+         mR3IdF6Hy2k3voqNAhZuGm2p9QHNX0Vs84osZCKuQt+/FGzDbTZ+//xEQCBkhrID34E2
+         YQPowtggN8Qi5wRtOX1TzAFD83lnUBINBtj4/G+ubBmPwqaeysk2ea0f8Lle8ZTGR+V3
+         YHXqxO+ikPad50KGADdTPezBSwAWibKEj1y1v6YMIEhgvJd0qcop1fVEReSVqyHA6bl7
+         xP9g==
+X-Forwarded-Encrypted: i=1; AFNElJ8bsXB0tmt/61FIaD+cQ7nUVZ5dXZlFA5a02dqbcNNcghuv1P/r8MSaXT0a1AjwWuXI2BTPGxyGUQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAH2CM7X6KLWOPDYOIcApUsa0BJ4PbgoKWg8LS+14uNQBAWI0v
+	GxSW2xc7UrD8mmdxmo79mT1ypzC5sKoJnqswXE3Q6Cv9a+XUJ6B74kgsZnrTwJFF2Us=
+X-Gm-Gg: Acq92OGzzBKmxNSwL2Athc4oNiEgqHK5UXfdkILBH2KmGvjiA5K6D0c+rnLIlMJUiV1
+	19272bMdISXdfqMfjPlEwQAAOTBl0kY4Ws+UJRfkt34xfo/3mFemwmXSHQS+ITWLg4/bgxHHYU+
+	BqKJlrnW7O8Y5Xs7obmf/6jdjoQE4drVtlreE9cO+keVH3JG9Vm/CFNmr1aBrJq97lw9ErFHt5u
+	zBUuvrdNnWZiFkVShWRaQMhj+puCGu5BUgzz9XkQ+mo+ouRsEWWQ1/wMbzIeZPxgGD3WfwWm+fr
+	WqVwDZQLuN2+9CBQNfk8Kn4WaJw43gJOiumGJJ7WNeqGRjskqZEHyjKBYEyfpopfjZ+dcVxh3vb
+	ri6QMeztfSlLeh46NVDfyZnB78H3+ZdULHy4ZBuaZUXL8R6au5n49AsmPnVxe4s3QBB6LCkbhcP
+	n3fU7dwJbjDCZMoim9HAo7OJDzdaTLPbQ3ryNneR1whhbVhZ6S2tYuWZA71ouz
+X-Received: by 2002:a05:6122:4d09:b0:56f:7c7e:f33a with SMTP id 71dfb90a1353d-57559269776mr7490044e0c.0.1778235991397;
+        Fri, 08 May 2026 03:26:31 -0700 (PDT)
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-95f219c6d64sm588298241.3.2026.05.08.03.26.30
         for <arm-scmi@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 May 2026 01:26:22 -0700 (PDT)
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-63124ac76f5so483749137.1
-        for <arm-scmi@vger.kernel.org>; Fri, 08 May 2026 01:26:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ84WqTsHUZ2jjHBQ0UXeqONBlBF+XIRiO+xIghtFRqYTzU1S+F9JnhmDCu1ntRINpCR4e50f66n6Q==@vger.kernel.org
-X-Received: by 2002:a67:e709:0:b0:604:ec90:ba14 with SMTP id
- ada2fe7eead31-630f8ee2fa0mr5929351137.11.1778228781677; Fri, 08 May 2026
- 01:26:21 -0700 (PDT)
+        Fri, 08 May 2026 03:26:31 -0700 (PDT)
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-6314287380bso225247137.3
+        for <arm-scmi@vger.kernel.org>; Fri, 08 May 2026 03:26:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9cT1c8v5dLqWzHPx1FXkJoQHaLWeN7K8hNLdbyWiYN0+YhzQ57O9B9DvnMAvF+Sessn4paqezJGQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:3048:b0:614:bef5:637c with SMTP id
+ ada2fe7eead31-630f8c2bb7dmr6450388137.0.1778235990622; Fri, 08 May 2026
+ 03:26:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1776793163.git.geert+renesas@glider.be> <053c312d07445517d8f9c84bfe3cc8fb72d4cd9a.1776793163.git.geert+renesas@glider.be>
- <bf83a028-3ef3-482a-9ce3-8aec16f6ebed@mailbox.org> <CAMuHMdWN2zaZrY2jKKXpNqrP8xSqc-uJTr-siTBgaA=-EY_4BQ@mail.gmail.com>
- <fa28c6fe-484c-4133-824e-649c52ef2200@mailbox.org>
-In-Reply-To: <fa28c6fe-484c-4133-824e-649c52ef2200@mailbox.org>
+References: <cover.1776793163.git.geert+renesas@glider.be> <72e2a0e7a5abda02fe36b3f5851842f7a77b2593.1776793163.git.geert+renesas@glider.be>
+ <aekXUvIPb8nkhdKu@pluto> <CAMuHMdWJvMH+a1RqozbaCxxH_8M569JcruTFa8PW+87FysnjHw@mail.gmail.com>
+ <ae6Zp54NhKlVes8J@pluto>
+In-Reply-To: <ae6Zp54NhKlVes8J@pluto>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 8 May 2026 10:26:09 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUU=RohST4LDDD27W5dj=HwJFApMcDpsXATQ1MaMH-tUA@mail.gmail.com>
-X-Gm-Features: AVHnY4JJUxMOqvyoeb-hr7ynluUAgTja2N2yaP-Ep1K9EfNyRckxSh-cxJzmeNw
-Message-ID: <CAMuHMdUU=RohST4LDDD27W5dj=HwJFApMcDpsXATQ1MaMH-tUA@mail.gmail.com>
-Subject: Re: [PATCH/RFC 10/14] dt-bindings: power: Document Renesas R-Car X5H
- Module Controller
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+Date: Fri, 8 May 2026 12:26:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWK3Noh5ZQVWT9C0EKyXZePMaJ97C0A_syK+xCb_=abeQ@mail.gmail.com>
+X-Gm-Features: AVHnY4J3TVnOKvIG81cskhXstanCgVV2EYjhdTAUgyNfFJiiKyj4H0BCwyLVTfY
+Message-ID: <CAMuHMdWK3Noh5ZQVWT9C0EKyXZePMaJ97C0A_syK+xCb_=abeQ@mail.gmail.com>
+Subject: Re: [PATCH/RFC 05/14] firmware: arm_scmi: Add scmi_get_base_info()
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Magnus Damm <magnus.damm@gmail.com>, Saravana Kannan <saravanak@kernel.org>, 
 	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
 	Philipp Zabel <p.zabel@pengutronix.de>, Ulf Hansson <ulfh@kernel.org>, 
@@ -84,237 +83,84 @@ Cc: Sudeep Holla <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@a
 	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Marek,
+Hi Cristian,
 
-On Thu, 7 May 2026 at 23:36, Marek Vasut <marek.vasut@mailbox.org> wrote:
-> On 5/7/26 9:37 AM, Geert Uytterhoeven wrote:
-> > On Thu, 7 May 2026 at 00:58, Marek Vasut <marek.vasut@mailbox.org> wrote:
-> >> On 4/21/26 8:11 PM, Geert Uytterhoeven wrote:
-> >>> +  '#power-domain-cells':
-> >>> +    description: |
-> >>> +      - The first power domain specifier cell must be either the Module
-> >>> +        Power Domain Gating (MPDG) register index (0x00-0x3f) from the
-> >>> +        datasheet,
-> >>
-> >> I agree with this part.
-> >>
-> >>> or a Power Domain number, as defined in
-> >>> +        <dt-bindings/power/renesas,r8a78000-mdlc.h>,
-> >>
-> >> I do not understand this part, please see end of this email ...
-> >>
-> >>> +      - The second power domain specifier cell must be the module number
-> >>> +        (0x00-0xff), composed of the Module System Reset (MSRES) register index
-> >>> +        in the high nibble, and the Module Reset Destination bitfield index in
-> >>> +        the low nibble.
-> >>> +    const: 2
-> >>
-> >> I am unsure about this part.
-> >>
-> >> There are multiple MDLC blocks, AON, SCP, HSCN, and so on. Each MDLC
-> >> block contains multiple Module Power Domain Gating registers (MPDGn) and
-> >> multiple Module System RESet register (MSRES) .
-> >>
-> >> I do understand and agree that the first power-domains-cells cell must
-> >> be the identifier of power domain within the MDLC block.
-> >>
-> >> However, I do not understand the second cell. The MDLC bindings already
-> >> contain reset-cells, which should be used to refer to a reset within the
-> >> MDLC block. Resets within the MDLC block are operated using the MSRES
-> >> registers. Why are resets conflated into power-domain-cells ?
+On Mon, 27 Apr 2026 at 01:03, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> On Fri, Apr 24, 2026 at 02:08:55PM +0200, Geert Uytterhoeven wrote:
+> > On Wed, 22 Apr 2026 at 20:45, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> > > Also because this should be one of the selling point of the SCMI stack
+> > > in a virtualized environment: you can ship the same kernel drivers with
+> > > the same DT and you know that ID=<N> will always identify the specific
+> > > resource that is needed by your driver without worrying about the fact
+> > > that in reality in the backstage the effectively managed physical resource
+> > > could be different across different platforms, because that does not matter
 > >
-> > The Module Reset Destination bitfields in the MSRES registers are
-> > 2-bit wide, and control both Reset and Module Standby.  Hence the
-> > same register bitfields are referred to in the power-domains and
-> > resets properties, through the module number.
+> > This sounds strange to me, do I understand it correctly?
+> > So the ID should (1) be tied to the use-case, and not to the underlying
+> > hardware, and (2) be the same for different platforms?
 > >
-> > Module Standby controls the clock(s) going into the module,
-> > and is modelled as an SCMI clock (SCP_CLOCK_ID_MDLC_*) by the SCP
-> > firmware. This is very similar to how MSTP (Module Stop) clocks are
-> > handled on earlier R-Car SoCs (except that the SCP_CLOCK_ID_MDLC_*
-> > clocks have a zero rate :-(.
-> >
-> > Summarized, the first cell is the power domain part, and the second
-> > cell is the clock domain part.
+> > For (1): Then we must not put these IDs in DT at all, as DT is supposed
+> >     to describe the hardware (and firmware IDs in DT were IMHO already
+> >     a stretch before).
+> > For (2): How can there be a contiguous list of IDs, as not all platforms
+> >     may have the same underlying hardware?
 >
-> Thank you for the clarification.
+> I would NOT say that an SCMI FW must behave like this regarding IDs, but it
+> is a possible SCMI deployed setup that can be useful in virtualized setups
 >
-> Since there are up to 32 MPDG registers, and 256 resets, can we encode
-> both into a single cell ?
+> I mean, the DT describes the hardware of course BUT when you refer to
+> some of this hardware DT bits from some other subsystem by referencing a
+> phandle, even in the non-SCMI world, you are in fact selecting a specific
+> resource that fit you use case, right ? Can we say this ?
+> I mean you needed that specific clock or regulator that you described
+> previously so as to be able to enable some other piece of HW...
 >
-> (mpdg_register_offset << 16) | (reset_bit_offset << 0)
-
-We could.  I did consider it (with a shift of 8 cfr. 256 modules),
-but see below...
-
-> I cannot tell whether this is much better, but it at least ties the PD
-> components (power domain and clock domain) into a single value, which
-> matches reality a bit better. The current split power domain and clock
-> domain description in two cells gives me the illusion that it is
-> possible to mix and match power domains and clock domains in DT
-> description, but in fact the two cells are strongly tied together.
-
-They are only tied together in the sense that a module (hardware block)
-is part of a power domain, and has module standby (clock) control.
-Some power domains are backed by MDLC hardware registers,
-others are not, hence the need for the additional definitions in
-<dt-bindings/power/renesas,r8a78000-mdlc.h>.
-I am not aware (yet) of modules that are part of a power domain,
-but do not have module standby control. If these exist, we
-need an additional definition (R8A78000_MDLC_MODULE_NONE?) in
-<dt-bindings/power/renesas,r8a78000-mdlc.h>.
-
-Due to this separation, and due to a possible future need for expansion
-(R8A78000_MDLC_MODULE_NONE, MDLCs with more than 256 modules, ...),
-I went for two cells.
-
-> If we cannot encode the two into a single cell, maybe we can at least
-> have some sort of macro for this, e.g. this (0xff as no MPDG register
-> bits for this block):
-> #define R8A78000_MDLC_PD_HSCIF0 (0xff << 16) ((0x5 << 4) | (0x3 << 0))
+> Now, the SCMI provides an abstraction on top of this, since you really
+> discover domain IDs of a specific class (clocks/regulators etc) you are
+> in fact describing an HW abstraction that you then refer with the usual
+> phandle...also because there is NOT so much SCMI hardware to describe,
+> given that the HW is handled transparently (opaquely really :P) by the
+> driver on the FW side...
 >
-> What do you think ?
-
-I (and I believe the DT maintainers) are not so fond of defines for
-numbers that can be (more or less) just read from the documentation.
-(and 0xff should be R8A78000_MDLC_PD_APL?)
-
-> > So perhaps I will clarify like this:
-> >
-> >        - The first power domain specifier cell is the power domain part, and
-> >          must be either the Module Power Domain Gating (MPDG) register index
+> ...you basically obtain such domain ID, usable as phandles through dynamic
+> SCMI enumeration so that you can use it all over your DT to make use of such
+> resources...
 >
-> ... for power domains which are backed by MDPG bits, and which can be
-> controlled in that manner ...
+> ...on top of this, consider that the SCMI server CAN provide to its agents
+> a per-agent-view of the world, IOW it can (and should) expose to a specific
+> agent ONLY the resources needed by that agent, i.e. it can expose the set
+> of resources 1-N to two distinct agents and that does NOT mean that the
+> underlying physical resource mapped by ID=3 in both agents has to be
+> effectively the same piece of hardware: it could be the case, and this
+> would be useful to exposed and managed properly a shared resource, or
+> it could also be that the same ID=3 could refer to completely distinct
+> pieces of the same class of hardware...(same protocol same class of
+> resource...)
 
-OK.
+Exposing only the clocks/reset/power domains the agent can use,
+in a contiguous list of IDS, means that the number space changes,
+depending on which resources are exposed.
 
-> >          (0x00-0x3f) from the datasheet, or a Power Domain number, as defined in
-> >          <dt-bindings/power/renesas,r8a78000-mdlc.h>,
->
-> ... for power domains which are always on, and for which there are no
-> MPDG bits which can be used to control them ...
+Suppose you have a system where you want to assign a specific hardware
+block in the SoC to the realtime CPU core instead of the application
+CPU core running Linux.
+That means all resources used by that block must no longer be exposed
+to the Linux agent, and the corresponding IDs must be removed from
+the ID space exposed to Linux.  As the ID space must be sequential
+and contiguous, the IDs must be renumbered, impacting resources that
+are exposed to Linux.  As these IDs are used in the SoC .dtsi, they
+must be changed there, too, However, these IDs have become part of
+the stable DT ABI, and thus cannot be changed.
 
-OK,
-
->
-> >        - The second power domain specifier cell is the clock domain part, and
-
-Upon second thought: s/clock domain/module standby/
-
-> >          must be the module number (0x00-0xff), composed of the Module System
-> >          Reset (MSRES) register index in the high nibble, and the Module Reset
-> >          Destination bitfield index in the low nibble.
->
-> I can understand this.
->
-> >>> +  '#reset-cells':
-> >>> +    description:
-> >>> +      The single reset specifier cell must be the module number (0x00-0xff).
-> >>> +    const: 1
-> >>
-> >> [...]
-> >>
-> >>> +#ifndef __DT_BINDINGS_POWER_RENESAS_R8A78000_MDLC_H__
-> >>> +#define __DT_BINDINGS_POWER_RENESAS_R8A78000_MDLC_H__
-> >>> +
-> >>> +/* R-Car X5H MDLC Power Domains */
-> >>> +
-> >>> +#define R8A78000_MDLC_PD_AON                 0x40
-> >>> +#define R8A78000_MDLC_PD_SCP                 0x41
-> >>> +#define R8A78000_MDLC_PD_APL                 0x42
-> >>> +#define R8A78000_MDLC_PD_CMN                 0x43
-> >>> +#define R8A78000_MDLC_PD_ACL                 0x44
-> >> ... what do these numbers represent ? Shouldn't those be register
-> >> offsets from MDLC MPDG00 according to power-domain-cells ?
-> >
-> > These are Power Domains that are not backed by any of the 64 Module
-> > Power Domain Gating (MPDG) registers in MDLC blocks.
->
-> I suspect that might not be entirely correct for all of them, please
-> read on and see CMN below.
-
-Thanks, looks like R8A78000_MDLC_PD_CMN should be dropped.
-
-> Let's take PD_AC00 , AP core 0 , as a domain of interest. My
-> understanding is, that the domain structure for PD_AC00 looks as follows:
->
-> PD_AON {
->    PD_SCP { };
->    PD_APL {
->      hierarchy is SYSSS
->      always-power-on
->      PD_CMN {
->        hierarchy is CMNN
->        power-gating-bit is MDLC_CMNN 20
->        PD_APU0 {
->          hierarchy is SYSSS
->          power-gating is done by APMU
->          PD_ACL0 {
->            hierarchy is CMNN
->            power-gating-bit is MDLC_CMNN 16
->            PD_AC00 {
->              hierarchy is CMNN
->              power-gating-bit is MDLC_CMNN 0
->            };
->            ...
->          };
->          ...
->        };
->        ...
->      };
->      ...
->      PD_HSCIF0 {
->        hierarchy is PERW
->        power-gating-bit is MDLC_PERW 23
->      };
->    };
->    ...
-> };
->
-> With this in mind, I think CPU 0 DT node should refer to the PD_AC00
-> power domain this way:
->
-> cpu@0 {
->    ...
->    power-domains = <&mdlc_cmnn R8A78000_MDLC_PD_AC00>;
->    ...
-> };
-
-So we do have a few modules (I found a few more) that are part of
-power domains, but do no support module standby.  One more reason to
-decouple them in power-domains.
-
-However, CPU cores are controlled through PSCI (the slightly less evil
-brother of SCMI? ;-), so
-Documentation/devicetree/bindings/arm/psci.yaml applies, too?
-
->
-> The MDLC driver would pass the PD_AC00 domain ID to matching SCMI power
-> domain management protocol call, or, for bare-metal MDLC driver, would
-> have to internally encode PD hierarchy, walk it, and apply PD operations
-> in each step.
->
-> I think even for SCIF/HSCIF, the power domain reference should be
-> something along the lines of the following description. The MDLC driver
-> should internally encode that R8A78000_MLDC_PD_HSCIF0 is a sub-domain of
-> R8A78000_MDLC_PD_APL .
->
-> serial@c0710000 {
->    ...
->    power-domains = <&mdlc_perw R8A78000_MDLC_PD_HSCIF0>;
->    ...
-> };
-
-R8A78000_MLDC_PD_HSCIF0 is a not a full sub-domain, but merely standby
-(clock) control inside the PD_APL clock domain?
-
+This patch series fixes that issue, too, by describing the actual
+hardware in DT, and doing the mapping to exposed SCMI features in the
+kernel, based on which firmware version is running on the SCP.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
