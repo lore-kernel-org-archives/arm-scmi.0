@@ -1,270 +1,152 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396E935979;
-	Sun, 10 May 2026 03:02:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B43F73644AF;
+	Sun, 10 May 2026 16:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778382177; cv=none; b=eJl3gHEWJRiqU43UquQziXWcydjaPOU9BIwmCCYm2WAn/r6OCDo4+YjSK/zQS3HedHZe3YWG/6q14VU2vTfKadfmflbQ90RgtmpusDbDiqiRjh4qJVnTvZGFrHTp73jci5gd1xz8/IRTYxDDAPvsPo/WDfRAgMsr1zCjPLaV9tc=
+	t=1778429160; cv=none; b=FllsX5HqjAzgT9DEqRC5lg4XNLBLqZ5+Td1Pz0ranNyDc/f2CNEmOlOZz+2mP0ye+D4UI3nQGmwuyHDOMkUSirN3iB+yKAZwHMQtqQgHUOK8oG0llX1CvdyYhxrV+tqrn9Dfu4W7qLDWWVCEk/6rHPB/r1kZGa6zw0V9fp08eYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778382177; c=relaxed/simple;
-	bh=r+v71hsEte8pWEv2C7BSE3iTj76Ojm2jtEj0SA6Z1RE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oChNf+lKEh4+apI8UTvjwFz9I7r+Op9gDNTg8tYkgoGsj9J5fIvLuwWMPFku+voorpqtWK2Zs8pp8W1YL+xEUj5yo99J092cBGePpoUCzF3Xb1AVUjJG5BuJUlJsZmO6U/0Vxnezc+lZ2/SCi/qbpvKTH2ZxpdLzf0XgqKiTxk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=fdAObIBP; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1778429160; c=relaxed/simple;
+	bh=myTaqAtC7/L1Xq3s01EGR42VOFZpWLVRSjMnBYulHi0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BQxbRfwnZmzKuGsKdY+9IHH3WomOhwZoiS0H9qX5/ZMV3tHf7uJUem9GvGoVwO3BUnxg83YO3gX6t10kuY2OGvHfW9yN9g6RUfiOS4wWmwtbJBVsDLXjTTPaxfN5R2mgGfadXj+GFkOi1MW1zk16EO6arZrtmT9+2e2VY/q9UbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=NBuya4Ir; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="fdAObIBP"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gCnj12XFbz9ttT;
-	Sun, 10 May 2026 05:02:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1778382165;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9AG2mPgAOtJ8Me87PpVSnI+nay5U0EzVOgMVFYD/YiE=;
-	b=fdAObIBPln9zwt+xeHEPvt1bMvDO8JRvcTJPTX2mTY2J0WgZUFLZhsPyzpYNf06biWicyw
-	ptoiNBpq/YGPmw1Te1qySZ+QpzwTzoWX6WAcJfZF/deAobppogx1TrpBppUv0JhuC0I5U1
-	AZFbl4R/fbiQuDK6fnkU4+SbAAWEIxh6sCPRAEokqV/28NMezlffi68DwEFhXMpBtMDiDP
-	lNGhHwvkI53wWbFW8DKVlymF8MIfOIG3lJ2+SUyNSjZifsTKZ+0xa+1zg9eNGYD42AJA0u
-	Bq5BTd3155LGgq6ZCnFa5fg8gBF1Hba6Ayng2cj2WBLIrXcpiwY8A/cafFQBQw==
-Message-ID: <73602f40-45f0-4e4e-86cb-4a2c025f0491@mailbox.org>
-Date: Sun, 10 May 2026 05:02:39 +0200
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="NBuya4Ir"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A5F7D26AC;
+	Sun, 10 May 2026 09:05:51 -0700 (PDT)
+Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 704E13F836;
+	Sun, 10 May 2026 09:05:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1778429156; bh=myTaqAtC7/L1Xq3s01EGR42VOFZpWLVRSjMnBYulHi0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=NBuya4IrypJzViUSWTnthUpvVcxQm9ocZE0mU4ihSCs9sp93ljx3DG8hpUS/B+apm
+	 oiOusT6xqNPLddYFGzv5QSE6/Dbgn8Tu3ggzDhyWoGcA5GkNJ7AePAXwbiuJ5ctWU1
+	 0Y6HkLxg29DjOflaPETcGJ1FTDv9PFfoFMgbOyKU=
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org
+Cc: sudeep.holla@kernel.org,
+	philip.radford@arm.com,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	etienne.carriere@foss.st.com,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	gatien.chevallier@foss.st.com,
+	u.kleine-koenig@baylibre.com,
+	dakr@kernel.org,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [PATCH v2 0/4] Rework SCMI transport drivers probing sequence
+Date: Sun, 10 May 2026 17:05:23 +0100
+Message-ID: <20260510160527.3537474-1-cristian.marussi@arm.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH/RFC 10/14] dt-bindings: power: Document Renesas R-Car X5H
- Module Controller
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
- Cristian Marussi <cristian.marussi@arm.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- Saravana Kannan <saravanak@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Ulf Hansson <ulfh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
- Kevin Hilman <khilman@baylibre.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <cover.1776793163.git.geert+renesas@glider.be>
- <053c312d07445517d8f9c84bfe3cc8fb72d4cd9a.1776793163.git.geert+renesas@glider.be>
- <bf83a028-3ef3-482a-9ce3-8aec16f6ebed@mailbox.org>
- <CAMuHMdWN2zaZrY2jKKXpNqrP8xSqc-uJTr-siTBgaA=-EY_4BQ@mail.gmail.com>
- <fa28c6fe-484c-4133-824e-649c52ef2200@mailbox.org>
- <CAMuHMdUU=RohST4LDDD27W5dj=HwJFApMcDpsXATQ1MaMH-tUA@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CAMuHMdUU=RohST4LDDD27W5dj=HwJFApMcDpsXATQ1MaMH-tUA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: fbwz36b893qz5jidenhstwmckkgabocb
-X-MBO-RS-ID: 685120301b26aeb58c6
+Content-Transfer-Encoding: 8bit
 
-On 5/8/26 10:26 AM, Geert Uytterhoeven wrote:
+Hi,
 
-Hello Geert,
+when the SCMI transports were split out into standalone drivers [1] the
+probe sequence was laid out in such a way that:
 
->> Since there are up to 32 MPDG registers, and 256 resets, can we encode
->> both into a single cell ?
->>
->> (mpdg_register_offset << 16) | (reset_bit_offset << 0)
-> 
-> We could.  I did consider it (with a shift of 8 cfr. 256 modules),
-> but see below...
-> 
->> I cannot tell whether this is much better, but it at least ties the PD
->> components (power domain and clock domain) into a single value, which
->> matches reality a bit better. The current split power domain and clock
->> domain description in two cells gives me the illusion that it is
->> possible to mix and match power domains and clock domains in DT
->> description, but in fact the two cells are strongly tied together.
-> 
-> They are only tied together in the sense that a module (hardware block)
-> is part of a power domain, and has module standby (clock) control.
-> Some power domains are backed by MDLC hardware registers,
-> others are not, hence the need for the additional definitions in
-> <dt-bindings/power/renesas,r8a78000-mdlc.h>.
-> I am not aware (yet) of modules that are part of a power domain,
-> but do not have module standby control. If these exist, we
-> need an additional definition (R8A78000_MDLC_MODULE_NONE?) in
-> <dt-bindings/power/renesas,r8a78000-mdlc.h>.
+ - the transport drivers would have probed first, triggered by the firmware
+   driven discovery process (DT/ACPI)
 
-Maybe TAUJ3 in AON domain? I think HSCN also has abundance of examples.
+ - afterwards the control would have been passed to the core SCMI stack
+   driver via the creation of a dedicated device that would have inherited
+   the original firmware descriptor (since that same DT/ACPI node would
+   have been still needed by the SCMI core driver to be parsed)
 
-> Due to this separation, and due to a possible future need for expansion
-> (R8A78000_MDLC_MODULE_NONE, MDLCs with more than 256 modules, ...),
-> I went for two cells.
+The tricky part came around with some transport driver like virtio and
+optee since they are, in turn, upfront dependent on an external distinct
+kernel subsystem; IOW these have first to undergo their own subsystem
+specific probe/initialization to become fully operational as transports:
+this kind of initialization sequencing of course must deal with the
+possibility of probe deferrals BUT at that time we avoided this by using
+the trick in virtio/optee transports to register the next stage drivers
+ONLY at the end of the subsystem specific probe routine, from within the
+probe itself.
 
-I think I won't push for a single cell either, two cells are OK with me too.
+This register_while_probing behaviour is ugly and has 2 main issues:
 
->> If we cannot encode the two into a single cell, maybe we can at least
->> have some sort of macro for this, e.g. this (0xff as no MPDG register
->> bits for this block):
->> #define R8A78000_MDLC_PD_HSCIF0 (0xff << 16) ((0x5 << 4) | (0x3 << 0))
->>
->> What do you think ?
-> 
-> I (and I believe the DT maintainers) are not so fond of defines for
-> numbers that can be (more or less) just read from the documentation.
+ - it is frowned upon and can lead to hangs in the driver core whenever
+   some core locking is changed as exposed in [2][3]
 
-OK
+ - it limits these transport drivers to a single instance probing since of
+   course you cannot register the same driver more than once
 
-> (and 0xff should be R8A78000_MDLC_PD_APL?)
+Note also that such dependencies are NOT explicitly represented in any way
+within the firmware description tables: i.e. we cannot play the fw_devlink
+card and enjoy correct sequencing out of the box.
 
-I think AON would have to be 0xff , since it is superdomain of APL ?
+With this series we remove the ugly register_while_probing trick and
+introduce some basic mechanism to allow the probe to be deferred until the
+underlying transport has probed and it is fully operational so as that can
+be used as a supplier device. This is obtained by:
 
->>> So perhaps I will clarify like this:
->>>
->>>         - The first power domain specifier cell is the power domain part, and
->>>           must be either the Module Power Domain Gating (MPDG) register index
->>
->> ... for power domains which are backed by MDPG bits, and which can be
->> controlled in that manner ...
-> 
-> OK.
-> 
->>>           (0x00-0x3f) from the datasheet, or a Power Domain number, as defined in
->>>           <dt-bindings/power/renesas,r8a78000-mdlc.h>,
->>
->> ... for power domains which are always on, and for which there are no
->> MPDG bits which can be used to control them ...
-> 
-> OK,
-> 
->>
->>>         - The second power domain specifier cell is the clock domain part, and
-> 
-> Upon second thought: s/clock domain/module standby/
+ - moving the problematic platform driver registration away from the probe
+   into its own module_init/exit
 
-If you could even mention that this refers to "Module STOP" column bit, 
-that would even clearer.
+ - adding a few common well-known optional helpers that can be invoked
+   to retrieve the supplier reference, if ready, OR defer the probe when
+   neeeded.
 
->>>           must be the module number (0x00-0xff), composed of the Module System
->>>           Reset (MSRES) register index in the high nibble, and the Module Reset
->>>           Destination bitfield index in the low nibble.
->>
->> I can understand this.
->>
->>>>> +  '#reset-cells':
->>>>> +    description:
->>>>> +      The single reset specifier cell must be the module number (0x00-0xff).
->>>>> +    const: 1
->>>>
->>>> [...]
->>>>
->>>>> +#ifndef __DT_BINDINGS_POWER_RENESAS_R8A78000_MDLC_H__
->>>>> +#define __DT_BINDINGS_POWER_RENESAS_R8A78000_MDLC_H__
->>>>> +
->>>>> +/* R-Car X5H MDLC Power Domains */
->>>>> +
->>>>> +#define R8A78000_MDLC_PD_AON                 0x40
->>>>> +#define R8A78000_MDLC_PD_SCP                 0x41
->>>>> +#define R8A78000_MDLC_PD_APL                 0x42
->>>>> +#define R8A78000_MDLC_PD_CMN                 0x43
->>>>> +#define R8A78000_MDLC_PD_ACL                 0x44
->>>> ... what do these numbers represent ? Shouldn't those be register
->>>> offsets from MDLC MPDG00 according to power-domain-cells ?
->>>
->>> These are Power Domains that are not backed by any of the 64 Module
->>> Power Domain Gating (MPDG) registers in MDLC blocks.
->>
->> I suspect that might not be entirely correct for all of them, please
->> read on and see CMN below.
-> 
-> Thanks, looks like R8A78000_MDLC_PD_CMN should be dropped.
-> 
->> Let's take PD_AC00 , AP core 0 , as a domain of interest. My
->> understanding is, that the domain structure for PD_AC00 looks as follows:
->>
->> PD_AON {
->>     PD_SCP { };
->>     PD_APL {
->>       hierarchy is SYSSS
->>       always-power-on
->>       PD_CMN {
->>         hierarchy is CMNN
->>         power-gating-bit is MDLC_CMNN 20
->>         PD_APU0 {
->>           hierarchy is SYSSS
->>           power-gating is done by APMU
->>           PD_ACL0 {
->>             hierarchy is CMNN
->>             power-gating-bit is MDLC_CMNN 16
->>             PD_AC00 {
->>               hierarchy is CMNN
->>               power-gating-bit is MDLC_CMNN 0
->>             };
->>             ...
->>           };
->>           ...
->>         };
->>         ...
->>       };
->>       ...
->>       PD_HSCIF0 {
->>         hierarchy is PERW
->>         power-gating-bit is MDLC_PERW 23
->>       };
->>     };
->>     ...
->> };
->>
->> With this in mind, I think CPU 0 DT node should refer to the PD_AC00
->> power domain this way:
->>
->> cpu@0 {
->>     ...
->>     power-domains = <&mdlc_cmnn R8A78000_MDLC_PD_AC00>;
->>     ...
->> };
-> 
-> So we do have a few modules (I found a few more) that are part of
-> power domains, but do no support module standby.  One more reason to
-> decouple them in power-domains.
+Instead, we do NOT introduce in this series (as we attempted in the RFC)
+a mechanism to support multiple instance probing also for optee and virtio
+transports, because there is currently NO possible way to bind such probed
+transport driver instances to the related SCMI instances, so that this
+would narrow down the applicability of this multiple instance scenario to
+the case in which each underlying SCMI server instance is setup in exactly
+the same way. (same protocols for each instance node)
 
-I think HSCN is a really good example ?
+Based on v7.1-rc2
 
-> However, CPU cores are controlled through PSCI (the slightly less evil
-> brother of SCMI? ;-), so
-> Documentation/devicetree/bindings/arm/psci.yaml applies, too?
+Tested on:
+ - an emulated environment against a mock SCMI Server (virtio)
+ - a QEMU based setup against SCP-based server running in OPTEE (optee)
+ - JUNO with the standard SCP reference firmware (mailbox)
+ - RADXA ROCK_5B with Rockchip fw (smc) 
 
-We can indeed control cores purely via PSCI , yes.
+Thanks,
+Cristian
 
-(Upstream TFA needs one more platform patch to make this operable)
+[1]: https://lore.kernel.org/arm-scmi/20240812173340.3912830-1-cristian.marussi@arm.com/
+[2]: https://lore.kernel.org/lkml/aaA6t-J2gRy3dE1_@pluto/
+[3]: https://lore.kernel.org/all/ad9cglZCwtsVsGmq@monoceros/
 
->> The MDLC driver would pass the PD_AC00 domain ID to matching SCMI power
->> domain management protocol call, or, for bare-metal MDLC driver, would
->> have to internally encode PD hierarchy, walk it, and apply PD operations
->> in each step.
->>
->> I think even for SCIF/HSCIF, the power domain reference should be
->> something along the lines of the following description. The MDLC driver
->> should internally encode that R8A78000_MLDC_PD_HSCIF0 is a sub-domain of
->> R8A78000_MDLC_PD_APL .
->>
->> serial@c0710000 {
->>     ...
->>     power-domains = <&mdlc_perw R8A78000_MDLC_PD_HSCIF0>;
->>     ...
->> };
-> 
-> R8A78000_MLDC_PD_HSCIF0 is a not a full sub-domain, but merely standby
-> (clock) control inside the PD_APL clock domain?
-Do you consider R8A78000_MDLC_PD_AC00 a full sub-domain ? Because that 
-one looks very similar to R8A78000_MDLC_PD_HSCIF0 , except the former 
-controls a core, the later an UART IP.
+---
+v1 -> v2
+ - fixed __MUTEX_INITILIAZER() usage
+ - reworked supplier state machine
+ - introduce common transport_supplier logic
+ - get rid of init/cleanup wrappers
+ - use common generic supplier definitions in virtio/optee
+ - optee: use proper barrier on scmi_optee_agent
+ - virtio: fixed possible race between supplier made available
+   and scmi_dev made visible
+ - virtio: restored initial virtio_device_ready() logic
+ - virtio: issue a proper reset device on probe failure
+
+Cristian Marussi (4):
+  firmware: arm_scmi: Add transport instance handles
+  firmware: arm_scmi: Add a generic transport supplier
+  firmware: arm_scmi: virtio: Rework transport probe sequence
+  firmware: arm_scmi: optee: Rework transport probe sequence
+
+ drivers/firmware/arm_scmi/common.h            | 163 +++++++++++++++++-
+ drivers/firmware/arm_scmi/transports/optee.c  |  46 +++--
+ drivers/firmware/arm_scmi/transports/virtio.c |  52 +++++-
+ 3 files changed, 238 insertions(+), 23 deletions(-)
+
+-- 
+2.53.0
+
