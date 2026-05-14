@@ -1,39 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC7C38F929;
-	Thu, 14 May 2026 06:49:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930AC3845AA;
+	Thu, 14 May 2026 10:38:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778741344; cv=none; b=A3mHQJdkq8suXr7XcmKiXpLmiz7fWx+tZsqRdaCov2NFv4r7rUntzUnq+RNuh1bPc6l1HWLuvYsFXl485IdR9bFx1q8lAfK9M3dmCbv7uV2TLGZU1WTU9GQ5Kq59LU8A6Xsd2tWVqFz1KoqyW4Ecb8xCwHdaaRhmWycIFOW5Ue0=
+	t=1778755092; cv=none; b=Ricecf8eZFeQRIuxFhfpwZblrjsr2HD4gOeCld/Sb1t9ep6Fj0r8jYSVnzVoxdwxsinzXjrv0iwzo8qqOkxAfvraEkJYCHRkqwpluwHaPHPhHyAaQJE6OW8saLBoZacSo3rsKOq2YedEZZBff02EoGinFyhaswSJeijAXYs0waU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778741344; c=relaxed/simple;
-	bh=ScTbkdHtQwGqkowBWsSjhjRkE6Kb+/LGJ07lyfcr+U4=;
+	s=arc-20240116; t=1778755092; c=relaxed/simple;
+	bh=6KuqpnKj9sobxjDeqvX+sSPZ/QSHETFRdP4dGEBM9Kk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lriehd02FvMoQ0uufXh/IgrQ2aNo6FiYjIFeira28vPGzCrbwfV0Y6gCFF7yUC3EJjeBBTuQyOOOzxs0OzzuqzeDcO5TzX2E9DmhWNE3dRpov8Pv7EF0NQjkN1o4OVZ1pdk1zpT+IOOHXdoK6wEVlT70N1lJxl5s08IG4m5/YoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=rjqpkp0W; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=IK1YD+gIhASAc6Sy4egXO+hOn3OpmObEJdQCKHqdD6VPvs0+T8LDH9e0nj85vKiv+ft7xSdpzxDmorICJEUHMkIgjsogLLYuoe0cdTA6LWSML2IOerOBkkkCtZD3L3WfF8o3aRccG/PWUqXgta07Qzg6IdaM5Tq/NfOk2TvNrWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CP2+Q6k+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rjqpkp0W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA1CAC2BCB7;
-	Thu, 14 May 2026 06:49:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1778741344;
-	bh=ScTbkdHtQwGqkowBWsSjhjRkE6Kb+/LGJ07lyfcr+U4=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CP2+Q6k+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D05ABC2BCB3;
+	Thu, 14 May 2026 10:38:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778755092;
+	bh=6KuqpnKj9sobxjDeqvX+sSPZ/QSHETFRdP4dGEBM9Kk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rjqpkp0WQIRm9dgM5y5Y/4JTN1V+PEHl5Ifbr7UWYeHD6WROSNpbjXEPZ6bQ0eU+J
-	 mMzx0UqRapFU76U0xsAY/BdR116hHq1mwy2ifivXLXaGs2M0EuycoDjpS8D4ri4iIA
-	 P53bjzBKT4DGAm9h7MnhuPT51SAqMLnjpTYe6Ngk=
-Date: Thu, 14 May 2026 08:48:19 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
+	b=CP2+Q6k+vOdNmZMCBg/czK3/XTzKq0VLFIDXnQfI8q1f+VEZYn5dEFbuxpbhMVrKZ
+	 LcDgW9pgW31NqQNAkn7M4q9P5MWsdEG75eNTJNuHXQu3VLIt8HrPHm/up/QrlZ3mY0
+	 fzPYe8svCetFMPVLD/SM0Yi3iVTZb0iVGk8XokfoS+fbK6L+SHkBqDT/iorLvpG0GL
+	 PQ5KaPxmJRTwQgTrA9hbLpPyHj25xksmDOIASEbpj14sISdX9+X/KOJo2yX7u0wUjc
+	 feFwDC2Dyev2jez7STICOVKK3blTa65kRGL11nWgCmZE1UFBSxg9fUCpd+b1OWCmNb
+	 jxpZVrv2QQt9w==
+Date: Thu, 14 May 2026 11:38:06 +0100
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Guenter Roeck <linux@roeck-us.net>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
 	Alex Tran <alex.tran@oss.qualcomm.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
 	Jyoti Bhayana <jbhayana@google.com>,
 	Jonathan Cameron <jic23@kernel.org>,
 	David Lechner <dlechner@baylibre.com>,
 	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
 	Andy Shevchenko <andy@kernel.org>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
 	Cristian Marussi <cristian.marussi@arm.com>,
 	Linus Walleij <linusw@kernel.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
@@ -43,10 +47,11 @@ Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
 	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
 	linux-pm@vger.kernel.org, linux-hwmon@vger.kernel.org
 Subject: Re: [PATCH 0/5] scmi: Log client subsystem entity counts
-Message-ID: <2026051441-agreed-suffice-bbe1@gregkh>
+Message-ID: <20260514-finicky-acoustic-flounder-2dd405@sudeepholla>
 References: <20260513-scmi-client-probe-log-v1-0-00b47b1be009@oss.qualcomm.com>
  <agS8udcvqgQmiqB4@ashevche-desk.local>
  <1f2fb1de-ebc8-40ef-ac53-3348499295e3@roeck-us.net>
+ <2026051441-agreed-suffice-bbe1@gregkh>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -55,26 +60,38 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1f2fb1de-ebc8-40ef-ac53-3348499295e3@roeck-us.net>
+In-Reply-To: <2026051441-agreed-suffice-bbe1@gregkh>
 
-On Wed, May 13, 2026 at 11:27:21AM -0700, Guenter Roeck wrote:
-> On 5/13/26 11:02, Andy Shevchenko wrote:
-> > +Greg (I believe the trend is to drop such messages and not add them [back]?)
+On Thu, May 14, 2026 at 08:48:19AM +0200, Greg Kroah-Hartman wrote:
+> On Wed, May 13, 2026 at 11:27:21AM -0700, Guenter Roeck wrote:
+> > On 5/13/26 11:02, Andy Shevchenko wrote:
+> > > +Greg (I believe the trend is to drop such messages and not add them [back]?)
+> > > 
 > > 
+> > Is there some common guidance on this ? I'd be all for dropping messages
+> > instead of adding them, but there seems to be a perpetual battle between
+> > people who want to log everything and people concerned about logging noise.
+> > As maintainer I always seem to be stuck between those two camps.
 > 
-> Is there some common guidance on this ? I'd be all for dropping messages
-> instead of adding them, but there seems to be a perpetual battle between
-> people who want to log everything and people concerned about logging noise.
-> As maintainer I always seem to be stuck between those two camps.
+> When drivers work properly, they should be quiet.  This patch series
+> adds a bunch of dev_info() calls, which is not ok.  If a developer wants
+> to see extra messages, use the dev_dbg() infrastructure, or the tracing
+> infrastructure, both of which are there for this very reason.
+> 
 
-When drivers work properly, they should be quiet.  This patch series
-adds a bunch of dev_info() calls, which is not ok.  If a developer wants
-to see extra messages, use the dev_dbg() infrastructure, or the tracing
-infrastructure, both of which are there for this very reason.
+I completely agree and tend to follow that. But I always assumed it was
+left to maintainers taste.
 
-So yes, I agree with Andy, this series is not ok, don't make more noise
-please.
+> So yes, I agree with Andy, this series is not ok, don't make more noise
+> please.
+> 
 
-thanks,
+I am now thinking if [1] was the one setting example for this series. I did
+ack it as I left it to the subsystem maintainer's choice(in this case author
+as well).
 
-greg k-h
+-- 
+Regards,
+Sudeep
+
+[1] https://lore.kernel.org/all/20260304101457.7470-1-ulf.hansson@linaro.org/
