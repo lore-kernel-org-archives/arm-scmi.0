@@ -1,94 +1,105 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E04403CF05C
-	for <arm-scmi@vger.kernel.org>; Fri, 15 May 2026 10:28:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5FE3386C28
+	for <arm-scmi@vger.kernel.org>; Fri, 15 May 2026 11:29:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778840906; cv=none; b=Kl2RtXMVG/lg8jRcHo2yWx9BHp8c2BCsRjbhQYPjEFWnh5n2yF2GumHpbGlDt2nvZWhkOyALI1J+gpciL2DruPaBqDP9WQU3ShF4c/2cOE9u/QBIWKdoJtCLXpj0Dwa4ut8mCdo3EagAPywaXqqS6F3kQ5DUSTZuBXcYYP8TBsg=
+	t=1778844582; cv=none; b=uybAodYALY6f/2XowzpTKDO9IxKWAkeefr0Lg3Y/pPsAtOm+bOBJKWsZZZtah93w93Y7/eXjtYQ/+AJf2A2w4RLkTOqo0gFjXN/V1juSZd5dbvtTt14rAQRq66+4/ipcFmJYfIEnhSXfyqKvPWzXa1a+SwoF4DU6LFnBmnVlxpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778840906; c=relaxed/simple;
-	bh=mMwKeTLJORNTYUVaMmInpEMcOzUyMv2KbBqcSYSCVSI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O0fGtEOxuHJAvXxkXkfTaqqNbxFiaBiNi2cQg7XpEaNdJpTIDQF6grwNadd+V2Ve7QhtWfscSsuMAfGkrnx2H7yN2LtRSQD+kC3H2klOC5O0F7W6S2bNV51qnW5YRKQ+qmJvVZueYedc938jjtR3u6WFWZIeHPCd3d7tg08mVjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ManCKDS5; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1778844582; c=relaxed/simple;
+	bh=o6J54juue2hvBr7RHWfAAbvsqLecKYVaUKqGZPWak7w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Am4mXSv2cMdOrEIH1Z0spSBqGm0Q25RC6JBFw4HtGftHkUreiT6isLyHOD35UGhFivIfUjDYSi0lLJk3LVvIdSWDWtTiAksxuwH3UWltm5/tCPJK0oe3075jztK+6eWNjDEfuXj1JQcYUMbj7EGptOQHAAA32SOnQQ/IlpJOdHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ManCKDS5"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-45562c41ec7so4600055f8f.1
-        for <arm-scmi@vger.kernel.org>; Fri, 15 May 2026 03:28:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778840903; x=1779445703; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cGJn8Hnu9Cg2hyA+NdzLMHOmCSnkgp4MbF/B53wnZOM=;
-        b=ManCKDS5krXVtVFDsqua2KEX2CB5sjnQ3pwpp8hGsw0zQjBwlxmaH187RoMA6FH0TQ
-         UObKNxOX6Avx0+/hxSOG66RshTY1rCP7KD7Ltaz+l+HX3oUh0KOwQMiYP0zRHI3rLX5d
-         84qLeoVGDQnnGSOEgj2sASv1E79Iig9lLAOob6LJJGGJotnqf6yAGPH/U5gJj/BpFUzv
-         JyerjHb7tQRtu1zI7+CWO8bewX2z1WS8gubj/Qi9j2HUuzbwEHPrtTWe7uBghxU4LzKV
-         lwuDurT/Ln6i+aQ9rP9HQf3ZpoG0mSuKfURTkrfn7Jnez68pxs7Xj8rXfnpLL0H7a07V
-         8LLA==
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-56a857578a8so3075620e0c.3
+        for <arm-scmi@vger.kernel.org>; Fri, 15 May 2026 04:29:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778840903; x=1779445703;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cGJn8Hnu9Cg2hyA+NdzLMHOmCSnkgp4MbF/B53wnZOM=;
-        b=SoR/eehGGleWp2ovQfHg7fuKt9QD+RxqKjKHtyO4N5ruY8PXIjFuNMTzbF5V+IrE2U
-         RPmiJv4wL3KHp9K+yryh3y+HMptXHF8Q0mtJug29FKaxJ4AIpm+JUQAXQz1wAsDwjjAS
-         ciIQGCEx8GmUuNL4F7Um7aLL3K2FQx4/rmigtyrljS5jjWemNvsR5rjfX0pOQlBm9AlY
-         nN22gVL3oMNkYTbvkHaOyg81bliXqcZ97pmGdySzRtANEJ6L9ncShYNGgVOk1re5PLn4
-         yTXOKpfVPqbOl/OFXZyGEyGVK31U8y+Gla72eJmLJaD+GzP1vY6gzcWd+r+2jTpyOHNo
-         Lj/w==
-X-Forwarded-Encrypted: i=1; AFNElJ+2GCd9EkQsDDncB0+lAaThcLjCbKBY5IgXcqzteYLtDB1aXmd0bRtHTlI1JdBqMKKrPK5nyBQrkA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQW5d/fmpMyFS4Q1fRoRDyq311uJAMI5LsIAf7JV49LWKXv7GA
-	d5yPhs7ErTMzfcoppDAoi/PWv5Ya/8tBjQsugy9YcUeQ3tZ7KJPU0SE0HiaQzA==
-X-Gm-Gg: Acq92OGXXViK428VC7o2WMkufTpSYNdd9mUusx11bv7riswM+pyeL5VjqKM4m6LhcFd
-	f3eVQl+G/5ovuKgUtOZS4sIXyPVGbE+Emhy4/w02hytMiavz0UzH9LhKqA9262R39MP47HUH7h8
-	2//7eAbklG9qNVYOUOCt1k3TwqRhXZMuV8w+19LMq0p+p6nB7BvZAp5wmug3dcNia+gHlzCu5pt
-	QobO0VXsinmyF3dHZCGcc1Cf3PkL3zKPBHWYhIS6NQx2S6371uaenkdLPfNPW+uaWzsFK2Wx5yi
-	Too3R8/WQQK60UTBkMtN4t+GIurOQUe1Z1xH5+cxog12k52kIi3CJkg58iXtiJZ65iaEB21+6WW
-	kjf3EhOxmbntwcWowzJ8wcvgZ4GgR5ct10ALpuw6R68IVnLBKW8LIJFgyANExYX/SLhfndzdwwN
-	/uK74frwV5sZctF92qYTA=
-X-Received: by 2002:a05:6000:288c:b0:43d:761d:5423 with SMTP id ffacd0b85a97d-45e5c5af599mr4592584f8f.16.1778840903228;
-        Fri, 15 May 2026 03:28:23 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9e768c4fsm13718499f8f.8.2026.05.15.03.28.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 03:28:22 -0700 (PDT)
-Date: Fri, 15 May 2026 13:28:19 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] firmware: arm_scmi: Fix OOB in scmi_power_name_get()
-Message-ID: <agb1Q6mrGyDwFdmO@stanley.mountain>
-References: <75caae28bdffb55199a0bc6cac5df112a966c608.1778838987.git.geert+renesas@glider.be>
+        d=1e100.net; s=20251104; t=1778844580; x=1779449380;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fQILvaHK6HAMF4WWbXGYgrwUATMj459kIP6oFAIBqKE=;
+        b=iAX3EemlprQoJ/nHJlFqOjIDMLRjK6J/4agmDmiusNZVpGz0Azd8u/lxPFPRjGpouA
+         jIURKXpCGDaCuMpFjPxzpFix+v5bjFRZQ1gGG8DDFfaKGbdpiAIVNx4FqyxYI7BFOB7k
+         i7FQi267J+5iTDBx/jzzdg8ONVoXasOflb4UAi6don+sxEmoVt4XtFEHDI8ieA2TryD8
+         8i7NnAvM76SGXFijqpBR4FDa2eVNLwrhK7/8yAijA5zFsgJEF8/5gPBCXcH1mZd21lmA
+         pRFyjHn9MedjstikblBcjo7nxxhdkB9Oy1Qzv0RKN8qivLNP2t0BTcaK1Q7KHmcfR65D
+         7MVw==
+X-Forwarded-Encrypted: i=1; AFNElJ9baxBDJObBj+bZGbOqmCkOmX9fNDNNZF8Jo5EnaKiJKMTZaY8DVZjPC50nxFYUIUJ3hGxADRBnxQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMctKlFQEXe6tCGRBG//en/Oyi294npLPAa5Prqpi9+r87qy1i
+	aUgVsSMVaYTjsoUAoAYR0tciKmbU8uyfhVGZEK1cikefdYpTuEzhH8kxW9ygz6h3
+X-Gm-Gg: Acq92OGW50+7MHF2TpOXlB5utprrHdrPEn5NQdKaxFesnbOEPxehoPZr37xmJ45rlif
+	fW0xkqGIuhPobDPQNo6NPPXW6IedMPjqHzkrqVdMT4eNCzE73Cv/HV80eRROQyfQzbRKqZHT6mj
+	MP+/qCo8fcKqyrFEEYF6/nmSy2hLY0h72Ln7LfUszyoO8hh7JOYf3OwHWZpq7JrgDB5vJmbGflt
+	DocsYvUy1PK0yUxyQ+et9KAkjFWYzVMB3uM/zK14jr7hRyO6bA91ZmJLPsHa3aJTuZCaIoVS9/0
+	wk7PkxRAZg5jMRTOKxXCBk32D2q6z+uJ3d/GphKExyJE47/64BzNfprHKKj+EknqZ1c84g+o+QU
+	Dn6NhRAqZ55pDGqky74gr4+Mdl39xgVrac9cxRr2dbLGe6uSpdQCS1Y7ONiGIzqY2iRAgNgEa0m
+	+KRb+b1J2TKWwFXWdvtYOk9KUAGLrpY+NcoHdA62A9cC3dZ1sY7eJmQ0yIAqmnJhvAPk1NVH4=
+X-Received: by 2002:a05:6102:3053:b0:633:4b2f:e8c1 with SMTP id ada2fe7eead31-63a404ac941mr1237419137.27.1778844579724;
+        Fri, 15 May 2026 04:29:39 -0700 (PDT)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-63ce6ecd76dsm578945137.7.2026.05.15.04.29.39
+        for <arm-scmi@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 May 2026 04:29:39 -0700 (PDT)
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-94dd01deb53so2550749241.0
+        for <arm-scmi@vger.kernel.org>; Fri, 15 May 2026 04:29:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+o+keu94GcjvY+g4k5DF+UQjtizklivqi3ICCV+9LwC84+eyK98WnGFS2JJWSVKgCo0/INR3kZbg==@vger.kernel.org
+X-Received: by 2002:a05:6102:800e:b0:634:92c:bdce with SMTP id
+ ada2fe7eead31-63a3dc4948dmr1595206137.12.1778844579066; Fri, 15 May 2026
+ 04:29:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <75caae28bdffb55199a0bc6cac5df112a966c608.1778838987.git.geert+renesas@glider.be>
+References: <75caae28bdffb55199a0bc6cac5df112a966c608.1778838987.git.geert+renesas@glider.be>
+ <agb1Q6mrGyDwFdmO@stanley.mountain>
+In-Reply-To: <agb1Q6mrGyDwFdmO@stanley.mountain>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 15 May 2026 13:29:27 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXreO-6xQ+e88AKQ_vSiwMPMnx=t8h5JChBAtuV4UDMEw@mail.gmail.com>
+X-Gm-Features: AVHnY4ILblX8Kc7ouyA5FCpRoUCRbSH433_xQLSBPu5DFSlI9_3oTrxSlb8ISPQ
+Message-ID: <CAMuHMdXreO-6xQ+e88AKQ_vSiwMPMnx=t8h5JChBAtuV4UDMEw@mail.gmail.com>
+Subject: Re: [PATCH] firmware: arm_scmi: Fix OOB in scmi_power_name_get()
+To: Dan Carpenter <error27@gmail.com>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>, 
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, May 15, 2026 at 11:59:15AM +0200, Geert Uytterhoeven wrote:
-> scmi_power_name_get() does not validate the domain number passed by the
-> external caller, which may lead to an out-of-bounds access.
-> 
+Hi Dan,
 
-Is an external caller an out of tree caller?  So far as I can see this
-is only called by scmi_pm_domain_probe().
+On Fri, 15 May 2026 at 12:28, Dan Carpenter <error27@gmail.com> wrote:
+> On Fri, May 15, 2026 at 11:59:15AM +0200, Geert Uytterhoeven wrote:
+> > scmi_power_name_get() does not validate the domain number passed by the
+> > external caller, which may lead to an out-of-bounds access.
+>
+> Is an external caller an out of tree caller?  So far as I can see this
 
-	scmi_pd->name = power_ops->name_get(ph, i);
+I meant a caller outside drivers/firmware/arm_scmi/.
 
-where i < num_domains.
+> is only called by scmi_pm_domain_probe().
+>
+>         scmi_pd->name = power_ops->name_get(ph, i);
+>
+> where i < num_domains.
 
-regards,
-dan carpenter
+You are right. But this seems to be only API implementation in
+drivers/firmware/arm_scmi/ that does not validate the passed domain
+number.
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
