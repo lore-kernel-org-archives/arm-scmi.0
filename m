@@ -1,71 +1,41 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84453FAE13
-	for <arm-scmi@vger.kernel.org>; Fri, 15 May 2026 11:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2337947DF87;
+	Fri, 15 May 2026 11:46:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778844982; cv=none; b=K/1NEb+KKwju14JQTOHyD/AMia46vfI+3cbRt2JQMOtlQ6BJhLQQsnQ92CYz50cQUflZfIVbFdXJTLHKKVuBbAqnEu7Lx2uCdsca50VhwfQFLnnAuulB+SIObJyahTWjh5B7GsfVt5XbMg4LgV+UcVPRyqdC22i64278NVhvl2Q=
+	t=1778845610; cv=none; b=bFYT1IOx2v0WxDiz6/WCwyhMhkbZkkG/yo0mqdwxku+VKXlym/H5bgMR091VnIf2FQjsAk2x00QwRd6ZPjeRrZnzcrESb1cg2yVXigIA4QTtkW6gMOnuf9howUDUYlW/qP4cKIbE4hQP44YiFAiHpz9m+mz3ROJUxhKFwXRITkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778844982; c=relaxed/simple;
-	bh=uAY04i7si7CzF2ofplxmgA6xM+wgTQXcak9iKdl1kzI=;
+	s=arc-20240116; t=1778845610; c=relaxed/simple;
+	bh=woFbGz4cqB9LZc4NQu0SGqfw+B2Gzyz0AHx09mb7Jgk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gufE67wE+uHvl+pUpWbi1gIS/H+05h6CH2t9yDm5t2nzwZN1eY4+7aWc9DDb0pSNlbCJUSsaHcEBpEqdWn5VtlyO3wOGxq51qthTMkq6Zm8dSGC5dzFeZmwbSb6AnaACQNgCjekuncHI8I4wjMFwOZFsm+6VBS/tANygwkZeRZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JHktvP3y; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=sU2gEWxTqofiVwSHOtK+Ckx1KQ/lldnWAOvkFO/S29hG8/sIjzC1lyLOiZcUK6aJVEAFCXf16ZUZpbTHxmuPVF1oH9q4WLKUviH3tZGUNf5axy3+zCzQLIYvVSZqvDAzTDP/FW68nZ4tOF1mTeTQ1xxQlPzFU4owZcqJc5FvSHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ezykeqOH; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JHktvP3y"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48d102471a4so88822055e9.2
-        for <arm-scmi@vger.kernel.org>; Fri, 15 May 2026 04:36:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778844979; x=1779449779; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yzXXcPatHUTECkq22Qox7RnVgD274dLeIoFpGjG0hKI=;
-        b=JHktvP3ycT/JVEkRu4FEkZWenO+UzRHpny2YAC3Gea7beJncqBTm2zJsAvMyIMOb0t
-         D77iF/vsrejAuHdtBgyuCx/Q+bH2cF09JnGomjTz1x1Rjp1xE5wmhMwyBa6w+vZldljI
-         tRZs9rV7nqKLJQLj/O4BldRpkHmdJegXTjUQdlJwCpWko4tjJeCpE9LksFAn2pWtnKW5
-         gEZqlLNCZOGsWDo7mEh4T3/IhfCi2cP3MyBicb/MYDeGl6UTJEB2g/GpMmQ+HMz1mz+P
-         03Hdk0tAwEMU9MLM0LjiIbvaegP0LAlOdi3BiWe7UH9/Oz6EtKmTo6j9vrwi7mDxaQrC
-         mw3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778844979; x=1779449779;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yzXXcPatHUTECkq22Qox7RnVgD274dLeIoFpGjG0hKI=;
-        b=DCsrue/T+OrLH3vz6buRkIGbp/n0IiZsNRQB+8quUOMOMO+MVMZ8eX37o3clDV3jRb
-         G0FZnphqcDzYmCq188NpeMpza9R3/hvGBnNmaKo3BUG+7CTYh9PszG4xNN8ubmkxJo+K
-         pHgySWWWDKxDdYWEq2Hb+2rmCzu1f64BkTN2qeRqNN8kaiJpA/nXclO3SatMWrfMmnSQ
-         RX+LkjWsYvr77mrtoltQtUCSE2aDsawZFI8gmu7PTiT7mnT2yK09jENs2AsrRK6BK54v
-         Q5GRx0tXweVe6nmrkt4qPlibMUUQxq+sNetf4KogMtmSu05JujB9ULZHOS0G0LBJRPTS
-         ttYw==
-X-Forwarded-Encrypted: i=1; AFNElJ/DMJLTHu/GJ2CYDpz6wR4iL45jzpbXikyMqf+hI3873l8IbtYAMZ0fN5f3I9IZf54Fw6KMhb9sUA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkCTAijqU7/MIexoemsRQUuW6OvaI2g5H91v0h+ANdyq6su9K2
-	8ADi8hdOfUEnrnL+3sKonETSW08ukP9J/c06qXSjTXuKck1ymmb7cD6O
-X-Gm-Gg: Acq92OHlw3xEB6jCyjbBovBmHs4s/yez2SBlwmQNbafekxPd6ip1YqKHy8hlmB1mzL1
-	zquSh+zAhcqDvI3cvg9/otLZq9JiyeLg3UKRB+uUUp9FGhCzMIUSYb90I9tu6Dh40FHXZ2XZwvO
-	ZchxcStr35rCUt8wAQExJf0XS5c/RQpWj10uwQJZwUIGQpzDx5pMHl2KR/IDboUUUKmDjPuaS4z
-	oAqIYObZqb71AGwW71O3LwUwCC6OdSv6FCAn3Kp2UrfVpKNvqWINe96Xhs1FOxj+sOB5S6o9rn6
-	cuArgx+WDcWuevrXERTLs3bjTw92Kbv6Oi6bN/BnDXosi7PvW/h0W45SbRABz0J/PtS8gKUGqxh
-	UhUDw0d2g7LZ5b3e2I1Cfq0Rwx/SAv7UlpBckJpEFrHtb+3zVcDtiaqKHeYpF0HioC/P3jrzJiX
-	NjcvCYWxNa7ruku0EjlPo=
-X-Received: by 2002:a05:600d:8:b0:48a:5565:ec3d with SMTP id 5b1f17b1804b1-48fe61f7a92mr51272135e9.22.1778844979216;
-        Fri, 15 May 2026 04:36:19 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe53804aesm52347505e9.15.2026.05.15.04.36.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 04:36:18 -0700 (PDT)
-Date: Fri, 15 May 2026 14:36:15 +0300
-From: Dan Carpenter <error27@gmail.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ezykeqOH"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 44FC91BF7;
+	Fri, 15 May 2026 04:46:43 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D66303F85F;
+	Fri, 15 May 2026 04:46:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1778845608; bh=woFbGz4cqB9LZc4NQu0SGqfw+B2Gzyz0AHx09mb7Jgk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ezykeqOHq74gbBxfBmz1XAgHhH985DTAdkwCTexwYxokU+8qcTvpCPpQxVm5EgPZt
+	 bbtwWb06+BrXKixBoEh7LsfGjWt/vChmEOL0+/6jISYZSR2EihEUqVrSvrHm6GHt76
+	 yc7TOTcfH6GO1D2XEQd12TaiPi9YxPYucbm+jufo=
+Date: Fri, 15 May 2026 12:46:39 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
 To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
+Cc: Dan Carpenter <error27@gmail.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
 	Cristian Marussi <cristian.marussi@arm.com>,
 	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] firmware: arm_scmi: Fix OOB in scmi_power_name_get()
-Message-ID: <agcFL0oFbx2GEgPJ@stanley.mountain>
+Message-ID: <agcHnzzdhV36j9eH@pluto>
 References: <75caae28bdffb55199a0bc6cac5df112a966c608.1778838987.git.geert+renesas@glider.be>
  <agb1Q6mrGyDwFdmO@stanley.mountain>
  <CAMuHMdXreO-6xQ+e88AKQ_vSiwMPMnx=t8h5JChBAtuV4UDMEw@mail.gmail.com>
@@ -82,6 +52,9 @@ In-Reply-To: <CAMuHMdXreO-6xQ+e88AKQ_vSiwMPMnx=t8h5JChBAtuV4UDMEw@mail.gmail.com
 On Fri, May 15, 2026 at 01:29:27PM +0200, Geert Uytterhoeven wrote:
 > Hi Dan,
 > 
+
+Hi all,
+
 > On Fri, 15 May 2026 at 12:28, Dan Carpenter <error27@gmail.com> wrote:
 > > On Fri, May 15, 2026 at 11:59:15AM +0200, Geert Uytterhoeven wrote:
 > > > scmi_power_name_get() does not validate the domain number passed by the
@@ -100,10 +73,22 @@ On Fri, May 15, 2026 at 01:29:27PM +0200, Geert Uytterhoeven wrote:
 > You are right. But this seems to be only API implementation in
 > drivers/firmware/arm_scmi/ that does not validate the passed domain
 > number.
+>
 
-I don't have a problem with the patch but I don't think it should have
-a Fixes tag.
+Yes we tend to validate protocol operations calls even if apparently
+safe from teh caller perspective...indeed I have this fixed locally
+since ages in an horrible patch, that does a lot more, and that I
+never posted :P
 
-regards,
-dan carpenter
+Usually, if it is worth, we also build an internal domain get helper to
+reuse across the protocol unit...but here really there are only 2 call-sites.
 
+What I am not sure is what to return: "unknown" is safer as of now than NULL
+for sure, but really, what happened is NOT that the name was "unknown" (which
+by itself would be out-of-spec behaviour) it is more that the whole domain that
+was referred to that was invalid and NOT existent...
+
+....mmm I suppose we are opening another can of worms here :P
+
+Thanks,
+Cristian
