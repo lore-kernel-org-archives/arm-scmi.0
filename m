@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA992F7AAB
-	for <arm-scmi@vger.kernel.org>; Sun, 17 May 2026 19:04:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66AE2F5313
+	for <arm-scmi@vger.kernel.org>; Sun, 17 May 2026 19:04:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779044658; cv=none; b=ruLxEqA2taw34wcTU7HuiNiIlLrTlU1oBxij2UqIi+Y1qK43t9+01d7eqGQ9d0F63yxCkAISXmhWEyogHDatnR8qQVygd45yFtJPZ8Fowk0tvzOFjQ39u8iCXjwFnXSxm72KPNPbBHsl8N5uPT7VIuQEtT0GOmSz176lPJ7ismU=
+	t=1779044659; cv=none; b=lxF2jRvM69wrI0fAwjJhdiWKRgcHaVyb+3sAWGR0BPhdtKtR9DULis+CjiKBU1fNEmuMnabocN8V/4cBZKSeNHCR9tk91ZAPfAl2hVHPqYeKA2b6TaE+PDo8yESv7cBczacQEfFeUCbAMz7v/LfV7LcarRqA5crtp00DsFhWvZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779044658; c=relaxed/simple;
-	bh=NB/CNEIUtc4ERpE+q/zZYxQAMn7kc0YFmUFa9eiJFWI=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To; b=A6PU9HUGMwaTldWUpkRNHwBLEdK4zCod9OAtzLYgbD5jf0f+cw0JXz6I7tw0IYFkFiyesayFYhSAcPrDXQKH5lRi0En0bEd0UdaLCzCvh3A+87T+rdlwwvf2V4TMfBy52QtsskVU0ZZ7ZDQRH+op+vIJyZAza2yzuhLjTWJypE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R3ST2v2F; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779044659; c=relaxed/simple;
+	bh=N9O3vxXoMdpQ51OeP/FlfrEMA19XNtmgtu0oCSZdBQU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To; b=TuT2GkJC/POXvHbxunTbcS+b4QExCDKjHVodGtP4tEoEbJZ6PuaparxBPgCWNu0UJ4uqhOXzCE3BJ3FeUQjXuiR15UVFWfkCxqrDfce7VDiX71gg1psTIFq/aPMq9kPlbcO+F8UVXFoECsaqtVKJio0aTreO3gd7GOMmaGJ4APs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DLin+HbA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R3ST2v2F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80B1AC2BCB8;
-	Sun, 17 May 2026 19:04:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DLin+HbA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FD48C2BCC6;
+	Sun, 17 May 2026 19:04:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779044658;
-	bh=NB/CNEIUtc4ERpE+q/zZYxQAMn7kc0YFmUFa9eiJFWI=;
-	h=From:Subject:Date:To:From;
-	b=R3ST2v2Ff6oxWZ/02/DbxJSe4waGUpXE+GdCEU/t5e6wvaPggGl38AuSAfcAdfh7p
-	 IxPq9Tva3H38fJZ+XncBaQPb8rT+P5ZkLdArsCH2WQhl/Tb+s5uTNv5KmvG3S/esEp
-	 5qASULYUY10uEr+ACtz9bKKHkOXWh1fXy0SLvIaKtxciIZprcnTO6h2mUbRrIH6r3d
-	 pavqZj678+n32kc50eCUjKrqY/0QxrKGLBbZtubeY75T96VHOzPsgGcGTqnmye7XDc
-	 AgHXBudAD0aDYzfR2YtwiK/Ib5gnH69IoLfc0hurOPRBLJpsvEABT+Beaaq8YaSx0C
-	 z9XWMUXpUMvvw==
+	s=k20201202; t=1779044659;
+	bh=N9O3vxXoMdpQ51OeP/FlfrEMA19XNtmgtu0oCSZdBQU=;
+	h=From:Date:Subject:References:In-Reply-To:To:From;
+	b=DLin+HbAOAg6iPlqj/EwGZ9xsdpoJ/nw+U0izai/MpZ6uk5QjD1J2AYNh+jipuFzd
+	 7ImuJ/cVUIctcnDNQjNhF04GMT8TT+lFgLr8K6QaA0eh3FCnkRSzl2kUtE1yncnEVM
+	 1yio9ogHUscUtiHJ6OUXcWYFBbSgA8VwaS3sGwR056OkQgg7QO6Nfxa1XULUhtb7U8
+	 Iq7tXc4zhjeKfp+Usc6c6chg9EVfbEB+n8NTarhuH0AhTYZa5jh5SqfIXwMtF8hsbx
+	 bQqydvg7wxQpsF/3T8hK+3fxofYQQLaRrZ3GSdq9yV86z3RV589lOd00GAjUGlX9Mf
+	 Tog8LR6XkA3Dg==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-Subject: [PATCH 0/4] firmware: arm_scmi: Fix protocol parsing and
- validation
-Date: Sun, 17 May 2026 20:02:39 +0100
-Message-Id: <20260517-scmi_fixes-v1-0-d86daec4defd@kernel.org>
+Date: Sun, 17 May 2026 20:02:40 +0100
+Subject: [PATCH 1/4] firmware: arm_scmi: Read sensor config as 32-bit value
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,58 +37,41 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANMQCmoC/yXM2wpAQBAG4FfRXNuyI5RXkcSaZZRDO0hp393i8
- us/3CDkmATK6AZHJwuvS4COIzBjuwykuA8GTDBPMl0oMTM3li8ShVpneWoNWosQBpujLwj9qv4
- tRzeR2d8H8P4Bud8JR24AAAA=
-X-Change-ID: 20260517-scmi_fixes-211563fc2ff2
+Message-Id: <20260517-scmi_fixes-v1-1-d86daec4defd@kernel.org>
+References: <20260517-scmi_fixes-v1-0-d86daec4defd@kernel.org>
+In-Reply-To: <20260517-scmi_fixes-v1-0-d86daec4defd@kernel.org>
 To: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, 
  Sudeep Holla <sudeep.holla@kernel.org>
 X-Mailer: b4 0.15.2
 
-Hi,
+The SENSOR_CONFIG_GET response contains a 32-bit sensor_config field,
+and the xfer is initialized with a 4-byte RX buffer. Reading it with
+get_unaligned_le64() can consume bytes past the returned payload.
 
-This series fixes a few SCMI protocol parsing and validation issues found
-while checking the driver message layouts against the SCMI specification.
+Use get_unaligned_le32() to match the protocol layout and the allocated
+response size.
 
-The first patch fixes a clear response width mismatch in SENSOR_CONFIG_GET,
-where the driver requested a 4-byte response but read it as a 64-bit value.
-
-The next two patches harden notification parsing for variable-sized payloads.
-BASE_ERROR_EVENT and SENSOR_UPDATE both carry counted trailing arrays, so the
-received payload size must be validated before copying or parsing those
-entries.
-
-The final patch fixes Powercap protocol v2 helpers to validate the domain id
-before accessing cached per-domain state.
-
-No functional change is intended for well-formed SCMI responses.
-
-Cc: Cristian Marussi <cristian.marussi@arm.com>
-Cc: arm-scmi@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
+Fixes: 7b83c5f41088 ("firmware: arm_scmi: Add SCMI v3.0 sensor configuration support")
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
-
-Regards,
-Sudeep
-
 ---
-Sudeep Holla (4):
-      firmware: arm_scmi: Read sensor config as 32-bit value
-      firmware: arm_scmi: Validate BASE_ERROR_EVENT payload size
-      firmware: arm_scmi: Validate SENSOR_UPDATE payload size
-      firmware: arm_scmi: Validate Powercap domains before state access
+ drivers/firmware/arm_scmi/sensors.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/firmware/arm_scmi/base.c     | 15 +++++++++++++--
- drivers/firmware/arm_scmi/powercap.c | 25 ++++++++++++++++++-------
- drivers/firmware/arm_scmi/sensors.c  | 12 ++++++++++--
- 3 files changed, 41 insertions(+), 11 deletions(-)
----
-base-commit: d0deb8265c8551343c5c155aaded6b56639e3820
-change-id: 20260517-scmi_fixes-211563fc2ff2
-
+diff --git a/drivers/firmware/arm_scmi/sensors.c b/drivers/firmware/arm_scmi/sensors.c
+index 882d55f987d2..836c294a9f42 100644
+--- a/drivers/firmware/arm_scmi/sensors.c
++++ b/drivers/firmware/arm_scmi/sensors.c
+@@ -793,7 +793,7 @@ static int scmi_sensor_config_get(const struct scmi_protocol_handle *ph,
+ 	if (!ret) {
+ 		struct scmi_sensor_info *s = si->sensors + sensor_id;
+ 
+-		*sensor_config = get_unaligned_le64(t->rx.buf);
++		*sensor_config = get_unaligned_le32(t->rx.buf);
+ 		s->sensor_config = *sensor_config;
+ 	}
+ 
 
 -- 
-Regards,
-Sudeep
+2.43.0
 
