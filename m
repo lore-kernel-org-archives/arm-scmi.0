@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97282F7AAB
-	for <arm-scmi@vger.kernel.org>; Sun, 17 May 2026 19:04:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FC42F532C
+	for <arm-scmi@vger.kernel.org>; Sun, 17 May 2026 19:04:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779044661; cv=none; b=pZqJxjvolCOe9+D0VERGSCNszpgA4TWPc2KWZ940Dr6VLFvAG18X1RG+X6OiNr0DTF0JUvDUEynj85DZRFP8zG9GeSIxE6uA2ESLwFI5kyWcINOYKPoqgkXSg9PLsR2hLRvv+iDfnfPoHN6zxFs94r8qM9m3eMLOEDvWeO71YFE=
+	t=1779044662; cv=none; b=eKpijOCoFjEh+T6HEkOuyGKGZcve7wlnmyy6niUHEeyR5Z3HYcYhzOy1Z2AbHtl5LsUZJ/jZu8ZMfpOKE1uwPHgLDzVKL08Sl4URi5IP/ilAA67l94amfr6boewvzMH+FiOeuYnuNlWWsU21Eu3PtTIIEJHJqS3QmdtIvmwuuRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779044661; c=relaxed/simple;
-	bh=BagPRorJW0mo6+WpFTl1DFwi/7L5mgLhGiL9DVliUXs=;
+	s=arc-20240116; t=1779044662; c=relaxed/simple;
+	bh=gtNkyVAon17B6gxTPIRNAOKMV3QFrdAKPrTMiYF+a7k=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To; b=DuY+G+c0yo7af7p+Usym46UBSP9GrAdfWjcMzXXXxdLSao7o/PyqXv1f4EAbS1Gij1VG9vN+H4JejI9T5/Wns3Y4g1odf5EGQOr+G9UZCsEu5XmHLAFLAaWzh5Ya5hn91dX6jIoz9Zwe7FR2QEjGjEZTHbf8/K1hzH9QGULUQA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YLlgiVpT; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To; b=Aw5qdtojkf91Hrwms4B4qgYzkkrcJ2DUox2Bt9bMbeAzsiGOSBoEfeoKPtPG8wbvP/ngkhTwNeaVAFMhsimv/UGvXt9ZZdCfi00boEyAjzCYssy9538L+FMnx1Yu6xEzltPxKpM7IcJYm7EhXw1A70AcpN8+xhQQ7PCij+/Zfs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tm7Yz7a/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YLlgiVpT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1DAFC2BCC6;
-	Sun, 17 May 2026 19:04:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tm7Yz7a/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA906C2BCB8;
+	Sun, 17 May 2026 19:04:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779044661;
-	bh=BagPRorJW0mo6+WpFTl1DFwi/7L5mgLhGiL9DVliUXs=;
+	s=k20201202; t=1779044662;
+	bh=gtNkyVAon17B6gxTPIRNAOKMV3QFrdAKPrTMiYF+a7k=;
 	h=From:Date:Subject:References:In-Reply-To:To:From;
-	b=YLlgiVpTDR9dcJW1vjOzjHVtiy+FWXqRrSWsZOpbf94OoDar2aJzhzXyst88zz+Jw
-	 YHhgiC0iapbFxhzsZHn1cQYVzEtRvTkFqC6rEhAVeg88LntoSeFfh0mAPELovuP3NZ
-	 1Rsak1NdL50VBHLG30WwRanffpXch4JGmZq3nwi08IR1awVTeg1BAqjemPtmlGhFN3
-	 Vqeq+TsqplFTXeo/++7q+syiI4s+fo7Dh+FckxfLKwVTSm47aXMFEtmn9uTU4mYkcL
-	 +1ADfCqggl31JxhW3GDcmMS2e5TCN9rxHhyPkKQ6IG17ACPTYMXNsEFnfJI9jYcE7l
-	 RtAlfesAQuBFQ==
+	b=tm7Yz7a/EneKn2wWKF+FaPb8gpjUK6985BUD27pqIHRiqd+fMY7ryP17oMJkJk74v
+	 qgmYj/rCXWH/rEy0KnZWWbT3bifGrPgCnIwcP+/WyMSh+XER/AX1OdzT2E6ShVA3w2
+	 8IAUmNKnfW8JjtMANma/fb9BMH3Yp/OLHagOq2upAWaDfaKXd/NhK/ui7pwNAHRboJ
+	 /1RgWHJlmIcDFW7lZUh+9C+K3HDdO86OCbdXbx4iUiLobBW4mFxPpVUA8WipsMlZF1
+	 NEwmWmrDrrisO+NvD4ZJfr4lTdpTCbfscoUJ+WzZc5EJvUTi3+LWahxz+jfpl2IUUn
+	 NHDVbBGR4XDmw==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-Date: Sun, 17 May 2026 20:02:42 +0100
-Subject: [PATCH 3/4] firmware: arm_scmi: Validate SENSOR_UPDATE payload
- size
+Date: Sun, 17 May 2026 20:02:43 +0100
+Subject: [PATCH 4/4] firmware: arm_scmi: Validate Powercap domains before
+ state access
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260517-scmi_fixes-v1-3-d86daec4defd@kernel.org>
+Message-Id: <20260517-scmi_fixes-v1-4-d86daec4defd@kernel.org>
 References: <20260517-scmi_fixes-v1-0-d86daec4defd@kernel.org>
 In-Reply-To: <20260517-scmi_fixes-v1-0-d86daec4defd@kernel.org>
 To: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org, 
@@ -46,52 +46,76 @@ To: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
  Sudeep Holla <sudeep.holla@kernel.org>
 X-Mailer: b4 0.15.2
 
-SENSOR_UPDATE carries one or more sensor readings after the fixed
-notification header. The parser derives the expected reading count
-from the sensor description, but it did not verify that the received
-payload contains those entries before parsing them.
+Powercap protocol v2 keeps local enable and last-cap state per
+domain. Some public operations indexed that state before checking that
+the supplied domain id was valid, and cap_enable_get() updated it even
+when cap_get() failed.
 
-Reject truncated update notifications before reading the variable
-array.
+Validate the domain before touching the per-domain state and only
+refresh cached enable state after a successful cap_get().
 
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
 ---
- drivers/firmware/arm_scmi/sensors.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/firmware/arm_scmi/powercap.c | 25 ++++++++++++++++++-------
+ 1 file changed, 18 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/firmware/arm_scmi/sensors.c b/drivers/firmware/arm_scmi/sensors.c
-index 836c294a9f42..b14bb1146356 100644
---- a/drivers/firmware/arm_scmi/sensors.c
-+++ b/drivers/firmware/arm_scmi/sensors.c
-@@ -1072,12 +1072,15 @@ scmi_sensor_fill_custom_report(const struct scmi_protocol_handle *ph,
- 	case SCMI_EVENT_SENSOR_UPDATE:
- 	{
- 		int i;
-+		size_t expected_sz;
- 		struct scmi_sensor_info *s;
- 		const struct scmi_sensor_update_notify_payld *p = payld;
- 		struct scmi_sensor_update_report *r = report;
- 		struct sensors_info *sinfo = ph->get_priv(ph);
+diff --git a/drivers/firmware/arm_scmi/powercap.c b/drivers/firmware/arm_scmi/powercap.c
+index ab9733f4458b..eb5c35cad026 100644
+--- a/drivers/firmware/arm_scmi/powercap.c
++++ b/drivers/firmware/arm_scmi/powercap.c
+@@ -453,10 +453,14 @@ static int scmi_powercap_cap_set(const struct scmi_protocol_handle *ph,
+ 		return -EINVAL;
  
--		/* payld_sz is variable for this event */
-+		if (payld_sz < sizeof(*p))
-+			break;
+ 	/* Just log the last set request if acting on a disabled domain */
+-	if (PROTOCOL_REV_MAJOR(ph->version) >= 0x2 &&
+-	    !pi->states[domain_id].enabled) {
+-		pi->states[domain_id].last_pcap = power_cap;
+-		return 0;
++	if (PROTOCOL_REV_MAJOR(ph->version) >= 0x2) {
++		if (!scmi_powercap_dom_info_get(ph, domain_id))
++			return -EINVAL;
 +
- 		r->sensor_id = le32_to_cpu(p->sensor_id);
- 		if (r->sensor_id >= sinfo->num_sensors)
- 			break;
-@@ -1091,6 +1094,11 @@ scmi_sensor_fill_custom_report(const struct scmi_protocol_handle *ph,
- 		 * readings defined for this sensor or 1 for scalar sensors.
- 		 */
- 		r->readings_count = s->num_axis ?: 1;
-+		expected_sz = sizeof(*p) + r->readings_count *
-+			      sizeof(p->readings[0]);
-+		if (payld_sz < expected_sz)
-+			break;
++		if (!pi->states[domain_id].enabled) {
++			pi->states[domain_id].last_pcap = power_cap;
++			return 0;
++		}
+ 	}
+ 
+ 	return __scmi_powercap_cap_set(ph, pi, domain_id,
+@@ -637,6 +641,9 @@ static int scmi_powercap_cap_enable_set(const struct scmi_protocol_handle *ph,
+ 	if (PROTOCOL_REV_MAJOR(ph->version) < 0x2)
+ 		return -EINVAL;
+ 
++	if (!scmi_powercap_dom_info_get(ph, domain_id))
++		return -EINVAL;
 +
- 		for (i = 0; i < r->readings_count; i++)
- 			scmi_parse_sensor_readings(&r->readings[i],
- 						   &p->readings[i]);
+ 	if (enable == pi->states[domain_id].enabled)
+ 		return 0;
+ 
+@@ -678,16 +685,20 @@ static int scmi_powercap_cap_enable_get(const struct scmi_protocol_handle *ph,
+ 	if (PROTOCOL_REV_MAJOR(ph->version) < 0x2)
+ 		return 0;
+ 
++	if (!scmi_powercap_dom_info_get(ph, domain_id))
++		return -EINVAL;
++
+ 	/*
+ 	 * Report always real platform state; platform could have ignored
+ 	 * a previous disable request. Default true on any error.
+ 	 */
+ 	ret = scmi_powercap_cap_get(ph, domain_id, &power_cap);
+-	if (!ret)
++	if (!ret) {
+ 		*enable = !!power_cap;
+ 
+-	/* Update internal state with current real platform state */
+-	pi->states[domain_id].enabled = *enable;
++		/* Update internal state with current real platform state */
++		pi->states[domain_id].enabled = *enable;
++	}
+ 
+ 	return 0;
+ }
 
 -- 
 2.43.0
