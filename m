@@ -1,236 +1,110 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91BC54963BF;
-	Mon, 18 May 2026 13:53:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 805CF3E0C73;
+	Tue, 19 May 2026 08:36:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779112399; cv=none; b=YowTuHD3O+ZNra/ke46tPq9LIoIZiTk2+gtDTKHQZdi6WKhJxqsqBP79vIyq8zZqjZwdZvhqhmGU8zYog8jQS4h+kLrTeDH2aXlDxRRYFBhQGIyMIx0xPUfO13W2yOS0LeHdGZHMZvgDBHpJ41bHb4o2HsKDbOklcd7CJYLVciY=
+	t=1779179817; cv=none; b=Q9oAG4pd9NI0HPxc2bMgfll3eXWDjczQh3TOKXnddwBycUJw0VryHqSDV3gEHHxzPMQ3IHwRRVVQS4cBMk5JdtpjDkJ64iAHCWn4o2BFhwEF7P1T8SGmRAiFLntuTmI3a0EgWNeA3+s79SvDTStVMQy8KC/fBw+JeYJnWi8gUjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779112399; c=relaxed/simple;
-	bh=KH0xrCitYzGGE60nSgMbouzyCYUKb4SZBjGg3aYh7pA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hPyQwZjxyu+HXxFv+soA06sVAixrzA+r3B9fSqACILf/OqttMCppBqpPW4d46armUnUqMUeU7WiVbC5zGm+r8NUf1lL09burCUoyNA3Alp8mZsZhnP36CdF+5ASOnulIN+/8VQDmXHmKveBPK6yllb29UPpBQEr2gPSIxidWtmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=vwH6sZ94; arc=none smtp.client-ip=217.140.110.172
+	s=arc-20240116; t=1779179817; c=relaxed/simple;
+	bh=cURbMm2okKUDguBxbYSJRZ9JHQhDdBDG/WbOFz3bvQg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W4pzpugQgn93j36fFX7+SopOGf1gCMko3qI0gFD4plF01moqTL4+La8CZoMcs4pkDvu6SHnJ7IQcVAizXRpfpgBqria+5BBNdrFfFOu8KHkRrm3c5WU/1j53M8STcaAGrr8DLeXxhk7DcUHTKLkc2Gfwff9kduSE78wOuyETALQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=J49n4wDk; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="vwH6sZ94"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="J49n4wDk"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B8F451D6F;
-	Mon, 18 May 2026 06:53:11 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (donnerap.manchester.arm.com [10.33.8.81])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E3CF63F7B4;
-	Mon, 18 May 2026 06:53:14 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3A5C01E5E;
+	Tue, 19 May 2026 01:36:49 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 035AE3F85F;
+	Tue, 19 May 2026 01:36:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1779112396; bh=KH0xrCitYzGGE60nSgMbouzyCYUKb4SZBjGg3aYh7pA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vwH6sZ94pQKEF0AlYLVsDstC5Q2auI9r0sFzMWXvT0xWKu9VOgcmU2z2JupkhR3uX
-	 6S3D5SxWStG7c2vMklwBiNIO856MlQLr0+pPBygPxq7eDaHyBA8Zylr9HeLzjreqeE
-	 8HnikLFd0U9ddIVN8JJxfKL+5S19IHIYIJsFizM4=
-From: Philip Radford <philip.radford@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Cc: sudeep.holla@arm.com,
-	james.quinlan@broadcom.com,
-	f.fainelli@gmail.com,
-	vincent.guittot@linaro.org,
-	etienne.carriere@st.com,
-	peng.fan@oss.nxp.com,
-	michal.simek@amd.com,
-	quic_sibis@quicinc.com,
-	dan.carpenter@linaro.org,
-	d-gole@ti.com,
-	souvik.chakravarty@arm.com,
-	Philip Radford <philip.radford@arm.com>
-Subject: [PATCH v6 12/12] powercap: arm_scmi: Synthetic zone enable/disable
-Date: Mon, 18 May 2026 14:52:34 +0100
-Message-ID: <20260518135234.2953532-13-philip.radford@arm.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260518135234.2953532-1-philip.radford@arm.com>
-References: <20260518135234.2953532-1-philip.radford@arm.com>
+	t=1779179814; bh=cURbMm2okKUDguBxbYSJRZ9JHQhDdBDG/WbOFz3bvQg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=J49n4wDk9qpghf5622OsChKbMNxP1ppkvk6334034/IMUHveTqtL2Opa/uFTArrvU
+	 eh0vDsoxhOPUMW2SMJsfSsuAFyWegJTU0XKRFGWFjxQVOZC8lWGfbG5ifguzIADOHA
+	 WMEo+fOedq3HwzCMyRp3aWSj8+SASHbZuXnKDzg0=
+Date: Tue, 19 May 2026 09:36:40 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] firmware: arm_scmi: Fix OOB in scmi_power_name_get()
+Message-ID: <agwhGERAdaKepqgT@pluto>
+References: <75caae28bdffb55199a0bc6cac5df112a966c608.1778838987.git.geert+renesas@glider.be>
+ <agb1Q6mrGyDwFdmO@stanley.mountain>
+ <CAMuHMdXreO-6xQ+e88AKQ_vSiwMPMnx=t8h5JChBAtuV4UDMEw@mail.gmail.com>
+ <agcHnzzdhV36j9eH@pluto>
+ <CAMuHMdVVAioAk_3K4y-7T0MCa7L++sVcWGRfdj_ESHau0ov9eA@mail.gmail.com>
+ <agcNULwGvCACUYx2@pluto>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <agcNULwGvCACUYx2@pluto>
 
-Add functionality to disable and enable the synthetic zone which
-also affects the immediate children of the synthetic zone by applying
-the same command to them.
+On Fri, May 15, 2026 at 01:10:56PM +0100, Cristian Marussi wrote:
+> On Fri, May 15, 2026 at 02:00:24PM +0200, Geert Uytterhoeven wrote:
+> > Hi Cristian,
+> > 
+> > On Fri, 15 May 2026 at 13:46, Cristian Marussi <cristian.marussi@arm.com> wrote:
+> > > On Fri, May 15, 2026 at 01:29:27PM +0200, Geert Uytterhoeven wrote:
+> > > > On Fri, 15 May 2026 at 12:28, Dan Carpenter <error27@gmail.com> wrote:
+> > > > > On Fri, May 15, 2026 at 11:59:15AM +0200, Geert Uytterhoeven wrote:
+> > > > > > scmi_power_name_get() does not validate the domain number passed by the
+> > > > > > external caller, which may lead to an out-of-bounds access.
+> > > > >
+> > > > > Is an external caller an out of tree caller?  So far as I can see this
+> > > >
+> > > > I meant a caller outside drivers/firmware/arm_scmi/.
+> > > >
+> > > > > is only called by scmi_pm_domain_probe().
+> > > > >
+> > > > >         scmi_pd->name = power_ops->name_get(ph, i);
+> > > > >
+> > > > > where i < num_domains.
+> > > >
+> > > > You are right. But this seems to be only API implementation in
+> > > > drivers/firmware/arm_scmi/ that does not validate the passed domain
+> > > > number.
+> > >
+> > > Yes we tend to validate protocol operations calls even if apparently
+> > > safe from teh caller perspective...indeed I have this fixed locally
+> > > since ages in an horrible patch, that does a lot more, and that I
+> > > never posted :P
+> > >
+> > > Usually, if it is worth, we also build an internal domain get helper to
+> > > reuse across the protocol unit...but here really there are only 2 call-sites.
+> > >
+> > > What I am not sure is what to return: "unknown" is safer as of now than NULL
+> > > for sure, but really, what happened is NOT that the name was "unknown" (which
+> > > by itself would be out-of-spec behaviour) it is more that the whole domain that
+> > > was referred to that was invalid and NOT existent...
+> > >
+> > > ....mmm I suppose we are opening another can of worms here :P
+> > 
+> > Like scmi_perf_info_get() returning ERR_PTR(-EINVAL) instead of NULL,
+> > and scmi_perf_domain_probe() never checking the return value anyway?
+> 
+> ...oh probably more than that...and related vendor FW that already exploits
+> these missing checks here and there to arbitrarily skip domains and return
+> out-of-spec non-contigous sets of domains becasue they cannot bother to
+> implement properly the spec (or they have simply forked their codebase from
+> an old drop and never updated it again...)...so that any kernel-side fix
+> you made along the road carries the risk of breaking something and a string
+> of possibly needed quirks...
 
-Signed-off-by: Philip Radford <philip.radford@arm.com>
----
-V5->V6
-- Added use of to_scmi_powercap_root macro
-- Changed instance_root_set_enable_state to bail out on any error
-- Changed logic in instance_root_get_enable to not check child states
----
- drivers/powercap/arm_scmi_powercap.c | 128 +++++++++++++++++++++++++++
- 1 file changed, 128 insertions(+)
+Anyway, it is the safest option on the table until proper checks are in place.
 
-diff --git a/drivers/powercap/arm_scmi_powercap.c b/drivers/powercap/arm_scmi_powercap.c
-index f1cb25a408bb..d911e623e2d7 100644
---- a/drivers/powercap/arm_scmi_powercap.c
-+++ b/drivers/powercap/arm_scmi_powercap.c
-@@ -36,6 +36,7 @@ struct scmi_powercap_zone {
- 
- struct scmi_powercap_root {
- 	unsigned int num_zones;
-+	bool enabled;
- 	struct scmi_powercap_zone *spzones;
- 	struct list_head *registered_zones;
- 	struct list_head scmi_zones;
-@@ -276,6 +277,127 @@ static int instance_root_release(struct powercap_zone *pz)
- 	return 0;
- }
- 
-+static int instance_root_read_children_enable_state(struct scmi_powercap_root *pr,
-+						    bool *mode)
-+{
-+	struct scmi_powercap_zone *child;
-+	bool enabled;
-+	int i, ret;
-+
-+	if (!pr || !mode)
-+		return -EINVAL;
-+
-+	*mode = true;
-+
-+	for (i = 0; i < pr->num_zones; i++) {
-+		child = &pr->spzones[i];
-+
-+		if (!child->registered || child->invalid)
-+			continue;
-+		if (child->info->parent_id != SCMI_POWERCAP_ROOT_ZONE_ID)
-+			continue;
-+
-+		ret = powercap_ops->cap_enable_get(child->ph, child->info->id, &enabled);
-+		if (ret)
-+			return ret;
-+
-+		if (!enabled) {
-+			*mode = false;
-+			return 0;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int instance_root_set_enable_state(struct powercap_zone *pz, bool enable)
-+{
-+	struct scmi_powercap_zone *child;
-+	struct scmi_powercap_root *pr = to_scmi_powercap_root(pz);
-+	int i, ret;
-+	bool *prev_state;
-+
-+	if (!pz)
-+		return -EINVAL;
-+
-+	prev_state = kcalloc(pr->num_zones, sizeof(*prev_state), GFP_KERNEL);
-+	if (!prev_state)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < pr->num_zones; i++) {
-+		child = &pr->spzones[i];
-+
-+		if (!child->registered || child->invalid)
-+			continue;
-+		if (child->info->parent_id != SCMI_POWERCAP_ROOT_ZONE_ID)
-+			continue;
-+
-+		ret = powercap_ops->cap_enable_get(child->ph, child->info->id,
-+						   &prev_state[i]);
-+
-+		if (ret)
-+			goto revert;
-+
-+		if (prev_state[i] == enable)
-+			continue;
-+
-+		ret = powercap_ops->cap_enable_set(child->ph, child->info->id, enable);
-+
-+		if (ret) {
-+			dev_err(child->dev, "failed to %s zone %s: %d\n",
-+				enable ? "enable" : "disable",
-+				child->info->name, ret);
-+			goto revert;
-+		}
-+	}
-+
-+	kfree(prev_state);
-+	return 0;
-+
-+revert:
-+	while (--i >= 0) {
-+		child = &pr->spzones[i];
-+
-+		if (!child->registered || child->invalid)
-+			continue;
-+		if (child->info->parent_id != SCMI_POWERCAP_ROOT_ZONE_ID)
-+			continue;
-+		if (!child->info->cpli[0].cap_config)
-+			continue;
-+		if (prev_state[i] == enable)
-+			continue;
-+
-+		powercap_ops->cap_enable_set(child->ph, child->info->id,
-+					     prev_state[i]);
-+	}
-+
-+	kfree(prev_state);
-+	return ret;
-+}
-+
-+static int instance_root_set_enable(struct powercap_zone *pz, bool mode)
-+{
-+	struct scmi_powercap_root *pr = to_scmi_powercap_root(pz);
-+	int ret;
-+
-+	ret = instance_root_set_enable_state(pz, mode);
-+	if (!ret)
-+		pr->enabled = mode;
-+
-+	return ret;
-+}
-+
-+static int instance_root_get_enable(struct powercap_zone *pz, bool *mode)
-+{
-+	struct scmi_powercap_root *pr = to_scmi_powercap_root(pz);
-+
-+	if (!pz || !mode)
-+		return -EINVAL;
-+
-+	*mode = pr->enabled;
-+	return 0;
-+}
-+
- static int instance_root_get_power_uw(struct powercap_zone *pz, u64 *power_uw)
- {
- 	struct scmi_powercap_root *pr = to_scmi_powercap_root(pz);
-@@ -324,6 +446,8 @@ static const struct powercap_zone_ops instance_root_ops = {
- 	.get_max_power_range_uw = scmi_powercap_get_max_power_range_uw,
- 	.get_power_uw = instance_root_get_power_uw,
- 	.release = instance_root_release,
-+	.set_enable = instance_root_set_enable,
-+	.get_enable = instance_root_get_enable,
- };
- 
- static const struct powercap_zone_constraint_ops instance_root_const_ops = {
-@@ -600,6 +724,10 @@ static int scmi_powercap_probe(struct scmi_device *sdev)
- 	if (ret)
- 		return ret;
- 
-+	ret = instance_root_read_children_enable_state(pr, &pr->enabled);
-+	if (ret)
-+		return ret;
-+
- 	dev_set_drvdata(dev, pr);
- 
- 	return ret;
--- 
-2.47.3
+Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
 
+Thanks,
+Cristian
