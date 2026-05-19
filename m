@@ -1,41 +1,41 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89D7B3F65FF
-	for <arm-scmi@vger.kernel.org>; Tue, 19 May 2026 09:07:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 243E3421F11
+	for <arm-scmi@vger.kernel.org>; Tue, 19 May 2026 09:40:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779181663; cv=none; b=BYFm0snvocuNXShwdNmH5hKrcZvLzcjshN1mjxCAxHCIFdkEdYwbd7u6WadzX/OcLnIwHu4YNQBl5WZ6Pm1prS2PldioDsvxjJRp6hjRakZ9mNTSVBG+akC5/kxyvWYpWds6XZ0oKwvhSpdcne25rNtTBgr7ZomwM+I3hL5cPFk=
+	t=1779183631; cv=none; b=c1d3HUBA+YT2YPiwHDjOQt5p6Q9avFlGlgI3o+bAMYjpNDTJfbZHa8x2IuahPGx+JX4H0NkxY0tkWFlsr6Aa+gC8fLKlUidtqbbQBb8pQ96IBRiw3MkU2f2VyUs43XE4qWSew5dheISY4FDyJshn6u9mrAMChm8myFm7S4QoFUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779181663; c=relaxed/simple;
-	bh=Sar9yflNHsabnNZU4AVYywfJtAantv6N01mvNjoHBi0=;
+	s=arc-20240116; t=1779183631; c=relaxed/simple;
+	bh=1EEkTBJ2/vsJloKiamHl8dU2H8n6mbJKFZttg7Q3C50=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pyl/jfMvpfV3fo7jramA/bu7m9y5fxsM6i4ApCD0UIe6/daq2YMykjotqt8IxE3LXZliknUpj+FRddX9gC9XSEkRJuXQkqxH63KxkhflLOwQ0ThVS1lkXiyy73WQ/l9WR0R1oycFoQNKpuj1fakfJYeIzpt4uHHeSusbTI/OdH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=gLPCiFNH; arc=none smtp.client-ip=217.140.110.172
+	 Content-Type:Content-Disposition:In-Reply-To; b=J4t5RdlYxG9h/nyvFUO7sozFYtZxJp3lVWdrDHsVrX/dCmvvy2D/zq/UPhFYxeqL4Sa1hXUrdPo/elO9LqX2ne7Z4Nz4NtbD6Wlw8YEEiEMmKXu3Yh+9bOb6lu13250lL2tIacTBOAsQmh99cx9/IhaWweFlBid5Ovwvn0rIPW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=nXuvZA0u; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="gLPCiFNH"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="nXuvZA0u"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CB8181692;
-	Tue, 19 May 2026 02:07:35 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 52A3B1CE0;
+	Tue, 19 May 2026 02:40:23 -0700 (PDT)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B78EA3F632;
-	Tue, 19 May 2026 02:07:39 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AFFD03F632;
+	Tue, 19 May 2026 02:40:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1779181660; bh=Sar9yflNHsabnNZU4AVYywfJtAantv6N01mvNjoHBi0=;
+	t=1779183628; bh=1EEkTBJ2/vsJloKiamHl8dU2H8n6mbJKFZttg7Q3C50=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gLPCiFNHNgV06N8T5NiyNw05iZn313C27CMy5S5PR0e3wmjcRYJHvY/TR361aIg8Z
-	 LhWEYpWV5/XueeWa+Mtn2e9HOy2n9TOl2fNPb/bkRocpZJxyUS1yQlmX48SSoDVP92
-	 6aYtMXbB1/ASlUFA5AyRq96+WAZcaFb5nmsf9Ebc=
-Date: Tue, 19 May 2026 10:07:36 +0100
+	b=nXuvZA0uDqawDEOb5EaXbgJaaJ3V8IDCO7Kauoys/FRL/PhPm7xUH3OOZgyw0DcVu
+	 ovtFe0nUmSAveFCaoDxuGYOgu8LPY3DXOruyxPgXn+ci1jzvmjmXjzYeQR+Ufi+jsJ
+	 jIUSe8XKwttgnVZreXZltxjoextS4UERkHWWwKKQ=
+Date: Tue, 19 May 2026 10:40:24 +0100
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: Sudeep Holla <sudeep.holla@kernel.org>
 Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/4] firmware: arm_scmi: Validate BASE_ERROR_EVENT
- payload size
-Message-ID: <agwoWOQm_dPrQvwa@pluto>
+Subject: Re: [PATCH 3/4] firmware: arm_scmi: Validate SENSOR_UPDATE payload
+ size
+Message-ID: <agwwCJ5_cL-Ip-xm@pluto>
 References: <20260517-scmi_fixes-v1-0-d86daec4defd@kernel.org>
- <20260517-scmi_fixes-v1-2-d86daec4defd@kernel.org>
+ <20260517-scmi_fixes-v1-3-d86daec4defd@kernel.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -44,22 +44,52 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260517-scmi_fixes-v1-2-d86daec4defd@kernel.org>
+In-Reply-To: <20260517-scmi_fixes-v1-3-d86daec4defd@kernel.org>
 
-On Sun, May 17, 2026 at 08:02:41PM +0100, Sudeep Holla wrote:
-> BASE_ERROR_EVENT carries a variable number of message reports,
-> with the count encoded in error_status. The notification parser used
-> that count without checking whether the received payload contained all
-> reported entries.
+On Sun, May 17, 2026 at 08:02:42PM +0100, Sudeep Holla wrote:
+> SENSOR_UPDATE carries one or more sensor readings after the fixed
+> notification header. The parser derives the expected reading count
+> from the sensor description, but it did not verify that the received
+> payload contains those entries before parsing them.
 > 
-> Reject truncated payloads before copying the report array.
+> Reject truncated update notifications before reading the variable
+> array.
 > 
 > Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
-
-
-Not sure is the missing check was due to some sort of best effort
-attempt to report whatever the platform was able to report or what...
-...but it seems correct to check and discard corrupted replies.
+> ---
+>  drivers/firmware/arm_scmi/sensors.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/firmware/arm_scmi/sensors.c b/drivers/firmware/arm_scmi/sensors.c
+> index 836c294a9f42..b14bb1146356 100644
+> --- a/drivers/firmware/arm_scmi/sensors.c
+> +++ b/drivers/firmware/arm_scmi/sensors.c
+> @@ -1072,12 +1072,15 @@ scmi_sensor_fill_custom_report(const struct scmi_protocol_handle *ph,
+>  	case SCMI_EVENT_SENSOR_UPDATE:
+>  	{
+>  		int i;
+> +		size_t expected_sz;
+>  		struct scmi_sensor_info *s;
+>  		const struct scmi_sensor_update_notify_payld *p = payld;
+>  		struct scmi_sensor_update_report *r = report;
+>  		struct sensors_info *sinfo = ph->get_priv(ph);
+>  
+> -		/* payld_sz is variable for this event */
+> +		if (payld_sz < sizeof(*p))
+> +			break;
+> +
+>  		r->sensor_id = le32_to_cpu(p->sensor_id);
+>  		if (r->sensor_id >= sinfo->num_sensors)
+>  			break;
+> @@ -1091,6 +1094,11 @@ scmi_sensor_fill_custom_report(const struct scmi_protocol_handle *ph,
+>  		 * readings defined for this sensor or 1 for scalar sensors.
+>  		 */
+>  		r->readings_count = s->num_axis ?: 1;
+> +		expected_sz = sizeof(*p) + r->readings_count *
+> +			      sizeof(p->readings[0]);
+> +		if (payld_sz < expected_sz)
+> +			break;
+> +
 
 LGTM.
 Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
