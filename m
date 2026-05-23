@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C53D3845B0
-	for <arm-scmi@vger.kernel.org>; Sat, 23 May 2026 09:18:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A353845CD
+	for <arm-scmi@vger.kernel.org>; Sat, 23 May 2026 09:20:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779527930; cv=none; b=KOHt3pfI2bCOHuGG27YvAuPkxDqqmJVhlQKAD7hqGtnYzKEXgpsUUAPhC/ziEN43xBU21+g3igUhz/QON8WSHbpdludxof536pmonw1pYW8FDVETMooSPnS100Q+IjQzhM4JHXPXt9BnzAAYVQHb9vO9BZXYJ9pnY1cUa1kv03M=
+	t=1779528024; cv=none; b=pCcqKQbANzj0icAT/AMVokI/46L8JGXn5TLE8b+tFYjW4pGy0ATkBjmxR7ZzvZ67+j2nJS5+H6kjxvimny5d5elcHyPL9cfHeScku843V2pMY+sHA0E7TzYe7sgRm1fJN+XFc3e4tb9M0kXWZJkIyoHRjIbPx96VegJ3c1ny2Fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779527930; c=relaxed/simple;
-	bh=TQ8x6W2VkQNawhKHTtSrP2jT7BvbDzctIfpRw7ijmfs=;
+	s=arc-20240116; t=1779528024; c=relaxed/simple;
+	bh=t+aytgWJYWMrIeGAWf/uE60NzkgJIffFPhmKzk31inM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YLm1LkL0RNyb7DgYUw95zPwQybGeAquslxM3n0HY53kWcnGedU6TqxF+OjHXRit8QNfR16gQ7RvUwHhB5MDmt5R2gbdijEM+kx643nHZiiuIfh+9J480SFTYVNawz+foFQMkotozf8IUAyVizeFjjoocRdI6oaMSQtxSHGFVR1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fmP5Tzr9; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=VdUnGz64nWEea6z5cMxszWzaPzvc5I2zwTJVGpJwIERO05R5wxOw5bfcBosWpw68x4q2jVQGUoqmz4CTVClZYz7a7S/SvvTvXWnQJAAOtWfBBya4RJDQOKH3JkbNsEx4GmMm3NS2VZuFZLfn+gSvh4NWFOJT/jhRK0dgANTjkNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cfxBsi7J; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fmP5Tzr9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5F661F0155A
-	for <arm-scmi@vger.kernel.org>; Sat, 23 May 2026 09:18:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cfxBsi7J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEC761F0155F
+	for <arm-scmi@vger.kernel.org>; Sat, 23 May 2026 09:20:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779527927;
-	bh=TQ8x6W2VkQNawhKHTtSrP2jT7BvbDzctIfpRw7ijmfs=;
+	s=k20260515; t=1779528022;
+	bh=t+aytgWJYWMrIeGAWf/uE60NzkgJIffFPhmKzk31inM=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=fmP5Tzr9npguHZm4IZxldm2XUudECehSbZBMvoXNtrw4Ix0inUdagBbXgUYfC9D4B
-	 sxagbtyGtB9hmTpGlq85xKhP9dLMp084u3tzJOdxVK5LU4nx69ufMXIfpftcPpF2n6
-	 T+Tf/kCv/7Bwm4iQDyaB2gN9SY72Q0Pl62hZTyxaJzXl/asG416+dB1qfGHW34jHEu
-	 kvN121p1QYIOTAvgrNwFtrjSq7Zraa0OvU6Q+GDru3fa2goxbQ3pB80oRRIGzyS5D2
-	 LeV/iPV10ApSIn2kSD1zGhkYZhQCcRmXW8rMTJhxiUaN5/psOSyHRskXLC9AdYrNw3
-	 +DNLJ+WNNBFhg==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5a8891febd2so10964654e87.1
-        for <arm-scmi@vger.kernel.org>; Sat, 23 May 2026 02:18:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+yIL70QT5+OzOsUhraaGMs7etmYzlE2OwibxUCCp5z5Pn5KaiHAnMRZavR2rlnnX3781PCqtpLUA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywdd4Pb/AEpKfxZm3XHH2rKV7DmLj/zlO4D25XGAvkuiEcBWuMQ
-	xbd3Dxw4FcYwFy0Yst2AL4dy3tJ3gKgenwgLO5LnptHcFTUABvse8NIcEe6EbFvH06a9suUP7Wb
-	yVoIfp/gsU1TYUMbITMI3DifBeOsbEhE=
-X-Received: by 2002:a05:6512:61d8:10b0:5a3:ffed:8443 with SMTP id
- 2adb3069b0e04-5aa323bbfd8mr1664992e87.23.1779527926425; Sat, 23 May 2026
- 02:18:46 -0700 (PDT)
+	b=cfxBsi7J9fsxEfsgvFmd2NVs986Q+ome4emmk8XKBW0g0Vb4bFRCXh3k/gEInSN8Q
+	 wEXuaXm6WH4wWD/NmykWGGJpFREKgCOdeQKCh67hcMtBLIaQX8g4xf6Fj0YJaJrb6E
+	 0KkeYumHzBE0gW2aIVVaoAPL6MsNZAVaieL5jDJ98UnLoSi/slwePbTpTNRRuCtkdo
+	 oilPK8HHNaAyy21qLXJqkYqQiaNjU/7QbTVFL/kKpraNgzZP4FeFSD6emYDCnGFOJs
+	 r6bIrTI6lLYD5KEOFKQaAN034CwriA+B+X8bZ8PfjNeuBeHNwWRDanNTFWv/061nE7
+	 oe3vN4O5udvEQ==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5a884815606so9086368e87.0
+        for <arm-scmi@vger.kernel.org>; Sat, 23 May 2026 02:20:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/sF7q7AE8T7cmJEqhOhwGP3FCOnmZseGzHgNoUsFZGd96q1SlxO8bPeVYGLRQ91ZIPYMWqSCxklQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxS452nmwPdW14tQwt/hEguuvRsjXvFWmHYzfXX9/rqpM6tKFvc
+	n7a0T6vZMbo7uK3EhtnmtDY8ZlsR8x/3TrSlH5TGw9LKc6qmEtFYbbKkEQzSCEw+KoQyzJ4M4sJ
+	Wzrw/rLfLnKdzoVRzHEWOL8dUw4CA1sE=
+X-Received: by 2002:a05:6512:61a:b0:5a8:ee42:c131 with SMTP id
+ 2adb3069b0e04-5aa323cbd13mr1605975e87.34.1779528021498; Sat, 23 May 2026
+ 02:20:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -42,13 +42,13 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260513-scmi-client-probe-log-v1-0-00b47b1be009@oss.qualcomm.com>
- <20260513-scmi-client-probe-log-v1-5-00b47b1be009@oss.qualcomm.com>
-In-Reply-To: <20260513-scmi-client-probe-log-v1-5-00b47b1be009@oss.qualcomm.com>
+ <20260513-scmi-client-probe-log-v1-5-00b47b1be009@oss.qualcomm.com> <CAD++jL=6ikpC-BqVqP1Ev5HC37fw=K_n6rP96AxKi0jdVcyvmw@mail.gmail.com>
+In-Reply-To: <CAD++jL=6ikpC-BqVqP1Ev5HC37fw=K_n6rP96AxKi0jdVcyvmw@mail.gmail.com>
 From: Linus Walleij <linusw@kernel.org>
-Date: Sat, 23 May 2026 11:18:34 +0200
-X-Gmail-Original-Message-ID: <CAD++jL=6ikpC-BqVqP1Ev5HC37fw=K_n6rP96AxKi0jdVcyvmw@mail.gmail.com>
-X-Gm-Features: AVHnY4ITOyxIjMQnX36Ad3zAiWdBbfyUfI5jUIQb0t2xoh5_kwVjSKEq8ZFTExw
-Message-ID: <CAD++jL=6ikpC-BqVqP1Ev5HC37fw=K_n6rP96AxKi0jdVcyvmw@mail.gmail.com>
+Date: Sat, 23 May 2026 11:20:05 +0200
+X-Gmail-Original-Message-ID: <CAD++jLkCiZVOWYcN3yqLu6fOqjQhSkM0aZAbzVuoL-5hj+Lnzw@mail.gmail.com>
+X-Gm-Features: AVHnY4IWSrFsqHQpeusKv0ApoYMxulT_ZRdAj0wPbeYFZEu1mlSyB-OxmXrnTAU
+Message-ID: <CAD++jLkCiZVOWYcN3yqLu6fOqjQhSkM0aZAbzVuoL-5hj+Lnzw@mail.gmail.com>
 Subject: Re: [PATCH 5/5] pinctrl: pinctrl-scmi: Log number of pins, groups, functions
 To: Alex Tran <alex.tran@oss.qualcomm.com>
 Cc: Jyoti Bhayana <jbhayana@google.com>, Jonathan Cameron <jic23@kernel.org>, 
@@ -63,24 +63,29 @@ Cc: Jyoti Bhayana <jbhayana@google.com>, Jonathan Cameron <jic23@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 13, 2026 at 6:44=E2=80=AFPM Alex Tran <alex.tran@oss.qualcomm.c=
-om> wrote:
-
-> The SCMI pinctrl driver does not currently log the number of pins,
-> groups, and functions discovered from firmware. This information is
-> useful for confirming the firmware exposed pinctrl resources during
-> debugging.
+On Sat, May 23, 2026 at 11:18=E2=80=AFAM Linus Walleij <linusw@kernel.org> =
+wrote:
+> On Wed, May 13, 2026 at 6:44=E2=80=AFPM Alex Tran <alex.tran@oss.qualcomm=
+.com> wrote:
 >
-> Log these counts after a successful probe to align with the existing
-> SCMI client driver logging pattern.
+> > The SCMI pinctrl driver does not currently log the number of pins,
+> > groups, and functions discovered from firmware. This information is
+> > useful for confirming the firmware exposed pinctrl resources during
+> > debugging.
+> >
+> > Log these counts after a successful probe to align with the existing
+> > SCMI client driver logging pattern.
+> >
+> > Signed-off-by: Alex Tran <alex.tran@oss.qualcomm.com>
 >
-> Signed-off-by: Alex Tran <alex.tran@oss.qualcomm.com>
+> Other kernel maintainers want a minimalist dmesg, but not me,
+> so I just applied this.
+>
+> If someone is upset about the noise they can send a patch
+> changing it to dev_dbg().
 
-Other kernel maintainers want a minimalist dmesg, but not me,
-so I just applied this.
-
-If someone is upset about the noise they can send a patch
-changing it to dev_dbg().
+Ah scratch that, Andy made a fair point that it is available
+in debugfs anyway so I dropped the patch.
 
 Yours,
 Linus Walleij
