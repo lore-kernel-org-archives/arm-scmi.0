@@ -1,91 +1,200 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A353845CD
-	for <arm-scmi@vger.kernel.org>; Sat, 23 May 2026 09:20:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640ED249E5
+	for <arm-scmi@vger.kernel.org>; Mon, 25 May 2026 20:44:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779528024; cv=none; b=pCcqKQbANzj0icAT/AMVokI/46L8JGXn5TLE8b+tFYjW4pGy0ATkBjmxR7ZzvZ67+j2nJS5+H6kjxvimny5d5elcHyPL9cfHeScku843V2pMY+sHA0E7TzYe7sgRm1fJN+XFc3e4tb9M0kXWZJkIyoHRjIbPx96VegJ3c1ny2Fk=
+	t=1779741857; cv=none; b=BxL5QR6cC7tXy/fwK1seq6Z7bVHM++CWDaPJiylTxnAYksqv+5cRrXbiFCxVbUOT/Ze91Y3L/CuF/hfjrvXZ6DTFbBXDw2g+cIV/Ny6pltTdsHmfqjXoMSjHnclxgImx2XMSGNSqIGMESyYrkiDUK5mlmRTWxKAygRQZYNMEXTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779528024; c=relaxed/simple;
-	bh=t+aytgWJYWMrIeGAWf/uE60NzkgJIffFPhmKzk31inM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VdUnGz64nWEea6z5cMxszWzaPzvc5I2zwTJVGpJwIERO05R5wxOw5bfcBosWpw68x4q2jVQGUoqmz4CTVClZYz7a7S/SvvTvXWnQJAAOtWfBBya4RJDQOKH3JkbNsEx4GmMm3NS2VZuFZLfn+gSvh4NWFOJT/jhRK0dgANTjkNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cfxBsi7J; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779741857; c=relaxed/simple;
+	bh=wU8YRjpnd/5wC01JxYZ8drDq5McSvY44p6hQR2A0RrQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=flIIE+uiKzNwT1lFgRLVJVeABocbbQIlXvCxK4vg3ykY4bV1qAs6rFuIL/GXC8Ih6jPR2W4lTWSyhFTURQUXPBqycVtFPmY6M63bpmUMi9ImE2uEZdHYzu8ms386rQW5H186D3EiNg3YzzgDF7wlLjjIDTjOe6o1JGah+6mSrHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HzTpAAvx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cfxBsi7J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEC761F0155F
-	for <arm-scmi@vger.kernel.org>; Sat, 23 May 2026 09:20:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HzTpAAvx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 595781F000E9;
+	Mon, 25 May 2026 20:44:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779528022;
-	bh=t+aytgWJYWMrIeGAWf/uE60NzkgJIffFPhmKzk31inM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=cfxBsi7J9fsxEfsgvFmd2NVs986Q+ome4emmk8XKBW0g0Vb4bFRCXh3k/gEInSN8Q
-	 wEXuaXm6WH4wWD/NmykWGGJpFREKgCOdeQKCh67hcMtBLIaQX8g4xf6Fj0YJaJrb6E
-	 0KkeYumHzBE0gW2aIVVaoAPL6MsNZAVaieL5jDJ98UnLoSi/slwePbTpTNRRuCtkdo
-	 oilPK8HHNaAyy21qLXJqkYqQiaNjU/7QbTVFL/kKpraNgzZP4FeFSD6emYDCnGFOJs
-	 r6bIrTI6lLYD5KEOFKQaAN034CwriA+B+X8bZ8PfjNeuBeHNwWRDanNTFWv/061nE7
-	 oe3vN4O5udvEQ==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5a884815606so9086368e87.0
-        for <arm-scmi@vger.kernel.org>; Sat, 23 May 2026 02:20:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/sF7q7AE8T7cmJEqhOhwGP3FCOnmZseGzHgNoUsFZGd96q1SlxO8bPeVYGLRQ91ZIPYMWqSCxklQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxS452nmwPdW14tQwt/hEguuvRsjXvFWmHYzfXX9/rqpM6tKFvc
-	n7a0T6vZMbo7uK3EhtnmtDY8ZlsR8x/3TrSlH5TGw9LKc6qmEtFYbbKkEQzSCEw+KoQyzJ4M4sJ
-	Wzrw/rLfLnKdzoVRzHEWOL8dUw4CA1sE=
-X-Received: by 2002:a05:6512:61a:b0:5a8:ee42:c131 with SMTP id
- 2adb3069b0e04-5aa323cbd13mr1605975e87.34.1779528021498; Sat, 23 May 2026
- 02:20:21 -0700 (PDT)
+	s=k20260515; t=1779741856;
+	bh=qTZQl07DZ3orwMJ1zWD5Kp5YJ4qWGG3RQzOnMKdff7I=;
+	h=From:Subject:Date:To:Cc;
+	b=HzTpAAvxlET8eKMq2IaYwxyIxtDV6mbM6PQk+wp8fD+mLXqvnuhOEwSTlIhBOZf44
+	 q6qh8aAApgQ9W1DA6N6EA/wg9cAFt5p366duLrBIEBzDNzUMpgeJtIZ+p8kKd0Nb/n
+	 gp79eqDJG0Eq2kx44tK/XKUyr9tFLlzpDOtUXXWP59a93utMc9zcN9EIThxWeGGUUG
+	 zh8DScqSOnxauPlTlv3teiZTA5sl3PIqaeNRFaHTfe3urfRQMDY2+H6ICixjV2MbCl
+	 rKTm+AxIn4w8WlU9w4W4V5Gd/jqSfqMI+oj7iDFBsnuGz4C5hi/lPgGB6nI9eDXI5e
+	 DSCpyjAnUHfbQ==
+From: Sudeep Holla <sudeep.holla@kernel.org>
+Subject: [PATCH v2 0/9] firmware: arm_scmi: Refactoring and enablement of
+ ACPI PCC transport
+Date: Mon, 25 May 2026 21:42:38 +0100
+Message-Id: <20260525-acpi_scmi_pcc-v2-0-4f38938d08d8@arm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260513-scmi-client-probe-log-v1-0-00b47b1be009@oss.qualcomm.com>
- <20260513-scmi-client-probe-log-v1-5-00b47b1be009@oss.qualcomm.com> <CAD++jL=6ikpC-BqVqP1Ev5HC37fw=K_n6rP96AxKi0jdVcyvmw@mail.gmail.com>
-In-Reply-To: <CAD++jL=6ikpC-BqVqP1Ev5HC37fw=K_n6rP96AxKi0jdVcyvmw@mail.gmail.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Sat, 23 May 2026 11:20:05 +0200
-X-Gmail-Original-Message-ID: <CAD++jLkCiZVOWYcN3yqLu6fOqjQhSkM0aZAbzVuoL-5hj+Lnzw@mail.gmail.com>
-X-Gm-Features: AVHnY4IWSrFsqHQpeusKv0ApoYMxulT_ZRdAj0wPbeYFZEu1mlSyB-OxmXrnTAU
-Message-ID: <CAD++jLkCiZVOWYcN3yqLu6fOqjQhSkM0aZAbzVuoL-5hj+Lnzw@mail.gmail.com>
-Subject: Re: [PATCH 5/5] pinctrl: pinctrl-scmi: Log number of pins, groups, functions
-To: Alex Tran <alex.tran@oss.qualcomm.com>
-Cc: Jyoti Bhayana <jbhayana@google.com>, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Sudeep Holla <sudeep.holla@kernel.org>, 
-	Cristian Marussi <cristian.marussi@arm.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Guenter Roeck <linux@roeck-us.net>, linux-iio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-hwmon@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAES0FGoC/3XMywrCMBCF4VcpszaSSyXUle8hpUyT0c4iTUkkK
+ CXvbuze5X/gfDtkSkwZrt0OiQpnjmsLferALbg+SbBvDVrqi5LKCnQbT9kFnjbnBPU9KW0MIRl
+ ony3Rg9+Hdx9bL5xfMX0Ovqjf+k8qSkgh0c84WysHP9wwhbOLAcZa6xfia7ciqAAAAA==
+X-Change-ID: 20251017-acpi_scmi_pcc-e44e1233eae3
+To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Sudeep Holla <sudeep.holla@kernel.org>, 
+ Cristian Marussi <cristian.marussi@arm.com>
+X-Mailer: b4 0.15.2
 
-On Sat, May 23, 2026 at 11:18=E2=80=AFAM Linus Walleij <linusw@kernel.org> =
-wrote:
-> On Wed, May 13, 2026 at 6:44=E2=80=AFPM Alex Tran <alex.tran@oss.qualcomm=
-.com> wrote:
->
-> > The SCMI pinctrl driver does not currently log the number of pins,
-> > groups, and functions discovered from firmware. This information is
-> > useful for confirming the firmware exposed pinctrl resources during
-> > debugging.
-> >
-> > Log these counts after a successful probe to align with the existing
-> > SCMI client driver logging pattern.
-> >
-> > Signed-off-by: Alex Tran <alex.tran@oss.qualcomm.com>
->
-> Other kernel maintainers want a minimalist dmesg, but not me,
-> so I just applied this.
->
-> If someone is upset about the noise they can send a patch
-> changing it to dev_dbg().
+The SCMI can be utilized in systems using either the FDT or ACPI specification.
+While FDT-based systems can natively use SCMI, ACPI-based systems often
+need to abstract the functionality provided by SCMI under ASL methods.
+So far, there has been no need to support SCMI natively on ACPI systems.
 
-Ah scratch that, Andy made a fair point that it is available
-in debugfs anyway so I dropped the patch.
+However, with the addition of a few new protocols such as Powercap and Telemetry,
+which lack abstractions in the ACPI specification, there is now a need to
+run SCMI natively for those use cases. ACPI for System Control and Management
+Interface document[1] provides a mechanism which allows ACPI-based systems to
+discover whether a platform supports SCMI and to natively use SCMI for
+selected/limited subset of SCMI protocols.
 
-Yours,
-Linus Walleij
+This patch series introduces ACPI PCC transport support for the Arm SCMI
+framework, alongside several foundational refactors and enhancements to
+achieve firmware-node neutrality between Device Tree (DT) and ACPI systems.
+
+The key changes include:
+
+1. ACPI/DT abstraction and fwnode transition
+
+   Converted the core SCMI code to use `fwnode_handle` instead of DT-specific
+   structures, ensuring seamless operation across both ACPI and DT
+   environments. All property lookups, child enumeration, and device
+   association paths have been updated accordingly.
+
+2. Unified transport registration for ACPI and DT
+
+   Extended the SCMI transport driver macros to support ACPI match tables,
+   enabling transports to probe using ACPI device IDs while maintaining
+   backward compatibility with DT-only systems.
+
+3. Protocol device initialization and refactoring
+
+   Refactored the protocol device creation and validation logic into a new
+   helper for improved readability and maintainability. Enhanced the
+   initialization logic to handle ACPI-based SCMI devices without explicit
+   child fwnodes.
+
+4. Introduction of ACPI PCC transport
+
+   Added a new SCMI transport driver leveraging ACPI PCCT (Platform
+   Communications Channel Table) subspaces via the Linux PCC mailbox
+   framework. This enables SCMI communication over PCC on ACPI-based
+   platforms.
+
+Collectively, these changes lay the groundwork for robust SCMI operation on
+ACPI platforms, achieving near parity with DT systems where applicable,
+while enabling the new PCC transport path for firmware communication.
+
+Note: SCMI will not be run natively for all existing protocols other
+than Powercap and Telemetry, as they must continue to use ACPI abstractions.
+
+[1] https://developer.arm.com/documentation/111115/latest
+
+-->8
+
+Device (SCM0) {
+  Name(_HID, "ARML0001")
+  Name (_UID, 0)
+  Name (_DSD, Package () {
+    ToUUID("84a2d1c6-86b6-4199-8dac-9c17449d5e03"),  // SCMI Properties UUID
+      Package () {
+        Package(2) {
+          "arm-arml0001-transport-pcc", // Key
+          Package () {               // Value
+              1,                     // Revision
+              3,                     // Count
+              Package(){4, 0, 1},    // PCCT Idx, TransportUID, A2P Common
+              Package(){7, 1, 0},    // PCCT Idx, TransportUID, A2P Exclusive
+              Package(){9, 2, 2}     // PCCT Idx, TransportUID, P2A Exclusive
+          } // Value
+        },
+        Package(2) {
+          "arm-arml0001-protocol-pcap",   // Key
+          Package () {                // Value
+             1,                       // Revision
+             Package() {              // Protocol Exclusive Transport Package
+                                      // Empty; A2P Common
+             },
+             Package() {}             // Protocol Association Package
+          } // Value
+        },
+        Package(2) {
+          "arm-arml0001-protocol-telemetry", // Key
+          Package () {                // Value
+            1,                        // Revision
+            Package() {               // Protocol Exclusive Transport Package
+              Package (2) {1, 0},     // UID=1; Flags=0; A2P Exclusive
+              Package (2) {2, 0}      // UID=2; Flags=0; P2A Exclusive
+            },
+            Package() {}              // Protocol Association Package
+          } // Value
+        },
+      } // Device Properties
+    }) // _DSD
+} // SCM0
+
+Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
+---
+Changes in v2:
+    - Fixed SCMI fwnode lifetime handling by taking a reference when
+      assigning protocol device fwnodes and releasing it from the device
+      release path.
+    - Reworked ACPI PCC _DSD parsing to validate package types,
+      revisions, counts, UID ranges, flags, duplicate UIDs, and channel
+      mappings.
+    - Parse the SCMI ACPI _DSD UUID package directly as we moved to SCMI
+      specific UUID from the generic device properties UUID and reject
+      malformed or unsupported protocol association data.
+    - Tightened PCC channel selection so each protocol gets at most one Tx
+      and one Rx channel, with exactly one common A2P channel and at most
+      one common P2A channel.
+    - Only set the PCC interrupt-enable flag when the mailbox channel has a
+      txdone IRQ.
+    - Added the SCMI Telemetry protocol ID(Temporary to get the build
+      working, must come from Cristian's Telemetry support patched)
+    - Link to v1: https://patch.msgid.link/20251017-acpi_scmi_pcc-v1-0-0adbab7709d9@arm.com
+
+---
+Sudeep Holla (9):
+      firmware: arm_scmi: Fix OF node reference handling
+      firmware: arm_scmi: Set fwnode for the generated SCMI platform device
+      firmware: arm_scmi: Extend transport driver macro to support ACPI
+      firmware: arm_scmi: Convert OF-only paths to generic fwnode in SCMI core
+      firmware: arm_scmi: Fall back to ACPI HID when "compatible" is absent
+      firmware: arm_scmi: Pass protocol ID to chan_available() transport callback
+      firmware: arm_scmi: Refactor protocol device creation logic
+      firmware: arm_scmi: transport: Add ACPI PCC transport
+      firmware: arm_scmi: Initialise all protocol devices and transport channels
+
+ drivers/firmware/arm_scmi/bus.c                |  36 +-
+ drivers/firmware/arm_scmi/common.h             |  36 +-
+ drivers/firmware/arm_scmi/driver.c             | 183 ++++----
+ drivers/firmware/arm_scmi/transports/Kconfig   |  12 +
+ drivers/firmware/arm_scmi/transports/Makefile  |   2 +
+ drivers/firmware/arm_scmi/transports/mailbox.c |   7 +-
+ drivers/firmware/arm_scmi/transports/optee.c   |   7 +-
+ drivers/firmware/arm_scmi/transports/pcc.c     | 593 +++++++++++++++++++++++++
+ drivers/firmware/arm_scmi/transports/smc.c     |  12 +-
+ drivers/firmware/arm_scmi/transports/virtio.c  |   3 +-
+ include/linux/scmi_protocol.h                  |   1 +
+ 11 files changed, 785 insertions(+), 107 deletions(-)
+---
+base-commit: e7ae89a0c97ce2b68b0983cd01eda67cf373517d
+change-id: 20251017-acpi_scmi_pcc-e44e1233eae3
+
+
+-- 
+Regards,
+Sudeep
+
