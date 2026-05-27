@@ -1,91 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BB43EC2EA;
-	Wed, 27 May 2026 09:23:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C913E7150;
+	Wed, 27 May 2026 09:25:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779873841; cv=none; b=MpDNfWJoxtXhBpLAVP3/10qKJ+/IJprUxcblyx1xQuRHXxg+O2zai0vp8shTWExJauS/OdgM7b3W1ESPu5TGAMT60IeCyVqUCUSl4+PexuhOhJ5QnBR5JsUulZpRhUPqPNgVSYykR643WYYq/mMmzseL3PXWBJPe32ZVizSiH28=
+	t=1779873950; cv=none; b=LjQ07iz8Kd8SP5uZyv6wRFQFnaokv4oT2A/qhkM5wz6rysPOVyc0Kea9IBU7PCJyCzhfOqPvx6NrKYdco/RKRX47m05waayOdOi2uA6bn5qs7N4Ik/16ny/i49RFQwfXrMNzV1Sm27R2uA/9Yguw3dqdi+R467jeJNBAWQrltQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779873841; c=relaxed/simple;
-	bh=GxMtrspK4JjWxiPCyRBKuL/N51uWiOsxFoUVCVCoBSU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LXTp0OnCgzvQ2U/dwJxbmLeYwfwCWjWRRXGx0UHemW5FT+kLRZFffa4ZQkuLWnojis6IvXbMF4eboC9Efa6PX2dSYR5BxnH/+EW+RS3K/gzAn7nfrFwQaEvRvJJ5vk51OaU+ZfHl+yNJqxkSA+B1qXx9CuGL880vfgdrSI8G0uM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fHMjafNB; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fHMjafNB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52B2C1F000E9;
-	Wed, 27 May 2026 09:23:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779873836;
-	bh=MSgZXwm4hvrVwoAJAoET78JUvjtvH8l4XQi9FYyT1AI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=fHMjafNBSazwaUmfT3nMZN+WVJk17zpuzdlhKcTZzzCrELfoEgZheDd2dIuP/CMX7
-	 T6JE7+jcw6PmXwJ5MEGgM6EEbuqjN2tbuRKnoOfR5c8AnvkIs0hBI2CP/Y2SFiwcIj
-	 8DBI9gA7KLPY61Gvkgn58Uli8ZC4qEJdDbzrtjYnaAM33E4p/nr0MOYVuZ/WEgNW86
-	 C3dfP0idXB8ac0t/n+0crtEHpaxWbbgX7lZ1rlRqLdCxW5uuyAgQ03+qlwLOZ5Wn2H
-	 VlLOH7EtwKhpretUthkHfMrq7zWZAhVLjaNsSvTj6RJbAUrC3gtrrd8oU4KSnYWhcZ
-	 M1E8ncE5WL58w==
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	s=arc-20240116; t=1779873950; c=relaxed/simple;
+	bh=yr4NZa71Dj7SF+YKpNwU3o2ezBWgDwVj4/13xaglh7s=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kqVvXIFcGxgJABPQmDRnVaEvYfN/4tOL1c45ylFclLeYkl45wvF2635Sq7cET4OFgw3yH49u4ngigPP/YQ5SZ2hSxYwDsd2YOuFJyDUMUEhOA18FevNHKw6c9KWauKzCWzb6FwfD61DeFBIKi/IViC+NyCt34du6RoHCiMTJz5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from dfae2b116770.home.arpa (unknown [36.110.52.3])
+	by APP-05 (Coremail) with SMTP id zQCowAC3F9uPuBZqxN6KEQ--.1418S2;
+	Wed, 27 May 2026 17:25:36 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: Sudeep Holla <sudeep.holla@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
 	arm-scmi@vger.kernel.org,
-	Cristian Marussi <cristian.marussi@arm.com>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
-	philip.radford@arm.com,
-	james.quinlan@broadcom.com,
-	f.fainelli@gmail.com,
-	vincent.guittot@linaro.org,
-	etienne.carriere@foss.st.com,
-	peng.fan@oss.nxp.com,
-	michal.simek@amd.com,
-	gatien.chevallier@foss.st.com,
-	u.kleine-koenig@baylibre.com,
-	dakr@kernel.org
-Subject: Re: [PATCH v2 0/4] Rework SCMI transport drivers probing sequence
-Date: Wed, 27 May 2026 10:23:50 +0100
-Message-ID: <177987374695.279042.10837727890884135101.b4-ty@b4>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260510160527.3537474-1-cristian.marussi@arm.com>
-References: <20260510160527.3537474-1-cristian.marussi@arm.com>
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Wentao Liang <vulab@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] regulator: scmi: fix of_node refcount leak in scmi_regulator_probe()
+Date: Wed, 27 May 2026 09:25:21 +0000
+Message-Id: <20260527092521.866310-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAC3F9uPuBZqxN6KEQ--.1418S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7GryrZF47Xr18Cw1UAw1UJrb_yoWkZFc_Gr
+	yfW3W7JrWDur48Wrn7XFZ0vr9xKr1qgayxZF4IkFW3Cw1Yv3WDJa43Xr9xArW8Z3y8Jr9r
+	WwsrArW8Aw43ujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbcAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
+	1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
+	cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
+	ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_Jw0_
+	GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
+	WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
+	7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
+	1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
+	42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU52NtDUUUU
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAcAA2oWidms9QABs8
 
-On Sun, 10 May 2026 17:05:23 +0100, Cristian Marussi wrote:
-> when the SCMI transports were split out into standalone drivers [1] the
-> probe sequence was laid out in such a way that:
-> 
->  - the transport drivers would have probed first, triggered by the firmware
->    driven discovery process (DT/ACPI)
-> 
->  - afterwards the control would have been passed to the core SCMI stack
->    driver via the creation of a dedicated device that would have inherited
->    the original firmware descriptor (since that same DT/ACPI node would
->    have been still needed by the SCMI core driver to be parsed)
-> 
-> [...]
+scmi_regulator_probe() calls of_find_node_by_name() which takes a
+reference on the returned device node. On the error path where
+process_scmi_regulator_of_node() fails, the function returns without
+calling of_node_put() on the child node, leaking the reference.
 
-I haven't seen any reports of failure in -next with these, so I am happy
-to take it for v7.2.
+Add of_node_put(np) on the error path to properly release the
+reference.
 
-Applied to sudeep.holla/linux (for-next/scmi/updates), thanks!
+Cc: stable@vger.kernel.org
+Fixes: 0fbeae70ee7c ("regulator: add SCMI driver")
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ drivers/regulator/scmi-regulator.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-[1/4] firmware: arm_scmi: Add transport instance handles
-      https://git.kernel.org/sudeep.holla/c/9dfae7d2edb4
-[2/4] firmware: arm_scmi: Add a generic transport supplier
-      https://git.kernel.org/sudeep.holla/c/ab6eb28a47d4
-[3/4] firmware: arm_scmi: virtio: Rework transport probe sequence
-      https://git.kernel.org/sudeep.holla/c/c08051901a55
-[4/4] firmware: arm_scmi: optee: Rework transport probe sequence
-      https://git.kernel.org/sudeep.holla/c/524abd2fa690
-
---
-Regards,
-Sudeep
+diff --git a/drivers/regulator/scmi-regulator.c b/drivers/regulator/scmi-regulator.c
+index 6d609c42e479..f1fe20b0fd76 100644
+--- a/drivers/regulator/scmi-regulator.c
++++ b/drivers/regulator/scmi-regulator.c
+@@ -345,8 +345,10 @@ static int scmi_regulator_probe(struct scmi_device *sdev)
+ 	for_each_child_of_node_scoped(np, child) {
+ 		ret = process_scmi_regulator_of_node(sdev, ph, child, rinfo);
+ 		/* abort on any mem issue */
+-		if (ret == -ENOMEM)
++		if (ret == -ENOMEM) {
++			rof_node_put(np);
+ 			return ret;
++		}
+ 	}
+ 	of_node_put(np);
+ 	/*
+-- 
+2.34.1
 
