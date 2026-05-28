@@ -1,35 +1,42 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24339248F57;
-	Wed, 27 May 2026 10:49:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8DF62FD7D3
+	for <arm-scmi@vger.kernel.org>; Thu, 28 May 2026 18:58:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779878954; cv=none; b=ONXYb2e647Hyst6tnAJmhTxjw0T06BEndwAy387c+oV233bALCpy2/sS0OLbk9f1iFKiU56r8gTFnHTyaQfB/WPnY2EBsTQXpftzzqsNVIy43GD6ddRI4hGHGNHAhLri48v57KON0WYUDWNISQcZU/Cglx8LzJsIqri+akwF/Bs=
+	t=1779994732; cv=none; b=alu4rMX4yY+224PX33x2d9zHdB+IW/sFuB1GkrdbCRIcY444Wdh4IblktLGnfulG+b7ILYp0NWhFCEHtWS1DjmH3UMix8Ue3cDIylkrmivZv4CJWBYPxBEqBHN4bS4sF96lmk05IffctIpX4sfAAxn8yMVUSvR8QB0dvBgUN25c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779878954; c=relaxed/simple;
-	bh=Vsf8NVZEUsObatARVaoDP+ocHffnuUj8GUmuVXiaEBU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gCzdaEfd7LP+vdOgrbz+sfEEnOOIpKjveXpd8zK/NFaxgal46iY4R+bIiRO9yEcDxuZNI49sM+fdUuv46cxgfY4Jt4N4kdc0daVankKF47Xa9luWQpN4x9QmbvnOAeqMV2ozL/4WhqxRVks6YtbdhAkW38+4pR3MYAmGa5spqF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from dfae2b116770.home.arpa (unknown [36.110.52.3])
-	by APP-05 (Coremail) with SMTP id zQCowAAntQggzBZq9QuMEQ--.34S2;
-	Wed, 27 May 2026 18:49:04 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: Sudeep Holla <sudeep.holla@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	s=arc-20240116; t=1779994732; c=relaxed/simple;
+	bh=LjGz0M5iAQymTeg/Eu7bZFgolUFPmGasgmTcd72SHjA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ssjGX7fEzOiOm3RDkQAS/HcsN2uqsOvb6LYIwXsfl+vLPFl2/gVBeSR7PYKOoiFls4lCncqFdZmmzTXT8EXowA9ky2yDM1w/7vzPvKt9hFzrXNs7S0qFOSJfpiroBfjnYGGIPs+X9pDKlJieGMOAsBoQW9uiH4vxXuc+DsK/J1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V+XmSXXC; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V+XmSXXC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 617171F00A3A;
+	Thu, 28 May 2026 18:58:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779994729;
+	bh=dDl9WiRVkFnZ4KGhUiamMsE2H6ZfjTwqBgTNaY1yr7U=;
+	h=From:To:Cc:Subject:Date;
+	b=V+XmSXXCwcFoSJLN0hohvGp86TLcp1ewIHOc90trTleZoLNe7H8Cp6uqk7ujSjlR3
+	 Z0Z9XHOml16LfD0G+ulUMz3It+B8WYEQzfSjj1Uc9vcJimt9fApdzT+TxipEFf2eO7
+	 b9PZWyG/EcOelMGiC3Cht0WiLpEyiuU00Vw3TIVJh0kq3JOKWVdOhRS5QB1O/E0d33
+	 Q3JlnkqQO2OqZ+Loe5BkegBKfbI6J4a24vKM7PQf2xpOD8vIZyabUln6xENT7GSTsF
+	 FLurdNIPMLutZAOom3dAQEtdN/iHHze7+2gxPdZxR1mx3xmwWBpqzlFw2rnsLfjFx9
+	 aJqm1JwqhlD2w==
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: ARM SoC Team <arm@kernel.org>,
+	SoC Team <soc@kernel.org>,
 	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Wentao Liang <vulab@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] regulator: scmi: fix of_node refcount leak in scmi_regulator_probe()
-Date: Wed, 27 May 2026 10:48:50 +0000
-Message-Id: <20260527104850.872415-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.34.1
+	ALKML <linux-arm-kernel@lists.infradead.org>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>,
+	Arnd Bergmann <arnd@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [GIT PULL] firmware: arm_scmi: Updates for v7.2
+Date: Thu, 28 May 2026 19:58:26 +0100
+Message-ID: <20260528185827.776851-1-sudeep.holla@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -37,59 +44,112 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAAntQggzBZq9QuMEQ--.34S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7GryrZF47Xr18Cw1UAw1UJrb_yoWkKrg_Gr
-	yfW3W7XrZF9r409rs7XFZ0qr9Ikw1qgayIvFs2kFWakw1Yv3WDJa47Xr93A3y8Z3yUtr9r
-	Ww4DCrW8Aw4a9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbcAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
-	1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
-	cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
-	ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_Jw0_
-	GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
-	WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
-	7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
-	4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
-	42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUOlkVUUUUU
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCREAA2oWibzwYQACsB
 
-scmi_regulator_probe() calls of_find_node_by_name() which takes a
-reference on the returned device node. On the error path where
-process_scmi_regulator_of_node() fails, the function returns without
-calling of_node_put() on the child node, leaking the reference.
+Hi ARM SoC Team,
 
-Add of_node_put(np) on the error path to properly release the
-reference.
+Please pull !
 
-Cc: stable@vger.kernel.org
-Fixes: 0fbeae70ee7c ("regulator: add SCMI driver")
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+Regards,
+Sudeep
 
----
-Change in v2:
-- fix typo in code
----
- drivers/regulator/scmi-regulator.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+-->8
+The following changes since commit 254f49634ee16a731174d2ae34bc50bd5f45e731:
 
-diff --git a/drivers/regulator/scmi-regulator.c b/drivers/regulator/scmi-regulator.c
-index 6d609c42e479..c005e65ba0ec 100644
---- a/drivers/regulator/scmi-regulator.c
-+++ b/drivers/regulator/scmi-regulator.c
-@@ -345,8 +345,10 @@ static int scmi_regulator_probe(struct scmi_device *sdev)
- 	for_each_child_of_node_scoped(np, child) {
- 		ret = process_scmi_regulator_of_node(sdev, ph, child, rinfo);
- 		/* abort on any mem issue */
--		if (ret == -ENOMEM)
-+		if (ret == -ENOMEM) {
-+			of_node_put(np);
- 			return ret;
-+		}
- 	}
- 	of_node_put(np);
- 	/*
--- 
-2.34.1
+  Linux 7.1-rc1 (2026-04-26 14:19:00 -0700)
 
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git tags/scmi-updates-7.2
+
+for you to fetch changes up to 524abd2fa6907ebe2762342be339afcc5b227dc4:
+
+  firmware: arm_scmi: optee: Rework transport probe sequence (2026-05-21 17:31:51 +0100)
+
+----------------------------------------------------------------
+Arm SCMI updates for v7.2
+
+1. Improve SCMI clock handling with a protocol-level determine_rate operation,
+   simplified per-clock rate properties, dynamic rate allocation, bounded
+   iterator support, lazy full-rate discovery, and hardened parent/rate
+   enumeration.
+
+2. Fix several SCMI bounds and payload validation issues, including clock rate
+   discovery OOB handling, power domain name lookup, Powercap domain state
+   access, BASE_ERROR_EVENT and SENSOR_UPDATE payload sizing, and sensor config
+   width handling.
+
+3. Rework SCMI transport probing for virtio and OP-TEE using per-instance
+   transport handles and a generic transport supplier, removing the need to
+   register SCMI core drivers from transport probe paths.
+
+4. Add i.MX SCMI MISC reset reason support and print i.MX95 boot/shutdown
+   reasons via the System Manager interface.
+
+5. Clean up SCMI core internals, including base-info naming, quirk parsing and
+   table iteration, and list iteration.
+
+6. Fix SCPI clock provider removal so child clock providers are unregistered
+   using the same DT nodes used at registration time.
+
+----------------------------------------------------------------
+Cristian Marussi (16):
+      clk: scmi: Fix clock rate rounding
+      firmware: arm_scmi: Add clock determine_rate operation
+      clk: scmi: Use new determine_rate clock operation
+      firmware: arm_scmi: Simplify clock rates exposed interface
+      clk: scmi: Use new simplified per-clock rate properties
+      firmware: arm_scmi: Drop unused clock rate interfaces
+      firmware: arm_scmi: Make clock rates allocation dynamic
+      firmware: arm_scmi: Harden clock parents discovery
+      firmware: arm_scmi: Refactor iterators internal allocation
+      firmware: arm_scmi: Add bound iterators support
+      firmware: arm_scmi: Use bound iterators to minimize discovered rates
+      firmware: arm_scmi: Introduce all_rates_get clock operation
+      firmware: arm_scmi: Add transport instance handles
+      firmware: arm_scmi: Add a generic transport supplier
+      firmware: arm_scmi: virtio: Rework transport probe sequence
+      firmware: arm_scmi: optee: Rework transport probe sequence
+
+Geert Uytterhoeven (7):
+      firmware: arm_scmi: quirk: Improve quirk range parsing
+      firmware: arm_scmi: quirk: Simplify quirk table iteration
+      firmware: arm_scmi: Convert to list_for_each_entry()
+      firmware: arm_scmi: Fix bound iterators returning too many items
+      firmware: arm_scmi: Use proper iter_response_bound_cleanup() name
+      firmware: arm_scmi: Fix OOB in scmi_clock_describe_rates_get_lazy()
+      firmware: arm_scmi: Fix OOB in scmi_power_name_get()
+
+Marek Vasut (1):
+      firmware: arm_scmi: Rename struct scmi_revision_info to scmi_base_info
+
+Peng Fan (2):
+      firmware: arm_scmi: imx: Support getting reset reason of MISC protocol
+      firmware: imx: sm-misc: Print boot/shutdown reasons
+
+Stepan Ionichev (1):
+      clk: scpi: Unregister child clock providers on remove
+
+Sudeep Holla (4):
+      firmware: arm_scmi: Read sensor config as 32-bit value
+      firmware: arm_scmi: Validate BASE_ERROR_EVENT payload size
+      firmware: arm_scmi: Validate SENSOR_UPDATE payload size
+      firmware: arm_scmi: Validate Powercap domains before state access
+
+ drivers/clk/clk-scmi.c                             |  48 +---
+ drivers/clk/clk-scpi.c                             |   2 +-
+ drivers/firmware/arm_scmi/base.c                   |  25 +-
+ drivers/firmware/arm_scmi/clock.c                  | 301 ++++++++++++++++-----
+ drivers/firmware/arm_scmi/common.h                 | 165 ++++++++++-
+ drivers/firmware/arm_scmi/driver.c                 |  98 ++++---
+ drivers/firmware/arm_scmi/power.c                  |   6 +-
+ drivers/firmware/arm_scmi/powercap.c               |  18 +-
+ drivers/firmware/arm_scmi/protocols.h              |  13 +-
+ drivers/firmware/arm_scmi/quirks.c                 |  17 +-
+ drivers/firmware/arm_scmi/sensors.c                |  12 +-
+ drivers/firmware/arm_scmi/transports/optee.c       |  46 +++-
+ drivers/firmware/arm_scmi/transports/virtio.c      |  52 +++-
+ .../firmware/arm_scmi/vendors/imx/imx-sm-misc.c    |  86 ++++++
+ drivers/firmware/imx/sm-misc.c                     |  73 +++++
+ include/linux/scmi_imx_protocol.h                  |  14 +
+ include/linux/scmi_protocol.h                      |  36 +--
+ 17 files changed, 802 insertions(+), 210 deletions(-)
