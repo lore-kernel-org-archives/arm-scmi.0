@@ -1,28 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3AA3C6611;
-	Wed,  3 Jun 2026 15:17:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593133D3322;
+	Wed,  3 Jun 2026 15:18:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780499876; cv=none; b=isA70mZRyYpapBz6SVLaL2DiCkGlWH2WzAc6t9NkQ/w/x+3rvsElxJJZKBoQLKwbzGGFH1SYAIG6LDWY+gfZv7tpqmgo2Vnq9wUuOXDazxNAhaowr/I0jdF+QDRv4UGI8f8ptN5+WUzA+/9nTdv8iiZ1Bx5MQX+Iffhkw1Fpml8=
+	t=1780499928; cv=none; b=iSdf5IB8xNHTgSnc0JarNe9v4F1SkXYZHApgxwNQ0n02jOazWvQMmk43O1nk4p6PlSKZoGaL934u1SMI3BKMNfNdAx4YHMjbl9bAnGtmmLtUUUEt9CsQteDTu0JOK6reMySRzgrHirlykjfhOT//sCxP9GjLKMt8E6FyObXtDFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780499876; c=relaxed/simple;
-	bh=u+UNVQsRxEhZMKtBKwtFTpgVN+6uMDz5daX7qmBcnoU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jMe4yNpcEA4nh861hD2CjCHTj0GrjY0L/r22cPe7c7JBdTu2QUCEM6BXuVNjEAUWIS6LDGUPllUmzMY27TxP2AERfRD7mU3efqxhOBxysG7byVJGNQa1XB1Z0ku3Hs79E+CJ/jsPkZRwMkGWE8Tgj09+6cRHhdS2QjbdVxuMJeA=
+	s=arc-20240116; t=1780499928; c=relaxed/simple;
+	bh=8rP0A6QiQP4KIv/9rf6AXQPC8KF4MfJZQPyvCLEQcUE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q8fvcnFRxoql7RIluDORFax2qr3KaI80q0hJge8Lxd/tGdyhWB26dSIQhSR8S0ylnHUip5Qx7ea0NRhjcZx7w2CGWelUvZ4ItC0W2vqOvnwghPZB4tanxo2z30KSb5JNk/FTMrT/sRT1fyTuOTtbVUPDkGK7fHruVxfFGUIGNTs=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C92261F00893;
-	Wed,  3 Jun 2026 15:17:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F9AB1F00899;
+	Wed,  3 Jun 2026 15:18:45 +0000 (UTC)
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Ulf Hansson <ulfh@kernel.org>
 Cc: arm-scmi@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] firmware: arm_scmi: Grammar s/may needed/may be needed/
-Date: Wed,  3 Jun 2026 17:17:51 +0200
-Message-ID: <5180d04abfb8e3074a321e2eb73bacfdd61c30c5.1780499850.git.geert+renesas@glider.be>
+Subject: [PATCH] pmdomain: arm: Grammar s/may needed/may be needed/
+Date: Wed,  3 Jun 2026 17:18:43 +0200
+Message-ID: <a9a082c25e4bda4d73b261eee951efecab20612d.1780499882.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -32,27 +34,26 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix grammar in the help text for the ARM_SCMI_POWER_CONTROL symbol.
+Fix grammar in the help text for the ARM_SCMI_POWER_DOMAIN symbol.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/firmware/arm_scmi/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/pmdomain/arm/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/firmware/arm_scmi/Kconfig b/drivers/firmware/arm_scmi/Kconfig
-index e3fb36825978ed6f..783c24a20e29190f 100644
---- a/drivers/firmware/arm_scmi/Kconfig
-+++ b/drivers/firmware/arm_scmi/Kconfig
-@@ -96,7 +96,7 @@ config ARM_SCMI_POWER_CONTROL
- 	  firmware.
+diff --git a/drivers/pmdomain/arm/Kconfig b/drivers/pmdomain/arm/Kconfig
+index afed10d382ad7f66..ba0b190a63d6bb18 100644
+--- a/drivers/pmdomain/arm/Kconfig
++++ b/drivers/pmdomain/arm/Kconfig
+@@ -21,7 +21,7 @@ config ARM_SCMI_POWER_DOMAIN
+ 	  enabled or disabled via the SCP firmware
  
- 	  This driver can also be built as a module.  If so, the module will be
--	  called scmi_power_control. Note this may needed early in boot to catch
--	  early shutdown/reboot SCMI requests.
-+	  called scmi_power_control. Note this may be needed early in boot to
-+	  catch early shutdown/reboot SCMI requests.
+ 	  This driver can also be built as a module. If so, the module
+-	  will be called scmi_pm_domain. Note this may needed early in boot
++	  will be called scmi_pm_domain. Note this may be needed early in boot
+ 	  before rootfs may be available.
  
- endmenu
+ config ARM_SCPI_POWER_DOMAIN
 -- 
 2.43.0
 
