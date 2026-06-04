@@ -1,59 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593133D3322;
-	Wed,  3 Jun 2026 15:18:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDB33CF057
+	for <arm-scmi@vger.kernel.org>; Thu,  4 Jun 2026 07:16:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780499928; cv=none; b=iSdf5IB8xNHTgSnc0JarNe9v4F1SkXYZHApgxwNQ0n02jOazWvQMmk43O1nk4p6PlSKZoGaL934u1SMI3BKMNfNdAx4YHMjbl9bAnGtmmLtUUUEt9CsQteDTu0JOK6reMySRzgrHirlykjfhOT//sCxP9GjLKMt8E6FyObXtDFI=
+	t=1780557392; cv=none; b=sF2aiThlCjiOqFP5OTftmZ5uKmGjlRl+ZxSo3RVr3jqPbp8tqFPhC3XyX86dpmXU1wYCu+sP28/00Us3TzgwMQvllAlJ7KRlquDkx3NfhfRQHGW73JWP+03KKdxTVuD1CINaioBT6KTWs+t8KVFASTTruy3aAwZhqV0cTEVkmKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780499928; c=relaxed/simple;
-	bh=8rP0A6QiQP4KIv/9rf6AXQPC8KF4MfJZQPyvCLEQcUE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q8fvcnFRxoql7RIluDORFax2qr3KaI80q0hJge8Lxd/tGdyhWB26dSIQhSR8S0ylnHUip5Qx7ea0NRhjcZx7w2CGWelUvZ4ItC0W2vqOvnwghPZB4tanxo2z30KSb5JNk/FTMrT/sRT1fyTuOTtbVUPDkGK7fHruVxfFGUIGNTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F9AB1F00899;
-	Wed,  3 Jun 2026 15:18:45 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Ulf Hansson <ulfh@kernel.org>
-Cc: arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] pmdomain: arm: Grammar s/may needed/may be needed/
-Date: Wed,  3 Jun 2026 17:18:43 +0200
-Message-ID: <a9a082c25e4bda4d73b261eee951efecab20612d.1780499882.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1780557392; c=relaxed/simple;
+	bh=ipxFRwOMI9FnrFLgYfOuqOLFuYrkxm4d5w3ALRd0Xlc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k4jRTnZEbJD3boqmBMAFX0MjfXHDjUDW6NfQbpmsz4FTx+8RVZyCIQwk4LhaM7Qt7+LPbDFoKpZ+ML9z6lTm4mw8bn+qeDqBpn03t4jWsOzzAnnRzuSQLQYT+Lh4VyssGru0aXCetspzIAdLN3tOMoYYIpJ1ghSY09L0v5K0Bes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-68d232ed3f9so514237a12.0
+        for <arm-scmi@vger.kernel.org>; Thu, 04 Jun 2026 00:16:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780557390; x=1781162190;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cmuhf90GQCmtgd5+s3OkmfdSZyPGskYbQsHr9VlNV2M=;
+        b=jJOe5V95ukeP/SFPhmKzGYgMSGF9w7W9SokNYviVTfIQ8U0IhHHQQmm0MBX969wRXU
+         WCUnyr8goYSCdMcqXzV9/XTTl/2woujFXgsOSzJq/7cjnv5nLmTUiy+zmDPGGiZcpZcG
+         mQz2ixUa4JTKC7x34fL0eJwaDxOEZFyHkqlUvTElqB981GLIM6EpBfgFBzH3javy4ejf
+         /BxsrI/NkTISFrZP2awAhsK3Z7aYK48qSlIFkeNmYgC5R0fNqpEvmDqOBGM/TNL9fWJO
+         ZVAB9OaVQ4YXJRqyQudJ4ToryXgvCiOZFdnUAEzO2oguUIwa49AqanKsB5NZ3wvUFY6X
+         VRDw==
+X-Forwarded-Encrypted: i=1; AFNElJ97MZ/PbclH/9mOUYNfU4JqvY48+yGCnHwUvjwo9P1lbgdQYe27NnOE3XSQonqLv6LL9hxycZf3+w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIPjo6Ch0CvbjCLXUGLfDo2W9PVDcI3yzQl5zRx0BnkkeP73Qa
+	PliQ1g/+45RAlZqEEPtvHceuac2hENefONr150p/zNW8ZeRlqeoq1hfTIW9m/t4ohwQ=
+X-Gm-Gg: Acq92OHt/AkGsaYGNpgM4JywRSiLPcNnqM8NiQbTyNXMHJF6/FSo7pGKeQQXdUkLIWZ
+	ilL7iHsJpKXqWT1NQJJj3O2OUmkYdpaLN6Y200+Lv8XVXIb0FBPiIkyVfZeR9uaVP+xaFGFRvIA
+	2seSc8n0VKvsN5m2xsb7a1IsKmtjT2di8UMeQDJnm9aLNbs9B9wtjNE8z83nEXlhx/VrtUrOlEb
+	muVjMcZc4kBbBHJptHAToHjZLXhzFA0+Zu44NJax4m2EjB7W1Cx6YUQmtqGhz8NRFOxIXpzeYFL
+	LOMBEdG8BZ1Wxnul00TwLcpYknSbtKZhZCYPRG3UDpqwa7TUI6LSdZycpj8G2ZrWinWshul67Ug
+	OouMBVBS8icf4fY+vqd3K65qitWtTtrAM/Wf8bi4j1hgenY9dSmQWTtQfYJMlfkrgFI3O3CHsjK
+	1JLf/5kjBcDn0jJulNDH2kWhmwwlK++pX+BWa9S1TXDh2xgVVWtvsmmxQcNbFYrK8hU2qfVVk=
+X-Received: by 2002:a17:907:9486:b0:bec:894d:dd3f with SMTP id a640c23a62f3a-bf0aca0e75dmr345791366b.14.1780557389552;
+        Thu, 04 Jun 2026 00:16:29 -0700 (PDT)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com. [209.85.208.50])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68e6585177bsm2012503a12.19.2026.06.04.00.16.26
+        for <arm-scmi@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Jun 2026 00:16:27 -0700 (PDT)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-68d2342c5e6so504684a12.3
+        for <arm-scmi@vger.kernel.org>; Thu, 04 Jun 2026 00:16:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9AkK1WvzRGNgoFecSGbnoeAfSo3EYUw9UfnNykOc3Sh+qHVbo3eO7FelK6hnBc7bojxbXeC47ddA==@vger.kernel.org
+X-Received: by 2002:a05:6402:3805:b0:68a:f749:608d with SMTP id
+ 4fb4d7f45d1cf-68e72932655mr3390437a12.21.1780557386130; Thu, 04 Jun 2026
+ 00:16:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <202606040245.XfmRpBhA-lkp@intel.com>
+In-Reply-To: <202606040245.XfmRpBhA-lkp@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 4 Jun 2026 09:16:12 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUqo5C9epmE1idc15x9nByhVZP5Hdb5OKtOLSMakb+sfA@mail.gmail.com>
+X-Gm-Features: AVHnY4JPWQVIpu2upPgjp37FxY__BC8JhXLs9bmbyscm7sasgK8RSPuLMSmE61A
+Message-ID: <CAMuHMdUqo5C9epmE1idc15x9nByhVZP5Hdb5OKtOLSMakb+sfA@mail.gmail.com>
+Subject: Re: drivers/iio/common/scmi_sensors/scmi_iio.c:247:1-7: WARNING:
+ do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+To: kernel test robot <lkp@intel.com>
+Cc: Tiwei Bie <tiwei.btw@antgroup.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Johannes Berg <johannes.berg@intel.com>, 
+	Jyoti Bhayana <jbhayana@google.com>, Jonathan Cameron <jic23@kernel.org>, 
+	"open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>, arm-scmi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Fix grammar in the help text for the ARM_SCMI_POWER_DOMAIN symbol.
+CC IIO/SCMI
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/pmdomain/arm/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 3 Jun 2026 at 20:36, kernel test robot <lkp@intel.com> wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   ba3e43a9e601636f5edb54e259a74f96ca3b8fd8
+> commit: a0e2cb6a90634f3dc80f16e882a683ee5761b0b0 um: Add VFIO-based virtual PCI driver
+> date:   1 year, 1 month ago
+> config: um-randconfig-r052-20260603 (https://download.01.org/0day-ci/archive/20260604/202606040245.XfmRpBhA-lkp@intel.com/config)
+> compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e5ab4f8a1f766febdc65ce89c00dec85393cfd68)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Fixes: a0e2cb6a9063 ("um: Add VFIO-based virtual PCI driver")
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202606040245.XfmRpBhA-lkp@intel.com/
+>
+> cocci warnings: (new ones prefixed by >>)
+> >> drivers/iio/common/scmi_sensors/scmi_iio.c:247:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+>    drivers/iio/common/scmi_sensors/scmi_iio.c:507:2-8: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+>    drivers/iio/common/scmi_sensors/scmi_iio.c:273:2-8: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+>    drivers/iio/common/scmi_sensors/scmi_iio.c:166:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+>
+> vim +247 drivers/iio/common/scmi_sensors/scmi_iio.c
+>
+> f774117c96f94c Jyoti Bhayana 2021-03-09  238
+> f774117c96f94c Jyoti Bhayana 2021-03-09  239  static void convert_ns_to_freq(u64 interval_ns, u64 *hz, u64 *uhz)
+> f774117c96f94c Jyoti Bhayana 2021-03-09  240  {
+> f774117c96f94c Jyoti Bhayana 2021-03-09  241    u64 rem, freq;
+> f774117c96f94c Jyoti Bhayana 2021-03-09  242
+> f774117c96f94c Jyoti Bhayana 2021-03-09  243    freq = NSEC_PER_SEC;
+> f774117c96f94c Jyoti Bhayana 2021-03-09  244    rem = do_div(freq, interval_ns);
+> f774117c96f94c Jyoti Bhayana 2021-03-09  245    *hz = freq;
+> f774117c96f94c Jyoti Bhayana 2021-03-09  246    *uhz = rem * 1000000UL;
+> f774117c96f94c Jyoti Bhayana 2021-03-09 @247    do_div(*uhz, interval_ns);
 
-diff --git a/drivers/pmdomain/arm/Kconfig b/drivers/pmdomain/arm/Kconfig
-index afed10d382ad7f66..ba0b190a63d6bb18 100644
---- a/drivers/pmdomain/arm/Kconfig
-+++ b/drivers/pmdomain/arm/Kconfig
-@@ -21,7 +21,7 @@ config ARM_SCMI_POWER_DOMAIN
- 	  enabled or disabled via the SCP firmware
- 
- 	  This driver can also be built as a module. If so, the module
--	  will be called scmi_pm_domain. Note this may needed early in boot
-+	  will be called scmi_pm_domain. Note this may be needed early in boot
- 	  before rootfs may be available.
- 
- config ARM_SCPI_POWER_DOMAIN
--- 
-2.43.0
+Indeed, most do_div() use in that driver is broken on 32-bit.
 
+> f774117c96f94c Jyoti Bhayana 2021-03-09  248  }
+> f774117c96f94c Jyoti Bhayana 2021-03-09  249
+>
+> :::::: The code at line 247 was first introduced by commit
+> :::::: f774117c96f94c7c4d2f076e4cacc80218b0df48 iio/scmi: Adding support for IIO SCMI Based Sensors
+>
+> :::::: TO: Jyoti Bhayana <jbhayana@google.com>
+> :::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+So why was this sent to different people instead?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
