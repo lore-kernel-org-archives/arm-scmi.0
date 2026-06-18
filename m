@@ -1,242 +1,241 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B52231328C
-	for <arm-scmi@vger.kernel.org>; Thu, 18 Jun 2026 15:56:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5426D313E36;
+	Thu, 18 Jun 2026 17:22:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781798210; cv=none; b=TL3IGMW1fjg9ae7Su+aP5EVpb5zemjubh/DKZtNF7mK+g11WvF5hs/7BAYGlDbt6CyUhy1nywJfVJMXvoLl50eOluXTeffNGhfxlLFsZBjEf55o6JjsY6KQ3pgNyyzmGVtlBdUBQrOgftqDLLuJ7ZsnKqRsbfdI8PL8DfhwlHAc=
+	t=1781803360; cv=none; b=i3laXWVxDsBoBWBGnT+Nnevuj2Z5Lk3C/ELX0R34lrCPbtCnws+oB5XFKWx27H3i9s8DvE8jXgr8+qx47U3wxsUWFF2LHphFMbxciMd5trUR08ZRHi5CTLTC3pLBpM/UrwrOMrN6eEJaZOAgwzTDOXV2IeTK2c/Zmr5i7Zu+1ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781798210; c=relaxed/simple;
-	bh=ISo22YJnXNXqaVnPUdI2iwKWaaF1NM0ILyuyDS+MJCk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TDqEy//N0SA54UNVAwab+A4pCTbu1pA+DMLClex6fud/6jBGVBTpZFRpkg0QT+p3P/1Xr4yAr5OYayg3GRulN+d0kaIj9UlA4S1++CX8+gx5k0ZPuYqZz9XgGOw1+rFydxY6jBqOdA81tzjv0VSZnoGMFB31Fy+0JqFwH64V1RA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=HMEMYtpU; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Sse376YP; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1781803360; c=relaxed/simple;
+	bh=u89v4memMegfNzL7+VXIs+t1mWmj4gb87bQtc0/n40s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YMt/Xc2O9x6Qg5iLlVhYudfBTocBOaTNwcmcCrOaZGa/75/VOgHhTQpkXU5XrKpvzA9qpO55ruwNjbad+NW+bZb2pR8hBoSQf4V8RTy2COcvP0+di/wDATygZSooNt4emHXZIVrnVJJ2hYDYoEn8TY/vOk9NSr6N6K3YS4rKW1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RaYDLzXF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="HMEMYtpU";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Sse376YP"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65IFFrpJ2116573
-	for <arm-scmi@vger.kernel.org>; Thu, 18 Jun 2026 15:56:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	/dDt5YgHrQVTFxBlDvUvkUD1S0U2BleXm5ZDJEm+gpk=; b=HMEMYtpU19n4fkV1
-	DQ37Sr1kDaOTWB/nWmvLonPglOnDbbEK8K+ZHjGmuf1oYnizmR4qzxhH8Um4/xTn
-	GzAoy3tPV1X6X7wJjUDx0LRDgXSBr5IfcEf8QStMbGZM/2GQG+S+L1BOXvs5Ze65
-	1P+yGX97azGWM6SHP4yR3BgzxcU3EDgXS3b6Q8hjSetrRP5vAmSpWJ3eyRKo0Rkv
-	duA+cpOdN4Dqo0oKjtjK/rq2UVuGZHe+LGmfnyg2k4ieWpWxs1ss00sODjm+Sijf
-	pHJQW2SiUinz1bpcstciCx3dnKPgWRP9mT453bdZVIreLV0nqJt76xOQ+fe/QjJ9
-	AGL4yA==
-Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ev12km7t8-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Thu, 18 Jun 2026 15:56:46 +0000 (GMT)
-Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-1383414cfabso236225c88.1
-        for <arm-scmi@vger.kernel.org>; Thu, 18 Jun 2026 08:56:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1781798206; x=1782403006; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/dDt5YgHrQVTFxBlDvUvkUD1S0U2BleXm5ZDJEm+gpk=;
-        b=Sse376YPExR+7s0Tz2BAlSM/FPPDm57lP3mbbSccTGGSKMwbYpJ8lJ3P906ymPWko3
-         N0oKS1g48w1sRDw0FV3VXYbJqQ+HOJB45hcmS1tyn9pvASNwwMU/zkUUPCL49zTLRgVI
-         v5RCiiNjEIreZAc2Y7/Tv6pYcG1SlNyLb+7SjR7IZSfADXYsuB0y9A3bc3BdCE1LLlsJ
-         yljdDktIzXyceDIvgLggvs2/qxXQNxkn8kKNJAGSihBswfcTkwVrnY3RYwM9tPUrX4jb
-         aXzakm1g9f16tpsjZsTUSxms5N/762MNHh9q6xe00uRKsoDQxkTXwOs5xrmz+tEL8CKi
-         T+NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781798206; x=1782403006;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/dDt5YgHrQVTFxBlDvUvkUD1S0U2BleXm5ZDJEm+gpk=;
-        b=szhgzf2Bdg+7InXpueq2eMb2x/0e6fmv8shvffp+AxUxO/CIm6MG9pTl96UT3AFAqX
-         yMIUnVWKH6ApbzgOfVD5iaOYgWJvozRc3ZEA7/lMR8mkVgIMGx+higpH5tQPEPBGO2RZ
-         CflcicXP75iDNrJAjD3jWD0YdIzMqySWs+jfW1NkmFfq5HFHiBAEEdVO4DG8NPjbLf8r
-         rg/h9B+i8hafWzh/JsLCy5I/XZ0mEkklOxtJT2xRaMDyDXYlTxoKu8h/aokJ2emLXl7u
-         eHDl55pX7UPE2jeioMZnITtV7cBYa8jY/5MfSYAHzT+2H+2w0MaidiajzPRHZgLKCoYq
-         xcRA==
-X-Gm-Message-State: AOJu0Yy25IzZOylBKynod+QIYY+PFDR883Cil0udQ7hLwZctzQXf4xFk
-	nCE/M+UcZjqBJkv7+FUFT0OiTKIPip414qSQNFPWALn0lDAQaOe66FScNJPfEZXweBo6JFY3pJI
-	YYWRKP0NNKETW948L6JnjE5EZlJqlI/hXl4NVhn/2QvjgtLkL1TqR+S1k5UzBsA==
-X-Gm-Gg: AfdE7ck19kTdwRtIBLicaaZ+7XDhRU7afOcJNWu+y4NijwKDaDZKgnfoET4PXb9xkWB
-	atuTjokX1zImogNvMLDBBkUH+3SMuebEIlHdcsqpdsY7eCTrfgasvYrMVdWS9UKuAS1KdB4fNej
-	+vXTYPOhpzENa2ur3DXMhnd41c4qNCFglSNbmE47ni8abq4NxfODoDI5B5j7tDe1CN80q3nAzqL
-	yoP+mQZQwrzKlv/OH6iYQ3itWbYr5iwrebIhsUAYYgvORJeG4nsTLU3YFvw6o24NrIinj3tuI+B
-	VVPcQVMg9elO2ZhCiM9lq6rByZ9Tw+lnFHfjcLJYdtPk1Xf18PYhP2s8W7PWtXUH2EO8CIOhgN2
-	MrVbc9lf2orcXgbmYTNC7DLAqVs4B3QYK4keRNEUcOjqNs+wsFgs4
-X-Received: by 2002:a05:7022:e0a:b0:137:8bc2:f501 with SMTP id a92af1059eb24-139a20b8f2fmr156792c88.7.1781798205865;
-        Thu, 18 Jun 2026 08:56:45 -0700 (PDT)
-X-Received: by 2002:a05:7022:e0a:b0:137:8bc2:f501 with SMTP id a92af1059eb24-139a20b8f2fmr156745c88.7.1781798205339;
-        Thu, 18 Jun 2026 08:56:45 -0700 (PDT)
-Received: from [169.254.0.13] (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1384b9110d3sm19671267c88.5.2026.06.18.08.56.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 08:56:44 -0700 (PDT)
-From: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
-Date: Thu, 18 Jun 2026 15:56:35 +0000
-Subject: [PATCH v2 2/2] firmware: arm_scmi: request modules for discovered
- protocols
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RaYDLzXF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 524151F000E9;
+	Thu, 18 Jun 2026 17:22:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781803358;
+	bh=CCIZDXXSfPKbcMGZbi4n+59Jp79siugdVFjDNu887cE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=RaYDLzXFU5AzdR+NTv8GaIfShr54Ma3m5WaOgGzS91/RCOwSrR9Zch0iZDSyuCY7D
+	 2X2CQfHNInWnTp8HTd/+o0yWQ3nnYXLni8vqYHnA/Mel97sMtHdb73Jek+jxwQgwt/
+	 fNvXDt/F4JAMoIS7MNGiyhz4Xdua68y5K5ks+05kCThlQVi8PZLzMJOGt4AY/oMFYk
+	 R/QszxIt7cM0W8mlbynasyE+YerNS+h7KBZ5F9GsfS9Y00dPm20kNg2gKT1VDgOHEK
+	 EcNFMR8G77nZFdNBaj83oEq1RsW/iMuvspFLL83G5Z2gfCAZitGf5phfC+O0+epUKS
+	 WQoMaUJB1q9zg==
+Message-ID: <29a304f0-1e62-418a-b84f-aabdc4c0de8d@kernel.org>
+Date: Thu, 18 Jun 2026 19:22:29 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/31] Introduce SCMI Telemetry FS support
+To: Cristian Marussi <cristian.marussi@arm.com>,
+ Christian Brauner <brauner@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ arm-scmi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, sudeep.holla@kernel.org,
+ james.quinlan@broadcom.com, f.fainelli@gmail.com,
+ vincent.guittot@linaro.org, etienne.carriere@st.com, peng.fan@oss.nxp.com,
+ michal.simek@amd.com, d-gole@ti.com, jic23@kernel.org, elif.topuz@arm.com,
+ lukasz.luba@arm.com, philip.radford@arm.com, souvik.chakravarty@arm.com,
+ leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
+ usama.arif@linux.dev, kernel-team@meta.com
+References: <20260612223802.1337232-1-cristian.marussi@arm.com>
+ <20260617-waten-allabendlich-zueinander-93d4b1367b8c@brauner>
+ <ajLVW1eHzbGDm4yn@pluto>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <ajLVW1eHzbGDm4yn@pluto>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260618-scmi-modalias-v2-2-8c7547c1be21@oss.qualcomm.com>
-References: <20260618-scmi-modalias-v2-0-8c7547c1be21@oss.qualcomm.com>
-In-Reply-To: <20260618-scmi-modalias-v2-0-8c7547c1be21@oss.qualcomm.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>,
-        Cristian Marussi <cristian.marussi@arm.com>,
-        Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>
-Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Hans de Goede <johannes.goede@oss.qualcomm.com>,
-        Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
-        Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>, Frank Li <Frank.Li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>, Guenter Roeck <linux@roeck-us.net>,
-        Jyoti Bhayana <jbhayana@google.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        David Lechner <dlechner@baylibre.com>,
-        =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Ulf Hansson <ulfh@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
-        imx@lists.linux.dev, linux-hwmon@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-rtc@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1781798198; l=3118;
- i=bjorn.andersson@oss.qualcomm.com; s=20230915; h=from:subject:message-id;
- bh=ISo22YJnXNXqaVnPUdI2iwKWaaF1NM0ILyuyDS+MJCk=;
- b=5f2jzig78+7i8GOi9XkZud3yAV6oYQt+ilyEeUyLhW2skjQn50HhCx+V7eK5vQ/uA0ZWG+L0c
- UxiYpJMAspCAqqob00Y6y3CAenu9vXBzFSvBJJIOzsu/L/kkrEbLYzL
-X-Developer-Key: i=bjorn.andersson@oss.qualcomm.com; a=ed25519;
- pk=VkhObtljigy9k0ZUIE1Mvr0Y+E1dgBEH9WoLQnUtbIM=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE4MDE0NyBTYWx0ZWRfX5R1JzDO0eGk0
- BrWa/3/yWRRrp6Os9LJeNq820xIFBz5EaCPJ1bu2qI+nmkDLoJxFP/xSdPOthGHUaq86qpzzu0B
- WEssieNRJoJu0fvxBkMUbXD2B4K4c+5IOAfCvGLLhJpKvMneVPy6VQJMArkl/top6657ZzfSrvy
- sjFod2yFaXPk2w6F7ODAAI7pHLfrW6Ty7I03xzo2a5kuoB9rFED2qkVhJ+8CmJxfm4N3AL36FtZ
- 8Et0PC0MMwyz+uWNCM3Yaf4Ovfk4K7H0FiNSUaoRe3vxynIa6jDEyAsg6eTqlSWMTPaTs81tXd/
- jhq7sqME1+rPfEBGyP39BAf4ecxlzEZyrT6zgwWKQcAruvZ5sM/jd4hxwGAB7tzQiwRrhmnZpQW
- T6w4eg9ZKayjG2uDNUgsKgCq4J0+isLhhYotFN9MDxmKuzz5JzEmERRr7mnmPtaI5Eo67vOUy2B
- V9TiZ3a29VMH478bBcg==
-X-Proofpoint-GUID: ztsC9w17abQ-taI0etmPydKr51OB-orI
-X-Authority-Analysis: v=2.4 cv=HpVG3UTS c=1 sm=1 tr=0 ts=6a34153e cx=c_pps
- a=bS7HVuBVfinNPG3f6cIo3Q==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=EUspDBNiAAAA:8 a=SFLdN7fYUvWWIfk3OzkA:9 a=QEXdDO2ut3YA:10
- a=vBUdepa8ALXHeOFLBtFW:22
-X-Proofpoint-ORIG-GUID: ztsC9w17abQ-taI0etmPydKr51OB-orI
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE4MDE0NyBTYWx0ZWRfXxGkTFULoinpL
- 28dxS7uCoXK7qvyO7EnS+WibcJMmNipuIqfWIVK2BmpGyQHVhrqVXiEsfL6+i86sWwnNaSS/rDG
- wYiYw7H2KbEjOkdvkRywv03Zz1s6lr8=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-18_02,2026-06-18_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
- clxscore=1015 adultscore=0 phishscore=0 bulkscore=0 spamscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2606180147
 
-SCMI client devices are created from SCMI driver id tables. If such a
-driver is modular, the core does not know the driver's client name until
-the module has already loaded, so normal device uevent based autoloading
-cannot break the dependency cycle.
+Hi,
 
-Emit a protocol-level alias for each SCMI device id table entry and
-request that alias when the SCMI core discovers an implemented protocol.
-This loads modules that have registered interest in the protocol; their
-normal SCMI driver registration then requests the concrete client device
-and the SCMI bus matches it by protocol and name.
+asking some clarifying questions that I assume also Christian might want to know.
 
-This allows e.g. ARM_SCMI_CPUFREQ=m to autoload on systems that expose
-only the SCMI Performance protocol node, where the cpufreq client name
-is Linux-internal and not available from firmware before loading the
-module.
+>>> In a nutshell, the SCMI Telemetry protocol allows an agent to discover at
+>>> runtime the set of Telemetry Data Events (DEs) available on a specific
+>>> platform and provides the means to configure the set of DEs that a user is
 
-Assisted-by: Codex:GPT-5.5
-Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Signed-off-by: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
----
- drivers/firmware/arm_scmi/driver.c | 2 ++
- include/linux/mod_devicetable.h    | 1 +
- scripts/mod/file2alias.c           | 4 +++-
- 3 files changed, 6 insertions(+), 1 deletion(-)
+Is the configuration aspect limited to enabling selected events, or is there
+more that can be configured?
 
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 0fd6a947499e..7d33fab94e28 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -48,6 +48,7 @@
- #include <trace/events/scmi.h>
- 
- #define SCMI_VENDOR_MODULE_ALIAS_FMT	"scmi-protocol-0x%02x-%s"
-+#define SCMI_MODULE_ALIAS_FMT		SCMI_PROTOCOL_MODULE_PREFIX "0x%02x"
- 
- static DEFINE_IDA(scmi_id);
- 
-@@ -3363,6 +3364,7 @@ static int scmi_probe(struct platform_device *pdev)
- 		}
- 
- 		of_node_get(child);
-+		request_module_nowait(SCMI_MODULE_ALIAS_FMT, prot_id);
- 		scmi_create_protocol_devices(child, info, prot_id, NULL);
- 	}
- 
-diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-index 769382f2eadd..2cc7e78e35a3 100644
---- a/include/linux/mod_devicetable.h
-+++ b/include/linux/mod_devicetable.h
-@@ -477,6 +477,7 @@ struct rpmsg_device_id {
- 
- #define SCMI_NAME_SIZE		32
- #define SCMI_MODULE_PREFIX	"scmi:"
-+#define SCMI_PROTOCOL_MODULE_PREFIX	"scmi-protocol-"
- 
- struct scmi_device_id {
- 	__u8 protocol_id;
-diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-index a5283f4c8e6f..40a37b6bf1ad 100644
---- a/scripts/mod/file2alias.c
-+++ b/scripts/mod/file2alias.c
-@@ -852,7 +852,7 @@ static void do_rpmsg_entry(struct module *mod, void *symval)
- 	module_alias_printf(mod, false, RPMSG_DEVICE_MODALIAS_FMT, *name);
- }
- 
--/* Looks like: scmi:NN:S */
-+/* Looks like: scmi:NN:S and scmi-protocol-0xNN */
- static void do_scmi_entry(struct module *mod, void *symval)
- {
- 	DEF_FIELD(symval, scmi_device_id, protocol_id);
-@@ -860,6 +860,8 @@ static void do_scmi_entry(struct module *mod, void *symval)
- 
- 	module_alias_printf(mod, false, SCMI_MODULE_PREFIX "%02x:%s",
- 			    protocol_id, *name);
-+	module_alias_printf(mod, false, SCMI_PROTOCOL_MODULE_PREFIX "0x%02x",
-+			    protocol_id);
- }
- 
- /* Looks like: i2c:S */
+>>> interested into, while reading them back using the collection method that
+>>> is deeemed more suitable for the usecase at hand. (...amongst the various
+>>> possible collection methods allowed by SCMI specification)
+>>>
+>>> Without delving into the gory details of the whole SCMI Telemetry protocol
+>>> let's just say that the SCMI platform/server firmware advertises a number
+>>> of Telemetry Data Events, each one identified by a 32bit unique ID, and an
+>>> SCMI agent/client, like Linux, can discover them and read back at will the
+>>> associated data value in a number of ways.
+>>> Data collection is mainly intended to happen on demand via shared memory
+>>> areas exposed by the platform firmware, discovered dynamically via SCMI
+>>> Telemetry and accessed by Linux on-demand, but some DE can also be reported
+>>> via SCMI Notifications asynchronous messages or via direct dedicated
+>>> FastChannels (another kind of SCMI memory based access): all of this
+>>> underlying mechanism is anyway hidden to the user since it is mediated by
+>>> the kernel driver which will return the proper data value when queried.
+>>>
+>>> Anyway, the set of well-known architected DE IDs defined by the spec is
+>>> limited to a dozen IDs, which means that the vast majority of DE IDs are
+>>> customizable per-platform: as a consequence, though, the same ID, say
+>>> '0x1234', could represent completely different things on different systems.
+>>>
+>>> Precise definitions and semantic of such custom Data Event IDs are out of
+>>> the scope of the SCMI Telemetry specification and of this implementation:
+>>> they are supposed to be provided using some kind of JSON-like description
+>>> file that will have to be consumed by a userspace tool which would be
+>>> finally in charge of making sense of the set of available DEs.
+
+You mention json here ... but I assume the data we are getting fed by the
+protocol is not in some default format? (e.g., json)
+
+>>>
+>>> IOW, in turn, this means that even though the DEs enumerated via SCMI come
+>>> with some sort of topological and qualitative description provided by the
+>>> protocol (like unit of measurements, name, topology info etc), kernel-wise
+>>> we CANNOT be completely sure of "what is what" without being fed-back some
+>>> sort of information about the DEs by the afore mentioned userspace tool.
+
+Maybe you have it in some of the patches here, but what does the typical
+directory + file structure look like in the current implementation?
+
+Do you have an example?
+
+Also, is everything in that filesystem read-only, or are there some writable
+file (IOW, how is stuff configured?).
+
+>>>
+>>> For these reasons, currently this series does NOT attempt to register any
+>>> of these DEs with any of the usual in-kernel subsystems (like HWMON, IIO,
+>>> PERF etc), simply because we cannot be sure which DE is suitable, or even
+>>> desirable, for a given subsystem. This also means there are NO in-kernel
+>>> users of these Telemetry data events as of now.
+
+Okay, so you really only feed this data to user space, exposing all the data you
+have easily available as part of the protocol.
+
+>>>
+>>> So, while we do not exclude, for the future, to feed/register some of the
+>>> discovered DEs to/with some of the above mentioned Kernel subsystems, as
+>>> of now we have ONLY modeled a custom userspace API to make SCMI Telemetry
+>>> available to userspace tools.
+
+It's a good question how that could be done, if you need more information about
+these events from user space.
+
+>>>
+>>> In deciding which kind of interface to expose SCMI Telemetry data to a
+>>> user, this new SCMI Telemetry driver aims at satisfying 2 main reqs:
+>>>
+>>>  - exposing an FS-based human-readable interface that can be used to
+>>>    discover, configure and access our Telemetry data directly also from
+>>>    the shell without special tools
+>>>
+>>>  - exposing alternative machine-friendly, more-performant, binary
+>>>    interfaces that can be used to avoid the overhead of multiple accesses
+>>>    to the VFS and that can be more suitable to access with custom tools
+[...]
+
+>>>
+>>> Due to the above reasoning, since V1 we opted for a new approach with the
+>>> proposed interfaces now based on a full fledged, unified, virtual pseudo
+>>> filesystem implemented from scratch, so that we can:
+>>>
+>>>  - expose all the DEs property we like as before with SysFS, but without
+>>>    any of the constraint imposed by the usage of SysFs or kernfs.
+>>>
+>>>  - easily expose additional alternative views of the same set of DEs
+>>>    using symlinking capabilities (e.g. alternative topological view)
+
+That sounds reasonable.
+
+[...]
+
+> ...I would not say that this was the kind of feedback I was hoping for,
+> but I am NOT gonna argue, given that you shot down already what I thought
+> were all my best selling points :P
+> 
+> At this point my understanding is that the way forward must be to use
+> a custom tool to configure/extract/translate the raw Telemetry data and
+> move up into userspace the whole human readable FS layer via FUSE, if
+> really needed.
+> 
+> I suppose that the new kernel/user interface has to be some dedicated char
+> device implementing proper fops. (like I did previously in early versions
+> of this series and then abandoned...)
+> 
+> Is this you have in mind ? Dedicated character device(s) with enough fops
+> to be able to configure/extract Telemetry data with a custom tool ?
+
+I cannot speak for Christian, but I guess you could have some kind of libscmi in
+user space that can obtain the information (as you say, probably char device,
+not sure which alternatives we have), to expose the data through a nice ABI, to
+then either make tools build upon that directly, or have a fuse server in user
+space that mimics what you currently do with the file system.
+
+One thing that is not clear to me yet is how stuff would be configured, and how
+possibly multiple users of libscmi would possibly interact.
+
+> 
+> Should/could such a tool live in the kernel tree (tools/) at least for
+> ease of development/deployment ?
+
+I think OOT.
 
 -- 
-2.53.0
+Cheers,
 
+David
