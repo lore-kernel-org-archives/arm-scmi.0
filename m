@@ -1,73 +1,73 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC281346795
-	for <arm-scmi@vger.kernel.org>; Tue, 30 Jun 2026 20:47:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A34346795
+	for <arm-scmi@vger.kernel.org>; Tue, 30 Jun 2026 20:51:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782852444; cv=none; b=CF6injJ/OW8MkyOC1NRzZRRHtMUyxxOyZ+WHNl4Ci7bLFp5A+zwNgKz2vN0RnLHgQBSIUDrei6yUPnpiFqYL46ZPJWbNwNxgmWpkDBVTLogisjzDhCqvqt0LbyzArSF4PBIlgaJdZ02eSQY0WVaxC8XgNia1jyyKJNKNcCiaW8k=
+	t=1782852713; cv=none; b=WMyFxXrRYI8Mmp76XVyqCa9ymV7/Y8uPf4mReW6raxLfC0F+OZQOcZ7mUFlhk0NIebKw2QEom+03zgGZOILUjRsKCTFd4uKwCITENSoTQoYSIzTIJ20UmQgTD37xN4dMH49j6Xuawc4p/mkIJ65Qh+zlWYxRMBdeGbKzliGEAWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782852444; c=relaxed/simple;
+	s=arc-20240116; t=1782852713; c=relaxed/simple;
 	bh=H6Nl1EagvECUztZYLhWf1birr8CMtAg/KVEJld06QVI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=agpCHtCQaBTHx818p/2NXKuSD/i4XkGpthBjcUl21+ZQMyPf1LZXjUupdsBOAQW3N/2iT4MeGK38OBbgkQyF49ionS//D+tnvitnthn4EzVfalkFrn026WwwycTpwXA/S4ZiZUVZKvu4FfyIsJ+cohyyXLSsRn1GW2JcA6wpbtk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kdqJlU6w; arc=none smtp.client-ip=209.85.210.178
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mM4/wXtkESDJ/CX9pwuTmAtXSieD5Kj/O4LVj2fCUvX9vJQMi/oQQqvWzvsoa4e1X+JbgbAaTCGr/Vs9nYDft9d6tffPLNIjQ5YQp9SB4Bv24zH8EYKe7m7J+lVHuA6yCrDHYAwAPSoeTO1u+yQ2m0tjH/hNrd+UpT/BgxHFrvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ltd9SfCw; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kdqJlU6w"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-847a69ba83dso455697b3a.2
-        for <arm-scmi@vger.kernel.org>; Tue, 30 Jun 2026 13:47:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ltd9SfCw"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-37fdee9276fso2682700a91.3
+        for <arm-scmi@vger.kernel.org>; Tue, 30 Jun 2026 13:51:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782852442; x=1783457242; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782852712; x=1783457512; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=KYSxXPen50jU9/mkf/L/2/YHLeSPCph0sWADACblHak=;
-        b=kdqJlU6wG3dbSKnp7mTEh2Q/HJQ5nVATrXdwb/EGjzO/akiE3XiljJYh25I+CWkk5I
-         1yKJX6E04GHJJAJwQPQIwQWrvFIrt6Hn81a5fi2L7+qdP3jIyLdzIYhZQtOjOpA4EW0A
-         We1Skrk2Ek+ku5IaJTuE+XG/ghhFA2r1a03Wf1VYAxWQ9PWGibP9N0mwM0+TcxoEFLKG
-         TFUmYbB8iNXK+ypGScPBQoow5rvftA/BmtwtjjQOmk318zhU02UQ7oLbKyvJ3dLPL5Hw
-         HesQkSRlYwhBVCxI7SZjlpJ0hSIlj+f2wb+s2I88QLZZQ8RXm6H9kEd7TiqU58aUXyAR
-         Uj9g==
+        b=Ltd9SfCwla8wnZ/aW2sJqbkIBJGPoXcLqN/32tC67k0Xz6tUj9qraMvFpbat1xg0rF
+         iA1wMGEQqwAOhX1V3+Hm4hRE6NENlmm8NCEPXSodieRJFY6Jf946lLcKIVNRWLZ5V1St
+         3BCVWIfhgBVNGsKl3FA20tFTG2srTlbtcXLRp4K0B+QTSB+tCBVgGEPXdiRWXP+VsVyO
+         TKsxSll4wvFMRvBuGXp8qbWIZ/wKSkYF6oiauImAaDbHWYIvDMIB3aEQv+OETtJTWNCu
+         EUWe7Q5aVV4fGiJFV3dJrJX8C3DKCwIrXfRU7BWPUkvBBRpcZ1HDgWmm6SXr7HDpuJVe
+         juRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782852442; x=1783457242;
+        d=1e100.net; s=20251104; t=1782852712; x=1783457512;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
         bh=KYSxXPen50jU9/mkf/L/2/YHLeSPCph0sWADACblHak=;
-        b=VBnNUBe9HXFRhZ9I1K66cv7uQ3DJa77vmZv+UxC8kz043IkVdBFXqNcfxGxnK8a2Q5
-         oFC+ZnZU4ByXzGJt+2npNXwAFubu3IvzkaZqxGZhwX5XTFs8mEQD1y8vq2YeAJq7EYha
-         uUPBFxvAla2NYv3z0Wrfp/2WQtRcN7yJoypMFQt1AfGUXBh1IsSOPq46wmPHFbsHgvXT
-         Fu+280ZZ1ROKTR/U3XXcBOSSkbFEuAnrFQpSlk/zgUje8pUBycMS7FNAEwLHlYEv5h5m
-         LEx30w4GZPC8AaMoULYXVu4jDU+BrBmrjTZ0Xy9DJ15ZNHhbGEMFxJ2zbNukd/24ISbO
-         9hHg==
-X-Gm-Message-State: AOJu0Yy2+mgq32e6ctChnk/tynswOAbTDyCjai+b8OLIN1NwKbOmWJfd
-	3zvGPcH0MjccRUAAZG5PmBayFIblR7X8dmPGV3T3UKoueVq0mlvHGGHcsYv+U123
-X-Gm-Gg: AfdE7clH5HfRVwWqyDdgxN5n4nbigYUUHZzZep8Q5n5CFW3G9VmJr/qvFypZGYcDUbK
-	34VSOFa4uNBl7hcnlx3RO5lzzfW3WPkSjAvfQ+2Ve5efGfAPYxu1pgS/WiLCcXrX6WUtbr7oDHa
-	AdNwX0jNPaESZ5kj8iVwX/q00jfOPT95v02IGP9aLHPHcVY2AL17ISso6dlwLNrkkYdd0vwDzFD
-	g4H1Y2jKjobAIM3mN7MGanIO0RWJmdIhnm7aZ9EHmBzVKnBEi8TLmeCfAWrZW3jwyHxa33ZvLLC
-	xpDJF1JDGddyaNW6cbRBFUSEESI8OdDH/WoUiB6AwO5UPJOuU2La4gSHtAJwz+vDCXxHV1l2E86
-	S2dwql/UPn5fk5aIomtQJ/PUQJFKCMU6n7EXTXpaThsrcmDgw0u+gZTV4YUr01wi0L4GoCwQ/Of
-	FVqkhu4T66rqWvwdhy+vAmQlywfWTgyAlXJD0a39jmc0jrF+He5FEiN55eoUuJNZzdPFAGFsYd3
-	sFsMAJuVA==
-X-Received: by 2002:a05:6a00:a24e:b0:845:344f:ef1a with SMTP id d2e1a72fcca58-8479eec64e1mr4599716b3a.15.1782852441908;
-        Tue, 30 Jun 2026 13:47:21 -0700 (PDT)
+        b=bYvCFgmlQuRGNynbIykGsEktoV81eSNVQCKZWwH+m93uGzdKl6BuWAVDrE/jN2jWob
+         LFqlrXlCDtDa0A0pu1FXuWKt0fOcaDM/+uhSMUXfhisY58asoXnPmOrUZx0b187APK1W
+         xCC1c5E4Hju0MuBbDiSJ8UsOWUFPpd0FbR4SXeC3NMLU6iHzK1qhkzsy5xOOzvkO3hO9
+         I4O3Xs2l1b2SVKLBSX24oMKAOLBKbXkKMe4H5X9rs0krN55cOMNMV/TFL8RAZrRcmsH6
+         m/0i8MQO9LsQVJuFLvrMes7g3GMq+dDdUjgdIOSCfOxdqKagY+EBSxVfvvYBe4rBYD+k
+         wQMQ==
+X-Gm-Message-State: AOJu0YwCLkLgnTjXbUlyx+dE+KLZECriqm1NLrK1+JF7YT3uyAK1UtPE
+	RFXzW0PDpPAE8twozuK4ns7cN+Hcqb4jU2lAWg99PE9he7DmCXs5cVi426xys0yS
+X-Gm-Gg: AfdE7cmwfgKocbu00/KLAH22y7T8D/kh4zUtA+h5I0EKj0z5VqVp9vDB27ETuvXEzsN
+	/VuBSHi3nI0n3MPanu3sxD8EaYQyjBzGp0G7zC/9C3R6sJOYBDbYBOJvfAfjt4ueb9dG96Y7kVu
+	xdV8MzUlli8pExIu+VB2JinBo5EvpwIGdJdwUodIjpxIuXHYJTiCl9T7hN8QqGWPz7NHq0TBpTC
+	FpoypckFVI4Zl1QU9Py8MMvADn7A5tLYSE6l79adrvxtpMVHhSqBFuvWzxGezfy4IlPfGRYbo46
+	y8vXjEj91CC3ZBc0AIGGI/S7lrJtTN6q/XVM6wc3kH86rih0iqrWJrnPKcNGgcLjysGYDVlK7pN
+	GhWyawRxLn6SYMY7v6jYSGbhCGPo0546pSNIMd2raQeldYmW+LGDipC8DTZubMeXIs/hbSvlrLq
+	mR8Nm1A5hxd6ogsA0dzwR6rLT6ewsi9Wotbd7ghC4BRfasXbnvYYEh3xgS3A8wE1ms5y27CaeES
+	/ljJJDsNg==
+X-Received: by 2002:a17:90b:4fc3:b0:366:52fe:e749 with SMTP id 98e67ed59e1d1-38052538759mr4416067a91.5.1782852711641;
+        Tue, 30 Jun 2026 13:51:51 -0700 (PDT)
 Received: from ryzen.lan ([2601:644:8000:7a86::e34])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8479ff8b454sm2773464b3a.10.2026.06.30.13.47.20
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38096ba2a98sm441541a91.8.2026.06.30.13.51.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 13:47:21 -0700 (PDT)
+        Tue, 30 Jun 2026 13:51:50 -0700 (PDT)
 From: Rosen Penev <rosenp@gmail.com>
 To: arm-scmi@vger.kernel.org
 Cc: Sudeep Holla <sudeep.holla@kernel.org>,
 	Cristian Marussi <cristian.marussi@arm.com>,
 	Kees Cook <kees@kernel.org>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-arm-kernel@lists.infradead.org (moderated list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE (SC...),
+	linux-arm-kernel@lists.infradead.org (moderated list:SYSTEM CONTROL & POWER/MANAGEMENT INTERFACE (SC...)),
 	linux-kernel@vger.kernel.org (open list),
 	linux-hardening@vger.kernel.org (open list:KERNEL HARDENING (not covered by other areas):Keyword:\b__counted_by(_le|_be|_ptr)?\b)
 Subject: [PATCHv2] firmware: arm_scmi: simplify some allocations
-Date: Tue, 30 Jun 2026 13:47:19 -0700
-Message-ID: <20260630204719.334211-1-rosenp@gmail.com>
+Date: Tue, 30 Jun 2026 13:51:49 -0700
+Message-ID: <20260630205149.356798-1-rosenp@gmail.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
