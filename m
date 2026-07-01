@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C48636C0CA
-	for <arm-scmi@vger.kernel.org>; Wed,  1 Jul 2026 16:53:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E50B74C14
+	for <arm-scmi@vger.kernel.org>; Wed,  1 Jul 2026 16:53:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782924802; cv=none; b=VY1b+DRQlsULJTGFrsRdwfevrYGVv4qpfxawTxG95kywwyLiaHHvfDKkUuFf4skRulki6t8WIZACJEDQ5eO2gce5WYcxNFxsfbmdT3F7laxtTJhQYVpYHuoKcCEhXVb8GCJo1gqqPCbfDRalgn67jzUFzKKYSTNM2tuO4VdiMbM=
+	t=1782924803; cv=none; b=md1ZeIOEJQcE46X7pXbE94LzFZ1odVOn7QOVcOJDk2daKV0vmyTEMvCnlh9on5/0pSU3/YJHyS089VnXXHqt02IldjhuwQ4Exa27gQ5rUCpYcOIHVi3zLe9yL2TLvZ4qALGqw24eWl0JMtUJg+qkuc5W198M591QavfhEgAuwdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782924802; c=relaxed/simple;
-	bh=HBtfQ/U7iBOwsRbYqoYllme3eAUoqjVJ3OIbBCfti6g=;
+	s=arc-20240116; t=1782924803; c=relaxed/simple;
+	bh=f0Vyb65y29VRt1RTOdK0e5peiM8JQdRz+hB1qDWnWs0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UIr1tFdYRpXy1ffS9SFINMhA3uC7q7ct2VaTF1jEE8hCoBBZElfSNJNTQU7Ou3mf5LI6TOZ+rB7/mNSwWhw57eDL3YlCcy4I+AXa4aNWxsdLRkCQ9u2DXVijJeXoofxeziaJEPfyO+os/nEiPe7a6yGiPQFLsnXXfN4jd7d/nvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OwCeExYi; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=abcLO0Lve4QtQom7clr9UK5SprvSzg2UWI0FZL41KfHZ7VNIu92lsYC7TSPR+mP7c4wy1GQTOVPo1v6wCLmR3U5E+6gu1IuRJChxFnIbYLJL5H5i9/nu9vqhMrDfXynwsgy3bgr+ccXDxJba3Y5a6r7Ynp53ax+N3+DrFuSMKMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kr25S/n9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OwCeExYi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E03561F000E9;
-	Wed,  1 Jul 2026 16:53:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kr25S/n9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4A911F00A3A;
+	Wed,  1 Jul 2026 16:53:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782924801;
-	bh=qJ0jOkL1ltEZQTlEuZlzOaSUuaAoYiJSzKQRTPeitxg=;
+	s=k20260515; t=1782924802;
+	bh=HX1nHvlk3c1+dgVJ4v3uKemvU735Z6kr6zZ67avlLqY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=OwCeExYiTHlG46qCJDjUJ27Zo4xF69kGm8hR8p5/vnNF2uWsG1SGzEm9ifjCUBwhX
-	 mNvqrxLYj614e7yKldV8JDGIRRNeSnPtzR8HsJbtbErjVfKBV3jKh1Hxj1GVe37PiW
-	 h2nC39UBAWBD5eZYCY0iP0FOxglNTp1UVwzIZsVCVG0xppkRzTR83kULi8q5tNesgW
-	 jWP3DCoHQQIly+bjrt9o95kT6wdlorepxNogH11VptLL2TjP/vOtJDZxFkra/CIo0y
-	 Jf4/hLumB5cUcmdPQP/n0jsHEoNZyF+r71j28qeFwQUpQLA3ibzXo3Xb3/Y+o90MfM
-	 tsvLZBnpGEEZw==
+	b=Kr25S/n9VzlPmL0BklcZN0wpZjCPFzt3OwVfBRBCTzzRoHosyLB1SX4S6VatXiX0z
+	 I9G2iqnkBpHLQFQXyBWnjqChfcAxCH3UI4A6+dIrK4Y+13hbsrGXKq6aIQBfpdcies
+	 cI0ex8VFTDANHE+g1CBPni7bQ+avyZjfKj0E/+pDROAz+kLRsy+uGimIYiuuSZTMgB
+	 YE1yvCzXWiXyYnnC3+SOK1naDQwC/Mcq4D+ID+OYP5ySM9iEgExdcWw9H8nVsWqcY1
+	 p6n1+yKANbVhTPBKjVL7VxtmQ4iQvk6eR9Jv4PibnddncHpD04qbqCHetGDASi7iFh
+	 7eE/aJkU6FL9Q==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-Date: Wed, 01 Jul 2026 17:52:26 +0100
-Subject: [PATCH v2 05/14] firmware: arm_scmi: Free transport channel on IDR
- failure
+Date: Wed, 01 Jul 2026 17:52:27 +0100
+Subject: [PATCH v2 06/14] firmware: arm_scmi: Unregister device notifier
+ before IDR teardown
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,40 +38,51 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260701-scmi_core_fixes-v2-5-1f5e85553f73@kernel.org>
+Message-Id: <20260701-scmi_core_fixes-v2-6-1f5e85553f73@kernel.org>
 References: <20260701-scmi_core_fixes-v2-0-1f5e85553f73@kernel.org>
 In-Reply-To: <20260701-scmi_core_fixes-v2-0-1f5e85553f73@kernel.org>
 To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Cc: Cristian Marussi <cristian.marussi@arm.com>
 X-Mailer: b4 0.15.2
 
-If transport channel setup succeeds but the following IDR insertion fails,
-the error path destroys the transport device and frees the channel info
-without invoking the transport cleanup callback.
+The requested-devices notifier looks up protocol fwnodes from the
+active_protocols IDR. During remove, unregister the notifier before
+releasing and destroying active_protocols so no notifier callback can race
+with the IDR teardown.
 
-Call chan_free() before destroying the device so transport specific
-resources such as IRQs, mailbox channels and mapped shared memory are
-released consistently with the normal teardown path.
+Keep the bus notifier registered until after the protocol state is torn
+down, matching the existing remove ordering for SCMI bus users.
 
-Fixes: 05a2801d8b90 ("firmware: arm_scmi: Use dedicated devices to initialize channels")
+Fixes: 53b8c25df708 ("firmware: arm_scmi: Add common notifier helpers")
 Reported-by: Sashiko <sashiko-bot@kernel.org>
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
 ---
- drivers/firmware/arm_scmi/driver.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/firmware/arm_scmi/driver.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 861087b2920e..4b369b003003 100644
+index 4b369b003003..6df0fe055d64 100644
 --- a/drivers/firmware/arm_scmi/driver.c
 +++ b/drivers/firmware/arm_scmi/driver.c
-@@ -2808,6 +2808,7 @@ static int scmi_chan_setup(struct scmi_info *info, struct device_node *of_node,
- 			"unable to allocate SCMI idr slot err %d\n", ret);
- 		/* Destroy channel and device only if created by this call. */
- 		if (tdev) {
-+			info->desc->ops->chan_free(prot_id, cinfo, idr);
- 			scmi_device_destroy(info->dev, prot_id, name);
- 			devm_kfree(info->dev, cinfo);
- 		}
+@@ -3402,6 +3402,9 @@ static void scmi_remove(struct platform_device *pdev)
+ 
+ 	scmi_notification_exit(&info->handle);
+ 
++	blocking_notifier_chain_unregister(&scmi_requested_devices_nh,
++					   &info->dev_req_nb);
++
+ 	mutex_lock(&info->protocols_mtx);
+ 	idr_destroy(&info->protocols);
+ 	mutex_unlock(&info->protocols_mtx);
+@@ -3410,8 +3413,6 @@ static void scmi_remove(struct platform_device *pdev)
+ 		of_node_put(child);
+ 	idr_destroy(&info->active_protocols);
+ 
+-	blocking_notifier_chain_unregister(&scmi_requested_devices_nh,
+-					   &info->dev_req_nb);
+ 	bus_unregister_notifier(&scmi_bus_type, &info->bus_nb);
+ 
+ 	/* Safe to free channels since no more users */
 
 -- 
 2.43.0
