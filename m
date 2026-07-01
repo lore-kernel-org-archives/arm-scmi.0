@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B60B2D5408
-	for <arm-scmi@vger.kernel.org>; Wed,  1 Jul 2026 16:53:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F38274C14
+	for <arm-scmi@vger.kernel.org>; Wed,  1 Jul 2026 16:53:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782924808; cv=none; b=SS+grYU0H4J+RUni6i+8luOfPZJ0AZyqc1INdqoz0q3TvZdkrZhtuI643AvHlIVycMtqDz5tyyJjPAMAiDdOvJU/PNNX2mxlf5l9TGY/w5skZuPfTLg51Mv1dzfuoErcP+WZDls/1l9xLXy6XfxG/kI9GOBiCi/R6NmoB1VNsqA=
+	t=1782924809; cv=none; b=sY2AfZohLpfgpdzQAOh/jLJsn+qg3638Z55l9Fzyp1qM5KRWVgcpScoF031f9pP1uyK3kd5sZnPfzXiATrTZFmcWgE+8KDzPs8692puqkJQ8yvlcoJmTlBD3aVakxkUF7d6tf9Ny5Cu/dq8yY9q9haxfB2MgmDcIRj1bv2TMOmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782924808; c=relaxed/simple;
-	bh=aUU/C/bV9xVhMxEHt+7J13domKYaVXgZlVUuAuL62GE=;
+	s=arc-20240116; t=1782924809; c=relaxed/simple;
+	bh=UdGHv+eP+WGk3Gfm8djkY0UlIr1eYCKI0JjQfXvajdM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=noa2ucxVojTKL5tZSsF/IsWamMZXt5YChpejbSwR6G5T6s7Tn4/Zvp+nGejVzzZ+JboYlBpJaXzuYjCLeUHBNhs1OnPzob5LFdR1rMMBAvaerqQ0wAQvix0xWyXrk2wSgQGK+E2O6F+Z7MdSXxcwrhErM5hVPj497YTxryqjbHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QG45kKGn; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=ausvQp2G85Dv77JyTGVwJFdYxWLW5GGdENpjdVVyqQ6CVoNrwb5u1Nqk3O+Nc+IVwL2exGtUYTViTyjIpRpP2wSvsOEuGA4wFFJ7adHEKy7uUKfr/1LWLkCZBtCwActqYmtsp3zjw4Y8/DM/Hq5XE4foyn/sL2XF2qhIsyBDkMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gewQFgd9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QG45kKGn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 919991F00ACF;
-	Wed,  1 Jul 2026 16:53:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gewQFgd9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 843CF1F00A3A;
+	Wed,  1 Jul 2026 16:53:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782924807;
-	bh=QKCu+PYcgJkSg1JMnJ2Tzl4HnJfoedyvK0J5G8oSbPk=;
+	s=k20260515; t=1782924808;
+	bh=FD/NU7GMm4Zv7S8veQFrmWmOgLAG1xEI2EsNyDH4suY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=QG45kKGniYzG0ldpN/80pDDz8V5sohuZyH65/PwXU1Labu8X1pwkgFnFztBaz1ymv
-	 PiZNvlZqT0HmfCwwl6s9dug1mK8/NtRve7nqH2kuymgcGCnyi5aOJu7Q0yeO9szImA
-	 By3cYoqf3qdAckTL5CfhuOoSB0p4ATZU4uaAxNlWcV6w2fUczSPcAvEAOadmqcXanJ
-	 h3seFnnP1NSl7kKnCRM+07Lna+UOJS7XlLr6DTjD9OlE9WcxNZk4YmJb5J5nL1OISh
-	 I8ahvARVUekKi9T845yu1FeOXrqi3rpgZ9T8UcvdtHrnlGlf/QL71tnEMIf6HTavmP
-	 iKaGhrYSz1RpQ==
+	b=gewQFgd9EqTjsnKYmsow7dg2LZO13Qt3pj+0WPDLrHsyBRgWoo/eFp76FZ2Gi+9Aa
+	 sQSHKV+IS6ICHSDSuKQUJSczrVSD3eWaXfUwuA1+NxSA2gj9PE0tGbMbUiSLMZqUwN
+	 QyVUSbKjD+Hl9ZxP/q1hYS9b9xfTr2yuoamjfsrn+Ru1d2sCUvlhaI4OMiZOleZSqT
+	 8GidHQIIXttjvpS6d6nouGeMgLQLFWKrThtg1UWSZ9is8v/zZnsLGYV2E5vRE8dXWg
+	 0fTUvH17/8PdFGtzal0yu8xR+qdrQF/zhgxlJkT4G44wtyD081jmy8ZdrNQAJMSvk7
+	 21lj8LxkpHwhw==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-Date: Wed, 01 Jul 2026 17:52:32 +0100
-Subject: [PATCH v2 11/14] firmware: arm_scmi: Clear SystemPower flag on
- create failure
+Date: Wed, 01 Jul 2026 17:52:33 +0100
+Subject: [PATCH v2 12/14] firmware: arm_scmi: Reject out of range DT
+ protocol IDs
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,99 +38,64 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260701-scmi_core_fixes-v2-11-1f5e85553f73@kernel.org>
+Message-Id: <20260701-scmi_core_fixes-v2-12-1f5e85553f73@kernel.org>
 References: <20260701-scmi_core_fixes-v2-0-1f5e85553f73@kernel.org>
 In-Reply-To: <20260701-scmi_core_fixes-v2-0-1f5e85553f73@kernel.org>
 To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Cc: Cristian Marussi <cristian.marussi@arm.com>
 X-Mailer: b4 0.15.2
 
-__scmi_device_create() reserves the singleton SystemPower protocol
-device by setting scmi_syspower_registered before allocating and
-registering the SCMI device.
+SCMI protocol IDs carried in message headers are limited by
+MSG_PROTOCOL_ID_MASK. The DT parsing paths noticed protocol IDs
+outside that range, but only logged an error and then kept processing
+the invalid value.
 
-If any later step fails, the function returns NULL but leaves the flag
-set. A subsequent retry, for example after probe deferral, then observes
-the stale reservation and rejects creation of the SystemPower protocol
-device permanently.
+That lets a malformed 32-bit DT reg value reach helpers which take a u8
+protocol ID, where it can be truncated and/or treated as a different
+protocol.
 
-Route all failures after the successful reservation through a common
-unwind path which clears scmi_syspower_registered again. Keep the
-duplicate-device rejection path unchanged because that path did not acquire
-the reservation.
+For channel setup, two different out-of-range values can also be used as
+distinct IDR keys while aliasing the generated SCMI protocol identity.
 
-Fixes: 2c3e674465e7 ("firmware: arm_scmi: Refactor device create/destroy helpers")
+Skip DT protocol nodes whose reg value does not fit the SCMI protocol ID
+field before setting up channels or creating protocol devices.
+
+Fixes: 05a2801d8b90 ("firmware: arm_scmi: Use dedicated devices to initialize channels")
 Reported-by: Sashiko <sashiko-bot@kernel.org>
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
 ---
- drivers/firmware/arm_scmi/bus.c | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+ drivers/firmware/arm_scmi/driver.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
-index e1deb1b3011d..cdfcd8e96e93 100644
---- a/drivers/firmware/arm_scmi/bus.c
-+++ b/drivers/firmware/arm_scmi/bus.c
-@@ -431,6 +431,7 @@ __scmi_device_create(struct device_node *np, struct device *parent,
- {
- 	int id, retval;
- 	struct scmi_device *scmi_dev;
-+	bool syspower = (protocol == SCMI_PROTOCOL_SYSTEM);
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index ae4b7128276b..f515b192c1bd 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -2874,9 +2874,11 @@ static int scmi_channels_setup(struct scmi_info *info)
+ 		if (of_property_read_u32(child, "reg", &prot_id))
+ 			continue;
  
- 	/*
- 	 * If the same protocol/name device already exist under the same parent
-@@ -446,14 +447,12 @@ __scmi_device_create(struct device_node *np, struct device *parent,
- 	}
+-		if (!FIELD_FIT(MSG_PROTOCOL_ID_MASK, prot_id))
++		if (!FIELD_FIT(MSG_PROTOCOL_ID_MASK, prot_id)) {
+ 			dev_err(info->dev,
+ 				"Out of range protocol %d\n", prot_id);
++			continue;
++		}
  
- 	/*
--	 * Ignore any possible subsequent failures while creating the device
--	 * since we are doomed anyway at that point; not using a mutex which
--	 * spans across this whole function to keep things simple and to avoid
--	 * to serialize all the __scmi_device_create calls across possibly
--	 * different SCMI server instances (parent)
-+	 * Reserve the singleton SystemPower protocol device before
-+	 * allocation and registration. This keeps creation simple without
-+	 * a mutex spanning the whole function; error paths after the
-+	 * reservation must drop it again.
- 	 */
--	if (protocol == SCMI_PROTOCOL_SYSTEM &&
--	    atomic_cmpxchg(&scmi_syspower_registered, 0, 1)) {
-+	if (syspower && atomic_cmpxchg(&scmi_syspower_registered, 0, 1)) {
- 		dev_warn(parent,
- 			 "SCMI SystemPower protocol device must be unique !\n");
- 		return NULL;
-@@ -461,19 +460,19 @@ __scmi_device_create(struct device_node *np, struct device *parent,
+ 		ret = scmi_txrx_setup(info, child, prot_id);
+ 		if (ret)
+@@ -3341,8 +3343,10 @@ static int scmi_probe(struct platform_device *pdev)
+ 		if (of_property_read_u32(child, "reg", &prot_id))
+ 			continue;
  
- 	scmi_dev = kzalloc_obj(*scmi_dev);
- 	if (!scmi_dev)
--		return NULL;
-+		goto clear_syspower;
+-		if (!FIELD_FIT(MSG_PROTOCOL_ID_MASK, prot_id))
++		if (!FIELD_FIT(MSG_PROTOCOL_ID_MASK, prot_id)) {
+ 			dev_err(dev, "Out of range protocol %d\n", prot_id);
++			continue;
++		}
  
- 	scmi_dev->name = kstrdup_const(name ?: "unknown", GFP_KERNEL);
- 	if (!scmi_dev->name) {
- 		kfree(scmi_dev);
--		return NULL;
-+		goto clear_syspower;
- 	}
- 
- 	id = ida_alloc_min(&scmi_bus_id, 1, GFP_KERNEL);
- 	if (id < 0) {
- 		kfree_const(scmi_dev->name);
- 		kfree(scmi_dev);
--		return NULL;
-+		goto clear_syspower;
- 	}
- 
- 	scmi_dev->id = id;
-@@ -495,6 +494,9 @@ __scmi_device_create(struct device_node *np, struct device *parent,
- put_dev:
- 	ida_free(&scmi_bus_id, scmi_dev->id);
- 	put_device(&scmi_dev->dev);
-+clear_syspower:
-+	if (syspower)
-+		atomic_set(&scmi_syspower_registered, 0);
- 	return NULL;
- }
- 
+ 		if (!scmi_is_protocol_implemented(handle, prot_id)) {
+ 			dev_err(dev, "SCMI protocol %d not implemented\n",
 
 -- 
 2.43.0
