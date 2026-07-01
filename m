@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD5A74C14
-	for <arm-scmi@vger.kernel.org>; Wed,  1 Jul 2026 16:53:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B60B2D5408
+	for <arm-scmi@vger.kernel.org>; Wed,  1 Jul 2026 16:53:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782924807; cv=none; b=Y0n8PpM7xyBw/T8mnFjviimrGBug4wBu81WZoUB0nSK+GCM4VJc0wa3SWYQ9vqF+MOPJJMpRU5PnEBYsQ1uPzP7y4+kYVr/HLkS1OHa9RKvkJQ/aWOYDBrQqiCqKN/f4+n2KqVF9iDEXXxfjsq+hN34W+VKVwjVd+3PL3eEnErw=
+	t=1782924808; cv=none; b=SS+grYU0H4J+RUni6i+8luOfPZJ0AZyqc1INdqoz0q3TvZdkrZhtuI643AvHlIVycMtqDz5tyyJjPAMAiDdOvJU/PNNX2mxlf5l9TGY/w5skZuPfTLg51Mv1dzfuoErcP+WZDls/1l9xLXy6XfxG/kI9GOBiCi/R6NmoB1VNsqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782924807; c=relaxed/simple;
-	bh=kupdiVCsZbbAycUmPkQWQSv2pt8xi7PVir+G2G8YQiU=;
+	s=arc-20240116; t=1782924808; c=relaxed/simple;
+	bh=aUU/C/bV9xVhMxEHt+7J13domKYaVXgZlVUuAuL62GE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ReBflXpIeeH9xvGdFRtv3yp46PDf6YNVWCWPAZ6SPjklDyN41DfvabQD5JE9R07O45CsjYb7aTp0++r8PeaCk4wkj9yY3cP88rauchB0XBSsJ/1IuVvYddYAdKMp3p9M8aRS8JCxjSfFAi2KDnHbmRunLt/izB/rJqVK81u3RLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SPxNs37g; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=noa2ucxVojTKL5tZSsF/IsWamMZXt5YChpejbSwR6G5T6s7Tn4/Zvp+nGejVzzZ+JboYlBpJaXzuYjCLeUHBNhs1OnPzob5LFdR1rMMBAvaerqQ0wAQvix0xWyXrk2wSgQGK+E2O6F+Z7MdSXxcwrhErM5hVPj497YTxryqjbHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QG45kKGn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SPxNs37g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E9881F00A3A;
-	Wed,  1 Jul 2026 16:53:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QG45kKGn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 919991F00ACF;
+	Wed,  1 Jul 2026 16:53:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782924806;
-	bh=zXSeNRPQkVlVy8DAuJOJGO898fvDtnoZKP7XJxfcRpg=;
+	s=k20260515; t=1782924807;
+	bh=QKCu+PYcgJkSg1JMnJ2Tzl4HnJfoedyvK0J5G8oSbPk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=SPxNs37geuQfOmLcG8lQy+6RBS8REBeuafnTqE/8fDYHDQX8vBMfEkvkYn0UNS5qy
-	 djpigZPt3QCY+HS9LXthxztQC6eqxRe1HRKMNXRUgEocz60lCublX5LJpWZSwIGgMU
-	 rREF7ZX4JKNOKSZ0JXGxiUXhCP3yKh83luWbU0Prf4FS8192Yj5BOvI6+g8jy/Nwd/
-	 ZX58KN3UKVt1V42hYYIwXtUkRRPsVJhdmBndJxckvH8XnH5GgJRvyLgr2GihCibJ00
-	 8L4mc1nvkU6SsrOpYUOhvK1FJ71NdJkqzVgXy5SByHPGV0OBQqBSrgUZsgkPdIAEff
-	 SpTPdOQEPfubg==
+	b=QG45kKGniYzG0ldpN/80pDDz8V5sohuZyH65/PwXU1Labu8X1pwkgFnFztBaz1ymv
+	 PiZNvlZqT0HmfCwwl6s9dug1mK8/NtRve7nqH2kuymgcGCnyi5aOJu7Q0yeO9szImA
+	 By3cYoqf3qdAckTL5CfhuOoSB0p4ATZU4uaAxNlWcV6w2fUczSPcAvEAOadmqcXanJ
+	 h3seFnnP1NSl7kKnCRM+07Lna+UOJS7XlLr6DTjD9OlE9WcxNZk4YmJb5J5nL1OISh
+	 I8ahvARVUekKi9T845yu1FeOXrqi3rpgZ9T8UcvdtHrnlGlf/QL71tnEMIf6HTavmP
+	 iKaGhrYSz1RpQ==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-Date: Wed, 01 Jul 2026 17:52:31 +0100
-Subject: [PATCH v2 10/14] firmware: arm_scmi: Avoid IDR updates while
- cleaning channels
+Date: Wed, 01 Jul 2026 17:52:32 +0100
+Subject: [PATCH v2 11/14] firmware: arm_scmi: Clear SystemPower flag on
+ create failure
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,54 +38,97 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260701-scmi_core_fixes-v2-10-1f5e85553f73@kernel.org>
+Message-Id: <20260701-scmi_core_fixes-v2-11-1f5e85553f73@kernel.org>
 References: <20260701-scmi_core_fixes-v2-0-1f5e85553f73@kernel.org>
 In-Reply-To: <20260701-scmi_core_fixes-v2-0-1f5e85553f73@kernel.org>
 To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Cc: Cristian Marussi <cristian.marussi@arm.com>
 X-Mailer: b4 0.15.2
 
-scmi_cleanup_channels() walks the TX/RX channel IDRs with
-idr_for_each() to free transport resources and destroy the dedicated
-transport devices before calling idr_destroy().
+__scmi_device_create() reserves the singleton SystemPower protocol
+device by setting scmi_syspower_registered before allocating and
+registering the SCMI device.
 
-The destroy callback removed each entry from the same IDR being walked.
-That is not needed for this cleanup path, and it is unsafe because
-idr_for_each() has not advanced its radix-tree iterator while the
-callback is running. Removing the current entry from the callback can
-invalidate the iterator state. The callback also cannot be protected by
-rcu_read_lock(), because scmi_device_destroy() may sleep.
+If any later step fails, the function returns NULL but leaves the flag
+set. A subsequent retry, for example after probe deferral, then observes
+the stale reservation and rejects creation of the SystemPower protocol
+device permanently.
 
-Leave IDR teardown to the following idr_destroy() call and keep the
-callback limited to device destruction.
+Route all failures after the successful reservation through a common
+unwind path which clears scmi_syspower_registered again. Keep the
+duplicate-device rejection path unchanged because that path did not acquire
+the reservation.
 
-Fixes: 05a2801d8b90 ("firmware: arm_scmi: Use dedicated devices to initialize channels")
+Fixes: 2c3e674465e7 ("firmware: arm_scmi: Refactor device create/destroy helpers")
 Reported-by: Sashiko <sashiko-bot@kernel.org>
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
 ---
- drivers/firmware/arm_scmi/driver.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/firmware/arm_scmi/bus.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index a575e661f1e2..ae4b7128276b 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -2886,7 +2886,7 @@ static int scmi_channels_setup(struct scmi_info *info)
- 	return 0;
- }
- 
--static int scmi_chan_destroy(int id, void *p, void *idr)
-+static int scmi_chan_destroy(int id, void *p, void *data)
+diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
+index e1deb1b3011d..cdfcd8e96e93 100644
+--- a/drivers/firmware/arm_scmi/bus.c
++++ b/drivers/firmware/arm_scmi/bus.c
+@@ -431,6 +431,7 @@ __scmi_device_create(struct device_node *np, struct device *parent,
  {
- 	struct scmi_chan_info *cinfo = p;
+ 	int id, retval;
+ 	struct scmi_device *scmi_dev;
++	bool syspower = (protocol == SCMI_PROTOCOL_SYSTEM);
  
-@@ -2898,8 +2898,6 @@ static int scmi_chan_destroy(int id, void *p, void *idr)
- 		cinfo->dev = NULL;
+ 	/*
+ 	 * If the same protocol/name device already exist under the same parent
+@@ -446,14 +447,12 @@ __scmi_device_create(struct device_node *np, struct device *parent,
  	}
  
--	idr_remove(idr, id);
--
- 	return 0;
+ 	/*
+-	 * Ignore any possible subsequent failures while creating the device
+-	 * since we are doomed anyway at that point; not using a mutex which
+-	 * spans across this whole function to keep things simple and to avoid
+-	 * to serialize all the __scmi_device_create calls across possibly
+-	 * different SCMI server instances (parent)
++	 * Reserve the singleton SystemPower protocol device before
++	 * allocation and registration. This keeps creation simple without
++	 * a mutex spanning the whole function; error paths after the
++	 * reservation must drop it again.
+ 	 */
+-	if (protocol == SCMI_PROTOCOL_SYSTEM &&
+-	    atomic_cmpxchg(&scmi_syspower_registered, 0, 1)) {
++	if (syspower && atomic_cmpxchg(&scmi_syspower_registered, 0, 1)) {
+ 		dev_warn(parent,
+ 			 "SCMI SystemPower protocol device must be unique !\n");
+ 		return NULL;
+@@ -461,19 +460,19 @@ __scmi_device_create(struct device_node *np, struct device *parent,
+ 
+ 	scmi_dev = kzalloc_obj(*scmi_dev);
+ 	if (!scmi_dev)
+-		return NULL;
++		goto clear_syspower;
+ 
+ 	scmi_dev->name = kstrdup_const(name ?: "unknown", GFP_KERNEL);
+ 	if (!scmi_dev->name) {
+ 		kfree(scmi_dev);
+-		return NULL;
++		goto clear_syspower;
+ 	}
+ 
+ 	id = ida_alloc_min(&scmi_bus_id, 1, GFP_KERNEL);
+ 	if (id < 0) {
+ 		kfree_const(scmi_dev->name);
+ 		kfree(scmi_dev);
+-		return NULL;
++		goto clear_syspower;
+ 	}
+ 
+ 	scmi_dev->id = id;
+@@ -495,6 +494,9 @@ __scmi_device_create(struct device_node *np, struct device *parent,
+ put_dev:
+ 	ida_free(&scmi_bus_id, scmi_dev->id);
+ 	put_device(&scmi_dev->dev);
++clear_syspower:
++	if (syspower)
++		atomic_set(&scmi_syspower_registered, 0);
+ 	return NULL;
  }
  
 
