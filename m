@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6340A36C0CA
-	for <arm-scmi@vger.kernel.org>; Wed,  1 Jul 2026 16:53:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FEB36C9D5
+	for <arm-scmi@vger.kernel.org>; Wed,  1 Jul 2026 16:53:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782924805; cv=none; b=u1CV5G64fw4VyS6aXTLVGfVPw0yIuJcP/urEcNeJBlESWnJkteVZpbjNBAjq+N9XppqYnAjBMsX1potXzAZuax2szNoAvygl7GRGnLNtl8wttKnlte77o4MMPIe1ncn3EXL8yBl+JTv6EVUffx2PTXmX4K37aRdMNCMKj7Qri/Q=
+	t=1782924806; cv=none; b=Z7b0segQssTfX8xBFRirquxakxXF8P0L4dmEAjv4a5AKt/UV6OcVhpgCWZMBpHb/FTcIEIz8UshvEzCzOG3iL0a7MWwsgt5XEMfkchn8X8LCMJKAUIE78nM3Y9/7LXoOoOnTwmoVAev6KxTHpZxMIOkFhXneD4oVLehuM+uxpE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782924805; c=relaxed/simple;
-	bh=AMbfBCDaXKMBDkwHQvgGB3UCKABrQ4ALf4zn4BbSnPk=;
+	s=arc-20240116; t=1782924806; c=relaxed/simple;
+	bh=T6hXNun0IpckugLN2xZVygv478OirCHKxtIY28iYQk4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VAm9siURUbKeaN//OwreGANfYFGtA3fGGogj1gMurfyUfVrKrGjWhkVtkhoWJRlAW74TifdzQ0Uk+BSv+jLrNfqG452WlIu3lmBJjuZ074EUgwZvWu/oU15dYd1Haev0Ot2Wdkunq1aY6uJ+wfPhBuzes6cmSQWeiRS3LrFAk3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fZVE6Voy; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=JUU/nCr8rW/0gVPz7l7UkOioOV3lEcvxw3EXJPB8agwAK//nxtTA/MPjQ1DZaEtuu6O3Dw0zSLUnpUM1MgbPSR+VJ1AoHz/S3V73QowYWdJs5Jt0o7tgLzYeJrNQayFPacvqxnoNIYTAFQvVNU/gwS2IlC6hkap8qUyjS4smmwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PYAoMrRD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fZVE6Voy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9E981F00A3E;
-	Wed,  1 Jul 2026 16:53:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PYAoMrRD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC2D11F000E9;
+	Wed,  1 Jul 2026 16:53:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782924804;
-	bh=nx3J+pJavz1fFM7CBGqP9zmvQYThVuvASvjjlaxrEZE=;
+	s=k20260515; t=1782924805;
+	bh=2R7MMcV3mmk0nBdIgoUyC/wqlhfh+hr+iLk2fd0g8uI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=fZVE6VoyOpoEGDzsYcszNUAZQv6yp1QP60/7gNzFDN7oBuT8hdKMCVpvmvIKm3EnN
-	 jntitu3vFdCNo5BuDwDE2SLZqyeiPPTQdwTkbrejVNddvovEAOqvO6BHgCpuRjcWYp
-	 u/ExxRY7Y+ChwS/lXuwYQFeRurXylsmaW1rUtElzYBWtkTTMzZjvRl7OAo4HG4KYQb
-	 oEM78NNgZHtIHhGgtqy8wwq5vW1M3OBTeLZpDWRv4QvRydaTALvT2HbtFPsAmzWqo6
-	 IrKWMJwYUlrnlxhWYPsoMZUQ7gwAhB+fIXx/qA45mao/INCwThdtPtrvc0L8SWvwUO
-	 QG1funnE7vpow==
+	b=PYAoMrRD+yH4FMWd2ivhD4Y7E2zYn6WM6Ce45FQx+xLDPLSgTcpbrApZqxaQzQhzY
+	 tgOiDoBfV8D9gSHsBy8/ZQj904Q8Evj973YftNzOCYtJ/LOzWJYPq4MtihUzvArQkE
+	 4CsEmVCJKomT1ACaLrP83QBeElWpr/G1ck8OJA4b4IXYVZ9+e7dOegAZ1kt73abLAF
+	 gW+023bpm95o1R4Hsr/O/mM4o9N+qPpjTtbjDUWm0wze3si8spqvN/MiIJW40xgfq6
+	 EaG+DNx4W+0D/OT6NiqERcsREj7jZXeHhxHLMQL8lFIZ44NPORNH7E/r6G3zGYFXSj
+	 IOYizHojWlaEA==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-Date: Wed, 01 Jul 2026 17:52:29 +0100
-Subject: [PATCH v2 08/14] firmware: arm_scmi: Unwind P2A receiver mailbox
- setup failure
+Date: Wed, 01 Jul 2026 17:52:30 +0100
+Subject: [PATCH v2 09/14] firmware: arm_scmi: Protect device request lookup
+ with RCU
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,54 +38,50 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260701-scmi_core_fixes-v2-8-1f5e85553f73@kernel.org>
+Message-Id: <20260701-scmi_core_fixes-v2-9-1f5e85553f73@kernel.org>
 References: <20260701-scmi_core_fixes-v2-0-1f5e85553f73@kernel.org>
 In-Reply-To: <20260701-scmi_core_fixes-v2-0-1f5e85553f73@kernel.org>
 To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Cc: Cristian Marussi <cristian.marussi@arm.com>
 X-Mailer: b4 0.15.2
 
-mailbox_chan_setup() can request an additional P2A receiver channel after
-successfully acquiring the primary P2A channel. If that later request
-fails, the function returns immediately and leaves the primary channel
-allocated.
+The SCMI device request notifier looks up protocol OF nodes from the
+active_protocols IDR. The IDR lookup can run concurrently with protocol
+activation while probe is still registering protocols and creating their
+SCMI devices.
 
-Unwind the primary mailbox channel before returning the error so probe
-deferral or other setup failures do not leave the channel busy for later
-probe attempts.
+Wrap the lookup in an RCU read-side critical section as required by the
+IDR API for lockless readers.
 
-Fixes: fa8b28ba22d9 ("firmware: arm_scmi: Add support for platform to agent channel completion")
+Fixes: 53b8c25df708 ("firmware: arm_scmi: Add common notifier helpers")
 Reported-by: Sashiko <sashiko-bot@kernel.org>
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
 ---
- drivers/firmware/arm_scmi/transports/mailbox.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/firmware/arm_scmi/driver.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/firmware/arm_scmi/transports/mailbox.c b/drivers/firmware/arm_scmi/transports/mailbox.c
-index 44d45ce838e5..07a08ea5d9de 100644
---- a/drivers/firmware/arm_scmi/transports/mailbox.c
-+++ b/drivers/firmware/arm_scmi/transports/mailbox.c
-@@ -236,9 +236,10 @@ static int mailbox_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
- 		smbox->chan_platform_receiver = mbox_request_channel(cl, p2a_rx_chan);
- 		if (IS_ERR(smbox->chan_platform_receiver)) {
- 			ret = PTR_ERR(smbox->chan_platform_receiver);
-+			smbox->chan_platform_receiver = NULL;
- 			if (ret != -EPROBE_DEFER)
- 				dev_err(cdev, "failed to request SCMI P2A Receiver mailbox\n");
--			return ret;
-+			goto err_free_chan;
- 		}
- 	}
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index 6df0fe055d64..a575e661f1e2 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -33,6 +33,7 @@
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/processor.h>
++#include <linux/rcupdate.h>
+ #include <linux/refcount.h>
+ #include <linux/slab.h>
+ #include <linux/xarray.h>
+@@ -2957,7 +2958,9 @@ static int scmi_device_request_notifier(struct notifier_block *nb,
+ 	struct scmi_device_id *id_table = data;
+ 	struct scmi_info *info = req_nb_to_scmi_info(nb);
  
-@@ -248,6 +249,8 @@ static int mailbox_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
++	rcu_read_lock();
+ 	np = idr_find(&info->active_protocols, id_table->protocol_id);
++	rcu_read_unlock();
+ 	if (!np)
+ 		return NOTIFY_DONE;
  
- 	return 0;
- 
-+err_free_chan_receiver:
-+	mbox_free_channel(smbox->chan_receiver);
- err_free_chan:
- 	mbox_free_channel(smbox->chan);
- 	return ret;
 
 -- 
 2.43.0
