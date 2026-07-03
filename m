@@ -1,31 +1,31 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2CE7346FA7;
-	Fri,  3 Jul 2026 12:36:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 767C23D34A8;
+	Fri,  3 Jul 2026 12:36:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783082195; cv=none; b=CcODczCPvTlZ0z47wUxEPj1CXKwSB7EaLqvd1fsYEOvuQqklFtmON/vGtUTb+05km5AFA+rBWHSoXw4F5QF/w2KLOO6FIwb/NUqAuOiQibI+0WQpNVgG0UEt3uwayK0ZZtwXjK9groYdRgrc9SbJIEZVKdnOoyhn8+Meok0F2vQ=
+	t=1783082198; cv=none; b=pbVwVQ17fx2abGWT5QWPJWW/F5WwwEhWPDn9OZkhl19dY+DbhM43qwbqyWj7D9vHHg6gxNSkLUWMkrLBu+dUJZ2eHiyTyCXeJK2/P3C8QvX9zF4YlcVubftiiAYFBtJBOoubjHMi3mIsbyGNSkGwbyem80KAoJ52b5gxM+c3OUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783082195; c=relaxed/simple;
-	bh=MvVBkOZSe0geStki8LTVG9QNqXX9D+MNvefmfwSOKOI=;
+	s=arc-20240116; t=1783082198; c=relaxed/simple;
+	bh=LBRQ6wFBIx9uyX3JPutqMO45oA7CkE7M/GSDecI1/6g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ii8nCxUjs1y4bRUG+IMaLnw9ncUVF87GWZeRNvShhScbUBONGlxaylvPncDpbV0Q+2U90/iB+u+Z/OXUX+AaG97YrgSGj0nJtOkhbt0bX+oqlySxxG0WXp+EXt36JiMxxYOk4MmOuG/E+OjJd/POCwyNYlqelV2OA5F8Xm5V7RY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=MPSUHbat; arc=none smtp.client-ip=217.140.110.172
+	 MIME-Version; b=J6YeI8wrsXqi+3pGPcEuqz/yEa8aJ/+wVpLRB1TXcveTF4pMqRF3smH+xBen8cMlxaDmDvfYABFhrvPnoVvYyYUfmZ8LFYyWVzRm9Mz7OxBG80qX/IfzTpcvf6urRvZvD0C43WtTm4SY642Qj/Mn0ymnS6DqgoU+owBIxEtM32U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ksj6jRDD; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="MPSUHbat"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ksj6jRDD"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A4128463D;
-	Fri,  3 Jul 2026 05:36:28 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 730C8463F;
+	Fri,  3 Jul 2026 05:36:32 -0700 (PDT)
 Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A93173F905;
-	Fri,  3 Jul 2026 05:36:29 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 77A063F905;
+	Fri,  3 Jul 2026 05:36:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1783082193; bh=MvVBkOZSe0geStki8LTVG9QNqXX9D+MNvefmfwSOKOI=;
+	t=1783082196; bh=LBRQ6wFBIx9uyX3JPutqMO45oA7CkE7M/GSDecI1/6g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MPSUHbatzb8s7ckbdPcxvQAUfW34TwZohqYXL/UHpDhHOXilWMLXXm1wny11Yfkis
-	 9IpUiwSZ809YN4WiOllctQPoCb6ix4aTEBfqnWrqv8ztVsVr6NKpBI6+wxYGZdx8rk
-	 W7W1eIeuIm615VuCURLVXshyj5w//1u58ZFZfxt0=
+	b=ksj6jRDDy32orDxQXaNIZG9l3Ar6cKouJfKYyU+uGE2mHQRPuKRRgwuE3abMhbyLs
+	 5RfzVjjEhL2DWiqWAhOEaVxqZGv01B1gT91aR8GEvmjMYp3AyJfi93otMw6NUAOlO1
+	 8U8tdfLpx8/iAUXrSC+/H86Wf0pROV8nxNDQ7Ou8=
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -52,9 +52,9 @@ Cc: sudeep.holla@kernel.org,
 	usama.arif@linux.dev,
 	kernel-team@meta.com,
 	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH v5 01/23] firmware: arm_scmi: Add new SCMIv4.0 error codes definitions
-Date: Fri,  3 Jul 2026 13:35:39 +0100
-Message-ID: <20260703123601.381275-2-cristian.marussi@arm.com>
+Subject: [PATCH v5 02/23] firmware: arm_scmi: Reduce the scope of protocols mutex
+Date: Fri,  3 Jul 2026 13:35:40 +0100
+Message-ID: <20260703123601.381275-3-cristian.marussi@arm.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260703123601.381275-1-cristian.marussi@arm.com>
 References: <20260703123601.381275-1-cristian.marussi@arm.com>
@@ -66,39 +66,115 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-SCMIv4.0 introduces a couple of new possible protocol error codes: add
-the needed definitions and mappings to Linux error values.
+Currently the mutex dedicated to the protection of the list of registered
+protocols is held during all the protocol initialization phase.
+
+Such a wide locking region is not needed and causes problem when trying to
+initialize notifications from within a protocol initialization routine.
+
+Reduce the scope of the protocol mutex.
 
 Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 ---
-v4 --> v5
- - map SCMI_ERR_IN_USE to EBUSY as natural
+v1-->v2
+ - Fixed improper mixed usage of cleanup and goto constructs
 ---
- drivers/firmware/arm_scmi/common.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/firmware/arm_scmi/driver.c | 49 ++++++++++++++----------------
+ 1 file changed, 23 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-index be0ed89b3524..767f08be416c 100644
---- a/drivers/firmware/arm_scmi/common.h
-+++ b/drivers/firmware/arm_scmi/common.h
-@@ -46,6 +46,8 @@ enum scmi_error_codes {
- 	SCMI_ERR_GENERIC = -8,	/* Generic Error */
- 	SCMI_ERR_HARDWARE = -9,	/* Hardware Error */
- 	SCMI_ERR_PROTOCOL = -10,/* Protocol Error */
-+	SCMI_ERR_IN_USE = -11,  /* In Use Error */
-+	SCMI_ERR_PARTIAL = -12, /* Partial Error */
- };
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index 8e06e40d1a11..b616b73df957 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -2224,7 +2224,6 @@ static void scmi_protocol_version_initialize(struct device *dev,
+  * all resources management is handled via a dedicated per-protocol devres
+  * group.
+  *
+- * Context: Assumes to be called with @protocols_mtx already acquired.
+  * Return: A reference to a freshly allocated and initialized protocol instance
+  *	   or ERR_PTR on failure. On failure the @proto reference is at first
+  *	   put using @scmi_protocol_put() before releasing all the devres group.
+@@ -2270,8 +2269,10 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
+ 	if (ret)
+ 		goto clean;
  
- static const int scmi_linux_errmap[] = {
-@@ -61,6 +63,8 @@ static const int scmi_linux_errmap[] = {
- 	-EIO,			/* SCMI_ERR_GENERIC */
- 	-EREMOTEIO,		/* SCMI_ERR_HARDWARE */
- 	-EPROTO,		/* SCMI_ERR_PROTOCOL */
-+	-EBUSY,			/* SCMI_ERR_IN_USE */
-+	-EINVAL,		/* SCMI_ERR_PARTIAL */
- };
+-	ret = idr_alloc(&info->protocols, pi, proto->id, proto->id + 1,
+-			GFP_KERNEL);
++	/* Finally register the initialized protocol */
++	mutex_lock(&info->protocols_mtx);
++	ret = idr_alloc(&info->protocols, pi, proto->id, proto->id + 1, GFP_KERNEL);
++	mutex_unlock(&info->protocols_mtx);
+ 	if (ret != proto->id)
+ 		goto clean;
  
- static inline int scmi_to_linux_errno(int errno)
+@@ -2318,27 +2319,25 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
+ static struct scmi_protocol_instance * __must_check
+ scmi_get_protocol_instance(const struct scmi_handle *handle, u8 protocol_id)
+ {
+-	struct scmi_protocol_instance *pi;
+ 	struct scmi_info *info = handle_to_scmi_info(handle);
++	const struct scmi_protocol *proto;
+ 
+-	mutex_lock(&info->protocols_mtx);
+-	pi = idr_find(&info->protocols, protocol_id);
+-
+-	if (pi) {
+-		refcount_inc(&pi->users);
+-	} else {
+-		const struct scmi_protocol *proto;
++	scoped_guard(mutex, &info->protocols_mtx) {
++		struct scmi_protocol_instance *pi;
+ 
+-		/* Fails if protocol not registered on bus */
+-		proto = scmi_protocol_get(protocol_id, &info->version);
+-		if (proto)
+-			pi = scmi_alloc_init_protocol_instance(info, proto);
+-		else
+-			pi = ERR_PTR(-EPROBE_DEFER);
++		pi = idr_find(&info->protocols, protocol_id);
++		if (pi) {
++			refcount_inc(&pi->users);
++			return pi;
++		}
+ 	}
+-	mutex_unlock(&info->protocols_mtx);
+ 
+-	return pi;
++	/* Fails if protocol not registered on bus */
++	proto = scmi_protocol_get(protocol_id, &info->version);
++	if (!proto)
++		return ERR_PTR(-EPROBE_DEFER);
++
++	return scmi_alloc_init_protocol_instance(info, proto);
+ }
+ 
+ /**
+@@ -2369,10 +2368,11 @@ void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
+ 	struct scmi_info *info = handle_to_scmi_info(handle);
+ 	struct scmi_protocol_instance *pi;
+ 
+-	mutex_lock(&info->protocols_mtx);
+-	pi = idr_find(&info->protocols, protocol_id);
+-	if (WARN_ON(!pi))
+-		goto out;
++	scoped_guard(mutex, &info->protocols_mtx) {
++		pi = idr_find(&info->protocols, protocol_id);
++		if (WARN_ON(!pi))
++			return;
++	}
+ 
+ 	if (refcount_dec_and_test(&pi->users)) {
+ 		void *gid = pi->gid;
+@@ -2391,9 +2391,6 @@ void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
+ 		dev_dbg(handle->dev, "De-Initialized protocol: 0x%X\n",
+ 			protocol_id);
+ 	}
+-
+-out:
+-	mutex_unlock(&info->protocols_mtx);
+ }
+ 
+ void scmi_setup_protocol_implemented(const struct scmi_protocol_handle *ph,
 -- 
 2.54.0
 
