@@ -1,31 +1,31 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EE9F3D47A5;
-	Fri,  3 Jul 2026 12:36:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CD6E3C416A;
+	Fri,  3 Jul 2026 12:36:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783082207; cv=none; b=Nn/hBg0F6Et3T0SxnTDTDtVmwj1sC48S1Fv/dhpY59efdaWylzAzK7ucY8pMeUP9+LWH+oqvegcv5Sw+EQrLKsNtodEY40exOhKbjnu0TTYp2Za1Ze8qY5ZAVym7nQuzMbZxl9RfqeiU/ICderkluTtowIElMptoamvNK29GUQk=
+	t=1783082210; cv=none; b=EH6F01B74lVmqcVWx2POqGcrIrNS4YpQkvs5d2t6DgFEeIsmioZDLz4anJGAUgrnPzYqZMImUKDdanKnTUambsbv0gjoxIvG28PyzIY7+pb6t3KakT6mDMhdeKjhAaWwVdTVG6w9uYfBEVve3DjCbqDRFvRINDobw4aspg9yaHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783082207; c=relaxed/simple;
-	bh=jjveyc0qSN1bLmj+1TZT8pAtwQYupmEnAO0nI9+gEa8=;
+	s=arc-20240116; t=1783082210; c=relaxed/simple;
+	bh=9vZoBgzFE2THNFE8s+a0rg1bPJg4MV54NAwQFcIi1xY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WPhx8qSC7q5xYx0N0RAnF7kVu8wa9H1Tk73PTn7o6t1oJAOnXvljT9k9wMVXh3qeCbjmHY2QQZKAPNbdTv5EAd8MnjEPUj1jtw92s4pxDYXY+xPnrbYjPw0UihipKTO/AHyWiaCqM+kUOMNBNwdvVvgSk0VISNI1+WiOlPmCmwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=afU4e5Ux; arc=none smtp.client-ip=217.140.110.172
+	 MIME-Version; b=pGD5DYVq3QOcOFwpyzSYzjqyToFsm0/1Dg5N38qUCo8oMnQTYtrqXy+L7fPEy8kNpBmRv+otgq+FHlD7vOVDbqwILir522Qe9vA1Y4HMnJnAPLLzSoaAT+SXdYYf5HTlgCSVJtqVw8m/dzPMtOBdHby6e4D9bT0dIJJ80LScNuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=vmLr0bc8; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="afU4e5Ux"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="vmLr0bc8"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 268524647;
-	Fri,  3 Jul 2026 05:36:40 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5BE7F464B;
+	Fri,  3 Jul 2026 05:36:44 -0700 (PDT)
 Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E30E63F905;
-	Fri,  3 Jul 2026 05:36:40 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B00493F905;
+	Fri,  3 Jul 2026 05:36:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1783082204; bh=jjveyc0qSN1bLmj+1TZT8pAtwQYupmEnAO0nI9+gEa8=;
+	t=1783082208; bh=9vZoBgzFE2THNFE8s+a0rg1bPJg4MV54NAwQFcIi1xY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=afU4e5UxS0bTq77XQEGBnnNEvOhVUo0O5BuT6ncc6yK89ryQgiyk40jV/xHgp9/S3
-	 UZMyqIQJft1YM3svBQ1qHNXa317oIgY6eskidbf7IrdOYg3m3psCXO925SUCwtYnV+
-	 cZvx9A4q2kHreViqaTI7gxV7JGV3ETWatFyCFUDo=
+	b=vmLr0bc8rixPDm3Bhskx0gu1HYDr9nHMWteRfb195hI+99jFudJIj5q8nDU1l/qqu
+	 dOMD23rIRgtBlgIHctGwU/c/aLhdyFuMkuCIrYJ1nmmuUK8RGqqkbHReIDlULcDJCd
+	 61Q+PDpJFnR80HDpKHr3XF0DpdIAuMtDZnh9py+Q=
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -51,10 +51,14 @@ Cc: sudeep.holla@kernel.org,
 	puranjay@kernel.org,
 	usama.arif@linux.dev,
 	kernel-team@meta.com,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH v5 04/23] firmware: arm_scmi: Allow protocols to register for notifications
-Date: Fri,  3 Jul 2026 13:35:42 +0100
-Message-ID: <20260703123601.381275-5-cristian.marussi@arm.com>
+	Cristian Marussi <cristian.marussi@arm.com>,
+	"Rob Herring (Arm)" <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: [PATCH v5 05/23] dt-bindings: firmware: arm,scmi: Add support for telemetry protocol
+Date: Fri,  3 Jul 2026 13:35:43 +0100
+Message-ID: <20260703123601.381275-6-cristian.marussi@arm.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260703123601.381275-1-cristian.marussi@arm.com>
 References: <20260703123601.381275-1-cristian.marussi@arm.com>
@@ -66,114 +70,42 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Allow protocols themselves to register for their own notifications and
-provide their own notifier callbacks.
+Add new SCMI v4.0 Telemetry protocol bindings definitions.
 
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 ---
-v2-->v3
- - split out unrelated changes on event sizing
-v1-->v2
- - Fixed multiline comment format
----
- drivers/firmware/arm_scmi/common.h    |  4 ++++
- drivers/firmware/arm_scmi/driver.c    | 12 ++++++++++++
- drivers/firmware/arm_scmi/notify.c    |  6 +++---
- drivers/firmware/arm_scmi/protocols.h |  6 ++++++
- 4 files changed, 25 insertions(+), 3 deletions(-)
+v3 --> v4
+ - changed protocol number to lowercase 1b
+ - fixed misplaced block for protocol 0x1b
 
-diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-index 767f08be416c..b9cd542302fb 100644
---- a/drivers/firmware/arm_scmi/common.h
-+++ b/drivers/firmware/arm_scmi/common.h
-@@ -18,6 +18,7 @@
- #include <linux/list.h>
- #include <linux/module.h>
- #include <linux/property.h>
-+#include <linux/notifier.h>
- #include <linux/refcount.h>
- #include <linux/scmi_protocol.h>
- #include <linux/spinlock.h>
-@@ -711,5 +712,8 @@ static struct platform_driver __drv = {					       \
- void scmi_notification_instance_data_set(const struct scmi_handle *handle,
- 					 void *priv);
- void *scmi_notification_instance_data_get(const struct scmi_handle *handle);
-+int scmi_notifier_register(const struct scmi_handle *handle, u8 proto_id,
-+			   u8 evt_id, const u32 *src_id,
-+			   struct notifier_block *nb);
- int scmi_inflight_count(const struct scmi_handle *handle);
- #endif /* _SCMI_COMMON_H */
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index b616b73df957..4d4bd2d4a858 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -1657,6 +1657,17 @@ static void *scmi_get_protocol_priv(const struct scmi_protocol_handle *ph)
- 	return pi->priv;
- }
+Cc: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: devicetree@vger.kernel.org
+---
+ Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+index d06cca9273c4..be733f8d60a0 100644
+--- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
++++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+@@ -324,6 +324,14 @@ properties:
+     required:
+       - reg
  
-+static int
-+scmi_register_instance_notifier(const struct scmi_protocol_handle *ph,
-+				u8 evt_id, const u32 *src_id,
-+				struct notifier_block *nb)
-+{
-+	const struct scmi_protocol_instance *pi = ph_to_pi(ph);
++  protocol@1b:
++    $ref: '#/$defs/protocol-node'
++    unevaluatedProperties: false
 +
-+	return scmi_notifier_register(pi->handle, pi->proto->id,
-+				      evt_id, src_id, nb);
-+}
++    properties:
++      reg:
++        const: 0x1b
 +
- static const struct scmi_xfer_ops xfer_ops = {
- 	.xfer_get_init = xfer_get_init,
- 	.reset_rx_to_maxsz = reset_rx_to_maxsz,
-@@ -2256,6 +2267,7 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
- 	pi->ph.hops = &helpers_ops;
- 	pi->ph.set_priv = scmi_set_protocol_priv;
- 	pi->ph.get_priv = scmi_get_protocol_priv;
-+	pi->ph.notifier_register = scmi_register_instance_notifier;
- 	refcount_set(&pi->users, 1);
+ unevaluatedProperties: false
  
- 	/*
-diff --git a/drivers/firmware/arm_scmi/notify.c b/drivers/firmware/arm_scmi/notify.c
-index 3e4c97ab7b61..2a8efdf0bab8 100644
---- a/drivers/firmware/arm_scmi/notify.c
-+++ b/drivers/firmware/arm_scmi/notify.c
-@@ -1389,9 +1389,9 @@ static int scmi_event_handler_enable_events(struct scmi_event_handler *hndl)
-  *
-  * Return: 0 on Success
-  */
--static int scmi_notifier_register(const struct scmi_handle *handle,
--				  u8 proto_id, u8 evt_id, const u32 *src_id,
--				  struct notifier_block *nb)
-+int scmi_notifier_register(const struct scmi_handle *handle,
-+			   u8 proto_id, u8 evt_id, const u32 *src_id,
-+			   struct notifier_block *nb)
- {
- 	int ret = 0;
- 	u32 evt_key;
-diff --git a/drivers/firmware/arm_scmi/protocols.h b/drivers/firmware/arm_scmi/protocols.h
-index 15ad5162e37a..898d80c50f75 100644
---- a/drivers/firmware/arm_scmi/protocols.h
-+++ b/drivers/firmware/arm_scmi/protocols.h
-@@ -166,6 +166,9 @@ struct scmi_proto_helpers_ops;
-  *	  can be used by the protocol implementation to generate SCMI messages.
-  * @set_priv: A method to set protocol private data for this instance.
-  * @get_priv: A method to get protocol private data previously set.
-+ * @notifier_register: A method to register interest for notifications from
-+ *		       within a protocol implementation unit: notifiers can
-+ *		       be registered only for the same protocol.
-  *
-  * This structure represents a protocol initialized against specific SCMI
-  * instance and it will be used as follows:
-@@ -185,6 +188,9 @@ struct scmi_protocol_handle {
- 	const struct scmi_proto_helpers_ops *hops;
- 	int (*set_priv)(const struct scmi_protocol_handle *ph, void *priv);
- 	void *(*get_priv)(const struct scmi_protocol_handle *ph);
-+	int (*notifier_register)(const struct scmi_protocol_handle *ph,
-+				 u8 evt_id, const u32 *src_id,
-+				 struct notifier_block *nb);
- };
- 
- /**
+ $defs:
 -- 
 2.54.0
 
