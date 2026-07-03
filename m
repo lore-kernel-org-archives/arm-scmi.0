@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5638330AD0C
-	for <arm-scmi@vger.kernel.org>; Fri,  3 Jul 2026 20:25:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4604F327204
+	for <arm-scmi@vger.kernel.org>; Fri,  3 Jul 2026 20:25:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783110343; cv=none; b=NeTfc3d9IDZ2FcYUdiFQtzMJWlRdms7QqZ/eMN2N1wD1ArMizzvy2iFZcPPImvJWjICaoKDvv2d47bmtKViFdakZf282+S35sujB/ee3bXHg5Q1VUJwKlvRmgkig962ll60CTdKnXwbGrEbMNIGkE2PqXXLMGqn0Mu2c07e9GAw=
+	t=1783110344; cv=none; b=j/OF+P75RTIx3BC5EJsOyOu9Z2vcVGx1xk9u4gTPCt/R+HIck71dlYp1LrSWDD8NaJQu7FcEDVmI2yEHC/VNpgLKc0hia4K8chNYFbaKwBXO1gazfSedJFStUaoC3AF+n+NpiyXMG4td4yC1emZICuo+dWZE3aPmoQ832Jlv/y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783110343; c=relaxed/simple;
-	bh=7Cs5Bnt5d1sS+gt74KDxsQFMxPyVQ4mddGs1FBqOeg0=;
+	s=arc-20240116; t=1783110344; c=relaxed/simple;
+	bh=VKOm3RmEotS4H8obge4/fdT99EPuFlgaLbg0CJKBKVg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XA92ANJIRIRX2LVstw5Ea05V1oMN6J1bZzrzNJhsuSzEtpoEHrNtBhhCysoTlycWP+zsEd5O06tYwEdKuh9lHLpXvFKEslLv9LqwfpOrAxPaNmEGq7wEV810XsSzyba/UAwwIMlkZsMetIwyHYMbFB5q7Rm/DoA7EKvqxrpDeTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HJQMr2E1; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=DDWvCkEu1tIvYYu4gEuKZZGDvHoAbWGVDEFm/R1ldLvkJLGQN153+XV72UH7E1DNy+lwyEABB8AkSXbVl+5yEo9BPjHHdtezZZLtPxI+HTh5hIWn4MgyYBFoncYByKzP5m2GDNYlN5ZsKFLy75llss2HnWHdT6+zLV7zKN97SK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AmREA9lr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HJQMr2E1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE7F71F00A3A;
-	Fri,  3 Jul 2026 20:25:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AmREA9lr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E8DA1F00AC4;
+	Fri,  3 Jul 2026 20:25:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783110342;
-	bh=d/7EUxOp1Rp5nNa6XSHuUC0PLSSoDYH2XwSQzLt6MQc=;
+	s=k20260515; t=1783110343;
+	bh=u5DWrWPIxkt1f50GIPXLPv4ckLJWFETJKFnIXi7eobc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=HJQMr2E1M+u9PGGay5bjx/kyp1vAgTs2MFwGi6yQM+vDYQYSPHmwDSYdbhNwFLgYw
-	 ySLuB68TkxLZt/FYF3EV8pxDe8S3sLMgWmpdVWaSpJNwhCMp0Enyte80LPgIREHeSb
-	 wFOeJTWyhCriAN2GhZvZUMIpj9V2KUKp8TZKKm9rt9ONayLiVveGu8juAAMs9HNJY9
-	 44EeSJTdg1vDn8HMUF164uFgvg+2Nqyx6ueOdkojKZ+QDxNxiYGEjDvoaQI67iQAhk
-	 A2Jb1fTEHBZrnE25qCv8ghKIkQB2XYvYqJDkfolA4YVSY4i/X8kZkkbfx+/bylwpwk
-	 NuqljgsBPd2Cw==
+	b=AmREA9lrL8acgoKfB3Z4dziNTBYstfyG9klAEvUIbK3pwQXYcnujVfc6um8qhx6ED
+	 B2ndvLT3mbbK5Qt+91znzNSQmxmqCecBoTLwHRnxqsr2b3XU4Iqehuj7Z7rQTfDpWu
+	 RO9vvDqfR8HWRCYZDXfkkkagKtMYurElCUWgb5yC8byRwQePDaZ3Bo4rqQG1b0nTjZ
+	 KU0BhTEldois77kVvMZjyss/px+IKqTrHxgLSorfp3Fx0G86+MaNN8wUbaoFqdYybe
+	 p1n37Aaz4bY7J4aQJwSEJWROe6EkOHRISuwzUCGlDopHRE7rntKccXLu2RJ6mSvtK6
+	 mz2gzll7LtXlw==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-Date: Fri, 03 Jul 2026 21:22:51 +0100
-Subject: [PATCH v3 15/17] firmware: arm_scmi: Use channel ID for transport
- teardown
+Date: Fri, 03 Jul 2026 21:22:52 +0100
+Subject: [PATCH v3 16/17] firmware: arm_scmi: Drop handle on protocol bind
+ failures
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,48 +38,118 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260703-scmi_core_fixes-v3-15-5bae9766abfc@kernel.org>
+Message-Id: <20260703-scmi_core_fixes-v3-16-5bae9766abfc@kernel.org>
 References: <20260703-scmi_core_fixes-v3-0-5bae9766abfc@kernel.org>
 In-Reply-To: <20260703-scmi_core_fixes-v3-0-5bae9766abfc@kernel.org>
 To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Cc: Cristian Marussi <cristian.marussi@arm.com>
 X-Mailer: b4 0.15.2
 
-SCMI protocols can share the BASE transport channel when firmware does
-not describe a dedicated channel for the protocol. In that case multiple
-IDR entries can point at the same scmi_chan_info, whose owning transport
-device was created with cinfo->id.
+The SCMI bus notifier acquires an SCMI handle when the driver core emits
+BUS_NOTIFY_BIND_DRIVER, before invoking the protocol driver probe
+callback. The protocol probe path only checks whether sdev->handle is
+set.
 
-scmi_chan_destroy() used the IDR iterator key when destroying the
-transport device. If an alias entry is visited before the owning channel
-entry, the lookup can miss the device because the iterator key does not
-match the protocol ID used when the transport device was created. The
-code then clears cinfo->dev, so the later owning entry skips teardown and
-leaks the transport device.
+If device_link_add() fails after the handle has been acquired, the
+protocol device can still bind with a valid handle but without the
+dependency link to the SCMI parent. A concurrent parent unbind can then
+miss the child and tear down the SCMI instance while the child still
+holds a handle into it.
 
-Destroy the transport device using cinfo->id, which is the protocol ID
-that owns the channel and was used when creating the transport device.
+If the protocol driver probe later fails, for example with
+-EPROBE_DEFER, the driver core emits BUS_NOTIFY_DRIVER_NOT_BOUND rather
+than BUS_NOTIFY_UNBOUND_DRIVER. The SCMI notifier only released the
+handle on BUS_NOTIFY_UNBOUND_DRIVER, so each failed protocol-device bind
+leaked the SCMI instance users refcount and left sdev->handle set after
+the failed probe.
 
-Fixes: 05a2801d8b90 ("firmware: arm_scmi: Use dedicated devices to initialize channels")
+Make the link helper report failure and drop the acquired handle if the
+link cannot be created. Also handle BUS_NOTIFY_DRIVER_NOT_BOUND in the
+same cleanup path used for unbind so failed probes balance the earlier
+BUS_NOTIFY_BIND_DRIVER acquisition.
+
+Fixes: 971fc0665f13 ("firmware: arm_scmi: Move handle get/set helpers")
 Reported-by: Sashiko <sashiko-bot@kernel.org>
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
 ---
- drivers/firmware/arm_scmi/driver.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/firmware/arm_scmi/driver.c | 31 +++++++++++++++++++++++--------
+ 1 file changed, 23 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index df574961875c..12ebf32aa4da 100644
+index 12ebf32aa4da..894c3427bc0b 100644
 --- a/drivers/firmware/arm_scmi/driver.c
 +++ b/drivers/firmware/arm_scmi/driver.c
-@@ -2896,7 +2896,7 @@ static int scmi_chan_destroy(int id, void *p, void *data)
- 		struct scmi_info *info = handle_to_scmi_info(cinfo->handle);
- 		struct scmi_device *sdev = to_scmi_dev(cinfo->dev);
+@@ -2629,21 +2629,31 @@ static int scmi_handle_put(const struct scmi_handle *handle)
+ 	return 0;
+ }
  
--		scmi_device_destroy(info->dev, id, sdev->name);
-+		scmi_device_destroy(info->dev, cinfo->id, sdev->name);
- 		cinfo->dev = NULL;
+-static void scmi_device_link_add(struct device *consumer,
++static bool scmi_device_link_add(struct device *consumer,
+ 				 struct device *supplier)
+ {
+ 	struct device_link *link;
+ 
+ 	link = device_link_add(consumer, supplier, DL_FLAG_AUTOREMOVE_CONSUMER);
+ 
+-	WARN_ON(!link);
++	return !WARN_ON(!link);
++}
++
++static void scmi_clear_handle(struct scmi_device *scmi_dev)
++{
++	if (!scmi_dev->handle)
++		return;
++
++	scmi_handle_put(scmi_dev->handle);
++	scmi_dev->handle = NULL;
+ }
+ 
+ static void scmi_set_handle(struct scmi_device *scmi_dev)
+ {
+ 	scmi_dev->handle = scmi_handle_get(&scmi_dev->dev);
+-	if (scmi_dev->handle)
+-		scmi_device_link_add(&scmi_dev->dev, scmi_dev->handle->dev);
++	if (scmi_dev->handle &&
++	    !scmi_device_link_add(&scmi_dev->dev, scmi_dev->handle->dev))
++		scmi_clear_handle(scmi_dev);
+ }
+ 
+ static int __scmi_xfer_info_init(struct scmi_info *sinfo,
+@@ -2926,6 +2936,7 @@ static int scmi_bus_notifier(struct notifier_block *nb,
+ {
+ 	struct scmi_info *info = bus_nb_to_scmi_info(nb);
+ 	struct scmi_device *sdev = to_scmi_dev(data);
++	const char *status;
+ 
+ 	/* Skip devices of different SCMI instances */
+ 	if (sdev->dev.parent != info->dev)
+@@ -2935,18 +2946,22 @@ static int scmi_bus_notifier(struct notifier_block *nb,
+ 	case BUS_NOTIFY_BIND_DRIVER:
+ 		/* setup handle now as the transport is ready */
+ 		scmi_set_handle(sdev);
++		status = "about to be BOUND.";
++		break;
++	case BUS_NOTIFY_DRIVER_NOT_BOUND:
++		scmi_clear_handle(sdev);
++		status = "NOT BOUND.";
+ 		break;
+ 	case BUS_NOTIFY_UNBOUND_DRIVER:
+-		scmi_handle_put(sdev->handle);
+-		sdev->handle = NULL;
++		scmi_clear_handle(sdev);
++		status = "UNBOUND.";
+ 		break;
+ 	default:
+ 		return NOTIFY_DONE;
  	}
  
+ 	dev_dbg(info->dev, "Device %s (%s) is now %s\n", dev_name(&sdev->dev),
+-		sdev->name, action == BUS_NOTIFY_BIND_DRIVER ?
+-		"about to be BOUND." : "UNBOUND.");
++		sdev->name, status);
+ 
+ 	return NOTIFY_OK;
+ }
 
 -- 
 2.43.0
