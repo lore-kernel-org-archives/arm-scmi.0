@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C5030AD0C
-	for <arm-scmi@vger.kernel.org>; Fri,  3 Jul 2026 20:25:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C361B4F09
+	for <arm-scmi@vger.kernel.org>; Fri,  3 Jul 2026 20:25:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783110337; cv=none; b=Y6FmP+Fipr5NofWNp+HSkO3fLNqkrnxki2sZmnXN06TZIk9hrDBg9oWO8VKFRKCRBJHc4b6SvfxqXIBLKmHQwVbY3XwgTv2BkYeAJFP+jKRiF9zHM8yyIDVbT9Myu7NbshuTStIcN9Dvc4Cqt1sgnMPDFOG/z8EyU+UgFmyusbs=
+	t=1783110338; cv=none; b=KPwKPeIHA20WpzHZupXRudbhG49MRD9ztcsX9FYJz8A6Q+G2hmUt/3M1kNwh6ph9gfIgWKmbABSQqxMfrImqhM259ezrXIByvuuDFIbJK+E6oQu0LpdbLGDz/3e3bsqO0JuJOysepp4KiHAJFGri6Hv5ZFZc+F064H+qzYEMA1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783110337; c=relaxed/simple;
-	bh=T6hXNun0IpckugLN2xZVygv478OirCHKxtIY28iYQk4=;
+	s=arc-20240116; t=1783110338; c=relaxed/simple;
+	bh=kupdiVCsZbbAycUmPkQWQSv2pt8xi7PVir+G2G8YQiU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=c1UokZT9IuTCF1Yolyl0CS+kur9a7agXxk3+dsgoGo3ddv6MbKwBqWuxOTpKkO4pmwDtVSBXaFT+qV2J1GHrHXveN76sMVwuHM14/netz/Ecvkdjlh5Ve4jBbgNtCTks4oARuYRVXEJ6xv9gKrmBeUWkmXfPEa4o1oyjCb8bMQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FCSqJqU7; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=hi20nYgum+Jb6QIy+dmNDjDRB7w5vdArQxB39TAwCl7CQsOSHAtm9ls8++Ur0SLz/vm0zHGmxJR1emUROI3uNZaGbfqyviNNPjqtk1e2y3dqFgeLsKL0n9XbIT8C7kofyzqtRLX3YpDfg+7d4zTQIuHTQu9e/xsUzgnckENxzus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TJRTCMAW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FCSqJqU7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15F491F00A3D;
-	Fri,  3 Jul 2026 20:25:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TJRTCMAW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 062DA1F000E9;
+	Fri,  3 Jul 2026 20:25:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783110336;
-	bh=2R7MMcV3mmk0nBdIgoUyC/wqlhfh+hr+iLk2fd0g8uI=;
+	s=k20260515; t=1783110337;
+	bh=zXSeNRPQkVlVy8DAuJOJGO898fvDtnoZKP7XJxfcRpg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=FCSqJqU73UjXjYb6DI+l6uc+KNg5n8z7CUg9w4kjjvfBm8s/+b8kjJJq8wd2QANTH
-	 M46URcr2svxX3XUaturRGw8drvbBZRJpCWzGyHdDfPr7HszHdN49rPR3vMRu38LILl
-	 pxSyzY17ZcuTCeLJiFsfaZnX1Kmny4Z0SgrAeWQJyFl4fe1pzFIELJZttcRvS+t/HB
-	 DboEBovm/ZWOL/+zLb8ge9wmoX+erMLaGVVlVivtMjFJcr233Dcjo4y7QOBYjx2OcJ
-	 jzEOt78v+APX7lE10vCkxtMizu1H/p1AfC9v/JVfhJGMUA8coV53GogNVXRQs6ym2L
-	 LPJwWaAQFF7WA==
+	b=TJRTCMAWLhIR1wrTquysX7nfDb4cXXlQp/0sj67KDjgDnU4sTeOB2XRa2wzoYw6mI
+	 Z7H1gw/cCSk+55vfkoEaQafIshw6avgaYl/8xHIeL/CVtaadhhVk5dw40NcNTdFYBz
+	 fA0ghqDt3zO0GBjXMBeDc6z8AyxzBvIs+MzGMTUUIu+3UQdBxHJH7ClErNTjtze6C/
+	 Dd7mChDUnmKczlKEm2/t3QynSSKJ2GMnXW80+LWIbto+mPIXqeNKGr3YV3KXy3ZYUJ
+	 FSjLZf59dOtv7v70MjXv0SlM19mA+Y2q0tTAOyTjKDb/jDeLMpVi4jJ4KhwgzuI3/1
+	 ieIeu/TLd+ElA==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-Date: Fri, 03 Jul 2026 21:22:45 +0100
-Subject: [PATCH v3 09/17] firmware: arm_scmi: Protect device request lookup
- with RCU
+Date: Fri, 03 Jul 2026 21:22:46 +0100
+Subject: [PATCH v3 10/17] firmware: arm_scmi: Avoid IDR updates while
+ cleaning channels
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,49 +38,55 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260703-scmi_core_fixes-v3-9-5bae9766abfc@kernel.org>
+Message-Id: <20260703-scmi_core_fixes-v3-10-5bae9766abfc@kernel.org>
 References: <20260703-scmi_core_fixes-v3-0-5bae9766abfc@kernel.org>
 In-Reply-To: <20260703-scmi_core_fixes-v3-0-5bae9766abfc@kernel.org>
 To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Cc: Cristian Marussi <cristian.marussi@arm.com>
 X-Mailer: b4 0.15.2
 
-The SCMI device request notifier looks up protocol OF nodes from the
-active_protocols IDR. The IDR lookup can run concurrently with protocol
-activation while probe is still registering protocols and creating their
-SCMI devices.
+scmi_cleanup_channels() walks the TX/RX channel IDRs with
+idr_for_each() to free transport resources and destroy the dedicated
+transport devices before calling idr_destroy().
 
-Wrap the lookup in an RCU read-side critical section as required by the
-IDR API for lockless readers.
+The destroy callback removed each entry from the same IDR being walked.
+That is not needed for this cleanup path, and it is unsafe because
+idr_for_each() has not advanced its radix-tree iterator while the
+callback is running. Removing the current entry from the callback can
+invalidate the iterator state. The callback also cannot be protected by
+rcu_read_lock(), because scmi_device_destroy() may sleep.
 
-Fixes: 53b8c25df708 ("firmware: arm_scmi: Add common notifier helpers")
+Leave IDR teardown to the following idr_destroy() call and keep the
+callback limited to device destruction.
+
+Fixes: 05a2801d8b90 ("firmware: arm_scmi: Use dedicated devices to initialize channels")
 Reported-by: Sashiko <sashiko-bot@kernel.org>
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
 ---
- drivers/firmware/arm_scmi/driver.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/firmware/arm_scmi/driver.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 6df0fe055d64..a575e661f1e2 100644
+index a575e661f1e2..ae4b7128276b 100644
 --- a/drivers/firmware/arm_scmi/driver.c
 +++ b/drivers/firmware/arm_scmi/driver.c
-@@ -33,6 +33,7 @@
- #include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/processor.h>
-+#include <linux/rcupdate.h>
- #include <linux/refcount.h>
- #include <linux/slab.h>
- #include <linux/xarray.h>
-@@ -2957,7 +2958,9 @@ static int scmi_device_request_notifier(struct notifier_block *nb,
- 	struct scmi_device_id *id_table = data;
- 	struct scmi_info *info = req_nb_to_scmi_info(nb);
+@@ -2886,7 +2886,7 @@ static int scmi_channels_setup(struct scmi_info *info)
+ 	return 0;
+ }
  
-+	rcu_read_lock();
- 	np = idr_find(&info->active_protocols, id_table->protocol_id);
-+	rcu_read_unlock();
- 	if (!np)
- 		return NOTIFY_DONE;
+-static int scmi_chan_destroy(int id, void *p, void *idr)
++static int scmi_chan_destroy(int id, void *p, void *data)
+ {
+ 	struct scmi_chan_info *cinfo = p;
+ 
+@@ -2898,8 +2898,6 @@ static int scmi_chan_destroy(int id, void *p, void *idr)
+ 		cinfo->dev = NULL;
+ 	}
+ 
+-	idr_remove(idr, id);
+-
+ 	return 0;
+ }
  
 
 -- 
