@@ -1,34 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950EE1B4F09
-	for <arm-scmi@vger.kernel.org>; Fri,  3 Jul 2026 20:25:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC2E30AD0C
+	for <arm-scmi@vger.kernel.org>; Fri,  3 Jul 2026 20:25:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783110329; cv=none; b=lR8K7Iv5QWWPMz471GxP0UFHpWk5iaPXuiU2GHRT/6WA/D6Ovz+OHHi3jzkbCt5kJzzXvdUIuuef43eaQPl1au87FuJhy5dofPJslpFuGBIVwLxARUr9njfv5il9TygPWDZQrpD4DTq5zihMsNF5bMRCei0g/N1zvDOrIrcwhsY=
+	t=1783110330; cv=none; b=myn/LofK1NFwIOPaSTIWHhMbJBKjItOXJdG8PVGBJnbg6ikRAzHxK78xL3beI4Q8SDZZdy775kw7MDJYR8PuKigVrK3Dok/auC6dcZ3q39PTu6beYRuJfbRhupnkAMVkOYu+okeUJuxPj1m13myYye59GDQ5xzU6iR23avZm7vM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783110329; c=relaxed/simple;
-	bh=r7lw8kwhfTcHLGhl8YRyJP8Uyq9OIXhYs44W7d2c0k0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=DNUtbdd5uJzbv0UPG7GNC+74UTPGuZjQDjmOEfsq3P+0hDVH+HM6/cwSYSjmBZqxxnrids57+QdlSpW69+9LAjKSDqAS5x2GhDncZChjKI+gl+synkAI8COKDenqaUcPqBUn6oKxBBL0JHBSfW2Z69rmZMALeh8aXOtuPNk74oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EJa4+yR+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783110330; c=relaxed/simple;
+	bh=m0wOg+sfytDcm1tyCudRzyHfrL6/kDdXwC/zx/ALKQQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=IGcPu5YHKj/wAVWCafb73lBybc2Cfqhfp9K4DzChNCudXANC2LiOJA2BFBJKvcdR9ja7ze2zwCzmghTRlVvJyL9qwd908YLI51Q8BW8EIUbFL0+83CT+rzkd2J1RdlMSHuzkhwcDC+WCaBOm03OcVeln4k6fJIdKdbgiOYt1XkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kYeNcYCe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EJa4+yR+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1AFF1F000E9;
-	Fri,  3 Jul 2026 20:25:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kYeNcYCe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9276E1F00A3A;
+	Fri,  3 Jul 2026 20:25:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783110328;
-	bh=guKgZOIo14OV98TBahVEzDDu1t9jxYO9Rj2dFbINeoc=;
-	h=From:Subject:Date:To:Cc;
-	b=EJa4+yR+ULFoUC/Ev/WIHKE6vhG584nAwMB/tOp/YrgDczbfT4TPtdW9741mbr87V
-	 Wha6+A+6tjCZ2i+EqCeQ8AVoSawIJD0hbyUt49Oakc0JMR9NxwE4Rzsu88V/5hX5hz
-	 6KzbolPp1ZbjZftUw5LJGwB2KhGXdE8VAMOf6ew73cgW/rZYdB9XSJfYelzTUAyVtu
-	 SjujfQgAzhZTNRKBNFzWvM62fRAE51QxaVEpZFzt6QUsIXINmZ+c8jSDb8KpQb3sb9
-	 OMeAzOyxHU953zaPDAfJYefpjoVyH9c4g4O0o00KV5/Dq4SyRT7Wt5dgwYRqOZeAeW
-	 wqUNumhb8C9kA==
+	s=k20260515; t=1783110329;
+	bh=TGwmfRVd+YyFvuzvOFe8H0UypjWMFncHsObt4CQMVcM=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=kYeNcYCeXt/AoSjH3VqCIaTbVXtaBRAogku8aoW9hsPmdlX+q2iD8DHTMWTOeZpnj
+	 ECA6RN4GqxfZ702bZqHi+FTlsTuRTDdkIcBk0dT6hXkrqZDiorolQ7Ad9QbUp9dl2g
+	 EoFol0jGWbT8NliFvPFUF8AuiLJ8roveuP9TlzjHA7ghKzgU5KWp7GyK8mPkV5QBxQ
+	 PVHNGoXG0RKJXjdZRwE6ZkOJ1pSM2k0KAapRrFGLzRbhxAxbd0Jr4t5EVhOcgBXQ5C
+	 Y4xlX9kUQuG7hiIyz1qtoDUvAhNG4wcbb2NZ0939inyd6UPmTry2ORc7sfPeN1T6zU
+	 6FSbXDZ1upkPg==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-Subject: [PATCH v3 00/17] firmware: arm_scmi: Fix SCMI core cleanup paths
-Date: Fri, 03 Jul 2026 21:22:36 +0100
-Message-Id: <20260703-scmi_core_fixes-v3-0-5bae9766abfc@kernel.org>
+Date: Fri, 03 Jul 2026 21:22:37 +0100
+Subject: [PATCH v3 01/17] firmware: arm_scmi: Fix OF node reference
+ handling
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -36,138 +37,85 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIABIaSGoC/2XNTQ6CMBAF4KuQrq3pjwXrynsYQ6BMoYrUtNhoC
- He3RRNjWL7Me99MyIMz4NEhm5CDYLyxQwx8kyHVVUML2DQxI0ZYTnImsVc3UyrroNTmCR43FVd
- NIXi9gwrF1d3Bcoij0/mT/aO+gBoTkxqd8aN1r+VloKn31TlZ6YFigrXkTFEQVEp2vIIboN9a1
- 6LEB/YDCkLXAIsA1QL2QgiuC/4HzPP8BjcxiXwCAQAA
-X-Change-ID: 20260629-scmi_core_fixes-da3cd753b4ea
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260703-scmi_core_fixes-v3-1-5bae9766abfc@kernel.org>
+References: <20260703-scmi_core_fixes-v3-0-5bae9766abfc@kernel.org>
+In-Reply-To: <20260703-scmi_core_fixes-v3-0-5bae9766abfc@kernel.org>
 To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Cc: Cristian Marussi <cristian.marussi@arm.com>
 X-Mailer: b4 0.15.2
 
-This series fixes a set of SCMI core and transport lifetime issues found
-around device creation, channel setup failure, notification teardown,
-driver binding and malformed firmware descriptions.
+SCMI devices store the DT node in dev.of_node through
+device_set_node(), but that helper only assigns the fwnode and
+of_node pointers without taking an OF node reference.
 
-Most of these issues were found by Sashiko[1][2] while reviewing the ACPI
-SCMI PCC work[3]. They are posted separately because the problems are
-independent SCMI core, mailbox and virtio transport cleanup bugs, and do
-not depend on the ACPI PCC series.
+Take a reference when assigning the node and release it from the
+SCMI device release path. With the device owning that reference,
+remove the separate channel-side get/put pair from the core driver.
 
-Since I started fixing the initial set of issues pointed by sashiko, more
-issues have been identified and hopefully with v3, it really calms down.
-I can only wish 😄.
-
-Fixes tags need to be checked again or even dropped if it is not a stable
-material. Just some placeholders that I thought are appropriated are in place.
-
-The fixes tighten ownership and teardown rules for generated SCMI devices,
-transport devices and transport channels. They make internal transport
-devices reachable by explicit teardown without exposing them to normal SCMI
-driver binding, ensure partially initialized channels are unwound on setup
-failures, and avoid IDR/device lifetime races during probe failure and
-device unbind.
-
-The series also fixes notifier and notification teardown ordering.
-Requested device notifiers are unregistered before protocol IDRs are
-destroyed, RCU is used around requested-device protocol lookups, transport
-callbacks are stopped before notification state is released, and protocol
-bind failures now drop any SCMI handle acquired before probe.
-
-The mailbox transport fixes cover both setup failure unwinding and an early
-interrupt window: mailbox callbacks can run as soon as mbox_request_channel()
-binds the client and starts the controller, so the SCMI mailbox transport
-now publishes the channel state before requesting channels.
-
-The virtio transport fix clears virtio-owned channel state when SCMI
-channels are freed, so devres-managed SCMI message pointers do not survive
-across SCMI driver unbind and rebind.
-
-Summary:
-
-- Fix OF node reference ownership for generated SCMI devices.
-- Allow explicit teardown lookup of internal transport devices.
-- Clean up TX/RX channels when SCMI channel setup fails midway.
-- Fix SCMI device lifetime handling around child lookup and bus ID reuse.
-- Free transport resources when IDR insertion fails after channel setup.
-- Unregister requested-device notifier before active protocol IDR teardown.
-- Unwind mailbox channels on TX receiver and P2A receiver setup failures.
-- Protect requested-device protocol lookup with RCU.
-- Avoid modifying an IDR while iterating it during channel cleanup.
-- Clear the SystemPower singleton flag on SCMI device creation failure.
-- Reject out-of-range DT protocol IDs instead of allowing u8 truncation.
-- Stop transport callbacks before releasing notification state.
-- Publish mailbox channel state before requesting mailbox channels.
-- Use the owning channel ID when tearing down shared transport devices.
-- Drop SCMI handles on protocol bind and device-link failures.
-- Clear virtio channel lists when freeing SCMI virtio channels.
-
+Fixes: 96da4a99ce50 ("firmware: arm_scmi: Set fwnode for the scmi_device")
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
-
---
-Changes in v3:
-- Added SCMI bus resource release helper so bus IDs are released from
-  destroy, register-failure and final-release paths, and cleared after
-  release to avoid later double-free.
-- Moved SystemPower singleton cleanup into the same resource helper so
-  direct driver-core child release also clears the flag.
-- Removed the unused mailbox P2A unwind label.
-- Published cinfo->handle before transport chan_setup() so early mailbox
-  callbacks have a valid SCMI handle.
-- Added fix to destroy shared transport devices using cinfo->id instead of
-  the IDR iterator key.
-- Added SCMI handle cleanup on device_link_add() failure and
-  BUS_NOTIFY_DRIVER_NOT_BOUND.
-- Added virtio channel cleanup to detach unused virtqueue buffers and clear
-  local channel lists across SCMI unbind/rebind.
-- Link to v2: https://patch.msgid.link/20260701-scmi_core_fixes-v2-0-1f5e85553f73@kernel.org
-
-Changes in v2:
-(Mostly addressing the additional issues found by Sashiko)
-- Added fixes for IDR mutation during channel cleanup.
-- Added SystemPower singleton flag unwind on device creation failure.
-- Added validation to skip out-of-range DT protocol IDs.
-- Moved notification teardown after transport channel cleanup.
-- Published mailbox cinfo before mbox_request_channel() can enable callbacks.
-- Link to v1: https://patch.msgid.link/20260630-scmi_core_fixes-v1-0-f932c1e51992@kernel.org
-
-[1] https://sashiko.dev/#/patchset/20260525-acpi_scmi_pcc-v2-0-4f38938d08d8@arm.com
-[2] https://sashiko.dev/#/patchset/20260630-scmi_core_fixes-v1-0-f932c1e51992@kernel.org
-[3] https://patch.msgid.link/20260525-acpi_scmi_pcc-v2-0-4f38938d08d8@arm.com
-
 ---
-Sudeep Holla (17):
-      firmware: arm_scmi: Fix OF node reference handling
-      firmware: arm_scmi: Fix transport device teardown lookup
-      firmware: arm_scmi: Clean up channels on setup failure
-      firmware: arm_scmi: Fix SCMI device destroy lifetimes
-      firmware: arm_scmi: Free transport channel on IDR failure
-      firmware: arm_scmi: Unregister device notifier before IDR teardown
-      firmware: arm_scmi: Unwind TX receiver mailbox setup failure
-      firmware: arm_scmi: Unwind P2A receiver mailbox setup failure
-      firmware: arm_scmi: Protect device request lookup with RCU
-      firmware: arm_scmi: Avoid IDR updates while cleaning channels
-      firmware: arm_scmi: Clear SystemPower flag on create failure
-      firmware: arm_scmi: Reject out of range DT protocol IDs
-      firmware: arm_scmi: Stop channels before notification teardown
-      firmware: arm_scmi: Publish channel state before mailbox request
-      firmware: arm_scmi: Use channel ID for transport teardown
-      firmware: arm_scmi: Drop handle on protocol bind failures
-      firmware: arm_scmi: Clear virtio channel lists on free
+ drivers/firmware/arm_scmi/bus.c    | 3 ++-
+ drivers/firmware/arm_scmi/driver.c | 4 ----
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
- drivers/firmware/arm_scmi/bus.c                | 89 +++++++++++++++++---------
- drivers/firmware/arm_scmi/common.h             |  2 +
- drivers/firmware/arm_scmi/driver.c             | 79 ++++++++++++++---------
- drivers/firmware/arm_scmi/transports/mailbox.c | 24 +++++--
- drivers/firmware/arm_scmi/transports/virtio.c  | 17 +++++
- 5 files changed, 143 insertions(+), 68 deletions(-)
----
-base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-change-id: 20260629-scmi_core_fixes-da3cd753b4ea
-
+diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
+index 793be9eabaed..f643a1f0e282 100644
+--- a/drivers/firmware/arm_scmi/bus.c
++++ b/drivers/firmware/arm_scmi/bus.c
+@@ -395,6 +395,7 @@ static void scmi_device_release(struct device *dev)
+ {
+ 	struct scmi_device *scmi_dev = to_scmi_dev(dev);
+ 
++	of_node_put(dev->of_node);
+ 	kfree_const(scmi_dev->name);
+ 	kfree(scmi_dev);
+ }
+@@ -465,7 +466,7 @@ __scmi_device_create(struct device_node *np, struct device *parent,
+ 	scmi_dev->id = id;
+ 	scmi_dev->protocol_id = protocol;
+ 	scmi_dev->dev.parent = parent;
+-	device_set_node(&scmi_dev->dev, of_fwnode_handle(np));
++	device_set_node(&scmi_dev->dev, of_fwnode_handle(of_node_get(np)));
+ 	scmi_dev->dev.bus = &scmi_bus_type;
+ 	scmi_dev->dev.release = scmi_device_release;
+ 	dev_set_name(&scmi_dev->dev, "scmi_dev.%d", id);
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index 3e0d975ec94c..b9245238e293 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -2778,13 +2778,11 @@ static int scmi_chan_setup(struct scmi_info *info, struct device_node *of_node,
+ 		devm_kfree(info->dev, cinfo);
+ 		return -EINVAL;
+ 	}
+-	of_node_get(of_node);
+ 
+ 	cinfo->id = prot_id;
+ 	cinfo->dev = &tdev->dev;
+ 	ret = info->desc->ops->chan_setup(cinfo, info->dev, tx);
+ 	if (ret) {
+-		of_node_put(of_node);
+ 		scmi_device_destroy(info->dev, prot_id, name);
+ 		devm_kfree(info->dev, cinfo);
+ 		return ret;
+@@ -2807,7 +2805,6 @@ static int scmi_chan_setup(struct scmi_info *info, struct device_node *of_node,
+ 			"unable to allocate SCMI idr slot err %d\n", ret);
+ 		/* Destroy channel and device only if created by this call. */
+ 		if (tdev) {
+-			of_node_put(of_node);
+ 			scmi_device_destroy(info->dev, prot_id, name);
+ 			devm_kfree(info->dev, cinfo);
+ 		}
+@@ -2892,7 +2889,6 @@ static int scmi_chan_destroy(int id, void *p, void *idr)
+ 		struct scmi_info *info = handle_to_scmi_info(cinfo->handle);
+ 		struct scmi_device *sdev = to_scmi_dev(cinfo->dev);
+ 
+-		of_node_put(cinfo->dev->of_node);
+ 		scmi_device_destroy(info->dev, id, sdev->name);
+ 		cinfo->dev = NULL;
+ 	}
 
 -- 
-Regards,
-Sudeep
+2.43.0
 
