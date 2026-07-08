@@ -1,92 +1,237 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72D13E7160
-	for <arm-scmi@vger.kernel.org>; Wed,  8 Jul 2026 09:00:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2902ECE93;
+	Wed,  8 Jul 2026 10:16:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783501249; cv=none; b=L8cct0yyhv+iC+T/5UNMzbdnnO22TLGrMyZ4eqrSD4sAaVYAm066g5Tx8uGgOaDgUKEw5l2eP8REwoC3gKtcWRrcbdk7zV/9kfKBADH0P9JTr9jdPMKXK5BUMMRVVpsRE6x3IXUMaKBFg0LmBL1kEX0Smri36G2HRRTaCzgiNis=
+	t=1783505813; cv=none; b=IbpdnhAmuWpur37pArSZCyOfiSulHAA9UVY2ggFfXZhbnfx/bofxfYkm51Tt1kso5a/oS/HtOxo6G+P2M5YZyhTZmezhkmB86l3oHWbGH+0mMbh3CEH8b8xIfxkZ/1rrcHVNilDgVKJbGDvLWIDBTdlPAnBG6AUoQYSc19bFA2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783501249; c=relaxed/simple;
-	bh=sZnLVSKYW1MZnY08FOy7CGpr9N37cuQlDVvfG7ZKMIw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gkish3ph0tyIEwRPNLB5SjTrzcBsUjf8rB9/fx7ZCOIEYYka8QPthB0YMPA5RiDoXdoaifh3EaMUKyF15/xUzO5w5Oi0CVtpIuiDXxcwcckI+cIIdhwjtZI1yAYtCxeblTwXmZ6pWG+jY65+c0OpP9OxLxbJwgfIkfkczpCcI3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UWVyCicP; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UWVyCicP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C706A1F00A3F;
-	Wed,  8 Jul 2026 09:00:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783501237;
-	bh=wo1cSCYChzZ+SeD4Rr4ePKZmOVyTbiqYMm+hrcWkjS0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=UWVyCicP2vd4Hqdjn6YarNc/v6EXOCehpqC3QBGrC7RoY7Gsm1eb81KsSJ4/JINWj
-	 AzKCrbKxpSvCyAyM/ZEU+pYfnxyNdess6Aq5PoL4rlyppNE5k5cwM0Y1pRwYz6XzBq
-	 dLqAsIE8NSszJQI74hvQFCvD9Uqq3npPZxwjAjq78ypZEwWCqmc1KWhg9jG6CEVWCr
-	 AfxAIGKRYguW2bhmak9h3ABIeyimh0HDqY8qKvZOAC0xsg2laC3pP2mr1esCk+S0b9
-	 tBzKNgcE6Gm6rw2rU+qgg+nY07fI234Zg3XHa8vr9LsszaBoIVPLC2SajSN28VooFd
-	 ZGEmlHHP/13sg==
-From: Sudeep Holla <sudeep.holla@kernel.org>
-Date: Wed, 08 Jul 2026 10:00:09 +0100
-Subject: [PATCH v4 13/16] firmware: arm_scmi: Unwind TX receiver mailbox
- setup failure
+	s=arc-20240116; t=1783505813; c=relaxed/simple;
+	bh=wt6GXk70Rc+b6yaUY/nzgjsSh1CGA4YM7ORwU31YGW0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u2AAsY/KHtr/okCG7yNH4HkBNGH/WZkL8NT67KRrIa4kZl3OgZsg4/4LbcdZ0yt4vKCGYJpILVyfi1+F/KyNg662VWRtdKhScMGkztYUbZvZsNGFEphxZbvWxmsMIZcjpzf0GgR6OcWjsHpgAYqlWvT+/gWhmwIajhI9+cl/B3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDF921F000E9;
+	Wed,  8 Jul 2026 10:16:46 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Sudeep Holla <sudeep.holla@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Ulf Hansson <ulfh@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney@redhat.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 00/10] R-Car X5H Ironhide CPG/MDLC SCMI remapping support
+Date: Wed,  8 Jul 2026 12:16:18 +0200
+Message-ID: <cover.1783505329.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260708-scmi_core_fixes-v4-13-53142cd60b63@kernel.org>
-References: <20260708-scmi_core_fixes-v4-0-53142cd60b63@kernel.org>
-In-Reply-To: <20260708-scmi_core_fixes-v4-0-53142cd60b63@kernel.org>
-To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc: Cristian Marussi <cristian.marussi@arm.com>
-X-Mailer: b4 0.15.2
+Content-Transfer-Encoding: 8bit
 
-mailbox_chan_setup() can request an additional unidirectional TX
-receiver channel after successfully acquiring the primary channel. If
-that second request fails, the function returns immediately and leaves
-the primary channel allocated.
+	Hi all,
 
-Unwind the primary mailbox channel before returning the error so probe
-deferral or other setup failures do not leave the channel busy for later
-probe attempts.
+TL;DR:
 
-Fixes: 9f68ff79ec2c ("firmware: arm_scmi: Add support for unidirectional mailbox channels")
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
----
- drivers/firmware/arm_scmi/transports/mailbox.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+    Describe hardware in DT, and perform the mapping to SCMI in Linux.
 
-diff --git a/drivers/firmware/arm_scmi/transports/mailbox.c b/drivers/firmware/arm_scmi/transports/mailbox.c
-index b6459fbb8151..37e3eab529ea 100644
---- a/drivers/firmware/arm_scmi/transports/mailbox.c
-+++ b/drivers/firmware/arm_scmi/transports/mailbox.c
-@@ -230,9 +230,10 @@ static int mailbox_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
- 		smbox->chan_receiver = mbox_request_channel(cl, a2p_rx_chan);
- 		if (IS_ERR(smbox->chan_receiver)) {
- 			ret = PTR_ERR(smbox->chan_receiver);
-+			smbox->chan_receiver = NULL;
- 			if (ret != -EPROBE_DEFER)
- 				dev_err(cdev, "failed to request SCMI Tx Receiver mailbox\n");
--			return ret;
-+			goto err_free_chan;
- 		}
- 	}
- 
-@@ -248,6 +249,8 @@ static int mailbox_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
- 
- 	return 0;
- 
-+err_free_chan:
-+	mbox_free_channel(smbox->chan);
- err_clear_cinfo:
- 	cinfo->transport_info = NULL;
- 	smbox->cinfo = NULL;
+The Renesas R-Car X5H-based Ironhide board is the first Renesas
+SoC/board combination that implements the ARM System Control and
+Management Interface (SCMI).
+
+This means Linux can no longer perform various system operations (e.g.
+clock, power domain, and reset control) by accessing the hardware
+directly.  Instead, these operations are abstracted according to various
+SCMI sub-protocols, and Linux has to send messages to an SCMI-compliant
+firmware running on a System Control Processor (SCP).
+More specifically, the R-Car X5H SCP FW SCMI controls access to:
+  1. Core clocks and module clocks,
+  2. Module resets,
+  3. Power domains,
+  4. System power.
+The latter is not relevant for this discussion.
+
+Using SCMI also has an impact on the board DTS: besides the addition of
+a firmware/scmi node with protocol-specific subnodes, devices using
+SCMI-abstracted system resources now have to refer to these resources
+using resource specifiers containing phandles to the SCMI protocol
+subnodes, and firmware-specific object IDs[1].
+
+Unfortunately we encountered several issues with this:
+  - The clock, reset, and power domain IDs are not stable by design,
+    causing DT incompatibilities.
+    SCMI requires that the ID space exposed to an agent (i.e. Linux)
+    starts at zero and is contiguous.  Hence any change in system
+    partitioning (Application CPU core vs. Realtime CPU core,
+    virtualization, ...) may mean a renumbering of all SCMI IDs,
+    implying a massive change to the DT.
+  - There may be different SCP firmware lineages, e.g. proprietary and
+    certified variants, and FLOSS variants,
+  - SCMI features may differ across firmware versions,
+  - SCMI may abstract the hardware in a different way, requiring changes
+    in (possibly existing) DT bindings and drivers to support the same
+    hardware with and without SCMI:
+      - E.g. the number of SCMI clocks inputs to a hardware block may
+	differ from the actual hardware,
+      - E.g. hardware clock inputs may be abstracted as SCMI power
+	domains (or vice versa), like on Qualcomm SA8255P[2].
+    Experience has taught that not describing the hardware in DT may
+    lead to major issues later.
+  - SCMI does not support the concept of a clock domain, so existing
+    drivers can no longer rely on Runtime PM, but need to be changed to
+    manage functional clocks explicitly,
+  - U-Boot IPL (Initial Program Loader) needs a proper hardware
+    description in DT, not using SCMI.
+
+This list deliberately ignores ID instability and the need for SCMI
+quirks during development of the SCMI firmware.  While upstream Linux
+must only support sufficiently mature firmware versions, vendor trees
+(e.g. renesas-lts) may still want to support development firmware
+versions.
+
+During last OSSJ/LPC, Marek Vasut pondered if we could keep our own ID
+lists stable, and perform a mapping to the IDs used by the actual SCMI
+implementation running on the system.  This was also briefly discussed
+at LPC[3].  After some refining of the initial idea, this series takes a
+slightly different approach, by:
+  1. Describing the actual hardware components in DT, plus a minimum
+     SCMI glue,
+  2. Mapping DT hardware descriptions to SCMI-backed objects and
+     abstractions (or replacements, in case they are unusable,
+     unavailable, or too different), in Linux drivers, based on the
+     detected firmware version.
+
+This has the following advantages:
+  1. The DT ABI is stable,
+  2. DT bindings and drivers for existing hardware blocks do not need to
+     be modified,
+  2. Current and future firmware can be handled in driver code,
+  3. U-Boot IPL can use almost the same DTS; it just needs stripping of
+     SCMI-related nodes and properties.
+  4. If ever needed, the Clock Pulse Generator (CPG) and Module
+     Controller (MDLC) drivers can be extended to program the hardware
+     directly if SCMI is not present,
+
+This series depends on "[PATCH v2 0/6] R-Car X5H CPG/MDLC support"[4],
+and consists of four parts:
+  1. Patches 1-4 add new interfaces needed by the remapping support,
+  2. Patches 5-6 update the DT bindings for the R-Car X5H Clock Pulse
+     Generator (CPG) and Module Controller (MDLC) blocks,
+  3. Patches 7-8 add SCMI remapping support to the R-Car X5H CPG and
+     MDLC drivers,
+  4. Patches 9-10 enables more SCMI protocols on R-Car X5H Ironhide, and
+     link the CPG and MDLC blocks to their SCMI provider.
+
+Changes compared to v1[5]:
+  - Drop SCMI quirks and SCMI mapping tables,
+  - Move CPG/MDLC DT bindings and minimal base drivers to a separate
+    series,
+  - Add that SCMI may provide different abstractions,
+  - Add missing asterisk to blank kerneldoc line,
+  - Let scmi_get_base_info() return -EPROBE_DEFER or -EOPNOTSUPP instead
+    of -ENOENT, and propagate these errors in callers,
+  - Fall back to the default support when SCMI support or firmware is
+    not available, or when the detected SCMI firmware version is not
+    supported by the driver,
+  - Improve error message on scmi_get_base_info() failure,
+  - Check if SCMI firmware node is available,
+  - Use reverse xmas ordering in r8a78000_cpg_probe(),
+  - Replace the scmi_*_np members of struct r8a78000_*_priv by local
+    variables in the probe functions, and pass them to the fill_*_map()
+    functions,
+  - Join split short lines,
+  - Move check for supported firmware version up,
+  - Fix DT misindentations,
+  - Add scmi_clk node, as it is no longer added in earlier commits.
+
+Note that in reponse of feedback on v1, I did try to use SCMI IDs in DT,
+and handle most issues in Linux SCMI drivers and SCMI quirks[6].  While
+the result worked, it did not solve everything in the issues list above.
+
+Note that this series does not include actual SCMI quirks and CPG/MDLC
+mapping tables, as the SCMI firmware for R-Car X5H is still under
+development.
+
+For testing, I have pushed this series plus additional work to[7].
+
+Thanks for your comments!
+
+[1] Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+[2] "[PATCH net-next v11 1/7] dt-bindings: phy: document the serdes PHY on sa8255p"
+    https://lore.kernel.org/20260629-qcom-sa8255p-emac-v11-1-1b7fb95b51f9@oss.qualcomm.com
+[3] "Firmware ABI stability" at Linux Plumbers Conference 2025
+    https://lpc.events/event/19/contributions/2153/
+[4] "[PATCH v2 0/6] R-Car X5H CPG/MDLC support"
+    https://lore.kernel.org/cover.1783505142.git.geert+renesas@glider.be
+[5] "[PATCH/RFC 00/14] R-Car X5H Ironhide SCMI CPG/MDLC remapping"
+    https://lore.kernel.org/cover.1776793163.git.geert+renesas@glider.be
+[6] "[PATCH/RFC 0/9] R-Car X5H Ironhide pure SCMI proof-of-concept"
+    https://lore.kernel.org/cover.1781171705.git.geert+renesas@glider.be/
+[7] topic/rcar-x5h-ironhide-scmi-cpg-mdlc-remapping-v2 branch of
+    https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
+
+Geert Uytterhoeven (10):
+  firmware: arm_scmi: Add scmi_get_base_info()
+  of: property: fw_devlink: Add support for firmware
+  pmdomain: Make genpd_get_from_provider() public
+  reset: Add reset_controller_get_provider()
+  dt-bindings: clock: renesas,r8a78000-cpg: Add firmware property
+  dt-bindings: power: renesas,r8a78000-mdlc: Add firmware property
+  clk: renesas: r8a78000: Add SCMI remapping support
+  pmdomain: renesas: r8a78000: Add SCMI remapping support
+  arm64: dts: renesas: ironhide: Enable SCMI devpd, sys, clock, and
+    reset
+  arm64: dts: renesas: ironhide: Add CPG/MDLC firmware properties
+
+ .../bindings/clock/renesas,r8a78000-cpg.yaml  |   7 +
+ .../bindings/power/renesas,r8a78000-mdlc.yaml |   7 +
+ .../boot/dts/renesas/r8a78000-ironhide.dts    | 135 ++++++++
+ drivers/clk/renesas/r8a78000-cpg.c            | 161 ++++++++-
+ drivers/firmware/arm_scmi/driver.c            |  33 ++
+ drivers/of/property.c                         |   2 +
+ drivers/pmdomain/core.c                       |   4 +-
+ drivers/pmdomain/renesas/r8a78000-mdlc.c      | 311 +++++++++++++++++-
+ drivers/reset/core.c                          |  11 +
+ include/linux/pm_domain.h                     |   7 +
+ include/linux/reset-controller.h              |   6 +
+ include/linux/scmi_protocol.h                 |   8 +
+ 12 files changed, 665 insertions(+), 27 deletions(-)
 
 -- 
 2.43.0
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
