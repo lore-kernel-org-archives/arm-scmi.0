@@ -1,134 +1,188 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F643F23B6;
-	Wed,  8 Jul 2026 07:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F94349CE0
+	for <arm-scmi@vger.kernel.org>; Wed,  8 Jul 2026 09:00:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783495456; cv=none; b=RyvqTE6K57R2k+OcYHTd0s2PK+CghKIL3dF28Dx2Ziab4evB/4/iBqdnIqViRIBlx6mXVwEZdypKkeMzMGm5zcIkiTTmXvgYzfjAK0bYL6mPvxWxTyAU6SMMm9ShiDObrO+CMIwaItKbWCzoZfrbjvEnmUovS54iRBAfAHKvMVE=
+	t=1783501226; cv=none; b=urd0wt9eSMUg2f3csPufvtSzS/M5zGgQLZZljgmJEFPWXw/kq2bDNCf18Dl9uLPo+0XRyqvDsR3jemCY2m4H9/JgVYv7zyF6CBl6CxEv7Dy7U4V2DJMtrsfw9dxB2CEhyBUyCbh/h7MTuPY8XH0VBDo1LwEk1PxqbqQzKD99GYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783495456; c=relaxed/simple;
-	bh=fufk7HfefIX5J/h38j39xTQON9Gh9fw+EwL/zfaHoo8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=L+a4inNYvQ4+bWn8JNJ0x5/evQRvHksxYH5x9l2Dqb28UEAUZpAUi0tilnjMgHywvP84rqt6qNjdiliD2hslcxqvD2yOOV6xE5DWQdaWTRTpmG/QY6xA10snc78gzmUh2hvCrq2/dH5ycnJeEfxluMWFkmmJhO6OzCE4qcL7jKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UZ8CTv7s; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	s=arc-20240116; t=1783501226; c=relaxed/simple;
+	bh=kUixebtCydRxPs7/rU/w4W7pcY9BtoGYdFpv/3ynkmw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pWBB5NeLxoCX2EULFHjGrE6/9uvMpsnBViS7VvOo0iKWCA/M6t2CZuZ+XChIscNbE3rAC/UAG5/YrBYYKlMRYScjaAnWfGQcPxdR/GU6mW69NPYH+7FwIk7lZZwP2IK1SG785MkofmSPDpBssk4sUmbbsLfVM/GfyAbzGMbgIkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i/b0qy3E; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UZ8CTv7s"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 668429g91656437;
-	Wed, 8 Jul 2026 07:23:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=ZnmnBCrjGVsWqSF63EiwjA1gw4cqJHz9fjt
-	HdnFR9RA=; b=UZ8CTv7s5BLrHe/9WVlP5MEdal8HtcKDP3xKDPMTYNlqVixs4ZP
-	lOfmtu7NQryxvNHkpEdFHsSMEAiuADoVFYUDZtletK/N5Ns1Nl54Fb36po/mh4r/
-	bpHU5u8ClvEGnbMsMIGgHABXoeFMTkRPkxNIbjV6hRXWw7hL1mTMe1xI5IJzuKCF
-	2HRcaERcnH6uQ3FKwjUQpkLFwv1sQFnrNkB5NgvYDprWw8j1EufhDplBMTdNWk58
-	J8vQbiCURag+tvIuc8MoD+WKnWM4V5P7RmWPOK9pedlw4MJ4xz0Po5J+dNGqRlty
-	IBMtZ2AsWRztjDEuRPTn2WhDxbazzgJYYcQ==
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f9csss82s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 08 Jul 2026 07:23:51 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 6687Nm6n002944;
-	Wed, 8 Jul 2026 07:23:48 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4f6u8ke5n7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 08 Jul 2026 07:23:48 +0000 (GMT)
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 6687NmLF002939;
-	Wed, 8 Jul 2026 07:23:48 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pussin-hyd.qualcomm.com [10.147.247.182])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 6687Nm8Y002938
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 08 Jul 2026 07:23:48 +0000 (GMT)
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4706513)
-	id 7A25763C; Wed,  8 Jul 2026 12:53:47 +0530 (+0530)
-From: Pushpendra Singh <pushpendra.singh@oss.qualcomm.com>
-To: sudeep.holla@kernel.org
-Cc: cristian.marussi@arm.com, arm-scmi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Pushpendra Singh <pushpendra.singh@oss.qualcomm.com>
-Subject: [PATCH] firmware: arm_scmi: rate-limit queue-full warnings in IRQ context
-Date: Wed,  8 Jul 2026 12:53:39 +0530
-Message-Id: <20260708072339.3021140-1-pushpendra.singh@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i/b0qy3E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 928061F000E9;
+	Wed,  8 Jul 2026 09:00:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783501225;
+	bh=qaL7SCOsIWa8OMBTioFs52/xDHCcghmWNV3Dbf4cTi4=;
+	h=From:Subject:Date:To:Cc;
+	b=i/b0qy3EnvHKIXY5PtMjKwrPTUuWaTMHoB+n8xJdyOuPJnhK1Be9C9bE4Pu3n1Tkt
+	 qxECP03purk95xMnJGtMnTJTWvmpNAuqCdAh8+y+OuVx1nhpLqgMcv8K+G4gFXECcn
+	 gjYosISKCpmZhaz/yXliTAUn8jAM1Tqk9tY3N6QaGVF3bxkHpNeY1eg6LmMa/NqQv0
+	 O+5wsT1BCFAejcUkRhVTREE98Ga1hk9i99jcXDVW3b/tjGNESF5xIFw2MOc7ISsa46
+	 3BcR2OSosJ2CofE30Nn8NzxwXsCwo9mgulIIrPv3PjLAPLSBznGIgPCnfqqoKwgOiu
+	 gygXHuDbW2dZQ==
+From: Sudeep Holla <sudeep.holla@kernel.org>
+Subject: [PATCH v4 00/16] firmware: arm_scmi: Fix SCMI core cleanup paths
+Date: Wed, 08 Jul 2026 09:59:56 +0100
+Message-Id: <20260708-scmi_core_fixes-v4-0-53142cd60b63@kernel.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Authority-Analysis: v=2.4 cv=EtziaycA c=1 sm=1 tr=0 ts=6a4dfb07 cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=3WHJM1ZQz_JShphwDgj5:22 a=EUspDBNiAAAA:8 a=dPwN2nIJ5BbuoenhFM4A:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA4MDA2OSBTYWx0ZWRfX290pA1Facwn2
- KNtWMhPaf7UkIc0aIqpyPKVZ3u9k9kFtNo+vh6+jqTJetWgNmKHaRYPeUkGvT3LLvfgUf1WZzOc
- c7KQsS2dEkKM2bzwg0F3km5DBpsBezVQUqjYlKvFkiVjOA8TjJ9Cq5sV5ZTulR1uFab8bcC9DKT
- AeznWhxRdiT7vpIFXciSEOLUnJ0dNA0vR6S5eSEV+DmPkPt1Pa4Io7qwO91PLaPG+UXEHT51zQE
- 4SQ/tIsqNi2SspD3PcXVM5g1I1M+DDtjf02qE/5G0ExvhV4CKMaBOVvNkqh4SD/ajFiq0aJVwWM
- /KIEjiXfTXTG3SdeaI+pNPVc4klZDO8w/mRjeYzN+NktfHUwAiETHvSdCNPwHJTMwnCsSZ0+6Jn
- akEHvS6m6WqpGSKZY8ZJvX9ZBR6+iCdML5QpbENmSaNBnDHKdvQ17+A3Zng6caHy85gZEq1ajZd
- 2eb/0qKPpA1zPnWK3HA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA4MDA2OSBTYWx0ZWRfX5rl7+kh7hLY+
- JEzEYYx+EDfpbvKjpNhtwgE91CsVY645PpsvSQGrjQdG8jM0aX4lWyEcCQKDxzTQg2s3xFdteco
- rkmOiLK1wO3U43Lfle3zDvzW5BtjLvo=
-X-Proofpoint-GUID: SsuvXU2H3BGD5_mjpEAKmNtKGWK32AGo
-X-Proofpoint-ORIG-GUID: SsuvXU2H3BGD5_mjpEAKmNtKGWK32AGo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-07_06,2026-07-06_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 lowpriorityscore=0 malwarescore=0 phishscore=0
- priorityscore=1501 clxscore=1011 suspectscore=0 bulkscore=0 impostorscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607080069
+X-B4-Tracking: v=1; b=H4sIAJARTmoC/2XNTQ6CMBAF4KuYrq1pOxSsK+9hDCllCvUHTItEQ
+ 7i7BU3UsHyZ974ZSEDvMJDdaiAeexdc28SQrFfE1LqpkLoyZiKYSFkqFA3m6nLTesyte2CgpQZ
+ TZhKKBDWJq5vH+RBHh+M7h3txQtNNzNSoXeha/5xf9nzqfXRgC73nlFGrQBiOkisl9mf0DV42r
+ a/IxPfiC2SMLwERAW4lbqWUYDNYAPALwBKACMhCo8rSVBfW/AHjOL4Aurp49EMBAAA=
+X-Change-ID: 20260629-scmi_core_fixes-da3cd753b4ea
+To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Cristian Marussi <cristian.marussi@arm.com>
+X-Mailer: b4 0.15.2
 
-The scmi_notify() function is called from interrupt context
-to queue received notification events onto a per-protocol
-kfifo. When the kfifo is full, it logs a warning via dev_warn()
-for every dropped event.
+This series fixes a set of SCMI core and transport lifetime issues found
+around device creation, channel setup failure, notification teardown,
+driver binding and malformed firmware descriptions.
 
-Under conditions where the platform sends a burst of SCMI
-notifications faster than the deferred worker can drain the
-queue, this results in a flood of dev_warn() calls from
-IRQ context. Each call acquires the console lock and may
-execute blocking console writes, causing the CPU to be held
-in interrupt context for an extended period and leading to
-observable system stalls.
+Most of these issues were found by Sashiko[1][2] while reviewing the ACPI
+SCMI PCC work[3]. They are posted separately because the problems are
+independent SCMI core, mailbox and virtio transport cleanup bugs, and do
+not depend on the ACPI PCC series.
 
-Fix this by switching to dev_warn_ratelimited() to limit the
-frequency of log messages when the notification queue is full.
-This reduces console overhead in interrupt context and prevents
-CPU stalls caused by excessive logging, while still preserving
-diagnostic visibility.
+Since I started fixing the initial set of issues pointed by sashiko, more
+issues have been identified and hopefully with v4, it really calms down.
+I can only wish 😄 as I said the same for v3.
 
-Signed-off-by: Pushpendra Singh <pushpendra.singh@oss.qualcomm.com>
+Fixes tags need to be checked again or even dropped if it is not a stable
+material. Just some placeholders that I thought are appropriated are in place.
+
+The fixes tighten ownership and teardown rules for generated SCMI devices,
+transport devices and transport channels. They make internal transport
+devices reachable by explicit teardown without exposing them to normal SCMI
+driver binding, ensure partially initialized channels are unwound on setup
+failures, and avoid IDR/device lifetime races during probe failure and
+device unbind.
+
+The series also fixes notifier and notification teardown ordering.
+Requested device notifiers are unregistered before protocol IDRs are
+destroyed, RCU is used around requested-device protocol lookups, transport
+callbacks are stopped before notification state is released, and protocol
+bind failures now drop any SCMI handle acquired before probe.
+
+The mailbox transport fixes cover both setup failure unwinding and an early
+interrupt window: mailbox callbacks can run as soon as mbox_request_channel()
+binds the client and starts the controller, so the SCMI mailbox transport
+now publishes the channel state before requesting channels.
+
+The virtio transport fix clears virtio-owned channel state when SCMI
+channels are freed, so devres-managed SCMI message pointers do not survive
+across SCMI driver unbind and rebind.
+
+Summary:
+
+- Fix OF node reference ownership for generated SCMI devices.
+- Allow explicit teardown lookup of internal transport devices.
+- Clean up TX/RX channels when SCMI channel setup fails midway.
+- Fix SCMI device lifetime handling around child lookup and bus ID reuse.
+- Free transport resources when IDR insertion fails after channel setup.
+- Unregister requested-device notifier before active protocol IDR teardown.
+- Unwind mailbox channels on TX receiver and P2A receiver setup failures.
+- Protect requested-device protocol lookup with RCU.
+- Avoid modifying an IDR while iterating it during channel cleanup.
+- Clear the SystemPower singleton flag on SCMI device creation failure.
+- Reject out-of-range DT protocol IDs instead of allowing u8 truncation.
+- Stop transport callbacks before releasing notification state.
+- Publish mailbox channel state before requesting mailbox channels.
+- Use the owning channel ID when tearing down shared transport devices.
+- Drop SCMI handles on protocol bind and device-link failures.
+- Clear virtio channel lists when freeing SCMI virtio channels.
+
+Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
+
+--
+
+Changes in v4:
+- Replaced the SystemPower atomic flag with pointer-based ownership using
+  cmpxchg(), preventing delayed release of an old device from clearing a
+  newer SystemPower reservation.
+- Cancelled pending SCMI notification late-init work before releasing
+  notification resources.
+- Published SMC transport channel state before requesting the optional
+  completion IRQ.
+- Added mailbox setup-failure cleanup for early-published transport state and
+  devres allocations.
+- Dropped virtio channel cleanup as more work may be needed to fix the issues
+- Re-ordered the patches to simplify backporting hopefully, not 100% sure yet.
+- Link to v3: https://patch.msgid.link/20260703-scmi_core_fixes-v3-0-5bae9766abfc@kernel.org
+
+Changes in v3:
+- Added SCMI bus resource release helper so bus IDs are released from
+  destroy, register-failure and final-release paths, and cleared after
+  release to avoid later double-free.
+- Moved SystemPower singleton cleanup into the same resource helper so
+  direct driver-core child release also clears the flag.
+- Removed the unused mailbox P2A unwind label.
+- Published cinfo->handle before transport chan_setup() so early mailbox
+  callbacks have a valid SCMI handle.
+- Added fix to destroy shared transport devices using cinfo->id instead of
+  the IDR iterator key.
+- Added SCMI handle cleanup on device_link_add() failure and
+  BUS_NOTIFY_DRIVER_NOT_BOUND.
+- Added virtio channel cleanup to detach unused virtqueue buffers and clear
+  local channel lists across SCMI unbind/rebind.
+- Link to v2: https://patch.msgid.link/20260701-scmi_core_fixes-v2-0-1f5e85553f73@kernel.org
+
+Changes in v2:
+(Mostly addressing the additional issues found by Sashiko)
+- Added fixes for IDR mutation during channel cleanup.
+- Added SystemPower singleton flag unwind on device creation failure.
+- Added validation to skip out-of-range DT protocol IDs.
+- Moved notification teardown after transport channel cleanup.
+- Published mailbox cinfo before mbox_request_channel() can enable callbacks.
+- Link to v1: https://patch.msgid.link/20260630-scmi_core_fixes-v1-0-f932c1e51992@kernel.org
+
+[1] https://sashiko.dev/#/patchset/20260525-acpi_scmi_pcc-v2-0-4f38938d08d8@arm.com
+[2] https://sashiko.dev/#/patchset/20260630-scmi_core_fixes-v1-0-f932c1e51992@kernel.org
+[3] https://patch.msgid.link/20260525-acpi_scmi_pcc-v2-0-4f38938d08d8@arm.com
+
 ---
- drivers/firmware/arm_scmi/notify.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sudeep Holla (16):
+      firmware: arm_scmi: Publish channel state before callbacks
+      firmware: arm_scmi: Quiesce notifications before teardown
+      firmware: arm_scmi: Clean up channels on setup failure
+      firmware: arm_scmi: Free transport channel on IDR failure
+      firmware: arm_scmi: Avoid IDR updates while cleaning channels
+      firmware: arm_scmi: Reject out of range DT protocol IDs
+      firmware: arm_scmi: Use channel ID for transport teardown
+      firmware: arm_scmi: Unregister device notifier before IDR teardown
+      firmware: arm_scmi: Protect device request lookup with RCU
+      firmware: arm_scmi: Drop handle on protocol bind failures
+      firmware: arm_scmi: Clear SystemPower flag on create failure
+      firmware: arm_scmi: Fix OF node reference handling
+      firmware: arm_scmi: Unwind TX receiver mailbox setup failure
+      firmware: arm_scmi: Unwind P2A receiver mailbox setup failure
+      firmware: arm_scmi: Fix SCMI device destroy lifetimes
+      firmware: arm_scmi: Fix transport device teardown lookup
 
-diff --git a/drivers/firmware/arm_scmi/notify.c b/drivers/firmware/arm_scmi/notify.c
-index 40ec184eedae..574f368033ae 100644
---- a/drivers/firmware/arm_scmi/notify.c
-+++ b/drivers/firmware/arm_scmi/notify.c
-@@ -600,7 +600,7 @@ int scmi_notify(const struct scmi_handle *handle, u8 proto_id, u8 evt_id,
- 		return -EINVAL;
- 	}
- 	if (kfifo_avail(&r_evt->proto->equeue.kfifo) < sizeof(eh) + len) {
--		dev_warn(handle->dev,
-+		dev_warn_ratelimited(handle->dev,
- 			 "queue full, dropping proto_id:%d  evt_id:%d  ts:%lld\n",
- 			 proto_id, evt_id, ktime_to_ns(ts));
- 		return -ENOMEM;
+ drivers/firmware/arm_scmi/bus.c                | 115 +++++++++++++++----------
+ drivers/firmware/arm_scmi/common.h             |   2 +
+ drivers/firmware/arm_scmi/driver.c             |  79 ++++++++++-------
+ drivers/firmware/arm_scmi/notify.c             |   2 +
+ drivers/firmware/arm_scmi/transports/mailbox.c |  26 ++++--
+ drivers/firmware/arm_scmi/transports/smc.c     |  15 ++--
+ 6 files changed, 151 insertions(+), 88 deletions(-)
+---
+base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
+change-id: 20260629-scmi_core_fixes-da3cd753b4ea
+
+
 -- 
-2.34.1
+Regards,
+Sudeep
 
