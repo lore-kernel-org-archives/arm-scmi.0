@@ -1,108 +1,180 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED68248F73
-	for <arm-scmi@vger.kernel.org>; Mon, 13 Jul 2026 11:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783940749; cv=none; b=sEOjY664vG7xfminAWuXsykRMIhDfpHMwsnxl5nbtbSpacfhEzCIrgcv4JAO9JiApoWy6jq/IvDFTCOza0nBryr7RfQJ/F97LBxe5Y9KXREtmSmKHE6QOjsSrd9ptdQ2ufQNjBNDnnPX5/UlmeNv+/8dkhS9OxAythzVcPPlGe8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783940749; c=relaxed/simple;
-	bh=ymBgWBjmHpx0+UjuFhXmSUZCxzlsEq1CULQENpgwDbc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JR1CJt6jRAzp0m+DfORjNPye/7AAE8SPflyb0I8aztm6IkA5J8JSm3RBb9NVDjzVaqPRuShcriSvG84H+CHdcFxzSC3wlP5yfAndICV/6SW7axjyBmWY8u/gI/0sexTVYfb3bVN+y7zDjtJFGbSbu40YgZReOM2plDJQ4LmbQcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZG9EXzsa; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C254935A387
+	for <arm-scmi@vger.kernel.org>; Mon, 13 Jul 2026 11:06:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.180.131
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783940771; cv=pass; b=Bx+tyZhjcWJ49HyoM4mJaRZWOIYO5nlzFR523juW6zoos1VWizheQ+v++igdQ9SPm0gaEWRYOBvd12ME/XX5kp0ee2kv9+OAef+b+w9dQS/jmzDuaeTyXbg4Iz/18ulW++Rd4JWfrTlaGnboz8W+8MWmAnvcEl6INoXo5+o9qJc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783940771; c=relaxed/simple;
+	bh=wU4adGyulZDWHqdEHT6S2Ub0gI9p8fXNMrbZKLgyLEg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Mq9ARex1Z5b4WYT/rInGb+bfbxk9dp0Bh+lSMG9dPGml8eeD5z2JkEMwzcjehIMQLnI9wemsrrqlIL7oCUqSUk3CSsd+fyJZnvDJb+axoOp1thgzTPeknowys6g9DAGvttdh+d6fFQLA89pAKRsAqKyoPOh+64my5bnp9/YMS4c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=DxuR6f/b; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=LmE7iWGl; arc=pass smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZG9EXzsa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB2801F000E9;
-	Mon, 13 Jul 2026 11:05:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783940748;
-	bh=uvSiy5im8+ukroQ2/8CIqL5c1HixXr0B5I98YK9SCBM=;
-	h=From:To:Cc:Subject:Date;
-	b=ZG9EXzsawu1YTuCCmQLhbPsoCKUx9xWbltM2GIcVVEYM54JcE6IqtLd+d05o/5B6N
-	 hmHusz7UqMfzvZXFYJvUbjqQlrhOI5tri+hQRri0PrpGPMsBU3Yp1tHWZ2BImHjCSu
-	 IfwemKJmkcZrWnfJB4kTxKmd7Vr0cICsJX4u2YemIY7RlQ5y1s1BXHjpwj2pf2qTz3
-	 eyk5vrBt19RvZccLvT1C/nkmq/j0sdRB7HQwuruS+wrcjMqmx87Sbaic/zpkvEzfJc
-	 Yj9Bb8zpXnn7wkzXyhPVmpbIDVT++LfgA8XTAaWc5CgVpfRVTrk3JwcR87MtiXSyqb
-	 QmD+a02DjSHaA==
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: ARM SoC Team <arm@kernel.org>,
-	SoC Team <soc@kernel.org>,
-	arm-scmi@vger.kernel.org,
-	ALKML <linux-arm-kernel@lists.infradead.org>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
-	Arnd Bergmann <arnd@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [GIT PULL] firmware: arm_scmi/arm_ffa: Fixes for v7.2
-Date: Mon, 13 Jul 2026 12:05:36 +0100
-Message-ID: <20260713110538.1819713-1-sudeep.holla@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="DxuR6f/b";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="LmE7iWGl"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66D7Ykj3794223
+	for <arm-scmi@vger.kernel.org>; Mon, 13 Jul 2026 11:06:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	kvqsLA6Mvt2zukd4+gfC9bRp1ifbJzmUNc+eEGzl1K8=; b=DxuR6f/bxOGO5KQB
+	RZ/enNONz0Rdsd4+l1m31TX0ZtALLxRB2aZZ4Bvwlq9otL0CjXf/HxHi+EeJ+DGS
+	woR5CIoZx3YpXBtO0ZjEUFav2Ih1xlYDg5ps6CJ672D/7yb8iIDc9Nw6olArMEHV
+	HFsPQIxyZAzd4upN/mTsvRorElOr6ov8OmRtOK1E3b2upECnWP02bHAN9sBFQ5pP
+	XntXO7Wkgc5T7ENe+2f3GxoX5n/BA5J1SWLQLV6d37F/sG4cRmdHS+slqQgLEAeP
+	KuSI2ENJKzSPaK7VL23lN3pbrN/RdCerPnUzXEudqwmP7e7QG1DsJwAxPHbIwF8N
+	zKPiKQ==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fcurn0r48-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <arm-scmi@vger.kernel.org>; Mon, 13 Jul 2026 11:06:08 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-51c1e6f602cso60409271cf.3
+        for <arm-scmi@vger.kernel.org>; Mon, 13 Jul 2026 04:06:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783940768; cv=none;
+        d=google.com; s=arc-20260327;
+        b=K7yz6B0Y6JLjMB/4DJL375vAejyfjVtiKwloPj+vJ6zwQAoA5f7ePEB8p1hN+NmEVc
+         F296BxmgE5qKZYXUFdHIoDiwnL7ctmqFUY0zZSSDPHIXoiplkvMFmOFRKbOys3kgtNuQ
+         7p3dxLFzo/+Av6/STxn1E45pOJfA74ZQrhrl3XLCofyVZqo+tW6s3GdI7QOTXFZWwetL
+         JDoMAs7yjGWZ9Gt/ymuJOWAOg1z6L8E74fbCPH8h3XVlKBpQnYLlBsbXAx1XkGFe4B8i
+         Zm8XAZzk8HtyHYa47NwYJSOMcs9rSnL7FnY2xDbhNVomGTV8MdxvxOAnp9j319BzOUVz
+         eArw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=kvqsLA6Mvt2zukd4+gfC9bRp1ifbJzmUNc+eEGzl1K8=;
+        fh=7dr/AqezdG+F90obJmicx5nH0g6sw6YDYmW2TztE4tQ=;
+        b=XserbF686TXkCmK/3a6H5w81lUTvb2ozA5IUPLJHKWZxbzGGaA1XOZyqw6oG0BBtzz
+         CqBWSbFCubArhaeVoxYJyKwzCCaW887Z6AytprVMXbp1EffngaY+HA9OO4VQZopY9ZoB
+         fa66XQogEDGlLqftsBKB/uwwgtnbgxtkd8/qPnU7cCDNHfkqysWCQoOTSgHzumz7cC1B
+         lEU9UISaYK1NuDZZaKrvyB1ot0eKnOjd1C1iXYvpt22Mqs3MB9jpUE06RwWyCOjb1rik
+         eGe/83RqlwMQxPsyvjHqFDX1Le9Ev4mm5RgUobg9+MTXso97wdB3BbCCAV+5hasNKdbK
+         /Cgw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1783940768; x=1784545568; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=kvqsLA6Mvt2zukd4+gfC9bRp1ifbJzmUNc+eEGzl1K8=;
+        b=LmE7iWGlMxYq1/UTi1S9nF1y9EB/rVelkyDlBjWbjlJlhH1hFlCxFD2K44xZDKdcFL
+         OTd7vhvKxJrzStHYB07h4zrUwy5VVZmaudJZmjVBqJ7AJhs5Ia06oqJMECU3Sy4fbB+F
+         ewIy5i7xjOnpVB8VUgfRgGGlSpTIXLxJyx4wFrQZKvzrPf8jObxUpIfnRwN+Ahqwq6u0
+         Z+m97txg0L5ORpLoqNJgC64mGgNaYNDbMHcTDa4v9HaatSq30DGhxynWnKRPL5RCnXDR
+         aa007lJe3Mk2Rs9eVtO1INIF1IjPURb30imVK/XzYscj8IY/jwYGwrlK4K46RG2hPrcK
+         IgWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783940768; x=1784545568;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kvqsLA6Mvt2zukd4+gfC9bRp1ifbJzmUNc+eEGzl1K8=;
+        b=aJNX6zFzGkP6BH7M7iW8Swk6VWyJu+baHRlvVE7vb140L02pe0DqlPVfr6LAeptqsi
+         BewsGGyNNDtSC1NJUWqNAvOf9LpLdSTNGlM0pZns8INLZ8PMz1qIL5BjkypFm8qLX/V9
+         y9S24cqqaP1MwxYsgEoPsrpjbQ+BUy4CaZCqyJo/re735UpeGeYgmlCXdfsw21hdvzsN
+         MlPh0jnSeCdIDZNPmBqSt6vgwNBHgUzBbqvB5R08JAnua/BbM1MgBbIDCaU5Zbbuf+Si
+         96JtAka8yhT550XbOl+IdWFcFu4wvSFb+Tihgvbjq/Dtv8d880qDkdr6KEmqvXyvBHsy
+         QWCA==
+X-Forwarded-Encrypted: i=1; AHgh+Rq81fGkKjI/VbeEeympKBlpBDwAPoUd2CUbI/fZ6ZsIM9o/nR5R1YZ/LjCBVZ8oYuWGbAFvkSR7Yg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yybr77wrPAsTNludQnyir/NQPTLO3ONKIN8fohUM9PnsDAPnAyK
+	dBS9XQkMFMd/304lWisj5sVxLXylF6hxijjB0diLEmSbnT8kEK/OpsV36CmSHr+swVvhuy2iJJD
+	b1ezVd1T12yjo+2gJ4muXuXEnJDhzDJz/allRYTsO1p86BYLtcPbdTS6n9NC5U0/oiF2OvToplV
+	9vRAJH1QgmlcXv9K8uG3Lqick4n9f1awd5w6kO
+X-Gm-Gg: AfdE7ckCpcdWtamz40wVp8grnrDSVS5jdYRp5hNTIBsXvJ18KWwkN2/4o66Z2X9WOmE
+	ZHafJbw6igFNjvfyDYokiFfwVmRFHfYbn5NLp6itz1Z8QJfyP8zo8gzljy43gZqv2GiJgU21dwl
+	5/Uwsyj2tBs6Jw3arri1IXT8Aw4/3qc71ShI3TNGGmFxFzmWBGsoCoJjWWVBlIFN30VU3h
+X-Received: by 2002:a05:622a:4cc5:b0:51c:7b12:1210 with SMTP id d75a77b69052e-51cbf34c183mr86772311cf.78.1783940768076;
+        Mon, 13 Jul 2026 04:06:08 -0700 (PDT)
+X-Received: by 2002:a05:622a:4cc5:b0:51c:7b12:1210 with SMTP id
+ d75a77b69052e-51cbf34c183mr86771971cf.78.1783940767679; Mon, 13 Jul 2026
+ 04:06:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <a9a082c25e4bda4d73b261eee951efecab20612d.1780499882.git.geert+renesas@glider.be>
+In-Reply-To: <a9a082c25e4bda4d73b261eee951efecab20612d.1780499882.git.geert+renesas@glider.be>
+From: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
+Date: Mon, 13 Jul 2026 13:05:56 +0200
+X-Gm-Features: AUfX_myYmQelNutM8s1zx4fXjQ-IQeu5ofDTxXjw8xb17nMcZM8N1mjOg1nEQTY
+Message-ID: <CAPx+jO874b1EbcPF609NzZMCXaXQidA==eV1sgZzMde7VbvXKw@mail.gmail.com>
+Subject: Re: [PATCH] pmdomain: arm: Grammar s/may needed/may be needed/
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Ulf Hansson <ulfh@kernel.org>, arm-scmi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-ORIG-GUID: Z4VdWc9_mZNzDbYJoPK9aDm4az8cXPxb
+X-Authority-Analysis: v=2.4 cv=IcK3n2qa c=1 sm=1 tr=0 ts=6a54c6a0 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=ZpdpYltYx_vBUK5n70dp:22 a=hUYxl28pOwIGcUTX8NUA:9 a=QEXdDO2ut3YA:10
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEzMDExNSBTYWx0ZWRfX/B9rOQ4kHTKr
+ gXUttpycjsDP4Yl85Omc5ROM4a5OFhdpWncx7mMm4gZkXcI4cHT6L5kP7BW2v9FJBGIkPzl3w2q
+ RGl3jDtrNAiIXZAAWHb4CRbFUAb5VhM=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEzMDExNSBTYWx0ZWRfXwNiwH51rccMM
+ QnmZ8b6lK9iO2XrJvRRZccqVXvgykmrQGnENdioEfgew1+3x/yVz0Uh3SFbLkF33doAsrWR21tM
+ l9Udd5k5VCyp84T9QBGycwfSfbh8aatXJKUQFSlBiNmna4LtWgKeiuOzM+elbGKYeHiMixKI/SX
+ 1P4k08yXCKe9gBmSze8nx6kh7/Xk2UPUaDXtJ7dLDZeksoekTAhCof5z4/f1oEYhweZkEInuQjP
+ E/VxF5f24/V5M6BvNRfYPx2OVBt/24GbecEj9uNUvqFjJUF/OungG+RWmaB8A9/ABtRfeinplBa
+ sZnVEOIhAPUe4vlMgoZX9x2DyaLDtBSnjM32CJWvxe9kQ9ApNidCsnBngkO3qIREW/367m/esyw
+ 0DaKrs0Qkm+h5xuOo5JzJDZka9xDpYj5a/8Eiv+n6B6oiMiUuRiEBQR/+wrUwcytZfipzd0+026
+ YC4pu252QNK+T+hCN1A==
+X-Proofpoint-GUID: Z4VdWc9_mZNzDbYJoPK9aDm4az8cXPxb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-13_02,2026-07-10_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 spamscore=0 lowpriorityscore=0 phishscore=0 bulkscore=0
+ clxscore=1011 impostorscore=0 suspectscore=0 malwarescore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607130115
 
-Hi ARM SoC Team,
+On Wed, Jun 3, 2026 at 5:23=E2=80=AFPM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> Fix grammar in the help text for the ARM_SCMI_POWER_DOMAIN symbol.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Please pull !
+Applied for next, thanks!
 
-Regards,
-Sudeep
+Kind regards
+Uffe
 
--->8
-The following changes since commit dc59e4fea9d83f03bad6bddf3fa2e52491777482:
 
-  Linux 7.2-rc1 (2026-06-28 12:01:31 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git tags/scmi-ffa-fixes-7.2
-
-for you to fetch changes up to 980a8bfe7baec9b9ee0d5443b0b204552e41c407:
-
-  Merge branches 'for-next/scmi/fixes' and 'for-next/ffa/fixes' (2026-07-13 11:38:34 +0100)
-
-----------------------------------------------------------------
-Arm SCMI/FF-A fixes for v7.2
-
-Fix two runtime issues in the SCMI framework. Use full 64-bit division
-when rounding range-based clock rates, avoiding divisor truncation and
-a possible divide-by-zero on 32-bit systems. Rate-limit notification
-queue-full warnings emitted from interrupt context to prevent printk
-floods and prolonged system stalls during notification bursts. Also
-correct a grammar error in the ARM_SCMI_POWER_CONTROL Kconfig help
-text.
-
-Fix the FF-A driver RX/TX buffer sizing logic to respect the maximum
-buffer size advertised by firmware, while retaining compatibility with
-older implementations that may reject PAGE_SIZE-rounded buffers.
-Also fix a NULL pointer dereference in ffa_partition_info_get() by
-rejecting NULL UUID strings before passing them to uuid_parse().
-
-----------------------------------------------------------------
-Geert Uytterhoeven (1):
-      firmware: arm_scmi: Grammar s/may needed/may be needed/
-
-Pushpendra Singh (1):
-      firmware: arm_scmi: Rate-limit queue-full warnings in IRQ context
-
-Seth Forshee (1):
-      firmware: arm_ffa: Respect firmware advertised RX/TX buffer size limits
-
-Steve Dunnagan (1):
-      firmware: arm_scmi: Use 64-bit division for clock rate rounding
-
-Sudeep Holla (1):
-      Merge branches 'for-next/scmi/fixes' and 'for-next/ffa/fixes'
-
-Unnathi Chalicheemala (1):
-      firmware: arm_ffa: Fix NULL dereference in ffa_partition_info_get()
-
- drivers/firmware/arm_ffa/driver.c  | 29 +++++++++++++++++++++--------
- drivers/firmware/arm_scmi/Kconfig  |  4 ++--
- drivers/firmware/arm_scmi/clock.c  | 11 +++++++----
- drivers/firmware/arm_scmi/notify.c |  6 +++---
- 4 files changed, 33 insertions(+), 17 deletions(-)
+> ---
+>  drivers/pmdomain/arm/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/pmdomain/arm/Kconfig b/drivers/pmdomain/arm/Kconfig
+> index afed10d382ad7f66..ba0b190a63d6bb18 100644
+> --- a/drivers/pmdomain/arm/Kconfig
+> +++ b/drivers/pmdomain/arm/Kconfig
+> @@ -21,7 +21,7 @@ config ARM_SCMI_POWER_DOMAIN
+>           enabled or disabled via the SCP firmware
+>
+>           This driver can also be built as a module. If so, the module
+> -         will be called scmi_pm_domain. Note this may needed early in bo=
+ot
+> +         will be called scmi_pm_domain. Note this may be needed early in=
+ boot
+>           before rootfs may be available.
+>
+>  config ARM_SCPI_POWER_DOMAIN
+> --
+> 2.43.0
+>
