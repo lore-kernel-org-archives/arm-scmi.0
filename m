@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D89336F8F1
-	for <arm-scmi@vger.kernel.org>; Tue, 14 Jul 2026 12:58:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70CC243FD0E
+	for <arm-scmi@vger.kernel.org>; Tue, 14 Jul 2026 12:58:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784033929; cv=none; b=tR1vo9vnjoPc4XpizHtyrxW74jLeLB1MeEiEM91RAchwA3uledQdG6oteKWLLM8pLtrsCL8IsYLHQNt2G1t4ASbVtR7YFNl12hlPbqZzs06vYPVJmhr/xbWwJB+2neS9rKnlfWh/gfu2OlRz68JgwNRrQ8dutzOl8QdRnkOB7MY=
+	t=1784033930; cv=none; b=CpF6fUDgqmV6eZOUSV9K1h0AYIFmU/Hd+ExB08lpSK9XIgEGwdpbbZGBWxhCrR3fhMMJw5Cd2+fxcyTQMffx+aeHnjfhtTQBDQqofff6SGqruMl922VEgtkm6aMyI6qn2ubw2TDeswPPg549rp1BdXShojUu6m+U9zACsErHSvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784033929; c=relaxed/simple;
-	bh=QU7FMbRqZmRrbMTi5MXALu8nDRd3ZSFtbiBzRhVrEVE=;
+	s=arc-20240116; t=1784033930; c=relaxed/simple;
+	bh=PDTeTHF7HnDk7xRPF4Oo9ijNRuAcJuOj/UfV5LF7mDg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=A2i6HxwUPgs1KcrLdXQnO8vP/R0Pq70/tVkh1TDxJ1FLQCP8sMdASIGpKhO0a9oSH7jJ0Xt3xaxrG/zU34szbylC7xVAkcYGIv6hMz4KT+FZXKwIpwoGyP/ztZvVrFYnD6akzNKHAWaSs3J6Tid3qiBTPykBYD3vijkWSaGbi1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A9NCFq0T; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=WGTTU/mNKkIY/uxQez3TRYGXj2pEmscl7a3IdRkAoH1mG+knKAm5YJzHCwYo27Ym8UinQNCwBjidqmXF5O3A8fQzmfSCR7REmhqGHQ3F/vJjEer0SSz8jcqTuR14FPISaa0bGE2VmZUNGrhKDReXiolde1yWEnw6PxuNdsajoac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O6ldXDYM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A9NCFq0T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D36D01F00A3D;
-	Tue, 14 Jul 2026 12:58:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O6ldXDYM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C625C1F00A3E;
+	Tue, 14 Jul 2026 12:58:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784033928;
-	bh=1/1+F1RFMl2GV9XWTGIsSj/agttsISF6u+8SbWZvUWE=;
+	s=k20260515; t=1784033929;
+	bh=ehQFaZwB++NiZIOgrY7uUtxuBIui57J6SGoKkKl6y/o=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=A9NCFq0TXEsjAzR8Av0RQ5oTCtUCqOL8ed+X7Kn9t+Ui211+gZhgwFJ15VteRNflA
-	 GA2Th34YkGqmAxp3HaEXKfXA6Kbiebot2wRMBk+gQulGP2A2kQtyhJtuud5SSxHeMV
-	 S4UnOlXPuLOjZFE68Bf4Bju6+Q+Crud7xl8kEzO8qcLBFMyO+iloKR3S2gO0fXCYWg
-	 yAYNkOucP1QYObKWTPZ6pghSYsmgFZjhv+4SkhBknxsVFEIQR4GoFJ9qAGuaZRPnyc
-	 dgQbUuP35rjLwWa+Wy5BQcItU/dl4k2UBh5EPqESIFrnky7hLkYNwmZ+Y6n10OdVAB
-	 PXmzosTfNCB+w==
+	b=O6ldXDYMpZBEkbuz42LNYGNEnGGW31L2Pjj0c0yDS19yoUH0dT9LaoExBAtcgotsb
+	 jo7k6/rK/paRqhmRTcWoGojx0pfDmJkzVXqYbtHJo0nZG2fB3OZ7ZB7Frv0TpFt0w6
+	 qPkl5ltVamlJPYrVzjpCqhXibppF9oEXdU/5a29fvxuQytgNN7ABDg9qrZVzTZo3/6
+	 8Z3N/Q047NWarIffxPjU/Il2hqTnL8CEsxfGn9PNUjJZhLQUxtNzAG7qJwdTvLTaPw
+	 jBXZUnFs3ffUpKo2MfPejhF7jhGNQByVw4cokVbRXCzljxR/1W2CRZ9x2txop8NwtD
+	 630YK4uKr++tw==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-Date: Tue, 14 Jul 2026 13:56:30 +0100
-Subject: [PATCH v6 11/16] firmware: arm_scmi: Clear SystemPower flag on
- create failure
+Date: Tue, 14 Jul 2026 13:56:31 +0100
+Subject: [PATCH v6 12/16] firmware: arm_scmi: Fix OF node reference
+ handling
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,164 +38,84 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260714-scmi_core_fixes-v6-11-3afe499d46e3@kernel.org>
+Message-Id: <20260714-scmi_core_fixes-v6-12-3afe499d46e3@kernel.org>
 References: <20260714-scmi_core_fixes-v6-0-3afe499d46e3@kernel.org>
 In-Reply-To: <20260714-scmi_core_fixes-v6-0-3afe499d46e3@kernel.org>
 To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Cc: Cristian Marussi <cristian.marussi@arm.com>
 X-Mailer: b4 0.15.2
 
-__scmi_device_create() reserves the singleton SystemPower protocol device
-before registering the SCMI device. If any later step fails, a stale
-reservation can make a later retry reject SystemPower device creation
-permanently, for example after probe deferral.
+SCMI devices store the DT node in dev.of_node through
+device_set_node(), but that helper only assigns the fwnode and
+of_node pointers without taking an OF node reference.
 
-A plain global boolean is not enough to track the reservation. A delayed
-final release of an older SystemPower device could clear the boolean after
-a newer device has already claimed it, breaking the singleton guarantee for
-the active device.
+Take a reference when assigning the node and release it from the
+SCMI device release path. With the device owning that reference,
+remove the separate channel-side get/put pair from the core driver.
 
-Track the reservation with the scmi_device pointer itself. Claim it with
-cmpxchg(NULL, scmi_dev) after allocating the device object, and release it
-with cmpxchg(scmi_dev, NULL) from the common cleanup helper. This lets the
-create-failure, explicit destroy and final release paths clear only the
-reservation owned by the device being cleaned up.
-
-Fixes: 2c3e674465e7 ("firmware: arm_scmi: Refactor device create/destroy helpers")
-Reported-by: Sashiko <sashiko-bot@kernel.org>
+Fixes: 96da4a99ce50 ("firmware: arm_scmi: Set fwnode for the scmi_device")
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
 ---
- drivers/firmware/arm_scmi/bus.c | 59 ++++++++++++++++++++++-------------------
- 1 file changed, 32 insertions(+), 27 deletions(-)
+ drivers/firmware/arm_scmi/bus.c    | 3 ++-
+ drivers/firmware/arm_scmi/driver.c | 4 ----
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
-index 793be9eabaed..dcaefc1aa892 100644
+index dcaefc1aa892..a14df82a9310 100644
 --- a/drivers/firmware/arm_scmi/bus.c
 +++ b/drivers/firmware/arm_scmi/bus.c
-@@ -7,7 +7,6 @@
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
--#include <linux/atomic.h>
- #include <linux/types.h>
- #include <linux/module.h>
- #include <linux/of.h>
-@@ -33,8 +32,8 @@ struct scmi_requested_dev {
- 	struct list_head node;
- };
- 
--/* Track globally the creation of SCMI SystemPower related devices */
--static atomic_t scmi_syspower_registered = ATOMIC_INIT(0);
-+/* Track globally the SCMI SystemPower protocol device. */
-+static struct scmi_device *scmi_syspower_registered;
- 
- /**
-  * scmi_protocol_device_request  - Helper to request a device
-@@ -391,10 +390,17 @@ void scmi_driver_unregister(struct scmi_driver *driver)
- }
- EXPORT_SYMBOL_GPL(scmi_driver_unregister);
- 
-+static void scmi_device_release_syspower(struct scmi_device *scmi_dev)
-+{
-+	if (scmi_dev->protocol_id == SCMI_PROTOCOL_SYSTEM)
-+		cmpxchg(&scmi_syspower_registered, scmi_dev, NULL);
-+}
-+
- static void scmi_device_release(struct device *dev)
- {
+@@ -401,6 +401,7 @@ static void scmi_device_release(struct device *dev)
  	struct scmi_device *scmi_dev = to_scmi_dev(dev);
  
-+	scmi_device_release_syspower(scmi_dev);
+ 	scmi_device_release_syspower(scmi_dev);
++	of_node_put(dev->of_node);
  	kfree_const(scmi_dev->name);
  	kfree(scmi_dev);
  }
-@@ -406,9 +412,7 @@ static void __scmi_device_destroy(struct scmi_device *scmi_dev)
- 		 dev_name(&scmi_dev->dev), scmi_dev->protocol_id,
- 		 scmi_dev->name);
- 
--	if (scmi_dev->protocol_id == SCMI_PROTOCOL_SYSTEM)
--		atomic_set(&scmi_syspower_registered, 0);
--
-+	scmi_device_release_syspower(scmi_dev);
- 	ida_free(&scmi_bus_id, scmi_dev->id);
- 	device_unregister(&scmi_dev->dev);
- }
-@@ -419,6 +423,7 @@ __scmi_device_create(struct device_node *np, struct device *parent,
- {
- 	int id, retval;
- 	struct scmi_device *scmi_dev;
-+	bool syspower = (protocol == SCMI_PROTOCOL_SYSTEM);
- 
- 	/*
- 	 * If the same protocol/name device already exist under the same parent
-@@ -431,39 +436,33 @@ __scmi_device_create(struct device_node *np, struct device *parent,
- 	if (scmi_dev)
- 		return scmi_dev;
- 
-+	scmi_dev = kzalloc_obj(*scmi_dev);
-+	if (!scmi_dev)
-+		return NULL;
-+
-+	scmi_dev->protocol_id = protocol;
-+
- 	/*
--	 * Ignore any possible subsequent failures while creating the device
--	 * since we are doomed anyway at that point; not using a mutex which
--	 * spans across this whole function to keep things simple and to avoid
--	 * to serialize all the __scmi_device_create calls across possibly
--	 * different SCMI server instances (parent)
-+	 * Reserve the singleton SystemPower protocol device using the device
-+	 * pointer itself, so delayed release of an older device cannot clear
-+	 * a reservation owned by a newer device.
- 	 */
--	if (protocol == SCMI_PROTOCOL_SYSTEM &&
--	    atomic_cmpxchg(&scmi_syspower_registered, 0, 1)) {
-+	if (syspower && cmpxchg(&scmi_syspower_registered, NULL, scmi_dev)) {
- 		dev_warn(parent,
- 			 "SCMI SystemPower protocol device must be unique !\n");
-+		kfree(scmi_dev);
- 		return NULL;
- 	}
- 
--	scmi_dev = kzalloc_obj(*scmi_dev);
--	if (!scmi_dev)
--		return NULL;
--
- 	scmi_dev->name = kstrdup_const(name ?: "unknown", GFP_KERNEL);
--	if (!scmi_dev->name) {
--		kfree(scmi_dev);
--		return NULL;
--	}
-+	if (!scmi_dev->name)
-+		goto free_dev;
- 
- 	id = ida_alloc_min(&scmi_bus_id, 1, GFP_KERNEL);
--	if (id < 0) {
--		kfree_const(scmi_dev->name);
--		kfree(scmi_dev);
--		return NULL;
--	}
-+	if (id < 0)
-+		goto free_name;
+@@ -464,7 +465,7 @@ __scmi_device_create(struct device_node *np, struct device *parent,
  
  	scmi_dev->id = id;
--	scmi_dev->protocol_id = protocol;
  	scmi_dev->dev.parent = parent;
- 	device_set_node(&scmi_dev->dev, of_fwnode_handle(np));
+-	device_set_node(&scmi_dev->dev, of_fwnode_handle(np));
++	device_set_node(&scmi_dev->dev, of_fwnode_handle(of_node_get(np)));
  	scmi_dev->dev.bus = &scmi_bus_type;
-@@ -482,6 +481,12 @@ __scmi_device_create(struct device_node *np, struct device *parent,
- 	put_device(&scmi_dev->dev);
- 	ida_free(&scmi_bus_id, id);
- 	return NULL;
-+free_name:
-+	kfree_const(scmi_dev->name);
-+free_dev:
-+	scmi_device_release_syspower(scmi_dev);
-+	kfree(scmi_dev);
-+	return NULL;
- }
+ 	scmi_dev->dev.release = scmi_device_release;
+ 	dev_set_name(&scmi_dev->dev, "scmi_dev.%d", id);
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index 84d1294f269c..532f1f65b2ab 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -2789,14 +2789,12 @@ static int scmi_chan_setup(struct scmi_info *info, struct device_node *of_node,
+ 		devm_kfree(info->dev, cinfo);
+ 		return -EINVAL;
+ 	}
+-	of_node_get(of_node);
  
- static struct scmi_device *
+ 	cinfo->id = prot_id;
+ 	cinfo->dev = &tdev->dev;
+ 	cinfo->handle = &info->handle;
+ 	ret = info->desc->ops->chan_setup(cinfo, info->dev, tx);
+ 	if (ret) {
+-		of_node_put(of_node);
+ 		scmi_device_destroy(info->dev, prot_id, name);
+ 		devm_kfree(info->dev, cinfo);
+ 		return ret;
+@@ -2820,7 +2818,6 @@ static int scmi_chan_setup(struct scmi_info *info, struct device_node *of_node,
+ 		/* Destroy channel and device only if created by this call. */
+ 		if (tdev) {
+ 			info->desc->ops->chan_free(prot_id, cinfo, idr);
+-			of_node_put(of_node);
+ 			scmi_device_destroy(info->dev, prot_id, name);
+ 			devm_kfree(info->dev, cinfo);
+ 		}
+@@ -2906,7 +2903,6 @@ static int scmi_chan_destroy(int id, void *p, void *data)
+ 		struct scmi_info *info = handle_to_scmi_info(cinfo->handle);
+ 		struct scmi_device *sdev = to_scmi_dev(cinfo->dev);
+ 
+-		of_node_put(cinfo->dev->of_node);
+ 		scmi_device_destroy(info->dev, cinfo->id, sdev->name);
+ 		cinfo->dev = NULL;
+ 	}
 
 -- 
 2.43.0
