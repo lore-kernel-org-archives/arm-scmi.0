@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70CC243FD0E
-	for <arm-scmi@vger.kernel.org>; Tue, 14 Jul 2026 12:58:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63888448CFF
+	for <arm-scmi@vger.kernel.org>; Tue, 14 Jul 2026 12:58:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784033930; cv=none; b=CpF6fUDgqmV6eZOUSV9K1h0AYIFmU/Hd+ExB08lpSK9XIgEGwdpbbZGBWxhCrR3fhMMJw5Cd2+fxcyTQMffx+aeHnjfhtTQBDQqofff6SGqruMl922VEgtkm6aMyI6qn2ubw2TDeswPPg549rp1BdXShojUu6m+U9zACsErHSvI=
+	t=1784033931; cv=none; b=lWhcuNpXoS6kTT4Pl+oC0F8rc8EsrhdNQ9+iu/G4jAHr3xRMNSzFfLvQDXNyH2Ti0Y2Y+8FwIMPEAwZQqzknm958rNaM0LtPY/OEbUiAXivYj4i5tothnQqYgJnbMgZPkMllms+P674Iz5kgcUw28y0tgPvnjtQD8mmKZkLFZ+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784033930; c=relaxed/simple;
-	bh=PDTeTHF7HnDk7xRPF4Oo9ijNRuAcJuOj/UfV5LF7mDg=;
+	s=arc-20240116; t=1784033931; c=relaxed/simple;
+	bh=sZnLVSKYW1MZnY08FOy7CGpr9N37cuQlDVvfG7ZKMIw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WGTTU/mNKkIY/uxQez3TRYGXj2pEmscl7a3IdRkAoH1mG+knKAm5YJzHCwYo27Ym8UinQNCwBjidqmXF5O3A8fQzmfSCR7REmhqGHQ3F/vJjEer0SSz8jcqTuR14FPISaa0bGE2VmZUNGrhKDReXiolde1yWEnw6PxuNdsajoac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O6ldXDYM; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=bPNJxFo0og/nr81BHzgltNuyoG+ra87uVs88CfGAaf/wdvLmRY/lAtargg8DM+8b+KeEF6tr2OhKTQM7J2UHbhxClYkulnkprVV+7CDIqnPJuTUwaFV7InOMFVbKv3KdlsbfrSAfpd8OVoO5eWNXNMh7jMBHb587mB5R/h4pgeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oO594GSp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O6ldXDYM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C625C1F00A3E;
-	Tue, 14 Jul 2026 12:58:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oO594GSp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B935D1F0155D;
+	Tue, 14 Jul 2026 12:58:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784033929;
-	bh=ehQFaZwB++NiZIOgrY7uUtxuBIui57J6SGoKkKl6y/o=;
+	s=k20260515; t=1784033930;
+	bh=wo1cSCYChzZ+SeD4Rr4ePKZmOVyTbiqYMm+hrcWkjS0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=O6ldXDYMpZBEkbuz42LNYGNEnGGW31L2Pjj0c0yDS19yoUH0dT9LaoExBAtcgotsb
-	 jo7k6/rK/paRqhmRTcWoGojx0pfDmJkzVXqYbtHJo0nZG2fB3OZ7ZB7Frv0TpFt0w6
-	 qPkl5ltVamlJPYrVzjpCqhXibppF9oEXdU/5a29fvxuQytgNN7ABDg9qrZVzTZo3/6
-	 8Z3N/Q047NWarIffxPjU/Il2hqTnL8CEsxfGn9PNUjJZhLQUxtNzAG7qJwdTvLTaPw
-	 jBXZUnFs3ffUpKo2MfPejhF7jhGNQByVw4cokVbRXCzljxR/1W2CRZ9x2txop8NwtD
-	 630YK4uKr++tw==
+	b=oO594GSptzEGVod0PfZDkZ0B3Pej48asdckgAWnWyMzWnIKnU7HQ85lUQLJH9kHFg
+	 ClFtThjrE2MCeKq6a+rzW3Xl8K2mm+/l/yEOKZVVPFQCgTMSXFNHmbSpltv0C4mJjc
+	 c32E/4HgmL+7vF4ZuOKUtuh1qj5PJd7COP5UulwxJ377bWwUWA4PbyjIzRzFHq2h45
+	 hq103iSdiguw0eqn2euOcrYyHEgdD+ZHY9Ud5cDeUf5Uta0h5BxDIqU9fX6AWpr87F
+	 DA7nTn+v4Zfmg0TJHzpRnvVEq37YUCfvPY3oc/U33m8qF16T1ylzWFQZmttlfWgWmU
+	 lUxTEDF9J5BvA==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-Date: Tue, 14 Jul 2026 13:56:31 +0100
-Subject: [PATCH v6 12/16] firmware: arm_scmi: Fix OF node reference
- handling
+Date: Tue, 14 Jul 2026 13:56:32 +0100
+Subject: [PATCH v6 13/16] firmware: arm_scmi: Unwind TX receiver mailbox
+ setup failure
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,84 +38,54 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260714-scmi_core_fixes-v6-12-3afe499d46e3@kernel.org>
+Message-Id: <20260714-scmi_core_fixes-v6-13-3afe499d46e3@kernel.org>
 References: <20260714-scmi_core_fixes-v6-0-3afe499d46e3@kernel.org>
 In-Reply-To: <20260714-scmi_core_fixes-v6-0-3afe499d46e3@kernel.org>
 To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Cc: Cristian Marussi <cristian.marussi@arm.com>
 X-Mailer: b4 0.15.2
 
-SCMI devices store the DT node in dev.of_node through
-device_set_node(), but that helper only assigns the fwnode and
-of_node pointers without taking an OF node reference.
+mailbox_chan_setup() can request an additional unidirectional TX
+receiver channel after successfully acquiring the primary channel. If
+that second request fails, the function returns immediately and leaves
+the primary channel allocated.
 
-Take a reference when assigning the node and release it from the
-SCMI device release path. With the device owning that reference,
-remove the separate channel-side get/put pair from the core driver.
+Unwind the primary mailbox channel before returning the error so probe
+deferral or other setup failures do not leave the channel busy for later
+probe attempts.
 
-Fixes: 96da4a99ce50 ("firmware: arm_scmi: Set fwnode for the scmi_device")
+Fixes: 9f68ff79ec2c ("firmware: arm_scmi: Add support for unidirectional mailbox channels")
+Reported-by: Sashiko <sashiko-bot@kernel.org>
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
 ---
- drivers/firmware/arm_scmi/bus.c    | 3 ++-
- drivers/firmware/arm_scmi/driver.c | 4 ----
- 2 files changed, 2 insertions(+), 5 deletions(-)
+ drivers/firmware/arm_scmi/transports/mailbox.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
-index dcaefc1aa892..a14df82a9310 100644
---- a/drivers/firmware/arm_scmi/bus.c
-+++ b/drivers/firmware/arm_scmi/bus.c
-@@ -401,6 +401,7 @@ static void scmi_device_release(struct device *dev)
- 	struct scmi_device *scmi_dev = to_scmi_dev(dev);
- 
- 	scmi_device_release_syspower(scmi_dev);
-+	of_node_put(dev->of_node);
- 	kfree_const(scmi_dev->name);
- 	kfree(scmi_dev);
- }
-@@ -464,7 +465,7 @@ __scmi_device_create(struct device_node *np, struct device *parent,
- 
- 	scmi_dev->id = id;
- 	scmi_dev->dev.parent = parent;
--	device_set_node(&scmi_dev->dev, of_fwnode_handle(np));
-+	device_set_node(&scmi_dev->dev, of_fwnode_handle(of_node_get(np)));
- 	scmi_dev->dev.bus = &scmi_bus_type;
- 	scmi_dev->dev.release = scmi_device_release;
- 	dev_set_name(&scmi_dev->dev, "scmi_dev.%d", id);
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 84d1294f269c..532f1f65b2ab 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -2789,14 +2789,12 @@ static int scmi_chan_setup(struct scmi_info *info, struct device_node *of_node,
- 		devm_kfree(info->dev, cinfo);
- 		return -EINVAL;
- 	}
--	of_node_get(of_node);
- 
- 	cinfo->id = prot_id;
- 	cinfo->dev = &tdev->dev;
- 	cinfo->handle = &info->handle;
- 	ret = info->desc->ops->chan_setup(cinfo, info->dev, tx);
- 	if (ret) {
--		of_node_put(of_node);
- 		scmi_device_destroy(info->dev, prot_id, name);
- 		devm_kfree(info->dev, cinfo);
- 		return ret;
-@@ -2820,7 +2818,6 @@ static int scmi_chan_setup(struct scmi_info *info, struct device_node *of_node,
- 		/* Destroy channel and device only if created by this call. */
- 		if (tdev) {
- 			info->desc->ops->chan_free(prot_id, cinfo, idr);
--			of_node_put(of_node);
- 			scmi_device_destroy(info->dev, prot_id, name);
- 			devm_kfree(info->dev, cinfo);
+diff --git a/drivers/firmware/arm_scmi/transports/mailbox.c b/drivers/firmware/arm_scmi/transports/mailbox.c
+index b6459fbb8151..37e3eab529ea 100644
+--- a/drivers/firmware/arm_scmi/transports/mailbox.c
++++ b/drivers/firmware/arm_scmi/transports/mailbox.c
+@@ -230,9 +230,10 @@ static int mailbox_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
+ 		smbox->chan_receiver = mbox_request_channel(cl, a2p_rx_chan);
+ 		if (IS_ERR(smbox->chan_receiver)) {
+ 			ret = PTR_ERR(smbox->chan_receiver);
++			smbox->chan_receiver = NULL;
+ 			if (ret != -EPROBE_DEFER)
+ 				dev_err(cdev, "failed to request SCMI Tx Receiver mailbox\n");
+-			return ret;
++			goto err_free_chan;
  		}
-@@ -2906,7 +2903,6 @@ static int scmi_chan_destroy(int id, void *p, void *data)
- 		struct scmi_info *info = handle_to_scmi_info(cinfo->handle);
- 		struct scmi_device *sdev = to_scmi_dev(cinfo->dev);
- 
--		of_node_put(cinfo->dev->of_node);
- 		scmi_device_destroy(info->dev, cinfo->id, sdev->name);
- 		cinfo->dev = NULL;
  	}
+ 
+@@ -248,6 +249,8 @@ static int mailbox_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
+ 
+ 	return 0;
+ 
++err_free_chan:
++	mbox_free_channel(smbox->chan);
+ err_clear_cinfo:
+ 	cinfo->transport_info = NULL;
+ 	smbox->cinfo = NULL;
 
 -- 
 2.43.0
