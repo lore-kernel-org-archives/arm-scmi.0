@@ -1,183 +1,152 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AE442E8E5
-	for <arm-scmi@vger.kernel.org>; Mon, 20 Jul 2026 14:43:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 126873B47F5;
+	Mon, 20 Jul 2026 16:02:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784558612; cv=none; b=bCfwq0SFX1UDFbr1z85R8SGs6nOBLHb+CF78kmGIMlIUwRaw7NaKe4wzeBRQ/q/DIkj0VeMLUsKBa80DYv+/1d/ElOxiSiEpUslLs4rKBlkrmME0IMMW6P12zTPKXfgRRE7yXo1aYXjWJN5f9uNKLgsGOBElP86hoJtjQ/rsn0c=
+	t=1784563362; cv=none; b=EUNToqJiSfy+OL/7lN1OgpRHuNfRS5mwGZP+ZEyymu4+UEfqle98YvLphAZlcqwXqAT+V++j8xU3vx7JF1Z7i1Nw8fxmdGwRpGdtXcFQsMwURD2T4vIF3gDCXEB+i7w35XrDOclmnJny9dHxhN0J/gPozZ6jhTZogu+4Dwa1qvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784558612; c=relaxed/simple;
-	bh=z4xNGYkf4fETdRDY/WXmkgQmHnFeScnUkN9aeJpb0+8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JkzZZ7XK4tJOm+qJQgnY0YSnBobY1VYvXpgoVeaZv3tG6ho3bVEfW4qgxKqeTPSWZOB8Uap3j9+Tb4YNQdiQYxD1fxjDONf4l3wnroA73sb6s3JcxbfyycomWEgZgWMs1qjCfElO8DxhPb6uF/PzvKh4sp7A7P92cV2TUXrRh4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ylz9mDKR; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784563362; c=relaxed/simple;
+	bh=auL4KqCMPfeMkm3vBBoN7GaAgpOf9TlCNOQnNVSIeTQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J4WWutMB6eCvvR25lsWEPzPvNeeypkQhxCXKq9ckME6IDp6/5AEDXxTLlSutLxuxwa023DKXHzwIiprGISPKYsVApHxnISz9FJ94aRztCjpn1Djro3RWi/Ln/HvGDq5NTPO1s8ez5xnyASJNcUHtzbbZ4WMCVaGWE/lnxN6d8Kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=lGC2UkOj; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ylz9mDKR"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c9aea40d799so3255469a12.0
-        for <arm-scmi@vger.kernel.org>; Mon, 20 Jul 2026 07:43:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784558609; x=1785163409; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YRPQsRwj+n1ng0H+WDG2QV9LkRG40/jMmpAbf3NOmNY=;
-        b=Ylz9mDKRMe6O4vjS+eQwOXJiakIAaEobGKbnFVNCh0Wek9nIDGMhVCXE0joTv1/Sgh
-         txhsTjkpV2mveGVg5L57b7HM6BUD6LsYgvckzclc1Hlmh3hY8/fv+rR5YqUNnS6F2juW
-         Nu0U4rggrOgtrxaiX8c31rkeT2cCIozh764BKKipQaNlFOdgPl/p+7mEOfbGAjSW+W2V
-         6cMoXsz4vh+ZaAbN+ZFyra1VqkImhvfjbyvJZAfm32cLpiauPZEjvWp2JCCz+cFalAVR
-         7vFBqZ7jKAlbUiFbf3LTLgdSHfGLvQuoPyFKnRdl190kQBr8DIDWb9ktMwguCnCGOvPB
-         tTNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784558609; x=1785163409;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=YRPQsRwj+n1ng0H+WDG2QV9LkRG40/jMmpAbf3NOmNY=;
-        b=bjTjR/T3BZai2wPeVM7KxCnGNyKl1HCitM30+80Gwu3aHl4A8g+4Y+5JzgAkcOwz2Q
-         cr1MCxsZzMf2VUoZHkbuhUdCTpeUt7UESojBuiugmDZCWJ23ulwlZzZatOR5Ajg0vDvm
-         FEp8Kz4Cyidv0rTJFD5SD4Z4zeiEZrz7Tp5IHatDTL4Q3Fc343I4P0DmG4nmxXfaGRF7
-         yIIAM126cNnyymM4oyrixOfVA7HiqJOhzshLgkxXFtS67q8VmoE4g0uHdHkkeHseIL7F
-         P+3EmDS73Kx0VVXGf0KHXhxoLa6bYpxwqiFnZ3LspPYwK/k2VSbnUw69vvlO/nEPm7RQ
-         ZQsw==
-X-Forwarded-Encrypted: i=1; AHgh+RoZLuggpAm522bHZn0WyuxS4hndFLO4q19NQh76dLUW2xR1S8pvDDSvD9gyViZMKpfTgGULB2ZjQg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YytxJDuE1Lh0NIcmDwkHu0nU5TFLofsvzB49eFyp/6Ajn0GMCc2
-	aWQfoCMYD5tqUIg/pNR7Pp1rSH3H4oxCb2e0wcQDN5IBN4A3mDkgJLg7
-X-Gm-Gg: AfdE7ckwvac+yGs63rx9jIZyY6Ay+kacXHHIus2/PrZY0vJ7C9x6emCmc0OkXfclXL4
-	6/cgihPfOJRPvqmkUU6uCOhWAt5JhAhn40N9AOxK03VifLcGJiz24K2lXu+oRF7nEMgGh/IwWjh
-	b63luziCAb6ED4m0Jgzau2rAJe0ihhvTku+xCyDDeJgf8iWG6YdeMoPwjE8jaB2CZwZTYs9XU9O
-	1wWq1NcknkSTizhN/EZfQ77W+nZveinDVVmlcL0fI4T6QYiTuDaJyPQImwxMrBZnZKnQgyhAGjW
-	MAbZcPyswHLBp0VJxbEk3HiRlxfXlEF3wQ074OFEQhCIUxEMdTnZk+kSIujE4jNjcWv7O/4fiR3
-	l1fhhpfsGl3asXytFOGOv/RFlCMT7B2FCBHzVhscQV27UobqY1y7PO93p/nyv+PMfves6EXgp4q
-	1s6iuAatFNPhcVU7ENA5Ieh777u6qMrsSTlzcSp/1tBEbAq05sLSo=
-X-Received: by 2002:a05:6a21:3981:b0:3c0:adec:b3bd with SMTP id adf61e73a8af0-3c3ad9646afmr16051848637.49.1784558608970;
-        Mon, 20 Jul 2026 07:43:28 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31429f9bb62sm35894013eec.2.2026.07.20.07.43.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Jul 2026 07:43:28 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <612e3496-2917-4d4c-8794-69c3b5b27c5c@roeck-us.net>
-Date: Mon, 20 Jul 2026 07:43:25 -0700
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="lGC2UkOj"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5D2E51476;
+	Mon, 20 Jul 2026 09:02:36 -0700 (PDT)
+Received: from e131404.arm.com (unknown [10.57.41.115])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0B4BA3F86F;
+	Mon, 20 Jul 2026 09:02:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1784563360; bh=auL4KqCMPfeMkm3vBBoN7GaAgpOf9TlCNOQnNVSIeTQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=lGC2UkOjKyI2ffcd3XhF+mc1eIwSg6Hn1UwooYoFst2PnOBW9SQSCzn3lqOYjYSEP
+	 FkAemVGaL08iCG7Jo+BWX7mHnM4W4+0hUr7gxe/RV41lQLTvXXwkDFFY3rHaiKBFDB
+	 K3ZG60dazhX9Owdok+Nna/xOZmqtlpjPIudDo4SA=
+From: Laszlo Ersek <laszlo.ersek@arm.com>
+To: laszlo.ersek@arm.com
+Cc: Conor Dooley <conor+dt@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	arm-scmi@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation/devicetree/bindings: update Sudeep Holla's email address
+Date: Mon, 20 Jul 2026 18:02:30 +0200
+Message-ID: <20260720160235.36592-1-laszlo.ersek@arm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] firmware: scmi: Make SCMI arch independent
-To: Ulf Hansson <ulf.hansson@oss.qualcomm.com>,
- Cristian Marussi <cristian.marussi@arm.com>
-Cc: Michal Simek <michal.simek@amd.com>, linux-kernel@vger.kernel.org,
- monstr@monstr.eu, git@amd.com, vincent.guittot@linaro.org,
- Souvik.Chakravarty@arm.com, Alex Shi <alexs@kernel.org>,
- Andy Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
- Brian Masney <bmasney@redhat.com>, David Lechner <dlechner@baylibre.com>,
- Dongliang Mu <dzm91@hust.edu.cn>, Fabio Estevam <festevam@gmail.com>,
- Frank Li <Frank.Li@nxp.com>, Jonathan Cameron <jic23@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linusw@kernel.org>,
- Lukasz Luba <lukasz.luba@arm.com>, Mark Brown <broonie@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Pavel Machek <pavel@kernel.org>,
- Peng Fan <peng.fan@nxp.com>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan
- <skhan@linuxfoundation.org>, Stephen Boyd <sboyd@kernel.org>,
- Sudeep Holla <sudeep.holla@kernel.org>, Ulf Hansson <ulfh@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Yanteng Si <si.yanteng@linux.dev>,
- arm-scmi@vger.kernel.org,
- "open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>,
- linux-arm-kernel@lists.infradead.org,
- "open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
- "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
- "open list:ENERGY MODEL" <linux-pm@vger.kernel.org>
-References: <d7f7e8c9589d937b60e43168845ab4fda15037a3.1783603600.git.michal.simek@amd.com>
- <ak_Eu_eQKalPMwo-@pluto>
- <CAPx+jO9KMcxnmt-wT5jaApj9p7s11B6eSG6K08Jt9J=-vXxjhA@mail.gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <CAPx+jO9KMcxnmt-wT5jaApj9p7s11B6eSG6K08Jt9J=-vXxjhA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: base64
 
-On 7/14/26 06:16, Ulf Hansson wrote:
-> On Thu, Jul 9, 2026 at 5:56 PM Cristian Marussi
-> <cristian.marussi@arm.com> wrote:
->>
->> On Thu, Jul 09, 2026 at 03:27:00PM +0200, Michal Simek wrote:
->>> On heterogenious systems like AMD/Xilinx FPGA there is a need to talk to
->>> SCMI server from different architectures than ARM that's why remove
->>> ARM/ARM64 Kconfig dependency with also remove ARM from description and
->>> rename folder to reflect it.
->>
->> While I understand dropping the dependency on ARM (I always wanted to do
->> that and test if it worked at all on some otehr archs with QEMU), I am
->> not sure about the whole renaming party ? why is needed just for
->> cosmetic reasons ? it is at the end an arm originated protocol so I dont
->> see it as a being wrong to be named as such even though used by other
->> archs...I have not really strong opinion on this...
-> 
-> This is certainly not my call to make, but I have to admit that I
-> fully agree with the above.
-> 
-> Usually we don't rename files that indicate a legacy platform name,
-> just because a new company/platform wants to make use of it.
-> 
-
-I agree.
-
-Guenter
-
+TUFJTlRBSU5FUlMgZGlzYWdyZWVzIHdpdGggRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzIG9uIFN1ZGVlcCdzCmVtYWlsIGFkZHJlc3M7IGZpeCB0aGUgbGF0dGVyLgoKQ2M6IENvbm9y
+IERvb2xleSA8Y29ub3IrZHRAa2VybmVsLm9yZz4KQ2M6IENyaXN0aWFuIE1hcnVzc2kgPGNyaXN0
+aWFuLm1hcnVzc2lAYXJtLmNvbT4KQ2M6IEphc3NpIEJyYXIgPGphc3Npc2luZ2hicmFyQGdtYWls
+LmNvbT4KQ2M6IEtyenlzenRvZiBLb3psb3dza2kgPGtyemsrZHRAa2VybmVsLm9yZz4KQ2M6IExp
+bnVzIFdhbGxlaWogPGxpbnVzd0BrZXJuZWwub3JnPgpDYzogTGl2aXUgRHVkYXUgPGxpdml1LmR1
+ZGF1QGFybS5jb20+CkNjOiBMb3JlbnpvIFBpZXJhbGlzaSA8bHBpZXJhbGlzaUBrZXJuZWwub3Jn
+PgpDYzogUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz4KQ2M6IFN1ZGVlcCBIb2xsYSA8c3Vk
+ZWVwLmhvbGxhQGtlcm5lbC5vcmc+CkNjOiBhcm0tc2NtaUB2Z2VyLmtlcm5lbC5vcmcKQ2M6IGRl
+dmljZXRyZWVAdmdlci5rZXJuZWwub3JnCkNjOiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJh
+ZGVhZC5vcmcKQ2M6IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcKRml4ZXM6IDU5ZTgyYTQy
+MzdjZiAoIk1BSU5UQUlORVJTOiBDaGFuZ2UgU3VkZWVwIEhvbGxhJ3MgZW1haWwgYWRkcmVzcyIp
+ClNpZ25lZC1vZmYtYnk6IExhc3psbyBFcnNlayA8bGFzemxvLmVyc2VrQGFybS5jb20+Ci0tLQog
+RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9hcm0sanVuby1mcGdhLWFwYi1y
+ZWdzLnlhbWwgfCAyICstCiBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL2Fy
+bSx2ZXhwcmVzcy1qdW5vLnlhbWwgICAgICB8IDIgKy0KIERvY3VtZW50YXRpb24vZGV2aWNldHJl
+ZS9iaW5kaW5ncy9hcm0vYXJtLHZleHByZXNzLXNjYy55YW1sICAgICAgIHwgMiArLQogRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2R2ZnMvcGVyZm9ybWFuY2UtZG9tYWluLnlhbWwg
+ICAgfCAyICstCiBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZmlybXdhcmUvYXJt
+LHNjbWkueWFtbCAgICAgICAgICB8IDIgKy0KIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
+aW5ncy9maXJtd2FyZS9hcm0sc2NwaS55YW1sICAgICAgICAgIHwgMiArLQogRG9jdW1lbnRhdGlv
+bi9kZXZpY2V0cmVlL2JpbmRpbmdzL21haWxib3gvYXJtLG1odXYzLnlhbWwgICAgICAgICAgfCAy
+ICstCiA3IGZpbGVzIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKCmRp
+ZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL2FybSxqdW5v
+LWZwZ2EtYXBiLXJlZ3MueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9h
+cm0vYXJtLGp1bm8tZnBnYS1hcGItcmVncy55YW1sCmluZGV4IGNlNWYyZTFlYzFlYS4uNGFlN2Rj
+NzA2Yjg0IDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJt
+L2FybSxqdW5vLWZwZ2EtYXBiLXJlZ3MueWFtbAorKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvYXJtL2FybSxqdW5vLWZwZ2EtYXBiLXJlZ3MueWFtbApAQCAtNyw3ICs3LDcg
+QEAgJHNjaGVtYTogaHR0cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlhbWwj
+CiB0aXRsZTogQVJNIEp1bm8gRlBHQSBBUEIgUmVnaXN0ZXJzCiAKIG1haW50YWluZXJzOgotICAt
+IFN1ZGVlcCBIb2xsYSA8c3VkZWVwLmhvbGxhQGFybS5jb20+CisgIC0gU3VkZWVwIEhvbGxhIDxz
+dWRlZXAuaG9sbGFAa2VybmVsLm9yZz4KIAogcHJvcGVydGllczoKICAgY29tcGF0aWJsZToKZGlm
+ZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vYXJtLHZleHBy
+ZXNzLWp1bm8ueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vYXJt
+LHZleHByZXNzLWp1bm8ueWFtbAppbmRleCA5NWQ0YmFhODU1MDYuLjMwY2M1MzRhOTFlZSAxMDA2
+NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9hcm0sdmV4cHJl
+c3MtanVuby55YW1sCisrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0v
+YXJtLHZleHByZXNzLWp1bm8ueWFtbApAQCAtNyw3ICs3LDcgQEAgJHNjaGVtYTogaHR0cDovL2Rl
+dmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlhbWwjCiB0aXRsZTogQVJNIFZlcnNhdGls
+ZSBFeHByZXNzIGFuZCBKdW5vIEJvYXJkcwogCiBtYWludGFpbmVyczoKLSAgLSBTdWRlZXAgSG9s
+bGEgPHN1ZGVlcC5ob2xsYUBhcm0uY29tPgorICAtIFN1ZGVlcCBIb2xsYSA8c3VkZWVwLmhvbGxh
+QGtlcm5lbC5vcmc+CiAgIC0gTGludXMgV2FsbGVpaiA8bGludXN3QGtlcm5lbC5vcmc+CiAKIGRl
+c2NyaXB0aW9uOiB8KwpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL2FybS9hcm0sdmV4cHJlc3Mtc2NjLnlhbWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
+YmluZGluZ3MvYXJtL2FybSx2ZXhwcmVzcy1zY2MueWFtbAppbmRleCA5YjhmN2UwYzRlYTAuLjA2
+MGMwYmM1OGExNSAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
+L2FybS9hcm0sdmV4cHJlc3Mtc2NjLnlhbWwKKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
+L2JpbmRpbmdzL2FybS9hcm0sdmV4cHJlc3Mtc2NjLnlhbWwKQEAgLTgsNyArOCw3IEBAIHRpdGxl
+OiBBUk0gVmVyc2F0aWxlIEV4cHJlc3MgU2VyaWFsIENvbmZpZ3VyYXRpb24gQ29udHJvbGxlcgog
+CiBtYWludGFpbmVyczoKICAgLSBMaXZpdSBEdWRhdSA8bGl2aXUuZHVkYXVAYXJtLmNvbT4KLSAg
+LSBTdWRlZXAgSG9sbGEgPHN1ZGVlcC5ob2xsYUBhcm0uY29tPgorICAtIFN1ZGVlcCBIb2xsYSA8
+c3VkZWVwLmhvbGxhQGtlcm5lbC5vcmc+CiAKIGRlc2NyaXB0aW9uOiB8CiAgIFRlc3QgY2hpcHMg
+Zm9yIEFSTSBWZXJzYXRpbGUgRXhwcmVzcyBwbGF0Zm9ybSBpbXBsZW1lbnQgU0NDIChTZXJpYWwK
+ZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kdmZzL3BlcmZv
+cm1hbmNlLWRvbWFpbi55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2R2
+ZnMvcGVyZm9ybWFuY2UtZG9tYWluLnlhbWwKaW5kZXggY2M5MzA2NjBiNzk0Li4wOWJiZDJlMzM3
+ODYgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kdmZzL3Bl
+cmZvcm1hbmNlLWRvbWFpbi55YW1sCisrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
+aW5ncy9kdmZzL3BlcmZvcm1hbmNlLWRvbWFpbi55YW1sCkBAIC03LDcgKzcsNyBAQCAkc2NoZW1h
+OiBodHRwOi8vZGV2aWNldHJlZS5vcmcvbWV0YS1zY2hlbWFzL2NvcmUueWFtbCMKIHRpdGxlOiBH
+ZW5lcmljIHBlcmZvcm1hbmNlIGRvbWFpbnMKIAogbWFpbnRhaW5lcnM6Ci0gIC0gU3VkZWVwIEhv
+bGxhIDxzdWRlZXAuaG9sbGFAYXJtLmNvbT4KKyAgLSBTdWRlZXAgSG9sbGEgPHN1ZGVlcC5ob2xs
+YUBrZXJuZWwub3JnPgogCiBkZXNjcmlwdGlvbjogfCsKICAgVGhpcyBiaW5kaW5nIGlzIGludGVu
+ZGVkIGZvciBwZXJmb3JtYW5jZSBtYW5hZ2VtZW50IG9mIGdyb3VwcyBvZiBkZXZpY2VzIG9yCmRp
+ZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZmlybXdhcmUvYXJt
+LHNjbWkueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9maXJtd2FyZS9h
+cm0sc2NtaS55YW1sCmluZGV4IGQwNmNjYTkyNzNjNC4uNmZjNDQxMDVmMWMzIDEwMDY0NAotLS0g
+YS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZmlybXdhcmUvYXJtLHNjbWkueWFt
+bAorKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZmlybXdhcmUvYXJtLHNj
+bWkueWFtbApAQCAtOCw3ICs4LDcgQEAgJHNjaGVtYTogaHR0cDovL2RldmljZXRyZWUub3JnL21l
+dGEtc2NoZW1hcy9jb3JlLnlhbWwjCiB0aXRsZTogU3lzdGVtIENvbnRyb2wgYW5kIE1hbmFnZW1l
+bnQgSW50ZXJmYWNlIChTQ01JKSBNZXNzYWdlIFByb3RvY29sCiAKIG1haW50YWluZXJzOgotICAt
+IFN1ZGVlcCBIb2xsYSA8c3VkZWVwLmhvbGxhQGFybS5jb20+CisgIC0gU3VkZWVwIEhvbGxhIDxz
+dWRlZXAuaG9sbGFAa2VybmVsLm9yZz4KIAogZGVzY3JpcHRpb246IHwKICAgVGhlIFNDTUkgaXMg
+aW50ZW5kZWQgdG8gYWxsb3cgYWdlbnRzIHN1Y2ggYXMgT1NQTSB0byBtYW5hZ2UgdmFyaW91cyBm
+dW5jdGlvbnMKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9m
+aXJtd2FyZS9hcm0sc2NwaS55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
+L2Zpcm13YXJlL2FybSxzY3BpLnlhbWwKaW5kZXggMjQxMzE3MjM5ZmZjLi4wOGM3ZTA1YzU3N2Mg
+MTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9maXJtd2FyZS9h
+cm0sc2NwaS55YW1sCisrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9maXJt
+d2FyZS9hcm0sc2NwaS55YW1sCkBAIC04LDcgKzgsNyBAQCAkc2NoZW1hOiBodHRwOi8vZGV2aWNl
+dHJlZS5vcmcvbWV0YS1zY2hlbWFzL2NvcmUueWFtbCMKIHRpdGxlOiBTeXN0ZW0gQ29udHJvbCBh
+bmQgUG93ZXIgSW50ZXJmYWNlIChTQ1BJKSBNZXNzYWdlIFByb3RvY29sCiAKIG1haW50YWluZXJz
+OgotICAtIFN1ZGVlcCBIb2xsYSA8c3VkZWVwLmhvbGxhQGFybS5jb20+CisgIC0gU3VkZWVwIEhv
+bGxhIDxzdWRlZXAuaG9sbGFAa2VybmVsLm9yZz4KIAogZGVzY3JpcHRpb246IHwKICAgRmlybXdh
+cmUgaW1wbGVtZW50aW5nIHRoZSBTQ1BJIGRlc2NyaWJlZCBpbiBBUk0gZG9jdW1lbnQgbnVtYmVy
+IEFSTSBEVUkKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9t
+YWlsYm94L2FybSxtaHV2My55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
+L21haWxib3gvYXJtLG1odXYzLnlhbWwKaW5kZXggNDQ5YjU1YWZlYjdkLi4wMjVhNWM1NWIyODQg
+MTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tYWlsYm94L2Fy
+bSxtaHV2My55YW1sCisrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tYWls
+Ym94L2FybSxtaHV2My55YW1sCkBAIC03LDcgKzcsNyBAQCAkc2NoZW1hOiBodHRwOi8vZGV2aWNl
+dHJlZS5vcmcvbWV0YS1zY2hlbWFzL2NvcmUueWFtbCMKIHRpdGxlOiBBUk0gTUhVdjMgTWFpbGJv
+eCBDb250cm9sbGVyCiAKIG1haW50YWluZXJzOgotICAtIFN1ZGVlcCBIb2xsYSA8c3VkZWVwLmhv
+bGxhQGFybS5jb20+CisgIC0gU3VkZWVwIEhvbGxhIDxzdWRlZXAuaG9sbGFAa2VybmVsLm9yZz4K
+ICAgLSBDcmlzdGlhbiBNYXJ1c3NpIDxjcmlzdGlhbi5tYXJ1c3NpQGFybS5jb20+CiAKIGRlc2Ny
+aXB0aW9uOiB8Cg==
