@@ -1,98 +1,183 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC0CB395AE7
-	for <arm-scmi@vger.kernel.org>; Mon, 20 Jul 2026 10:33:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AE442E8E5
+	for <arm-scmi@vger.kernel.org>; Mon, 20 Jul 2026 14:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784543620; cv=none; b=Z/1SU0j3u8Ritrgsu16NR6gEsZ6HkpSuh0EvJ9ENqWjnM7A6QqJSVSUNCMmLhK6QJ7XPJeTRJtL68rDn98Dfy7tWj80dWfvGEtwCMHD3DijUXAMILv2SQ64bwizZVHP5Nm+o2BV3/h5oUTXwqh9RAVufJYnfM99G+XBm/55dIuI=
+	t=1784558612; cv=none; b=bCfwq0SFX1UDFbr1z85R8SGs6nOBLHb+CF78kmGIMlIUwRaw7NaKe4wzeBRQ/q/DIkj0VeMLUsKBa80DYv+/1d/ElOxiSiEpUslLs4rKBlkrmME0IMMW6P12zTPKXfgRRE7yXo1aYXjWJN5f9uNKLgsGOBElP86hoJtjQ/rsn0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784543620; c=relaxed/simple;
-	bh=MwlgCPKKl47x0e3Op71K4PzDOpsz0Lh6885cO2amAwY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cGGV6jir1fyOAHQRV4GYf6KHcgDE6oU37RVAo9CzjuhGb5nzY4Ig7usfklHNqVGBFiIIaU07Xh3CgVdJCjvA59RS4btdQ63EGxyeyZOoDQ6R0AdUPirCVIGuqNyC/EJi8iPDl8ED0fLT+JmzzRn8W/ATGIHdBvtpMD6xbirkiAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aw6MQcla; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784558612; c=relaxed/simple;
+	bh=z4xNGYkf4fETdRDY/WXmkgQmHnFeScnUkN9aeJpb0+8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JkzZZ7XK4tJOm+qJQgnY0YSnBobY1VYvXpgoVeaZv3tG6ho3bVEfW4qgxKqeTPSWZOB8Uap3j9+Tb4YNQdiQYxD1fxjDONf4l3wnroA73sb6s3JcxbfyycomWEgZgWMs1qjCfElO8DxhPb6uF/PzvKh4sp7A7P92cV2TUXrRh4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ylz9mDKR; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aw6MQcla"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 796B41F000E9;
-	Mon, 20 Jul 2026 10:33:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784543619;
-	bh=Vck4YIp4wN9OE2k8mCGwpdVQNpG15Z8G4WE7ZLpSflI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=aw6MQclaCpFxlpAoUV/jnRQL7hh2YFwa9P4Z9ZutQuieku10gUKgeSRifW+HGzRoQ
-	 QI9AHxkt4NTDS0N2SuaDWFRcm2E6GZrku4vSc5tGNqhG5ky8rQ4Q+KlByilJlv8IbC
-	 uLYsQS0/LcQ3BYJloRH/H6/NU+aOAJ/T90f13M5d9a0Sojz7K10piM2KAnvUylXHlD
-	 Vx2WzkOq60yZW6myk/qiGGZSNDF1A0VfuziHbCEXNnKjB4x98dXfIE4jGgU44VATA8
-	 taCG3BOoy6/VudwlSQSyy0FcRFp/ZYzUkD04o/VmvvZAfM8Rr+BId0aUH5o1I8YG5Q
-	 fuOeKtmnzZt9w==
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Sudeep Holla <sudeep.holla@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>
-Subject: Re: [PATCH v6 00/16] firmware: arm_scmi: Fix SCMI core cleanup paths
-Date: Mon, 20 Jul 2026 11:33:30 +0100
-Message-ID: <178454357814.1351639.7643602720515590905.b4-ty@b4>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260714-scmi_core_fixes-v6-0-3afe499d46e3@kernel.org>
-References: <20260714-scmi_core_fixes-v6-0-3afe499d46e3@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ylz9mDKR"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c9aea40d799so3255469a12.0
+        for <arm-scmi@vger.kernel.org>; Mon, 20 Jul 2026 07:43:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784558609; x=1785163409; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YRPQsRwj+n1ng0H+WDG2QV9LkRG40/jMmpAbf3NOmNY=;
+        b=Ylz9mDKRMe6O4vjS+eQwOXJiakIAaEobGKbnFVNCh0Wek9nIDGMhVCXE0joTv1/Sgh
+         txhsTjkpV2mveGVg5L57b7HM6BUD6LsYgvckzclc1Hlmh3hY8/fv+rR5YqUNnS6F2juW
+         Nu0U4rggrOgtrxaiX8c31rkeT2cCIozh764BKKipQaNlFOdgPl/p+7mEOfbGAjSW+W2V
+         6cMoXsz4vh+ZaAbN+ZFyra1VqkImhvfjbyvJZAfm32cLpiauPZEjvWp2JCCz+cFalAVR
+         7vFBqZ7jKAlbUiFbf3LTLgdSHfGLvQuoPyFKnRdl190kQBr8DIDWb9ktMwguCnCGOvPB
+         tTNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784558609; x=1785163409;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=YRPQsRwj+n1ng0H+WDG2QV9LkRG40/jMmpAbf3NOmNY=;
+        b=bjTjR/T3BZai2wPeVM7KxCnGNyKl1HCitM30+80Gwu3aHl4A8g+4Y+5JzgAkcOwz2Q
+         cr1MCxsZzMf2VUoZHkbuhUdCTpeUt7UESojBuiugmDZCWJ23ulwlZzZatOR5Ajg0vDvm
+         FEp8Kz4Cyidv0rTJFD5SD4Z4zeiEZrz7Tp5IHatDTL4Q3Fc343I4P0DmG4nmxXfaGRF7
+         yIIAM126cNnyymM4oyrixOfVA7HiqJOhzshLgkxXFtS67q8VmoE4g0uHdHkkeHseIL7F
+         P+3EmDS73Kx0VVXGf0KHXhxoLa6bYpxwqiFnZ3LspPYwK/k2VSbnUw69vvlO/nEPm7RQ
+         ZQsw==
+X-Forwarded-Encrypted: i=1; AHgh+RoZLuggpAm522bHZn0WyuxS4hndFLO4q19NQh76dLUW2xR1S8pvDDSvD9gyViZMKpfTgGULB2ZjQg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YytxJDuE1Lh0NIcmDwkHu0nU5TFLofsvzB49eFyp/6Ajn0GMCc2
+	aWQfoCMYD5tqUIg/pNR7Pp1rSH3H4oxCb2e0wcQDN5IBN4A3mDkgJLg7
+X-Gm-Gg: AfdE7ckwvac+yGs63rx9jIZyY6Ay+kacXHHIus2/PrZY0vJ7C9x6emCmc0OkXfclXL4
+	6/cgihPfOJRPvqmkUU6uCOhWAt5JhAhn40N9AOxK03VifLcGJiz24K2lXu+oRF7nEMgGh/IwWjh
+	b63luziCAb6ED4m0Jgzau2rAJe0ihhvTku+xCyDDeJgf8iWG6YdeMoPwjE8jaB2CZwZTYs9XU9O
+	1wWq1NcknkSTizhN/EZfQ77W+nZveinDVVmlcL0fI4T6QYiTuDaJyPQImwxMrBZnZKnQgyhAGjW
+	MAbZcPyswHLBp0VJxbEk3HiRlxfXlEF3wQ074OFEQhCIUxEMdTnZk+kSIujE4jNjcWv7O/4fiR3
+	l1fhhpfsGl3asXytFOGOv/RFlCMT7B2FCBHzVhscQV27UobqY1y7PO93p/nyv+PMfves6EXgp4q
+	1s6iuAatFNPhcVU7ENA5Ieh777u6qMrsSTlzcSp/1tBEbAq05sLSo=
+X-Received: by 2002:a05:6a21:3981:b0:3c0:adec:b3bd with SMTP id adf61e73a8af0-3c3ad9646afmr16051848637.49.1784558608970;
+        Mon, 20 Jul 2026 07:43:28 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31429f9bb62sm35894013eec.2.2026.07.20.07.43.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jul 2026 07:43:28 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <612e3496-2917-4d4c-8794-69c3b5b27c5c@roeck-us.net>
+Date: Mon, 20 Jul 2026 07:43:25 -0700
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] firmware: scmi: Make SCMI arch independent
+To: Ulf Hansson <ulf.hansson@oss.qualcomm.com>,
+ Cristian Marussi <cristian.marussi@arm.com>
+Cc: Michal Simek <michal.simek@amd.com>, linux-kernel@vger.kernel.org,
+ monstr@monstr.eu, git@amd.com, vincent.guittot@linaro.org,
+ Souvik.Chakravarty@arm.com, Alex Shi <alexs@kernel.org>,
+ Andy Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
+ Brian Masney <bmasney@redhat.com>, David Lechner <dlechner@baylibre.com>,
+ Dongliang Mu <dzm91@hust.edu.cn>, Fabio Estevam <festevam@gmail.com>,
+ Frank Li <Frank.Li@nxp.com>, Jonathan Cameron <jic23@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linusw@kernel.org>,
+ Lukasz Luba <lukasz.luba@arm.com>, Mark Brown <broonie@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Pavel Machek <pavel@kernel.org>,
+ Peng Fan <peng.fan@nxp.com>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan
+ <skhan@linuxfoundation.org>, Stephen Boyd <sboyd@kernel.org>,
+ Sudeep Holla <sudeep.holla@kernel.org>, Ulf Hansson <ulfh@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Yanteng Si <si.yanteng@linux.dev>,
+ arm-scmi@vger.kernel.org,
+ "open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>,
+ linux-arm-kernel@lists.infradead.org,
+ "open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
+ "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
+ "open list:ENERGY MODEL" <linux-pm@vger.kernel.org>
+References: <d7f7e8c9589d937b60e43168845ab4fda15037a3.1783603600.git.michal.simek@amd.com>
+ <ak_Eu_eQKalPMwo-@pluto>
+ <CAPx+jO9KMcxnmt-wT5jaApj9p7s11B6eSG6K08Jt9J=-vXxjhA@mail.gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <CAPx+jO9KMcxnmt-wT5jaApj9p7s11B6eSG6K08Jt9J=-vXxjhA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On Tue, 14 Jul 2026 13:56:19 +0100, Sudeep Holla wrote:
-> Most of these issues were found by Sashiko[1][2] while reviewing the
-> ACPI SCMI PCC work[3]. They are posted separately because the problems
-> are independent SCMI core, mailbox and SMC transport cleanup bugs, and do
-> not depend on the ACPI PCC series.
+On 7/14/26 06:16, Ulf Hansson wrote:
+> On Thu, Jul 9, 2026 at 5:56 PM Cristian Marussi
+> <cristian.marussi@arm.com> wrote:
+>>
+>> On Thu, Jul 09, 2026 at 03:27:00PM +0200, Michal Simek wrote:
+>>> On heterogenious systems like AMD/Xilinx FPGA there is a need to talk to
+>>> SCMI server from different architectures than ARM that's why remove
+>>> ARM/ARM64 Kconfig dependency with also remove ARM from description and
+>>> rename folder to reflect it.
+>>
+>> While I understand dropping the dependency on ARM (I always wanted to do
+>> that and test if it worked at all on some otehr archs with QEMU), I am
+>> not sure about the whole renaming party ? why is needed just for
+>> cosmetic reasons ? it is at the end an arm originated protocol so I dont
+>> see it as a being wrong to be named as such even though used by other
+>> archs...I have not really strong opinion on this...
 > 
-> The series fixes SCMI core and transport lifetime issues around channel
-> setup, probe failure, notification teardown, protocol-device creation,
-> driver binding and malformed firmware descriptions.
+> This is certainly not my call to make, but I have to admit that I
+> fully agree with the above.
 > 
-> [...]
+> Usually we don't rename files that indicate a legacy platform name,
+> just because a new company/platform wants to make use of it.
+> 
 
-Applied to sudeep.holla/linux (for-next/scmi/updates), thanks!
+I agree.
 
-[01/16] firmware: arm_scmi: Publish channel state before callbacks
-        https://git.kernel.org/sudeep.holla/c/0314900dcdde
-[02/16] firmware: arm_scmi: Unregister device notifier before IDR teardown
-        https://git.kernel.org/sudeep.holla/c/66a0bbf30cc1
-[03/16] firmware: arm_scmi: Quiesce notifications before teardown
-        https://git.kernel.org/sudeep.holla/c/8e49055d0d49
-[04/16] firmware: arm_scmi: Clean up channels on setup failure
-        https://git.kernel.org/sudeep.holla/c/687d67be3d87
-[05/16] firmware: arm_scmi: Free transport channel on IDR failure
-        https://git.kernel.org/sudeep.holla/c/d72e7e5f2468
-[06/16] firmware: arm_scmi: Avoid IDR updates while cleaning channels
-        https://git.kernel.org/sudeep.holla/c/c38b1e19485a
-[07/16] firmware: arm_scmi: Reject out of range DT protocol IDs
-        https://git.kernel.org/sudeep.holla/c/59407ccb5213
-[08/16] firmware: arm_scmi: Use channel ID for transport teardown
-        https://git.kernel.org/sudeep.holla/c/a71a3d4d8a6e
-[09/16] firmware: arm_scmi: Protect device request lookup with RCU
-        https://git.kernel.org/sudeep.holla/c/e6a0e7a49d83
-[10/16] firmware: arm_scmi: Drop handle on protocol bind failures
-        https://git.kernel.org/sudeep.holla/c/e3a5c30d233c
-[11/16] firmware: arm_scmi: Clear SystemPower flag on create failure
-        https://git.kernel.org/sudeep.holla/c/e4c16ae24ca0
-[12/16] firmware: arm_scmi: Fix OF node reference handling
-        https://git.kernel.org/sudeep.holla/c/659705f5eb37
-[13/16] firmware: arm_scmi: Unwind TX receiver mailbox setup failure
-        https://git.kernel.org/sudeep.holla/c/6f7c06744d53
-[14/16] firmware: arm_scmi: Unwind P2A receiver mailbox setup failure
-        https://git.kernel.org/sudeep.holla/c/f3e3773c4e5e
-[15/16] firmware: arm_scmi: Fix SCMI device destroy lifetimes
-        https://git.kernel.org/sudeep.holla/c/6abe8fe36b29
-[16/16] firmware: arm_scmi: Fix transport device teardown lookup
-        https://git.kernel.org/sudeep.holla/c/a14dd8fe0a95
--- 
-Regards,
-Sudeep
+Guenter
 
