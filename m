@@ -1,39 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4684411F81
-	for <arm-scmi@vger.kernel.org>; Wed, 22 Jul 2026 17:35:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6A33546E4
+	for <arm-scmi@vger.kernel.org>; Wed, 22 Jul 2026 17:35:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784741726; cv=none; b=NsTHStBhpSwHCCNb6QGL8/JrNPdel/7XGo33PwZkiedNDbJvYk8HGLS0jT1X9meEm/8D1AO2NpT6oba9drKp/+UDxRFjloXbxer9QW9BfIinEECCtHwfh7NTRCoNUZJDAKWYOH3qH+Uk2zoPVB1+ZV6pT25n9UpOXb0MJzPS4E8=
+	t=1784741727; cv=none; b=JION9BhGTvB77St8DhBTEQm8JRhLzQXPbvGnWsxVpkpn5iP/LUMSnuiIfSjv1eHfmiivAX9q4U9kzR+sFXs5LMd2IzVpjsjR/3qPRTQEoaADLH6dU7dKiNXfu3BZql4s0YSDw74KLdJ/qWszqoZNScZ6WI7YIc9O+3vxiXUcP/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784741726; c=relaxed/simple;
-	bh=7N00M8In4kBRlfS6g86ZuvQgyF1moHoZwLaVnrbaYvA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h4F39gAkVhTPDS9RVrRNCPEJ5VUbc5F3XiQhOpyU4S6YwyZp1jHCTtAOzTsFuTtXtrW9/H72r/S7T0fz+rMpcFj03mtYlkoi63tfQdsPMa4FlZWL6HjEjac0R2NICFlla+q7gRMtwTshVHvPDsZD5FbMDInZgEdT+I2FM9T1OPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bPc/t9w8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784741727; c=relaxed/simple;
+	bh=fvkkfjgg4G77fpgA//Jhxnin2sfH+uTZ8nvHyHGDVUI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qHaEht7/ZVuYtUvbondh2D3N5Uv6xyxuhKsKSszL35NbcQrT3tTVSGCG2GkIdUGA4KVwLLrMHaXI1l1X5wyqyn9rU5lhyhzUTg7Qb0eqD0sht9B3ASpZMKtOCdShUdA6UgpCperzsP9M8J8o5VURRN7giX39SiKZDUcPLRMx/JA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZafguT7D; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bPc/t9w8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CD641F000E9;
-	Wed, 22 Jul 2026 17:35:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZafguT7D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBB451F00A3D;
+	Wed, 22 Jul 2026 17:35:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784741724;
-	bh=YtMpol975CvesO8Q6KUokIqjrd11Vgy1F01PUcLSm7w=;
-	h=From:To:Cc:Subject:Date;
-	b=bPc/t9w8P+EPgdRNVaaddVA7qtlGOaL0rjdlTn1S1BRLkOAvncUpTrxlJK/1/+cBQ
-	 4r2fi+0PMG5QDv50Oqqdhx3hRnhAjhVy3tIg7RcaddcI80Ua2aWjbXENPIfBU7FQFX
-	 2LkyWyjEvlewNNIYU7V0Lev3TUu9RkPOUA5aC1w8SEFm5k4p81hBhQLFej3NUlr67D
-	 c5Lv27ohXE6ZTifH8YBhh39ka971zR6t2E/6SVSWsaRgMjHwm4XGJJqZM55QJaeh1k
-	 eHlfMYP1oZWwV/hRnUt7OgGH1LvxLWqEa3E9600B8V4B2FS5DPCGeVLEStmnkt93do
-	 zfhwnxbaiJvTw==
+	s=k20260515; t=1784741725;
+	bh=TxEYmlqGGiYq3Bc30IofrgYGCXgAw0TDgEYkHxOaSog=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ZafguT7DuXfAqRN1DjjINYsRkMFXjM1pCVCPbbT0ELGaqm/m3P1wFO0HchscpckLp
+	 hDsDPquf95CEYh+vNNOpZNIBzL/NeZWIxrYZ3c+AJEf7y9VjqUS8Lq4j1K5jENpnDt
+	 MPnhpRxS3vO2+OlKkgYwlC0hwgn4bhoGPSMKsskdE1PLG/5ZzCWyxwtou3Nh1t2U6e
+	 vKZ37g1Dp7j58q2qPOeYdPHCFcy7cqnwdIRCkVchIxICaeItb15v3LfFcbw4YVIS4v
+	 aa/Hu0sqW3TtuWZdbvpB9kRnirvD7koFceetkE85lxB/i9t7sOddbM03pzqIPiIbX5
+	 uHB+ImqKmK2QQ==
 From: Sudeep Holla <sudeep.holla@kernel.org>
 To: arm-scmi@vger.kernel.org
 Cc: Sudeep Holla <sudeep.holla@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
 	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH 1/2] firmware: arm_scmi: Roll back partial protocol table registration
-Date: Wed, 22 Jul 2026 18:35:20 +0100
-Message-ID: <20260722173521.2184378-1-sudeep.holla@kernel.org>
+Subject: [PATCH 2/2] firmware: arm_scmi: Unrequest devices if driver registration fails
+Date: Wed, 22 Jul 2026 18:35:21 +0100
+Message-ID: <20260722173521.2184378-2-sudeep.holla@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260722173521.2184378-1-sudeep.holla@kernel.org>
+References: <20260722173521.2184378-1-sudeep.holla@kernel.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -42,83 +45,45 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-scmi_protocol_table_register() can leave earlier requests registered when
-a later entry in the same ID table fails. Each request retains a pointer
-to the driver's ID table, so a failed module load can leave a dangling
-pointer after the module storage is released.
+scmi_driver_register() requests protocol devices before registering the
+driver. If driver_register() fails, those requests remain in the global
+IDR and retain pointers to the module's ID table. Once the failed module
+load releases that storage, later request matching or SCMI device creation
+can dereference the stale pointers.
 
-Unrequest only the successfully registered prefix, in reverse order,
-before returning the failure. Leave the failed entry and the remaining
-entries untouched because matching requests can be owned by another
-driver.
+Unrequest the complete protocol table before returning the registration
+failure. At this point table registration succeeded, so every entry is
+owned by the current registration attempt.
 
-Fixes: 2858f6e5f064 ("firmware: arm_scmi: Add multiple protocols registration support")
+Fixes: d3cd7c525fd2 ("firmware: arm_scmi: Refactor protocol device creation")
 Reported-by: Sashiko <sashiko-bot@kernel.org>
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
 ---
- drivers/firmware/arm_scmi/bus.c | 31 ++++++++++++++++++++-----------
- 1 file changed, 20 insertions(+), 11 deletions(-)
-
-Hi,
-
-Couple of more issues[2] reported as part of review of [1]. These
-are addressing those issues.
-
-Regards,
-Sudeep
-
-[1] https://patch.msgid.link/20260722095250.2011630-1-sudeep.holla@kernel.org
-[2] https://sashiko.dev/#/patchset/20260722095250.2011630-1-sudeep.holla@kernel.org
+ drivers/firmware/arm_scmi/bus.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
-index df396ab638dd..af3d28717cd2 100644
+index af3d28717cd2..a86fa18fc5d2 100644
 --- a/drivers/firmware/arm_scmi/bus.c
 +++ b/drivers/firmware/arm_scmi/bus.c
-@@ -135,17 +135,6 @@ static int scmi_protocol_device_request(const struct scmi_device_id *id_table)
- 	return ret;
- }
+@@ -395,10 +395,14 @@ int scmi_driver_register(struct scmi_driver *driver, struct module *owner,
+ 	driver->driver.mod_name = mod_name;
  
--static int scmi_protocol_table_register(const struct scmi_device_id *id_table)
--{
--	int ret = 0;
--	const struct scmi_device_id *entry;
--
--	for (entry = id_table; entry->name && ret == 0; entry++)
--		ret = scmi_protocol_device_request(entry);
--
--	return ret;
--}
--
- /**
-  * scmi_protocol_device_unrequest  - Helper to unrequest a device
-  *
-@@ -191,6 +180,26 @@ static void scmi_protocol_device_unrequest(const struct scmi_device_id *id_table
- 	}
- }
- 
-+static int scmi_protocol_table_register(const struct scmi_device_id *id_table)
-+{
-+	const struct scmi_device_id *entry;
-+	int ret;
-+
-+	for (entry = id_table; entry->name; entry++) {
-+		ret = scmi_protocol_device_request(entry);
-+		if (ret)
-+			goto err_unrequest;
+ 	retval = driver_register(&driver->driver);
+-	if (!retval)
+-		pr_debug("Registered new scmi driver %s\n", driver->name);
++	if (retval) {
++		scmi_protocol_table_unregister(driver->id_table);
++		return retval;
 +	}
+ 
+-	return retval;
++	pr_debug("Registered new scmi driver %s\n", driver->name);
 +
 +	return 0;
-+
-+err_unrequest:
-+	while (entry != id_table)
-+		scmi_protocol_device_unrequest(--entry);
-+
-+	return ret;
-+}
-+
- static void
- scmi_protocol_table_unregister(const struct scmi_device_id *id_table)
- {
+ }
+ EXPORT_SYMBOL_GPL(scmi_driver_register);
+ 
 -- 
 2.43.0
 
