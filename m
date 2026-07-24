@@ -1,89 +1,89 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719C53ACA6C
-	for <arm-scmi@vger.kernel.org>; Fri, 24 Jul 2026 07:19:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CEB83A7582
+	for <arm-scmi@vger.kernel.org>; Fri, 24 Jul 2026 07:19:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784877571; cv=none; b=AeOFJQ4PQS66Psx/aFGrkiUReXApCDI3AOdIrsRZMgndbvwuWOqvxRymR/JFCTjthphKF6z59Qa0xXVu+D8OBm0Wm5AweF19A257UlevTm/ReyaKPnsoenichymk2SS7bFOgmSC383KjQc2piatKL2Em7jzHQZS6wOy4zsCMJh8=
+	t=1784877580; cv=none; b=kNNxxE3Xn4TU023kpiH9oTCQZU5PSuIe9wFNrgfhi+0rXSUBsVCzmKIAi0yC1y0WzsyJkrhwmPGlD49JggmNWXTvLHpQfv+kNKvtyTpQ+/LDAkCmqdImJo1SQpL3EwYRLxNS8MgKN7AoZ7ZepEoQfsL2G1bwDeRxIW2chZ+WNcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784877571; c=relaxed/simple;
-	bh=AppA0b6xjMgMgMBr1DVj/TOCK0pKlrmrewVYLEVWI5w=;
+	s=arc-20240116; t=1784877580; c=relaxed/simple;
+	bh=8nasC0yeLixOCHFTycoUxzy3WWOEnOgtLZwAdo8BP08=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=M787KdKbbPjzhMLgc3bibyWuA8ZO1Cjj3UMgQ350yco/orE/BT6zlA5Qc7VJBJdARB2IgvSUJn+Z+CHVX5lH2koHfQKVkho2G7Gk4LF7xxdW4EnXtdGcPwFPuFHXwo1rlI7y9qtJlL7Ovep9VwBDWD+RytyMLNuDNfiOEP7ZIDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Agcevg42; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=FdN1fg8C; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:Cc; b=phRX0xEVR3aBc+S7xyLh7965X+JlQg5O2ZCpIIs/KUBYAKYgsbhWdYOfeenski9jY7LpivIQSRBz4UGuN6pO6IXIrC49dxQ9M3D76ehpUKbAJ19eGBeu7tWdFMoKE9EEo1X1CF+ZS4H0usBIu9j9zY0GASLLq1P2oQfNx+m0+6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QGsYB+4f; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=X3xWCxHB; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Agcevg42";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="FdN1fg8C"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QGsYB+4f";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="X3xWCxHB"
 Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66O4lOBC2162961
-	for <arm-scmi@vger.kernel.org>; Fri, 24 Jul 2026 07:19:28 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66O4lNbH2162957
+	for <arm-scmi@vger.kernel.org>; Fri, 24 Jul 2026 07:19:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	O2Fyl6tXW8E245A0wNUYdczphKifLK8Qf8aFQGZJccI=; b=Agcevg42jmr919cy
-	jtZOrB6358NDM3CNKhcHJwxUvntNDKI1PlkJOmF29TUiL/PXgalEdxNYvfvYNTMz
-	GIJOh7YuAHAciINQPTdJ3RwQOjqqHS6u6vVRRPes4EsaoB9llxlDVyShmWySv1dt
-	G5MtUYkpjc2ok9XN3sBLsn1wlhgCLB9r68qPV4GUSvAtf+zIo/D4tFS74tpa5ioA
-	KtdBRaHu8X/rZ3OMmplsWZ1KLBmVWdrIXR+y2AcQmBqWNqzwwucNi0VzT2wYk3hR
-	L8xU/6b3AjPGlkEsLcf6Yc4tOpC/ZEYxHdqNm/1fziitsU97CAq8LXkXxyDfQ+VN
-	rX6rPg==
+	Y1M/sTLTiTCijs/EfwD0Fp0gY6B1Kds/y/9zpp4vpgE=; b=QGsYB+4f2aoN+hkU
+	/ayudvnJlEW4xsmq4MBQQh2xHtl5YskjnapaJ5LUlN5zdKq6FEPguMcltB6zdHae
+	5erxFhZrMRswn2AusElhf+0Pz/RWW/TbxxsFQuDwF+DBeU5fC0P5vMcKKCpDz0/S
+	oVoCbl1OTRoOzBcprCRWZKWnG19YJeovUAly03jaK2pbz47t8YoXZ3Y/mVCLRlIA
+	b/YgVd4yTEFkTzlZgJJ+6KIeWjbeiSVlxTIYO1DJMKXd9rKQkDl7zFKZgosmnKhh
+	RG9YjnI2GMU1Cd4XsWNw2QZB5iO8KqJU1w8JNHIiUmRwqPE+y6k7497ue+nxHCDl
+	Etl+cQ==
 Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fkp5vk0c0-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fkp5vk0ce-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Fri, 24 Jul 2026 07:19:28 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2ccb6823efcso1690315ad.0
-        for <arm-scmi@vger.kernel.org>; Fri, 24 Jul 2026 00:19:27 -0700 (PDT)
+	for <arm-scmi@vger.kernel.org>; Fri, 24 Jul 2026 07:19:35 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2c7f385887bso3682585ad.0
+        for <arm-scmi@vger.kernel.org>; Fri, 24 Jul 2026 00:19:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784877567; x=1785482367; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1784877574; x=1785482374; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=O2Fyl6tXW8E245A0wNUYdczphKifLK8Qf8aFQGZJccI=;
-        b=FdN1fg8C1+wrKWzV1xoyIgt7UVKVjuzjQV3yGb7szjk4YtFNv0b0RpQ/MXfF/shIoC
-         Tk1Kvhwo1YyMNtQDoA+Avlc5Q9eMYAbal4KclA+cGtMpF3i1Qrj1USFJUCtgSiTTkWuh
-         anwK2l/ToNM/8JZuh3gR4sgdtIqIUlgkdsyDlkj2UTNxwufZiRifT4FsQgKrt8gKTX5Y
-         e1bpEwbRLhD6t8hWGtErgi+piITq8jpznhsyxkZ8VoYCPXFUQuWefq4TnkuK5pZbuSlx
-         Ru/fMWOcO3FRUv0oZTdnnlfhvietOzZBwcaaqP7zNiB8v1C6J6s7b6ZmNJASPKZPGBer
-         rNOQ==
+        bh=Y1M/sTLTiTCijs/EfwD0Fp0gY6B1Kds/y/9zpp4vpgE=;
+        b=X3xWCxHBjNdD3yAItGWdih3WOztlsWGTmDXjlbnnhfp4VfhnPQWTere0ohEFNsjYsg
+         zLXsIZxmxTZA0ANWRq5xtcBoOMMbljABa/h/czafQ713JdhhmbAAqH1bZawC0XNfGKXg
+         +T9GIJdOuDRKCaXxovWHmGEopfxarVZswRn3F+7CoqLxc7lnMoCGavLVkqBnlfqER2pt
+         FFTtQna7taRKLC0o9OGHazwMCNXePfcIgse9zcaep3w3pn2nZWrypw46k8Bmp0QSXVwt
+         z6SpqnGJu7ce7W6ZcWVUkoVb3laQYPgDmvV9Auz6chgGVY7KxmQsN1Y1ZepACOEXnW+0
+         qwgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784877567; x=1785482367;
+        d=1e100.net; s=20251104; t=1784877574; x=1785482374;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=O2Fyl6tXW8E245A0wNUYdczphKifLK8Qf8aFQGZJccI=;
-        b=aEwbLWK2MO5PNu2P1lQRI2nzLUASGiSoyqrtGobodrawL3qAl6yAkpq9BVEvaqAANl
-         SUDozL3kYH5dm5UdNBVrNt15dXOdkijlJamQ1fEiaq3o7UzpgI+Aa12ntcQ30KHBk5Kv
-         QVfzkwx/NQmVJNoiDfPLOgbgSAbiXLgUPqja70qzUskjLlwb6IBFSjo5lh/mQix13XO2
-         kZe04XJrlv1o6mEarrrt9uW4GGZ7aoSh4uENBva7ugjf56bZuEcRlo2OpvqTNxjEAeVP
-         LZlhyZOvE9dJ4RqzwjhddDPI9g4Yw3vn1g+Do4kspAjO4Oh7yuN67dFd4Gty3o5R1oRk
-         mVSQ==
-X-Forwarded-Encrypted: i=1; AHgh+RouGDySZNqfwTPHQol5OGXxwdyY3jq54yIdLSuzSO0/myDVfOrhq5xJN/vycqH7dA6ZTERExP2zzg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxhadx2FlmvNy5cM+cQ39PzWeco7RlRzzdYFWaSxNY1Hz5Ew/mu
-	HyvL+WBjHjQ9/ZlCjLIcfK/fqIEk/8X6ivlvbuweDiiywR0u0Zn2s5DyztzPokUuzQkLpetHti5
-	kmRaeC/ifH+CngpivC6pRJV663xw6KTYV2ilXDHw6aStlVNA23eVBPBIXl+jehA==
-X-Gm-Gg: AR+sD11zm3z3HLy4XvL7Wnw0q79ZuEBeg7USvLJyHL7GQk+/pCg2Lxftfcebh7XSKKR
-	Ev+SWfBFfUiLIElslNKZLMZKzaIYFgnATO96yMDwSAeP3VU+T2WBB5iPr9c7JE5A9Ck1X2XEMdg
-	QEjdd+zABfda/yQY6KK/zhXviaOm3wWhBIUvtRW7zxmr3Dgwgb7QPbRostrICCCi4I7CHzJ5PDB
-	Ojuvid4XMYoWvwoHThds/0e/IlUNxyiPgNPy91VRAial+N1nTrzxCmSwKwx/PiHXcjjI+MMC/vk
-	hrIv9o+hT0v9Unffo42xUFV3FXsf5XpDUmE4M7wvmmzqd8Z4QHJWIZkcd3kI1sivYl/zymjVOMp
-	1SDm4ZuhWe6xCp0Mw4V85EdSuW+osZnhbDOC6tHx7oIWYaOn+bNXOKJCGPBxXNovg4s56RXrnPo
-	gNcWliyBGqFcA2MBZ80ICCw7+mx5w=
-X-Received: by 2002:a17:903:286:b0:2ce:ced3:490e with SMTP id d9443c01a7336-2cfa6d878admr71284315ad.39.1784877567082;
-        Fri, 24 Jul 2026 00:19:27 -0700 (PDT)
-X-Received: by 2002:a17:903:286:b0:2ce:ced3:490e with SMTP id d9443c01a7336-2cfa6d878admr71283455ad.39.1784877565070;
-        Fri, 24 Jul 2026 00:19:25 -0700 (PDT)
+        bh=Y1M/sTLTiTCijs/EfwD0Fp0gY6B1Kds/y/9zpp4vpgE=;
+        b=PzCgTC+bAVQDrdbBfh0yz6SNspGxRmFnLPTh2O6vsVcgGxIT2W9LZdvtp42WGy5p0D
+         55PtFOxAm96AeXTqIiVjSDAVVJG/8hjoAfvXOrxzi+LvYoV3od3y9YbXi7TtGyIkRzVo
+         fJA9ZdaCpaBaQLATl696SL0Uf/odnNqtG4x8ZbnaWhOwiZuOrWJCBoLLe2Cjvnf1VMgW
+         tR49+hwiUPvlUVx4dsihyD5py6HYgPqvlgat+hhdQfdbZdBELHJB71EbX2CVpzy1M1j5
+         TgwVsHx/j/PijvEwBGvliNgS8HwHVq5X7p9Ffy1F0wmjtNzbI/Lzhzdca0MtDJYTd7A2
+         pf/A==
+X-Forwarded-Encrypted: i=1; AHgh+RqKVeLLulXWt1vUoBzAi9HUGx+7QzzJylMeinwptH+1GA8ZT2baBFVjnAPeng8g+leaGAh3N2l1tw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxx0wGutNWtaMez0vmTNP4FpaYpuV9jCoKNUZ2NLkzqFoTpRiGc
+	oL16BbAYIxgKrAFT3US5tma9kQO9gqrelmsbGEC7dwXDSARc1eC/diS7HDGO/ZMNU0DSN4wtFTL
+	+6YuyyTPkGplvh8EgU8GhVJPuvixaHTq1quOHEeeVDEdjpIh9/F2A0rPuw8lcdg==
+X-Gm-Gg: AR+sD10DVedPetFKj0306uwXfLZsehRvPpnGaEXUjWwG+IyWXd0UM18z25E0uskjOwj
+	AMjleHJICnJrWOO1XxTKk3669V5BqXK9yBGmX63pjC1BhZZTWjtF5hBjjb5ivF+vyJw1aTVCX+H
+	fH7gqxIMV9XIIq2aXNLPpk+m6nesFhxZv5AP8E96KFZBbHZK1TTUPC14fY6vWcTBtNT8bAnhYbG
+	dIaXaFoAIPP30Aro57naeH+/14YAJ5dunoU1OagCkkvBm8SNeVuNChKVgos4F5WewugmpdAEEB5
+	oJeT4owqZhrywE6g5x3loyw8JG1cbsFBs9MRvERe0Pr6YICWWJlysF358mH1caSuAWVV0iT2PaG
+	DuhKkTblqsusI9pVfS2/q6RGuvq9j8Y8oxRdR60dLj3zdRUcvESdk8u9L8/aD3GTUtsqTY0mwEj
+	FZH75TUFTC1oMRdWxZ+tBlTJJOdMY=
+X-Received: by 2002:a17:903:17c6:b0:2cc:8ad3:423d with SMTP id d9443c01a7336-2cfa6c5e3f2mr77795585ad.29.1784877573560;
+        Fri, 24 Jul 2026 00:19:33 -0700 (PDT)
+X-Received: by 2002:a17:903:17c6:b0:2cc:8ad3:423d with SMTP id d9443c01a7336-2cfa6c5e3f2mr77795185ad.29.1784877572827;
+        Fri, 24 Jul 2026 00:19:32 -0700 (PDT)
 Received: from hu-ppapaniy-blr.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com. [103.229.18.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8efe3afbsm45993805ad.33.2026.07.24.00.19.18
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8efe3afbsm45993805ad.33.2026.07.24.00.19.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jul 2026 00:19:24 -0700 (PDT)
+        Fri, 24 Jul 2026 00:19:32 -0700 (PDT)
 From: Pragnesh Papaniya <pragnesh.papaniya@oss.qualcomm.com>
-Date: Fri, 24 Jul 2026 12:48:11 +0530
-Subject: [PATCH RFC 06/10] PM / devfreq: Add a governor for tracking remote
- device frequencies
+Date: Fri, 24 Jul 2026 12:48:12 +0530
+Subject: [PATCH RFC 07/10] PM / devfreq: Introduce the QCOM SCMI Memlat
+ devfreq driver
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -92,7 +92,7 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260724-rfc_v8_scmi_memlat-v1-6-cb732bcff1f4@oss.qualcomm.com>
+Message-Id: <20260724-rfc_v8_scmi_memlat-v1-7-cb732bcff1f4@oss.qualcomm.com>
 References: <20260724-rfc_v8_scmi_memlat-v1-0-cb732bcff1f4@oss.qualcomm.com>
 In-Reply-To: <20260724-rfc_v8_scmi_memlat-v1-0-cb732bcff1f4@oss.qualcomm.com>
 To: Sudeep Holla <sudeep.holla@kernel.org>,
@@ -115,34 +115,35 @@ Cc: Pragnesh Papaniya <pragnesh.papaniya@oss.qualcomm.com>,
         linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
         arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-tegra@vger.kernel.org
+        linux-tegra@vger.kernel.org, Amir Vajid <amir.vajid@oss.qualcomm.com>,
+        Ramakrishna Gottimukkula <ramakrishna.gottimukkula@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784877514; l=4891;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784877514; l=48739;
  i=pragnesh.papaniya@oss.qualcomm.com; s=20260120; h=from:subject:message-id;
- bh=L8aBIKJ/12pti7dx2J+q6kxEAWTDwCr7YwrZkrU6k3w=;
- b=Y5gFfN+ZHt6er8WmQ7b2LGb0q+kTmPmMG2zPz1wNRuU6UxgxdScnYk4GdWAZ1cSBYGPD+eAW4
- mArChceiY2CD8MwjYsCRzLmtYshCpoqnm7Xx8Cksh4k8H6zTmEGi2U/
+ bh=0lthVFfjZyS2lOAfhvcxd2cdEsE2RR1X9M2Xe9tneB8=;
+ b=ylJOk1wBmSYqW7Tu0kiWigfY4ZSGH+jgUWdFFKFT1l9EZGvx7rCvQD+0+J43w00BAFJAjFQDP
+ Us5niIqdKY/Dohi+MP094R9ZYkK/C2d2GsiNwyeIfa/t4cxNi3RvnYK
 X-Developer-Key: i=pragnesh.papaniya@oss.qualcomm.com; a=ed25519;
  pk=09P9nFmZLXJ9+4Jx10ZK5rIW0Fmk79A/DLErm6aVA0c=
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI0MDA2NSBTYWx0ZWRfXxu95i6fhi9RT
- 5XDJLTOAvyOWVJZmwtQm+gOp2w4P//M58aAaDTo76TlvmBFUZnjR4DSDa/H/DJA68xrqKEFGEKR
- QSJT6Dhoraf2qEEULOzmVDi80m9hJWQ=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI0MDA2NSBTYWx0ZWRfX8oioX3zM0trr
- 5uTSJp0wuga+oj6v+jja3N5VI+X2bd8aNLoFGzEZUYLokPp+lVf0dSOjZVmZ/CU9I7ktekmmNIJ
- LxbPErYEBLlJYkqn3YKw+u11mwLyXg/CfUYk6hVEhCyeCRh8lytR1b5R7fYjKGcNHU1/zhaybPD
- VXAbdTSU/WJ5195KNRY03lPWVH50rcpyDHqRuWgoqQhtqFK+Qopzpmg0/9bGd5cu1KbyC3qCb10
- ANirE2+0/4yG3VgQqvQcPfjupAbkwfb/MqDACIzkQFVN0xbfBIt3rN9CP8kktSOIzrC5KbLiyQd
- 4GhCu6s5HR8Eh7HwHPP11SH4qpQDKhvfplkxvdaFQsBiZ/BTX8oKphnIV67LCzTpoleP7dhAgWR
- YG30eRLjwBHQhrWOKO2rra7uHBCZma2AgUK8xlXQ27aGgEPp52HDB4dRTOs3ZRDqC8gbEhlAWd4
- qpFm3JW9u9bINI8OsbQ==
-X-Authority-Analysis: v=2.4 cv=Z9Dc2nRA c=1 sm=1 tr=0 ts=6a631200 cx=c_pps
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI0MDA2NSBTYWx0ZWRfX9RRFcxkTybhB
+ oKE3hM3rmwQe0oY/mSoP7eLmDFM3SgkRRfryJyFcO5yvrfmICaCkK3HOoF/X/4lDlliyybUtdX3
+ bk7riZh6ukIhECbrLm2RwwJJvBZyoR8=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI0MDA2NSBTYWx0ZWRfX8jXV+XtL36pi
+ OPiTNj7A0uPaVwFC8/aVTD9gojxIj23P1A3cTYW2LEq8zIWfmalrsDl5JtZuXjdBVOZfi06YY2/
+ B0QIWpNo1APpifjmQZ+2UTmorRRPRLLCkm4e0ujIUXur9/9znlKA8VvDTJf2bi/i7QFAtSru/iK
+ vMuYzVejU2h2SP3k3ndhwGemdco2M2I9ulj9Dz6Fzsy/E1rGCBbYPPqm8CSf309Tx6Jgdfu4mkE
+ 5bYxKoPCkAHIRswqIFkzw4yiTJD56tFnFPRyOaoRFYqqvKYlFPWe78RhhxsOfbTeYzsMIMX8+3z
+ J0Cj2BE3S6JMH/EVAXFYkKtd1yVcXyvKoxNOylsCXkKZoQmMjiNMPJcc1Mj1JZhStv23PxMK1hZ
+ FtIHjWMkYYY+Y/TnRWXGbIwT0gLoKUKyecb9LQ5a3wZyYDVocVuy7HQSLw1Xh8ysJ2wdhs/AKqx
+ 7i/GYLx7gbF8skcyXug==
+X-Authority-Analysis: v=2.4 cv=Z9Dc2nRA c=1 sm=1 tr=0 ts=6a631207 cx=c_pps
  a=cmESyDAEBpBGqyK7t0alAg==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
  a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
  a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=EUspDBNiAAAA:8 a=DkxomDJNIKAFLi0tgcIA:9 a=QEXdDO2ut3YA:10
+ a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=SGyJfFU3Q02OxWGmEYAA:9 a=QEXdDO2ut3YA:10
  a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-GUID: K_Lvimwb0kRLGw4pn-cp5uMucrhOYx3k
-X-Proofpoint-ORIG-GUID: K_Lvimwb0kRLGw4pn-cp5uMucrhOYx3k
+X-Proofpoint-GUID: E4lsISXMGSIdTm7Iifi-lf1o1JGV7DPl
+X-Proofpoint-ORIG-GUID: E4lsISXMGSIdTm7Iifi-lf1o1JGV7DPl
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-24_01,2026-07-22_02,2025-10-01_01
@@ -154,148 +155,1435 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
 
 From: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
 
-On SoCs where the governor and the mechanism to control the frequency for
-devices like caches is hosted on the System Control Processor (SCP), there
-exists a need to track the frequency changes in a reliable way and provide
-ways to tweak parameters on the remote governor.
+On Qualcomm Glymur, Mahua, X1E/X1P (Hamoa/Purwa) and Kaanapali SoCs, the
+memory-latency (memlat) governor runs entirely on the CPU Control
+Processor (CPUCP). Every sampling window the CPUCP reads the per-CPU PMU
+counters, derives its statistics (instructions-per-miss, back-end stall),
+maps them to a target operating point for the DDR, LLCC and DDR_QOS buses
+and votes it directly to the interconnect. The kernel is never in that
+runtime decision loop; the CPUCP algorithm and its controls are reached
+through the QCOM SCMI Generic Extension Protocol, addressed via the
+"MEMLAT" algorithm string.
 
-Add a new "remote" devfreq governor that uses the track_remote flag to
-expose the remote device's frequency to userspace via trans_stat. The
-governor deliberately does not advertise the DEVFREQ_GOV_ATTR_TARGET_FREQ
-attribute since the kernel cannot set the frequency on a remote-managed
-device; reads of the target_freq sysfs node therefore return -EINVAL.
+Introduce a devfreq SCMI client driver whose role is split in two. At probe
+it configures the CPUCP algorithm once (event maps, per-monitor tuneables,
+the cpufreq-to-memfreq maps and min/max clamps) and starts it; this half is
+required, as without it the CPUCP has no per-SoC data to run the algorithm.
+Thereafter the driver only reads back the current operating point.
 
+Each bus is modelled as a devfreq device and uses the remote devfreq
+governor precisely for this "observe a frequency someone else drives" case:
+it exposes the read-back through trans_stat and lets userspace retune the
+remote governor's parameters.
+
+Co-developed-by: Amir Vajid <amir.vajid@oss.qualcomm.com>
+Signed-off-by: Amir Vajid <amir.vajid@oss.qualcomm.com>
+Co-developed-by: Ramakrishna Gottimukkula <ramakrishna.gottimukkula@oss.qualcomm.com>
+Signed-off-by: Ramakrishna Gottimukkula <ramakrishna.gottimukkula@oss.qualcomm.com>
 Signed-off-by: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
+Co-developed-by: Pragnesh Papaniya <pragnesh.papaniya@oss.qualcomm.com>
 Signed-off-by: Pragnesh Papaniya <pragnesh.papaniya@oss.qualcomm.com>
 ---
- drivers/devfreq/Kconfig           |  8 +++++
- drivers/devfreq/Makefile          |  1 +
- drivers/devfreq/governor_remote.c | 73 +++++++++++++++++++++++++++++++++++++++
- include/linux/devfreq.h           |  1 +
- 4 files changed, 83 insertions(+)
+ MAINTAINERS                                |    8 +
+ drivers/devfreq/Kconfig                    |   15 +
+ drivers/devfreq/Makefile                   |    1 +
+ drivers/devfreq/scmi-qcom-memlat-devfreq.c | 1331 ++++++++++++++++++++++++++++
+ 4 files changed, 1355 insertions(+)
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 265eb99bdc7a..a58e2219d5df 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -22495,6 +22495,14 @@ F:	Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
+ F:	drivers/net/ethernet/qualcomm/rmnet/
+ F:	include/linux/if_rmnet.h
+ 
++QUALCOMM SCMI MEMLAT DEVFREQ DRIVER
++M:	Pragnesh Papaniya <pragnesh.papaniya@oss.qualcomm.com>
++M:	Sibi Sankar <sibi.sankar@oss.qualcomm.com>
++L:	linux-arm-msm@vger.kernel.org
++L:	linux-pm@vger.kernel.org
++S:	Maintained
++F:	drivers/devfreq/scmi-qcom-memlat-devfreq.c
++
+ QUALCOMM TEE (QCOMTEE) DRIVER
+ M:	Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+ L:	linux-arm-msm@vger.kernel.org
 diff --git a/drivers/devfreq/Kconfig b/drivers/devfreq/Kconfig
-index c999c4a1e567..2caa87554914 100644
+index 2caa87554914..fdf6484fc72c 100644
 --- a/drivers/devfreq/Kconfig
 +++ b/drivers/devfreq/Kconfig
-@@ -56,6 +56,14 @@ config DEVFREQ_GOV_POWERSAVE
- 	  the DEVFREQ framework returns the lowest frequency available
- 	  at any time.
+@@ -169,6 +169,21 @@ config ARM_SUN8I_A33_MBUS_DEVFREQ
+ 	  This adds the DEVFREQ driver for the MBUS controller in some
+ 	  Allwinner sun8i (A33 through H3) and sun50i (A64 and H5) SoCs.
  
-+config DEVFREQ_GOV_REMOTE
-+	tristate "Remote"
++config SCMI_QCOM_MEMLAT_DEVFREQ
++	tristate "Qualcomm SCMI memory latency (memlat) devfreq driver"
++	depends on QCOM_SCMI_GENERIC_EXT || COMPILE_TEST
++	select DEVFREQ_GOV_REMOTE
 +	help
-+	  A simple governor to track the frequency of devices whose
-+	  dvfs control lies outside the kernel. This governor acts
-+	  as an observer and provides for ways to track frequency and
-+	  set/get information related to the remote dvfs device.
++	  Enable memory-bus (DDR/LLCC/DDR_QOS) scaling on Qualcomm Glymur,
++	  X1E/X1P-class and Kaanapali SoCs. The scaling algorithm itself runs
++	  autonomously on the CPU Control Processor (CPUCP); this driver only
++	  configures and starts it at boot and then exposes each bus as a
++	  devfreq device so its operating point is visible via trans_stat and
++	  tunable from userspace.
 +
- config DEVFREQ_GOV_USERSPACE
- 	tristate "Userspace"
- 	help
++	  Nothing else needs to be enabled for the scaling to take effect. Say Y
++	  or M here on the affected Qualcomm SoCs; otherwise say N.
++
+ source "drivers/devfreq/event/Kconfig"
+ 
+ endif # PM_DEVFREQ
 diff --git a/drivers/devfreq/Makefile b/drivers/devfreq/Makefile
-index 404179d79a9d..cde57c8cda76 100644
+index cde57c8cda76..b11f94e2f485 100644
 --- a/drivers/devfreq/Makefile
 +++ b/drivers/devfreq/Makefile
-@@ -4,6 +4,7 @@ obj-$(CONFIG_PM_DEVFREQ_EVENT)	+= devfreq-event.o
- obj-$(CONFIG_DEVFREQ_GOV_SIMPLE_ONDEMAND)	+= governor_simpleondemand.o
- obj-$(CONFIG_DEVFREQ_GOV_PERFORMANCE)	+= governor_performance.o
- obj-$(CONFIG_DEVFREQ_GOV_POWERSAVE)	+= governor_powersave.o
-+obj-$(CONFIG_DEVFREQ_GOV_REMOTE)	+= governor_remote.o
- obj-$(CONFIG_DEVFREQ_GOV_USERSPACE)	+= governor_userspace.o
- obj-$(CONFIG_DEVFREQ_GOV_PASSIVE)	+= governor_passive.o
+@@ -17,6 +17,7 @@ obj-$(CONFIG_ARM_MEDIATEK_CCI_DEVFREQ)	+= mtk-cci-devfreq.o
+ obj-$(CONFIG_ARM_RK3399_DMC_DEVFREQ)	+= rk3399_dmc.o
+ obj-$(CONFIG_ARM_SUN8I_A33_MBUS_DEVFREQ)	+= sun8i-a33-mbus.o
+ obj-$(CONFIG_ARM_TEGRA_DEVFREQ)		+= tegra30-devfreq.o
++obj-$(CONFIG_SCMI_QCOM_MEMLAT_DEVFREQ)	+= scmi-qcom-memlat-devfreq.o
  
-diff --git a/drivers/devfreq/governor_remote.c b/drivers/devfreq/governor_remote.c
+ # DEVFREQ Event Drivers
+ obj-$(CONFIG_PM_DEVFREQ_EVENT)		+= event/
+diff --git a/drivers/devfreq/scmi-qcom-memlat-devfreq.c b/drivers/devfreq/scmi-qcom-memlat-devfreq.c
 new file mode 100644
-index 000000000000..df3819757e56
+index 000000000000..9ca85b2f4c1a
 --- /dev/null
-+++ b/drivers/devfreq/governor_remote.c
-@@ -0,0 +1,73 @@
++++ b/drivers/devfreq/scmi-qcom-memlat-devfreq.c
+@@ -0,0 +1,1331 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 + */
 +
-+#include <linux/errno.h>
-+#include <linux/module.h>
++#include <linux/cpu.h>
 +#include <linux/devfreq.h>
-+#include <linux/devfreq-governor.h>
++#include <linux/device/faux.h>
++#include <linux/err.h>
++#include <linux/errno.h>
++#include <linux/init.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/pm_opp.h>
++#include <linux/scmi_protocol.h>
++#include <linux/scmi_qcom_protocol.h>
++#include <linux/units.h>
 +
-+static int devfreq_remote_track_func(struct devfreq *devfreq, unsigned long *freq)
++/* CPUCP AMU event indices programmed into the common/group event maps. */
++#define MEMLAT_EV_CPU_CYCLES		0
++#define MEMLAT_EV_CNT_CYCLES		1
++#define MEMLAT_EV_INST_RETIRED		2
++#define MEMLAT_EV_STALL_BACKEND_MEM	3
++#define MEMLAT_EV_L2_D_RFILL		5
++
++/* Sentinel for an event slot that is not wired to any AMU counter. */
++#define MEMLAT_INVALID_IDX		0xff
++
++/* hw_type value that targets every group (common events are not group-scoped). */
++#define MEMLAT_HW_TYPE_ALL		0xff
++
++#define MEMLAT_ALGO_STR			0x4d454d4c4154ULL /* "MEMLAT" */
++
++/**
++ * struct scmi_qcom_map_table - one row of a monitor's cpufreq->memfreq map
++ * @cpu_freq_mhz: CPU frequency threshold, in MHz. When the monitor's busiest
++ *                CPU is at or above this frequency, the firmware votes the
++ *                paired memory frequency.
++ * @mem_freq_mhz: memory frequency to vote, in MHz (a 0/1 level for DDR_QOS).
++ */
++struct scmi_qcom_map_table {
++	unsigned int cpu_freq_mhz;
++	unsigned int mem_freq_mhz;
++};
++
++struct scmi_qcom_opp_data {
++	u64 freq;
++};
++
++struct scmi_qcom_memory_range {
++	unsigned int min_freq_khz;
++	unsigned int max_freq_khz;
++};
++
++enum common_ev_idx {
++	INST_IDX,
++	CYC_IDX,
++	CONST_CYC_IDX,
++	FE_STALL_IDX,
++	BE_STALL_IDX,
++	NUM_COMMON_EVS
++};
++
++enum grp_ev_idx {
++	MISS_IDX,
++	WB_IDX,
++	ACC_IDX,
++	NUM_GRP_EVS
++};
++
++/*
++ * hw_type identifiers for the memory buses. These are a firmware-defined
++ * encoding carried in the node/scalar/map/ev messages; the driver only
++ * mirrors them here.
++ */
++enum scmi_qcom_memlat_hw_type {
++	MEMLAT_HW_DDR			= 0,
++	MEMLAT_HW_LLCC			= 1,
++	MEMLAT_HW_DDR_QOS_COMPUTE	= 2,
++	MEMLAT_HW_DDR_QOS_MOBILE	= 3,
++};
++
++/**
++ * struct scmi_qcom_monitor_cfg - per-monitor firmware tuneables
++ * @table: cpufreq->memfreq voting map for this monitor.
++ * @name: monitor name, forwarded to the firmware and used in its log lines.
++ * @be_stall_floor: back-end-stall gating threshold, in percent. Each sample
++ *                  window the firmware computes a per-CPU back-end-stall
++ *                  percentage (stall cycles / total cycles); a CPU only
++ *                  contributes its frequency vote to this monitor when that
++ *                  percentage is at or above @be_stall_floor. A value of 1
++ *                  therefore means "any stall counts", i.e. the CPU is
++ *                  effectively always eligible.
++ * @cpu_mask: bitmask of CPUs whose counters this monitor aggregates.
++ * @ipm_ceil: instructions-per-miss ceiling. A CPU is treated as
++ *            memory-latency-bound (and eligible to vote) only when its IPM is
++ *            at or below this ceiling; a monitor with @ipm_ceil == 0 is a
++ *            "compute" monitor and scales passively with cpufreq.
++ * @table_len: number of valid rows in @table.
++ */
++struct scmi_qcom_monitor_cfg {
++	const struct scmi_qcom_map_table *table;
++	const char *name;
++	u32 be_stall_floor;
++	u32 cpu_mask;
++	u32 ipm_ceil;
++	u32 table_len;
++};
++
++struct scmi_qcom_memory_cfg {
++	const struct scmi_qcom_monitor_cfg *monitor_cfg;
++	const struct scmi_qcom_opp_data *mem_table;
++	struct scmi_qcom_memory_range memory_range;
++	const u32 *grp_ev;
++	const char *name;
++	enum scmi_qcom_memlat_hw_type memory_type;
++	u32 monitor_cnt;
++	u32 num_opps;
++};
++
++struct scmi_qcom_memlat_cfg_data {
++	const struct scmi_qcom_memory_cfg *memory_cfg;
++	const u32 *common_ev;
++	bool cpucp_legacy_freq_method;
++	u32 cpucp_sample_ms;
++	u32 memory_cnt;
++};
++
++#define MEMLAT_MAX_NAME_LEN			20
++#define MEMLAT_MAX_MAP_ENTRIES		10
++
++/*
++ * param_ids of the "MEMLAT" algo_str hosted by the Qualcomm Generic Vendor
++ * Protocol. MEMLAT detects memory-latency-bound workloads and scales the
++ * memory buses accordingly; these are the fixed wire-protocol tokens that
++ * the firmware matches.
++ *
++ * MEMLAT_SET_MEM_GROUP: initializes the frequency/level scaling functions for the memory bus.
++ * MEMLAT_SET_MONITOR: configures the monitor to work on a specific memory bus.
++ * MEMLAT_SET_COMMON_EV_MAP: set up common counters used to monitor the cpu frequency.
++ * MEMLAT_SET_GRP_EV_MAP: set up any specific counters used to monitor the memory bus.
++ * MEMLAT_ADAPTIVE_LOW_FREQ: set the adaptive low frequency floor of the memory bus.
++ * MEMLAT_ADAPTIVE_HIGH_FREQ: set the adaptive high frequency floor of the memory bus.
++ * MEMLAT_GET_ADAPTIVE_CUR_FREQ: query the current adaptive frequency of the memory bus.
++ * MEMLAT_IPM_CEIL: set the IPM (Instruction Per Misses) ceiling per monitor.
++ * MEMLAT_FE_STALL_FLOOR: set the front-end stall floor per monitor.
++ * MEMLAT_BE_STALL_FLOOR: set the back-end stall floor per monitor.
++ * MEMLAT_WB_PCT: set the write-back percentage threshold per monitor.
++ * MEMLAT_IPM_FILTER: set the IPM filter used to reject non-latency samples per monitor.
++ * MEMLAT_FREQ_SCALE_PCT: set the frequency scaling percentage per monitor.
++ * MEMLAT_FREQ_SCALE_CEIL_MHZ: set the cpu frequency ceiling for scaling per monitor.
++ * MEMLAT_FREQ_SCALE_FLOOR_MHZ: set the cpu frequency floor for scaling per monitor.
++ * MEMLAT_SAMPLE_MS: set the sampling period for all the monitors.
++ * MEMLAT_MON_FREQ_MAP: setup the cpufreq to memfreq map.
++ * MEMLAT_SET_MIN_FREQ: set the min frequency of the memory bus.
++ * MEMLAT_SET_MAX_FREQ: set the max frequency of the memory bus.
++ * MEMLAT_GET_CUR_FREQ: query the current frequency/level of the memory bus.
++ * MEMLAT_START_TIMER: start all the monitors with the requested sampling period.
++ * MEMLAT_STOP_TIMER: stop all the running monitors.
++ * MEMLAT_GET_TIMESTAMP: query the firmware timestamp.
++ * MEMLAT_SET_EFFECTIVE_FREQ_METHOD: set the method used to determine cpu frequency.
++ */
++#define MEMLAT_SET_MEM_GROUP			16
++#define MEMLAT_SET_MONITOR				17
++#define MEMLAT_SET_COMMON_EV_MAP		18
++#define MEMLAT_SET_GRP_EV_MAP			19
++#define MEMLAT_ADAPTIVE_LOW_FREQ		20
++#define MEMLAT_ADAPTIVE_HIGH_FREQ		21
++#define MEMLAT_GET_ADAPTIVE_CUR_FREQ	22
++#define MEMLAT_IPM_CEIL					23
++#define MEMLAT_FE_STALL_FLOOR			24
++#define MEMLAT_BE_STALL_FLOOR			25
++#define MEMLAT_WB_PCT					26
++#define MEMLAT_IPM_FILTER				27
++#define MEMLAT_FREQ_SCALE_PCT			28
++#define MEMLAT_FREQ_SCALE_CEIL_MHZ		29
++#define MEMLAT_FREQ_SCALE_FLOOR_MHZ		30
++#define MEMLAT_SAMPLE_MS				31
++#define MEMLAT_MON_FREQ_MAP				32
++#define MEMLAT_SET_MIN_FREQ				33
++#define MEMLAT_SET_MAX_FREQ				34
++#define MEMLAT_GET_CUR_FREQ				35
++#define MEMLAT_START_TIMER				36
++#define MEMLAT_STOP_TIMER				37
++#define MEMLAT_GET_TIMESTAMP			38
++#define MEMLAT_SET_EFFECTIVE_FREQ_METHOD 39
++
++struct cpucp_map_table {
++	__le16 cpu_freq_mhz;
++	__le16 mem_freq_mhz;
++};
++
++struct map_param_msg {
++	__le32 hw_type;
++	__le32 mon_idx;
++	__le32 nr_rows;
++	struct cpucp_map_table tbl[MEMLAT_MAX_MAP_ENTRIES];
++};
++
++struct node_msg {
++	__le32 cpumask;
++	__le32 hw_type;
++	__le32 mon_type;
++	__le32 mon_idx;
++	char mon_name[MEMLAT_MAX_NAME_LEN];
++};
++
++struct scalar_param_msg {
++	__le32 hw_type;
++	__le32 mon_idx;
++	__le32 val;
++};
++
++struct ev_map_msg {
++	__le32 num_evs;
++	__le32 hw_type;
++	__le32 cid[NUM_COMMON_EVS];
++};
++
++/*
++ * MEMLAT_GET_CUR_FREQ reuses the request buffer for its response, so express
++ * the in/out aliasing as a union rather than reinterpreting the bytes.
++ */
++union cur_freq_msg {
++	struct scalar_param_msg req;
++	__le32 resp;
++};
++
++struct scmi_qcom_memory_info {
++	const struct scmi_qcom_memory_cfg *cfg;
++	struct devfreq_dev_profile profile;
++	struct devfreq *devfreq;
++	struct faux_device *fdev;
++	struct scmi_protocol_handle *ph;
++	const struct qcom_generic_ext_ops *ops;
++};
++
++struct scmi_qcom_memlat_info {
++	struct scmi_protocol_handle *ph;
++	const struct qcom_generic_ext_ops *ops;
++	const struct scmi_qcom_memlat_cfg_data *cfg_data;
++	struct scmi_qcom_memory_info **memory;
++	u32 memory_cnt;
++};
++
++/*
++ * ==========================================================================
++ * Per-SoC configuration
++ * ==========================================================================
++ */
++
++static const u32 glymur_common_ev[NUM_COMMON_EVS] = {
++	[INST_IDX]      = MEMLAT_EV_INST_RETIRED,
++	[CYC_IDX]       = MEMLAT_EV_CPU_CYCLES,
++	[CONST_CYC_IDX] = MEMLAT_EV_CNT_CYCLES,
++	[FE_STALL_IDX]  = MEMLAT_INVALID_IDX,
++	[BE_STALL_IDX]  = MEMLAT_EV_STALL_BACKEND_MEM,
++};
++
++static const u32 glymur_ddr_grp_ev[NUM_GRP_EVS] = {
++	[MISS_IDX] = MEMLAT_EV_L2_D_RFILL,
++	[WB_IDX]   = MEMLAT_INVALID_IDX,
++	[ACC_IDX]  = MEMLAT_INVALID_IDX,
++};
++
++static const u32 glymur_llcc_grp_ev[NUM_GRP_EVS] = {
++	[MISS_IDX] = MEMLAT_EV_L2_D_RFILL,
++	[WB_IDX]   = MEMLAT_INVALID_IDX,
++	[ACC_IDX]  = MEMLAT_INVALID_IDX,
++};
++
++static const u32 glymur_ddr_qos_grp_ev[NUM_GRP_EVS] = {
++	[MISS_IDX] = MEMLAT_EV_L2_D_RFILL,
++	[WB_IDX]   = MEMLAT_INVALID_IDX,
++	[ACC_IDX]  = MEMLAT_INVALID_IDX,
++};
++
++static const u32 hamoa_common_ev[NUM_COMMON_EVS] = {
++	[INST_IDX]      = MEMLAT_EV_INST_RETIRED,
++	[CYC_IDX]       = MEMLAT_EV_CPU_CYCLES,
++	[CONST_CYC_IDX] = MEMLAT_EV_CNT_CYCLES,
++	[FE_STALL_IDX]  = MEMLAT_INVALID_IDX,
++	[BE_STALL_IDX]  = MEMLAT_EV_STALL_BACKEND_MEM,
++};
++
++static const u32 hamoa_ddr_grp_ev[NUM_GRP_EVS] = {
++	[MISS_IDX] = MEMLAT_EV_L2_D_RFILL,
++	[WB_IDX]   = MEMLAT_INVALID_IDX,
++	[ACC_IDX]  = MEMLAT_INVALID_IDX,
++};
++
++static const u32 hamoa_llcc_grp_ev[NUM_GRP_EVS] = {
++	[MISS_IDX] = MEMLAT_EV_L2_D_RFILL,
++	[WB_IDX]   = MEMLAT_INVALID_IDX,
++	[ACC_IDX]  = MEMLAT_INVALID_IDX,
++};
++
++static const u32 hamoa_ddr_qos_grp_ev[NUM_GRP_EVS] = {
++	[MISS_IDX] = MEMLAT_EV_L2_D_RFILL,
++	[WB_IDX]   = MEMLAT_INVALID_IDX,
++	[ACC_IDX]  = MEMLAT_INVALID_IDX,
++};
++
++static const u32 kaanapali_common_ev[NUM_COMMON_EVS] = {
++	[INST_IDX]      = MEMLAT_EV_INST_RETIRED,
++	[CYC_IDX]       = MEMLAT_EV_CPU_CYCLES,
++	[CONST_CYC_IDX] = MEMLAT_INVALID_IDX,
++	[FE_STALL_IDX]  = MEMLAT_INVALID_IDX,
++	[BE_STALL_IDX]  = MEMLAT_INVALID_IDX,
++};
++
++static const u32 kaanapali_ddr_grp_ev[NUM_GRP_EVS] = {
++	[MISS_IDX] = MEMLAT_EV_L2_D_RFILL,
++	[WB_IDX]   = MEMLAT_INVALID_IDX,
++	[ACC_IDX]  = MEMLAT_INVALID_IDX,
++};
++
++static const u32 kaanapali_llcc_grp_ev[NUM_GRP_EVS] = {
++	[MISS_IDX] = MEMLAT_EV_L2_D_RFILL,
++	[WB_IDX]   = MEMLAT_INVALID_IDX,
++	[ACC_IDX]  = MEMLAT_INVALID_IDX,
++};
++
++static const u32 kaanapali_ddr_qos_grp_ev[NUM_GRP_EVS] = {
++	[MISS_IDX] = MEMLAT_EV_L2_D_RFILL,
++	[WB_IDX]   = MEMLAT_INVALID_IDX,
++	[ACC_IDX]  = MEMLAT_INVALID_IDX,
++};
++
++static const struct scmi_qcom_opp_data glymur_llcc_table[] = {
++	{ .freq = 315000000 },
++	{ .freq = 479000000 },
++	{ .freq = 545000000 },
++	{ .freq = 725000000 },
++	{ .freq = 840000000 },
++	{ .freq = 959000000 },
++	{ .freq = 1090000000 },
++	{ .freq = 1211000000 },
++};
++
++static const struct scmi_qcom_opp_data hamoa_llcc_table[] = {
++	{ .freq = 300000000 },
++	{ .freq = 466000000 },
++	{ .freq = 600000000 },
++	{ .freq = 806000000 },
++	{ .freq = 933000000 },
++	{ .freq = 1066000000 },
++};
++
++static const struct scmi_qcom_opp_data kaanapali_llcc_table[] = {
++	{ .freq = 282000000 },
++	{ .freq = 350000000 },
++	{ .freq = 533000000 },
++	{ .freq = 605600000 },
++	{ .freq = 806000000 },
++	{ .freq = 933000000 },
++	{ .freq = 1066000000 },
++	{ .freq = 1211000000 },
++	{ .freq = 1350000000 },
++};
++
++static const struct scmi_qcom_opp_data glymur_ddr_table[] = {
++	{ .freq = 200000000 },
++	{ .freq = 547000000 },
++	{ .freq = 1353000000 },
++	{ .freq = 1555000000 },
++	{ .freq = 1708000000 },
++	{ .freq = 2092000000 },
++	{ .freq = 2736000000 },
++	{ .freq = 3187000000 },
++	{ .freq = 3686000000 },
++	{ .freq = 4224000000 },
++	{ .freq = 4761000000 },
++};
++
++static const struct scmi_qcom_opp_data hamoa_ddr_table[] = {
++	{ .freq = 200000000 },
++	{ .freq = 547000000 },
++	{ .freq = 768000000 },
++	{ .freq = 1555000000 },
++	{ .freq = 1708000000 },
++	{ .freq = 2092000000 },
++	{ .freq = 2736000000 },
++	{ .freq = 3187000000 },
++	{ .freq = 3686000000 },
++	{ .freq = 4224000000 },
++};
++
++static const struct scmi_qcom_opp_data kaanapali_ddr_table[] = {
++	{ .freq = 547000000 },
++	{ .freq = 1353000000 },
++	{ .freq = 1555000000 },
++	{ .freq = 1708000000 },
++	{ .freq = 2092000000 },
++	{ .freq = 2736000000 },
++	{ .freq = 3187000000 },
++	{ .freq = 3686000000 },
++	{ .freq = 4224000000 },
++	{ .freq = 4780000000 },
++	{ .freq = 5333000000 },
++};
++
++/*
++ * DDR_QOS is a boolean bus: the firmware reports level 0 (nominal) or 1
++ * (boost) rather than a frequency. dev_pm_opp_add_dynamic() rejects a zero
++ * frequency, so the two OPP entries below use 1 and 100 purely as distinct,
++ * non-zero devfreq keys for the two levels; the values are not real
++ * frequencies. scmi_qcom_devfreq_get_cur_freq() maps the reported level back
++ * to the matching OPP frequency.
++ */
++static const struct scmi_qcom_opp_data glymur_ddr_qos_table[] = {
++	{ .freq = 1 },
++	{ .freq = 100 },
++};
++
++static const struct scmi_qcom_memory_cfg glymur_memory_cfg[] = {
++	{
++		.memory_type = MEMLAT_HW_DDR,
++		.name = "ddr",
++		.mem_table = glymur_ddr_table,
++		.num_opps = ARRAY_SIZE(glymur_ddr_table),
++		.grp_ev = glymur_ddr_grp_ev,
++		.monitor_cnt = 4,
++		.memory_range = { .min_freq_khz = 547000, .max_freq_khz = 4761000 },
++		.monitor_cfg = (const struct scmi_qcom_monitor_cfg[]) {
++			{
++				.name = "mon_0",
++				.cpu_mask = 0x3f,
++				.ipm_ceil = 60000000,
++				.be_stall_floor = 1,
++				.table_len = 8,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 960, .mem_freq_mhz = 547 },
++					{ .cpu_freq_mhz = 1133, .mem_freq_mhz = 1353 },
++					{ .cpu_freq_mhz = 1594, .mem_freq_mhz = 1555 },
++					{ .cpu_freq_mhz = 1920, .mem_freq_mhz = 1708 },
++					{ .cpu_freq_mhz = 2228, .mem_freq_mhz = 2736 },
++					{ .cpu_freq_mhz = 2362, .mem_freq_mhz = 3187 },
++					{ .cpu_freq_mhz = 2650, .mem_freq_mhz = 3686 },
++					{ .cpu_freq_mhz = 2938, .mem_freq_mhz = 4761 },
++				}
++			},
++			{
++				.name = "mon_1",
++				.cpu_mask = 0xfc0,
++				.ipm_ceil = 60000000,
++				.be_stall_floor = 1,
++				.table_len = 8,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 356, .mem_freq_mhz = 547 },
++					{ .cpu_freq_mhz = 1018, .mem_freq_mhz = 1353 },
++					{ .cpu_freq_mhz = 1536, .mem_freq_mhz = 1555 },
++					{ .cpu_freq_mhz = 1748, .mem_freq_mhz = 1708 },
++					{ .cpu_freq_mhz = 2324, .mem_freq_mhz = 2736 },
++					{ .cpu_freq_mhz = 2496, .mem_freq_mhz = 3187 },
++					{ .cpu_freq_mhz = 2900, .mem_freq_mhz = 3686 },
++					{ .cpu_freq_mhz = 3514, .mem_freq_mhz = 4761 },
++				}
++			},
++			{
++				.name = "mon_2",
++				.cpu_mask = 0x3f000,
++				.ipm_ceil = 60000000,
++				.be_stall_floor = 1,
++				.table_len = 8,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 356, .mem_freq_mhz = 547 },
++					{ .cpu_freq_mhz = 1018, .mem_freq_mhz = 1353 },
++					{ .cpu_freq_mhz = 1536, .mem_freq_mhz = 1555 },
++					{ .cpu_freq_mhz = 1748, .mem_freq_mhz = 1708 },
++					{ .cpu_freq_mhz = 2324, .mem_freq_mhz = 2736 },
++					{ .cpu_freq_mhz = 2496, .mem_freq_mhz = 3187 },
++					{ .cpu_freq_mhz = 2900, .mem_freq_mhz = 3686 },
++					{ .cpu_freq_mhz = 3514, .mem_freq_mhz = 4761 },
++				}
++			},
++			{
++				.name = "mon_3",
++				.cpu_mask = 0x3ffff,
++				.table_len = 4,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 2823, .mem_freq_mhz = 547 },
++					{ .cpu_freq_mhz = 3034, .mem_freq_mhz = 1555 },
++					{ .cpu_freq_mhz = 3226, .mem_freq_mhz = 1708 },
++					{ .cpu_freq_mhz = 5012, .mem_freq_mhz = 2092 },
++				}
++			},
++		},
++	},
++	{
++		.memory_type = MEMLAT_HW_LLCC,
++		.name = "llcc",
++		.mem_table = glymur_llcc_table,
++		.num_opps = ARRAY_SIZE(glymur_llcc_table),
++		.grp_ev = glymur_llcc_grp_ev,
++		.monitor_cnt = 3,
++		.memory_range = { .min_freq_khz = 315000, .max_freq_khz = 1211000 },
++		.monitor_cfg = (const struct scmi_qcom_monitor_cfg[]) {
++			{
++				.name = "mon_0",
++				.cpu_mask = 0x3f,
++				.ipm_ceil = 60000000,
++				.be_stall_floor = 1,
++				.table_len = 7,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 960, .mem_freq_mhz = 315 },
++					{ .cpu_freq_mhz = 1113, .mem_freq_mhz = 479 },
++					{ .cpu_freq_mhz = 1594, .mem_freq_mhz = 545 },
++					{ .cpu_freq_mhz = 1920, .mem_freq_mhz = 725 },
++					{ .cpu_freq_mhz = 2362, .mem_freq_mhz = 840 },
++					{ .cpu_freq_mhz = 2650, .mem_freq_mhz = 959 },
++					{ .cpu_freq_mhz = 2938, .mem_freq_mhz = 1211 },
++				}
++			},
++			{
++				.name = "mon_1",
++				.cpu_mask = 0xfc0,
++				.ipm_ceil = 60000000,
++				.be_stall_floor = 1,
++				.table_len = 7,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 356, .mem_freq_mhz = 315 },
++					{ .cpu_freq_mhz = 1018, .mem_freq_mhz = 479 },
++					{ .cpu_freq_mhz = 1536, .mem_freq_mhz = 545 },
++					{ .cpu_freq_mhz = 1748, .mem_freq_mhz = 725 },
++					{ .cpu_freq_mhz = 2496, .mem_freq_mhz = 840 },
++					{ .cpu_freq_mhz = 2900, .mem_freq_mhz = 959 },
++					{ .cpu_freq_mhz = 3514, .mem_freq_mhz = 1211 },
++				}
++			},
++			{
++				.name = "mon_2",
++				.cpu_mask = 0x3f000,
++				.ipm_ceil = 60000000,
++				.be_stall_floor = 1,
++				.table_len = 7,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 356, .mem_freq_mhz = 315 },
++					{ .cpu_freq_mhz = 1018, .mem_freq_mhz = 479 },
++					{ .cpu_freq_mhz = 1536, .mem_freq_mhz = 545 },
++					{ .cpu_freq_mhz = 1748, .mem_freq_mhz = 725 },
++					{ .cpu_freq_mhz = 2496, .mem_freq_mhz = 840 },
++					{ .cpu_freq_mhz = 2900, .mem_freq_mhz = 959 },
++					{ .cpu_freq_mhz = 3514, .mem_freq_mhz = 1211 },
++				}
++			},
++		},
++	},
++	{
++		.memory_type = MEMLAT_HW_DDR_QOS_COMPUTE,
++		.name = "ddr-qos",
++		.monitor_cnt = 3,
++		.mem_table = glymur_ddr_qos_table,
++		.num_opps = ARRAY_SIZE(glymur_ddr_qos_table),
++		.grp_ev = glymur_ddr_qos_grp_ev,
++		.memory_range = { .min_freq_khz = 0, .max_freq_khz = 1 },
++		.monitor_cfg = (const struct scmi_qcom_monitor_cfg[]) {
++			{
++				.name = "mon_0",
++				.cpu_mask = 0x3f,
++				.ipm_ceil = 80000000,
++				.be_stall_floor = 1,
++				.table_len = 2,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 2362, .mem_freq_mhz = 0 },
++					{ .cpu_freq_mhz = 2938, .mem_freq_mhz = 1 },
++				}
++			},
++			{
++				.name = "mon_1",
++				.cpu_mask = 0xfc0,
++				.ipm_ceil = 80000000,
++				.be_stall_floor = 1,
++				.table_len = 2,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 2496, .mem_freq_mhz = 0 },
++					{ .cpu_freq_mhz = 3514, .mem_freq_mhz = 1 },
++				}
++			},
++			{
++				.name = "mon_2",
++				.cpu_mask = 0x3f000,
++				.ipm_ceil = 80000000,
++				.be_stall_floor = 1,
++				.table_len = 2,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 2496, .mem_freq_mhz = 0 },
++					{ .cpu_freq_mhz = 3514, .mem_freq_mhz = 1 },
++				}
++			},
++		},
++	},
++};
++
++static const struct scmi_qcom_memory_cfg hamoa_memory_cfg[] = {
++	{
++		.memory_type = MEMLAT_HW_DDR,
++		.name = "ddr",
++		.mem_table = hamoa_ddr_table,
++		.num_opps = ARRAY_SIZE(hamoa_ddr_table),
++		.grp_ev = hamoa_ddr_grp_ev,
++		.monitor_cnt = 4,
++		.memory_range = { .min_freq_khz = 200000, .max_freq_khz = 4224000 },
++		.monitor_cfg = (const struct scmi_qcom_monitor_cfg[]) {
++			{
++				.name = "mon_0",
++				.cpu_mask = 0xf,
++				.ipm_ceil = 20000000,
++				.be_stall_floor = 1,
++				.table_len = 6,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 999, .mem_freq_mhz = 547 },
++					{ .cpu_freq_mhz = 1440, .mem_freq_mhz = 768 },
++					{ .cpu_freq_mhz = 1671, .mem_freq_mhz = 1555 },
++					{ .cpu_freq_mhz = 2189, .mem_freq_mhz = 2092 },
++					{ .cpu_freq_mhz = 2516, .mem_freq_mhz = 3187 },
++					{ .cpu_freq_mhz = 3860, .mem_freq_mhz = 4224 },
++				}
++			},
++			{
++				.name = "mon_1",
++				.cpu_mask = 0xf0,
++				.ipm_ceil = 20000000,
++				.be_stall_floor = 1,
++				.table_len = 6,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 999, .mem_freq_mhz = 547 },
++					{ .cpu_freq_mhz = 1440, .mem_freq_mhz = 768 },
++					{ .cpu_freq_mhz = 1671, .mem_freq_mhz = 1555 },
++					{ .cpu_freq_mhz = 2189, .mem_freq_mhz = 2092 },
++					{ .cpu_freq_mhz = 2516, .mem_freq_mhz = 3187 },
++					{ .cpu_freq_mhz = 3860, .mem_freq_mhz = 4224 },
++				}
++			},
++			{
++				.name = "mon_2",
++				.cpu_mask = 0xf00,
++				.ipm_ceil = 20000000,
++				.be_stall_floor = 1,
++				.table_len = 6,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 999, .mem_freq_mhz = 547 },
++					{ .cpu_freq_mhz = 1440, .mem_freq_mhz = 768 },
++					{ .cpu_freq_mhz = 1671, .mem_freq_mhz = 1555 },
++					{ .cpu_freq_mhz = 2189, .mem_freq_mhz = 2092 },
++					{ .cpu_freq_mhz = 2516, .mem_freq_mhz = 3187 },
++					{ .cpu_freq_mhz = 3860, .mem_freq_mhz = 4224 },
++				}
++			},
++			{
++				.name = "mon_3",
++				.cpu_mask = 0xfff,
++				.table_len = 4,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 1440, .mem_freq_mhz = 547 },
++					{ .cpu_freq_mhz = 2189, .mem_freq_mhz = 768 },
++					{ .cpu_freq_mhz = 2516, .mem_freq_mhz = 1555 },
++					{ .cpu_freq_mhz = 3860, .mem_freq_mhz = 2092 },
++				}
++			},
++		},
++	},
++	{
++		.memory_type = MEMLAT_HW_LLCC,
++		.name = "llcc",
++		.mem_table = hamoa_llcc_table,
++		.num_opps = ARRAY_SIZE(hamoa_llcc_table),
++		.grp_ev = hamoa_llcc_grp_ev,
++		.monitor_cnt = 3,
++		.memory_range = { .min_freq_khz = 300000, .max_freq_khz = 1066000 },
++		.monitor_cfg = (const struct scmi_qcom_monitor_cfg[]) {
++			{
++				.name = "mon_0",
++				.cpu_mask = 0xf,
++				.ipm_ceil = 20000000,
++				.be_stall_floor = 1,
++				.table_len = 6,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 999, .mem_freq_mhz = 300 },
++					{ .cpu_freq_mhz = 1440, .mem_freq_mhz = 466 },
++					{ .cpu_freq_mhz = 1671, .mem_freq_mhz = 600 },
++					{ .cpu_freq_mhz = 2189, .mem_freq_mhz = 806 },
++					{ .cpu_freq_mhz = 2516, .mem_freq_mhz = 933 },
++					{ .cpu_freq_mhz = 3860, .mem_freq_mhz = 1066 },
++				}
++			},
++			{
++				.name = "mon_1",
++				.cpu_mask = 0xf0,
++				.ipm_ceil = 20000000,
++				.be_stall_floor = 1,
++				.table_len = 6,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 999, .mem_freq_mhz = 300 },
++					{ .cpu_freq_mhz = 1440, .mem_freq_mhz = 466 },
++					{ .cpu_freq_mhz = 1671, .mem_freq_mhz = 600 },
++					{ .cpu_freq_mhz = 2189, .mem_freq_mhz = 806 },
++					{ .cpu_freq_mhz = 2516, .mem_freq_mhz = 933 },
++					{ .cpu_freq_mhz = 3860, .mem_freq_mhz = 1066 },
++				}
++			},
++			{
++				.name = "mon_2",
++				.cpu_mask = 0xf00,
++				.ipm_ceil = 20000000,
++				.be_stall_floor = 1,
++				.table_len = 6,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 999, .mem_freq_mhz = 300 },
++					{ .cpu_freq_mhz = 1440, .mem_freq_mhz = 466 },
++					{ .cpu_freq_mhz = 1671, .mem_freq_mhz = 600 },
++					{ .cpu_freq_mhz = 2189, .mem_freq_mhz = 806 },
++					{ .cpu_freq_mhz = 2516, .mem_freq_mhz = 933 },
++					{ .cpu_freq_mhz = 3860, .mem_freq_mhz = 1066 },
++				}
++			},
++		},
++	},
++	{
++		.memory_type = MEMLAT_HW_DDR_QOS_COMPUTE,
++		.name = "ddr-qos",
++		.monitor_cnt = 3,
++		.mem_table = glymur_ddr_qos_table,
++		.num_opps = ARRAY_SIZE(glymur_ddr_qos_table),
++		.grp_ev = hamoa_ddr_qos_grp_ev,
++		.memory_range = { .min_freq_khz = 0, .max_freq_khz = 1 },
++		.monitor_cfg = (const struct scmi_qcom_monitor_cfg[]) {
++			{
++				.name = "mon_0",
++				.cpu_mask = 0xf,
++				.ipm_ceil = 20000000,
++				.be_stall_floor = 1,
++				.table_len = 2,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 2189, .mem_freq_mhz = 0 },
++					{ .cpu_freq_mhz = 3860, .mem_freq_mhz = 1 },
++				}
++			},
++			{
++				.name = "mon_1",
++				.cpu_mask = 0xf0,
++				.ipm_ceil = 20000000,
++				.be_stall_floor = 1,
++				.table_len = 2,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 2189, .mem_freq_mhz = 0 },
++					{ .cpu_freq_mhz = 3860, .mem_freq_mhz = 1 },
++				}
++			},
++			{
++				.name = "mon_2",
++				.cpu_mask = 0xf00,
++				.ipm_ceil = 20000000,
++				.be_stall_floor = 1,
++				.table_len = 2,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 2189, .mem_freq_mhz = 0 },
++					{ .cpu_freq_mhz = 3860, .mem_freq_mhz = 1 },
++				}
++			},
++		},
++	},
++};
++
++static const struct scmi_qcom_memory_cfg kaanapali_memory_cfg[] = {
++	{
++		.memory_type = MEMLAT_HW_DDR,
++		.name = "ddr",
++		.mem_table = kaanapali_ddr_table,
++		.num_opps = ARRAY_SIZE(kaanapali_ddr_table),
++		.grp_ev = kaanapali_ddr_grp_ev,
++		.monitor_cnt = 4,
++		.memory_range = { .min_freq_khz = 547000, .max_freq_khz = 5333000 },
++		.monitor_cfg = (const struct scmi_qcom_monitor_cfg[]) {
++			{
++				.name = "mon_0",
++				.cpu_mask = 0x3f,
++				.ipm_ceil = 20000000,
++				.be_stall_floor = 1,
++				.table_len = 6,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 787, .mem_freq_mhz = 547 },
++					{ .cpu_freq_mhz = 960, .mem_freq_mhz = 1353 },
++					{ .cpu_freq_mhz = 1200, .mem_freq_mhz = 1555 },
++					{ .cpu_freq_mhz = 1536, .mem_freq_mhz = 2092 },
++					{ .cpu_freq_mhz = 2534, .mem_freq_mhz = 3187 },
++					{ .cpu_freq_mhz = 3552, .mem_freq_mhz = 3686 },
++				}
++			},
++			{
++				.name = "mon_1",
++				.cpu_mask = 0xc0,
++				.ipm_ceil = 20000000,
++				.be_stall_floor = 1,
++				.table_len = 8,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 614, .mem_freq_mhz = 547 },
++					{ .cpu_freq_mhz = 864, .mem_freq_mhz = 1353 },
++					{ .cpu_freq_mhz = 1382, .mem_freq_mhz = 2092 },
++					{ .cpu_freq_mhz = 2131, .mem_freq_mhz = 3187 },
++					{ .cpu_freq_mhz = 2726, .mem_freq_mhz = 3686 },
++					{ .cpu_freq_mhz = 3513, .mem_freq_mhz = 4224 },
++					{ .cpu_freq_mhz = 3916, .mem_freq_mhz = 4780 },
++					{ .cpu_freq_mhz = 4185, .mem_freq_mhz = 5333 },
++				}
++			},
++			{
++				.name = "mon_2",
++				.cpu_mask = 0xff,
++				.table_len = 2,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 2035, .mem_freq_mhz = 547 },
++					{ .cpu_freq_mhz = 4185, .mem_freq_mhz = 2092 },
++				}
++			},
++			{
++				.name = "mon_3",
++				.cpu_mask = 0xc0,
++				.ipm_ceil = 20000000,
++				.be_stall_floor = 1,
++				.table_len = 2,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 2726, .mem_freq_mhz = 547 },
++					{ .cpu_freq_mhz = 4185, .mem_freq_mhz = 4224 },
++				}
++			},
++		},
++	},
++	{
++		.memory_type = MEMLAT_HW_LLCC,
++		.name = "llcc",
++		.mem_table = kaanapali_llcc_table,
++		.num_opps = ARRAY_SIZE(kaanapali_llcc_table),
++		.grp_ev = kaanapali_llcc_grp_ev,
++		.monitor_cnt = 3,
++		.memory_range = { .min_freq_khz = 282000, .max_freq_khz = 1350000 },
++		.monitor_cfg = (const struct scmi_qcom_monitor_cfg[]) {
++			{
++				.name = "mon_0",
++				.cpu_mask = 0x3f,
++				.ipm_ceil = 20000000,
++				.be_stall_floor = 1,
++				.table_len = 5,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 787, .mem_freq_mhz = 282 },
++					{ .cpu_freq_mhz = 960, .mem_freq_mhz = 350 },
++					{ .cpu_freq_mhz = 1536, .mem_freq_mhz = 533 },
++					{ .cpu_freq_mhz = 2534, .mem_freq_mhz = 806 },
++					{ .cpu_freq_mhz = 3552, .mem_freq_mhz = 933 },
++				}
++			},
++			{
++				.name = "mon_1",
++				.cpu_mask = 0xc0,
++				.ipm_ceil = 20000000,
++				.be_stall_floor = 1,
++				.table_len = 8,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 614, .mem_freq_mhz = 282 },
++					{ .cpu_freq_mhz = 864, .mem_freq_mhz = 350 },
++					{ .cpu_freq_mhz = 1382, .mem_freq_mhz = 533 },
++					{ .cpu_freq_mhz = 2131, .mem_freq_mhz = 806 },
++					{ .cpu_freq_mhz = 2726, .mem_freq_mhz = 933 },
++					{ .cpu_freq_mhz = 3513, .mem_freq_mhz = 1066 },
++					{ .cpu_freq_mhz = 3916, .mem_freq_mhz = 1211 },
++					{ .cpu_freq_mhz = 4185, .mem_freq_mhz = 1350 },
++				}
++			},
++			{
++				.name = "mon_2",
++				.cpu_mask = 0xff,
++				.table_len = 2,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 2035, .mem_freq_mhz = 282 },
++					{ .cpu_freq_mhz = 4185, .mem_freq_mhz = 533 },
++				}
++			},
++		},
++	},
++	{
++		.memory_type = MEMLAT_HW_DDR_QOS_MOBILE,
++		.name = "ddr-qos",
++		.monitor_cnt = 4,
++		.mem_table = glymur_ddr_qos_table,
++		.num_opps = ARRAY_SIZE(glymur_ddr_qos_table),
++		.grp_ev = kaanapali_ddr_qos_grp_ev,
++		.memory_range = { .min_freq_khz = 0, .max_freq_khz = 1 },
++		.monitor_cfg = (const struct scmi_qcom_monitor_cfg[]) {
++			{
++				.name = "mon_0",
++				.cpu_mask = 0xff,
++				.ipm_ceil = 20000000,
++				.be_stall_floor = 1,
++				.table_len = 2,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 2035, .mem_freq_mhz = 0 },
++					{ .cpu_freq_mhz = 4185, .mem_freq_mhz = 1 },
++				}
++			},
++			{
++				.name = "mon_1",
++				.cpu_mask = 0xc0,
++				.ipm_ceil = 20000000,
++				.be_stall_floor = 1,
++				.table_len = 2,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 1574, .mem_freq_mhz = 0 },
++					{ .cpu_freq_mhz = 4185, .mem_freq_mhz = 1 },
++				}
++			},
++			{
++				.name = "mon_2",
++				.cpu_mask = 0xc0,
++				.ipm_ceil = 20000000,
++				.be_stall_floor = 1,
++				.table_len = 2,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 2131, .mem_freq_mhz = 0 },
++					{ .cpu_freq_mhz = 4185, .mem_freq_mhz = 1 },
++				}
++			},
++			{
++				.name = "mon_3",
++				.cpu_mask = 0xc0,
++				.table_len = 2,
++				.table = (const struct scmi_qcom_map_table[]) {
++					{ .cpu_freq_mhz = 3513, .mem_freq_mhz = 0 },
++					{ .cpu_freq_mhz = 4185, .mem_freq_mhz = 1 },
++				}
++			},
++		},
++	},
++};
++
++static const struct scmi_qcom_memlat_cfg_data glymur_memlat_data = {
++	.memory_cfg = glymur_memory_cfg,
++	.common_ev = glymur_common_ev,
++	.cpucp_legacy_freq_method = true,
++	.cpucp_sample_ms = 4,
++	.memory_cnt = ARRAY_SIZE(glymur_memory_cfg),
++};
++
++static const struct scmi_qcom_memlat_cfg_data hamoa_memlat_data = {
++	.memory_cfg = hamoa_memory_cfg,
++	.common_ev = hamoa_common_ev,
++	.cpucp_legacy_freq_method = true,
++	.cpucp_sample_ms = 4,
++	.memory_cnt = ARRAY_SIZE(hamoa_memory_cfg),
++};
++
++static const struct scmi_qcom_memlat_cfg_data kaanapali_memlat_data = {
++	.memory_cfg = kaanapali_memory_cfg,
++	.common_ev = kaanapali_common_ev,
++	.cpucp_legacy_freq_method = true,
++	.cpucp_sample_ms = 4,
++	.memory_cnt = ARRAY_SIZE(kaanapali_memory_cfg),
++};
++
++static const struct of_device_id scmi_qcom_memlat_configs[] = {
++	{ .compatible = "qcom,glymur", .data = &glymur_memlat_data },
++	{ .compatible = "qcom,mahua", .data = &glymur_memlat_data },
++	{ .compatible = "qcom,x1e80100", .data = &hamoa_memlat_data },
++	{ .compatible = "qcom,x1p42100", .data = &hamoa_memlat_data },
++	{ .compatible = "qcom,kaanapali", .data = &kaanapali_memlat_data },
++	{ }
++};
++
++static int memlat_set_param(struct scmi_qcom_memlat_info *info, void *msg,
++			    size_t size, u32 param_id)
 +{
-+	if (!devfreq->profile->get_cur_freq)
-+		return -ENXIO;
-+
-+	return devfreq->profile->get_cur_freq(devfreq->dev.parent, freq);
++	return info->ops->set_param(info->ph, msg, size, MEMLAT_ALGO_STR, param_id);
 +}
 +
-+static int devfreq_remote_track_handler(struct devfreq *devfreq, unsigned int event, void *data)
++static int configure_cpucp_common_events(struct scmi_qcom_memlat_info *info)
 +{
-+	switch (event) {
-+	case DEVFREQ_GOV_START:
-+		devfreq_monitor_start(devfreq);
-+		break;
++	struct ev_map_msg ev = {};
++	int i;
 +
-+	case DEVFREQ_GOV_STOP:
-+		devfreq_monitor_stop(devfreq);
-+		break;
++	ev.num_evs = cpu_to_le32(NUM_COMMON_EVS);
++	ev.hw_type = cpu_to_le32(MEMLAT_HW_TYPE_ALL);
++	for (i = 0; i < NUM_COMMON_EVS; i++)
++		ev.cid[i] = cpu_to_le32(info->cfg_data->common_ev[i]);
 +
-+	case DEVFREQ_GOV_UPDATE_INTERVAL:
-+		devfreq_update_interval(devfreq, (unsigned int *)data);
-+		break;
++	return memlat_set_param(info, &ev, sizeof(ev), MEMLAT_SET_COMMON_EV_MAP);
++}
 +
-+	case DEVFREQ_GOV_SUSPEND:
-+		devfreq_monitor_suspend(devfreq);
-+		break;
++static int configure_cpucp_grp(struct device *dev, struct scmi_qcom_memlat_info *info,
++			       int memory_index)
++{
++	const struct scmi_qcom_memory_cfg *cfg = &info->cfg_data->memory_cfg[memory_index];
++	struct ev_map_msg ev = {};
++	struct node_msg node = {};
++	int ret, i;
 +
-+	case DEVFREQ_GOV_RESUME:
-+		devfreq_monitor_resume(devfreq);
-+		break;
++	node.cpumask = cpu_to_le32(*cpumask_bits(cpu_possible_mask));
++	node.hw_type = cpu_to_le32(cfg->memory_type);
++
++	/* mon_type/mon_idx are don't-care for SET_MEM_GROUP; leave them zero. */
++	ret = memlat_set_param(info, &node, sizeof(node), MEMLAT_SET_MEM_GROUP);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "failed to configure mem type %d\n",
++				     cfg->memory_type);
++
++	ev.num_evs = cpu_to_le32(NUM_GRP_EVS);
++	ev.hw_type = cpu_to_le32(cfg->memory_type);
++	for (i = 0; i < NUM_GRP_EVS; i++)
++		ev.cid[i] = cpu_to_le32(cfg->grp_ev[i]);
++
++	ret = memlat_set_param(info, &ev, sizeof(ev), MEMLAT_SET_GRP_EV_MAP);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "failed to configure event map for mem type %d\n",
++				     cfg->memory_type);
++
++	return 0;
++}
++
++static int configure_cpucp_mon(struct device *dev, struct scmi_qcom_memlat_info *info,
++			       int memory_index, int monitor_index)
++{
++	const struct scmi_qcom_memory_cfg *cfg = &info->cfg_data->memory_cfg[memory_index];
++	const struct scmi_qcom_monitor_cfg *mon = &cfg->monitor_cfg[monitor_index];
++	struct scalar_param_msg scalar = {};
++	struct map_param_msg map = {};
++	struct node_msg node = {};
++	int ret, i;
++
++	if (mon->table_len > MEMLAT_MAX_MAP_ENTRIES)
++		return -EINVAL;
++
++	node.cpumask = cpu_to_le32(mon->cpu_mask);
++	node.hw_type = cpu_to_le32(cfg->memory_type);
++
++	/* The compute monitor passively scales with cpufreq irrespective of IPM ratio. */
++	node.mon_type = cpu_to_le32(!mon->ipm_ceil);
++	node.mon_idx = cpu_to_le32(monitor_index);
++	strscpy(node.mon_name, mon->name, sizeof(node.mon_name));
++	ret = memlat_set_param(info, &node, sizeof(node), MEMLAT_SET_MONITOR);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "failed to configure monitor %s\n", mon->name);
++
++	scalar.hw_type = cpu_to_le32(cfg->memory_type);
++	scalar.mon_idx = cpu_to_le32(monitor_index);
++	scalar.val = cpu_to_le32(mon->ipm_ceil);
++	ret = memlat_set_param(info, &scalar, sizeof(scalar), MEMLAT_IPM_CEIL);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "failed to set ipm ceil for %s\n", mon->name);
++
++	scalar.val = cpu_to_le32(mon->be_stall_floor);
++	ret = memlat_set_param(info, &scalar, sizeof(scalar), MEMLAT_BE_STALL_FLOOR);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "failed to set be_stall_floor for %s\n", mon->name);
++
++	map.hw_type = cpu_to_le32(cfg->memory_type);
++	map.mon_idx = cpu_to_le32(monitor_index);
++	map.nr_rows = cpu_to_le32(mon->table_len);
++	for (i = 0; i < mon->table_len; i++) {
++		map.tbl[i].cpu_freq_mhz = cpu_to_le16(mon->table[i].cpu_freq_mhz);
++		map.tbl[i].mem_freq_mhz = cpu_to_le16(mon->table[i].mem_freq_mhz);
++	}
++	ret = memlat_set_param(info, &map, sizeof(map), MEMLAT_MON_FREQ_MAP);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "failed to configure freq_map for %s\n", mon->name);
++
++	scalar.val = cpu_to_le32(cfg->memory_range.min_freq_khz);
++	ret = memlat_set_param(info, &scalar, sizeof(scalar), MEMLAT_SET_MIN_FREQ);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "failed to set min_freq for %s\n", mon->name);
++
++	scalar.val = cpu_to_le32(cfg->memory_range.max_freq_khz);
++	ret = memlat_set_param(info, &scalar, sizeof(scalar), MEMLAT_SET_MAX_FREQ);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "failed to set max_freq for %s\n", mon->name);
++
++	return 0;
++}
++
++static int scmi_qcom_devfreq_get_cur_freq(struct device *dev, unsigned long *freq)
++{
++	struct scmi_qcom_memory_info *memory = dev_get_drvdata(dev);
++	const struct qcom_generic_ext_ops *ops = memory->ops;
++	const struct scmi_qcom_memory_cfg *cfg = memory->cfg;
++	u32 max_freq_khz = 0;
++	int ret, i;
++
++	/* The bus's voted frequency is the max reported across all its monitors. */
++	for (i = 0; i < cfg->monitor_cnt; i++) {
++		union cur_freq_msg msg = {};
++
++		msg.req.hw_type = cpu_to_le32(cfg->memory_type);
++		msg.req.mon_idx = cpu_to_le32(i);
++
++		ret = ops->get_param(memory->ph, &msg, sizeof(msg.req), MEMLAT_ALGO_STR,
++				     MEMLAT_GET_CUR_FREQ, sizeof(msg.resp));
++		if (ret < 0) {
++			/* One monitor failing shouldn't abort the whole read-back. */
++			dev_warn_once(dev, "failed to get current frequency for %s\n",
++				      cfg->monitor_cfg[i].name);
++			continue;
++		}
++
++		max_freq_khz = max(max_freq_khz, le32_to_cpu(msg.resp));
++	}
++
++	/*
++	 * DDR/LLCC report a frequency in kHz (converted to Hz for the OPP
++	 * table); DDR_QOS reports a 0/1 level mapped to its synthetic OPP keys.
++	 */
++	if (cfg->memory_range.max_freq_khz > 1)
++		*freq = (unsigned long)((u64)max_freq_khz * HZ_PER_KHZ);
++	else
++		*freq = max_freq_khz ? 100 : 1;
++
++	return 0;
++}
++
++static void scmi_qcom_memlat_teardown(struct scmi_qcom_memlat_info *info)
++{
++	for (int i = 0; i < info->memory_cnt; i++) {
++		struct scmi_qcom_memory_info *memory = info->memory[i];
++
++		if (!memory || !memory->fdev)
++			continue;
++
++		if (memory->devfreq)
++			devfreq_remove_device(memory->devfreq);
++		dev_pm_opp_remove_all_dynamic(&memory->fdev->dev);
++		faux_device_destroy(memory->fdev);
++	}
++}
++
++static int scmi_qcom_memlat_configure_events(struct scmi_device *sdev,
++					     struct scmi_qcom_memlat_info *info)
++{
++	const struct qcom_generic_ext_ops *ops = info->ops;
++	struct scmi_protocol_handle *ph = info->ph;
++	__le32 sample_ms, freq_method;
++	int i, j, ret;
++
++	ret = configure_cpucp_common_events(info);
++	if (ret < 0)
++		return dev_err_probe(&sdev->dev, ret, "failed to configure common events\n");
++
++	for (i = 0; i < info->memory_cnt; i++) {
++		ret = configure_cpucp_grp(&sdev->dev, info, i);
++		if (ret < 0)
++			return ret;
++
++		for (j = 0; j < info->memory[i]->cfg->monitor_cnt; j++) {
++			ret = configure_cpucp_mon(&sdev->dev, info, i, j);
++			if (ret < 0)
++				return ret;
++		}
++	}
++
++	sample_ms = cpu_to_le32(info->cfg_data->cpucp_sample_ms);
++	ret = memlat_set_param(info, &sample_ms, sizeof(sample_ms), MEMLAT_SAMPLE_MS);
++	if (ret < 0)
++		return dev_err_probe(&sdev->dev, ret, "failed to set sample_ms\n");
++
++	freq_method = cpu_to_le32(info->cfg_data->cpucp_legacy_freq_method);
++	ret = memlat_set_param(info, &freq_method, sizeof(freq_method),
++			       MEMLAT_SET_EFFECTIVE_FREQ_METHOD);
++	if (ret < 0)
++		return dev_err_probe(&sdev->dev, ret,
++				     "failed to set effective frequency calc method\n");
++
++	/* Start sampling and voting timer */
++	ret = ops->start_activity(ph, NULL, 0, MEMLAT_ALGO_STR, MEMLAT_START_TIMER);
++	if (ret < 0)
++		return dev_err_probe(&sdev->dev, ret, "failed to start memory group timer\n");
++
++	for (i = 0; i < info->memory_cnt; i++) {
++		struct scmi_qcom_memory_info *memory = info->memory[i];
++		const struct scmi_qcom_memory_range *range = &memory->cfg->memory_range;
++		struct devfreq_dev_profile *profile = &memory->profile;
++
++		/*
++		 * CPUCP re-evaluates and re-votes at most once per cpucp_sample_ms,
++		 * so a new operating point can appear only that often. Polling at half
++		 * that period guarantees each distinct vote is observed in trans_stat
++		 * before it can change again.
++		 */
++		profile->polling_ms = max(1U, info->cfg_data->cpucp_sample_ms / 2);
++		profile->get_cur_freq = scmi_qcom_devfreq_get_cur_freq;
++		profile->initial_freq = range->max_freq_khz > 1 ?
++					(unsigned long)((u64)range->min_freq_khz * HZ_PER_KHZ) :
++					range->min_freq_khz;
++
++		faux_device_set_drvdata(memory->fdev, memory);
++
++		memory->devfreq = devfreq_add_device(&memory->fdev->dev, profile,
++						     DEVFREQ_GOV_REMOTE, NULL);
++		if (IS_ERR(memory->devfreq)) {
++			ret = PTR_ERR(memory->devfreq);
++			memory->devfreq = NULL;
++			ops->stop_activity(ph, NULL, 0, MEMLAT_ALGO_STR, MEMLAT_STOP_TIMER);
++			return dev_err_probe(&sdev->dev, ret, "failed to add devfreq device\n");
++		}
 +	}
 +
 +	return 0;
 +}
 +
-+static struct devfreq_governor devfreq_remote_track = {
-+	.name = DEVFREQ_GOV_REMOTE,
-+	.attrs = DEVFREQ_GOV_ATTR_POLLING_INTERVAL
-+		| DEVFREQ_GOV_ATTR_TIMER,
-+	.flags = DEVFREQ_GOV_FLAG_IMMUTABLE
-+		| DEVFREQ_GOV_FLAG_TRACK_REMOTE,
-+	.get_target_freq = devfreq_remote_track_func,
-+	.event_handler = devfreq_remote_track_handler,
-+};
-+
-+static int __init devfreq_remote_track_init(void)
++static int scmi_qcom_memlat_setup(struct scmi_device *sdev, struct scmi_qcom_memlat_info *info)
 +{
-+	return devfreq_add_governor(&devfreq_remote_track);
++	const struct scmi_qcom_memlat_cfg_data *cfg_data;
++	int ret, i, j;
++
++	cfg_data = of_machine_get_match_data(scmi_qcom_memlat_configs);
++	if (!cfg_data) {
++		dev_dbg(&sdev->dev, "no memlat config data for this platform\n");
++		return -ENODEV;
++	}
++
++	info->cfg_data = cfg_data;
++	info->memory = devm_kcalloc(&sdev->dev, cfg_data->memory_cnt,
++				    sizeof(*info->memory), GFP_KERNEL);
++	if (!info->memory)
++		return -ENOMEM;
++
++	for (i = 0; i < cfg_data->memory_cnt; i++) {
++		const struct scmi_qcom_memory_cfg *memory_cfg = &cfg_data->memory_cfg[i];
++		struct scmi_qcom_memory_info *memory;
++
++		memory = devm_kzalloc(&sdev->dev, sizeof(*memory), GFP_KERNEL);
++		if (!memory) {
++			ret = -ENOMEM;
++			goto err_teardown;
++		}
++
++		memory->cfg = memory_cfg;
++		memory->ops = info->ops;
++		memory->ph = info->ph;
++		info->memory[i] = memory;
++
++		memory->fdev = faux_device_create(memory_cfg->name, &sdev->dev, NULL);
++		if (!memory->fdev) {
++			ret = dev_err_probe(&sdev->dev, -ENODEV,
++					    "failed to create faux device\n");
++			goto err_teardown;
++		}
++		info->memory_cnt = i + 1;
++
++		for (j = 0; j < memory_cfg->num_opps; j++) {
++			struct dev_pm_opp_data data = {
++				.freq = memory_cfg->mem_table[j].freq,
++			};
++
++			ret = dev_pm_opp_add_dynamic(&memory->fdev->dev, &data);
++			if (ret) {
++				dev_err_probe(&sdev->dev, ret, "failed to add OPP\n");
++				goto err_teardown;
++			}
++		}
++	}
++
++	return 0;
++
++err_teardown:
++	scmi_qcom_memlat_teardown(info);
++	return ret;
 +}
-+subsys_initcall(devfreq_remote_track_init);
 +
-+static void __exit devfreq_remote_track_exit(void)
++static int scmi_qcom_devfreq_memlat_probe(struct scmi_device *sdev)
 +{
++	const struct scmi_handle *handle = sdev->handle;
++	const struct qcom_generic_ext_ops *ops;
++	struct scmi_qcom_memlat_info *info;
++	struct scmi_protocol_handle *ph;
 +	int ret;
 +
-+	ret = devfreq_remove_governor(&devfreq_remote_track);
-+	if (ret)
-+		pr_err("%s: failed to remove governor %d\n", __func__, ret);
-+}
-+module_exit(devfreq_remote_track_exit);
++	if (!handle)
++		return -ENODEV;
 +
-+MODULE_DESCRIPTION("DEVFREQ Remote Tracking governor");
++	info = devm_kzalloc(&sdev->dev, sizeof(*info), GFP_KERNEL);
++	if (!info)
++		return -ENOMEM;
++
++	ops = handle->devm_protocol_get(sdev, SCMI_PROTOCOL_QCOM_GENERIC, &ph);
++	if (IS_ERR(ops))
++		return PTR_ERR(ops);
++
++	info->ops = ops;
++	info->ph = ph;
++
++	ret = scmi_qcom_memlat_setup(sdev, info);
++	if (ret)
++		return ret;
++
++	ret = scmi_qcom_memlat_configure_events(sdev, info);
++	if (ret) {
++		scmi_qcom_memlat_teardown(info);
++		return ret;
++	}
++
++	dev_set_drvdata(&sdev->dev, info);
++
++	return 0;
++}
++
++static void scmi_qcom_devfreq_memlat_remove(struct scmi_device *sdev)
++{
++	struct scmi_qcom_memlat_info *info = dev_get_drvdata(&sdev->dev);
++	int ret;
++
++	ret = info->ops->stop_activity(info->ph, NULL, 0, MEMLAT_ALGO_STR, MEMLAT_STOP_TIMER);
++	if (ret < 0)
++		dev_err(&sdev->dev, "failed to stop memory group timer\n");
++
++	scmi_qcom_memlat_teardown(info);
++}
++
++static const struct scmi_device_id scmi_id_table[] = {
++	{ SCMI_PROTOCOL_QCOM_GENERIC, "qcom-generic-ext" },
++	{ },
++};
++MODULE_DEVICE_TABLE(scmi, scmi_id_table);
++
++static struct scmi_driver scmi_qcom_devfreq_memlat_driver = {
++	.name		= "scmi-qcom-devfreq-memlat",
++	.probe		= scmi_qcom_devfreq_memlat_probe,
++	.remove		= scmi_qcom_devfreq_memlat_remove,
++	.id_table	= scmi_id_table,
++};
++module_scmi_driver(scmi_qcom_devfreq_memlat_driver);
++
++MODULE_AUTHOR("Pragnesh Papaniya <pragnesh.papaniya@oss.qualcomm.com>");
++MODULE_AUTHOR("Sibi Sankar <sibi.sankar@oss.qualcomm.com>");
++MODULE_DESCRIPTION("Qualcomm SCMI memlat devfreq driver");
 +MODULE_LICENSE("GPL");
-diff --git a/include/linux/devfreq.h b/include/linux/devfreq.h
-index dc1075dc3446..4d50cf230950 100644
---- a/include/linux/devfreq.h
-+++ b/include/linux/devfreq.h
-@@ -21,6 +21,7 @@
- #define DEVFREQ_GOV_POWERSAVE		"powersave"
- #define DEVFREQ_GOV_USERSPACE		"userspace"
- #define DEVFREQ_GOV_PASSIVE		"passive"
-+#define DEVFREQ_GOV_REMOTE		"remote"
- 
- /* DEVFREQ notifier interface */
- #define DEVFREQ_TRANSITION_NOTIFIER	(0)
 
 -- 
 2.34.1
