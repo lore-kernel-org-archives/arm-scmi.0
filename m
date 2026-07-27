@@ -1,111 +1,83 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526DA2D8DCA;
-	Fri, 24 Jul 2026 15:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D26734E75D;
+	Mon, 27 Jul 2026 02:35:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784905557; cv=none; b=TEwI5wScbIrd1+B+NQmVxjN5pBvW6wWhex7nJo/bMnnPJjRwguEFdN/KO0nR6MaO9bEPR1RT1stir190DdGcUDJqu/DPJwCsrBE8FmTRYofdlFwThZ3ESidxxQN5XsDhad1jPgsXizC/mw6wdJLNMUIj1uftHBM3iBUy1/ONdrc=
+	t=1785119761; cv=none; b=OeYj+29yHO8m57iCHmG7WUJMzTd/V0Ps2vMx4td6+uZq5EkOixEYIbLrKy3ui4X5v2pSvlh+dndKmcGK/ofMMSN6bP7tHm8OM7r2/RlTjxuRvj3t2SdWWmy5QInPUiEok9iq7lOmhv1otx0yFG5IIuXOW1yH+ijdjHRZVt+7n50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784905557; c=relaxed/simple;
-	bh=E7XFCLxRIwXaLN0V8uIslzdQB7crLng2788gX5oMVKI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=IODTRaG1rNI2dBLIEf+QyjNB23mkIl+iYFUrLrd2VUoHQV9sJysVDijmK2HelrbGOFtPT7NSmxUuOahBY8dC05SiPtEla1oMMR6egT7+NsJxhS9700BLGbeWvRoB804aFz9igmWp9Z3PNh3MBJJ41N+cflGnWcqmQ6Y+Y8Rdz1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=cxS2GECs; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cxS2GECs"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 40335408B5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1784905554; bh=O1NxEzIyl57DprBUUSOUtSCXB+mtbnXl5Xys+uMdSEA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=cxS2GECsC1GW8TmvkDKgprdLRf4zXP0KqAMKBACxeJp8x1/CQylIcUMHmeDIHSG6W
-	 tInM7iVVgYAv7YId6VctDrqTHx6ySTLJTR5GSKzURLdjlartYvY7R2U6J3qdDdw9j8
-	 JfFkhpB3Z9M9ZyjFv8H1Vr8vtPiam8abIcSD156vW8TapLsjIdYyWfNSVXpWEIn/Bk
-	 KXH4Hbu9bfDI7CgwTQKJaDxB2kPn2oqppHiFNwHM+0/QQz8j5xhAgPIbQWBGf5K+SB
-	 UOTLVI67AIZcjQiM7OTNNgNcJ58WjYx7vV/R9DDVbIoNMKmijTBZII1Xu+9Ln5yXIw
-	 URpVEeiZ5/5hQ==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 40335408B5;
-	Fri, 24 Jul 2026 15:05:54 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Cristian Marussi <cristian.marussi@arm.com>,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- arm-scmi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: sudeep.holla@kernel.org, james.quinlan@broadcom.com,
- f.fainelli@gmail.com, vincent.guittot@linaro.org, etienne.carriere@st.com,
- peng.fan@oss.nxp.com, michal.simek@amd.com, d-gole@ti.com,
- jic23@kernel.org, elif.topuz@arm.com, lukasz.luba@arm.com,
- philip.radford@arm.com, brauner@kernel.org, souvik.chakravarty@arm.com,
- david@kernel.org, subrahmanya.lingappa@oss.qualcomm.com,
- leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
- usama.arif@linux.dev, kernel-team@meta.com, Cristian Marussi
- <cristian.marussi@arm.com>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v6 21/22] [RFC] Documentation: Add SCMI System Telemetry
- documentation
-In-Reply-To: <20260724144430.1440170-22-cristian.marussi@arm.com>
-References: <20260724144430.1440170-1-cristian.marussi@arm.com>
- <20260724144430.1440170-22-cristian.marussi@arm.com>
-Date: Fri, 24 Jul 2026 09:05:53 -0600
-Message-ID: <874iho8m26.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1785119761; c=relaxed/simple;
+	bh=qldIR4oXvwAcg9IMa5UnsYMpiOXlpZcna6WDb01rkf0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HR1bfa6gLUcEZXzCrT4xtO4Olg81xR4HxLPVugu6KzyAlAxB9odrW2LwuHR9mqOXfFpC1TND82HxzGMpWNGiQGOzgBfFhJrQibfzqlQraeDZ6Y2sX+I+1sekbwzWZurI6iMctgUb3uNnztySXGo/GFgB7AqH5MF93RItr2pGblE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: e1e24aac896311f1aa26b74ffac11d73-20260727
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:20338929-0ee3-417c-a897-4aae2e45606e,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:e7bac3a,CLOUDID:96d270b7e4164c3e34c9e4e3b375b235,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|865|898,TC:nil,Content:0|15|50
+	,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,O
+	SA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: e1e24aac896311f1aa26b74ffac11d73-20260727
+X-User: liuxixin@kylinos.cn
+Received: from [127.0.1.1] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <liuxixin@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1327643492; Mon, 27 Jul 2026 10:35:50 +0800
+From: Xixin Liu <liuxixin@kylinos.cn>
+To: arm-scmi@vger.kernel.org
+Cc: sudeep.holla@arm.com, cristian.marussi@arm.com, mturquette@baylibre.com, sboyd@kernel.org, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, liuxixin@kylinos.cn
+Subject: [PATCH v1 2/4] firmware: arm_scpi: reject DVFS OPP count above MAX_DVFS_OPPS
+Date: Mon, 27 Jul 2026 10:19:15 +0800
+Message-ID: <bfebdb68118c.1785118770.git.liuxixin@kylinos.cn>
+In-Reply-To: <cover.1785118770.git.liuxixin@kylinos.cn>
+References: <cover.1785118770.git.liuxixin@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailer: patches/scripts/send-local.py
 
-Cristian Marussi <cristian.marussi@arm.com> writes:
+scpi_dvfs_get_info() already rejected a zero opp_count, but still trusted
+any larger value from the SCP firmware. The shared-memory reply only holds
+MAX_DVFS_OPPS entries in buf.opps[]; a bigger count over-reads that array
+and then sizes the allocated OPP table incorrectly (garbage OPPs / OOB).
 
-> Document ARM SCMI Telemetry IOCTLs interface.
->
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: linux-doc@vger.kernel.org
-> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> ---
-> RFC since it still needs more extensive examples
->
-> v5 --> v6
->  - fixed typos
-> ---
->  Documentation/userspace-api/index.rst |   1 +
->  Documentation/userspace-api/stlm.rst  | 143 ++++++++++++++++++++++++++
->  2 files changed, 144 insertions(+)
->  create mode 100644 Documentation/userspace-api/stlm.rst
->
-> diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-> index a68b1bea57a8..22daa7ebf78e 100644
-> --- a/Documentation/userspace-api/index.rst
-> +++ b/Documentation/userspace-api/index.rst
-> @@ -54,6 +54,7 @@ Devices and I/O
->     dcdbas
->     vduse
->     isapnp
-> +   stlm
->  
->  Everything else
->  ===============
-> diff --git a/Documentation/userspace-api/stlm.rst b/Documentation/userspace-api/stlm.rst
-> new file mode 100644
-> index 000000000000..e34226b11373
-> --- /dev/null
-> +++ b/Documentation/userspace-api/stlm.rst
-> @@ -0,0 +1,143 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. stlm:
+Reject zero and out-of-range counts in one check and return -EINVAL.
 
-I'm not sure what that last line is meant to be?  It *looks* like it's
-meant to be the sort of top-of-file label that I've been trying to get
-people to stop adding for years...but it lacks the leading underscore,
-and so won't work even for that.  Remove that line?
+Signed-off-by: Xixin Liu <liuxixin@kylinos.cn>
+---
+ drivers/firmware/arm_scpi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks,
+diff --git a/drivers/firmware/arm_scpi.c b/drivers/firmware/arm_scpi.c
+index 6056754ef48c..5db58bdfc947 100644
+--- a/drivers/firmware/arm_scpi.c
++++ b/drivers/firmware/arm_scpi.c
+@@ -630,8 +630,8 @@ static struct scpi_dvfs_info *scpi_dvfs_get_info(u8 domain)
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
+-	if (!buf.opp_count)
+-		return ERR_PTR(-ENOENT);
++	if (!buf.opp_count || buf.opp_count > MAX_DVFS_OPPS)
++		return ERR_PTR(-EINVAL);
+ 
+ 	info = kmalloc(sizeof(*info), GFP_KERNEL);
+ 	if (!info)
+-- 
+2.53.0
 
-jon
