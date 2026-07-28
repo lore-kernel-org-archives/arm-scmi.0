@@ -1,121 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035E041E6A6;
-	Tue, 28 Jul 2026 10:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 749BF3446C5;
+	Tue, 28 Jul 2026 14:34:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785234190; cv=none; b=dYByhGdrECLTuKA0vTHo5s1yjjFCIta5iUMqaV6fKkJmGeeEBZCwjJzwuxx45ybYlu8RYAGk8cW7AfbY5uDus0qR9d3jHnd6wKMMHs1ZWmxoMC+pJ49MmQq0G3X9RR/+nQ3YnjpplM5V0WBJexd2Pgx7NOKdhaEsrQK704yCxhQ=
+	t=1785249244; cv=none; b=tp8+qwtKN/FGCmi+NVDYhgG2xvkOeoYA+5U0Nf59LzUzWLFTP7K5vD+aumw9EViRJNyus5hq9vzOpE9E0+yGLYFH7yQcwiKgea3V9YCAx0fSGcGJw266sNccwHStArsOjELtM01nHbz4RsF4zzoRwQSNI/ktrUh3Q/8dZHHCb2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785234190; c=relaxed/simple;
-	bh=xZOlzl02EkNm0NFNlzqxT98KWd7AvB2q7WhbePlKY+A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cwxo9nFJ4EGcSR3J7KO9idchpxR7+q++CPWY0Z1lSQLtDw7qVyrGxlC5pZwx46gn40c/fdcNQta8M0SS+hpdCSMN6l+N5Wt77qhU4O1ndDlIXRO/uexgvPGuzlVLCWCoQMxOslGuwZ5TV0xjWrl3/MmINrvTHPAkHjb+gmCTAZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ReeAiHZB; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785249244; c=relaxed/simple;
+	bh=3LW9mPIzGWHeO7ZFVky3G7SbwHoE8CKY/hj7ekw39VE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Wa/3JUhhBnLJYcQViUCRDmHLRwI04VMdyGu6CgXio2PCLa3W8+YYzTPpA/lkA0JaboyGElXLaUSwBhs0NOXyPGbA1hdjDY1kR9vJWMB0HsSoGNYdvImy0zM8W+Zx7DbtaRu6g/g05B5kIgVbrFGlLtxSQIheVEGcN2jrhqkK5jM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=oEfmbj4l; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ReeAiHZB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 845BF1F00A3A;
-	Tue, 28 Jul 2026 10:23:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785234188;
-	bh=zkYNMBMxRomB3X/KEDO6VkzZYD2WQ8O+R3tGMuTyTHU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ReeAiHZBWjCIquxo99FgunF3eIym4Ve/vzgSW19ANUpITo8Jp+iUUE9uE6+fCsLTK
-	 AM1cQr3V1iGZWYqWv/n2PMhTQaVmB1rbJ9d+yMXlJGg5a+z9wKluV3+fFgEk9TMQtq
-	 9gKhPQrtwxIftbsL973kmj6uoiTTb7p4Wpeq5h2XQylZCWUmmesDPvkAgqmZsnUu+L
-	 CSpOc5E6DV7+faqIrfPS9zobjVOkonSwRzi/GkpCaHerdqqNLkVQsgqUmFqD6SLwVN
-	 sB1u2k1swP5MNabRn71Nd962gxYKI1g1t3N0JvItb8vMEznpxvXLATAYUKUkNMbmc3
-	 3O0G3vHPzAKDA==
-Date: Tue, 28 Jul 2026 11:23:05 +0100
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: Laszlo Ersek <laszlo.ersek@arm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
-	Sudeep Holla <sudeep.holla@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: #thermal-sensor-cells under protocol@15
-Message-ID: <20260728-natural-successful-pudu-fcb71d@sudeepholla>
-References: <32d8c83d-7e70-4b1c-8d6d-12920f6c67ce@arm.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="oEfmbj4l"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5B07A169C;
+	Tue, 28 Jul 2026 07:33:57 -0700 (PDT)
+Received: from [10.42.52.198] (e131404.arm.com [10.42.52.198])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C75B73F66F;
+	Tue, 28 Jul 2026 07:34:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1785249241; bh=3LW9mPIzGWHeO7ZFVky3G7SbwHoE8CKY/hj7ekw39VE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=oEfmbj4lY68qwPEoFkxetMt/hz+6+yqKZ7sOMQKhw7eb7Jl8djJ719JZOYy0KjySY
+	 UupdUisSI73dHUcExJiU/g9pOTwweOWxKHsQXRR36FgBBemJSAa0dkGCGbdjfmYNhO
+	 609CWy9yxDm797n6l9rbs5Wl5Na1XAjGikXK9RC0=
+Message-ID: <d61cf184-20a4-4e8f-8da0-c0ac39e200a8@arm.com>
+Date: Tue, 28 Jul 2026 16:33:59 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <32d8c83d-7e70-4b1c-8d6d-12920f6c67ce@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: #thermal-sensor-cells under protocol@15
+Content-Language: en-US
+To: Sudeep Holla <sudeep.holla@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <32d8c83d-7e70-4b1c-8d6d-12920f6c67ce@arm.com>
+ <20260728-natural-successful-pudu-fcb71d@sudeepholla>
+From: Laszlo Ersek <laszlo.ersek@arm.com>
+In-Reply-To: <20260728-natural-successful-pudu-fcb71d@sudeepholla>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-(Ignoring disclaimer assuming it was a mistake, get it fixed for the next time)
+On 7/28/26 12:23, Sudeep Holla wrote:
+> On Tue, Jul 28, 2026 at 11:53:41AM +0200, Laszlo Ersek wrote:
 
-On Tue, Jul 28, 2026 at 11:53:41AM +0200, Laszlo Ersek wrote:
-> Hello,
-> 
-> as of commit 62cc90241548 («Merge tag
-> 'mm-hotfixes-stable-2026-07-27-14-18' of
-> git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm», 2026-07-27):
-> 
-> "Documentation/devicetree/bindings/firmware/arm,scmi.yaml" specifies
-> that for protocol@15 -- the SCMI Sensor management protocol --, property
-> #thermal-sensor-cells is required (with value 1).
-> 
+>> And so describing protocol@15 in the Device Tree, without a
+>> #thermal-sensor-cells property, looks like a valid use case.
+>>
+>
+> No, unless you go back in time and find a replacement for
+> #thermal-sensor-cells and replace it w/o breaking any compatibility.
+>
+>> Am I wrong?
+>>
+>
+> We need some property cell to be set to 1 to read the SCMI IDs. For
+> backward compatibility reasons, it will remain #thermal-sensor-cells.
 
-Correct.
+(1) Are you saying that the property "#thermal-sensor-cells", under
+protocol@15, is actually a *misnomer* today, and it is in fact a
+*generic* specification of the Sensor ID width -- regardless of any
+referring stanzas elsewhere in the Device Tree (of which there may be
+none, or some may be thermal-UNrelated)?
 
-> I don't understand this requirement. According to now-historical commit
-> fe7be8b297b2 («dt-bindings: arm: add support for ARM System Control and
-> Management Interface(SCMI) protocol», 2018-02-28), #thermal-sensor-cells
-> specifies the width of SCMI "Sensor ID"s used in sensor references made
-> by "thermal-sensors".
-> 
+(2) If so, would you accept a patch for
+"Documentation/devicetree/bindings/firmware/arm,scmi.yaml" that points
+out the above fact in a "description" yaml key?
 
-Indeed.
+| diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+| index d06cca9273c4..78cc26ce0458 100644
+| --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+| +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
+| @@ -223,20 +223,25 @@ properties:
+|    protocol@15:
+|      $ref: '#/$defs/protocol-node'
+|      unevaluatedProperties: false
+|
+|      properties:
+|        reg:
+|          const: 0x15
+|
+|        '#thermal-sensor-cells':
+|          const: 1
+| +        description:
+| +          The width of SCMI Sensor IDs, expressed as a number of 32-bit cells.
+| +          (The property name is an historical artifact, and counts nowadays as
+| +          a misnomer. The property is no longer specific to anything
+| +          "thermal".)
+|
+|      required:
+|        - '#thermal-sensor-cells'
+|
+|    protocol@16:
+|      $ref: '#/$defs/protocol-node'
+|      unevaluatedProperties: false
+|
+|      properties:
+|        reg:
 
-> But a platform's complete set of sensors may not contain a single
-> thermal sensor (only other sensor types). In that case, the driver file
-> 
->   drivers/thermal/thermal_of.c
-> 
-> has no business connecting to SCMI (= no business referring to Sensor
-> IDs; consequently, the width of a Sensor ID is irrelevant), while the
-> driver file
-> 
+(3) Where exactly does the kernel consume "#thermal-sensor-cells" in the
+proposed (general) sense?
 
-Sure. I assume you don't have any "thermal-sensors" defined in the platform
-device tree.
+I can only find matches for the property name in
+"drivers/thermal/thermal_of.c" and
+"drivers/thermal/ti-soc-thermal/ti-thermal-common.c", but those appear
+like thermal drivers, not general SCMI stuff. AIUI,
+of_thermal_zone_find() in the former consults "#thermal-sensor-cells" in
+the "provider" (such as SCMI protocol@15) to figure out the expected
+argument cell count in the "thermal-sensors" list.
 
->   drivers/hwmon/scmi-hwmon.c
-> 
-> may still justifiedly want to consume protocol@15 (SCMI_PROTOCOL_SENSOR)
-> from the device tree (i.e., to expose SCMI-provided sensors -- *not*
-> thermal sensors -- via the hwmon interface, to usespace).
-> 
+But that implies that, if there ever was another (non-thermal) driver
+that wanted to reference SCMI sensor identifiers similarly, it would
+also have to consult "#thermal-sensor-cells", for the argument cell
+count. Which seems to support the idea that "#thermal-sensor-cells"
+counts as a misnomer today. Is that right?
 
-OK, but I don't understand the exact problem you are facing.
+>> IMPORTANT NOTICE: [...]
+>
+> Deleted now, please fix it for next time.
 
-> And so describing protocol@15 in the Device Tree, without a
-> #thermal-sensor-cells property, looks like a valid use case.
-> 
+My bad, should be fixed now. (I've tested it with another external
+addressee.)
 
-No, unless you go back in time and find a replacement for #thermal-sensor-cells
-and replace it w/o breaking any compatibility.
-
-> Am I wrong?
-> 
-
-We need some property cell to be set to 1 to read the SCMI IDs. For backward
-compatibility reasons, it will remain #thermal-sensor-cells.
-
-> Thanks!
-> Laszlo
-> IMPORTANT NOTICE: The contents of this email and any attachments are
-> confidential and may also be privileged. If you are not the intended
-> recipient, please notify the sender immediately and do not disclose the
-> contents to any other person, use it for any purpose, or store or copy the
-> information in any medium. Thank you.
-
-
-Deleted now, please fix it for next time.
-
--- 
-Regards,
-Sudeep
+Thank you,
+Laszlo
