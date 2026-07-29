@@ -1,160 +1,124 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CD6A459AF8;
-	Tue, 28 Jul 2026 20:10:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709BC382F03;
+	Wed, 29 Jul 2026 09:12:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785269419; cv=none; b=q8dt3EPcW+ZXGeVoe4IzjQh4P9LnjoTrQQ6jndVx2IqLjtUyE4XJ9sf5I3Iys3y9pcH21IAXFuRLxMLmfp2OvNn5R5CF669+9xnRLx8Bs0YwWPjfaozqlyc4d5aevE71KaONGnVxHXvAd7U5u3OUyBW389mgfdsGBsj/kryekzc=
+	t=1785316347; cv=none; b=mCLUGx4rDQqJ7EQT8adZORpOwP44tVuwqep4g9pJ8zhsshOc4ItwC/cBs5Q3MF+62UK8WOt+TCru0QgK3R64ia+YnMkbgo+ejvb7nsTk6G/cllcN7bIl6AmPx9P+LrsZjl5wzxmorB3P5wvUX2Yb41UrM1JWHBZW4HHI9rgzZXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785269419; c=relaxed/simple;
-	bh=+hzYN6U/DDjWP1t/fkxNIiI9tI1fdbqQeWWI1VhFLUY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OQvv/vQk23XeZE/fkA7j8sI1kvinN2WbRtauZvpF3XT+3uWijMIf3VYRJIDbqJjuRmftLMq8gDOdw487GLcIOiQ2R8rvvUIuc4QigtLKVIOdwNc+ijo7Aw2MwREl/wIv4hifK4OBdTs9Ipd6vVkgZ8HZNPWcI6qGGxmnpiMoSVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tgn+9zWO; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785316347; c=relaxed/simple;
+	bh=Boj4f5NB+aFJg5EOhHMpCMpyoCgVNAOq8nSWsYT5Im8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nWmW7bFzXexEDI8DTsbYN3LcgWM20coRzzgfitGTyWeIJ+DJGWoSOghambY/QfqK+B94kWZffhWJ2PVOxrNVgmycK0syGv67Wa7HmQIIHm8CwUcb/CFTUxuf8lGmfm7YmnKzfk+kXNCrdomG5y3OruAlUzOMRTwCcAMyTXa8cL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fmYctjJM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tgn+9zWO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76A741F000E9;
-	Tue, 28 Jul 2026 20:10:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fmYctjJM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59B311F000E9;
+	Wed, 29 Jul 2026 09:12:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785269418;
-	bh=2xHhYo5KKHxXcnzN39OsgiinB99Luf2W9ev0p+2tF5E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Tgn+9zWOLBKKS03qpqJXgs0aGDwGXCZkdCaoet9xDP04z848WMzL3Lyst0Sj+VHG0
-	 A+sAr4h6RC74ln764acUsKV+2mGOC8s0ilFdIUZ/efAgWqw8HDv0pIibkrN4l5ZxtM
-	 9N4zMo26j1Ed7A6iTzrlBzBSvJiBvzj0dmBmI9kN55gRAmBmMR692IsRPj3uv7OlHv
-	 eMi6YNcXEWY1lvr3Z/oevF4QsrxciEs8d7vG9pEH+OS2GJOYuuKcqJyZHmbaxqqmhb
-	 n/LZDsHt1UjlG+VQSY+fsIFqwTKhOmbN02vLjVOfmfNbVIgxpTTGL5CHhuFTKDLJ3D
-	 jjy9EMBcYNrkQ==
-Date: Tue, 28 Jul 2026 21:10:13 +0100
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: Laszlo Ersek <laszlo.ersek@arm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
-	Sudeep Holla <sudeep.holla@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: #thermal-sensor-cells under protocol@15
-Message-ID: <20260728-venomous-saffron-capuchin-23d4cc@sudeepholla>
-References: <32d8c83d-7e70-4b1c-8d6d-12920f6c67ce@arm.com>
- <20260728-natural-successful-pudu-fcb71d@sudeepholla>
- <d61cf184-20a4-4e8f-8da0-c0ac39e200a8@arm.com>
+	s=k20260515; t=1785316346;
+	bh=rVWe5ODzftWQQE1QOzNJsn1dodqJktnAFjucY5GchBw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=fmYctjJMMA7/7frnc50f9MyYchxw4mNhE8nxqKRJbBTF3vxh6wtKL39KOSOmElIQf
+	 GMc4XxgP0ITOd2bmTM74SkHL5KnX4asXHQH5kkjX852UARxu34sdmKbu8qj2apVnr8
+	 VOpjWNg7FMFfh+OWq/DanLr0koaKCi1DOabJAOB+WKVW8AoDkGXywLNTdydf7PSIt/
+	 EcUKXc2J9kGpE91GJ9aLZRVmARcxYvFbASBoyY9hDuj+HgduO6Zqg9qZC7koFjsdcC
+	 GmaUoS9qVnn7gM5CAyxM+9Lb02D0fTypf461LBjjULMVkc5OSYmpDVLpDxP0WNWv2Q
+	 yZ4wi60UF5uwQ==
+Message-ID: <634717bf-d188-4de1-8465-31e31ea3642e@kernel.org>
+Date: Wed, 29 Jul 2026 11:12:20 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d61cf184-20a4-4e8f-8da0-c0ac39e200a8@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 00/22] Introduce SCMI Telemetry support
+To: Cristian Marussi <cristian.marussi@arm.com>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ arm-scmi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Cc: sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+ f.fainelli@gmail.com, vincent.guittot@linaro.org, etienne.carriere@st.com,
+ peng.fan@oss.nxp.com, michal.simek@amd.com, d-gole@ti.com, jic23@kernel.org,
+ elif.topuz@arm.com, lukasz.luba@arm.com, philip.radford@arm.com,
+ brauner@kernel.org, souvik.chakravarty@arm.com,
+ subrahmanya.lingappa@oss.qualcomm.com, leitao@kernel.org, kas@kernel.org,
+ puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
+References: <20260724144430.1440170-1-cristian.marussi@arm.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260724144430.1440170-1-cristian.marussi@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 28, 2026 at 04:33:59PM +0200, Laszlo Ersek wrote:
-> On 7/28/26 12:23, Sudeep Holla wrote:
-> > On Tue, Jul 28, 2026 at 11:53:41AM +0200, Laszlo Ersek wrote:
+
+> NOTE THAT from v3 onwards the firmware interface level NOW supports ONLY
+> the latest SCMI v4.0 specification [0].
 > 
-> > > And so describing protocol@15 in the Device Tree, without a
-> > > #thermal-sensor-cells property, looks like a valid use case.
-> > > 
-> > 
-> > No, unless you go back in time and find a replacement for
-> > #thermal-sensor-cells and replace it w/o breaking any compatibility.
-> > 
-> > > Am I wrong?
-> > > 
-> > 
-> > We need some property cell to be set to 1 to read the SCMI IDs. For
-> > backward compatibility reasons, it will remain #thermal-sensor-cells.
+> TODO
+> ----
+>  - [ABI]: add genric events supports -> generation counter/updates
+>  - [ABI]: add Secondary UUID support
+>  - [ABI]: add BATCHED DE_CONFIG and add per-de status to BATCH READS
+>  - [ABI]: more DOCS
+>  - [ABI]: some more dediceate space to grow all around the structures
+>  - (maybe) TLM chardev open-exclusive mode to ease userspace co-ordination
+>  - a few residual sparse to fix... 
 
-My bad, I didn't remember all the context correct earlier today. The
-cells property is not for the SCMI sensor itself, it is for the
-consumer of this node which currently is only thermal subsystem.
+Is this a TODO list as in "must be tackled before this can be merged" or rather
+a "future works" list?
 
-> 
-> (1) Are you saying that the property "#thermal-sensor-cells", under
-> protocol@15, is actually a *misnomer* today, and it is in fact a
-> *generic* specification of the Sensor ID width -- regardless of any
-> referring stanzas elsewhere in the Device Tree (of which there may be
-> none, or some may be thermal-UNrelated)?
-> 
-
-Not really, see my update above.
-
-> (2) If so, would you accept a patch for
-> "Documentation/devicetree/bindings/firmware/arm,scmi.yaml" that points
-> out the above fact in a "description" yaml key?
-> 
-
-Not required for above mentioned reason.
-
-> | diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> | index d06cca9273c4..78cc26ce0458 100644
-> | --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> | +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> | @@ -223,20 +223,25 @@ properties:
-> |    protocol@15:
-> |      $ref: '#/$defs/protocol-node'
-> |      unevaluatedProperties: false
-> |
-> |      properties:
-> |        reg:
-> |          const: 0x15
-> |
-> |        '#thermal-sensor-cells':
-> |          const: 1
-> | +        description:
-> | +          The width of SCMI Sensor IDs, expressed as a number of 32-bit cells.
-> | +          (The property name is an historical artifact, and counts nowadays as
-> | +          a misnomer. The property is no longer specific to anything
-> | +          "thermal".)
-> |
-> |      required:
-> |        - '#thermal-sensor-cells'
-> |
-> |    protocol@16:
-> |      $ref: '#/$defs/protocol-node'
-> |      unevaluatedProperties: false
-> |
-> |      properties:
-> |        reg:
-> 
-> (3) Where exactly does the kernel consume "#thermal-sensor-cells" in the
-> proposed (general) sense?
-> 
-
-No where, I got confused earlier as mentioned above. It is not needed
-unless you have use case. Please present if you have one.
-
-> I can only find matches for the property name in
-> "drivers/thermal/thermal_of.c" and
-> "drivers/thermal/ti-soc-thermal/ti-thermal-common.c", but those appear
-> like thermal drivers, not general SCMI stuff. AIUI,
-> of_thermal_zone_find() in the former consults "#thermal-sensor-cells" in
-> the "provider" (such as SCMI protocol@15) to figure out the expected
-> argument cell count in the "thermal-sensors" list.
-> 
-
-Indeed, this made me recall all the details. Sorry I hadn't looked at
-or touch this code in ages.
-
-> But that implies that, if there ever was another (non-thermal) driver
-> that wanted to reference SCMI sensor identifiers similarly, it would
-> also have to consult "#thermal-sensor-cells", for the argument cell
-> count. Which seems to support the idea that "#thermal-sensor-cells"
-> counts as a misnomer today. Is that right?
-> 
-
-We could add new property if needed though we can specify it would be
-mutually exclusive on systems that use #thermal-sensor-cells as it is
-simply useless duplication of same information as it has to be 1.
-
-> > > IMPORTANT NOTICE: [...]
-> > 
-> > Deleted now, please fix it for next time.
-> 
-> My bad, should be fixed now. (I've tested it with another external
-> addressee.)
-> 
-
-Thanks.
+Especially the "[ABI]: some more dediceate space to grow all around the
+structures" sounds like something we would want before considering merging it?
 
 -- 
-Regards,
-Sudeep
+Cheers,
+
+David
