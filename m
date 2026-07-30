@@ -1,138 +1,200 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E0DA396D09;
-	Wed, 29 Jul 2026 21:54:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1966331EA8
+	for <arm-scmi@vger.kernel.org>; Thu, 30 Jul 2026 02:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785362094; cv=none; b=GtT02PyIJu5M7lSub6jGpaFASjp6XvI1FRyHxzLhz55lvmPMQokfXtLHubFmMJX5/fwr/aZ8hrzVqh1pl3FyRRvI8xIfYCMMbxzoCBqE06mjtJf/cT0PIyNaTbvKXBIeAgiu/7aYSCFDYBqZMWlDbxCZlAZFyd11AIhNdCTjVQs=
+	t=1785380047; cv=none; b=n3pUpftULeC3iEOH2X8NskPSFAMXQkRPotZ43+f6FKdExxCmA594iz5fEf0L7TzgSlUTp+PMxCiDDGFP5Vxk9fJ0+E7Juo13DDu/DoDVnfh7+6PRQEQL3DMYJWIJ2Dy6VBUjepqDWNRLIqPcRrc5Qs0TaXceSmlwZ4IPHO7Zk0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785362094; c=relaxed/simple;
-	bh=XHNnNP0x2wCRJyrSJgej4CyXt6QqDHcD5MVMn0YR8+4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Sj0XkGNpAVmJXRgE7OlBe7XwtL0D0NSxSskUrQ4Ns7A34FP3qln6VbnsicnRcLte3g0v1Lt8dTsCdEYwbLvcuNfiZ9pKd2DKz3f+jDy/chQYCi5wTk3ahya37qtA925dAMh7SaWWYOGGU21C8hPCaEOBwHTj5ltCB+0QW8hJOlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=b6DbNnm4; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1785380047; c=relaxed/simple;
+	bh=PfYmxf5/8ZNEUvp8941gHzqvWQ8pIHtxdg/I/Gj1QE8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RTpwsfi3E2tVur8kOYUbQolIztHB+xJS/SNHzJc/uqHyjnDDeu0zPKcSyl5HUGNsKULzgrvqGPkTJmtiR1G1hgi5AqF5rA2Aqk/yaVT6VoiyfefNLy3ynmK7HMWaw6xzqLa7wvlUUit1tTPqj3UyBoNDVAEiOuSwwi1M/rjsRu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eS11Z9Wf; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="b6DbNnm4"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 418BA1684;
-	Wed, 29 Jul 2026 14:54:40 -0700 (PDT)
-Received: from e131404.arm.com (unknown [10.57.43.134])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1F2863F763;
-	Wed, 29 Jul 2026 14:54:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1785362084; bh=XHNnNP0x2wCRJyrSJgej4CyXt6QqDHcD5MVMn0YR8+4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=b6DbNnm46lfNZ8vZS9R63cbt98b/2emk8OCLXhdWtRnRmgjlwE0rS0EFE9j/4DmZL
-	 5J4z5tK+XQ5hVGSkXZlON0Rq+YZLHpUdxq9H5WUtCzZZ/0oO1jUgW4LD7rCKHVuVXU
-	 eCQa41StmChzeHX+mVYck4V4FhZDZmgBWPW+WJ6o=
-From: Laszlo Ersek <laszlo.ersek@arm.com>
-To: laszlo.ersek@arm.com
-Cc: Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Joel Stanley <joel@jms.id.au>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH] hwmon: remove tautological dependency expressions from Kconfig
-Date: Wed, 29 Jul 2026 23:54:27 +0200
-Message-ID: <20260729215436.2103380-1-laszlo.ersek@arm.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eS11Z9Wf"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8486ac3f347so314412b3a.1
+        for <arm-scmi@vger.kernel.org>; Wed, 29 Jul 2026 19:54:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785380045; x=1785984845; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DvhzTaFF4mKlbah7teVvLdI5FxseT4MERMwxNhSA5W8=;
+        b=eS11Z9WfBNnAHopTfKLuON4fepIWROYTQ2VnL38f96Z4xq7925AWbiI5RBwz87qDch
+         YPv0YF/Fm+eNgPvMrHBHOgqJ6sjYnOkbA7VYmUzk/pg7XtNaYssGV1gGGDGj87VLsvcP
+         Hkl+vspqhlIO+sTU5UpztWZ7gn1uBFBep7eoysqFh+9n+B2frU0Fi+LsZnjqrKRA3QcB
+         3VW7S5ljgFv/7Zs+qQtDmBa8gYRwtN3TpsmsFD3zHiSaTQbdHVOJBE7bJkxgwoWqzclE
+         flDHjy/N5N9HmHIuspxuqmsxFJ+hzC/QLadBg1yGeZDbdgJWsEy1vTIPLX60LHCywEEZ
+         jJQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785380045; x=1785984845;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=DvhzTaFF4mKlbah7teVvLdI5FxseT4MERMwxNhSA5W8=;
+        b=KJV3KywR0I3kQ/vdfQqz+ne/5aVPH8RC1DkO2B7L0QBogbRnnlEK+PVM7byfrhR+1c
+         Czx7jL9zxfot5oXOUjSo/CGqUvQxmPNHRmz8gdQPqPMP0xbJmKVqqn1bcXfZBRkqGKMR
+         p2PcxtOubRtB1TmDT8w15kk6DFYR7tRMCbCC9zrlDj5ZC28scGQzNyDdXc0YqeYK/k72
+         3dtvD7Kg/Z6nSFG1j6RqVUhfs57sxQQrkb7F5IurgxnoBimdRi+MPbChmmf+hSmdLZYJ
+         A01RtNNLXOVtFABGr/lgKzXvswyuaUktwVeIioAKkG4IFGBlZyVyDJc0LqwDAZ5qPQDw
+         rgzQ==
+X-Forwarded-Encrypted: i=1; AHgh+RonSc8xciAs+GFpDQvMM5Px80Ddr1OSgZIza/1zrrU2IUomQSHrWRDrng8d37eMOJAt/JY52folBw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwdWUNS51lJUDZ7tXvZCVP9wVQI2d+Jcpo47X6eRccyeXK+ptZs
+	Pgqr0ae/emIXd3+W4erCpFG+ICkbQQl72hKz7VPEFmICI0rHSwXt9b+9pZrNGQ==
+X-Gm-Gg: AR+sD12xt7REpJOC0lz7wfAmOLw3Sp10zzfWpWpXHRW6SeU+YU7aBjQIN8Zm+0i8+5a
+	UF/fF4z1KYO7vqHmbzOSASIO74MLoD4lJLqdAcjxw8hh0GgrfkEjkjkZ0lx7jeHxrLvk34D7zY7
+	r+kUAZI2XF6hCqrEgj38a8mp4/AKB+JF66zNvVZaP/95WGcS40bA049Ib2YiiF4qEpw4jmzp5eD
+	7GVRHKlBdXHLJF2dhbYumQVZJHzL4ghgqkP/LH2bjs8f911BjLbQbTk01E6mYZowIrW4WaHeBKE
+	Nz38bn8/lLQVqkLTuUC94GuhzgOFPoYP3fYwEWf/5tdyDGF16WnpC+FSd1AoUE6qxGrkXaW+pUJ
+	lnU3qmZFvFau8bdz/zvEQyz7lW8GlI6eFvqRqZ6bDVmKEfzeR4NpQT5tCAQeNpmajsktUZ44vS5
+	wgCNb3ds4tjYz0Ci3Gx9rQTqdQbc5icwj9elH+stEp2MEAcH60gIVE2JNumKE2kRH9/U1AgUc2s
+	VxBVb7SJSPD0eeutyv4tSvp88pPyxvP2fpuTw==
+X-Received: by 2002:a05:6a00:428c:b0:847:9d6c:a56d with SMTP id d2e1a72fcca58-84ebde78871mr496822b3a.12.1785380045338;
+        Wed, 29 Jul 2026 19:54:05 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84ea0301b3csm2148213b3a.34.2026.07.29.19.54.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jul 2026 19:54:04 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <c175bc7b-aa9a-409e-ba89-b04ecc38dfb7@roeck-us.net>
+Date: Wed, 29 Jul 2026 19:54:02 -0700
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] hwmon: remove tautological dependency expressions
+ from Kconfig
+To: Laszlo Ersek <laszlo.ersek@arm.com>
+Cc: Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Cristian Marussi <cristian.marussi@arm.com>, Heiko Stuebner
+ <heiko@sntech.de>, Joel Stanley <joel@jms.id.au>,
+ Sudeep Holla <sudeep.holla@kernel.org>, arm-scmi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260729215436.2103380-1-laszlo.ersek@arm.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260729215436.2103380-1-laszlo.ersek@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Q29tbWl0IDU1NGIzNTI5ZmUwMSAoInRoZXJtYWwvZHJpdmVycy9jb3JlOiBSZW1vdmUgdGhlIG1v
-ZHVsZSBLY29uZmlnJ3MKb3B0aW9uIikgWzFdIG9idmlhdGVkIHNvbWUgb2YgdGhlICJPcHRpb25h
-bCBkZXBlbmRlbmNpZXMiIChhcyBkZXNjcmliZWQgaW4KIkRvY3VtZW50YXRpb24va2J1aWxkL2tj
-b25maWctbGFuZ3VhZ2UucnN0IikgaW4gImRyaXZlcnMvaHdtb24vS2NvbmZpZyIuCgpOYW1lbHks
-IHNhaWQgY29tbWl0IHJlc3RyaWN0ZWQgdGhlIHZhbGlkL3Bvc3NpYmxlIHN1YnNldCBvZiB0aGUg
-ZnVsbApDYXJ0ZXNpYW4gcHJvZHVjdCAiQ09ORklHX1RIRVJNQUwgeCBDT05GSUdfVEhFUk1BTF9P
-RiIgdG8KCiAgeyAobiwgbiksICh5LCBuKSwgKHksIHkpIH0KCnRocm91Z2ggImRyaXZlcnMvdGhl
-cm1hbC9LY29uZmlnIi4gTnVtZXJpY2FsbHkgKHVzaW5nIHRyaXN0YXRlIHZhbHVlcyksCnRoaXMg
-c2V0IGNhbiBiZSBleHByZXNzZWQgYXM6CgogIHsgKDAsIDApLCAoMiwgMCksICgyLCAyKSB9CgpP
-dmVyIHRoaXMgc2V0LCB0aGUgImRyaXZlcnMvaHdtb24vS2NvbmZpZyIgdHJpc3RhdGUgZXhwcmVz
-c2lvbgoKICBUSEVSTUFMIHx8ICFUSEVSTUFMX09GCgpvciBlcXVpdmFsZW50bHksCgogIG1heChU
-SEVSTUFMLCAyLVRIRVJNQUxfT0YpCgppbnZhcmlhYmx5IGV2YWx1YXRlcyB0byAieSIgKDIpLgoK
-U2ltaWxhcmx5LCB3aXRoIFRIRVJNQUwgaGF2aW5nIGJlZW4gcmVzdHJpY3RlZCB0bwoKICB7IG4s
-IHkgfQoKb3IgbnVtZXJpY2FsbHksCgogIHsgMCwgMiB9Cgp0aGUgImRyaXZlcnMvaHdtb24vS2Nv
-bmZpZyIgdHJpc3RhdGUgZXhwcmVzc2lvbgoKICBUSEVSTUFMIHx8IFRIRVJNQUw9bgoKb3IgZXF1
-aXZhbGVudGx5LAoKICBtYXgoVEhFUk1BTCwgVEhFUk1BTD0wKQoKaW52YXJpYWJseSBldmFsdWF0
-ZXMgdG8gInkiICgyKS4gKE5vdGUgdGhhdCAiVEhFUk1BTD0wIiByZXR1cm5zIGVpdGhlciAieSIK
-KDIpIG9yICJuIiAoMCkuKQoKQ29tbWl0IGYzNzM1MzMyMGVlOSAoImh3bW9uL2RyaXZlcnMvY29y
-ZTogU2ltcGxpZnkgY29tcGxleCBkZXBlbmRlbmN5IikKWzJdLCB3aGljaCBpcyB0aGUgZmluYWwg
-Y29tbWl0IG9mIHRoZSBzZXJpZXMgdGhhdCBbMV0gaXMgdGhlIGJlZ2lubmluZyBvZiwKY2xlYW5l
-ZCB1cCB0aGUgaHdtb24gQyBzb3VyY2UgY29kZSBpbiBmYWN0OyBob3dldmVyLCBpdCBtaXNzZWQg
-dGhlCm5vdy1jb2xsYXBzZWQgZGVwZW5kZW5jaWVzIGluIEtjb25maWcuIEF0IHRoZSB0aW1lIG9m
-IFsyXSwgc2l4IG9mIHRvZGF5J3MKc3VjaCBkZXBlbmRlbmNpZXMgd2VyZSBwcmVzZW50IGluIEtj
-b25maWcuIFNpbmNlIHRoZW4sIHR3byBtb3JlIGhhdmUgYmVlbgphZGRlZCAoc3VjaCB0aGF0IHRo
-ZXkgcGVyc2lzdCwgYW55d2F5KTogb25lIGJ5IGNvbW1pdCA0ZjhkMzc0Yjc3MGEKKCJod21vbjog
-KG1heDY2NTApIGFkZCB0aGVybWFsIGNvb2xpbmcgZGV2aWNlIGNhcGFiaWxpdHkiKSwgd2hpY2gg
-d2FzCmluZGVwZW5kZW50IG9mIHRoZSBhYm92ZS1ub3RlZCBzZXJpZXMsIGFuZCBhbm90aGVyIGJ5
-IGNvbW1pdCA5ODU1Y2FmNWQ0ZWIKKCJod21vbjogYWRkIGRyaXZlciBmb3IgdGhlIGh3bW9uIHBh
-cnRzIG9mIHFuYXAtbWN1IGRldmljZXMiKSwgd2hpY2ggd2FzIGEKZGVzY2VuZGFudCBvZiB0aGUg
-c2VyaWVzLgoKUmVtb3ZlIHRoZXNlIGFsd2F5cy0ieSIgZGVwZW5kZW5jaWVzLgoKQ2M6IEFuZHJl
-dyBKZWZmZXJ5IDxhbmRyZXdAY29kZWNvbnN0cnVjdC5jb20uYXU+CkNjOiBDcmlzdGlhbiBNYXJ1
-c3NpIDxjcmlzdGlhbi5tYXJ1c3NpQGFybS5jb20+CkNjOiBHdWVudGVyIFJvZWNrIDxsaW51eEBy
-b2Vjay11cy5uZXQ+CkNjOiBIZWlrbyBTdHVlYm5lciA8aGVpa29Ac250ZWNoLmRlPgpDYzogSm9l
-bCBTdGFubGV5IDxqb2VsQGptcy5pZC5hdT4KQ2M6IFN1ZGVlcCBIb2xsYSA8c3VkZWVwLmhvbGxh
-QGtlcm5lbC5vcmc+CkNjOiBhcm0tc2NtaUB2Z2VyLmtlcm5lbC5vcmcKQ2M6IGxpbnV4LWFybS1r
-ZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZwpDYzogbGludXgtYXNwZWVkQGxpc3RzLm96bGFicy5v
-cmcKQ2M6IGxpbnV4LWh3bW9uQHZnZXIua2VybmVsLm9yZwpDYzogbGludXgta2VybmVsQHZnZXIu
-a2VybmVsLm9yZwpTaWduZWQtb2ZmLWJ5OiBMYXN6bG8gRXJzZWsgPGxhc3psby5lcnNla0Bhcm0u
-Y29tPgotLS0KCk5vdGVzOgogICAgVW50ZXN0ZWQgKGhlbmNlIFJGQykgLS0gSSBkb24ndCBrbm93
-IGhvdyB0byByZWdyZXNzaW9uLXRlc3QgdGhpcyBwYXRjaAogICAgY29tcHJlaGVuc2l2ZWx5IHll
-dCBtaW5pbWFsbHkuCgogZHJpdmVycy9od21vbi9LY29uZmlnIHwgOCAtLS0tLS0tLQogMSBmaWxl
-IGNoYW5nZWQsIDggZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9od21vbi9LY29u
-ZmlnIGIvZHJpdmVycy9od21vbi9LY29uZmlnCmluZGV4IDJiZmJjYzAzM2Q1OS4uZDNhOWM4YTNh
-NzljIDEwMDY0NAotLS0gYS9kcml2ZXJzL2h3bW9uL0tjb25maWcKKysrIGIvZHJpdmVycy9od21v
-bi9LY29uZmlnCkBAIC00MDMsNyArNDAzLDYgQEAgY29uZmlnIFNFTlNPUlNfQVJDVElDX0ZBTl9D
-T05UUk9MTEVSCiBjb25maWcgU0VOU09SU19BUk1fU0NNSQogCXRyaXN0YXRlICJBUk0gU0NNSSBT
-ZW5zb3JzIgogCWRlcGVuZHMgb24gQVJNX1NDTUlfUFJPVE9DT0wKLQlkZXBlbmRzIG9uIFRIRVJN
-QUwgfHwgIVRIRVJNQUxfT0YKIAloZWxwCiAJICBUaGlzIGRyaXZlciBwcm92aWRlcyBzdXBwb3J0
-IGZvciB0ZW1wZXJhdHVyZSwgdm9sdGFnZSwgY3VycmVudAogCSAgYW5kIHBvd2VyIHNlbnNvcnMg
-YXZhaWxhYmxlIG9uIFNDTUkgYmFzZWQgcGxhdGZvcm1zLiBUaGUgYWN0dWFsCkBAIC00MTUsNyAr
-NDE0LDYgQEAgY29uZmlnIFNFTlNPUlNfQVJNX1NDTUkKIGNvbmZpZyBTRU5TT1JTX0FSTV9TQ1BJ
-CiAJdHJpc3RhdGUgIkFSTSBTQ1BJIFNlbnNvcnMiCiAJZGVwZW5kcyBvbiBBUk1fU0NQSV9QUk9U
-T0NPTAotCWRlcGVuZHMgb24gVEhFUk1BTCB8fCAhVEhFUk1BTF9PRgogCWhlbHAKIAkgIFRoaXMg
-ZHJpdmVyIHByb3ZpZGVzIHN1cHBvcnQgZm9yIHRlbXBlcmF0dXJlLCB2b2x0YWdlLCBjdXJyZW50
-CiAJICBhbmQgcG93ZXIgc2Vuc29ycyBhdmFpbGFibGUgb24gQVJNIEx0ZCdzIFNDUCBiYXNlZCBw
-bGF0Zm9ybXMuIFRoZQpAQCAtNDM1LDcgKzQzMyw2IEBAIGNvbmZpZyBTRU5TT1JTX0FTQjEwMAog
-Y29uZmlnIFNFTlNPUlNfQVNQRUVECiAJdHJpc3RhdGUgIkFTUEVFRCBBU1QyNDAwL0FTVDI1MDAg
-UFdNIGFuZCBGYW4gdGFjaCBkcml2ZXIiCiAJZGVwZW5kcyBvbiBBUkNIX0FTUEVFRCB8fCBDT01Q
-SUxFX1RFU1QKLQlkZXBlbmRzIG9uIFRIRVJNQUwgfHwgVEhFUk1BTD1uCiAJc2VsZWN0IFJFR01B
-UAogCWhlbHAKIAkgIFRoaXMgZHJpdmVyIHByb3ZpZGVzIHN1cHBvcnQgZm9yIEFTUEVFRCBBU1Qy
-NDAwL0FTVDI1MDAgUFdNCkBAIC03ODgsNyArNzg1LDYgQEAgY29uZmlnIFNFTlNPUlNfRzc2Mgog
-Y29uZmlnIFNFTlNPUlNfR1BJT19GQU4KIAl0cmlzdGF0ZSAiR1BJTyBmYW4iCiAJZGVwZW5kcyBv
-biBHUElPTElCIHx8IENPTVBJTEVfVEVTVAotCWRlcGVuZHMgb24gVEhFUk1BTCB8fCBUSEVSTUFM
-PW4KIAloZWxwCiAJICBJZiB5b3Ugc2F5IHllcyBoZXJlIHlvdSBnZXQgc3VwcG9ydCBmb3IgZmFu
-cyBjb25uZWN0ZWQgdG8gR1BJTyBsaW5lcy4KIApAQCAtMTM1Nyw3ICsxMzUzLDYgQEAgY29uZmln
-IFNFTlNPUlNfTUFYNjYzOQogY29uZmlnIFNFTlNPUlNfTUFYNjY1MAogCXRyaXN0YXRlICJNYXhp
-bSBNQVg2NjUwIHNlbnNvciBjaGlwIgogCWRlcGVuZHMgb24gSTJDCi0JZGVwZW5kcyBvbiBUSEVS
-TUFMIHx8IFRIRVJNQUw9bgogCWhlbHAKIAkgIElmIHlvdSBzYXkgeWVzIGhlcmUgeW91IGdldCBz
-dXBwb3J0IGZvciB0aGUgTUFYNjY1MCAvIE1BWDY2NTEKIAkgIHNlbnNvciBjaGlwcy4KQEAgLTE3
-MzIsNyArMTcyNyw2IEBAIGNvbmZpZyBTRU5TT1JTX1BDODc0MjcKIGNvbmZpZyBTRU5TT1JTX05U
-Q19USEVSTUlTVE9SCiAJdHJpc3RhdGUgIk5UQyB0aGVybWlzdG9yIHN1cHBvcnQiCiAJZGVwZW5k
-cyBvbiBJSU8KLQlkZXBlbmRzIG9uIFRIRVJNQUwgfHwgIVRIRVJNQUxfT0YKIAloZWxwCiAJICBU
-aGlzIGRyaXZlciBzdXBwb3J0cyBOVEMgdGhlcm1pc3RvcnMgc2Vuc29yIHJlYWRpbmcgYW5kIGl0
-cwogCSAgaW50ZXJwcmV0YXRpb24uIFRoZSBkcml2ZXIgY2FuIGFsc28gbW9uaXRvciB0aGUgdGVt
-cGVyYXR1cmUgYW5kCkBAIC0xOTMzLDcgKzE5MjcsNiBAQCBjb25maWcgU0VOU09SU19QVDUxNjFM
-CiBjb25maWcgU0VOU09SU19QV01fRkFOCiAJdHJpc3RhdGUgIlBXTSBmYW4iCiAJZGVwZW5kcyBv
-biBQV00gfHwgQ09NUElMRV9URVNUCi0JZGVwZW5kcyBvbiBUSEVSTUFMIHx8IFRIRVJNQUw9bgog
-CWhlbHAKIAkgIElmIHlvdSBzYXkgeWVzIGhlcmUgeW91IGdldCBzdXBwb3J0IGZvciBmYW5zIGNv
-bm5lY3RlZCB0byBQV00gbGluZXMuCiAJICBUaGUgZHJpdmVyIHVzZXMgdGhlIGdlbmVyaWMgUFdN
-IGludGVyZmFjZSwgdGh1cyBpdCB3aWxsIHdvcmsgb24gYQpAQCAtMTk0NSw3ICsxOTM4LDYgQEAg
-Y29uZmlnIFNFTlNPUlNfUFdNX0ZBTgogY29uZmlnIFNFTlNPUlNfUU5BUF9NQ1VfSFdNT04KIAl0
-cmlzdGF0ZSAiUU5BUCBNQ1UgaGFyZHdhcmUgbW9uaXRvcmluZyIKIAlkZXBlbmRzIG9uIE1GRF9R
-TkFQX01DVQotCWRlcGVuZHMgb24gVEhFUk1BTCB8fCBUSEVSTUFMPW4KIAloZWxwCiAJICBTYXkg
-eWVzIGhlcmUgdG8gZW5hYmxlIHN1cHBvcnQgZm9yIGZhbiBhbmQgdGVtcGVyYXR1cmUgc2Vuc29y
-CiAJICBjb25uZWN0ZWQgdG8gYSBRTkFQIE1DVSwgYXMgZm91bmQgaW4gYSBudW1iZXIgb2YgUU5B
-UCBuZXR3b3JrCg==
+On 7/29/26 14:54, Laszlo Ersek wrote:
+> Commit 554b3529fe01 ("thermal/drivers/core: Remove the module Kconfig's
+> option") [1] obviated some of the "Optional dependencies" (as described in
+> "Documentation/kbuild/kconfig-language.rst") in "drivers/hwmon/Kconfig".
+> 
+> Namely, said commit restricted the valid/possible subset of the full
+> Cartesian product "CONFIG_THERMAL x CONFIG_THERMAL_OF" to
+> 
+>    { (n, n), (y, n), (y, y) }
+> 
+> through "drivers/thermal/Kconfig". Numerically (using tristate values),
+> this set can be expressed as:
+> 
+>    { (0, 0), (2, 0), (2, 2) }
+> 
+> Over this set, the "drivers/hwmon/Kconfig" tristate expression
+> 
+>    THERMAL || !THERMAL_OF
+> 
+> or equivalently,
+> 
+>    max(THERMAL, 2-THERMAL_OF)
+> 
+> invariably evaluates to "y" (2).
+> 
+> Similarly, with THERMAL having been restricted to
+> 
+>    { n, y }
+> 
+> or numerically,
+> 
+>    { 0, 2 }
+> 
+> the "drivers/hwmon/Kconfig" tristate expression
+> 
+>    THERMAL || THERMAL=n
+> 
+> or equivalently,
+> 
+>    max(THERMAL, THERMAL=0)
+> 
+> invariably evaluates to "y" (2). (Note that "THERMAL=0" returns either "y"
+> (2) or "n" (0).)
+> 
+> Commit f37353320ee9 ("hwmon/drivers/core: Simplify complex dependency")
+> [2], which is the final commit of the series that [1] is the beginning of,
+> cleaned up the hwmon C source code in fact; however, it missed the
+> now-collapsed dependencies in Kconfig. At the time of [2], six of today's
+> such dependencies were present in Kconfig. Since then, two more have been
+> added (such that they persist, anyway): one by commit 4f8d374b770a
+> ("hwmon: (max6650) add thermal cooling device capability"), which was
+> independent of the above-noted series, and another by commit 9855caf5d4eb
+> ("hwmon: add driver for the hwmon parts of qnap-mcu devices"), which was a
+> descendant of the series.
+> 
+> Remove these always-"y" dependencies.
+> 
+
+Dependencies such as "THERMAL || THERMAL=n" were supposed to enable the
+driver to be built as module or into the kernel if THERMAL=n, and to
+force it to be built as module if THERMAL=m. However, both THERMAL
+and THERMAL_OF are boolean, so this really does not make sense.
+
+Applied.
+
+Thanks,
+Guenter
+
