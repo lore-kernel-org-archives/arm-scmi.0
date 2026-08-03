@@ -1,141 +1,573 @@
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8E53346BE
-	for <arm-scmi@vger.kernel.org>; Mon,  3 Aug 2026 12:01:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF56C3A63F2
+	for <arm-scmi@vger.kernel.org>; Mon,  3 Aug 2026 20:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785758495; cv=none; b=jp3i2NsEovejescLFH9jBm+fZ4tDp4uacujrCQ5ey23tYCRR0697nLzVRdB2SZgv9teiyJPapUodhEooWjWqdDqDXNMB6xZjP35er9OHShcdWDl8j6dPT4zVTntwsuW/6ITvVDPL4XwOL2x1OLzRQv7aIMCdW+yPjx1XxS1X/aM=
+	t=1785789461; cv=none; b=hNLpBNZGO6+b6IbDH9Q9HGNZuNSbwEomJ+tqx29XMbU9yvnFf2K/+BtxQcl447X3ySjugs8oT5azMKO/wRlsKtv8YdirIOBbOd7Fzd7m+83HJ9arCJHpmhN6kmxRZl1m942N2qJeLKjkagsOt2Zs/OtGaFSpfOi+ff4u4hoLEws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785758495; c=relaxed/simple;
-	bh=okWIOwpaAfBMcyH50oSVfKzplqlhnVTdVosRYGHHdGI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l3Q1dZS05UnNcGPU5nFxY+yUGzIbAUf4HRy1MFWawqR+oRB1rap3384q5s7gBaLV5w0xS8H1BRApv124HjRrer3/FZ1qq4uRVDCeY9GbzWpRPn4o5Z09T1kVpux38mDqbF2uDRM5a2FJXITq0OGpdZRgmOWfWRGjy1x9583gBuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5c2c96286f0so1595982e0c.3
-        for <arm-scmi@vger.kernel.org>; Mon, 03 Aug 2026 05:01:33 -0700 (PDT)
+	s=arc-20240116; t=1785789461; c=relaxed/simple;
+	bh=VNcn+01/Hh7drCJ6jeEMfiOLgz0VzbAMTWuNHpEXGPc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oMPtQ1SAG6UoxfK/aufc2MSrRqCNBBkTD0dZbCUHWI2yQ9iFLDJa2uAp4PEtTn8F51W/ZEmGmjcADIcNKqo9lBqBaF5aZSPGJ/zTZoOS+IcePFSEPiMg7zXKLtBANcsgUoRjLCaaVgaBLAaea1lYZtyp/DTKYAtKsCTxfocQ9cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=PT/QypQO; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Tu7pJcq8; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="PT/QypQO";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Tu7pJcq8"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 673JkcRW1405240
+	for <arm-scmi@vger.kernel.org>; Mon, 3 Aug 2026 20:37:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	7mrP1/WMc3TIletirnODTUqNZkagm7wTgzSovxyb5Fg=; b=PT/QypQOSckk53vT
+	KOjk2XoIKCoTmEW45Op7F3xwP/BWHKMhMUsnQXca3/i5hmcyVG1e+Tz5+L81j/5a
+	0Oabnk4P6bLnzb+uFOXctWiHgRn9ZJoZM+7qsw0bxqBTzsqc56wmGghrWfuUGToO
+	s0s4N9EOt21f8AQDuIvoeOtv/PE+zX2SUGhQsDF0mHWxGo5w7WdeyguVywI0a6Lt
+	m2fQNeBt7i2VKyId3U3bIyvUmT6oY19z2nSOuKZVvNj4YLd3fKsOmysGQq8ZBs9r
+	xCu4ZS3H/QoU6/Z/HnQEFlTEsxu/WwIxgj59noGamiKlKJEshaqyJzA9HyMJGzIt
+	iyYjvw==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fty3qgwde-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <arm-scmi@vger.kernel.org>; Mon, 03 Aug 2026 20:37:38 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-38e6d253330so314688a91.1
+        for <arm-scmi@vger.kernel.org>; Mon, 03 Aug 2026 13:37:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1785789458; x=1786394258; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7mrP1/WMc3TIletirnODTUqNZkagm7wTgzSovxyb5Fg=;
+        b=Tu7pJcq8S4GMbObijzNd85GqVdh9wn8gRDK1RtBaBEzccp2oUGh1u6gQbJUpUnwAJl
+         +LSBtFwQbGMe7aSJOlVOuX7Nw0H54TX1WrzWasLFbgS/LKIAwiqiDE1wSRkbVFmcEG2z
+         bKzkULCU7O0SfH91kRSdkfdVmANjR/3w8EM8rwmEgwEeHV/g1e5bdP7omEmvbjghmWo9
+         z9WTwsRijtdlkrQmMFwZZC8MfcmnWSQFuYZD6vEcXnAf7owTXvx2tNmcoFzT56dXp/l1
+         ZOw02XIowh+6HN0AyvmiqhJ+yfLwf7COlEwNjjWdZ7FV9+mZlN8GafSvSEMuMsl1dQ+7
+         +zGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785758492; x=1786363292;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=/3F2htAaSgkkxvZ/5MPPccMC2gln25kjMNeYIdiRBb0=;
-        b=YvbcUWVYAwpPHYenSmQhDHvOFsPwlamoyLKIWO/9PsyZh+DaHax8E0oRP6LLd3FhjL
-         gG3zZpzADVxi3BJfVvMhP3HhjChXoY8BA/6lv6y9rGCu3TE09fxTKJP0yqFh2OxS8w+E
-         KKzGs9B2Mln7ly1mO6wujrZScCQZ/Ez+sygcj37wnNAs3gt9GmsBt/893xgZ7mhNmbuw
-         qvTju8TvwGSq+RV2t3x8Nb31e0cJaezzOG1Bs1/3zD/siT40JID0xUfNWS1Ow67ExxtW
-         ujdjm3LFckM6nV9cOMan1TV+cAuKrvg628Fnmp5tKGkboOgBpi0/fHgOLaRafuwyHqs5
-         YcVw==
-X-Forwarded-Encrypted: i=1; AHgh+RojZcxJs0FLyWDV9z4Hd7byIViulzYuM044ukPHeU+hhNzCTbCIZm5/FdSIR5L3RI+RkpQfGwK4XQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKHaOZkdXpbF0BAx5Lq/qwhHGbaSeQ4ZZVDAvb2U+TS3rxdIzo
-	j9EsDutJUGX3CS9vllA8I7bqmbL5IzkF5pUu3Pwhsr6rZx3V4aQrwxYU6yd7iUUY
-X-Gm-Gg: AR+sD13TxS51sBXGx2VunPxrf8Hs51alTqGFjiLi+ZIfVM5evV7tspKUqv6cZBzPT9h
-	82Fch25XQOk6NDi6cPODDr5Q/tP16+vB5tYG4yBULr2HBSBNpBK1LJ0S8vSJvm7K+G/Pz5IoQrj
-	ZICwoCO1SKUKbK483ZdysZUx8pd0WeJn3gLzOrAoMLVuQUBRj4AVP7VQUXGbOmT5xLyZbqIesvY
-	rpOzg2NpZbgwfxOK/n8p5SwBNH0sU+1XDnROt4a+6kyvu4Rv1tbWGnKOuJ7BFt1TzWEx1IUKS0w
-	fDnjygkRY7s3qu6BcoNok7/5fmXFYCyWWKxiJniAtbxoG22KxhibfUAkPCwbBWCOA2mw2UroSYg
-	iVTZsAW5x4JmcCWI3YwG7n4M4dO6ytNyPhBdgflXdclR/KP431QRLturXhtCICW38IPak3kgfHT
-	UIYOBM2aZNi1Dsi8e66G34/9DHr8hMXATSpUbQCFucnawZxh1bHIGFLmjw8vZKTldKS5jWROztu
-	ZA8YGZL0X6YuxqdFiqeTbWl7u1h6g==
-X-Received: by 2002:a05:6122:468c:b0:5a1:fbbd:6bd0 with SMTP id 71dfb90a1353d-5c38769fd1cmr2181971e0c.5.1785758492017;
-        Mon, 03 Aug 2026 05:01:32 -0700 (PDT)
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com. [209.85.221.182])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c3b0af156bsm1748018e0c.14.2026.08.03.05.01.30
-        for <arm-scmi@vger.kernel.org>
+        d=1e100.net; s=20251104; t=1785789458; x=1786394258;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7mrP1/WMc3TIletirnODTUqNZkagm7wTgzSovxyb5Fg=;
+        b=ee6+XXkw45HY9W5fg7Eh3RDkzp2fX2BlhG4BVLXM4GI3T4n9C+c5R8PVwvxQc4P5Cj
+         C74R7Tnwi5RoJqQbZu2IDr/gQU2DBR1vjpBSCqwDRQ1G48KlNjKQFLmO03V6Qhm7Hfh0
+         gNKFO2K237lYfWxbTyOSArKyCAR4s/Dv93sTJkoG444gxXTXRLorMx84aQROXuyeP3z0
+         dCpzcxwKdnWCvv3WSBlf+YHR4X8sAX6u1x4wQ56nzJyFAP4WhJw5FddgMd6jkRRaRNej
+         w6Gs5o+Qj/ZIrb9Umc73P7GJgOJKbuaz6ggFbTqFO8dNvwhq7sBI2K69l4kvbnEAc+Pn
+         62yg==
+X-Forwarded-Encrypted: i=1; AHgh+RoHns8ZuLo0hj6A3tlA9ob7RoXCbmFUpoZzQSG4m8AOwsPpDS69h5svLHv3NDRF4/sSDNgnDGDSfA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyaNBDajMccjtHh5EJy8Uc88Yq7vrSmWiHzAB659rM/7q1LybWl
+	c/E/aGw/wMKdd07l3sje4pgchNym08pnkwT1yBd9bwBtQ/1LPOT1O6EO03ucsCifHQikL12gL6x
+	HW34sA2sE+XaTvmgOnMihtlsFdEvW46D6ctL9S/ztCAVd7NxoTep23yjMYdKbFw==
+X-Gm-Gg: AR+sD13yq4LoictyNja+M06mJK5+EuihvYCTcNwBRvhMdeMhykLwNWa5mzZEXgQSzbS
+	Y0BNybzUdjrnD4IPGbyYqPUZWEZkqwxKxw7DeNWvIklk6vtMjWZW9udeMnkPhQxkSZTZN73j627
+	CLI0BZTNWqfmvcN11TVUwD0WYHG2fhEgUbuOznmvV3Yip/9QqBQO3cz+rz/dD0+Go6ODnTl4Ma3
+	M5qAXpq1QtKoszRKowmr2fXAeBpfqW3o/Gywp229W611tXncDAIjX7R37t8YVN04Q+trZW2cXE6
+	qybEwGey65MWGNxIpxis8YlpilfsdhNm08cZrQvbLaX+xVKGde9kZ6ewtirSZQHxVJFV63rSXOj
+	nlwp7ToC+iNjdnnfxz4spc3x3P4S5040=
+X-Received: by 2002:a17:90b:2f4b:b0:37e:1620:dabc with SMTP id 98e67ed59e1d1-38febda3f2dmr875514a91.0.1785789457861;
+        Mon, 03 Aug 2026 13:37:37 -0700 (PDT)
+X-Received: by 2002:a17:90b:2f4b:b0:37e:1620:dabc with SMTP id 98e67ed59e1d1-38febda3f2dmr875468a91.0.1785789457121;
+        Mon, 03 Aug 2026 13:37:37 -0700 (PDT)
+Received: from [192.168.0.108] ([49.207.195.183])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab4cb51asm53720068c88.9.2026.08.03.13.37.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Aug 2026 05:01:30 -0700 (PDT)
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-5c2c96286f0so1595922e0c.3
-        for <arm-scmi@vger.kernel.org>; Mon, 03 Aug 2026 05:01:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RpX/bgB6VFwQfiYbDAhFbVdfTAqDrnInlyvL1Q0rSd28aicmOpc+xs99hFzgXHnAYD9ASz1uFJJNA==@vger.kernel.org
-X-Received: by 2002:a05:6122:c94:b0:5a0:370:f12c with SMTP id
- 71dfb90a1353d-5c3877ee9a2mr2551587e0c.11.1785758489767; Mon, 03 Aug 2026
- 05:01:29 -0700 (PDT)
+        Mon, 03 Aug 2026 13:37:36 -0700 (PDT)
+Message-ID: <f39b2be0-b6d6-43a6-a412-44ff433c51f6@oss.qualcomm.com>
+Date: Tue, 4 Aug 2026 02:07:28 +0530
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1783505329.git.geert+renesas@glider.be> <49726acff0fee1c3606e83c4f242ef6aad25b4b8.1783505329.git.geert+renesas@glider.be>
- <20260710-adventurous-burgundy-chimera-b2fff9@quoll> <CAMuHMdV=ckONBbTYELPJU8YWoNzdu3PJ95VR8cz+f_7dUeiPUw@mail.gmail.com>
- <20260716214924.GA1477674-robh@kernel.org>
-In-Reply-To: <20260716214924.GA1477674-robh@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 3 Aug 2026 14:01:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU0ss6wUEdjC+OYa3iQS439aJ8b_d9M2ws7Ayn4_kOyMQ@mail.gmail.com>
-X-Gm-Features: AUfX_mxcGqdlDliYxmfdCYiKuiCZlBR4i5y6ZczTyLGv0wHHqfKRM8R7C8jMMeU
-Message-ID: <CAMuHMdU0ss6wUEdjC+OYa3iQS439aJ8b_d9M2ws7Ayn4_kOyMQ@mail.gmail.com>
-Subject: Re: [PATCH v2 05/10] dt-bindings: clock: renesas,r8a78000-cpg: Add
- firmware property
-To: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sudeep Holla <sudeep.holla@kernel.org>, 
-	Cristian Marussi <cristian.marussi@arm.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	Ulf Hansson <ulfh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Vinod Koul <vkoul@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Kevin Hilman <khilman@baylibre.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Marek Vasut <marek.vasut+renesas@mailbox.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, arm-scmi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 01/10] firmware: arm_scmi: Add SCMI QCOM Generic
+ Extension Protocol documentation
+To: Sudeep Holla <sudeep.holla@kernel.org>,
+        Pragnesh Papaniya <pragnesh.papaniya@oss.qualcomm.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+        Rob Herring
+ <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Rajendra Nayak <rajendra.nayak@oss.qualcomm.com>,
+        Pankaj Patil <pankaj.patil@oss.qualcomm.com>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+References: <20260724-rfc_v8_scmi_memlat-v1-0-cb732bcff1f4@oss.qualcomm.com>
+ <20260724-rfc_v8_scmi_memlat-v1-1-cb732bcff1f4@oss.qualcomm.com>
+ <20260724-crouching-starfish-of-apotheosis-d1cdf8@sudeepholla>
+Content-Language: en-US
+From: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
+In-Reply-To: <20260724-crouching-starfish-of-apotheosis-d1cdf8@sudeepholla>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: 8b07P3RPKKPmII-mMo60_36EAxCH_GQ4
+X-Proofpoint-ORIG-GUID: 8b07P3RPKKPmII-mMo60_36EAxCH_GQ4
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODAzMDE4MSBTYWx0ZWRfXz1OriIy3cSSv
+ kak48qlRTGRXP0YskMyEzewFI8MV/l+xMcNCedcBdGak/uavz5sul1Fl07vnSnLvtoApuzx+3VF
+ fS3s4SVzAuM24zIJMHr6MF4p7Bsjw4iUaTE6ibyuMH/RxOeqPclSbDjl9S1lA3r4pJzcinzyRA8
+ T5c0pS+uZ6GyuWzorPsHApERe+s4eFdvKyOsybaWrAS9xb0w4LD+i5bQEqijZt2g5v3K29kN54/
+ qu5XDHj/n3mpw36iLZcnSGsGFeuLEcngB2cp0lnbRUNKikIoq0SjbJUeAgkOmSApBd+hPl2X1Xn
+ 4YaJZ0n0YiP+NVJY1JK3lv+lWEX/ERO7xWBnCfhnmyxtJG1M4+sxclvOoD/z6/OeRFyL3QtbY+K
+ JPrdvL0aGv0DBQB5V+odpvX+c0rkQK4ERMdRXBVLotU7YunY4RIb14mwxymZp7OdUystFPv6X02
+ JUm/5qKjvjqwdczfrDg==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODAzMDE4MSBTYWx0ZWRfX4KRcG2BLlpJv
+ neQ3HWeCSG/8pga0M2NdOtKQ3+5Eku1WICgAT2Qce+aubdhCbCDA0Qb92s1kK0TJboDsMRAdHdg
+ MUxJjiNIbRATDr6ml803czWO8KitJ2I=
+X-Authority-Analysis: v=2.4 cv=ONEXGyaB c=1 sm=1 tr=0 ts=6a70fc12 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=GtEwt0l4+wjVPj/mkyDqNQ==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=EUspDBNiAAAA:8 a=FCmgNo1lf8GeXGbmtysA:9 a=QEXdDO2ut3YA:10
+ a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-03_05,2026-08-03_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0
+ bulkscore=0 spamscore=0 malwarescore=0 priorityscore=1501 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608030181
 
-Hi Rob,
 
-On Thu, 16 Jul 2026 at 23:49, Rob Herring <robh@kernel.org> wrote:
-> On Fri, Jul 10, 2026 at 01:02:39PM +0200, Geert Uytterhoeven wrote:
-> > On Fri, 10 Jul 2026 at 12:21, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> > > On Wed, Jul 08, 2026 at 12:16:23PM +0200, Geert Uytterhoeven wrote:
-> > > > Add a firmware property, for systems where SCMI must be used instead of
-> > > > direct hardware access.
-> > > >
-> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > ---
-> > > > v2:
-> > > >   - Spin off from "dt-bindings: clock: Document Renesas R-Car X5H Clock
-> > > >     Pulse Generator".
-> > > > ---
-> > > >  .../devicetree/bindings/clock/renesas,r8a78000-cpg.yaml    | 7 +++++++
-> > > >  1 file changed, 7 insertions(+)
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml b/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml
-> > > > index 4e23bba334382346..fc499e7cf52e4f0c 100644
-> > > > --- a/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml
-> > > > +++ b/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml
-> > > > @@ -35,6 +35,12 @@ properties:
-> > > >        <dt-bindings/clock/renesas,r8a78000-cpg.h>.
-> > > >      const: 1
-> > > >
-> > > > +  firmware:
-> > >
-> > > RPi is doing similar, but I have doubts. It looks way too close to
-> > > generic "syscon" which is disallowed.
-> > >
-> > > I think this should be vendor+purpose specific, e.g.:
-> > > "renesas,scmi-transport" or "renesas,scmi-firmware"
+On 7/24/2026 2:43 PM, Sudeep Holla wrote:
+> On Fri, Jul 24, 2026 at 12:48:06PM +0530, Pragnesh Papaniya wrote:
+>> Add System Control Management Interface (SCMI) Qualcomm Generic Extension
+>> Protocol documentation. It consists of a small set of generic SET/GET/
+>> START/STOP commands, which is used to turn on/off and configure Qualcomm
+>> SoC specific algorithms that run on the SCP.
+>>
+>> It currently only supports MEMLAT (memory latency governor) algorithm.
+>> The immutable pairing of the MEMLAT algorithm string with the supported
+>> param_ids associated with it are documented here.
+>>
+>> Co-developed-by: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
+>> Signed-off-by: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
+>> Signed-off-by: Pragnesh Papaniya <pragnesh.papaniya@oss.qualcomm.com>
+>> ---
+>>   .../arm_scmi/vendors/qcom/qcom_generic.rst         | 954 +++++++++++++++++++++
+>>   1 file changed, 954 insertions(+)
+>>
+>> diff --git a/drivers/firmware/arm_scmi/vendors/qcom/qcom_generic.rst b/drivers/firmware/arm_scmi/vendors/qcom/qcom_generic.rst
+>> new file mode 100644
+>> index 000000000000..42e327d53841
+>> --- /dev/null
+>> +++ b/drivers/firmware/arm_scmi/vendors/qcom/qcom_generic.rst
+>> @@ -0,0 +1,954 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +.. include:: <isonum.txt>
+>> +
+>> +==================================================================================
+>> +System Control and Management Interface (SCMI) Qualcomm Generic Extension Protocol
+>> +==================================================================================
+>> +
+>> +:Copyright: |copy| Qualcomm Technologies, Inc. and/or its subsidiaries.
+>> +
+>> +:Authors:
+>> +   - Sibi Sankar <sibi.sankar@oss.qualcomm.com>
+>> +   - Pragnesh Papaniya <pragnesh.papaniya@oss.qualcomm.com>
+>> +
+>> +System Control and Management Interface Qualcomm Generic Extension Vendor Protocol
+>> +==================================================================================
+>> +
+>> +System Control Management Interface (SCMI) Qualcomm Generic Extension Protocol
+>> +consists of a small set of generic SET/GET/START/STOP commands, which is used to
+>> +turn on/off and configure Qualcomm SoC specific algorithms that run on the SCP.
+>> +Each algorithm is identified through an algorithm string and has an immutable list
+>> +of param_ids. All supported algorithms (currently just MEMLAT) have their own
+>> +dedicated section and are listed after the generic commands.
+>> +
+
+Hey Sudeep,
+
+Will set some context here, this version of the vendor protocol is currently
+running in the wild on 5 SoCs (Hamoa, Purwa, Glymur, Mahua, Kaanapali).
+The ABI/Specification that this vendor protocol uses can't be changed in
+any way since other Os'es like Windows/Android expect it to behave as
+described in this document and will break userspace. The RFC tag of the
+series is meant for the devfreq portion (since it introduces a new devfreq
+governor) and is not for the vendor protocol. We certainly can take design
+improvements for future revisions but making changes to this major/minor
+version of the firmware isn't possible.
+
+Plenty of folks running linux on these SoCs would benefit a great deal from
+this series landing, so please have a bit of patience, take a look at the
+documentation/series as a whole. I still feel we should be able to land this
+series in a form that is acceptable to you. However, if you still feel 
+you have
+to NAK this series regardless of its usefulness to the users, please do 
+list the
+reasons and we'll try our best to convince you otherwise.
+
+> This multiplexer 'N' random algorithn into one single custom SCMI protocol ID
+> (0x80) seems to go against the general SCMI design principle and this seems
+
+Only the strings documented are allowed by the vendor protocol while the
+rest are filtered out, so we clearly don't have to worry about this. Also
+grouping a class of devfreq algorithms into a single vendor protocol should
+be treated as a SoC vendor design choice.
+
+> like a deliberated attempt to circumvent the standard SCMI protocol template.
+> Standard SCMI expects distinct features to occupy their own vendor protocol
+> IDs and utilize standard protocol discovery.
 >
-> If you can tell me the resource that a 'firmware' provider provides then
-> it is fine, but you can't.
+> I have asked details of algorithm to be listed here atleast few times now
+> and has been constantly ignored. So don't complain if I start ignoring these
+> patches.
 
-It provides a firmware API, which is not available until the firmware
-provider is initialized.
 
-Thanks!
+We take all of your reviews seriously and ^^ is clearly not the case, we 
+made
+sure to mention that MEMLAT is the only supported algorithm at the very
+beginning and that there is an entire section describing it in detail 
+like you
+later discovered during your review :(
 
-Gr{oetje,eeting}s,
+-Sibi
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>
+>> +message_id: 0x1
+>> +protocol_id: 0x80
+>> +
+>> ++------------------+-----------------------------------------------------------+
+>> +|Return values                                                                 |
+>> ++------------------+-----------------------------------------------------------+
+>> +|Name              |Description                                                |
+>> ++------------------+-----------------------------------------------------------+
+>> +|int32 status      |See ARM SCMI Specification for status code definitions.    |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 attributes |Bits[31:16] Reserved, must be set to 0.                    |
+>> +|                  |Bits[15:8] Number of agents in the system. Must match the  |
+>> +|                  |value reported by the standard BASE protocol's             |
+>> +|                  |PROTOCOL_ATTRIBUTES response.                              |
+>
+> Please drop the above, duplication is always recipe for problems.
+>
+>> +|                  |Bits[7:0] Number of algorithmic strings supported by the   |
+>> +|                  |system. Only "MEMLAT" is currently supported hence it      |
+>> +|                  |returns 1.                                                 |
+>> ++------------------+-----------------------------------------------------------+
+> OK, so this is the only algorithm.
+>
+>> +
+>> +PROTOCOL_MESSAGE_ATTRIBUTES
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +message_id: 0x2
+>> +protocol_id: 0x80
+>> +
+>> ++------------------+-----------------------------------------------------------+
+>> +|Return values                                                                 |
+>> ++------------------+-----------------------------------------------------------+
+>> +|Name              |Description                                                |
+>> ++------------------+-----------------------------------------------------------+
+>> +|int32 status      |See ARM SCMI Specification for status code definitions.    |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 attributes |For all message IDs the parameter has a value of 0.        |
+>> ++------------------+-----------------------------------------------------------+
+>> +
+>> +QCOM_SCMI_SET_PARAM
+>> +~~~~~~~~~~~~~~~~~~~
+>> +
+>> +message_id: 0x10
+>> +protocol_id: 0x80
+>> +
+>> ++------------------+-----------------------------------------------------------+
+>> +|Parameters                                                                    |
+>> ++------------------+-----------------------------------------------------------+
+>> +|Name              |Description                                                |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 ext_id     |Reserved, must be zero.                                    |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 algo_low   |Lower 32-bit value of the algorithm string.                |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 algo_high  |Upper 32-bit value of the algorithm string.                |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 param_id   |Serves as the token message id for the algorithm string    |
+>> +|                  |and is used to set various parameters supported by it.     |
+>
+> This is too open and can soon become ambiguous. More description on what
+> exactly this token message id is a must. This is not like normal kernel
+> function to keep it this ambiguous, it is a firmware interface which is
+> comparable to the user ABI.
+>
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 buf[]      |Serves as the payload for the specified param_id and       |
+>> +|                  |algorithm string pair. The payload size depends on the     |
+>> +|                  |(algorithm string, param_id) pair; see the per-algorithm   |
+>> +|                  |sections below.                                            |
+>
+> Ditto.
+>
+>> ++------------------+-----------------------------------------------------------+
+>> +|Return values                                                                 |
+>> ++------------------+-----------------------------------------------------------+
+>> +|Name              |Description                                                |
+>> ++------------------+-----------------------------------------------------------+
+>> +|int32 status      |SUCCESS: if the param_id and buf[] is parsed successfully  |
+>> +|                  |by the chosen algorithm string.                            |
+>> +|                  |NOT_SUPPORTED: if the algorithm string does not have any   |
+>> +|                  |matches.                                                   |
+>> +|                  |INVALID_PARAMETERS: if the param_id and the buf[] passed   |
+>> +|                  |is rejected by the algorithm string.                       |
+>> ++------------------+-----------------------------------------------------------+
+>> +
+>> +QCOM_SCMI_GET_PARAM
+>> +~~~~~~~~~~~~~~~~~~~
+>> +
+>> +message_id: 0x11
+>> +protocol_id: 0x80
+>> +
+>> ++------------------+-----------------------------------------------------------+
+>> +|Parameters                                                                    |
+>> ++------------------+-----------------------------------------------------------+
+>> +|Name              |Description                                                |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 ext_id     |Reserved, must be zero.                                    |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 algo_low   |Lower 32-bit value of the algorithm string.                |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 algo_high  |Upper 32-bit value of the algorithm string.                |
+>
+> At this point I start to think what is the point of exchanging the whole 8
+> byte string back and forth instead of simple ID.
+>
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 param_id   |Serves as the token message id for the algorithm string.   |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 buf[]      |Serves as the payload and store of value for the specified |
+>> +|                  |param_id and algorithm string pair. The payload size       |
+>> +|                  |depends on the (algorithm string, param_id) pair; see the  |
+>> +|                  |per-algorithm sections below. The response payload is      |
+>> +|                  |returned in the same buffer, overwriting the request       |
+>> +|                  |contents on success.                                       |
+>
+> Ditto as above(too ambiguous, gives no clue on what that is)
+>
+>> ++------------------+-----------------------------------------------------------+
+>> +|Return values                                                                 |
+>> ++------------------+-----------------------------------------------------------+
+>> +|Name              |Description                                                |
+>> ++------------------+-----------------------------------------------------------+
+>> +|int32 status      |SUCCESS: if the param_id and buf[] is parsed successfully  |
+>> +|                  |by the chosen algorithm string and the result is copied    |
+>> +|                  |into buf[].                                                |
+>> +|                  |NOT_SUPPORTED: if the algorithm string does not have any   |
+>> +|                  |matches.                                                   |
+>> +|                  |INVALID_PARAMETERS: if the param_id and the buf[] passed   |
+>> +|                  |is rejected by the algorithm string.                       |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 buf[]      |Holds the payload of the result of the query, returned in  |
+>> +|                  |the same buffer used to send the request. Size depends on  |
+>> +|                  |the (algorithm string, param_id) pair.                     |
+>> ++------------------+-----------------------------------------------------------+
+>> +
+>> +QCOM_SCMI_START_ACTIVITY
+>> +~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +message_id: 0x12
+>> +protocol_id: 0x80
+>> +
+>> +The activity to be started is defined by the algorithm string; see the
+>> +per-algorithm sections (e.g. MEMLAT_START_TIMER) for valid param_ids.
+>> +
+>> ++------------------+-----------------------------------------------------------+
+>> +|Parameters                                                                    |
+>> ++------------------+-----------------------------------------------------------+
+>> +|Name              |Description                                                |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 ext_id     |Reserved, must be zero.                                    |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 algo_low   |Lower 32-bit value of the algorithm string.                |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 algo_high  |Upper 32-bit value of the algorithm string.                |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 param_id   |Serves as the token message id for the algorithm string    |
+>> +|                  |and is generally used to start the activity performed by   |
+>> +|                  |the algorithm string.                                      |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 buf[]      |Serves as the payload for the specified param_id and       |
+>> +|                  |algorithm string pair. The payload size depends on the     |
+>> +|                  |(algorithm string, param_id) pair; see the per-algorithm   |
+>> +|                  |sections below.                                            |
+>
+> Ditto
+>
+>> ++------------------+-----------------------------------------------------------+
+>> +|Return values                                                                 |
+>> ++------------------+-----------------------------------------------------------+
+>> +|Name              |Description                                                |
+>> ++------------------+-----------------------------------------------------------+
+>> +|int32 status      |SUCCESS: if the activity performed by the algorithm string |
+>> +|                  |starts successfully, or if it was already running.         |
+>> +|                  |NOT_SUPPORTED: if the algorithm string does not have any   |
+>> +|                  |matches.                                                   |
+>> ++------------------+-----------------------------------------------------------+
+>> +
+>> +QCOM_SCMI_STOP_ACTIVITY
+>> +~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +message_id: 0x13
+>> +protocol_id: 0x80
+>> +
+>> +The activity to be stopped is defined by the algorithm string; see the
+>> +per-algorithm sections (e.g. MEMLAT_STOP_TIMER) for valid param_ids.
+>> +
+>> ++------------------+-----------------------------------------------------------+
+>> +|Parameters                                                                    |
+>> ++------------------+-----------------------------------------------------------+
+>> +|Name              |Description                                                |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 ext_id     |Reserved, must be zero.                                    |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 algo_low   |Lower 32-bit value of the algorithm string.                |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 algo_high  |Upper 32-bit value of the algorithm string.                |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 param_id   |Serves as the token message id for the algorithm string    |
+>> +|                  |and is generally used to stop the activity performed by    |
+>> +|                  |the algorithm string.                                      |
+>> ++------------------+-----------------------------------------------------------+
+>> +|uint32 buf[]      |Serves as the payload for the specified param_id and       |
+>> +|                  |algorithm string pair. The payload size depends on the     |
+>> +|                  |(algorithm string, param_id) pair; see the per-algorithm   |
+>> +|                  |sections below.                                            |
+>
+> Ditto
+>
+>> ++------------------+-----------------------------------------------------------+
+>> +|Return values                                                                 |
+>> ++------------------+-----------------------------------------------------------+
+>> +|Name              |Description                                                |
+>> ++------------------+-----------------------------------------------------------+
+>> +|int32 status      |SUCCESS: if the activity performed by the algorithm string |
+>> +|                  |stops successfully, or if it was not running.              |
+>> +|                  |NOT_SUPPORTED: if the algorithm string does not have any   |
+>> +|                  |matches.                                                   |
+>> ++------------------+-----------------------------------------------------------+
+>> +
+>> +MEMLAT: Memory Latency algorithm
+>> +________________________________
+>> +
+>> +The MEMLAT algorithm (0x4d454d4c4154, ASCII "MEMLAT") scales the DDR, LLCC and
+>> +DDR_QOS buses in response to memory-latency-bound workloads. It runs on the CPUCP:
+>> +every sampling window it reads the per-CPU AMU counters, derives its statistics
+>> +(instructions-per-miss, back-end stall, write-back ratio), maps that to a target
+>> +level and votes for it directly on the DDR/LLCC/DDR_QOS interconnect. The kernel
+>> +never issues a frequency request in that loop. The 6-byte value is treated as a
+>> +64-bit algorithm string and split into two uint32 fields on the wire: algo_low
+>> +carries its lower 32 bits and algo_high its upper 32 bits.
+>> +
+>> +With a distinct need to have the memory buses scaling done in SCP in response to
+>> +memory-latency-bound workloads, none of the existing SCMI solutions could be used
+>> +as-is. MPAM does not apply either: it is not enabled on all of the affected parts
+>> +(e.g. Hamoa). The role split between SCP and client driver is described next.
+>> +
+>> +MEMLAT client driver pseudo-code:
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +.. code-block:: text
+>> +
+>> +  probe():
+>> +    SET_COMMON_EV_MAP                          # AMU events (all groups)
+>> +    for each memory group (DDR / LLCC / DDR_QOS):
+>> +      SET_MEM_GROUP                            # bind group to interconnect
+>> +      SET_GRP_EV_MAP                           # per-group AMU events
+>> +      for each monitor in the group:
+>> +        SET_MONITOR                            # topology, cpumask, name
+>> +        IPM_CEIL / BE_STALL_FLOOR              # per-monitor tuneables
+>> +        MON_FREQ_MAP                           # cpufreq -> memfreq map
+>> +        SET_MIN_FREQ / SET_MAX_FREQ            # clamps
+>> +    SAMPLE_MS                                  # sampling period
+>> +    SET_EFFECTIVE_FREQ_METHOD                  # cpu-freq derivation method
+>> +    START_TIMER                                # CPUCP now scales autonomously
+>> +
+>> +  devfreq poll (twice per CPUCP sample period):
+>> +    GET_CUR_FREQ                               # read voted freq, per monitor
+>> +
+>> +  remove():
+>> +    STOP_TIMER
+>> +
+>> +SCP pseudo-code:
+>> +~~~~~~~~~~~~~~~~
+>> +
+>> +.. code-block:: text
+>> +
+>> +  every sample_ms:
+>> +    for each CPU:
+>> +      sample AMU counters (instructions, cycles, cache-misses, stalls)
+>> +      derive per-CPU IPM, back-end-stall % and write-back ratio
+>> +
+>> +    for each configured memory group (DDR / LLCC / DDR_QOS):
+>> +      for each monitor in the group:
+>> +        best_freq = 0
+>> +        for each CPU in the monitor's cpumask:
+>> +          if CPU is memory-bound (IPM/stall/write-back vs. the
+>> +             monitor's configured thresholds):
+>> +            freq = CPU's cpufreq, optionally scaled toward the ceiling
+>> +            best_freq = max(best_freq, freq)
+>> +        monitor.target_freq = monitor's cpufreq->memfreq map(best_freq)
+>> +
+>> +      group_vote = max(target_freq of every monitor in the group)
+>> +      if group_vote changed since the last sample:
+>> +        vote group_vote onto the group's interconnect path
+>> +
+>> +  GET_CUR_FREQ returns a monitor's last target_freq
+>> +  START_TIMER / STOP_TIMER: resume / suspend the loop above
+>> +
+>> +MEMLAT: Supported memory buses
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +The hw_type field carried in most payloads identifies the memory group:
+>> +
+>> ++----------+--------------------------------------------------------------+
+>> +|hw_type   |Group                                                         |
+>> ++----------+--------------------------------------------------------------+
+>> +|0         |DDR                                                           |
+>> ++----------+--------------------------------------------------------------+
+>> +|1         |LLCC                                                          |
+>> ++----------+--------------------------------------------------------------+
+>> +|2         |DDR_QOS_COMPUTE                                               |
+>> ++----------+--------------------------------------------------------------+
+>> +|3         |DDR_QOS_MOBILE                                                |
+>> ++----------+--------------------------------------------------------------+
+>> +
+>> +All multi-byte fields below are little-endian. mon_idx selects a monitor
+>> +within the group (0-based, less than the firmware-supported maximum). All
+>> +SET commands return the SCMI status word; on success it carries SUCCESS, on
+>> +lookup failure INVALID_PARAMETERS, and on an unknown param_id NOT_SUPPORTED.
+>> +
+>> +Frequency units are not uniform across commands (kHz, MHz or a raw 0/1
+>> +DDR_QOS level, depending on the param_id); each command documents its own
+>> +units below.
+>> +
+>> +MEMLAT_SET_MEM_GROUP
+>> +~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +param_id: 0x10 (16)
+>
+> Ah so, these are param id for the above commands I mentioned as too
+> ambiguous ? If so, at this point I think it is better to make custom
+> vendor protocol ID 0x80 for MEMLAT and make all these part of it.
+> I think my comment of multiplexing is a bad idea seem to be confirmed here.
+> I will skip the rest as it makes no sense to review it any further.
+>
