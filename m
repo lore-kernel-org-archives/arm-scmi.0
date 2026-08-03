@@ -1,85 +1,141 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F206726F2BE;
-	Mon,  3 Aug 2026 06:17:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8E53346BE
+	for <arm-scmi@vger.kernel.org>; Mon,  3 Aug 2026 12:01:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785737871; cv=none; b=niAIWYBTAKQASe0JG1ZiZN/zn94wloflixzrIIsKR4fbiLFEeaM9b1iQCBw9ANarAjMPryn5hzaW4EntI5TE0rMcA3By0Q3PVpkR+2hi6yR+WjTvzWEyhYkpaX5gpTS5lvAFWhOC/ZNF+Bi5M+1Vun96TijfYLrLAcRDfHenszg=
+	t=1785758495; cv=none; b=jp3i2NsEovejescLFH9jBm+fZ4tDp4uacujrCQ5ey23tYCRR0697nLzVRdB2SZgv9teiyJPapUodhEooWjWqdDqDXNMB6xZjP35er9OHShcdWDl8j6dPT4zVTntwsuW/6ITvVDPL4XwOL2x1OLzRQv7aIMCdW+yPjx1XxS1X/aM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785737871; c=relaxed/simple;
-	bh=CQ3FXkdxeKWpPhELkqzv7K35M4eBOFi0oyoT0bpmWbM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tjmgtgAQWTRkvCfqit2r6tehNrFBl4hh68hankf6t21K6NF0fcfwYG8VpWWh3V3RbTfcf7ti9Qodcq5d1UOan1OG/zgPb8j2VUhqWBoIfrzhextLea3aXx6jVZInWwYGHInVfg6Xujn2Cadw8CgEP7EwrriKoi5SgR/0oPSSQ4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=GR7C01Rp; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="GR7C01Rp"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 359C6143D;
-	Sun,  2 Aug 2026 23:17:45 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3A88E3F66F;
-	Sun,  2 Aug 2026 23:17:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1785737869; bh=CQ3FXkdxeKWpPhELkqzv7K35M4eBOFi0oyoT0bpmWbM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GR7C01RpF8anclulhv3lLdm+7g/UgSg5w56GRavq+rJ3vzytJVeGOQX3l1ViAxpkW
-	 8TCVCQn79y931nRk4K9w1IzCFgIYkI4kUaHR0y4KMrr8fIWLiKrejS4NpQuGec9DOp
-	 ss1cYF/ScRq4fYco1qNBoJA7lj86cgD196NfSXXQ=
-Date: Mon, 3 Aug 2026 07:17:39 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Fayssal Benmlih <Fayssal.Benmlih@arm.com>
-Cc: Cristian Marussi <Cristian.Marussi@arm.com>,
-	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"d-gole@ti.com" <d-gole@ti.com>,
-	"david@kernel.org" <david@kernel.org>,
-	Elif Topuz <Elif.Topuz@arm.com>,
-	"etienne.carriere@st.com" <etienne.carriere@st.com>,
-	"f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-	"james.quinlan@broadcom.com" <james.quinlan@broadcom.com>,
-	"jic23@kernel.org" <jic23@kernel.org>,
-	"kas@kernel.org" <kas@kernel.org>,
-	"kernel-team@meta.com" <kernel-team@meta.com>,
-	"leitao@kernel.org" <leitao@kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Lukasz Luba <Lukasz.Luba@arm.com>,
-	"michal.simek@amd.com" <michal.simek@amd.com>,
-	"peng.fan@oss.nxp.com" <peng.fan@oss.nxp.com>,
-	Philip Radford <Philip.Radford@arm.com>,
-	"puranjay@kernel.org" <puranjay@kernel.org>,
-	Souvik Chakravarty <Souvik.Chakravarty@arm.com>,
-	"subrahmanya.lingappa@oss.qualcomm.com" <subrahmanya.lingappa@oss.qualcomm.com>,
-	"sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
-	"usama.arif@linux.dev" <usama.arif@linux.dev>,
-	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>
-Subject: Re: [PATCH v6 00/22] Introduce SCMI Telemetry support
-Message-ID: <anAyg0hr3S6mfIYX@pluto>
-References: <DB9PR08MB86510C934D2EF25F625A5F38FFCC2@DB9PR08MB8651.eurprd08.prod.outlook.com>
+	s=arc-20240116; t=1785758495; c=relaxed/simple;
+	bh=okWIOwpaAfBMcyH50oSVfKzplqlhnVTdVosRYGHHdGI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l3Q1dZS05UnNcGPU5nFxY+yUGzIbAUf4HRy1MFWawqR+oRB1rap3384q5s7gBaLV5w0xS8H1BRApv124HjRrer3/FZ1qq4uRVDCeY9GbzWpRPn4o5Z09T1kVpux38mDqbF2uDRM5a2FJXITq0OGpdZRgmOWfWRGjy1x9583gBuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5c2c96286f0so1595982e0c.3
+        for <arm-scmi@vger.kernel.org>; Mon, 03 Aug 2026 05:01:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785758492; x=1786363292;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=/3F2htAaSgkkxvZ/5MPPccMC2gln25kjMNeYIdiRBb0=;
+        b=YvbcUWVYAwpPHYenSmQhDHvOFsPwlamoyLKIWO/9PsyZh+DaHax8E0oRP6LLd3FhjL
+         gG3zZpzADVxi3BJfVvMhP3HhjChXoY8BA/6lv6y9rGCu3TE09fxTKJP0yqFh2OxS8w+E
+         KKzGs9B2Mln7ly1mO6wujrZScCQZ/Ez+sygcj37wnNAs3gt9GmsBt/893xgZ7mhNmbuw
+         qvTju8TvwGSq+RV2t3x8Nb31e0cJaezzOG1Bs1/3zD/siT40JID0xUfNWS1Ow67ExxtW
+         ujdjm3LFckM6nV9cOMan1TV+cAuKrvg628Fnmp5tKGkboOgBpi0/fHgOLaRafuwyHqs5
+         YcVw==
+X-Forwarded-Encrypted: i=1; AHgh+RojZcxJs0FLyWDV9z4Hd7byIViulzYuM044ukPHeU+hhNzCTbCIZm5/FdSIR5L3RI+RkpQfGwK4XQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKHaOZkdXpbF0BAx5Lq/qwhHGbaSeQ4ZZVDAvb2U+TS3rxdIzo
+	j9EsDutJUGX3CS9vllA8I7bqmbL5IzkF5pUu3Pwhsr6rZx3V4aQrwxYU6yd7iUUY
+X-Gm-Gg: AR+sD13TxS51sBXGx2VunPxrf8Hs51alTqGFjiLi+ZIfVM5evV7tspKUqv6cZBzPT9h
+	82Fch25XQOk6NDi6cPODDr5Q/tP16+vB5tYG4yBULr2HBSBNpBK1LJ0S8vSJvm7K+G/Pz5IoQrj
+	ZICwoCO1SKUKbK483ZdysZUx8pd0WeJn3gLzOrAoMLVuQUBRj4AVP7VQUXGbOmT5xLyZbqIesvY
+	rpOzg2NpZbgwfxOK/n8p5SwBNH0sU+1XDnROt4a+6kyvu4Rv1tbWGnKOuJ7BFt1TzWEx1IUKS0w
+	fDnjygkRY7s3qu6BcoNok7/5fmXFYCyWWKxiJniAtbxoG22KxhibfUAkPCwbBWCOA2mw2UroSYg
+	iVTZsAW5x4JmcCWI3YwG7n4M4dO6ytNyPhBdgflXdclR/KP431QRLturXhtCICW38IPak3kgfHT
+	UIYOBM2aZNi1Dsi8e66G34/9DHr8hMXATSpUbQCFucnawZxh1bHIGFLmjw8vZKTldKS5jWROztu
+	ZA8YGZL0X6YuxqdFiqeTbWl7u1h6g==
+X-Received: by 2002:a05:6122:468c:b0:5a1:fbbd:6bd0 with SMTP id 71dfb90a1353d-5c38769fd1cmr2181971e0c.5.1785758492017;
+        Mon, 03 Aug 2026 05:01:32 -0700 (PDT)
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com. [209.85.221.182])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c3b0af156bsm1748018e0c.14.2026.08.03.05.01.30
+        for <arm-scmi@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Aug 2026 05:01:30 -0700 (PDT)
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-5c2c96286f0so1595922e0c.3
+        for <arm-scmi@vger.kernel.org>; Mon, 03 Aug 2026 05:01:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RpX/bgB6VFwQfiYbDAhFbVdfTAqDrnInlyvL1Q0rSd28aicmOpc+xs99hFzgXHnAYD9ASz1uFJJNA==@vger.kernel.org
+X-Received: by 2002:a05:6122:c94:b0:5a0:370:f12c with SMTP id
+ 71dfb90a1353d-5c3877ee9a2mr2551587e0c.11.1785758489767; Mon, 03 Aug 2026
+ 05:01:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DB9PR08MB86510C934D2EF25F625A5F38FFCC2@DB9PR08MB8651.eurprd08.prod.outlook.com>
+References: <cover.1783505329.git.geert+renesas@glider.be> <49726acff0fee1c3606e83c4f242ef6aad25b4b8.1783505329.git.geert+renesas@glider.be>
+ <20260710-adventurous-burgundy-chimera-b2fff9@quoll> <CAMuHMdV=ckONBbTYELPJU8YWoNzdu3PJ95VR8cz+f_7dUeiPUw@mail.gmail.com>
+ <20260716214924.GA1477674-robh@kernel.org>
+In-Reply-To: <20260716214924.GA1477674-robh@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 3 Aug 2026 14:01:18 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU0ss6wUEdjC+OYa3iQS439aJ8b_d9M2ws7Ayn4_kOyMQ@mail.gmail.com>
+X-Gm-Features: AUfX_mxcGqdlDliYxmfdCYiKuiCZlBR4i5y6ZczTyLGv0wHHqfKRM8R7C8jMMeU
+Message-ID: <CAMuHMdU0ss6wUEdjC+OYa3iQS439aJ8b_d9M2ws7Ayn4_kOyMQ@mail.gmail.com>
+Subject: Re: [PATCH v2 05/10] dt-bindings: clock: renesas,r8a78000-cpg: Add
+ firmware property
+To: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sudeep Holla <sudeep.holla@kernel.org>, 
+	Cristian Marussi <cristian.marussi@arm.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Ulf Hansson <ulfh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Vinod Koul <vkoul@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Kevin Hilman <khilman@baylibre.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, arm-scmi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jul 27, 2026 at 02:53:45PM +0100, Fayssal Benmlih wrote:
-> Hi Cristian,
+Hi Rob,
 
-Hi Fayçal,
+On Thu, 16 Jul 2026 at 23:49, Rob Herring <robh@kernel.org> wrote:
+> On Fri, Jul 10, 2026 at 01:02:39PM +0200, Geert Uytterhoeven wrote:
+> > On Fri, 10 Jul 2026 at 12:21, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > > On Wed, Jul 08, 2026 at 12:16:23PM +0200, Geert Uytterhoeven wrote:
+> > > > Add a firmware property, for systems where SCMI must be used instead of
+> > > > direct hardware access.
+> > > >
+> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > ---
+> > > > v2:
+> > > >   - Spin off from "dt-bindings: clock: Document Renesas R-Car X5H Clock
+> > > >     Pulse Generator".
+> > > > ---
+> > > >  .../devicetree/bindings/clock/renesas,r8a78000-cpg.yaml    | 7 +++++++
+> > > >  1 file changed, 7 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml b/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml
+> > > > index 4e23bba334382346..fc499e7cf52e4f0c 100644
+> > > > --- a/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml
+> > > > +++ b/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml
+> > > > @@ -35,6 +35,12 @@ properties:
+> > > >        <dt-bindings/clock/renesas,r8a78000-cpg.h>.
+> > > >      const: 1
+> > > >
+> > > > +  firmware:
+> > >
+> > > RPi is doing similar, but I have doubts. It looks way too close to
+> > > generic "syscon" which is disallowed.
+> > >
+> > > I think this should be vendor+purpose specific, e.g.:
+> > > "renesas,scmi-transport" or "renesas,scmi-firmware"
+>
+> If you can tell me the resource that a 'firmware' provider provides then
+> it is fine, but you can't.
 
-just a quick one to say that the latest v7 just revolved around making
-ABI feature complete, so closing most of my pending TODO list...I have
-NOT addressed, if NOT minimally, these outstading issues or most of
-Sashiko reports....I will take care of all of these starting v8
-tomorrow..
+It provides a firmware API, which is not available until the firmware
+provider is initialized.
 
-Thanks,
-Cristian
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
