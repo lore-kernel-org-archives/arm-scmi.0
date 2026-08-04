@@ -1,160 +1,204 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA8B64457A8;
-	Tue,  4 Aug 2026 10:39:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D16A414A1E
+	for <arm-scmi@vger.kernel.org>; Tue,  4 Aug 2026 19:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785839990; cv=none; b=kClZ5+5TcIrOsVnxDhrchB5vahlm3g13lmJfQEbZRy+gFeQcYlLJA99hkdZHb0JCDgVrjgqXHWxV5gef4ns+00jAeLDdq43Y/XiDVrpfCexRBlV8k5F+AQCUnJmurQ+aaz56Drn2Qo73E8SCW5epzHLFgMzGHG3pH0Q917KIeUE=
+	t=1785873485; cv=none; b=Y/XVExnrptmJ/7pq0086ECxt045SC9fVKOlBqrNMh9nIG8IdviAWVFIX6Gp8OoSth/jFroMmA+DeVfZuKYbRFBy27pYZvpGP6vlMj5hHPyB53EnFeXP9SxiccagWx2ATEU7sqtVUgmKcS5HvHB8yomQtTa9MlUALrvvhdsEi6Ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785839990; c=relaxed/simple;
-	bh=gVQqttvdXx3czP0D8ZQjf0BF0PNoIikglrJsh5tdPNg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AlWfxfHzGYf2mqqLD4YWWbMqdHxHSYxLhwfVj6iVc943DBIoVfu3QvntvMguRH965CIqDLs05Du/Qb8GGDgpmr6rg68M6zgqfwhd6HyEwnWZWCRlp7X4h3Q9ADG6pFWPqeC4ZysLAWGOMbMGb8MNCCC7eZu+ffITxczP6qLtthY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=goM700yk; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1785873485; c=relaxed/simple;
+	bh=30qgLQKKCow2Vd7Rsipof0YfdQ8riHpCd1YMdGG0SCQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=founTERLaNqRwkDKPUGd7CgOd9/Lom0f2qvvkrKBjJ9ox47/1O8aqP+3cO3TcN/hHsY5RxNJEmuWsPvfdU01heSSJRXTjJ0SpqgZJg4/PgWiJ/QXx837cVrlhSP8qccRHhyKbl6AitAj0VVV7/XC3M2s8kl1Tu9g2+BUw7G5/Wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bLQTv8LK; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MmqKdUOc; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="goM700yk"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0CCC61476;
-	Tue,  4 Aug 2026 03:39:44 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9D9353F86F;
-	Tue,  4 Aug 2026 03:39:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1785839988; bh=gVQqttvdXx3czP0D8ZQjf0BF0PNoIikglrJsh5tdPNg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=goM700ykIlZQZM3yxmueia6Ug+QFJAnVUCKicYMAmearzqG9V4D7+Rw2nlW5/Dgk4
-	 Qu8Uc0VxTw/8peiOKj5HovqW8VmHkViEM3Vr/VGIgwLxICebfLSLbvTGM2W1UCWgsO
-	 sdDsn2QY6n1qaEIsWmN60+caR5AicRYDT1rYEMcE=
-Date: Tue, 4 Aug 2026 11:39:29 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Fayssal Benmlih <Fayssal.Benmlih@arm.com>
-Cc: Cristian Marussi <Cristian.Marussi@arm.com>,
-	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-	"d-gole@ti.com" <d-gole@ti.com>,
-	"david@kernel.org" <david@kernel.org>,
-	Elif Topuz <Elif.Topuz@arm.com>,
-	"etienne.carriere@st.com" <etienne.carriere@st.com>,
-	"f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-	"james.quinlan@broadcom.com" <james.quinlan@broadcom.com>,
-	"jic23@kernel.org" <jic23@kernel.org>,
-	"kas@kernel.org" <kas@kernel.org>,
-	"kernel-team@meta.com" <kernel-team@meta.com>,
-	"leitao@kernel.org" <leitao@kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Lukasz Luba <Lukasz.Luba@arm.com>,
-	"michal.simek@amd.com" <michal.simek@amd.com>,
-	"peng.fan@oss.nxp.com" <peng.fan@oss.nxp.com>,
-	Philip Radford <Philip.Radford@arm.com>,
-	"puranjay@kernel.org" <puranjay@kernel.org>,
-	Souvik Chakravarty <Souvik.Chakravarty@arm.com>,
-	"sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
-	"usama.arif@linux.dev" <usama.arif@linux.dev>,
-	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>
-Subject: Re: [PATCH v7 19/23] uapi: Add ARM SCMI Telemetry definitions
-Message-ID: <anHBYe15lb-G3mqd@pluto>
-References: <20260802145618.1952804-20-cristian.marussi@arm.com>
- <A113D0AA-C4C5-4694-B3AD-731D6D39666B@contoso.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bLQTv8LK";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MmqKdUOc"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 674Jm07l952143
+	for <arm-scmi@vger.kernel.org>; Tue, 4 Aug 2026 19:58:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=96UrCWv7PjJtStf5Ags8L3
+	GA6XNzs2BmN7ZndIZVjpE=; b=bLQTv8LK0U3o0+vtg49Yy43Aaitj8WpZXbpKUL
+	dsEbRKqPO4kSvyTxeuIB8UJWqgSJlS9/R04s/Kxz3TtEUUYFasJShBiOCNyjhbiB
+	BdUEmMkX122DE4y3/lFhEGDKNuEIgSAhZ/V74/0ZyU6mZQH9c5vp5b1ANEYdYvhS
+	8lVv4JtClf+wpObhijZon2Qh6wvCGTHA6QMZGyV6wx3KW6YChBrNIHsaf5/JLZeS
+	5+zmxWJ3URA5P3+BxdhFltUpAa2BjVJF5405+HXLLNUOQxi7iG6doTf+APwwarPs
+	24Gi15VdYf/D0faOy27/qx04NnNMZUigGmKK2IeYHbhs2gUQ==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fum3q8t4r-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <arm-scmi@vger.kernel.org>; Tue, 04 Aug 2026 19:58:02 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-c856470fe9fso112657a12.2
+        for <arm-scmi@vger.kernel.org>; Tue, 04 Aug 2026 12:58:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1785873482; x=1786478282; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=96UrCWv7PjJtStf5Ags8L3GA6XNzs2BmN7ZndIZVjpE=;
+        b=MmqKdUOcVJsayT/12SgQY1VooUpQ98k9VUgKp9segdDJQ56LFqMvfSnrzHAE8GsD/m
+         r8GptY46p5F3Qu7QWhu1DYctwUdJRewixq12MJUYOhBeOZlkGFX6BXbjWY9RQPAVs4bO
+         8u1D7MCq7yxZXhAaRDpm58Yc0hMnonjZHqRQ42P1Z7bvO2G6muUHjRZK1wmURgn4wVbN
+         MBOdS5JYmbAVqqQDykse06r019aoS9WjIbiuPItJ0kMsH3bhldHgDyGRYmQkHasQfp7/
+         EPAXILyewc2m5kYDjWWmwlmupFuSPdjtOqw2J92B8xMbM/jB5R+Wf8wftPX8YsbRLw8c
+         hGsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785873482; x=1786478282;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=96UrCWv7PjJtStf5Ags8L3GA6XNzs2BmN7ZndIZVjpE=;
+        b=htgQRfCol+NiH5Gu1625SH8T+hR4JkDcIt8dgMfdzHqcVUNNPJCdsKnHIQs4iJrCLG
+         VrNQSysJ2/CRleRGMDe9PR4prRW2GG/fbJDSjukk6sBkqw4eBN1I52h7HovAPSo1nda4
+         4lDR10v5bISNa9DWH2OIgG6tm7JoCTdJU/YPZh9eYEhIXAtIUlzoA6AayDbkaPAUjPMQ
+         D3BpMjKpVz0IEN2JN67dk1Mm4CYOyX9VIaqLCDSFzlPJp8iiTJugifIQZh5P7fcguxfq
+         wdgYH4VlOWkqBd63kuFLg4XdGMWhhY0sI1gOj9mNHtZiWT2afY9upo4weNVUeosc7H4G
+         vZWA==
+X-Forwarded-Encrypted: i=1; AHgh+Rpm1P0qik3xa1dTvk5pv4Q/LH0jhXrkKOLbHIzJLqHzjvbYyJA3FR6/gBNX2FUnGCYXV55dhytATQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0BDj+o4Uf1320kH5dQZR/uCmFl5YSf6fCy4ZjVW/4zBO08amF
+	VLsTivrhIHRdnEaQZn5MITfIismcVPsXroMFzAiGH6OnB/PvuDbgHfNjKan9GuBRo27SKkpHd/O
+	MgG+q3ByZGQNderVP+E9ZLaBYaRvcpBCX0S49sa36Be0doUdEWFfkzDs2UEYeDA==
+X-Gm-Gg: AR+sD10pQE37DSaPVxWQBsxPRbDz85ICtkJg+wY+A5KA2RpYQ7VB339wijUdECp03sO
+	R6vIfpb+GTELG6Jh+qmaHLyNyeQZvs7bpvAw9LzlGMgKGkBvuLbVTAdCTV2/kVGPplgfpzt7KN8
+	PNnYSl3F9q+MwvCHll7z4dneWk//kx1mngfb0C1kJ2p/JByqanvnRxQzsGvxeCuJU+TfNEi35Ed
+	y0ylE/ASdNK8dg7NURQ8VT1f3uQE0w7lLwLmWm7P1wG7xYiicLulhDm3sbIGEcVXynWqkoRYgM+
+	QqSKDRsq/FvjiDfvrVPV0gXUNGHhh03Sec6i6V+3hpmcW7IjGsePjbR9mMdV3pMH+x77Wltbbvb
+	XJBJ5KzVSrPKl+oQBD11LpHECIh7FcQiL0A==
+X-Received: by 2002:a05:6a21:998c:b0:3c3:a20f:f720 with SMTP id adf61e73a8af0-3cb85fac059mr1216119637.36.1785873481827;
+        Tue, 04 Aug 2026 12:58:01 -0700 (PDT)
+X-Received: by 2002:a05:6a21:998c:b0:3c3:a20f:f720 with SMTP id adf61e73a8af0-3cb85fac059mr1216051637.36.1785873481275;
+        Tue, 04 Aug 2026 12:58:01 -0700 (PDT)
+Received: from hu-ptalari-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315867a68fdsm12316636eec.25.2026.08.04.12.57.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2026 12:58:00 -0700 (PDT)
+From: Praveen Talari <praveen.talari@oss.qualcomm.com>
+Subject: [PATCH 0/7] soc: qcom: geni: Derive SE clock configuration from
+ OPP table on SA8255P
+Date: Wed, 05 Aug 2026 01:27:38 +0530
+Message-Id: <20260805-derive_clk_perf_tbl_from_perf_domain_opp_table-v1-0-61171ab1cdce@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <A113D0AA-C4C5-4694-B3AD-731D6D39666B@contoso.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADNEcmoC/yXNWwrCMBCF4a2UeTYQRyzqVkSGXCYaTZOQxCKU7
+ t1oHz84nH+BysVzhcuwQOHZV59ix343gHmoeGfhbTegxFGe5FHYvp+ZTHhR5uKo6UCupGmTTZP
+ ykVLO1JQOLNDhWdkDIo4K+mku7PznH7zeNte3frJpvwqs6xemGz+TkgAAAA==
+X-Change-ID: 20260805-derive_clk_perf_tbl_from_perf_domain_opp_table-2f29ad32226a
+To: konrad.dybcio@oss.qualcomm.com, Sudeep Holla <sudeep.holla@kernel.org>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Ulf Hansson <ulfh@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>, Mark Brown <broonie@kernel.org>,
+        Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>,
+        Andi Shyti <andi.shyti@kernel.org>
+Cc: mukesh.savaliya@oss.qualcomm.com, chandana.chiluveru@oss.qualcomm.com,
+        arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Praveen Talari <praveen.talari@oss.qualcomm.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785873474; l=3194;
+ i=praveen.talari@oss.qualcomm.com; s=20251114; h=from:subject:message-id;
+ bh=30qgLQKKCow2Vd7Rsipof0YfdQ8riHpCd1YMdGG0SCQ=;
+ b=VyYJLSlovV+NAczF/pwSRV3VrbTS83eTlSfC8k2adZOrG/17by3IfQqdTpqt/2kbe0n9Iwwe6
+ mwvMtxG43tmAquy+6z8OK9XeeZ4Qotp28tq/sM6GnkRHGkvbBnk30Wp
+X-Developer-Key: i=praveen.talari@oss.qualcomm.com; a=ed25519;
+ pk=NGK/88fjyHXgfhIKwag7+uIytOmyOypvZ/hDFaYPEss=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA0MDE2MSBTYWx0ZWRfX0VyFN8sJNduY
+ 4ZJPXZwlOdR+QlheUISjQcKyGKNBPd//6O3QwR36GvYW9GRMfezHhhYnM+sEF1rMFUu8S+6/BXd
+ 2WRLSKnwP76o4fy2+ehZu7gVs9OapxzGiB5bpJoh/XX2kYWqO+8em+MehaLiJaxLGF3UaOFYUe7
+ 0+fzVBKsknb2Sy+GMT5YVuwlOSVI7/D6KeiiR/vi6YL/lwLA+FI/2EFPBkNO1Tm0j9CXZgTVq80
+ CNfs6ukig1tWyDFf2CG2h3YCsU99JZxX5w9+gjHooCMH/v85OQOK38sBl1ghOo/muAi59nHy/zO
+ oc+7k+TQgLhKwwNYqqMTZVFpPnARRpIpLU6b1OlqMKbX1C3uSqLcMsbR6i4GizEYKyPJlpPdMzw
+ NMWFejoVMwNXgbwGjMO41EndyDeq35U4KKXFLlWIqDAC7kuPtozgGCUSKkai3AkUzx/x0HwfW+2
+ 5xd2goJ1yb3h5aPvRbw==
+X-Proofpoint-GUID: nxsuijr8TmKOYXufcSnt_PFRLDDGzNO3
+X-Authority-Analysis: v=2.4 cv=LsiiDHdc c=1 sm=1 tr=0 ts=6a72444a cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=EUspDBNiAAAA:8 a=sUha4Zbooll43uZDtmUA:9 a=QEXdDO2ut3YA:10
+ a=_Vgx9l1VpLgwpw_dHYaR:22
+X-Proofpoint-ORIG-GUID: nxsuijr8TmKOYXufcSnt_PFRLDDGzNO3
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA0MDE2MSBTYWx0ZWRfX5FlyZIrP8rKs
+ Z82DUswOlGQjAKdy5AVsQt4TX3Vr8qmgPDr9OBVSxn2IEBoKdDUwao6SmaOk92CUSG/i2V+lU8O
+ lVJOi9Z64mhdRd9n/BTou7R//zMC9+M=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-04_05,2026-08-04_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 impostorscore=0 suspectscore=0 clxscore=1011 malwarescore=0
+ priorityscore=1501 bulkscore=0 lowpriorityscore=0 adultscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608040161
 
-On Mon, Aug 03, 2026 at 11:25:20PM +0100, Fayssal Benmlih wrote:
-> Hi Cristian,
-> 
+On firmware-managed platforms such as SA8255P, there is no Linux clock
+handler available to determine the appropriate SE source clock, source
+clock index, and divider values for a requested protocol frequency.
+However, these parameters are required when programming GSI TREs, where
+the hardware expects an explicit clock source selection and divider
+configuration for the serial engine.
 
-Hi,
+In contrast, platforms using Linux-managed clocks derive these
+parameters through geni_se_clk_freq_match() using the source clock
+information stored in clk_perf_tbl. Since the firmware-managed path
+lacks equivalent clock information, protocol drivers cannot reuse the
+existing frequency matching logic and instead rely on a direct mapping
+between protocol-requested frequencies and performance levels. This
+creates a separate clock configuration flow and prevents
+firmware-managed platforms from deriving the actual SE clock parameters
+required for GSI TRE programming.
 
-> A few comments on the updated UAPI inline.
-> 
-> > struct scmi_tlm_batch {
-> > 	__u32 num_items;
-> > 	__u32 item_sz;
-> > 	__u64 reserved;
-> > 	__u64 states;
-> > 	__u64 items;
-> > };
-> 
-> Please define an upper bound for num_items. Without a common ABI limit,
-> callers can request effectively unbounded allocation and iteration, and
-> userspace does not know which sizes the kernel is expected to support.
+To address this limitation, the performance-domain OPP table is treated
+as the representation of SE-supported source clock frequencies. During
+geni_se_domain_attach(), the OPP entries are used to populate
+clk_perf_tbl and related clock performance data, allowing
+firmware-managed platforms to leverage the same clock frequency matching
+infrastructure used by Linux-managed platforms.
 
-This structure is meant to be a generic container of different kind of
-objects, so the sensible upper bound depends on the contained object...
-....num_des mostly, check which I forgot to add, anyway, in the IOCTl
-handling...I'll do that and document this...
+With this change, protocol drivers can use geni_se_clk_freq_match() to
+select the closest supported source clock frequency for a requested
+protocol rate, derive the corresponding source clock index and divider
+values required for GSI TRE programming, and apply the matched clock
+through the OPP framework. This removes the dependency on direct
+protocol-frequency-to-performance-level mappings and provides a common
+clock selection and configuration mechanism across both firmware-managed
+and Linux-managed GENI deployments.
 
-> 
-> >  * @states: A reference to an arrays of u32 items representing the
-> >  *	    outcome of the requests for each single item in @items: these are
-> >  *	    ordered in the same order as the @items. - OUT
-> 
-> These statuses contain zero or a negative Linux errno, but the array is
-> described as u32 while the implementation uses int *. Could this be
-> specified as an array of __s32 so the signed error-value ABI is explicit?
+Signed-off-by: Praveen Talari <praveen.talari@oss.qualcomm.com>
+---
+Praveen Talari (7):
+      pmdomain: arm: Fix -EINVAL from scmi_pd_set_perf_state() on state 0
+      soc: qcom: geni-se: Populate clk_perf_tbl with SE source clock frequencies from perf OPP table
+      soc: qcom: geni-se: Add helper to set SE clock rate via OPP
+      serial: qcom-geni: Use geni_se_set_rate() for source clock configuration
+      spi: qcom-geni: Use geni_se_set_rate() for setting source clock frequency
+      i2c: qcom-geni: Use common GENI resource initialization helper
+      i2c: qcom-geni: Use geni_se_set_rate() for setting source clock frequency
 
-Sure.
+ drivers/i2c/busses/i2c-qcom-geni.c      | 45 +++++++++++-----------------
+ drivers/pmdomain/arm/scmi_perf_domain.c |  2 +-
+ drivers/soc/qcom/qcom-geni-se.c         | 53 ++++++++++++++++++++++++++++++++-
+ drivers/spi/spi-geni-qcom.c             | 17 ++++-------
+ drivers/tty/serial/qcom_geni_serial.c   | 19 ++++++------
+ include/linux/soc/qcom/geni-se.h        |  2 ++
+ 6 files changed, 88 insertions(+), 50 deletions(-)
+---
+base-commit: 0f6da28aab51b16762ed82e8fdeaa5042da45b08
+change-id: 20260805-derive_clk_perf_tbl_from_perf_domain_opp_table-2f29ad32226a
 
-> 
-> Is states == 0 explicitly supported? The driver treats it as optional and
-> stops at the first error when it is absent, potentially after preceding
-> configuration changes have succeeded. Please document both the optional
-> pointer and the resulting partial-completion semantics.
+Best regards,
+--  
+Praveen Talari <praveen.talari@oss.qualcomm.com>
 
-I'll do.
-
-> 
-> > #define SCMI_TLM_SET_CFG	_IOWR(SCMI_TLM_IOCTL_MAGIC, 0x02, struct scmi_tlm_config)
-> > [...]
-> > #define SCMI_TLM_SET_DE_CFG	_IOWR(SCMI_TLM_IOCTL_MAGIC, 0x05, struct scmi_tlm_batch)
-> > [...]
-> > #define SCMI_TLM_SET_ALL_CFG	_IOWR(SCMI_TLM_IOCTL_MAGIC, 0x0A, struct scmi_tlm_de_config)
-> 
-> SET_DE_CFG now returns per-DE tracking information, so _IOWR makes sense
-> for that command.
-> 
-> SET_CFG and SET_ALL_CFG, however, still only consume their arguments and
-> do not copy a result back. Unless output is planned, should these two
-> commands be _IOW before the ioctl numbers become ABI?
-> 
-
-I'll double check all of this.
-
-> > #define SCMI_TLM_BATCH_READ	_IOWR(SCMI_TLM_IOCTL_MAGIC, 0x10, struct scmi_tlm_data_read)
-> 
-> SCMI_TLM_BATCH_READ is encoded with struct scmi_tlm_data_read, but
-> scmi_tlm_des_batch_read_ioctl() copies and interprets struct
-> scmi_tlm_batch. These structures are different sizes, so _IOC_SIZE(cmd)
-> does not describe what the handler accesses.
-> 
-> Please use struct scmi_tlm_batch here and update the documentation example
-> accordingly.
-
-Indeed..some kind of leftover...the puzzling thing is that it worked fine
-when tested even with such mismatched IOC_SIZE()...I'll fix
-
-> 
-> A few kerneldoc nits:
-> 
-> - scmi_tlm_abi_info documents @de_impl_version, but the member is named
->   primary_de_impl_version.
-> - scmi_tlm_batch documents @items_sz, but the member is item_sz.
-> - scmi_tlm_grp_info documents a reserved member that is not present in the
->   structure.
-> 
-
-...ok...so, beside all of the above bugs (and a few more from Sashiko) to be
-certainly fixed in the upcoming series, at this point I assume, from the lack
-of further comments, that from your userspace perspective the UAPI/ABI is now
-sufficiently complete, feature-wise, and the usage model is acceptable.
-
-Thanks,
-Cristian
