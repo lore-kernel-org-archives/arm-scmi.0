@@ -1,144 +1,248 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F40637F728;
-	Wed,  5 Aug 2026 14:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDAF38D3F2
+	for <arm-scmi@vger.kernel.org>; Fri,  7 Aug 2026 17:03:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785939757; cv=none; b=ayWEXb+ts4qmUMwEw3OIhHF520JTHwCGIuEmY+UdsinZnO9SLGET7CD8HBOg8wfNWVxxlYUk6gr4ko8HIM66pXOop4MeiMLaIBGjZ5pwLkoIsJ/Z7ALFbNBWz0IlzMFrBY4r4JjVbtOtube4yOKW3V4TTXk/s5LFgozuRgO0hC8=
+	t=1786122194; cv=none; b=DENa4NMLATpP/LkaKmQSDcAZiNXagQopAFuH9WsKZxQ531cDWxd16heHYGyyeOYlI2U80lWjw0gyDxyFBMYUPVMpELBoy7eTkJiCgVmxNt/qbMcrvhanrmUZFVxjbzUYUYOOaL0asZPuN0OS8KehFll8ahNtegGTt7CmmMS9Ky4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785939757; c=relaxed/simple;
-	bh=C4o83UnET4uzURflwM4lwPqhbAEM6dutEIC1zJg2MSA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mMcMCdY7ySeSducLwtcSneu1IFLA8hGpZ3UXcV73IAsunFHEcItHUdTsIxpq//J4fAEZQntqEnfFh2KKmaujOu5cbUPi7mVhn+z530Mlx0E5EtnoXnrIyzAKj+dVTG0xvQvQvyzTtJ6p3XfFjh2OwrCOq7va6tdk2G+MnpWMbI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=HJh4EKTU; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="HJh4EKTU"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4A1BC153B;
-	Wed,  5 Aug 2026 07:22:25 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A4BD63F632;
-	Wed,  5 Aug 2026 07:22:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1785939749; bh=C4o83UnET4uzURflwM4lwPqhbAEM6dutEIC1zJg2MSA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HJh4EKTUEis2BCFSeUpsxUs+Q0egrLDeMN8kEPmsRwjh+ZfcbWy71z95VMhoWI8mR
-	 66pHcVpfq/Cuym6A0zuN0xbTDd1rxvh/g8qwve0ff6gysp2FvYS05WLnkoauGLMYFV
-	 RaP068KoCzfuTrgaYPRA7kIzMPyp4bFddRDXoAog=
-Date: Wed, 5 Aug 2026 15:22:07 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org, sudeep.holla@kernel.org,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, etienne.carriere@st.com,
-	peng.fan@oss.nxp.com, michal.simek@amd.com, d-gole@ti.com,
-	elif.topuz@arm.com, lukasz.luba@arm.com, philip.radford@arm.com,
-	brauner@kernel.org, souvik.chakravarty@arm.com, david@kernel.org,
-	subrahmanya.lingappa@oss.qualcomm.com, leitao@kernel.org,
-	kas@kernel.org, puranjay@kernel.org, usama.arif@linux.dev,
-	kernel-team@meta.com
-Subject: Re: [PATCH v6 03/22] firmware: arm_scmi: Introduce protocol instance
- notifiers
-Message-ID: <anNHD3S4tHm6yC9R@pluto>
-References: <20260724144430.1440170-1-cristian.marussi@arm.com>
- <20260724144430.1440170-4-cristian.marussi@arm.com>
- <20260728010004.35fcac96@jic23-huawei>
+	s=arc-20240116; t=1786122194; c=relaxed/simple;
+	bh=vPc6vf6UpiLlXJoEYCa/uwMx3ESspZKnGUeVSaDznCE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=taeiJuDyRzt9+W3tSf+emsq/4tb+ECNKrdLp2WZDHlwpbVobdEsAAABUzVr+Kuk7ulRRM/fDU3wuQ/uKnysGuDLVbP1ALrkWjH+xnmhaUKzgxzpMZQIz4Qzbmfpz+9sSX1ErQ7GjyJ1sURSofzoamTBN8iariQh06mdEE/leOWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c1fbe461f59so522869766b.2
+        for <arm-scmi@vger.kernel.org>; Fri, 07 Aug 2026 10:03:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786122191; x=1786726991;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=zddzVVYS9F5PpJp+klwF/9jEg03r8YZTMRZfUZl45Bg=;
+        b=h4m/ILHQhxcxmXrKuyokhIimGde5H71VMYdox+E3HwitN+/5XOSZP6gqLhrRfQ/Kvl
+         upPDwPYNOJUJBBSTGrDW932MtiCZxIlK1MmnRioj4WqElHERUn00xj0aN9z/XVNWR9uM
+         t798Zd04Nty7qlRYENPWRGROEOG+Skz0tjCDjRiJdgypRgPZVs5FHk13ogdU5JO04iRH
+         QBFx3Cpcql81/kIbunmXhH9NHqZFJ2msS8EUAUYKgP6G30gFIIfOYhIU+14zju/u4jla
+         UymfC+2uofeko/j8LMJ6fmdhEPlRz7w2OrxcNLVhBE1HgJihkm9OAin3u1KgclMs5zv+
+         AzqQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rofnrc1NvKHufkp7OufZn3J4xRuIkfs6HrFCDnJRDdJ6U8kJDPDr5TEbbFEad6F20gwrA33G6DuhQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwstbxRkaEveoagxRBONM9dh9R8bwNyDnlaCX9mQhsPy7kvxwDp
+	Zd2wLJoN0Sft/wvFm/KcS5PQc5xvmj6JgcytDyshGjaVvGCPRPswJQvLmxOFiGsRdIo=
+X-Gm-Gg: AR+sD12n8wRz+/SNlwPVwaqEXafEmrIKP8oF+VGikOyT6aIoydzQ0qRNpWggVui2Xht
+	Vry0lUIaf+Yb8dHzHQhmkFq8fwkk+qA6mYyoJfqpl35a/0Wj6k0xnsxsU7IFr6yKf6jUi1EHgoN
+	6YbJUZzb9L2mwBMv83pfUVTqce4zmosRZrbGbDx7IWE6xSk/66BDvpIZ9Jv3MLmlm47s3SOZHdw
+	Cl/Vrt9Degj4OobUVWlD+tRNSklNEuubMF1oRjIJgzGymCohzU5Q2DJMcnVJ4jP6Zt7VxytqQs7
+	2WzQxzJLPyXRiBws/gF+pU91ez0BxaYUZ9TZ/aI0z76iMVSuNNNmkfGDLQ3TKiskF+VqQldjFXv
+	XSXp0LGisb8iXIV674Scuy1gp0eZ6cDajdtbq3aDkjQVpTJF89UlmFbpdTkVp6KLnGVL1sm8fcs
+	k0vN5qv23Q6Q4yvgH4i4PwDG7u588bYu3kv1HotZXSjyN9gOP95Wo3k9Tdw+bVH5r4Gmz7x7WHb
+	73Y/eQ5+/DR6KrdMPIDk4F4uw==
+X-Received: by 2002:a17:907:73cd:b0:c20:21be:ea75 with SMTP id a640c23a62f3a-c20731e0b25mr512671266b.8.1786122190855;
+        Fri, 07 Aug 2026 10:03:10 -0700 (PDT)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com. [209.85.218.51])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2080c90d2csm73040366b.29.2026.08.07.10.03.09
+        for <arm-scmi@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Aug 2026 10:03:10 -0700 (PDT)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c15cf78d1a2so411681166b.1
+        for <arm-scmi@vger.kernel.org>; Fri, 07 Aug 2026 10:03:09 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqemqLEaoMdhyD3bQVh338gyzPuQPD9HSpZ7C7AEssMjLvaLwAuHyF9Uz0jIdqnIX4ljz5GCJ5NQw==@vger.kernel.org
+X-Received: by 2002:a05:6402:444a:b0:6a0:a4ce:1b8e with SMTP id
+ 4fb4d7f45d1cf-6a1b49ea41emr5538936a12.0.1786121839381; Fri, 07 Aug 2026
+ 09:57:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260728010004.35fcac96@jic23-huawei>
+References: <cover.1783505329.git.geert+renesas@glider.be> <20260715-greedy-ocelot-of-feminism-5be3bf@sudeepholla>
+In-Reply-To: <20260715-greedy-ocelot-of-feminism-5be3bf@sudeepholla>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 7 Aug 2026 18:57:06 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXD5eMuLBJWqLAt93M=8pSooBOFQ-H9jBM98N8HUwbRTA@mail.gmail.com>
+X-Gm-Features: AUfX_mwo4EKqALTJkUcOqfKJfKUYp7ByWT2RwJWKEGja2YdKTdPuto8-gpxkDXo
+Message-ID: <CAMuHMdXD5eMuLBJWqLAt93M=8pSooBOFQ-H9jBM98N8HUwbRTA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/10] R-Car X5H Ironhide CPG/MDLC SCMI remapping support
+To: Sudeep Holla <sudeep.holla@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Saravana Kannan <saravanak@kernel.org>, Ulf Hansson <ulfh@kernel.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Brian Masney <bmasney@redhat.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Vinod Koul <vkoul@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Kevin Hilman <khilman@baylibre.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, arm-scmi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jul 28, 2026 at 01:00:04AM +0100, Jonathan Cameron wrote:
-> On Fri, 24 Jul 2026 15:44:11 +0100
-> Cristian Marussi <cristian.marussi@arm.com> wrote:
-> 
-> > Allow protocols themselves to register for their own notifications and
-> > provide their own notifier callbacks. Each protocol can now register one
-> > unique per-protocol instance notifier block whose callback will be
-> > registered on the proper notification chain as usual: such notifier will
-> > be automatically removed during the protocol de-initialiazation phase.
-> > 
-> 
-> Would be nice to say why they might do this. I'm sure it becomes
-> apparent later in the series, but anyone looking just this patch
-> is missing that useful information.
+Hi Sudeep,
+
+On Fri, 17 Jul 2026 at 10:05, Sudeep Holla <sudeep.holla@kernel.org> wrote:
+> On Wed, Jul 08, 2026 at 12:16:18PM +0200, Geert Uytterhoeven wrote:
+> > TL;DR:
+> >
+> >     Describe hardware in DT, and perform the mapping to SCMI in Linux.
+> >
+> > The Renesas R-Car X5H-based Ironhide board is the first Renesas
+> > SoC/board combination that implements the ARM System Control and
+> > Management Interface (SCMI).
+> >
+> > This means Linux can no longer perform various system operations (e.g.
+> > clock, power domain, and reset control) by accessing the hardware
+> > directly.  Instead, these operations are abstracted according to various
+> > SCMI sub-protocols, and Linux has to send messages to an SCMI-compliant
+> > firmware running on a System Control Processor (SCP).
+> > More specifically, the R-Car X5H SCP FW SCMI controls access to:
+> >   1. Core clocks and module clocks,
+> >   2. Module resets,
+> >   3. Power domains,
+> >   4. System power.
+> > The latter is not relevant for this discussion.
+> >
+> > Using SCMI also has an impact on the board DTS: besides the addition of
+> > a firmware/scmi node with protocol-specific subnodes, devices using
+> > SCMI-abstracted system resources now have to refer to these resources
+> > using resource specifiers containing phandles to the SCMI protocol
+> > subnodes, and firmware-specific object IDs[1].
+> >
+> > Unfortunately we encountered several issues with this:
+> >   - The clock, reset, and power domain IDs are not stable by design,
+> >     causing DT incompatibilities.
+> >     SCMI requires that the ID space exposed to an agent (i.e. Linux)
+> >     starts at zero and is contiguous.  Hence any change in system
+> >     partitioning (Application CPU core vs. Realtime CPU core,
+> >     virtualization, ...) may mean a renumbering of all SCMI IDs,
+> >     implying a massive change to the DT.
 >
+> Yes it is well known fact. But where this is a feature or limitation
+> is debatable. Why would SCP firmware churn and re-number or re-assign
+> a differ domain ID everytime it is updated is questionable to me.
 
-Hi Jonathan,
+For an actual product, I tend to agree. But even then there might be
+a need to reconsider partitioning during the long (e.g. automotive ;-)
+lifetime, e.g. to counter a new attack vector.
 
-thanks for your review... 
+For a development platform, the situation is different: the same board
+will be used for various use cases, with different partitioning of
+responsibilities, and will run various firmware versions.
 
-I've reworked this comment in V8.
+> >   - There may be different SCP firmware lineages, e.g. proprietary and
+> >     certified variants, and FLOSS variants,
+>
+> No sure if I understand the issue here.
 
-> I'd also like something here to talk briefly about why it is fine to
-> drop the lock briefly on the unregister side.
+Safety-critical products may require certified firmware, which may
+be completely different from what is generally available.
 
-I've reviewed this logic... (spoiler... it was wrong :P)...the lock still
-cannot be held BUT the new implementation should avoid races by using
-the refcount and a new flag...
+> >   - SCMI features may differ across firmware versions,
+>
+> Again, features must be discoverable that is the advantage of DT vs this
+> firmware interface, so not sure what is the issue in this matter.
+>
+> >   - SCMI may abstract the hardware in a different way, requiring changes
+> >     in (possibly existing) DT bindings and drivers to support the same
+> >     hardware with and without SCMI:
+> >       - E.g. the number of SCMI clocks inputs to a hardware block may
+> >       differ from the actual hardware,
+> >       - E.g. hardware clock inputs may be abstracted as SCMI power
+> >       domains (or vice versa), like on Qualcomm SA8255P[2].
+>
+> True, the moment SCMI like interface is used in OSPM, the firmware
+> description hides real h/w details and provide what firmware thinks
+> OSPM must view hardware as(how VMMs virtualise things for VMs, firmware
+> can have similar effect with such interfaces).
 
-> 
-> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> 
-> 
-> > diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-> > index 8e06e40d1a11..0f9e8dfc6137 100644
-> > --- a/drivers/firmware/arm_scmi/driver.c
-> > +++ b/drivers/firmware/arm_scmi/driver.c
-> ...
-> 
-> 
-> > @@ -2367,13 +2402,29 @@ int scmi_protocol_acquire(const struct scmi_handle *handle, u8 protocol_id)
-> >  void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
-> >  {
-> >  	struct scmi_info *info = handle_to_scmi_info(handle);
-> > +	struct notifier_block *proto_notifier_nb = NULL;
-> >  	struct scmi_protocol_instance *pi;
-> >  
-> > -	mutex_lock(&info->protocols_mtx);
-> > -	pi = idr_find(&info->protocols, protocol_id);
-> > -	if (WARN_ON(!pi))
-> > -		goto out;
-> > +	scoped_guard(mutex, &info->protocols_mtx) {
-> > +		pi = idr_find(&info->protocols, protocol_id);
-> > +		if (WARN_ON(!pi))
-> > +			return;
-> > +
-> > +		proto_notifier_nb = pi->pno.nb;
-> > +		/* Ensure NULL is visible */
-> > +		smp_store_mb(pi->pno.nb, NULL);
-> > +	}
-> >  
-> 
-> I'd like to see a little commentary on safety of not holding
-> the mutex over the whole sequence.  Can anything mess around
-> with pi between the code getting hold of it and the release below?
-> I assume the refcount is enough.
+So you end up with multiple compatible values for the same hardware
+blocks, depending on direct hardware access or SCMI, and on the
+actual firmware.
+What is the policy for naming such compatible values?  How many
+different DT bindings are we willing to support for the same hardware?
+What about driver changes? Maintenance of all these drivers?
 
-I changed a bit the implementation and added a comment in v8 that
-should explain...it has to do with the refcount indeed (but with the
-new revised implementation..)
+> >     Experience has taught that not describing the hardware in DT may
+> >     lead to major issues later.
 
-> 
-> > +	if (proto_notifier_nb) {
-> > +		int ret;
-> > +
-> > +		ret = scmi_protocol_notifier_unregister(pi->handle, &pi->pno);
-> > +		if (ret)
-> 
-> Maybe this changes later but if not get rid of ret. It kind of suggests
-> the value itself is useful in a way that isn't true.
+E.g. one may miss one internal clock input when describing a device in
+DT, where control of the clock turns out to be critical for a specific
+hardware feature?
 
-...good point...reviewed in v8.
+> OK, that's interesting. But the whole point with these interfaces is to
+> hide those, so just don't use such abstraction interface if you want the
+> hardware to be described as is to the OSPM.
 
-Thanks,
-Cristian
+How do you fix it when everything is hidden, e.g. behind a single
+virtual clock?
+
+> >   - SCMI does not support the concept of a clock domain, so existing
+> >     drivers can no longer rely on Runtime PM, but need to be changed to
+> >     manage functional clocks explicitly,
+>
+> Not sure what that means, you mean clock protocol is not good enough to
+> model the h/w clock domains on your platform ? If so, you are welcome to
+> improve the specification.
+
+It is common on embedded SoCs (e.g. TI, Rockchip, Renesas) to not only
+have power domains that can be powered down, but also a clock domain:
+a clock controller provides a common way to put a hardware module into
+standby mode by gating its clock inputs.
+
+In Linux PM Domains, the following callbacks are used:
+  - generic_pm_domain.power_{on,off}(), to power a power domain on/off,
+  - generic_pm_domain.dev_ops.{start,stop}(), to start/stop a device
+    inside a power domain.
+Both are handled automatically through Runtime PM
+(pm_runtime_{resume_and_get,put}(dev)), so drivers don't need to care
+about the intricate details.
+
+However, for this to work, the PM Domain needs to know which clocks are
+meant for module standby.  Without this knowledge, individual drivers
+must control these module clocks explicitly.  During the last two
+decades, lots of drivers have been converted from explicit module clock
+control to Runtime PM, and reversing this would IMHO be a step backward.
+
+I already posted patches before [1] to add support for clock domains
+using a quirk.  Without a quirk, the SCMI clock protocol should be
+extended to advertize whether a clock is intended for power-management
+of a hardware module.  One way to handle this, the SCMI CLOCK_ATTRIBUTES
+could be extended with a new flag in the returned attributes as I
+pointed out in the cover letter of that series.
+
+> >   - U-Boot IPL (Initial Program Loader) needs a proper hardware
+> >     description in DT, not using SCMI.
+>
+> I am going to ignore that.
+
+And of course we like the DT used by U-Boot (IPL or not) to be as close
+as possible to the DT used by Linux.
+
+Thanks, and have a nice weekend!
+
+[1] Series "[PATCH/RFC 0/9] R-Car X5H Ironhide pure SCMI proof-of-concept"
+  - "[PATCH/RFC 4/9] firmware: arm_scmi: Add a flag for power-management clocks"
+  - "[PATCH/RFC 5/9] clk: scmi: Add scmi_clk_is_pm_clk()"
+  - "[PATCH/RFC 6/9] dt-bindings: firmware: arm,scmi: Document arm,clock-domain"
+  - "[PATCH/RFC 7/9] pmdomain: arm: scmi: Add clock domain support"
+  - "[PATCH/RFC 8/9] firmware: arm_scmi: quirk: Handle power
+management clocks on R-Car X5H"
+https://lore.kernel.org/all/cover.1781171705.git.geert+renesas@glider.be/
+
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
