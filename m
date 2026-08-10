@@ -1,32 +1,32 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EC9A1DDA18;
-	Mon, 10 Aug 2026 13:35:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B088A306764;
+	Mon, 10 Aug 2026 13:39:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786368952; cv=none; b=e0viV5vijY+lGyFKVHNopJHgjEbJMYAJ5yyZLdC40Gghx2s0VPan281kpf9OGX1SumYkpjeyODV2ChuHsvP9HglrKhRAVicoVYp154uk0Oc4SYJgUNH6ZZlfSvyees0+6uFLO7ucKZ0v76ui05ITFNoNC6Zq8d4SLo1ZntyR054=
+	t=1786369193; cv=none; b=OnA8y09wFXjNeFrO2XWtmfFmhi7jpy31hRN+xj1DGgLzrj0CBW0ysSxvnFUSgw3mnROxGt3n3SnBnD6OPjOl6IErj+TJVypy13hnQuQ534Fsf3KecCyq8FnLsCzn0vVkRfyRl10U9FBFsrmzAZL7GmUhz4Ckebk7lmnFvoxr5Xc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786368952; c=relaxed/simple;
-	bh=991HfjnG6QbqkXDaoqknVpf0eV83dcGtzfTkULWDnW8=;
+	s=arc-20240116; t=1786369193; c=relaxed/simple;
+	bh=shjp+/Kq2EUtVklUKcPCO+yUW41T8QLuqSuqfQiMTGc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g0Mt6OSEVyv1DhFKXLxb3WnMYae5nTco8XaRSi4ofAElej1ZGmNC5NVTwSieFo0UlOulh/iMKXP7PNz4X5weaK/VSHD2Zjqfcq46X7igteTD6kEQYrTxYxop8V+sIYCfNjfN+mpLB/gFZWMoZ/js5lCl7PWjz7KszpnCJVzmEC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=fzZ91UK5; arc=none smtp.client-ip=217.140.110.172
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kw1lw88Go1UEiTg/UFkYO+uBNqo/Nr19sPHtk0ZO6P2r7OuJpQgIjyMvCPHcMiVmNgaz+q4Hv4isjE9ojI6vVO5LuU/0o8NAXAxzg1wAorekuPJkirS07/z7bXwcAT5e9wotn9eZr6XUxnby/uSuT/8FNHTmY1BsYVllObKBINU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=qV8cUqo1; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="fzZ91UK5"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="qV8cUqo1"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C3B6C1477;
-	Mon, 10 Aug 2026 06:35:45 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BF6D01477;
+	Mon, 10 Aug 2026 06:39:46 -0700 (PDT)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B55813F632;
-	Mon, 10 Aug 2026 06:35:45 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2801C3F632;
+	Mon, 10 Aug 2026 06:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1786368949; bh=991HfjnG6QbqkXDaoqknVpf0eV83dcGtzfTkULWDnW8=;
+	t=1786369190; bh=shjp+/Kq2EUtVklUKcPCO+yUW41T8QLuqSuqfQiMTGc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fzZ91UK57kTdR2Ef94w96o0QEjTTIdkLtR5TrjLYYUymDnuoep0zcxLwSPCZqBq2v
-	 /WhhmO/bx1xbKgv53Kzk6Wio2s2PHD6HdMQ0O+39vsRa0XTg5jqHFctPtBJYMzwnix
-	 jbqKDeH739XPRiYNzgMx3dVujXp0ygb21wLMQ3gQ=
-Date: Mon, 10 Aug 2026 14:35:38 +0100
+	b=qV8cUqo1g6z+Re7R1Xtl3U0Nwkjfma7+DQc3f8eMZI7x4pi03LvMCi53zYsH5Vpns
+	 0xKIa8B+YEvq27O+bA4KaBlmMLjcOkODDCPpV02MzaPkoYCtAxqtE2oEaVObCWpJUc
+	 ZlOKsNtSIdpN7i3wt2i7yMuaccabLvA1BiyctuoM=
+Date: Mon, 10 Aug 2026 14:39:44 +0100
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: Fayssal Benmlih <Fayssal.Benmlih@arm.com>
 Cc: Cristian Marussi <Cristian.Marussi@arm.com>,
@@ -53,11 +53,10 @@ Cc: Cristian Marussi <Cristian.Marussi@arm.com>,
 	"sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
 	"usama.arif@linux.dev" <usama.arif@linux.dev>,
 	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>
-Subject: Re: [PATCH v7 03/23] firmware: arm_scmi: Introduce protocol instance
- notifiers
-Message-ID: <annTqkEfL2hqcKFw@pluto>
-References: <20260802145618.1952804-4-cristian.marussi@arm.com>
- <B5F86BAB-83E2-4C54-BEC9-7714C865CB7D@contoso.com>
+Subject: Re: [PATCH v7 06/23] firmware: arm_scmi: Add basic Telemetry support
+Message-ID: <annUoAwdtF4unA7q@pluto>
+References: <20260802145618.1952804-7-cristian.marussi@arm.com>
+ <AFD5A4D3-916E-4989-9F38-F23E7A2BED0B@contoso.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -66,83 +65,84 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <B5F86BAB-83E2-4C54-BEC9-7714C865CB7D@contoso.com>
+In-Reply-To: <AFD5A4D3-916E-4989-9F38-F23E7A2BED0B@contoso.com>
 
-On Mon, Aug 03, 2026 at 11:52:05PM +0100, Fayssal Benmlih wrote:
+On Mon, Aug 03, 2026 at 11:53:11PM +0100, Fayssal Benmlih wrote:
 > Hi Cristian,
 > 
 
 Hi,
 
-> A couple of notifier lifetime issues inline.
+> I found a few error-path consistency issues inline.
 > 
-> > 	scoped_guard(mutex, &info->protocols_mtx) {
-> > 		pi = idr_find(&info->protocols, protocol_id);
-> > 		if (WARN_ON(!pi))
-> > 			return;
+> > 	tde->de.tstamp_support = !!tde->ts_type;
+> > 	/* Count timestamped DEs */
+> > 	ti->num_des_tstamp += !!tde->de.tstamp_support;
+> > 	tde->de.fc_support = IS_FC_SUPPORTED(desc);
+> > 	tde->de.name_support = IS_NAME_SUPPORTED(desc);
+> > [...]
+> > 	if (rx_len < payld_sz)
+> > 		return -ENOSPC;
+> 
+> num_des_tstamp is incremented before all variable parts of the descriptor
+> and the optional fast-channel mapping have been validated.
+> 
+> If a later validation or ioremap operation fails, the descriptor is
+> rejected but the timestamp count is not rolled back. GET_ALL state checks
+> can then compare against an inflated timestamp count.
+> 
+> Please update this counter only after the complete descriptor has been
+> validated and successfully registered, or undo it on every later failure.
+
+Fixed in V8.
+
+> 
+> > err:
+> > 	/* DE not enumerated at this point were created in this call */
+> > 	if (discovered)
+> > 		scmi_telemetry_free_tde_put(ti, tde);
 > >
-> > 		proto_notifier_nb = pi->pno.nb;
-> > 		/* Ensure NULL is visible */
-> > 		smp_store_mb(pi->pno.nb, NULL);
+> > 	return ret;
+> 
+> At this point descriptor parsing may already have changed fields in tde and
+> its associated scmi_telemetry_de_info. The object is returned to the free
+> list without resetting that partial state.
+> 
+> Can the descriptor be fully reset before it is made available for reuse,
+> or can parsing be done into temporary state that is committed only after
+> all validation succeeds?
+
+Fixed in V8 by clearing the tde descriptor on put.
+
+> 
+> > 	for (int i = 0; i < ti->info.base.num_groups; i++) {
+> > 		struct scmi_telemetry_group *grp = &rinfo->grps[i];
+> > [...]
+> > 		grp->des = no_free_ptr(des);
+> > 		grp->des_str = no_free_ptr(des_str);
+> > 		/* Reset group DE counter */
+> > 		grp->info->num_des = 0;
 > > 	}
-> >
-> > 	if (proto_notifier_nb) {
-> > 		int ret;
-> >
-> > 		ret = scmi_protocol_notifier_unregister(pi->handle,
-> > 							&pi->pno);
-> > 		if (ret)
-> > 			dev_err(handle->dev,
-> > 				"Failed to release protocol notifier\n");
-> > 	}
-> >
-> > 	guard(mutex)(&info->protocols_mtx);
-> > 	if (refcount_dec_and_test(&pi->users)) {
+> > [...]
+> > 	rinfo->num_groups = ti->info.base.num_groups;
 > 
-> The notifier is cleared and unregistered before decrementing the protocol
-> users refcount. If the protocol instance has multiple users, the first
-> user that releases it removes the protocol implementation's notifier even
-> though the instance remains active for the remaining users.
-> 
+> The per-group allocations are transferred out of automatic cleanup during
+> the loop, but rinfo->num_groups is only assigned after every group
+> succeeds.
 
-> Should notifier removal happen only when the final protocol reference is
-> released?
-> 
+Fixed in v8.
 
-Yes, but it is not so easy to do given the current notification handlers
-design (that I did :P) since notifier were not supposed to be used from
-within a protocol, till Telemetry...so the attempt is to fit (cleanly)
-this new use-case into the existing SCMI Notification framework..since
-99% of the related handling is the same....I have reviewed this logic
-in V8, improved I think, but still Sashiko has some complaints...
-
-> The ordering may need to be reworked so the final-reference decision and
-> clearing of pno are made under protocols_mtx, while the potentially
-> blocking notifier unregister operation is performed without freeing the
-> protocol instance underneath it.
 > 
-
-Cannot be done holding the mutex with the current design...
-
-> > 	if (proto_notifier_nb) {
-> > 		int ret;
-> >
-> > 		ret = scmi_protocol_notifier_register(pi->handle, &pi->pno);
-> > 		if (ret)
-> > 			dev_warn(handle->dev,
-> > 				 "Failed to register protocol notifier\n");
-> > 	}
+> If allocation for a later group fails, resources_free() calls
+> scmi_telemetry_groups_free(), which iterates rinfo->num_groups. Since that
+> is still zero, allocations already installed in earlier groups are leaked.
 > 
-> If registration fails, pi->pno.nb remains populated. Future acquisitions
-> of the existing protocol instance do not retry registration, while release
-> later attempts to unregister the notifier even though registration never
-> succeeded.
+> Please increment a cleanup-visible group count as each group is committed,
+> or make cleanup iterate base.num_groups and safely free NULL members.
 > 
-> Please either clear the stored notifier on registration failure or track
-> registration state separately and provide a defined retry/error path.
-> 
-Reviewed all of this in V8.
+Added also a rollback logic in V8 (which needs a small further fix in V9
+apparently listening to Sashiuko complains....)
 
 Thanks,
 Cristian
-> 
+
