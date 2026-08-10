@@ -1,97 +1,148 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 995C0345EA4;
-	Sat,  8 Aug 2026 19:12:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EC9A1DDA18;
+	Mon, 10 Aug 2026 13:35:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786216367; cv=none; b=QTuCrjNqtZ9I+rMFiy1twTpcxr04cfIpgz5wdqmMDoIchKm3yd4fpveWcox7L1X0+Rtn5lQDka2lcO2WYOa3WAj8V5KXBFu+IXrJfRXWCoQ+8ygMMhWVSF35uxVisT+sQ+g+izfahr3ibpBbb09M8az2lPFyPb3GPEVcHf/RJNU=
+	t=1786368952; cv=none; b=e0viV5vijY+lGyFKVHNopJHgjEbJMYAJ5yyZLdC40Gghx2s0VPan281kpf9OGX1SumYkpjeyODV2ChuHsvP9HglrKhRAVicoVYp154uk0Oc4SYJgUNH6ZZlfSvyees0+6uFLO7ucKZ0v76ui05ITFNoNC6Zq8d4SLo1ZntyR054=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786216367; c=relaxed/simple;
-	bh=PJo0e87K0b7aftzvRmzyQXJCTjcTrGX4WcEBc3ZkxnU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M00b6/gDdMcI2byyFP/lsVoxKcAdIJFcuEJc9cS+IbGsTZNYQzYQjHJtAlr4IFrsDvSOGnLLtrv6bVsXL+JswJMEFKcx0dZn7rhGXlfnGKTiGjP6xEMRQxxnQDvn7gkbwz4nRPJgB/ipsInrKt3a/ys9B34MAAOGbUjn5yvHDgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=CmzlonLm; arc=none smtp.client-ip=217.140.110.172
+	s=arc-20240116; t=1786368952; c=relaxed/simple;
+	bh=991HfjnG6QbqkXDaoqknVpf0eV83dcGtzfTkULWDnW8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g0Mt6OSEVyv1DhFKXLxb3WnMYae5nTco8XaRSi4ofAElej1ZGmNC5NVTwSieFo0UlOulh/iMKXP7PNz4X5weaK/VSHD2Zjqfcq46X7igteTD6kEQYrTxYxop8V+sIYCfNjfN+mpLB/gFZWMoZ/js5lCl7PWjz7KszpnCJVzmEC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=fzZ91UK5; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="CmzlonLm"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="fzZ91UK5"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 10619152B;
-	Sat,  8 Aug 2026 12:12:41 -0700 (PDT)
-Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 11BD13F86F;
-	Sat,  8 Aug 2026 12:12:43 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C3B6C1477;
+	Mon, 10 Aug 2026 06:35:45 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B55813F632;
+	Mon, 10 Aug 2026 06:35:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1786216365; bh=PJo0e87K0b7aftzvRmzyQXJCTjcTrGX4WcEBc3ZkxnU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=CmzlonLmlBpocoeLxHVMGseJiXq5FWo3bMzAaATrmY8xYkC6cFmVX5G+/c5HKhoab
-	 pJcpBl+5pZ8f/5pxzQr8fjzyQEhbNphlCDII6P6Q9CfdVcDuGRPV/BlHO3GKGcnhOt
-	 AqB8IBz2JvGRbHRYrJqVGDGbgb5WBvxgioMLB5kQ=
+	t=1786368949; bh=991HfjnG6QbqkXDaoqknVpf0eV83dcGtzfTkULWDnW8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fzZ91UK57kTdR2Ef94w96o0QEjTTIdkLtR5TrjLYYUymDnuoep0zcxLwSPCZqBq2v
+	 /WhhmO/bx1xbKgv53Kzk6Wio2s2PHD6HdMQ0O+39vsRa0XTg5jqHFctPtBJYMzwnix
+	 jbqKDeH739XPRiYNzgMx3dVujXp0ygb21wLMQ3gQ=
+Date: Mon, 10 Aug 2026 14:35:38 +0100
 From: Cristian Marussi <cristian.marussi@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org
-Cc: sudeep.holla@kernel.org,
-	cristian.marussi@arm.com
-Subject: [PATCH] include: trace: Use string helpers in msg_dump trace events
-Date: Sat,  8 Aug 2026 20:12:34 +0100
-Message-ID: <20260808191234.402312-1-cristian.marussi@arm.com>
-X-Mailer: git-send-email 2.54.0
+To: Fayssal Benmlih <Fayssal.Benmlih@arm.com>
+Cc: Cristian Marussi <Cristian.Marussi@arm.com>,
+	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
+	"d-gole@ti.com" <d-gole@ti.com>,
+	"david@kernel.org" <david@kernel.org>,
+	Elif Topuz <Elif.Topuz@arm.com>,
+	"etienne.carriere@st.com" <etienne.carriere@st.com>,
+	"f.fainelli@gmail.com" <f.fainelli@gmail.com>,
+	"james.quinlan@broadcom.com" <james.quinlan@broadcom.com>,
+	"jic23@kernel.org" <jic23@kernel.org>,
+	"kas@kernel.org" <kas@kernel.org>,
+	"kernel-team@meta.com" <kernel-team@meta.com>,
+	"leitao@kernel.org" <leitao@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Lukasz Luba <Lukasz.Luba@arm.com>,
+	"michal.simek@amd.com" <michal.simek@amd.com>,
+	"peng.fan@oss.nxp.com" <peng.fan@oss.nxp.com>,
+	Philip Radford <Philip.Radford@arm.com>,
+	"puranjay@kernel.org" <puranjay@kernel.org>,
+	Souvik Chakravarty <Souvik.Chakravarty@arm.com>,
+	"sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
+	"usama.arif@linux.dev" <usama.arif@linux.dev>,
+	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>
+Subject: Re: [PATCH v7 03/23] firmware: arm_scmi: Introduce protocol instance
+ notifiers
+Message-ID: <annTqkEfL2hqcKFw@pluto>
+References: <20260802145618.1952804-4-cristian.marussi@arm.com>
+ <B5F86BAB-83E2-4C54-BEC9-7714C865CB7D@contoso.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <B5F86BAB-83E2-4C54-BEC9-7714C865CB7D@contoso.com>
 
-Use proper available ftrace macros to handle tag strings of variable size,
-to avoid wasting space using statically oversized arrays while risking to
-expose stale stack data when such array is not properly padded when filled.
+On Mon, Aug 03, 2026 at 11:52:05PM +0100, Fayssal Benmlih wrote:
+> Hi Cristian,
+> 
 
-Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
----
- include/trace/events/scmi.h | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+Hi,
 
-diff --git a/include/trace/events/scmi.h b/include/trace/events/scmi.h
-index 703b7bb68e44..b421c253df00 100644
---- a/include/trace/events/scmi.h
-+++ b/include/trace/events/scmi.h
-@@ -7,8 +7,6 @@
- 
- #include <linux/tracepoint.h>
- 
--#define TRACE_SCMI_MAX_TAG_LEN	6
--
- TRACE_EVENT(scmi_fc_call,
- 	TP_PROTO(u8 protocol_id, u8 msg_id, u32 res_id, u32 val1, u32 val2),
- 	TP_ARGS(protocol_id, msg_id, res_id, val1, val2),
-@@ -156,7 +154,7 @@ TRACE_EVENT(scmi_msg_dump,
- 		__field(u8, channel_id)
- 		__field(u8, protocol_id)
- 		__field(u8, msg_id)
--		__array(char, tag, TRACE_SCMI_MAX_TAG_LEN)
-+		__string(tag, tag)
- 		__field(u16, seq)
- 		__field(int, status)
- 		__field(size_t, len)
-@@ -168,7 +166,7 @@ TRACE_EVENT(scmi_msg_dump,
- 		__entry->channel_id = channel_id;
- 		__entry->protocol_id = protocol_id;
- 		__entry->msg_id = msg_id;
--		strscpy(__entry->tag, tag, TRACE_SCMI_MAX_TAG_LEN);
-+		__assign_str(tag);
- 		__entry->seq = seq;
- 		__entry->status = status;
- 		__entry->len = len;
-@@ -177,7 +175,7 @@ TRACE_EVENT(scmi_msg_dump,
- 
- 	TP_printk("id=%d ch=%02X pt=%02X t=%s msg_id=%02X seq=%04X s=%d pyld=%s",
- 		  __entry->id, __entry->channel_id, __entry->protocol_id,
--		  __entry->tag, __entry->msg_id, __entry->seq, __entry->status,
-+		  __get_str(tag), __entry->msg_id, __entry->seq, __entry->status,
- 		__print_hex_str(__get_dynamic_array(cmd), __entry->len))
- );
- #endif /* _TRACE_SCMI_H */
--- 
-2.54.0
+> A couple of notifier lifetime issues inline.
+> 
+> > 	scoped_guard(mutex, &info->protocols_mtx) {
+> > 		pi = idr_find(&info->protocols, protocol_id);
+> > 		if (WARN_ON(!pi))
+> > 			return;
+> >
+> > 		proto_notifier_nb = pi->pno.nb;
+> > 		/* Ensure NULL is visible */
+> > 		smp_store_mb(pi->pno.nb, NULL);
+> > 	}
+> >
+> > 	if (proto_notifier_nb) {
+> > 		int ret;
+> >
+> > 		ret = scmi_protocol_notifier_unregister(pi->handle,
+> > 							&pi->pno);
+> > 		if (ret)
+> > 			dev_err(handle->dev,
+> > 				"Failed to release protocol notifier\n");
+> > 	}
+> >
+> > 	guard(mutex)(&info->protocols_mtx);
+> > 	if (refcount_dec_and_test(&pi->users)) {
+> 
+> The notifier is cleared and unregistered before decrementing the protocol
+> users refcount. If the protocol instance has multiple users, the first
+> user that releases it removes the protocol implementation's notifier even
+> though the instance remains active for the remaining users.
+> 
 
+> Should notifier removal happen only when the final protocol reference is
+> released?
+> 
+
+Yes, but it is not so easy to do given the current notification handlers
+design (that I did :P) since notifier were not supposed to be used from
+within a protocol, till Telemetry...so the attempt is to fit (cleanly)
+this new use-case into the existing SCMI Notification framework..since
+99% of the related handling is the same....I have reviewed this logic
+in V8, improved I think, but still Sashiko has some complaints...
+
+> The ordering may need to be reworked so the final-reference decision and
+> clearing of pno are made under protocols_mtx, while the potentially
+> blocking notifier unregister operation is performed without freeing the
+> protocol instance underneath it.
+> 
+
+Cannot be done holding the mutex with the current design...
+
+> > 	if (proto_notifier_nb) {
+> > 		int ret;
+> >
+> > 		ret = scmi_protocol_notifier_register(pi->handle, &pi->pno);
+> > 		if (ret)
+> > 			dev_warn(handle->dev,
+> > 				 "Failed to register protocol notifier\n");
+> > 	}
+> 
+> If registration fails, pi->pno.nb remains populated. Future acquisitions
+> of the existing protocol instance do not retry registration, while release
+> later attempts to unregister the notifier even though registration never
+> succeeded.
+> 
+> Please either clear the stored notifier on registration failure or track
+> registration state separately and provide a defined retry/error path.
+> 
+Reviewed all of this in V8.
+
+Thanks,
+Cristian
+> 
