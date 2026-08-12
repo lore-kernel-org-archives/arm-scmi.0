@@ -1,74 +1,77 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15D43C2775
-	for <arm-scmi@vger.kernel.org>; Wed, 12 Aug 2026 22:43:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136FC494A08
+	for <arm-scmi@vger.kernel.org>; Wed, 12 Aug 2026 22:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786574596; cv=none; b=r45GB2NDvWs8X3cuVhcOBNnYdAIZ/DEY8YaLcCHdE3vXNfWImIZipsPj16kQu9Q2w4irefZmBaxAaSM0/xlW3WzOKTppyRO7a1k7J0STlURgzcrYR1iwh2O3KtOLSzrI3rP/eGxSGawlrzvQAZ4FSQNROOpCwsZeW0o/Leha9Hc=
+	t=1786574598; cv=none; b=TzVhWIFwp9fvYxZT+ZRFwfTWznyrFG0+fkx3Q15oz3rPCA8B4FVr2HsPLQxL2qGDy0OHWO0JOYBv3uJ12RY4r+aPS2tKh+fvJSUVpMWuOYAIsVtxiQCPdvgcO/gUheuqIeVy+3kc1U9q2YsenjlBtvLVCPeOTbVLBLQffcmhF34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786574596; c=relaxed/simple;
-	bh=ZjjddZ3ufCejsuOorLFN/h1ueV8Mks3Cj4jCvcK73Cs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HoI4hJU9HZ5O1aQSxAeGFWE9BPTK2QH+lqRRgHwRzI0K7h+g6h3XQ0pfNO2Qi1Zz8g8Kq66ZAiUYuy/+O2Zv6+7NemVu1kHO+0Ome/qkscphyxCOWSf16gqejnItjL6nrcAolzb1zHWnCZ6sB6bldxTAbjv5FvW8hHpG0p3QJKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rivian.com; spf=pass smtp.mailfrom=rivian.com; dkim=pass (2048-bit key) header.d=rivian.com header.i=@rivian.com header.b=D155KrIw; arc=none smtp.client-ip=209.85.216.46
+	s=arc-20240116; t=1786574598; c=relaxed/simple;
+	bh=nZur1dPKXTeT+OS2wl6C4MvZRNxHd1W5cwm8phkqB/Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fVaDtM9wbmR9lPhPPgj6Gk8+peBvXJ2YhpcdWioYhjDMhwWVyK27os0+eLm71EqKLJ54dVw9f43Bj23fvK7+zz2/pTPOK33cCBCBRQ0+nAG814u+JmxGhVNcWFWd5/P+nCdH2YRBM6UbEbi3VKNVmiYJGHJMeSm3F1fIszCZ/5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rivian.com; spf=pass smtp.mailfrom=rivian.com; dkim=pass (2048-bit key) header.d=rivian.com header.i=@rivian.com header.b=Yn6nhgMx; arc=none smtp.client-ip=209.85.215.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rivian.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivian.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivian.com header.i=@rivian.com header.b="D155KrIw"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-38125cebfdaso2516989a91.1
-        for <arm-scmi@vger.kernel.org>; Wed, 12 Aug 2026 15:43:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivian.com header.i=@rivian.com header.b="Yn6nhgMx"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cbedf433a99so1417054a12.2
+        for <arm-scmi@vger.kernel.org>; Wed, 12 Aug 2026 15:43:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivian.com; s=google; t=1786574594; x=1787179394; darn=vger.kernel.org;
-        h=content-type:mime-version:message-id:date:subject:cc:to:from:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=917WXUrvmTdfV1Ds9vTzrf1PvH2S3YGxTHPj94AsWWw=;
-        b=D155KrIwHQvoZna1mJ8A9klts4Ky8XHrlFwtpfZOecqbpP8AAFX9dQTSqyRuAcpaX1
-         WT34xDOYbjvGbjFSNLe1EhlympJkWxhXOi7hE/n7FvAC0bGV86vxrzeI3Wv18nOyRuX+
-         4BYx1ztYqDVBkQmHAPcDakUwr2O8gQpQH3cQ/7C+XSlsnmqKk/QOPwHfIHNXXb2LYGFw
-         5VvVaDgv6Hx8K1266VmXue0OF301bWZP0+BYfVoEumRW1j0CVWvYAu95T5yho3CWdJLI
-         28ozdDbmNXESPjdLm0L6vOpk+0iMrFMqDyWA1R7jwqS+OCD3AEUE6vVaFuEQ/atNKOvx
-         orBw==
+        d=rivian.com; s=google; t=1786574596; x=1787179396; darn=vger.kernel.org;
+        h=content-type:mime-version:references:in-reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rlblx6qt1rqemUxEZ6qZUYhzuNbcWAL6YV0Kj3/NsUE=;
+        b=Yn6nhgMxhR+bV1AGQKwfq7sEHIUaHSm6YS4M1dXOJD8IiZx6SXTWv+Yz3OcVXMVC9r
+         aN9A/jGJ5FAUtEZwf2EYxlAVFpdolwhpmuQlKGoXN6sGk5V97U8jxTFh4C40ksiXmtc2
+         FGEHnGfLvPtK4AF2Tcy4nvO9HY0ruv1umNeKR4rABvF5HcLsQJdcgyc1HqVN85JaQaPZ
+         +zmUraqz9nVcNOc8rQcAwOO/d430A+dbVZChY+Rk7t9I052vNMyp57wrXrFEXhWeyqXd
+         G/Y+DpCaEyELZ2hxRaY17YaIsHSG6jbSW5LTmav+WG39/mp9RNOvnXDFftVn1YRbveHL
+         wgMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786574594; x=1787179394;
-        h=content-type:mime-version:message-id:date:subject:cc:to:from
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=917WXUrvmTdfV1Ds9vTzrf1PvH2S3YGxTHPj94AsWWw=;
-        b=UG7s+ehc2phbK/qCi3rCHm+mlOzE3Q8OV8cWKd4vxLYDTww2fhFo/N3KBoN65q9Asp
-         x9d9z8p7Iw6BuNrcx+5qwdCcmu2UGyJQKeIqqTQfepPLXGMExmveIbKFNnTqdWPLsc+S
-         /mfshkxg8sOj+f3ULQcp9IWVxgOmkBIo5WcVB5YUHG0CsKNnIc1xNIBLwR2m4rKNf+DG
-         FUzsPiPrboGdKlGCKIoSOysrHmCnXWOpJaD+Ga4v6ZFjCHxRaEuZzdYPrxXVSi0iQ0bK
-         hGo+rFA+Vp0yaSDQj3hqkzfjhBLl+Oi3/xh9eHWBv44lQ9Kxcoo2w12EZrDp9fEdmWny
-         kodw==
-X-Forwarded-Encrypted: i=1; AHgh+Rqtb6mMyL62obZH0KPHAVahVR9TVxvF5nklKGmWJsjVyd+rF1OlWKIgJ/ddudx6Rvvjs7GFPkW0uA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YynmNgfvuIL/OU5eUFBd1BOkcQd0McgStv2L3aa2XUdqIKyXGhb
-	h1h9Yzi9fxyKVZnw1H6yvAhlig33IraGrfj9IbQP0qH5aSFOr7HB3nmKf7vcv/eDaeorpLoO9bU
-	XGtTYHteq6ffjqBRXrWLZSDvS96eINwA2YZR8qSFtRZzoatJKi152dypDDfyaBle+6xE=
-X-Gm-Gg: AR+sD13cyoBZ0dt4biHXJut+lwstLb8d3KJ+TEKtPE8k6SVzIB8/Ojoyq93LUHKZ4GN
-	+VClPJxDAJbTDMMFeniPrhmaB598kDHy/Pr2WcIsvenjW9YzIu0PTkVxvtUBRc/hX8xcv2gZkS3
-	NnwnF3P+NIq0F/n5Dzq5OiKKpw3hfmhvlT2992CyX0xxURNweRWPkwyW9IEmZ4vpj/yOyPnrRcK
-	XiDJUp6sLUPTH2zsErydFYb3cWwrghc+JOT8tgtEs/+bYwc8CAS9i1PMLiu7N+kbZDEtcmZyHmv
-	JaGV/Ao/wwFiwJ5dYgyYeHbCQiSSih755vfPYxV1LRR5TaofR3i8iavVk15wwaoDZAstXgbGijW
-	5cI+eLSvXsoCM+3orc3vtxSRxysSZ/FA3ENrB0MUMOkB6H0zcEe38jaLLCXbqgNYAQe8NhtUSvo
-	pUSmfAsB0Hfh4nBpTkMtWN5i53hkodtXQ3NG0alRlZpGXjBepO+RserYeyHbxC3KS+lf8S6g/jr
-	nZq8o1wr5wRaXw51IzYdQX6g9u03O/Jr6giZ7XuSJzDHE0sf33S90A2fugvjqqTIiCXZn1tFQZg
-	16B2zqKRhd9/mh1i
-X-Received: by 2002:a17:90b:2552:b0:38e:49c0:75a7 with SMTP id 98e67ed59e1d1-3931e068c9amr1840134a91.8.1786574593746;
-        Wed, 12 Aug 2026 15:43:13 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786574596; x=1787179396;
+        h=content-type:mime-version:references:in-reply-to:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=rlblx6qt1rqemUxEZ6qZUYhzuNbcWAL6YV0Kj3/NsUE=;
+        b=o95J/Hte9XcxInK9vEGHqdYdC+IGMADekUaiuEFqHy2eDHPalzNfTMmmgTVjBR+ysD
+         BJdJblZTm7x4ASyioLLpAyC9D/myErs2hkyE1eWk8pZJ+YBmdwcnioDqBl1DE803VvFU
+         e4FMMwnP0sK99LshiMWx9eKuBVb8MW/qAg4hsFzkrP+kPGcK/HbbU6D4zmYBQSg2kQTV
+         ScpEORgQxXbrxCjn7x1R5Pv1baem4PXbJIjQR0WLZUkStauQ55qbW6EBj7TL9MpP9FXy
+         7uoqI/UN75qZDaUxUJlMV0YE5IRJepmBKTvaKyVA0vxnRaGrpAlU8X3nR9ix5E46Eogb
+         S22Q==
+X-Gm-Message-State: AOJu0YxZF2L+3b7aFLx8QHLGzujov341Nkg0mACsSq2FRYhSruauzjeQ
+	6EAkD4QwW+Ypwqget8zVPiV8TYoBGWQEzJypjcQvXiNQrBLHMWxj0zBHu2nDJ71lr6cAc8Omw/A
+	mWmzHjKtY+NCKu96v2yQwAQkl6H0peolZA2rvNJyz1ty3fuXelhTJCXTfMC89tMxm6SA=
+X-Gm-Gg: AR+sD11SPSUrd7P02p3V5hQwpUg5PGKxiWwpGPNgAR3uUrmG4b87e9TiIZd4sxt7iuH
+	3RdVPTawYjmnHksj76Wfb4m+ApwWVs9s7mBXWJMxcX88sSt9jqI2acSxJvbfPlHseIyN592DjmV
+	LXb9/mIbIcAwABid+bI8b+gX0kMwMJyPfmWyAKMx+dgAbge3IIv52M2KmfXv6FbaTYcSIX2WOs2
+	E/Tvs1aQrtm9JKU0jUQrbE1p+8zuGAJu7G95jldLUI/NTfBgSv7ySUQ5jS7ZnWKGGPyqGL8tsmG
+	D+Zicpwq9+cqwec/kYaixES7dA7CKeIru4P39QKI67NE/1iAnOL2GBf5mSDHXOig3HGCkIzkcG/
+	WUx7Uk+aZaS8UERtW4Q1peYdjQ5F6CFumoaa2kcGiCmU5ZaDPvVw1BvHHZv0+MkcKOsy990MVlr
+	9PZVMpAva9ZsvWZBhNEi8sGbfSaD9r2rsRRIbmYtc6BNBwycVQEM1zTJ+3nMf3NSC1d/vOGszYc
+	b/HzGDo9nskBZ0TuSa0EzMyrEkcdLc8gtowM/P+fwe/kBXenf6jAut7PG7uxQk19YzL5MfvWa9z
+	5ymNeMRDrcC80LUs
+X-Received: by 2002:a05:6a20:cd96:b0:3b7:aefe:4367 with SMTP id adf61e73a8af0-3cc5540b487mr1915887637.33.1786574596145;
+        Wed, 12 Aug 2026 15:43:16 -0700 (PDT)
 Received: from ip-10-198-159-19.us-west-2.compute.internal (ec2-44-232-128-107.us-west-2.compute.amazonaws.com. [44.232.128.107])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3931f2a7b8bsm502634a91.7.2026.08.12.15.43.13
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbef710cc24sm204967a12.20.2026.08.12.15.43.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 15:43:13 -0700 (PDT)
+        Wed, 12 Aug 2026 15:43:15 -0700 (PDT)
 From: Roland Dreier <rolanddreier@rivian.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	arm-scmi@vger.kernel.org,
+To: Sudeep Holla <sudeep.holla@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>
+Cc: arm-scmi@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] firmware: arm_scmi: Protect xfer->async_done with xfer->lock
-Date: Wed, 12 Aug 2026 22:43:05 +0000
-Message-ID: <20260812224311.904964-1-rolanddreier@rivian.com>
+Subject: [PATCH 2/2] firmware: arm_scmi: Don't reuse raw xfers with async_done still armed
+Date: Wed, 12 Aug 2026 22:43:06 +0000
+Message-ID: <20260812224311.904964-2-rolanddreier@rivian.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260812224311.904964-1-rolanddreier@rivian.com>
+References: <20260812224311.904964-1-rolanddreier@rivian.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -77,241 +80,124 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="US-ASCII"
 
-Asynchronous SCMI commands are completed by a delayed response. The RX
-path signals the response with complete(xfer->async_done). Unlike
-xfer->done, xfer->async_done is a pointer to a completion owned by
-whoever is waiting for the delayed response, and it stays valid only for
-as long as that waiter is still waiting.  In do_xfer_with_response() it
-is a DECLARE_COMPLETION_ONSTACK() in the caller's stack frame.
+In SCMI raw mode, scmi_xfer_raw_worker() releases the xfer before
+releasing the waiter that disarms xfer->async_done, and scmi_xfer_get()
+does not clear async_done when it hands out a recycled xfer. A concurrent
+transaction can therefore pick up the xfer while it still points at the
+old waiter's completion, so:
 
-Nothing serialises the RX path against a waiter that gives up on a
-timeout. scmi_msg_response_validate() does read xfer->async_done
-under xfer->lock, and documents that as a requirement, but the lock is
-dropped again before scmi_handle_response() dereferences the pointer,
-and neither the arming nor the disarming side takes it at all. So a
-delayed response arriving just as the wait times out can be signalled
-on a completion that is already gone:
+ - a delayed response arriving for the new transaction can be signalled
+   on the old waiter's completion, which may already be re-armed for yet
+   another unrelated transaction, making that transaction's wait return
+   early; and
 
-  waiter                                RX path (IRQ context)
-  ------                                ---------------------
-  do_xfer_with_response():
-    xfer->async_done = &async_response
-    do_xfer(xfer)
-    wait_for_completion_timeout(xfer->async_done, tmo)
-    /* returns 0, gives up */
-                                        /* response receive interrupt */
-                                        scmi_handle_response():
-                                          scmi_xfer_command_acquire()
-                                            lock xfer->lock
-                                            validate: async_done != NULL
-                                            unlock xfer->lock
-    xfer->async_done = NULL
-    return -ETIMEDOUT
-    /* async_response goes out of scope */
-                                          complete(xfer->async_done)
+ - the old waiter's disarm, which still runs after the xfer has been
+   released, clobbers the arming just installed by the new transaction,
+   so the new waiter times out even if its delayed response arrives.
 
-That last complete() has two possible bad outcomes: it either dereferences
-the NULL just stored by the waiter or - if that store is not yet visible
-on the RX CPU - it takes a lock and writes to a stack frame that the
-waiter maybe has already returned from.
+Release the waiter first, while the worker still holds a reference on
+the xfer, so that an xfer can never reach the free list still
+armed. Track whether a delayed response is expected in the waiter
+itself instead of peeking at xfer->async_done outside xfer->lock, and
+wait on the waiter's own embedded completion. (The new async flag is
+not strictly needed but it makes the logic easier to reason about)
 
-Fix this by making xfer->lock cover xfer->async_done end-to-end. Add
-helpers to arm and disarm it under the lock, use them on both the regular
-and the raw paths, and have the RX path read and signal the completion
-under that same lock. A waiter that is timing out then either completes
-its disarm before the RX path looks, in which case the delayed response is
-dropped, or blocks in the disarm until the RX path is done with the
-completion, in which case the completion is still alive.
+Finally, harden scmi_xfer_get() to clear async_done when handing out
+an xfer, so that no future release-ordering change can leak a stale
+arming into a new transaction.
 
-Account for the dropped case with a new "delayed_response_dropped"
-debugfs counter to make it visible if this ever happens.
-
-Fixes: 58ecdf03dbb9 ("firmware: arm_scmi: Add support for asynchronous commands and delayed response")
+Fixes: 3c3d818a9317 ("firmware: arm_scmi: Add core raw transmission support")
 Signed-off-by: Roland Dreier <rolanddreier@rivian.com>
 ---
- drivers/firmware/arm_scmi/common.h    | 23 ++++++++++++++++++
- drivers/firmware/arm_scmi/driver.c    | 35 +++++++++++++++++++++++----
- drivers/firmware/arm_scmi/protocols.h |  9 ++++---
- drivers/firmware/arm_scmi/raw_mode.c  |  4 +--
- 4 files changed, 61 insertions(+), 10 deletions(-)
+ drivers/firmware/arm_scmi/driver.c   |  1 +
+ drivers/firmware/arm_scmi/raw_mode.c | 25 +++++++++++++++++++++----
+ 2 files changed, 22 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-index b9723c105fc1..fc2f69bcebff 100644
---- a/drivers/firmware/arm_scmi/common.h
-+++ b/drivers/firmware/arm_scmi/common.h
-@@ -282,6 +282,28 @@ static inline bool is_polling_enabled(struct scmi_chan_info *cinfo,
- 		is_transport_polling_capable(desc);
- }
- 
-+/**
-+ * scmi_xfer_async_response_arm  - Arm the delayed response completion
-+ *
-+ * @xfer: A reference to the xfer to arm
-+ * @async_done: The completion to signal upon reception of a delayed response,
-+ *		or NULL to disarm @xfer.
-+ */
-+static inline void scmi_xfer_async_response_arm(struct scmi_xfer *xfer,
-+						struct completion *async_done)
-+{
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&xfer->lock, flags);
-+	xfer->async_done = async_done;
-+	spin_unlock_irqrestore(&xfer->lock, flags);
-+}
-+
-+static inline void scmi_xfer_async_response_disarm(struct scmi_xfer *xfer)
-+{
-+	scmi_xfer_async_response_arm(xfer, NULL);
-+}
-+
- void scmi_xfer_raw_put(const struct scmi_handle *handle,
- 		       struct scmi_xfer *xfer);
- struct scmi_xfer *scmi_xfer_raw_get(const struct scmi_handle *handle);
-@@ -303,6 +325,7 @@ enum debug_counters {
- 	RESPONSE_OK,
- 	NOTIFICATION_OK,
- 	DELAYED_RESPONSE_OK,
-+	DELAYED_RESPONSE_DROPPED,
- 	XFERS_RESPONSE_TIMEOUT,
- 	XFERS_RESPONSE_POLLED_TIMEOUT,
- 	RESPONSE_POLLED_OK,
 diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 3e0d975ec94c..5c295bdc15ca 100644
+index 5c295bdc15ca..2d8884f0036b 100644
 --- a/drivers/firmware/arm_scmi/driver.c
 +++ b/drivers/firmware/arm_scmi/driver.c
-@@ -1063,6 +1063,28 @@ static inline void scmi_xfer_command_release(struct scmi_info *info,
- 	__scmi_xfer_put(&info->tx_minfo, xfer);
- }
+@@ -717,6 +717,7 @@ static struct scmi_xfer *scmi_xfer_get(const struct scmi_handle *handle,
  
-+/**
-+ * scmi_xfer_async_response_complete  - Signal a received delayed response
-+ *
-+ * @xfer: A reference to the xfer whose delayed response was received
-+ *
-+ * Return: True if a completion was still armed on @xfer and has been
-+ *	   signalled, false if a timed-out waiter had already disarmed it.
-+ */
-+static bool scmi_xfer_async_response_complete(struct scmi_xfer *xfer)
-+{
-+	unsigned long flags;
-+	struct completion *async_done;
-+
-+	spin_lock_irqsave(&xfer->lock, flags);
-+	async_done = xfer->async_done;
-+	if (async_done)
-+		complete(async_done);
-+	spin_unlock_irqrestore(&xfer->lock, flags);
-+
-+	return !!async_done;
-+}
-+
- static inline void scmi_clear_channel(struct scmi_info *info,
- 				      struct scmi_chan_info *cinfo)
- {
-@@ -1166,8 +1188,10 @@ static void scmi_handle_response(struct scmi_chan_info *cinfo,
+ 	refcount_set(&xfer->users, 1);
+ 	atomic_set(&xfer->busy, SCMI_XFER_FREE);
++	xfer->async_done = NULL;
+ 	spin_unlock_irqrestore(&minfo->xfer_lock, flags);
  
- 	if (xfer->hdr.type == MSG_TYPE_DELAYED_RESP) {
- 		scmi_clear_channel(info, cinfo);
--		complete(xfer->async_done);
--		scmi_inc_count(info->dbg, DELAYED_RESPONSE_OK);
-+		if (scmi_xfer_async_response_complete(xfer))
-+			scmi_inc_count(info->dbg, DELAYED_RESPONSE_OK);
-+		else
-+			scmi_inc_count(info->dbg, DELAYED_RESPONSE_DROPPED);
- 	} else {
- 		complete(&xfer->done);
- 		scmi_inc_count(info->dbg, RESPONSE_OK);
-@@ -1509,7 +1533,7 @@ static int do_xfer_with_response(const struct scmi_protocol_handle *ph,
- 	int ret, timeout = msecs_to_jiffies(SCMI_MAX_RESPONSE_TIMEOUT);
- 	DECLARE_COMPLETION_ONSTACK(async_response);
- 
--	xfer->async_done = &async_response;
-+	scmi_xfer_async_response_arm(xfer, &async_response);
- 
- 	/*
- 	 * Delayed responses should not be polled, so an async command should
-@@ -1521,7 +1545,7 @@ static int do_xfer_with_response(const struct scmi_protocol_handle *ph,
- 
- 	ret = do_xfer(ph, xfer);
- 	if (!ret) {
--		if (!wait_for_completion_timeout(xfer->async_done, timeout)) {
-+		if (!wait_for_completion_timeout(&async_response, timeout)) {
- 			dev_err(ph->dev,
- 				"timed out in delayed resp(caller: %pS)\n",
- 				(void *)_RET_IP_);
-@@ -1531,7 +1555,7 @@ static int do_xfer_with_response(const struct scmi_protocol_handle *ph,
- 		}
- 	}
- 
--	xfer->async_done = NULL;
-+	scmi_xfer_async_response_disarm(xfer);
- 	return ret;
- }
- 
-@@ -2989,6 +3013,7 @@ static const char * const dbg_counter_strs[] = {
- 	"response_ok",
- 	"notification_ok",
- 	"delayed_response_ok",
-+	"delayed_response_dropped",
- 	"xfers_response_timeout",
- 	"xfers_response_polled_timeout",
- 	"response_polled_ok",
-diff --git a/drivers/firmware/arm_scmi/protocols.h b/drivers/firmware/arm_scmi/protocols.h
-index 15ad5162e37a..8583159059e6 100644
---- a/drivers/firmware/arm_scmi/protocols.h
-+++ b/drivers/firmware/arm_scmi/protocols.h
-@@ -100,7 +100,10 @@ struct scmi_msg_hdr {
-  *	message. If request-ACK protocol is used, we can reuse the same
-  *	buffer for the rx path as we use for the tx path.
-  * @done: command message transmit completion event
-- * @async_done: pointer to delayed response message received event completion
-+ * @async_done: pointer to delayed response message received event completion,
-+ *		or NULL when no delayed response is expected. Protected by
-+ *		@lock, since the completion is owned by the waiter and can
-+ *		vanish once the wait times out.
-  * @pending: True for xfers added to @pending_xfers hashtable
-  * @node: An hlist_node reference used to store this xfer, alternatively, on
-  *	  the free list @free_xfers or in the @pending_xfers hashtable
-@@ -121,7 +124,7 @@ struct scmi_msg_hdr {
-  *	    - SCMI_XFER_SENT_OK -> SCMI_XFER_DRESP_OK
-  *	      (Missing synchronous response is assumed OK and ignored)
-  * @flags: Optional flags associated to this xfer.
-- * @lock: A spinlock to protect state and busy fields.
-+ * @lock: A spinlock to protect state, busy and async_done fields.
-  * @priv: A pointer for transport private usage.
-  */
- struct scmi_xfer {
-@@ -147,7 +150,7 @@ struct scmi_xfer {
- #define SCMI_XFER_IS_CHAN_SET(x)	\
- 	((x)->flags & SCMI_XFER_FLAG_CHAN_SET)
- 	int flags;
--	/* A lock to protect state and busy fields */
-+	/* A lock to protect state, busy and async_done fields */
- 	spinlock_t lock;
- 	void *priv;
- };
+ 	return xfer;
 diff --git a/drivers/firmware/arm_scmi/raw_mode.c b/drivers/firmware/arm_scmi/raw_mode.c
-index 1f6e51670208..8751cff5fa4e 100644
+index 8751cff5fa4e..5ee21f6b7001 100644
 --- a/drivers/firmware/arm_scmi/raw_mode.c
 +++ b/drivers/firmware/arm_scmi/raw_mode.c
-@@ -346,7 +346,7 @@ scmi_xfer_raw_waiter_get(struct scmi_raw_mode_info *raw, struct scmi_xfer *xfer,
+@@ -198,6 +198,8 @@ struct scmi_raw_mode_info {
+  * @async_response: A completion to be, optionally, used for async waits: it
+  *		    will be setup by @scmi_do_xfer_raw_start, if needed, to be
+  *		    pointed at by xfer->async_done.
++ * @async: True if @async_response was armed on @xfer, i.e. if a delayed
++ *	   response has to be waited for.
+  * @node: A list node.
+  */
+ struct scmi_xfer_raw_waiter {
+@@ -205,6 +207,7 @@ struct scmi_xfer_raw_waiter {
+ 	struct scmi_chan_info *cinfo;
+ 	struct scmi_xfer *xfer;
+ 	struct completion async_response;
++	bool async;
+ 	struct list_head node;
+ };
  
- 		if (async) {
- 			reinit_completion(&rw->async_response);
--			xfer->async_done = &rw->async_response;
-+			scmi_xfer_async_response_arm(xfer, &rw->async_response);
+@@ -349,6 +352,7 @@ scmi_xfer_raw_waiter_get(struct scmi_raw_mode_info *raw, struct scmi_xfer *xfer,
+ 			scmi_xfer_async_response_arm(xfer, &rw->async_response);
  		}
  
++		rw->async = async;
  		rw->cinfo = cinfo;
-@@ -361,7 +361,7 @@ static void scmi_xfer_raw_waiter_put(struct scmi_raw_mode_info *raw,
+ 		rw->xfer = xfer;
+ 	}
+@@ -361,8 +365,16 @@ static void scmi_xfer_raw_waiter_put(struct scmi_raw_mode_info *raw,
  				     struct scmi_xfer_raw_waiter *rw)
  {
  	if (rw->xfer) {
--		rw->xfer->async_done = NULL;
-+		scmi_xfer_async_response_disarm(rw->xfer);
++		/*
++		 * Disarm the delayed response before this waiter, and its
++		 * embedded completion, can be picked up again for a new
++		 * transaction: a delayed response received late, after the
++		 * related wait timed out, must not signal a completion which
++		 * has been in the meantime re-armed on a different xfer.
++		 */
+ 		scmi_xfer_async_response_disarm(rw->xfer);
  		rw->xfer = NULL;
++		rw->async = false;
  	}
+ 
+ 	mutex_lock(&raw->free_mtx);
+@@ -479,18 +491,23 @@ static void scmi_xfer_raw_worker(struct work_struct *work)
+ 				    ret, scmi_inflight_count(raw->handle));
+ 
+ 		/* Wait also for an async delayed response if needed */
+-		if (!ret && xfer->async_done) {
++		if (!ret && rw->async) {
+ 			unsigned long tmo = msecs_to_jiffies(SCMI_MAX_RESPONSE_TIMEOUT);
+ 
+-			if (!wait_for_completion_timeout(xfer->async_done, tmo))
++			if (!wait_for_completion_timeout(&rw->async_response, tmo))
+ 				dev_err(dev,
+ 					"timed out in RAW delayed resp - HDR:%08X\n",
+ 					pack_scmi_header(&xfer->hdr));
+ 		}
+ 
+-		/* Release waiter and xfer */
+-		scmi_xfer_raw_put(raw->handle, xfer);
++		/*
++		 * Release the waiter first: this disarms the delayed response
++		 * while we still hold a reference on the xfer, so that the xfer
++		 * cannot be recycled by a new transaction while it still points
++		 * at this waiter's completion.
++		 */
+ 		scmi_xfer_raw_waiter_put(raw, rw);
++		scmi_xfer_raw_put(raw->handle, xfer);
+ 	} while (1);
+ }
  
 -- 
 2.54.0
