@@ -1,172 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FEE41684D;
-	Wed, 12 Aug 2026 10:38:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15EA540B108
+	for <arm-scmi@vger.kernel.org>; Wed, 12 Aug 2026 11:22:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786531107; cv=none; b=GrOd4Ql3P5LakWlQ7HdXTHKobC7J8Hbi9YT4f5H/p8L14iU/SIum/hz1+mtMzXSXM23kNiyDHrBsnifazkseCLSk47NhSv9xW2Yms5pVbhF5uu+vsr9VG5RUsBccp99a+RW6HxoiEqs9/7K0fe5UjjvqRKemPJjUAEigXndMnJ0=
+	t=1786533727; cv=none; b=Psph3RB4jeXFOPFV/JJLXU4Btm9nKLk2KCQefeDirXgWCOAVqm68nsKISwhLu8rMPFxO8gH9f7bFJ+z8JDLzf8wc9vJpeOsPD3w2C0aE4JcvCgq94DgW7wZ6S1Rz2Y6CmeLDYVTRdgZtxm9wTO9h6horpvHiyymty+HJWniCQL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786531107; c=relaxed/simple;
-	bh=ZCx+dwrvGPekeMc6SLCsjMITTKLCQ5SSIfGRuEEvko0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PbpfUsNUApb1Xnwl0DSbrXcTA4liqONO++iRX52kRq4xiFy+R6K4yBcvqRwzfJFvpm+Ae6zzDemxGu7YAeEpuVhoWsKM/aiiUVzOsbtL24JKnaPiFx8Yge509tWLkUNF5xOw/CUr9iW7lbeIbLkNZb+y8SIFNbLgSsJGWXsIRyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=blRbcy/n; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="blRbcy/n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C5011F000E9;
-	Wed, 12 Aug 2026 10:38:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786531105;
-	bh=Lu/qiEjyLXDw9PVQ3MvX7lPg6/5KHHIEuSsW3VTnccg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=blRbcy/nSgMOHQs7HEFHJPqzROH6mLO3n+/pVLTZwrFBZNl1orRvZXPwnIFB60gSG
-	 Kw7tMtiTrTsitWbBy3RYd/t7iMiSczc+nzoMNRWGzALZhSJEc8yuTdTdZw9+DGHLfj
-	 NODWxMMfbcscYz4Rm5RGH9o52BKZvqmh7Jx4nw/OyazSH36j7TsaLvvufgWWSFayeS
-	 nnUVLuTx0UALHWFVHP9Rrju+DXUqUHUzChvaGh7bi0eyKBmPgmlLKUMJWtZpJ+5fTs
-	 cXN7SzRj7aFN8ll8kOeXEKKzaZVLifKJO4fDFOnZniUvccI1IjLBPpuPxxMAqRt9QH
-	 MO/GuKeDwbnbg==
-Message-ID: <7b066c1f-20b7-407f-9268-e9dbeafab004@kernel.org>
-Date: Wed, 12 Aug 2026 12:38:12 +0200
+	s=arc-20240116; t=1786533727; c=relaxed/simple;
+	bh=ZDQ5pPWDKwycT4E4mNOoJZ2LV+cHXkkjmMM1uiBduVA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tur+e2y4iJZdLLmPkq5y+NPj42s8c6bPkdBaNWxFVQpupQCSwUuXEL0BYpEZK4voZ5meTZZXQ04alu1iAtOHiXkbSb83xCDCOgkEtQxazRKk6Tp2cQ9p3lIh8UUU1exvAUKKLVB//GLW+t3Tm/wFvc8ddgcIdQdzGm5CU7hM1uE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-381b831d535so1410295a91.0
+        for <arm-scmi@vger.kernel.org>; Wed, 12 Aug 2026 04:22:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786533725; x=1787138525;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=DCCZvy6wBuqHUxauMraEzIMerW1TTEAMcJhR4qIYKD4=;
+        b=SVh8tcmy0dbzTx8l/Ul3XdSKgxZThIG2xWQSd7Nul5WYhd0sT9qMTMiadSEHYB9is8
+         2MrsQ5LrVfyKUb2bJwQRcagnC3xQEO2THEg3LPwUEOZmwlAtdKvrPKNdoBlxHe4uWQpH
+         3MXkTM5l8Rhkg372JNBTStXU6S1aijPEESn4lFhYS8/NIPGi/0Lpt686s9VtU7pEnww0
+         I+JDwMqZVBjIXd5XTNnPmXERfa53v37cyF9IvJM7jUdQdsnXFOEoN6cfEgeZZKIcAxtJ
+         wJREB3bR/ya8o0zE/KkYUtUBj9oAx601nvimk65q8uSsJ/l6Gp0zv50C9+CtpD+4LJAV
+         UzMA==
+X-Forwarded-Encrypted: i=1; AHgh+RokyxpfdRe+46eyNnDFaTz9cJab/7ToCYOVGOSADChtt/i4OwZAcwkMdpgk5hL5GB6CGybdAHgWwg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhuVyVsUL8UgzqtAWNmgQACkvWAA51IW7Opc/fFs6eFGHqCMpC
+	di79sbrWH4YL07xcea9cmiJmMOLZIsSj59g2+xrW1fDmSKE8UnidPlyFgyzhWKI3
+X-Gm-Gg: AR+sD11mvOlVQMdP5QLjEoAWN9WdGZo3T+llbB3osK6MxpE+gFEJm2K2pj3+ncxpSbR
+	Bg9ERs0G1b/Vmoqaf4ZE5hDdo8ImNjCYlvpjIRPRnDK2xn+9jiWqUU6IRJu4locde8TGj08Xkp0
+	RGSHeZEovHCf0wEeXMx6uwlBEVG0ESyZ6gqxn6tpLjKv4S0E2cwRTkt9qmOuhedZPBQrpd17xLq
+	xDs+0aERhfbidGp7lZJbqOhQB4N1DdQyArhBoCiO8a3VFHxXqU7zdO6fe3o2WiwOpHaIXxQHJyq
+	QpUWf8OeFfqElws0jHTlaEDRwVR0Twu0O427wqkzmmcBWF0hvxkdpzovDLG6Vuj2N0VUyT4L8Yv
+	VyZBPuqVp32zaFnIdaMAN5nACH2UUzCdU70ggg4apX4kUO79HxPAL/0Qq0VLXfhK7262K4PZbk3
+	lJboiIXdf7FJmvguUO0VvZiYa34hQYGp5lYVRLzum91WzZdaYu17ldaPvEyBTagbpkSS2VDB6Rp
+	a4+PvVDhBIv2Nso9tNfzqCft/bCCA==
+X-Received: by 2002:a17:90b:5805:b0:38e:655c:6516 with SMTP id 98e67ed59e1d1-39300fd1767mr5227416a91.0.1786533725134;
+        Wed, 12 Aug 2026 04:22:05 -0700 (PDT)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com. [209.85.210.176])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-392f94ad854sm3213706a91.10.2026.08.12.04.22.04
+        for <arm-scmi@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Aug 2026 04:22:04 -0700 (PDT)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8487214ad2bso1290955b3a.1
+        for <arm-scmi@vger.kernel.org>; Wed, 12 Aug 2026 04:22:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrhORvLfarfDaSDw+kH+J/IQrV9NZetSxCTKjD44+3v8V6sCqkf5yrL0ci3DCHploi+DEy+hv9gsA==@vger.kernel.org
+X-Received: by 2002:a05:6102:5692:b0:740:177:f357 with SMTP id
+ ada2fe7eead31-76c8d1f94a9mr774665137.6.1786533275732; Wed, 12 Aug 2026
+ 04:14:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <cover.1783505329.git.geert+renesas@glider.be> <49726acff0fee1c3606e83c4f242ef6aad25b4b8.1783505329.git.geert+renesas@glider.be>
+ <20260710-adventurous-burgundy-chimera-b2fff9@quoll> <CAMuHMdV=ckONBbTYELPJU8YWoNzdu3PJ95VR8cz+f_7dUeiPUw@mail.gmail.com>
+ <20260716214924.GA1477674-robh@kernel.org> <CAMuHMdU0ss6wUEdjC+OYa3iQS439aJ8b_d9M2ws7Ayn4_kOyMQ@mail.gmail.com>
+ <20260811163334.GA2354701-robh@kernel.org> <CAMuHMdWbzg-QpFBzzDa2hC3HzAmWUkerESC5O-cSVxmWX3_PkQ@mail.gmail.com>
+ <45dfd858-9d59-47e6-91e0-ef9e6e909af6@kernel.org> <CAMuHMdXJFdJQP1GVXrOWRuYO8Si_WF5X+vpzmAgTZY+tQstR1A@mail.gmail.com>
+ <7b066c1f-20b7-407f-9268-e9dbeafab004@kernel.org>
+In-Reply-To: <7b066c1f-20b7-407f-9268-e9dbeafab004@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 12 Aug 2026 13:14:23 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVXgNcxDJf8XsSjXhC5+Pq6+Z+mcn6Hn50u8KwimKt9RA@mail.gmail.com>
+X-Gm-Features: AUfX_myBSrf5rDcsVRuaQc_or0Um_HrH3WBYGhc9bJh3otQ1_zgZw-LE1s1AUdw
+Message-ID: <CAMuHMdVXgNcxDJf8XsSjXhC5+Pq6+Z+mcn6Hn50u8KwimKt9RA@mail.gmail.com>
 Subject: Re: [PATCH v2 05/10] dt-bindings: clock: renesas,r8a78000-cpg: Add
  firmware property
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Rob Herring <robh@kernel.org>, Sudeep Holla <sudeep.holla@kernel.org>,
- Cristian Marussi <cristian.marussi@arm.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
- Ulf Hansson <ulfh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>,
- Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
- Vinod Koul <vkoul@kernel.org>, Konrad Dybcio
- <konrad.dybcio@oss.qualcomm.com>, Kevin Hilman <khilman@baylibre.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <cover.1783505329.git.geert+renesas@glider.be>
- <49726acff0fee1c3606e83c4f242ef6aad25b4b8.1783505329.git.geert+renesas@glider.be>
- <20260710-adventurous-burgundy-chimera-b2fff9@quoll>
- <CAMuHMdV=ckONBbTYELPJU8YWoNzdu3PJ95VR8cz+f_7dUeiPUw@mail.gmail.com>
- <20260716214924.GA1477674-robh@kernel.org>
- <CAMuHMdU0ss6wUEdjC+OYa3iQS439aJ8b_d9M2ws7Ayn4_kOyMQ@mail.gmail.com>
- <20260811163334.GA2354701-robh@kernel.org>
- <CAMuHMdWbzg-QpFBzzDa2hC3HzAmWUkerESC5O-cSVxmWX3_PkQ@mail.gmail.com>
- <45dfd858-9d59-47e6-91e0-ef9e6e909af6@kernel.org>
- <CAMuHMdXJFdJQP1GVXrOWRuYO8Si_WF5X+vpzmAgTZY+tQstR1A@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <CAMuHMdXJFdJQP1GVXrOWRuYO8Si_WF5X+vpzmAgTZY+tQstR1A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Sudeep Holla <sudeep.holla@kernel.org>, 
+	Cristian Marussi <cristian.marussi@arm.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Ulf Hansson <ulfh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Vinod Koul <vkoul@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Kevin Hilman <khilman@baylibre.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, arm-scmi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 12/08/2026 12:02, Geert Uytterhoeven wrote:
-> Hi Krzysztof,
-> 
-> On Wed, 12 Aug 2026 at 11:51, Krzysztof Kozlowski <krzk@kernel.org> wrote:
->> On 12/08/2026 11:47, Geert Uytterhoeven wrote:
->>>>>>>>> +  firmware:
->>>>>>>>
->>>>>>>> RPi is doing similar, but I have doubts. It looks way too close to
->>>>>>>> generic "syscon" which is disallowed.
->>>>>>>>
->>>>>>>> I think this should be vendor+purpose specific, e.g.:
->>>>>>>> "renesas,scmi-transport" or "renesas,scmi-firmware"
->>>>>>
->>>>>> If you can tell me the resource that a 'firmware' provider provides then
->>>>>> it is fine, but you can't.
->>>>>
->>>>> It provides a firmware API, which is not available until the firmware
->>>>> provider is initialized.
->>>>
->>>> I don't know what "a firmware API" is. What does it provide? I know what
->>>
->>> It can provide lots of things (everything we are no longer allowed to
->>> touch directly from Linux ;-)
->>>
->>>> a clock, GPIO, reset, interrupt, etc. provider is.
->>>
->>> A clock is an object you can access through the clock API.
->>> (s/clock/.../ for the other cases).
->>> Firmware is a service (virtual object) you can access through a
->>> firmware API.
->>>
->>> In all cases, the consumer of the object or service needs to know
->>> which object or service to use (there can be multiple).
->>>
->>> In all cases you cannot access the object or service until it is
->>> available (initialized and registered), for which we have -EPROBE_DEFER,
->>> and/or "[PATCH v2 02/10] of: property: fw_devlink: Add support for
->>> firmware".
->>>
->>> Thanks for your understanding ;-)
->>
->> I think that's the difference here. Clock is not an object, but a signal
->> on a wire or within IC coming from one device (provider) to another
->> (consumer). Firmware is not a signal, not a wire, not anything which can
->> be provided from one to another.
-> 
-> Oh yes, it is a service provided by the secure world or a different
-> CPU core to the application core running Linux.
+Hi Krzysztof,
 
-Service is still not a resource. Not mentioning it is way too generic,
-because anything can be a service. We have entire services-based economies.
+On Wed, 12 Aug 2026 at 12:38, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> On 12/08/2026 12:02, Geert Uytterhoeven wrote:
+> > On Wed, 12 Aug 2026 at 11:51, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> >> On 12/08/2026 11:47, Geert Uytterhoeven wrote:
+> >>>>>>>>> +  firmware:
+> >>>>>>>>
+> >>>>>>>> RPi is doing similar, but I have doubts. It looks way too close to
+> >>>>>>>> generic "syscon" which is disallowed.
+> >>>>>>>>
+> >>>>>>>> I think this should be vendor+purpose specific, e.g.:
+> >>>>>>>> "renesas,scmi-transport" or "renesas,scmi-firmware"
+> >>>>>>
+> >>>>>> If you can tell me the resource that a 'firmware' provider provides then
+> >>>>>> it is fine, but you can't.
+> >>>>>
+> >>>>> It provides a firmware API, which is not available until the firmware
+> >>>>> provider is initialized.
+> >>>>
+> >>>> I don't know what "a firmware API" is. What does it provide? I know what
+> >>>
+> >>> It can provide lots of things (everything we are no longer allowed to
+> >>> touch directly from Linux ;-)
+> >>>
+> >>>> a clock, GPIO, reset, interrupt, etc. provider is.
+> >>>
+> >>> A clock is an object you can access through the clock API.
+> >>> (s/clock/.../ for the other cases).
+> >>> Firmware is a service (virtual object) you can access through a
+> >>> firmware API.
+> >>>
+> >>> In all cases, the consumer of the object or service needs to know
+> >>> which object or service to use (there can be multiple).
+> >>>
+> >>> In all cases you cannot access the object or service until it is
+> >>> available (initialized and registered), for which we have -EPROBE_DEFER,
+> >>> and/or "[PATCH v2 02/10] of: property: fw_devlink: Add support for
+> >>> firmware".
+> >>>
+> >>> Thanks for your understanding ;-)
+> >>
+> >> I think that's the difference here. Clock is not an object, but a signal
+> >> on a wire or within IC coming from one device (provider) to another
+> >> (consumer). Firmware is not a signal, not a wire, not anything which can
+> >> be provided from one to another.
+> >
+> > Oh yes, it is a service provided by the secure world or a different
+> > CPU core to the application core running Linux.
+>
+> Service is still not a resource. Not mentioning it is way too generic,
+> because anything can be a service. We have entire services-based economies.
 
-Best regards,
-Krzysztof
+Do you have a suggestion?
+This is just a phandle linking a firmware consumer to a(n optional)
+firmware
+provider.
+
+What do you suggest?
+Perhaps "scmi-parent" (cfr. "interrupt-parent", which also does
+not point to the resources consumed, but to the provider of these
+resources)?
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
