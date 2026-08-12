@@ -1,178 +1,164 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9CAB40097A
-	for <arm-scmi@vger.kernel.org>; Wed, 12 Aug 2026 09:13:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32E84195A0
+	for <arm-scmi@vger.kernel.org>; Wed, 12 Aug 2026 09:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786525994; cv=none; b=ji+RbyptKucg5wJAZs+9pVROns6E0nrrPFT1Fy4qAq7Q3IjaKKUzz1nZF3tJoBp+L+HbJe5Nj1CkYaI/DLjQtEnPKbIOwaMwNuS2dqt+wDRsasJP+yS4bcTCZt3uQxZN94xEFxSqm77hebRkNLUDxBTPBZWpnbjVC4tU3d9RTto=
+	t=1786528065; cv=none; b=G22ON8KgPrRlSSraY7APbE3XON7lG5flJnwlGvEiQ85aWlz4wrfK+dJU3lOBr6N9q74zmHkBWe9TFsKrtgCIBCO8fRVuvLQKubwQQerp75CG29n3ktkvL7BaavCh37USNiPoPD5SKab5l+dF97Y+tfDSSpC5tlYGqgrZDvnhAWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786525994; c=relaxed/simple;
-	bh=ocgX1pDw3Akkw8kPU55zkyixBru7VgTxC2qT9emL7gw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=olvJtTHD6veuw22Fb6LcvHdORZbCv9z2fDq4pIFlGhPL5bdo3rmtq0VVZgqHPfHUf8OMINJjDSPeQmson2Y80ApIT1km6YQbOkUcxzM3FQmT/j8b9UkdBzyNzCgKR03iaoDaVeHUv5cP7RS4/n3PTZROmIBGpChgvQv5DSOOMkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=osRJ3OkD; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MlodgneH; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="osRJ3OkD";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MlodgneH"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67C8YIXr2987144
-	for <arm-scmi@vger.kernel.org>; Wed, 12 Aug 2026 09:13:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	en3WBeGYYKKXUQNTqjZIewPokiWrCYWKofzjGcl8Hwo=; b=osRJ3OkD/txwrGrJ
-	lYo1OSnlvhhGF2/i/13Kk7xLHpWivjlqAtdThdDCHwc/s3INThmnBrcB7/pHbgST
-	pHDUOtI0/SRtNYiJuVTPGDs9/WB/L/mpnGHwbMmA/vUH24Qm0RkxNIf9rvbvD/mi
-	cnohwO9Jl61A45tm9uE2iamEmWawRtIN8P/w9AsuIIFcZfX7IqOgi2PjtaxgCJYv
-	t5PpN3VcOt0gsNEFwzU4Q02tQb5bGnmtcqHnZIw5ElWmkIGLV5Tu0AtBuSuJfnG4
-	CznYM1wo3J/6JAbGhzpf8/HISfINk1wpHjohJR41rICy2jZLt5tYzRDIxwhleqRI
-	17YWHg==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g049kmgh4-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Wed, 12 Aug 2026 09:13:11 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-38dde0df80bso1362965a91.3
-        for <arm-scmi@vger.kernel.org>; Wed, 12 Aug 2026 02:13:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1786525991; x=1787130791; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=en3WBeGYYKKXUQNTqjZIewPokiWrCYWKofzjGcl8Hwo=;
-        b=MlodgneHx3h4LPKC9I1/3d92DFw6aChr4Ldy+qUCOw4dZ5WQZsWuBX/ov5Hwy74fNO
-         LLHBFVew17tYR7Tul3u6l4jaLpFxbcbDn1BHltBHgtXWtrUftZqiMyYkpyxKOP0ZWYjX
-         Cqk6U+jkj7JwhBNMMFvh+8c2D5ehLQDMc/3bokn2gXUvUFlrtEbTe+VbA/kkpb6gAzhr
-         IMVQLe+4LISV7kQTKbsWFblJg0NoIZTdStsMgHCMSNIr0cGBwV2ZBNO+r5xPvMwgfFHv
-         lk9nI6n+MvIkiv/3BwOCQ2Ayf9qiM6bWk//nIOA+Tu5ajI+S5oCci5iNw8W06aQ2YU8i
-         ONHA==
+	s=arc-20240116; t=1786528065; c=relaxed/simple;
+	bh=bWURXCZrQDZ0x80rfdOSm1jqz2Xjezk3ZnaVSR44ifs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UXkPn43DH3tNskO/PBq1nUhixNnY3gPGVjRhAcR+LQeZf6mNjrmTTRxXtDqNAIfiahPBWIu+kdTWHGAtWKjG9wbeFlimo1J+6THkdgg4fsaHD3xNYQTlk66e9hez5WIOsYvmz7m8BFBU/rB4GD6CFwn2JWSGOubBJ/YHFOyJZxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-5c2c46a428eso475217e0c.2
+        for <arm-scmi@vger.kernel.org>; Wed, 12 Aug 2026 02:47:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786525991; x=1787130791;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=en3WBeGYYKKXUQNTqjZIewPokiWrCYWKofzjGcl8Hwo=;
-        b=WoEZV4GBaWyGgCKCqdraGHatVjyRo8Hi44ngjVJ5nttwbNyWHxeJ4MxRQ2/snCUFr+
-         6rPlugc6RPleB2iEWm00jRT9EFMPIuprLzl0fWk2KC0qynQGBpjPa5Dik/AnJVNXb1xB
-         nMC8lvqCsUBT99pMkQoVKdwInAzxIT0fMX5CMvAbkzaf6LAyO8Wyz3v3gaEFOtJ5Tx7T
-         pG5/Zv/J0wuRx2z4d0ENT8qHactNPsruflsN0+oU6WehhPi9TXXu6QYn4VXWxbqAtVES
-         zOelRaNz0azNlV1HeFM+OH/S8cBAyVqhA1VrXorHb+/v1JGFbRuUL+EasIQuQ9AbFyTR
-         9VYw==
-X-Forwarded-Encrypted: i=1; AHgh+RrL0CSD38fFLgoi65Jxl23Z8+eKZ2kz4+O8wTZiGAAQRYTazlDsHpVsgNIa5I5OG411B6OlWiHpWg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzow8zmV0h1UnZ8k8pbqP9ZM390QerSypgmlsjVPc+Bxc4i3PK0
-	ZKZb+pHA0/2WnluN+PuOV931W0r/dCAkzs12gHI9H/Np9IIXVgkAuhqB3o1A4aYz+oiFmqwN82T
-	vPyIAtg2vx9s15kWW0r3H28Khr4Ru0W/c3TdkUpeLLHC/rwhAuM7WhiNJN+XRAiEO3lyr/w==
-X-Gm-Gg: AR+sD12wr3GaH9xu/hdxO5zQ2P5MfthAi3A8SOC8QG68g62wsYmAl4XnjfuuMmLTnT2
-	FYytOmOZp4mpoaonPcEAY6FwPACsHw35rsp3qeUqbw2pXuQ0UiN0h8SP1po7Yww4wR/3yJxQV1U
-	GMT0LiiXn1PXkgyjQVydkDZwKdh5kpSbBQfCSJjt0vKkptLcN5wJEM8u6qGb11itosUA2JWZ5vD
-	Of+lYj7wPisj6ZxNmrjBxKUzsjHpXtc7M216kri+1XazCZPBNIY5jr8WamO/fVsp23Leoq4b1kz
-	xAcfyIZxEjjiyedxOyGXfWttiYFaWNU/UirrORaqQ/ZoCxcxc9e1vMiYRgmXXK20Nqe8LEJN6aR
-	kUQq5qrcTpxu6zV40O93taMwKC6r6p8S19g==
-X-Received: by 2002:a17:90b:3c11:b0:380:9f17:6df3 with SMTP id 98e67ed59e1d1-3930119ed5cmr3829296a91.4.1786525991243;
-        Wed, 12 Aug 2026 02:13:11 -0700 (PDT)
-X-Received: by 2002:a17:90b:3c11:b0:380:9f17:6df3 with SMTP id 98e67ed59e1d1-3930119ed5cmr3829241a91.4.1786525990816;
-        Wed, 12 Aug 2026 02:13:10 -0700 (PDT)
-Received: from [10.217.219.92] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-392f88d239esm2915805a91.6.2026.08.12.02.13.03
+        d=1e100.net; s=20251104; t=1786528063; x=1787132863;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=/axx2TQndZ7l7LrHHfpxsCFqNyyCWsv8j2VxY85Jrxc=;
+        b=E4e1R4ROEO9uepbmvp4XWr03RA0QJeJxUxYFpqAuzQjICGZ40XDzY90iiybQ759VW9
+         4YRDCVD4oJS1FmEN2jBfAuk1e21tYKLPqIU/yhEVV56Ay3UoStDSEWWYRK1Ihyb9Ypcg
+         ScFrPy6b+i+Q9dPRZf1Uj2LaL/KJq7vcU/0HC9t/ObOAxhC8PkRpsSd3aSwY60mBbBCy
+         dho7/RZZAjsHKjop5dB5YdoQ7lSYe3RRKyU9M/QFATiKmuxv3mJPv3kL7icGR6EWhAoX
+         S0nYza3Uu9sc0WubeswZzfX3pJ8VHb39wnj6k5cuZAUaIHM3dy0OPCGeoY/P4kpn4Naw
+         GNAw==
+X-Forwarded-Encrypted: i=1; AHgh+RoA4+50Ymnpukn96wWbV1AU5h8jBKiLzhCFti7KjqrVU+hO01GoSCwSoEVb/1EyC2oaltfVHXIeLQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7+4lfID0YR/vkrkiCBHqvOfa3TOfNATDU4/QI8Cpo0vBcMOIt
+	R53qI9bnI0pXCd2ciookAijfLy0Sk3e/B6k3lYxZjgUsjBowHxVBSbco6xFTb544
+X-Gm-Gg: AR+sD132qN61osVqe4rWSfNIpMD6uIGawcMtFyDY4QjC+vsbQjGvljNkvzLJ6grN2T/
+	rnsXqJqv7NZwlxMfjOVQX7kRUlLqwL0AhHVx1qi84qIs6UfKuJZmXGcMKheJw/4SCwa3zImAfUt
+	FrxCi1wQCHIFX4h2mBEjcpJEno8p/GX6HsWtO7Mq27X1pRRUmKuAVZilxMuFX3Yic0yJTwSXfA3
+	zbSPmcki0CnxjULhi9K4h0AUplOWieaUQX/0/Zl3e4JU6DSXXGWK8SgROz0H/chsBA8LE4eLZyk
+	0oNQ4r10m6v7VbvC5GO3npLw23ToCi2975ETZ0hOF08bCrFAd0aumd0JAS+eTUJQkQkTpblWC5K
+	d2yRKjbBP60BDMkh827g1VzUKUB/VLKjcX27Dis+2jxZP7NCwIKeLgcoMm6lRckCF16V5/4kZNh
+	XjRcib2leaHL3rCiw5AF9Pv73BhqcOKtkouryXYSedUhU/d9CLsDIzqjMGKm3ZEgv1njZMc8LmC
+	O8TKAjqX4qXL/aqC2oPqLO77A==
+X-Received: by 2002:a05:6122:2982:b0:5c2:cffc:2c55 with SMTP id 71dfb90a1353d-5c4f1bca9a6mr477970e0c.0.1786528062767;
+        Wed, 12 Aug 2026 02:47:42 -0700 (PDT)
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c45b516918sm1012472e0c.8.2026.08.12.02.47.41
+        for <arm-scmi@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Aug 2026 02:13:10 -0700 (PDT)
-Message-ID: <779ec0da-4b51-4f8e-a59f-d482f8e8dbaf@oss.qualcomm.com>
-Date: Wed, 12 Aug 2026 14:43:02 +0530
+        Wed, 12 Aug 2026 02:47:41 -0700 (PDT)
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-754acc61e10so307340137.2
+        for <arm-scmi@vger.kernel.org>; Wed, 12 Aug 2026 02:47:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoQNml0j+HoPchpJaTXCox8yd2zQW//d/Vw5Ki9bR0xDcvz2+gZdtvspMDl8KMu/rUcXKOLOxLIjg==@vger.kernel.org
+X-Received: by 2002:a05:6102:8020:b0:74c:7fd8:73eb with SMTP id
+ ada2fe7eead31-76c87d7044amr1040741137.1.1786528061345; Wed, 12 Aug 2026
+ 02:47:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/7] pmdomain: arm: Fix -EINVAL from
- scmi_pd_set_perf_state() on state 0
-To: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
-Cc: Praveen Talari <praveen.talari@oss.qualcomm.com>,
-        konrad.dybcio@oss.qualcomm.com, Sudeep Holla <sudeep.holla@kernel.org>,
-        Cristian Marussi <cristian.marussi@arm.com>,
-        Ulf Hansson <ulfh@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        chandana.chiluveru@oss.qualcomm.com, arm-scmi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-i2c@vger.kernel.org
-References: <20260805-derive_clk_perf_tbl_from_perf_domain_opp_table-v1-0-61171ab1cdce@oss.qualcomm.com>
- <20260805-derive_clk_perf_tbl_from_perf_domain_opp_table-v1-1-61171ab1cdce@oss.qualcomm.com>
- <d5d64ea3-9c6f-41f5-adc4-9923381d732b@oss.qualcomm.com>
- <CAPx+jO_-1tZfZcjae9shyWcKPsj0fM1SvRzC9_JVOvJr--EeuA@mail.gmail.com>
-Content-Language: en-US
-From: Mukesh Savaliya <mukesh.savaliya@oss.qualcomm.com>
-In-Reply-To: <CAPx+jO_-1tZfZcjae9shyWcKPsj0fM1SvRzC9_JVOvJr--EeuA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: T7kTvit9d7qt2lxzo-OUcXepzQIziG-V
-X-Authority-Analysis: v=2.4 cv=IO4yzAvG c=1 sm=1 tr=0 ts=6a7c3927 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=EUspDBNiAAAA:8 a=GpIJag5-aaecOpU0j1UA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEyMDA3MyBTYWx0ZWRfX0QG7Mw4wx6d4
- Erq5A9KBkSFZ2BFby6yji2Ap0+IcvSWSe0XgRm9dHJLbTQG53NLKq5FpCek7G24fmYFzU4Btc+6
- 4pstsTr9wIvcpTtEA8eAugVw53s/olNqpv+q8mE6biZPJ4lQQD/R3ogqw9eNvPhPm+Dg9Kq8elh
- C62U5+o6K/00Pdw29yPtkQTUcvcnNSPNGVBpy8IjXMSWsFuV42rmKpv5r4L6IsM7SX81fePY9G3
- zGuEveZ9zmICQc64GDNbWESz4ICBopgij1o9U9vOqRJHPyMyYi6Ay4pjcEmHg0DgPPUA27ODhvr
- ChOFYvAwYwPn1eeO+xuFbFRAf1QBwuazEHhTzaAOMm7K4C8KP+sHOzGh/ZS3k4uq/b+LDvprx3p
- xY7r5Rsrf3X1EHoZehtfGCxxpgZ+OMgASI9FYtOo0dOWDuuAWHn/dWEvM/I9TdjTTjWrl+cPEmS
- A5qihw/zJXSw7eKtjBw==
-X-Proofpoint-GUID: T7kTvit9d7qt2lxzo-OUcXepzQIziG-V
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODEyMDA3MyBTYWx0ZWRfX1K04B+Q2J8GM
- Xnt8Z/N+daQPQ6I9WDWWZvC+Tf/tPwmsYzccXLjmg3c+rpce90HMljmqY0aWsH7Ou1SdtUL7tLr
- JhTcVTK97RSr5Mw6jFf2Qw2W+60XH+8=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-12_02,2026-08-10_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0 priorityscore=1501 clxscore=1015 impostorscore=0
- suspectscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608120073
+References: <cover.1783505329.git.geert+renesas@glider.be> <49726acff0fee1c3606e83c4f242ef6aad25b4b8.1783505329.git.geert+renesas@glider.be>
+ <20260710-adventurous-burgundy-chimera-b2fff9@quoll> <CAMuHMdV=ckONBbTYELPJU8YWoNzdu3PJ95VR8cz+f_7dUeiPUw@mail.gmail.com>
+ <20260716214924.GA1477674-robh@kernel.org> <CAMuHMdU0ss6wUEdjC+OYa3iQS439aJ8b_d9M2ws7Ayn4_kOyMQ@mail.gmail.com>
+ <20260811163334.GA2354701-robh@kernel.org>
+In-Reply-To: <20260811163334.GA2354701-robh@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 12 Aug 2026 11:47:30 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWbzg-QpFBzzDa2hC3HzAmWUkerESC5O-cSVxmWX3_PkQ@mail.gmail.com>
+X-Gm-Features: AUfX_mxykVa-_GVxsMsY5j-WoXLeEw0hqTlxX_hGEjk_L8dF08TYL9-2xHiMqsc
+Message-ID: <CAMuHMdWbzg-QpFBzzDa2hC3HzAmWUkerESC5O-cSVxmWX3_PkQ@mail.gmail.com>
+Subject: Re: [PATCH v2 05/10] dt-bindings: clock: renesas,r8a78000-cpg: Add
+ firmware property
+To: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sudeep Holla <sudeep.holla@kernel.org>, 
+	Cristian Marussi <cristian.marussi@arm.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Ulf Hansson <ulfh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Vinod Koul <vkoul@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Kevin Hilman <khilman@baylibre.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, arm-scmi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Rob,
 
+On Tue, 11 Aug 2026 at 18:33, Rob Herring <robh@kernel.org> wrote:
+> On Mon, Aug 03, 2026 at 02:01:18PM +0200, Geert Uytterhoeven wrote:
+> > On Thu, 16 Jul 2026 at 23:49, Rob Herring <robh@kernel.org> wrote:
+> > > On Fri, Jul 10, 2026 at 01:02:39PM +0200, Geert Uytterhoeven wrote:
+> > > > On Fri, 10 Jul 2026 at 12:21, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > > > > On Wed, Jul 08, 2026 at 12:16:23PM +0200, Geert Uytterhoeven wrote:
+> > > > > > Add a firmware property, for systems where SCMI must be used instead of
+> > > > > > direct hardware access.
+> > > > > >
+> > > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > > > ---
+> > > > > > v2:
+> > > > > >   - Spin off from "dt-bindings: clock: Document Renesas R-Car X5H Clock
+> > > > > >     Pulse Generator".
+> > > > > > ---
+> > > > > >  .../devicetree/bindings/clock/renesas,r8a78000-cpg.yaml    | 7 +++++++
+> > > > > >  1 file changed, 7 insertions(+)
+> > > > > >
+> > > > > > diff --git a/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml b/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml
+> > > > > > index 4e23bba334382346..fc499e7cf52e4f0c 100644
+> > > > > > --- a/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml
+> > > > > > +++ b/Documentation/devicetree/bindings/clock/renesas,r8a78000-cpg.yaml
+> > > > > > @@ -35,6 +35,12 @@ properties:
+> > > > > >        <dt-bindings/clock/renesas,r8a78000-cpg.h>.
+> > > > > >      const: 1
+> > > > > >
+> > > > > > +  firmware:
+> > > > >
+> > > > > RPi is doing similar, but I have doubts. It looks way too close to
+> > > > > generic "syscon" which is disallowed.
+> > > > >
+> > > > > I think this should be vendor+purpose specific, e.g.:
+> > > > > "renesas,scmi-transport" or "renesas,scmi-firmware"
+> > >
+> > > If you can tell me the resource that a 'firmware' provider provides then
+> > > it is fine, but you can't.
+> >
+> > It provides a firmware API, which is not available until the firmware
+> > provider is initialized.
+>
+> I don't know what "a firmware API" is. What does it provide? I know what
 
-On 8/12/2026 2:27 PM, Ulf Hansson wrote:
-> On Wed, Aug 12, 2026 at 9:24 AM Mukesh Savaliya
+It can provide lots of things (everything we are no longer allowed to
+touch directly from Linux ;-)
 
-[...]
->>> --- a/drivers/pmdomain/arm/scmi_perf_domain.c
->>> +++ b/drivers/pmdomain/arm/scmi_perf_domain.c
->>> @@ -33,7 +33,7 @@ scmi_pd_set_perf_state(struct generic_pm_domain *genpd, unsigned int state)
->>>                return 0;
->>>
->>>        if (!state)
->>> -             return -EINVAL;
->>> +             return 0;
->>
->> Won't this cause an issue to other drivers ? how are they going to take
->> action based on changed return value ?
-> 
-> I think it's rather the opposite. With the current returned value
-> (-EINVAL) the driver doesn't really know what to do. It tried to drop
-> its vote, but that failed - so what can it do?
-> 
-> Moreover, from genpd point of view, this fixes a real bug as the
-> aggregation for the performance state becomes incorrect during runtime
-> suspend/resume.
-> 
-Got it, thanks Ulf for your explanation and also read your previous 
-comments.
->>
->> Remove Acked-by due to this till i give back.
+> a clock, GPIO, reset, interrupt, etc. provider is.
 
-Reviewed-by: Mukesh Savaliya <mukesh.savaliya@oss.qualcomm.com>
+A clock is an object you can access through the clock API.
+(s/clock/.../ for the other cases).
+Firmware is a service (virtual object) you can access through a
+firmware API.
 
+In all cases, the consumer of the object or service needs to know
+which object or service to use (there can be multiple).
+
+In all cases you cannot access the object or service until it is
+available (initialized and registered), for which we have -EPROBE_DEFER,
+and/or "[PATCH v2 02/10] of: property: fw_devlink: Add support for
+firmware".
+
+Thanks for your understanding ;-)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
