@@ -1,217 +1,201 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136FC494A08
-	for <arm-scmi@vger.kernel.org>; Wed, 12 Aug 2026 22:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D40F2D8DA8;
+	Thu, 13 Aug 2026 07:19:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786574598; cv=none; b=TzVhWIFwp9fvYxZT+ZRFwfTWznyrFG0+fkx3Q15oz3rPCA8B4FVr2HsPLQxL2qGDy0OHWO0JOYBv3uJ12RY4r+aPS2tKh+fvJSUVpMWuOYAIsVtxiQCPdvgcO/gUheuqIeVy+3kc1U9q2YsenjlBtvLVCPeOTbVLBLQffcmhF34=
+	t=1786605541; cv=none; b=VzJ42uy1P5P4FS996K+2U0i8cB2z0v1TTGSq27ZAJnYc1G04VIxjaQ+2PfN7u69uo3abRqal9zqEETkjVRNwcv4XuX1sJTWr1uDDeI5ApF3M2B56wmW3LkOWS1B02xZagYsMj05N+eez2sY25Ek4JFqimb4c5NxpvUnqCGC7RdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786574598; c=relaxed/simple;
-	bh=nZur1dPKXTeT+OS2wl6C4MvZRNxHd1W5cwm8phkqB/Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fVaDtM9wbmR9lPhPPgj6Gk8+peBvXJ2YhpcdWioYhjDMhwWVyK27os0+eLm71EqKLJ54dVw9f43Bj23fvK7+zz2/pTPOK33cCBCBRQ0+nAG814u+JmxGhVNcWFWd5/P+nCdH2YRBM6UbEbi3VKNVmiYJGHJMeSm3F1fIszCZ/5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rivian.com; spf=pass smtp.mailfrom=rivian.com; dkim=pass (2048-bit key) header.d=rivian.com header.i=@rivian.com header.b=Yn6nhgMx; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rivian.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivian.com
+	s=arc-20240116; t=1786605541; c=relaxed/simple;
+	bh=QdYe9RJeMNsxpKwZFiURVJVpUDQL5B3dzbulFEKTXUQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TttE9/kx6ghTlbwMmU2kijcq37Fie1Zp07sq8D17tn66KrBvWtxuCF9IQSlKYtC0akQE0t1Pe68h4EhQcJ3AqlqxjenD+3b1lgxBTF+X/uma6zgf0k94LZeOfQhD87FEyiH7GPAEGY2WNMfIywbvu5LNcS8+NmYJGgooRJpSTEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o1Wn/cbM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivian.com header.i=@rivian.com header.b="Yn6nhgMx"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cbedf433a99so1417054a12.2
-        for <arm-scmi@vger.kernel.org>; Wed, 12 Aug 2026 15:43:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivian.com; s=google; t=1786574596; x=1787179396; darn=vger.kernel.org;
-        h=content-type:mime-version:references:in-reply-to:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rlblx6qt1rqemUxEZ6qZUYhzuNbcWAL6YV0Kj3/NsUE=;
-        b=Yn6nhgMxhR+bV1AGQKwfq7sEHIUaHSm6YS4M1dXOJD8IiZx6SXTWv+Yz3OcVXMVC9r
-         aN9A/jGJ5FAUtEZwf2EYxlAVFpdolwhpmuQlKGoXN6sGk5V97U8jxTFh4C40ksiXmtc2
-         FGEHnGfLvPtK4AF2Tcy4nvO9HY0ruv1umNeKR4rABvF5HcLsQJdcgyc1HqVN85JaQaPZ
-         +zmUraqz9nVcNOc8rQcAwOO/d430A+dbVZChY+Rk7t9I052vNMyp57wrXrFEXhWeyqXd
-         G/Y+DpCaEyELZ2hxRaY17YaIsHSG6jbSW5LTmav+WG39/mp9RNOvnXDFftVn1YRbveHL
-         wgMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786574596; x=1787179396;
-        h=content-type:mime-version:references:in-reply-to:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rlblx6qt1rqemUxEZ6qZUYhzuNbcWAL6YV0Kj3/NsUE=;
-        b=o95J/Hte9XcxInK9vEGHqdYdC+IGMADekUaiuEFqHy2eDHPalzNfTMmmgTVjBR+ysD
-         BJdJblZTm7x4ASyioLLpAyC9D/myErs2hkyE1eWk8pZJ+YBmdwcnioDqBl1DE803VvFU
-         e4FMMwnP0sK99LshiMWx9eKuBVb8MW/qAg4hsFzkrP+kPGcK/HbbU6D4zmYBQSg2kQTV
-         ScpEORgQxXbrxCjn7x1R5Pv1baem4PXbJIjQR0WLZUkStauQ55qbW6EBj7TL9MpP9FXy
-         7uoqI/UN75qZDaUxUJlMV0YE5IRJepmBKTvaKyVA0vxnRaGrpAlU8X3nR9ix5E46Eogb
-         S22Q==
-X-Gm-Message-State: AOJu0YxZF2L+3b7aFLx8QHLGzujov341Nkg0mACsSq2FRYhSruauzjeQ
-	6EAkD4QwW+Ypwqget8zVPiV8TYoBGWQEzJypjcQvXiNQrBLHMWxj0zBHu2nDJ71lr6cAc8Omw/A
-	mWmzHjKtY+NCKu96v2yQwAQkl6H0peolZA2rvNJyz1ty3fuXelhTJCXTfMC89tMxm6SA=
-X-Gm-Gg: AR+sD11SPSUrd7P02p3V5hQwpUg5PGKxiWwpGPNgAR3uUrmG4b87e9TiIZd4sxt7iuH
-	3RdVPTawYjmnHksj76Wfb4m+ApwWVs9s7mBXWJMxcX88sSt9jqI2acSxJvbfPlHseIyN592DjmV
-	LXb9/mIbIcAwABid+bI8b+gX0kMwMJyPfmWyAKMx+dgAbge3IIv52M2KmfXv6FbaTYcSIX2WOs2
-	E/Tvs1aQrtm9JKU0jUQrbE1p+8zuGAJu7G95jldLUI/NTfBgSv7ySUQ5jS7ZnWKGGPyqGL8tsmG
-	D+Zicpwq9+cqwec/kYaixES7dA7CKeIru4P39QKI67NE/1iAnOL2GBf5mSDHXOig3HGCkIzkcG/
-	WUx7Uk+aZaS8UERtW4Q1peYdjQ5F6CFumoaa2kcGiCmU5ZaDPvVw1BvHHZv0+MkcKOsy990MVlr
-	9PZVMpAva9ZsvWZBhNEi8sGbfSaD9r2rsRRIbmYtc6BNBwycVQEM1zTJ+3nMf3NSC1d/vOGszYc
-	b/HzGDo9nskBZ0TuSa0EzMyrEkcdLc8gtowM/P+fwe/kBXenf6jAut7PG7uxQk19YzL5MfvWa9z
-	5ymNeMRDrcC80LUs
-X-Received: by 2002:a05:6a20:cd96:b0:3b7:aefe:4367 with SMTP id adf61e73a8af0-3cc5540b487mr1915887637.33.1786574596145;
-        Wed, 12 Aug 2026 15:43:16 -0700 (PDT)
-Received: from ip-10-198-159-19.us-west-2.compute.internal (ec2-44-232-128-107.us-west-2.compute.amazonaws.com. [44.232.128.107])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbef710cc24sm204967a12.20.2026.08.12.15.43.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 15:43:15 -0700 (PDT)
-From: Roland Dreier <rolanddreier@rivian.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>
-Cc: arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] firmware: arm_scmi: Don't reuse raw xfers with async_done still armed
-Date: Wed, 12 Aug 2026 22:43:06 +0000
-Message-ID: <20260812224311.904964-2-rolanddreier@rivian.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260812224311.904964-1-rolanddreier@rivian.com>
-References: <20260812224311.904964-1-rolanddreier@rivian.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o1Wn/cbM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A6501F000E9;
+	Thu, 13 Aug 2026 07:18:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786605540;
+	bh=qZdbRmYqK/NrvcZBL3tWkYiVhgLDOnhq5mM4HObQAxw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=o1Wn/cbMNYFQmCUsmbGr3DdlRdbtKgTn11O8kaXLF0Qkoo68sKSVSbjTJO9JrBfaP
+	 3DwLp62nQGHEuHmTwOSbF47l1Tpp8CzAnCdlm5IN15uXiF9xWUBImjCXSvrPnLcCrX
+	 vhNOo1VCg1zYLjOsU+fWnYRTlBY1KBM/QzNTMnK6uHC+NMTeZrm/Ll9NdRsfqM1JG4
+	 sH74IfNAwkn3q0yWImbSf/GfOa6Hx0N6PlxOzwmKtiTK3piMnq/2yxsqG2CYeYIpGb
+	 O30vYFtBTQoDfeeUyizF0NtaBYNCV45wQhWQfACxDmR6wq3kFIccPz6rwLqIG9en36
+	 Hts6eddT+YSZg==
+Date: Thu, 13 Aug 2026 08:18:54 +0100
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
+Cc: Pragnesh Papaniya <pragnesh.papaniya@oss.qualcomm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rajendra Nayak <rajendra.nayak@oss.qualcomm.com>,
+	Pankaj Patil <pankaj.patil@oss.qualcomm.com>,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH RFC 01/10] firmware: arm_scmi: Add SCMI QCOM Generic
+ Extension Protocol documentation
+Message-ID: <20260813-remarkable-handsome-heron-e99e78@sudeepholla>
+References: <20260724-rfc_v8_scmi_memlat-v1-0-cb732bcff1f4@oss.qualcomm.com>
+ <20260724-rfc_v8_scmi_memlat-v1-1-cb732bcff1f4@oss.qualcomm.com>
+ <20260724-crouching-starfish-of-apotheosis-d1cdf8@sudeepholla>
+ <f39b2be0-b6d6-43a6-a412-44ff433c51f6@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f39b2be0-b6d6-43a6-a412-44ff433c51f6@oss.qualcomm.com>
 
-In SCMI raw mode, scmi_xfer_raw_worker() releases the xfer before
-releasing the waiter that disarms xfer->async_done, and scmi_xfer_get()
-does not clear async_done when it hands out a recycled xfer. A concurrent
-transaction can therefore pick up the xfer while it still points at the
-old waiter's completion, so:
+On Tue, Aug 04, 2026 at 02:07:28AM +0530, Sibi Sankar wrote:
+> 
+> On 7/24/2026 2:43 PM, Sudeep Holla wrote:
+> > On Fri, Jul 24, 2026 at 12:48:06PM +0530, Pragnesh Papaniya wrote:
+> > > Add System Control Management Interface (SCMI) Qualcomm Generic Extension
+> > > Protocol documentation. It consists of a small set of generic SET/GET/
+> > > START/STOP commands, which is used to turn on/off and configure Qualcomm
+> > > SoC specific algorithms that run on the SCP.
+> > > 
+> > > It currently only supports MEMLAT (memory latency governor) algorithm.
+> > > The immutable pairing of the MEMLAT algorithm string with the supported
+> > > param_ids associated with it are documented here.
+> > > 
+> > > Co-developed-by: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
+> > > Signed-off-by: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
+> > > Signed-off-by: Pragnesh Papaniya <pragnesh.papaniya@oss.qualcomm.com>
+> > > ---
+> > >   .../arm_scmi/vendors/qcom/qcom_generic.rst         | 954 +++++++++++++++++++++
+> > >   1 file changed, 954 insertions(+)
+> > > 
+> > > diff --git a/drivers/firmware/arm_scmi/vendors/qcom/qcom_generic.rst b/drivers/firmware/arm_scmi/vendors/qcom/qcom_generic.rst
+> > > new file mode 100644
+> > > index 000000000000..42e327d53841
+> > > --- /dev/null
+> > > +++ b/drivers/firmware/arm_scmi/vendors/qcom/qcom_generic.rst
+> > > @@ -0,0 +1,954 @@
+> > > +.. SPDX-License-Identifier: GPL-2.0
+> > > +.. include:: <isonum.txt>
+> > > +
+> > > +==================================================================================
+> > > +System Control and Management Interface (SCMI) Qualcomm Generic Extension Protocol
+> > > +==================================================================================
+> > > +
+> > > +:Copyright: |copy| Qualcomm Technologies, Inc. and/or its subsidiaries.
+> > > +
+> > > +:Authors:
+> > > +   - Sibi Sankar <sibi.sankar@oss.qualcomm.com>
+> > > +   - Pragnesh Papaniya <pragnesh.papaniya@oss.qualcomm.com>
+> > > +
+> > > +System Control and Management Interface Qualcomm Generic Extension Vendor Protocol
+> > > +==================================================================================
+> > > +
+> > > +System Control Management Interface (SCMI) Qualcomm Generic Extension Protocol
+> > > +consists of a small set of generic SET/GET/START/STOP commands, which is used to
+> > > +turn on/off and configure Qualcomm SoC specific algorithms that run on the SCP.
+> > > +Each algorithm is identified through an algorithm string and has an immutable list
+> > > +of param_ids. All supported algorithms (currently just MEMLAT) have their own
+> > > +dedicated section and are listed after the generic commands.
+> > > +
+> 
+> Hey Sudeep,
+> 
+> Will set some context here, this version of the vendor protocol is currently
+> running in the wild on 5 SoCs (Hamoa, Purwa, Glymur, Mahua, Kaanapali).
 
- - a delayed response arriving for the new transaction can be signalled
-   on the old waiter's completion, which may already be re-armed for yet
-   another unrelated transaction, making that transaction's wait return
-   early; and
+While noted, this does not impact the code quality or review process for an
+entirely new feature. That context would be relevant for a localized fix or
+system quirk, but it is not applicable here.
 
- - the old waiter's disarm, which still runs after the xfer has been
-   released, clobbers the arming just installed by the new transaction,
-   so the new waiter times out even if its delayed response arrives.
+> The ABI/Specification that this vendor protocol uses can't be changed in
+> any way since other Os'es like Windows/Android expect it to behave as
+> described in this document and will break userspace.
 
-Release the waiter first, while the worker still holds a reference on
-the xfer, so that an xfer can never reach the free list still
-armed. Track whether a delayed response is expected in the waiter
-itself instead of peeking at xfer->async_done outside xfer->lock, and
-wait on the waiter's own embedded completion. (The new async flag is
-not strictly needed but it makes the logic easier to reason about)
+The current rationale isn't entirely clear to me. Windows historically favors
+ACPI over native SCMI, meaning that supporting a proprietary vendor protocol
+would require non-native workarounds potentially hidden within interfaces like
+PEP. I am skeptical of this architectural direction. Since Android leverages
+the Linux kernel and already manages this through vendor modules, maintaining
+those as modules seems like the optimal path until we agree on the interface
+that can be merged.
 
-Finally, harden scmi_xfer_get() to clear async_done when handing out
-an xfer, so that no future release-ordering change can leak a stale
-arming into a new transaction.
+> series is meant for the devfreq portion (since it introduces a new devfreq
+> governor) and is not for the vendor protocol. We certainly can take design
+> improvements for future revisions but making changes to this major/minor
+> version of the firmware isn't possible.
+>
 
-Fixes: 3c3d818a9317 ("firmware: arm_scmi: Add core raw transmission support")
-Signed-off-by: Roland Dreier <rolanddreier@rivian.com>
----
- drivers/firmware/arm_scmi/driver.c   |  1 +
- drivers/firmware/arm_scmi/raw_mode.c | 25 +++++++++++++++++++++----
- 2 files changed, 22 insertions(+), 4 deletions(-)
+Given that this patch series has been under discussion for nearly two years,
+please provide a summary of the feedback that has already been incorporated
+to address these concerns just for sake of argument and in your defence.
 
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 5c295bdc15ca..2d8884f0036b 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -717,6 +717,7 @@ static struct scmi_xfer *scmi_xfer_get(const struct scmi_handle *handle,
- 
- 	refcount_set(&xfer->users, 1);
- 	atomic_set(&xfer->busy, SCMI_XFER_FREE);
-+	xfer->async_done = NULL;
- 	spin_unlock_irqrestore(&minfo->xfer_lock, flags);
- 
- 	return xfer;
-diff --git a/drivers/firmware/arm_scmi/raw_mode.c b/drivers/firmware/arm_scmi/raw_mode.c
-index 8751cff5fa4e..5ee21f6b7001 100644
---- a/drivers/firmware/arm_scmi/raw_mode.c
-+++ b/drivers/firmware/arm_scmi/raw_mode.c
-@@ -198,6 +198,8 @@ struct scmi_raw_mode_info {
-  * @async_response: A completion to be, optionally, used for async waits: it
-  *		    will be setup by @scmi_do_xfer_raw_start, if needed, to be
-  *		    pointed at by xfer->async_done.
-+ * @async: True if @async_response was armed on @xfer, i.e. if a delayed
-+ *	   response has to be waited for.
-  * @node: A list node.
-  */
- struct scmi_xfer_raw_waiter {
-@@ -205,6 +207,7 @@ struct scmi_xfer_raw_waiter {
- 	struct scmi_chan_info *cinfo;
- 	struct scmi_xfer *xfer;
- 	struct completion async_response;
-+	bool async;
- 	struct list_head node;
- };
- 
-@@ -349,6 +352,7 @@ scmi_xfer_raw_waiter_get(struct scmi_raw_mode_info *raw, struct scmi_xfer *xfer,
- 			scmi_xfer_async_response_arm(xfer, &rw->async_response);
- 		}
- 
-+		rw->async = async;
- 		rw->cinfo = cinfo;
- 		rw->xfer = xfer;
- 	}
-@@ -361,8 +365,16 @@ static void scmi_xfer_raw_waiter_put(struct scmi_raw_mode_info *raw,
- 				     struct scmi_xfer_raw_waiter *rw)
- {
- 	if (rw->xfer) {
-+		/*
-+		 * Disarm the delayed response before this waiter, and its
-+		 * embedded completion, can be picked up again for a new
-+		 * transaction: a delayed response received late, after the
-+		 * related wait timed out, must not signal a completion which
-+		 * has been in the meantime re-armed on a different xfer.
-+		 */
- 		scmi_xfer_async_response_disarm(rw->xfer);
- 		rw->xfer = NULL;
-+		rw->async = false;
- 	}
- 
- 	mutex_lock(&raw->free_mtx);
-@@ -479,18 +491,23 @@ static void scmi_xfer_raw_worker(struct work_struct *work)
- 				    ret, scmi_inflight_count(raw->handle));
- 
- 		/* Wait also for an async delayed response if needed */
--		if (!ret && xfer->async_done) {
-+		if (!ret && rw->async) {
- 			unsigned long tmo = msecs_to_jiffies(SCMI_MAX_RESPONSE_TIMEOUT);
- 
--			if (!wait_for_completion_timeout(xfer->async_done, tmo))
-+			if (!wait_for_completion_timeout(&rw->async_response, tmo))
- 				dev_err(dev,
- 					"timed out in RAW delayed resp - HDR:%08X\n",
- 					pack_scmi_header(&xfer->hdr));
- 		}
- 
--		/* Release waiter and xfer */
--		scmi_xfer_raw_put(raw->handle, xfer);
-+		/*
-+		 * Release the waiter first: this disarms the delayed response
-+		 * while we still hold a reference on the xfer, so that the xfer
-+		 * cannot be recycled by a new transaction while it still points
-+		 * at this waiter's completion.
-+		 */
- 		scmi_xfer_raw_waiter_put(raw, rw);
-+		scmi_xfer_raw_put(raw->handle, xfer);
- 	} while (1);
- }
- 
+To clarify, the vendor protocol space is strictly intended for
+platform-specific functionalities that cannot be standardized; it should not
+be used to bypass standardization for convenience. It appears no evaluation
+was done to determine if or why the standard performance protocol was
+insufficient. Had that assessment occurred, I would expect the proposed
+interface to align much more closely with the standard definitions as I
+previously mentioned.
+
+> Plenty of folks running linux on these SoCs would benefit a great deal from
+> this series landing, so please have a bit of patience, take a look at the
+> documentation/series as a whole. I still feel we should be able to land this
+> series in a form that is acceptable to you. However, if you still feel you
+> have
+> to NAK this series regardless of its usefulness to the users, please do list
+> the
+> reasons and we'll try our best to convince you otherwise.
+> 
+
+The core issue here is that the proposed vendor protocol interface has been
+presented as a finished product without open discussion or a willingness to
+iterate based on upstream feedback. This approach bypasses standard
+development processes.
+
+IMO these vendor protocol interfaces must be debated on the mailing list prior
+to finalization, similar to the 'code-first' prototyping model used for new
+ACPI specifications or SCMI early prototyping. If an interface is developed
+in isolation and then submitted with an expectation of immediate acceptance
+without modification, we cannot approve it. I recommend we pivot to an open
+review of the interface design itself.
+
+> > This multiplexer 'N' random algorithn into one single custom SCMI protocol ID
+> > (0x80) seems to go against the general SCMI design principle and this seems
+> 
+> Only the strings documented are allowed by the vendor protocol while the
+> rest are filtered out, so we clearly don't have to worry about this. Also
+> grouping a class of devfreq algorithms into a single vendor protocol should
+> be treated as a SoC vendor design choice.
+> 
+
+This is precisely why I previously suggested defining MEMLAT as its own
+distinct protocol. Doing so maintains architectural consistency and adheres to
+core SCMI principles.
+
+> > like a deliberated attempt to circumvent the standard SCMI protocol template.
+> > Standard SCMI expects distinct features to occupy their own vendor protocol
+> > IDs and utilize standard protocol discovery.
+> > 
+
+^^^ as mentioned above
+
 -- 
-2.54.0
-
-
--- 
-*CONFIDENTIALITY NOTE:* This electronic message (including any attachments) 
-may contain information that is privileged, confidential, and proprietary. 
-If you are not the intended recipient, you are hereby notified that any 
-disclosure, copying, distribution, or use of the information contained 
-herein (including any reliance thereon) is strictly prohibited. If you 
-received this electronic message in error, please immediately reply to the 
-sender that you have received this communication and destroy the material 
-in its entirety, whether in electronic or hard copy format. Although Rivian 
-has taken reasonable precautions to ensure no viruses are present in this 
-email, Rivian accepts no responsibility for any loss or damage arising from 
-the use of this email or attachments.
+Regards,
+Sudeep
