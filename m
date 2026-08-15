@@ -1,31 +1,31 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D6E438F94C;
-	Sat, 15 Aug 2026 23:26:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D955739E9BF;
+	Sat, 15 Aug 2026 23:26:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786836414; cv=none; b=PfObik0k5qS8jo5Zm9MbUOxv6dqqFtte8/zDVHZY3Y6pjl40JAEZF8FsbBYlMYyO9pV8MhGMOKz/uRi1UKmButf7GuBlekKygfG5Z8wEA0IhTVOm5siyTgprLeaC/Edf0Mu8SRS7HnBgijrmdVGr6SIhrVwZZ7qWqlnKnpHI+eI=
+	t=1786836418; cv=none; b=djR3NYZx0u/I0zV4scsc7qjbAo0J59b7GEQLWf+TgR3E2nWdiSMRPae0UCw3U3/GkR3HmN1RjvbaAYssnyGhtWDe0BWNuJ3fpNXKwmXrVkmdWWZca2pcm9bsu37Axe3KcaUr9Pu7bQElV4iZfraKCLkktBG9kV/HsT68onSMr8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786836414; c=relaxed/simple;
-	bh=9vZoBgzFE2THNFE8s+a0rg1bPJg4MV54NAwQFcIi1xY=;
+	s=arc-20240116; t=1786836418; c=relaxed/simple;
+	bh=5P9ZuvQ/38HQaH48tpNZsAjPLPf474W8M/GUNsIkNhg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c1EqqhFHgP0MFmIdgk6hJnUFXOqgz5Sfn/uB5OipdIbyniYUxc1WWx41fhvN6ZCWUdqXrvAX29NNa7j5DhVXS2ogC5eVhBqWDUFR5Fyq1GzSXOdvVcCTjZ0h5AUeypSznwmDjCUbnB0LGRbB5OrLN6cHZVYfDJSP72WN3HoUwIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Ub99Pa9O; arc=none smtp.client-ip=217.140.110.172
+	 MIME-Version; b=mZju6s1e5UC/CYQ7uc8/hiETzkdUydIOy7NvBnhJMzxflTtKN4M7yiuGh7+UZ1EoFcIgujaOIc1b6OwpToAME4fB72Ft05hhzE6nVvgr3C9Vnl4jvZCMprFs652RMpfaKegCH+YLWaTSyc3GSXOvMu4N7Vh3pcCOmkNrasjbURY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=dcHSzdgb; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Ub99Pa9O"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="dcHSzdgb"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7656E1596;
-	Sat, 15 Aug 2026 16:26:48 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 199171650;
+	Sat, 15 Aug 2026 16:26:52 -0700 (PDT)
 Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B50CB3F673;
-	Sat, 15 Aug 2026 16:26:48 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AAC593F673;
+	Sat, 15 Aug 2026 16:26:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1786836412; bh=9vZoBgzFE2THNFE8s+a0rg1bPJg4MV54NAwQFcIi1xY=;
+	t=1786836416; bh=5P9ZuvQ/38HQaH48tpNZsAjPLPf474W8M/GUNsIkNhg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ub99Pa9Oj0FEkUHMvEUlToD8KJwdHgvVH4A4jMgyovW8Cg7+elAU9OIyFCmGoBq6y
-	 V9MRBIDyBt7cu/7L1HloYqCSDdcWzZ38w8qjrMm3Dj0487ZaUBsi01CpXTQ8pLVXp+
-	 UF/JITPHBOkNkIVuCsREKHBqFYhvDYd6fK8zdBjw=
+	b=dcHSzdgbo/rjXkWlL+preXKIO3GVPA/sOoPF/QefJ4mk6CEh7TgZbbRXSV+Zn7/+J
+	 ur1YiYD1hQnBhN6rU1npC5h222yKn3UzuulQ07Gyz2Rk95iVYgtwef8ekaKWWSIoSP
+	 htJdsnyAORp9g2FiPQjpVfBQyRXiT1KMOelJWdIc=
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -50,14 +50,10 @@ Cc: sudeep.holla@kernel.org,
 	puranjay@kernel.org,
 	usama.arif@linux.dev,
 	kernel-team@meta.com,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: [PATCH v10 04/24] dt-bindings: firmware: arm,scmi: Add support for telemetry protocol
-Date: Sun, 16 Aug 2026 00:25:44 +0100
-Message-ID: <20260815232604.3730754-5-cristian.marussi@arm.com>
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [PATCH v10 05/24] include: trace: Add Telemetry trace events
+Date: Sun, 16 Aug 2026 00:25:45 +0100
+Message-ID: <20260815232604.3730754-6-cristian.marussi@arm.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260815232604.3730754-1-cristian.marussi@arm.com>
 References: <20260815232604.3730754-1-cristian.marussi@arm.com>
@@ -69,42 +65,73 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add new SCMI v4.0 Telemetry protocol bindings definitions.
+Add custom traces to report Telemetry failed accesses and to report when DE
+values are updated internally after a notification is processed.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 ---
-v3 --> v4
- - changed protocol number to lowercase 1b
- - fixed misplaced block for protocol 0x1b
-
-Cc: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: devicetree@vger.kernel.org
+v7 --> v8
+ - use proper FTRACE helpers for variable strings
 ---
- Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ include/trace/events/scmi.h | 45 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-index d06cca9273c4..be733f8d60a0 100644
---- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-+++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-@@ -324,6 +324,14 @@ properties:
-     required:
-       - reg
- 
-+  protocol@1b:
-+    $ref: '#/$defs/protocol-node'
-+    unevaluatedProperties: false
+diff --git a/include/trace/events/scmi.h b/include/trace/events/scmi.h
+index 703b7bb68e44..002d2bc9ae15 100644
+--- a/include/trace/events/scmi.h
++++ b/include/trace/events/scmi.h
+@@ -180,6 +180,51 @@ TRACE_EVENT(scmi_msg_dump,
+ 		  __entry->tag, __entry->msg_id, __entry->seq, __entry->status,
+ 		__print_hex_str(__get_dynamic_array(cmd), __entry->len))
+ );
 +
-+    properties:
-+      reg:
-+        const: 0x1b
++TRACE_EVENT(scmi_tlm_access,
++	TP_PROTO(u64 de_id, unsigned char *tag, u64 startm, u64 endm),
++	TP_ARGS(de_id, tag, startm, endm),
 +
- unevaluatedProperties: false
++	TP_STRUCT__entry(
++		__field(u64, de_id)
++		__string(tag, tag)
++		__field(u64, startm)
++		__field(u64, endm)
++	),
++
++	TP_fast_assign(
++		__entry->de_id = de_id;
++		__assign_str(tag);
++		__entry->startm = startm;
++		__entry->endm = endm;
++	),
++
++	TP_printk("[%s] de_id=0x%llX - startm=%016llX endm=%016llX",
++		  __get_str(tag), __entry->de_id, __entry->startm, __entry->endm)
++);
++
++TRACE_EVENT(scmi_tlm_collect,
++	TP_PROTO(u64 ts, u64 de_id, u64 value, unsigned char *tag),
++	TP_ARGS(ts, de_id, value, tag),
++
++	TP_STRUCT__entry(
++		__field(u64, ts)
++		__field(u64, de_id)
++		__field(u64, value)
++		__string(tag, tag)
++	),
++
++	TP_fast_assign(
++		__entry->ts = ts;
++		__entry->de_id = de_id;
++		__entry->value = value;
++		__assign_str(tag);
++	),
++
++	TP_printk("[%s] ts=%llu de_id=0x%04llX value=%016llu",
++		   __get_str(tag), __entry->ts, __entry->de_id, __entry->value)
++);
++
+ #endif /* _TRACE_SCMI_H */
  
- $defs:
+ /* This part must be outside protection */
 -- 
 2.54.0
 
