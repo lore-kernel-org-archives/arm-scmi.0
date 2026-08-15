@@ -1,31 +1,31 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0DAA3955FD;
-	Sat, 15 Aug 2026 23:26:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59B2313777E;
+	Sat, 15 Aug 2026 23:26:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786836403; cv=none; b=ftdA8JP9mLiXA/GlplCsWtJYrOlWLUxsfl1OSCWz6V2dYjRPEkDHrgEnNZqsfalbeGMr8TazCWJwp/qFIaAeg4R3dWDb47NAWlSbB38dOjh9vc9ntd+WT79y3AziJ7HirOfjVYk/sumsZT0YhKOg4sEreq6y5cvPEBkOXbjAee8=
+	t=1786836407; cv=none; b=Vg93yKsDjm0noccxfnpNQjpA+zumC+NolqP40rJkzt22bN7b5EHUUtUPQt64juhkuvI1kxAFvTOlidafiRS8gxHDFCjjZGAsgpeqoStk2LPLQ9dOp7T3mBTaUAbzKVBobyAlabV0Ctlp7dAWDpxfqOKhSF0S1WhUt6+soUAtvVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786836403; c=relaxed/simple;
-	bh=bWQb7uwORFSY6GGme2jUY9rEAwIe/vwccDMcGQhyUF4=;
+	s=arc-20240116; t=1786836407; c=relaxed/simple;
+	bh=kc3I60Mwx0FL03HtD9owXVOlrlWJxSMB1oRXmHRFUqo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Dfn8EQwYUZumLy6r5Pef2ID6LM0hQ2Sgd6Dik4L34bSPyi8puM/pB22851waiR/7HLwG+chladsDHRzW4N520S/FqShOnoVwF+ZxxFMwNDCac6ICrSjAqwCFihTci3A5xxNFz0eLj1RIMydFFRAUgHJYJGVcAAtaErMeY3NhWV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=iRt4hOSN; arc=none smtp.client-ip=217.140.110.172
+	 MIME-Version; b=NmbU410+iWniZFv+WHct1uvxwY8Q6b4ZDfHbDj9mnse0llHjMWmLFlnI3O2Uu31DLyJ+v8ipNfg0QnYSCw8BLEAMHetFxQRdXCg8MyoZJy3o8V9wKSaN1jzhtaAgy8YdC3MMksDpSmnaw3pqSe8c9/LPOpDsnxGMwcxju1HkLG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=qjINt3RQ; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="iRt4hOSN"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="qjINt3RQ"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 21BFC1596;
-	Sat, 15 Aug 2026 16:26:37 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CB9B51596;
+	Sat, 15 Aug 2026 16:26:40 -0700 (PDT)
 Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B32403F673;
-	Sat, 15 Aug 2026 16:26:37 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6C48D3F673;
+	Sat, 15 Aug 2026 16:26:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1786836401; bh=bWQb7uwORFSY6GGme2jUY9rEAwIe/vwccDMcGQhyUF4=;
+	t=1786836404; bh=kc3I60Mwx0FL03HtD9owXVOlrlWJxSMB1oRXmHRFUqo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iRt4hOSN7B4mYmPtbMoDYSzjdiEE/0BtWGWDAHJyu/6NJr7B9PseWowUTg+JffO9E
-	 82GBblUBwVVig7aC1XuOkzYfOTrc2rL5+Y4oROd2P4rXbNfBcIJMhXXz2K2f+VTsVA
-	 BXI1K7CDU2ua0oJQiz4kzWNSEso28qEkGLEvtHN8=
+	b=qjINt3RQxYbCd8kVUiWEMd1oDewHlqrOD92bJbn5Y5Egh9hGLkMHiun+5gvBUQlpY
+	 6Qnng1tUcx3RfbBZ7UT6iDOwt0PbQytIMkH0pKpf8uwnj85UvGSoF+aHb2m5f1zsS+
+	 u7mtTIdU4vrfpGOw27dT6kFbkZvzBcP5KAz5Qx9w=
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -52,9 +52,9 @@ Cc: sudeep.holla@kernel.org,
 	kernel-team@meta.com,
 	Cristian Marussi <cristian.marussi@arm.com>,
 	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-Subject: [PATCH v10 01/24] firmware: arm_scmi: Add new SCMIv4.0 error codes definitions
-Date: Sun, 16 Aug 2026 00:25:41 +0100
-Message-ID: <20260815232604.3730754-2-cristian.marussi@arm.com>
+Subject: [PATCH v10 02/24] firmware: arm_scmi: Allow registration of unknown-size events/reports
+Date: Sun, 16 Aug 2026 00:25:42 +0100
+Message-ID: <20260815232604.3730754-3-cristian.marussi@arm.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260815232604.3730754-1-cristian.marussi@arm.com>
 References: <20260815232604.3730754-1-cristian.marussi@arm.com>
@@ -66,40 +66,103 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-SCMIv4.0 introduces a couple of new possible protocol error codes: add
-the needed definitions and mappings to Linux error values.
+Allow protocols to register events with build-time unknown sizes: such
+events can be declared zero-sized and let the core SCMI stack perform the
+needed safe-net boundary checks based on the configured transport size.
 
 Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 ---
-v4 --> v5
- - map SCMI_ERR_IN_USE to EBUSY as natural
+v2 --> v3
+ - split out of previous patch on protocol notifier
+ - use max() instead of max_t()
 ---
- drivers/firmware/arm_scmi/common.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/firmware/arm_scmi/notify.c | 24 +++++++++++++++++++-----
+ drivers/firmware/arm_scmi/notify.h |  8 ++++++--
+ 2 files changed, 25 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-index b9723c105fc1..d9db4a4d17dc 100644
---- a/drivers/firmware/arm_scmi/common.h
-+++ b/drivers/firmware/arm_scmi/common.h
-@@ -46,6 +46,8 @@ enum scmi_error_codes {
- 	SCMI_ERR_GENERIC = -8,	/* Generic Error */
- 	SCMI_ERR_HARDWARE = -9,	/* Hardware Error */
- 	SCMI_ERR_PROTOCOL = -10,/* Protocol Error */
-+	SCMI_ERR_IN_USE = -11,  /* In Use Error */
-+	SCMI_ERR_PARTIAL = -12, /* Partial Error */
- };
+diff --git a/drivers/firmware/arm_scmi/notify.c b/drivers/firmware/arm_scmi/notify.c
+index 0a192cf2deab..8995dd1b12aa 100644
+--- a/drivers/firmware/arm_scmi/notify.c
++++ b/drivers/firmware/arm_scmi/notify.c
+@@ -595,7 +595,13 @@ int scmi_notify(const struct scmi_handle *handle, u8 proto_id, u8 evt_id,
+ 	if (!r_evt)
+ 		return -EINVAL;
  
- static const int scmi_linux_errmap[] = {
-@@ -61,6 +63,8 @@ static const int scmi_linux_errmap[] = {
- 	-EIO,			/* SCMI_ERR_GENERIC */
- 	-EREMOTEIO,		/* SCMI_ERR_HARDWARE */
- 	-EPROTO,		/* SCMI_ERR_PROTOCOL */
-+	-EBUSY,			/* SCMI_ERR_IN_USE */
-+	-EINVAL,		/* SCMI_ERR_PARTIAL */
- };
+-	if (len > r_evt->evt->max_payld_sz) {
++	/*
++	 * Events with a zero max_payld_sz are sized to be of the maximum
++	 * size allowed by the transport: no need to be size-checked here
++	 * since the transport layer would have already dropped such
++	 * over-sized messages.
++	 */
++	if (r_evt->evt->max_payld_sz && len > r_evt->evt->max_payld_sz) {
+ 		dev_err(handle->dev, "discard badly sized message\n");
+ 		return -EINVAL;
+ 	}
+@@ -754,7 +760,7 @@ int scmi_register_protocol_events(const struct scmi_handle *handle, u8 proto_id,
+ 				  const struct scmi_protocol_handle *ph,
+ 				  const struct scmi_protocol_events *ee)
+ {
+-	int i;
++	int i, max_msg_sz;
+ 	unsigned int num_sources;
+ 	size_t payld_sz = 0;
+ 	struct scmi_registered_events_desc *pd;
+@@ -769,6 +775,8 @@ int scmi_register_protocol_events(const struct scmi_handle *handle, u8 proto_id,
+ 	if (!ni)
+ 		return -ENOMEM;
  
- static inline int scmi_to_linux_errno(int errno)
++	max_msg_sz = ph->hops->get_max_msg_size(ph);
++
+ 	/* num_sources cannot be <= 0 */
+ 	if (ee->num_sources) {
+ 		num_sources = ee->num_sources;
+@@ -781,8 +789,13 @@ int scmi_register_protocol_events(const struct scmi_handle *handle, u8 proto_id,
+ 	}
+ 
+ 	evt = ee->evts;
+-	for (i = 0; i < ee->num_events; i++)
+-		payld_sz = max_t(size_t, payld_sz, evt[i].max_payld_sz);
++	for (i = 0; i < ee->num_events; i++) {
++		if (evt[i].max_payld_sz == 0) {
++			payld_sz = max_msg_sz;
++			break;
++		}
++		payld_sz = max(payld_sz, evt[i].max_payld_sz);
++	}
+ 	payld_sz += sizeof(struct scmi_event_header);
+ 
+ 	pd = scmi_allocate_registered_events_desc(ni, proto_id, ee->queue_sz,
+@@ -811,7 +824,8 @@ int scmi_register_protocol_events(const struct scmi_handle *handle, u8 proto_id,
+ 		mutex_init(&r_evt->sources_mtx);
+ 
+ 		r_evt->report = devm_kzalloc(ni->handle->dev,
+-					     evt->max_report_sz, GFP_KERNEL);
++					     evt->max_report_sz ?: max_msg_sz,
++					     GFP_KERNEL);
+ 		if (!r_evt->report)
+ 			return -ENOMEM;
+ 
+diff --git a/drivers/firmware/arm_scmi/notify.h b/drivers/firmware/arm_scmi/notify.h
+index 76758a736cf4..ecfa4b746487 100644
+--- a/drivers/firmware/arm_scmi/notify.h
++++ b/drivers/firmware/arm_scmi/notify.h
+@@ -18,8 +18,12 @@
+ /**
+  * struct scmi_event  - Describes an event to be supported
+  * @id: Event ID
+- * @max_payld_sz: Max possible size for the payload of a notification message
+- * @max_report_sz: Max possible size for the report of a notification message
++ * @max_payld_sz: Max possible size for the payload of a notification message.
++ *		  Set to zero to use the maximum payload size allowed by the
++ *		  transport.
++ * @max_report_sz: Max possible size for the report of a notification message.
++ *		  Set to zero to use the maximum payload size allowed by the
++ *		  transport.
+  *
+  * Each SCMI protocol, during its initialization phase, can describe the events
+  * it wishes to support in a few struct scmi_event and pass them to the core
 -- 
 2.54.0
 
