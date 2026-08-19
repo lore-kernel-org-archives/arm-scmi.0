@@ -1,132 +1,88 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2D7A476680;
-	Tue, 18 Aug 2026 13:25:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E703C8C68
+	for <arm-scmi@vger.kernel.org>; Wed, 19 Aug 2026 06:15:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787059534; cv=none; b=tTOg6v+5iM4D7rs78oMQYQ6uY6XQn6UdiLdEsvAbT4VpHh/SWg/lIR3FZCSRUBbx5dLjb97ygaRP2RO5cCo6vvLQJMr9eHC0MUbQw7d8VhOtFZNcMjOfBZf0r4Mvg5sMuNbPBMRgUV8c91vxYKjNicSpEMljxaQ9snpz2P6snF0=
+	t=1787120153; cv=none; b=D9IPiCHMpmF1U3FOtO+F/TdyZ6JAvwqXxbAkU2fkJ05B6C2rcEkmEd83zVgr3/Gi/jamk384GVfGCv4huTODtzrPUa3KDoT0gUHaAO7pbZP0jS5+iBrN3AUbHdQV8q8reI7Y3IjNeTvv9mDzVRBtTRrU1Fg+eGVYfgARh5dxi9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787059534; c=relaxed/simple;
-	bh=OJp14S+iPt1BXD5wTtSCszOJNvf4u0MI/zwVRUKoPrQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ML47INoD92xU7GQUonRBk3Zzhcvchl+sjwBmxWQo/zWvuiCSE5EcvHFYZfc8T1qk1SdrSc2wG3c/Z/aQH4ahdLiHB0y5F2yzQ3ICIzVw+bn/u5sK5B2GQrNHKT8iI54puBgREmMiPs3JNYO3eeTCM8JjZUIXNPflsBc2lTV3fac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=BckAIkpT; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="BckAIkpT"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8F1D91516;
-	Tue, 18 Aug 2026 06:25:26 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B134A3F673;
-	Tue, 18 Aug 2026 06:25:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1787059530; bh=OJp14S+iPt1BXD5wTtSCszOJNvf4u0MI/zwVRUKoPrQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BckAIkpTAjNcNf38AZcEvNZ++T3jG+At4QE+uMC7m/JRIClYis3jW2DSQTU8iq/qy
-	 AXC98h6oCLGhELY2BDzcjM0+gleldOBKyaM1TEYkSLeV3HXd1FBdzrfkEW75l7ChsW
-	 XRd56DO9Cx0LVQKr+JzQzTCdX7UfMmac2Nc0Mjvg=
-Date: Tue, 18 Aug 2026 14:25:19 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Fayssal Benmlih <Fayssal.Benmlih@arm.com>
-Cc: Cristian Marussi <Cristian.Marussi@arm.com>,
-	"arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>,
-	"d-gole@ti.com" <d-gole@ti.com>,
-	"david@kernel.org" <david@kernel.org>,
-	Elif Topuz <Elif.Topuz@arm.com>,
-	"etienne.carriere@st.com" <etienne.carriere@st.com>,
-	"f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-	"james.quinlan@broadcom.com" <james.quinlan@broadcom.com>,
-	"jic23@kernel.org" <jic23@kernel.org>,
-	"kas@kernel.org" <kas@kernel.org>,
-	"kernel-team@meta.com" <kernel-team@meta.com>,
-	"leitao@kernel.org" <leitao@kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Lukasz Luba <Lukasz.Luba@arm.com>,
-	"michal.simek@amd.com" <michal.simek@amd.com>,
-	"peng.fan@oss.nxp.com" <peng.fan@oss.nxp.com>,
-	Philip Radford <Philip.Radford@arm.com>,
-	"puranjay@kernel.org" <puranjay@kernel.org>,
-	Souvik Chakravarty <Souvik.Chakravarty@arm.com>,
-	"sudeep.holla@kernel.org" <sudeep.holla@kernel.org>,
-	"usama.arif@linux.dev" <usama.arif@linux.dev>,
-	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>
-Subject: Re: [PATCH v7 11/23] firmware: arm_scmi: Add Telemetry notification
- support
-Message-ID: <aoRdP1u5lhUCclbU@pluto>
-References: <20260802145618.1952804-12-cristian.marussi@arm.com>
- <53688831-E76D-48AB-99E7-4CE7C456620B@contoso.com>
+	s=arc-20240116; t=1787120153; c=relaxed/simple;
+	bh=BCXTkEiuQx0+u7v8BiRMehLsPBE2GiY/0ezKuu94wKI=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=def81UGLS2tlTVaQ7w2OsfFthRFASMB3rIGOJZ2kWdMQYhm2uSKBbfAX4aGyxJ+dzWTnKco/Ff6lmjV5DJNfYKx9dX4zNWqeZ2ZXe/f4JyJOXA927o37nTOG3MKOyrcNWtDNupjFl1b7IebbYUWeXD1aRZCq5VYjtGwJeFTlTJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 69ab15b69b9511f19a56ed5b684f684d-20260819
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:8c6e4911-1948-4769-bdcd-572fec5c07d8,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:20
+X-CID-META: VersionHash:7db8b62,CLOUDID:b09a46832efa2d920fef21ef90dc5f58,BulkI
+	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50,EDM:5,IP:ni
+	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 69ab15b69b9511f19a56ed5b684f684d-20260819
+X-User: lijun01@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <lijun01@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 748287342; Wed, 19 Aug 2026 14:15:45 +0800
+From: Li Jun <lijun01@kylinos.cn>
+To: lijun01@kylinos.cn,
+	sudeep.holla@kernel.org,
+	cristian.marussi@arm.com,
+	arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] firmware: arm_scmi: pm: use SIMPLE_DEV_PM_OPS for pm struct
+Date: Wed, 19 Aug 2026 14:15:30 +0800
+Message-Id: <20260819061530.2391788-1-lijun01@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <53688831-E76D-48AB-99E7-4CE7C456620B@contoso.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 03, 2026 at 11:55:02PM +0100, Fayssal Benmlih wrote:
-> Hi Cristian,
-> 
+use SIMPLE_DEV_PM_OPS for scmi_dev_pm_ops,and add the value of
+.freeze .thaw .poweroff .restore.if these address are null, may cause
+error in s4.
 
-Hi,
+Signed-off-by: Li Jun <lijun01@kylinos.cn>
+---
+ drivers/firmware/arm_scmi/bus.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-> A couple of notification payload sizing issues inline.
-> 
-> > 	/* At least sized as an empty notification */
-> > 	if (payld_sz < sizeof(*p))
-> > 		return NULL;
-> >
-> > 	r->timestamp = timestamp;
-> > 	r->agent_id = le32_to_cpu(p->agent_id);
-> > 	r->status = le32_to_cpu(p->status);
-> > 	r->num_dwords = le32_to_cpu(p->num_dwords);
-> >
-> > 	if (r->num_dwords * sizeof(r->dwords[0]) > payld_sz)
-> > 		return NULL;
-> 
-> payld_sz includes the fixed wire header containing agent_id, status and
-> num_dwords. The array length is compared against that full size instead of
-> the bytes remaining after sizeof(*p).
-> 
-> This can accept num_dwords values whose array extends beyond the received
-> payload. The multiplication can also wrap before the comparison.
-> 
-> Please validate num_dwords using division after accounting for the fixed
-> header, for example against:
-> 
-> 	(payld_sz - sizeof(*p)) / sizeof(p->array[0])
-> 
-> after first checking payld_sz >= sizeof(*p).
->
+diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
+index e060edbe7e83..4ab32f1eed4f 100644
+--- a/drivers/firmware/arm_scmi/bus.c
++++ b/drivers/firmware/arm_scmi/bus.c
+@@ -13,6 +13,7 @@
+ #include <linux/kernel.h>
+ #include <linux/slab.h>
+ #include <linux/device.h>
++#include <linux/pm.h>
+ 
+ #include "common.h"
+ 
+@@ -361,10 +362,7 @@ static int scmi_pm_resume(struct device *dev)
+ 	return 0;
+ }
+ 
+-static const struct dev_pm_ops scmi_dev_pm_ops = {
+-	.suspend = pm_sleep_ptr(scmi_pm_suspend),
+-	.resume = pm_sleep_ptr(scmi_pm_resume),
+-};
++static SIMPLE_DEV_PM_OPS(scmi_dev_pm_ops, scmi_pm_suspend, scmi_pm_resume);
+ 
+ const struct bus_type scmi_bus_type = {
+ 	.name =	"scmi_protocol",
+-- 
+2.25.1
 
-All of this has been revised in v10 accounting for the header and for
-any possible 32bit wraparound...
-
-> > static const struct scmi_event tlm_events[] = {
-> > 	{
-> > 		.id = SCMI_EVENT_TELEMETRY_UPDATE,
-> > 		.max_payld_sz = 0,
-> > 		.max_report_sz = 0,
-> > 	},
-> > };
-> 
-> With max_report_sz set to zero, the generic notification code allocates
-> max_msg_sz bytes for the decoded report.
-> 
-> The decoded scmi_telemetry_update_report has a larger fixed header than
-> the wire payload because it also includes ktime_t. Consequently, a
-> maximum-sized valid wire payload requires more than max_msg_sz bytes after
-> conversion and can overflow the report buffer.
-> 
-> Please provide or calculate enough space for the decoded report header
-> plus the maximum dword array, or constrain the number of copied dwords to
-> the actual report-buffer capacity.
-
-Indeed, I will have to review this sizing...
-
-Thanks,
-Cristian
