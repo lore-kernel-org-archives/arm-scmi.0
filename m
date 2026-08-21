@@ -1,287 +1,179 @@
-Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013042.outbound.protection.outlook.com [52.101.83.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98663494A08;
-	Fri, 21 Aug 2026 14:05:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787321128; cv=pass; b=JM3bifkhqJjLtfxIimBfDgmQlQU0VEvJamiY7Hp4DvmBf8Fe35PoJvR28tZLg+mC8Ja7S8shKRrT7aox8C+BL41rW6ZLwjSmpsaq57eqhWNqkt3BhtpkZQEYc+0oxi/hJTaAaTLIs3piI3IEAtVBMRa/nLCNpkdgNm/pZssM6mg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787321128; c=relaxed/simple;
-	bh=xY6CnZViDMwNpVsvDIJLXlXMPUGateyd8GAa9iRNToI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cnv4HXQEgvEpciZAIJ++a+hBgLDYpuHRlpvL+z/xseESkMJ0f/PZ7vuTYqda90Fp00+HhL2Du29d5nrevin8M/CD6qJNxaGjAqQqCbFqVbinlUFSASinJ/ewUsHe8CP0gLu0lCJwnp/8vZaAvQfE8MYMouZO9J/o+u+TM6plt2w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=iAFqshWK; arc=pass smtp.client-ip=136.143.188.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97E243B3F5;
+	Fri, 21 Aug 2026 15:18:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.42
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787325537; cv=fail; b=SbrN7TRwJ0bx5P6nspMa8WDnLxc8iZFpWuJ1p3GYCua8k2/drWqDF6v8wKKpiYDlgPehdUoSDsMxUQdkqXqA2tSCa9KuLo/idnHkLRNWrb5EU+47hv9F0WqSgdC8izteSTdLBLpvhuCPOu7yj43H/Fx121FfOx8QJE0GK34B6SY=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787325537; c=relaxed/simple;
+	bh=/E2oGiQaVc6YGfMJ5ylCNCDfBVJADnTt9fSssl3iZvs=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:Content-Type:
+	 MIME-Version; b=hf5VfI35TNacXihjtLY1zaeXQm2Newrr2sGzz1aDNR2bs43lerEmh4+E6qlTZXIvo58Y44dFeSTg+L2d/MvmvjFiNKWfP+4+iO5d5/FBq3iDFeRxy9XUNlzVfUP3rkEQHbYmMusuEGqz9AyPWp60DX7kamTl6KxAtgDHJRYwiqg=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ZWniZjqc; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ZWniZjqc; arc=fail smtp.client-ip=52.101.83.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="iAFqshWK"
-ARC-Seal: i=1; a=rsa-sha256; t=1787321083; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=H4ryG+/eAwtbrA3rfZcwgF+bdwBvGTWVvrtPs1Yul5cUSMUWe+0tbRELoBHuFK9POaE9FUnfq5qyKr2us385/StaakQqr4HQqJUwJj2l/uCAbnaPkwp/T3zryjz0x0+2xn3fO2gYYKnkhqW7O6ss8+IPqJnpPyfJXE7JcJF6Yf0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1787321083; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=IXNJ/14cVvvKroHplPIGuCBeBYfygG4Y7sUaJ45XWQE=; 
-	b=LZyjX9ukzhWlioq344mJsaGiOxxN9QmN5v/M4N0J3TB0FD90+jf3oXIb/B8ajTaBOe3EaP7HrRmNO9AyPE57KI1aghYsoSy8EGNqq/g0L+TBOQsqLROgRWw64/fdYZOhbLF3fKXgh2hM+Lm60+lijakckEgFz9+xSnd8PEsruuU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1787321083;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=IXNJ/14cVvvKroHplPIGuCBeBYfygG4Y7sUaJ45XWQE=;
-	b=iAFqshWKEh8790DF+6N3YIUd4kqggy2PHnH67q3Arq3ViMIsiJ9ypeV/nTX7Piad
-	GxLFUhRumzgudVRzU2jjXJ/Um2kDs3PVRPsz9ZeVHs7wifQEThNSMP2QUEwNjWF46vA
-	G1ObsbYShbr8chlR5M3c0b3gTqSyVV9L+S8j2cjQ=
-Received: by mx.zohomail.com with SMTPS id 1787321080610499.6979062011268;
-	Fri, 21 Aug 2026 07:04:40 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
-	id 52022181F47; Fri, 21 Aug 2026 16:04:34 +0200 (CEST)
-Date: Fri, 21 Aug 2026 16:04:34 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Ryan Chen <ryan_chen@aspeedtech.com>, Joel Stanley <joel@jms.id.au>, 
-	Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
-	Jerome Brunet <jbrunet+clk@baylibre.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
-	Billy Tsai <billy_tsai@aspeedtech.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Taichi Sugaya <sugaya.taichi@socionext.com>, 
-	Takao Orito <orito.takao@socionext.com>, Linus Walleij <linusw@kernel.org>, 
-	Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
-	Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
-	Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, 
-	Sudeep Holla <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>, 
-	David Lechner <david@lechnology.com>, Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>, 
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Paul Cercueil <paul@crapouillou.net>, Santosh Shilimkar <ssantosh@kernel.org>, 
-	Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Sylwester Nawrocki <s.nawrocki@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Peter Griffin <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Dinh Nguyen <dinguyen@kernel.org>, Viresh Kumar <vireshk@kernel.org>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Emilio =?utf-8?B?TMOzcGV6?= <emilio@elopez.com.ar>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Prashant Gaikwad <pgaikwad@nvidia.com>, Thierry Reding <thierry.reding@kernel.org>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Ulf Hansson <ulfh@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Michal Simek <michal.simek@amd.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, linux-clk@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, 
-	arm-scmi@vger.kernel.org, imx@lists.linux.dev, linux-mips@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 28/45] clk: rockchip: Make sure clk_init_data is fully
- initialized
-Message-ID: <aohax7qilvrgV1iE@venus>
-References: <cover.1787239813.git.geert+renesas@glider.be>
- <49127c1f7529acccb17e1408db9f21f6d15aee2b.1787239813.git.geert+renesas@glider.be>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ZWniZjqc";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ZWniZjqc"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=C31+rxApVZEXJ6eM/BimjQ8/cLxRch7F+6qHHSZRaf8Y8wPpqdz8tXU+XLSuW/LWZQndgmag4KlJ/p/pKvHKblB5JwrELbAcGR/jwjG8cLZLe7bpdKN0uRJSx8KuB5cTx3kssz/I6iPngz2gscBYFNSw+Pdj4Xz/jjzDFNWktAxeYT0KiBotOfyO6bpIZlVhn9EIlj+LP58S4NqrK+TPktz8pVicR4oRo+NRmTpiTFhJFLAIEYFFF6hYCS2NPQhYrNZL1Y7ueASeHvQyp92T8qgp8aIjj4v1Y42vItwiLJDdtqq7JEWXJMFH5Hk7pL4/Aadoxmhkrs2zXh+QgIuFJw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/E2oGiQaVc6YGfMJ5ylCNCDfBVJADnTt9fSssl3iZvs=;
+ b=js9pyk1ktTUtdS2IDRcAcL0JU+8B0zMKDKkJ85rPOO/cUyBoQiFMH/7dn7ak2yUZTwFuJ9h2hrKjCmWWlv071+Kj2m4m+oWEXUUh4yMfOVWTe/naPkDRYUJXivYqegC870MU2EF7QXhGf/lU7gv1R2uK+aQ1qIsJA0appqQiSKWx5wP6zZuP+M3b3E9QBsFfZX0wfJ7gKW3OrktgLWH5NLbaDj3dWp+n53CD6kFJ/1X2bNsYyHh5x+vjlWzN+RzPc5YCJh8yRsx/jkN9DIdWcpMeEdDU7UI05JEVpm+GE4Ozrn9RWACEu8MQ/HjStj2paqp4YhbmqFjtUyW3SRXxJA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/E2oGiQaVc6YGfMJ5ylCNCDfBVJADnTt9fSssl3iZvs=;
+ b=ZWniZjqcX2JaPwbio3IC/Roe3VQXSmupX1g+H8IsfVoUlrE8rUT4hYdhXfCHG37Wkcsqp7NRA/QNNeXLbK4z8sm/oQqlKbNseSevCjTm/5GLDxD7ZzJ6PlEG8VDjbjXAJ+T/4/eRPVrcPaupOnPuLEQhf+CYiv6FU4qArFNNr7E=
+Received: from AS8PR04CA0144.eurprd04.prod.outlook.com (2603:10a6:20b:127::29)
+ by DB9PR08MB7533.eurprd08.prod.outlook.com (2603:10a6:10:301::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.10; Fri, 21 Aug
+ 2026 15:18:49 +0000
+Received: from AMS1EPF00000041.eurprd04.prod.outlook.com
+ (2603:10a6:20b:127:cafe::12) by AS8PR04CA0144.outlook.office365.com
+ (2603:10a6:20b:127::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.11 via Frontend Transport; Fri,
+ 21 Aug 2026 15:18:49 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AMS1EPF00000041.mail.protection.outlook.com (10.167.16.38) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.3
+ via Frontend Transport; Fri, 21 Aug 2026 15:18:48 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=okHuEqTBTQdEzREjXNekoxEECeMRwaGCZSzQV/mI44hXaTXYyYw9Z5+WZr17TqbX+hU2zkSwZIxcLLdL0ZMtQ5L42docylPCDkhmQLzTDwDi0Bui9ftmeFEJP3vtxFJ6vPnpCvm7yIBFvWpcmAQjoi6xVCJ2tIV105N6Fo1x0nTVsAmwItnS4XmnKCJm1Vt7T2ghA6bsgr7MeUAU2MDS0+e+R0ebVwOCTHib5TOkp1CvSUYdA+NNCMchmJNddaj+JYaht3XCrpUyhd4Vr/ngECPUjhvjOHJKtih8insjMxp8Fyo7iK35upnDLMP73jLWsVwqxkerRxdqnN19mXDlVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/E2oGiQaVc6YGfMJ5ylCNCDfBVJADnTt9fSssl3iZvs=;
+ b=m0/qMVgbBYVJCGbRl8Rrq6N1aoABwSK+JiiQV9dmfMmJVQ/DHC7SqCHD86ZmagvcVqOMHUAu/72nVYFh4gLsUCvwVrAvehjWigB3zZ+5GwdsPURD6sK/z58WQgo0WUjiqt7HvEmhIikZ0nY/Zb2Z/HWU0l0sBa3hfaRQu5qPoye+dSxr5ASPqtEhbbql660P0pLeAQQzVqVXCPlqgxKqb5KmSpJ6HVg4b5H+LAX2jW+kq0Yo0CkMXMe/V3cyfiQODe99UGa3hgY0G/0WRYECUZsP5bL0lf29meqwvpmoABrEZNW305UL0oLDL6nv2ghAU6VgFCIzHDpcxyXg4tTN9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/E2oGiQaVc6YGfMJ5ylCNCDfBVJADnTt9fSssl3iZvs=;
+ b=ZWniZjqcX2JaPwbio3IC/Roe3VQXSmupX1g+H8IsfVoUlrE8rUT4hYdhXfCHG37Wkcsqp7NRA/QNNeXLbK4z8sm/oQqlKbNseSevCjTm/5GLDxD7ZzJ6PlEG8VDjbjXAJ+T/4/eRPVrcPaupOnPuLEQhf+CYiv6FU4qArFNNr7E=
+Received: from DB9PR08MB8651.eurprd08.prod.outlook.com (2603:10a6:10:3d1::9)
+ by PA4PR08MB5920.eurprd08.prod.outlook.com (2603:10a6:102:ea::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.10; Fri, 21 Aug
+ 2026 15:18:14 +0000
+Received: from DB9PR08MB8651.eurprd08.prod.outlook.com
+ ([fe80::8fb8:7cf9:49c4:6f90]) by DB9PR08MB8651.eurprd08.prod.outlook.com
+ ([fe80::8fb8:7cf9:49c4:6f90%4]) with mapi id 15.21.0339.008; Fri, 21 Aug 2026
+ 15:18:14 +0000
+From: Fayssal Benmlih <Fayssal.Benmlih@arm.com>
+To: Cristian Marussi <Cristian.Marussi@arm.com>
+CC: "arm-scmi@vger.kernel.org" <arm-scmi@vger.kernel.org>, "d-gole@ti.com"
+	<d-gole@ti.com>, "david@kernel.org" <david@kernel.org>, Elif Topuz
+	<Elif.Topuz@arm.com>, "etienne.carriere@st.com" <etienne.carriere@st.com>,
+	"f.fainelli@gmail.com" <f.fainelli@gmail.com>, "james.quinlan@broadcom.com"
+	<james.quinlan@broadcom.com>, "jic23@kernel.org" <jic23@kernel.org>,
+	"kas@kernel.org" <kas@kernel.org>, "kernel-team@meta.com"
+	<kernel-team@meta.com>, "leitao@kernel.org" <leitao@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Lukasz Luba <Lukasz.Luba@arm.com>,
+	"michal.simek@amd.com" <michal.simek@amd.com>, "peng.fan@oss.nxp.com"
+	<peng.fan@oss.nxp.com>, Philip Radford <Philip.Radford@arm.com>,
+	"puranjay@kernel.org" <puranjay@kernel.org>, Souvik Chakravarty
+	<Souvik.Chakravarty@arm.com>, "sudeep.holla@kernel.org"
+	<sudeep.holla@kernel.org>, "usama.arif@linux.dev" <usama.arif@linux.dev>,
+	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>
+Subject: Re: [PATCH v10 06/24] firmware: arm_scmi: Add basic Telemetry support
+Thread-Topic: [PATCH v10 06/24] firmware: arm_scmi: Add basic Telemetry
+ support
+Thread-Index: AQHdMYBJghR4LFfueEuVracCDz1Xgw==
+Date: Fri, 21 Aug 2026 15:18:14 +0000
+Message-ID: <ECA88F9C-7B46-4506-9AA4-7512BA4E8A72@contoso.com>
+In-Reply-To: <<20260815232604.3730754-7-cristian.marussi@arm.com>>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic:
+	DB9PR08MB8651:EE_|PA4PR08MB5920:EE_|AMS1EPF00000041:EE_|DB9PR08MB7533:EE_
+X-MS-Office365-Filtering-Correlation-Id: a40ae126-46f5-4109-a0a0-08deff978039
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|7416014|23010399003|376014|366016|1800799024|18002099003|22082099003|56012099006|38070700021|11063799006|10067099003;
+X-Microsoft-Antispam-Message-Info-Original:
+ bHpGwAjugy1jzj4LvlDq2Ev8DdGqzNFRTbL+kziLPqFqhmcOXiZU7oQdME1ym3ph6HX/4JIKJRH4XrHW58m4LKk92sVuFjmxkO9nScy1wSb5Fos1f6I3NRBgbZepe9EsmSopLoUJSJLBMmcKzMEzI82CvwQ/frMnLNxSgu50vhEOFtwfP+cQhhfRfldmyG9F273lpCkGO24LFMpq3SMypi7Q6eFELL7mOJ4nNO9VMKOZGM6Q0wOaOf1k4qHEuY8wW6gyjQMul9MeKQr7Gw13K8WpMJWWl9FGC50uQaCiblGL5pkL8jT7zgp+BO8oTGtn2xvBNtJzNQ95AhJT/3ilYJtn1GQQLV4LY1bc8O6SX4V3w3WT4g346M4CzoK4sDDlzJ58+yPqhn3mh2ZfLba6YEV/iqiWM5OqWj9WC9Gy+2xOkoKZgHJ0g/qtCfZph8p/2cQXp/24rLG8rl5ZC1jCFu8XmzgqVIg6wCluPMdTVJJecAu33J8siq8mDOhG5EXUpED/OW3QW/pIskCD2GKFDFbNzccxZsSd9n7NmjPr3ZWkM8flAuv/io2xwUIvTcc25G+twcKf9fNSVN1lKI+oKwvnJVPCpy0pMHEAS5rewiOHwHpOk1BSMtKg1Ivke85MkiQpouKPr7SaTmdTSnAG4jBdPru6NQoGJ1uCYh9eK66KXvFpE+SgjxsWxRZaO2T6du7kKcskB3rC+v5JzNSlArpAJ+/64RXKadIb9Jv/ZTQ=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB8651.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(376014)(366016)(1800799024)(18002099003)(22082099003)(56012099006)(38070700021)(11063799006)(10067099003);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6BF458F718A7A1458A40A295474C037F@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zybuuvaovsaw7bmk"
-Content-Disposition: inline
-In-Reply-To: <49127c1f7529acccb17e1408db9f21f6d15aee2b.1787239813.git.geert+renesas@glider.be>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-0.2.10.1.5.2/287.318.86
-X-ZohoMailClient: External
+X-Exchange-RoutingPolicyChecked:
+ emOnw8Sq3UIix8kODwt+d1zcIMd53oxNvhhy44bkyJh0YcJQvWbeRUdWjfe2rtYosDZUCMrzkgmsD5Bhe9hEL81isOG0pYBQI3Cy+Kb3WLVif8ENHOPLGYQGmKLedkYzidH3t9NfiQOkXqS7ZrMfi46cDDnMQgircHljs8WYvr9nGSkAZ0BQFUEIW+GRRoSbMs7kLKUyquQKj1A5olLf11ZMSOBiwBU2JlSlEhdOhPGG0+mSklZhtCIOygefjpTbdVwhcVS7rNqe+DmXsZMunFLzlBmGH5PAZyvOTz6CXiQYw02mMjt2Yw9az5h4+tkBDHRp2IiCpNMIoIljeWNd/Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB5920
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ AMS1EPF00000041.eurprd04.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	a3b0a114-2f23-4500-488a-08deff976bbd
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|14060799003|82310400026|1800799024|23010399003|35042699022|376014|7416014|18002099003|22082099003|56012099006|11063799006|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	/qCwtELigryPuh9ABEhnDRnmuF8HiOCt0HToi6+Ivew5zcQR9Fx3iIGs0GCgEYNzZ8jyzGbsYvqoO1yQLarxQp29FM2RghPNajF5qLhjCwxbTeN/1VRReu7mktmiPHe6S25gyS/JFfWzQwQnJ+OAzf+1WglOQFdDIcEFdaPHwkMCXVgYbVqt2FPzNB3oXgiea/bZnBHlICTTU1wP8hMyPMEkkp+6cFdaN127D+tXA3Bn2f39/sL42swACHsIQSDhJG0PttnfyPTJF+07WMY+Cs6BOlI4L1O912Q4PvmZhRlKy0hXbChuMG2vYTCtgzNDW6VSXzCgexgP8psWpOY6G3uPDE7lhWJ5lVfvMm51Bhc9Uz3ULCGxbg+XdwYVvdUbFrEJnldlu3Q/QVw/DpKOzMiqSE0oAUxb3YDu4pPuRvTldqNW5t/2szoeZwc0OGI8f+CkRxQ7Usn1MdzPUa6puCAi6BvoB/w8kP+HJjzlLFwC9FUYwjvBvNtd1mZh+xjJ9PPoHdhaV9bCzRCQhDC0uhl7jp/ZJBfkn/4865SDL+YxnvxqbEc2LwFu0TLRNvIw02AgbstCYG9iTBrR6Vw/atSm1Mhxrii5YH2Xl5C6fXWyKEM8C6qLSavvonxcDIfyL/pcmnXONHU7iUyU5/AEW/wv41ofjsBs4MDlzaum7AIRaoojbTpgc9f0NNemdrBi9hDKyn3vPD8Vj/255HYTjw==
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(14060799003)(82310400026)(1800799024)(23010399003)(35042699022)(376014)(7416014)(18002099003)(22082099003)(56012099006)(11063799006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	nzuofmvLi3J/CofhM1SiMN20Bu9sOLt8dF380aRPKxMP05peAVJQAcniVxqWS0J1od/gUM4BS45Z81tVFxqxy+9gBIkhYRIRj+by12rMDX7kWuSjpTt64MdlmapFgE3ZrGi6lxatRp9nF94IH8cx7RXbYSUlLgzEo7TAqupKp+Mez7OeiAb9+BqexQlQo8pgqrJQXa7e4jO9JOtSw7X4Lyw6MohPgCovAGTWz21yJWcr72XEhs7pmZQC8zdnZi0l4+ab0RdCrFr8y1y95v9C1TftDvXOoQW2rFCH4Bkbm8a1oTghYW0mucqODHg/JMjA+SNN2Ep5PEZ2i67BG7h3IFr3+4CEvDnAfOKjIuHQYNty9iz8fD/u3FV25FwF6CD9SpOWjm4JYPOvZVwZm1WX/QROV79guwm3qPnAOryq4B0aXzIAPcvZP5fkIXqcZIiZ
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 15:18:48.8726
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a40ae126-46f5-4109-a0a0-08deff978039
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AMS1EPF00000041.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB7533
 
-
---zybuuvaovsaw7bmk
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 28/45] clk: rockchip: Make sure clk_init_data is fully
- initialized
-MIME-Version: 1.0
-
-Hi,
-
-On Fri, Aug 21, 2026 at 10:53:38AM +0200, Geert Uytterhoeven wrote:
-> The clk_init_data structure contains several mutually-exclusive members
-> for different methods to specify the possible parents of a clock,
-> prompting drivers to initialize only the members they need.  However,
-> not initializing all members may cause subtle issues, which are only
-> exposed when CONFIG_INIT_STACK_ALL_PATTERN or CONFIG_INIT_STACK_NONE is
-> enabled.
->=20
-> Make sure all members are fully initialized, to avoid such bugs, and to
-> prevent future breakage when converting drivers to a different method
-> for specifying the parents.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Compile-tested only.
-> ---
-
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-
-Greetings,
-
--- Sebstian
-
->  drivers/clk/rockchip/clk-cpu.c       | 2 +-
->  drivers/clk/rockchip/clk-ddr.c       | 2 +-
->  drivers/clk/rockchip/clk-gate-grf.c  | 2 +-
->  drivers/clk/rockchip/clk-inverter.c  | 2 +-
->  drivers/clk/rockchip/clk-mmc-phase.c | 2 +-
->  drivers/clk/rockchip/clk-muxgrf.c    | 2 +-
->  drivers/clk/rockchip/clk-pll.c       | 2 +-
->  drivers/clk/rockchip/clk.c           | 2 +-
->  8 files changed, 8 insertions(+), 8 deletions(-)
->=20
-> diff --git a/drivers/clk/rockchip/clk-cpu.c b/drivers/clk/rockchip/clk-cp=
-u.c
-> index 6205af9ba88a8def..eb6b8b878e4dbeea 100644
-> --- a/drivers/clk/rockchip/clk-cpu.c
-> +++ b/drivers/clk/rockchip/clk-cpu.c
-> @@ -304,7 +304,7 @@ struct clk *rockchip_clk_register_cpuclk(const char *=
-name,
->  			int nrates, void __iomem *reg_base, spinlock_t *lock)
->  {
->  	struct rockchip_cpuclk *cpuclk;
-> -	struct clk_init_data init;
-> +	struct clk_init_data init =3D {};
->  	struct clk *clk, *cclk;
->  	int ret;
-> =20
-> diff --git a/drivers/clk/rockchip/clk-ddr.c b/drivers/clk/rockchip/clk-dd=
-r.c
-> index 81ae8a4ee30ed95c..fbb702d0b9d996d5 100644
-> --- a/drivers/clk/rockchip/clk-ddr.c
-> +++ b/drivers/clk/rockchip/clk-ddr.c
-> @@ -97,7 +97,7 @@ struct clk *rockchip_clk_register_ddrclk(const char *na=
-me, int flags,
->  					 spinlock_t *lock)
->  {
->  	struct rockchip_ddrclk *ddrclk;
-> -	struct clk_init_data init;
-> +	struct clk_init_data init =3D {};
->  	struct clk *clk;
-> =20
->  	ddrclk =3D kzalloc_obj(*ddrclk);
-> diff --git a/drivers/clk/rockchip/clk-gate-grf.c b/drivers/clk/rockchip/c=
-lk-gate-grf.c
-> index 88e409e91a636aa1..458314a2569181d1 100644
-> --- a/drivers/clk/rockchip/clk-gate-grf.c
-> +++ b/drivers/clk/rockchip/clk-gate-grf.c
-> @@ -73,7 +73,7 @@ struct clk *rockchip_clk_register_gate_grf(const char *=
-name,
->  		u8 gate_flags)
->  {
->  	struct rockchip_gate_grf *gate;
-> -	struct clk_init_data init;
-> +	struct clk_init_data init =3D {};
->  	struct clk *clk;
-> =20
->  	if (IS_ERR(regmap)) {
-> diff --git a/drivers/clk/rockchip/clk-inverter.c b/drivers/clk/rockchip/c=
-lk-inverter.c
-> index bf9072ed9fd4daed..e6c7dad60e966288 100644
-> --- a/drivers/clk/rockchip/clk-inverter.c
-> +++ b/drivers/clk/rockchip/clk-inverter.c
-> @@ -75,8 +75,8 @@ struct clk *rockchip_clk_register_inverter(const char *=
-name,
->  				void __iomem *reg, int shift, int flags,
->  				spinlock_t *lock)
->  {
-> -	struct clk_init_data init;
->  	struct rockchip_inv_clock *inv_clock;
-> +	struct clk_init_data init =3D {};
->  	struct clk *clk;
-> =20
->  	inv_clock =3D kmalloc_obj(*inv_clock);
-> diff --git a/drivers/clk/rockchip/clk-mmc-phase.c b/drivers/clk/rockchip/=
-clk-mmc-phase.c
-> index 4efd22953f3e0533..d92bea75faf73767 100644
-> --- a/drivers/clk/rockchip/clk-mmc-phase.c
-> +++ b/drivers/clk/rockchip/clk-mmc-phase.c
-> @@ -205,8 +205,8 @@ struct clk *rockchip_clk_register_mmc(const char *nam=
-e,
->  				struct regmap *grf, int grf_reg,
->  				int shift)
->  {
-> -	struct clk_init_data init;
->  	struct rockchip_mmc_clock *mmc_clock;
-> +	struct clk_init_data init =3D {};
->  	struct clk *clk;
->  	int ret;
-> =20
-> diff --git a/drivers/clk/rockchip/clk-muxgrf.c b/drivers/clk/rockchip/clk=
--muxgrf.c
-> index ccbb1379501ab474..ecdc77654813a3c3 100644
-> --- a/drivers/clk/rockchip/clk-muxgrf.c
-> +++ b/drivers/clk/rockchip/clk-muxgrf.c
-> @@ -59,7 +59,7 @@ struct clk *rockchip_clk_register_muxgrf(const char *na=
-me,
->  				int shift, int width, int mux_flags)
->  {
->  	struct rockchip_muxgrf_clock *muxgrf_clock;
-> -	struct clk_init_data init;
-> +	struct clk_init_data init =3D {};
->  	struct clk *clk;
-> =20
->  	if (IS_ERR(regmap)) {
-> diff --git a/drivers/clk/rockchip/clk-pll.c b/drivers/clk/rockchip/clk-pl=
-l.c
-> index 706ca4b344d399a3..7204b09243d483ae 100644
-> --- a/drivers/clk/rockchip/clk-pll.c
-> +++ b/drivers/clk/rockchip/clk-pll.c
-> @@ -1069,7 +1069,7 @@ struct clk *rockchip_clk_register_pll(struct rockch=
-ip_clk_provider *ctx,
->  		unsigned long flags, u8 clk_pll_flags)
->  {
->  	const char *pll_parents[3];
-> -	struct clk_init_data init;
-> +	struct clk_init_data init =3D {};
->  	struct rockchip_clk_pll *pll;
->  	struct clk_mux *pll_mux;
->  	struct clk *pll_clk, *mux_clk;
-> diff --git a/drivers/clk/rockchip/clk.c b/drivers/clk/rockchip/clk.c
-> index ee8c79b938d3c15b..10df21178ba483e2 100644
-> --- a/drivers/clk/rockchip/clk.c
-> +++ b/drivers/clk/rockchip/clk.c
-> @@ -257,7 +257,7 @@ static struct clk *rockchip_clk_register_frac_branch(
-> =20
->  	if (child) {
->  		struct clk_mux *frac_mux =3D &frac->mux;
-> -		struct clk_init_data init;
-> +		struct clk_init_data init =3D {};
->  		struct clk *mux_clk;
->  		int ret;
-> =20
-> --=20
-> 2.43.0
->=20
->=20
-
---zybuuvaovsaw7bmk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmqIWusACgkQ2O7X88g7
-+poirhAApVi+Y+WU3mrw03dbGLE92vZNTJMxmeK5fzM3D7/o1HO6GGgy5ZBAlAcY
-AHjbpJgLpOY+bLGDnfv97vri7zP1duirRf2Yw3fhqiFp+tdt8AX6f9hU8bfwu+uy
-IaquBhUMuFejInZcStNJFlC4BF1UJkkacYSNtxFWAsKFMLlzOJQKu7lnBZwfbFWu
-C+FZ7xkWGWrSGNvroDobqiM/LDEYmI6OxnSwbCfoeczBF6D1VEaSeZhbDDVfx0hR
-ja1QtzHWcfm4Y3PLzEaNpmYerMSNE1fZIMFmraZZ3oFaak+uOYWZEWk0UzeZF4cv
-L5jzi4Cwa2V4TIot/53rF+xlSAjZAxTrBEH99onUWqBf4XyMa4k2DnlE+wPNqG5p
-Mz4QW3dtELwXRsHfeWqAT+rF2Iv2rsb8mkWeJ9ir0Ll2v8PHl2Ro9gWyag1zeRF5
-cahZmOPxJFpLKOVsNZX6AAhgvlsJN8kSZ8T48gpuTj+TjdEzrvm8A8l2yU5Or/C1
-kT56IUoCapPk1sZVEqNNPZQZduKm53nfXe9viHXg4BVjz8xXOU2LAZJ/gvrqjqzX
-XzRHvPAAdb+4q0BOqXmFgI6e4nSDBivR2zl2aidohQnxA++NPmGSG0xjBNZAqSY1
-HSFBW4PATNUCcY+1z4MjEfCGtmWtnYk0d23W6+Va0wfJjBcmMi8=
-=BMUY
------END PGP SIGNATURE-----
-
---zybuuvaovsaw7bmk--
+DQpTdWJqZWN0OiBSZTogW1BBVENIIHYxMCAwNi8yNF0gZmlybXdhcmU6IGFybV9zY21pOiBBZGQg
+YmFzaWMgVGVsZW1ldHJ5IHN1cHBvcnQNCg0KSGkgQ3Jpc3RpYW4sDQoNClRoYW5rcyBmb3IgdGhl
+IFYxMCBjbGVhbnVwLiBSZXNldHRpbmcgYSBuZXdseSBhbGxvY2F0ZWQgREUgYmVmb3JlIHJldHVy
+bmluZw0KaXQgdG8gdGhlIGZyZWUgbGlzdCBhbmQgdW53aW5kaW5nIHBhcnRpYWxseSBpbml0aWFs
+aXplZCBncm91cHMgYWRkcmVzcyB0d28NCm9mIG15IFY3IGNvbW1lbnRzLg0KDQpPbmUgcmVzb3Vy
+Y2UtYWNjb3VudGluZyBpc3N1ZSBhcHBlYXJzIHRvIHJlbWFpbi4NCg0Kc2NtaV90ZWxlbWV0cnlf
+ZGVfZGVzY3JpcHRvcl9wYXJzZSgpIGluY3JlbWVudHMgbnVtX2Rlc190c3RhbXAgYWZ0ZXIgcGFy
+c2luZw0KdGhlIGRlc2NyaXB0b3IsIGJ1dCBpdGVyX2RlX2Rlc2NyX3Byb2Nlc3NfcmVzcG9uc2Uo
+KSByZWdpc3RlcnMgYSBuZXdseQ0KZGlzY292ZXJlZCBERSBhZnRlcndhcmQuDQoNCklmIHNjbWlf
+dGVsZW1ldHJ5X3RkZV9yZWdpc3RlcigpIGZhaWxzLCBmb3IgZXhhbXBsZSBiZWNhdXNlIHhhX2lu
+c2VydCgpDQpmYWlscywgdGhlIERFIGlzIHJldHVybmVkIHRvIHRoZSBmcmVlIGxpc3QgYnV0IG51
+bV9kZXNfdHN0YW1wIGlzIG5vdA0KZGVjcmVtZW50ZWQuIFRoZSBjdW11bGF0aXZlIHRpbWVzdGFt
+cC1lbmFibGVkIHN0YXRlIGNhbiB0aGVuIGJlIGNvbXBhcmVkDQphZ2FpbnN0IGFuIGluZmxhdGVk
+IGNvdW50Lg0KDQpQbGVhc2UgbW92ZSB0aGUgaW5jcmVtZW50IGFmdGVyIHN1Y2Nlc3NmdWwgcmVn
+aXN0cmF0aW9uLCBvciByb2xsIGl0IGJhY2sNCm9uIGV2ZXJ5IHN1YnNlcXVlbnQgZmFpbHVyZSBw
+YXRoLg0KDQpUaGFua3MsDQpGYXnDp2FsDQoNCg==
