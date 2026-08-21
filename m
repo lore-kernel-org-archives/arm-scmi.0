@@ -1,32 +1,32 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7D4947A0D7
-	for <arm-scmi@vger.kernel.org>; Fri, 21 Aug 2026 11:26:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32ABD4749DE
+	for <arm-scmi@vger.kernel.org>; Fri, 21 Aug 2026 11:29:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787311611; cv=none; b=Y0835htOQ2V0igdufTHiymtNXtGbIOTiE6ZTTjCC/xnJmsr/ZSyPfyuWgBt74ihALExNPNt0ewd/Xbcqnr9Xtu9/BE8zAyEBaK3/erLd7vnMzYFxwtAb7RvYJVUxund6lxxZ4mgqYtHL8cuKFqUHUpzjJnZutsTvdSY+cuBFexM=
+	t=1787311760; cv=none; b=aWWUXMqUy0O6rEKOahMi20p9wqiVy4IkUdRBIMOtBps9mPfHIs+y+yOGPHna3dKMIxPaHesUxqpfDSFnaNFpnUIgCJTie3e9PDOcafURpz+7HwHLQ5ycL/F0tyMrp+6n/vVW0P20JDpRwMv/IjAAIE5ykK7YvUzqC4qaheBKADM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787311611; c=relaxed/simple;
-	bh=qAWvudYMdASPXPfSTaqms42rgycSdo6rtQ42Q6DlQlc=;
+	s=arc-20240116; t=1787311760; c=relaxed/simple;
+	bh=rReboDtVWR+LchIn66VCIiRA4RrsNZEU4pEK04rnFMY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fqAgpwlRXtbIZ5+yx21+h6GZM9foF2z+qe9yB/KvlK4MtWKEGQwGwbDUX7J3RlpzrxiWqcXx7es5IoTaeLZVIDpKNsgU80AqVez6j1nK0tLKidMeNpfvC+fAYzvCstPpvtk0kQ/zNm8h+9F+QX5hmKwA8qTL8BQfpb4gl+shVcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=u006zR0/; arc=none smtp.client-ip=217.140.110.172
+	 Content-Type:Content-Disposition:In-Reply-To; b=AL4/DOdy7j9ILyXepd8taH8H4ARYjCuNiMz4/8j4vInXdPcRGXS7JQKVRHiOfwdudwlHHDKcmoMNbIc9JBOsvs+mblEdQ8hp/gcJxSPCid97cUI/MArFoCqktBsgmyMK+6N8C5tcCLPOfTI5YxPWrh2Jbl9BtHzmumTj1J8H1KQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=omYL2uDU; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="u006zR0/"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="omYL2uDU"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B4ACD1596
-	for <arm-scmi@vger.kernel.org>; Fri, 21 Aug 2026 04:26:43 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AC00D165C
+	for <arm-scmi@vger.kernel.org>; Fri, 21 Aug 2026 04:29:13 -0700 (PDT)
 Received: from [192.168.0.1] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 61D9B3F763
-	for <arm-scmi@vger.kernel.org>; Fri, 21 Aug 2026 04:26:47 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 591363F763
+	for <arm-scmi@vger.kernel.org>; Fri, 21 Aug 2026 04:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1787311607; bh=qAWvudYMdASPXPfSTaqms42rgycSdo6rtQ42Q6DlQlc=;
+	t=1787311757; bh=rReboDtVWR+LchIn66VCIiRA4RrsNZEU4pEK04rnFMY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u006zR0/jz1LCkCQbVceWmF0cb+orwrQ733Wxh88BlXMPYBGtM562QBxsqZzo2Clr
-	 jk0qrboy525i67ek3KIWVGoE7OhtaZzVYpYHkhtPWmztUty8vLfscQia0FBiBAw+QV
-	 xpU5xjyzxJthzpQHuuuCXh+5iiBG6GZ5ZQrw9o8I=
-Date: Fri, 21 Aug 2026 12:25:30 +0100
+	b=omYL2uDUHpHDYLscOJrS6nLnklEMtxXJFjiDRFtOTdJsOAZedH0tQA5uh3BcqlKn1
+	 tY4q76X7LVvCGxeJOzoB6qyfg8jMGz7G8DUDHqwZvJHMcjzPCejzEDJcKtHdEH6jr5
+	 ByiK5/yi3V5EHrBvu4//eg1FKq33+QvTZri64B7g=
+Date: Fri, 21 Aug 2026 12:28:01 +0100
 From: Liviu Dudau <liviu.dudau@arm.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: Ryan Chen <ryan_chen@aspeedtech.com>, Joel Stanley <joel@jms.id.au>,
@@ -93,11 +93,11 @@ Cc: Ryan Chen <ryan_chen@aspeedtech.com>, Joel Stanley <joel@jms.id.au>,
 	linux-stm32@st-md-mailman.stormreply.com,
 	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
 	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 05/45] clk: cdce925: Make sure clk_init_data is fully
+Subject: Re: [PATCH 40/45] clk: versatile: Make sure clk_init_data is fully
  initialized
-Message-ID: <aog1qljZkrxL3nYP@e142607>
+Message-ID: <aog2QXT_86BrtvTs@e142607>
 References: <cover.1787239813.git.geert+renesas@glider.be>
- <308a33a0e63241d94ee08a08a6de6cffa739556e.1787239813.git.geert+renesas@glider.be>
+ <7c480e73222bb51982fb82dc0cc6cd503f2e8b92.1787239813.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -107,9 +107,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <308a33a0e63241d94ee08a08a6de6cffa739556e.1787239813.git.geert+renesas@glider.be>
+In-Reply-To: <7c480e73222bb51982fb82dc0cc6cd503f2e8b92.1787239813.git.geert+renesas@glider.be>
 
-On Fri, Aug 21, 2026 at 10:53:15AM +0200, Geert Uytterhoeven wrote:
+On Fri, Aug 21, 2026 at 10:53:50AM +0200, Geert Uytterhoeven wrote:
 > The clk_init_data structure contains several mutually-exclusive members
 > for different methods to specify the possible parents of a clock,
 > prompting drivers to initialize only the members they need.  However,
@@ -131,22 +131,51 @@ Liviu
 > ---
 > Compile-tested only.
 > ---
->  drivers/clk/clk-cdce925.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/clk/versatile/clk-icst.c         | 2 +-
+>  drivers/clk/versatile/clk-sp810.c        | 2 +-
+>  drivers/clk/versatile/clk-vexpress-osc.c | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/clk/clk-cdce925.c b/drivers/clk/clk-cdce925.c
-> index 30d0493c771818ff..4d49cc1659c07be2 100644
-> --- a/drivers/clk/clk-cdce925.c
-> +++ b/drivers/clk/clk-cdce925.c
-> @@ -620,7 +620,7 @@ static int cdce925_probe(struct i2c_client *client)
->  	struct device_node *node = client->dev.of_node;
->  	const char *parent_name;
->  	const char *pll_clk_name[MAX_NUMBER_OF_PLLS] = {NULL,};
+> diff --git a/drivers/clk/versatile/clk-icst.c b/drivers/clk/versatile/clk-icst.c
+> index 6bd3db54dd229d28..97a1bfd6cf0ed995 100644
+> --- a/drivers/clk/versatile/clk-icst.c
+> +++ b/drivers/clk/versatile/clk-icst.c
+> @@ -360,8 +360,8 @@ struct clk *icst_clk_setup(struct device *dev,
+>  {
+>  	struct clk *clk;
+>  	struct clk_icst *icst;
+> -	struct clk_init_data init;
+>  	struct icst_params *pclone;
+> +	struct clk_init_data init = {};
+>  
+>  	icst = kzalloc_obj(*icst);
+>  	if (!icst)
+> diff --git a/drivers/clk/versatile/clk-sp810.c b/drivers/clk/versatile/clk-sp810.c
+> index b0e69686f7a9a93e..28e5c0cf1fda38e4 100644
+> --- a/drivers/clk/versatile/clk-sp810.c
+> +++ b/drivers/clk/versatile/clk-sp810.c
+> @@ -86,7 +86,7 @@ static void __init clk_sp810_of_setup(struct device_node *node)
+>  	const char *parent_names[2];
+>  	int num = ARRAY_SIZE(parent_names);
+>  	char name[12];
 > -	struct clk_init_data init;
 > +	struct clk_init_data init = {};
->  	u32 value;
+>  	static int instance;
 >  	int i;
->  	int err;
+>  	bool deprecated;
+> diff --git a/drivers/clk/versatile/clk-vexpress-osc.c b/drivers/clk/versatile/clk-vexpress-osc.c
+> index 9adbf5c33bd1cada..72e872ec6b7c9b47 100644
+> --- a/drivers/clk/versatile/clk-vexpress-osc.c
+> +++ b/drivers/clk/versatile/clk-vexpress-osc.c
+> @@ -64,7 +64,7 @@ static const struct clk_ops vexpress_osc_ops = {
+>  
+>  static int vexpress_osc_probe(struct platform_device *pdev)
+>  {
+> -	struct clk_init_data init;
+> +	struct clk_init_data init = {};
+>  	struct vexpress_osc *osc;
+>  	u32 range[2];
+>  	int ret;
 > -- 
 > 2.43.0
 > 
