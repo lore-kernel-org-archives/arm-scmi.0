@@ -1,240 +1,187 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496E0423160
-	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 13:12:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D2D742378D
+	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 13:16:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787577169; cv=none; b=Qpt9n5nFwTDHOampNBeX4GZTQwQAu/Rv9Wz4tDvJPEj68mdFLjbz2ueroICdkcrIxhbBAL+XWDlpYwv1Ml4KxIhmSUeF+E0BSSQTMkmBFjPX2YRJ+GIIu0ZFcFHLK2I0XhnetxTwtS/LDFjIxW0pV0A3pIVemGN1iRNMB63lxek=
+	t=1787577409; cv=none; b=tbg1Mgy2UkJT2MBYznuGNvwWkzq6Qj7N+GpRmoM5LV6q/mM9nD299+mZ7Xr9hkFwxpJkFSRxTx2dNEEj9r8ZFVHO0vf1OowRiByeULdtNnBSOCdvFiKn9XwQP8fdrLtaD0qIPImpQspNWPncH71x+1/dOjiJl8+zgSaTukBTK2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787577169; c=relaxed/simple;
-	bh=XsBMHAWN4RghzlvwrXqgof1mlIw+SjmfHFjk6r+5B0E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MwDJgU4Mvd1e/BI65fF+cIZRL861+pS8yj9Hvfr1u34+H0eBPdMl76opLNHHpY2NpKcnH+WhceSB00plZxM/FgZfb/7Vgne5FEZHa+InwoBPFR+rNcwXoOgrp9DIzjB5v4Aept88ZFC0i4lt607OhkfFYYN1+HcyU82LP74bvLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=YSATzLFn; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=QE6M/QDC; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1787577409; c=relaxed/simple;
+	bh=u69iDQDh65gTSQHaopk712AakCgClJSI2Zoo/JrTLeU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=NDaPfzf5VWzzN9F37wZ3NIdOXxOm0I2OSPGEJ22XdXJn66XzfoQL89UfcPCb+QSk7xOjH4TXHewNno4w2awl9YUdMFq3RhsdN9e67KG9GI6jOOmWqCgoJ4jtOf30CG1uMn63JU2p/nNSdi/yyfXSv28+yh3U+Pcy8olYTFAYbAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=f9i6g8WY; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="YSATzLFn";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="QE6M/QDC"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67OCv5ZX2006632
-	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 13:12:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	AP8FPC79TXKJzXH5HK0VofQkMOzeJIwaszQhzrpV2s8=; b=YSATzLFnnZ+16q3D
-	VP+z8TjUTxnbRnz24+6Ir1k401gnJmtxWw58juPIrAsYpFc0bbdcTslnnzzcsCSQ
-	6vvgKAKL35YVkIywBiDM4eai4pRnuVpESxcfxZdVs5qkH/mv4TevM7IiXw5GaPKj
-	TuOmmICeRG4DlFZcmu1jS48G1lAGTG6M8zRvpQ12eF41pNYUfwbL8P2TQltPmwpL
-	yyReKJMbu48DgFNyQdyKVSmVCNFPXL33ep1ubIxU/HjiSAMTK+L88m+ecOIRQbcL
-	kIBGQJ9AWbtVPtr77+hAoTZzEUq6r84B3n373onzvC/jROWzHuzP47aXn7elfbXE
-	cCSHdA==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g8kv78rb1-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 13:12:46 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-52ce64c41efso70372151cf.3
-        for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 06:12:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1787577165; x=1788181965; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=AP8FPC79TXKJzXH5HK0VofQkMOzeJIwaszQhzrpV2s8=;
-        b=QE6M/QDCP19v0X2Lbwh/JcCb0pA+ZybrW5JOH+oUfd/uGabJiUaIdNec0tTpsWk1XC
-         FvEIuWBTAaCS/6ED5ckJouxSCTH80Puj5XfnTAqEwfSOtqJG7NGzeyEQSLc1HDkOdI4T
-         5I2mT0cUZl4/nBoV2TgjyZUcihHjGlFUUN469XCAkzKntFg9TN2+EKy1yDSt3gTzCZ3w
-         XZewv/uKBYm+MXbgaKPqEiLpaT2jb4ysZVjjE1bO1RLNb+O6lyA99GyKFGVoPvBXHeRR
-         BoNTUEl4WAYJNQLywaz2SyG0wJogrAo8YXrR17u1d4eqpxMoh7+XNc95XfVVdCF6Rfod
-         TShg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f9i6g8WY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787577407;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=a5uoZNVB2XRKnrTBdvCmJrG8M4XSoSEJo8KaXU4b4e8=;
+	b=f9i6g8WYKFlUJLESA7Ct2vPrwX534hsFqsSBjvPPxcuB7DDlvnlwzK9lle6Fu0E8t2vDX+
+	wtwYCioYofana1LZCBhahff5vfVt0uo/kNMDUO6yD66sbnFUIF40RuNY34sR5K5nKHYhd4
+	9rQGOLnQlXRWth7paertuCsmzIOI2xE=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-456-IjGfquDlMMKV9Yf7q1tZEA-1; Mon, 24 Aug 2026 09:16:43 -0400
+X-MC-Unique: IjGfquDlMMKV9Yf7q1tZEA-1
+X-Mimecast-MFC-AGG-ID: IjGfquDlMMKV9Yf7q1tZEA_1787577403
+Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-7f5b54da461so58802937b3.3
+        for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 06:16:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787577165; x=1788181965;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=AP8FPC79TXKJzXH5HK0VofQkMOzeJIwaszQhzrpV2s8=;
-        b=fXldkfxwHGRGPecoBhBV5DFt+GxxzlkHXOg5uv8u/HBDUNShVexwKnBQwcQHmZcxqp
-         TOyKXl0f2ABN8cSziFXiVs9dDcBntVmPfrCGiCDr/v6NE76Q0drEccJE7RzMfeeI6OHf
-         u/BgsmYtvDRcPECC9kTwkWqJRHx2rIZDyhPpCYK2YXnmClVtbekYlCR6bZqzGpTuIjdw
-         al+ZQ45SzYTnK56EnZiQfnTZDW6OBXldRO4xXPNCOtNWKetpIfO+tFlTKBEifgP5TKiE
-         dLtK0bWmk9K6NqC2DyNezihWzxsShnNMtawuKA+exnnQVZrANT4+quC4ubFfegsGaf5h
-         JwLQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrZx0nArJ194c8yilqZq49SY4VAchsZ5360JygKdCbU0eJjsQPGKa9diUibeBAy1s/XtzSoVYHnXQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++mNBEPjrhKkY1kWxm4LAgTEcKV5J+Cl2mXJT7r50zFb2Vite6pi
-	++9FeGHWMZPblPVNIH7dJKNaXVa9rT75w3watCu8FP5N4rz0FxasvZKneg1OrA/EbxZ/KXBP/KP
-	MnPnjehbTmFebQtTUtGtJVDikW52RWg2hgK9kGuWUXIaVb9yLBQ4f/uIT0KThxg==
-X-Gm-Gg: AR+sD12/xEtsPxrkR+mmC4PXt2vgRsx+JABQc3DLE/Ws3sjK/7krkwfHXmz313voe0b
-	G48xCvX92TaSn51evO1mjEyzlGZrxJ8Jn4BuqVutT9eb2vJz5tEjl5yWALjkuctOdqJ22neDKvG
-	T2i/a5PaVuCCf3xLdwqk2cKfkklcM8DiA34GwUjr+IHKhKlGn5LADGSlOsz5bJlnmaxZjuPu5m8
-	3NvfaHpWoK46aUkX65IDHgioa1R3gNLMZwJ/JBb2ngp+Bp4t1dUVM63oykT2UZk4nbYzQyf5/9Q
-	KdiVV12/+b5Ajf/auz4VS76iV6ZhCg4ECVuWM8u1QeFgkR9C7mQP1HQjmG058ctIQB4MgcPWIlo
-	9ZkUbJYg5ywXiurd3E7IH3uBOz/rmICwNVRc=
-X-Received: by 2002:a05:622a:1646:b0:51b:e92f:ec5 with SMTP id d75a77b69052e-52e09bb3048mr171483371cf.3.1787577165552;
-        Mon, 24 Aug 2026 06:12:45 -0700 (PDT)
-X-Received: by 2002:a05:622a:1646:b0:51b:e92f:ec5 with SMTP id d75a77b69052e-52e09bb3048mr171482641cf.3.1787577165102;
-        Mon, 24 Aug 2026 06:12:45 -0700 (PDT)
-Received: from [10.217.218.158] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499d560f66csm527895e9.1.2026.08.24.06.12.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Aug 2026 06:12:43 -0700 (PDT)
-Message-ID: <2329d1dc-9907-4338-8bb6-2a32e3e261ee@oss.qualcomm.com>
-Date: Mon, 24 Aug 2026 18:42:31 +0530
+        d=1e100.net; s=20251104; t=1787577403; x=1788182203;
+        h=user-agent:in-reply-to:content-disposition:content-type
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=a5uoZNVB2XRKnrTBdvCmJrG8M4XSoSEJo8KaXU4b4e8=;
+        b=dV6k4mzsA9JxCx5ZfBa8MtnD0YCFZMfit+D+kPKaUUxy7/BbZcclkr8GIfa3IewY/T
+         baQy0P+6CHlXcJWTODNXu6tlEehzX+sLV8GpLzFvpkRoDFDbdUyE/7L41elgRXbmh5Eb
+         xPjybPsxArrrOS3ocNm+FuZ3kU1/jGtrSHH59PGXMR/UjlyT1YU4pHij1Gs0OgygFWMM
+         uNxZEaKyA8S+e/BzdYr0snyeUxbxeBbdKdAjtRGRONDcqXgtS/4lcxxwcoUSfZwtnedG
+         FbwmS3KEYZL6L6E1UeQ8lQeWUZsRN+248EOyvLqsOEt4VYbCoU/1WJI0DNivND51S9Tf
+         Z8vg==
+X-Forwarded-Encrypted: i=1; AHgh+RqiV1gCUj+ndX6lcjby3uTU+tcI77dQbm4XHQVLC0+g0ePUhavC+Z5I0gJOGVZCPBC3nX7Qp1vG8w==@vger.kernel.org
+X-Gm-Message-State: AFuF++m5+yx1eaHFqZIOKDE/qyUAddpQh4hs3yaIfk4HYq3Yfe7M4Aqn
+	HQnlI9KBQbUu6cIY5D1d1nU5DXXRLjWuosBszASrSQFP2j6gsc4cXRaR8U+IZPvym943CXfSaT6
+	9BmMkjeGfBAGhPb5K7/1JIQQ//3p4b7lDqoA6VNPoiB5E9llhJAvn54AlZ5oZ
+X-Gm-Gg: AR+sD11ZLlCn6ib8pDCW4SEuHXyZ7B+yLIMBY2zgykTghQ7nFvg7RIJRozQ122G3HNm
+	rlFkMlqIsY3mgaU4g3Hr2ew+ypCOoRpxhKjUJlNecPHt0HWZS+SI1tyzlbp/2ELMwIRK7JhjIvl
+	tb2eOFQuRvESUIg5RrUczI6fLCWiWeCChcc/kMmxkRpqii/fMY9sx9gDt7pzWMn60A+jRkCo/fz
+	HfCtVdRyIxAyUCphcXQ+Cb4ra+N/UOAfTX6s9xDpr0m6VgQyJtUfv1NTXGfTISS8XD8ujMzLOTm
+	ZB8J/+tTF9K2fc58xGUMyLgZ283w9Qa15db9PolVmk1//5BjdUKZNe5Uf7RoH/qQECmP4g0+tzf
+	NFFf4WhGU3dN79xCXfz4+EScFA2DVBOjYJuk=
+X-Received: by 2002:a05:690c:e0c1:10b0:81e:a4cf:131b with SMTP id 00721157ae682-849f4a7cc91mr76172937b3.22.1787577403107;
+        Mon, 24 Aug 2026 06:16:43 -0700 (PDT)
+X-Received: by 2002:a05:690c:e0c1:10b0:81e:a4cf:131b with SMTP id 00721157ae682-849f4a7cc91mr76172227b3.22.1787577402495;
+        Mon, 24 Aug 2026 06:16:42 -0700 (PDT)
+Received: from redhat.com (c-73-183-53-213.hsd1.pa.comcast.net. [73.183.53.213])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-84ca5d254adsm33243617b3.16.2026.08.24.06.16.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Aug 2026 06:16:41 -0700 (PDT)
+Date: Mon, 24 Aug 2026 09:16:34 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Ryan Chen <ryan_chen@aspeedtech.com>, Joel Stanley <joel@jms.id.au>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Billy Tsai <billy_tsai@aspeedtech.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Taichi Sugaya <sugaya.taichi@socionext.com>,
+	Takao Orito <orito.takao@socionext.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
+	Benjamin Fair <benjaminfair@google.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	David Lechner <david@lechnology.com>,
+	Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Santosh Shilimkar <ssantosh@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Vladimir Zapolskiy <vz@mleia.com>, Heiko Stuebner <heiko@sntech.de>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Emilio =?iso-8859-1?Q?L=F3pez?= <emilio@elopez.com.ar>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Prashant Gaikwad <pgaikwad@nvidia.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Ulf Hansson <ulfh@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	linux-clk@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	openbmc@lists.ozlabs.org, arm-scmi@vger.kernel.org,
+	imx@lists.linux.dev, linux-mips@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 29/45] clk: samsung: Make sure clk_init_data is fully
+ initialized
+Message-ID: <aoxEMm6FGf_onEBf@redhat.com>
+References: <cover.1787239813.git.geert+renesas@glider.be>
+ <87b3e83137e1a987f3c69d214706e93ef3898cab.1787239813.git.geert+renesas@glider.be>
+ <60a8d05a-76fa-43c3-a0f7-fb26a3b659b8@kernel.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] i2c: qcom-geni: Use common GENI resource
- initialization helper
-To: Praveen Talari <praveen.talari@oss.qualcomm.com>,
-        konrad.dybcio@oss.qualcomm.com, Sudeep Holla <sudeep.holla@kernel.org>,
-        Cristian Marussi <cristian.marussi@arm.com>,
-        Ulf Hansson <ulfh@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>,
-        Andi Shyti <andi.shyti@kernel.org>
-Cc: chandana.chiluveru@oss.qualcomm.com, arm-scmi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-i2c@vger.kernel.org
-References: <20260805-derive_clk_perf_tbl_from_perf_domain_opp_table-v1-0-61171ab1cdce@oss.qualcomm.com>
- <20260805-derive_clk_perf_tbl_from_perf_domain_opp_table-v1-6-61171ab1cdce@oss.qualcomm.com>
-Content-Language: en-US
-From: Mukesh Savaliya <mukesh.savaliya@oss.qualcomm.com>
-In-Reply-To: <20260805-derive_clk_perf_tbl_from_perf_domain_opp_table-v1-6-61171ab1cdce@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=Cfg4Irrl c=1 sm=1 tr=0 ts=6a8c434e cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=M9ZTtoZWvZtrIhbvBKUA:9 a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI0MDExMSBTYWx0ZWRfXwNWv0i1mqe4R
- hvFZJ14TOLtCjjPiklw7ftW1+JGnko3ywOR+oVSHObaFM8u09G6JaH4P0syCKsCfxRJgvV+RiZ6
- OBACp69lmaUsTDwFlwD/TV/hBt+f2bg=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI0MDExMSBTYWx0ZWRfX8YwLD3niJWBL
- mEPsAfQZPHLYQtFGROnL0tRcvQ/q4mBNOcZ2FXI2+y9FHpIidmXSx58Qt31APjBifZc62ivYq/N
- Byb7sm96f0F7QbYR4ee1ih8hKxkh4FE2o8Iv4jA/QJX/S8i+8OQkRQUtbHnH5mQ2P589Ovv3PpE
- /AzNvL3XUGqpRmUnIqu3x5sPSxynGpIz2g5i/3BaEsaAexIpxSQnePNnNF1eyDxm9/BJrWAUOfS
- rrTrTdPOdbFnNJ4ZNpN3RMGGB8KFmgGqbc8Fu6NK6C8bERZbQeWmyijnzhyH4uJVLXlNmHwkKQS
- +P3KnSUa6SC0Npo2ZRIGRnPbJ16re/IZDKS/VRSGwGFOj0X2c0qHUwpW8IibTpztSLFjoiWelop
- 0gB+7BZ0gAI/nuuad1pBP/sxMqoQBdPncHEi5VOPBWyPyIQ/krAaJOvV0Z6uALXS1spJd02tNk8
- yGk+M9/lpzjHIQnx6RQ==
-X-Proofpoint-ORIG-GUID: kvgyROIknWYcW4F_m-kUAGfOz7YA51XE
-X-Proofpoint-GUID: kvgyROIknWYcW4F_m-kUAGfOz7YA51XE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-24_04,2026-08-24_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 phishscore=0 impostorscore=0 spamscore=0 suspectscore=0
- priorityscore=1501 malwarescore=0 clxscore=1015 lowpriorityscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608240111
+In-Reply-To: <60a8d05a-76fa-43c3-a0f7-fb26a3b659b8@kernel.org>
+User-Agent: Mutt/2.4.0 (2026-06-19)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: quN1CWdv80vE4AFAC8yo609eoasvNL8bnj7JEbht0co_1787577403
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Hi Krzysztof,
 
-
-On 8/5/2026 1:27 AM, Praveen Talari wrote:
-
-[...]
-
-> @@ -228,10 +228,13 @@ static int qcom_geni_i2c_conf(struct geni_se *se, unsigned long freq)
->   	val |= itr->t_low_cnt << LOW_COUNTER_SHFT;
->   	val |= itr->t_cycle_cnt;
->   	writel_relaxed(val, gi2c->se.base + SE_I2C_SCL_COUNTERS);
-> +
->   	trace_geni_i2c_bus_setup(gi2c->se.dev, gi2c->clk_freq_out,
->   				 itr->clk_div, itr->t_high_cnt,
->   				 itr->t_low_cnt, itr->t_cycle_cnt);
-> -	return 0;
-> +
-
-This looks wrong to me.
-First accessed registers and then we are setting ICC vote ? we should 
-enable resources first.
-
-> +	return geni_icc_set_bw_ab(&gi2c->se, GENI_DEFAULT_BW, GENI_DEFAULT_BW,
-> +				  Bps_to_icc(gi2c->clk_freq_out));
->   }
->   
->   static void geni_i2c_err_misc(struct geni_i2c_dev *gi2c)
-> @@ -1100,24 +1103,6 @@ static int geni_i2c_init(struct geni_i2c_dev *gi2c)
->   	return ret;
->   }
->   
-> -static int geni_i2c_resources_init(struct geni_se *se)
-> -{
-> -	struct geni_i2c_dev *gi2c = dev_get_drvdata(se->dev);
-> -	int ret;
-> -
-> -	ret = geni_se_resources_init(&gi2c->se);
-> -	if (ret)
-> -		return ret;
-> -
-> -	ret = geni_i2c_clk_map_idx(gi2c);
-> -	if (ret)
-> -		return dev_err_probe(gi2c->se.dev, ret, "Invalid clk frequency %d Hz\n",
-> -				     gi2c->clk_freq_out);
-> -
-> -	return geni_icc_set_bw_ab(&gi2c->se, GENI_DEFAULT_BW, GENI_DEFAULT_BW,
-> -				  Bps_to_icc(gi2c->clk_freq_out));
-> -}
-> -
->   static int geni_i2c_probe(struct platform_device *pdev)
->   {
->   	struct geni_i2c_dev *gi2c;
-> @@ -1188,6 +1173,11 @@ static int geni_i2c_probe(struct platform_device *pdev)
->   	if (ret < 0)
->   		return ret;
->   
-> +	ret = geni_i2c_clk_map_idx(gi2c);
-> +	if (ret)
-> +		return dev_err_probe(gi2c->se.dev, ret, "Invalid clk frequency %d Hz\n",
-> +				     gi2c->clk_freq_out);
-> +
-
-why not move to geni_i2c_init() ?
-
-Check recent patch @ i2c: qcom-geni: add I2C frequency table for 32 MHz 
-firmware-based SEs.
-
-Let's agree to move there, to avoid issue.
-
->   	ret = i2c_add_adapter(&gi2c->adap);
->   	if (ret)
->   		return dev_err_probe(dev, ret, "Error adding i2c adapter\n");
-> @@ -1281,7 +1271,7 @@ static const struct dev_pm_ops geni_i2c_pm_ops = {
->   };
->   
->   static const struct geni_i2c_desc geni_i2c = {
-> -	.resources_init = geni_i2c_resources_init,
-> +	.resources_init = geni_se_resources_init,
-
-why to add common driver function to i2c ? and also spi, uart ?
-Can we not call that function from within i2c specific hookup function ? 
-i think design wise should keep i2c as local function.
-
-Also driver specific anything can be managed in local function.
-
->   	.set_rate = qcom_geni_i2c_conf,
->   	.power_on = geni_se_resources_activate,
->   	.power_off = geni_se_resources_deactivate,
-> @@ -1290,7 +1280,7 @@ static const struct geni_i2c_desc geni_i2c = {
->   static const struct geni_i2c_desc i2c_master_hub = {
->   	.no_dma_support = true,
->   	.tx_fifo_depth = 16,
-> -	.resources_init = geni_i2c_resources_init,
-> +	.resources_init = geni_se_resources_init,
->   	.set_rate = qcom_geni_i2c_conf,
->   	.power_on = geni_se_resources_activate,
->   	.power_off = geni_se_resources_deactivate,
+On Fri, Aug 21, 2026 at 01:04:01PM +0200, Krzysztof Kozlowski wrote:
+> On 21/08/2026 10:53, Geert Uytterhoeven wrote:
+> > The clk_init_data structure contains several mutually-exclusive members
+> > for different methods to specify the possible parents of a clock,
+> > prompting drivers to initialize only the members they need.  However,
+> > not initializing all members may cause subtle issues, which are only
+> > exposed when CONFIG_INIT_STACK_ALL_PATTERN or CONFIG_INIT_STACK_NONE is
+> > enabled.
+> > 
+> > Make sure all members are fully initialized, to avoid such bugs, and to
+> > prevent future breakage when converting drivers to a different method
+> > for specifying the parents.
+> > 
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> > Compile-tested only.
+> > ---
+> >  drivers/clk/samsung/clk-cpu.c | 2 +-
+> >  drivers/clk/samsung/clk-pll.c | 2 +-
+> >  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> 
+> Let me know if I should take it via Samsung SoC clock tree. I assume by
+> default this will go directly via clock tree.
+
+Please take it through your Samsung tree to avoid merge conflicts if
+there are other changes to these files during this development cycle.
+
+Brian
 
