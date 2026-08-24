@@ -1,183 +1,181 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2B5369D47
-	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 15:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1215D453A50
+	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 16:51:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787584462; cv=none; b=DmTGFW+YBgKxdu5USaDYQT5OKYOTp1+zQKRGnGNt4LsVNV11mxA6+1X8P//YUmwe8yGvYC6s0dKYS2YVlxKQIr5TVrK5aS44kOAr/nuNNswKQoy1X0Bn4Bk7j/3K8U1LRRxJqACMlXgzJ782qvDXZav9qXJhSLgNg0LPNXgeCrg=
+	t=1787590305; cv=none; b=u4HCZK4P5tjXS15fOlnvW0e60Vg8/ZUevt8fe6Y2YmhK7pXkv22x1YHP5R2r4S3gfeioW/RrPzx6Z53KUaNnJDZW9jQeRBk5VcxmxIJew3k7BrePZkXfUsL8OPsTuYf0sF2IYYqQsmtIGMHtEH6Cl7WLv3TTjLUfIVQt7PTyPn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787584462; c=relaxed/simple;
-	bh=PMHzlusqnjEcUolJb6Rj0ihhVcm0EmxTzAkLKIuEEmA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=DKkZou68FZZpBqSP5H+PiemYvVwL1iWdfSATch1ZJMpf77y4vE3Qo63AbZ7QC2/RjzmQxUmeeW9mfulEEtrfvbXr7ZGz6mGMkapHkrggDUDqD5HLP1FcnUwO3AA9LTJBuG6EVtBCDNk/VdASfigIa1cNPaNYvQqonxgFgWLNM/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RQ1ywwYh; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1787590305; c=relaxed/simple;
+	bh=5v77F1jxIZAWs0P/tIb1Z87dFviFUceo6u8DoyixeAw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Y96cjlzsQlTam9o4P6Y2IHb39D9nF/Yd4eTIzbue1ZWLqWI3JtVxGFrzZ5lWQ89LyFJnxnvHu0OI6eF1hmAEeDF7vGJWThfAH5YBoEs34iuQZW/ANuP9GFOCrSFMOIs9W6ykaFTEQfHtg8d+5+IAvMFQ+ByBt6h7JmAiPZwEurc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kSXZ2Zu5; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NttBxBXt; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RQ1ywwYh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787584460;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r9JEBxETCpjKOyzPxUj8DiK5Y8iV5A7DhykNYlgKppA=;
-	b=RQ1ywwYhBSzgemMFnvk2LOPOKEsN8G3U041gYQ1gub52vQQf5JXQmWNISH87NWSdr9U59b
-	5E96eDnCvOE61vPX7qcjGITu8btjfXfBDaYSloduwbM05tjtDJKEiQz3gJPU9ar9WEc5s6
-	6R1b5qs/zj7KBGmuE7LcEWdx0lUo6B4=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-662-tf61xkTPNU2miX6fM9KHpQ-1; Mon, 24 Aug 2026 11:14:18 -0400
-X-MC-Unique: tf61xkTPNU2miX6fM9KHpQ-1
-X-Mimecast-MFC-AGG-ID: tf61xkTPNU2miX6fM9KHpQ_1787584458
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-91931144870so440076585a.1
-        for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 08:14:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kSXZ2Zu5";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NttBxBXt"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67OFmhG03994122
+	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 16:51:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ERZilrXY/3hHR5+jqOyEP4/9xdUWJrsKbHUl2RWk+U8=; b=kSXZ2Zu5hKXsHruL
+	1w4OpGry9K3Qi3G+Dfj3eR7JWTXK7C0vbNrDQiauyCptqJMm0gnvoYrPNJev1bg5
+	SaT3aqroMKO9zbDwlQl7hQlMab2QsIAMaAEWzU+L2kd0ddpodr38hfjgfRqdV7dS
+	CjatDtUGsPbFBSvnSGZmP6SYal2i3eySlmqNAj+oPywRP8BasseCOy/HVwCPpOGk
+	5Z4x1J/pNdFl6/tnzMBQspjf8zmlIihhDj8qKrZpBQCOaqtpw2RghTLIXeZf3C8b
+	W8pgxLWufK948I69hHPJ0SAP0c3blgKJeaaEOeSikm8S5NkXjbjT001UWokfMQXm
+	OzzDvg==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g8jgk29dw-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 16:51:43 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2cc7e86e7c5so68593615ad.3
+        for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 09:51:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1787590297; x=1788195097; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=ERZilrXY/3hHR5+jqOyEP4/9xdUWJrsKbHUl2RWk+U8=;
+        b=NttBxBXtX+id5czCopg3lFjY/TLIcUxhjTxWZUHb7dsaydwA5elK+O02w0H/E9lZeA
+         F+02p7M49jJXmE+cSixhP/daloqFQYpRmT6Jt1IyxD6wu5Sc4gys3DSu7qIeL3Jem8C1
+         6WZYxwqNAuSDIhEkJJNpuGveAibJRJdcsdh1DH8/39lOlkksblo2WoUD3AabNNGwl49x
+         Z8M3En+bMIKXbwAqAf6suKDZysZHuIAoG60UaYZNdpNCcMycybwBwK1qYC26rRuNUP5l
+         RP+eTaDC3Mjs8KMcgucjoepV1tOiufwEx35O2gwLkWpLz8gVAwn/FD92W0z7lhEK2B7J
+         GO8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787584458; x=1788189258;
-        h=user-agent:in-reply-to:content-disposition:content-type
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1787590297; x=1788195097;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=r9JEBxETCpjKOyzPxUj8DiK5Y8iV5A7DhykNYlgKppA=;
-        b=M+E2VrmJTRQM/p+68FfJXErx15WFJ3GINVKOOiKiGxpOfji9GcV1e4Djx8Q/CfM0cn
-         EmS0n3Oiw/h5o1qzwL0U9dbRUnz5pocjWPIXBv8NPRtHpAWKaWj7NXLCYTaAB6gxcZlG
-         rZE63fiuw3ctuVCjV0Hd7ala9rC7yg3fJdC3cbLBixb5dv6pbTELI/QrHtR7bV1+nUhf
-         PMQjLlUYAZYW26bAqnqEg8XubpaArQdwkxK2yBu4pYA8p+EL4r+syMbCqr/qKEDkUL+G
-         krUmOkZrtb6MkkG020auzWgdfutk/q/GQgycOWULzFC62f3skZAWO5iycPPf90rmSioI
-         a4lA==
-X-Forwarded-Encrypted: i=1; AHgh+RqRaAoD3lEybQ5ElfhsQy7KIGESmEXemGQkFRzoori3B/yyXazrWXps3/LqeiVEOSuOqvWrpt+rag==@vger.kernel.org
-X-Gm-Message-State: AFuF++mPjaIsrcieZuwTR+s2TkeADVH8hmmwVpeKEJnxtqxs+X8Yj1p6
-	cwuvIBz8mGvdnJYDZZzKNz+TMvANx4lzscIY94kqidPYrjuHDPZIh2+B1o3KYsZyDsl2D3b0oBL
-	Ug7MV+V1szONee4j6AzUBvcn823OVHVq90MnOp3E0EB5FwPwAC4ut1b166MyM
-X-Gm-Gg: AR+sD112M4ZPsCFCd3dDVAgvrhcleoCoIQRjxne1VcyuIu0ARW1Ps30WmrXKo/cwDxj
-	W9jduPUuYuyCmMuVpO+H7WruZhe/lXIyr7PX8PjUjoEwPIb1Avb5d/xz+o8enaQytSlPZCBDMz+
-	Wevdh2B4xTEcZthhxDoARrFUrqGMy4LM6ZFqFZjJaT8WPY/nZughj8VDJypsTxQfY0CD/hKx8uP
-	VPWELqcXLKRUF+z6keuZtVkCliiMv73f6BOQjHfGMVe5LQNVELniJhtk3YDc5OME5rZZvd3OyHp
-	WGNva3lZTEZqnUABxZYHdssy+1eU9KOkPsgja9T8dnI46tas2K8PG+VM9DyGcGPJa0Iy82MAEB9
-	caEy05gp8ASJCDcvnarpXlpt5L3pbfMxl8qM=
-X-Received: by 2002:a05:6214:2a49:b0:8f1:440c:7f81 with SMTP id 6a1803df08f44-90c80942e22mr260846836d6.4.1787584457524;
-        Mon, 24 Aug 2026 08:14:17 -0700 (PDT)
-X-Received: by 2002:a05:6214:2a49:b0:8f1:440c:7f81 with SMTP id 6a1803df08f44-90c80942e22mr260845166d6.4.1787584456812;
-        Mon, 24 Aug 2026 08:14:16 -0700 (PDT)
-Received: from redhat.com (c-73-183-53-213.hsd1.pa.comcast.net. [73.183.53.213])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c93a82554sm64013126d6.45.2026.08.24.08.14.12
+        bh=ERZilrXY/3hHR5+jqOyEP4/9xdUWJrsKbHUl2RWk+U8=;
+        b=KRAunMS6mrIRjo3QGGi4olLy3yg3xLBWUJs11O8SH6KDeDbtkAHGxtjuBual76OzNY
+         Fgt/keGavhmWUooxr/7yI8oBAIzLCLixumjMUxGJO7gninZMvwZKFiw2eF/gh/nNTqpd
+         j1NK+8+AaL02kA0TjDuQ4QO570iACIYAfybros+vCEi9aSTNjHuB4CmnMINTimgvaj7Q
+         NHI9QV9HAs48UPsat9uScmQuG9bM6R47pqlV80T9Rrqg0tLSNsxiZF/oH2Q6IHBDJFKb
+         spKIRDBOQctn96Ew5jeQ7e03xEE6OG8SaZfs39Adnu3f1AWCKnwOpGAzjm2EbH53lyO6
+         3DVA==
+X-Gm-Message-State: AFuF++l+8XQGmnxb4hx9NTXDz1uKJu/Y4ONFTp1ZmfyaIUwSVn7MF6MZ
+	Yq3QhqtyCE7JFBH06HlvvwcGawZ/Kf7M/J4ThCpB511fPBi+ZehN2bePLA2SHzYTqPo7i22pxNA
+	uGohovw2Tc/GTco3YCtHYVM+O4so02ozzGhTi7Z9hHjns2wGLCAtzHExF8ImSYw==
+X-Gm-Gg: AR+sD11n+u+ThskLV8B6+QC+Bb5lW8uzk2MKVlJmmfD3EAY+hdns6gJhQ7l7/GkiMYy
+	WBH/eVeuQuCRbpGtUsXN7DVysaEfjG6VzHoMkJEJ5WZyJnfIfMXnYARfS/1uS1JX2PCdfVJeEqu
+	PgelqHvDyZQicZ7aKv/tkBY4B1xju+kmItboG0n2MIVvXTXoZayR+vTTb1U2UkF2pWuRvsMFSAv
+	WumvKZTnDSQ8qK2lMG/Jn8xOzH1nrDn1uYxYyyeBgIh+yq0038aGOSD5IgFZZxRcl+Ieujchm4Z
+	T8vRoQjb/QZAtv722egGS1yHF3WgjZTV83S1I59Vw+oVwoRnOxBnB8Nwyy1mCc4l9vhAEF0k0mY
+	nVn1MVhgoXRQrlh2Z5FXCASLGGw==
+X-Received: by 2002:a17:902:d552:b0:2ca:e19c:97b with SMTP id d9443c01a7336-2d670b85ea7mr430160815ad.5.1787590297479;
+        Mon, 24 Aug 2026 09:51:37 -0700 (PDT)
+X-Received: by 2002:a17:902:d552:b0:2ca:e19c:97b with SMTP id d9443c01a7336-2d670b85ea7mr430159625ad.5.1787590297053;
+        Mon, 24 Aug 2026 09:51:37 -0700 (PDT)
+Received: from localhost ([50.35.46.84])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d6768ba291sm20372535ad.64.2026.08.24.09.51.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 08:14:15 -0700 (PDT)
-Date: Mon, 24 Aug 2026 11:14:11 -0400
-From: Brian Masney <bmasney@redhat.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Ryan Chen <ryan_chen@aspeedtech.com>, Joel Stanley <joel@jms.id.au>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Billy Tsai <billy_tsai@aspeedtech.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Taichi Sugaya <sugaya.taichi@socionext.com>,
-	Takao Orito <orito.takao@socionext.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Avi Fishman <avifishman70@gmail.com>,
-	Tomer Maimon <tmaimon77@gmail.com>,
-	Tali Perry <tali.perry1@gmail.com>,
-	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
-	Benjamin Fair <benjaminfair@google.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	David Lechner <david@lechnology.com>,
-	Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Santosh Shilimkar <ssantosh@kernel.org>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Vladimir Zapolskiy <vz@mleia.com>, Heiko Stuebner <heiko@sntech.de>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Emilio =?iso-8859-1?Q?L=F3pez?= <emilio@elopez.com.ar>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Prashant Gaikwad <pgaikwad@nvidia.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Ulf Hansson <ulfh@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	linux-clk@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	openbmc@lists.ozlabs.org, arm-scmi@vger.kernel.org,
-	imx@lists.linux.dev, linux-mips@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 00/45] clk: Make sure clk_init_data is fully initialized
- (part two)
-Message-ID: <aoxfwycOmEzLzhEU@redhat.com>
-References: <cover.1787239813.git.geert+renesas@glider.be>
+        Mon, 24 Aug 2026 09:51:36 -0700 (PDT)
+Date: Mon, 24 Aug 2026 09:51:33 -0700
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Sudeep Holla <sudeep.holla@kernel.org>
+Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kernel-team@meta.com, Cristian Marussi <cristian.marussi@arm.com>,
+        Breno
+ Leitao <leitao@debian.org>
+Subject: Re: [PATCH v3 1/9] firmware: arm_scmi: Set fwnode for the generated
+ SCMI platform device
+Message-ID: <20260824095121.00001b9c@oss.qualcomm.com>
+In-Reply-To: <20260813-acpi_scmi_pcc-v3-1-cb6b88b4ebb3@kernel.org>
+References: <20260813-acpi_scmi_pcc-v3-0-cb6b88b4ebb3@kernel.org>
+	<20260813-acpi_scmi_pcc-v3-1-cb6b88b4ebb3@kernel.org>
+Organization: Qualcomm
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <cover.1787239813.git.geert+renesas@glider.be>
-User-Agent: Mutt/2.4.0 (2026-06-19)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: t4dUDoLP-iIn23w-v_2Po3dm0he7dP7qDYFOsC7OkVk_1787584458
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: DYjWZ4zDs9Z9PYwNkolTG8V6nHOZ4VlB
+X-Proofpoint-GUID: DYjWZ4zDs9Z9PYwNkolTG8V6nHOZ4VlB
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI0MDE0MiBTYWx0ZWRfX27PbI07hOhDp
+ ckgL5EHqRRdK8XLVGFuHqwapLV2XGXPNsSw1JEB6voHzac0fmZ6X8SD2lhAo1mrbiVP15A9qpEM
+ a6yhTLTyYxmMJUC6tfdtRHcY1A6k6bs=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI0MDE0MiBTYWx0ZWRfX/OVyGbJ1dj9r
+ Pmi7P3Qh/ePV6/WTsyoS/2ycsnHGM5VlTRTlS/1Z79SDQeEQSAJpD4Luw1izfDvIA+E8AORB7yg
+ QSXTWMVAe7lXzMpexFOcHl3r4zYcHx+YCositkgcToXLD8UiMIhLBCiVxeo820wmMjuop6DI47T
+ UvQ8yz7B3NNiPgLN/D6d04JLdefPed4+Ay/scwreGnIR9TZp/k4GvexekLyS8iS5v5FAJwq3SYK
+ Hk6Ofc0CxEiGWwVAGXXoSn5Fee6UBON8Ljo7LnG65BZAS58EfQJBknidYfjM1aOk8qNDn5i5jiO
+ fJD/MbVN2WrtJsI5zqfAGFJK2m23JqJqPmgMjio8A/Tib8DecwS8EcnjLQ/iLUIo1EFRqDItEwO
+ C8G0Y1wZyLjDN6s1oBZ1VQimqD36hWCIEeUWhGmbupucWHBKyT0KoygolXgceQ84YEsKBM2AiRK
+ 21aAl6FYoo1ZP/IkVuA==
+X-Authority-Analysis: v=2.4 cv=KcvidwYD c=1 sm=1 tr=0 ts=6a8c769f cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=qC1CW/w66vtJz1P9yTJxNA==:17
+ a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=VwQbUJbxAAAA:8 a=Y7bUGcAVvLU6MJrLthgA:9 a=CjuIK1q_8ugA:10
+ a=324X-CrmTo6CU4MGRt3R:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-24_05,2026-08-24_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 impostorscore=0 adultscore=0 spamscore=0 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 clxscore=1015 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608240142
 
-On Fri, Aug 21, 2026 at 10:53:10AM +0200, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> The clk_init_data structure contains several mutually-exclusive members
-> for different methods to specify the possible parents of a clock,
-> prompting drivers to initialize only the members they need.  However,
-> not initializing all members may cause subtle issues, which are only
-> exposed when CONFIG_INIT_STACK_ALL_PATTERN or CONFIG_INIT_STACK_NONE is
-> enabled.
-> 
-> Hence this series aims to make sure all members are fully initialized,
-> to avoid such bugs, and to prevent future breakage when converting
-> drivers to a different method for specifying the parents.
-> 
-> Part One[1] fixed all cases that I identified to be real bugs, in
-> response to a crash I saw on BeagleBone Black.
-> 
-> This series is the clock subpart of Part Two, which fixes remaining
-> cases that are currently harmless.  These are still fragile, and may
-> cause future breakage when converting drivers to a different method for
-> specifying the parents.
-> 
-> Thanks for your comments!
-> 
-> [1] "[PATCH treewide 0/5] clk: Make sure clk_init_data is fully
->      initialized (part 1)"
->     https://lore.kernel.org/cover.1787165329.git.geert+renesas@glider.be
+On Thu, 13 Aug 2026 12:32:56 +0100
+Sudeep Holla <sudeep.holla@kernel.org> wrote:
 
-Thanks for cleaning this all up! For the series:
+> Add a call to device_set_node() in the SCMI probe helper to associate
+> generated SCMI platform device with the firmware node of its supplier
+> transport device.
+> 
+> This complements device_set_of_node_from_dev() and ensures that
+> firmware node information is propagated correctly for both Device Tree
+> and non-DT (e.g. ACPI) based systems.
 
-Reviewed-by: Brian Masney <bmasney@redhat.com>
+Hi Sudeep,
+
+When you say 'complement' I'd like to see a little more.  The guts
+of both calls includes setting dev->ofnode() adn the extra bit
+in device_set_of_node_from_dev() is about ensuring we drop existing
+node reference (there isn't one) and increment the reference for what
+is the parent of_node.
+
+I may be wrong, but I think that is unnecessary and if I'm wrong I'd
+like to see more info here on why it is needed.
+
+Also, if this is commonly needed why doesn't device_set_node() include
+that dance?
+
+Unless I fumbled the command, a grep suggests there are no instances
+in tree of these both being called near each other.
+
+Jonathan
+
+> 
+> Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
+> ---
+>  drivers/firmware/arm_scmi/common.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
+> index fe8c22cfb9f7..cc7d11c3c1f3 100644
+> --- a/drivers/firmware/arm_scmi/common.h
+> +++ b/drivers/firmware/arm_scmi/common.h
+> @@ -650,6 +650,7 @@ static int __tag##_probe(struct platform_device *pdev)			       \
+>  	}								       \
+>  									       \
+>  	device_set_of_node_from_dev(&spdev->dev, dev);			       \
+> +	device_set_node(&spdev->dev, dev_fwnode(dev));			       \
+>  									       \
+>  	strans.supplier = supplier;					       \
+>  	memcpy(&strans.desc, &(__desc), sizeof(strans.desc));		       \
+> 
 
