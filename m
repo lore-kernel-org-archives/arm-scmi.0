@@ -1,96 +1,102 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4204A37F737
-	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 20:24:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4B438A701
+	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 20:35:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787603097; cv=none; b=KTYCNKrU+OuwCsRZNm1ZUsWO2ithit0fWkNW9iBuoYJKUqygGFcT2dsuCNinrrYFAtbpf20xdiM1jbn4m4IbLNQTMqgrfgaYGAedtoUNl7IXt92KaBV5lPOYT67eb0M8b398U5V5E/8xxT/dkKdw7EgaDouZDnNpgJ3+kF000a4=
+	t=1787603715; cv=none; b=bC5SCC/WrFhwS5BiOFyOZ6xLu1/IXCw2jBbqBCZHBNWCUkv18dL38Mk98LE/nQH9wx4pOqD0OMULRxFzyHDqqJqA8qeeC6AweF4l3UI1+HY0qGhbSQEnxmHlhCxXzUUcIt5WeFbQ8Aa9I1tDm0NPl3V2ncjFTOfqNEDxrEK8aNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787603097; c=relaxed/simple;
-	bh=+R97fBZgSOc7iBaUP8BG+m8T+pMT0oJSwrFJ7nfXF9I=;
+	s=arc-20240116; t=1787603715; c=relaxed/simple;
+	bh=nbT5dzntacKFRQSPqk1p9+anOK/Ykfp9XH6Z31bA46Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fBhIETAlYuUG4eIgOVE6Y7A43EBaJ1wD+R6iBXSQL0MFiCIeQ1xFkYoJX21OcNjKM4r+LS8MbueLIwdbWuY02WCeuXm5zWxauTuC+7z4GiSZ0qgIAPsIIxL1KZ23nVUxO3gNeuaOZz14NVlVlO342K/k1WPLsKSZ4LPDjVXK9jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=FDCaMHoq; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=f7kUSPUJ; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version:Content-Type; b=JmhOHtuNjrxATJB/C1xuWXwIKNlV4oHZJmXPPjJVZcv9ILEVWwVul13vlaPEXyj7H+K11IyVMXCd/Yf2RcgKCAvTPXp7lYKsyNDa1oRBKKMZwQxJF6JDzr/VbQD99bGXCBz+iGef/0ZILr9LeXnYeI3u5nm69OoY9vGklksyC+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QBqX2cXE; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IWAZNghB; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="FDCaMHoq";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="f7kUSPUJ"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67OJGrow3415627
-	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 20:24:55 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QBqX2cXE";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IWAZNghB"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67OJH5IB3789530
+	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 20:35:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	4eV+1RCKn+9EGaZT0SNQ5VzJ6PPe347P8gHCzbGdu6Q=; b=FDCaMHoqKfZ3f0nY
-	KT4NecyfEqk7qLhd9kyi67KXkCdc/gI+A7/WVLhmKIFoQIkM66PCqxgOnyEzHlr8
-	UPnWFfgVkEMW9bUzbnqrXTplMemPmHj/tW0kj0gY3F2w0tcMvAZU8ub57fzGDrKF
-	5q9KDtV2sEHPlRvFbK+VZQlr7mS0oYqCQclI8Vnanw6B4qSlqgsrLGAHRgrvB09c
-	l80f4wQ0zOzHg1qMMEp6W2ptRIvq9TTJ9hY1usQehAGos2eYxZJ2iyjEhNPApSex
-	vwC9GbpFTncWxqiCaTp+q3TneJ8K/QBTnPMXloJvL5CuHRcfCOsTOhcLJnDMTnDf
-	n+fAbg==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g8t3drqfj-1
+	Qwb6Za5Jh+xtMbV4sA0pv+cTfOUaw+dS3gVnx/6DE8A=; b=QBqX2cXECxUzM1XJ
+	WfAsxafAL+U8LEeWZY7aYFIKxDLTk4DcUmrnCyCoW58Pz5k3D3UlMkYAC0j67KJl
+	7zPXbCweJtUkOaNOLlz0oVTXYJYkl+R7RMjJUJaO0gEtBVh7TauGUrG4XKUX/pTd
+	7ShltVXv6/Yl1zUW+XyYWKRnIFE13cCXgbWIpYjE2U0ANx+SoM5cmX5LvEvjY8Sm
+	XoCni4S81gqE10Sn2LpzgTRyGQSKeNoOxwqQt86klnZbOSg5WFLnGvFMiytKiszQ
+	cmid8zGuAZu8JXpZSJVt1TiEyaw+JIPEwRHQirkaqr5HMBc9j5WIDA7A5uhQABIg
+	v6RQrw==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g8t1s0r9k-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 20:24:54 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-38e8fee6af3so4988243a91.1
-        for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 13:24:54 -0700 (PDT)
+	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 20:35:12 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cb5ea36f969so4641571a12.2
+        for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 13:35:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1787603094; x=1788207894; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1787603711; x=1788208511; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=4eV+1RCKn+9EGaZT0SNQ5VzJ6PPe347P8gHCzbGdu6Q=;
-        b=f7kUSPUJJKVbmxeWTiNh9nB0pAgwCBQpCo+ggh0Xliv0h0ozOsY0ihjLaUVOWWxlbs
-         /2GuuN0Esg2dHJmv132hjjAvc9URvcOe5ngTP6tKz9LGMZ/Lw9kMIyoQqEoN0a7P3/zP
-         AxI+rPmxwIALVQdrIBqhZHv81h01gAC2tEtdGov9Y4BKihl+Lfhh4vanY4KiWkqJigzA
-         wgVT8Smh1QX8r9xc2EtDQdsTNCog/dwqm7Gm8v7eQR2CnV4EIOh85CG32yiM/nTTRZqE
-         41jSYIkS5MqwgFWhb5b/pwWDckOgviTbzwPLXFIE1VLBvGwQ5MKpQHq8pVal+yCDoZHH
-         3Avw==
+        bh=Qwb6Za5Jh+xtMbV4sA0pv+cTfOUaw+dS3gVnx/6DE8A=;
+        b=IWAZNghBJuGwbwfhWUmiw22uakA6zMAVQIAFR8JnZZv/soqp06aWEgBNtgo3dGwDIe
+         gBCZS7AqSq8cvDG+kvPgz4l8DLh4gFmFh/4Ig2wPPMJqNxdB+TM6AHeoM230UkLvW9BQ
+         0u/WhU4WJdOOs73ZeYWiRoAvOApRRBcDkco0IQqg2sEiEhzueChXvVs302/FNFwpn2Qp
+         u+6LEm7exrotzaNAd02Mo71Bd3xNE4zwYpwYCtGjLPsOUaanJ7wjx2T+0ylAFG7En1m3
+         Jb0Kj5DX9YdSg04WVAHNloHWVRqu8/D0Iy7XhOct+UmaYR6ycU6IKtEHAz01HKKpvy3R
+         RZxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787603094; x=1788207894;
+        d=1e100.net; s=20251104; t=1787603711; x=1788208511;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=4eV+1RCKn+9EGaZT0SNQ5VzJ6PPe347P8gHCzbGdu6Q=;
-        b=o3iuHdLZP9rt3JO+c5YGuSx6vikiTUjN2oBV3GNHpuu1J8hlF7K7QwTdfPuDAVdxVi
-         R8K2q6Itdk5iSxTfvYPVvH0CQQSoxKOZmQryl+CbQTJ84s4EULnuDEtqUnj6M2C9qUjW
-         sui2rQHz+0NYRQEiuC1Tfp3B0xqwoZ5bWdjjGr5o9GQUc8/kkhGTr3X15wt3sDZjMaLm
-         34NW3vQ0+gT2+ipgPl9gnU9jy1iYYEnhQvwRQ/CDnPyF/6IQklY+CdIZVdnUNT8Z9fsz
-         lI2dNHNqYxUcfGwjuZEjmWYKtYTknffBeVdJWkV5alVBw7Rhi20GcRdv0uMAsNLn3lOv
-         2AoA==
-X-Gm-Message-State: AFuF++mYOFxckThRyjWyM/370iolrRDuOjFOTuMRITgmYKSxRwszx42W
-	8CSXzZvAwjIFygg/pvP9tsiRXYeU8dtDoLL0RrTCO/rpSCymxX4jPe8yFAPlXyBesbSkfi5Qbr/
-	voZrTf8lgyFnP9OdOfwpzbE7TZ/pS/3mbDWY8mRYB5wNd0hvv1H0fTt027R1h9w==
-X-Gm-Gg: AR+sD10D5vMx8OgA1vnU08iF4LBrmVt6Nnt6kTCRGRdJSuoR3m0W8+ObvLQstP6gieN
-	74GUZOtL6pFPWbodFXxxW2NUslUTiMuL7eYa6uSF8Z6rm1dXM7YpfRPDqsP1FYAHL1TE6ag352z
-	aSz7WtYlQXxM8QYU2AXStw1wO5TqZ3HqMV530hEjyXl+VtjW4vm9ARmhqoHUhKXjJqpFdVAZqJT
-	W3tgkxMFFI+0HhQWEht9wUvf37bBqRQxG9cTU86GTbTqSnNdILnRTLvugv06FcuIjawUhk4nJdn
-	0pUziSBj906vAAokajy7CRlO5SM1M+WZd4Abhuhk3GRkAFJofSAdasU/UW/fI2QVFk2Rd7Rp+Fv
-	jRwMJbCi2pW/Zuzf5EGJyLc9ecw==
-X-Received: by 2002:a05:6a20:ce4f:b0:3cb:d156:d362 with SMTP id adf61e73a8af0-3cd90fbd2admr2743245637.3.1787603093917;
-        Mon, 24 Aug 2026 13:24:53 -0700 (PDT)
-X-Received: by 2002:a05:6a20:ce4f:b0:3cb:d156:d362 with SMTP id adf61e73a8af0-3cd90fbd2admr2743167637.3.1787603093506;
-        Mon, 24 Aug 2026 13:24:53 -0700 (PDT)
+        bh=Qwb6Za5Jh+xtMbV4sA0pv+cTfOUaw+dS3gVnx/6DE8A=;
+        b=PxnXYEkog9/U6Dg/m+2bkAerdKNz1mlBvBxidU2kM/b+6YQ80KZ6wO3viO1ZU2sWln
+         t909svvgmhz8Iuwm02W/Jy6GuuAL+EsgxvhruluYfVVj8lEvs/JWo4eK8TjHx1thbDJY
+         MkbTIumhv7z+McdHx4SH7LNyEiJaitqQtVNFcVJWHB0HKf8R67JTApQJ2t84H6crtVyp
+         B4NLPak/49LahdmYYHPZHfG4Z1lkwdjVF+EJC2woumaolrpKVpLGAS2LdC0etHBc6bFO
+         S1ynGflQOYUcLeqy7mGLJE0iEbcDlQMYOMt+xc79/qrFXobXzypdwmRj4byYIRn39NRB
+         TN7w==
+X-Forwarded-Encrypted: i=1; AHgh+RoSF8FjxKdxFpS+mHckyRosZnHIXjQVDMIb80xwrB4vpbHijxrPWH4x9xbyhCPismO31I0d5L5QjA==@vger.kernel.org
+X-Gm-Message-State: AFuF++n7kEuVVI1cnB1fzcZDCf+8uokb4VH+l8jUNfEbi0B1M4aBHZ/K
+	JwjStKAllqBVoek3pwByyYzRdqhZtfFWK0NQv/1GuY/GGS7OFKkvZl/URyiprkpcI/8OMdlW34Y
+	Wifc4pKRFbUlGA/UwKf8gzoHB+mFZojxMYLgzrx2yP7rmZix1SKpem+70tUY0AA==
+X-Gm-Gg: AR+sD10o/Mwb/5QGSu83sR3sd7eR8LLXJeKpV0+XSkqx0u0u+Qpi6Uus1pyAzuUku2/
+	B6ifk3+2HyKgT/97SrntqmEH9Fo0MxIZxi1LvtPiqhBm4aaSxBHTuVsNlyRIRPxK60jQsHjSHeK
+	bZA6zOKAFZXyF9y6/up8z3oZ+/FzZRD4+mXCpSQcR3KeJxPrzsB4STVKZ7w3hulTPXz/2RHzaku
+	8pQ0BwvjFpLIOxKftOKdtA4uScxfKIg3AwnTzbi3JO92DarkaWl85LS2viOP24KHTsXNCPBHA7C
+	j6yJm/hLWKzPmteiVUcjaaxT2dO2vb774ttGeyxGOYyx2UfnvMEUQtR9ZrqH3TysMKSjffW8Ruk
+	mdVol85wCk5J5mMIllx0mHrnf3A==
+X-Received: by 2002:a05:6a20:7292:b0:3b4:7e2d:a3c2 with SMTP id adf61e73a8af0-3cd301c72f7mr44771624637.18.1787603711129;
+        Mon, 24 Aug 2026 13:35:11 -0700 (PDT)
+X-Received: by 2002:a05:6a20:7292:b0:3b4:7e2d:a3c2 with SMTP id adf61e73a8af0-3cd301c72f7mr44771557637.18.1787603710735;
+        Mon, 24 Aug 2026 13:35:10 -0700 (PDT)
 Received: from localhost ([50.35.46.84])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f91d381csm31902753eec.19.2026.08.24.13.24.52
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1418600535csm25139612c88.0.2026.08.24.13.35.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 13:24:53 -0700 (PDT)
-Date: Mon, 24 Aug 2026 13:24:50 -0700
+        Mon, 24 Aug 2026 13:35:10 -0700 (PDT)
+Date: Mon, 24 Aug 2026 13:35:06 -0700
 From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kernel-team@meta.com, Cristian Marussi <cristian.marussi@arm.com>,
-        Breno
- Leitao <leitao@debian.org>
-Subject: Re: [PATCH v3 9/9] firmware: arm_scmi: Validate PCC shared memory
- signature
-Message-ID: <20260824132450.000045ca@oss.qualcomm.com>
-In-Reply-To: <20260813-acpi_scmi_pcc-v3-9-cb6b88b4ebb3@kernel.org>
-References: <20260813-acpi_scmi_pcc-v3-0-cb6b88b4ebb3@kernel.org>
-	<20260813-acpi_scmi_pcc-v3-9-cb6b88b4ebb3@kernel.org>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+        sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+        f.fainelli@gmail.com, vincent.guittot@linaro.org,
+        etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+        d-gole@ti.com, jic23@kernel.org, elif.topuz@arm.com,
+        lukasz.luba@arm.com, philip.radford@arm.com, david@kernel.org,
+        souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
+        puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v10 03/24] firmware: arm_scmi: Introduce protocol
+ instance notifiers
+Message-ID: <20260824133506.000053ed@oss.qualcomm.com>
+In-Reply-To: <20260815232604.3730754-4-cristian.marussi@arm.com>
+References: <20260815232604.3730754-1-cristian.marussi@arm.com>
+	<20260815232604.3730754-4-cristian.marussi@arm.com>
 Organization: Qualcomm
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 Precedence: bulk
@@ -101,94 +107,54 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: bfH45LZdMRN7i9pI1WgX0UA89jnVBg5b
-X-Authority-Analysis: v=2.4 cv=OLAXGyaB c=1 sm=1 tr=0 ts=6a8ca896 cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=qC1CW/w66vtJz1P9yTJxNA==:17
+X-Proofpoint-GUID: IO53HalpWB_9SVRS5RX8275Ci9OijGg1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI0MDE3MyBTYWx0ZWRfX570+TG4oumKo
+ wi8CM300KKnTp20pXch61BtEWGtDz9UHxIXu+IXEp/V3pevv3tUb3jGB/AYy1gZv44WV+XSeczE
+ qJ2RY+g/EoAuq4qQMARnXIXF5ztAKYKAWE3jkW+c9zWw/6Ivh/Cyo/EplVFecgetMo9FdIl8OlX
+ g4VrhtY9oPZWBXcAMA5XxXvqoqLCBuXF04J/djHJb6cgsg9lrZnpDKQ7lQd6f9yc4X0vvuEJLBT
+ KIdu3b05feDXXXdjFpHrP3IXSWCO/aeE/dFBW1eL7fGcYutX+mKjefVk0BvD70/zmCEeytjNF0g
+ wOLWonSikXvzOSCtxdzrw5F4V88fNvqGQmJqxpbgxpVViVEGKotIcD1L0Ad28ONBDC1RJZBbPKN
+ YRG6YrV97A2BnoS5T5RadhEtjLYVObFGUQaSu/FJbsZDNMuwNy+YXa385M67UX2y05UkZEdX+xu
+ FqPtvdhsgrp1toavUkw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI0MDE3MyBTYWx0ZWRfX7nRFpwB+fMlu
+ DvNv+Rd0VlFTWUY3mjQkc3fLOrNsTbr3uMHtJiMviuBt8fmzuOVe2Eqkf3/0DkRnX1T+A26xY+R
+ Pd6nWw6/id3m7NOwQ/x5blgBxkhP/sk=
+X-Authority-Analysis: v=2.4 cv=L7ItheT8 c=1 sm=1 tr=0 ts=6a8cab00 cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=qC1CW/w66vtJz1P9yTJxNA==:17
  a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=Xy_CICi7n2P0mFM9eQgA:9 a=CjuIK1q_8ugA:10
- a=rl5im9kqc5Lf4LNbBjHf:22
-X-Proofpoint-GUID: bfH45LZdMRN7i9pI1WgX0UA89jnVBg5b
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI0MDE3MiBTYWx0ZWRfX6y7NjgjWKxdZ
- Fe303pMDTeRNPsOIuGM6zDDgrZR/ms22ifKiii6v6oQXCoJUIRmHwYb7Xkte8gHrPvSKsQXzQ5X
- YeyCSAtYJjN1d+wDcPfhMgRzA8wlZIw=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI0MDE3MiBTYWx0ZWRfX4/dd3azWv4kS
- UqbyCvOP/QUWFo5wmWsX5xkYWFEhuZ973p5dgAsl6fuGsTTyDG5P75CHeO33b3etPh8t54TJGph
- SnU9eNrYONJ8KQHuVpksBo86trlFsN2Lkj4dRV4Hn3B0ERC8B4OH66xG4e0UjYaxf6nJlcaIPrQ
- I/FDje4KKyFM/jDZGy7JZ2XKVjI0z0Ds1aWB/bqE0jPS2Qog3cn8iKar7Fr9osOC6u5mznz1Zw3
- efuj5YBc+xNZcyd3S9JHRw/kljAdm71nUy2459/Tdo6OhHIgQBuzEDm61VGV5BCOOD/ovigb6ER
- lbVdUA95eSEFQHfw9h5gBCPC7yHp1lm3LouP0cWRUKt8cEdeTEm76Z/3JAiY3XxhbaEDCGpJ1xg
- tCsMgoCOfOnEGEqjbqiA16tJF7k6lwbMDsVfnsHgMC3ANhGHnP9wWo3NpoxZLj8rJwYcRSphMZM
- lL34DxHLphs/7vLe8+Q==
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=7CQSdrXTAAAA:8 a=EUspDBNiAAAA:8 a=aGd6ziPyllhe5ofM85oA:9 a=CjuIK1q_8ugA:10
+ a=_Vgx9l1VpLgwpw_dHYaR:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-ORIG-GUID: IO53HalpWB_9SVRS5RX8275Ci9OijGg1
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-24_06,2026-08-24_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0 adultscore=0 malwarescore=0 suspectscore=0
- priorityscore=1501 spamscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015
+ phishscore=0 adultscore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0
+ malwarescore=0 impostorscore=0 spamscore=0 clxscore=1015 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608240172
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608240173
 
-On Thu, 13 Aug 2026 12:33:04 +0100
-Sudeep Holla <sudeep.holla@kernel.org> wrote:
+On Sun, 16 Aug 2026 00:25:43 +0100
+Cristian Marussi <cristian.marussi@arm.com> wrote:
 
-> Validate the PCC shared memory signature when setting up an SCMI PCC
-> channel.
+> SCMI Protocol notifications are typically used by SCMI drivers to detect
+> and react to particular conditions: this was the assumption and the classic
+> usage scenario upon which the SCMI notification framework was built.
 > 
-> Reject channels whose shared memory signature does not encode
-> PCC_SIGNATURE combined with the PCC subspace ID, so misconfigured
-> firmware is caught before the transport starts using the shared memory
-> region.
+> Some protocols like Telemetry, though, could be interested in enabling and
+> registering for such notifications: in such a scenario each initialized
+> protocol instance could want to register a common protocol notifier.
 > 
-> Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
-Interesting there aren't more checks on this in the various PCC users.
-Question for another day perhaps.
-
-Seems correct to me.
-
+> In order to reuse the existing SCMI Notifications machinery, allow
+> protocols themselves to register for their own notifications and provide
+> their own notifier callbacks.
+> 
+> Each protocol, at the end of its initialization phase, can now provide one
+> unique per-protocol-instance notifier block, which will be registered, by
+> the core SCMI stack, on the related notification chain: such notifier will
+> be automatically removed during the protocol de-initialization phase.
+> 
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+I skipped a few versions but what you have now looks good to me.
 Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-
-> ---
->  drivers/firmware/arm_scmi/transports/pcc.c | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/firmware/arm_scmi/transports/pcc.c b/drivers/firmware/arm_scmi/transports/pcc.c
-> index 337d551e3ad8..0ead0ec77162 100644
-> --- a/drivers/firmware/arm_scmi/transports/pcc.c
-> +++ b/drivers/firmware/arm_scmi/transports/pcc.c
-> @@ -623,8 +623,11 @@ static void rx_callback(struct mbox_client *cl, void *m)
->  }
->  
->  static int pcc_chan_validate_shmem(struct scmi_chan_info *cinfo,
-> -				   struct scmi_pcc *smbox)
-> +				   struct scmi_pcc *smbox, int ss_id)
->  {
-> +	struct pcc_shared_mem __iomem *shmem = smbox->pchan->shmem;
-> +	u32 valid_signature = ss_id + PCC_SIGNATURE;
-> +
->  	if (smbox->pchan->shmem_size < SCMI_PCC_SHMEM_OVERHEAD ||
->  	    smbox->pchan->shmem_size - SCMI_PCC_SHMEM_OVERHEAD <
->  	    cinfo->max_msg_size) {
-> @@ -632,6 +635,11 @@ static int pcc_chan_validate_shmem(struct scmi_chan_info *cinfo,
->  		return -ENOSPC;
->  	}
->  
-> +	if (ioread32(&shmem->header.signature) != valid_signature) {
-> +		dev_err(cinfo->dev, "invalid PCC shared memory signature\n");
-> +		return -EINVAL;
-> +	}
-> +
->  	return 0;
->  }
->  
-> @@ -667,7 +675,7 @@ static int pcc_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
->  		return ret;
->  	}
->  
-> -	ret = pcc_chan_validate_shmem(cinfo, smbox);
-> +	ret = pcc_chan_validate_shmem(cinfo, smbox, ss_id);
->  	if (ret) {
->  		pcc_mbox_free_channel(smbox->pchan);
->  		return ret;
-> 
-
