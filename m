@@ -1,96 +1,96 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA225470EA7
-	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 17:43:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F0644062A
+	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 17:45:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787593437; cv=none; b=jmAq+0DOJloElj6Jk6pJQ2B+aDDycHXIVg22xxGUa/IjbAx53+DfmbAIRu4rDWy4LBaGd7DUwl/NzBeJpdsoVq+i7tkBZSEvIiDgk3gEDzwDHIf6oairJwOiyAqbE0fAJ5T67pV5rlnj7eW1vQDdiYPbdS4STcOPsSPn66F9gNY=
+	t=1787593531; cv=none; b=DrEAGRrdbI51yqtysFTYQHFLL44PFmBqjBnzspJrJrZMUWwnlsdrevinug8HbwDvC3HSpEdz7MCC/QgkdF1JjEZ8ml/VE4iYUyqs3jfx75boKm1iYTRRuuSaYzzhSXnGa/1H7LrGQ3SdBCMjPzfoVJ0lUW+hVVK5hmoZsa89PUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787593437; c=relaxed/simple;
-	bh=MZiw+eluyN0v1wcJlbv+XYqfapZt0gDA0pHoPnoQYYs=;
+	s=arc-20240116; t=1787593531; c=relaxed/simple;
+	bh=z8WfvyOXMTrtgFqQRqbfWeMWGXhi8UWGAiPIuoalQy0=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=F2YfwNJVcs4N2Fl+qJSYXR3Pu8kmotwQ2FE6LkZ0Qmrd98huCjDKP4V4K0yjs0w+OZWthm5kZriOYrVJEvODTVFu/roPa8XO27QXaW2Mbwb4K2dosncnRs4yQpEiOIlzlMJlSLCz7Vb65IloDP87CvfFTjfd5pbxGhPSYgFC06s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=pV2oM7kX; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=L3GKrR/v; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version:Content-Type; b=tYiTFctJ5LJnL6lqHhSp3A5YyOztsIFmQWJuV5O2KO9l4ksLIHti5FvoHRwkNF6MgKPXZYqj6Sq3nRp3xyAR7WYSG37Uc24N5wkcGjiq9nGIgXFOxjnwBdl6uPVdBL+BE8RWNTLHW+xouiKjiqqL6yTzArAVolxHOCV1PaO4te8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=nkN1N2rV; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=FfSUoDya; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="pV2oM7kX";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="L3GKrR/v"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67OFmicp3994143
-	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 17:43:44 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="nkN1N2rV";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="FfSUoDya"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67OH5UjC3504320
+	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 17:45:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	wIXa1i4FToCq5BvtMUKZe6PS6FxIaYe/Fw1HFVvct3k=; b=pV2oM7kXSREA308K
-	koty8zjmLK2Qxgtx0h1S9TsF7kqd+00WHGUOhcZldg9ghYpsxQICTuzIq/CXrJ5k
-	lhuYUKIAr308OeTycSyA36DHP+XlDSIfoWq8oXmZqigQMsMvWWOvlv2D9pB0e1+y
-	e2xwI7EYbFs44mabOjXo8CES5+LWWhJTn2HAm0Ag6fDhRpm9y94kzQGWEKfSvtco
-	09uNoRZAir2JORF+VpsLQa17WQUrgk0FyTuVPn2lq2AvF8N4F4QQ17DoRu5Y2N82
-	1n6FYBVmBux9da1SaHEw1yXTyIWhbY17ghDXywA11Jerwds6dsZorA0T2mKUnxJc
-	u7IzLA==
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g8jgk2jfv-1
+	bNWcOKtXMRQgYg/YFNMPsFxR3DaZppMUZM3MBSPYFjo=; b=nkN1N2rVXI16kjTo
+	nqcMuUZQ4Fg4sO4kv0V8uLUIubPxlJNLA53XqwH+Tz6DAHtOFlm3RJi5W/QEPoj3
+	QK9z6GSBPuPdf1Lk09du9JJ3XAfLMKJLNT4K2dJwNYFZPsJtPSO1ObLMD4goRJl1
+	ji71K1O9oG9Y8V8ndb9IHdpg8YlqQG9nSjEbZiWlijQe84ouHlhhaOggg+M6Gd7m
+	CLOrIaZEXJ9VMwHF4KvDCg8aLT/YZSfvCC3VQCybqnhapgTFpAjOi+zX+akwk/Q+
+	IXeD3Kz4QA8yFYfxEY1gVRXVZGo7bJOZ8PNAsBaWtNmHLW+k5lRz6cM9RJE0s5q4
+	faAB9w==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g8t1s05cw-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 17:43:44 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-8484b9fb055so3432399b3a.0
-        for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 10:43:44 -0700 (PDT)
+	for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 17:45:21 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-c89704da8c7so5509963a12.0
+        for <arm-scmi@vger.kernel.org>; Mon, 24 Aug 2026 10:45:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1787593422; x=1788198222; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1787593520; x=1788198320; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=wIXa1i4FToCq5BvtMUKZe6PS6FxIaYe/Fw1HFVvct3k=;
-        b=L3GKrR/vnsqDeVs/aqYjFyNe7MsCEstb90kuIqDaDxOcophk9P7VRFTGPcNZqKL0me
-         IsgQpXr1F/lWXQCYH7gkszmhAJSEXQCE1QrETMrf3SsLEVi5oAuQUO3j9GnWLZNNdMNp
-         K/Quzqp58I7R73q1tPxh19RjJ/qvdeqssEg+BoWI12AWsIVDUMcUc5T8O19pQvmKnfkW
-         k8owNO05wIjZbG77mU1y1xJApP2hhL0NG1K0HZ5Iti3Zgo8ujgnvU5jZklKwkENUSdLk
-         PUslu2JVmDbf2WWGsIY5GCLNqEqVmV0lDeW1YX0qDTUR+RsWI00o/Hy5+KJr/uGc05Do
-         Qcog==
+        bh=bNWcOKtXMRQgYg/YFNMPsFxR3DaZppMUZM3MBSPYFjo=;
+        b=FfSUoDyatnu6+FP717/VWPlFvQVUbfrdxw36pVW+YvxKL9LgE6ODtnyUeqftqHY4Wn
+         6avDyRnJazTi9rVxuTsK9mITfKiX7iP+gdR/vE0TBHpmFgDI2+j4gEQjjfkMn45yU3JL
+         hOiSrVDuCsryKQaC7c4hVM9iGd1CktwwYqBP68au2J+p2pUx7v21FqI30mDcJ0B1ipoL
+         yrFcTvodMXzdSQf18CAEaL3Taww2CmeTgS9FBHl1e6h5dD15/lRzJixViSKlIJWRrqiI
+         qj4P1ALbclRVugoEe//dsmJ6WjwwqKrhHWAn8A7vLA6Ga29VvzenVlNEi/Ye8iaNpE4Q
+         oAyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787593422; x=1788198222;
+        d=1e100.net; s=20251104; t=1787593520; x=1788198320;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=wIXa1i4FToCq5BvtMUKZe6PS6FxIaYe/Fw1HFVvct3k=;
-        b=U7GBXsSk4lJ2t4PNFPSnZQ20yLufhnUSSWh7cdnlQ1JWQhEJrk83+8IOxKFsE6Fi9x
-         lOoJIIYb+gG7HcVtjhG9SwUYHaYdSZ+0cPjK9SzAVEdeU9gl1aZSVH95K/i2lb046wnQ
-         iinB9yPPP11PCwh15ULFHF/VipU7P1zRQeyh/XjxZZKIM+cECOLFOv1hsQTkbi0ktEOd
-         zWH2Yq+OWNyGR4uHa68379pAIl1lvitU7xHumQ5pwb6uXUb00lFYYkzPNiru+dfBOcy2
-         9XcVIiYY9JaHZszoaWjnce9/i/90ccE5bHxuLcRFhlZt4T1Tt4XYdd9ivWeMlFYZg0g+
-         6Ybg==
-X-Gm-Message-State: AFuF++krZ4El6yDECRUhmGuoFc3EaGKpa3aDHuTHlbTX6QroXjzaOpOB
-	610bcevcNJjaD8ueQReMah6U5/zxCCMgX158fwbPm7FhEPr2fn4ME/cB2YmjKMroR0AlP/8QTMJ
-	H2z//nMgUHOCBSpEAAuUEgryH571QHst59+sy19tm9+csmmzI59hrJv2oSlhR2g==
-X-Gm-Gg: AR+sD13/ybOaKojy86syEvqmmYRx6xvvtDq8VkIRE0nQ9A6MYABEyY4xKB1r2Unrril
-	zJcpd5es1c9fWSMSegBtCobEAV+fLB666boLCrOXtm40hgw3ltwug7ylXebI8GrHWpUXzXQt4ly
-	t/LRmD8YE8pKgwMqWm4sw7kpGv/dOoe+X4vJkaWrWRHYk+dnxPdCmVoQoxQQijKMm90DSm8ltc3
-	bFANqFsbtuPDInHEHcJ6lEsdJYoFrtzvoljUV5w8tbUq3aPRVgFQ+2yKNv3BHVxb7KC3wvUlpEf
-	hPLZt3gvNBBX5+NaKA19Js1xsg8MB9/9uBlQ/tGI7c/Y95REBFAS7wfNyRBFiAXmeZPl2y7kpl1
-	Ftu7B8bD8aUYP6PMfMPqhfHmKqw==
-X-Received: by 2002:a05:6a21:4d8b:b0:3cd:6f46:aceb with SMTP id adf61e73a8af0-3cd91103da8mr982752637.8.1787593421687;
-        Mon, 24 Aug 2026 10:43:41 -0700 (PDT)
-X-Received: by 2002:a05:6a21:4d8b:b0:3cd:6f46:aceb with SMTP id adf61e73a8af0-3cd91103da8mr982668637.8.1787593421228;
-        Mon, 24 Aug 2026 10:43:41 -0700 (PDT)
+        bh=bNWcOKtXMRQgYg/YFNMPsFxR3DaZppMUZM3MBSPYFjo=;
+        b=rudDS/RNBgPikyKV9pWf49Fpj8021IV4WVaZEpOSWWWdErApzbXVFlqZMa2/TeDSZ1
+         UUBDjMdCbLpVcqyYkEXFGLuFDgT/K/2mb/1hr/D+mRcDW7wSCj+rCVdXQm6C/HSM3WG7
+         StLAEpyyhQhHTC5ga2XZYVNrFuMCeMuiJ+KMxFqEoycAF90OB8KnR1UzoKIxtJw6R9CA
+         dx4/XuwzYXgmHflMCMkPXXvioXpcCUze1PD4LBklF8RZWbYb21gP57mZTbxPFjTIuEop
+         vsjD19lhdL+WFC2P2S7qNFgI+XPKjwNxvPn+iHymScjJEbe1KwyhaY9lL3lS6l4TFBvC
+         9aJw==
+X-Gm-Message-State: AFuF++lSXh+GwFqFzOz0/X+Jr11S0kV6BxpE/v7XlfCD8KAgZnJs/z2P
+	QTukB9kbD0hyYuvkRUYZjlj8pg9NWDS2Bfu9e4yDJbt/gjcRhohntWvwGK5YXFhiLDBHVArsrh4
+	SQvZuOdeZHIxKxYrS0as4Simh75cR0r8kao+QEs4NBH6MizE2luDnR55u9t5Ovg==
+X-Gm-Gg: AR+sD135zNmpVDCvEQwnILJnaw9/dSZoU5vvC5P/vNo0e85fElmRCPqGmmgGuqXoTYP
+	414O//WxQvPNJcPNTKaMdpK9lZ0HSF06XjrXNA3Mgw1PmurExAjBdYOCnxABDKzqkxBJHPOyBAr
+	9WKgkh0cjwmRn/cumFugJDWcGUmTi9QgbP00tqpAH9fm+xxdtln5u+/wSvkMvPASi36iQ4FuCJ5
+	0CvYkpR65zE6X9+qJtDBvmKP5gydLR+MddA2+ZYkJvBPvGTyzN//p3BUr6Ve3FwAZ/nrjp9G4PN
+	SytzKlzFv9jwGkqkz/9H9Ks7PTewXXdDd6oFpqLUmzwOpzcC21didEFafmmm5MPolPxPt7RZCVz
+	pPyTqMYG+UUJuR66lVoqpS/jTBQ==
+X-Received: by 2002:a05:6a21:790:b0:3c3:7ac4:dac0 with SMTP id adf61e73a8af0-3cd300d467dmr57067907637.13.1787593520190;
+        Mon, 24 Aug 2026 10:45:20 -0700 (PDT)
+X-Received: by 2002:a05:6a21:790:b0:3c3:7ac4:dac0 with SMTP id adf61e73a8af0-3cd300d467dmr57067819637.13.1787593519750;
+        Mon, 24 Aug 2026 10:45:19 -0700 (PDT)
 Received: from localhost ([50.35.46.84])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f91d2d1esm29442144eec.17.2026.08.24.10.43.40
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-141860c697esm24112160c88.3.2026.08.24.10.45.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 10:43:40 -0700 (PDT)
-Date: Mon, 24 Aug 2026 10:43:37 -0700
+        Mon, 24 Aug 2026 10:45:19 -0700 (PDT)
+Date: Mon, 24 Aug 2026 10:45:16 -0700
 From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 To: Sudeep Holla <sudeep.holla@kernel.org>
 Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         kernel-team@meta.com, Cristian Marussi <cristian.marussi@arm.com>,
         Breno
  Leitao <leitao@debian.org>
-Subject: Re: [PATCH v3 4/9] firmware: arm_scmi: Fall back to ACPI HID when
- "compatible" is absent
-Message-ID: <20260824104337.00002275@oss.qualcomm.com>
-In-Reply-To: <20260813-acpi_scmi_pcc-v3-4-cb6b88b4ebb3@kernel.org>
+Subject: Re: [PATCH v3 5/9] firmware: arm_scmi: Pass protocol ID to
+ chan_available() transport callback
+Message-ID: <20260824104516.00002b8c@oss.qualcomm.com>
+In-Reply-To: <20260813-acpi_scmi_pcc-v3-5-cb6b88b4ebb3@kernel.org>
 References: <20260813-acpi_scmi_pcc-v3-0-cb6b88b4ebb3@kernel.org>
-	<20260813-acpi_scmi_pcc-v3-4-cb6b88b4ebb3@kernel.org>
+	<20260813-acpi_scmi_pcc-v3-5-cb6b88b4ebb3@kernel.org>
 Organization: Qualcomm
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 Precedence: bulk
@@ -101,103 +101,144 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: cke6oarJ3eewrdpUsjBaadlFCXJ6IQXR
-X-Proofpoint-GUID: cke6oarJ3eewrdpUsjBaadlFCXJ6IQXR
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI0MDE0OSBTYWx0ZWRfXzhPRnkK83SX9
- Izl7ww6YjsP3WIRmffKR2MN2aqngJU28/UZQsYi/8gpqmNiq7d9g5MfnFf3VrgwHUUVYkC5fHQ7
- Vokv8yevK2hdXzbNk6YlOKsUTcPQXHQ=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI0MDE0OSBTYWx0ZWRfX1UbQG1Rw+Oiy
- FBjwb4GGBRrCN5b3QHEoPWInT/FDlM+CrIA6EB3+/KVSpZ8OQF33lJpikMvVS288v/OSn/4Ce/R
- VP4P2NIPDbbcy9ejBllX+dzHy6bP7P6SBNpPagRMQnQERFwvjkHoP/sTkzzGXv8jdZRv3Wospcy
- iJhWFtCxyd8lQiFnaS+sU7L9cfAoK7jwtxwsmkP4uC4dMpj2sOxZfsG7k/S2KiS+IjpptpIEAPP
- H8WyyKXdwqnI83/ltyxe3s3M705iIvJGpXLhwbHcVpc9bX9aaz4Q/kqTXetXmlEWqq3CWRUSbSo
- DOujFmZN8hgTnTtcd3vRQFtFBVttHO6vbZnv32VLp7xP1+WDXUNep2SpgdHI5iv/zE8ahB6yuQZ
- 8xNuAgPeEVMmDJyMHPfwZ68Y7ZaYEFsI81cB+UgxyoRSUfXIyYGEr6jJ5/mbfiew8O4Bioma5aH
- SVipdXPAkuA8+Fd2YTQ==
-X-Authority-Analysis: v=2.4 cv=KcvidwYD c=1 sm=1 tr=0 ts=6a8c82d0 cx=c_pps
- a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=qC1CW/w66vtJz1P9yTJxNA==:17
+X-Proofpoint-GUID: eW3CWIb0_pOA64p9LFDf6Z79ZxjxPn-K
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI0MDE0OSBTYWx0ZWRfX3Dmh+aDEVMXg
+ pbIb3tgHrx/yJw6OLDkWjtvWpfXVM9AP6fWy55okoxVu77Uw8N5YzyU16xnir0KqBmS/KVbsEPR
+ mYxiihNjQMXgXmhp1LCuDK3J2U5ZEg7rz54LidRNxRgSsfgZZcR473E73L1RODmnUaSlh3WBG3v
+ 2n23ZDnw7y6xK//sesuzcO+YZezvl+eAAIKRiAejVdi3sJ27vqiQ0HM8cKqjaBowNrlvkpcLik7
+ u8Kxvxzt469Vbimob1jMxCLwsUkEMK1AHb68MygmzM67S5juOKaHuE9ZK7g0w4niuz+0SMtQxEo
+ 1Qwpilm1AZOL2AbpG7Np+H/aemEwlIjZ8cKb4yX5MKNAHToctJTPfKJ0OlWSwC+DIIvMSwcsxmG
+ Nf8EewoBMb/AIToaBLLDs8UvlnPN2XF/VApTgtbtT9gO1S+KMJCHwZSnwssOeGvUtpsSqttC0o7
+ ZlEQBMCiS+UwnPWyUdQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI0MDE0OSBTYWx0ZWRfXx8xFY9uCnC0x
+ crm6cRwX9xBx+qym6JVHhJSya8Hi2CtRQWLkhen2AFllOpGi3ABFrVpZ+49Y7joZzgIfYbtsggC
+ G9yMdi4h6PIP4sG+RmTyUFN/huBZNbg=
+X-Authority-Analysis: v=2.4 cv=L7ItheT8 c=1 sm=1 tr=0 ts=6a8c8331 cx=c_pps
+ a=rz3CxIlbcmazkYymdCej/Q==:117 a=qC1CW/w66vtJz1P9yTJxNA==:17
  a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=VwQbUJbxAAAA:8 a=l6Goj-m7ziazzFgbZv4A:9 a=CjuIK1q_8ugA:10
- a=zc0IvFSfCIW2DFIPzwfm:22
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=mK2TJSJBIbLwxmLH4kIA:9 a=CjuIK1q_8ugA:10
+ a=bFCP_H2QrGi7Okbo017w:22
+X-Proofpoint-ORIG-GUID: eW3CWIb0_pOA64p9LFDf6Z79ZxjxPn-K
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-24_05,2026-08-24_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0 adultscore=0 spamscore=0 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 clxscore=1015 suspectscore=0 malwarescore=0
+ phishscore=0 adultscore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0
+ malwarescore=0 impostorscore=0 spamscore=0 clxscore=1015 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608240149
 
-On Thu, 13 Aug 2026 12:32:59 +0100
+On Thu, 13 Aug 2026 12:33:00 +0100
 Sudeep Holla <sudeep.holla@kernel.org> wrote:
 
-> scmi_debugfs_common_setup() uses the "compatible" property to
-> populate the debugfs transport type string. ACPI-described SCMI
-> devices do not provide that DT property, so the string remains
-> NULL and debugfs setup falls through the allocation failure path.
+> Extend the SCMI transport_ops chan_available() callback to include the
+> protocol ID (prot_id) as an argument. This allows transports to determine
+> channel availability based on the specific protocol being used, improving
+> flexibility in platforms that share transport channels across multiple
+> protocols. This will be useful when ACPI PCC transport gets added.
 > 
-> Check the property lookup result and use the ACPI HID as the
-> fallback transport type when an ACPI companion is present.
+> Updated all existing users and definitions of chan_available() in
+> SCMI core and transport drivers (mailbox, optee, etc.) accordingly.
 > 
-> All supported DT SCMI platforms are expected to provide "compatible",
-> so the non-ACPI fallback is not needed for normal DT operation. Keep
-> the explicit "unknown" fallback anyway to avoid passing NULL to
-> kstrdup() if that assumption is ever violated.
+> No functional change.
 > 
 > Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
-Can drop some complexity in here and rely on the stubs in acpi.h a little more.
+
+Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+
 
 > ---
->  drivers/firmware/arm_scmi/driver.c | 16 ++++++++++++++--
->  1 file changed, 14 insertions(+), 2 deletions(-)
+>  drivers/firmware/arm_scmi/common.h             | 3 ++-
+>  drivers/firmware/arm_scmi/driver.c             | 2 +-
+>  drivers/firmware/arm_scmi/transports/mailbox.c | 3 ++-
+>  drivers/firmware/arm_scmi/transports/optee.c   | 3 ++-
+>  drivers/firmware/arm_scmi/transports/smc.c     | 3 ++-
+>  drivers/firmware/arm_scmi/transports/virtio.c  | 3 ++-
+>  6 files changed, 11 insertions(+), 6 deletions(-)
 > 
+> diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
+> index 042867c28b88..1ab4543e0f4a 100644
+> --- a/drivers/firmware/arm_scmi/common.h
+> +++ b/drivers/firmware/arm_scmi/common.h
+> @@ -207,7 +207,8 @@ struct scmi_chan_info {
+>   * @poll_done: Callback to poll transfer status
+>   */
+>  struct scmi_transport_ops {
+> -	bool (*chan_available)(struct fwnode_handle *fwnode, int idx);
+> +	bool (*chan_available)(struct fwnode_handle *fwnode, int prot_id,
+> +			       int idx);
+>  	int (*chan_setup)(struct scmi_chan_info *cinfo, struct device *dev,
+>  			  bool tx);
+>  	int (*chan_free)(int id, void *p, void *data);
 > diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-> index 9014723e0f7f..9ad827c6a9ab 100644
+> index 9ad827c6a9ab..aad678db0f6e 100644
 > --- a/drivers/firmware/arm_scmi/driver.c
 > +++ b/drivers/firmware/arm_scmi/driver.c
-> @@ -16,6 +16,7 @@
+> @@ -2768,7 +2768,7 @@ static int scmi_chan_setup(struct scmi_info *info, struct fwnode_handle *fwnode,
+>  	if (idr_find(idr, prot_id))
+>  		return -EEXIST;
 >  
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->  
-> +#include <linux/acpi.h>
->  #include <linux/bitmap.h>
->  #include <linux/cleanup.h>
->  #include <linux/debugfs.h>
-> @@ -3063,6 +3064,15 @@ static void scmi_debugfs_common_cleanup(void *d)
->  	kfree(dbg->type);
+> -	if (!info->desc->ops->chan_available(fwnode, idx)) {
+> +	if (!info->desc->ops->chan_available(fwnode, prot_id, idx)) {
+>  		cinfo = idr_find(idr, SCMI_PROTOCOL_BASE);
+>  		if (unlikely(!cinfo)) /* Possible only if platform has no Rx */
+>  			return -EINVAL;
+> diff --git a/drivers/firmware/arm_scmi/transports/mailbox.c b/drivers/firmware/arm_scmi/transports/mailbox.c
+> index b692cae4ff25..56af2cb0f424 100644
+> --- a/drivers/firmware/arm_scmi/transports/mailbox.c
+> +++ b/drivers/firmware/arm_scmi/transports/mailbox.c
+> @@ -77,7 +77,8 @@ static void rx_callback(struct mbox_client *cl, void *m)
+>  		      core->shmem->read_header(smbox->shmem), NULL);
 >  }
 >  
-> +static const char *scmi_acpi_device_hid(struct acpi_device *adev)
-> +{
-> +#ifdef CONFIG_ACPI
-
-Hmm. Ugly that acpi_device_id returns an empty string.
-
-However given when !CONFIG_ACPI the stub for ACPI_COMPANION(dev) is
-NULL.  You don't need this dance anyway.
-
-> +	return adev ? acpi_device_hid(adev) : "unknown";
-> +#else
-> +	return "unknown";
-> +#endif
-> +}
-> +
->  static struct scmi_debug_info *scmi_debugfs_common_setup(struct scmi_info *info)
+> -static bool mailbox_chan_available(struct fwnode_handle *fwnode, int idx)
+> +static bool
+> +mailbox_chan_available(struct fwnode_handle *fwnode, int prot_id, int idx)
 >  {
->  	char top_dir[16];
-> @@ -3080,8 +3090,10 @@ static struct scmi_debug_info *scmi_debugfs_common_setup(struct scmi_info *info)
->  		return NULL;
->  	}
+>  	int num_mb;
+>  	struct device_node *of_node = to_of_node(fwnode);
+> diff --git a/drivers/firmware/arm_scmi/transports/optee.c b/drivers/firmware/arm_scmi/transports/optee.c
+> index 07d3affa0964..6022f74d28f3 100644
+> --- a/drivers/firmware/arm_scmi/transports/optee.c
+> +++ b/drivers/firmware/arm_scmi/transports/optee.c
+> @@ -314,7 +314,8 @@ static int invoke_process_msg_channel(struct scmi_optee_channel *channel, size_t
+>  	return 0;
+>  }
 >  
-> -	fwnode_property_read_string(dev_fwnode(info->dev), "compatible",
-> -				    &c_ptr);
-> +	if (fwnode_property_read_string(dev_fwnode(info->dev), "compatible",
-> +					&c_ptr))
-> +		c_ptr = scmi_acpi_device_hid(ACPI_COMPANION(info->dev));
-> +
->  	dbg->type = kstrdup(c_ptr, GFP_KERNEL);
->  	if (!dbg->type) {
->  		kfree(dbg->name);
+> -static bool scmi_optee_chan_available(struct fwnode_handle *fwnode, int idx)
+> +static bool
+> +scmi_optee_chan_available(struct fwnode_handle *fwnode, int prot_id, int idx)
+>  {
+>  	u32 channel_id;
+>  	struct device_node *of_node = to_of_node(fwnode);
+> diff --git a/drivers/firmware/arm_scmi/transports/smc.c b/drivers/firmware/arm_scmi/transports/smc.c
+> index 1079cd01190b..ee9e44468c1e 100644
+> --- a/drivers/firmware/arm_scmi/transports/smc.c
+> +++ b/drivers/firmware/arm_scmi/transports/smc.c
+> @@ -84,7 +84,8 @@ static irqreturn_t smc_msg_done_isr(int irq, void *data)
+>  	return IRQ_HANDLED;
+>  }
+>  
+> -static bool smc_chan_available(struct fwnode_handle *fwnode, int idx)
+> +static bool
+> +smc_chan_available(struct fwnode_handle *fwnode, int prot_id, int idx)
+>  {
+>  	struct device_node *of_node = to_of_node(fwnode);
+>  	struct device_node *np __free(device_node) = NULL;
+> diff --git a/drivers/firmware/arm_scmi/transports/virtio.c b/drivers/firmware/arm_scmi/transports/virtio.c
+> index 6b060d61e0ca..3d608c8c4fe8 100644
+> --- a/drivers/firmware/arm_scmi/transports/virtio.c
+> +++ b/drivers/firmware/arm_scmi/transports/virtio.c
+> @@ -375,7 +375,8 @@ static unsigned int virtio_get_max_msg(struct scmi_chan_info *base_cinfo)
+>  	return vioch->max_msg;
+>  }
+>  
+> -static bool virtio_chan_available(struct fwnode_handle *fwnode, int idx)
+> +static bool
+> +virtio_chan_available(struct fwnode_handle *fwnode, int prot_id, int idx)
+>  {
+>  	struct scmi_vio_channel *channels, *vioch = NULL;
+>  
 > 
 
