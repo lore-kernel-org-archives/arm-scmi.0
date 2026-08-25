@@ -1,180 +1,184 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3EB83E49C6
-	for <arm-scmi@vger.kernel.org>; Tue, 25 Aug 2026 08:28:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760523E3C50
+	for <arm-scmi@vger.kernel.org>; Tue, 25 Aug 2026 08:32:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787646527; cv=none; b=MpyHtWdsZ4NUlwpVE/6wLc97LBDWKlO0H7W5BeQpgHBkDi/I4bwEY8oBr5eyUcKhk4QqwGifr0CkoX9ogQy8sgIOxg3X8UtYX9Yf0Xr9aok4xXq8kSTCLTayf8WQ0bJJAQGWNHTub1TRdNFjZ0UAvlZIkZgAkYE+VvpQMQiMDzQ=
+	t=1787646751; cv=none; b=Ygl7/lr8Wxpr2+4FsLVRH2MbUsVaNs5fTSRT0vShrPvY0BBSpi0n5ahKYDmxiq/v1jlw/PGmzCDnOEMOrbbt++zAYBCRq/pduLaenYWDsY6C7SMYJnCPyKgCVJIh4Pc//3HjNNGJykjy1zHdnhWj2a463XeyyoOzW7pvMdPLiAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787646527; c=relaxed/simple;
-	bh=M6+Z/n2sPEdxSkumdm4fpxZDeQlqm0ww7+RLX0T8tDo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rSdQNEOboFukwhCo6jw+v7iRbeC/N7B+/0/nyc4l+qG0+vPd8GKmn2Hcx1jtrd3jiRBb4e70M5sAO945Hyt6+FQn/RkjrefRsW7g+bRIVb+Prr9isxFugEC632oUZ9hXUiIgEGyD8U0nHxw3WrOOHepsYepT1Rc5GT/pq/GC6N8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hb9oUO/W; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TBXtRCwp; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1787646751; c=relaxed/simple;
+	bh=BvmmOIR737EjiK/CBJK1dwXBIwsPS1i17yPukRjji44=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W+VAJxkHUiK4+Oky0Etz2YRUcmhEgGIs92al6D3na43IIMYpF5FEVjtbgWd1hhGV6LITNQ8U3fwH9jWyplawdJLrStaBZcewswNRWmdNGtKiB+WbiDcl1MzduqJXal4vzvic+WPN5rEjcW6TkNmt5xU1bMxa9SkpLduQigsQRDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=lGpPeCoO; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hb9oUO/W";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TBXtRCwp"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67P88OA22387966
-	for <arm-scmi@vger.kernel.org>; Tue, 25 Aug 2026 08:28:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	bYhkDV0y7XOpWdvVDzgGnrF9K75KOavFDUraFzDkeMs=; b=hb9oUO/W4rgIbipL
-	mGFectRAfdZBqpJCcwpB1ofAMp8oW3JaDF/3oGnhjjRjyg2iyuqKO8sZObFeUYzW
-	7XE0gnADDbK3HC628p4fbs6euvMI8a5pHQLTHFRdEUTtzDrjSyMl8nZt+7N17gNE
-	a6Ag6K4qIJCWKEDkW55cbGE9Bb5mQN0xLyYxDpbZ3+xtMAicAQYhWwoBzYbBAnYd
-	oJwJtB4UzeKUTFlm5AVzFHjTPEw4F5dMM/OUaIegUF5KBLFbnNTX6uozastRZTGS
-	gnZWV3jfiwK+AQ9Q7JIXqTIyUAS/+mlc7135RIl7S8IhUUXRL+FzM+CQev6emWL5
-	r1a6XQ==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g8swrb1cn-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Tue, 25 Aug 2026 08:28:44 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-52845bd815bso8760661cf.0
-        for <arm-scmi@vger.kernel.org>; Tue, 25 Aug 2026 01:28:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="lGpPeCoO"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6a0de062db5so7889302a12.1
+        for <arm-scmi@vger.kernel.org>; Tue, 25 Aug 2026 01:32:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1787646524; x=1788251324; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bYhkDV0y7XOpWdvVDzgGnrF9K75KOavFDUraFzDkeMs=;
-        b=TBXtRCwpxmXRRev1Olbv/b/EPCsWPpbXDp82LD2cKU6aQD0fqrI2EsJ/dCLYiOu0am
-         Ly+mxDvjYbEYJQzHhrVYwc2pr4wRi94Der/PHL1DahPMHN2BYKk9hft+FN/vapI88avV
-         iYktJ5PT7XLqWQ5Ce1nVqjk+33mkwhDUx0rUJdyw1fZAEpJ6aZvsWKJrN9mhfRra3cvL
-         NLZKN6FuSig3cPw3f0rpldS18vyoXpxOBXUV4Mvav0hIjHsxaUWoeSQe9pIUBrzPRJgU
-         XuhVvRJBzVAGbTxoBB8ub9Q0SH7pNOdggjfYISndd0s4h4ZknlVkiDaVG95pUE1NPxEV
-         4vcw==
+        d=baylibre.com; s=google; t=1787646747; x=1788251547; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=lD7UStE/XOr8A5NJ+GnuX9Z5tu/0sy2nS7RxI5FuuYU=;
+        b=lGpPeCoOH2AiGyQp3496h8lsOdfml219oaMmYsdUfPBBd7l/cQ+01xjJPAptspaTmK
+         b1oGlpEF6Qz0QhML+kJvDlpBFnY+2sYz+mEAHqfEE2zPbDCCnKhOiPnV1P+/n1YTpX7v
+         enk+xKTknNxF4LF/MlQbJN5Gg7SnxAgVzOSb3d6Ph9FNxm+OROX0vhAqJDHn6ZfRxG1q
+         kO1y3GqPdD9ZoA2+pJdHoP1RjpIldR/6AkT4SijtPfPcXd6G4oCHJ9sFfiKC3Q5cVQxr
+         TES7OzMVnBLUiQIN+m0RTrv9TMttgmkFrofW5wTHueAq/pa/cUuu0dsjckNOUp0OPs9E
+         g6bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787646524; x=1788251324;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=bYhkDV0y7XOpWdvVDzgGnrF9K75KOavFDUraFzDkeMs=;
-        b=SSMFg+YKGwConjCq6blRWdWPhQXPZrKsTA/iUzL2KVWzL7fNoLz6bz6asPwL/f3/HF
-         kNbGuuurmim0yasrHBXJ2TNydMZHmELkLxp17XQD/8wtdI5D8CneaOhwVGwglIc88OrV
-         b7LhiZurrJ1yr5r8PB9PcxHVloY6dTAaeXLNofCV1adHuBha7MBqo0Eiqc6jUGR358+H
-         t0CHZbhwVL0zvUHUgZV+cY+pSOQq9GDwAdKC7ZbJnrU3jDMOiMTOA3IqBA23y08WVloe
-         S/JyFhX/r4CIRc48jxny8FD2C87YFqJKf75mIAHnJw8gzxBn0mbJkLjokL3qLzecHAsp
-         p/RQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rocz7mDFBEldpkrsRQ4JbciDIUoht+kB8yB+KSkhgQub797+uT0CDhnwXAPajEZWfv9KYZGwIkAuA==@vger.kernel.org
-X-Gm-Message-State: AFuF++m1vAdt700B3FwNUyOm6s0JNUmTJtzIH3C2FioBx9OliaozSyO4
-	HWkkFBspYo67qqUbc+0xYAA9V2jjQb3UJAKt08VjnLOlhVMdGwYQODWK2r7RC+/jNNUmiBi/RhO
-	Mb1Nof7FuRK8LZpjJnNW+r5zA+Zb7kWljnhZY76QH78fvlJVLJC5glcospFjGGNxiGCl84Q==
-X-Gm-Gg: AR+sD138MjeKp6LlqmsxxbIZ0qxCiktm/ItHWBoRyUZgqMxMHKy4evz0FbwjBYVy3r5
-	be44bL5RTzUrS+yAx+zJFiFG2IEgK8X6g1otzaVOe2M0YWbVVCNP0pVOBjTLPIJeO2FEMwEmCsV
-	lX/5gZvfK+8so9mCrJ6jhHwtg6lCtDzUEQODwCsCZbTmm7Vqg6yXFwiC4OYhj3jOQ4q8Vu3Ca1S
-	WXPMx+7e5UU/jjUzBd5ozQF9kRwSmMH7BtM3bUVtszJom90cbphP+Hx+k/MVKsIfcn6Dk5q5ZEJ
-	KlsB1LY1aa3FP4zxpwU8ozFVaoBOFmgryrU3pP8/Ic/6uZMsrS1zKqVETdLUL3/hqe+jEcl7jKL
-	19Jku/pwVSyfBxhUFrYKFir5D
-X-Received: by 2002:ac8:5f50:0:b0:51b:f40b:2faf with SMTP id d75a77b69052e-52df5a35311mr225835501cf.4.1787646523840;
-        Tue, 25 Aug 2026 01:28:43 -0700 (PDT)
-X-Received: by 2002:ac8:5f50:0:b0:51b:f40b:2faf with SMTP id d75a77b69052e-52df5a35311mr225835341cf.4.1787646523448;
-        Tue, 25 Aug 2026 01:28:43 -0700 (PDT)
-Received: from [192.168.120.193] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c249629a901sm1820302366b.25.2026.08.25.01.28.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Aug 2026 01:28:42 -0700 (PDT)
-Message-ID: <8d8f7742-fd4a-4605-a9b1-153ace9e14a4@oss.qualcomm.com>
-Date: Tue, 25 Aug 2026 10:28:41 +0200
+        d=1e100.net; s=20251104; t=1787646747; x=1788251547;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lD7UStE/XOr8A5NJ+GnuX9Z5tu/0sy2nS7RxI5FuuYU=;
+        b=I1/pirdB82dX1D10UwOezgzTcFRoOQU09C5DPGzYqfWxVUYTJN9rTi+dwXjlKRSq9+
+         LuGp9g9n+GdNRIEYovmxl8bH4lPpNRmy9RraJ0lfaYmoczmkJCCQNmA9kql3rJae60vY
+         glwv2P+d0xTha1KyQA/xmQYEiSIenip46SYifHj3j09rUHU4bu6t9mXIqiFqTPz3ep/Y
+         je7JVgEhz6fLJUXTqEvuFPksH41MEF46ZAc5SEYQyQopZWFSTIqTLqj/xTG2O/rzV3jS
+         MLtUBImR3rtAVrcXRc8LEL+H9EL7gylD8yzIQrGzBI8HtBtPPgvGD25dKUPUxFqVzVG2
+         SUlg==
+X-Forwarded-Encrypted: i=1; AHgh+RpqGYXVCpiomLwGRi7ta0aaZ5mykfcBGKSB0H6eZgD5ncbgyz/wPaiFmnJqcgttPtaSGMbsvKCQKA==@vger.kernel.org
+X-Gm-Message-State: AFuF++lGj987cobPcC1x8rNsL4AEctehjc0EDC4clKMUMBp9re/H+rsE
+	A660O9vE1QVJJqdROi/8YYsGv3v9zTCCeloO0nsxzCKovtJE3BR8M2gZ9jo/6PcQke8=
+X-Gm-Gg: AR+sD12XqomRxXytMrPQEe3pNc+Eb4Vz3m0G3mjBU6MdMqPURvXKYpEe3U6RbxFZjKH
+	zZliLpetiKVqaBPxykvybY99BetJTzRiuApMuUBM9gbfnvhaxf9PwKwmaYjxGGrOTfhAIA2tpHF
+	HoDLH5X+oXGRGypWaVYcr9Th/fPnG/B7Z3EKxnUPWlhRHNIkUdh7wViM4SjdA2zJ29ruf3xBPn/
+	MDp4la6LR11S9ceIc0Alp//LNTMhcl2ZuolhxHkzCo0geIrTs4O0fT+ncj7I/YdHsTGDLHF29rb
+	/UPrrwV9rK7AmZrGSyp1HBDxtxIW7wXccfEiophtP2aiEueAR2JeUM5+PmNtAH4pgyNAySSWAsk
+	QHa7NX8DMTbkYGrNjlPLOkjV6sNx3lCyGfuJkfX4ECDxDfZ6QpU9RQKa3S3DtQYj/0AczmgEI2w
+	bwfYAwDBn9zlnA3texOulAkfZvwnICePvQA7viBqXybSH+8uWkb2rohPlI8RqRDXSDcf0v1w0sH
+	2bMz3wvzwNRQW8BCF67ySKRh/u+OM0nNEpxmBsk7w56/H3bYJcgZKqXORbETw==
+X-Received: by 2002:a17:907:9445:b0:c21:6f8c:2335 with SMTP id a640c23a62f3a-c24e5ff7a2bmr571761466b.16.1787646746723;
+        Tue, 25 Aug 2026 01:32:26 -0700 (PDT)
+Received: from localhost (p200300f65f19a904037016a565660d5e.dip0.t-ipconnect.de. [2003:f6:5f19:a904:370:16a5:6566:d5e])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-c249686e37bsm1692467466b.55.2026.08.25.01.32.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Aug 2026 01:32:25 -0700 (PDT)
+Date: Tue, 25 Aug 2026 10:32:24 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Hans de Goede <johannes.goede@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, 
+	Cristian Marussi <cristian.marussi@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>, arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, imx@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
+Subject: Re: [PATCH v3 1/3] module: add SCMI device table alias support
+Message-ID: <ao1SHx440b6OxUDm@monoceros>
+References: <20260820194850.459739-1-johannes.goede@oss.qualcomm.com>
+ <20260820194850.459739-2-johannes.goede@oss.qualcomm.com>
+ <aow2GFAfy84k-N2B@monoceros>
+ <1bf5984a-d1d2-4763-bb4c-b17ae8360192@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/7] serial: qcom-geni: Use geni_se_set_rate() for source
- clock configuration
-To: Praveen Talari <praveen.talari@oss.qualcomm.com>,
-        Sudeep Holla <sudeep.holla@kernel.org>,
-        Cristian Marussi <cristian.marussi@arm.com>,
-        Ulf Hansson <ulfh@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>,
-        Andi Shyti <andi.shyti@kernel.org>
-Cc: mukesh.savaliya@oss.qualcomm.com, chandana.chiluveru@oss.qualcomm.com,
-        arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-i2c@vger.kernel.org
-References: <20260805-derive_clk_perf_tbl_from_perf_domain_opp_table-v1-0-61171ab1cdce@oss.qualcomm.com>
- <20260805-derive_clk_perf_tbl_from_perf_domain_opp_table-v1-4-61171ab1cdce@oss.qualcomm.com>
- <4e0d636a-7975-4711-8070-6f71957b754e@oss.qualcomm.com>
- <17735f83-fd07-4fad-97a3-727cfbeabbcb@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <17735f83-fd07-4fad-97a3-727cfbeabbcb@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: HeQAgNfFYLWf-DJxHDEz8Jrms49otszz
-X-Proofpoint-GUID: HeQAgNfFYLWf-DJxHDEz8Jrms49otszz
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI1MDA3MSBTYWx0ZWRfX6qh8fKfOMGnj
- 0TIwH9VBUZIGQwtxTEwH7KsJWwWP9Md90xXPoy30DF1EYtkn3VtzqZSRbbr3w2885WNcSA/C7px
- QrZ0BKrsP1+ko/vz4PhfOZEQMudYdNE=
-X-Authority-Analysis: v=2.4 cv=TqPWQjXh c=1 sm=1 tr=0 ts=6a8d523c cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
- a=CZKBZ6wm4gaK5Uy4Yf8A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI1MDA3MSBTYWx0ZWRfXxhDkYD8FjmSZ
- LQWKLc+63KRXts4Q87G5YEQzazU6p6151STZ/EkVuWD/7fHlQ6pWOVRurUI6ZPSpJKyaEzQfc4N
- p+ViIXGn+qEoM9OZrQqvGXQ7SgeQaRo+auScVgHE69Vjw8p3ei9wtOh08YM3bzS+FTR2KizlVmb
- f8KHBsbbJKriQFvlfBjyCGDrxAoDdLt1kA6se/LImC/3SIzotBT/Eg2FDBhT0YKu7TkRLw224On
- aN6MMuK16B0ha10x8DrgC8uImiUlyVU39xvsMdNqMgVjA+YPgImVmavsNJoTZffFSulylJXGr+8
- xRBC3DARBTBkKA2g6P78avHaZXj4G+ETCTwjZMScR6dNLgUq9jkudNhPwkwD0W1QtZQmZopNfAV
- eWhcTXlIWssR/lpkiLX86RCnP6Q5fJVsbPgIEwhaTdeIok2TxiuDaD8xuy6McBQttjQI2EJEY0N
- W6w0VEYZ74Zr/Hq3Ocw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-25_02,2026-08-24_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0 malwarescore=0 spamscore=0 phishscore=0
- lowpriorityscore=0 clxscore=1015 suspectscore=0 priorityscore=1501
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608250071
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nfxdkmmv4cdosfpl"
+Content-Disposition: inline
+In-Reply-To: <1bf5984a-d1d2-4763-bb4c-b17ae8360192@oss.qualcomm.com>
 
-On 8/25/26 6:00 AM, Praveen Talari wrote:
-> HI Konrad,
-> 
-> On 24-08-2026 20:35, Konrad Dybcio wrote:
->> On 8/4/26 9:57 PM, Praveen Talari wrote:
->>> The driver calls dev_pm_opp_set_rate() directly on uport->dev to apply
->>> the computed source clock frequency, and dispatches baud rate handling
->>> through a per-variant dev_data->set_rate() callback that either
->>> recalculates the clock divider (Linux clock managed path) or selects
->>> a performance level via geni_se_set_perf_level() (SA8255P firmware
->>> managed path).
->> [...]
->>
->>> +    geni_se_set_rate(&port->se, 0);
->> This ends up calling dev_pm_opp_set_rate(0) [i see this is an existing
->> bug in geni_se_resources_deactivate()], which removes the power vote,
->> but does nothing to the clock (neither set_rate nor disable_unprepare),
->> which will crash the platform
->>
->> Both of these calls (new and existing) should be removed. Clocks will
->> be disabled by geni_se_clks_off() in geni_se_resources_deactivate().
->>
->> Then, we should do dev_pm_set_opp(se->dev, NULL) *after* they are off
->> to remove any trailing OPP resources (i.e. icc votes defined in the OPP
->> table in our case)
-> So, if I understand correctly, the expected sequence is:
-> 
-> 1. Disable the clocks.
-> 
-> 2. Remove the OPP/performance resources.
 
-Yes, otherwise there is no guarantee that the clocks have sufficient
-power for a given rate
+--nfxdkmmv4cdosfpl
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 1/3] module: add SCMI device table alias support
+MIME-Version: 1.0
 
-Konrad
+Hello Hans,
+
+On Mon, Aug 24, 2026 at 04:58:43PM +0200, Hans de Goede wrote:
+> On 24-Aug-26 14:22, Uwe Kleine-K=F6nig wrote:
+> > Hello,
+> >=20
+> > I just replied to v2 and only then found out there is a v3 already.
+> > There is something wrong with my mail filtering, sorry.
+>=20
+> Not sure if it is your filtering, v2 is somewhat old
+> and I only just revived this series.
+>=20
+> I'll add you to the Cc list for v4.
+
+If you don't make the mess that is mod_devicetable.h worse, there is no
+need. I'm already overwhelmed with mail ...
+
+> >> +};
+> >> +
+> >> +#endif /* ifndef LINUX_DEVICE_ID_SCMI_H */
+> >> diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devic=
+etable.h
+> >> index a397213bedac..d241421c36aa 100644
+> >> --- a/include/linux/mod_devicetable.h
+> >> +++ b/include/linux/mod_devicetable.h
+> >> @@ -49,6 +49,7 @@
+> >>  #include "device-id/pnp.h"
+> >>  #include "device-id/rio.h"
+> >>  #include "device-id/rpmsg.h"
+> >> +#include "device-id/scmi.h"
+> >=20
+> > Please don't add new includes to mod_devicetable.h. That header is ugly
+> > and each include makes it worse. Just add <linux/device-id/scmi.h> to
+> > the modpost source.
+>=20
+> Hmm, I did that at first, but that is quite ugly also because
+> file2alias.c, does:
+>=20
+> #include "../../include/linux/mod_devicetable.h"
+>=20
+> So I ended up needing to change that to:
+>=20
+> #include "../../include/linux/device-id/scmi.h"
+> #include "../../include/linux/mod_devicetable.h"
+>=20
+> my thinking was that the purpose would be to move other
+> consumers of mod_devicetable.h to directly include
+> linux/device-id/*.h"
+>=20
+> And keep mod_devicetable.h as a file which includes all
+> of them for use in devicetable-offsets.c + file2alias.c
+>=20
+> But I can see how actually getting there will be a long time
+> in the making and in the mean time this will cause longer
+> compile times.
+
+Yeah, I'm still pondering a bit if I should start dropping #includes
+=66rom mod_devicetable.h or if that is more annoying. Fighting new
+includers for mod_devicetable.h itself seems to be a tough task, too.
+
+> So if you're saying the somewhat ugly thing of adding
+> linux/device-id/scmi.h directly to devicetable-offsets.c +
+> file2alias.c is the right thing to do, then I'm happy to
+> do that for v4.
+>=20
+> If I'm reading your comment correctly, that is what you
+> want me to do, right ?
+
+Yes. I agree it's not pretty, but IMHO better bearable.
+
+Best regards
+Uwe
+
+--nfxdkmmv4cdosfpl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmqNUxYACgkQj4D7WH0S
+/k5wCgf/eIWRfjCexiKewtXq3u4X6kYeqNfHxU/aHRvaG2XAS6E+1RPly2vZKqRP
+S+yKDqswE2AFauvgqGNf+U3VjCqnf6AQdButjabhaAkBoumLTSz8unOA54k89HjY
+ThBXcUmVtt1D5s/rBi0lh/Ak4BpU9pSqJgw4CwLS0P6hESLiGfqhrD0P3E+/KghH
+Le7l4PIbYdhN0xCAObN5xv6Hd95e/k3i5+zG2kmjw8VZAHvQ8eixXynbI6Ch0MOV
+6TXmQs1gWz+lqtKVk6SSdOwjQFynbbDGAJdAIkys9CxZxwOGSoJyq6rcnQMn5+t8
+awDppaPW9PyQKN759eqifr7kB/XR0Q==
+=xnLj
+-----END PGP SIGNATURE-----
+
+--nfxdkmmv4cdosfpl--
