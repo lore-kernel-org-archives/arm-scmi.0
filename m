@@ -1,269 +1,205 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A21481A89
-	for <arm-scmi@vger.kernel.org>; Tue, 25 Aug 2026 13:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B600488210
+	for <arm-scmi@vger.kernel.org>; Tue, 25 Aug 2026 15:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787664867; cv=none; b=n4abtECdtWBnp+DL+a9Pa3mcuC1PtL6BzgnOmAQO1VODtb8jWs9xf9AEW+WmQoiRxy95TRMIAZzhuK1pq4OnVlLn3R7NsMMUFkQeUVz0DdsEptHJFHjAg5ZglxwtnDvMWhF7fQgEGG82Jc/q1tkY/H+EF+aM3gksEoTolGflDac=
+	t=1787670719; cv=none; b=jVZGzh5tFaUXoblmn4k57+Awkm0GS6RwT/dkCAMDbdIwvv2anSLIxJTuabiEVqUIrU8wLPGkhN8hKfCpesxh0iSQ1Icx+ncm5x1pWEisbbTJdD7/XNT9T0zLkSl+1eZsCWNtv7R+osJk75/Ny2bUeJBB5Uv/rAVAzDyT1tzUoKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787664867; c=relaxed/simple;
-	bh=bLAQYO2fVtjrZJZjogehxs4N3O4/AoaOHSJblctpWIU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IfbkkdDsSB2GWm7JCoA8NOo55gqJ0IXIUPGhmmY5wkfbMKy/ijWt8ZZGHWdx1WrOhK5ex0C1NjHvceTg09Zq0xkZw8ojoTX7/6aXKtEBdb4xOYoTW4I4r/4QFpaFuRJgIDD5t5LBAI5lJzLrOC34dCpTZBYIoRaerT/ZS8KFdAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Fnffekqe; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=fsCtb6M0; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1787670719; c=relaxed/simple;
+	bh=VSfhDbGuaO6bj6wZHF4WXo8dJZaWBr1sYjz3PhauiKg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=RLJyIQ0QtQl/gw9r4stKdhQm1WaNu59S3tO63L6MRbywuE+HmAicS4dLbMy1cM7PcAYSCnZFhjAZpldqbHClwwfOwY7S9ObL1btW3qnxDiG/SVuSVucXWLRT4/esIY/tgn6P6V6vy+aJ4PQg8CDNZ8jFqFiVB+t73FAvxsPzMVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cmNwOCPW; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Fnffekqe";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fsCtb6M0"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67PD3qQf2027546
-	for <arm-scmi@vger.kernel.org>; Tue, 25 Aug 2026 13:34:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	TaVfdGUEZ4eLonecVULryIdNy5Y/IszLAAF0qOUkWYs=; b=FnffekqeV8VFB+Ck
-	19eFxD/ZL3SeOCpShcRv2c3Ha5sn3Offs2Oow35eByVWEaXH7foOXc9kBf8VrffX
-	EhmcvQ4WsT7din/nntI5p8KYtNKnnxQxsQOQuiHv1MMlbHD6kMsfOBvHjpbAqtyZ
-	ZYuJ99fzWV64B4SG2tZWxFNHn6JJtoN5rFLoX1GjAm5MbqL81OeJ5WU8+2eBLFDE
-	/Yy/VwhB68O8TI9YcA3R8jtrnG8guEr7MyRkap8Wr32Xo8+oQgK5644aD+IMhvDT
-	vvV7iaBydDKFowLV8EYzd/ErMlUsQIz8ZorUIfyzVVW58FowK4KwSLKn1Sh+e80F
-	bNUdYg==
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com [209.85.210.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g9bku84n9-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Tue, 25 Aug 2026 13:34:25 +0000 (GMT)
-Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-7e99ff505c2so9255871a34.1
-        for <arm-scmi@vger.kernel.org>; Tue, 25 Aug 2026 06:34:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1787664864; x=1788269664; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TaVfdGUEZ4eLonecVULryIdNy5Y/IszLAAF0qOUkWYs=;
-        b=fsCtb6M0SPeSoWTNKHAJ4U2W2WAzB43ii4Pbi1caVwXav9K5gfVykb9Ctq5ivGoBg+
-         J/nboOSQegFUTf6zSybpBBeU4N2vJGfp0wm0FvRliVnGVwg0iS9pHhkAU43AG324yYT9
-         CU2d1gmYBWnhwrLtFepLFV0dn+hDzfvZX6l5zkPzjWMYbOnXZUGRtL46m5NulXKjpvmU
-         7/y3bbrM54cRImhCPM1NqANsKbc1BefqtnlIkm8sIQNxPB52ggRljxMl1ma5CWAi5A9e
-         6OXlTR5PONbUHx0MzSLSfiVu75urEK591lfJEa20oSlBusSmzsqhcB7FAPMxAimJNhEv
-         JnmA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cmNwOCPW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787670715;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l2TAxOwHRDlM6cSmZF0xTyxxMoyKXBFa/St1ecjf+fY=;
+	b=cmNwOCPW0pCLo1vgxbiI8024BSzxbFhi3JiPy5Bv8SJO4i3CWLe8pnJoGKFUOrad+B/b/+
+	ss0febDjN34CvxqR7kDJPsYhRohx65REzsx6IYHVayw4b9b70DhLTuDcUesPRiEXiPUqHm
+	uTFVlFozsf2xG5Uyv+HbX3OiX5QSvDo=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-68-qpo-HrriPNWVqcEIB3LdAw-1; Tue, 25 Aug 2026 11:11:53 -0400
+X-MC-Unique: qpo-HrriPNWVqcEIB3LdAw-1
+X-Mimecast-MFC-AGG-ID: qpo-HrriPNWVqcEIB3LdAw_1787670713
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-52d33c89a29so66867151cf.1
+        for <arm-scmi@vger.kernel.org>; Tue, 25 Aug 2026 08:11:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787664864; x=1788269664;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=TaVfdGUEZ4eLonecVULryIdNy5Y/IszLAAF0qOUkWYs=;
-        b=NmOoTyswtLAQs7fxF/6lW4rDh8AiKXSOxNyMG3nXCIN9vvjUcNSxHzhr8Gq78LYlPe
-         CMYf3OzcepzJo/6LoCXmfeEvGUgrmS4Z+EzELEpp7oQZ00uRLu/0qq8JVdNj+PeElwZn
-         4+PW5v1jia7PDMVUVNVPDwtksX4UiD7IYzM4XNt3hS34PnItFIorXCuMRjStz/0SGc+D
-         HjaCz2F7iihrxU0nykynbjaIHh9CCT/H06RJ9Suafa9sBQZBw+7q7DqwU5/p1cJMLVKy
-         e53I0p/951xQuVr2xig6Hf5/HjgI0S4xnGbAXvBgZLN7ZpLggfLYel55n8yBq9z2L3cE
-         rlKQ==
-X-Forwarded-Encrypted: i=1; AHgh+RptjdUWWgGej8AM2b1+3h5NfFc//H4EthpEHjpm8S7Mi8pI3v+eG5iredKkq5BvvrJU6ZUdLqC+rw==@vger.kernel.org
-X-Gm-Message-State: AFuF++m4CvqVOzVfLJGj6MMhOj68j4Cd2LAx4XllcJFNJ4/j/qF2+bIm
-	DBu5b5edwpvXbTIX+rNkktuLKs8nnXiq3vAKbrRN416CjcUyTLLeW3qzToH5Cfdq+ugWd2CuZTm
-	G6vmHfPjigPD6IpdHS7ZLwg1BfoaE5Y4glIhp6DXMQiYJvL4zmr/NUKLMLXGQZA==
-X-Gm-Gg: AR+sD119tNhaI+1uIbCRkU6AMebIN8HkwTokRr57b2ek93fucrOuofR7b8K0FyIW2Ee
-	K68Y1PI+9ZmpdB4OWUJcf9VpGZi5ydNpcAGNHixM1sQL8y0br3OzOqt+NoP/7CBIBqdD4Hxuz61
-	Fcg6rKkqEKmFxKzxf4hN+kgdocZBAN7BD7oxRb3AXsiY1Y2fIoeKAUXB/nOZtWY1sKe1jxaaWZ5
-	ho6jllHqrLiE1f5ZEQiuhmGIEt8TiJEHoUUrc1SC7VRT6Fx+f2pLQFU3gFR15bdr/ywDQa7Sqa7
-	Ta3UFBIBk9qt/KDq+EHVjwXo4Kxn1RAvmCYIdiaYQ3uPxblxStjIKh8KV6C9DWlRolV4pvsCtny
-	k3+Rv1mhp7CKUBkvq5eyhTPZUfuObg1pH
-X-Received: by 2002:a05:6830:4116:b0:7f3:a8ac:45fe with SMTP id 46e09a7af769-7f461510b2fmr33747250a34.11.1787664864228;
-        Tue, 25 Aug 2026 06:34:24 -0700 (PDT)
-X-Received: by 2002:a05:6830:4116:b0:7f3:a8ac:45fe with SMTP id 46e09a7af769-7f461510b2fmr33747175a34.11.1787664863701;
-        Tue, 25 Aug 2026 06:34:23 -0700 (PDT)
-Received: from [192.168.0.7] ([49.204.109.155])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f48fc866b5sm7180397a34.23.2026.08.25.06.34.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Aug 2026 06:34:23 -0700 (PDT)
-Message-ID: <57b9cb3c-6fcc-4f61-b372-97de8058ffac@oss.qualcomm.com>
-Date: Tue, 25 Aug 2026 19:04:14 +0530
+        d=1e100.net; s=20251104; t=1787670712; x=1788275512;
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:content-type:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=l2TAxOwHRDlM6cSmZF0xTyxxMoyKXBFa/St1ecjf+fY=;
+        b=mg3CVsM1tU8NRFFmX/i1uanS4LjkMvwgTnFkE9gvq4PY5OoiEK557Pweq5PizDckbG
+         i2FMl3kP8h8SsU9tPWLmNtWzCF7DMlHrfF7uL5IkwbeXcPsgm8G3UB9mlIWuLtECEPDY
+         7hRiKknAQsnhXhyML2f3YjEWD7fBAI+zY9EpExhbrPj8pYoqujSyT8jjFO0ynQLxj4bo
+         KuoF3006ash2iZ2uBcFeN4g3e1AHDZtRfkQNrV6PbU3BajRbdwjg2BcdOzCkXhxknME1
+         VaBhVCvEMf3n2HdVARMV3BDyVpo8qkcgqhwjkLtE0mebzuxDilmNsz6CaEqQI0BrEK6C
+         cffA==
+X-Forwarded-Encrypted: i=1; AHgh+RqvVwYEXZ/NKJgRoqZNUbfnclMkWxHdunNV7AKXW8KGIGdgDPW+BipLtWAl3xmlcwN9yQVFpXLNeA==@vger.kernel.org
+X-Gm-Message-State: AFuF++nubQs4DkroEQ2iiUGyT5CErEwMi4K1E4cZiCbj6uxYpXBckx+t
+	+axMIyC9XnZOPV5ZjxWHsMABoHwismeNQGo9xMuU3pyfXCyDAGNB/dB5fykoDK7IxFjpxagzkEY
+	bKB7Vpuc5rrnXjKLtU2g409/ynjj3PcUtdGx5KDmpCT6vh6V213D1W3TRfCaR
+X-Gm-Gg: AR+sD12aBrQ3CIwCnIVXeAt8AZKrRYMV4hUUH+V2APfEv6PddKnnJSXPFAN9aY4HSsS
+	b2p47QFy/Z79TXw7BkPiPNdaV1QmGWLNZAO/D4mS29U09AuTR+N2ia5/7ezDw0cBAI9fp/B+Y+4
+	5Jb+lAbz+Q4CqIod1Nuhhu4iRhR55k74QbcAtW/E+qnxel0GNmPJreOZqgkFKbDgHjQ/RzgOG1L
+	pdCC9CH3DNI2RssP7LGGzLa/AfEWryAPQ3/issceokAMWITORROTpJWi1M4dEJeTgvS0DHFvCyn
+	/WC+8vapB7W76UTSweFvQqGPFuGdvirCVXRIzzZ4xya4kcLNmYkhr0iW8hI0P+cMv/b/VutLBhv
+	iIYPWhg0P/jvBYPQrQXjvs5TncBXN3HHbRiY=
+X-Received: by 2002:ac8:7d13:0:b0:52d:3d46:bfd0 with SMTP id d75a77b69052e-52df5a4a41emr343135861cf.32.1787670712352;
+        Tue, 25 Aug 2026 08:11:52 -0700 (PDT)
+X-Received: by 2002:ac8:7d13:0:b0:52d:3d46:bfd0 with SMTP id d75a77b69052e-52df5a4a41emr343134781cf.32.1787670711664;
+        Tue, 25 Aug 2026 08:11:51 -0700 (PDT)
+Received: from redhat.com (c-73-183-53-213.hsd1.pa.comcast.net. [73.183.53.213])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52e09aad030sm71209161cf.15.2026.08.25.08.11.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Aug 2026 08:11:50 -0700 (PDT)
+Date: Tue, 25 Aug 2026 11:11:47 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+Cc: Ryan Chen <ryan_chen@aspeedtech.com>, Joel Stanley <joel@jms.id.au>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Billy Tsai <billy_tsai@aspeedtech.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Taichi Sugaya <sugaya.taichi@socionext.com>,
+	Takao Orito <orito.takao@socionext.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
+	Benjamin Fair <benjaminfair@google.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	David Lechner <david@lechnology.com>,
+	Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Santosh Shilimkar <ssantosh@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Emilio =?iso-8859-1?Q?L=F3pez?= <emilio@elopez.com.ar>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Prashant Gaikwad <pgaikwad@nvidia.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Ulf Hansson <ulfh@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-clk@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	openbmc@lists.ozlabs.org, arm-scmi@vger.kernel.org,
+	imx@lists.linux.dev, linux-mips@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 00/45] clk: Make sure clk_init_data is fully initialized
+ (part two)
+Message-ID: <ao2ws3ZA-o8ZVjTh@redhat.com>
+References: <cover.1787239813.git.geert+renesas@glider.be>
+ <3074509.irdbgypaU6@diego>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] i2c: qcom-geni: Use common GENI resource
- initialization helper
-To: Mukesh Savaliya <mukesh.savaliya@oss.qualcomm.com>,
-        konrad.dybcio@oss.qualcomm.com, Sudeep Holla <sudeep.holla@kernel.org>,
-        Cristian Marussi <cristian.marussi@arm.com>,
-        Ulf Hansson <ulfh@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>,
-        Andi Shyti <andi.shyti@kernel.org>
-Cc: chandana.chiluveru@oss.qualcomm.com, arm-scmi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-i2c@vger.kernel.org
-References: <20260805-derive_clk_perf_tbl_from_perf_domain_opp_table-v1-0-61171ab1cdce@oss.qualcomm.com>
- <20260805-derive_clk_perf_tbl_from_perf_domain_opp_table-v1-6-61171ab1cdce@oss.qualcomm.com>
- <2329d1dc-9907-4338-8bb6-2a32e3e261ee@oss.qualcomm.com>
-Content-Language: en-US
-From: Praveen Talari <praveen.talari@oss.qualcomm.com>
-In-Reply-To: <2329d1dc-9907-4338-8bb6-2a32e3e261ee@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <3074509.irdbgypaU6@diego>
+User-Agent: Mutt/2.4.0 (2026-06-19)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 0zxm_vWpM7nh-iISM39DzWTIUHNDAoc_j1_uYxMYfwI_1787670713
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: D_dhgT1pCaP9b7JTCzF6tAsEeVY_u-7h
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI1MDExNSBTYWx0ZWRfX87Hs2a9sSB75
- 9dAZS7x4wbMX786g2sHmW+GdP7j9q5eM0EHMRP4tef69X29SGX3cvviM3aGoqdKvvG5zXhu5uNB
- 36+lVWBWkHSykODT3cnA7ginzsVkSxU=
-X-Authority-Analysis: v=2.4 cv=TZGmcxQh c=1 sm=1 tr=0 ts=6a8d99e1 cx=c_pps
- a=OI0sxtj7PyCX9F1bxD/puw==:117 a=V2Vt80KW7rYiXl8IeOG9JA==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=atO44hwG55kBqV7UmNcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=Z1Yy7GAxqfX1iEi80vsk:22
-X-Proofpoint-GUID: D_dhgT1pCaP9b7JTCzF6tAsEeVY_u-7h
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI1MDExNSBTYWx0ZWRfX1PbR2PamRLj3
- 1DbaaM3Sd/lvHzrpxkGc0jrbqnPYxrXw8EAFr48Nn7aUHANYn9aVRhJkOVyr5cO7LY/G3KDv282
- +b/joCswwpCFqIeLPvBiIX3h8l8FSC5nk5DbttAK8/xjxVzYY8GP4LQhaRMBN64xfNX9/1FBAIy
- BCCxN+xsJMlyhxqNJuxSZO8JUF8Q9ILxwpCK8LDnVLrS8xD7TkAibF4nnYkMY6xeMls8wRSln1P
- H2lvk8OIQ4GPCka6+e1o7e4DWJK4GConu2rIJkTgVuCUHrVkRc6INIo5N6aKz9AyZZ0sUbVKLQb
- igFaNN7GIcY8QdNVv2tTzVbtC+sCyZy/vernIfMg5cCxm2Yy8bOHWiiW32VI7aRaoLmSfZ43QBZ
- P2y5v/T0lWjumA+wkx5Mv09M52KOWrzPHo8P5YH+rZ/+nmg5KKOj/8E4joOJSIu26n42ayNMCaC
- MubIXKbD/CaaZRQyvLA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-25_03,2026-08-24_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015 spamscore=0 bulkscore=0 adultscore=0
- suspectscore=0 lowpriorityscore=0 malwarescore=0 phishscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608250115
 
-Hi Mukesh
+Hi Heiko,
 
-On 24-08-2026 18:42, Mukesh Savaliya wrote:
->
->
-> On 8/5/2026 1:27 AM, Praveen Talari wrote:
->
-> [...]
->
->> @@ -228,10 +228,13 @@ static int qcom_geni_i2c_conf(struct geni_se 
->> *se, unsigned long freq)
->>       val |= itr->t_low_cnt << LOW_COUNTER_SHFT;
->>       val |= itr->t_cycle_cnt;
->>       writel_relaxed(val, gi2c->se.base + SE_I2C_SCL_COUNTERS);
->> +
->>       trace_geni_i2c_bus_setup(gi2c->se.dev, gi2c->clk_freq_out,
->>                    itr->clk_div, itr->t_high_cnt,
->>                    itr->t_low_cnt, itr->t_cycle_cnt);
->> -    return 0;
->> +
->
-> This looks wrong to me.
-> First accessed registers and then we are setting ICC vote ? we should 
-> enable resources first.
+On Mon, Aug 24, 2026 at 11:11:32PM +0200, Heiko St�bner wrote:
+> Am Freitag, 21. August 2026, 10:53:10 Mitteleurop�ische Sommerzeit schrieb Geert Uytterhoeven:
+> > 	Hi all,
+> > 
+> > The clk_init_data structure contains several mutually-exclusive members
+> > for different methods to specify the possible parents of a clock,
+> > prompting drivers to initialize only the members they need.  However,
+> > not initializing all members may cause subtle issues, which are only
+> > exposed when CONFIG_INIT_STACK_ALL_PATTERN or CONFIG_INIT_STACK_NONE is
+> > enabled.
+> > 
+> > Hence this series aims to make sure all members are fully initialized,
+> > to avoid such bugs, and to prevent future breakage when converting
+> > drivers to a different method for specifying the parents.
+> > 
+> > Part One[1] fixed all cases that I identified to be real bugs, in
+> > response to a crash I saw on BeagleBone Black.
+> > 
+> > This series is the clock subpart of Part Two, which fixes remaining
+> > cases that are currently harmless.  These are still fragile, and may
+> > cause future breakage when converting drivers to a different method for
+> > specifying the parents.
+> > 
+> > Thanks for your comments!
+> 
+> I guess more a handling question, how do you expect this series to be
+> applied?
+> 
+> I.e. each clk-arch-maintainer, or in one big thing by the core clock
+> maintainers? Just wondering if I should pick the Rockchip patch
+> or just let the whole series get applied by the clock maintainers.
 
-At this point the hardware resources are already enabled and  the ICC 
-call only updates
+Before you pick up anything, let's see if Stephen picks up this series
+the next few days before he sends his pull to Linus.
 
-the interconnect bandwidth vote. Therefore there is no dependency 
-requiring the
+Next development cycle, Jerome Brunet and I will be clk co-maintainers
+[1] and will start collecting patches then. If Stephen doesn't pick up
+this whole series this week, then pick up the patch(es) relevant for
+your tree and send Jerome and I pull as usual. That's just in case
+there's other patches that come in during the next development cycle to
+these files and to avoid merge conflicts. I don't have a strong opinion
+about this though, and could be convinced to take the whole series for
+simplicity.
 
-ICC vote to be issued before these register accesses.
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git/commit/?h=clk-next&id=8bc7ceadce1f362a8b0e88075ef3d926b286c01c
 
->
->> +    return geni_icc_set_bw_ab(&gi2c->se, GENI_DEFAULT_BW, 
->> GENI_DEFAULT_BW,
->> +                  Bps_to_icc(gi2c->clk_freq_out));
->>   }
->>     static void geni_i2c_err_misc(struct geni_i2c_dev *gi2c)
->> @@ -1100,24 +1103,6 @@ static int geni_i2c_init(struct geni_i2c_dev 
->> *gi2c)
->>       return ret;
->>   }
->>   -static int geni_i2c_resources_init(struct geni_se *se)
->> -{
->> -    struct geni_i2c_dev *gi2c = dev_get_drvdata(se->dev);
->> -    int ret;
->> -
->> -    ret = geni_se_resources_init(&gi2c->se);
->> -    if (ret)
->> -        return ret;
->> -
->> -    ret = geni_i2c_clk_map_idx(gi2c);
->> -    if (ret)
->> -        return dev_err_probe(gi2c->se.dev, ret, "Invalid clk 
->> frequency %d Hz\n",
->> -                     gi2c->clk_freq_out);
->> -
->> -    return geni_icc_set_bw_ab(&gi2c->se, GENI_DEFAULT_BW, 
->> GENI_DEFAULT_BW,
->> -                  Bps_to_icc(gi2c->clk_freq_out));
->> -}
->> -
->>   static int geni_i2c_probe(struct platform_device *pdev)
->>   {
->>       struct geni_i2c_dev *gi2c;
->> @@ -1188,6 +1173,11 @@ static int geni_i2c_probe(struct 
->> platform_device *pdev)
->>       if (ret < 0)
->>           return ret;
->>   +    ret = geni_i2c_clk_map_idx(gi2c);
->> +    if (ret)
->> +        return dev_err_probe(gi2c->se.dev, ret, "Invalid clk 
->> frequency %d Hz\n",
->> +                     gi2c->clk_freq_out);
->> +
->
-> why not move to geni_i2c_init() ?
->
-> Check recent patch @ i2c: qcom-geni: add I2C frequency table for 32 
-> MHz firmware-based SEs.
-Okay let me review it and update.
->
->
-> Let's agree to move there, to avoid issue.
->
->>       ret = i2c_add_adapter(&gi2c->adap);
->>       if (ret)
->>           return dev_err_probe(dev, ret, "Error adding i2c adapter\n");
->> @@ -1281,7 +1271,7 @@ static const struct dev_pm_ops geni_i2c_pm_ops = {
->>   };
->>     static const struct geni_i2c_desc geni_i2c = {
->> -    .resources_init = geni_i2c_resources_init,
->> +    .resources_init = geni_se_resources_init,
->
-> why to add common driver function to i2c ? and also spi, uart ?
+Brian
 
-
-The goal was to provide a common helper that avoids duplicating
-
-the same logic across multiple consumer drivers. As a side note,
-
-this refactoring was done based on Konrad's earlier suggestion to
-
-consolidate the functionality into a generic implementation.
-
-> Can we not call that function from within i2c specific hookup function 
-> ? i think design wise should keep i2c as local function.
->
-> Also driver specific anything can be managed in local function.
->
->>       .set_rate = qcom_geni_i2c_conf,
->>       .power_on = geni_se_resources_activate,
->>       .power_off = geni_se_resources_deactivate,
->> @@ -1290,7 +1280,7 @@ static const struct geni_i2c_desc geni_i2c = {
->>   static const struct geni_i2c_desc i2c_master_hub = {
->>       .no_dma_support = true,
->>       .tx_fifo_depth = 16,
->> -    .resources_init = geni_i2c_resources_init,
->> +    .resources_init = geni_se_resources_init,
->>       .set_rate = qcom_geni_i2c_conf,
->>       .power_on = geni_se_resources_activate,
->>       .power_off = geni_se_resources_deactivate,
->>
->
