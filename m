@@ -1,81 +1,83 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CA43BCD3C
-	for <arm-scmi@vger.kernel.org>; Wed, 26 Aug 2026 10:27:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7213BFAED
+	for <arm-scmi@vger.kernel.org>; Wed, 26 Aug 2026 10:27:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787740062; cv=none; b=N9ma1qxTfYxBarCWLYR06DgBiDu12cDKAbJBGl7zQROC4hM3XruIxhVIglR8rwTvp6TUC9g+S+CEji+hpeoFP652PbR3EoR8k6pU4201BtDp94RdLSJI6TgZi3a5KjNvbxOFOPst+3luY7ph/Bujpyhx8uhDQt+/fteOnI/qfcc=
+	t=1787740068; cv=none; b=BoksQRyOgu8STZMuFfgUoendd2d2d0cQ3O7h2mX/thBhrEG2buYOodTrg159sSKmM1+AKdwnV3AEq2ij8IjecwT5dAfAj+WwFwbChiY4ABy36WKjm3sRgAgF5NJHYpk2Fwk2eAvjg+Uxtj8rqFg9znmgGHV+DaiypsrVz507NQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787740062; c=relaxed/simple;
-	bh=KLIlR+koIz0OfzI6bzUVYKFw5N6U8gqdkPJ1VJ8XM2I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Dgh2+1rrfkv0rLgThLxw+dBorx4eTTQOZkKz8Msz8MdWVSiUegLsQA0W+3TduBfkTX5n8761Lo7jZZIoNQ7vOWwE0c4AeuG4H36lY7VQr92IQ9XKRj8fNKmHJxT6vBQt6J+1K7d6jGUtEtiBpjyU+MtJEbDb1iml8ElAzNsf1YI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=W+Q+4SpV; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=PbDz6f0f; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1787740068; c=relaxed/simple;
+	bh=4WRilBWhHzZLU8uvO/z39X42z49BUIa3+WWApYbxJ24=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=oTj4eCDq+CXjPUswL1/pUt2qZgPQxh7MCvpd+U2+uui/Egp8n9nMGATCOiXdupxE11eSHkRTmZlI2WlvBQI0rdV30FCqfrpuzx/ZPtlRHqwVRpaN7M877h0QcFIUh3k3tWfurYWs2+lhpeZtBiKOpo9vo+gR1wYlzGbSt6Muomo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=f3ToAtLn; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hTOhHXwO; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="W+Q+4SpV";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="PbDz6f0f"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67QAGXVW1209741
-	for <arm-scmi@vger.kernel.org>; Wed, 26 Aug 2026 10:27:38 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="f3ToAtLn";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hTOhHXwO"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67QAHB2v518818
+	for <arm-scmi@vger.kernel.org>; Wed, 26 Aug 2026 10:27:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=FqF/pFKdhvjVFIbFaRcdom011G7Oq3Fs4Hs
-	sXxqokMA=; b=W+Q+4SpVqz9ejYQlSvt5l7ukSyfc5ROPRWIcw/r6+1/zD+VHomr
-	yPU1pRVgMjR4iwz3+fCSC6EV3osKC2qgMO7rOIObmiUTMQuGtnLutiLi95NO5A68
-	eN/7W8z7h15krKQEtgA0LpHI8/mnqPnduJAtIPUbOMHYvd3vNPsXzxQlgS9I3WGd
-	Vkr7BXW5p23g+xrt+tarXk/6hEaZjGuk0GkbUiCR10S7NkLek6vwDNqR26jjEvdi
-	BXUIC2KCg2bb29mgBHpsnEdIARdSh0/LMKi7D4JKDCk2I1sWNFkX60R3j1aLET9Y
-	tMzUAmvjhKY4Kq+aNfIfdoCDiXqTjorQntA==
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=c5VY/KOB4mi
+	ZQvykR/E8D9DhRmzVzOzBrO3/MiSseIo=; b=f3ToAtLnnYAf6zOg5679hxdEAY8
+	VinJg18H1mIPlvYvTXCu7/GToxUrtiMSrz0i4hAGa6PGY9m8KC5p1dbA0/DjesFL
+	dOCuxSXs+BwIxiv6K8fQJoKEdVI6f7mSCow6kKgymCiMH8ypSKsC/J2p5Ubw9f5k
+	YooO9OMs4Yx7uMQmvG4yZcOXYy5Krbjq1qBAdQvdzvx/EpaLWWBLYtJ3zWiU90qA
+	u0zX7s+7c6bK4AnHveNHlGMfy+2OO9Cia4QyjUVq5ZOnJNa5t6i2TiTf2TG4bg/t
+	J0bJKZvwrSPXWN2foz57MQ5CRpf7vaP41N/vW+g+OdvJeN9kJsxVDTvzTzg==
 Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g9fgxkejc-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g9x2n02xf-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Wed, 26 Aug 2026 10:27:37 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-5276aa86d00so8311901cf.2
-        for <arm-scmi@vger.kernel.org>; Wed, 26 Aug 2026 03:27:37 -0700 (PDT)
+	for <arm-scmi@vger.kernel.org>; Wed, 26 Aug 2026 10:27:40 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-51bfe3fa93bso4754071cf.2
+        for <arm-scmi@vger.kernel.org>; Wed, 26 Aug 2026 03:27:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1787740057; x=1788344857; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FqF/pFKdhvjVFIbFaRcdom011G7Oq3Fs4HssXxqokMA=;
-        b=PbDz6f0fD6T7aDLWbO0LZ4H+ixLBr4ZpDnO9X3e/PC4UbNh+UzNEqvuRzknBg1vgUa
-         wlSg7tS86/bHRGPQ3wmvHycv+RZ//4Yh0QoSF+AStqV8P0D8Oh6nw84M8SDIfgO6zk16
-         zxiJuahDTufayshoODRLKikPZxAKZgCIZL4sXX/tGjOmsv1tW5lT5UfXcgtA8Ov7WY5e
-         vsF/N2AluMMWGt6EUMPzFbCSeapF4GRjQPylMaRCB3uja4hq7V4jm6yKEkZ/9cUy3YGz
-         7SC87HVAKj3PYSt5T8ABKycscnpY3eKzX8DJM1sbprBOnEWjeuMjLVR0TMgqWEeJLkSh
-         9kKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787740057; x=1788344857;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=oss.qualcomm.com; s=google; t=1787740060; x=1788344860; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=FqF/pFKdhvjVFIbFaRcdom011G7Oq3Fs4HssXxqokMA=;
-        b=nY7B+RYXKId2YY7WRe8FIfGBdK9EeZONhuLP8j9y7n4KncL0p+NPo1fY5Maqv7H17f
-         3Gc56mSWaj4EgJVscNT+bF0XH97eAQ9/zPBT87VMxbvL+D0Vnfzgd1AwOh12d5sJ5cCe
-         A7qwjh9dPeL49pcWAdn0o0NgO1oow1MBFwCcICUI/N2wRwWcYFfoJw+jEku5lU45W0gX
-         G+fbYDPNSOsEDB3XrLutzH/W0kTRtUcTi+0ksgESvPCe9p3vmDkkhy8b+k2kdtaLbgGT
-         5t4m7hMwFgh5+0lmOSGDy34LilYb9CDJOC3mSp9HmzVc1Q/65hhMiwzRhPUH7yMgYGH2
-         I9dA==
-X-Forwarded-Encrypted: i=1; AHgh+RpjWUERzNjDZqk0a97r1rWRgrDcggjA7DwA1J/sdlCg7xxP9UTmYnyK5k9NCLE6eyZO3+bnbU6Hvg==@vger.kernel.org
-X-Gm-Message-State: AFuF++mx8zE8APdKUJNx0SfZTO08uVVFRHghodC/hJ04T6WbL5GN5mjg
-	ojmu5nF4lPohp1Pc6K3C9rQJI66vFt4EsyMLsolhcYQgMkq+SYZjkD0mKaxSjC22nSchFHO3x+O
-	ybe/8cjdqRiHPjSNx0Ko5aJhlOyijpAhT0GpQ3krvbCWr8t8WNqZBytVVZfD7og==
-X-Gm-Gg: AR+sD11a0D1i19e1pjGGaIEHEx7qyZbw4NAzSed4djRul9RczuWAd3m7Uavt2rj5HLT
-	QiSVjl2n59gHYLiYneBStez461O7Sy74DA1nLAq2YELhX4DNPAJy+L2oDEhk0t0ipVStHZEwqMO
-	HcGiNR16c/s+D9mU/JHNqU0w7DoW3MsHb5uRTlrJ0vu4VZPOPG8M42eZwcmNUlnEXizweot11nr
-	b8o7badfZ7D526cZmJ1eS9GAOM1sMH+vOBhYRF8m2ne9AlEY2oAWSYNWr4pzp9CG+0T1NkwvkU/
-	4rHAwSNdtUhJVaDl/fBe3mRzXgXwEAT5xtrJqazQqcBaOSDn1JO56rmWBq/4+jycoZUe/wWbEN2
-	aFPufipA56tgwD5WfYX7zL0CG2V+pPDyANT1YqYCGP/ttoKG5bP2KU+qk6b+P7Djn3dT/E2tQKT
-	9rZUN3mFAFQTKFwA8=
-X-Received: by 2002:a05:622a:4a83:b0:52d:cf84:e98 with SMTP id d75a77b69052e-52e423a4a9amr55060821cf.33.1787740056651;
-        Wed, 26 Aug 2026 03:27:36 -0700 (PDT)
-X-Received: by 2002:a05:622a:4a83:b0:52d:cf84:e98 with SMTP id d75a77b69052e-52e423a4a9amr55060421cf.33.1787740056283;
-        Wed, 26 Aug 2026 03:27:36 -0700 (PDT)
+        bh=c5VY/KOB4miZQvykR/E8D9DhRmzVzOzBrO3/MiSseIo=;
+        b=hTOhHXwOF1hi8+izp9pIArNvDhV9QsotS0KjUZUb5pEDirGopaPVt/YgfZWvuNgjHf
+         wB5ftNWkk/i1g9I84nhSOI/9+LrYvuzI8SIT3UQxLSqsFydgtGHsykzxWJ9N8m+mnpU7
+         SEZGC/5A7XF+WbQ3P7DJW9H2xzRd6+6rf1tRkjbJjbeCT45UjCrPYx0iX3MHCznj6UIJ
+         KVJUVf6Qq0oNOPmg7V0c2H0l15ti7HL4JOsZPvGxWC3ttnyXJX393jopR5L+RYfHBdlV
+         bWvzs3KTGdsZa9TNdDM7Li48Q3FkoW1Gdx/ljYxPxaf1olNWGKqn2Vs07g8BWRnj2pPJ
+         qqpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787740060; x=1788344860;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=c5VY/KOB4miZQvykR/E8D9DhRmzVzOzBrO3/MiSseIo=;
+        b=rJfhA7/5RxrZ2E/IaqzIjL4E5Yl+VqXdPLeqfuAvNtIG96RuxXXSTZzrXWpCMxqd8I
+         zIzQ4ZSTeom2mx5qGKBkbauUSVrrFMA0T7XlVpoGGlGGk5glg51R7dYb7JXeVtLg2VSP
+         C09zjId+qYcKbTgXg2OBydP9dtpRKI21dJI1LBwa0bRbYt/s1d93LzlY0VlRdiHSrtuG
+         vAVvZbExZtmKxo2l5i1oQY8ROlZj7EgvOGhq+YkV2oZBXVVLlgFU6dyIJUjDIKJJ4vuh
+         RT8Fm3lNVnvrAvxqjsgi/073G9fw4pgrQD0Ep+z+UQR5GZBPszEFnE4jvqKqQOFy7QGQ
+         vw3A==
+X-Forwarded-Encrypted: i=1; AHgh+RoCDvMLr7uXtfPUzM0kabMRlHUDFBw7x7k+96T+2kN5UX/9T/W6wgYEkb+Rl7e3mdc09qqDZqnZKQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++nzOnNyGSreS5V0v6SF/61AQbHWVlnS7WK6sq7etuFQhrkVD0A+
+	emd+jeFIItWe8s0WibPME6k1yDpHCfkjkCJQnkEyvInNP+KV7yjb1IY8y/D1R/WK74nW+2JHwHT
+	knGu0GXLoBgP8nc30XEG7KaK+xE1Izqlkr9kOG4H7HOm5cWOLeAhHPBL+FPwF3g==
+X-Gm-Gg: AR+sD11R8HoKn0hXrkNfjv6d34K55vUAfUQiUUx0gFh1sZ+rNW7nhLRUgtXIHf9HhQ0
+	mzPdSdUII7iCGtuDQvwmqXJyJvb21sumc+InaIYOYHoW4CLigcOjfLGZCseSDwPyofScUakNH5M
+	Wb4LJwEtzyHp8hFY46FhyRVox6cgMYmVbPsswjBzgFfcbhQTK5N1fdUXHdlcuDh/5sQmpVuisA/
+	XGcVw1fcpsvw/SKPsXejzqEWWTd45OOOL/FnzKwqBeUV0jYfCEhv30xHu7dvNlUzqkR1qcLpnvq
+	HlFGSR9K1a8mi2NHfZWdFJkqZkXPOkCktSxi2i0LQCtg0hT7lSK3ho9v0dCFTF9/xWJYTwZxDAP
+	GE439Ze6oRRDbEYrp8Yd21DQG7CVrycLyyKHg+ZUl1IxycdNukBFa5UxCq0BpUkftfs0elbvXat
+	zIcH3rv2aqwrBdfVA=
+X-Received: by 2002:a05:622a:8c1c:b0:52f:4a76:750d with SMTP id d75a77b69052e-52f4a7675d1mr2032181cf.9.1787740059608;
+        Wed, 26 Aug 2026 03:27:39 -0700 (PDT)
+X-Received: by 2002:a05:622a:8c1c:b0:52f:4a76:750d with SMTP id d75a77b69052e-52f4a7675d1mr2031811cf.9.1787740059146;
+        Wed, 26 Aug 2026 03:27:39 -0700 (PDT)
 Received: from shalem (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c250a5d68d1sm506364966b.11.2026.08.26.03.27.35
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c250a5d68d1sm506364966b.11.2026.08.26.03.27.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2026 03:27:35 -0700 (PDT)
+        Wed, 26 Aug 2026 03:27:38 -0700 (PDT)
 From: Hans de Goede <johannes.goede@oss.qualcomm.com>
 To: Bjorn Andersson <andersson@kernel.org>,
         Cristian Marussi <cristian.marussi@arm.com>,
@@ -85,10 +87,12 @@ Cc: Hans de Goede <johannes.goede@oss.qualcomm.com>,
         arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-arm-msm@vger.kernel.org, imx@lists.linux.dev,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4 0/3] firmware: arm_scmi: fix module auto-loading
-Date: Wed, 26 Aug 2026 12:27:31 +0200
-Message-ID: <20260826102734.31766-1-johannes.goede@oss.qualcomm.com>
+Subject: [PATCH v4 2/3] firmware: arm_scmi: Pre-register protocol, name tupples for standard protocols
+Date: Wed, 26 Aug 2026 12:27:33 +0200
+Message-ID: <20260826102734.31766-3-johannes.goede@oss.qualcomm.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260826102734.31766-1-johannes.goede@oss.qualcomm.com>
+References: <20260826102734.31766-1-johannes.goede@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -96,103 +100,136 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=MqZiLWae c=1 sm=1 tr=0 ts=6a8ebf99 cx=c_pps
+X-Proofpoint-ORIG-GUID: -4PTkZMuhn1O1sxOX7XhGgzsehQsKSi3
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI2MDA4NyBTYWx0ZWRfX9XBgv0OvmfQw
+ 2sn/oXIbP/x8qp07YrI5f2iQ+vK0BiHRmvNaE7wfgR7pE+tu7K+I21LElnwREI2MWKMF4nTu4XB
+ cpkQzdqUhrN1Raj6AlO0LeFEdPU47mM=
+X-Proofpoint-GUID: -4PTkZMuhn1O1sxOX7XhGgzsehQsKSi3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI2MDA4NyBTYWx0ZWRfX9X7kXmAZf1VV
+ wjGyPBhTqY8wm5Se0I1hURAglhVhUVTvQsFA/L4ktAY9Br20QDaGqglfT+6tEu/SAQDxzwimXUZ
+ qiSl4GcO4xdZcxE28lIqKFv+BQvxnlVXdxJegRQeQGTRS7Csu67hDEYDvyKBvzwsb/FY9H9M5cs
+ 1FP0ilv5b7t5hVsWngRO39TGza2reoCt7xrpDugpakImgtEpaGP/pmDSpMie9JA9FF54q+XzzuO
+ KWkMtsiKXSlmbSSg4Ue+oVQT8PpjkyefwipLqp1Pk6uBNt2fniIQw5hVCL4966RR1JXsHKdzIGC
+ mCaAB6X2RdVhaKjDCK6lMEPLJi9kw+4MVlYkEYPB2wXBmKIi5V8O4EGOtmRD834KF2eET8QRecV
+ HZjJVt6RBAAuQGEde4W5OwO4e4ljEszRr/AnAJkgxZUuVooA+3g9O6UH87Lrfds9xfhvq1xoe/N
+ 2vZhH7thLjqTctDUkuQ==
+X-Authority-Analysis: v=2.4 cv=PPQ/P/qC c=1 sm=1 tr=0 ts=6a8ebf9c cx=c_pps
  a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=Sv0fKeRqtYgA:10
  a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=Um2Pa8k9VHT-vaBCBUpS:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=bC-a23v3AAAA:8
- a=7CQSdrXTAAAA:8 a=QYgjaYqrS4LJc6J_j6wA:9 a=kacYvNCVWA4VmyqE58fU:22
- a=FO4_E8m0qiDe52t0p3_H:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-ORIG-GUID: VycMALoHBH8AqmPU_NHLHGpTZnftse3x
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI2MDA4NyBTYWx0ZWRfX9VULoOk7Nncb
- EhEX+e76UYLJksrvd28m0OEtOaxraLmhdAoQRMVNpDgcdYb32FC/hWN2z+p/n30l6dS7FlE5oTT
- lP1n0ZHhpw+ir6/o4fe1xHa8hdkrztRMrDDGsn7k8OyzajQir5H7WoJMmUHwMyKb8cpCQYY9g4O
- MSWfnjKfUQZ9wCeUt3//I3tsVelSxIdXJ6IcFp6cDVaamYkU51xdtCMZqr1vO6QJw+Zkv3z3SJl
- Cpmkjrxja+ZZyonVhNCamZbdMRElgqW/ojLOgybcLLMP2STJt8QXaX7WqbhzOK5VM1279enwLOv
- ZP9gMQXOC+tg47Tb7STAH/RP0ibW5XZMO9fL/pSxKZZQ3UZmfSB52r0P/z5EvdvKtSQClQA/JYN
- W0w3mpjq11l8nDt4jyLLs3H4ocicS4kDFliuhneb4nQFptD6i07HMXSCbvibC8Y5aEJHtqQdqwy
- n/lznZxnSQtFUj48YTA==
-X-Proofpoint-GUID: VycMALoHBH8AqmPU_NHLHGpTZnftse3x
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI2MDA4NyBTYWx0ZWRfX9tH3sQhOSiV5
- 3pCrMvdcFYpG4mEJcaQ+dNSWOKTbcYv0YWKRw9rcQTfAlN2rnwt1+MCUvzFfuMSjdIW6OWURprx
- TMtfWbOdBSGWxAyuVYpI03pGieuqCT8=
+ a=rJkE3RaqiGZ5pbrm-msn:22 a=bC-a23v3AAAA:8 a=7CQSdrXTAAAA:8 a=EUspDBNiAAAA:8
+ a=VscC1fOeZKh3OTZq1J8A:9 a=kacYvNCVWA4VmyqE58fU:22 a=FO4_E8m0qiDe52t0p3_H:22
+ a=a-qgeE7W1pNrGK8U0ZQC:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-26_03,2026-08-26_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0 suspectscore=0 malwarescore=0 bulkscore=0
- adultscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608260087
+ bulkscore=0 priorityscore=1501 malwarescore=0 lowpriorityscore=0
+ clxscore=1015 suspectscore=0 impostorscore=0 spamscore=0 adultscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608260087
 
-Hi All,
+From: Cristian Marussi <cristian.marussi@arm.com>
 
-Here is a patch series fixing arm_scmi module autoloading this combines:
-
-1. Patch 1/2 from Bjorn to add support for scmi bus modaliases to modpost:
-https://lore.kernel.org/all/20260618-scmi-modalias-v2-1-8c7547c1be21@oss.qualcomm.com/
-
-2. RFC 2/2 from Cristian which pre-populates the scmi { protocol, name }
-tupple list with standard protocol info to break the circular dep:
-https://patch.msgid.link/20250203100154.140877-2-cristian.marussi@arm.com
-
-1. is not enough by itself because driver module auto-loading requires
-the devices to already be created for udev to get the necessary uevents
-based on which udev auto-loads modules.
-
+Driver module auto-loading requires the devices to already be created for
+udev to get the necessary uevents based on which udev auto-loads modules.
 But SCMI devices are only created after their { protocol, name } tupples
-have been registered which is done from scmi_driver_register(), creating
-a circular dependency.
+have been registered which is done from scmi_driver_register().
 
-2. breaks the circular dependency by pre-populating the { protocol, name }
-list with the standard protocols. This allows the devices to be created
-before the module with the driver is loaded, after which module auto
-loading works the same as it does on any other bus.
+This creates a circular dependency where device creation is waiting for
+the driver to register and loading the module with the driver is waiting
+for the device to be created.
 
-I've tested this on a T14s Snapdragon laptop with Fedora's kernel config
-where scmi_cpufreq is a module. With this series scmi_cpufreq correctly
-autoloads even if it is not included in the initramfs.
+Pre-register the tupples for standard protocols to break this circular
+dependency.
 
-I've added a 3th patch extending the pre-populating to also include all
-the { protocol, name } tupples for the in tree SCMI drivers for IMX
-vendor protocols, so that module auto-loading will work for all in tree
-drivers.
-
-Out of tree drivers can still register new tupples as before but their
-modules will need to be manually loaded (also as before).
-
-Changes in v4:
-- Drop unused driver_data member from struct scmi_device_id (Uwe)
-- Drop device-id/scmi.h include from mod_devicetable.h (Uwe)
-- Add device-id/scmi.h to devicetable-offsets.c and file2alias.c (Uwe)
-
+Tested-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+---
 Changes in v3:
-- v3 is the first series combining Bjorn and Christian's work see above.
+- Drop adding of a bus uevent function this is already done
+- Update comments and commit message with a better explanation of why
+- Link to v1/RFC: https://patch.msgid.link/20250203100154.140877-2-cristian.marussi@arm.com
+---
+ drivers/firmware/arm_scmi/bus.c | 47 ++++++++++++++++++++++++++++-----
+ 1 file changed, 40 insertions(+), 7 deletions(-)
 
-Regards,
-
-Hans
-
-
-Bjorn Andersson (1):
-  module: add SCMI device table alias support
-
-Cristian Marussi (1):
-  firmware: arm_scmi: Pre-register protocol, name tupples for standard
-    protocols
-
-Hans de Goede (1):
-  firmware: arm_scmi: Pre-register protocol, name tupples for IMX
-    protocols
-
- MAINTAINERS                       |  1 +
- drivers/firmware/arm_scmi/bus.c   | 75 +++++++++++++++++++++++--------
- include/linux/device-id/scmi.h    | 17 +++++++
- include/linux/scmi_protocol.h     |  6 +--
- scripts/mod/devicetable-offsets.c |  5 +++
- scripts/mod/file2alias.c          | 12 +++++
- 6 files changed, 93 insertions(+), 23 deletions(-)
- create mode 100644 include/linux/device-id/scmi.h
-
+diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
+index d12d5de15a1a..111727904a89 100644
+--- a/drivers/firmware/arm_scmi/bus.c
++++ b/drivers/firmware/arm_scmi/bus.c
+@@ -77,12 +77,13 @@ static int scmi_protocol_device_request(const struct scmi_device_id *id_table)
+ 	if (phead) {
+ 		head = phead;
+ 		list_for_each_entry(rdev, head, node) {
++			/* pr_debug() because dups are expected for std protocols */
+ 			if (!strcmp(rdev->id_table->name, id_table->name)) {
+-				pr_err("Ignoring duplicate request [%d] %s\n",
+-				       rdev->id_table->protocol_id,
+-				       rdev->id_table->name);
+-				ret = -EINVAL;
+-				goto out;
++				pr_debug("Device already requested [%d] %s\n",
++					 rdev->id_table->protocol_id,
++					 rdev->id_table->name);
++				mutex_unlock(&scmi_requested_devices_mtx);
++				return 0;
+ 			}
+ 		}
+ 	}
+@@ -579,17 +580,49 @@ static void scmi_devices_unregister(void)
+ 	bus_for_each_dev(&scmi_bus_type, NULL, NULL, __scmi_devices_unregister);
+ }
+ 
++/* Standard protocols table */
++static const struct scmi_device_id scmi_std_id_table[] = {
++	{ SCMI_PROTOCOL_POWER, "genpd" },
++	{ SCMI_PROTOCOL_SYSTEM, "syspower" },
++	{ SCMI_PROTOCOL_PERF, "perf" },
++	{ SCMI_PROTOCOL_PERF, "cpufreq" },
++	{ SCMI_PROTOCOL_CLOCK, "clocks" },
++	{ SCMI_PROTOCOL_SENSOR, "hwmon" },
++	{ SCMI_PROTOCOL_SENSOR, "iiodev" },
++	{ SCMI_PROTOCOL_RESET, "reset" },
++	{ SCMI_PROTOCOL_VOLTAGE, "regulator" },
++	{ SCMI_PROTOCOL_POWERCAP, "powercap" },
++	{ SCMI_PROTOCOL_PINCTRL, "pinctrl" },
++	{ SCMI_PROTOCOL_PINCTRL, "pinctrl-imx" },
++	{ },
++};
++
+ static int __init scmi_bus_init(void)
+ {
+ 	int retval;
+ 
+ 	retval = bus_register(&scmi_bus_type);
+-	if (retval)
++	if (retval) {
+ 		pr_err("SCMI protocol bus register failed (%d)\n", retval);
++		return retval;
++	}
++
++	/*
++	 * Driver module auto-loading requires the devices to already be created
++	 * for udev to get the necessary uevents. But the devices are only
++	 * created after their { protocol, name } tupples have been registered
++	 * which is done from scmi_driver_register(). Pre-register the tupples
++	 * for known (in tree) drivers to break this circular dependency.
++	 */
++	retval = scmi_protocol_table_register(scmi_std_id_table);
++	if (retval) {
++		bus_unregister(&scmi_bus_type);
++		return retval;
++	}
+ 
+ 	pr_info("SCMI protocol bus registered\n");
+ 
+-	return retval;
++	return 0;
+ }
+ subsys_initcall(scmi_bus_init);
+ 
 -- 
 2.55.0
 
