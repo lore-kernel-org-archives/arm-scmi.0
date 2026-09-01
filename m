@@ -1,159 +1,204 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4933137A829
-	for <arm-scmi@vger.kernel.org>; Tue,  1 Sep 2026 07:20:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788247224; cv=none; b=OitFhnKYI27q11mmo1Sz/pn2APlIViDC7HqZIXXtrbcJ1t4hN7MJvesXRQf7ZfIgfv6hzwl+e/FabQYQKaJDJxiv6qID4pOzJSECLzKcLStxSsnKhIQpY0pbILkI0VuHb4o4HDSVUf9u0tXvbb9jjZRh65qayh3jG2cHVGcopcc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788247224; c=relaxed/simple;
-	bh=TJW+ZiT5oYVtElCrK2VJYF5Z8RxcnedgcUFRUh6BMIM=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D90399365
+	for <arm-scmi@vger.kernel.org>; Tue,  1 Sep 2026 14:31:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.180.131
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788273109; cv=pass; b=bkg1wCjcGBS28fefDmMBK7XqZINLYJTWuW0y19W2Dxg/gaqd0ZeblkLfbjOxXBwlZkZitoFPWJUgoOdIccMNVYBBdnABuL4zxc9+t6e5orAshQ2nXLMS1iuVM6Vysz26aT7yWFKax8Ghh3yQF2WCkLdd5GOSyMPhscmdM4SuMto=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788273109; c=relaxed/simple;
+	bh=CL+Fm//7PJAuTWNWRctOu0wP9tKrbcMfws3PNuylb8Q=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dPLySkiELGg9A8No4uXNfe88cm0RvPTu7CB/lIC1MS+vi0oHhjCLBRrtxk00FdyvRihkDu8FQn+Zb/+hf+gVMIy00+Ol1ePsP+yLxLG6fAiESV+dY4dAtiBL+Il5goVktyi92GvekGOTevRxH64i70fYUbu7i0x1vXgiCC4/wtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-90cc372d6b2so40752996d6.3
-        for <arm-scmi@vger.kernel.org>; Tue, 01 Sep 2026 00:20:23 -0700 (PDT)
+	 To:Cc:Content-Type; b=WGjmer4yIDHft5/9Jh/dh8Ud3u6POaG9DY9KQMeN2DeXv48gzHAiMmIkx6O3FBBUescvlwZzYkOKBbGWB1Ca+lj78KA0guvFQ0krf10jWYla7qPEU1yp0U3bHOC7Y0z2EmKZTf32IldYuU+kctu12x7K1eSGcGplUCt88p3L/Hs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TWKV/Sbg; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MHUJpS+J; arc=pass smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="TWKV/Sbg";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MHUJpS+J"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 681E9LjK3258304
+	for <arm-scmi@vger.kernel.org>; Tue, 1 Sep 2026 14:31:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	PzV75RyAsYZ+frAuiZ8woVoIVYpRn/LT5APqR6Tm2RE=; b=TWKV/SbgV9p0gmBq
+	Ix/czCMtVc6C+fPEUJMX/wN5rmWOaY2sWrV8k3FCPsPVdBHPZds82x79UGxpCqCp
+	/pVpjTMlX8ruOOfAB4pzE0il1Minieoe88KD9Sw4VJi1bgOh+zoS/6IfzDz5g8KM
+	J4padN2WR4QivG/XXxD+bL//mbXyEPOzB4v81QzF5er6+cvoinwDYAqvjPEBlKjb
+	fjX5HcnJIoAASFUUS/1g6Hq2e6QJhqKeo3LNE8Ut9OkR3ueWUadOU0OQD4ljSMCK
+	j2mGoFWfUxYrnESW4/FvIxt6z6yf87rCmLVgMvOg92INvotvppxD5od8KkAFNDZv
+	mmzjXw==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gdynt09x3-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <arm-scmi@vger.kernel.org>; Tue, 01 Sep 2026 14:31:45 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-84e4ef486c7so1123785b3a.1
+        for <arm-scmi@vger.kernel.org>; Tue, 01 Sep 2026 07:31:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788273104; cv=none;
+        d=google.com; s=arc-20260327;
+        b=LHh1rjcJ8TZyM1BCUHlYHY7HOIiHNbw2sK9XMvkaUUWi8xH6P90lN53GuhwNVyf9j7
+         pVrrSZrL7h5i4Dyc7PZcoZMrucc7A8nYNXWi9hgu+dxpOqT+Qo9HZOfJcP9OL920Vls3
+         3zo+7i7xrthDxLsQ40AAZw3SqPU965VsPBIQ/Nfqwar1wqKNLxugp9cGymoGoOXMGO09
+         +AOP6BfTyo9G6Db/97CxOm0E4NQzfBoNObXP+oRNoofcWVTQog9G1O8LGBXz+g7yXVZ6
+         IkGbR//oM4VxbWwfwC6+4LKh2t0OxxXwsgLgG0+pn74b/Dk/dLCLf9wDnrjhPDZPH9Zw
+         uJLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=PzV75RyAsYZ+frAuiZ8woVoIVYpRn/LT5APqR6Tm2RE=;
+        fh=XuHnmpmBPtYNdbmK/TrPJ+Kn+K8YfcvdHbDt6KGS4yU=;
+        b=B8BHw9BZI0eOeXLWTHpoBp9lhYp8KrCsEXlUA9vi6/kJtrLg+yNZ/TQ1tWEdg24pVH
+         lDCYxKjC87CXXusqbSyDj83ynpBSNGpdzYgQqNLVkWPEYKVRdOrZyuvUyxvOY87BdCre
+         m0NlUyKjNU0xUrCaL1mrHsf7HU97d475m165h7TVTc4OHx2U0yhHAErLqE1iTG3Wpmgk
+         qjJMib15T+RKTF5/BEQRcycnPFXvYNhdXZL22xTzYwd2qHeOtesW2v3N4szK7fiQNzjm
+         +TUzM49DlWHDOtNa7bnpLCLoB6Jz73VT3KAXiC5cI1F/cGkUIXo7mmPePQyFLltRg5wh
+         jMnw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1788273104; x=1788877904; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=PzV75RyAsYZ+frAuiZ8woVoIVYpRn/LT5APqR6Tm2RE=;
+        b=MHUJpS+JNG++WoSWrEusvWGQMqlLb+1WmCAkp+miG6kasuPoeE49mS8n7EzTVE2WUl
+         s95CVfOFKfNjrElcCawac1ADbMDyc8E32+S0feYuZoYFvsar7b1F4KT8ixYVsoGrEzSh
+         6VHSl0jYgm+3WW8E9FjvQFb2czYam8VpCI3nQLMCkz5xAqEgDHkFpfuIQph89MTzBSC5
+         E/cfUPjZuZkHiZUfZdXQrFo9OD56US+ILdg8evX8Enajd9ij5XyZLZM/Bs91xmFiG62B
+         UJANEaiKgCk3ahQGG3i6rxwj5D+ewO0pdoTwlIGI+54ea5lCe/vO+BTCaZeyBW+Lo2Do
+         FSIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788247222; x=1788852022;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=jx+XoqcBBsA+m2qrM8HxfQHaaz8x8crvSJWq14ITrJ0=;
-        b=YaHhpG3NAUi49f2GQQ0M8tT1NTvDwzt0rPm4b1IaaHb0gtvl9RDyburriH3elkIJWd
-         M8O6XGPh7ltsF4tJ28U2XBxGDUXnIV9ZEHnkr8drMfR9pXS6pq/rfsvqJveOaGC0tX2h
-         KZr5s38LdMCjwSYldWRdRBLQqtDyZFUf6Ut4yav+4m+hOywZnLYdoYGKLTY6+Rn3pWaH
-         uiWKHCkDG25fOvC+MnBhX8BkULh8vBz6CXXNaaiLbc0UHMoBny2PPGY0df6rV+O+PxXc
-         25vjMJZPwHpHZnjOdzLf9NLNzqkpIr7BJ04mtlUck2HWEgOWIiRRzbjxGbYmdCcjLZiK
-         Ft2g==
-X-Forwarded-Encrypted: i=1; AKwUvBz8vu2591u27PxqZk+WchF2bX2dRMMKpXYhO4W4Plizpq3lmSqRGOLg5Y+bCt6oD/ruKVwb8g2HZg==@vger.kernel.org
-X-Gm-Message-State: AFuF++nilAOdlur7Yt2umZSTWUkFHYbmyf6pEsLRgTENDBU3a+ec0vLe
-	w5kg/QmqOOR7sd6LxuOVd67DWywocs5uYBktG63gG4nLapEN/Cms0l3EuMLzDBHv
-X-Gm-Gg: AYBFou3uOTkzGK3mgbLP5a7JFJcUX5Gmt/L0PgYith3tEz4JMC2W/ONFv/jTm720rL+
-	ANCaPoPcAapkDc3v85PQoak+AcfNjQ0/guF+IoKwwpoO5GoZ9oPU4Vz0X+PIRjYB5Zh5csCeCDa
-	YAZkvv+4A5eFsBDFPbtFMpZ85S+iRPtmOzj25Vwv39PM9fAErVUU2yzGPlcEFAYPaa4WkOIiQW8
-	yXVK5NIEPdj4ZDfXFWv2gMoBXE4jT69QjR0iT9oBrTlbKpgmi5PO/5/iV3/TUu28W8hbOe/fxVi
-	bwxMZ3xUwXN5/drhuT+c2Yp5KYw5HlELykIzWZgAcIRS+4d2EsMFlVxUodMy3nxtCts2tWEJq3y
-	YD8Oh6CCkclwUZwg7gzHWJowQyNYLcRONKpVR6MRnVLgS2ygWPV7/u7sUPoj+x+bPxXfNmDhPxX
-	C5JefyirCr6GpcnsCDnmk/XV88d9rxt9I/7KwsDE3upJm9vtrrQQc8lNOPy//NAa08HOZQ1KaiJ
-	gJFByjL7bxMpQB1VG+7IHPR9g==
-X-Received: by 2002:a05:6214:460a:b0:907:bfc0:781e with SMTP id 6a1803df08f44-90ce0f1c9b3mr458340246d6.30.1788247221996;
-        Tue, 01 Sep 2026 00:20:21 -0700 (PDT)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com. [209.85.219.46])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90ce444dae0sm103326716d6.4.2026.09.01.00.20.21
-        for <arm-scmi@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Sep 2026 00:20:21 -0700 (PDT)
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-90ce08834feso60983556d6.0
-        for <arm-scmi@vger.kernel.org>; Tue, 01 Sep 2026 00:20:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByNVWW3NVWPrPBjnbAGouPm24trH3u1jEDp3ojOIte7Ov5MUyZepnMBGH/RfYwDoAFIxnIFtAtscg==@vger.kernel.org
-X-Received: by 2002:a05:6102:a50:b0:77e:6f90:4aad with SMTP id
- ada2fe7eead31-785962b2f0fmr9912673137.2.1788246874251; Tue, 01 Sep 2026
- 00:14:34 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788273104; x=1788877904;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PzV75RyAsYZ+frAuiZ8woVoIVYpRn/LT5APqR6Tm2RE=;
+        b=kP8bw22NPWWQX2TNbOVWvW0noYBcwuhYVau4theyoTgVTtXRDPU7xksnDftOHYijNN
+         uSCzOCtzPSTA0cu3gI6/GWPcVxrwwEqCxOl2dt7PRX8QFyr4EnQdRkq1yBroff6JIuLs
+         6brRXSWXgQnKkyuHlYzHIf6989q3P4IYur8LrvqJqN7aAdRhl43iFUPYgWH4XX3dIRFs
+         SXepshhBRV9eE+BK7R3zLyCHLkh3HFrhy2m8qQj0fcPlwucZnKkF1oFvt+LGAEpClumb
+         QungVIwTUAblwbfDBeS/PTHZ4OsReZi4J7bX6LxJsEbJ4v0rQ6B4yiIeEwOtmZqdFOOR
+         W1jg==
+X-Forwarded-Encrypted: i=1; AHgh+RrZWFRtq58LPKEb3jFf4Q5f9FN2XLhk5HKwIX2AwuO/4CQXOvjlJstAXKT7xtXnfxrDlu+NQPUvZg==@vger.kernel.org
+X-Gm-Message-State: AFuF++luoWZrIUP49U92ZMh4mgaapaAUs5l6ATWa5swvEWUL8ts6ok/J
+	vf87joCiMOe68QPx9+BhVgNei6NaaPa44fdmQmAboJZgxUFcgwXUdf7Dk+aJNvI02g5yg7RARHU
+	hTr8ObYBIplwkuYwShynfZtCFJRcOG6HBqA4gMQAP/NM2sTOqDTzXGkqJTQIkxtgfbfl+Qk0EUn
+	zBXpmr48FL63tRIPbqwDrpcqrrTRH1PyK71I3j
+X-Gm-Gg: AR+sD10UUFcTgcrXFSjZGkJFEWqQmVriv/tFpKOV2tuLRm3BqViySHqWtX82lWaz7ot
+	e9mcp0JARNnrVeDDRERxqMPV4raL669vwyMhA43dC1B5zso2CRQYqWNXkvgW/NeC8mkj4C6RH/V
+	o2/ftBPp5iOWoa1LtPer7MbmOBYrl1bHubnuat8SiECAVu+VbTxz40ZmBRSQ==
+X-Received: by 2002:a05:6a00:420f:b0:854:b3d3:8631 with SMTP id d2e1a72fcca58-85bcacec88dmr5179001b3a.12.1788273104253;
+        Tue, 01 Sep 2026 07:31:44 -0700 (PDT)
+X-Received: by 2002:a05:6a00:420f:b0:854:b3d3:8631 with SMTP id
+ d2e1a72fcca58-85bcacec88dmr5178917b3a.12.1788273103642; Tue, 01 Sep 2026
+ 07:31:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1787239813.git.geert+renesas@glider.be> <apWfW5ahiYagw0OR@redhat.com>
-In-Reply-To: <apWfW5ahiYagw0OR@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 1 Sep 2026 09:14:23 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX8YidsoHudY54RQW4J=G446WNgRG6Q-P5f1YEHd3sHkg@mail.gmail.com>
-X-Gm-Features: AcwNN1V5M0ZQ_v_xaH6RI1jedVGh-HNyKWbpGWR_Rc-YS9IPBF0NOfuHqPh0NM0
-Message-ID: <CAMuHMdX8YidsoHudY54RQW4J=G446WNgRG6Q-P5f1YEHd3sHkg@mail.gmail.com>
-Subject: Re: [PATCH 00/45] clk: Make sure clk_init_data is fully initialized
- (part two)
-To: Brian Masney <bmasney@redhat.com>
-Cc: Ryan Chen <ryan_chen@aspeedtech.com>, Joel Stanley <joel@jms.id.au>, 
-	Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
-	Jerome Brunet <jbrunet+clk@baylibre.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
-	Billy Tsai <billy_tsai@aspeedtech.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Taichi Sugaya <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>, 
-	Linus Walleij <linusw@kernel.org>, Avi Fishman <avifishman70@gmail.com>, 
-	Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>, 
-	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>, 
-	Benjamin Fair <benjaminfair@google.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
-	Cristian Marussi <cristian.marussi@arm.com>, David Lechner <david@lechnology.com>, 
-	Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
-	Santosh Shilimkar <ssantosh@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
-	Gregory Clement <gregory.clement@bootlin.com>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Sylwester Nawrocki <s.nawrocki@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Peter Griffin <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Dinh Nguyen <dinguyen@kernel.org>, Viresh Kumar <vireshk@kernel.org>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	=?UTF-8?Q?Emilio_L=C3=B3pez?= <emilio@elopez.com.ar>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Prashant Gaikwad <pgaikwad@nvidia.com>, 
-	Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Ulf Hansson <ulfh@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Michal Simek <michal.simek@amd.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, linux-clk@vger.kernel.org, 
-	linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, 
-	arm-scmi@vger.kernel.org, imx@lists.linux.dev, linux-mips@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org
+References: <20260827-derive_clk_perf_tbl_from_perf_domain_opp_table-v2-0-091697dbeb02@oss.qualcomm.com>
+ <20260827-derive_clk_perf_tbl_from_perf_domain_opp_table-v2-1-091697dbeb02@oss.qualcomm.com>
+In-Reply-To: <20260827-derive_clk_perf_tbl_from_perf_domain_opp_table-v2-1-091697dbeb02@oss.qualcomm.com>
+From: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
+Date: Tue, 1 Sep 2026 16:31:32 +0200
+X-Gm-Features: AcwNN1WwQtMTDpu5tktdI1Fc85e8Ltr3tWd5G78kHHK2UXE66ekj0IR3sGBbeCc
+Message-ID: <CAPx+jO8HQj4PtBScf-w+nQz-9xe+7QxZLMtp=J=sFSwEHVLL_w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/9] pmdomain: arm: Fix -EINVAL from
+ scmi_pd_set_perf_state() on state 0
+To: Praveen Talari <praveen.talari@oss.qualcomm.com>
+Cc: konrad.dybcio@oss.qualcomm.com, Sudeep Holla <sudeep.holla@kernel.org>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Ulf Hansson <ulfh@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>, Mark Brown <broonie@kernel.org>,
+        Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>,
+        Andi Shyti <andi.shyti@kernel.org>, mukesh.savaliya@oss.qualcomm.com,
+        chandana.chiluveru@oss.qualcomm.com, arm-scmi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-i2c@vger.kernel.org, Abel Vesa <abel.vesa@oss.qualcomm.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTAxMDEyOSBTYWx0ZWRfX9KbTN3Gm3Ixe
+ c3nZ3cm8swF+oR/vqgY1jHsL5sc4JZHlBe+m8ZcDZzpQJXJBvTHIo1cU3rqKKAga/L9oGXLAlKh
+ ZAijLM48SyPMWYVt3A8WR9Tc8sgLXO2YxSyLmTCF5EjS3O1YMbs19/WqUO8hwhRCWkuFiHmIJN6
+ tsYuQIDYLX2GVMYDOnbwSiBEbXrqaPji301c6/LRidKgg/norWtLGJB7xtW5ahSy0XtFdPGrb5q
+ RH77gzFCJN6TYM7lesH3BhRobIBvPTw64kk2GEx7F/Es0PradZpAnD7qdoyxIVjpqrSk0JokHP0
+ qi1hhWs1H1bxD4sIRuodIcwsqS7HaEf0S+QZD3eUtuj8xwRvjI3Y1IcTV1YrWtm3J9ACJOmKQlE
+ L2vdy9/K7exF254nz9Vemc7jZ7MlZTuJ8P0Pbym7ekncI3HdoYZWZf5YUgqOY6UkmyIhI7R4SjB
+ z5AYMtJD49mjdHr6XOg==
+X-Proofpoint-ORIG-GUID: nkQArS3kgRKiebx2Juv2x-ff2u1wtr84
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTAxMDEyOSBTYWx0ZWRfXyQSDhlyu+opO
+ yBPwRoUw/lPGMIdQHHm8b0NVWD7berBSuhZ39GNaNmvZNdbJrlb1bxHU7ZkLxQ9Y58XTEyLy2GV
+ 2dazKelf8+ih7aYs4FF3xzmif+EJpzg=
+X-Authority-Analysis: v=2.4 cv=LfkMLDfi c=1 sm=1 tr=0 ts=6a96e1d1 cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=3WHJM1ZQz_JShphwDgj5:22 a=EUspDBNiAAAA:8 a=iiyz0f3IVUh47B4zfGIA:9
+ a=QEXdDO2ut3YA:10 a=zc0IvFSfCIW2DFIPzwfm:22
+X-Proofpoint-GUID: nkQArS3kgRKiebx2Juv2x-ff2u1wtr84
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-01_04,2026-09-01_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 bulkscore=0 clxscore=1015 impostorscore=0 malwarescore=0
+ phishscore=0 lowpriorityscore=0 spamscore=0 priorityscore=1501 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609010129
 
-Hi Brian,
-
-On Mon, 31 Aug 2026 at 17:36, Brian Masney <bmasney@redhat.com> wrote:
-> On Fri, Aug 21, 2026 at 10:53:10AM +0200, Geert Uytterhoeven wrote:
-> > The clk_init_data structure contains several mutually-exclusive members
-> > for different methods to specify the possible parents of a clock,
-> > prompting drivers to initialize only the members they need.  However,
-> > not initializing all members may cause subtle issues, which are only
-> > exposed when CONFIG_INIT_STACK_ALL_PATTERN or CONFIG_INIT_STACK_NONE is
-> > enabled.
-> >
-> > Hence this series aims to make sure all members are fully initialized,
-> > to avoid such bugs, and to prevent future breakage when converting
-> > drivers to a different method for specifying the parents.
-> >
-> > Part One[1] fixed all cases that I identified to be real bugs, in
-> > response to a crash I saw on BeagleBone Black.
-> >
-> > This series is the clock subpart of Part Two, which fixes remaining
-> > cases that are currently harmless.  These are still fragile, and may
-> > cause future breakage when converting drivers to a different method for
-> > specifying the parents.
-
-[...]
-
-> 44 / 45 patches have been added to clk-next. I took it all for simplicity
-> rather than everyone trying to cherry pick just their parts.
-
-Thanks!
-
-> Geert: The only patch that didn't apply was:
+On Thu, Aug 27, 2026 at 7:59=E2=80=AFPM Praveen Talari
+<praveen.talari@oss.qualcomm.com> wrote:
 >
->   [PATCH 27/45] clk: renesas: Make sure clk_init_data is fully initialized
+> Currently, scmi_pd_set_perf_state() treats a performance state of 0 as
+> invalid and returns -EINVAL. As a result, devices attached to SCMI
+> performance domains can report failures when relinquishing their
+> performance vote.
 >
-> I didn't look into it too much.
+> The OPP framework use performance state 0 to indicate that no performance
+> vote is required. For example, dev_pm_opp_set_rate(dev, 0) is commonly
+> used (by firmware or linux)  when a device is runtime suspended.
+>
+> A zero performance state does not require any SCMI performance request
+> to be sent. Treat it as a no-op and return success instead of reporting
+> an error.
+>
+> Reviewed-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
+> Reviewed-by: Mukesh Savaliya <mukesh.savaliya@oss.qualcomm.com>
+> Signed-off-by: Praveen Talari <praveen.talari@oss.qualcomm.com>
 
-No worries, I have queued it in renesas-clk for v7.4.
+This is already in v7.2. Please rebase your series.
 
-Gr{oetje,eeting}s,
+Kind regards
+Uffe
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> ---
+>  drivers/pmdomain/arm/scmi_perf_domain.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/pmdomain/arm/scmi_perf_domain.c b/drivers/pmdomain/a=
+rm/scmi_perf_domain.c
+> index 3693423459c9..e390f902a444 100644
+> --- a/drivers/pmdomain/arm/scmi_perf_domain.c
+> +++ b/drivers/pmdomain/arm/scmi_perf_domain.c
+> @@ -33,7 +33,7 @@ scmi_pd_set_perf_state(struct generic_pm_domain *genpd,=
+ unsigned int state)
+>                 return 0;
+>
+>         if (!state)
+> -               return -EINVAL;
+> +               return 0;
+>
+>         ret =3D pd->perf_ops->level_set(pd->ph, pd->domain_id, state, fal=
+se);
+>         if (ret)
+>
+> --
+> 2.34.1
+>
