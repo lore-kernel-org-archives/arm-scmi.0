@@ -1,102 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E29C317163;
-	Wed,  2 Sep 2026 07:18:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09FA93998AE
+	for <arm-scmi@vger.kernel.org>; Wed,  2 Sep 2026 07:51:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788333519; cv=none; b=ofzCULc6/n8z3VU0dG49mWBtOkAkOe6FmVluJYDj/ag8/YFTO6XZFya7qsbyUI41PDO2gcVYu4c/DbKB2Y3ASjX4tG3wH4rkHJgintbbz4j+mHv0uVxIKjpy2bGBR2bbs63EpIIY/2pRCI5vUOxkNwtxsA5UnEgtnJ7CdTHYI/Y=
+	t=1788335475; cv=none; b=pIi/f0GyGLUrr4Z2m6ZbRj7EzaNrPdrLGQZgq1ZMZR59PsQyHss+lINjmLhQZ+NOTcfey9k3qryTOokRzSjSfOXKY81cKJi5eHtqFWstsRJOjgEFRBMXra5i14PJUQiIZrzHMH5bvpW87sTHsgRqYEat1qXrvrepG5DqCwR7z0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788333519; c=relaxed/simple;
-	bh=FrU0vwTWiXNpJLDHmXBFEhZPNs4uimrpEWy63hvXxRg=;
+	s=arc-20240116; t=1788335475; c=relaxed/simple;
+	bh=no+PIPBftpLuc1GGQiuaMcV0Hofcvd1y8z/XqGt9Y34=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jbSacaNtI4bB2J+ai+5lVDExrJWeTz3X5OcjTaLVOtnmO6QgOHIp8VsNiI/BkLunDcQeZ9hZQmhVZyOFkCxvqhVpiR0L70wtpaMw62rLkRLoDc4Bg20tMJ+zulffZrYbfqsikviioGG2ir8/I+tu4lbSwV0SSPIoBXkBXNFrl5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e7fYUwa6; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=qCJVFkA7efuLZdggUO7PEsk0lshUm9nO3BOPIxoCSpWop/7m8bccHOHQzuG/2Gg1X4pu9aX8yTfCeVxN2VRWneV3Kibz063J/jztuSqthD1UbokN1LblG0VwxaoR32w2h3ws7BC0i9jKrbDU9XynlejV6pqd0jggx9H/HbcwQVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mBSh9Qah; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e7fYUwa6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A4871F000E9;
-	Wed,  2 Sep 2026 07:18:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mBSh9Qah"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 874C51F000E9;
+	Wed,  2 Sep 2026 07:51:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788333518;
-	bh=HL69uD1uJKKHK2MGV9jHTlVdAjJQsXCvWjdRatXtZi8=;
+	s=k20260515; t=1788335473;
+	bh=K8wBrdWSV92hcb+OGpUJM58MhakZSJllcgFy8ZSCAG8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=e7fYUwa67YcCpJQnhksI8s5r9szKITxJpbFfZKbSZEUV+z5uyzc5KVa96Mmcx4OPa
-	 hUt+sVL9z7lmDGS9Suf7Q3aJpKPLexx3a/NMPJiJlaCJDXuxcuxyaxz84pEZBXSEgK
-	 hK46DbJNdrhDH2CyT6tHGkYccEzqAweJqh2ZaX6AlxXN/anm8MKc31fIhLosPvGg2y
-	 U14EJghhLQcVsFrGtCsS5GQ4yKDOMPcYW6i+hSEISmxkgXiK2vroFVIRmVO3euKPgd
-	 Hti3OS6v3ljm1ef3LsRJAnppDgU5JPV1KLX6nlwpvbkA5LtWwoLDgyTDi1QfJ1YQZy
-	 GAmqh7uM9xRJg==
-Date: Wed, 2 Sep 2026 08:18:24 +0100
+	b=mBSh9Qahbt+37XpHW+HjIn3G4Y8+fqIkLpBwcbylgUvrv0dRAWkinld9EP22jagSL
+	 V4ZwlxQd1UHPzBG536m2wHB4/qjFNd4dCL4WvDdN5SsU484xb4ulC3nFRi6tKaLAc+
+	 rm/F+uKnZU3u4jRfw2vz2rvpvLsxUw5rQ6ABejmBWitxSgnmHKQPuTM4HnlyUPj4QW
+	 A7ji804fBQARmJy5SMytcQ6e51LteVAN6CpdlHKgVqdvs46uh2PesjxHfZtWMsflox
+	 teC9dkSUE/Nw1uyAh9NHe5yxkI5Na5pGmb+wSWOMwYc0qtkgDpGH6zHajDPhvz4pby
+	 menmGGcGq/s4g==
+Date: Wed, 2 Sep 2026 08:51:10 +0100
 From: Sudeep Holla <sudeep.holla@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Ryan Chen <ryan_chen@aspeedtech.com>, Joel Stanley <joel@jms.id.au>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Billy Tsai <billy_tsai@aspeedtech.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Taichi Sugaya <sugaya.taichi@socionext.com>,
-	Takao Orito <orito.takao@socionext.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Avi Fishman <avifishman70@gmail.com>,
-	Tomer Maimon <tmaimon77@gmail.com>,
-	Tali Perry <tali.perry1@gmail.com>,
-	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
-	Benjamin Fair <benjaminfair@google.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	David Lechner <david@lechnology.com>,
-	Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Santosh Shilimkar <ssantosh@kernel.org>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Vladimir Zapolskiy <vz@mleia.com>, Heiko Stuebner <heiko@sntech.de>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Emilio =?iso-8859-1?Q?L=F3pez?= <emilio@elopez.com.ar>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Prashant Gaikwad <pgaikwad@nvidia.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Ulf Hansson <ulfh@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	linux-clk@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	openbmc@lists.ozlabs.org, arm-scmi@vger.kernel.org,
-	imx@lists.linux.dev, linux-mips@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 30/45] clk: scpi: Make sure clk_init_data is fully
- initialized
-Message-ID: <20260902-tiny-metal-silkworm-ffaadd@sudeepholla>
-References: <cover.1787239813.git.geert+renesas@glider.be>
- <939f1be93abebc7967a889e9c24c34942df8229a.1787239813.git.geert+renesas@glider.be>
+To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	kernel-team@meta.com, Cristian Marussi <cristian.marussi@arm.com>,
+	Breno Leitao <leitao@debian.org>
+Subject: Re: [PATCH v3 1/9] firmware: arm_scmi: Set fwnode for the generated
+ SCMI platform device
+Message-ID: <20260902-tireless-steadfast-mongoose-cccac7@sudeepholla>
+References: <20260813-acpi_scmi_pcc-v3-0-cb6b88b4ebb3@kernel.org>
+ <20260813-acpi_scmi_pcc-v3-1-cb6b88b4ebb3@kernel.org>
+ <20260824095121.00001b9c@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -105,24 +46,84 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <939f1be93abebc7967a889e9c24c34942df8229a.1787239813.git.geert+renesas@glider.be>
+In-Reply-To: <20260824095121.00001b9c@oss.qualcomm.com>
 
-On Fri, Aug 21, 2026 at 10:53:40AM +0200, Geert Uytterhoeven wrote:
-> The clk_init_data structure contains several mutually-exclusive members
-> for different methods to specify the possible parents of a clock,
-> prompting drivers to initialize only the members they need.  However,
-> not initializing all members may cause subtle issues, which are only
-> exposed when CONFIG_INIT_STACK_ALL_PATTERN or CONFIG_INIT_STACK_NONE is
-> enabled.
+On Mon, Aug 24, 2026 at 09:51:33AM -0700, Jonathan Cameron wrote:
+> On Thu, 13 Aug 2026 12:32:56 +0100
+> Sudeep Holla <sudeep.holla@kernel.org> wrote:
 > 
-> Make sure all members are fully initialized, to avoid such bugs, and to
-> prevent future breakage when converting drivers to a different method
-> for specifying the parents.
->
+> > Add a call to device_set_node() in the SCMI probe helper to associate
+> > generated SCMI platform device with the firmware node of its supplier
+> > transport device.
+> > 
+> > This complements device_set_of_node_from_dev() and ensures that
+> > firmware node information is propagated correctly for both Device Tree
+> > and non-DT (e.g. ACPI) based systems.
+> 
+> Hi Sudeep,
+> 
 
-FWIW:
+Hi Jonathan,
 
-Reviewed-by: Sudeep Holla <sudeep.holla@kernel.org>
+Thanks for all the reviews. I was away for a while and started to look at
+addressing these now.
+
+> When you say 'complement' I'd like to see a little more.  The guts
+> of both calls includes setting dev->ofnode() adn the extra bit
+> in device_set_of_node_from_dev() is about ensuring we drop existing
+> node reference (there isn't one) and increment the reference for what
+> is the parent of_node.
+> 
+
+Yes I agree. At the time, when I hacked this up, I was supposed to take
+a look at it again which I never did.
+
+> I may be wrong, but I think that is unnecessary and if I'm wrong I'd
+> like to see more info here on why it is needed.
+> 
+
+No your concerns are valid. For reference-counted non-OF fwnodes like ACPI or
+software node, platform_device_release() drops the fwnode reference,
+but device_set_node() does not acquire one.
+
+> Also, if this is commonly needed why doesn't device_set_node() include
+> that dance?
+> 
+
+I think there are new helpers added recently in the tree, thinking of using
+then. See below.
+
+> Unless I fumbled the command, a grep suggests there are no instances
+> in tree of these both being called near each other.
+> 
+
+I did that too before adding but somehow kept it for future investigation.
+
+
+> Jonathan
+> 
+> > 
+> > Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
+> > ---
+> >  drivers/firmware/arm_scmi/common.h | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
+> > index fe8c22cfb9f7..cc7d11c3c1f3 100644
+> > --- a/drivers/firmware/arm_scmi/common.h
+> > +++ b/drivers/firmware/arm_scmi/common.h
+> > @@ -650,6 +650,7 @@ static int __tag##_probe(struct platform_device *pdev)			       \
+> >  	}								       \
+> >  									       \
+> >  	device_set_of_node_from_dev(&spdev->dev, dev);			       \
+> > +	device_set_node(&spdev->dev, dev_fwnode(dev));			       \
+
+How about something like this instead of above 2 lines:
+
+if (is_of_node(dev_fwnode(dev)))
+	platform_device_set_of_node_from_dev(spdev, dev);
+else
+	platform_device_set_fwnode(spdev, dev_fwnode(dev));
 
 -- 
 Regards,
