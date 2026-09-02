@@ -1,224 +1,183 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB4625B0B8
-	for <arm-scmi@vger.kernel.org>; Wed,  2 Sep 2026 11:52:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB8C33A708
+	for <arm-scmi@vger.kernel.org>; Wed,  2 Sep 2026 13:39:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788349939; cv=none; b=PI/fMsqtrgWqgiQrUrageinb8tQuBKIgXRg2bZ2khZto6AKGtQelEIil8UnGWx+Xmyez2Mwj6VZD8i5RycjR6H/l55HUY67R8cmm7LV0/XdmgUlGKaYCI1lyvCePX0CvZfQH5Y0F/VBtnVDv3rUB/F6DvYJ3zcEbynWmmMTAftU=
+	t=1788356376; cv=none; b=uhCdhAKTHUDOdHkISqte4mVD+9OiMLwFPVkmAJjbsusoETL7atcrywdXPaB9ic5y5q3YujcYTTwO5ETt6de5Vsi9CdzO10kGPbhhk74TMCZFK9IUGMckW+HTGFnKeeo5lkR+R3BUbogANAVqHjd0gEzd239XRB0vEblFEYpi6Tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788349939; c=relaxed/simple;
-	bh=endY7gqq13GqgdJ/KG96fwZoTEb/cAVplHkhFQcBGpk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pdRMWo7GfVPm2HtK4oA/IADFmQthbVXrUA2O9AYIVGYrVQwBwQh9hyj9cT6pHZE7flIjJ1ybZ1AUz15SqHbG9yHkAgkH2tuEmxXMXk1jKgkZGwkUWQCH71LDI3Vwdh5FgXa0LpSlQBHrQTqq66XnIoN+SaW4kGnPvgr4ix21hTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-90cdffe8e3eso9827616d6.2
-        for <arm-scmi@vger.kernel.org>; Wed, 02 Sep 2026 04:52:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788349924; x=1788954724;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=d33A2cRSMy14qLiB29N4dNiBSipjfdSlz1gXIdUUM+M=;
-        b=UU2ffLDWYEJNHqpBkxVHCAsavpnKs6higVyY9cfPwlo7mRLUkAvuU7OUMKNjTYlZpT
-         NcmBJ+6x5U7Vy4Tagj6A8zbD/F5wO91ubB9I7UnH5oaZy2sEbVI5RA0zl/ZIdOw4zKtG
-         IpekmqJe/OewE337vzTp/4X1BM3gSLxAEt6rtP9IC9FPCtaSqCT4P8brz+p0VMTIQO/C
-         fmsZfJ6pCIFaB0Cfa5mY2csYVIDgoh8+4jckg3hpwwMdVBcdAiQZVaqSq76ZF4bSwYEm
-         TnUNb1P7tPnTkedC6g1skfvLTt32KxgtKCRT70ErEeC3hIAgRTczMK3RdWjCUo1zrv5o
-         Ruig==
-X-Forwarded-Encrypted: i=1; AKwUvBwS2zeJglqEtM0N6Laqajm4x4r8cRPEBKAcXGCoY8hBnm8/2l0e/zEe+wlU7DgnkGqEs256coLfvw==@vger.kernel.org
-X-Gm-Message-State: AFuF++n7aVsu9l7xFbMf0+gJfMUIO035kPWXZBKYkwkXQWoB83UTO2y9
-	9C9SJ+cNcQm4gdCoFw8srj8z0Epvlt9YVZO5Z/GHHPepDrfmnqKrCoGavlAhh+xJ
-X-Gm-Gg: AYBFou3zs9bsqvUo/kdngazvN+PYAua8TyPwOqs0myfl0gDqT4DnC6ch5njoRxI0UF0
-	xenbunhTpLKHpolmFRKJSTOYewagc0IROW5yISzobC4gcPThuZZGL6Dsv2KVwhqqOeeF2cJ5qe5
-	/5wjRCIX5oQqnm/lMNqBuBItgiXJICiWHlNSWXyDqlMflOLqarsIyC3kgjeqCX7HqHv3L3D+MA7
-	wGQ7Wj24EnNGsAyuaiW+s9RbUHZyKqYhc6XLsCeQFvVHb2O0M9Urtdz44Q1wQ/8kDSVTCtrN418
-	BFyaTqqg7+iIvG7k4E8oCoj6mnAoRa6y6lUHfoDRoOnLncA/39VMRaliuHTczYyBKc/Zi7f0D9S
-	pAqtw7JF+T0GFJBv36Dy3APWkg1ZHE2bHaQu1bHdi4tX1d+XInMVuUB4NgAPsK8G0x2SUNJ8haM
-	PN6iQcj5k9Dj95XUIHd3XzSbvYiWkI32KKUQ9fuqhSnfyeQB5fr99OEITbRoSNNCDfYzJFOIXy8
-	mQCOpjlDM8n/QmJ9A2u9B7u0Iiy2Q==
-X-Received: by 2002:a05:6214:27c2:b0:8f1:d316:42cd with SMTP id 6a1803df08f44-90ebab94ec3mr54158846d6.25.1788349923792;
-        Wed, 02 Sep 2026 04:52:03 -0700 (PDT)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com. [209.85.160.178])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90e9eef37a6sm16074636d6.35.2026.09.02.04.52.03
-        for <arm-scmi@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Sep 2026 04:52:03 -0700 (PDT)
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-5300bdf61d9so10420851cf.3
-        for <arm-scmi@vger.kernel.org>; Wed, 02 Sep 2026 04:52:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rq16M+kJ+k/Xk+ntTNxPmhdzjjzEZXxNppl+SGvB3VVzzDL8qkkXN302UGUe7zX1HkEWUCIO2DvEw==@vger.kernel.org
-X-Received: by 2002:a05:6102:2997:b0:784:a169:194a with SMTP id
- ada2fe7eead31-78a1f437b62mr1623913137.10.1788349475087; Wed, 02 Sep 2026
- 04:44:35 -0700 (PDT)
+	s=arc-20240116; t=1788356376; c=relaxed/simple;
+	bh=FD7XCa0JQ7ISe2sAEbdNZq6+4OOlNanC+bbLs0qecGs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lVqsj8/0OHao/He0MBUp6/BmoKqYqPwWuBhYypaUh9UaQPp2sqLwATC/D80EIWXE6so0WDFRnkgiVGJBEacJ6n9FGB7E513C5CcSfZO+mX67roJsdMZn7ETetr1ZBbUD5CyCn2wqxUJsFODfwfOhQYuaV9qZFcWLfASSWRV0E5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BegnjX+7; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BegnjX+7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 699DC1F000E9;
+	Wed,  2 Sep 2026 13:39:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788356374;
+	bh=hh9j/pEmKDaJiT1wmv/X91uEhhqIkV0D2bx6x4Y2JZY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=BegnjX+7LchNCBTRxj2iaw+WaH2IIhbvx+Ew1BmjUPv+o7Cxb91fzLtreneZe3IDZ
+	 hbLu1Arw9Xewbc340s7/OyhPErC2bfwdaNX4+J3USENmEUU7JWy2Gs5Emp7cQ4khLY
+	 9q0c902dVNfhyhEVENpqDw/T/GlcUoSgVkmn/3iQjXvubS/owoCIkEBSfQjXeCP7bl
+	 tjjSoEagBTlZDzbuS7zk77tvOx3DlZ6z9ci38g6ask7Wck0MT7el6MDneTsHNmfpN9
+	 bIndMyTKLJH8ls4BGP4fz0lP0/QIuG5C0peCBmhKBDDgbdivjX5U/4ftQgNj8eM4b1
+	 4xooTzJgpUvmw==
+Date: Wed, 2 Sep 2026 14:39:31 +0100
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	kernel-team@meta.com, Cristian Marussi <cristian.marussi@arm.com>,
+	Breno Leitao <leitao@debian.org>
+Subject: Re: [PATCH v3 3/9] firmware: arm_scmi: Convert OF-only paths to
+ generic fwnode in SCMI core
+Message-ID: <20260902-funky-tarsier-of-competence-0ae6ab@sudeepholla>
+References: <20260813-acpi_scmi_pcc-v3-0-cb6b88b4ebb3@kernel.org>
+ <20260813-acpi_scmi_pcc-v3-3-cb6b88b4ebb3@kernel.org>
+ <20260824103929.00004912@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1788338320.git.geert+renesas@glider.be> <619a6e41495adfdae3e2e6c0fee97e0550a5c404.1788338320.git.geert+renesas@glider.be>
-In-Reply-To: <619a6e41495adfdae3e2e6c0fee97e0550a5c404.1788338320.git.geert+renesas@glider.be>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 2 Sep 2026 13:44:24 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVstZYufZWdD-ajwg74kU6pWtQE3WueCg-XUw9Lye5DAA@mail.gmail.com>
-X-Gm-Features: AcwNN1UuztEnaQfQ-OMWO4Fx0VqCWe7sLpxq0iVHzvAi1AhVOPaRJUxDUVxmfIc
-Message-ID: <CAMuHMdVstZYufZWdD-ajwg74kU6pWtQE3WueCg-XUw9Lye5DAA@mail.gmail.com>
-Subject: Re: [PATCH v3 07/12] reset: Add reset_control_get_from_provider_exclusive()
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
-	Brian Masney <bmasney+clk@redhat.com>, Jerome Brunet <jbrunet+clk@baylibre.com>, 
-	Sudeep Holla <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>, 
-	Saravana Kannan <saravanak@kernel.org>, Ulf Hansson <ulfh@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Marek Vasut <marek.vasut+renesas@mailbox.org>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Kevin Hilman <khilman@baylibre.com>, 
-	Vinod Koul <vkoul@kernel.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	=?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>, 
-	devicetree@vger.kernel.org, arm-scmi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260824103929.00004912@oss.qualcomm.com>
 
-On Wed, 2 Sept 2026 at 13:30, Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> When stacking two reset controllers, the upper one should go through the
-> proper channels: request exclusive reset controls and use them via the
-> reset_control_*() APIs.  However, unlike the clock subsystem, which has
-> of_clk_get_from_provider(), the reset subsystem does not offer a way to
-> lookup and obtain a reset from a reset provider.
->
-> Hence add a public helper reset_control_get_from_provider_exclusive()
-> to lookup and obtain an exclusive reference to a reset controller, based
-> on the recently introduced __reset_control_get_from_provider() helper.
-> This will be used by the R-Car X5H Module Controller driver.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v3:
->   - Replace reset_controller_get_provider() by
->     reset_control_get_from_provider_exclusive(),
->   - Add kerneldoc,
->
-> v2:
->   - No changes.
-> ---
->  drivers/reset/core.c  | 37 ++++++++++++++++++++++++++++++++-----
->  include/linux/reset.h |  8 ++++++++
->  2 files changed, 40 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/reset/core.c b/drivers/reset/core.c
-> index 8af7cd2e8a5029df..6d4c95b3edb18248 100644
-> --- a/drivers/reset/core.c
-> +++ b/drivers/reset/core.c
-> @@ -1141,6 +1141,7 @@ __reset_control_get_from_provider(const struct fwnode_reference_args *args,
->                                   bool gpio_fallback,
->                                   enum reset_control_flags flags)
->  {
-> +       struct fwnode_handle *fwnode = consumer ?: args->fwnode;
->         struct reset_control *rstc = ERR_PTR(-EINVAL);
->         struct reset_controller_dev *rcdev;
->         int rstc_id = -EINVAL;
-> @@ -1154,18 +1155,26 @@ __reset_control_get_from_provider(const struct fwnode_reference_args *args,
->         if (WARN_ON(args->nargs != rcdev->fwnode_reset_n_cells))
->                 return ERR_PTR(-EINVAL);
->
-> -       if (rcdev->of_xlate && is_of_node(consumer)) {
-> -               struct device_node *np = to_of_node(consumer);
-> +       if (rcdev->of_xlate && is_of_node(fwnode)) {
-> +               struct device_node *np = to_of_node(fwnode);
->                 struct of_phandle_args of_args;
->                 int ret;
->
-> -               ret = of_parse_phandle_with_args(np,
-> +               if (consumer) {
-> +                       ret = of_parse_phandle_with_args(np,
->                                          gpio_fallback ? "reset-gpios" : "resets",
->                                          gpio_fallback ? "#gpio-cells" : "#reset-cells",
->                                          gpio_fallback ? 0 : index,
->                                          &of_args);
-> -               if (ret)
-> -                       return ERR_PTR(ret);
-> +                       if (ret)
-> +                               return ERR_PTR(ret);
-> +               } else {
-> +                       of_args.np = of_node_get(np);
-> +                       of_args.args_count = args->nargs;
-> +
-> +                       for (unsigned int i = 0; i < args->nargs; i++)
-> +                               of_args.args[i] = args->args[i];
-> +               }
->
->                 rstc_id = rcdev->of_xlate(rcdev, &of_args);
->                 of_node_put(of_args.np);
-> @@ -1257,6 +1266,24 @@ struct reset_control *__reset_control_get(struct device *dev, const char *id,
->  }
->  EXPORT_SYMBOL_GPL(__reset_control_get);
->
-> +/**
-> + * reset_control_get_from_provider_exclusive - Lookup and obtain an exclusive
-> + *                                            reference to a reset controller.
-> + * @args: Reference to the reset controller provider with all the args like
-> + *       reset number
-> + *
-> + * Returns a struct reset_control or IS_ERR() condition containing errno.
-> + * If this function is called more than once for the same reset control it will
-> + * return -EBUSY.
-> + */
-> +struct reset_control *
-> +reset_control_get_from_provider_exclusive(const struct fwnode_reference_args *args)
-> +{
-> +       return __reset_control_get_from_provider(args, NULL, 0, false,
-> +                                                RESET_CONTROL_EXCLUSIVE);
-> +}
-> +EXPORT_SYMBOL_GPL(reset_control_get_from_provider_exclusive);
-> +
->  int __reset_control_bulk_get(struct device *dev, int num_rstcs,
->                              struct reset_control_bulk_data *rstcs,
->                              enum reset_control_flags flags)
-> diff --git a/include/linux/reset.h b/include/linux/reset.h
-> index 9c391cf0c82298a0..09ee47b27f88d3b1 100644
-> --- a/include/linux/reset.h
-> +++ b/include/linux/reset.h
-> @@ -90,6 +90,8 @@ struct reset_control *__fwnode_reset_control_get(struct fwnode_handle *fwnode,
->                                      const char *id, int index, enum reset_control_flags flags);
->  struct reset_control *__reset_control_get(struct device *dev, const char *id,
->                                           int index, enum reset_control_flags flags);
-> +struct reset_control *reset_control_get_from_provider_exclusive(
-> +                               const struct fwnode_reference_args *args);
->  void reset_control_put(struct reset_control *rstc);
->  int __reset_control_bulk_get(struct device *dev, int num_rstcs,
->                              struct reset_control_bulk_data *rstcs,
-> @@ -173,6 +175,12 @@ static inline struct reset_control *__reset_control_get(
->         return optional ? NULL : ERR_PTR(-ENOTSUPP);
->  }
->
-> +static inline struct reset_control *reset_control_get_from_provider_exclusive(
-> +                               const struct fwnode_reference_args *args)
-> +{
-> +       return NULL;
+On Mon, Aug 24, 2026 at 10:39:29AM -0700, Jonathan Cameron wrote:
+> On Thu, 13 Aug 2026 12:32:58 +0100
+> Sudeep Holla <sudeep.holla@kernel.org> wrote:
+> 
+> > Switch SCMI core plumbing from struct device_node * to struct
+> > fwnode_handle * so the core can describe SCMI instances and protocols using
+> > firmware nodes rather than OF nodes directly.
+> > 
+> > This change:
+> >   - Replaces core OF property lookups with fwnode_property_*() helpers.
+> >   - Switches child enumeration to
+> >     fwnode_for_each_available_child_node_scoped().
+> 
+> Why the scoped version? See inline for more on this.  Probably just needs
+> a comment here (or use the non _scoped variant)
+> 
 
-As reported by Sashiko, this dummy should return ERR_PTR(-ENOTSUPP)
-instead.
+Sure
 
-> +}
-> +
->  static inline int
->  reset_control_bulk_reset(int num_rstcs, struct reset_control_bulk_data *rstcs)
->  {
+> >   - Plumbs fwnode through the SCMI device creation and channel setup paths.
+> >   - Updates transport ->chan_available() callbacks to take a fwnode.
+> >   - Stores per-protocol child fwnodes in info->active_protocols so the core
+> >     can later locate the descriptor for a given protocol ID.
+> >   - Updates mailbox/optee/smc/virtio transports to accept fwnodes and map
+> >     back to OF nodes where their existing parsing remains DT-specific.
+> > 
+> > DT-only transports such as mailbox, OP-TEE and SMC still parse DT
+> > properties by mapping the fwnode back to an OF node. On non-DT systems
+> > these transports report no channel available.
+> > 
+> > This is a mechanical step towards firmware-node neutrality and prepares the
+> > SCMI core for non-DT transports, such as an ACPI/PCC transport. DT users
+> > continue to work unchanged; no non-DT transport is enabled by this patch.
+> > 
+> > Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
+> 
+> A few minor things - with those cleaned up.  Only the cleanup.h one really
+> matters.
+> 
 
-Gr{oetje,eeting}s,
+Fixed now.
 
-                        Geert
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+> 
+> > diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+> > index ef29fd223287..9014723e0f7f 100644
+> > --- a/drivers/firmware/arm_scmi/driver.c
+> > +++ b/drivers/firmware/arm_scmi/driver.c
+> 
+> ...
+> 
+> > @@ -3352,10 +3354,10 @@ static int scmi_probe(struct platform_device *pdev)
+> >  
+> >  	scmi_enable_matching_quirks(info);
+> >  
+> > -	for_each_available_child_of_node(np, child) {
+> > +	fwnode_for_each_available_child_node_scoped(dev_fwnode(dev), child) {
+> 
+> There are no early exits yet and I can't see any added later in the series.
+> So the scoped bit is irrelevant.  I don't mind the change on basis of
+> hardening or similar but it needs a comment in the patch description to 
+> justify that.
+> 
+
+This is mainly to release the reference taken in
+fwnode_get_next_available_child_node(). It is taken explicitly via
+fwnode_handle_get() before scmi_create_protocol_devices() as discussed
+below.
+
+> >  		u32 prot_id;
+> >  
+> > -		if (of_property_read_u32(child, "reg", &prot_id))
+> > +		if (fwnode_property_read_u32(child, "reg", &prot_id))
+> >  			continue;
+> >  
+> >  		if (!FIELD_FIT(MSG_PROTOCOL_ID_MASK, prot_id)) {
+> > @@ -3370,8 +3372,8 @@ static int scmi_probe(struct platform_device *pdev)
+> >  		}
+> >  
+> >  		/*
+> > -		 * Save this valid DT protocol descriptor amongst
+> > -		 * @active_protocols for this SCMI instance/
+> > +		 * Save this valid fwnode protocol descriptor amongst
+> > +		 * @active_protocols for this SCMI instance.
+> >  		 */
+> >  		ret = idr_alloc(&info->active_protocols, child,
+> >  				prot_id, prot_id + 1, GFP_KERNEL);
+> > @@ -3381,7 +3383,7 @@ static int scmi_probe(struct platform_device *pdev)
+> >  			continue;
+> >  		}
+> >  
+> > -		of_node_get(child);
+> > +		fwnode_handle_get(child);
+> >  		scmi_create_protocol_devices(child, info, prot_id, NULL);
+> 
+> Give this is handing over ownership I'd make that explicit and do
+> 
+> 		scmi_create_protcol_devices(fwnode_handle_get(child), info,
+> 					    prot_id, NULL);
+> but that is a slightly unrelated change - so I don't mind if you don't change
+> this one.
+
+Agreed, I can change this if it help readability.
+
+[...]
+
+> 
+> > diff --git a/drivers/firmware/arm_scmi/transports/smc.c b/drivers/firmware/arm_scmi/transports/smc.c
+> > index 1fce3ccdeb7f..1079cd01190b 100644
+> > --- a/drivers/firmware/arm_scmi/transports/smc.c
+> > +++ b/drivers/firmware/arm_scmi/transports/smc.c
+> > @@ -84,10 +84,15 @@ static irqreturn_t smc_msg_done_isr(int irq, void *data)
+> >  	return IRQ_HANDLED;
+> >  }
+> >  
+> > -static bool smc_chan_available(struct device_node *of_node, int idx)
+> > +static bool smc_chan_available(struct fwnode_handle *fwnode, int idx)
+> >  {
+> > -	struct device_node *np __free(device_node) =
+> > -					of_parse_phandle(of_node, "shmem", 0);
+> > +	struct device_node *of_node = to_of_node(fwnode);
+> > +	struct device_node *np __free(device_node) = NULL;
+> 
+> See guidance in cleanup.h.  Basically says constructor and destructor
+> must be together (that was after some grumpy replies from Linus to early
+> cleanup.h users!)
+> 
+
+Thanks, fixed locally now.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Regards,
+Sudeep
