@@ -1,215 +1,88 @@
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0620F470457;
-	Thu,  3 Sep 2026 08:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.200.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171F4362149
+	for <arm-scmi@vger.kernel.org>; Thu,  3 Sep 2026 09:16:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788425708; cv=none; b=V8KLWQcB/+uaB0lMxxT3DJze2TurPPWQr4iQ8I/O1lsdi7HZU7SBSPHJQ6VpinUJHe23E8TV6hszoPhJialy1wtF0q+CK9n7ROJa1Eske9FrTCh8JfZAJy1X0W9N8P9kXjlP+sBdBAd+i6sE/tYAqnKxEmlmEywo12qlzOBu3so=
+	t=1788427007; cv=none; b=QHBZ6/k7fAMPdvrLMen8INFl2vsEEyNYpqIcxWQ/WE+JSKcWF9Xdzu2+i2Vu1vk9s0YYYZAiF88G2oTrbhob0WoTb05oFqDNki7xOyUfTStnnuEdVCfJzWpTky1dqoiy9IVUvFRRQNSNU3gwfzFdqYydt3ijpPXPEOUowGbeADQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788425708; c=relaxed/simple;
-	bh=wLtS0JL6ggyhewZvRL5WF+lOsyPJjm9EeqxYWvK6TXs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Mzer7XAoFjVRh6eay6rpJa2nrdPiufGTtIJSwCV6PiEZZMJKVuiw1iqJ6tLbtABRFN2diqSzMn9eDm/HHF16gXTWPVk9mGHdKkGbn43kG8nei/d3jAeUlfKwDkNevGqunWfMHXEWxiRp7OUgHx5K9RDQpcc0dLvIEgTNBdENHiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.200.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from [IPv6:2a0a:edc0:0:900:1d::4e] (lupine.office.stw.pengutronix.de [IPv6:2a0a:edc0:0:900:1d::4e])
-	(Authenticated sender: pza@pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id C7BAF2058C4;
-	Thu, 03 Sep 2026 10:55:01 +0200 (CEST)
-Message-ID: <f3e365f5440cbd005df45410a89032dcf685258e.camel@pengutronix.de>
-Subject: Re: [PATCH v3 06/12] reset: Extract
- __reset_control_get_from_provider()
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring
- <robh@kernel.org>,  Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Stephen Boyd	 <sboyd@kernel.org>, Brian Masney
- <bmasney+clk@redhat.com>, Jerome Brunet	 <jbrunet+clk@baylibre.com>, Sudeep
- Holla <sudeep.holla@kernel.org>, Cristian Marussi
- <cristian.marussi@arm.com>, Saravana Kannan <saravanak@kernel.org>, Ulf
- Hansson	 <ulfh@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, Marek
- Vasut	 <marek.vasut+renesas@mailbox.org>, Bartosz Golaszewski	
- <bartosz.golaszewski@oss.qualcomm.com>, Konrad Dybcio	
- <konrad.dybcio@oss.qualcomm.com>, Kevin Hilman <khilman@baylibre.com>,
- Vinod Koul <vkoul@kernel.org>, Wolfram Sang
- <wsa+renesas@sang-engineering.com>, Kuninori Morimoto	
- <kuninori.morimoto.gx@renesas.com>, =?ISO-8859-1?Q?Cl=E9ment?= Le Goffic	
- <clegoffic@baylibre.com>
-Cc: devicetree@vger.kernel.org, arm-scmi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Thu, 03 Sep 2026 10:55:01 +0200
-In-Reply-To: <2824c50f77aa287a3555533e4b9760109aae1741.1788338320.git.geert+renesas@glider.be>
-References: <cover.1788338320.git.geert+renesas@glider.be>
-	 <2824c50f77aa287a3555533e4b9760109aae1741.1788338320.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	s=arc-20240116; t=1788427007; c=relaxed/simple;
+	bh=D3iVn5gTaMEay256xAtnGpev25repefslT3gHDSJ6BM=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gZwDSjapMzraJUx2XMBrUXReI9FX08+hE233Y5zdyd8n1EkOy6CO1u6qT5bRJ5yzUmcxlgAVad23YFUMSbqY+ciDGfo3ZYzdi5yetLk/e0ff1Hj7gg7b90+gAvqnIwgm/xiElvzBlzrai9WYypPMdpb72InKo4gI6HSX/aBLcKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZI561hLA; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZI561hLA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B063D1F00A3A
+	for <arm-scmi@vger.kernel.org>; Thu,  3 Sep 2026 09:16:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788427005;
+	bh=rH6JM28W2HcqC5yVdmwj3iVAQeOpLq92KlaDNOyUtDE=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=ZI561hLAsKeZjb8PwSTQvhj81RvIClKwgG26jzHzWhxR+U+9qhAqSPugwM3OqDhEd
+	 zJp+dyFosP7c0PLCtcjj9IB/xcKH/UMfy+BPNNPhLDopy1zIa1BdaT08CwDBAbk4FT
+	 BE614Pwfom/CZhtPRr3a1uR4+ZuHDr4BWJE99H0CgmR+N6LyqWVvi4PkL0OZkHwjUC
+	 WS0rTk+o+2kUONumd6rUpC4hvOtVl34O3lZTvywQgiiM1j4CTH3uKF5n4ZC/jJ3oft
+	 M806RJ/ABNYn8YFdGYCOdFvr4mXFf/FSMB+JYjapt587r1N2dmNnZ7JWpYOPcrXJcC
+	 ekHqH0Wg/j1sw==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5b28c91fba5so1122192e87.1
+        for <arm-scmi@vger.kernel.org>; Thu, 03 Sep 2026 02:16:45 -0700 (PDT)
+X-Gm-Message-State: AFuF++mYihuT9WU0Yp5fTfFP63MZyndz5EiP0ooN7e/0R9ELsdJxh2zZ
+	Dab08qYFwW2slE1tVBzP0CUvElUw51lplruaa3bbhESdjRD2/z/coSJ1gib1LgEp1c8KjFy3t0y
+	oSRxIMhvpFQdCht4NFkON1o5teXJY13Z6tvZcDJCgjw==
+X-Received: by 2002:a05:6512:68e:b0:5b6:10bc:b867 with SMTP id
+ 2adb3069b0e04-5b610c4a488mr479716e87.21.1788427004407; Thu, 03 Sep 2026
+ 02:16:44 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 3 Sep 2026 02:16:42 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 3 Sep 2026 02:16:42 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260902162642.000008d9@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260813-acpi_scmi_pcc-v3-0-cb6b88b4ebb3@kernel.org>
+ <20260813-acpi_scmi_pcc-v3-1-cb6b88b4ebb3@kernel.org> <20260824095121.00001b9c@oss.qualcomm.com>
+ <20260902-tireless-steadfast-mongoose-cccac7@sudeepholla> <20260902162642.000008d9@oss.qualcomm.com>
+Date: Thu, 3 Sep 2026 02:16:42 -0700
+X-Gmail-Original-Message-ID: <CAMRc=MdsNTnZr7wdif_u2Pc_cBaU+qNO=sb-PgNO7brX4cfs_A@mail.gmail.com>
+X-Gm-Features: AcwNN1XJDmdY61Sl0xKdzpCkqFP9MoYPrwivu2XvBWuGWUsj1mtmR24GRCfT5fE
+Message-ID: <CAMRc=MdsNTnZr7wdif_u2Pc_cBaU+qNO=sb-PgNO7brX4cfs_A@mail.gmail.com>
+Subject: Re: [PATCH v3 1/9] firmware: arm_scmi: Set fwnode for the generated
+ SCMI platform device
+To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kernel-team@meta.com, Cristian Marussi <cristian.marussi@arm.com>, 
+	Breno Leitao <leitao@debian.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?B?4oCcUmFmYWVsIEouIFd5c29ja2nigJ0=?= <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Sudeep Holla <sudeep.holla@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mi, 2026-09-02 at 13:29 +0200, Geert Uytterhoeven wrote:
-> Extract the code to create a reset_control structure from a given
-> provider into its own function, so it can be reused later.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v3:
->   - New.
-> ---
->  drivers/reset/core.c | 92 ++++++++++++++++++++++++--------------------
->  1 file changed, 50 insertions(+), 42 deletions(-)
->=20
-> diff --git a/drivers/reset/core.c b/drivers/reset/core.c
-> index 38e189d04d09b270..8af7cd2e8a5029df 100644
-> --- a/drivers/reset/core.c
-> +++ b/drivers/reset/core.c
-> @@ -1135,6 +1135,54 @@ __reset_find_rcdev(const struct fwnode_reference_a=
-rgs *args, bool gpio_fallback)
->  	return NULL;
->  }
-> =20
-> +static struct reset_control *
-> +__reset_control_get_from_provider(const struct fwnode_reference_args *ar=
-gs,
-> +				  struct fwnode_handle *consumer, int index,
-> +				  bool gpio_fallback,
-> +				  enum reset_control_flags flags)
-> +{
-> +	struct reset_control *rstc =3D ERR_PTR(-EINVAL);
-> +	struct reset_controller_dev *rcdev;
-> +	int rstc_id =3D -EINVAL;
-> +
-> +	guard(mutex)(&reset_list_mutex);
-> +
-> +	rcdev =3D __reset_find_rcdev(args, gpio_fallback);
-> +	if (!rcdev)
-> +		return ERR_PTR(-EPROBE_DEFER);
-> +
-> +	if (WARN_ON(args->nargs !=3D rcdev->fwnode_reset_n_cells))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	if (rcdev->of_xlate && is_of_node(consumer)) {
-> +		struct device_node *np =3D to_of_node(consumer);
-> +		struct of_phandle_args of_args;
-> +		int ret;
-> +
-> +		ret =3D of_parse_phandle_with_args(np,
-> +					 gpio_fallback ? "reset-gpios" : "resets",
-> +					 gpio_fallback ? "#gpio-cells" : "#reset-cells",
-> +					 gpio_fallback ? 0 : index,
-> +					 &of_args);
-> +		if (ret)
-> +			return ERR_PTR(ret);
-> +
-> +		rstc_id =3D rcdev->of_xlate(rcdev, &of_args);
-> +		of_node_put(of_args.np);
-> +	} else if (rcdev->fwnode_xlate) {
-> +		rstc_id =3D rcdev->fwnode_xlate(rcdev, args);
-> +	}
-> +	if (rstc_id < 0)
-> +		return ERR_PTR(rstc_id);
-> +
-> +	flags &=3D ~RESET_CONTROL_FLAGS_BIT_OPTIONAL;
+On Thu, 3 Sep 2026 01:26:42 +0200, Jonathan Cameron
+<jonathan.cameron@oss.qualcomm.com> said:
+>>
+>> How about something like this instead of above 2 lines:
+>>
+>> if (is_of_node(dev_fwnode(dev)))
+>> 	platform_device_set_of_node_from_dev(spdev, dev);
+>> else
+>> 	platform_device_set_fwnode(spdev, dev_fwnode(dev));
+>>
+>
+> To me, if the reference counting is useful (and I'm a bit doubtful about that)
+> platform_device_set_fwnode() should be doing it. +CC those who might have
+> more insight on this.
+>
 
-This should stay in __fwnode_reset_control_get().
+I should have that insight. platform_device_set_fwnode() *does* the reference
+counting but it should be used for platform devices created with
+platform_device_alloc().
 
-> +
-> +	scoped_guard(mutex, &rcdev->lock)
-> +		rstc =3D __reset_control_get_internal(rcdev, rstc_id, flags);
-> +
-> +	return rstc;
-
-Just return __reset_control_get_internal(...) directly, the rstc local
-variable is not needed.
-
-> +}
-> +
->  struct reset_control *
->  __fwnode_reset_control_get(struct fwnode_handle *fwnode, const char *id,=
- int index,
->  			   enum reset_control_flags flags)
-> @@ -1142,10 +1190,7 @@ __fwnode_reset_control_get(struct fwnode_handle *f=
-wnode, const char *id, int ind
->  	bool optional =3D flags & RESET_CONTROL_FLAGS_BIT_OPTIONAL;
->  	bool gpio_fallback =3D false;
->  	struct reset_control *rstc =3D ERR_PTR(-EINVAL);
-> -	struct reset_controller_dev *rcdev;
->  	struct fwnode_reference_args args;
-> -	struct of_phandle_args of_args;
-> -	int rstc_id =3D -EINVAL;
->  	int ret;
-> =20
->  	if (!fwnode)
-> @@ -1185,46 +1230,9 @@ __fwnode_reset_control_get(struct fwnode_handle *f=
-wnode, const char *id, int ind
->  		}
->  	}
-> =20
-> -	guard(mutex)(&reset_list_mutex);
-> -
-> -	rcdev =3D __reset_find_rcdev(&args, gpio_fallback);
-> -	if (!rcdev) {
-> -		rstc =3D ERR_PTR(-EPROBE_DEFER);
-> -		goto out_put;
-> -	}
-> -
-> -	if (WARN_ON(args.nargs !=3D rcdev->fwnode_reset_n_cells)) {
-> -		rstc =3D ERR_PTR(-EINVAL);
-> -		goto out_put;
-> -	}
-> -
-> -	if (rcdev->of_xlate && is_of_node(fwnode)) {
-> -		ret =3D of_parse_phandle_with_args(to_of_node(fwnode),
-> -					 gpio_fallback ? "reset-gpios" : "resets",
-> -					 gpio_fallback ? "#gpio-cells" : "#reset-cells",
-> -					 gpio_fallback ? 0 : index,
-
-Hmm, I think this gpio_fallback disambiguation is not needed. In the
-gpio_fallback case (lookup via "reset-gpios") we should always get a
-reset_gpio rcdev with fwnode_xlate, not of_xlate.
-Not an issue for this refactor, though.
-
-> -					 &of_args);
-> -		if (ret) {
-> -			rstc =3D ERR_PTR(ret);
-> -			goto out_put;
-> -		}
-> -
-> -		rstc_id =3D rcdev->of_xlate(rcdev, &of_args);
-> -		of_node_put(of_args.np);
-> -	} else if (rcdev->fwnode_xlate) {
-> -		rstc_id =3D rcdev->fwnode_xlate(rcdev, &args);
-> -	}
-> -	if (rstc_id < 0) {
-> -		rstc =3D ERR_PTR(rstc_id);
-> -		goto out_put;
-> -	}
-> -
-> -	flags &=3D ~RESET_CONTROL_FLAGS_BIT_OPTIONAL;
-
-Keep this here.
-
-> -
-> -	scoped_guard(mutex, &rcdev->lock)
-> -		rstc =3D __reset_control_get_internal(rcdev, rstc_id, flags);
-> +	rstc =3D __reset_control_get_from_provider(&args, fwnode, index,
-> +						 gpio_fallback, flags);
-> =20
-> -out_put:
->  	fwnode_handle_put(args.fwnode);
-> =20
->  	return rstc;
-
-With that,
-
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-
-regards
-Philipp
+Bart
