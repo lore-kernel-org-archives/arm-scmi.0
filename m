@@ -1,88 +1,168 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171F4362149
-	for <arm-scmi@vger.kernel.org>; Thu,  3 Sep 2026 09:16:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3008D360EEE;
+	Thu,  3 Sep 2026 09:54:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788427007; cv=none; b=QHBZ6/k7fAMPdvrLMen8INFl2vsEEyNYpqIcxWQ/WE+JSKcWF9Xdzu2+i2Vu1vk9s0YYYZAiF88G2oTrbhob0WoTb05oFqDNki7xOyUfTStnnuEdVCfJzWpTky1dqoiy9IVUvFRRQNSNU3gwfzFdqYydt3ijpPXPEOUowGbeADQ=
+	t=1788429271; cv=none; b=Ux6SYIfaLGrl+1CsRmV8p8OgaDICij05nncXOIxaMawHZu5TGDgtEtdtV1tXuwdCCgUhiwUmKgW6DNsDj5Eas/wiYRAM7y6H/rv+jFUyzVAV6fQNgtqvGJJQ56cXhCGxK1HIKtkIAaI0pqW17UnwArgh1/VqkybqVafTfHV/SHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788427007; c=relaxed/simple;
-	bh=D3iVn5gTaMEay256xAtnGpev25repefslT3gHDSJ6BM=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gZwDSjapMzraJUx2XMBrUXReI9FX08+hE233Y5zdyd8n1EkOy6CO1u6qT5bRJ5yzUmcxlgAVad23YFUMSbqY+ciDGfo3ZYzdi5yetLk/e0ff1Hj7gg7b90+gAvqnIwgm/xiElvzBlzrai9WYypPMdpb72InKo4gI6HSX/aBLcKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZI561hLA; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZI561hLA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B063D1F00A3A
-	for <arm-scmi@vger.kernel.org>; Thu,  3 Sep 2026 09:16:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788427005;
-	bh=rH6JM28W2HcqC5yVdmwj3iVAQeOpLq92KlaDNOyUtDE=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=ZI561hLAsKeZjb8PwSTQvhj81RvIClKwgG26jzHzWhxR+U+9qhAqSPugwM3OqDhEd
-	 zJp+dyFosP7c0PLCtcjj9IB/xcKH/UMfy+BPNNPhLDopy1zIa1BdaT08CwDBAbk4FT
-	 BE614Pwfom/CZhtPRr3a1uR4+ZuHDr4BWJE99H0CgmR+N6LyqWVvi4PkL0OZkHwjUC
-	 WS0rTk+o+2kUONumd6rUpC4hvOtVl34O3lZTvywQgiiM1j4CTH3uKF5n4ZC/jJ3oft
-	 M806RJ/ABNYn8YFdGYCOdFvr4mXFf/FSMB+JYjapt587r1N2dmNnZ7JWpYOPcrXJcC
-	 ekHqH0Wg/j1sw==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5b28c91fba5so1122192e87.1
-        for <arm-scmi@vger.kernel.org>; Thu, 03 Sep 2026 02:16:45 -0700 (PDT)
-X-Gm-Message-State: AFuF++mYihuT9WU0Yp5fTfFP63MZyndz5EiP0ooN7e/0R9ELsdJxh2zZ
-	Dab08qYFwW2slE1tVBzP0CUvElUw51lplruaa3bbhESdjRD2/z/coSJ1gib1LgEp1c8KjFy3t0y
-	oSRxIMhvpFQdCht4NFkON1o5teXJY13Z6tvZcDJCgjw==
-X-Received: by 2002:a05:6512:68e:b0:5b6:10bc:b867 with SMTP id
- 2adb3069b0e04-5b610c4a488mr479716e87.21.1788427004407; Thu, 03 Sep 2026
- 02:16:44 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 3 Sep 2026 02:16:42 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 3 Sep 2026 02:16:42 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260902162642.000008d9@oss.qualcomm.com>
+	s=arc-20240116; t=1788429271; c=relaxed/simple;
+	bh=EUJoHar3fsxYOKNovivQg730mDMBg0/uZC5chqSYztQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Cm9LIy+y+Q3fNh3yUD2LCF/57j61A2YsYUZFoKjHSbtEwj0jOTcGQGWkEvr0r6Kosu2ENJtZkiCL3Lh3cdDfBN/W4VlD0DQj5MRqTQOqIjCX3/VRYVr/cji3KykGi+skGKptv34SONXE3C34yjXtNxRdj0YfWLCDk0bF9wgiw0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ECD71F000E9;
+	Thu,  3 Sep 2026 09:54:28 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Sudeep Holla <sudeep.holla@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>
+Cc: arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] firmware: arm_scmi: Merge scmi_reset_proto_ops.name_get() and .latency_get()
+Date: Thu,  3 Sep 2026 11:54:25 +0200
+Message-ID: <77c9651a11715013c0eaa8a56dbbc7dc3d9ddeec.1788429130.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260813-acpi_scmi_pcc-v3-0-cb6b88b4ebb3@kernel.org>
- <20260813-acpi_scmi_pcc-v3-1-cb6b88b4ebb3@kernel.org> <20260824095121.00001b9c@oss.qualcomm.com>
- <20260902-tireless-steadfast-mongoose-cccac7@sudeepholla> <20260902162642.000008d9@oss.qualcomm.com>
-Date: Thu, 3 Sep 2026 02:16:42 -0700
-X-Gmail-Original-Message-ID: <CAMRc=MdsNTnZr7wdif_u2Pc_cBaU+qNO=sb-PgNO7brX4cfs_A@mail.gmail.com>
-X-Gm-Features: AcwNN1XJDmdY61Sl0xKdzpCkqFP9MoYPrwivu2XvBWuGWUsj1mtmR24GRCfT5fE
-Message-ID: <CAMRc=MdsNTnZr7wdif_u2Pc_cBaU+qNO=sb-PgNO7brX4cfs_A@mail.gmail.com>
-Subject: Re: [PATCH v3 1/9] firmware: arm_scmi: Set fwnode for the generated
- SCMI platform device
-To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kernel-team@meta.com, Cristian Marussi <cristian.marussi@arm.com>, 
-	Breno Leitao <leitao@debian.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?B?4oCcUmFmYWVsIEouIFd5c29ja2nigJ0=?= <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Sudeep Holla <sudeep.holla@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, 3 Sep 2026 01:26:42 +0200, Jonathan Cameron
-<jonathan.cameron@oss.qualcomm.com> said:
->>
->> How about something like this instead of above 2 lines:
->>
->> if (is_of_node(dev_fwnode(dev)))
->> 	platform_device_set_of_node_from_dev(spdev, dev);
->> else
->> 	platform_device_set_fwnode(spdev, dev_fwnode(dev));
->>
->
-> To me, if the reference counting is useful (and I'm a bit doubtful about that)
-> platform_device_set_fwnode() should be doing it. +CC those who might have
-> more insight on this.
->
+The SCMI reset domain protocol operations structure does not provide a
+.info_get() method, unlike most other protocols.  Instead, it provides
+two separate methods to get a domain's name and reset latency.
 
-I should have that insight. platform_device_set_fwnode() *does* the reference
-counting but it should be used for platform devices created with
-platform_device_alloc().
+Merge the .name_get() and .latency_get() methods into a single
+.info_get() method, to increase uniformity.
 
-Bart
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+There are no callers of the .name_get() and .latency_get() methods.
+---
+ drivers/firmware/arm_scmi/reset.c | 36 ++++++++++---------------------
+ include/linux/scmi_protocol.h     | 13 ++++++-----
+ 2 files changed, 19 insertions(+), 30 deletions(-)
+
+diff --git a/drivers/firmware/arm_scmi/reset.c b/drivers/firmware/arm_scmi/reset.c
+index 4bc5c24c2d72d398..2cdddc28ba47a2b4 100644
+--- a/drivers/firmware/arm_scmi/reset.c
++++ b/drivers/firmware/arm_scmi/reset.c
+@@ -60,8 +60,7 @@ struct scmi_reset_issued_notify_payld {
+ struct reset_dom_info {
+ 	bool async_reset;
+ 	bool reset_notify;
+-	u32 latency_us;
+-	char name[SCMI_MAX_STR_SIZE];
++	struct scmi_reset_domain_info info;
+ };
+ 
+ struct scmi_reset_info {
+@@ -134,10 +133,10 @@ scmi_reset_domain_attributes_get(const struct scmi_protocol_handle *ph,
+ 		if (pinfo->notify_reset_cmd)
+ 			dom_info->reset_notify =
+ 				SUPPORTS_NOTIFY_RESET(attributes);
+-		dom_info->latency_us = le32_to_cpu(attr->latency);
+-		if (dom_info->latency_us == U32_MAX)
+-			dom_info->latency_us = 0;
+-		strscpy(dom_info->name, attr->name, SCMI_SHORT_NAME_MAX_SIZE);
++		dom_info->info.latency_us = le32_to_cpu(attr->latency);
++		if (dom_info->info.latency_us == U32_MAX)
++			dom_info->info.latency_us = 0;
++		strscpy(dom_info->info.name, attr->name, SCMI_SHORT_NAME_MAX_SIZE);
+ 	}
+ 
+ 	ph->xops->xfer_put(ph, t);
+@@ -149,7 +148,7 @@ scmi_reset_domain_attributes_get(const struct scmi_protocol_handle *ph,
+ 	if (!ret && PROTOCOL_REV_MAJOR(ph->version) >= 0x3 &&
+ 	    SUPPORTS_EXTENDED_NAMES(attributes))
+ 		ph->hops->extended_name_get(ph, RESET_DOMAIN_NAME_GET, domain,
+-					    NULL, dom_info->name,
++					    NULL, dom_info->info.name,
+ 					    SCMI_MAX_STR_SIZE);
+ 
+ 	return ret;
+@@ -162,28 +161,16 @@ static int scmi_reset_num_domains_get(const struct scmi_protocol_handle *ph)
+ 	return pi->num_domains;
+ }
+ 
+-static const char *
+-scmi_reset_name_get(const struct scmi_protocol_handle *ph, u32 domain)
++static const struct scmi_reset_domain_info *
++scmi_reset_info_get(const struct scmi_protocol_handle *ph, u32 domain)
+ {
+ 	struct reset_dom_info *dom_info;
+ 
+ 	dom_info = scmi_reset_domain_lookup(ph, domain);
+ 	if (IS_ERR(dom_info))
+-		return "unknown";
+-
+-	return dom_info->name;
+-}
+-
+-static int scmi_reset_latency_get(const struct scmi_protocol_handle *ph,
+-				  u32 domain)
+-{
+-	struct reset_dom_info *dom_info;
+-
+-	dom_info = scmi_reset_domain_lookup(ph, domain);
+-	if (IS_ERR(dom_info))
+-		return PTR_ERR(dom_info);
++		return NULL;
+ 
+-	return dom_info->latency_us;
++	return &dom_info->info;
+ }
+ 
+ static int scmi_domain_reset(const struct scmi_protocol_handle *ph, u32 domain,
+@@ -241,8 +228,7 @@ scmi_reset_domain_deassert(const struct scmi_protocol_handle *ph, u32 domain)
+ 
+ static const struct scmi_reset_proto_ops reset_proto_ops = {
+ 	.num_domains_get = scmi_reset_num_domains_get,
+-	.name_get = scmi_reset_name_get,
+-	.latency_get = scmi_reset_latency_get,
++	.info_get = scmi_reset_info_get,
+ 	.reset = scmi_reset_domain_reset,
+ 	.assert = scmi_reset_domain_assert,
+ 	.deassert = scmi_reset_domain_deassert,
+diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
+index fd2d648964f68f53..06914851c4620979 100644
+--- a/include/linux/scmi_protocol.h
++++ b/include/linux/scmi_protocol.h
+@@ -528,22 +528,25 @@ struct scmi_sensor_proto_ops {
+ 			  u32 sensor_id, u32 sensor_config);
+ };
+ 
++struct scmi_reset_domain_info {
++	char name[SCMI_MAX_STR_SIZE];
++	u32 latency_us;
++};
++
+ /**
+  * struct scmi_reset_proto_ops - represents the various operations provided
+  *	by SCMI Reset Protocol
+  *
+  * @num_domains_get: get the count of reset domains provided by SCMI
+- * @name_get: gets the name of a reset domain
+- * @latency_get: gets the reset latency for the specified reset domain
++ * @info_get: gets the information of the specified reset domain
+  * @reset: resets the specified reset domain
+  * @assert: explicitly assert reset signal of the specified reset domain
+  * @deassert: explicitly deassert reset signal of the specified reset domain
+  */
+ struct scmi_reset_proto_ops {
+ 	int (*num_domains_get)(const struct scmi_protocol_handle *ph);
+-	const char *(*name_get)(const struct scmi_protocol_handle *ph,
+-				u32 domain);
+-	int (*latency_get)(const struct scmi_protocol_handle *ph, u32 domain);
++	const struct scmi_reset_domain_info __must_check *(*info_get)
++		(const struct scmi_protocol_handle *ph, u32 domain);
+ 	int (*reset)(const struct scmi_protocol_handle *ph, u32 domain);
+ 	int (*assert)(const struct scmi_protocol_handle *ph, u32 domain);
+ 	int (*deassert)(const struct scmi_protocol_handle *ph, u32 domain);
+-- 
+2.43.0
+
