@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E525013AC
-	for <arm-scmi@vger.kernel.org>; Fri,  4 Sep 2026 15:59:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F125013CA
+	for <arm-scmi@vger.kernel.org>; Fri,  4 Sep 2026 15:59:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788537580; cv=none; b=XNjPBEiXDsHoQzah6wJG+I7yX9eXV0LmBq7OGESvKJMqUH0KcihyTis4S52spTz0mmeXJEe5swszV+pmJfTrNqbHL1yms6k1yqhdFHf8c15o3AtUVvn5PH/+eeNgTb7wdRW7Vbl0gFstMM4vmxai3j8ps7X84ZijOKb41bo3aaI=
+	t=1788537581; cv=none; b=gsFaHJ4bBLW92enQdmLaRjt8/kfIugTNDf+r00pQgiFJ1tPE8Jh04m0c6PViXCzmDbkK3KG17zYTiPmAOhj14xS0wJNGGD5guWMpI7Rw/+S1ReSsVbyXg3tUAwO9/+LTMdcTUuLltujMZ0wmc20RxTpeHD0ig/KtR6fD6Qz/l9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788537580; c=relaxed/simple;
-	bh=ls6lU0em2JAiNAP+27cWVqpW/BpSBs24Gq8dxV4nQL4=;
+	s=arc-20240116; t=1788537581; c=relaxed/simple;
+	bh=iZOiX66i1fmkS1wbstpVn+r5eJwJn45lKCwRW6bqMRE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fwDEC2Zaw3haBF8xkUNtvgmO9DmI4e7DdqQ59riaETWX2oSQChivIEv5UMk4prPzIV2MKxxdeV/Wc5H/DYML+UNUdBzTeZ65EOAmwZlWoujDpg3Lxa/VheZAJ6tFhkLbd86qE876mhs7WYRi7j6unkOd18EJoodbCgfK18KbWQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LoV+6npU; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=fIzbHZUGhmOZLfeIJskZO9dUgUKvg78Z64GWXw1MGU2LqmE4p2LWN1YD0buKQiHICXsi3ZzLKgQK+QQ72EnlwFTMlWLTSGvSG8X94dDwiCLUrSR8rKgpb+lQ8RpP3fjw7URNLAx5nSVer9xhqFmic0JsflVFdiJgdRbcIYJUSEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q+Lhnicj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LoV+6npU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C21D1F00A3E;
-	Fri,  4 Sep 2026 15:59:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q+Lhnicj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7464D1F0155D;
+	Fri,  4 Sep 2026 15:59:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788537579;
-	bh=8eEzBt5w9dH/8EXW2rlpjud9RALZkOP/eXJPPIgYa1g=;
+	s=k20260515; t=1788537580;
+	bh=fPlUF+jlmhxiJd29b0DUNFcdEsvoJFl2QvVHlxO9hLA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=LoV+6npU3X0tfRsiNWA+pguUTvNwILVq4PEvW2b637t8f4ZYMqq2rRVt+P+8eVqGd
-	 j6iUOZapXILEQgxZUVrab3rzfCWLfNIiZPDbQKiXfBIKQkbn/iIvOf6bd4rgpO0AjF
-	 1S/vyYeW7gICB6Z6G8qMJftLq1lhrlV+1vYgxpGaQPJBccKwlSaRjVFd0oiVgLU9et
-	 7KJfaqvTKGqWs+jA8zIQe0D4+NVTi8UJ7UnobBPhk9N8b51Rf1ak/l9eXwADcGRlxl
-	 W7BKK8HmpssMcpQCZWxXzYUBHCVzNlHEVdY7xE5JqYdDOMUdOPl5t+p4iTebFrgrYg
-	 IATp+wN8huChw==
+	b=Q+LhnicjBHod2Ym6yIRh2BI/PRSJ9XtQtBXQ9ziiY2XA+JAC42sLPzFHTV46YQmP+
+	 pHaYKhrMLvowEKj/uKrq9K2XzkatixuMf3LRwhgViLWrZ8HLm+ZKtdvX1CVQMJc6Wi
+	 G0FZXILOFjVGJGByYXSmNTvl5VzyiMxeZgwRNEOYwbw9d/BvIZQSoDFfZgboZDM6dz
+	 ypxWO1dSnTIuIIeWUYXX6JfsjmF9MzqFelG1miPR1BcWtOO+fpIMn/PPOXjQ5fiLDI
+	 S1wzKmtFYDDBGIIc7lnYqfmCZv0Hs/qn/OycW4Ol1qpFDOLK71UpzY4SL7ztzW5lE5
+	 URn3GEAvb0c6g==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-Date: Fri, 04 Sep 2026 16:57:56 +0100
-Subject: [PATCH v4 1/9] firmware: arm_scmi: Set generated device fwnode
- with platform helpers
+Date: Fri, 04 Sep 2026 16:57:57 +0100
+Subject: [PATCH v4 2/9] firmware: arm_scmi: Extend transport driver macro
+ to support ACPI
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260904-acpi_scmi_pcc-v4-1-6ebe9755606e@kernel.org>
+Message-Id: <20260904-acpi_scmi_pcc-v4-2-6ebe9755606e@kernel.org>
 References: <20260904-acpi_scmi_pcc-v4-0-6ebe9755606e@kernel.org>
 In-Reply-To: <20260904-acpi_scmi_pcc-v4-0-6ebe9755606e@kernel.org>
 To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
@@ -48,38 +48,69 @@ Cc: Cristian Marussi <cristian.marussi@arm.com>,
  Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 X-Mailer: b4 0.16.0
 
-The SCMI transport probe helper creates a platform device for the SCMI
-core. device_set_of_node_from_dev() propagates the supplier's OF node,
-but leaves generated devices for non-DT transports without a firmware
-node.
+Extend the SCMI transport driver helper to support ACPI-based systems.
+Introduce an internal helper macro that accepts both OF and ACPI match
+tables, and expose two wrappers:
 
-Use platform_device_set_of_node_from_dev() for devicetree suppliers so
-the shared OF node is referenced and marked as reused. For all other
-suppliers, use platform_device_set_fwnode() so ACPI and other firmware
-nodes are propagated with a reference that platform_device_release()
-can balance.
+  - DEFINE_SCMI_TRANSPORT_DRIVER(...) for DT/OF transports
+  - DEFINE_SCMI_ACPI_TRANSPORT_DRIVER(...) for ACPI transports
 
+For ACPI, set the generated platform_driver .acpi_match_table via
+ACPI_PTR(). The ACPI wrapper relies on the firmware-node propagation
+provided by the preceding change so fwnode lookups on the spawned
+platform device see the correct firmware description.
+
+Keep existing DT users unchanged while allowing transports to be probed
+using struct acpi_device_id tables on ACPI platforms.
+
+Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
 ---
- drivers/firmware/arm_scmi/common.h | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/firmware/arm_scmi/common.h | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-index fe8c22cfb9f7..244f4ee5b655 100644
+index 244f4ee5b655..f172ec9a054b 100644
 --- a/drivers/firmware/arm_scmi/common.h
 +++ b/drivers/firmware/arm_scmi/common.h
-@@ -649,7 +649,10 @@ static int __tag##_probe(struct platform_device *pdev)			       \
- 		goto err_mem;						       \
- 	}								       \
- 									       \
--	device_set_of_node_from_dev(&spdev->dev, dev);			       \
-+	if (dev_of_node(dev))						       \
-+		platform_device_set_of_node_from_dev(spdev, dev);	       \
-+	else								       \
-+		platform_device_set_fwnode(spdev, dev_fwnode(dev));	       \
- 									       \
- 	strans.supplier = supplier;					       \
- 	memcpy(&strans.desc, &(__desc), sizeof(strans.desc));		       \
+@@ -9,6 +9,7 @@
+ #ifndef _SCMI_COMMON_H
+ #define _SCMI_COMMON_H
+ 
++#include <linux/acpi.h>
+ #include <linux/bitfield.h>
+ #include <linux/completion.h>
+ #include <linux/device.h>
+@@ -615,7 +616,8 @@ struct scmi_transport_supplier __supplier = {			\
+ 	.th.supplier_put = scmi_transport_supplier_put,		\
+ }
+ 
+-#define DEFINE_SCMI_TRANSPORT_DRIVER(__tag, __drv, __desc, __match, __core_ops)\
++#define __DEFINE_SCMI_TRANSPORT_DRIVER(__tag, __drv, __desc, __of_match,       \
++					__acpi_match, __core_ops)	       \
+ static void __tag##_dev_free(void *data)				       \
+ {									       \
+ 	struct platform_device *spdev = data;				       \
+@@ -681,11 +683,18 @@ err_mem:								       \
+ static struct platform_driver __drv = {					       \
+ 	.driver = {							       \
+ 		   .name = #__tag "_transport",				       \
+-		   .of_match_table = __match,				       \
++		   .of_match_table = __of_match,			       \
++		   .acpi_match_table = ACPI_PTR(__acpi_match),		       \
+ 		   },							       \
+ 	.probe = __tag##_probe,						       \
+ }
+ 
++#define DEFINE_SCMI_TRANSPORT_DRIVER(__tag, __drv, __desc, __match, __core_ops)\
++	__DEFINE_SCMI_TRANSPORT_DRIVER(__tag, __drv, __desc, __match, NULL, __core_ops)
++
++#define DEFINE_SCMI_ACPI_TRANSPORT_DRIVER(__tag, __drv, __desc, __match, __core_ops)\
++	__DEFINE_SCMI_TRANSPORT_DRIVER(__tag, __drv, __desc, NULL, __match, __core_ops)
++
+ void scmi_notification_instance_data_set(const struct scmi_handle *handle,
+ 					 void *priv);
+ void *scmi_notification_instance_data_get(const struct scmi_handle *handle);
 
 -- 
 2.43.0
