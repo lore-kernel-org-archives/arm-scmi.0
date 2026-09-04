@@ -1,103 +1,87 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3AA3391505
-	for <arm-scmi@vger.kernel.org>; Fri,  4 Sep 2026 10:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F107483807;
+	Fri,  4 Sep 2026 13:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788518260; cv=none; b=lbwfGMCBpHml95hY2udoduCGyGU+xY/toKz/RRQVvEX2/E4/dDE4vpgycDizkxlVqwqpLEMfakXgbhNxmnOOE7LBZERu5Z5fuG88MKnPpGNft7sxtP78E9/zkg2UKrCsn0NlEsP9Bas7Ni9Svvqsr6X+LQVebTdlCE+szpszhrg=
+	t=1788528043; cv=none; b=HGxN08Ok3tRJ+haipuVAzYXTh2LtmTcbB0Njr3ZyiyEZxXIlMhnZQSLqWoHO1AdcXfFPvGx3oy6H5eBcMTqHwnvfiiXn0y2H4xmQ5cZatbvjzfmb+fucO3bK5sdDQMKG4d9RZXvaXnb3gHNU+mIOJiaEUxv9y9W0ELaJK/HwjH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788518260; c=relaxed/simple;
-	bh=eCdrtFx92LOvn3zRMQuQf4je2cLrF15KZh5gW8zQuIE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SxUmWG072ReaNWZNS5LnnBLy+pIRA94AUzQeMcgTts7bR9Dabv64fPMXv0DwR2eIHtwM4NHk68Eu0n2lPaf2ljNcqorsnjQxdGxqt9huvsjL84I17F4N/MHMrSKUnSu9sBLH+fdf86eJPJe51OSn8ZV/d4kMNCXnj4Uv9au9qvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SlYxKtj9; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788528043; c=relaxed/simple;
+	bh=JgsVJkkuUNsIQvTAAtDOAZoHx7waSpZu3hYvA5Sl09s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fg0YAqwlR+7fymhhdiXzTKa+dXUamYliqjLIRJUQ7w9DQQb8LCdG4MdNwaQzM2crihvgmFMTKEOlLIM+YoSM4Ww13uPCgJk3mjd7v9bjMc/3a6oa94qv/xOoiJ+EAscc4BsU3CyrnErQIV6SvhpMNfwIM9BkukktRF9tFUIg7cI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B2PJYSCX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SlYxKtj9"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cc1c3d79b9bso754511a12.3
-        for <arm-scmi@vger.kernel.org>; Fri, 04 Sep 2026 03:37:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788518258; x=1789123058; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=BZQsFKP4jMyXxxqQrP5SytFPA0wlD3KzFUOMPf1X4dk=;
-        b=SlYxKtj94Rab66TfgjWSv/MPtQn2i05vzsOQ6uZOiyHN+oVk7DJH0QGXv/8+P5odLx
-         9QPgl3nkGvCTPL9NqvB1MWPOHhAb1fAD7Ol5+fMSMSJjqXCwlasohULQmEpQLBh7G34O
-         xFI/P69MFfAToAs4eHJc5eiL288W8Z06rreJyhNDP5uNDuPWrYHTGM+OSjApIFf8NT3Q
-         crumnodRjguprXT46p4fh0iZcBAPGtZl/a47meiOdWzDzQ2VTtYuoW/Z80VliWf86N6s
-         HuEzsCVl5h3nR3ILxxiMnCOC+mdBPKlsgYGRmYtiZrDu3cH0XkZQwH1auRMH2b01FluZ
-         Zj0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788518258; x=1789123058;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=BZQsFKP4jMyXxxqQrP5SytFPA0wlD3KzFUOMPf1X4dk=;
-        b=HBce+lE+Wim2rueXQEfznwi50NwT0hp4TWcyW2fpNaskZnxs8IfzBqxdGPxcr8adVw
-         2WLNSnQruNJjwQ+ViWnCDQAKXkmI2Z5F/g5h+0/CBbiqtdxndNDttaKhxsVVqm4aKfud
-         7N3lmpyMfrkarMxZYEmiS1hW38PbTY+t3Mex5WgGdHat7sA+ygZEJWFtjxPU6ymLisVJ
-         ikUvZmlx8iBR0YVKgO89+PkshQupOmkmQm6FJvpWqxf+i9199sURmu0DxoaAQoUO9jnm
-         zHubtl06msJk0Zl7faykMB+T9dNUL6a6Kh3aH674MDlEA44rBSbebd7GH03bsxoo44JP
-         /oxQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwx5j6rUR2sad9KYjyMqpO3NDwJxf63mXl4ulbyDK4JFf2UVi/70D7Ge5F4Mr2oPRKVCEKjuINpzg==@vger.kernel.org
-X-Gm-Message-State: AFuF++ldmXG2ttGZO6M8GHmZbrpkeaC1vP/TX3uQqCL54Vg2tQfoc9YE
-	owEb6sPnQW3D6MIRtmND9peWP/RQ20kywJb124ihP3aEEz0WP8Y4lvf0
-X-Gm-Gg: AYBFou20D1kTGq+5+z652AtllOqpNKalgDfYQwwIrpdhTNwBNOGpm6udZUoG0N3LoHE
-	z6Wprz5zElAZE+wuBV1IUo2IEVBO/RJU1qpNGk75M8qFR5uU2iJ0b+rLV6kzBLB6UHYB8nXNxWJ
-	KFrRmzx6vKDFXCcXyoT4WvWKRizgck5YEhuDC32Hbdzi8IzhJgqnopxI89QDcGK0gsnerfuF5a3
-	J0ba3fqfp1KUWlljdCikPP3D8iRgpImchJxiftwjWJYw5+r7/Fj00I0muPC6vxQwNwm/KQ/82rx
-	nbRnDzr9WB9TWZ+yXyzgJcL2iz0s5FrJgAuxMJxBY0HXDoF269sL8rJxYaoFLXiLYyUKpTeEcwO
-	4wT2gqx5ifEExiiCcqdvEM4f+i2jWQqlScNubw5qiOG4kAF998+veqMR6yK2vHB/IlP8/hBDRpO
-	EREcZLvFtl+9D9A0nciBrxPPMEbsgxZ9kCbpUAMMN0m7u/aQr22797WKtFhjnZ5EzmNtRYIkBox
-	uceYPvpg50zx5E=
-X-Received: by 2002:a17:90b:17cd:b0:38f:aab1:5148 with SMTP id 98e67ed59e1d1-39b26272b4dmr6804930a91.13.1788518257765;
-        Fri, 04 Sep 2026 03:37:37 -0700 (PDT)
-Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339b9f68e4sm5981325eec.24.2026.09.04.03.37.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 03:37:37 -0700 (PDT)
-From: Hemanth Selam <hemanth.selam@gmail.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org,
-	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] firmware: arm_scmi: fix typo "upto" in comment
-Date: Fri,  4 Sep 2026 16:07:31 +0530
-Message-ID: <20260904103732.7320-1-hemanth.selam@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B2PJYSCX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AA3E1F00A3D;
+	Fri,  4 Sep 2026 13:20:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788528037;
+	bh=hgNMv2NMaBRn192MXktM2p886ZVWCVbNLII+lS9uSEI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=B2PJYSCXyONed+eHGO8p2FM1WjRzlc0A9jf7Sdl+LEfO8nigoleWGXilcLEERRwXW
+	 e1OAmzmGRB4cZ9Jj5Ms6iwBn0o6PgGfJuXZTiWwjRLT7m0tV4w9ucWb9yzsxJvF7rl
+	 NLGOJWAOFJyvS/7ndMbJUosJzmflczp3tx4ilzPhfiKRP+Qolb4HqkAZpCgDZaFety
+	 KMvJtABYHiv8xJRGv2i+nX3uNlLz7Dv5oDniZ2nM+nkISmG3cAhN19qXoFwJ6HjNbD
+	 Mf9h6SXv0CK4alBagmCUg923o1h//pvEWisiD+kE5cMLggBSgPdBshYHbQtEwrJ5v9
+	 d42FWG7Nd2iLA==
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: arm-scmi@vger.kernel.org,
+	Xixin Liu <liuxixin@kylinos.cn>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>,
+	cristian.marussi@arm.com,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] firmware/clk: arm_scpi hardening (leak, OPP bounds, cpufreq)
+Date: Fri,  4 Sep 2026 14:20:31 +0100
+Message-ID: <178852798387.330796.10489318614485340307.b4-ty@b4>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.v2.1785200642.git.liuxixin@kylinos.cn>
+References: <cover.v2.1785200642.git.liuxixin@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Correct "upto" to "up to", reported by scripts/checkpatch.pl using the
-misspelling list in scripts/spelling.txt.  Only touches comments, no code
-changes.
+On Tue, 28 Jul 2026 09:04:02 +0800, Xixin Liu wrote:
+> Thanks for reviewing v1.
+> 
+> This v2 hardens the OF SCPI firmware and clock paths against a few
+> real defects found while reviewing linux-next:
+> 
+>   1) device_node leak in scpi_dev_domain_id() after
+>      of_parse_phandle_with_args()
+>   2) DVFS OPP count from SCP trusted beyond MAX_DVFS_OPPS (OOB read /
+>      bad OPP table size)
+>   3) DVFS index used as clock rate without an upper bound check
+>   4) scpi-cpufreq registered once only, and cleared on register failure
+>      so remove() does not unregister an ERR_PTR
+>   5) use PLATFORM_DEVID_NONE instead of bare -1 for the scpi-cpufreq
+>      platform device id (readability; Fixes the original registration)
+> 
+> [...]
 
-Assisted-by: Cursor:claude-opus-5
-Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
----
- drivers/firmware/arm_scmi/driver.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to sudeep.holla/linux (for-next/scmi/fixes), thanks!
 
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index ef29fd223287..fb45b8e6459d 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -477,7 +477,7 @@ void *scmi_notification_instance_data_get(const struct scmi_handle *handle)
-  *  - exactly 'next_token' may be NOT available so pick xfer_id >= next_token
-  *    using find_next_zero_bit() starting from candidate next_token bit
-  *
-- *  - all tokens ahead upto (MSG_TOKEN_ID_MASK - 1) are used in-flight but we
-+ *  - all tokens ahead up to (MSG_TOKEN_ID_MASK - 1) are used in-flight but we
-  *    are plenty of free tokens at start, so try a second pass using
-  *    find_next_zero_bit() and starting from 0.
-  *
+[1/5] firmware: arm_scpi: fix device_node leak in scpi_dev_domain_id
+      https://git.kernel.org/sudeep.holla/c/65320b642025
+[2/5] firmware: arm_scpi: reject DVFS OPP count above MAX_DVFS_OPPS
+      https://git.kernel.org/sudeep.holla/c/32471d84a487
+[3/5] clk: scpi: bound-check DVFS index in scpi_dvfs_recalc_rate
+      https://git.kernel.org/sudeep.holla/c/70f4b78d560e
+[4/5] clk: scpi: register scpi-cpufreq once and clear on failure
+      https://git.kernel.org/sudeep.holla/c/ab06cf8152da
+[5/5] clk: scpi: use PLATFORM_DEVID_NONE for scpi-cpufreq
+      https://git.kernel.org/sudeep.holla/c/86d923a882f4
 -- 
-2.48.1
+Regards,
+Sudeep
 
