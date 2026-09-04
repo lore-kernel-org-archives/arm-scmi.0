@@ -1,47 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F107483807;
-	Fri,  4 Sep 2026 13:20:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760F3314B66;
+	Fri,  4 Sep 2026 13:22:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788528043; cv=none; b=HGxN08Ok3tRJ+haipuVAzYXTh2LtmTcbB0Njr3ZyiyEZxXIlMhnZQSLqWoHO1AdcXfFPvGx3oy6H5eBcMTqHwnvfiiXn0y2H4xmQ5cZatbvjzfmb+fucO3bK5sdDQMKG4d9RZXvaXnb3gHNU+mIOJiaEUxv9y9W0ELaJK/HwjH8=
+	t=1788528123; cv=none; b=BBJp8B/M4fj/h1U6VVTt4CnHdZDxa9Or5oJWFKnKwUn3+qKXbHhN9UsfXy0rF+1ZWD9btdxIRc0KSYJUN6MnQyaYAt08oRerERlV6/APj1lDDmRVPEU9iRdsdBsUebqQWF99nN1ovrA6JHJmybxqgl73Q4Wx+N22RDi3IeTB5gM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788528043; c=relaxed/simple;
-	bh=JgsVJkkuUNsIQvTAAtDOAZoHx7waSpZu3hYvA5Sl09s=;
+	s=arc-20240116; t=1788528123; c=relaxed/simple;
+	bh=3IgsMSMJtkfbSZ6jI7v3Pt6+i682HZ6OkwWxO9ZGfI4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fg0YAqwlR+7fymhhdiXzTKa+dXUamYliqjLIRJUQ7w9DQQb8LCdG4MdNwaQzM2crihvgmFMTKEOlLIM+YoSM4Ww13uPCgJk3mjd7v9bjMc/3a6oa94qv/xOoiJ+EAscc4BsU3CyrnErQIV6SvhpMNfwIM9BkukktRF9tFUIg7cI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B2PJYSCX; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=rTi2jfQxOBEyExY3xQltDvkEXoYr0Q2WbA8KCpgMbwqrHn1zlSuYFywwSVsrl13kUpAicwnJRvCpH5bjXERB1K+3FEC1JClDToxIhB+UB+2FrUdNQPjdJ1VZnB/lEBp5Pc37wMG/ne+7rVUslGSe7UgCWTNDATel6MAE0C3ux2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B6PmqizP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B2PJYSCX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AA3E1F00A3D;
-	Fri,  4 Sep 2026 13:20:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B6PmqizP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 991851F00A3D;
+	Fri,  4 Sep 2026 13:22:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788528037;
-	bh=hgNMv2NMaBRn192MXktM2p886ZVWCVbNLII+lS9uSEI=;
+	s=k20260515; t=1788528121;
+	bh=v7pDuV/Jf/i3qKGKWxIBonJVYIXnOz5csNFqkw/ubSY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=B2PJYSCXyONed+eHGO8p2FM1WjRzlc0A9jf7Sdl+LEfO8nigoleWGXilcLEERRwXW
-	 e1OAmzmGRB4cZ9Jj5Ms6iwBn0o6PgGfJuXZTiWwjRLT7m0tV4w9ucWb9yzsxJvF7rl
-	 NLGOJWAOFJyvS/7ndMbJUosJzmflczp3tx4ilzPhfiKRP+Qolb4HqkAZpCgDZaFety
-	 KMvJtABYHiv8xJRGv2i+nX3uNlLz7Dv5oDniZ2nM+nkISmG3cAhN19qXoFwJ6HjNbD
-	 Mf9h6SXv0CK4alBagmCUg923o1h//pvEWisiD+kE5cMLggBSgPdBshYHbQtEwrJ5v9
-	 d42FWG7Nd2iLA==
+	b=B6PmqizP828Mtb3D+WRROf1OoLbIhnqUF7IfT4QVq+fsaKr76SlAW0gD1lyLn/T+D
+	 hkYjVHoyfGGocaIkvodwQ7F6OTFbNwWqk7ppOqPd6Z9ywbA3pbMbODWj5w5hkanzgL
+	 hjRHc3mdn0oziY1EVmzm0G5/W7ztOKIvxSb+XhDishw+gMV6IvkY+tt6zgps7z7yTg
+	 d4LNBT/5h4XHM4rL0imbIh0GPkqTuSl/ewJCl2M3qdJjn7WEKEwek9UT8tlwDg6jS8
+	 uOvG7l5DNqyJGdomZ/f5rsMz/i2B1GjM4+gC6ir2jpp3gShYHaBKZdUr1ewl4OMH1T
+	 nZLrTrIwJIh1A==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-To: arm-scmi@vger.kernel.org,
-	Xixin Liu <liuxixin@kylinos.cn>
+To: Cristian Marussi <cristian.marussi@arm.com>,
+	Hemanth Selam <hemanth.selam@gmail.com>
 Cc: Sudeep Holla <sudeep.holla@kernel.org>,
-	cristian.marussi@arm.com,
-	mturquette@baylibre.com,
-	sboyd@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] firmware/clk: arm_scpi hardening (leak, OPP bounds, cpufreq)
-Date: Fri,  4 Sep 2026 14:20:31 +0100
-Message-ID: <178852798387.330796.10489318614485340307.b4-ty@b4>
+	linux-kernel@vger.kernel.org,
+	arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] firmware: arm_scmi: fix typo "upto" in comment
+Date: Fri,  4 Sep 2026 14:21:55 +0100
+Message-ID: <178852808698.331840.17304144326321992215.b4-ty@b4>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.v2.1785200642.git.liuxixin@kylinos.cn>
-References: <cover.v2.1785200642.git.liuxixin@kylinos.cn>
+In-Reply-To: <20260904103732.7320-1-hemanth.selam@gmail.com>
+References: <20260904103732.7320-1-hemanth.selam@gmail.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -51,36 +48,15 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, 28 Jul 2026 09:04:02 +0800, Xixin Liu wrote:
-> Thanks for reviewing v1.
-> 
-> This v2 hardens the OF SCPI firmware and clock paths against a few
-> real defects found while reviewing linux-next:
-> 
->   1) device_node leak in scpi_dev_domain_id() after
->      of_parse_phandle_with_args()
->   2) DVFS OPP count from SCP trusted beyond MAX_DVFS_OPPS (OOB read /
->      bad OPP table size)
->   3) DVFS index used as clock rate without an upper bound check
->   4) scpi-cpufreq registered once only, and cleared on register failure
->      so remove() does not unregister an ERR_PTR
->   5) use PLATFORM_DEVID_NONE instead of bare -1 for the scpi-cpufreq
->      platform device id (readability; Fixes the original registration)
-> 
-> [...]
+On Fri, 04 Sep 2026 16:07:31 +0530, Hemanth Selam wrote:
+> Correct "upto" to "up to", reported by scripts/checkpatch.pl using the
+> misspelling list in scripts/spelling.txt.  Only touches comments, no code
+> changes.
 
 Applied to sudeep.holla/linux (for-next/scmi/fixes), thanks!
 
-[1/5] firmware: arm_scpi: fix device_node leak in scpi_dev_domain_id
-      https://git.kernel.org/sudeep.holla/c/65320b642025
-[2/5] firmware: arm_scpi: reject DVFS OPP count above MAX_DVFS_OPPS
-      https://git.kernel.org/sudeep.holla/c/32471d84a487
-[3/5] clk: scpi: bound-check DVFS index in scpi_dvfs_recalc_rate
-      https://git.kernel.org/sudeep.holla/c/70f4b78d560e
-[4/5] clk: scpi: register scpi-cpufreq once and clear on failure
-      https://git.kernel.org/sudeep.holla/c/ab06cf8152da
-[5/5] clk: scpi: use PLATFORM_DEVID_NONE for scpi-cpufreq
-      https://git.kernel.org/sudeep.holla/c/86d923a882f4
+[1/1] firmware: arm_scmi: fix typo "upto" in comment
+      https://git.kernel.org/sudeep.holla/c/44caf1844a25
 -- 
 Regards,
 Sudeep
