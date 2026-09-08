@@ -1,247 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A30213812FE;
-	Tue,  8 Sep 2026 19:37:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DAB43E40F5;
+	Tue,  8 Sep 2026 20:12:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788896280; cv=none; b=Ymk4GvWpspdDvSEN6jQb10VVmxu5AAiwRjEda5aeXKcGEX//Sset70s1+3MfsSgIojZ0LrBSQFWZfOmtD+UIicc3WBiEJfJAB0blx5NAxgITK1V4XVxQAOkl+/bcBvPREMtdg8KwRyEhw3pTIY3BAbwAK1EQICjBo0ZgaNY2Ksw=
+	t=1788898344; cv=none; b=rqp21kVfqgF13s0zUOWh5q+r5SDAKhmWiN0QNPeDZh+ZiK78XX5DQ6jpLLCB4bzyKd5wIC3k/mRvbbiSFz7Kh0cyvIo8TFWRHyY7aeONkdAKt4WXPh5cg4Xa3QE0AdETFSpcRLV91pQLfNh0V4FZ/Zl7oFRD71kwN0y6tjhf2x8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788896280; c=relaxed/simple;
-	bh=2qk0fy8BaA5H2eULjkDkeUiAjpBmUTLpUODBkGZ+mHk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SA4oLx0HWBuecTMZ/i9PQf+mAVkcLaDdMSk0eMzjjxW6NDXzmGPZxmy/MMQVN+/ytJmjk70v5deFBqCpN2MqqQAruVBYq0FlKPGey1yxATr0aqI3x0dNKHicuGSuMRTD5oavAiGab9Y6w33XTHo2Ced77h+fP38O6oXQHW8/iVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LxLO7Ylh; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788898344; c=relaxed/simple;
+	bh=wBuPzoKpM+zpy8hbBII3PlrgCbDu1TYCJkrjxFrZJ2c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JQFYYnE5pOqQTom7Y21I8fpmoUwpeenv4WNRBT33Y128k6ZSCYMYj/y2c2u4vrJzKRvIISPHYp3zjzus1sXK3AQ0cFQ86cxTxLkoRniQiMUE6tIf9DyFoANbydmdQhKdRM29k2sXK9XARx3kSJ4ARosuGehur4LnGLRtesDmwPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ULmnvtvX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LxLO7Ylh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FEFD1F00A3F;
-	Tue,  8 Sep 2026 19:37:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ULmnvtvX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 230951F00A3D;
+	Tue,  8 Sep 2026 20:12:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788896278;
-	bh=dqsuwEOibNCoxL+MY+KJcXPDxVwv27f/BtLbRZm4oLA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LxLO7YlhfkJ6kIOGDGZ5nSoikZlhH+iKssK96nrIO7LPlq5q0K2Xj6+A/pa9/a+RX
-	 MwPsws+1FTtge8362AgmAZRufc0hEQRFbUOUzwWcXHmJoIGnTqVfoWQPyV0JRvyvOs
-	 VmHenITvMjztqR/lCdFgSN/laLJDqebEOreLQId8H6kDq8mW2kpJlDTe+W6KqaHwWZ
-	 p+rR+msrIozKsAIdEu/QhUHnJKjr+snX2BjbUYougfQxRLPy6wTgLdGNR0Kn7VbpER
-	 Up1n5Q6hbMAqpZj1QlHWmyJkUyZ97Ej44ohBwdTHv5XiCehhhnrnKV33ex8bzFWzEm
-	 ddml7G1VkX4Cg==
-Date: Tue, 8 Sep 2026 20:37:52 +0100
+	s=k20260515; t=1788898343;
+	bh=gwQNucgdxcw2xaZoUzt8fjy3dhGHdMi9HJkfZPr1mCU=;
+	h=From:To:Cc:Subject:Date;
+	b=ULmnvtvXbDj0LU0MoJUty1kIDEUyjF0WebZxLtJn+xd9gC+G4AV1T8yB2y7XjVUuu
+	 XWdux3ddf/fbY7xt0Mg+0CzHB2V+Clyd0LoRGSBzLVN9IUDYVQenLTLjX6AaW9Fzm8
+	 9vxFRrY9XS3rpT2a6MS3jaEoPhDzQcoCJRv2fhTCKMnmG8dIktrYJVGGbpAg5rWrFW
+	 AJDn2Z4SMeVdmE9GIRekxICi6bLAnPHRqxbjNMlIpWwrmwm4IcQxSnKJhwTLUlXeDZ
+	 iuRZ8J+BdNu96UlmWePMjw2LKbMv1mCHZo7xnf+MJ65GcR420QMtngExqria/ahZhE
+	 7FWTdGHiTSjcw==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-To: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
-Cc: Pragnesh Papaniya <pragnesh.papaniya@oss.qualcomm.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rajendra Nayak <rajendra.nayak@oss.qualcomm.com>,
-	Pankaj Patil <pankaj.patil@oss.qualcomm.com>,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH RFC 01/10] firmware: arm_scmi: Add SCMI QCOM Generic
- Extension Protocol documentation
-Message-ID: <20260908-optimal-alpaca-of-justice-f55bba@sudeepholla>
-References: <20260724-rfc_v8_scmi_memlat-v1-0-cb732bcff1f4@oss.qualcomm.com>
- <20260724-rfc_v8_scmi_memlat-v1-1-cb732bcff1f4@oss.qualcomm.com>
- <20260724-crouching-starfish-of-apotheosis-d1cdf8@sudeepholla>
- <f39b2be0-b6d6-43a6-a412-44ff433c51f6@oss.qualcomm.com>
- <20260813-remarkable-handsome-heron-e99e78@sudeepholla>
- <fb0ad185-8989-48a9-86b4-9c765788febf@oss.qualcomm.com>
+To: SoC Team <soc@lists.linux.dev>,
+	arm-scmi@vger.kernel.org,
+	ALKML <linux-arm-kernel@lists.infradead.org>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>,
+	Arnd Bergmann <arnd@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [GIT PULL] firmware: arm_scmi/ffa: Fixes for v7.3
+Date: Tue,  8 Sep 2026 21:12:14 +0100
+Message-ID: <20260908201216.2993544-1-sudeep.holla@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fb0ad185-8989-48a9-86b4-9c765788febf@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 20, 2026 at 01:26:57AM +0530, Sibi Sankar wrote:
-> 
-> On 8/13/2026 12:48 PM, Sudeep Holla wrote:
+Hi ARM SoC Team,
 
-[...]
+Please pull !
 
-> > The current rationale isn't entirely clear to me. Windows historically favors
-> > ACPI over native SCMI, meaning that supporting a proprietary vendor protocol
-> > would require non-native workarounds potentially hidden within interfaces like
-> > PEP. I am skeptical of this architectural direction. Since Android leverages
-> 
-> In an ideal world maybe but transition for all SoC capabilities to ACPI is
-> rarely that smooth and they do use the PEP interface.
-> 
-
-Well I agree, then we shouldn't be bringing up the topic of OS agnostic
-firmware as that is not a reality on the platforms we are talking about
-then ?
-
-> > the Linux kernel and already manages this through vendor modules, maintaining
-> > those as modules seems like the optimal path until we agree on the interface
-> > that can be merged.
-> > 
-> > Given that this patch series has been under discussion for nearly two years,
-> > please provide a summary of the feedback that has already been incorporated
-> > to address these concerns just for sake of argument and in your defence.
-> > 
-> > To clarify, the vendor protocol space is strictly intended for
-> > platform-specific functionalities that cannot be standardized; it should not
-> > be used to bypass standardization for convenience. It appears no evaluation
-> > was done to determine if or why the standard performance protocol was
-> > insufficient. Had that assessment occurred, I would expect the proposed
-> > interface to align much more closely with the standard definitions as I
-> > previously mentioned.
-> 
-> The design might seem contrived at the moment but it was still largely
-> shaped by the SCMI specification. There is a literally a 6-7 year window between
-> SCMI landing in mainline and the first mention of the vendor protocol identifiers
-> being re-useable between SoC vendors [1]. This largely shaped how Qualcomm
-
-[1] shows the date as 2024, so 6-7 years is bit of exaggeration IMO.
-
-> used vendor protocol. The first instance of vendor protocol was a straight
-> forward vendor protcol implementing just MEMLAT [2] but the sudden rise in
-> the number of protocol eating up vendor protocol space made them club
-> together the class of devfreq algorithms into a singular generic extension
-> protocol.
->
-
-I fully understand that this interface is already deployed in firmware and
-that changing that firmware ABI may no longer be practical. However, I
-think we need to separate two things: supporting an existing firmware ABI
-and accepting that ABI as the abstraction exposed through the upstream SCMI
-framework.
-
-The former is a compatibility constraint for Qualcomm platforms. The latter
-is an upstream interface and maintainability decision, and the existence of
-deployed firmware cannot by itself determine that decision.
-
-> "deliberated attempt to circumvent the standard SCMI protocol template"
-
-This was specifically targeted for having performance related tunables
-outside of PERF protocol. If that is not possible, then I take back that
-statement.
-
-> "expectation of immediate acceptance without modification"
-> 
-> I gather that ^^ are the major objections to the current series landing but
-> sadly none of these were raised during this 2 year period and this protocol
-> even had a "Reviewed-by" from the only other reviewer listed [3]. We
-> promised to fix all the concerns raised [4] in the next major/minor version upgrade
-> [5].
-
-It is common for intermediate versions to receive Reviewed-by tags, but those
-do not necessarily imply final acceptance of the entire series. If there is an
-instance where I provided a Reviewed-by and later withdrew it without
-providing a technical justification, please point it out.
-
-Also, with code alone, please do not expect me to review these series
-effectively. It took more than a year and half for the documentation to reach
-a state where the design and implementation could be reasonably understood.
-Now that we have sufficient improved documentation and a clearer understanding
-of the approach, a proper and detailed review has just begun.
-
-Therefore, I do not think it is fair to claim that these issues should have
-been identified during reviews over the past two years. The lack of clear and
-adequate documentation made meaningful review difficult, and I have repeatedly
-requested improvements to the documentation for precisely this reason.
-
-> The current version works as is on Hamoa/Purwa/Glymur/Mahua/Kaanapali
-> maintaining the same ABI (that should count for something) and it would only
-> need a major/minor version update when a new algorithm string gets added
-> or a new param-ids gets added. Both of these are yet to happen.
-> 
-
-My concern with the generic extension protocol remains the multiplexing
-model. SCMI protocol IDs are themselves the mechanism by which
-independently defined functionality is identified, discovered and
-versioned. Introducing another namespace underneath a single vendor
-protocol, where an algorithm string selects effectively independent
-interfaces with their own sets of param_ids, duplicates that mechanism and
-makes protocol 0x80 a container for potentially unrelated functionality.
-
-> Given that we put out the pseudo code of what the MEMLAT algorithm does
-> and spent the past several revisions trying to explain why generic perf nor
-> mpam would work for us we keep getting hit with the blanket "It appears
-> no evaluation was done to determine if or why the standard performance
-> protocol was insufficient". The only recommendation I see from your side
-> is move MEMLAT to it's own protocol. With the documentation/code
-> available to you can please let us know how current perf protocol or MPAM
-> can be used as a standin replacement?
-> 
-
-This is also why I suggested treating MEMLAT as a distinct vendor protocol.
-I am not suggesting that MEMLAT can necessarily be replaced by the standard
-Performance protocol or MPAM. Those are separate questions. If MEMLAT
-semantics do not map to either of those, then that is a perfectly valid
-reason for having a vendor protocol. But "this functionality requires a
-vendor protocol" does not imply that the generic SET/GET/START/STOP
-multiplexing protocol is the right upstream representation of it. I am
-completely against such generalisation which will end up being ambiguous
-sooner or later.
-
-> [1] - https://lore.kernel.org/lkml/Zag5L9j8-oCebKFm@pluto/
-> [2] - https://lore.kernel.org/lkml/1667451512-9655-1-git-send-email-quic_sibis@quicinc.com/#t
-> [3] - https://lore.kernel.org/lkml/Zo14-rQ1Jaxh5Idi@pluto/
-> [4] - https://lore.kernel.org/lkml/Z1GfGk0yQAVQKEVL@pluto/
-> [5] - https://lore.kernel.org/lkml/55fd0c34-c52c-95c5-5cd0-16fd66a4baa2@quicinc.com/
-> 
-> > 
-> > The core issue here is that the proposed vendor protocol interface has been
-> > presented as a finished product without open discussion or a willingness to
-> > iterate based on upstream feedback. This approach bypasses standard
-> > development processes.
-> 
-> It would be way easier for us to re-design this but it would mean that we
-> are abandoning the current users stuck with this firmware version and that's the
-> only reason for trying to land this in a form that is maintainable. Either
-> way  please do take the call to decisively NAK the series (even if it's coming 9
-> revisions late and at the cost of 2 years). That way we can give up on this
-> and go about upstreaming using the standard development process.
->
-
-I also don't think the fact that this has gone through several revisions
-means that architectural concerns can no longer be raised. I appreciate the
-amount of work that has gone into the series and the changes made in
-response to previous reviews, but neither elapsed time nor deployed
-non-standard vendor firmware can make an upstream interface immutable
-before it is merged. This series is not even properly versioned, carries
-RFC still without version if it is no the first RFC. Anyways, there are
-series that go through 15-20 versions before it get merged. See SCMI
-telemetry itself at v11 already. So, I don't understand your complaint and
-all I can say is welcome to the kernel development process if its still a
-for you.
-
-So I don't see this as a choice between accepting the current generic
-protocol or abandoning users of existing firmware. Sorry!
-
-If it is easier as you mentioned, yes please re-design MEMLAT and any other
-algorithm as a separate vendor protocol. If it helps take this as NACK for
-the current interface. Hopefully this helps you in making proper progress
-on upstreaming using the standard development process.
-
-This is not the only or first firmware ABI Qualcomm has failed to upstream
-because it was all baked and couldn't be changed. So nothing new/surprise
-at that end.
-
-> That said please do consider expanding your reviewer/maintainer count
-> in a way that gives you the capability to review series from all SoC
-> vendors.
-> 
-
-I don't quite understand this. Please elaborate.
-
--- 
 Regards,
 Sudeep
+
+-->8
+The following changes since commit cee9395acd8043be0644b25c34bfa86623f2b935:
+
+  Linux 7.3-rc1 (2026-08-30 13:34:40 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git tags/scmi-ffa-fixes-7.3
+
+for you to fetch changes up to 8544e0da1a04c77b98e2e313a423a5c72e48ea32:
+
+  Merge branches 'for-next/ffa/fixes' and 'for-next/scmi/fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux (2026-09-08 21:04:42 +0100)
+
+----------------------------------------------------------------
+Arm firmware fixes for v7.3
+
+SCPI fixes address resource leaks and invalid firmware responses, while
+FF-A gains shutdown cleanup needed for normal kexec.
+
+- Release the device node reference acquired during SCPI domain lookup.
+- Validate SCPI DVFS OPP counts and indices returned by firmware to
+  prevent out-of-bounds accesses and invalid clock rates.
+- Register the SCPI cpufreq device only once across DVFS providers,
+  preserving the registered device pointer for cleanup and allowing
+  retries after registration failure.
+- Run FF-A teardown during orderly shutdown so notifications, partition
+  devices and RX/TX mappings are released before a replacement kernel
+  boots through normal kexec.
+
+Also includes replacing a literal platform device ID with
+PLATFORM_DEVID_NONE and correcting an SCMI comment typo.
+
+----------------------------------------------------------------
+Hemanth Selam (1):
+      firmware: arm_scmi: Fix typo "upto" in comment
+
+Sudeep Holla (2):
+      firmware: arm_ffa: Tear down driver during shutdown
+      Merge branches 'for-next/ffa/fixes' and 'for-next/scmi/fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux
+
+Xixin Liu (5):
+      firmware: arm_scpi: fix device_node leak in scpi_dev_domain_id
+      firmware: arm_scpi: reject DVFS OPP count above MAX_DVFS_OPPS
+      clk: scpi: bound-check DVFS index in scpi_dvfs_recalc_rate
+      clk: scpi: register scpi-cpufreq once and clear on failure
+      clk: scpi: use PLATFORM_DEVID_NONE for scpi-cpufreq
+
+ drivers/clk/clk-scpi.c             | 11 ++++++++---
+ drivers/firmware/arm_ffa/driver.c  |  1 +
+ drivers/firmware/arm_scmi/driver.c |  2 +-
+ drivers/firmware/arm_scpi.c        |  9 ++++++---
+ 4 files changed, 16 insertions(+), 7 deletions(-)
