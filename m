@@ -1,106 +1,216 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192FA391E73;
-	Wed,  9 Sep 2026 17:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E7965AA672;
+	Wed,  9 Sep 2026 22:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788976751; cv=none; b=sxAGjm9Lk0TRdt3GdN1NKWHSM12vQPUA+h0VBtDaaxg57j0CB30bBtEeHzroA6WhM89shjamnDMx0TbRe+RmZvIFERvmkGad5TTcOQ/eZhidBEhwDsJcCSrzcc8pROASE6i5DRsGEH0TPHbvaFTEVco9vyph1S8RTfm9xQU2ma0=
+	t=1788991493; cv=none; b=KUk2wOgJACo+g6mnnTgdVU8aI2n/iYyFIrPrfFjoar4XOxMGbcU1A9Nlqkwr3GD7bYuwjR7OZnd9D9H5vJaLySLd8yeZ1kCuiICHAXv9XfJ5gcth7XkA/4BvBLBPE3fBA8vIEJmSwzCZLUdFE4bV707lmns77GsEBAcOny7+V88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788976751; c=relaxed/simple;
-	bh=4AM56rD9hN/SAlGLp7GCl7Y7VkmJRIVVTN9ljls5IRQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=DhQo2f4mpc/G0HzxshtvEfqxC9x8vWQEhYKjVTCG+XDMIDq2j+pY652rPvMSsC3UUMW29J5VQqv8DT2SfWJLUKQdOHLB0lYlqZ2d1t5GjK0Vk0+SLWXJxXOkPhOHBlR3mOBMcppWWPaYD4kE57UB2iZbFji1mrDt+gvE07FXCVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NSFs1sEU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1788991493; c=relaxed/simple;
+	bh=0pMRxRUl1BBFFP0PzvidyLdVgiqNiFeXVQQ8cUjgB1g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nQEwLjP5paFeLDg8Twmh34G/AovPSkfsRNaUJedGWIqL3YzKU175PjeeQkaMXQT9RhfqEa0d08E8rOFTOxPE79u2oQ1Jf93xkW68GQDl3er+F88PQyj3Zin3giwRfm+h7NXKRlZGUVIi/9iaaLNYmDOrGcBmd/r/+iZyvHqx3AA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=bTInTTkP; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NSFs1sEU"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 81E78C2BCB9;
-	Wed,  9 Sep 2026 17:59:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1788976750;
-	bh=4AM56rD9hN/SAlGLp7GCl7Y7VkmJRIVVTN9ljls5IRQ=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=NSFs1sEUbO9vGsEbWNuEqlMwWS67qVkN55s+HN9wJpUFdecuWU78uSQerJRBzBQeV
-	 SvVF/Y/jw4sp1Hmvwq7aeLXJrli+oQSFo0nfHaZtK6KmcimSWUIILIyVzLjsglqlz2
-	 XcCAY4/jsTT7TRtiterd+RugtOJD1rPCbaWjQRwA2yHWsrVtR7+x0YjAaD0a0MdfSa
-	 XILOI3JGBvNW8KctIn6DQh+W1K61GHDZJ94zJZv0ZQs2w7Xw4fx8MUNJyPQ4hyuZg2
-	 uAobWzk/l8sOsFBdtk1d6jTtUSIgAfrqEsTO6ymh1xKYAVV7bZElSongADyklN0Rvk
-	 3gLHiesl3oSMA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F13AC79FB7;
-	Wed,  9 Sep 2026 17:59:10 +0000 (UTC)
-From: Roland Dreier via B4 Relay <devnull+rolanddreier.rivian.com@kernel.org>
-Date: Wed, 09 Sep 2026 17:58:59 +0000
-Subject: [PATCH] firmware: arm_scmi: Fix error path leak in
- scmi_raw_message_send()
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="bTInTTkP"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 224351570;
+	Wed,  9 Sep 2026 15:04:45 -0700 (PDT)
+Received: from oss-apollo7005.lab.cambridge.arm.com (oss-apollo7005.lab.cambridge.arm.com [10.7.15.171])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A48493F7D8;
+	Wed,  9 Sep 2026 15:04:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1788991488; bh=0pMRxRUl1BBFFP0PzvidyLdVgiqNiFeXVQQ8cUjgB1g=;
+	h=From:To:Cc:Subject:Date:From;
+	b=bTInTTkPGQvCf0hB54rRkXHr20RfDAHKRZT/r8LPzmkMtIZIcQTyYWie+W7GUDW42
+	 ouzIaQWRXFL068Lj3vGf+YxtZy2kOgh7Mng3QQjJUWUoY3v333AMIYku4hxnrWergV
+	 UOBDM4R/5sjSev8fesy3rFAcFjDRxslEa8X4Z/Ro=
+From: Philip Radford <philip.radford@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Cc: sudeep.holla@arm.com,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	etienne.carriere@st.com,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	quic_sibis@quicinc.com,
+	dan.carpenter@linaro.org,
+	d-gole@ti.com,
+	souvik.chakravarty@arm.com,
+	philip.radford@arm.com
+Subject: [PATCH v9 00/13] Add support for SCMIv4.0 Powercap Extensions
+Date: Wed,  9 Sep 2026 22:04:24 +0000
+Message-Id: <20260909220437.1254412-1-philip.radford@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260909-scmi-raw-v1-1-de3fa75d2c6f@rivian.com>
-X-B4-Tracking: v=1; b=H4sIAGKeoWoC/yXM3QpAQBCG4VvRHNsahLgVOVhrllF+2vFXcu8Wh
- 0+933eBkGMSKIMLHO0sPE8eURiA6fXUkeLWG2KMMyywUGJGVk4fCq1NLDWpxjwBny+OLJ/fVVX
- /lq0ZyKzvHu77AWfXCqhsAAAA
-X-Change-ID: 20260909-scmi-raw-0ff3feb5a073
-To: Sudeep Holla <sudeep.holla@kernel.org>, 
- Cristian Marussi <cristian.marussi@arm.com>
-Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>, 
- Roland Dreier <rolanddreier@rivian.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788976750; l=1401;
- i=rolanddreier@rivian.com; s=20260814; h=from:subject:message-id;
- bh=ulhzZqaSwBOt3awtuXWQe6D8VST705i7vhwvE1JyWas=;
- b=JKBsDDq4LGcT0kglXB6DsxiCDeXT92Dxot3q04+qCvF0saYsODSHs0CU+wFYqxRjYsAICdNWr
- ICITTR1FohHBDKI+3eDcOAyowR2GrTj861j+uevgLJs0L0jabq16Qmt
-X-Developer-Key: i=rolanddreier@rivian.com; a=ed25519;
- pk=C7SBXsDIlarq7BpINqyDL67XV/AGNqNt09NCCpFcExk=
-X-Endpoint-Received: by B4 Relay for rolanddreier@rivian.com/20260814 with
- auth_id=952
-X-Original-From: Roland Dreier <rolanddreier@rivian.com>
-Reply-To: rolanddreier@rivian.com
+Content-Transfer-Encoding: 8bit
 
-From: Roland Dreier <rolanddreier@rivian.com>
+Hi all,
 
-When the is_transport_polling_capable() check fails in scmi_raw_message_send(),
-it returns -EINVAL without doing scmi_xfer_raw_put(), which will leak a
-struct scmi_xfer.
+I have taken over this series from Cristian and in doing so I have
+addressed a couple of issues raised by the first version and added six
+additional patches since Cristian's original series:
 
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Link: https://sashiko.dev/#/patchset/20260909-scmi-async-done-race-v2-0-cc5dec25c6be%40rivian.com
-Fixes: 07cb8c324b63 ("firmware: arm_scmi: Add polling support to raw mode")
-Signed-off-by: Roland Dreier <rolanddreier@rivian.com>
+[1/13] addresses an omission from the original powercap functionality. The
+ABI documentation describes allowing enabling and disabling power capping
+for a control type via /sys/class/powercap/<control type>/enabled. This
+first patch implements this functionality but as stated before, this was an
+omission rather than a bug that requires fixing. Disabling the control type
+disables any immediate children of the control type.
+
+The logic for this patch is based on the logic I was using for enabling and
+disabling the synthetic node in the final patch of this series. As a result,
+the synthetic node enable/disable patch has now been significantly reduced.
+
+[7/13] exposes the measurement averaging interval (MAI) value when the
+agent has registered to receive power measurement change notifications
+for the power capping domain.
+
+[10/13] adds MAI get and set support for the powercap protocol.
+
+[11/13] introduces a synthetic root zone to act as a common parent for all
+top-level domains.
+
+[12/13] adds get_power_uw to synthetic root zone, summing the per-zone
+power of immediate child zones.
+
+[13/13] adds enable/disable functionality to synthetic root zone to
+enable/disable immediate children.
+
+Changes for this version are in response to numerous concerns identified
+by Sashiko review system.
+
+The original series was based on v6.17-rc1 whereas this version has been
+based on v7.3-rc1.
+
+The rest of Cristian's series is explained below;
+
+SCMIv4.0 [1] introduces some new features and commands into the Powercap
+protocol. In a nutshell, such protocol changes add support for:
+
+ - setting multiple powercap limit/interval constraints for each SCMI
+   powercap domain which supports multiple Concurrent Power Limit
+ - enabling more Powercap commands to use Fastchannels mechanism
+ - adding multiple constraints support to the existing notifications
+
+After a bit of needed updates in the SCMI core this series adds:
+
+- support for the idea of optional multiple Concurrent Power Limit (CPLs)
+- support for the new FCs
+- support for extended notifications
+- enable usage of such multiple constraint in the ARM SCMI Powercap driver
+
+Tested on a single and multi-instance scenario on an emulated setup
+implementing the new protocol extensions.
+
+Based on v7.3-rc1.
+
+Thanks,
+Phil
 ---
-Sashiko pointed out this pre-existing bug when reviewing my patchset:
-https://sashiko.dev/#/patchset/20260909-scmi-async-done-race-v2-0-cc5dec25c6be%40rivian.com
+V8->V9
+- rebased on 7.3-rc1
+- added check to powercap_set_root_children_enable to make sure it is configurable
+- added rollback in powercap_control_type_set_enable in case of failure of one root zone
+- included validation of the number of cpls in iter_powercap_cpls_update_state
+- re-ordered validation of cap_config and num_cpli in powercap_domain_attrs_process
+- included validation of length in powercap_domain_attributes_get
+- amended cap_get and cap_set referencing apl_id array index instead fo firmware CPL identifier
+- added bounds check to make sure cpl_id is less than num_cpli
+- fixed CAP_CHANGED notification paring to accept old payload without cpli
+- changed secondary CPL validation to use scmi_powercap_validate to catch
+  zero steps when min and max differ
+- Added validation check to make sure powercap domain doesn't have too
+  many constraints
+- Separated out domain specific fastchannel initialisation from per-cpl loop
+- Amended per-cpl fast channels to use firmware cpl id instead of relying on
+  num_cpli numbering
+- Removed redundant scmi_powercap_get_zone_height
+- Added scmi_powercap_parent_name helper
+- Replaced tiernary operator that checked empty parent->info->name
+- Removed redundant if (!pr) check from instance_root_get_power_uw()
+- Stopped returning a partial sum if one child read fails
+- Added mutex lock to instance_root_set_enable and instance_root_get_enable
+V7->V8
+- Rebased on v7.2-rc1
+- Fixed conflict due to updates to v7.2
+V6->V7
+- Added control type enable/disable patch
+- Refactored Synthetic zone enable disable patch
+- Corrected naming of define V2/V3 payload sizes
+- Prevent possible cpli[0] out-of-bounds access
+- Added cleanup for zones during scmi_powercap_probe
+- Prevent instance_root_get_enable reporting a stale state
+- Rebased on v7.1-rc7
+V5->V6
+- Re-worded existing comment for POWERCAP_MEASUREMENTS_NOTIFY
+- Added define for V2/V3 payload sizes
+- Used new definitions for payload sizes
+- Fixed comment length
+- Changed warning message warning
+- Fixed line lengths and alignment
+- Updated docs for new fields
+- Amended omission of spz initialization when unregistering powercap zones
+- Tested unloading and loading powercap module
+- Re-wrote commit message
+- Added use of to_scmi_powercap_root macro
+- Changed instance_root_set_enable_state to bail out on any error
+V4->V5
+- Added enable/disable functionality to synthetic node
+- Rebased on v7.1-rc1
+V3->V4
+- Rebased on v7.0-rc4
+- Added sythentic parent node and functionality
+- Moved fastchannel inits outside of loop
+- Renamed arguments for consistency
+V2->V3
+- Added powercap MAI get/set support
+V1->V2
+- Rebased on sudeep/for-next/scmi/updates
+- Amended Copyright to include 2026
+- Added patch to extend powercap report to include MAI
+- Removed creation of pi powercap_info struct due to legacy code change
+- Amended references to pi->version and similar, which were based on
+  legacy code
+- Wrapped two variables in le32_to_cpu() to appease Sparse warnings
+- Amended comparing operator value in response to feedback
 
-Fix is trivial so sending it out.
----
- drivers/firmware/arm_scmi/raw_mode.c | 1 +
- 1 file changed, 1 insertion(+)
+Cristian Marussi (7):
+  firmware: arm_scmi: Add an optional custom parameter to fastchannel
+    helpers
+  firmware: arm_scmi: Refactor powercap domain layout
+  firmware: arm_scmi: Add SCMIv4.0 Powercap basic support
+  firmware: arm_scmi: Add SCMIv4.0 Powercap FCs support
+  firmware: arm_scmi: Add SCMIV4.0 Powercap notifications support
+  include: trace: Add new parameter to trace_scmi_fc_call
+  powercap: arm_scmi: Enable multiple constraints support
 
-diff --git a/drivers/firmware/arm_scmi/raw_mode.c b/drivers/firmware/arm_scmi/raw_mode.c
-index 1f6e51670208..279fee7c6ce9 100644
---- a/drivers/firmware/arm_scmi/raw_mode.c
-+++ b/drivers/firmware/arm_scmi/raw_mode.c
-@@ -694,6 +694,7 @@ static int scmi_raw_message_send(struct scmi_raw_mode_info *raw,
- 		} else {
- 			dev_err(raw->handle->dev,
- 				"Failed to send RAW message - Polling NOT supported\n");
-+			scmi_xfer_raw_put(raw->handle, xfer);
- 			return -EINVAL;
- 		}
- 	}
+Philip Radford (6):
+  powercap: Add enable disable control-type
+  firmware: arm_scmi: Extend powercap report to include MAI
+  firmware: arm_scmi: add Powercap MAI get/set support
+  powercap: arm_scmi: Create synthetic parent node for multi-instance
+  powercap: arm_scmi: Add get_power_uw to synthetic node
+  powercap: arm_scmi: Synthetic zone enable/disable
 
----
-base-commit: 893e11787f78e43b534e252249ac3fff4d1333f8
-change-id: 20260909-scmi-raw-0ff3feb5a073
+ drivers/firmware/arm_scmi/driver.c    |   12 +-
+ drivers/firmware/arm_scmi/perf.c      |   16 +-
+ drivers/firmware/arm_scmi/powercap.c  | 1042 ++++++++++++++++++++-----
+ drivers/firmware/arm_scmi/protocols.h |    2 +-
+ drivers/powercap/arm_scmi_powercap.c  |  427 +++++++++-
+ include/linux/scmi_protocol.h         |   97 ++-
+ include/trace/events/scmi.h           |   12 +-
+ 7 files changed, 1322 insertions(+), 286 deletions(-)
 
-Best regards,
---  
-Roland Dreier <rolanddreier@rivian.com>
-
+--
+2.25.1
 
