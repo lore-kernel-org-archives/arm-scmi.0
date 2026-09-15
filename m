@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E15434E21
-	for <arm-scmi@vger.kernel.org>; Tue, 15 Sep 2026 17:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0F743744A
+	for <arm-scmi@vger.kernel.org>; Tue, 15 Sep 2026 17:05:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789491906; cv=none; b=VGCe0NR1493BGXorTj/v1b2ldqV6i3ucpxQknpiCpRTiel/E7/Jxh/V1VzGfOXkZP65kDcjXZ62neiInNhFj1pfVhYWjK+tGSEzQsj7/TnzNt862fXDNrwHWlO/W4XeRvyEyiBhPAYa8h1SilG2UUGdVgMfEeT87qFYG2zwpBbQ=
+	t=1789491907; cv=none; b=eXSVaWsYvpJZyVzxG7sPd+uIH0aMHXBYENeVGc+jgSLVmjl448KH2gFC46cBnPb0o6vSsypUDZ7tSHxIlkYW+8WLcmFHIK0C8VadP+LeE9eQ+H65lfYF98TN9TKnBgWmXgdbtz1rKL2AzkrC1LFV1D0Y5S1Ck+vlPY1JVR9LS4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789491906; c=relaxed/simple;
-	bh=1v/j/D32hBenoZoqXj48roK54C3//D27PHzGH+ctS8o=;
+	s=arc-20240116; t=1789491907; c=relaxed/simple;
+	bh=4SU3Pb9RdGy3thnkAEbuaexsMsa9DX646UDzD9N7inA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UT8mN632ORqowlUInzuE8nj0iDM3DCubn2VImhIZKKRt/YNs/C0AvrVyuPoCs5rzckUD1sRj8xosj8fcPzDP1xr31R/xu1+89t8TzJN0JMgUy6L2zsP26J4XPFgoT3/qVzHEQ8AbEBCaCLQnXe8boonpBwAnoU7AHHl/7NFVvnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kwtijee/; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=I47G3zngXXrfUTXWMV8t8ScaUH0STcb5QCjPL8YYovTILIGmGLQTDpuUGzSCqVOuQELA+r3/7scPLQTFWnynsOFurQkFmCgoibfq8j2Ju4U3+heoRbjo8kst0HsliW7FWPcGQ0EyE0QoVyBCj/k9575KKp77WfdCHHFksDW203k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JMm8E6Bl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kwtijee/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEB771F00893;
-	Tue, 15 Sep 2026 17:05:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JMm8E6Bl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5035E1F000FF;
+	Tue, 15 Sep 2026 17:05:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789491904;
-	bh=HqypsUUdO23Qj47zb+gB0M4sE9kBbHmeS7wRMu3awrU=;
+	s=k20260515; t=1789491906;
+	bh=mlvay9MyCAq1Z71HXdRB7V7aEDl4JiejQYutu9VDznU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=kwtijee/i8sBdNvil2ye+cYgy0C438Ik+R2cZZqipnfRy42gkrmjm1hH8ujGsP4qj
-	 Ix0T7amHg2VSf8bGwVGOsd7UPBSsK8IBkhy3H3+1ClSlLpqlSVq7Jn0aJtAUKoiafB
-	 aBt8PaKtVrFwYc0eh0w0nit28+/fmtr+FnfKj8EIfdW1bR4euVkpbVlMo7EUwOTjt7
-	 boFVWsTTn7McI0fl58PMqli86ZdUHp6JEIsA0gDPFQOcw1YIRn2B2xNd/i0clAY1Bo
-	 noat+nnh/ZCQ/7z/bQk3cx+1UthxE+5F4cBcVDrCKYcjl7QirGELRxyHUOCPi/VrHt
-	 x+DtAmP9VAH2w==
+	b=JMm8E6BlgS0QVOE+jqkmBLxklnv/a43URZ52g6m71eP1FPs5Wbowz+mY6YiacThao
+	 LLogLLxk3bElFtNHolkjJW0k8XifeLHVF6rmCxg25Ak+KfzzN0IUHdip3v8znV6NOf
+	 WsWL6JKZ8Lqm/fWR89M+UQtrTwe0T06pkj66S6et8Um9FO3EuJ976sIdb1lcRjaBQv
+	 CHVKCIKSJXoBTi682u8u3PQNgpp/+SgT4YPGRq5tqEofE6mJjcsFjBYMjN0H+Fdn1E
+	 OPKSnpiVsP4TUuP+Katx7R++56uJyEFtS2gbWzANRKyfiKtyhrekOzJg7bh00cIXZi
+	 7RJTnthoMUJtQ==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-Date: Tue, 15 Sep 2026 18:03:39 +0100
-Subject: [PATCH v5 5/9] firmware: arm_scmi: Pass protocol ID to transport
- chan_available()
+Date: Tue, 15 Sep 2026 18:03:40 +0100
+Subject: [PATCH v5 6/9] firmware: arm_scmi: Refactor protocol device
+ creation logic
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260915-acpi_scmi_pcc-v5-5-298579e9f359@kernel.org>
+Message-Id: <20260915-acpi_scmi_pcc-v5-6-298579e9f359@kernel.org>
 References: <20260915-acpi_scmi_pcc-v5-0-298579e9f359@kernel.org>
 In-Reply-To: <20260915-acpi_scmi_pcc-v5-0-298579e9f359@kernel.org>
 To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
@@ -48,109 +48,100 @@ Cc: Cristian Marussi <cristian.marussi@arm.com>,
  Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 X-Mailer: b4 0.16.0
 
-Pass the protocol ID to the transport chan_available() callback so a
-transport can distinguish channels associated with different protocols
-when they share the same firmware node. This is required by the ACPI PCC
-transport to resolve protocol-exclusive PCC subspaces.
+Move the protocol validation and device creation logic in scmi_probe()
+into a reusable scmi_device_check_create() helper.
 
-Update all transport implementations for the new callback signature.
-Existing transports ignore the protocol ID, so there is no functional
-change.
+The helper centralizes checks for the protocol ID range, implementation
+availability and duplicate activation before invoking
+scmi_create_protocol_devices(). This preserves the existing behavior
+while allowing the logic to be reused by the ACPI path, where protocol
+child fwnodes are absent.
+
+No functional change intended.
 
 Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
 ---
- drivers/firmware/arm_scmi/common.h             | 3 ++-
- drivers/firmware/arm_scmi/driver.c             | 2 +-
- drivers/firmware/arm_scmi/transports/mailbox.c | 3 ++-
- drivers/firmware/arm_scmi/transports/optee.c   | 3 ++-
- drivers/firmware/arm_scmi/transports/smc.c     | 3 ++-
- drivers/firmware/arm_scmi/transports/virtio.c  | 3 ++-
- 6 files changed, 11 insertions(+), 6 deletions(-)
+ drivers/firmware/arm_scmi/driver.c | 59 ++++++++++++++++++++++----------------
+ 1 file changed, 34 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-index fdc591880c68..7fc9560dc4ea 100644
---- a/drivers/firmware/arm_scmi/common.h
-+++ b/drivers/firmware/arm_scmi/common.h
-@@ -207,7 +207,8 @@ struct scmi_chan_info {
-  * @poll_done: Callback to poll transfer status
-  */
- struct scmi_transport_ops {
--	bool (*chan_available)(struct fwnode_handle *fwnode, int idx);
-+	bool (*chan_available)(struct fwnode_handle *fwnode, int prot_id,
-+			       int idx);
- 	int (*chan_setup)(struct scmi_chan_info *cinfo, struct device *dev,
- 			  bool tx);
- 	int (*chan_free)(int id, void *p, void *data);
 diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 878d27bc315a..19cdb59d6600 100644
+index 19cdb59d6600..616b57237559 100644
 --- a/drivers/firmware/arm_scmi/driver.c
 +++ b/drivers/firmware/arm_scmi/driver.c
-@@ -2768,7 +2768,7 @@ static int scmi_chan_setup(struct scmi_info *info, struct fwnode_handle *fwnode,
- 	if (idr_find(idr, prot_id))
- 		return -EEXIST;
- 
--	if (!info->desc->ops->chan_available(fwnode, idx)) {
-+	if (!info->desc->ops->chan_available(fwnode, prot_id, idx)) {
- 		cinfo = idr_find(idr, SCMI_PROTOCOL_BASE);
- 		if (unlikely(!cinfo)) /* Possible only if platform has no Rx */
- 			return -EINVAL;
-diff --git a/drivers/firmware/arm_scmi/transports/mailbox.c b/drivers/firmware/arm_scmi/transports/mailbox.c
-index b692cae4ff25..56af2cb0f424 100644
---- a/drivers/firmware/arm_scmi/transports/mailbox.c
-+++ b/drivers/firmware/arm_scmi/transports/mailbox.c
-@@ -77,7 +77,8 @@ static void rx_callback(struct mbox_client *cl, void *m)
- 		      core->shmem->read_header(smbox->shmem), NULL);
+@@ -3244,6 +3244,39 @@ static void scmi_enable_matching_quirks(struct scmi_info *info)
+ 			   rev->sub_vendor_id, rev->impl_ver);
  }
  
--static bool mailbox_chan_available(struct fwnode_handle *fwnode, int idx)
-+static bool
-+mailbox_chan_available(struct fwnode_handle *fwnode, int prot_id, int idx)
++static void scmi_device_check_create(struct fwnode_handle *fwnode, int prot_id,
++				     struct scmi_info *info)
++{
++	int ret;
++	struct device *dev = info->dev;
++	struct scmi_handle *handle = &info->handle;
++
++	if (!FIELD_FIT(MSG_PROTOCOL_ID_MASK, prot_id)) {
++		dev_err(dev, "Out of range protocol %d\n", prot_id);
++		return;
++	}
++
++	if (!scmi_is_protocol_implemented(handle, prot_id)) {
++		dev_err(dev, "SCMI protocol %d not implemented\n", prot_id);
++		return;
++	}
++
++	/*
++	 * Save this valid fwnode protocol descriptor amongst
++	 * @active_protocols for this SCMI instance.
++	 */
++	ret = idr_alloc(&info->active_protocols, fwnode,
++			prot_id, prot_id + 1, GFP_KERNEL);
++	if (ret != prot_id) {
++		dev_err(dev, "SCMI protocol %d already activated. Skip\n",
++			prot_id);
++		return;
++	}
++
++	scmi_create_protocol_devices(fwnode_handle_get(fwnode), info, prot_id,
++				     NULL);
++}
++
+ static int scmi_probe(struct platform_device *pdev)
  {
- 	int num_mb;
- 	struct device_node *of_node = to_of_node(fwnode);
-diff --git a/drivers/firmware/arm_scmi/transports/optee.c b/drivers/firmware/arm_scmi/transports/optee.c
-index 07d3affa0964..6022f74d28f3 100644
---- a/drivers/firmware/arm_scmi/transports/optee.c
-+++ b/drivers/firmware/arm_scmi/transports/optee.c
-@@ -314,7 +314,8 @@ static int invoke_process_msg_channel(struct scmi_optee_channel *channel, size_t
+ 	int ret;
+@@ -3373,31 +3406,7 @@ static int scmi_probe(struct platform_device *pdev)
+ 		if (fwnode_property_read_u32(child, "reg", &prot_id))
+ 			continue;
+ 
+-		if (!FIELD_FIT(MSG_PROTOCOL_ID_MASK, prot_id)) {
+-			dev_err(dev, "Out of range protocol %d\n", prot_id);
+-			continue;
+-		}
+-
+-		if (!scmi_is_protocol_implemented(handle, prot_id)) {
+-			dev_err(dev, "SCMI protocol %d not implemented\n",
+-				prot_id);
+-			continue;
+-		}
+-
+-		/*
+-		 * Save this valid fwnode protocol descriptor amongst
+-		 * @active_protocols for this SCMI instance.
+-		 */
+-		ret = idr_alloc(&info->active_protocols, child,
+-				prot_id, prot_id + 1, GFP_KERNEL);
+-		if (ret != prot_id) {
+-			dev_err(dev, "SCMI protocol %d already activated. Skip\n",
+-				prot_id);
+-			continue;
+-		}
+-
+-		scmi_create_protocol_devices(fwnode_handle_get(child), info,
+-					     prot_id, NULL);
++		scmi_device_check_create(child, prot_id, info);
+ 	}
+ 
  	return 0;
- }
- 
--static bool scmi_optee_chan_available(struct fwnode_handle *fwnode, int idx)
-+static bool
-+scmi_optee_chan_available(struct fwnode_handle *fwnode, int prot_id, int idx)
- {
- 	u32 channel_id;
- 	struct device_node *of_node = to_of_node(fwnode);
-diff --git a/drivers/firmware/arm_scmi/transports/smc.c b/drivers/firmware/arm_scmi/transports/smc.c
-index 4a4caeb4be31..7fb2736247a3 100644
---- a/drivers/firmware/arm_scmi/transports/smc.c
-+++ b/drivers/firmware/arm_scmi/transports/smc.c
-@@ -84,7 +84,8 @@ static irqreturn_t smc_msg_done_isr(int irq, void *data)
- 	return IRQ_HANDLED;
- }
- 
--static bool smc_chan_available(struct fwnode_handle *fwnode, int idx)
-+static bool
-+smc_chan_available(struct fwnode_handle *fwnode, int prot_id, int idx)
- {
- 	struct device_node *of_node = to_of_node(fwnode);
- 
-diff --git a/drivers/firmware/arm_scmi/transports/virtio.c b/drivers/firmware/arm_scmi/transports/virtio.c
-index 6b060d61e0ca..3d608c8c4fe8 100644
---- a/drivers/firmware/arm_scmi/transports/virtio.c
-+++ b/drivers/firmware/arm_scmi/transports/virtio.c
-@@ -375,7 +375,8 @@ static unsigned int virtio_get_max_msg(struct scmi_chan_info *base_cinfo)
- 	return vioch->max_msg;
- }
- 
--static bool virtio_chan_available(struct fwnode_handle *fwnode, int idx)
-+static bool
-+virtio_chan_available(struct fwnode_handle *fwnode, int prot_id, int idx)
- {
- 	struct scmi_vio_channel *channels, *vioch = NULL;
- 
 
 -- 
 2.43.0
