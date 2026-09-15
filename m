@@ -1,114 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD384B540C
-	for <arm-scmi@vger.kernel.org>; Tue, 15 Sep 2026 17:44:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A997E43C7C5
+	for <arm-scmi@vger.kernel.org>; Tue, 15 Sep 2026 17:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789494251; cv=none; b=gCl5bpegjc97LNgptZOz20wIZIzyRiz+dLS1iWMt4+GrDPoilMsh/avcPeuSGaLKmKOVi1AZZ1DIINg5wag0Mf5FkDdS9BkW7lv/lF0REf6DouB/Ng9viFt512dPrSSIF6R+d7o3Ar98wknBDgb4GWj4erZqKb9qe3rYrbIyd6s=
+	t=1789494873; cv=none; b=cGw2VyddyVbCnBGRH6+E7T+wtyPtZs3aCz4XMY6remd3LG7kIa61EQRuG2G7laWAjx2w1V529giazDeMEwOB1yXA8QxEo+Dc2BXXPX68R24iUUgywRZMXM7f02ArEBnsRIejyWn6b/9pUelVTAfCGvfTy6EQixM/UE6u7PcbDrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789494251; c=relaxed/simple;
-	bh=lQknvjmC6n4KXzJyKTxc/FFXdneRicd7yLBc7svzJ8w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MQMoLYcaVNYRFEHSFT2ssGHDlAoALL/4eSk+9u/co4jzsCbIWzslZaTSXrn7GnHXyVljgJwAHBu7nm1xkFym6vfGlzPGsR3fX+ugy86/5SUwSJTe81OZhOhVX6plnbFE+0+mWzfEKidMS84BWYq0PsBy5ejU4j5SwUtyQ5Rj9Qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NsX7glzd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789494873; c=relaxed/simple;
+	bh=YV+k4MpgNhuJvubvbw3E8ZSBt4xX9OCbd5YX9hWrDMY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WpGLo5lYtD/JxNRaK4iCy0Ojyiqu7NFDd4zOjxOzx8zwtuCFcXrZEwKvYsSFfyxdr7GQb9iZWpCkiDAG3p55zB/0TupsX/++fzZ6HNxPMlBQAtUWmgoqHGppRCuXoPKrjwthOqmgZX+cUOSRQSN+t1HJm3BbCIYwmdtIMnuEXjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=pu/ZXjEW; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=RjxIwboI; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NsX7glzd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A67B11F000FF;
-	Tue, 15 Sep 2026 17:44:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789494244;
-	bh=O4vL4g4D4xkYUtuTnZrWxwAn75paIp9ZlEmZKpxq+4s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NsX7glzdGfpZEE+6WWH90AJUd7B1Z9i+nb36BbLufx78K77aPi++0e7cLEv02pMRO
-	 79v9J8dn9czWZeKsecddjXmXt1uTKwwqSu2aLNTTjET4zPV8zo0YA+fIytxUA0FCJC
-	 nV5q/dvI0LO03PqGBIWIndsGuI/RRIgbxqEbmN/YLKf/ST60fDO1rpY1NKEeI1g3Dc
-	 tqSfBiGz6wfdyiQYrT1qqxFj3x6d5Klx/ro3w2UZSjL11InDroA+PZIyLCONejUG0y
-	 bTu8AVRddf0bVjDrXKgfuySuEbhnhV2A/2b4qQw9HDfiyVpaQbe5H87vmkGZepuzed
-	 61Dj0wh5+jv+Q==
-Date: Tue, 15 Sep 2026 18:44:01 +0100
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kernel-team@meta.com, sashiko-bot@kernel.org
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Breno Leitao <leitao@debian.org>,
-	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-Subject: Re: [PATCH v5 7/9] firmware: arm_scmi: Add ACPI PCC transport
-Message-ID: <20260915-tidy-glaring-wasp-5b8d0f@sudeepholla>
-References: <20260915-acpi_scmi_pcc-v5-0-298579e9f359@kernel.org>
- <20260915-acpi_scmi_pcc-v5-7-298579e9f359@kernel.org>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="pu/ZXjEW";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="RjxIwboI"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68FHorJt3195347
+	for <arm-scmi@vger.kernel.org>; Tue, 15 Sep 2026 17:54:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	YV+k4MpgNhuJvubvbw3E8ZSBt4xX9OCbd5YX9hWrDMY=; b=pu/ZXjEWueQEkxFn
+	XvJs+PUx190FjwthFylFreyJFrrKuPIMCq2q7+rVORYQUDvK2ExhPinwx5Dnm2lm
+	kuyMPnZdiumIBVgN9DBgzp4DXaR0uwOLZG5+0A7yFkBErBaPIDm6klfAzd4XL57m
+	LXJ/Y8+VOf5ipfmuWF2cxvgd0XpYuy+4ILGoirJGNT5oskuA2gKoCl4+FuRuGiy+
+	OHnrrptejOuBCLWSfVX4vvmCdVXSzJ9d/jU0H0pzk0AYwCzNupuQJxpOkd66IyoR
+	2ZXecJT6vyTclA+TDig9c1OdzUsZ3ayuWlPYXrgy7L84C6k/XTfhNa/NPJHTzIu7
+	lWEeXw==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gq1qpbd2s-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <arm-scmi@vger.kernel.org>; Tue, 15 Sep 2026 17:54:29 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-39dc5d85a9cso3867766a91.2
+        for <arm-scmi@vger.kernel.org>; Tue, 15 Sep 2026 10:54:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1789494869; x=1790099669; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YV+k4MpgNhuJvubvbw3E8ZSBt4xX9OCbd5YX9hWrDMY=;
+        b=RjxIwboImMRcxBuUPCm9MFuZToYKAUpVF9KT6JpOefQo0smEFyJAtKXvru5vdLTbiu
+         5odF0FMjXYixOCIdEzm4Gz7dPeaWY6oukXQcHDXeRU5IZI4lc7i4folqJFMv/97Nv80Y
+         aZZMHDezMeUT+mv3ab/Iqex7ZJZdP3bZz/60ibBYV5dyk9Rugd9js6CDKChi+DegBEV/
+         DkkB0OpO1NTAVTC1+VN3dS9stVbgC2S36GL7buMQdHARjCqgyEYFWjFinPfVuZoAMAWd
+         XOaMC3VrbzT753e6AZSIOMNQksPGjnSj+TnI5+QHFigNWzg0DOQqoU0KFULRbHpCo2wL
+         eJmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789494869; x=1790099669;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=YV+k4MpgNhuJvubvbw3E8ZSBt4xX9OCbd5YX9hWrDMY=;
+        b=T20K98gkxnR491R7kL91eLSXgxM0Ooo664wT7PlJPGGDYByc0sVD2OZmNh8IQU92XI
+         FPTnRSjK7ovsHGyDEiGe0Jx+clesHot3pIrZp+8GpqcaK3I7/06pCHK3lon1yQkCms7D
+         JbznDLq1zXdWFVV+DPSRmcBcMeuk+0zJGssXy372Z/tVIPvylJlrVHSGuQPuGz9K/N+S
+         GILTgb1mwgDdXo3qfOyOzHaU8KcQ7DIPT3Y2/CqTfj7tTHgjb60tZt/MVRBWezKvNVlc
+         mluYLCPX+diM4AOjcXQw/3WypiGtpjh2GaV6P1M88DEHI4UIBvc/5iZJLvPkM0ww/TQw
+         DSpg==
+X-Forwarded-Encrypted: i=1; AKwUvByuWezkwLC89jwYk3avLIHgu+lA6bZP4iKptPaUaRlBrc4gh0Csl8GlTYuyM6SMrscvV/OFs0XVFg==@vger.kernel.org
+X-Gm-Message-State: AFuF++nrHIrOtiiUfhWQkant1ImbZz3uabWKjtN6d0S/yYCXNCFjlXqR
+	+rn4b3/sSKrE8fnKHgs85JHm/zGxUP4PgXz+BOqeDBt1mxeu1feO6Y6m+lsq9QGJ0lThfmZllqS
+	xKsJ857mW2imO78BKRGs2FM6NemLc2jD78z8i5BrQ5RHJO7kpkMZXnGLQpucDMQ==
+X-Gm-Gg: AYBFou1UT6IsKVWYv9f6U56EIqbbdgdvJjx8G3BTzVNN5uk5LFLp+jPOCGintOkpI9r
+	vYVFsL9/88uB0TaBUFmTrkl5FDPUhBLBkfOuE/uIA1FvmdtQEMsu8HwuwLsXxx6f6JNqwOIKUYl
+	aLNYNY4MRtq06swPt7DYCX1YO6TYDsa1HgCoaFNFYVyWg7y0q+MyGqUBVnrM/6SmdvIqTP+s7+H
+	VKKMXrql5+5RBbyte4bimLR8sh4PJJBGY5SiMZaTVg25nPbKN4JJw37tfFVqk9SRTRGkIKht/Ox
+	PIotHoI1aNGS4wIOX3/Iy6f39KhoAlLCrZXV2+G/YzkYtgm1v6aHxZxEGAjuh030oHqf1ThNGXW
+	04whTQbLe0ATJG4wDXqJD1eMRLImKB8qMWeOFOSc4i+oavQ==
+X-Received: by 2002:a17:90b:28d0:b0:39d:f5b1:e35f with SMTP id 98e67ed59e1d1-39e11095fcamr4218084a91.25.1789494869086;
+        Tue, 15 Sep 2026 10:54:29 -0700 (PDT)
+X-Received: by 2002:a17:90b:28d0:b0:39d:f5b1:e35f with SMTP id 98e67ed59e1d1-39e11095fcamr4218025a91.25.1789494868480;
+        Tue, 15 Sep 2026 10:54:28 -0700 (PDT)
+Received: from [10.177.238.120] (pat_11.qualcomm.com. [192.35.156.11])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14395d13ee7sm306945c88.8.2026.09.15.10.54.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Sep 2026 10:54:28 -0700 (PDT)
+Message-ID: <362574de-c709-4e78-9b88-4bc4e0dd7c7d@oss.qualcomm.com>
+Date: Tue, 15 Sep 2026 10:54:22 -0700
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260915-acpi_scmi_pcc-v5-7-298579e9f359@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] pinctrl: scmi: Replace get function and group info
+ with generic callbacks
+To: Sudeep Holla <sudeep.holla@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+        Linus Walleij <linusw@kernel.org>, arm-scmi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260731-scmi-pinctrl-generics-v1-0-8affd2b79a6b@oss.qualcomm.com>
+ <an7RL_mTsznZjeIQ@pluto>
+ <56107a6d-962d-4508-a1d3-7a6e9e2af887@oss.qualcomm.com>
+ <20260907-airborne-cobra-of-democracy-a9c411@sudeepholla>
+Content-Language: en-US
+From: Alex Tran <alex.tran@oss.qualcomm.com>
+In-Reply-To: <20260907-airborne-cobra-of-democracy-a9c411@sudeepholla>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDI2MSBTYWx0ZWRfXxsM/dQRK1V8S
+ HDW/M8W7dsz4r7yf7lWhhZ/LmPPnaF4y0p9KnfiOb1z67f1Y8ss1AKkVbvCvoyI2GbOOC3YVReT
+ +tt8RvGM2iHk6cmenkypmfBB5odjlAQ=
+X-Authority-Analysis: v=2.4 cv=I4Xw19gg c=1 sm=1 tr=0 ts=6aa98655 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=8qBNkTY05YfpeKCp1UkA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-ORIG-GUID: ukVgj1Ocb4I5MwzhfWBnI5IGgphvLuqs
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDI2MSBTYWx0ZWRfX0rxY+JpqbcNW
+ JoifMfKNd6Cpu6fy5NTSrGSlqnHtM5F3Q5y64mBv/yGEvbAC7sxNS4I2u8+v2bV2wOwZKYw4tS1
+ zzpnhYInHjrDI8dW0kMMIN7y8QyZJFnOiyqKwVMzubcdGZPWdf1EJyrA1a50hCkutub7rZx9TBF
+ 7jZhdrD0WbnTeeCx9CzXwsno9+Aaj8HFCDYqoLMPTPd4M3A0epIbhAKl48h5WLoGswRma2uvhb5
+ TupYspt3kL8XcbYhQBNmFHXVp2emhIPMAPl6WiGjSgvyIbjpFQhz4fgK+O2S7hVdGh+zS0tI2gQ
+ zvaboreLylvwxQM5wD80VFatVtwCcdb0g+f0SaN2zrmrMvZ02bj3TAr3ezNyRbVi5cNQ56OxTUI
+ Ua9y5CrqUimgvcAZQB2XEcOS28UnGuA3nUczsD4Hzj6d1Pu5yqfhyMXSA/C/eQiyyn07ocT0kFy
+ yKtjjEwsqqx7xmunvrw==
+X-Proofpoint-GUID: ukVgj1Ocb4I5MwzhfWBnI5IGgphvLuqs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-15_05,2026-09-15_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 suspectscore=0 phishscore=0 clxscore=1015
+ priorityscore=1501 bulkscore=0 malwarescore=0 impostorscore=0 adultscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609150261
 
->On Tue, Sep 15, 2026 at 06:03:41PM +0100, Sudeep Holla wrote:
->> Add an SCMI transport for ACPI-described systems using PCCT PCC
->> subspaces through the Linux PCC mailbox layer.
->> 
->> Parse the SCMI Device Properties _DSD packages defined by Arm document
->> 111115A v1.0, sections 2.2.1.1, 2.2.2.1 and 2.2.3. Map transport
->> UIDs to PCC subspaces for common and protocol-exclusive A2P and P2A
->> channels, validate the mappings, and cache them for channel setup.
->> 
->> Support the Powercap and System Telemetry protocol properties and add
->> the System Telemetry protocol ID. Implement PCC channel management,
->> message framing, shared-memory bounds validation, and response and
->> notification delivery.
->> 
->> Add the corresponding Kconfig, module and ARML0001 ACPI matching
->> plumbing.
->> 
->> Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
->> ---
->>  drivers/firmware/arm_scmi/common.h            |  11 +
->>  drivers/firmware/arm_scmi/transports/Kconfig  |  12 +
->>  drivers/firmware/arm_scmi/transports/Makefile |   2 +
->>  drivers/firmware/arm_scmi/transports/pcc.c    | 867 ++++++++++++++++++++++++++
->>  include/linux/scmi_protocol.h                 |   1 +
->>  5 files changed, 893 insertions(+)
->> 
->> diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
->> index 7fc9560dc4ea..ef5e19ecfe20 100644
->> --- a/drivers/firmware/arm_scmi/common.h
->> +++ b/drivers/firmware/arm_scmi/common.h
->> @@ -468,6 +468,17 @@ struct scmi_transport_core_operations {
->>  	const struct scmi_message_operations *msg;
->>  };
->>  
->> +struct scmi_dsd_info {
->> +	u32 protocol_id;
->> +	const char *const property_name;
->> +};
->> +
->> +static const struct scmi_dsd_info scmi_dsd_info_list[] __maybe_unused = {
->> +	{ SCMI_PROTOCOL_BASE, "arm-arml0001-transport-pcc" },
->> +	{ SCMI_PROTOCOL_POWERCAP, "arm-arml0001-protocol-pcap" },
->> +	{ SCMI_PROTOCOL_TELEMETRY, "arm-arml0001-protocol-telemetry" },
->> +};
->> +
+On 9/7/2026 1:53 AM, Sudeep Holla wrote:
 
-> [Below is copied from sashiko-bot@kernel.org review comments Severity: High]
->
-> Since scmi_dsd_info_list is defined as a static const array in a header file,
-> won't this cause the array to be duplicated in the .rodata section of every
-> translation unit that includes common.h?
+> On Fri, Aug 14, 2026 at 05:05:27PM -0700, Alex Tran wrote:
+>>> Hi Alex,
+>>>
+>>> I gave it a go at this series on an emulated setup and with these
+>>> changes I get:
+>>>
+>>> root@deb-guest:~# modprobe pinctrl-scmi
+>>> [   15.329932] scmi-pinctrl scmi_dev.4: error -EINVAL: Failed to register functions
+>>> [   15.330259] scmi-pinctrl scmi_dev.4: probe with driver scmi-pinctrl failed with error -22
+>>>
+>>> ...not debugged any further.
+>>>
+>>> Thanks,
+>>> Cristian
+>> Hi Cristian,
+>>
+>> I've tested this series on sa8797p hardware and did not experience any issues
+>> with registering functions during probe. Can you provide me with the pin
+>> topology of your emulated setup? I have a hunch that the topology may
+>> contain a function with 0 groups which is why -EINVAL is being returned.
+>> The previous pinctrl_scmi_get_function_groups callback considered a function
+>> with no groups invalid.
+> I found couple of feedback from sashiko valid, can you take a look at all the
+> comments there[1] ?
 
-> Could this array be defined in a .c file and exported via extern to prevent
-> unnecessary binary bloat?
+Hi Sudeep,
 
-Although the header gives each translation unit its own definition, unused
-instances are discarded by the compiler. The table is referenced only by
-the SCMI core and PCC transport, which are separate modules. Moving it to a
-C file would require exporting the table and its size between those modules.
-Given that each emitted table is only 48 bytes, I prefer to avoid that
-additional interface and keep the local copies.
+Sure, I'll address all the relevant comments from the feedback and send in a revised version once ready.
 
--- 
-Regards,
-Sudeep
+BR,
+Alex
+
