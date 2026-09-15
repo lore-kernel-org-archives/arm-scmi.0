@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62BE1439350
-	for <arm-scmi@vger.kernel.org>; Tue, 15 Sep 2026 17:05:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95499434E21
+	for <arm-scmi@vger.kernel.org>; Tue, 15 Sep 2026 17:05:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789491903; cv=none; b=FRkRlK0Z6DkW/bW2f9kHeW3bsqnHghxkT9493hDBH+Qtns6BdRsckHvx1EhStO/rqPXs+Xgu0ihxJ9TvUasT1esPqY+h8pnZC8huiUL4dX61Qv72fegNHdIG8KWPvZbTUhmJh7adLDFqwIMbdbRotXU4bmHSuU4XbOM38IObtj8=
+	t=1789491905; cv=none; b=X67ABAFw4/VCb/60C8JNFvCsbiUrjgXIQV3ZXvrtVhcygZlVgqj2+j4N1LmzNzmwFhc5SLpSkb20GDiKvUxr6Y7MNCLnz3EYDY1j8GJerrqQA/AZdf5l8bMJGo4yUxaVTSn7N+MEhYuJycYZu8xGk6pXD9bBEl3UkeLa/xW0k84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789491903; c=relaxed/simple;
-	bh=iZOiX66i1fmkS1wbstpVn+r5eJwJn45lKCwRW6bqMRE=;
+	s=arc-20240116; t=1789491905; c=relaxed/simple;
+	bh=GoDqCjKR/CmgY3d9+9RbMmcEpqBCfAl2ToIGTqfyZrA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gb81ev8ZU3VwlL/kGTsPWWQ0b99/6qEacsTJXPPPYB6KwXOmOtQ/dyWDtyhO8gV7xoSrltvawoBd22Y7Y/qRsiq1SKYNoN4DM9inljeYPYrnWUXqqmNb++mmAdAY+Tgo0kXiSqz2Ay4yegODlkPmGVqh5W5a0jMm21WG8aR6VU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZN+5d4e0; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=EmeTXwPsdQ7kmdRsEjT3k5scMmPEdydXDL5MPTYGeDh6w/8vlnQY6hmerzUpSq7cxDBH1gRoO2VNXzPLe87sRrIg9iZfplo05KvvJN8YULXFQrDT3iP54dQIkC7J61bm6cCBOI+B0BNexzHFFq0mX7FfvCtW7g888aBOs79ez1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mjZ8lDOc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZN+5d4e0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F6D41F00898;
-	Tue, 15 Sep 2026 17:04:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mjZ8lDOc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A1E31F0089B;
+	Tue, 15 Sep 2026 17:05:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789491900;
-	bh=fPlUF+jlmhxiJd29b0DUNFcdEsvoJFl2QvVHlxO9hLA=;
+	s=k20260515; t=1789491903;
+	bh=6n0faIBhMoLEpSRsv9bn04UWwhQ2MrwjbyLIxI2jfHA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=ZN+5d4e0e+R2X8b0v1CKWc+PrTYEeMIrjYc7eU6yernE4KWS50SHeUbISxE5JYplH
-	 wPhj2Kc08NpJXmwHOLG7L22R6Akq9BQBP+WBm4z5mN/bC1TALtzd8WolcYKKcmwxWP
-	 vuLH3uWYJFsDoWFEfxOqLymGNLQUiPzhOj3Wwb/cIMSn2QeAPemfgnegDhnxAFGV/B
-	 IDEOxgWq8V3e0MngxKPiIn+8OvGBAFdVQVIqFnqDTMCPZDFJgtfTe15VAXcee1ly90
-	 SJ7Do0ScwQPTZiwtKJe+gTTggejfWAelB7DVNTNXzg+E1nqlIFb6hyzQt9/zRgIqo5
-	 JmIiuOgm5j/7w==
+	b=mjZ8lDOccuCvWA4XdHD7squMqFwZ3pxR+2sStcfNHCFq+UW8Tv2WU2X4gfeHYcRmp
+	 1zOuU1Dx+COpMZoU2WwAD9wc8I9riNSwRrxeAWRUlDrLZOt5QGiERnVrAAlSXSxiVq
+	 OQ1ciXmuqIqwWI6pXx9oOYrZZL2ZynEeMhZp8JV9q14kfUfRDqxm+UUn91PT13eiCD
+	 58htoqUminJEEfmn/IeksZeY7+t0oVn9cZZTY9jiTKb14qngH43M2fBO8wZydKkjCM
+	 6NruoykN9011umvW/5ITm5SinMAD1k4x/z2zJO5u/eThzGkcimi+h3l0oE0ScUf1N2
+	 quCDB9h2gPFhA==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-Date: Tue, 15 Sep 2026 18:03:36 +0100
-Subject: [PATCH v5 2/9] firmware: arm_scmi: Extend transport driver macro
- to support ACPI
+Date: Tue, 15 Sep 2026 18:03:38 +0100
+Subject: [PATCH v5 4/9] firmware: arm_scmi: Fall back to ACPI HID when
+ "compatible" is absent
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260915-acpi_scmi_pcc-v5-2-298579e9f359@kernel.org>
+Message-Id: <20260915-acpi_scmi_pcc-v5-4-298579e9f359@kernel.org>
 References: <20260915-acpi_scmi_pcc-v5-0-298579e9f359@kernel.org>
 In-Reply-To: <20260915-acpi_scmi_pcc-v5-0-298579e9f359@kernel.org>
 To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
@@ -48,69 +48,65 @@ Cc: Cristian Marussi <cristian.marussi@arm.com>,
  Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 X-Mailer: b4 0.16.0
 
-Extend the SCMI transport driver helper to support ACPI-based systems.
-Introduce an internal helper macro that accepts both OF and ACPI match
-tables, and expose two wrappers:
+scmi_debugfs_common_setup() uses the "compatible" property to
+populate the debugfs transport type string. ACPI-described SCMI
+devices do not provide that DT property, so the string remains
+NULL and debugfs setup falls through the allocation failure path.
 
-  - DEFINE_SCMI_TRANSPORT_DRIVER(...) for DT/OF transports
-  - DEFINE_SCMI_ACPI_TRANSPORT_DRIVER(...) for ACPI transports
+Check the property lookup result and use the ACPI HID as the
+fallback transport type when an ACPI companion is present.
 
-For ACPI, set the generated platform_driver .acpi_match_table via
-ACPI_PTR(). The ACPI wrapper relies on the firmware-node propagation
-provided by the preceding change so fwnode lookups on the spawned
-platform device see the correct firmware description.
+All supported DT SCMI platforms are expected to provide "compatible",
+so the non-ACPI fallback is not needed for normal DT operation. Keep
+the explicit "unknown" fallback anyway to avoid passing NULL to
+kstrdup() if that assumption is ever violated.
 
-Keep existing DT users unchanged while allowing transports to be probed
-using struct acpi_device_id tables on ACPI platforms.
-
-Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
 ---
- drivers/firmware/arm_scmi/common.h | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ drivers/firmware/arm_scmi/driver.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-index 244f4ee5b655..f172ec9a054b 100644
---- a/drivers/firmware/arm_scmi/common.h
-+++ b/drivers/firmware/arm_scmi/common.h
-@@ -9,6 +9,7 @@
- #ifndef _SCMI_COMMON_H
- #define _SCMI_COMMON_H
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index 4ca52cfb0a45..878d27bc315a 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -16,6 +16,7 @@
+ 
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
  
 +#include <linux/acpi.h>
- #include <linux/bitfield.h>
- #include <linux/completion.h>
- #include <linux/device.h>
-@@ -615,7 +616,8 @@ struct scmi_transport_supplier __supplier = {			\
- 	.th.supplier_put = scmi_transport_supplier_put,		\
+ #include <linux/bitmap.h>
+ #include <linux/cleanup.h>
+ #include <linux/debugfs.h>
+@@ -3063,6 +3064,15 @@ static void scmi_debugfs_common_cleanup(void *d)
+ 	kfree(dbg->type);
  }
  
--#define DEFINE_SCMI_TRANSPORT_DRIVER(__tag, __drv, __desc, __match, __core_ops)\
-+#define __DEFINE_SCMI_TRANSPORT_DRIVER(__tag, __drv, __desc, __of_match,       \
-+					__acpi_match, __core_ops)	       \
- static void __tag##_dev_free(void *data)				       \
- {									       \
- 	struct platform_device *spdev = data;				       \
-@@ -681,11 +683,18 @@ err_mem:								       \
- static struct platform_driver __drv = {					       \
- 	.driver = {							       \
- 		   .name = #__tag "_transport",				       \
--		   .of_match_table = __match,				       \
-+		   .of_match_table = __of_match,			       \
-+		   .acpi_match_table = ACPI_PTR(__acpi_match),		       \
- 		   },							       \
- 	.probe = __tag##_probe,						       \
- }
++static const char *scmi_acpi_device_hid(struct acpi_device *adev)
++{
++#ifdef CONFIG_ACPI
++	return adev ? acpi_device_hid(adev) : "unknown";
++#else
++	return "unknown";
++#endif
++}
++
+ static struct scmi_debug_info *scmi_debugfs_common_setup(struct scmi_info *info)
+ {
+ 	char top_dir[16];
+@@ -3080,8 +3090,10 @@ static struct scmi_debug_info *scmi_debugfs_common_setup(struct scmi_info *info)
+ 		return NULL;
+ 	}
  
-+#define DEFINE_SCMI_TRANSPORT_DRIVER(__tag, __drv, __desc, __match, __core_ops)\
-+	__DEFINE_SCMI_TRANSPORT_DRIVER(__tag, __drv, __desc, __match, NULL, __core_ops)
+-	fwnode_property_read_string(dev_fwnode(info->dev), "compatible",
+-				    &c_ptr);
++	if (fwnode_property_read_string(dev_fwnode(info->dev), "compatible",
++					&c_ptr))
++		c_ptr = scmi_acpi_device_hid(ACPI_COMPANION(info->dev));
 +
-+#define DEFINE_SCMI_ACPI_TRANSPORT_DRIVER(__tag, __drv, __desc, __match, __core_ops)\
-+	__DEFINE_SCMI_TRANSPORT_DRIVER(__tag, __drv, __desc, NULL, __match, __core_ops)
-+
- void scmi_notification_instance_data_set(const struct scmi_handle *handle,
- 					 void *priv);
- void *scmi_notification_instance_data_get(const struct scmi_handle *handle);
+ 	dbg->type = kstrdup(c_ptr, GFP_KERNEL);
+ 	if (!dbg->type) {
+ 		kfree(dbg->name);
 
 -- 
 2.43.0
