@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E51407563
-	for <arm-scmi@vger.kernel.org>; Tue, 15 Sep 2026 17:05:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E2A427FB0
+	for <arm-scmi@vger.kernel.org>; Tue, 15 Sep 2026 17:05:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789491911; cv=none; b=BW23x9bF+26dSebCxEvR78p0C/CpWn+dGfnN774J2Wqr22fCVrtCPFw+NJpMPuGTFSib+2yr/x3RpQPi9Lo5CWDXIDemtDdA/SwAfXyyYVKlHWxA7Az2Ht+rqgMQF5XQaW4WETkIH9+ua9k9eGt5gkxS4SKThg1cFdFELu7oRHg=
+	t=1789491911; cv=none; b=uwljy+3y0wiO3y60a6SeHMTEk/bRHsWSaRedWZ9lfGp01wcY0sPtrF62vkXn7KylDntSbIKS3f7RTDXA7KZ4UIMbsl50yC+ojz/j/4jTkjUUMvD6uvc+snXV6vEXaun+A3iVYfZLYugvcF3Imrtt5g4gV+GQ9kiFQhWZia9ZM8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1789491911; c=relaxed/simple;
-	bh=UhC0mGZk78hpg4U520V7NNllFD/o5fnLTmGa0HGzyPM=;
+	bh=2cFeuWWyykqQZHxIbmOpahk4Dov8o9DbGqwWaOgrsDA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=m6vB87j5DeAAxlTbt2JXYNNZRGVwI3CVLiMvUru/eSD6j1CoohhFWbldLiZdq0BxQXXjhRN67oNaiRthBi/mYBHZj3sU0Sg7hwKklE9t4mHUryHeAxgjE0HSjP6qLAubPHhEWuvRxVSUL6FA5iCzgagkx4aBpoFBtVqxamqVxvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LevVmzWO; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=F+no+3WTAXBXO3JDuS6GHGKT68Tq3eb/6xKYT3zHnDGynn+/tqdBRQy/VsBL6sL5epXcJzJtSdcMZbmvSAaxfaZ3CcGf8dhU/pyzR9hnuztXOufgkE8QQlfamyVmM03r4ICHP1H4xsUit4Sw6q7dKp6o4O9s6l7z7ngBuJkfrTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lpwiEDNc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LevVmzWO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2696E1F000FF;
-	Tue, 15 Sep 2026 17:05:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lpwiEDNc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B6A41F00893;
+	Tue, 15 Sep 2026 17:05:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789491909;
-	bh=YMJHxXVN3QKas0i+L0qW39aozjauSLnpKQ4QWP5z6ww=;
+	s=k20260515; t=1789491910;
+	bh=SOvbMkTzydFknS4iiHuLQpioDhMp+4T6jEUvQZ9DkZ0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=LevVmzWO605Fjp0PqG2Am7SEgnN58CgxoxXTVGPNG4FHM9K0OQ+XVEam3v8LOI3Vp
-	 pPU7WirAZ0hP0XCTU8lujAok9Eb3e9jOFZOzuyjhepWpCwuN6Cc/JZd9OF29PgT/0w
-	 3XZPASvb1kglDX2j6c7gaahvO6noozxcb////+KCGRlwrr9tipey4hu6LCvELs1K1G
-	 rTPavSNiBJwWfJJwWm/rzRHGJwZsBQqQVQuK+FRDt+bOGCUr4i0CxpMW7kpev0Iu3U
-	 C9Twi993qOhQOIaCf0vt4pMn1dAfPeCCm4W8ZSLKZQHCxvFwWfkqbPcTQRn4EKpRkp
-	 uEgFGs5Gqv3JQ==
+	b=lpwiEDNcQ78ZDzHyBYqJ2INbrd5xcs0gFmdWmhR8GOwa/Kvscr5t2k+7a3Fe6KPiJ
+	 wq5ETqgedyYURupoAjqDVxYJ1lKZQIub8ON6C8ocCj8LX76SQ8Uh+0VndlEq9DPx19
+	 FWZKPzILw4GImh2NJFhDHqWzWukmPKqjQ6obCwMRtMxqJQBa3UUkI9CT1eDLyaC88i
+	 ZT/O0NY2t4XGfiH1EEY57Gr/+Sslyc3FEbVd82YJLf526hzUg1zf5eqIpc9qEk4p7A
+	 DyTL1hT2cvvf9YRyC5NBu48EiG0HRwrp7gL5L5BjDJ6Qr0NiCfU3a0BoS8zai9vD8S
+	 AWOT1kezYBxNw==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-Date: Tue, 15 Sep 2026 18:03:42 +0100
-Subject: [PATCH v5 8/9] firmware: arm_scmi: Initialise known ACPI protocol
- devices and channels
+Date: Tue, 15 Sep 2026 18:03:43 +0100
+Subject: [PATCH v5 9/9] firmware: arm_scmi: Validate PCC shared memory
+ signature
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260915-acpi_scmi_pcc-v5-8-298579e9f359@kernel.org>
+Message-Id: <20260915-acpi_scmi_pcc-v5-9-298579e9f359@kernel.org>
 References: <20260915-acpi_scmi_pcc-v5-0-298579e9f359@kernel.org>
 In-Reply-To: <20260915-acpi_scmi_pcc-v5-0-298579e9f359@kernel.org>
 To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
@@ -48,139 +48,58 @@ Cc: Cristian Marussi <cristian.marussi@arm.com>,
  Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 X-Mailer: b4 0.16.0
 
-Unlike Device Tree, the ACPI SCMI namespace device does not provide
-child fwnodes to represent each protocol. Iterate over the non-BASE
-entries in scmi_dsd_info_list to initialize their protocol devices and
-transport channels. The BASE channel and device are handled by the
-common setup path.
+Validate the PCC shared memory signature when setting up an SCMI PCC
+channel.
 
-Let the transport channel-availability and SCMI protocol implementation
-checks decide which of the known protocols are usable on the platform.
+Reject channels whose shared memory signature does not encode
+PCC_SIGNATURE combined with the PCC subspace ID, so misconfigured
+firmware is caught before the transport starts using the shared memory
+region.
 
 Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
 ---
- drivers/firmware/arm_scmi/driver.c | 66 +++++++++++++++++++++++++++-----------
- 1 file changed, 47 insertions(+), 19 deletions(-)
+ drivers/firmware/arm_scmi/transports/pcc.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 616b57237559..c77f9534cda5 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -2873,7 +2873,7 @@ scmi_txrx_setup(struct scmi_info *info, struct fwnode_handle *fwnode,
-  */
- static int scmi_channels_setup(struct scmi_info *info)
- {
--	int ret;
-+	int ret, idx;
- 	struct fwnode_handle *fwnode = dev_fwnode(info->dev);
- 
- 	/* Initialize a common generic channel at first */
-@@ -2881,21 +2881,34 @@ static int scmi_channels_setup(struct scmi_info *info)
- 	if (ret)
- 		return ret;
- 
--	fwnode_for_each_available_child_node_scoped(fwnode, child) {
--		u32 prot_id;
-+	if (!is_acpi_node(fwnode)) {
-+		fwnode_for_each_available_child_node_scoped(fwnode, child) {
-+			u32 prot_id;
-+
-+			if (fwnode_property_read_u32(child, "reg", &prot_id))
-+				continue;
- 
--		if (fwnode_property_read_u32(child, "reg", &prot_id))
--			continue;
-+			if (!FIELD_FIT(MSG_PROTOCOL_ID_MASK, prot_id)) {
-+				dev_err(info->dev,
-+					"Out of range protocol %d\n", prot_id);
-+				continue;
-+			}
- 
--		if (!FIELD_FIT(MSG_PROTOCOL_ID_MASK, prot_id)) {
--			dev_err(info->dev,
--				"Out of range protocol %d\n", prot_id);
--			continue;
-+			ret = scmi_txrx_setup(info, child, prot_id);
-+			if (ret)
-+				return ret;
- 		}
-+	} else {
-+		for (idx = 0; idx < ARRAY_SIZE(scmi_dsd_info_list); idx++) {
-+			int prot_id = scmi_dsd_info_list[idx].protocol_id;
- 
--		ret = scmi_txrx_setup(info, child, prot_id);
--		if (ret)
--			return ret;
-+			if (prot_id == SCMI_PROTOCOL_BASE)
-+				continue;
-+
-+			ret = scmi_txrx_setup(info, fwnode, prot_id);
-+			if (ret)
-+				return ret;
-+		}
- 	}
- 
- 	return 0;
-@@ -3245,7 +3258,7 @@ static void scmi_enable_matching_quirks(struct scmi_info *info)
+diff --git a/drivers/firmware/arm_scmi/transports/pcc.c b/drivers/firmware/arm_scmi/transports/pcc.c
+index b7501f980d0b..86d4a097d8ec 100644
+--- a/drivers/firmware/arm_scmi/transports/pcc.c
++++ b/drivers/firmware/arm_scmi/transports/pcc.c
+@@ -698,8 +698,11 @@ static void rx_callback(struct mbox_client *cl, void *m)
  }
  
- static void scmi_device_check_create(struct fwnode_handle *fwnode, int prot_id,
--				     struct scmi_info *info)
-+				     struct scmi_info *info, bool report_missing)
+ static int pcc_chan_validate_shmem(struct scmi_chan_info *cinfo,
+-				   struct scmi_pcc *smbox)
++				   struct scmi_pcc *smbox, int ss_id)
  {
- 	int ret;
- 	struct device *dev = info->dev;
-@@ -3257,6 +3270,9 @@ static void scmi_device_check_create(struct fwnode_handle *fwnode, int prot_id,
++	struct pcc_shared_mem __iomem *shmem = smbox->pchan->shmem;
++	u32 valid_signature = ss_id + PCC_SIGNATURE;
++
+ 	if (smbox->pchan->shmem_size < SCMI_PCC_SHMEM_OVERHEAD ||
+ 	    smbox->pchan->shmem_size - SCMI_PCC_SHMEM_OVERHEAD <
+ 	    cinfo->max_msg_size) {
+@@ -707,6 +710,11 @@ static int pcc_chan_validate_shmem(struct scmi_chan_info *cinfo,
+ 		return -ENOSPC;
  	}
  
- 	if (!scmi_is_protocol_implemented(handle, prot_id)) {
-+		if (!report_missing)
-+			return;
++	if (ioread32(&shmem->header.signature) != valid_signature) {
++		dev_err(cinfo->dev, "invalid PCC shared memory signature\n");
++		return -EINVAL;
++	}
 +
- 		dev_err(dev, "SCMI protocol %d not implemented\n", prot_id);
- 		return;
- 	}
-@@ -3279,7 +3295,7 @@ static void scmi_device_check_create(struct fwnode_handle *fwnode, int prot_id,
- 
- static int scmi_probe(struct platform_device *pdev)
- {
--	int ret;
-+	int ret, idx;
- 	char *err_str = "probe failure\n";
- 	struct scmi_handle *handle;
- 	const struct scmi_desc *desc;
-@@ -3400,13 +3416,25 @@ static int scmi_probe(struct platform_device *pdev)
- 
- 	scmi_enable_matching_quirks(info);
- 
--	fwnode_for_each_available_child_node(dev_fwnode(dev), child) {
--		u32 prot_id;
-+	if (!is_acpi_node(dev_fwnode(dev))) {
-+		fwnode_for_each_available_child_node(dev_fwnode(dev), child) {
-+			u32 prot_id;
- 
--		if (fwnode_property_read_u32(child, "reg", &prot_id))
--			continue;
-+			if (fwnode_property_read_u32(child, "reg", &prot_id))
-+				continue;
- 
--		scmi_device_check_create(child, prot_id, info);
-+			scmi_device_check_create(child, prot_id, info, true);
-+		}
-+	} else {
-+		for (idx = 0; idx < ARRAY_SIZE(scmi_dsd_info_list); idx++) {
-+			int prot_id = scmi_dsd_info_list[idx].protocol_id;
-+
-+			if (prot_id == SCMI_PROTOCOL_BASE)
-+				continue;
-+
-+			scmi_device_check_create(dev_fwnode(dev), prot_id,
-+						 info, false);
-+		}
- 	}
- 
  	return 0;
+ }
+ 
+@@ -742,7 +750,7 @@ static int pcc_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
+ 		return ret;
+ 	}
+ 
+-	ret = pcc_chan_validate_shmem(cinfo, smbox);
++	ret = pcc_chan_validate_shmem(cinfo, smbox, ss_id);
+ 	if (ret) {
+ 		pcc_mbox_free_channel(smbox->pchan);
+ 		return ret;
 
 -- 
 2.43.0
