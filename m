@@ -1,170 +1,100 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A997E43C7C5
-	for <arm-scmi@vger.kernel.org>; Tue, 15 Sep 2026 17:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A58B04A92EE;
+	Wed, 16 Sep 2026 09:36:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789494873; cv=none; b=cGw2VyddyVbCnBGRH6+E7T+wtyPtZs3aCz4XMY6remd3LG7kIa61EQRuG2G7laWAjx2w1V529giazDeMEwOB1yXA8QxEo+Dc2BXXPX68R24iUUgywRZMXM7f02ArEBnsRIejyWn6b/9pUelVTAfCGvfTy6EQixM/UE6u7PcbDrs=
+	t=1789551369; cv=none; b=uyO5ScCE1Grm5cZOw12R7ahZ/1wMGocIhxgaHZ2XVYCfBIDXkDD0VDAVsRJhrL6tDb1GXOTo5pkEzOCUO/S7In4kcGkiVG0zPupW24lIg3Fm5WB+fhY0OBt/Qh+vRIDEoQy0wIHs7lODxUkS8oiryuQoChShMVTNtR/eM6JJhMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789494873; c=relaxed/simple;
-	bh=YV+k4MpgNhuJvubvbw3E8ZSBt4xX9OCbd5YX9hWrDMY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WpGLo5lYtD/JxNRaK4iCy0Ojyiqu7NFDd4zOjxOzx8zwtuCFcXrZEwKvYsSFfyxdr7GQb9iZWpCkiDAG3p55zB/0TupsX/++fzZ6HNxPMlBQAtUWmgoqHGppRCuXoPKrjwthOqmgZX+cUOSRQSN+t1HJm3BbCIYwmdtIMnuEXjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=pu/ZXjEW; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=RjxIwboI; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="pu/ZXjEW";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="RjxIwboI"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68FHorJt3195347
-	for <arm-scmi@vger.kernel.org>; Tue, 15 Sep 2026 17:54:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	YV+k4MpgNhuJvubvbw3E8ZSBt4xX9OCbd5YX9hWrDMY=; b=pu/ZXjEWueQEkxFn
-	XvJs+PUx190FjwthFylFreyJFrrKuPIMCq2q7+rVORYQUDvK2ExhPinwx5Dnm2lm
-	kuyMPnZdiumIBVgN9DBgzp4DXaR0uwOLZG5+0A7yFkBErBaPIDm6klfAzd4XL57m
-	LXJ/Y8+VOf5ipfmuWF2cxvgd0XpYuy+4ILGoirJGNT5oskuA2gKoCl4+FuRuGiy+
-	OHnrrptejOuBCLWSfVX4vvmCdVXSzJ9d/jU0H0pzk0AYwCzNupuQJxpOkd66IyoR
-	2ZXecJT6vyTclA+TDig9c1OdzUsZ3ayuWlPYXrgy7L84C6k/XTfhNa/NPJHTzIu7
-	lWEeXw==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gq1qpbd2s-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Tue, 15 Sep 2026 17:54:29 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-39dc5d85a9cso3867766a91.2
-        for <arm-scmi@vger.kernel.org>; Tue, 15 Sep 2026 10:54:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789494869; x=1790099669; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YV+k4MpgNhuJvubvbw3E8ZSBt4xX9OCbd5YX9hWrDMY=;
-        b=RjxIwboImMRcxBuUPCm9MFuZToYKAUpVF9KT6JpOefQo0smEFyJAtKXvru5vdLTbiu
-         5odF0FMjXYixOCIdEzm4Gz7dPeaWY6oukXQcHDXeRU5IZI4lc7i4folqJFMv/97Nv80Y
-         aZZMHDezMeUT+mv3ab/Iqex7ZJZdP3bZz/60ibBYV5dyk9Rugd9js6CDKChi+DegBEV/
-         DkkB0OpO1NTAVTC1+VN3dS9stVbgC2S36GL7buMQdHARjCqgyEYFWjFinPfVuZoAMAWd
-         XOaMC3VrbzT753e6AZSIOMNQksPGjnSj+TnI5+QHFigNWzg0DOQqoU0KFULRbHpCo2wL
-         eJmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789494869; x=1790099669;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YV+k4MpgNhuJvubvbw3E8ZSBt4xX9OCbd5YX9hWrDMY=;
-        b=T20K98gkxnR491R7kL91eLSXgxM0Ooo664wT7PlJPGGDYByc0sVD2OZmNh8IQU92XI
-         FPTnRSjK7ovsHGyDEiGe0Jx+clesHot3pIrZp+8GpqcaK3I7/06pCHK3lon1yQkCms7D
-         JbznDLq1zXdWFVV+DPSRmcBcMeuk+0zJGssXy372Z/tVIPvylJlrVHSGuQPuGz9K/N+S
-         GILTgb1mwgDdXo3qfOyOzHaU8KcQ7DIPT3Y2/CqTfj7tTHgjb60tZt/MVRBWezKvNVlc
-         mluYLCPX+diM4AOjcXQw/3WypiGtpjh2GaV6P1M88DEHI4UIBvc/5iZJLvPkM0ww/TQw
-         DSpg==
-X-Forwarded-Encrypted: i=1; AKwUvByuWezkwLC89jwYk3avLIHgu+lA6bZP4iKptPaUaRlBrc4gh0Csl8GlTYuyM6SMrscvV/OFs0XVFg==@vger.kernel.org
-X-Gm-Message-State: AFuF++nrHIrOtiiUfhWQkant1ImbZz3uabWKjtN6d0S/yYCXNCFjlXqR
-	+rn4b3/sSKrE8fnKHgs85JHm/zGxUP4PgXz+BOqeDBt1mxeu1feO6Y6m+lsq9QGJ0lThfmZllqS
-	xKsJ857mW2imO78BKRGs2FM6NemLc2jD78z8i5BrQ5RHJO7kpkMZXnGLQpucDMQ==
-X-Gm-Gg: AYBFou1UT6IsKVWYv9f6U56EIqbbdgdvJjx8G3BTzVNN5uk5LFLp+jPOCGintOkpI9r
-	vYVFsL9/88uB0TaBUFmTrkl5FDPUhBLBkfOuE/uIA1FvmdtQEMsu8HwuwLsXxx6f6JNqwOIKUYl
-	aLNYNY4MRtq06swPt7DYCX1YO6TYDsa1HgCoaFNFYVyWg7y0q+MyGqUBVnrM/6SmdvIqTP+s7+H
-	VKKMXrql5+5RBbyte4bimLR8sh4PJJBGY5SiMZaTVg25nPbKN4JJw37tfFVqk9SRTRGkIKht/Ox
-	PIotHoI1aNGS4wIOX3/Iy6f39KhoAlLCrZXV2+G/YzkYtgm1v6aHxZxEGAjuh030oHqf1ThNGXW
-	04whTQbLe0ATJG4wDXqJD1eMRLImKB8qMWeOFOSc4i+oavQ==
-X-Received: by 2002:a17:90b:28d0:b0:39d:f5b1:e35f with SMTP id 98e67ed59e1d1-39e11095fcamr4218084a91.25.1789494869086;
-        Tue, 15 Sep 2026 10:54:29 -0700 (PDT)
-X-Received: by 2002:a17:90b:28d0:b0:39d:f5b1:e35f with SMTP id 98e67ed59e1d1-39e11095fcamr4218025a91.25.1789494868480;
-        Tue, 15 Sep 2026 10:54:28 -0700 (PDT)
-Received: from [10.177.238.120] (pat_11.qualcomm.com. [192.35.156.11])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14395d13ee7sm306945c88.8.2026.09.15.10.54.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Sep 2026 10:54:28 -0700 (PDT)
-Message-ID: <362574de-c709-4e78-9b88-4bc4e0dd7c7d@oss.qualcomm.com>
-Date: Tue, 15 Sep 2026 10:54:22 -0700
+	s=arc-20240116; t=1789551369; c=relaxed/simple;
+	bh=ueezB6h466N78udxdAAs3+YL41YsMPmJ91cXLkgiYls=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NyORo7RNto3mvJEpiOkc/HbJwLIihiloaBPvz2UOJ2lxsd1zeOx7L87WJvO2l7Dn1xfhj6G5YIxRU2HMys35ylcQXW9eProCCJSetcFmdcqaT4PoXA/ReECKRO8d8hy8aXr7fGuohzMelSeEHMUwQl8hX67RAylTEE+6/wSUixs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
+	by APP-03 (Coremail) with SMTP id rQCowACnqjj7YqpqpXTgBw--.42407S2;
+	Wed, 16 Sep 2026 17:35:55 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: arm-scmi@vger.kernel.org
+Cc: cristian.marussi@arm.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	sudeep.holla@kernel.org,
+	Wentao Liang <vulab@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] firmware: arm_scmi: Fix msg use-after-free in virtio_mark_txdone()
+Date: Wed, 16 Sep 2026 09:35:27 +0000
+Message-Id: <20260916093527.2004594-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] pinctrl: scmi: Replace get function and group info
- with generic callbacks
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-        Linus Walleij <linusw@kernel.org>, arm-scmi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20260731-scmi-pinctrl-generics-v1-0-8affd2b79a6b@oss.qualcomm.com>
- <an7RL_mTsznZjeIQ@pluto>
- <56107a6d-962d-4508-a1d3-7a6e9e2af887@oss.qualcomm.com>
- <20260907-airborne-cobra-of-democracy-a9c411@sudeepholla>
-Content-Language: en-US
-From: Alex Tran <alex.tran@oss.qualcomm.com>
-In-Reply-To: <20260907-airborne-cobra-of-democracy-a9c411@sudeepholla>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDI2MSBTYWx0ZWRfXxsM/dQRK1V8S
- HDW/M8W7dsz4r7yf7lWhhZ/LmPPnaF4y0p9KnfiOb1z67f1Y8ss1AKkVbvCvoyI2GbOOC3YVReT
- +tt8RvGM2iHk6cmenkypmfBB5odjlAQ=
-X-Authority-Analysis: v=2.4 cv=I4Xw19gg c=1 sm=1 tr=0 ts=6aa98655 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=8qBNkTY05YfpeKCp1UkA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-ORIG-GUID: ukVgj1Ocb4I5MwzhfWBnI5IGgphvLuqs
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDI2MSBTYWx0ZWRfX0rxY+JpqbcNW
- JoifMfKNd6Cpu6fy5NTSrGSlqnHtM5F3Q5y64mBv/yGEvbAC7sxNS4I2u8+v2bV2wOwZKYw4tS1
- zzpnhYInHjrDI8dW0kMMIN7y8QyZJFnOiyqKwVMzubcdGZPWdf1EJyrA1a50hCkutub7rZx9TBF
- 7jZhdrD0WbnTeeCx9CzXwsno9+Aaj8HFCDYqoLMPTPd4M3A0epIbhAKl48h5WLoGswRma2uvhb5
- TupYspt3kL8XcbYhQBNmFHXVp2emhIPMAPl6WiGjSgvyIbjpFQhz4fgK+O2S7hVdGh+zS0tI2gQ
- zvaboreLylvwxQM5wD80VFatVtwCcdb0g+f0SaN2zrmrMvZ02bj3TAr3ezNyRbVi5cNQ56OxTUI
- Ua9y5CrqUimgvcAZQB2XEcOS28UnGuA3nUczsD4Hzj6d1Pu5yqfhyMXSA/C/eQiyyn07ocT0kFy
- yKtjjEwsqqx7xmunvrw==
-X-Proofpoint-GUID: ukVgj1Ocb4I5MwzhfWBnI5IGgphvLuqs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-15_05,2026-09-15_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 suspectscore=0 phishscore=0 clxscore=1015
- priorityscore=1501 bulkscore=0 malwarescore=0 impostorscore=0 adultscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609150261
+X-CM-TRANSID:rQCowACnqjj7YqpqpXTgBw--.42407S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7KF18CrW5CF4kJr4DKFW5GFg_yoW8AFy5pF
+	4qga9xGw4UJF4xta48AF4kuFya9anYgr9xWry29aykCan8JF18XrWUAwn0gFyUArWxGa4j
+	kF4ktrZrGF1DZrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvj14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7v_Jr
+	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
+	6r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
+	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCI
+	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267
+	AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j
+	6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfUOM
+	KuUUUUU
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRQMA2qqP4eVTAAAsz
 
-On 9/7/2026 1:53 AM, Sudeep Holla wrote:
+virtio_mark_txdone() can drop the last reference of a polled message
+while msg->poll_lock is still held, returning the message to the
+free-list where a concurrent sender can re-allocate it and race with
+the unlock at the end of the critical section. Hold a spare reference
+across the poll_lock critical section and drop it after the unlock.
 
-> On Fri, Aug 14, 2026 at 05:05:27PM -0700, Alex Tran wrote:
->>> Hi Alex,
->>>
->>> I gave it a go at this series on an emulated setup and with these
->>> changes I get:
->>>
->>> root@deb-guest:~# modprobe pinctrl-scmi
->>> [   15.329932] scmi-pinctrl scmi_dev.4: error -EINVAL: Failed to register functions
->>> [   15.330259] scmi-pinctrl scmi_dev.4: probe with driver scmi-pinctrl failed with error -22
->>>
->>> ...not debugged any further.
->>>
->>> Thanks,
->>> Cristian
->> Hi Cristian,
->>
->> I've tested this series on sa8797p hardware and did not experience any issues
->> with registering functions during probe. Can you provide me with the pin
->> topology of your emulated setup? I have a hunch that the topology may
->> contain a function with 0 groups which is why -EINVAL is being returned.
->> The previous pinctrl_scmi_get_function_groups callback considered a function
->> with no groups invalid.
-> I found couple of feedback from sashiko valid, can you take a look at all the
-> comments there[1] ?
+Fixes: 5a3b7185c47c ("firmware: arm_scmi: Add atomic mode support to virtio transport")
+Cc: stable@vger.kernel.org
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ drivers/firmware/arm_scmi/transports/virtio.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Hi Sudeep,
-
-Sure, I'll address all the relevant comments from the feedback and send in a revised version once ready.
-
-BR,
-Alex
+diff --git a/drivers/firmware/arm_scmi/transports/virtio.c b/drivers/firmware/arm_scmi/transports/virtio.c
+index 326c4a93e44b..4bbd9dd2de83 100644
+--- a/drivers/firmware/arm_scmi/transports/virtio.c
++++ b/drivers/firmware/arm_scmi/transports/virtio.c
+@@ -616,6 +616,14 @@ static void virtio_mark_txdone(struct scmi_chan_info *cinfo, int ret,
+ 		return;
+ 	}
+ 
++	/*
++	 * Hold a spare reference to msg so that it is not returned to the
++	 * free-list while it is still accessed under poll_lock: a message
++	 * sitting on the free-list can be re-allocated and re-initialized
++	 * without taking poll_lock.
++	 */
++	scmi_vio_msg_acquire(msg);
++
+ 	spin_lock_irqsave(&msg->poll_lock, flags);
+ 	/* Do not free timedout polled messages only if still inflight */
+ 	if (ret != -ETIMEDOUT || msg->poll_status == VIO_MSG_POLL_DONE)
+@@ -624,6 +632,8 @@ static void virtio_mark_txdone(struct scmi_chan_info *cinfo, int ret,
+ 		msg->poll_status = VIO_MSG_POLL_TIMEOUT;
+ 	spin_unlock_irqrestore(&msg->poll_lock, flags);
+ 
++	scmi_vio_msg_release(vioch, msg);
++
+ 	scmi_vio_channel_release(vioch);
+ }
+ 
+-- 
+2.34.1
 
