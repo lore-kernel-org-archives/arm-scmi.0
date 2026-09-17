@@ -1,32 +1,44 @@
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A58B04A92EE;
-	Wed, 16 Sep 2026 09:36:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F07B4F405E;
+	Thu, 17 Sep 2026 21:13:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789551369; cv=none; b=uyO5ScCE1Grm5cZOw12R7ahZ/1wMGocIhxgaHZ2XVYCfBIDXkDD0VDAVsRJhrL6tDb1GXOTo5pkEzOCUO/S7In4kcGkiVG0zPupW24lIg3Fm5WB+fhY0OBt/Qh+vRIDEoQy0wIHs7lODxUkS8oiryuQoChShMVTNtR/eM6JJhMc=
+	t=1789679627; cv=none; b=Av4hq4gJj9sHCGpNhKJemr2vlVEtVLKK/uHnU9SW599jiW8c6Qd/9L/v3EO5y/w3qTcorYy0OkNk1tnVfe4uUCN1g/xsKucL3fzTWwULjI7WHrDRNi1xMN+Zw1cam9NcGdCZibkqE+wJOtc8kcMl+iJuotpoah3Hnfl2nGDDvrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789551369; c=relaxed/simple;
-	bh=ueezB6h466N78udxdAAs3+YL41YsMPmJ91cXLkgiYls=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NyORo7RNto3mvJEpiOkc/HbJwLIihiloaBPvz2UOJ2lxsd1zeOx7L87WJvO2l7Dn1xfhj6G5YIxRU2HMys35ylcQXW9eProCCJSetcFmdcqaT4PoXA/ReECKRO8d8hy8aXr7fGuohzMelSeEHMUwQl8hX67RAylTEE+6/wSUixs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-03 (Coremail) with SMTP id rQCowACnqjj7YqpqpXTgBw--.42407S2;
-	Wed, 16 Sep 2026 17:35:55 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: arm-scmi@vger.kernel.org
-Cc: cristian.marussi@arm.com,
+	s=arc-20240116; t=1789679627; c=relaxed/simple;
+	bh=2W9J/d2AsHparWJK+aNjrlKPTYSPzzfnztjEHukMPaU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=a+vFWC1+oBGKbYDNbSXYTw6D6bJjNAnpP5EiIasW8ZaR7Pkm3Il/uk6O16cXhW8cwrXCOSYj4hS6Zcgk/e1+WCP52KcW23BzsHsgyXT2Y6YCZT4PLjTnKSAx5u/onjr08H9Ay57UZik1+Y/cOSHgOk+3rYZsUn7TuCUcQHDod8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nKtBz2Xw; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nKtBz2Xw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43DA51F000FF;
+	Thu, 17 Sep 2026 21:13:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789679626;
+	bh=v4ALv4PlUkkEzw8n/20WsOuPBd75uA1YbabHxHjcL1k=;
+	h=From:To:Cc:Subject:Date;
+	b=nKtBz2XwUR4kkvAOpRK51OeI2Vqak5cDuxLjb4y1t/5LokQAyFcXRRhirId6zMdeR
+	 Fpc6hX7la/BPYfFxd4SaRUD50d8rxEUza3grU5WXb+A1Bbxpelm2pyIPiuMonfZDtM
+	 Z5AyBMpTkmFSrLC9dy+VP5TsZxzxV3Wqhn4VDttL15N7u+3KKugCLICUKd8pKd+Tu5
+	 27qs4dud3pTo/QMsTiHEKrKYkL3qgKawQxuUPzgmeHgGDyBb9XQJIb3zvbZO6lFte9
+	 c4sYe1TCnzWsl/0oFWtFSDhFg+CLaCJ6di1KIvIb4VopVnvqzix59MnC9m8dkVSY63
+	 bqNqGqkb66KGg==
+From: Kees Cook <kees@kernel.org>
+To: Sudeep Holla <sudeep.holla@kernel.org>
+Cc: Kees Cook <kees@kernel.org>,
+	Kees Cook <kees+treewide@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	arm-scmi@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
+	linux-hwmon@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	sudeep.holla@kernel.org,
-	Wentao Liang <vulab@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] firmware: arm_scmi: Fix msg use-after-free in virtio_mark_txdone()
-Date: Wed, 16 Sep 2026 09:35:27 +0000
-Message-Id: <20260916093527.2004594-1-vulab@iscas.ac.cn>
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] hwmon: scmi: Fix info[] allocation type
+Date: Thu, 17 Sep 2026 14:13:45 -0700
+Message-Id: <20260917211344.i.911-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -34,67 +46,55 @@ List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1723; i=kees@kernel.org; h=from:subject:message-id; bh=rFYSh2hqNBw2ENmrdsxu+Uyvi5RqE7u5dNsIMBJsNcQ=; b=owGbwMvMwCVmps19z/KJym7G02pJDFlrIjh2i7cvmKH4o+iA+daEQx5+e68J5PHs/i9z5ynnd 76jJ53FOkpZGMS4GGTFFFmC7NzjXDzetoe7z1WEmcPKBDKEgYtTACaS6sbIsEVq0ZzC3NWN0WFH HJtePwt3X7XiCFPCKpPgZzNYZzKxFDD8FYiZfadF9kWJ1NWlKVKxxXvvy913qNvT5GEslXN97Y0 mVgA=
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowACnqjj7YqpqpXTgBw--.42407S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7KF18CrW5CF4kJr4DKFW5GFg_yoW8AFy5pF
-	4qga9xGw4UJF4xta48AF4kuFya9anYgr9xWry29aykCan8JF18XrWUAwn0gFyUArWxGa4j
-	kF4ktrZrGF1DZrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvj14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
-	6r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
-	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j
-	6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfUOM
-	KuUUUUU
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRQMA2qqP4eVTAAAsz
 
-virtio_mark_txdone() can drop the last reference of a polled message
-while msg->poll_lock is still held, returning the message to the
-free-list where a concurrent sender can re-allocate it and race with
-the unlock at the end of the critical section. Hold a spare reference
-across the poll_lock critical section and drop it after the unlock.
+From: Kees Cook <kees+treewide@kernel.org>
 
-Fixes: 5a3b7185c47c ("firmware: arm_scmi: Add atomic mode support to virtio transport")
-Cc: stable@vger.kernel.org
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+In preparation for making the devm_kmalloc family of allocators type
+aware, we need to make sure that the returned type from the allocation
+matches the type of the variable being assigned. (Before, the allocator
+would always return "void *", which can be implicitly cast to any
+pointer type.)
+
+The assigned type of "scmi_sensors->info[type]" is
+"const struct scmi_sensor_info **", but the converted allocation type
+would be "const struct scmi_sensor_info ***", as the size was taken from
+"*scmi_sensors->info", which is one level of indirection too many.
+Luckily both element types are pointers of the same size. Take the size
+from the element type of the assignment target.
+
+Build tested ARCH=x86_64 allmodconfig with GCC 16.2.0:
+drivers/hwmon/scmi-hwmon.o
+
+Assisted-by: LLM coccinelle
+Signed-off-by: Kees Cook <kees+treewide@kernel.org>
 ---
- drivers/firmware/arm_scmi/transports/virtio.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Cc: Sudeep Holla <sudeep.holla@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: <arm-scmi@vger.kernel.org>
+Cc: <linux-arm-kernel@lists.infradead.org>
+Cc: <linux-hwmon@vger.kernel.org>
+---
+ drivers/hwmon/scmi-hwmon.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/firmware/arm_scmi/transports/virtio.c b/drivers/firmware/arm_scmi/transports/virtio.c
-index 326c4a93e44b..4bbd9dd2de83 100644
---- a/drivers/firmware/arm_scmi/transports/virtio.c
-+++ b/drivers/firmware/arm_scmi/transports/virtio.c
-@@ -616,6 +616,14 @@ static void virtio_mark_txdone(struct scmi_chan_info *cinfo, int ret,
- 		return;
+diff --git a/drivers/hwmon/scmi-hwmon.c b/drivers/hwmon/scmi-hwmon.c
+index eec223d174c0..9ae8f774297e 100644
+--- a/drivers/hwmon/scmi-hwmon.c
++++ b/drivers/hwmon/scmi-hwmon.c
+@@ -305,7 +305,8 @@ static int scmi_hwmon_probe(struct scmi_device *sdev)
+ 
+ 		scmi_sensors->info[type] =
+ 			devm_kcalloc(dev, nr_count[type],
+-				     sizeof(*scmi_sensors->info), GFP_KERNEL);
++				     sizeof(*scmi_sensors->info[type]),
++				     GFP_KERNEL);
+ 		if (!scmi_sensors->info[type])
+ 			return -ENOMEM;
  	}
- 
-+	/*
-+	 * Hold a spare reference to msg so that it is not returned to the
-+	 * free-list while it is still accessed under poll_lock: a message
-+	 * sitting on the free-list can be re-allocated and re-initialized
-+	 * without taking poll_lock.
-+	 */
-+	scmi_vio_msg_acquire(msg);
-+
- 	spin_lock_irqsave(&msg->poll_lock, flags);
- 	/* Do not free timedout polled messages only if still inflight */
- 	if (ret != -ETIMEDOUT || msg->poll_status == VIO_MSG_POLL_DONE)
-@@ -624,6 +632,8 @@ static void virtio_mark_txdone(struct scmi_chan_info *cinfo, int ret,
- 		msg->poll_status = VIO_MSG_POLL_TIMEOUT;
- 	spin_unlock_irqrestore(&msg->poll_lock, flags);
- 
-+	scmi_vio_msg_release(vioch, msg);
-+
- 	scmi_vio_channel_release(vioch);
- }
- 
 -- 
 2.34.1
 
