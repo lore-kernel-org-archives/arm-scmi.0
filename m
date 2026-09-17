@@ -1,87 +1,87 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C503B776A
-	for <arm-scmi@vger.kernel.org>; Thu, 17 Sep 2026 22:56:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746BD4ACC9E
+	for <arm-scmi@vger.kernel.org>; Thu, 17 Sep 2026 22:56:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789685795; cv=none; b=RfssG4oGYgbK10/x+DCAwuGFhe5dH9ciWPQJcaTqsZaMhmtLObG3ukd9K8UqfiOlZ06w4MdM2cnZyt6l2QcZZxlvQvQHW60KbsDhH29ggrJd/iFQ9344iGfub08M7qdbliyB7YRTmD/E7++RWiQBR5uEwwheGqcI5xSw7spb2lU=
+	t=1789685796; cv=none; b=JEF/xGWZrwtPLlO8BzJhm/IuaEGyJb6BLoTaSi4Vlr76Pv5uQmfiBhDmDndydthrjTUekAHfEnOrzXYw1vp2N/rsrRVFrMrWNbAjOtvfwpzh3k9Vsr61IAxONU6AlvBsWCJiq/EnZe6tRt25+8aHxMw85fPk39QX2NLi1TzzxLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789685795; c=relaxed/simple;
-	bh=P8dryjMpnqvpodgWk2ySD7v0wpX4IgHdJJ8YJF0hzFM=;
+	s=arc-20240116; t=1789685796; c=relaxed/simple;
+	bh=nSbXNq1OJYe51dl5okOjHM4uLmUxr4IZI624Hov2mXg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YZgX7eAXvLgWPeC/isctr21ByJ7SYzbq7lJJIFmeqdqI8TI51VFqNwbK4gTcg5OGk1Lo/WaNAYOngwN0IQcbaHp5BKNXbzMxpvCs0hWhH4bmfuJo/wFDxiCRK5PCezFL387W8uslBDZHUgxBe0VK/nG3M9u9fF0cLDJrvZmLZbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Svk1/ZM7; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=bugjM6hW; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:Cc; b=cIkA7e6ONX8Xkid7Vs6maE+hp5RVEz4o08CSENQKLtst8BZapLTuf8pBVm9F5Wpj8FWjUubKOzffyLWDYZT60cS56gad7aEYMOYfJs4Cluqy52nedIwImIxcTaKJdNQMrCie7n5IERZCR4Ajnm862GfSu02IoWNNn3nz+cBOlyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jZMepdNn; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=aYiUr0z0; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Svk1/ZM7";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="bugjM6hW"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68HLFfSD2178449
-	for <arm-scmi@vger.kernel.org>; Thu, 17 Sep 2026 22:56:32 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jZMepdNn";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aYiUr0z0"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68HLFfur3088696
+	for <arm-scmi@vger.kernel.org>; Thu, 17 Sep 2026 22:56:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	C8fhB4ShupgmdingQtdsx4ZV7fuE84BA4Ymz0F7Pxoc=; b=Svk1/ZM7ul6UUri1
-	ilADI/q42HWeWOXDTlhXtMd+epfVhQKv1y5K06BgXfL0VDFWvcs6dohdInxV3hlX
-	p93MhU6T5EOjVT2Ipkp7pkFSz263eCTuX5MJv87sQ1yG3odWx6cxQQR0bkvp2ix5
-	M2FZxSOBarq6yRe9jzg6hYzWW0YUNKFBCwwBx5cMLS6TJ/TLjdOU5Nf5rQ+yQBxU
-	dQXkWvAwximUBqf4PW92VSogCXVnsfKFUIU5/fzVMvH1ilaXr7g24EhkSmjYvy1O
-	0L4mAx7RoueN9q8JrJIFJ45NP0uY5M/N+k5ASAm3QaYZuKftPHIfwHgEZk9D/6t8
-	efVSBg==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4grq2krkht-1
+	YxlxRRDVK1vBrWCas79ZIfg+L1LP4XTtHA+rHF5ADps=; b=jZMepdNnQHPlWfp7
+	/eD7VWcoFsNazO/PCdEXpvvI+fDrLQsGWRl8KShHMrFPSaQmQixaCEL26H2lzE5d
+	66oOXyzAfD+j3tFBwbhzycez3avWc3wZftAQKhJNLc99fwzjK3nENz1QV4dpI397
+	OmrYnN7AOJreJWtbP/aCvFlYgnuVf2w5M3TjAZbExgB7NR+cBXyP8ya5HQLEOI3x
+	HO5nrnaCNe1SX3PhsVKaUkZc60DUcSCA4+k7Qa8o8owQVDqoxNMqMUBqTKUkvFjQ
+	E3ryxk2NJnsjJu6X00vnpKHZ2kobakOk6OKQbqHisbjeGKchj3y/vCHGxYy4eqxh
+	44awaQ==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4grnqe8xkp-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
 	for <arm-scmi@vger.kernel.org>; Thu, 17 Sep 2026 22:56:32 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2d94a158dc8so2040575ad.2
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-38ecc48b3c2so386708a91.1
         for <arm-scmi@vger.kernel.org>; Thu, 17 Sep 2026 15:56:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789685791; x=1790290591; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1789685792; x=1790290592; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=C8fhB4ShupgmdingQtdsx4ZV7fuE84BA4Ymz0F7Pxoc=;
-        b=bugjM6hWXZ+Adz4BAU+uQSRFluJsG4+6G2mjkmUjVM6FViMLlv7OGgYW042C2IFC/f
-         3wFiqdMNreYU6TAJcNsWoDzMtmKlkol+xPN+Eu93SB2xWJFWyT5SXzmSilqPc1nPijAU
-         UDZaO4GjstZFr2MnSFMZbYsvw3+V+1CSs5b0oH/kVRT06E+fkmngRhioGFMdrU1mL3W3
-         /omgkZ0KHrmljoS5yRKo6ubmvK2vyxyaRyzSljg6/Yz3jvWwcEBw5o3BN1wZ9tLLU8pG
-         nPCe6lFE9fVi5r1I8ZuUV5weqxVLV2TYFRZ7F7cIOHJ2s+9Cpr/Ca5B2NAwgAk2orRcA
-         /pqA==
+        bh=YxlxRRDVK1vBrWCas79ZIfg+L1LP4XTtHA+rHF5ADps=;
+        b=aYiUr0z0LUlCOEWFJWkYXwNAAoheOIrP2dwSntECyrOFHhChCfcaQFXDTgmGddQwdz
+         KJDQf5Wj1Y8frwuO06lmGev7Jp+AboN1Se7XVHKxC542nTFQAdcWQ6HFNgug0g//hHR/
+         6nVXTOf+24mX1X5ZMmdG6AKvuEjpk8lao494yGXQvHPjVY6KQX30EAj7gPI1KwQXaS4Z
+         fKh5cUks9bUwuVfEgqknYmBqZ+4VqkQAEW5iQ1AxkpOQrLaZV8dhVJhQ02NdCdinuLix
+         7JETid0ZT3rapsQWJ4mOqmT49it9J2X9eZ4V0MQi+bNx2nMAFed5SpcRpD9tQ4EtojZe
+         sZnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789685791; x=1790290591;
+        d=1e100.net; s=20260707; t=1789685792; x=1790290592;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=C8fhB4ShupgmdingQtdsx4ZV7fuE84BA4Ymz0F7Pxoc=;
-        b=morJngtbhffu6h15MT5iifunyUaSPIGfqzAiOU0/uSYM36nrhOQx03EKRWC+ewBMCu
-         CRmaJ1PDImXpmMQeMQHyN/GKqWogjSLpSzFyAuxorPmid65XBb93h2dZvgGNP+uZ+4x1
-         15XgRDyjxm+E49XGgC63WzpojGUKu4dXkH2gHD5/+YQ0/TFnLSr+CQo3edUWf2NuxO6F
-         8W5ntHwuDXkUiHJaDP9q52BZIyANIBAILW4W0ssnJcNemwK8deZuUQb6UrMKiAgZSo9M
-         xj+Pz0g+pg+ygunVa/6/h2RKfYKrb6+moaiYUIi+BWiO7s69SxaSjQaBTdFE+JIjyASP
-         k3pA==
-X-Gm-Message-State: AFuF++lLgFmA8SEuX0YhMgZ7fsbpQ7Ew2IhyTRZMsSPhDuNkuOlacxNI
-	Pf8WSN8CNL99ALwe8goqRUg+s8vHV6GJ3X84JkU8VoAtqc+YPOtwr28om25eqCPtBT9e6OrhCA/
-	72opII/6F4kGbOFI081u/EPQRhbjaHxFkHZ1mCIpAhhY8Ohv+7eH21c6xmCiCLQ==
-X-Gm-Gg: AYBFou3t0vkdgmmgL3CA0fzr0OmmRE4aMM7EggTnBV1bv5ZRBoaDpmgnh5I1/7Q899y
-	wbFn8h8R4Cn+f6Kmcaz1cxNnKcoXlo4Ykfw42OKEilPlaIka1IcrGqt5u0fV+gr/NXlNH+yO+kd
-	T1FAM/xCw+UudWkAtbmj9TrKtKt3FqR8w/IO8FRKS5q5fuNAjhXqLvaFBiqNvFiaaxwCk9hLsk+
-	mhM0Y1i+hrZxvYW1sbQsEEaNeCTochOfMxEu1uMmiCY6Ap9+Ld20bKZ48RFy1nrAVeMDGINm/BV
-	2OHFy59mf+vOzpAOaiGo6B0bC65z8qknRb5JmD9QhUm4b3ZAwMED0JcrroDwi5wGFFoYabi+3zE
-	vgVr3acyHBhe5sgIRiUCOImJPHCg1C5Ra55lRcOKXUtpD6OJvcQ==
-X-Received: by 2002:a17:903:2443:b0:2d9:484:861d with SMTP id d9443c01a7336-2ddb1af6da8mr12657635ad.10.1789685791119;
+        bh=YxlxRRDVK1vBrWCas79ZIfg+L1LP4XTtHA+rHF5ADps=;
+        b=btJPXwePcqs8bq9990TDCXzR6mV3Pq+nS1o648ZEM8jDYo1fkOENC0O1k+jvnE7o4C
+         QfXsWsIstJqYC+kyGh+3wfCSWO+6U43oQVM+tCODWPprBi3rE8/iQ/H9WZ9PpOkHEBxC
+         spOO9x/WgjUcs0/PPxPEnfNYN0+LpU5fABSoCGeuVIJx+9QIDGJLr+2/OHeuL5HJ9rrQ
+         LFZUJANQOImE9Xh8WIJDs0zAJiTrgxMfRvBCRRQ2plEVW3c5uqmp54+ZbllbaRW654Fo
+         QuKnAerwV5fG77RVssR5bPmxeAG8r3DV2wZLpuQ5Ko0PJCd8BXHlPdSfUyUtL2jiYIjc
+         y8Dg==
+X-Gm-Message-State: AFuF++nuyVGEjxckYQ7lKv0bSZUVeZCouaKh71aeuryLimmT2P4JvDk8
+	PSAsLo8XajfR+zQwxPKmNg6EbircjqJydcGcj7V5xngYvpVjoFSt8/3eyH6POFGLkLlXXXHXqKD
+	qmY1ykYVE0gHw4zLQlWdBS0CA/l6LoE//g13fp6slicy3YO8wS7OaTgcaj2MoFw==
+X-Gm-Gg: AYBFou0RJNhZNywe33C8aITp5kGHHqrXxBzhZya9pfXmQlV+8rs26l2Vk9r7QuUVTnm
+	oUUfS26voePKB+wk5lzvb4Zrc7PrlrnXBnao9FUKQqzTMiNxZj2Y9/PMkgyLypfXVXCkzCn0T0O
+	3Tz4dEzwqrgulF+wTSn1nM0hdFd+pELBu++wpD/DWDZoSQ3RrFekb646JD+7Oo/sBeooDurmvk+
+	km08oB1+sfrs5ioz9JysYyduJlrD1OnRDwDjxSG4S4gVc7/d4nskfQ/ifmWZGOF6R2J6S5mHIAS
+	kqRkD9DpfHE9NW7knDYbIbb8kV0woKk9/pbRObnp/dpSl1VaHfDmMzdF6BROvEazrMhPT2tLQ2i
+	ybw4VKk6MevWhymlXC4LXq6q2n4faVlJguu6LkdsyXGWkqhxT5Q==
+X-Received: by 2002:a17:90b:17c1:b0:39d:f2a1:3a with SMTP id 98e67ed59e1d1-39e54c19b62mr1267906a91.15.1789685791796;
         Thu, 17 Sep 2026 15:56:31 -0700 (PDT)
-X-Received: by 2002:a17:903:2443:b0:2d9:484:861d with SMTP id d9443c01a7336-2ddb1af6da8mr12657315ad.10.1789685790662;
-        Thu, 17 Sep 2026 15:56:30 -0700 (PDT)
+X-Received: by 2002:a17:90b:17c1:b0:39d:f2a1:3a with SMTP id 98e67ed59e1d1-39e54c19b62mr1267874a91.15.1789685791376;
+        Thu, 17 Sep 2026 15:56:31 -0700 (PDT)
 Received: from hu-aletran-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
         by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33bf5ad25bbsm15812508eec.19.2026.09.17.15.56.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 15:56:30 -0700 (PDT)
+        Thu, 17 Sep 2026 15:56:31 -0700 (PDT)
 From: Alex Tran <alex.tran@oss.qualcomm.com>
-Date: Thu, 17 Sep 2026 15:55:56 -0700
-Subject: [PATCH v2 2/3] pinctrl: scmi: Replace pinctrl ops get group info
- with generics
+Date: Thu, 17 Sep 2026 15:55:57 -0700
+Subject: [PATCH v2 3/3] pinctrl: kconfig: Select generic pinctrl helpers
+ for scmi pinctrl
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -90,7 +90,7 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260917-scmi-pinctrl-generics-v2-2-3eeee364257f@oss.qualcomm.com>
+Message-Id: <20260917-scmi-pinctrl-generics-v2-3-3eeee364257f@oss.qualcomm.com>
 References: <20260917-scmi-pinctrl-generics-v2-0-3eeee364257f@oss.qualcomm.com>
 In-Reply-To: <20260917-scmi-pinctrl-generics-v2-0-3eeee364257f@oss.qualcomm.com>
 To: Sudeep Holla <sudeep.holla@kernel.org>,
@@ -100,157 +100,62 @@ Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
         Alex Tran <alex.tran@oss.qualcomm.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1789685788; l=3568;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1789685788; l=746;
  i=alex.tran@oss.qualcomm.com; h=from:subject:message-id;
- bh=P8dryjMpnqvpodgWk2ySD7v0wpX4IgHdJJ8YJF0hzFM=;
- b=pMk4JLcfOy5cUTaVghI5ArSIfRa+ErdzPL7JMcBU8CJH4cwE8P9sIpq/IsgA7Z4eRZl8fYtRn
- VM02NxlcSLEAvVhb+ASBBsDGBwxKOIcjs/YVUJ0uyPgFjQkuuKHcfXc
+ bh=nSbXNq1OJYe51dl5okOjHM4uLmUxr4IZI624Hov2mXg=;
+ b=qt7oMd5cieO9tBGCHfxsL5Y3SMPcyQewnlHKqaYhCp59AL7QHCz4Kd5e0fL1RsGXRpuU6UHP0
+ ksK1xR5Hw9qAFoqa9WBQpYsb+g3biaoLgAEB7r62smDxGFoG6dVpub4
 X-Developer-Key: i=alex.tran@oss.qualcomm.com; a=ed25519;
  pk=vKab/gw1fXij5UviWoglv+ho+H/oOiTHyETCLfayPE0=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE3MDMzMCBTYWx0ZWRfX8ap6NbVTj8aO
- N0Dz+Kvvjqqrb+7edGx+jMgAqhE7J0aUnX4dLP8HKti3UjM47b5VrDakrIsGWOprae5ZVgeWDDA
- zUjPJtZx4pISeM/ZqWt2I8e3xSRLNEkpkHC3/2gdyOg4mtID+z5Mz/tITnF6Onje9iHU/zkbpKm
- pzB7B6RFQmZsMOnCvjVOO9ErSS/k9HWte31O/iy+sTOO+XCahjVxX8KVFiSC1mg9+WZUZAGYLtV
- K1aU9HltT5D6d6ceUaatqOTk7G7BQnIom2mxZ44+Yj3Almk9o9/FovRj85Z7RD3f/B08hxGG9Di
- tbvFizd/AYKN24aQ4Y+qZ2HdHz1tuHfnIzRMTki3U4x0GcneQqvRS3JhbGMs1OBpdwukLZmAy3P
- K+7WfagnFpcDa76XsaoUbKUP6WtoNCcZCH9xY8yXXb9RkshfvN9Bkan24qBc9z4atmI4N5dqZsI
- eJK/SFFPmjm8DWe4J9g==
-X-Proofpoint-GUID: u1pISsVF5G5scIjSl72dQgQTKGalOkwB
-X-Authority-Analysis: v=2.4 cv=bcD+w+PB c=1 sm=1 tr=0 ts=6aac7020 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+X-Proofpoint-ORIG-GUID: yvD7GEdJuQAApQ2LP9ggFgULbN38GdsS
+X-Authority-Analysis: v=2.4 cv=FfiiV5+6 c=1 sm=1 tr=0 ts=6aac7020 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
  a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
- a=EUspDBNiAAAA:8 a=p54jq0OH07X71X_IsjoA:9 a=QEXdDO2ut3YA:10
- a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE3MDMzMCBTYWx0ZWRfX39OmCoaD/OqN
- qmpnK9wr/bn9r9jm5O7/jvXuBcO7N3ge2umwDrueNUXLrOJwLvOn84kYpChAGRiKASqdlKh7sCq
- NbTtwOCFfchx5IvXpEKUEU1vrA85HU4=
-X-Proofpoint-ORIG-GUID: u1pISsVF5G5scIjSl72dQgQTKGalOkwB
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=EUspDBNiAAAA:8 a=eVtWBnz9pTluID88zzUA:9 a=QEXdDO2ut3YA:10
+ a=uKXjsCUrEbL0IQVhDsJ9:22
+X-Proofpoint-GUID: yvD7GEdJuQAApQ2LP9ggFgULbN38GdsS
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE3MDMzMCBTYWx0ZWRfX/YN94mw0Sin4
+ ro24q7eNa2LjStc2S7+Ks8kMmOfW7Jl76zFDGlr6Xi+ZxFIOQlUhKHaeGgDxle/+RNRUips9NX7
+ KghZAPjxCJQaQ1Gooi2H4Gd2WioBDGeek8RI1n2U43zAZFhmefoaBqDrym6ru7soQ5kx6KpWU49
+ mw6Vuz7x9L1qXK/VjiPQuKM/KwKU4/XtTrQEP9YnLuAnor6L5vHy7P5pway3SF1VnvOlvaobYFi
+ G4T4fa7X1XgsFalriIMLO2EW8MHv7udyDb832GLqdhOc7kVHaMw8MA2DSBNSKcFZyATNEMrGyMd
+ Ecodn5vfz3ZODHdWobQLmdzCQSk5p6ftqmVkn0Ovi8fDles9zRaRqFtiZyTo2YRtLn7cB/bCq7o
+ XxU6bFvdnBvm8VD/PbJeXdiavGGMMvdnHlJZhlmFS7xPoinczlSp/7Jzk4kKcufZh/AyUnYGQmS
+ yIK6WuPB03mQalZMhfg==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE3MDMzMCBTYWx0ZWRfX2DTXgUuwwun9
+ 8vGBkQDxQrZ5+uzyoBnuVtDSAcWzxEfwQkE3DAA6j/cdUuIkwdcX+CxqVQouev2YnBpUIrbBXhG
+ U6fj9HHDRuV2is6Fy/roLWL6xxcnKTA=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-09-17_05,2026-09-16_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015 adultscore=0 suspectscore=0 priorityscore=1501
- bulkscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ impostorscore=0 adultscore=0 clxscore=1015 priorityscore=1501 spamscore=0
+ bulkscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609170330
 
-During probe, populate the pinctrl device with group info
-so that the generic callbacks can be used to fetch group
-count, name, and pins.
+Select the corresponding pinctrl and pinmux generic Kconfig symbols
+when PINCTRL_SCMI is enabled.
 
 Signed-off-by: Alex Tran <alex.tran@oss.qualcomm.com>
 ---
- drivers/pinctrl/pinctrl-scmi.c | 81 +++++++++++++++++++++++-------------------
- 1 file changed, 45 insertions(+), 36 deletions(-)
+ drivers/pinctrl/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/pinctrl/pinctrl-scmi.c b/drivers/pinctrl/pinctrl-scmi.c
-index 1d85a16f300d..c93d61dfa282 100644
---- a/drivers/pinctrl/pinctrl-scmi.c
-+++ b/drivers/pinctrl/pinctrl-scmi.c
-@@ -40,43 +40,10 @@ struct scmi_pinctrl {
- 	struct pinctrl_desc pctl_desc;
- };
- 
--static int pinctrl_scmi_get_groups_count(struct pinctrl_dev *pctldev)
--{
--	struct scmi_pinctrl *pmx = pinctrl_dev_get_drvdata(pctldev);
--
--	return pinctrl_ops->count_get(pmx->ph, GROUP_TYPE);
--}
--
--static const char *pinctrl_scmi_get_group_name(struct pinctrl_dev *pctldev,
--					       unsigned int selector)
--{
--	int ret;
--	const char *name;
--	struct scmi_pinctrl *pmx = pinctrl_dev_get_drvdata(pctldev);
--
--	ret = pinctrl_ops->name_get(pmx->ph, selector, GROUP_TYPE, &name);
--	if (ret) {
--		dev_err(pmx->dev, "get name failed with err %d", ret);
--		return NULL;
--	}
--
--	return name;
--}
--
--static int pinctrl_scmi_get_group_pins(struct pinctrl_dev *pctldev,
--				       unsigned int selector,
--				       const unsigned int **pins,
--				       unsigned int *num_pins)
--{
--	struct scmi_pinctrl *pmx = pinctrl_dev_get_drvdata(pctldev);
--
--	return pinctrl_ops->group_pins_get(pmx->ph, selector, pins, num_pins);
--}
--
- static const struct pinctrl_ops pinctrl_scmi_pinctrl_ops = {
--	.get_groups_count = pinctrl_scmi_get_groups_count,
--	.get_group_name = pinctrl_scmi_get_group_name,
--	.get_group_pins = pinctrl_scmi_get_group_pins,
-+	.get_groups_count = pinctrl_generic_get_group_count,
-+	.get_group_name = pinctrl_generic_get_group_name,
-+	.get_group_pins = pinctrl_generic_get_group_pins,
- #ifdef CONFIG_OF
- 	.dt_node_to_map = pinconf_generic_dt_node_to_map_all,
- 	.dt_free_map = pinconf_generic_dt_free_map,
-@@ -460,6 +427,44 @@ static int pinctrl_scmi_get_functions(struct scmi_pinctrl *pmx)
- 	return 0;
- }
- 
-+static int pinctrl_scmi_get_groups(struct scmi_pinctrl *pmx)
-+{
-+	unsigned int nr_groups, nr_pins, i;
-+	const unsigned int *pins;
-+	const char *gname;
-+	int ret;
-+
-+	nr_groups = pinctrl_ops->count_get(pmx->ph, GROUP_TYPE);
-+
-+	for (i = 0; i < nr_groups; i++) {
-+		ret = pinctrl_ops->name_get(pmx->ph, i, GROUP_TYPE, &gname);
-+		if (ret)
-+			return ret;
-+
-+		ret = pinctrl_ops->group_pins_get(pmx->ph, i, &pins,
-+						  &nr_pins);
-+		if (ret)
-+			return ret;
-+
-+		if (!nr_pins)
-+			dev_warn(pmx->dev,
-+				 "Group %s contains no pins\n", gname);
-+
-+		ret = pinctrl_generic_add_group(pmx->pctldev, gname, pins,
-+						nr_pins, NULL);
-+		if (ret < 0)
-+			return ret;
-+		if (ret != i) {
-+			dev_err(pmx->dev,
-+				"Duplicate group name: %s index: %u selector: %d\n",
-+				gname, i, ret);
-+			return -EINVAL;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static int pinctrl_scmi_get_pins(struct scmi_pinctrl *pmx,
- 				 struct pinctrl_desc *desc)
- {
-@@ -544,6 +549,10 @@ static int scmi_pinctrl_probe(struct scmi_device *sdev)
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to register pinctrl\n");
- 
-+	ret = pinctrl_scmi_get_groups(pmx);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to register groups\n");
-+
- 	ret = pinctrl_scmi_get_functions(pmx);
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to register functions\n");
+diff --git a/drivers/pinctrl/Kconfig b/drivers/pinctrl/Kconfig
+index c2cdd7b2c49b..c93f0bfcd7e9 100644
+--- a/drivers/pinctrl/Kconfig
++++ b/drivers/pinctrl/Kconfig
+@@ -532,6 +532,8 @@ config PINCTRL_SCMI
+ 	tristate "Pinctrl driver using SCMI protocol interface"
+ 	depends on ARM_SCMI_PROTOCOL || COMPILE_TEST
+ 	select PINMUX
++	select GENERIC_PINCTRL_GROUPS
++	select GENERIC_PINMUX_FUNCTIONS
+ 	select GENERIC_PINCONF
+ 	help
+ 	  This driver provides support for pinctrl which is controlled
 
 -- 
 2.43.0
