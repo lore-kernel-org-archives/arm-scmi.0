@@ -1,100 +1,112 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F07B4F405E;
-	Thu, 17 Sep 2026 21:13:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3033548D868;
+	Thu, 17 Sep 2026 22:16:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789679627; cv=none; b=Av4hq4gJj9sHCGpNhKJemr2vlVEtVLKK/uHnU9SW599jiW8c6Qd/9L/v3EO5y/w3qTcorYy0OkNk1tnVfe4uUCN1g/xsKucL3fzTWwULjI7WHrDRNi1xMN+Zw1cam9NcGdCZibkqE+wJOtc8kcMl+iJuotpoah3Hnfl2nGDDvrQ=
+	t=1789683411; cv=none; b=tns0iqQccF0fcLOFdbZUs/IRfbzJVfmGaE9BJE36ClJfoJKKZoqzn72QwDAB7E46pPkXRXPDLPtqDqXmDswWg9MVSLUje1uExWJIEQRHrpuJjqX+X92fmX1yM0O9bFmFpKBcs8D9XOKdR1FYrs+5rUd8DiFqE7YqwWREvuI9iTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789679627; c=relaxed/simple;
-	bh=2W9J/d2AsHparWJK+aNjrlKPTYSPzzfnztjEHukMPaU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=a+vFWC1+oBGKbYDNbSXYTw6D6bJjNAnpP5EiIasW8ZaR7Pkm3Il/uk6O16cXhW8cwrXCOSYj4hS6Zcgk/e1+WCP52KcW23BzsHsgyXT2Y6YCZT4PLjTnKSAx5u/onjr08H9Ay57UZik1+Y/cOSHgOk+3rYZsUn7TuCUcQHDod8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nKtBz2Xw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789683411; c=relaxed/simple;
+	bh=qz5WwkpeJJLsXU6eWyh21MIvSJfrbOgKiKvhfDrW6ho=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HxfTLKQ+XH8BoK7BNe3MuvlqJOTXgceUFKP/vJishXHLeISBqFAiMeOVJSvGDvZ19UxJ3vJTzK4b5P6qV80FbeHd0hefJLLvMsQHs+jFsFMiINIYzOnfcTBEH9PHB/kHGnuzCnh+YGRIhyuagzfoAvXvbCnTdrxPKTAhYpnMKmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ey44S3pn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nKtBz2Xw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43DA51F000FF;
-	Thu, 17 Sep 2026 21:13:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ey44S3pn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B05F1F000FF;
+	Thu, 17 Sep 2026 22:16:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789679626;
-	bh=v4ALv4PlUkkEzw8n/20WsOuPBd75uA1YbabHxHjcL1k=;
-	h=From:To:Cc:Subject:Date;
-	b=nKtBz2XwUR4kkvAOpRK51OeI2Vqak5cDuxLjb4y1t/5LokQAyFcXRRhirId6zMdeR
-	 Fpc6hX7la/BPYfFxd4SaRUD50d8rxEUza3grU5WXb+A1Bbxpelm2pyIPiuMonfZDtM
-	 Z5AyBMpTkmFSrLC9dy+VP5TsZxzxV3Wqhn4VDttL15N7u+3KKugCLICUKd8pKd+Tu5
-	 27qs4dud3pTo/QMsTiHEKrKYkL3qgKawQxuUPzgmeHgGDyBb9XQJIb3zvbZO6lFte9
-	 c4sYe1TCnzWsl/0oFWtFSDhFg+CLaCJ6di1KIvIb4VopVnvqzix59MnC9m8dkVSY63
-	 bqNqGqkb66KGg==
-From: Kees Cook <kees@kernel.org>
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: Kees Cook <kees@kernel.org>,
-	Kees Cook <kees+treewide@kernel.org>,
+	s=k20260515; t=1789683409;
+	bh=OWnzt8rLfj/dFjZYPIQKJfAFzcwj+93B+nzb3sOJ8wQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ey44S3pngv/F4n0zm/K0EnPj+M0YWM2qeC9WO/7SNUXfrYfRZW0cYz56yYX/r5eo5
+	 eT11WD9gfwZ/9VXfkBIiGRSVTPqndVrYl3KbvE2VELum47TNKDShTAOkWYMdL10e3e
+	 Vn6d2cNzmCGlPU0GQGrRChnHH9Qn+LU2glwiCfXbv5b8wEgA85n0mR5XorlFKrRqLP
+	 hKpo9ivNL3i+Q1Lv5nbgZh7Zxi9Uo0R5SiC37YcvmF+UceI8t1lz/oI/CkLJwVJEGe
+	 oQ6rLRZmZIRAYDb2Ygj8IXDHoAz8FGmXROmce8UDMIQa3JMN5LnWFjij8+82Jts+8O
+	 Y8YhhzyIwqXbQ==
+Date: Thu, 17 Sep 2026 17:16:47 -0500
+From: Rob Herring <robh@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
 	Cristian Marussi <cristian.marussi@arm.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH] hwmon: scmi: Fix info[] allocation type
-Date: Thu, 17 Sep 2026 14:13:45 -0700
-Message-Id: <20260917211344.i.911-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
+	Saravana Kannan <saravanak@kernel.org>,
+	Ulf Hansson <ulfh@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Kevin Hilman <khilman@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	=?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clegoffic@baylibre.com>,
+	devicetree@vger.kernel.org, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 04/12] of: property: fw_devlink: Add support for
+ renesas,scmi-firmware
+Message-ID: <20260917221647.GA4038349-robh@kernel.org>
+References: <cover.1788338320.git.geert+renesas@glider.be>
+ <1d5c56c80291e447208ac8777aaf90ad6f0a4f4d.1788338320.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1723; i=kees@kernel.org; h=from:subject:message-id; bh=rFYSh2hqNBw2ENmrdsxu+Uyvi5RqE7u5dNsIMBJsNcQ=; b=owGbwMvMwCVmps19z/KJym7G02pJDFlrIjh2i7cvmKH4o+iA+daEQx5+e68J5PHs/i9z5ynnd 76jJ53FOkpZGMS4GGTFFFmC7NzjXDzetoe7z1WEmcPKBDKEgYtTACaS6sbIsEVq0ZzC3NWN0WFH HJtePwt3X7XiCFPCKpPgZzNYZzKxFDD8FYiZfadF9kWJ1NWlKVKxxXvvy913qNvT5GEslXN97Y0 mVgA=
-X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1d5c56c80291e447208ac8777aaf90ad6f0a4f4d.1788338320.git.geert+renesas@glider.be>
 
-From: Kees Cook <kees+treewide@kernel.org>
+On Wed, Sep 02, 2026 at 01:29:20PM +0200, Geert Uytterhoeven wrote:
+> Let fw_devlink create device links between consumers and suppliers of
+> SCMI firmware on Renesas platforms, and enforce these dependencies.
+> 
+> This prevents probing of drivers before the firmware they depend on
+> becomes available, thus avoiding unneeded probe deferrals.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v3:
+>   - s/firmware/renesas,scmi-firmware/,
+> 
+> v2:
+>   - No changes.
+> ---
+>  drivers/of/property.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/of/property.c b/drivers/of/property.c
+> index 72cf12907de034e9..e79cd3cce4e2e41a 100644
+> --- a/drivers/of/property.c
+> +++ b/drivers/of/property.c
+> @@ -1417,6 +1417,7 @@ DEFINE_SIMPLE_PROP(power_supplies, "power-supplies", NULL)
+>  DEFINE_SIMPLE_PROP(mmc_pwrseq, "mmc-pwrseq", NULL)
+>  DEFINE_SUFFIX_PROP(regulators, "-supply", NULL)
+>  DEFINE_SUFFIX_PROP(gpio, "-gpio", "#gpio-cells")
+> +DEFINE_SIMPLE_PROP(renesas_scmi_firmware, "renesas,scmi-firmware", NULL)
+>  
+>  static struct device_node *parse_pinctrl_n(struct device_node *np,
+>  					   const char *prop_name, int index)
+> @@ -1574,6 +1575,7 @@ static const struct supplier_bindings of_supplier_bindings[] = {
+>  	{ .parse_prop = parse_regulators, },
+>  	{ .parse_prop = parse_gpio, },
+>  	{ .parse_prop = parse_gpios, },
+> +	{ .parse_prop = parse_renesas_scmi_firmware, },
 
-In preparation for making the devm_kmalloc family of allocators type
-aware, we need to make sure that the returned type from the allocation
-matches the type of the variable being assigned. (Before, the allocator
-would always return "void *", which can be implicitly cast to any
-pointer type.)
+This is going to be a catch-22, we can't have vendor specific properties 
+here. If we need this, we need to come up with a distributed way to 
+declare them. Linker section tricks is one way. Maybe something in the 
+driver struct would work? 
 
-The assigned type of "scmi_sensors->info[type]" is
-"const struct scmi_sensor_info **", but the converted allocation type
-would be "const struct scmi_sensor_info ***", as the size was taken from
-"*scmi_sensors->info", which is one level of indirection too many.
-Luckily both element types are pointers of the same size. Take the size
-from the element type of the assignment target.
+Can you just avoid a property altogether? Why can't you check for the 
+presence of SCMI at runtime?
 
-Build tested ARCH=x86_64 allmodconfig with GCC 16.2.0:
-drivers/hwmon/scmi-hwmon.o
-
-Assisted-by: LLM coccinelle
-Signed-off-by: Kees Cook <kees+treewide@kernel.org>
----
-Cc: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Cc: <arm-scmi@vger.kernel.org>
-Cc: <linux-arm-kernel@lists.infradead.org>
-Cc: <linux-hwmon@vger.kernel.org>
----
- drivers/hwmon/scmi-hwmon.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hwmon/scmi-hwmon.c b/drivers/hwmon/scmi-hwmon.c
-index eec223d174c0..9ae8f774297e 100644
---- a/drivers/hwmon/scmi-hwmon.c
-+++ b/drivers/hwmon/scmi-hwmon.c
-@@ -305,7 +305,8 @@ static int scmi_hwmon_probe(struct scmi_device *sdev)
- 
- 		scmi_sensors->info[type] =
- 			devm_kcalloc(dev, nr_count[type],
--				     sizeof(*scmi_sensors->info), GFP_KERNEL);
-+				     sizeof(*scmi_sensors->info[type]),
-+				     GFP_KERNEL);
- 		if (!scmi_sensors->info[type])
- 			return -ENOMEM;
- 	}
--- 
-2.34.1
-
+Rob
