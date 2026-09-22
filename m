@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5963D545DBA;
-	Tue, 22 Sep 2026 13:48:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2EF541E75;
+	Tue, 22 Sep 2026 14:43:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790084898; cv=none; b=sPmBtmC4NTRV7YKLSGBULpxoHdEK4fUXOcUt5Mxbo5JVk3YM8ddpDtyHE0B0il+UjwqpmZ4ceo8NHG6bwhJkzRULiWvTLeH5BZfsFu5mZ9Ss9r6GKhdDsfnXwSG7FUYsMscpcTUI6feUJ1yNfI6rfl9NMgO3L8v5WpM5d3TGFDQ=
+	t=1790088193; cv=none; b=Px3km6VVnAzL58dU4VPaYzAp9bBTztb8fTgiRYS71XwRB7nuWQ83+5vcbt/+gRxuf+6Lsryq+byKnr0WD4iWkmf2kAoNL4ypQkyYd/Ztvig5A/KtuyYExHn2knSBf6cJlDjQrCxpKMkwfzOQ8JPZdK+byQpHveTU62qdEz6OrIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790084898; c=relaxed/simple;
-	bh=sln9QaHN0j38T9nKtJEjIkkDn4LcuHaOjXrF1SMDBW8=;
+	s=arc-20240116; t=1790088193; c=relaxed/simple;
+	bh=L+MjaNC+6vbVKHKiU5TeC+hR3WeQzvMU3EAJtm6uQow=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cn7kMzXE/oymad6g6Nx9pHcdA+chZSC1EG7ZB14E0QBBrvzAPBT+D8MFNdSqoCa40j1UzjWurZ3bctPrlrQnGZfSaJd2RM9Orzprj/YjJWYXgGbgUWhnQ4CNCR/AgAWsfH5KCCvBQKo/Ua7YmggC2pyLJHzyQOu3CdoY7dUGDJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FWW91E4E; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=cthDUNuL4bjCOmBtQBSYzc4bSvzrcFi4Yb+ZsIa3K58SWXGlr7Qbz2nJtQ6U09YhHZmjpyeg92ZOKU2NcAFaygDV9FFPGdlpizq7CFnlpRkUwSxN5X2U5lPiHLqx5hJ1VYl6PezOw9Oi6AgA+jnuG/+OWbZklXlef/3Q1AUftfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i0oQRPoR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FWW91E4E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8FD91F000FF;
-	Tue, 22 Sep 2026 13:48:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i0oQRPoR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8EAF1F000FF;
+	Tue, 22 Sep 2026 14:43:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790084896;
-	bh=RFTuYLOuOyVsABVUJJ5x2mR/8ZR2hHPzrj6E7shmwnI=;
+	s=k20260515; t=1790088191;
+	bh=k/eih6V79KGOxd/VUr7lVIHhXKuG7/wdFpn9jH1v8Js=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=FWW91E4EmZphdA2+dzTfxDu6/PsTni8YPsvXAhSoINtN7BryQw6hQhl4a+8fn30ej
-	 fbc22tujTbldMsw+B82TPKt+ge/NgMwKvd4qmjkEnFkxhYqfHj1t/B8xN/nqU/vO9t
-	 7QWJDEbqNnj8oRkqxMfuiDO4CPUETR5uPeOn6DfBZBkUjR5OavJGeEljGWeu3ZZrv3
-	 9pK8QG7S8BWAahbMGtua4jzQ8vUVUFeKZLNKTVvx82bTr7SncB26ClnekxQtjkn8jp
-	 Onu9YGLlO0mIfLhZP6x4IwPy97d4rNEID/aIHhrtttpxvzUZvcjNpzFRVCXNNnUVcc
-	 oTS4kNWznKP5Q==
-Message-ID: <7a6fab99-618c-4180-b8b3-2d1371c90483@kernel.org>
-Date: Tue, 22 Sep 2026 15:48:05 +0200
+	b=i0oQRPoR2grx2df/MWOgPanqEOnuePmw4f4ocXMvRD2K/a5y2F4+9KVEkqGSWdMJ7
+	 qFITaKXfA6eF+B7nRGKoUtlz3sykyZIEVcQF4j82paWq+G9T6GLOKWDMBHIWl68xcF
+	 ytVKscnXCFzjqT+K9km1qepD7l4J9/4BQ47/Fo0ToJkTcIMomNwBzxw2hwwwtjNLqS
+	 lnyNtWr1QPcJ9dWJCT1Eriohimh+vBtNofNDECnyIkOgozBK+WQNCD/VgqGz6ixtfC
+	 fZ25v7Huqkoo08tkf6Dq9TR3/ZbszP6/Sl4J3cd/tn7Pnp4PC7+jUruschgy0VhMo5
+	 A17DZeFdiO/zA==
+Message-ID: <8fd34672-493b-4d70-a2bd-1fe434b5ccda@kernel.org>
+Date: Tue, 22 Sep 2026 16:42:59 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -35,7 +35,7 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 05/25] include: trace: Add Telemetry trace events
+Subject: Re: [PATCH v12 06/25] firmware: arm_scmi: Add basic Telemetry support
 To: Cristian Marussi <cristian.marussi@arm.com>,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org
@@ -46,7 +46,7 @@ Cc: sudeep.holla@kernel.org, james.quinlan@broadcom.com,
  souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
  puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
 References: <20260920091928.2014972-1-cristian.marussi@arm.com>
- <20260920091928.2014972-6-cristian.marussi@arm.com>
+ <20260920091928.2014972-7-cristian.marussi@arm.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -93,15 +93,161 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260920091928.2014972-6-cristian.marussi@arm.com>
+In-Reply-To: <20260920091928.2014972-7-cristian.marussi@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 9/20/26 11:19, Cristian Marussi wrote:
-> Add custom traces to report Telemetry failed accesses and to report when DE
+> Add SCMIv4.0 Telemetry basic support to enable initialization and resources
+> enumeration: add all the telemetry messages definitions and parsing logic
+> but only a few simple state gathering protocol operations.
 
-You write here "failed accesses", but the tracepoint below is called
-"scmi_tlm_access". Is it supposed to be used for any accesses?
+As someone unfamiliar with the spec, it would be nice to summarize which parts
+of the spec this patch implements, so it's easier to cross-reference.
+
+Same for the other patches. :)
+
+It's a lot to review. So having a better description to guide the reviewer
+through the patch would really help. I assume we could split this up further, like
+
+a) Add basic definition (mechanical from the spec)
+
+b) Add telemetry stub and hook it up
+
+c) query attributes
+
+d) intialize X
+
+...
+
+Will result in quite some patches .... so I won't suggest that just yet. Maybe
+people familiar with the spec have it easier revieweing this.
+
+
+> +
+> +enum scmi_telemetry_protocol_cmd {
+> +	TELEMETRY_LIST_SHMTI = 0x3,
+> +	TELEMETRY_DE_DESCRIPTION = 0x4,
+> +	TELEMETRY_LIST_UPDATE_INTERVALS = 0x5,
+> +	TELEMETRY_DE_CONFIGURE = 0x6,
+> +	TELEMETRY_DE_ENABLED_LIST = 0x7,
+> +	TELEMETRY_CONFIG_SET = 0x8,
+> +	TELEMETRY_READING_COMPLETE = TELEMETRY_CONFIG_SET,
+
+TELEMETRY_READING_COMPLETE is not really a command but listed as a "delated
+response". Should this be something separate (and not mangled into protocol_cmd
+?). Or is "_cmd" not the right term for this collection?
+
+I have no SCMI experience, so it might be a rather supid queestion.
+
+[...]
+
+> +struct scmi_de_desc {
+> +	__le32 id;
+
+I'll make a couple of generic comments, that should apply to most definitions in
+here.
+
+In the spec some of these things are prefixed by "de" e.g., "de_id".
+
+Was this deliberate? Having the spec match the implementation allows for easier
+grepping of stuff.
+
+> +	__le32 grp_id;
+
+Spec calls this "group_id"
+
+> +	__le32 data_sz;
+
+Spec calls this "de_data_size" etc.
+
+If there is good reason to use slightly different names, best to spell that out
+in the patch description.
+
+> +	__le32 attr_1;
+
+E.g., grepping the spec for "attr_1" I get no hits. So I have to remember that
+the spec might call this "de_attributes_1"
+
+> +#define	IS_NAME_SUPPORTED(d)	(le32_get_bits((d)->attr_1, BIT(31)))
+
+DE_ATTRIBUTES_1_NAME_SPECIFIED would be clearer. in general, spelling out to
+which field a define belongs *might* make it harder to get stuff wrong.
+
+(spec calls it "Named specified" which sounds like a bug)
+
+Same for the other definitions. Again, maybe diverging from the spec is fine.
+
+Personally, I would try to stay as close as possible to the naming in the spec.
+
+[...]
+> +
+> +static void scmi_telemetry_free_tde_put(struct telemetry_info *ti,
+> +					struct telemetry_de *tde)
+> +{
+> +	struct scmi_telemetry_de_info *info;
+> +
+> +	guard(mutex)(&ti->free_mtx);
+> +	/* Save clear and restore */
+> +	info = READ_ONCE(tde->de.info);
+
+Where is the matching WRITE_ONCE? IOW, who is expected to modify this concurrently?
+
+> +	memset(info, 0, sizeof(*info));
+> +	memset(tde, 0, offsetof(struct telemetry_de, mtx));
+> +	tde->de.info = info;
+> +	list_add_tail(&tde->item, &ti->free_des);
+> +}
+> +
+
+[...]
+> +
+> +static int scmi_telemetry_protocol_init(const struct scmi_protocol_handle *ph)
+> +{
+> +	struct device *dev = ph->dev;
+> +	struct telemetry_info *ti;
+> +	int ret;
+> +
+> +	dev_dbg(dev, "Telemetry Version %d.%d\n",
+> +		PROTOCOL_REV_MAJOR(ph->version), PROTOCOL_REV_MINOR(ph->version));
+> +
+> +	ti = devm_kzalloc(dev, sizeof(*ti), GFP_KERNEL);
+> +	if (!ti)
+> +		return -ENOMEM;
+> +
+> +	ti->ph = ph;
+> +
+> +	ret = scmi_telemetry_protocol_attributes_get(ti);
+> +	if (ret) {
+> +		dev_err(dev, FW_BUG "Cannot retrieve protocol attributes. Abort.\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = scmi_telemetry_instance_init(ti);
+> +	if (ret) {
+> +		dev_err(dev, "Cannot initialize instance. Abort.\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = scmi_telemetry_enumerate_common_intervals(ti);
+> +	if (ret) {
+> +		dev_err(dev, FW_BUG "Cannot enumerate update intervals. Abort.\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = scmi_telemetry_enumerate_shmti(ti);
+> +	if (ret) {
+> +		dev_err(dev, FW_BUG "Cannot enumerate SHMTIs. Abort.\n");
+> +		return ret;
+> +	}
+> +
+> +	ti->info.base.version = ph->version;
+
+I'm surprised that there is nothing to cleanup on the error paths, but at least
+the devm_ stuff is being taken care of I guess.
+
+
+It's a lot of code, so I only managed to skim briefly over most of it.
 
 -- 
 Cheers,
