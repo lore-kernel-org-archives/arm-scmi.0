@@ -1,182 +1,173 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982C353CA78
-	for <arm-scmi@vger.kernel.org>; Wed, 23 Sep 2026 14:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 218A44963CA;
+	Wed, 23 Sep 2026 15:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790175113; cv=none; b=B6u603MB7L3vwNuDlaq7wmbZ0s3Qacz/FKWWZgcqzbegsLKwT0Ww3O0AkpUo1pCaznN2DCb6LClg2MI7lPqWcZ5RwVbi3r2qWAdZgPzDX4mWes8kuZHM/ZUMHIHjML2dUWWZbYhvLYE35zSH5hzCp6fbfBawXeNbrADihNmcZao=
+	t=1790175835; cv=none; b=GDU+AzVYoSc/zr8UatzovuLwfIKa/ZuHW42NP+xBhFSeglX+QIlKkcPLklpJzxdghbq2PAueRrksGTI6Hcm5SGeuPTyQRNJceyJnnT0g77dSW/hBbmDIshMdOjLZuRrysLgtUhfhzTgh3sKsVZ/CXAHLRdRGGpDRWRkfUCTm/Sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790175113; c=relaxed/simple;
-	bh=tUeK7QUj2IKE2uFCeChn1ygOQ/iJBXWinQo0JAkeZD8=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:References:
-	 In-Reply-To:Content-Type; b=KBB07OQF3Z5TkgF73DPRZXP7J5ym4IyyHo5TlyEk3N/DrJbt7Y9QryfMyI8UZy6ATSulXopIVlN/6ZrB6imZZ6yHJRA14WVtCUkYddbmcvXnwwfhcxPptPB/fqWZh/fEsnWhHaijtg72iA+Nkh2z72f5/zHd7OFJ4NIny+mcEEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=YDPluFm0; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Q4lz6wbx; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1790175835; c=relaxed/simple;
+	bh=0/Lj5CUiANscmDe5noqB4vYNxkuMu46O/4p4y5g+oM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bQdhBm+wcXOyDbGZHvyT6PDTI2sNv3IRYIoHMcK/d6o5yH6aFFOGZcU16fsNdzh7sCSbLS162zt7JsrCBgCMUEuOYSWYig0msNg4XW9Xp524c1lgOqNgJT80To/VFW3jEZI6vt4X9V896nm5wVJ/wx45f7mv1Pzqzi06n3a7KpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=mlj83BjI; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="YDPluFm0";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Q4lz6wbx"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68NDL3aY177216
-	for <arm-scmi@vger.kernel.org>; Wed, 23 Sep 2026 14:51:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	+R3bZnXxOWTMbKlDYq2yQXXsxhWIpfAOq8VfoVqcl9c=; b=YDPluFm0OahNv9wZ
-	cGvj+KSuUHVh95uSwMdsn3P3kJhzwjTDpi43NkpI/2SoCSI3jul35+60XSfNXhW2
-	DzV4vf0pvvgcKlCUDELPwYzEuKHTJUDAgYnveKZy01SSwovXfd4dcd7ms1k+G0Q1
-	DR544JEiBRHK5KLhHhHmydrvQ4mAx8IUEG2OSl/q1jOdNUBZrV7yzIvJJYIFO7Hn
-	hNlyLG/AFRFUoIuH5dHrj50WnXxxxrN8G7TM50Rg+kYg9zpFKAMvfLYSGHWTOZwN
-	+JuCpav51YiRfNXP8SN7C9RDlzxtfrlLvwFyC2iiFGL6nmABaZXj253uamIf9KuC
-	98et3w==
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com [209.85.217.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gvfjxrdt6-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Wed, 23 Sep 2026 14:51:50 +0000 (GMT)
-Received: by mail-vs1-f69.google.com with SMTP id ada2fe7eead31-78350646d7eso2194803137.1
-        for <arm-scmi@vger.kernel.org>; Wed, 23 Sep 2026 07:51:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790175109; x=1790779909; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:to:subject:from:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+R3bZnXxOWTMbKlDYq2yQXXsxhWIpfAOq8VfoVqcl9c=;
-        b=Q4lz6wbxrOhVyf9dNo/Iw2qfLyrFkixppauX2wZb7Q4nyT3vZuCH5xLC1uHXsePCkk
-         WacA71yYN0hXyJXHbOsZ1GDzkMgU1Mgwki1RkUnBOrfkrl2/e1YePDs6jSnWv/9jg2hu
-         Pqt8qGrUTj+a4tS8OGbXzoFQvrU4jOrftBoCqw+DMIgX5TziPXDnXcIyUS/xhTTl9oVt
-         5IfKQ8Q/YZCC74Zmc6utVgpqKuCpjnA5KqEz9aSDXg83yPAnS+l7bQkdWHEJsP21Vw65
-         4C3XkouO3ACyZHjx9UtoihRjfFLB5YtNNAOES/bofsaKRLPWxju691m0JeVKzUkG0xrj
-         taaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790175109; x=1790779909;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=+R3bZnXxOWTMbKlDYq2yQXXsxhWIpfAOq8VfoVqcl9c=;
-        b=Papa5ykW3OQqlFh31pA53h+HlDRjpe7FTGaUjkMcMzO0FISJEW6p9ATiZyCIkc5C6x
-         2YaOimIyqCgkXiW20a3W9zyNdo/Z6dgyXxBR9+fNEI+WgG8f9ztzLjV5YnQlIzv+rrMj
-         UFK38pRJPuYz+GuYk9+uX8c1SBpJzrxDF45v6LX1oWas5ttNPjMEJ8Inly/xhTrmnY57
-         pdI/0X7pWK7W/p+0zDxO+XwS5QplnIAXq4zSA5SJ8NBDBh/4uJqPFYLBFtAW+5j5csDR
-         y4MCfTCtjXTTbrI2s6dVfcf8jLrklpelq4eQkDwUpmra3E32aTKPlgfolsDH/OanKQoU
-         TWOQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxLFXOuKuNWg3B61i/5BaYrKLQpWsBClVrnpOOvPiN4HCgz2iQCQQqON+wgRw693jRNwyLOVbT1ag==@vger.kernel.org
-X-Gm-Message-State: AFuF++ms2FVj7GrQnt2SxPNzYBk1dwJEtsBTMlQ13JRP3UmE22wbeYAc
-	PXNobOufamjGdfcfRehQHOZtNYwfytxqlQgseGvlgGJj7rXbY1US1h8jEKbwc7EJ4svt8IAfV1T
-	lt9BR8Z2pbyOp5ib2ubkqGo4fVqr7AVHafuME/pOYeu2yWpENIorQ59xSotsAVg==
-X-Gm-Gg: AYBFou2YJagOwZbyC1M9GeD3slIe6kuZxlIBVzhyJieZ5GtDxNLPmWyiC7WCjj84Jpx
-	MxEXynlwQiqOGoMtxkje8j7sMGaGu52plT5kl13tYFmTl5ktk+qLpdppvOePF9Y/69MCiNVfrg2
-	9WsWF/FTXtioPQOK9nUjWdpVmvQwgfLm0wbOzs/kwKySxSSIIuKOqiGIZkUWHrmdhzOmSc5Elaa
-	3Q9r8OeQI8J8+4ImFIV0FKlz9X7dr2thPt0JIvLiklsOqWhxiSd0s6N0hrRcFi68034+kAX6d62
-	VqpJ64+o/ngtSqQT5TbwgGEIwWsd24rnVPyykiQcbbeZ544FgjX1w1DuVVYm+FtCqZwtSPP4zGz
-	8vVTfOt1Siveh7KXmKtZu1x9/9nFgml6NqnRC2iqbj15WGRVd1vhCzrTJHb05YiwJjnuvQI9pIf
-	qdgOUbqKdDeXgaiD0jJIaaPgIrmk7o+P3ldmEZmYjg4ekZgpNrl88+YtTuYQv+BsYm27c=
-X-Received: by 2002:a67:fa46:0:b0:7ab:45e4:9479 with SMTP id ada2fe7eead31-7ab45e49664mr3196573137.16.1790175109604;
-        Wed, 23 Sep 2026 07:51:49 -0700 (PDT)
-X-Received: by 2002:a67:fa46:0:b0:7ab:45e4:9479 with SMTP id ada2fe7eead31-7ab45e49664mr3196561137.16.1790175109223;
-        Wed, 23 Sep 2026 07:51:49 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2aae60a04csm143005866b.23.2026.09.23.07.51.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Sep 2026 07:51:48 -0700 (PDT)
-Message-ID: <50b27e3b-729b-428d-a903-b118a5bfa249@oss.qualcomm.com>
-Date: Wed, 23 Sep 2026 16:51:47 +0200
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="mlj83BjI"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C412C1570;
+	Wed, 23 Sep 2026 08:03:46 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C95553F86F;
+	Wed, 23 Sep 2026 08:03:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1790175830; bh=0/Lj5CUiANscmDe5noqB4vYNxkuMu46O/4p4y5g+oM8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mlj83BjIHBZYjSrBtJmqIr+9CLtBC7UmNQlFU8rEIHE/TUvAVxz8URr5clFDN5JhL
+	 Eqzi1JZ36x6RqiJ/O+SNUS02F4fDI4y1KcltMRlvOovoWnQYuFkTlLI9Qf9pXLSIan
+	 dT5QpURCYu+VIG7cFsGk47C8C5k5+fkYRNVQbU1A=
+Date: Wed, 23 Sep 2026 16:03:42 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+	sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+	d-gole@ti.com, jic23@kernel.org, elif.topuz@arm.com,
+	lukasz.luba@arm.com, philip.radford@arm.com,
+	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
+	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com,
+	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Subject: Re: [PATCH v12 03/25] firmware: arm_scmi: Introduce protocol
+ instance notifiers
+Message-ID: <arPqThLW7jjbLRJO@pluto>
+References: <20260920091928.2014972-1-cristian.marussi@arm.com>
+ <20260920091928.2014972-4-cristian.marussi@arm.com>
+ <c80354c7-0153-4a82-a9a1-9e2fd2929449@kernel.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Subject: Re: [PATCH v7 1/2] module: add SCMI device table alias support
-To: Sudeep Holla <sudeep.holla@kernel.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Cristian Marussi <cristian.marussi@arm.com>,
-        Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>,
-        Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
-        Frank.Li@kernel.org, arm-scmi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        imx@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20260918092951.5656-1-johannes.goede@oss.qualcomm.com>
- <20260918092951.5656-2-johannes.goede@oss.qualcomm.com>
- <arFKVhlgJge5EZyj@monoceros>
- <20260923-sceptical-mauve-firefly-f5456d@sudeepholla>
- <6b5a8300-ebf9-4717-bd39-952e89fc5e78@oss.qualcomm.com>
- <20260923-snake-of-magic-satiation-c3b857@sudeepholla>
- <a5e56180-b96f-4fac-980e-e837e84cd5a5@oss.qualcomm.com>
- <20260923-calculating-positive-inchworm-28d3cc@sudeepholla>
- <arPMAXs4jjUeu1DE@monoceros>
- <20260923-groovy-airborne-rook-e1efc6@sudeepholla>
-Content-Language: en-US, nl
-In-Reply-To: <20260923-groovy-airborne-rook-e1efc6@sudeepholla>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: 237TMtA0FPjJ0cet3r_MKR9Kc09U__fv
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIzMDA1OSBTYWx0ZWRfXzAedUFBQvr1O
- qPgIByEg2ERhS1Hw/AhLYnKXD082k/On3DQrU69XcUjxxkD9tN1Xz4Q8BZ4EEKL5h2PAltrliQB
- 3DJKD9q51zoBpgl/rsX4L3pJFjWBa3BShS4oYnByS/IgDNDe+gp3vpK0GPOy1mTFeKQsMJpYZBg
- ZCrqyFVAaQNxCshXA3sQV6KLOtb/t1kmrhZQcA2t9m4jSRASF696YVBFnti7MyhTwqAIFWJlhLk
- qJRpZ53ctsuKNiH1972uI/X7m/bax/5xrjmdOiRfneVcwYosoS6lGxjFxiY7oZrlHWSKBgDvqJ5
- QR1psnfJyR3IcvzsTW55ATIg6OsYWNazcROQ9mawCrn/7PG+maMo7ELu3EPorfH1EXouSNwicEh
- oYhq0HNYtKUoHgdI2Q8PFmFkl4h0U0TRhuevWyrQvjSL0dk7cwXNAw5dKMm7Pm/Ul/tPm6xEN7S
- NLle/tHnnAOzmLZpXAg==
-X-Proofpoint-GUID: 237TMtA0FPjJ0cet3r_MKR9Kc09U__fv
-X-Authority-Analysis: v=2.4 cv=NLpAaE6g c=1 sm=1 tr=0 ts=6ab3e786 cx=c_pps
- a=5HAIKLe1ejAbszaTRHs9Ug==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=IpJZQVW2AAAA:8
- a=wmcOPm1-qqoyX47EQMsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=gYDTvv6II1OnSo0itH1n:22 a=IawgGOuG5U0WyFbmm1f5:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIzMDA1OSBTYWx0ZWRfX+qp7kLT9IpD7
- S8LdF5ArXRbX7UUNcvB3+/RKzSeNtiZK5WQbdxtmKVayWyI6N2IaXqHoosfK+HEB0eupYUUWucR
- Cs5kN1/bPwv7BzrHjMjJdufcERu/UF0=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-23_04,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 adultscore=0 suspectscore=0 priorityscore=1501
- impostorscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609230059
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c80354c7-0153-4a82-a9a1-9e2fd2929449@kernel.org>
 
-Hi,
-
-On 23-Sep-26 16:25, Sudeep Holla wrote:
-> On Wed, Sep 23, 2026 at 02:55:26PM +0200, Uwe Kleine-König wrote:
->> On Wed, Sep 23, 2026 at 01:01:44PM +0100, Sudeep Holla wrote:
->>> If Uwe is fine, yes I can take v7 as is.
->>
->> Fine for me.
->>
->> Acked-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
->>
+On Tue, Sep 22, 2026 at 03:44:48PM +0200, David Hildenbrand (Arm) wrote:
+> On 9/20/26 11:19, Cristian Marussi wrote:
+> > SCMI Protocol notifications are typically used by SCMI drivers to detect
+> > and react to particular conditions: this was the assumption and the classic
+> > usage scenario upon which the SCMI notification framework was built.
 > 
-> Thanks Uwe!
+> Was the paragraph supposed to start with "SCMI notifications" ? Because later
+> you describe how some protocols might want to reuse the "existing SCMI
+> Notifications machinery", and here you talk about the traditional usage.
+
+Indeed.
+
 > 
->> The nice thing is that the device_id structs are not API, so this can
->> also be addressed later if someone comes up with a clever idea how to
->> implement it.
->>
+> > -	mutex_lock(&info->protocols_mtx);
+> > -	pi = idr_find(&info->protocols, protocol_id);
+> > +	scoped_guard(mutex, &info->protocols_mtx) {
+> > +		pi = idr_find(&info->protocols, protocol_id);
+> > +		if (pi) {
+> > +			refcount_inc(&pi->users);
+> > +		} else {
+> > +			const struct scmi_protocol *proto;
+> >  
+> > -	if (pi) {
+> > -		refcount_inc(&pi->users);
+> > -	} else {
+> > -		const struct scmi_protocol *proto;
+> > +			/* Fails if protocol not registered on bus */
+> > +			proto = scmi_protocol_get(protocol_id, &info->version);
+> > +			if (!proto)
+> > +				return ERR_PTR(-EPROBE_DEFER);
+> >  
+> > -		/* Fails if protocol not registered on bus */
+> > -		proto = scmi_protocol_get(protocol_id, &info->version);
+> > -		if (proto)
+> >  			pi = scmi_alloc_init_protocol_instance(info, proto);
+> > -		else
+> > -			pi = ERR_PTR(-EPROBE_DEFER);
+> > +			if (IS_ERR(pi))
+> > +				return pi;
+> > +
+> > +			proto_notifier_nb = READ_ONCE(pi->pno.nb);
+> > +		}
+> > +	}
+> > +
+> > +	if (proto_notifier_nb) {
+> > +		if (scmi_protocol_notifier_register(pi->handle, &pi->pno))
+> > +			dev_warn(handle->dev,
+> > +				 "Failed to register protocol notifier\n");
 > 
-> Agreed.
 > 
-> Hans,
+> 	if (proto_notifier_nb &&
+> 	    scmi_protocol_notifier_register(pi->handle, &pi->pno))
+> 		dev_warn(handle->dev, ...)
 > 
-> There were other changes in bus.c that conflicted with this. I have
-> resolved the conflicts and pushed to my for-next/scmi/updates[1]
+> As we dropped the mutex, I assume somebody else could move ahead and
+> refcount_inc(&pi->users) + return before the notifier was registered? Is that
+> expected?
+>
+
+It is more of a problem on the release path...in fact...these limit
+condition are an open residual issues...
+ 
 > 
-> If anything is wrong or if you prefer, you can post a rebased version
-> that I can pick up.
+> >  	}
+> > -	mutex_unlock(&info->protocols_mtx);
+> >  
+> >  	return pi;
+> >  }
+> > @@ -2366,13 +2398,35 @@ int scmi_protocol_acquire(const struct scmi_handle *handle, u8 protocol_id)
+> >  void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
+> >  {
+> >  	struct scmi_info *info = handle_to_scmi_info(handle);
+> > +	struct notifier_block *proto_notifier_nb = NULL;
+> >  	struct scmi_protocol_instance *pi;
+> >  
+> > -	mutex_lock(&info->protocols_mtx);
+> > -	pi = idr_find(&info->protocols, protocol_id);
+> > -	if (WARN_ON(!pi))
+> > -		goto out;
+> > +	scoped_guard(mutex, &info->protocols_mtx) {
+> > +		pi = idr_find(&info->protocols, protocol_id);
+> > +		if (WARN_ON(!pi))
+> > +			return;
+> >  
+> > +		/*
+> > +		 * If a protocol notifier was registered and this is the
+> > +		 * last istance releasing the protocol, mark the notifier
+> 
+> s/istance/instance/
+> 
+> > +		 * for un-registration: note that the notifier itself counts
+> > +		 * as one user, as for any other regular notification, so if a
+> > +		 * protocol notifier is registered and there are only 2 users
+> > +		 * active we can derive that this is the last protocol
+> > +		 * instance de-registering.
+> > +		 */
+> > +		if (scmi_protocol_notifier_registered(&pi->pno) &&
+> > +		    refcount_read(&pi->users) == 2)
+> > +			proto_notifier_nb = READ_ONCE(pi->pno.nb);
+> > +	}
+> > +
+> 
+> We drop the mutex now temporarily. What happens if another instance gets
+> registered (incrementing &pi->users) just after we dropped the lock and
+> unregister the notifier?
+> 
+> Shouldn't we care about that or why is it ok?
 
-Thank you, the fixed up commit looks good to me. I'll try to also give
-this new version a test spin soon-ish.
+I'll try a slight different approach for this...till now I was looking for the
+least possible invasive ways of dealing with the fact that the core SCMI mechanisms
+were NOT originally designed to deal with in-protocol users but just with
+external SCMI drivers...
 
-Regards,
-
-Hans
-
-
-
+Thanks,
+Cristian
