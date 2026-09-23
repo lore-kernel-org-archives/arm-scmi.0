@@ -1,133 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F1C476CE7;
-	Wed, 23 Sep 2026 09:07:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89C0481AB0
+	for <arm-scmi@vger.kernel.org>; Wed, 23 Sep 2026 10:16:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790154455; cv=none; b=iUCBICDZFO9nG6iWJWFxChJ+eah1X0+0EW5dYPsCS+LcbBnCAIUgW9DZITVctOBPluPGxVD+cmb7fkw7skgZkdSA8l290CjQnYpOU6YuEPx2+HeBtT1cr3IRWut74KIh4rRnIvbHgOpv20gajCNHuhHccLtAg3IW3WcAEtP7GK8=
+	t=1790158591; cv=none; b=kPdUdqq2F6tL67sDb3AFXzzS1gsaX3+mbW2QYsoT6mQ1EbylAKTLStY/hzYcwz+YUqzTR1aFPpE83NQ8LBPHqEM9VAoGeufNvc32QLw25y4U2f191UglmneQkuJd3mgmOzCc8mxe2PNybbo7czT4RdD4qLCcsRAXWutKTiaRFlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790154455; c=relaxed/simple;
-	bh=ydjqv+vhCg/bF+IeIDvGwKCcrZqtPWRIkTwkdhYtCGE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J1Fzbe3M8ER/GRvsvjwQgXvdToCjRpq8Ju7dSpduLBWehhghKvkmsy84T/dCLldis4zmxsDO7muSTPKQDw5WQoW4oScRSuYLwd17UTLY0RcQKs9bmYG0CyyxCjOlFndxekcL+6eLT+MrcZFNZRyalpXubnx0K8xWsqOTtcNh80Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KflVallC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790158591; c=relaxed/simple;
+	bh=fyMWUODiBcciUoCdZf9LFxav5Wuofx1FF6LiKXsa5ic=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=o36+LVF2daZKLWIOxmqEzTQy938yqEDAXNfUkf9NQcr/9TQf+BUAsITykV1HlD4COfqojqbAt5qw0sy/3wYedsQHe+Lumlx3xWo4xECI6gzvayY+vF7Lq1tgp3+Jq5UemiKY+i39VrwY/zW1hu2zc+VYBcuqCuaED2AuvEd61jE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NttLNaS2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KflVallC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A91061F000FF;
-	Wed, 23 Sep 2026 09:07:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NttLNaS2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B6461F00893;
+	Wed, 23 Sep 2026 10:16:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790154453;
-	bh=8qYfBP3l0bIaYYx9lxJyE2I7qM/U4w1XTrG1Nu4ZagQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KflVallCyNsdpqhTOTGscBnbizb4oRfsGlcpFCeI0AItfzqu1DZ1WGdshpUeWaBC7
-	 0xjv55o/CEsYZL32mmIn6crZRcelbeZH7S+aQ4ffKsBi89PbqTi+8HSTTzaucjqAkI
-	 sX2Y9Hh3F0QoEn/gL1OCwDXOB5u330/fkg1Pzcs1B89uNDT7mHiMoOHs19i5nFtsqg
-	 EiY5oFDN5gwX24GflFiL7jk/m5AfS83xahfSpjeHjSvUUnSbWboOEX6gGG6TTlu3YE
-	 /l9bsljv1N2Dl2nRvH1KG8JtnYqIWHfhknp9zhF5NqOwnZ8xecGKRf0x7nQv/s7vh6
-	 ZrOgieiDoTbOw==
-Date: Wed, 23 Sep 2026 10:07:29 +0100
+	s=k20260515; t=1790158577;
+	bh=DKPvG4j9g8m9GZDieE5Fj9xDXaarMa/hUNDshw8h6f0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=NttLNaS2Bb3oxUtafbYJ7ovFw1ULru9z+u2u19KgfjDIWVjjncAO1ab3Yzz3VXXiT
+	 8klWFmjaZU0NGmQGtN4TqTxyWnRq0s+jbMF5obnOLNqrDj3pAZkszLvgPF3z/E+vS4
+	 8IBPcEeYN9HsH1bqYGmdwUzOJagjtI02h3u7w78ppI3Q5vH807IBrB79S4biWZkcrP
+	 YcZNUeyoxtjPXEcOeHq5MgkSUSrIRHqrI+tksnOKQCNXisVJ1BQ07bd8dg1Z0d4uJs
+	 ZB4pRsuO65x4ISbIri6zXBjWnh1pkfrnHA/FMO3p1XQxDXotKhPtcKlOzVKYtynOA3
+	 9b6OoMlxh5adw==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-To: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
+To: arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: Sudeep Holla <sudeep.holla@kernel.org>,
+	Ulf Hansson <ulfh@kernel.org>,
 	Cristian Marussi <cristian.marussi@arm.com>,
-	Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>,
-	Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
-	Frank.Li@kernel.org, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	imx@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 1/2] module: add SCMI device table alias support
-Message-ID: <20260923-sceptical-mauve-firefly-f5456d@sudeepholla>
-References: <20260918092951.5656-1-johannes.goede@oss.qualcomm.com>
- <20260918092951.5656-2-johannes.goede@oss.qualcomm.com>
- <arFKVhlgJge5EZyj@monoceros>
+	Kevin Hilman <khilman@baylibre.com>
+Subject: [PATCH 2/2] pmdomain: arm_scmi: Propagate domain hierarchy setup failures
+Date: Wed, 23 Sep 2026 11:16:08 +0100
+Message-ID: <20260923101608.4180057-2-sudeep.holla@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260923101608.4180057-1-sudeep.holla@kernel.org>
+References: <20260923101608.4180057-1-sudeep.holla@kernel.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <arFKVhlgJge5EZyj@monoceros>
 
-On Mon, Sep 21, 2026 at 05:19:45PM +0200, Uwe Kleine-König wrote:
-> On Fri, Sep 18, 2026 at 11:29:50AM +0200, Hans de Goede wrote:
-> > From: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
-> > 
-> > SCMI client drivers already describe their bus match data with
-> > MODULE_DEVICE_TABLE(scmi, ...), but modpost does not know how to consume
-> > SCMI device tables. As a result, SCMI modules do not get generated module
-> > aliases from their id tables.
-> > 
-> > Move struct scmi_device_id to mod_devicetable.h so it has a fixed layout
-> > visible to modpost, add the corresponding generated offsets and teach
-> > file2alias to emit scmi:<protocol>:<name> aliases.
-> > 
-> > Use the same stable alias format for SCMI device uevents and sysfs
-> > modaliases. The previous string included the instance-specific device
-> > name, which is not useful for matching modules.
-> > 
-> > Assisted-by: Codex:GPT-5.5
-> > Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
-> > Tested-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
-> > Signed-off-by: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
-> > Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+of_genpd_add_child_ids() uses all-or-nothing semantics and reports an
+error if any relationship cannot be established. The SCMI driver
+currently only logs that error and completes probe, leaving domains
+registered without their DT-described parent relationships.
 
-[...]
+Treat hierarchy setup failures as probe failures. Translate -ENOENT to
+-EPROBE_DEFER so external parent providers can register first, remove the
+onecell provider before unwinding domains, and publish driver data only
+after hierarchy setup succeeds.
 
-> > diff --git a/include/linux/device-id/scmi.h b/include/linux/device-id/scmi.h
-> > new file mode 100644
-> > index 000000000000..1b4ccfa9dcc5
-> > --- /dev/null
-> > +++ b/include/linux/device-id/scmi.h
-> > @@ -0,0 +1,17 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > +#ifndef LINUX_DEVICE_ID_SCMI_H
-> > +#define LINUX_DEVICE_ID_SCMI_H
-> > +
-> > +#ifdef __KERNEL__
-> > +#include <linux/types.h>
-> > +#endif
-> > +
-> > +#define SCMI_NAME_SIZE		32
-> > +#define SCMI_MODULE_PREFIX	"scmi:"
-> > +
-> > +struct scmi_device_id {
-> > +	__u8 protocol_id;
-> > +	char name[SCMI_NAME_SIZE];
-> 
-> I wonder if you tried to keep this a char *. ISTR someone did something
-> similar recently and they claimed it worked. That would get rid of the
-> artificial name size limit and simplify this patch.
-> 
+Fixes: fba9c703c184 ("pmdomain: arm_scmi: add support for domain hierarchies")
+Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
+---
+ drivers/pmdomain/arm/scmi_pm_domain.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-I agree with this. 
-
-[...]
-
-> > @@ -1491,6 +1502,7 @@ static const struct devtable devtable[] = {
-> >  	{"virtio", SIZE_virtio_device_id, do_virtio_entry},
-> >  	{"vmbus", SIZE_hv_vmbus_device_id, do_vmbus_entry},
-> >  	{"rpmsg", SIZE_rpmsg_device_id, do_rpmsg_entry},
-> > +	{"scmi", SIZE_scmi_device_id, do_scmi_entry},
-> >  	{"i2c", SIZE_i2c_device_id, do_i2c_entry},
-> >  	{"i3c", SIZE_i3c_device_id, do_i3c_entry},
-> >  	{"slim", SIZE_slim_device_id, do_slim_entry},
-> 
-> I wonder if this is supposed to be ordered alphabetically ...
-> 
-
-This may be hard, just the best effort unless it is cleaned up first.
-
-Anyways, I plan to send PR by end of the week, so I really need this
-in by tomorrow worst case. I am bit worried if there will conflict all
-over the place in this file as I know couple of other patches that may
-come via other trees touching same entries(one is SMCCC)🤞.
-
+diff --git a/drivers/pmdomain/arm/scmi_pm_domain.c b/drivers/pmdomain/arm/scmi_pm_domain.c
+index 00192472f325..874ddb899f99 100644
+--- a/drivers/pmdomain/arm/scmi_pm_domain.c
++++ b/drivers/pmdomain/arm/scmi_pm_domain.c
+@@ -117,19 +117,24 @@ static int scmi_pm_domain_probe(struct scmi_device *sdev)
+ 	if (ret)
+ 		goto err_rm_genpds;
+ 
+-	dev_set_drvdata(dev, scmi_pd_data);
+-
+ 	/*
+ 	 * Parse (optional) power-domains-child-ids property to establish
+ 	 * parent-child relationships.
+ 	*/
+ 	ret = of_genpd_add_child_ids(np, scmi_pd_data);
+-	if (ret < 0)
+-		dev_err(dev, "Failed to add child domain hierarchy: %d\n", ret);
++	if (ret < 0) {
++		ret = dev_err_probe(dev, ret == -ENOENT ? -EPROBE_DEFER : ret,
++				    "failed to add child domain hierarchy\n");
++		goto err_del_provider;
++	}
++
++	dev_set_drvdata(dev, scmi_pd_data);
+ 
+ 	dev_info(dev, "Initialized %d power domains", num_domains);
+ 
+ 	return 0;
++err_del_provider:
++	of_genpd_del_provider(np);
+ err_rm_genpds:
+ 	for (i = num_domains - 1; i >= 0; i--) {
+ 		if (!domains[i])
 -- 
-Regards,
-Sudeep
+2.43.0
+
