@@ -1,128 +1,133 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 943A43F3263;
-	Tue, 22 Sep 2026 17:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F1C476CE7;
+	Wed, 23 Sep 2026 09:07:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790098340; cv=none; b=jlMpfxnMLXg/30tp1qOEyO+YgJa0/4U+WYxulu6CS6aqDbZVvWtltluAaJ0tv+XijJuPQEfRrbCbUOPa1rBQ9ziXlmcRz2R8KUV3aUaVINrP5EuA9bvL0Jj8eRGnMX8GuY2vMWNoQcTnLhdpWAwejI/MaIozb/ZgQYhDmKtlW8Y=
+	t=1790154455; cv=none; b=iUCBICDZFO9nG6iWJWFxChJ+eah1X0+0EW5dYPsCS+LcbBnCAIUgW9DZITVctOBPluPGxVD+cmb7fkw7skgZkdSA8l290CjQnYpOU6YuEPx2+HeBtT1cr3IRWut74KIh4rRnIvbHgOpv20gajCNHuhHccLtAg3IW3WcAEtP7GK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790098340; c=relaxed/simple;
-	bh=i8rmnA+nlrHeWzx7kNMPhnc4iJcDtyjqy8ekHSFBfJY=;
+	s=arc-20240116; t=1790154455; c=relaxed/simple;
+	bh=ydjqv+vhCg/bF+IeIDvGwKCcrZqtPWRIkTwkdhYtCGE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qvr8i/tAf+YoHxuVXr+wdhN+aEXUmQE82L1Oe41Pown1oeIj4z1B9P3sH205AhUou70eCcmRObSfHkaaLConuQW2S8ocHsMTaTsmROd7gvbsqro9qN8ey0TXlHIE0nJMjmdaMyTWp5JaO2XDTox8PWF4zLudIlBVwB5mBpHYBK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=hM/SET1P; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=J1Fzbe3M8ER/GRvsvjwQgXvdToCjRpq8Ju7dSpduLBWehhghKvkmsy84T/dCLldis4zmxsDO7muSTPKQDw5WQoW4oScRSuYLwd17UTLY0RcQKs9bmYG0CyyxCjOlFndxekcL+6eLT+MrcZFNZRyalpXubnx0K8xWsqOTtcNh80Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KflVallC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="hM/SET1P"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F2AA11576;
-	Tue, 22 Sep 2026 10:32:09 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2098E3F86C;
-	Tue, 22 Sep 2026 10:32:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1790098333; bh=i8rmnA+nlrHeWzx7kNMPhnc4iJcDtyjqy8ekHSFBfJY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hM/SET1P+KLwfCcF/EmK7kBGpnTtJ6hib/jI+FsscMVotyP6SnC2oSDprj3ksYReb
-	 wWYK8dWDStfaOmXBNeCfNteQ1qqOXodtyrT6riUez3skCE13fAFlmdYDlib7zf8Bq4
-	 PBWsxMfEsVHadBHn2P0w6yO1bCNyHnz6bpbKWWfo=
-Date: Tue, 22 Sep 2026 18:32:00 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
-	sudeep.holla@kernel.org, james.quinlan@broadcom.com,
-	f.fainelli@gmail.com, vincent.guittot@linaro.org,
-	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
-	d-gole@ti.com, jic23@kernel.org, elif.topuz@arm.com,
-	lukasz.luba@arm.com, philip.radford@arm.com,
-	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
-	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com,
-	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-Subject: Re: [PATCH v12 01/25] firmware: arm_scmi: Add new SCMIv4.0 error
- codes definitions
-Message-ID: <arK7kLlrg491EsMf@pluto>
-References: <20260920091928.2014972-1-cristian.marussi@arm.com>
- <20260920091928.2014972-2-cristian.marussi@arm.com>
- <88138b8e-42cf-405f-a5ee-519271dbd4f4@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KflVallC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A91061F000FF;
+	Wed, 23 Sep 2026 09:07:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790154453;
+	bh=8qYfBP3l0bIaYYx9lxJyE2I7qM/U4w1XTrG1Nu4ZagQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KflVallCyNsdpqhTOTGscBnbizb4oRfsGlcpFCeI0AItfzqu1DZ1WGdshpUeWaBC7
+	 0xjv55o/CEsYZL32mmIn6crZRcelbeZH7S+aQ4ffKsBi89PbqTi+8HSTTzaucjqAkI
+	 sX2Y9Hh3F0QoEn/gL1OCwDXOB5u330/fkg1Pzcs1B89uNDT7mHiMoOHs19i5nFtsqg
+	 EiY5oFDN5gwX24GflFiL7jk/m5AfS83xahfSpjeHjSvUUnSbWboOEX6gGG6TTlu3YE
+	 /l9bsljv1N2Dl2nRvH1KG8JtnYqIWHfhknp9zhF5NqOwnZ8xecGKRf0x7nQv/s7vh6
+	 ZrOgieiDoTbOw==
+Date: Wed, 23 Sep 2026 10:07:29 +0100
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: Hans de Goede <johannes.goede@oss.qualcomm.com>
+Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>,
+	Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
+	Frank.Li@kernel.org, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	imx@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 1/2] module: add SCMI device table alias support
+Message-ID: <20260923-sceptical-mauve-firefly-f5456d@sudeepholla>
+References: <20260918092951.5656-1-johannes.goede@oss.qualcomm.com>
+ <20260918092951.5656-2-johannes.goede@oss.qualcomm.com>
+ <arFKVhlgJge5EZyj@monoceros>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <88138b8e-42cf-405f-a5ee-519271dbd4f4@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <arFKVhlgJge5EZyj@monoceros>
 
-On Tue, Sep 22, 2026 at 02:20:20PM +0200, David Hildenbrand (Arm) wrote:
-> On 9/20/26 11:19, Cristian Marussi wrote:
-> > SCMIv4.0 introduces a couple of new possible protocol error codes: add
-> > the needed definitions and mappings to Linux error values.
-
-Hi David,
-
-thanks for having a look...
-
+On Mon, Sep 21, 2026 at 05:19:45PM +0200, Uwe Kleine-König wrote:
+> On Fri, Sep 18, 2026 at 11:29:50AM +0200, Hans de Goede wrote:
+> > From: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
 > > 
-> > Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> > ---
-> > v4 --> v5
-> >  - map SCMI_ERR_IN_USE to EBUSY as natural
-> > ---
-> >  drivers/firmware/arm_scmi/common.h | 4 ++++
-> >  1 file changed, 4 insertions(+)
+> > SCMI client drivers already describe their bus match data with
+> > MODULE_DEVICE_TABLE(scmi, ...), but modpost does not know how to consume
+> > SCMI device tables. As a result, SCMI modules do not get generated module
+> > aliases from their id tables.
 > > 
-> > diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-> > index fe8c22cfb9f7..6f89ba96493d 100644
-> > --- a/drivers/firmware/arm_scmi/common.h
-> > +++ b/drivers/firmware/arm_scmi/common.h
-> > @@ -48,6 +48,8 @@ enum scmi_error_codes {
-> >  	SCMI_ERR_GENERIC = -8,	/* Generic Error */
-> >  	SCMI_ERR_HARDWARE = -9,	/* Hardware Error */
-> >  	SCMI_ERR_PROTOCOL = -10,/* Protocol Error */
-> > +	SCMI_ERR_IN_USE = -11,  /* In Use Error */
-> > +	SCMI_ERR_PARTIAL = -12, /* Partial Error */
-> >  };
-> >  
-> >  static const int scmi_linux_errmap[] = {
-> > @@ -63,6 +65,8 @@ static const int scmi_linux_errmap[] = {
-> >  	-EIO,			/* SCMI_ERR_GENERIC */
-> >  	-EREMOTEIO,		/* SCMI_ERR_HARDWARE */
-> >  	-EPROTO,		/* SCMI_ERR_PROTOCOL */
-> > +	-EBUSY,			/* SCMI_ERR_IN_USE */
-> > +	-EINVAL,		/* SCMI_ERR_PARTIAL */
-> >  };
-> >  
-> >  static inline int scmi_to_linux_errno(int errno)
+> > Move struct scmi_device_id to mod_devicetable.h so it has a fixed layout
+> > visible to modpost, add the corresponding generated offsets and teach
+> > file2alias to emit scmi:<protocol>:<name> aliases.
+> > 
+> > Use the same stable alias format for SCMI device uevents and sysfs
+> > modaliases. The previous string included the instance-specific device
+> > name, which is not useful for matching modules.
+> > 
+> > Assisted-by: Codex:GPT-5.5
+> > Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+> > Tested-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+> > Signed-off-by: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
+> > Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+
+[...]
+
+> > diff --git a/include/linux/device-id/scmi.h b/include/linux/device-id/scmi.h
+> > new file mode 100644
+> > index 000000000000..1b4ccfa9dcc5
+> > --- /dev/null
+> > +++ b/include/linux/device-id/scmi.h
+> > @@ -0,0 +1,17 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > +#ifndef LINUX_DEVICE_ID_SCMI_H
+> > +#define LINUX_DEVICE_ID_SCMI_H
+> > +
+> > +#ifdef __KERNEL__
+> > +#include <linux/types.h>
+> > +#endif
+> > +
+> > +#define SCMI_NAME_SIZE		32
+> > +#define SCMI_MODULE_PREFIX	"scmi:"
+> > +
+> > +struct scmi_device_id {
+> > +	__u8 protocol_id;
+> > +	char name[SCMI_NAME_SIZE];
 > 
-> So far we had unique mappings. Now EBUSY and EINVAL could be due to two SCMI_ERR
-> each.
+> I wonder if you tried to keep this a char *. ISTR someone did something
+> similar recently and they claimed it worked. That would get rid of the
+> artificial name size limit and simplify this patch.
 > 
-> I assume in the later usage there is no need to distinguish them for now? Might
-> be worth stating that in the patch description.
 
-Mmmm....indeed this was added to the spec last minute and while
-ERR_IN_USE (probably) does NOT necessarily need special treatment (so it
-can share -EBUSY), PARTIAL_ERROR must definitely be handled specially ...
+I agree with this. 
 
-Good catch...
+[...]
 
-I am indeed already handling properly the side-effects of PARTIAL-ERROR
-but I will have to properly handle the status code itself in READING_COMPLETE
-and in the NOTIFICATION....as a consequence it needs to be distinguishable...
+> > @@ -1491,6 +1502,7 @@ static const struct devtable devtable[] = {
+> >  	{"virtio", SIZE_virtio_device_id, do_virtio_entry},
+> >  	{"vmbus", SIZE_hv_vmbus_device_id, do_vmbus_entry},
+> >  	{"rpmsg", SIZE_rpmsg_device_id, do_rpmsg_entry},
+> > +	{"scmi", SIZE_scmi_device_id, do_scmi_entry},
+> >  	{"i2c", SIZE_i2c_device_id, do_i2c_entry},
+> >  	{"i3c", SIZE_i3c_device_id, do_i3c_entry},
+> >  	{"slim", SIZE_slim_device_id, do_slim_entry},
+> 
+> I wonder if this is supposed to be ordered alphabetically ...
+> 
 
-Problem is...there are NOT so many not-already-used error-codes that could
-signify such an ambiguos error condition, by the spec:
+This may be hard, just the best effort unless it is cleaned up first.
 
-"The platform returns PARTIAL_ERROR to indicate that some of the telemetry
-data could not be collected."
+Anyways, I plan to send PR by end of the week, so I really need this
+in by tomorrow worst case. I am bit worried if there will conflict all
+over the place in this file as I know couple of other patches that may
+come via other trees touching same entries(one is SMCCC)🤞.
 
-I will use -EBADMSG (but any other advice is welcome) and fix its usage where
-needed for DRESP and NOTIF in v13.
-
-Thanks,
-Cristian
-
+-- 
+Regards,
+Sudeep
