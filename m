@@ -1,173 +1,181 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 218A44963CA;
-	Wed, 23 Sep 2026 15:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mta1.migadu.com (out-199.mta1.migadu.com [95.215.58.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E40B51FCA9
+	for <arm-scmi@vger.kernel.org>; Wed, 23 Sep 2026 15:23:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790175835; cv=none; b=GDU+AzVYoSc/zr8UatzovuLwfIKa/ZuHW42NP+xBhFSeglX+QIlKkcPLklpJzxdghbq2PAueRrksGTI6Hcm5SGeuPTyQRNJceyJnnT0g77dSW/hBbmDIshMdOjLZuRrysLgtUhfhzTgh3sKsVZ/CXAHLRdRGGpDRWRkfUCTm/Sk=
+	t=1790177006; cv=none; b=cwO7MbJfU1WbIrKrbbSrPUTPhICOwFFcCvWVZF9JoS07jEP57vQWNiMW6zjd4dQWywTJUE2C/ilq6sMlTeH+bTzeGerFtDKve2TUHS0RVZ61obA1tOVmAsVPZBxcb+f7eHHhyEJYtFGrqqkQSUHvOM4m9FB8tYo3jTFq0iCom/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790175835; c=relaxed/simple;
-	bh=0/Lj5CUiANscmDe5noqB4vYNxkuMu46O/4p4y5g+oM8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bQdhBm+wcXOyDbGZHvyT6PDTI2sNv3IRYIoHMcK/d6o5yH6aFFOGZcU16fsNdzh7sCSbLS162zt7JsrCBgCMUEuOYSWYig0msNg4XW9Xp524c1lgOqNgJT80To/VFW3jEZI6vt4X9V896nm5wVJ/wx45f7mv1Pzqzi06n3a7KpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=mlj83BjI; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1790177006; c=relaxed/simple;
+	bh=xnL9xErcyYKS/9j7WIkNTeykzegxGlsehi7RhfMw50g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=t6QFLIu1MJMzGjnvkZPjzLG/+qk8IoDYvePwOhLaNSOLldqoFUs/OWHV/lF+bVlzZKmPSk93JyNvWiO48loF/SIQGbCmcWfx9VkU9IeLpL2b8NYQvqhB6uJCx6UXEVoOTlrVxhhuUY6Kk7dFe1KhWYDX+ZrSstY4eaN911wlP2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=akao.au; spf=pass smtp.mailfrom=akao.au; dkim=pass (2048-bit key) header.d=akao.au header.i=@akao.au header.b=GznM3n26; arc=none smtp.client-ip=95.215.58.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=akao.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=akao.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="mlj83BjI"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C412C1570;
-	Wed, 23 Sep 2026 08:03:46 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C95553F86F;
-	Wed, 23 Sep 2026 08:03:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1790175830; bh=0/Lj5CUiANscmDe5noqB4vYNxkuMu46O/4p4y5g+oM8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mlj83BjIHBZYjSrBtJmqIr+9CLtBC7UmNQlFU8rEIHE/TUvAVxz8URr5clFDN5JhL
-	 Eqzi1JZ36x6RqiJ/O+SNUS02F4fDI4y1KcltMRlvOovoWnQYuFkTlLI9Qf9pXLSIan
-	 dT5QpURCYu+VIG7cFsGk47C8C5k5+fkYRNVQbU1A=
-Date: Wed, 23 Sep 2026 16:03:42 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
-	sudeep.holla@kernel.org, james.quinlan@broadcom.com,
-	f.fainelli@gmail.com, vincent.guittot@linaro.org,
-	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
-	d-gole@ti.com, jic23@kernel.org, elif.topuz@arm.com,
-	lukasz.luba@arm.com, philip.radford@arm.com,
-	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
-	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com,
-	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-Subject: Re: [PATCH v12 03/25] firmware: arm_scmi: Introduce protocol
- instance notifiers
-Message-ID: <arPqThLW7jjbLRJO@pluto>
-References: <20260920091928.2014972-1-cristian.marussi@arm.com>
- <20260920091928.2014972-4-cristian.marussi@arm.com>
- <c80354c7-0153-4a82-a9a1-9e2fd2929449@kernel.org>
+	dkim=pass (2048-bit key) header.d=akao.au header.i=@akao.au header.b="GznM3n26"
+X-Envelope-To: arm-scmi@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=xnL9xErcyYKS/9j7WIkNTeykzegxGlsehi7RhfMw50g=;
+ c=simple/simple; d=akao.au;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790177001; v=1; x=1790781801;
+ b=GznM3n269ubzH2IO5HubRfwhmB9pqBhdq8FOkU3QDmLw+aUkVuiVwwwTC4dKvCPIpmhghpME
+ s4DwPvKoNg9QRBTXpluMo90QgW8AetggbvHQlBlWTYvE0bfZyTYk4AHu7ObyOvfBfoGnR3BZVm0
+ 0R9Apy+J7ADP0Z6zhTTzXOtYLeCS0rXaxw7sAwmYTyapVWYMx5ASb2tKGodhvrKxe7kxTdypyNt
+ 3s69RkQZIVEMgtlpMuQWmKtBdikl7gBq+p/bkVqpZmRaU1UHS+tiVoZMX5luzn1ueZIzxLD2AfL
+ ufKXnIdwNHZB/J52FbxV+yrgDnPkZlmhT65UnNk94op1g==
+X-Envelope-To: arm-scmi@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 50fdd6125a7fb788;
+	Wed, 23 Sep 2026 15:23:21 +0000
+X-Mizu-Trace-ID: 50fdd6125a7fb788
+X-Migadu-Flow: FLOW_OUT
+From: Charlie Garner <charlie@akao.au>
+To: Sudeep Holla <sudeep.holla@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>
+Cc: Sibi Sankar <sibi.sankar@oss.qualcomm.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Dhruva Gole <d-gole@ti.com>,
+	arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Charlie Garner <charlie@akao.au>,
+	stable@vger.kernel.org
+Subject: [PATCH] firmware: arm_scmi: perf: ignore an implausible sustained frequency
+Date: Thu, 24 Sep 2026 00:52:45 +0930
+Message-ID: <20260923152245.44624-1-charlie@akao.au>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c80354c7-0153-4a82-a9a1-9e2fd2929449@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 22, 2026 at 03:44:48PM +0200, David Hildenbrand (Arm) wrote:
-> On 9/20/26 11:19, Cristian Marussi wrote:
-> > SCMI Protocol notifications are typically used by SCMI drivers to detect
-> > and react to particular conditions: this was the assumption and the classic
-> > usage scenario upon which the SCMI notification framework was built.
-> 
-> Was the paragraph supposed to start with "SCMI notifications" ? Because later
-> you describe how some protocols might want to reuse the "existing SCMI
-> Notifications machinery", and here you talk about the traditional usage.
+On a Dell Inspiron 14 Plus 7441 (Snapdragon X Plus X1P64100, soc_id 615)
+the SCMI firmware reports a sustained frequency below the lowest available
+OPP for performance domains NCC1 and NCC2. It reports zero for both
+sustained_freq_khz and sustained_perf_level there, while NCC0 reports
+3417600 kHz at level 12. All three domains use level indexing mode, so
+mult_factor is fixed at 1000 and the OPP frequencies come from
+indicative_freq; this is not a units or mult_factor problem.
 
-Indeed.
+scmi_dvfs_device_opps_add() then flags every OPP in NCC1 and NCC2 as turbo:
 
-> 
-> > -	mutex_lock(&info->protocols_mtx);
-> > -	pi = idr_find(&info->protocols, protocol_id);
-> > +	scoped_guard(mutex, &info->protocols_mtx) {
-> > +		pi = idr_find(&info->protocols, protocol_id);
-> > +		if (pi) {
-> > +			refcount_inc(&pi->users);
-> > +		} else {
-> > +			const struct scmi_protocol *proto;
-> >  
-> > -	if (pi) {
-> > -		refcount_inc(&pi->users);
-> > -	} else {
-> > -		const struct scmi_protocol *proto;
-> > +			/* Fails if protocol not registered on bus */
-> > +			proto = scmi_protocol_get(protocol_id, &info->version);
-> > +			if (!proto)
-> > +				return ERR_PTR(-EPROBE_DEFER);
-> >  
-> > -		/* Fails if protocol not registered on bus */
-> > -		proto = scmi_protocol_get(protocol_id, &info->version);
-> > -		if (proto)
-> >  			pi = scmi_alloc_init_protocol_instance(info, proto);
-> > -		else
-> > -			pi = ERR_PTR(-EPROBE_DEFER);
-> > +			if (IS_ERR(pi))
-> > +				return pi;
-> > +
-> > +			proto_notifier_nb = READ_ONCE(pi->pno.nb);
-> > +		}
-> > +	}
-> > +
-> > +	if (proto_notifier_nb) {
-> > +		if (scmi_protocol_notifier_register(pi->handle, &pi->pno))
-> > +			dev_warn(handle->dev,
-> > +				 "Failed to register protocol notifier\n");
-> 
-> 
-> 	if (proto_notifier_nb &&
-> 	    scmi_protocol_notifier_register(pi->handle, &pi->pno))
-> 		dev_warn(handle->dev, ...)
-> 
-> As we dropped the mutex, I assume somebody else could move ahead and
-> refcount_inc(&pi->users) + return before the notifier was registered? Is that
-> expected?
->
+	data.turbo = freq > dom->sustained_freq_khz * 1000UL;
 
-It is more of a problem on the release path...in fact...these limit
-condition are an open residual issues...
+cpufreq_frequency_table_cpuinfo() skips boost-flagged entries and fails
+when none are left:
+
+	if ((!cpufreq_boost_enabled() || !policy->boost_enabled)
+	    && (pos->flags & CPUFREQ_BOOST_FREQ))
+		continue;
+	...
+	if (min_freq == ~0)
+		return -EINVAL;
+
+cpufreq_policy_online() drops the policy on that error without logging
+anything. Only one of the three performance domains ends up with a policy.
+The part has 10 cores (the x1e80100 DT describes 12, CPUs 7 and 11 fail to
+boot): 4 of them can scale, the other 6 get no policy, no governor, and no
+cpufreq cooling device.
+
+This cannot be worked around by enabling boost. policy->boost_enabled is
+still 0 during that validation, and both places that set it -
+boost_supported in cpufreq_table_validate_and_sort(), boost_enabled in
+cpufreq_online() - run after the call that already returned -EINVAL. A
+domain whose OPPs are all flagged turbo can therefore never get a policy.
+
+Confirmed by probing dev_pm_opp_add_dynamic() on the affected machine: all
+13 OPPs are added with turbo=0 for domain NCC0 and turbo=1 for every CPU in
+NCC1 and NCC2, across an identical 710400-3417600 kHz table. The raw domain
+attributes above were read the same way, with a kprobe on
+scmi_dvfs_device_opps_add() fetching the perf_dom_info fields.
+
+A sustained frequency below the lowest OPP carries no information - it
+cannot separate sustained levels from boost levels. Treat it as "this
+domain has no turbo levels" instead of letting it disable the domain
+entirely, and say so once with a FW_BUG warning, since the failure is
+otherwise silent. A sustained frequency equal to the lowest OPP is left
+alone, it already leaves that OPP non-turbo.
+
+Fixes: a897575e79d7 ("firmware: arm_scmi: Add support for marking certain frequencies as turbo")
+Cc: stable@vger.kernel.org
+Signed-off-by: Charlie Garner <charlie@akao.au>
+---
+
+Notes:
+    The SCMI quirks framework (quirks.c) would also work here, and this
+    platform already has two quirks enabled. I went with a generic check
+    because a sustained frequency below every OPP is meaningless on any
+    platform, and the check is a no-op for firmware that reports a sane value.
+    Happy to turn it into a quirk if you'd prefer that.
+
+ drivers/firmware/arm_scmi/perf.c | 34 ++++++++++++++++++++++++++------
+ 1 file changed, 28 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/firmware/arm_scmi/perf.c b/drivers/firmware/arm_scmi/perf.c
+index 4583d02bee1c..94f644996f9d 100644
+--- a/drivers/firmware/arm_scmi/perf.c
++++ b/drivers/firmware/arm_scmi/perf.c
+@@ -861,11 +861,20 @@ static void scmi_perf_domain_init_fc(const struct scmi_protocol_handle *ph,
+ 	dom->fc_info = fc;
+ }
  
-> 
-> >  	}
-> > -	mutex_unlock(&info->protocols_mtx);
-> >  
-> >  	return pi;
-> >  }
-> > @@ -2366,13 +2398,35 @@ int scmi_protocol_acquire(const struct scmi_handle *handle, u8 protocol_id)
-> >  void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
-> >  {
-> >  	struct scmi_info *info = handle_to_scmi_info(handle);
-> > +	struct notifier_block *proto_notifier_nb = NULL;
-> >  	struct scmi_protocol_instance *pi;
-> >  
-> > -	mutex_lock(&info->protocols_mtx);
-> > -	pi = idr_find(&info->protocols, protocol_id);
-> > -	if (WARN_ON(!pi))
-> > -		goto out;
-> > +	scoped_guard(mutex, &info->protocols_mtx) {
-> > +		pi = idr_find(&info->protocols, protocol_id);
-> > +		if (WARN_ON(!pi))
-> > +			return;
-> >  
-> > +		/*
-> > +		 * If a protocol notifier was registered and this is the
-> > +		 * last istance releasing the protocol, mark the notifier
-> 
-> s/istance/instance/
-> 
-> > +		 * for un-registration: note that the notifier itself counts
-> > +		 * as one user, as for any other regular notification, so if a
-> > +		 * protocol notifier is registered and there are only 2 users
-> > +		 * active we can derive that this is the last protocol
-> > +		 * instance de-registering.
-> > +		 */
-> > +		if (scmi_protocol_notifier_registered(&pi->pno) &&
-> > +		    refcount_read(&pi->users) == 2)
-> > +			proto_notifier_nb = READ_ONCE(pi->pno.nb);
-> > +	}
-> > +
-> 
-> We drop the mutex now temporarily. What happens if another instance gets
-> registered (incrementing &pi->users) just after we dropped the lock and
-> unregister the notifier?
-> 
-> Shouldn't we care about that or why is it ok?
++static unsigned long scmi_perf_opp_freq(const struct perf_dom_info *dom,
++					int idx)
++{
++	if (!dom->level_indexing_mode)
++		return dom->opp[idx].perf * dom->mult_factor;
++
++	return dom->opp[idx].indicative_freq * dom->mult_factor;
++}
++
+ static int scmi_dvfs_device_opps_add(const struct scmi_protocol_handle *ph,
+ 				     struct device *dev, u32 domain)
+ {
+ 	int idx, ret;
+-	unsigned long freq;
++	unsigned long freq, sustained_hz, lowest_hz = ULONG_MAX;
+ 	struct dev_pm_opp_data data = {};
+ 	struct perf_dom_info *dom;
+ 
+@@ -873,14 +882,27 @@ static int scmi_dvfs_device_opps_add(const struct scmi_protocol_handle *ph,
+ 	if (IS_ERR(dom))
+ 		return PTR_ERR(dom);
+ 
++	for (idx = 0; idx < dom->opp_count; idx++)
++		lowest_hz = min(lowest_hz, scmi_perf_opp_freq(dom, idx));
++
++	/*
++	 * A sustained frequency below every OPP would mark all of them as
++	 * turbo. Such a value cannot separate sustained levels from boost
++	 * levels, so ignore it and treat the domain as having no turbo OPPs.
++	 */
++	sustained_hz = dom->sustained_freq_khz * 1000UL;
++	if (dom->opp_count && sustained_hz < lowest_hz) {
++		dev_warn_once(dev, FW_BUG
++			      "[%d][%s]: sustained freq %lu Hz below lowest OPP %lu Hz, ignored\n",
++			      domain, dom->info.name, sustained_hz, lowest_hz);
++		sustained_hz = ULONG_MAX;
++	}
++
+ 	for (idx = 0; idx < dom->opp_count; idx++) {
+-		if (!dom->level_indexing_mode)
+-			freq = dom->opp[idx].perf * dom->mult_factor;
+-		else
+-			freq = dom->opp[idx].indicative_freq * dom->mult_factor;
++		freq = scmi_perf_opp_freq(dom, idx);
+ 
+ 		/* All OPPs above the sustained frequency are treated as turbo */
+-		data.turbo = freq > dom->sustained_freq_khz * 1000UL;
++		data.turbo = freq > sustained_hz;
+ 
+ 		data.level = dom->opp[idx].perf;
+ 		data.freq = freq;
 
-I'll try a slight different approach for this...till now I was looking for the
-least possible invasive ways of dealing with the fact that the core SCMI mechanisms
-were NOT originally designed to deal with in-protocol users but just with
-external SCMI drivers...
+base-commit: 60a89ec8d8f56dcd99611cb054fbf7d0e864cf4e
+-- 
+2.55.0
 
-Thanks,
-Cristian
