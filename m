@@ -1,181 +1,181 @@
-Received: from mta1.migadu.com (out-199.mta1.migadu.com [95.215.58.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E40B51FCA9
-	for <arm-scmi@vger.kernel.org>; Wed, 23 Sep 2026 15:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F81A53A3B6
+	for <arm-scmi@vger.kernel.org>; Wed, 23 Sep 2026 15:42:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790177006; cv=none; b=cwO7MbJfU1WbIrKrbbSrPUTPhICOwFFcCvWVZF9JoS07jEP57vQWNiMW6zjd4dQWywTJUE2C/ilq6sMlTeH+bTzeGerFtDKve2TUHS0RVZ61obA1tOVmAsVPZBxcb+f7eHHhyEJYtFGrqqkQSUHvOM4m9FB8tYo3jTFq0iCom/0=
+	t=1790178143; cv=none; b=HzFFIEwOGZqHKAH7ocgEuRGGNixU98hvVhIyhgdPPZmkEmuPceWlUIeKykiUtaEAvwqMpcSeNYDggKpiZe8VpuPuWr0yr0lAQPkwnKMaHDijW/gugRH3IqIMzbWjhilMXY7bJBsVOYAwOJa2zJ/QuEy0rXoeUGQnupTMJ2WDsxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790177006; c=relaxed/simple;
-	bh=xnL9xErcyYKS/9j7WIkNTeykzegxGlsehi7RhfMw50g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=t6QFLIu1MJMzGjnvkZPjzLG/+qk8IoDYvePwOhLaNSOLldqoFUs/OWHV/lF+bVlzZKmPSk93JyNvWiO48loF/SIQGbCmcWfx9VkU9IeLpL2b8NYQvqhB6uJCx6UXEVoOTlrVxhhuUY6Kk7dFe1KhWYDX+ZrSstY4eaN911wlP2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=akao.au; spf=pass smtp.mailfrom=akao.au; dkim=pass (2048-bit key) header.d=akao.au header.i=@akao.au header.b=GznM3n26; arc=none smtp.client-ip=95.215.58.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=akao.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=akao.au
+	s=arc-20240116; t=1790178143; c=relaxed/simple;
+	bh=m4SroQDjW8TNwKldqJ7a93glAT68I1794bo+GHS0J6c=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:References:
+	 In-Reply-To:Content-Type; b=uyuJpdRHzk/aiitWW/gtd0/xtW/QytuqXF90wP4DAW9wqc509pZAUMUucwoLuMMuJ4Kc7zFVZDPWFQf+SL4YLxsrLZKdgLbIUQan3kRGLNOBzeJDcyeHz4b8REVe4HMa6Cfwko30YB3zOncYlSUm3y8XdYCkfBSKWlsq1O6MnnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jHOVjEwh; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BH+rBqqo; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=akao.au header.i=@akao.au header.b="GznM3n26"
-X-Envelope-To: arm-scmi@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=xnL9xErcyYKS/9j7WIkNTeykzegxGlsehi7RhfMw50g=;
- c=simple/simple; d=akao.au;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790177001; v=1; x=1790781801;
- b=GznM3n269ubzH2IO5HubRfwhmB9pqBhdq8FOkU3QDmLw+aUkVuiVwwwTC4dKvCPIpmhghpME
- s4DwPvKoNg9QRBTXpluMo90QgW8AetggbvHQlBlWTYvE0bfZyTYk4AHu7ObyOvfBfoGnR3BZVm0
- 0R9Apy+J7ADP0Z6zhTTzXOtYLeCS0rXaxw7sAwmYTyapVWYMx5ASb2tKGodhvrKxe7kxTdypyNt
- 3s69RkQZIVEMgtlpMuQWmKtBdikl7gBq+p/bkVqpZmRaU1UHS+tiVoZMX5luzn1ueZIzxLD2AfL
- ufKXnIdwNHZB/J52FbxV+yrgDnPkZlmhT65UnNk94op1g==
-X-Envelope-To: arm-scmi@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 50fdd6125a7fb788;
-	Wed, 23 Sep 2026 15:23:21 +0000
-X-Mizu-Trace-ID: 50fdd6125a7fb788
-X-Migadu-Flow: FLOW_OUT
-From: Charlie Garner <charlie@akao.au>
-To: Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>
-Cc: Sibi Sankar <sibi.sankar@oss.qualcomm.com>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Dhruva Gole <d-gole@ti.com>,
-	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Charlie Garner <charlie@akao.au>,
-	stable@vger.kernel.org
-Subject: [PATCH] firmware: arm_scmi: perf: ignore an implausible sustained frequency
-Date: Thu, 24 Sep 2026 00:52:45 +0930
-Message-ID: <20260923152245.44624-1-charlie@akao.au>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jHOVjEwh";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BH+rBqqo"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68NDL83G177336
+	for <arm-scmi@vger.kernel.org>; Wed, 23 Sep 2026 15:42:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	lAmI+4l4jOMpvFGgOUL3UKDgOJQ+P1Ua774K7isTWf8=; b=jHOVjEwh4O5Fd5TV
+	s1O4AgA/k83pSLHZXHr4MCtkqPzjalzaR8gQnJeLLql8C+fZtkxV5fSBROrqZowY
+	cn+WqQCfLkPs+qAkMBFHpsXVb4suhO0wkNo5plb4HeT3ekACo8kX5EkTKwTcRaD7
+	i27vMDQbe9PEwDgFw2ya9MQLbOzGboRY7T53860rPRLuEMLzPHzLguhtRTO7zp5N
+	/fQIW77qNgZ1zdmnlCoqOfSckoEUM7WVxtkKUyTejkRA9dHpV9udyaVR7bBs3Vb1
+	XVCpdlCsR41bs8ksQZKG1mmZtcgwtI+Ev7GECaO1PCmZB47sPGE1z0db2gDkcZcc
+	5H1h8A==
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com [209.85.222.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gvfjxrn4v-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <arm-scmi@vger.kernel.org>; Wed, 23 Sep 2026 15:42:20 +0000 (GMT)
+Received: by mail-ua1-f70.google.com with SMTP id a1e0cc1a2514c-97e8be2221eso232387241.2
+        for <arm-scmi@vger.kernel.org>; Wed, 23 Sep 2026 08:42:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1790178140; x=1790782940; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:to:subject:from:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=lAmI+4l4jOMpvFGgOUL3UKDgOJQ+P1Ua774K7isTWf8=;
+        b=BH+rBqqoML/hnsef3oSG5JZLJyygdQlw0xPHEOByHQBKJYc8lsP8hEm1KVVY/mBSHX
+         7r8UnZK6EtmGAnI/6a+1Q+gYPpe9eAcjv3PKDzjdQkWRGOskmHysOlYtJ2Xj3W4tFZ9q
+         buwhLfNhq45E8Kqbsa1LUq64U9hNut5K1vmv02HGKFQ1Suol4YarMI9Z30X85SPKH13M
+         PeD+LsVFhtwffPgfjBWDxEm+Ya0n0xyDVhY8lHDm+ZQu3gNaMNsGFCcSJOJ6BiN3EX7j
+         bQE8RNiJh8lXqjx1i26dAQ2CGWGN88wYCHI48ajAxa6PuPCf9wg9k+dXk6pDTeB93KZq
+         SHaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790178140; x=1790782940;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=lAmI+4l4jOMpvFGgOUL3UKDgOJQ+P1Ua774K7isTWf8=;
+        b=hkfQBxGHxaLcNCG300Jp0F1gZ4iDZMqIjJ2EDWzhL9Qu/pWTpgqNXJj7363fLh2h+S
+         HyBQy8XOBuc2bCNNa5NgN2I31vzklnh8TPD8q9TPF0f+GLbGcAIw7aDTOjYizoTqizuH
+         3+7+leEXsWpYLUdan1QQX+O8Pa/m+KO/1fu7JodozNiyvpeJvEN2oHf3P0d0l62V3HEH
+         g7WdJC4ZrcpdEjGX9KlFUhC3vYM/314UaoNnO/QFe8yUwwcwA0Q/nArmAAOu5pe+aBJX
+         EHTmAZE3fp6PuhBaOBM39bXoulFLtmfWoMiuNhtlAF7WHfNKGnF8xBWxbUb7xRH9j3hm
+         NoTA==
+X-Forwarded-Encrypted: i=1; AKwUvBzsSklH2dKEdj/Hmf+ShfZAMqqknnEY7h2CtrKZNsAJFVDr5tWpxGwj7z4Wwu8K/5KIeGq8cMW58A==@vger.kernel.org
+X-Gm-Message-State: AFuF++lKuUFQ0zxgnq6Nb4R9yaFFUNvoNpz0d6rUdRHlaor1tQjDjAAs
+	w1uxyB133L7Flsb2RzA6HU454dTqHrjL69SkW5h2Ydky3IzERjhQbI+VLxgiGVPo4nZgNg6Ms5T
+	JePq2rhD/KOPHVRoENazjaC1gUiw9c6+4V/7a29k7jQO7hriJXvyWLjw9cGysEg==
+X-Gm-Gg: AYBFou2H3pDgOrcY7hrGW+qIkorf8AvDew9bRrs/LlPLNI2YKEviZ4tZell9hgKkQxf
+	H2zfR64gihOYcgTg4GbNAEKHYJhglPPFB8vW80rkrgQtkteMNYygY3N8AO1TZXnEdKm8MHp7IZM
+	01tvCoAYOLyEYdzA0QvSoMYTQcBK07WZ5Oa7nB/+LHKMBSfBGr2hxDH3nBuHUdJUMzWIrKYrMJW
+	abCssjZlHBljE3vvHE1e2nlG/lwFUs4YlE/jlgHr/6Zna1Oc6SrKhWJ+abJSeq35E6t6MZqjVxz
+	ZAnBhfcbNNHL0p2ozX1WfB/e6yVXHHn2PL+FCLuy57k8Bd6kRhXnSUiD+ZEPLY9X29kgBbSyFdU
+	CRiuMJ1P/EehwgCfbbTq9dFJv3PCw9J6ig4a1gt/hnROOGWWNPZGF38XoXJCPfJTOL2RG+DvAcj
+	/ebCpOZ3Dq3XiztXqK5ABy0Wb4+8wF5nzn+AWY3oO4ggVGe2g5kbv16yGXJyAzh4Dtcw==
+X-Received: by 2002:a05:6102:951:b0:7a5:213f:9a1f with SMTP id ada2fe7eead31-7ac1db33a7amr2601062137.18.1790178137723;
+        Wed, 23 Sep 2026 08:42:17 -0700 (PDT)
+X-Received: by 2002:a05:6102:951:b0:7a5:213f:9a1f with SMTP id ada2fe7eead31-7ac1db33a7amr2601039137.18.1790178137281;
+        Wed, 23 Sep 2026 08:42:17 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2aae5c6022sm144907666b.14.2026.09.23.08.42.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Sep 2026 08:42:16 -0700 (PDT)
+Message-ID: <839b884b-9db0-4215-9715-40549d1c6a26@oss.qualcomm.com>
+Date: Wed, 23 Sep 2026 17:42:15 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Hans de Goede <johannes.goede@oss.qualcomm.com>
+Subject: Re: [PATCH v7 1/2] module: add SCMI device table alias support
+To: Sudeep Holla <sudeep.holla@kernel.org>,
+        =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Cristian Marussi <cristian.marussi@arm.com>,
+        Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>,
+        Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
+        Frank.Li@kernel.org, arm-scmi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        imx@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260918092951.5656-1-johannes.goede@oss.qualcomm.com>
+ <20260918092951.5656-2-johannes.goede@oss.qualcomm.com>
+ <arFKVhlgJge5EZyj@monoceros>
+ <20260923-sceptical-mauve-firefly-f5456d@sudeepholla>
+ <6b5a8300-ebf9-4717-bd39-952e89fc5e78@oss.qualcomm.com>
+ <20260923-snake-of-magic-satiation-c3b857@sudeepholla>
+ <a5e56180-b96f-4fac-980e-e837e84cd5a5@oss.qualcomm.com>
+ <20260923-calculating-positive-inchworm-28d3cc@sudeepholla>
+ <arPMAXs4jjUeu1DE@monoceros>
+ <20260923-groovy-airborne-rook-e1efc6@sudeepholla>
+Content-Language: en-US, nl
+In-Reply-To: <20260923-groovy-airborne-rook-e1efc6@sudeepholla>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: Izzx1SRPR1Qyzus__AmR9KTObWKAaBXG
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIzMDA2MiBTYWx0ZWRfX3YkdrKtlakAV
+ t/NbSch7pD7Y+iP6gnK37tNgALFIWO5OEHSNoVoRC0rr06nuhRzo2uFLBXMv6Lh99+4uGgjB8sl
+ wWaqy6P8ahQi76zvKe0BFYeTl7PnGZOvPSAphRl/lTWv0YK0ADUbGYeP8YDySZE75yDirEJLMkx
+ euvf6WxmBXBMDjDlUgilx++PIDpJrlT1tfuYTo+WOQE4W6zOmG6WXk8WZ00X4O/5a05ZN/aVlIv
+ shQ1MghfVoaIQaF7a6Bu9XeOP8rBnhxdRDsXYkEINSTa6+LptZ7dbL5XsX3QAwgN+Hvzc/SvLBo
+ 8NVuS1y4JY4pJWeWLUjzhoGRpvYvK52GRNMB8Iq+t2OF69n8ziPrCL/6TNifmbjc+jtwBi83g9m
+ /BeuPI4zJupUlSpVPhJfTOuTzAUvxvS+LFFvY0yVgmy13pF3SpSpcnOqEkH92lRaBJevpu8vTKY
+ u/Baj0AXGGbFw2f630w==
+X-Proofpoint-GUID: Izzx1SRPR1Qyzus__AmR9KTObWKAaBXG
+X-Authority-Analysis: v=2.4 cv=NLpAaE6g c=1 sm=1 tr=0 ts=6ab3f35d cx=c_pps
+ a=R6oCqFB+Yf/t2GF8e0/dFg==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=IpJZQVW2AAAA:8
+ a=wmcOPm1-qqoyX47EQMsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=TD8TdBvy0hsOASGTdmB-:22 a=IawgGOuG5U0WyFbmm1f5:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIzMDA2MiBTYWx0ZWRfX4GCVKWwFoTFp
+ xKwe4mv71ATWczZ39UJwO7U7EaPxtcanj1oicnOcHfrq7cKlQOHW4hzV5TWZzMXg+UWXT6kd9C1
+ ADYtmoxfM0fu4nhuAS3uyvJonHcmDmY=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-23_04,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0 adultscore=0 suspectscore=0 priorityscore=1501
+ impostorscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609230062
 
-On a Dell Inspiron 14 Plus 7441 (Snapdragon X Plus X1P64100, soc_id 615)
-the SCMI firmware reports a sustained frequency below the lowest available
-OPP for performance domains NCC1 and NCC2. It reports zero for both
-sustained_freq_khz and sustained_perf_level there, while NCC0 reports
-3417600 kHz at level 12. All three domains use level indexing mode, so
-mult_factor is fixed at 1000 and the OPP frequencies come from
-indicative_freq; this is not a units or mult_factor problem.
+Hi,
 
-scmi_dvfs_device_opps_add() then flags every OPP in NCC1 and NCC2 as turbo:
+On 23-Sep-26 16:25, Sudeep Holla wrote:
+> On Wed, Sep 23, 2026 at 02:55:26PM +0200, Uwe Kleine-König wrote:
+>> On Wed, Sep 23, 2026 at 01:01:44PM +0100, Sudeep Holla wrote:
+>>> If Uwe is fine, yes I can take v7 as is.
+>>
+>> Fine for me.
+>>
+>> Acked-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+>>
+> 
+> Thanks Uwe!
+> 
+>> The nice thing is that the device_id structs are not API, so this can
+>> also be addressed later if someone comes up with a clever idea how to
+>> implement it.
+>>
+> 
+> Agreed.
+> 
+> Hans,
+> 
+> There were other changes in bus.c that conflicted with this. I have
+> resolved the conflicts and pushed to my for-next/scmi/updates[1]
+> 
+> If anything is wrong or if you prefer, you can post a rebased version
+> that I can pick up.
 
-	data.turbo = freq > dom->sustained_freq_khz * 1000UL;
+I've given your for-next/scmi/updates branch a test run and
+the scmi-cpufreq module autuloads correctly, so everything is looking
+good from my pov.
 
-cpufreq_frequency_table_cpuinfo() skips boost-flagged entries and fails
-when none are left:
+Regards,
 
-	if ((!cpufreq_boost_enabled() || !policy->boost_enabled)
-	    && (pos->flags & CPUFREQ_BOOST_FREQ))
-		continue;
-	...
-	if (min_freq == ~0)
-		return -EINVAL;
-
-cpufreq_policy_online() drops the policy on that error without logging
-anything. Only one of the three performance domains ends up with a policy.
-The part has 10 cores (the x1e80100 DT describes 12, CPUs 7 and 11 fail to
-boot): 4 of them can scale, the other 6 get no policy, no governor, and no
-cpufreq cooling device.
-
-This cannot be worked around by enabling boost. policy->boost_enabled is
-still 0 during that validation, and both places that set it -
-boost_supported in cpufreq_table_validate_and_sort(), boost_enabled in
-cpufreq_online() - run after the call that already returned -EINVAL. A
-domain whose OPPs are all flagged turbo can therefore never get a policy.
-
-Confirmed by probing dev_pm_opp_add_dynamic() on the affected machine: all
-13 OPPs are added with turbo=0 for domain NCC0 and turbo=1 for every CPU in
-NCC1 and NCC2, across an identical 710400-3417600 kHz table. The raw domain
-attributes above were read the same way, with a kprobe on
-scmi_dvfs_device_opps_add() fetching the perf_dom_info fields.
-
-A sustained frequency below the lowest OPP carries no information - it
-cannot separate sustained levels from boost levels. Treat it as "this
-domain has no turbo levels" instead of letting it disable the domain
-entirely, and say so once with a FW_BUG warning, since the failure is
-otherwise silent. A sustained frequency equal to the lowest OPP is left
-alone, it already leaves that OPP non-turbo.
-
-Fixes: a897575e79d7 ("firmware: arm_scmi: Add support for marking certain frequencies as turbo")
-Cc: stable@vger.kernel.org
-Signed-off-by: Charlie Garner <charlie@akao.au>
----
-
-Notes:
-    The SCMI quirks framework (quirks.c) would also work here, and this
-    platform already has two quirks enabled. I went with a generic check
-    because a sustained frequency below every OPP is meaningless on any
-    platform, and the check is a no-op for firmware that reports a sane value.
-    Happy to turn it into a quirk if you'd prefer that.
-
- drivers/firmware/arm_scmi/perf.c | 34 ++++++++++++++++++++++++++------
- 1 file changed, 28 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/firmware/arm_scmi/perf.c b/drivers/firmware/arm_scmi/perf.c
-index 4583d02bee1c..94f644996f9d 100644
---- a/drivers/firmware/arm_scmi/perf.c
-+++ b/drivers/firmware/arm_scmi/perf.c
-@@ -861,11 +861,20 @@ static void scmi_perf_domain_init_fc(const struct scmi_protocol_handle *ph,
- 	dom->fc_info = fc;
- }
- 
-+static unsigned long scmi_perf_opp_freq(const struct perf_dom_info *dom,
-+					int idx)
-+{
-+	if (!dom->level_indexing_mode)
-+		return dom->opp[idx].perf * dom->mult_factor;
-+
-+	return dom->opp[idx].indicative_freq * dom->mult_factor;
-+}
-+
- static int scmi_dvfs_device_opps_add(const struct scmi_protocol_handle *ph,
- 				     struct device *dev, u32 domain)
- {
- 	int idx, ret;
--	unsigned long freq;
-+	unsigned long freq, sustained_hz, lowest_hz = ULONG_MAX;
- 	struct dev_pm_opp_data data = {};
- 	struct perf_dom_info *dom;
- 
-@@ -873,14 +882,27 @@ static int scmi_dvfs_device_opps_add(const struct scmi_protocol_handle *ph,
- 	if (IS_ERR(dom))
- 		return PTR_ERR(dom);
- 
-+	for (idx = 0; idx < dom->opp_count; idx++)
-+		lowest_hz = min(lowest_hz, scmi_perf_opp_freq(dom, idx));
-+
-+	/*
-+	 * A sustained frequency below every OPP would mark all of them as
-+	 * turbo. Such a value cannot separate sustained levels from boost
-+	 * levels, so ignore it and treat the domain as having no turbo OPPs.
-+	 */
-+	sustained_hz = dom->sustained_freq_khz * 1000UL;
-+	if (dom->opp_count && sustained_hz < lowest_hz) {
-+		dev_warn_once(dev, FW_BUG
-+			      "[%d][%s]: sustained freq %lu Hz below lowest OPP %lu Hz, ignored\n",
-+			      domain, dom->info.name, sustained_hz, lowest_hz);
-+		sustained_hz = ULONG_MAX;
-+	}
-+
- 	for (idx = 0; idx < dom->opp_count; idx++) {
--		if (!dom->level_indexing_mode)
--			freq = dom->opp[idx].perf * dom->mult_factor;
--		else
--			freq = dom->opp[idx].indicative_freq * dom->mult_factor;
-+		freq = scmi_perf_opp_freq(dom, idx);
- 
- 		/* All OPPs above the sustained frequency are treated as turbo */
--		data.turbo = freq > dom->sustained_freq_khz * 1000UL;
-+		data.turbo = freq > sustained_hz;
- 
- 		data.level = dom->opp[idx].perf;
- 		data.freq = freq;
-
-base-commit: 60a89ec8d8f56dcd99611cb054fbf7d0e864cf4e
--- 
-2.55.0
+Hans
 
