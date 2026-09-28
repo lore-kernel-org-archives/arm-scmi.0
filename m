@@ -1,143 +1,134 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF519442B15;
-	Fri, 25 Sep 2026 12:04:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE903909AE;
+	Mon, 28 Sep 2026 06:51:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790337869; cv=none; b=ZAlvivABfBzlaDpXKRat00SL3BAJRZ6N70BvROKPIXefc+aIGK5LS9wPcx2s1mXDnIgnTSFGOlZ34IbM51SWWLo/isbtI6ino3IMeL3LToPaJj6a5ieog9y6QsJSKliEBo0XFDw1B/GSqasKDplHUMrHD5lMEVSFANqE1xLZAww=
+	t=1790578277; cv=none; b=XHkIUScXzXKPlv+zvGYzSYFeJ/OHAhw9GTBZ6X9kxri5Dzxq3IW8CJMdv71R5+kAu4PzK5vsBKEKajhnbJwFPnSB6reocueVz58QqdbgecfSQ0IEDm3R9f30K4RWYdjVHGKgUsHnpqOKms+moiGL3+uXwlD7EkmS+rh5dCDE97k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790337869; c=relaxed/simple;
-	bh=DPm5L5X/OUylB/usQmYiJR4vbpUS6o8ZX2aJMLsfXdU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nvy6OPb1MtaUfBGcSmX5JdKcxYp+OF+tm2sFMCZ8gbPWwd0dWGNy7QouJwXMlFyVl4TnjFLTtqRteXhGzE7JMI8TNf8/6CKAzpw7wnryRzMPahhon47I8+/GE6ZS07IPnBXY22fMuqDMDSS+FdEXB1aHoAAxJxYi0Ge+7VCxbr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=rbt3k4oP; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1790578277; c=relaxed/simple;
+	bh=7iMgxJ6dkciQz13RzBhjQN1l3MLtlY9dar1eA/dAYS0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=foQsyiqIbKVAzQCo7GK/DSCO29EW/p2UsCSWVzIS5H+ZB/dAeZXdWTD0B2yC9xKzAp8HXxysoxWOMV1jDHCRpvbYOoGUJsoMsndqjfEdvssKuJUseprwrJ1saDcRr7EjM11ZC2Y2a1r7pENsW9cDdsiKvCbq7aisSnDiMcRXISg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DLZ4eoPX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="rbt3k4oP"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8A445169C;
-	Fri, 25 Sep 2026 05:04:23 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 79FB83F86C;
-	Fri, 25 Sep 2026 05:04:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1790337867; bh=DPm5L5X/OUylB/usQmYiJR4vbpUS6o8ZX2aJMLsfXdU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rbt3k4oPsHwxM0DkF9YdGKCMn7dRYGK6VycvlsaXA95ufMBJvBDXPhxZSF8padwH8
-	 Z9zCr6JtZakbEIcih8o9/kxcmtM6TJBRMtayP+ULhPBzrS0TYHn07pXtjezm8QzQfh
-	 BOx1jxJU7YNB75Cl3CCVJEkaOji1kum+SR9HbUAM=
-Date: Fri, 25 Sep 2026 13:04:17 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: Charlie Garner <charlie@akao.au>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Sibi Sankar <sibi.sankar@oss.qualcomm.com>,
-	Viresh Kumar <viresh.kumar@linaro.org>, Dhruva Gole <d-gole@ti.com>,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] firmware: arm_scmi: perf: ignore an implausible
- sustained frequency
-Message-ID: <arZjQdIy__kGCAyY@pluto>
-References: <20260923152245.44624-1-charlie@akao.au>
- <20260925-native-glorious-kelpie-8bf5dd@sudeepholla>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DLZ4eoPX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BBAD1F00893;
+	Mon, 28 Sep 2026 06:51:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790578276;
+	bh=zHG1TEVzidZB3jJv+mxUjAITxuE7BNdYUm0NY7yc8I8=;
+	h=From:To:Cc:Subject:Date;
+	b=DLZ4eoPXwN4hh2nj2PBY1DcnztaUGovFz2ht75A3YIDBI12I4OM98PZ5FyC1uCoYZ
+	 w0yt8gloYIHQPMmjxJofGJJTwOJUT+X3+3k6VPutuGZS4KoIYmgIV2sM2pf3QBsahu
+	 neoASyhbB8aF0P+JKR7BVSfIeFYU7zuXotb+WYJMi947CQFiYq6becB9095JB7MHx2
+	 0ftks7G55lo/XqewNAsVqCwJDcwLnZ41oTWsfsltkjoNIl85b2hynTMlnB6Kt2xaOU
+	 fpWYe7MFSfOEjgpuwNSFEpJPQx58khMs8YdgxkIcDxmFMRKWwISGVSUITY8pWOxg3+
+	 r1gfAfOlSmA8A==
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: SoC Team <soc@lists.linux.dev>,
+	arm-scmi@vger.kernel.org,
+	ALKML <linux-arm-kernel@lists.infradead.org>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>,
+	Arnd Bergmann <arnd@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [GIT PULL] firmware: arm_scmi: Updates for v7.4
+Date: Mon, 28 Sep 2026 07:51:11 +0100
+Message-ID: <20260928065112.2492223-1-sudeep.holla@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260925-native-glorious-kelpie-8bf5dd@sudeepholla>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 25, 2026 at 11:00:46AM +0100, Sudeep Holla wrote:
-> On Thu, Sep 24, 2026 at 12:52:45AM +0930, Charlie Garner wrote:
-> > On a Dell Inspiron 14 Plus 7441 (Snapdragon X Plus X1P64100, soc_id 615)
-> > the SCMI firmware reports a sustained frequency below the lowest available
-> > OPP for performance domains NCC1 and NCC2. It reports zero for both
-> > sustained_freq_khz and sustained_perf_level there, while NCC0 reports
-> > 3417600 kHz at level 12. All three domains use level indexing mode, so
-> > mult_factor is fixed at 1000 and the OPP frequencies come from
-> > indicative_freq; this is not a units or mult_factor problem.
-> > 
+Hi ARM SoC Team,
 
-Hi
+Please pull !
 
-seems like I did not receive the original mail anywhhere...
+Regards,
+Sudeep
 
-> > scmi_dvfs_device_opps_add() then flags every OPP in NCC1 and NCC2 as turbo:
-> > 
-> > 	data.turbo = freq > dom->sustained_freq_khz * 1000UL;
-> > 
-> > cpufreq_frequency_table_cpuinfo() skips boost-flagged entries and fails
-> > when none are left:
-> > 
-> > 	if ((!cpufreq_boost_enabled() || !policy->boost_enabled)
-> > 	    && (pos->flags & CPUFREQ_BOOST_FREQ))
-> > 		continue;
-> > 	...
-> > 	if (min_freq == ~0)
-> > 		return -EINVAL;
-> > 
-> > cpufreq_policy_online() drops the policy on that error without logging
-> > anything. Only one of the three performance domains ends up with a policy.
-> > The part has 10 cores (the x1e80100 DT describes 12, CPUs 7 and 11 fail to
-> > boot): 4 of them can scale, the other 6 get no policy, no governor, and no
-> > cpufreq cooling device.
-> > 
-> > This cannot be worked around by enabling boost. policy->boost_enabled is
-> > still 0 during that validation, and both places that set it -
-> > boost_supported in cpufreq_table_validate_and_sort(), boost_enabled in
-> > cpufreq_online() - run after the call that already returned -EINVAL. A
-> > domain whose OPPs are all flagged turbo can therefore never get a policy.
-> > 
-> > Confirmed by probing dev_pm_opp_add_dynamic() on the affected machine: all
-> > 13 OPPs are added with turbo=0 for domain NCC0 and turbo=1 for every CPU in
-> > NCC1 and NCC2, across an identical 710400-3417600 kHz table. The raw domain
-> > attributes above were read the same way, with a kprobe on
-> > scmi_dvfs_device_opps_add() fetching the perf_dom_info fields.
-> > 
-> > A sustained frequency below the lowest OPP carries no information - it
-> > cannot separate sustained levels from boost levels. Treat it as "this
-> > domain has no turbo levels" instead of letting it disable the domain
-> > entirely, and say so once with a FW_BUG warning, since the failure is
-> > otherwise silent. A sustained frequency equal to the lowest OPP is left
-> > alone, it already leaves that OPP non-turbo.
-> > 
-> > Fixes: a897575e79d7 ("firmware: arm_scmi: Add support for marking certain frequencies as turbo")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Charlie Garner <charlie@akao.au>
-> > ---
-> > 
-> > Notes:
-> >     The SCMI quirks framework (quirks.c) would also work here, and this
-> >     platform already has two quirks enabled. I went with a generic check
-> >     because a sustained frequency below every OPP is meaningless on any
-> >     platform, and the check is a no-op for firmware that reports a sane value.
-> >     Happy to turn it into a quirk if you'd prefer that.
-> > 
-> 
-> I am unable to decide which is better approach. I am more inclined to quirks
-> so that other systems are not penalised by unnecessary checks but at the same
-> time it seems like a sensible generic check.
-> 
-> Cristian,
-> 
-> Any strong opinion/inclination ?
+-->8
+The following changes since commit 8544e0da1a04c77b98e2e313a423a5c72e48ea32:
 
-No. It is probably an out of spec behaviour that makes sense to spot and
-rectify in the original code instead of being doomed to add a string of quirks,
-but I am more concerned about upcoming SCMI v4.0 QoS Perf extensions spec which
-is public BUT still to come in the implementation, since it makes an extensive
-usage of sustained_freq for its own calculation AFAICR
+  Merge branches 'for-next/ffa/fixes' and 'for-next/scmi/fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux (2026-09-08 21:04:42 +0100)
 
-So while now this is flagged as FW_BUG and we carry on because it only impacts
-boost, in the future we probably need to shutdown an entire set of features
-when this is spotted at discovery, since for anything else that boost I dont
-think there is a safe way to guess the proper AND safe sustained levels if
-the FW is rotten...
+are available in the Git repository at:
 
-But I suppose we'll take care of that when that time will come...
+  git://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git tags/scmi-updates-7.4
 
-Thanks,
-Cristian
+for you to fetch changes up to aac4e67d6eb93118cfa70c6562b5f9c81a7042ef:
+
+  firmware: arm_scmi: Always create devices for standard protocols (2026-09-24 09:10:43 +0100)
+
+----------------------------------------------------------------
+Arm SCMI updates for v7.4
+
+Add an ACPI PCC transport for SCMI. The core now propagates firmware
+nodes and supports protocol-specific channel lookup, while the new
+transport parses and validates ACPI _DSD mappings for shared and
+dedicated command and notification channels. ACPI protocol devices can
+be initialized without device tree child nodes.
+
+Enable SCMI protocol driver module autoloading by generating stable
+SCMI module aliases and creating standard protocol devices before
+their drivers register.
+
+Fix delayed-response completion and raw transfer reuse races, and
+release a raw transfer on an error path. Also consolidate reset domain
+information queries and use string helpers in SCMI trace events.
+
+----------------------------------------------------------------
+Bjorn Andersson (1):
+      firmware: arm_scmi: Add SCMI device table alias support
+
+Cristian Marussi (1):
+      include: trace: Use string helpers in msg_dump trace events
+
+Geert Uytterhoeven (1):
+      firmware: arm_scmi: Merge scmi_reset_proto_ops.name_get() and .latency_get()
+
+Hans de Goede (1):
+      firmware: arm_scmi: Always create devices for standard protocols
+
+Roland Dreier (3):
+      firmware: arm_scmi: Protect xfer->async_done with xfer->lock
+      firmware: arm_scmi: Don't reuse raw xfers with async_done still armed
+      firmware: arm_scmi: Fix error path leak in scmi_raw_message_send()
+
+Sudeep Holla (9):
+      firmware: arm_scmi: Set generated device fwnode with platform helpers
+      firmware: arm_scmi: Extend transport driver macro to support ACPI
+      firmware: arm_scmi: Convert OF-only paths to generic fwnode in SCMI core
+      firmware: arm_scmi: Fall back to ACPI HID when "compatible" is absent
+      firmware: arm_scmi: Pass protocol ID to transport chan_available()
+      firmware: arm_scmi: Refactor protocol device creation logic
+      firmware: arm_scmi: Add ACPI PCC transport
+      firmware: arm_scmi: Initialise known ACPI protocol devices and channels
+      firmware: arm_scmi: Validate PCC shared memory signature
+
+ MAINTAINERS                                    |   1 +
+ drivers/firmware/arm_scmi/bus.c                | 109 ++-
+ drivers/firmware/arm_scmi/common.h             |  61 +-
+ drivers/firmware/arm_scmi/driver.c             | 260 +++++---
+ drivers/firmware/arm_scmi/protocols.h          |   9 +-
+ drivers/firmware/arm_scmi/raw_mode.c           |  30 +-
+ drivers/firmware/arm_scmi/reset.c              |  36 +-
+ drivers/firmware/arm_scmi/transports/Kconfig   |  12 +
+ drivers/firmware/arm_scmi/transports/Makefile  |   2 +
+ drivers/firmware/arm_scmi/transports/mailbox.c |   7 +-
+ drivers/firmware/arm_scmi/transports/optee.c   |   7 +-
+ drivers/firmware/arm_scmi/transports/pcc.c     | 875 +++++++++++++++++++++++++
+ drivers/firmware/arm_scmi/transports/smc.c     |  10 +-
+ drivers/firmware/arm_scmi/transports/virtio.c  |   3 +-
+ include/linux/device-id/scmi.h                 |  17 +
+ include/linux/scmi_protocol.h                  |  20 +-
+ include/trace/events/scmi.h                    |   8 +-
+ scripts/mod/devicetable-offsets.c              |   5 +
+ scripts/mod/file2alias.c                       |  12 +
+ 19 files changed, 1300 insertions(+), 184 deletions(-)
+ create mode 100644 drivers/firmware/arm_scmi/transports/pcc.c
+ create mode 100644 include/linux/device-id/scmi.h
