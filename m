@@ -1,192 +1,178 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012054.outbound.protection.outlook.com [52.101.53.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AAF54BFE7E
-	for <arm-scmi@vger.kernel.org>; Tue, 29 Sep 2026 16:10:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790698219; cv=none; b=lYhY0qau2pCSZVoD1bWq94BdI98cET6OeChsNiJlBgvEu4vyJy3EZvbFmPyUvc8TPaasVip8Av6oQsx9UnhvQABXcOUSM/aqIAQDqio//ASQbYGbEGUb91Ku7hxH1m60LfvyR1C0tRzP520Pu1uf6W3QPfpXDWmaKi1LVMKtMno=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790698219; c=relaxed/simple;
-	bh=KeqC9VQXrB3+4LnVZRdfg14afrTEwBP8hLl5Kyalv0g=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VIgZBcvYvohuFdajW91qgiAJuYIo8fVsUnq38IhAyeSAdjLSt4SybGvdhwg0SnU4KiodXVtSXDqo7nKHfFkBVxo32OcFuIUihNq5TIvXwBHUghA88QBBKRBQc/4AIysJdL+u63kj/+kdWpmu0p/8rrwgOGLCHqQPM/YRkPDPytM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QmJ/TaNb; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=OFd/2KE/; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E90F40098D;
+	Thu,  1 Oct 2026 11:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790855185; cv=fail; b=luchH3vPda2tu1WuMDQlnrVgLB3COqso1DNDAg0YBaGXSXbHiatSJVKnKW6e1JWTNOV0pBk+GwuwmOnrdncPuhKvM7rWoDpS6phXTMUJPXCVIAX91nNXqE9up6Www32Jv9gL4QoV5SzyiBE6KVvcvbWZLglvR3qGSf5OsD0/9iA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790855185; c=relaxed/simple;
+	bh=uR4/EPRfCVwVypSQdrp5TbChAZyTlwfUppADG/zcRUY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HEi4NLdHXQB0o5P+qoMY+SI+kfeBaAdKhEjD2FGX+f5/iRepjyG2ASJxEhTA3NSW6ofu0XFQRjGJqd469gyrdSsjfbAEzDY/x57cPN0kUrUw0c1fUSzDS7zOMuV0+GaRzFroiaY9kRlVPj2jSxYtYIQtHczWmoEO1Dm9E1lTQ2E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=htk+SQpg; arc=fail smtp.client-ip=52.101.53.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QmJ/TaNb";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OFd/2KE/"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68TFG1ll942003
-	for <arm-scmi@vger.kernel.org>; Tue, 29 Sep 2026 16:10:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	3nZ5FtLuY8+oVQiX89WT/WoAXT+i4QfhDJec0aS0UqM=; b=QmJ/TaNbDw+ozn+u
-	9yy6hwUNlhl3CuoQ9RpIiupjF2ujDaTV3C/H7E7HAOGbiYXv/kmRExf9S61Tkfxu
-	QrRmCiDQ+TFmaZNNgO/wjzrm/LLmNR9YXFWR0rX6UcwYd62VLLyyuWSXco0rFfbw
-	zhuTXhw5rLjACGxdrSByOdJa+hg1e4Cdr+nBIGqeVutomoVGRnDEqWt4EM36UdQ7
-	oZ35NNbP0Xg03yUqk1UkdXpvkXDKnLJX2/H8+cVTX2JGBLVRxkky3uwIUjSOQGbj
-	Eo7Q9+5xBgIc25meQjENE6wkr/9ToMtugDaKGRAD1QxSp0G9Y8YlSGcO81fs6Hm2
-	T63uww==
-Received: from mail-dl1-f70.google.com (mail-dl1-f70.google.com [74.125.82.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h0ftug8qq-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Tue, 29 Sep 2026 16:10:17 +0000 (GMT)
-Received: by mail-dl1-f70.google.com with SMTP id a92af1059eb24-139b62317d0so14889c88.0
-        for <arm-scmi@vger.kernel.org>; Tue, 29 Sep 2026 09:10:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790698217; x=1791303017; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=3nZ5FtLuY8+oVQiX89WT/WoAXT+i4QfhDJec0aS0UqM=;
-        b=OFd/2KE/TYlOOvf1JKnlMeXk32YcFv79Zlmcg4JI5CHY3IQL9PB69yUdz8xUSeZmpM
-         azWi3w6JstGTNxykoqDXJZvhKtjkmkwcVkQD3EVn/ra9ByFTENFBe5ZXFE6WddKhURip
-         KNitepjo89FBNAK3BTc9fiQ36rkOClFCMMWbljK4PotmPeco1L9D8c5GKzqP+jMk7BkY
-         AcMHVMC1gOuE5g0Rl89Fze6dYlAoYWu4e9aBQqcfIQfBag8B+yfZ2EPx4Ur+6av3osnr
-         bPDKTHXe+ufY9rZKLI/OPYpz/a63HCREnW+nVJtJQ15KW/l9++fVBdY+KRNwuI3VmTsf
-         sWWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790698217; x=1791303017;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3nZ5FtLuY8+oVQiX89WT/WoAXT+i4QfhDJec0aS0UqM=;
-        b=Rp1cXLG/6H9BAf9FS4zeI43O5mCoMhZXZwFwXSWn6tWqB5fFULvAComwYumG1USPnR
-         oWKlyH/ZT9PJnx/H/nbiJHKCORr4IswwlbfrOn3lSE7rFCz5m3BzvpiiOld/05ng/fsg
-         Hds/dv85srBxHLBCUEDaesJx8X3s/kloZ1i1r6vzWMUefdvFZ+4FIQSKUxmy5Li/qPfM
-         WM5dc9eftdFPl3NtwJGt1mRCN8JTOtOWJMbU6lwAzsTvTTdST3B3vUHeQEHsXLPFZiPO
-         PKJ0/+yEvCPhsNFchfua7WSwqB40ZpVRzy0u6zbS/KiFDsnBqEr3bS1eM29xQMls+B9g
-         ep7w==
-X-Forwarded-Encrypted: i=1; AKwUvBzAvZvTjU8n4n/HaAM6M7WkLDDDNcK8HLaO9Mab6KC7N0agY7iWmmlt1BBosFxozoPH7SlVBgytbA==@vger.kernel.org
-X-Gm-Message-State: AFuF++kLV6Vn3AjzlZembsxukzEFgvqGTktGpN/JLsGHI1vyOzDvAYW9
-	hjReAfXpBzQn3LCdYtLRgS35HowCLju4kckR4WoKxsOqkrNYIZuQ7OEtjWAHBaFB1Sv5Qbp9NpG
-	CbAAPD3PHycIZrhYFE2/Oj1Wz5GnQ1TjzFx1TY8YYGv/Dagq5vsZaMRYZRwMRnQ==
-X-Gm-Gg: AYBFou2MhRIlrEi8Zw6LxeI5i8+P9KWjXWZLvy0GtX1bTjW/onAaCfEjgJ67aiCcq6E
-	hCgeuSdh2GlG7YyoUWGbpH445y0LkkqL4YRfPuRqOapfmchIpWrt62lZMLtwAfkaShQo9qMWoob
-	XNDOGzUXdpc5G4l8E4tOsaqzdRN9EDw7wCFxtULHvV+dyEdKyr2nf/TTuuJecxmR4JpTJhJBNll
-	eIHUErbffg03IpgA2qvVeuR0NjGxNtDTGjJxQhKENzz68Kb9yinT/k1xg6tWU6JBWEZ6B4Rz6M4
-	iDYeFV+Oz7eAJ3yMexWEkrCbLXVlVvh2sm+C/0nv9f/YjgAW9wtR1LPTaC2/2RbRaG+KPX6DbXp
-	ykpEzEL0JbQdIUksilMVvlAyYwgUpSkZKA+xMp7mhiHDUXg6jWyMI/9A=
-X-Received: by 2002:a05:7022:7f1c:b0:149:cfa4:9b3b with SMTP id a92af1059eb24-149cfa49d51mr7719480c88.3.1790698216579;
-        Tue, 29 Sep 2026 09:10:16 -0700 (PDT)
-X-Received: by 2002:a05:7022:7f1c:b0:149:cfa4:9b3b with SMTP id a92af1059eb24-149cfa49d51mr7719451c88.3.1790698216013;
-        Tue, 29 Sep 2026 09:10:16 -0700 (PDT)
-Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14c6489457asm350724c88.15.2026.09.29.09.10.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 09:10:15 -0700 (PDT)
-Date: Tue, 29 Sep 2026 09:10:11 -0700
-From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
-        sudeep.holla@kernel.org, james.quinlan@broadcom.com,
-        f.fainelli@gmail.com, vincent.guittot@linaro.org,
-        etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
-        d-gole@ti.com, jic23@kernel.org, elif.topuz@arm.com,
-        lukasz.luba@arm.com, philip.radford@arm.com, david@kernel.org,
-        souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
-        puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v12 06/25] firmware: arm_scmi: Add basic Telemetry
- support
-Message-ID: <20260929091011.000076d2@oss.qualcomm.com>
-In-Reply-To: <20260928130134.000019ff@oss.qualcomm.com>
-References: <20260920091928.2014972-1-cristian.marussi@arm.com>
-	<20260920091928.2014972-7-cristian.marussi@arm.com>
-	<20260928130134.000019ff@oss.qualcomm.com>
-Organization: Qualcomm
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="htk+SQpg"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=I6quLST24kNYFs8Fo0UXc96mxGDp4ZLP9Y2ZIH1nv1L2LHY6avt7iu3VpGmzlAAkOgrchs8YsabalMJ1zT6zuxcm4+Q0tIsSiJkelQq4T/GDJ2TopmwQZkLkYE9w1u0bP8KsAS2wG3xLJUrLLq/YyYl8Dlbo2/LHa3vTwkOWAAjavfb3OdQi8zeLwXeZT2PZ/O6gGjkea2/sPX3WxdzgzvRpiqT6KNS62qSf1RoS8ShcfSsshjZU+D5QITkFnjHVAAyxnr2PxrfV9UINPqRfOcih9qGLQt3L+AheqGG+D4rQpxvCkmbZWQWVW5sO4RsY3BPj7j/Qo5Xd1kvDdfh4Pg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Kt21uMI+R9GMSQ+IrBnMuifSzGlYFV0cCRsYEFNHMEg=;
+ b=OgKQz5544pEAYaBPnTi30QW2VlVm7ymmuCpiHc+v8jWdzvG9Ww0C1SxAXqeGzKsnzuSrkVV0DD/mOyAUCv3n4bvTgoIv6rbiHwZe3Fq5jb1x6fwK8n7W0rVdwiLgc2l4kjQqFjsrkd6ZV5LV027RpNmOpNeSUSNMjKs623ILexml8Ubd2VoU5XoyvP7G1JvMO7KhuwRgeCoE5FeUrAVuERmcEzIHJ1R/DaCcB+rOpBTUbmP2R2JznAW3i3JofRYrEs4ll9SU4TOlVlwDWKEITHOHZ9aV3nCyhmfvYWdpDMIPDXsdpRo05omgRqG0M0B8fTIYgq8+kDZtIA0gMAT4TQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Kt21uMI+R9GMSQ+IrBnMuifSzGlYFV0cCRsYEFNHMEg=;
+ b=htk+SQpgbpzi2eGUXMxX5FrYdi/wxsoEdEopQjD4OY+AzV+2aAeqyIpJMoJKwJIHlnRug5PfB0v4UdG1tw9MW65qdGBefobvAr64Po8tIznMcb74Xu8+O2kg5zNJWtPKyWWCkv1zNzbM24Sdq+bfvCkiR8n+0mZPQKdQ7fQCNjU=
+Received: from PH7P220CA0057.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:32b::20)
+ by CH3PR12MB7714.namprd12.prod.outlook.com (2603:10b6:610:14e::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.26; Thu, 1 Oct
+ 2026 11:46:06 +0000
+Received: from SA2PEPF00003F67.namprd04.prod.outlook.com
+ (2603:10b6:510:32b:cafe::3) by PH7P220CA0057.outlook.office365.com
+ (2603:10b6:510:32b::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.17 via Frontend Transport; Thu, 1
+ Oct 2026 11:46:06 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SA2PEPF00003F67.mail.protection.outlook.com (10.167.248.42) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.472.14 via Frontend Transport; Thu, 1 Oct 2026 11:46:05 +0000
+Received: from xsjarunbala50.xilinx.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Thu, 1 Oct
+ 2026 06:46:02 -0500
+From: Jay Buddhabhatti <jay.buddhabhatti@amd.com>
+To: <sudeep.holla@kernel.org>, <cristian.marussi@arm.com>
+CC: <arm-scmi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <git@amd.com>, Jay Buddhabhatti
+	<jay.buddhabhatti@amd.com>
+Subject: [RFC PATCH] firmware: arm_scmi: skip empty CLOCK_DESCRIBE_RATES replies
+Date: Thu, 1 Oct 2026 04:45:38 -0700
+Message-ID: <20261001114538.671755-1-jay.buddhabhatti@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI5MDA2NCBTYWx0ZWRfXwkVLylCe39ow
- fD+EjAfCTwRqyWJHujSLskuq5tEKJ6OZdB4NQprAHWozX/aahkqVANvqcPUQtgvfZQCU6SWaxNg
- OANccZV1hGlzd46q13/AwFduWC9v6pAwKL8NifbKfJhySw6iunbvTyjNdm1ADfMH8mZ8UivwfmD
- K51a3rxl1+LUbvomBavOvjrSmBnMK5y43vFT988QQBlPBkwY5rFKeDpt/59bmoaAB3oGOg0vS6W
- EslBV6wUH9fBBWh6ByEjQE8De3ZnieWUER/zqx8IjSaUuZ811e68sPitw0Gohh+m3xek4fEqr3a
- TwHlCg4VjQRMVTJKdAF2zCoUBErTVxk9hvJoC69RGl7OCEsl9sFU2R0sF9LPPrak5L3/YZaK8AN
- 2kwT0OutTwH088ko7gIajItuqymgYkGq4bk7q49tHu6QI+HhWNjWyVq/uP4azpdOs3ZcK7YGSFE
- alYoMwUmEuOr83Gsqrw==
-X-Authority-Analysis: v=2.4 cv=AoB7T+9P c=1 sm=1 tr=0 ts=6abbe2e9 cx=c_pps
- a=SvEPeNj+VMjHSW//kvnxuw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=Usant2sCTZzwgyS8W3EA:9 a=CjuIK1q_8ugA:10 a=Kq8ClHjjuc5pcCNDwlU0:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI5MDA2NCBTYWx0ZWRfX9y5O2fvRADel
- OzxivJKsb7UO1QNgscjj0bWoJUWlWz+AVtQ2AY8mzZ/C86OxmNsCQAldzaiZ3VVeFMo7ZsIrbub
- lFZwSiEg3S3k5SDRoGfdvtBYeIUHZxE=
-X-Proofpoint-GUID: 3DHhWRFx2k4r6cC3o-_lWumBPAJy4wVy
-X-Proofpoint-ORIG-GUID: 3DHhWRFx2k4r6cC3o-_lWumBPAJy4wVy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-29_04,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 impostorscore=0 clxscore=1015 phishscore=0
- lowpriorityscore=0 bulkscore=0 spamscore=0 adultscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609290064
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F67:EE_|CH3PR12MB7714:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7caca1b4-264b-4707-49e5-08df1fb193c4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|23010399003|1800799024|376014|36860700016|30052699003|11063799006|56012099006|10067099003|18002099003|3023799007|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	3qh4QtXFUWCgFYpmTkfL8+WJQmBSJ4w+tqW52eF3kE68JjLpKqsf93De1WCiuSvS5yXvCWW9AhUxcNKEpYXsXnXQnfKqFNguI6W+rN3qBElCv6FVhRmhY6uKWMiEmSclL/9913X1H4l3Au1Wov6WPCXOkesdbNna+koPodcX3x4iIyJMCVRu+h0j5CvBoCUPKfb0CKhWQdMRYCi8m3hkDBWYHAx6OOVq5kqpcqlps8PnXSijVDnm3BVcBCta7+3szKKUBEtDG5kjVqrzePWLaJBMEx2SXspM4dwBpetVM4vrEF6K7ukeMAOJTDOs5VnwWHp978SMY5vriNQe4XQR/jKJGqNY9Mdm5Zuz6+CTEsU7wq4YCuTRvZ2SGOF5Apiz4N6CONlVVqMc2qB1N4vZVqYJ1BZY8vgJzLEnvVj/K4W1uCYBOKPYf9whNPtJexOx9a40dNNv5BtiCpq5hYMtEMo2wcVZvgBeQAH5t3IC0RcXLqG1ExOoUFHZ3Xt1Thoxp+d0dtDf5YAM7OKiucvTIKEiB/5wJHQxHqj16QvcnrN35jGR3BLjobg5SDFisjwgs0aRakUwQrJfmryvPcMDQ7O0m9dEtny81Oz24g2PqhMrKydkjRRzCMII3TEHsyxF7EIDrf5NpodJd2IAHO2CuDvXPRWtf4YJAKqingO1IvHuRJ3nYs78JVJa22rXXcOESoP5cYWbW3lNCuxMTxnpVA==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(23010399003)(1800799024)(376014)(36860700016)(30052699003)(11063799006)(56012099006)(10067099003)(18002099003)(3023799007)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	7/jcrErYd62yKRKB21lrLw1TK7YSKtGw5rxUC4uaUMdCCa3Oikl0bKnah5uyL56qzJJTGjV1kIFlHWv4id1JtJmJewjEBbJI8vDYpAgXZM2VBeCv2SsdPz5UO1scZv48sN/bCJdbSvP/a0q3Q/UAybRWb6Z0gNBFBguFC0N8YDJ0bKCbGKyf0nRnszCvWaZHisqdVCe3dWEWq9/yW4nnDFrY0OKkmrGBYeoaYeWECMNf/HzimDU4siCr6FAL+msoeoElyUBRg/x5hzjP+rIWHi9IubHdh9hYaBgu2aWNiHsrSIAEKX4+RkKEXowsunqrcOsEuB5goHo0WNRkcoBCvcRKOID4+URa8qJvqXgqwKbS9tznpa5nffvgZ1YxXt46eRhx8ekBZysgfzEnntPBEA0CVQp1aTLm23+b1m8bt8ol6gSqVQJewasv1wwaDlLw
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2026 11:46:05.8062
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7caca1b4-264b-4707-49e5-08df1fb193c4
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF00003F67.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7714
 
+Some platforms advertise reserved or uninstantiated clock IDs that still
+succeed CLOCK_DESCRIBE_RATES with zero rates. After dynamic rate
+allocation, kcalloc(0) returns ZERO_SIZE_PTR and protocol init then
+dereferences rates[0], which panics.
 
-> 
-> > diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
-> > index 5ab73b1ab9aa..2850b018da0d 100644
-> > --- a/include/linux/scmi_protocol.h
-> > +++ b/include/linux/scmi_protocol.h  
-> 
-> > +
-> > +enum scmi_telemetry_compo_type {  
-> 
-> I'd add some breadcrumb comments to help people find the sources
-> of these.  My personal preference for enums of things with spec
-> defined values is to also set every value explicitly.  Makes
-> it a lot easier to check individual values are right.
-> 
-> Note that there are quite a few more entries here than I'm seeing
-> in DEN0056F so I'm guessing there is a draft version that isn't public
-> yet (and I'm too lazy to see if I can get via other routes :)
-Ignore this one.   Somehow I didn't notice two columns, though I will say
-that is an ugly style in one table!
-> 
-> > +	SCMI_TLM_COMPO_TYPE_USPECIFIED,
-> > +	SCMI_TLM_COMPO_TYPE_CPU,
-> > +	SCMI_TLM_COMPO_TYPE_CLUSTER,
-> > +	SCMI_TLM_COMPO_TYPE_GPU,
-> > +	SCMI_TLM_COMPO_TYPE_NPU,
-> > +	SCMI_TLM_COMPO_TYPE_INTERCONNECT,
-> > +	SCMI_TLM_COMPO_TYPE_MEM_CNTRL,
-> > +	SCMI_TLM_COMPO_TYPE_L1_CACHE,
-> > +	SCMI_TLM_COMPO_TYPE_L2_CACHE,
-> > +	SCMI_TLM_COMPO_TYPE_L3_CACHE,
-> > +	SCMI_TLM_COMPO_TYPE_LL_CACHE,
-> > +	SCMI_TLM_COMPO_TYPE_SYS_CACHE,
-> > +	SCMI_TLM_COMPO_TYPE_DISP_CNTRL,
-> > +	SCMI_TLM_COMPO_TYPE_IPU,
-> > +	SCMI_TLM_COMPO_TYPE_CHIPLET,
-> > +	SCMI_TLM_COMPO_TYPE_PACKAGE,
-> > +	SCMI_TLM_COMPO_TYPE_SOC,
-> > +	SCMI_TLM_COMPO_TYPE_SYSTEM,
-> > +	SCMI_TLM_COMPO_TYPE_SMCU,
-> > +	SCMI_TLM_COMPO_TYPE_ACCEL,
-> > +	SCMI_TLM_COMPO_TYPE_BATTERY,
-> > +	SCMI_TLM_COMPO_TYPE_CHARGER,
-> > +	SCMI_TLM_COMPO_TYPE_PMIC,
-> > +	SCMI_TLM_COMPO_TYPE_BOARD,
-> > +	SCMI_TLM_COMPO_TYPE_MEMORY,
-> > +	SCMI_TLM_COMPO_TYPE_PERIPH,
-> > +	SCMI_TLM_COMPO_TYPE_PERIPH_SUBC,
-> > +	SCMI_TLM_COMPO_TYPE_LID,
-> > +	SCMI_TLM_COMPO_TYPE_DISPLAY,
-> > +	SCMI_TLM_COMPO_TYPE_RESERVED_START = 0x1d,
-> > +	SCMI_TLM_COMPO_TYPE_RESERVED_END = 0xdf,
-> > +	SCMI_TLM_COMPO_TYPE_OEM_START = 0xe0,
-> > +	SCMI_TLM_COMPO_TYPE_OEM_END = 0xff,
-> > +};
+Do not allocate or index the rate array when the firmware reports an
+empty list, so unused IDs are skipped instead of taking down the SCMI
+clock provider.
+
+Fixes: 62ba967595e0 ("firmware: arm_scmi: Make clock rates allocation dynamic")
+Signed-off-by: Jay Buddhabhatti <jay.buddhabhatti@amd.com>
+---
+The SCMI server is the source of this zero rate and successful response
+and it should be fixed in SCMI server. This defensive check in Linux is
+still useful because firmware responses must be validated before
+de-referencing dynamically allocated data, The panic is a Linux
+regression introduced by dynamic rate allocation; previous fixed array
+tolerated the same response and other SCMI implementations could return
+the same unexpected response.
+---
+ drivers/firmware/arm_scmi/clock.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/drivers/firmware/arm_scmi/clock.c b/drivers/firmware/arm_scmi/clock.c
+index 0278705d809e..8934a95527e2 100644
+--- a/drivers/firmware/arm_scmi/clock.c
++++ b/drivers/firmware/arm_scmi/clock.c
+@@ -8,6 +8,7 @@
+ #include <linux/math64.h>
+ #include <linux/module.h>
+ #include <linux/limits.h>
++#include <linux/slab.h>
+ #include <linux/sort.h>
+ 
+ #include "protocols.h"
+@@ -484,6 +485,13 @@ iter_clk_describe_update_state(struct scmi_iterator_state *st,
+ 	if (!st->max_resources) {
+ 		unsigned int tot_rates = st->num_returned + st->num_remaining;
+ 
++		/*
++		 * Unused/reserved clock IDs return 0 rates. kmalloc(0)
++		 * returns ZERO_SIZE_PTR and must not be dereferenced.
++		 */
++		if (!tot_rates)
++			return 0;
++
+ 		p->clkd->r.rates = devm_kcalloc(p->dev, tot_rates,
+ 						sizeof(*p->clkd->r.rates), GFP_KERNEL);
+ 		if (!p->clkd->r.rates)
+@@ -505,6 +513,9 @@ iter_clk_describe_process_response(const struct scmi_protocol_handle *ph,
+ 	struct scmi_clk_ipriv *p = priv;
+ 	const struct scmi_msg_resp_clock_describe_rates *r = response;
+ 
++	if (ZERO_OR_NULL_PTR(p->clkd->r.rates))
++		return -EPROTO;
++
+ 	p->clkd->r.rates[p->clkd->r.num_rates] = RATE_TO_U64(r->rate[st->loop_idx]);
+ 
+ 	/* Count only effectively discovered rates */
+@@ -622,6 +633,13 @@ scmi_clock_describe_rates_get(const struct scmi_protocol_handle *ph,
+ 	if (ret)
+ 		return ret;
+ 
++	/*
++	 * Some platforms expose reserved clock IDs with an empty
++	 * CLOCK_DESCRIBE_RATES reply. Do not dereference rates[].
++	 */
++	if (!clkd->r.num_rates || ZERO_OR_NULL_PTR(clkd->r.rates))
++		return 0;
++
+ 	clkd->info.min_rate = clkd->r.rates[RATE_MIN];
+ 	if (!clkd->r.rate_discrete) {
+ 		clkd->info.max_rate = clkd->r.rates[RATE_MAX];
+-- 
+2.34.1
+
