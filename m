@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935D2429814;
-	Mon,  5 Oct 2026 09:07:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B338946AF08;
+	Mon,  5 Oct 2026 09:53:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791191221; cv=none; b=cYXe/M7lesgVO5JXvMdsN9XxW7aFqqh0maplApGR8qZ4i31jdb1/4cO1cmFTUHqt6emd9IoPgwG8ikoDHMIusAUEmtLYH997rRZFvFdzt/VVYCGJAVBbZ0C63q5jrFH8yHS4UR9gtP8Eyc8uCGuLuJMxxtL+1/NbzuRQ1WETHUo=
+	t=1791194008; cv=none; b=O/QhpPGrl6l6yL83fxdQME0mwdNyr86/UY3x79BPsTHhusgPbVHq0XwX2oj+FySXvC27LraZqoZd0PmMjGeX5xAPnHy/JpVNZxjKNC0HXYVyOB0dzvzbPDU8t8oqdRCS85kKSVyLKgOdPQ5lRILr5CfXrWeGPWHJC7ppmiDYCU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791191221; c=relaxed/simple;
-	bh=N7ppUWYWwA2ciiAK9eJviw0l25lBvQ2ohR5ssiYrSpM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bQFY8EqqPXLQ+n/VKekPjwmWDe180tSuTuODlpS51LYcbZjsDCXfOJFj7EDf9lwfEyU3NZX18PB7pYYNmJ9HVj1ntvcMYBjNSavnWbRKsZVLXC8b58Nciw/KPiSQMLOSxoL5h60phmMZkLrNZ3wM4Ju6RRyHMGkDb6k2696OKhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=igPnMmAD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791194008; c=relaxed/simple;
+	bh=LNqzIQN12+KevA3Fefu7eyIahVYCN1xTaJ2lsyhNSfA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=F9EFxVePoCHT3Sm4fuxKmbwGIbLh6N25xuDBHH6H132DfLXKJbTOZZlTwaEIBPuVKpQRs1Bk2TuMTFjopZJs1yB6mcIMy4BIC4F2xFuUt30u6c7PZZmwCwVJ0mzxu7HarrHx7d32PuoodsbzO8kV8Vn+9GvpPczYSKVIj0cb3aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n4PK+X+X; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="igPnMmAD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF1C41F00893;
-	Mon,  5 Oct 2026 09:06:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n4PK+X+X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 970491F000FF;
+	Mon,  5 Oct 2026 09:53:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791191220;
-	bh=pQMvdvTBs6iJwXtYsvXOz+3I/5tVR71kCapN0bE7bQI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=igPnMmADQExidCdXXF4Wq/8dGBbJ0wI+gdVJN4/wH8sdLmM2n3DtJ6kyrXfLTlsP2
-	 sYkU7tnCxXat1UP+UwJ9dP11QqwRhyD1KZDm1s1wUpOY8wjEdr6wSsqY1FYQd9m+QY
-	 MFyybganmv1DZttCNZi16Cknzv7vnUZHmQ1SCwdxXF9h5VoKkNWv+eMyUvaZ7dqYZ8
-	 ewmxeTQhAA0kIPAt1DVDm3mPH4yVwcF1dlPVn/Flvod+Ayt9FBWa24ZqlYbNHQOVOb
-	 jwuUFOivRn+ElTXeCzBXaoxxjTxD4mqDcc4ZMDs7LhEgx7FsJU7WL53d1hUVNnYi7k
-	 onyP15+t5wbtA==
+	s=k20260515; t=1791194006;
+	bh=aUTU86Aq6p6cPLwOLgflfpEbmUAAgBX3kPIXjRKq4JM=;
+	h=From:Subject:Date:To:Cc;
+	b=n4PK+X+XI3hb7SFrCgZwZnhcnmMEzeBBY4a5oZOM/IAaW/oTL4P/+8cUcGRWRq6Lu
+	 vRjT8noThGv7CC4zPqk5O/KxBqx6Xr0dwhc215sK0VPc7EzQaCK1t1NUaiDMLXNA3O
+	 lm+kuIHjQE2sLN7B/LBalyTbn36LdnHYxqcv4RPMinJl0iFrFD4BvdxZ2uEG7cgZzg
+	 jTolNDIsPorjy60cix/ix5p6hufIPt9359fB23Lq+QIPUZbmVBF//Iubm3PqqmPyUE
+	 SefLhAi7xTXI5fui5IwIdIgKAkimTYCRM4yONFrxFE8V0aLrahFnffkeLzQxo31VcW
+	 nZ7BOBYPRP56A==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-Date: Mon, 05 Oct 2026 10:04:35 +0100
-Subject: [PATCH v2 4/4] firmware: arm_scmi: Skip unused performance-domain
- devices
+Subject: [PATCH v3 0/4] firmware: arm_scmi: Some fixes to address conflicts
+ with fw_devlink
+Date: Mon, 05 Oct 2026 10:53:09 +0100
+Message-Id: <20261005-scmi_bus_fixes-v3-0-d9bada32ed38@kernel.org>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -37,64 +37,71 @@ List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261005-scmi_bus_fixes-v2-4-34a51338875a@kernel.org>
-References: <20261005-scmi_bus_fixes-v2-0-34a51338875a@kernel.org>
-In-Reply-To: <20261005-scmi_bus_fixes-v2-0-34a51338875a@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAIhzw2oC/3WNyw6CMBBFf4V0bU0fFoor/8MY0pYB6gNMC42G8
+ O+2uNEYlydzz5kZeXAWPNpnM3IQrLdDH4FvMmQ61beAbR0ZMcJySgjD3txspSdfNfYBHtNSNyB
+ rbiQwFKW7g/UQnePpzX7SZzBjqqRFZ/04uOf6MdC0+xsPFBMs81IYrTRvoDhcwPVw3Q6uRake2
+ KcvfnwWfb5TgnIuZSHUl78sywssqFLU/wAAAA==
+X-Change-ID: 20261002-scmi_bus_fixes-19bfe8d3c8e2
 To: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Cc: Sudeep Holla <sudeep.holla@kernel.org>, 
  Cristian Marussi <cristian.marussi@arm.com>, Peng Fan <peng.fan@nxp.com>, 
  Hans de Goede <johannes.goede@oss.qualcomm.com>, imx@lists.linux.dev, 
- linux-gpio@vger.kernel.org
+ linux-gpio@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ NXP S32 Linux Team <s32@nxp.com>, Linus Walleij <linusw@kernel.org>
 X-Mailer: b4 0.16.0
 
-The SCMI performance-domain driver uses the named "perf" device only
-when its firmware node declares #power-domain-cells. Otherwise its
-probe returns without registering a provider, while the same SCMI
-protocol may still be needed by the separate "cpufreq" device.
+Peng’s [1] identified the problem of multiple SCMI devices sharing one
+protocol fwnode. His [2] shows the consequence: the first device owns
+the fwnode but does not bind, so fw_devlink can leave consumers deferred
+even when another device binds successfully.
 
-Do not create the "perf" device when the provider property is absent.
-This avoids an unnecessary device claiming the protocol fwnode and
-leaves cpufreq creation unchanged. Update the device-creation contract
-to document that an intentionally omitted named device returns NULL.
+This four-patch series reduces those cases within SCMI. It prevents
+protocol device creation in exclusive raw mode, stops treating core
+created standard devices as driver owned requests, and makes the i.MX
+pinctrl driver match the standard `pinctrl` device instead of creating
+a second device for the same fwnode. It also omits the `perf` device
+when the firmware node does not describe a performance domain provider,
+without changing `cpufreq` device creation. IIO/HWMON don't have any
+fw_devlink dependency and having two devices shouldn't be an issue.
 
-Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Tested-by: Peng Fan <peng.fan@nxp.com> #i.MX95 EVK
+These changes address the SCMI cases above; they do not provide a
+general driver core solution for devices that share a fwnode.
+
 Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
----
- drivers/firmware/arm_scmi/bus.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
-index 6be31b5121b3..b235d322330b 100644
---- a/drivers/firmware/arm_scmi/bus.c
-+++ b/drivers/firmware/arm_scmi/bus.c
-@@ -570,6 +570,11 @@ _scmi_device_create(struct fwnode_handle *fwnode, struct device *parent,
- {
- 	struct scmi_device *sdev;
- 
-+	/* The perf device is only needed when it provides power domains. */
-+	if (protocol == SCMI_PROTOCOL_PERF && !strcmp(name, "perf") &&
-+	    !fwnode_property_present(fwnode, "#power-domain-cells"))
-+		return NULL;
-+
- 	sdev = __scmi_device_create(fwnode, parent, protocol, name);
- 	if (!sdev)
- 		pr_err("(%pfwf) Failed to create device - protocol 0x%x (%s)\n",
-@@ -596,10 +601,8 @@ _scmi_device_create(struct fwnode_handle *fwnode, struct device *parent,
-  *
-  * Return: The created device (or one of them if @name was NOT provided and
-  *	   multiple devices were created) or NULL if no device was created;
-- *	   note that NULL indicates an error ONLY in case a specific @name
-- *	   was provided: when @name param was not provided, a number of devices
-- *	   could have been potentially created for a whole protocol, unless no
-- *	   device was found to have been requested for that specific protocol.
-+ *	   note that NULL can also indicate that a named device is not needed
-+ *	   for this fwnode, or that no device was requested when @name is NULL.
-  */
- struct scmi_device *scmi_device_create(struct fwnode_handle *fwnode,
- 				       struct device *parent, int protocol,
+[1] https://lore.kernel.org/all/20250120-scmi-fwdevlink-v2-0-3af2fa37dbac@nxp.com
+[2] https://lore.kernel.org/all/20260928-driver-core-v1-1-0846bb8e0f32@nxp.com
+
+---
+Changes in v3:
+- Removed a redundant check when creating requested SCMI devices: standard
+  protocol/name pairs are no longer recorded as requests, so they cannot
+  appear in this list. No functional change - reported by sashiko
+  https://sashiko.dev/#/message/20261005091843.13F271F000FF%40smtp.kernel.org
+- Link to v2: https://patch.msgid.link/20261005-scmi_bus_fixes-v2-0-34a51338875a@kernel.org
+
+Changes in v2:
+- Dropped "pinctrl-imx" from scmi_std_id_table array correctly this time.
+- Updated the trailers received so far(Thanks Peng Fan and Hans de Goede)
+- Link to v1: https://patch.msgid.link/20261002-scmi_bus_fixes-v1-0-8695cbab3fe7@kernel.org
+
+---
+Sudeep Holla (4):
+      firmware: arm_scmi: Avoid protocol devices in exclusive raw mode
+      firmware: arm_scmi: Skip requests for standard protocol devices
+      pinctrl: imx: Match the standard SCMI pinctrl device
+      firmware: arm_scmi: Skip unused performance-domain devices
+
+ drivers/firmware/arm_scmi/bus.c              | 110 ++++++++++++++++-----------
+ drivers/pinctrl/freescale/pinctrl-imx-scmi.c |   2 +-
+ 2 files changed, 67 insertions(+), 45 deletions(-)
+---
+base-commit: aac4e67d6eb93118cfa70c6562b5f9c81a7042ef
+change-id: 20261002-scmi_bus_fixes-19bfe8d3c8e2
+
 
 -- 
-2.43.0
+Regards,
+Sudeep
 
