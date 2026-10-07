@@ -1,61 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECFA84968FC
-	for <arm-scmi@vger.kernel.org>; Wed,  7 Oct 2026 10:32:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2381480DCF
+	for <arm-scmi@vger.kernel.org>; Wed,  7 Oct 2026 11:17:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791369177; cv=none; b=jbC06SNApuQB/T5oIpFD0fmMNY4CtE4PaZOiU9r0umgOL0lhbNceRMHg0338cecJ6ShIiaeoekJQRVfjXzPPaf7Lthe207DTbqSVV+LEVPc/nJwXhIRh5NSs2/Q+jsNOzXEFQDUT403zw8mXIB/mhbTePgPkY/hjQC3ov06rjB8=
+	t=1791371877; cv=none; b=fAmyAsw4ZKHBQsflLxSoAQowwnvHCB2zxJXlX9S5pZYHjPft56z/bmlICnl0oKJuycD2WMxcVvF5ilLzXMxEHn7VU/2KMmKL0g/IhbwLkMTiv4zxT3Id08/7cJoFL4wIpSrlXQGoWi61yLPtRJAVZwYERxdpP40vr30K7nds0mA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791369177; c=relaxed/simple;
-	bh=9oVWb69ye6d2njaXoyoGmeFsDZ5OqzzUsKteeito8/E=;
+	s=arc-20240116; t=1791371877; c=relaxed/simple;
+	bh=9iWF+2k9j/V1bncQePbeK9Xh0Y7J4Zk4ncvSD7lE4g4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pkZ+GkJ6oueCRb4fwANKrD4JAMLpMm6Er5/ZkypNgu7K+MQHfY1FO4GZ2TcZQ0TLq/qO2A/vmXQWejBCMYe5Q6zzromra3YxdVmHJFfu0RgQBBTmLWOtYRQZa7L5GbvBPDMrD+z/cSpp46GX9caIdbdvNKB0cXSQXSzs5jxDgzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WwCE6VPT; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=aczmrCIiLd9Sh5DccrBCYgGGLdKSuy7FuU/EGsFwPfFV01PhPoSdEGCbs6U5H8mlLG9fJ6AQyiC8UMI162WhWxkYCZg0AgCcJs6LF0ELow95VrlWUl/Wy4Ro/POY7szt+8T8FVqaWhlSp79fmR9PBOlJTDCft+ZnKUeKWwiKYmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bhI/A3MF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WwCE6VPT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E2DF1F008A1
-	for <arm-scmi@vger.kernel.org>; Wed,  7 Oct 2026 10:32:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bhI/A3MF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 753951F008A0
+	for <arm-scmi@vger.kernel.org>; Wed,  7 Oct 2026 11:17:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791369147;
-	bh=9oVWb69ye6d2njaXoyoGmeFsDZ5OqzzUsKteeito8/E=;
+	s=k20260515; t=1791371856;
+	bh=9iWF+2k9j/V1bncQePbeK9Xh0Y7J4Zk4ncvSD7lE4g4=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=WwCE6VPTKmh0z2WYkF1ftc6xP/p3rFr1SOM2PLy8a6xNDq4CL5+oOOkQG4Nacii7H
-	 Rbk8F7Ez7JCanSA9H4scO0nj4ImXe9mCKXGuMMuJyvtuIqocQlwz1NlUQP/L5CaJWI
-	 o8b0Uq3sOpIalvmzPjqW7IM69I63OIemAp4nm00QZncxHnbfH4DKf//fHOVNV+yM4l
-	 lbGxe0unfV3rUhMEmrNOjVoTLwewFKG1j0wo4Dokl/SnMvCgvyXKLdN59RP0YtS86d
-	 T/kt5K4FuT6SCllY/GP8n1LCzw6tI0071ywEL0mR8aMb4jADCeEEnUi7VXNQ/sSCJp
-	 bpSJXVpC24c4g==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5bb7c6980f1so1365975e87.2
-        for <arm-scmi@vger.kernel.org>; Wed, 07 Oct 2026 03:32:27 -0700 (PDT)
-X-Gm-Message-State: AFq9FYLnU5KQgX0aiSPwqeYxg6wv/zYrFdkuxokLqB0uTEbt04cTnst/
-	0+zK7ftoOZt4AYNilDQ6ppBE5gX1H5fWAoHweCAhLLPep10jCv35/3LZQMtIyphotmue4gPPTdr
-	RK8OB117CsXXCmK7eTyhFyObPwwd4NAs=
-X-Received: by 2002:a05:6512:3091:b0:5b8:c174:c98f with SMTP id
- 2adb3069b0e04-5bcd072e011mr626080e87.47.1791369145191; Wed, 07 Oct 2026
- 03:32:25 -0700 (PDT)
+	b=bhI/A3MF4J0vNjSVGIxRV/vIYHjyi3kdn07CFLD7AkEg98TtTGDtU62NJHNFEN/qm
+	 ViMZqu+R81HWoMzUo96YzsHjeHEdQWXxnGoiA7ulmQZUaYqfr0KCiheqAVOlb2TFzs
+	 hHFewDn3BzcNh+R6HvrB8nVo0r0WABmxi/GawMl0TKrA1meI2W0lo1WbNUVEdPo3/Q
+	 /fTVlavELpUnz+TxU8knbAVHhHxmQA40Q5ajHirQfN2N6jFg6LKDT26OSOk8EFDcpR
+	 ipYmllBzZdaw1ZCDhfBBlEwiQo/9pIpBGZZ35IzFaD21xZVmS1L3Q8X0CA/wHqQ+0I
+	 HZ3J7f8p2GDgA==
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-483c607ccb4so2092367fac.0
+        for <arm-scmi@vger.kernel.org>; Wed, 07 Oct 2026 04:17:36 -0700 (PDT)
+X-Gm-Message-State: AFuF++kAZh/C515Xa/WC/OoGu4KOLSmZZjgt1rngiK19kwFyfj4VbLSM
+	QUuRbPYttDmGOrSlU6WcUcUzxt1hDnKYkSjHzYv6FaF+UI+/2EEpVwKwCAmGlRVt8kxXEtotrb0
+	e4SL+pM2uEQ8mhhuKxd4OREa4WKht274=
+X-Received: by 2002:a05:6870:c193:b0:49d:d2cd:67f3 with SMTP id
+ 586e51a60fabf-4a2597076f5mr1839969fac.49.1791371855820; Wed, 07 Oct 2026
+ 04:17:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261002-scmi_bus_fixes-v1-0-8695cbab3fe7@kernel.org> <20261002-scmi_bus_fixes-v1-3-8695cbab3fe7@kernel.org>
-In-Reply-To: <20261002-scmi_bus_fixes-v1-3-8695cbab3fe7@kernel.org>
+References: <20261005-scmi_bus_fixes-v2-0-34a51338875a@kernel.org> <20261005-scmi_bus_fixes-v2-3-34a51338875a@kernel.org>
+In-Reply-To: <20261005-scmi_bus_fixes-v2-3-34a51338875a@kernel.org>
 From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 7 Oct 2026 12:32:12 +0200
-X-Gmail-Original-Message-ID: <CAD++jLmm2KrsuaCPznjY-_t577D-hWZqcaafHXSeTcugBsG-yQ@mail.gmail.com>
-X-Gm-Features: AclHuK_OngjnXsvCqah6XeVHOfyhFcVTH5dTjPiY0oqEZpBecitNEwT07XJY1uA
-Message-ID: <CAD++jLmm2KrsuaCPznjY-_t577D-hWZqcaafHXSeTcugBsG-yQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] pinctrl: imx: Match the standard SCMI pinctrl device
+Date: Wed, 7 Oct 2026 13:17:18 +0200
+X-Gmail-Original-Message-ID: <CAD++jLkXDbRRCjSREYvFWy235wm3NnrJembGG=AW22ydW9o+9A@mail.gmail.com>
+X-Gm-Features: AclHuK_X36kw7cGl6aPVuSMhUZsTQjMCbHVjKMBdB6tTAhR1mtf3ophJkl6YKXA
+Message-ID: <CAD++jLkXDbRRCjSREYvFWy235wm3NnrJembGG=AW22ydW9o+9A@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] pinctrl: imx: Match the standard SCMI pinctrl device
 To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: arm-scmi@vger.kernel.org, Peng Fan <peng.fan@oss.nxp.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, NXP S32 Linux Team <s32@nxp.com>, linux-gpio@vger.kernel.org, 
-	imx@lists.linux.dev
+Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	Cristian Marussi <cristian.marussi@arm.com>, Peng Fan <peng.fan@nxp.com>, 
+	Hans de Goede <johannes.goede@oss.qualcomm.com>, imx@lists.linux.dev, 
+	linux-gpio@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	NXP S32 Linux Team <s32@nxp.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 2, 2026 at 11:37=E2=80=AFAM Sudeep Holla <sudeep.holla@kernel.o=
+On Mon, Oct 5, 2026 at 11:06=E2=80=AFAM Sudeep Holla <sudeep.holla@kernel.o=
 rg> wrote:
 
 > Use the standard "pinctrl" SCMI device name instead of the i.MX-specific
@@ -80,18 +82,14 @@ rg> wrote:
 > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
 > Cc: NXP S32 Linux Team <s32@nxp.com>
 > Cc: Linus Walleij <linusw@kernel.org>
-> Cc: linux-gpio@vger.kernel.org
-> Cc: imx@lists.linux.dev
-> Reported-by: Peng Fan <peng.fan@oss.nxp.com>
+> Reported-by: Peng Fan <peng.fan@nxp.com>
 > Closes: https://lore.kernel.org/all/20260928-driver-core-v1-1-0846bb8e0f3=
 2@nxp.com
+> Reviewed-by: Peng Fan <peng.fan@nxp.com>
+> Tested-by: Peng Fan <peng.fan@nxp.com> #i.MX95 EVK
 > Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
 
 Acked-by: Linus Walleij <linusw@kernel.org>
-
-I guess it needs to go in with the rest of the patches to firmware?
-
-Else tell me and I'll just apply it.
 
 Yours,
 Linus Walleij
