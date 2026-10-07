@@ -1,155 +1,97 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6EC418340
-	for <arm-scmi@vger.kernel.org>; Wed,  7 Oct 2026 08:51:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECFA84968FC
+	for <arm-scmi@vger.kernel.org>; Wed,  7 Oct 2026 10:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791363102; cv=none; b=d0ONH7PHvzoe0totxjmrEqHMnXdPyn2yNargdZOM4TTRvDsLWCwkRauCvWPxtb3WyJnQ8K7MstMgjIuaGycMDplwsHsZCjAh5+TEyyoRsI82f5nepFsG8XxEqfOJ7/OM4yPDPDlWiO/rzrTQoGucLCbZ6hhp3qnRE5NDtOVxW/Y=
+	t=1791369177; cv=none; b=jbC06SNApuQB/T5oIpFD0fmMNY4CtE4PaZOiU9r0umgOL0lhbNceRMHg0338cecJ6ShIiaeoekJQRVfjXzPPaf7Lthe207DTbqSVV+LEVPc/nJwXhIRh5NSs2/Q+jsNOzXEFQDUT403zw8mXIB/mhbTePgPkY/hjQC3ov06rjB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791363102; c=relaxed/simple;
-	bh=CiCPHoKbA7QwOLstlzHIyTwZHiWB29u57jr15U2ffdY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z7Y7dI346tYCS8yvDzTijmhNcDa1xnEneD10Z92daZ7HUc+S5d7Fg+pmxZHNwtDCFu1JTo7QUm034m9idO7fKq1NWhpyJFm6RaXIDH6ySLN9TmQrUHyROfH5ikrLAMwNHyOEwRPLxamHrpf90ov/Hu8s3nGiQyOmVK6nwpClV/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=U4OpEcQk; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=YfPNoujj; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1791369177; c=relaxed/simple;
+	bh=9oVWb69ye6d2njaXoyoGmeFsDZ5OqzzUsKteeito8/E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pkZ+GkJ6oueCRb4fwANKrD4JAMLpMm6Er5/ZkypNgu7K+MQHfY1FO4GZ2TcZQ0TLq/qO2A/vmXQWejBCMYe5Q6zzromra3YxdVmHJFfu0RgQBBTmLWOtYRQZa7L5GbvBPDMrD+z/cSpp46GX9caIdbdvNKB0cXSQXSzs5jxDgzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WwCE6VPT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="U4OpEcQk";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="YfPNoujj"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6977jXsM2481359
-	for <arm-scmi@vger.kernel.org>; Wed, 7 Oct 2026 08:51:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	YRMO/BIFTS6t5KCadnTGwzkaBkcMRT2kVp1MYvn8vlI=; b=U4OpEcQkQIQ4z5ej
-	X4PJJ8RUbYDn3oovYkwGFkhHWi6r5CyCyPlzQ/d05CTJCrQ6IKSAfCgYAA6rW5Jz
-	giHiRMXWfsdCljgvOd4zpvdcxeU8JHTfljCgbK1WD0kNzZ+4giroSrHf6q3uXj3g
-	yEApDeVOHzVf42ENaGHa1nIdV2GZ7zWB2FcQNdVi+BVEhhk/Yeu+bhE2chvvWspc
-	k/uqDJtOeQTeQP7fqxW1foOGAbfVOCN6Con/wxoYOxxKrz0zs/dYC6gSwQKknrJW
-	y33M3sgngOmOpox9KbL8Gv3+7NiE171C7tRE/1PSxnEDdT6ErsD/Y2oD/VtIo6YY
-	94AQGQ==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h5c6u1b3v-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Wed, 07 Oct 2026 08:51:40 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-39b77130a7fso4058188a91.2
-        for <arm-scmi@vger.kernel.org>; Wed, 07 Oct 2026 01:51:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1791363100; x=1791967900; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YRMO/BIFTS6t5KCadnTGwzkaBkcMRT2kVp1MYvn8vlI=;
-        b=YfPNoujjzYkqOobFz5aB1TDTBYPTrnIW8H+psjxkZreV/LyLZOl0EX31al7GwGCDFs
-         UHS8YIYn3ag5ONpgmIrGWMvsSt5I7JB6Zws1QcWujpmRqaHVagdTuT0wuem3xf+Ak7/m
-         OLo93p9xxWGOEfPa2g9F+7ehJq6NXNBltyhnYe4FzgsHFRek0xRHO3BIiFnmVawg2Xxb
-         3CdRHlJdLUiYbmHqoShxwZ9ZIrglrH3ZfDMcRmkanc4rPwf2sXiNbNuStlDBsLEMlozd
-         T+M25qsOCJ0YWpIe6TMCaQgCnMMqU4AhDDrKJ2So0kz5QhKtXXY5S+rOzUeGUALOZvYN
-         plLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791363100; x=1791967900;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YRMO/BIFTS6t5KCadnTGwzkaBkcMRT2kVp1MYvn8vlI=;
-        b=rYVfq8l+2EtDAJ5RACkfHYVACjQw0jKgwNK97tFTwnJxjzti9/+ZhO2NFsy8JmAHi1
-         Q+KKHdUBxAye3KAiwNz4ebriOxVHwfjmaJC3uGjH+rXn6F7yBfg6tGVJZ/5NBdJcabRN
-         p/rUf4hfXpDJ4TkJS19CO+3ETUrPchEBB3dEARIpEpS0qfai1jddZin0DFZRas3drxKp
-         OARm6MY70hFUtKumBGTtcGGhuRGZDOnm/DpP+Z8CxXqR6dQPSfnWyxgxmsweBf1MlkQf
-         MJnxnSKBTt0BWDr/xIIyb8AlGqMVehhgrwnTJLrcAc+KMmnuX6FgH4LsYk/MIWzWTiQx
-         wnCQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxF9PTeIZIYF2Y+D/CCQRcmyUOzxV+KrOlXO+YO8CQQcFHM/LHFJrSkjcWGNk5NeRXttKPU6a07ug==@vger.kernel.org
-X-Gm-Message-State: AFq9FYIG1KmUkRkFLn79ypaYnAUU6HguvhutNaSrSqZ6Z58j8ZOYIl+U
-	Hnbcg6diC/OGBr+YR3Op6//hjfLPubV5zxrfv36bjbpYMPg5tSxPG3w+TiVAaJiG4D+yBCIMhTb
-	fqYy7YhxPkQGko+CF79gv5uESQGi8+a0uFCH/8ax4H/jkxOVUyP5Rtqm5YOv00A==
-X-Gm-Gg: AYBFou3hF2tipgoRDOxNLReIzyzsIvarnPrO0b4wnWFCZYTlKlpiF3A1czChBITIBGD
-	xTGb+LKZSjKRPb1hYra7AyMLfhwUPdCdoNx8f32aYeSGDNYhZ5v8Ip4H28gW/4zv05eu8BKyHbT
-	dUFRL1XORwEkAZpdacWyOCKm7blYgZD2vhClYFyDoVIzlNEH2+ayzH0i6R+HBD+AIRnAGlIi4Pt
-	LU7q/n2hv0LOHf+7nuelTC2ecFlI4VvAvGZghl2KX4MSSP2QtNcP5T34Wkfz/hCtpwGXbCv+qa0
-	3BFhK7dKKsY4TInxe9iZ3U07qM4OicvVwppjCVwqWQ3geirzjXurD7t8G38QiqvHxEi64dy1j7h
-	Os2e3dY/mqUf6lJVkKVuLfomPbnzIFdzs
-X-Received: by 2002:a17:90a:c883:b0:3a0:bf0a:c9da with SMTP id 98e67ed59e1d1-3a8a1bbf160mr1409072a91.47.1791363099956;
-        Wed, 07 Oct 2026 01:51:39 -0700 (PDT)
-X-Received: by 2002:a17:90a:c883:b0:3a0:bf0a:c9da with SMTP id 98e67ed59e1d1-3a8a1bbf160mr1409044a91.47.1791363099481;
-        Wed, 07 Oct 2026 01:51:39 -0700 (PDT)
-Received: from [10.217.219.98] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e60482cab0sm6760885ad.50.2026.10.07.01.51.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Oct 2026 01:51:39 -0700 (PDT)
-Message-ID: <57f068a0-41fa-4986-8702-8fd3d6dc0976@oss.qualcomm.com>
-Date: Wed, 7 Oct 2026 14:21:31 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WwCE6VPT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E2DF1F008A1
+	for <arm-scmi@vger.kernel.org>; Wed,  7 Oct 2026 10:32:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791369147;
+	bh=9oVWb69ye6d2njaXoyoGmeFsDZ5OqzzUsKteeito8/E=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=WwCE6VPTKmh0z2WYkF1ftc6xP/p3rFr1SOM2PLy8a6xNDq4CL5+oOOkQG4Nacii7H
+	 Rbk8F7Ez7JCanSA9H4scO0nj4ImXe9mCKXGuMMuJyvtuIqocQlwz1NlUQP/L5CaJWI
+	 o8b0Uq3sOpIalvmzPjqW7IM69I63OIemAp4nm00QZncxHnbfH4DKf//fHOVNV+yM4l
+	 lbGxe0unfV3rUhMEmrNOjVoTLwewFKG1j0wo4Dokl/SnMvCgvyXKLdN59RP0YtS86d
+	 T/kt5K4FuT6SCllY/GP8n1LCzw6tI0071ywEL0mR8aMb4jADCeEEnUi7VXNQ/sSCJp
+	 bpSJXVpC24c4g==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5bb7c6980f1so1365975e87.2
+        for <arm-scmi@vger.kernel.org>; Wed, 07 Oct 2026 03:32:27 -0700 (PDT)
+X-Gm-Message-State: AFq9FYLnU5KQgX0aiSPwqeYxg6wv/zYrFdkuxokLqB0uTEbt04cTnst/
+	0+zK7ftoOZt4AYNilDQ6ppBE5gX1H5fWAoHweCAhLLPep10jCv35/3LZQMtIyphotmue4gPPTdr
+	RK8OB117CsXXCmK7eTyhFyObPwwd4NAs=
+X-Received: by 2002:a05:6512:3091:b0:5b8:c174:c98f with SMTP id
+ 2adb3069b0e04-5bcd072e011mr626080e87.47.1791369145191; Wed, 07 Oct 2026
+ 03:32:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/9] soc: qcom: geni-se: Remove OPP rate reset from
- resource deactivation
-To: Praveen Talari <praveen.talari@oss.qualcomm.com>,
-        konrad.dybcio@oss.qualcomm.com, Sudeep Holla <sudeep.holla@kernel.org>,
-        Cristian Marussi <cristian.marussi@arm.com>,
-        Ulf Hansson <ulfh@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>,
-        Andi Shyti <andi.shyti@kernel.org>
-Cc: chandana.chiluveru@oss.qualcomm.com, arm-scmi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-i2c@vger.kernel.org
-References: <20260827-derive_clk_perf_tbl_from_perf_domain_opp_table-v2-0-091697dbeb02@oss.qualcomm.com>
- <20260827-derive_clk_perf_tbl_from_perf_domain_opp_table-v2-4-091697dbeb02@oss.qualcomm.com>
-Content-Language: en-US
-From: Mukesh Savaliya <mukesh.savaliya@oss.qualcomm.com>
-In-Reply-To: <20260827-derive_clk_perf_tbl_from_perf_domain_opp_table-v2-4-091697dbeb02@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA3MDAzNSBTYWx0ZWRfX+iKhJsdvOcsx
- 3SvNkVJVetJ2P6zRHRiIhYDDH8QfhnVvErtTEEWESg97CbyfOPgy4Dm8aVI0XedWHNtcqX+G7vd
- tj0rtCBhtfKyHUUyBzvCY3dDLz/7AQs=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA3MDAzNSBTYWx0ZWRfX/w3SG1XVQqYk
- POBcLY/ixtUjHPtK7qW1vn6LEn4pa7SWAMekByO9nFH3D/vEkZJryfYtuOviOUHoXcv7Gq6/UF+
- 5dGVSSOqx32SN+GHtO6gnmfa1XMxjFks1qvD1Wbl3qNONPzEXsg9ro09268HslXrYxposCQpJOi
- Di1WW4qMOAcb9BqfbMa1M1M3pmYzIVKbV1glijQa0kziLuPyLexlAV04xIkSL6YGiGX5iravhtF
- nuGKKYARx/Bgowu5Gs1MhamdRK2sloCUIq20BjkL6jg0o7aSSkRPS8de/Q5eaZODzNVFMLZovI7
- 2QkeVGgp2s1cxosUe621XUdyGmawDqI1kfNtqJYgbeqxzEpZKhAmJOKwoB3hC9HvK4BLROZBDnh
- k/ujh2lyxiFyvJmLznrsKzzRg6kBKYKU9wunWDBQLp+xvbLj6q9gEbbuUH22BDBtprHimC//8lL
- 0GYnBtQ8VfPu5XEYabA==
-X-Proofpoint-ORIG-GUID: _0bshPAOFgH0xJqqfyxFlNCPMdO-N90L
-X-Authority-Analysis: v=2.4 cv=T5EZ3PKQ c=1 sm=1 tr=0 ts=6ac6081c cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=EUspDBNiAAAA:8 a=9QLVM3U_lBk_t3napV8A:9 a=QEXdDO2ut3YA:10
- a=iS9zxrgQBfv6-_F4QbHw:22
-X-Proofpoint-GUID: _0bshPAOFgH0xJqqfyxFlNCPMdO-N90L
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-07_03,2026-10-06_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
- clxscore=1015 bulkscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2610070035
+References: <20261002-scmi_bus_fixes-v1-0-8695cbab3fe7@kernel.org> <20261002-scmi_bus_fixes-v1-3-8695cbab3fe7@kernel.org>
+In-Reply-To: <20261002-scmi_bus_fixes-v1-3-8695cbab3fe7@kernel.org>
+From: Linus Walleij <linusw@kernel.org>
+Date: Wed, 7 Oct 2026 12:32:12 +0200
+X-Gmail-Original-Message-ID: <CAD++jLmm2KrsuaCPznjY-_t577D-hWZqcaafHXSeTcugBsG-yQ@mail.gmail.com>
+X-Gm-Features: AclHuK_OngjnXsvCqah6XeVHOfyhFcVTH5dTjPiY0oqEZpBecitNEwT07XJY1uA
+Message-ID: <CAD++jLmm2KrsuaCPznjY-_t577D-hWZqcaafHXSeTcugBsG-yQ@mail.gmail.com>
+Subject: Re: [PATCH 3/4] pinctrl: imx: Match the standard SCMI pinctrl device
+To: Sudeep Holla <sudeep.holla@kernel.org>
+Cc: arm-scmi@vger.kernel.org, Peng Fan <peng.fan@oss.nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, NXP S32 Linux Team <s32@nxp.com>, linux-gpio@vger.kernel.org, 
+	imx@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Oct 2, 2026 at 11:37=E2=80=AFAM Sudeep Holla <sudeep.holla@kernel.o=
+rg> wrote:
 
+> Use the standard "pinctrl" SCMI device name instead of the i.MX-specific
+> "pinctrl-imx" name. Standard devices no longer have exclusive request
+> tracking, so the i.MX and generic pinctrl drivers can register for the
+> same protocol/name pair. Their probe checks select the appropriate
+> driver for the platform.
+>
+> This solves the issue that occurs when both "pinmux" and "pinmux-imx"
+> devices that share the same fwnode as only the first device registered
+> is assigned as the owner of the fwnode. If this owner device fails to
+> probe (e.g., its driver is blocklisted or missing), it never reaches
+> the driver_bound() stage and the system skips cleaning up its supplier
+> links. Even if a alternative device binds successfully, the system
+> still looks to the broken original owner. As a result, all dependent
+> hardware components (I2C, SPI, UART, USB, MMC, PCIe) defer probing
+> forever, halting the boot process.
+>
+> Note that the solution doesn't support same fwnode being shared by
+> multiple devices and associated fw_devlink feature.
+>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: NXP S32 Linux Team <s32@nxp.com>
+> Cc: Linus Walleij <linusw@kernel.org>
+> Cc: linux-gpio@vger.kernel.org
+> Cc: imx@lists.linux.dev
+> Reported-by: Peng Fan <peng.fan@oss.nxp.com>
+> Closes: https://lore.kernel.org/all/20260928-driver-core-v1-1-0846bb8e0f3=
+2@nxp.com
+> Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
 
-On 8/27/2026 11:29 PM, Praveen Talari wrote:
-> Remove the dev_pm_opp_set_rate(se->dev, 0) call from
-> geni_se_resources_deactivate().
-> 
-> OPP resource management should be controlled by the consumer driver.
-> Additionally, clocks are already disabled by geni_se_clks_off(), making
-> the OPP rate reset unnecessary during resource deactivation.
-> 
-> Signed-off-by: Praveen Talari <praveen.talari@oss.qualcomm.com>
-> ---
-Reviewed-by: Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>
+Acked-by: Linus Walleij <linusw@kernel.org>
+
+I guess it needs to go in with the rest of the patches to firmware?
+
+Else tell me and I'll just apply it.
+
+Yours,
+Linus Walleij
