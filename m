@@ -1,63 +1,65 @@
-Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA483A7F57
-	for <arm-scmi@vger.kernel.org>; Thu,  8 Oct 2026 19:16:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979A1348C63
+	for <arm-scmi@vger.kernel.org>; Thu,  8 Oct 2026 19:16:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791486994; cv=none; b=GPXfkdb+Ivnl6hUNC04bW3MZrIWq3NnZghfl89yBtsm+85t4Nj2Tub47FWJ+QMyCqAtpKPNekPC2d9LqeK9HN002EMW17MatCx7/rJoce1aU5N7lhB/SLypQxKTWBSZQOe4YwVSXtMF4mu1GFOEtAyFfi3ESORb9AtDfiOv0Ho8=
+	t=1791486996; cv=none; b=Tp3j9QBy9uNU4OHZ02ZXy/KJ4GsxLl1g6K/uOxBEUmEwu2V3OOFtt+YMBBeh8SphGNKubFfV+wYkXOCMS2al7gybUbDcVczGdZ0GQtHgizGIIo4rISIUZvYg3NuQFEW1JUdNScpQXL7f0IPshu5Kgsm6bxkF7KnHN2q88km7pRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791486994; c=relaxed/simple;
-	bh=Zduh2DU6SfY5so6BkNbBiVSWdbKi86BAIrpyrB+S01I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OWMKxA+DL/VS77S+iSh43lspsC2TSFbKOZExglLLeTq3f8IlBuBoMwSzVOnG74FfbAtDlbofYLzh8GLPAI4S0gaY32XBU5//BrQ/eb4e/I33b14Zy9LVgFeY9Yw/2uyFVZKVIRZKEL1dloybUFpufDs9uzTd0pTa5z1KsgiR6FA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com; spf=pass smtp.mailfrom=trailofbits.com; dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b=MzewuW+y; arc=none smtp.client-ip=74.125.82.182
+	s=arc-20240116; t=1791486996; c=relaxed/simple;
+	bh=+WHSoamXRbDoq/YDAuIq9G+oYpPUujkFGo80JKBKrF0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=G/8csT0urEC7Dqm/4KFg3A54uzT8hQpAgOBEbE92cj7b9LGpVZSUyE8oEIHOkp0PWhJNPyLExpjDdGQSzw8IygL3lHoHbGbUQcrNL3GWQvSBwTJspIKdoAEyNpANDGOwPBk2NCRMPue2r3nbU0pw4W7qzhU7ZavQu21qFIQsdvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com; spf=pass smtp.mailfrom=trailofbits.com; dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b=Ruu1qSLb; arc=none smtp.client-ip=74.125.82.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trailofbits.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b="MzewuW+y"
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso3149343eec.0
-        for <arm-scmi@vger.kernel.org>; Thu, 08 Oct 2026 12:16:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b="Ruu1qSLb"
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-3518cbe59b0so678337eec.0
+        for <arm-scmi@vger.kernel.org>; Thu, 08 Oct 2026 12:16:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=trailofbits.com; s=google; t=1791486992; x=1792091792; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sJxEIraSPOLWNZvCZSoZUxwKzeKR9+5tZ/1A97aGpYs=;
-        b=MzewuW+yy0tntgC4TVkCNCgPrac0C+/RrxAqDvhDoT8j1V5scpP5T5ouvln9lblKK3
-         QH6+bWNHrvnwk1yXsAVtAww8AvQh4MInQJpuzLd3+T324yro++xwBAQGBCv65Mnnif2a
-         pzAVw//myKcVf62DtTJimWTUyPdMoPMjvynE2912Yz6ALLcgMJ1SCcp/tCffOCdoonjL
-         B0lCIOyJAnYR69gLTlxTylv/crXBcv3Zzr20ipcPdCsl3g1Cfa1QE1m49kVWVSgKxETn
-         qNuczwzpnuXUKsgahWEbYvBzL/MffmrZti9uTlRHzyd2gYCQuOcddHtM5o9Tn1BGSEA3
-         SKUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791486992; x=1792091792;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=trailofbits.com; s=google; t=1791486994; x=1792091794; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=sJxEIraSPOLWNZvCZSoZUxwKzeKR9+5tZ/1A97aGpYs=;
-        b=SDW/2fZUHo0z7/giDK4qmH59XFR1yQK3oQcIUhdeUyG/9DAL6IUDn5CBb6jjY7jNgx
-         wipxci4fSGvr6jUGkHDgYtRDGrgoyKUZYIZBbSXxsPtoCnrikS8T1u+EttK44yJHR3QP
-         zWeJqL69N6aUhpa5Z74M/xnaUywOOAKWhg+37G4sKc/eUeWiqEUDZ3PNSA/gruodh0Tv
-         AvVI8+hKHMC/sLLWfBH/425bKV9XNDWKUNGPpqvOCUr1jXY3yaUlrU7PcR23JVtLakzZ
-         3JB7k69KmlGja+QCKpkrLbx/ZaZpFY+odo3llJvKRVfT9uc5xd//AT49hnMrfto5KAOc
-         5Law==
-X-Forwarded-Encrypted: i=1; AKwUvByIl5cidZ94JMAMkguDwUFZFxZYE42E1BsWeIKa+DyezHdTgt6WPWs6CK+3W6jOymmdRK1c/AL3Ig==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLS1WQKfFAV7n+f+zlZ5U+WVzavR+2Jh4YlXcS2Lc4WjpW7PcGt
-	Bcq46o/wbwCXTrmurN4/9hGIfijPZouvrzI+Act/LEo9fvfvDByd3URNCAwxjLDBXQI=
-X-Gm-Gg: AYBFou2YzsVEm6q1JqLsBstTpY4vrcYU8yqRSKei+vnMZlBomjW4C4TjCZ22ZIVgAqn
-	upFpxb92abe5znP4ZE5dpAyrPXmDZfOhwey0jD37fbXI+5D6ayIVD+yPgBxHmsaxVKcji1RO2Ag
-	gUZ4M0sB12ZpXizIPvFcnRBt67JtWssqfft/I8FJYcmA5un7MJbVWDAFoBibNxKtA+zNGwuGLMU
-	C4BdfRArZ3JsRcSPtvqIf5Oeq7bvDhipBnbwolithjrcRJyMmIn5v8Ylzti9TZmKZ+9hc3XzbEC
-	UL0l/dPA/H5jHfX5dwcwdDUfqx3exodF5aMLDx287n0Vxd57Veh3DNKwag8+tHNyExpKzwYyW6X
-	hnOEPZagvRbSG0j2/2VFZg/fpTeHcGtiw8buJUK4Aw7j13Z2gkLGUk5fYIRAciAnqmrGtGjd/Mt
-	972QodxZHvQarROtrNZ0iY90TrzuyIA3LNSsYmbk8AzzGXNNL3IMhsuni2l4Wj03rzHUOeF9CTm
-	00PijRXwPcQUnT6wyGPz4DUQ84PKhDRObJOd75ACl6KPcHStX9KvDdgR67dlYVxzr7inrIMXPip
-	SRi8Ig==
-X-Received: by 2002:a05:7300:881b:b0:351:207d:bff4 with SMTP id 5a478bee46e88-3515db9c789mr8494154eec.4.1791486990854;
-        Thu, 08 Oct 2026 12:16:30 -0700 (PDT)
+        bh=eRGzTN0NleWaTALyndg5Ju+cl2dvjR4CoVoX+HqyLZw=;
+        b=Ruu1qSLb0J+8XEboTZsXiSF+kdBYtjRA1xfKZk5ksid33giDTAlIXqYXjJ/btJZAZ+
+         G2qQ0bPZ2N3AYw+RLRRnk/Lva3IwktDefP7nNFYWBgGBiMHVBjD4VzEW/QgUEIyD8Qhj
+         f6q+9c6QyK1uuYVg35vZQiAe8UVYRaW/H96f3a09P78s/5fs6XC2b6urRy5aqeVPm6VW
+         +lebSuF8BYj0883KnSIolX/4d0eKNiUOp61TUtR9PI6IJ4ZobWVWJcDP60GDuGr9YXrk
+         ibiwGpHkg8A4MFrJMWjlb80MBKyov7wcKSDfLVQM0fO6Fni+rh5wdwpxso3444mCB9vF
+         HdIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791486994; x=1792091794;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=eRGzTN0NleWaTALyndg5Ju+cl2dvjR4CoVoX+HqyLZw=;
+        b=cHTWlPdWx73uBCbMWyiX3OaI3uAdjeFfh8jqzLLWh04/6xtN+SJWZ2gS07S4eYI5ps
+         nX4kL+QI2p9bibBS0Hs5WvbGQj0zzwHcnCOZkXhXNl4Pwax4nv/9/sKgrEwtZeGgEszh
+         R6oYsNLUyOFpmSy+Q/NPQDfugPySucy46lyjp1n8IyGZ5iaPvj5K7gzhsMp7ByX9RLOL
+         H4WkMVT58Wr6jPtl4nUj1X5HkCqYNhSQvB3IOxKkEI90JVGbWFJ83+rUDzXBRs/kOj1B
+         6QZE5bmZddPgvJm6kCkZo1tBKiEfTZtX9aUWTk0+xulrJLQaQvASqwpv6WxyjQwhuaYf
+         W2Sg==
+X-Forwarded-Encrypted: i=1; AKwUvBw9/IwM6lGdKcEocsnAdq9WVR/NQF8C2Fg6naXyVggGBe+gf/QAPShWIgHQab76QmFko2eJvBtUGw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLyLGqUu1otRcWQzCbHu2srbzGo7Ry3kWmSMgzk4v3J2fHABchf
+	vufDYsJx4vgU8GhRZ5wWLmk0GbiFK2JuPJ4G9hm7DYRHVYB8ZwlllUljFYYidYVToK8=
+X-Gm-Gg: AYBFou07vIqW69kVMdfjY7kqlR8jcLonCT0OfLpO/8jIqzw+Xv91KhSOekcRm0ykMSC
+	jVj8Ou2k7PZ4Flt9GaEvYYoSaphqZsz/JvmCdwcp9gFg7f4uyD2Kg/iEZYodIvXAg1XhZFsGUnc
+	XhkyIRDgvXVUG6oHwr15cBnWfLyAP5vlR6svke4FRkp0LbHkJRHGOFPem3zdeVrIvfOCx/BKS7m
+	ouW6eQEynIxdW0dpsE12mrlOj1mV3RlRx3MWJdw8hdvxDI+yFLazqvM1iD04T2kBCXaSVtLI81L
+	KrnQLLsWuI1uQdaNFztyV0N9I5eohDrtY1/7IeixXEM6//WnXJsqOJmi4PW3vDDAXpwLex1bPzB
+	6ysVHZ8nrQjxOmhvv4fl86nQyX4ek0ZittFglsS9AlQVO+RJXm1P4rAacq6iS7+51RKejwKyQJ+
+	Ij9QwWtRU4Z+GxicFMZ/RG732OsjNh1Ii+xUZzXsIWH4SLMgR6aTdL8wxHSXfynhcpPi9xzy7vc
+	wBaipjosqJ+OaLc0bVf9i33t9M5p53ISfYVHOdxY/ggvkbxeWOOm3kuXTgKxkpbiveJzW5IU8tH
+	LdWHwA==
+X-Received: by 2002:a05:693c:87cd:20b0:353:5d7a:cabe with SMTP id 5a478bee46e88-3536c53930dmr345111eec.13.1791486993426;
+        Thu, 08 Oct 2026 12:16:33 -0700 (PDT)
 Received: from localhost.localdomain ([2603:8001:5f01:8bab:bc88:5ec1:4f8a:5b23])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537cacb5e9sm54053eec.20.2026.10.08.12.16.29
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537cacb5e9sm54053eec.20.2026.10.08.12.16.32
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 08 Oct 2026 12:16:30 -0700 (PDT)
+        Thu, 08 Oct 2026 12:16:32 -0700 (PDT)
 From: Artem Dinaburg <artem@trailofbits.com>
 To: stable@vger.kernel.org
 Cc: Artem Dinaburg <artem@trailofbits.com>,
@@ -71,10 +73,12 @@ Cc: Artem Dinaburg <artem@trailofbits.com>,
 	linux-kernel@vger.kernel.org,
 	arm-scmi@vger.kernel.org,
 	viresh.kumar@linaro.org
-Subject: [PATCH 6.6.y 0/2] firmware: backport CVE-2026-93083, CVE-2026-93093
-Date: Thu,  8 Oct 2026 15:16:19 -0400
-Message-ID: <20261008191624.98532-1-artem@trailofbits.com>
+Subject: [PATCH 6.6.y 1/2] firmware: arm_scmi: Publish channel state before callbacks
+Date: Thu,  8 Oct 2026 15:16:20 -0400
+Message-ID: <20261008191624.98532-2-artem@trailofbits.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261008191624.98532-1-artem@trailofbits.com>
+References: <20261008191624.98532-1-artem@trailofbits.com>
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
@@ -83,25 +87,160 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Greg, Sasha, and maintainers,
+From: Sudeep Holla <sudeep.holla@kernel.org>
 
-I'm working through the smaller CVE backports still missing from 6.6.y.
-These 2 upstream changes belong together for CVE-2026-93083,
-CVE-2026-93093. They must be applied in this order because the later change
-depends on or completes the earlier one.
+[ Upstream commit 0314900dcdde044af0208fed212035dbfaa55843 ]
 
-The complete series is already present in 6.12.y, 6.18.y, and 7.2.y.
-Patch 1 also affects 6.1.y and will need a separate backport; this
-series contains only the 6.6.y patches.
+Transport setup can enable callbacks before the setup routine returns.
+mailbox_chan_setup() registers the mailbox client with
+mbox_request_channel(), and the mailbox controller startup path can enable
+interrupt delivery before SCMI mailbox channel state has been published.
+Similarly, smc_chan_setup() requests the optional A2P completion IRQ before
+the SMC transport has made its cinfo pointer visible.
 
-Could you please consider this series for 6.6.y?
+If a pending or spurious callback fires in those windows, the transport RX
+callback can dereference a NULL transport cinfo pointer. Publishing only
+the transport-private pointer is not sufficient either: an early callback
+can enter the SCMI core before scmi_chan_setup() has assigned
+cinfo->handle.
+The core derives scmi_info from cinfo->handle in the RX path, so a NULL
+handle can still fault even when the transport-private cinfo is valid.
 
-Thanks,
-Artem Dinaburg
+Assign cinfo->handle before invoking the transport setup callback. Publish
+the mailbox and SMC transport-private channel state before requesting the
+mailbox channels or IRQ, and clear the early-published pointers again on
+setup failure. Also unwind mailbox setup devres resources on failure so an
+optional RX setup error that is ignored by the core does not leave stale
+transport state behind.
 
-Series:
-  1. firmware: arm_scmi: Publish channel state before callbacks
-  2. firmware: arm_scmi: Unwind TX receiver mailbox setup failure
+[ Backport to 6.6.y: use the pre-transport-split file layout, omit newer
+  SMC fields absent from this tree, and publish/clear the older mailbox
+  and SMC channel state around callback registration. ]
 
-base: v6.6.157 (79643295eba17affbd16ca97f3ef04c90266b28c) plus stable-queue
-revision 958ddf240a33ef26b1771be944f0ea6c3b597472
+Fixes: 5c8a47a5a91d ("firmware: arm_scmi: Make scmi core independent of the transport type")
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Link: https://patch.msgid.link/20260714-scmi_core_fixes-v6-1-3afe499d46e3@kernel.org
+Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
+Assisted-by: LLM
+Signed-off-by: Artem Dinaburg <artem@trailofbits.com>
+---
+This is patch 1 of 2 in the ordered 6.6.y backport series.
+This change addresses CVE-2026-93093. Both SCMI setup paths can make
+callbacks reachable before channel state is published; release/acquire
+publication ordering prevents observers from seeing an incompletely
+initialized channel.
+This needed a target-specific adjustment; I called it out in the bracketed
+backport note above.
+
+The fix is already present in 6.12.y, 6.18.y, and 7.2.y, but not in 6.6.y.
+This fix also affects 6.1.y, which will need a separate backport; this
+submission contains only the 6.6.y patch.
+
+ drivers/firmware/arm_scmi/driver.c  |  2 +-
+ drivers/firmware/arm_scmi/mailbox.c | 18 +++++++++++++-----
+ drivers/firmware/arm_scmi/smc.c     | 13 ++++++++-----
+ 3 files changed, 22 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index d253e9d41d84..f99cfc49dfcd 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -2449,6 +2449,7 @@ static int scmi_chan_setup(struct scmi_info *info, struct device_node *of_node,
+ 
+ 	cinfo->id = prot_id;
+ 	cinfo->dev = &tdev->dev;
++	cinfo->handle = &info->handle;
+ 	ret = info->desc->ops->chan_setup(cinfo, info->dev, tx);
+ 	if (ret) {
+ 		of_node_put(of_node);
+@@ -2482,7 +2483,6 @@ static int scmi_chan_setup(struct scmi_info *info, struct device_node *of_node,
+ 		return ret;
+ 	}
+ 
+-	cinfo->handle = &info->handle;
+ 	return 0;
+ }
+ 
+diff --git a/drivers/firmware/arm_scmi/mailbox.c b/drivers/firmware/arm_scmi/mailbox.c
+index f1d5e3fba35e..80b67f46a4d1 100644
+--- a/drivers/firmware/arm_scmi/mailbox.c
++++ b/drivers/firmware/arm_scmi/mailbox.c
+@@ -211,13 +211,18 @@ static int mailbox_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
+ 	cl->tx_block = false;
+ 	cl->knows_txdone = tx;
+ 
++	cinfo->transport_info = smbox;
++	smbox->cinfo = cinfo;
++	mutex_init(&smbox->chan_lock);
++
+ 	smbox->chan = mbox_request_channel(cl, tx ? 0 : p2a_chan);
+ 	if (IS_ERR(smbox->chan)) {
+ 		ret = PTR_ERR(smbox->chan);
++		smbox->chan = NULL;
+ 		if (ret != -EPROBE_DEFER)
+ 			dev_err(cdev,
+ 				"failed to request SCMI %s mailbox\n", desc);
+-		return ret;
++		goto err_clear_cinfo;
+ 	}
+ 
+ 	/* Additional unidirectional channel for TX if needed */
+@@ -231,11 +236,14 @@ static int mailbox_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
+ 		}
+ 	}
+ 
+-	cinfo->transport_info = smbox;
+-	smbox->cinfo = cinfo;
+-	mutex_init(&smbox->chan_lock);
+-
+ 	return 0;
++
++err_clear_cinfo:
++	cinfo->transport_info = NULL;
++	smbox->cinfo = NULL;
++	devm_iounmap(dev, smbox->shmem);
++	devm_kfree(dev, smbox);
++	return ret;
+ }
+ 
+ static int mailbox_chan_free(int id, void *p, void *data)
+diff --git a/drivers/firmware/arm_scmi/smc.c b/drivers/firmware/arm_scmi/smc.c
+index 771797b6e268..fada68b8e15f 100644
+--- a/drivers/firmware/arm_scmi/smc.c
++++ b/drivers/firmware/arm_scmi/smc.c
+@@ -166,6 +166,12 @@ static int smc_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
+ 		scmi_info->param_page = SHMEM_PAGE(res.start);
+ 		scmi_info->param_offset = SHMEM_OFFSET(res.start);
+ 	}
++
++	scmi_info->func_id = func_id;
++	scmi_info->cinfo = cinfo;
++	smc_channel_lock_init(scmi_info);
++	cinfo->transport_info = scmi_info;
++
+ 	/*
+ 	 * If there is an interrupt named "a2p", then the service and
+ 	 * completion of a message is signaled by an interrupt rather than by
+@@ -177,17 +183,14 @@ static int smc_chan_setup(struct scmi_chan_info *cinfo, struct device *dev,
+ 				  IRQF_NO_SUSPEND, dev_name(dev), scmi_info);
+ 		if (ret) {
+ 			dev_err(dev, "failed to setup SCMI smc irq\n");
++			cinfo->transport_info = NULL;
++			scmi_info->cinfo = NULL;
+ 			return ret;
+ 		}
+ 	} else {
+ 		cinfo->no_completion_irq = true;
+ 	}
+ 
+-	scmi_info->func_id = func_id;
+-	scmi_info->cinfo = cinfo;
+-	smc_channel_lock_init(scmi_info);
+-	cinfo->transport_info = scmi_info;
+-
+ 	return 0;
+ }
+ 
+-- 
+2.39.5
+
