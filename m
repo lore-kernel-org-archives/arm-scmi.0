@@ -1,97 +1,93 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA954483BC8
-	for <arm-scmi@vger.kernel.org>; Sat, 17 Oct 2026 11:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E373C0A03;
+	Sat, 17 Oct 2026 17:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792235879; cv=none; b=KHEwtd9GbTfDKoBvsaVlhszFehcuzAC1SJeEaJHI3M1ux5O9JS9IvRBRe7lUSXU89dHQhsrqfnwYfEsKf0AQFxwqf5h9sGrMll74R89CuDZ1Gs3iARi30YkyJFmXP+AS4vCC774debQlALmvbQmHvLxQzpi/tkMYO/xh12n4ZfQ=
+	t=1792258447; cv=none; b=e4Uwz6PXNJmhKhvGT5EA0ZiQM4hLV8K1xblfRVgyttb2N9fK5YE7AQojh27aCrql44sHtlPHAnHiT9x5CFWCdsNAwgGDzrPqgp/U4PU+BoavhuPwjTtTOymTPgn35wrNBljaHjrp3FcxtxO/dJBJT57qnB4O/yEsVgxzysj3c5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792235879; c=relaxed/simple;
-	bh=qnaU4A9xveettmpS+vopSNolBG6QJGbtDjGNYstTtWY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AmpXni7ooH/M9/CUj/qQPanu97uRMkb2yKrhHLt1pOnnK2YpM+kbAsAY5+ycQ8eCHA986FoDYAiA+KkLQ3hUpS03vf7fhPgorOuxi0FGlJ+lErLfganb3IrYiJ+OJD3QyRb2KkmaBA5K1clpcUCcFYzMglHpDYcgPysc+nuPnvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=c/d1+QMq; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1792258447; c=relaxed/simple;
+	bh=TV5zdFiWq79YVW8YRJIsDSfsy5MxTfr/dcP3g07JtKY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uSxeZ4mLSyIw94NazeyVNc7Q5eINbG9qrgOjrTNaUR2qixB6rkEccIpxtseHe94hBfmzlfO+5thwFzKiknHcRFX5tJTxX6uGuFnG0nA/lisJpfst3uVim3FjDfuE6s3XmNUQnVNnDRJE8jKiQkxhQuZsL3E9PEYhDLLBq12rsGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Ef+FvwkV; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="c/d1+QMq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=wxuk
-	6IDriLl7MXn594d/LjgaXzjR4puXOU8/hIVUu9c=; b=c/d1+QMqtQyDgaUoeZH6
-	ERLHM6l26dA0mOpWZEIpoRWkLzN0XWkgma+AeD36oEsGg5o3EfdzYX5Cp5/eNCqE
-	ZGY2axdqXfL48EsScQ63GecPZRcY7sZ6nUlB2Ylr+CW2IR6OMwsXSXGgTNRJT6i6
-	v52jeP409R6LS0ERvQhF/AyWBv3jip8SDH3HXI7EHBbo73+SA7EPdLrAnkKd/4OI
-	2tk5DWbM+4MdAIO2pKaKElHilapT8folp/DDiZ+nSbrNrg9um27iF3PT18TrOrkd
-	Goa+tyLk8oU1lkUEPPKeBlEYpwLrTxeJn8LfXnneWZvqJuroxZ71FbAstfVgUiPd
-	ZA==
-Received: (qmail 984 invoked from network); 17 Oct 2026 13:17:42 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Oct 2026 13:17:42 +0200
-X-UD-Smtp-Session: l3s3148p1@5eDrbQdeOsMujnuO
-Date: Sat, 17 Oct 2026 13:17:41 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Ulf Hansson <ulfh@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Kevin Hilman <khilman@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	=?utf-8?Q?Cl=C3=A9ment?= Le Goffic <clegoffic@baylibre.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 0/8] R-Car X5H Ironhide CPG/MDLC SCMI remapping support
-Message-ID: <atNZVWSjJV8GiK9n@shikoro>
-References: <cover.1792163045.git.geert+renesas@glider.be>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Ef+FvwkV"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4j6TSV0mK2zKmy7;
+	Sat, 17 Oct 2026 19:34:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1792258442;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=flMBGY41EGoDAI7ETuBnT4GorZ4XpKflNGkIAnWjCZo=;
+	b=Ef+FvwkVgR1R1J47Lb1BrSoIDlUiMg0nlJQy3kcjnzuFdESYRY8UPC9BXAIC9uRxpIoN0x
+	xgJeIL1jUgnt/B1/fG8dXbzvJg3fanJlzRqMKJbHIbizCVkIbohYG6JLDD9W+RxZJ5XZ4T
+	2bH6Pnex+Bzk4QprghZLsa9eUbDQUoDxqWqNJTPAVx1G5j6DFoXy7p1Lp9H3u4pv0AHn6y
+	qR6RjY6RnXZwOpF2xT3E7aFwcZ6W1OzF2SCNEhavKrxLud/Z/V/4MarYfPPMK7SN3jVkkB
+	42o/kFKnKkezR5P+SC2ReZfbEawiBMyi6NA/cmz4OdAgbPiHNgjQ76I3hPbvuw==
+Message-ID: <51d8ba05-76e5-45ab-91da-3c6cb02505d7@mailbox.org>
+Date: Sat, 17 Oct 2026 19:28:10 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1792163045.git.geert+renesas@glider.be>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/8] clk: renesas: r8a78000: Add clk_hw to clk_map
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Brian Masney <bmasney+clk@redhat.com>,
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Ulf Hansson <ulfh@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Kevin Hilman <khilman@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>,
+ Sudeep Holla <sudeep.holla@kernel.org>,
+ Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <cover.1792163045.git.geert+renesas@glider.be>
+ <1d7da50cfb58232c6dd4c4afefb938fd7e62fdcd.1792163045.git.geert+renesas@glider.be>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <1d7da50cfb58232c6dd4c4afefb938fd7e62fdcd.1792163045.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 19b5cfb291ce5ddd7a6
+X-MBO-RS-META: rcst5wwoaupxhedzsu64aao9k3oaqo6b
 
-Hi Geert,
+On 10/16/26 5:55 PM, Geert Uytterhoeven wrote:
 
-thank you very much for this update!
+[...]
 
-> During last OSSJ/LPC, Marek Vasut pondered if we could keep our own ID
+>   static int r8a78000_cpg_probe(struct platform_device *pdev)
+>   {
+>   	struct device *dev = &pdev->dev;
+>   	struct r8a78000_cpg_priv *priv;
+> -	const struct clk_map *map;
+> -	int ret;
+> +	const struct clk_map_in *map;
 
-Well, it is not the last LPC anymore ;) Time flies...
+Super-nitpick, use reverse xmas tree ordering here if there will be V5.
 
-> This series consists of four parts:
->   A. Patches 1-2 prepare and add SCMI remapping support to the R-Car X5H
->      CPG clock driver,
->   B. Patches 3-6 fix and add new interfaces needed for remapping in the
->      R-Car X5H MDLC pmdomain driver,
->   C. Patch 7 adds SCMI remapping support to the R-Car X5H MDLC pmdomain
->      driver,
->   D. Patch 8 enables more SCMI protocols on R-Car X5H Ironhide.
-
-I rebased my I2C branch to it, enabled the debug output and can confirm
-that the clocks and resets are now mapped and I2C still works fine. So,
-for the whole series:
-
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-The branch is here:
-
-git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/x5h/i2c-experimental
-
-All the best,
-
-   Wolfram
-
+>   	map = of_device_get_match_data(dev);
+>   	if (!map)
+[...]
