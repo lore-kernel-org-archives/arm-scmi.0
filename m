@@ -1,114 +1,99 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 588D9445AFE
-	for <arm-scmi@vger.kernel.org>; Sun, 18 Oct 2026 15:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F793D567E;
+	Sun, 18 Oct 2026 23:08:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792338869; cv=none; b=ae84ZWkn5KWgpwhk5/9s1NsIuDJ8EvUckvlGFrvW1VdasLhZM5B5xW6LqV2t27642cntzznrVTG4lgQzjW+fZob3sH3BQ4JBcC3kFxmaxB/WK3chTPLzfFNuNcYmcGFwzDB8ALijs4TVAnNvorn1ouTlAKfgV/RJsVB1TMzNtN4=
+	t=1792364910; cv=none; b=aVfGc5Ee6+6WvSPbZMMocZbDJzv913XXtCRFDjdBxVoIZrpmJt+JqvNiAf4VKP3AyP22/WWlPnwOz3XBYqe/Zpu/Z9M9gJ3K5kVciaBkg3Q4LyFjHbC1JjmTCm/9l+B0zOpCvIIGXFHXUk4RTTkGIjWzurF8NEhKi1XCEdefeVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792338869; c=relaxed/simple;
-	bh=TN0F72Od49q/9VsV0FPLYXRT8mvo8Ym05QTkvme9qKI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YVUcF7+geKNU3dG8RrZUQsRzibqxsv+9+Mq4etdimwFUg7mn6LCe+woX3hmjrP//Zt+HI5D6uTCeU7e8zjiqaZrkscbljl0DgrVQ5XzxKMPDBrmSQndElUt8e0zWhXecf2+AfEI7hJidom7RRFSYM3KDnYIF3S7yFTCaQ71wbWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aUa7ebE7; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792364910; c=relaxed/simple;
+	bh=7mXkF1gQ9X0dgexyk2NiLVbwLgkj6RIkSopmYeA2QkE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UOPNWNwOptcFv3ub2u9qW36zTBsvlRoc43e9MS4Spu2xLygui8Af0gWG+OxJM+QQ74/8R3Kj0lVwnOppnYJp9y29xOTp5AK2S5mo2LlS7t/EFvGm3spxsY879jMmX6sOrcQQJtD6U6PLIisceLNY0GL39dELNzGpmMtOmX+10+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=oT5cH/at; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aUa7ebE7"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48c4d99c32bso1095683f8f.1
-        for <arm-scmi@vger.kernel.org>; Sun, 18 Oct 2026 08:54:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792338866; x=1792943666; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=TN0F72Od49q/9VsV0FPLYXRT8mvo8Ym05QTkvme9qKI=;
-        b=aUa7ebE73UwZVE4PgjDEGUbVxjNzSBL7rA/IBW+retNCeKe4sogMYJ2jIlON+gxWp7
-         2cmBMPFiR9o9QFDyQx2YRh8ueS9mfomjs561Iiry2zkfGnRiJQSPyvQhHBZCLMHSF/vy
-         htZSZM8PYMj9kNw8SDHXwrkVcOJn8SWjwPDexl9QYm4piY7MArp7cVQccnsuhp02cbs6
-         NI5tmn7KUTg9bn5hzAa4VYfmGkjXKoRKkgqpxeUBwjPTIGsgpq8wMJgyG9g7x1rPk8B/
-         d8jHFBbYeWgIMt1QlTYMXtt0hIUVGPm8S7Ld/T+GE4YMZdc4P42ubuQybTkxHjRghxZy
-         cclQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792338866; x=1792943666;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TN0F72Od49q/9VsV0FPLYXRT8mvo8Ym05QTkvme9qKI=;
-        b=Y6aSgPsJzyNQh83N48fr9LUb6h9Z7fp3AODem5dxKF8m2OzZ+c/jsjOwA1bpwS744S
-         qjrsCY/ZxKTrCraKCTM9bMO4RvfXnyleXwoCzolPr4AIBImmkZJBORoPjQDO/Or37eSD
-         YrrtGfVMUMUndxpRPYywGIFifiE8/dz+1neAVXnAn/zJpQkWPzL7Hf+rSoqKKob4VfR3
-         wkajXPrjY5O3RIAMsvcN+EwJmrefObBLtOKasLF/QFtosN4IwuqPLAwskZYcHNWcpenx
-         DXT1lt1ei4Op7n23a08+xGxWl0FovPned5Qp7wIuPVHwqaYbuDBNph5ePXtvEVP57Qhh
-         hTIg==
-X-Forwarded-Encrypted: i=1; AKwUvBzQWNu/eX7orV3lykjnRl/h/f2r4Irzy/Luo1Myt3g4dSxcqtPOkL7InwoOX2Ff5ZXYriW0g2VDBg==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ2g1CTPzmqdUfMyV+hSZPtZCieCOA6eaSVO1MjLZtIYxbR8kb/
-	9s+2kt5g1dWLEL8ziAPCNGjEjctqtGvAjYKdyhTeC+IIrijSLO7XkLCqcbnrj3xDKLQ=
-X-Gm-Gg: AYBFou0GKZeHMqJ+U0tWH+mEW597kGDvWRWisf/nOX8wEjmc/i53tNFitzprFg0QJ43
-	D7Av9uQ/+ow796a1UNorPZmfh/zrWFk3VrlJK1CBpUiHQWy5pduqifb1mkN1PMWp/F1CnD8HgfE
-	oSoHmStBQdyVUc1EuMwKbCWPkokvgOrBnuL0W1qZer1cXjnpuwkYCJL9Q0pzPiI3VcJeXMYj1QZ
-	GPZFjKP5C3iB3p5ZyGXyUdztHumAYalzppbopu36k7aZW/qePhFCAAJm/e/0bi3mi1b/aUYHAQJ
-	PGBUVjgtSsPawwQSfGFNeeY9v7lifWLU1AzjHjibrhYPmPEVZtSzZvm5AfWNN/qgAHMNtpHD+Lo
-	wcHVgeWXeLM/YTG7UwPb07WPtd+8nQacu5NAPrLgenXbDn4+Q8BMxhlajr8s83L+jVRe/tBRWrR
-	VhppqUN1EfcPBHaloLnHiJJWK3sNF/bZU4m4fnu+e9jyxA58Pr5f4Ug06+h38yd5cPa1rgYTDer
-	xGfrBhcw4OAE1pW/8IJyjJ2LyEmpyMizlBgRGp1Jse+6QKEJZ3NQLuMtl/cYjHlLydBX+OTiBb8
-	mnqUl2dV9GbhWfmPMxwi7g==
-X-Received: by 2002:a05:600c:3b1e:b0:49f:fdca:c361 with SMTP id 5b1f17b1804b1-4a1d75f9341mr124952765e9.12.1792338866523;
-        Sun, 18 Oct 2026 08:54:26 -0700 (PDT)
-Received: from hermes-agent.lan (228.red-80-29-82.staticip.rima-tde.net. [80.29.82.228])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1c8af2fcesm227892415e9.8.2026.10.18.08.54.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 08:54:26 -0700 (PDT)
-From: =?UTF-8?q?Ram=C3=B3n=20Jes=C3=BAs=20Miranda?= <ramonjesusmiranda@gmail.com>
-To: Pragnesh Papaniya <pragnesh.papaniya@oss.qualcomm.com>,
-	Sibi Sankar <sibi.sankar@oss.qualcomm.com>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rajendra Nayak <rajendra.nayak@oss.qualcomm.com>,
-	Amir Vajid <amir.vajid@oss.qualcomm.com>,
-	linux-arm-msm@vger.kernel.org,
-	arm-scmi@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 0/10] firmware: arm_scmi: vendors: Qualcomm Generic Vendor Extensions
-Date: Sun, 18 Oct 2026 15:54:25 +0000
-Message-ID: <20261018155425.1299660-1-ramonjesusmiranda@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260724-rfc_v8_scmi_memlat-v1-0-cb732bcff1f4@oss.qualcomm.com>
-References: <20260724-rfc_v8_scmi_memlat-v1-0-cb732bcff1f4@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="oT5cH/at"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4j7Dqk1l4TzKnP9;
+	Mon, 19 Oct 2026 01:08:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1792364898;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=d7lgpJVBTsYDOKCZp9reWWs+AKWsfF0gEALW6fOkYM0=;
+	b=oT5cH/atrp9ovqdpuQIP7DfVGJ6SEhc4NYdWaebnlGknP6Lj0h/aCCi8/iTnwX5OQ9OZFb
+	3Q8h8LA/Dd8FervajaX1FzI80HpA4eYtTrsyyDzQzEP+PopebzWl5rYCY+0NTVany7lwK0
+	Lg6Xz1z9G3ULlVdx4CEvtumT8U0nV3yhIQlLM/v5cStHSL+hLtRxK//XUeYEu4U0Kg3B7F
+	RmNYQdpmFnCPXq1qg4OkqtAD3f3cJCH2j1sI/HN8bpaJLdxg98cSez1ROMcSvgSuLVxdMu
+	KhMZR869qV+ADdRnRqrTxtsCvYTZVusYgW5fKMu1tpR8Xc8QuwtSH/VzG3r5Aw==
+Message-ID: <63af69a1-3372-4986-90a8-395f0c0334db@mailbox.org>
+Date: Sun, 18 Oct 2026 16:04:13 +0200
 Precedence: bulk
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Subscribe: <mailto:arm-scmi+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/8] clk: renesas: r8a78000: Add clk_hw to clk_map
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Brian Masney <bmasney+clk@redhat.com>,
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Ulf Hansson <ulfh@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Kevin Hilman <khilman@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>,
+ Sudeep Holla <sudeep.holla@kernel.org>,
+ Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <cover.1792163045.git.geert+renesas@glider.be>
+ <1d7da50cfb58232c6dd4c4afefb938fd7e62fdcd.1792163045.git.geert+renesas@glider.be>
+ <51d8ba05-76e5-45ab-91da-3c6cb02505d7@mailbox.org>
+ <CAMuHMdVzX8fd4NDQi8ow0m+48g8p-LBHMysFi+fOqp1oDtT8LQ@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <CAMuHMdVzX8fd4NDQi8ow0m+48g8p-LBHMysFi+fOqp1oDtT8LQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: e818b94e08cabca6903
+X-MBO-RS-META: mmgr5c94npbzb9imi9iunexn55pa6xbh
 
-Hi,
+On 10/18/26 3:51 PM, Geert Uytterhoeven wrote:
 
-I tested patches 1-9 of this series on a Microsoft Surface Pro 11
-(X1E80100, "hamoa"), on top of 7.2.8 with Linux booted at EL2.
+Hello Geert,
 
-Without memlat the CPU never raises DDR/LLCC: the cpu-bwmon instances
-stay at their lowest vote (4.8 GB/s) under full load. STREAM triad with
-12 threads gives 38 GB/s at EL2 and 41 GB/s under Gunyah at EL1. With
-the series it reaches 67 GB/s; the ddr/llcc devfreq devices go back to
-547/300 MHz when idle. llama.cpp on the CPU (Qwen3-8B Q4_0) goes from
-7 to 21 tokens/s of generation.
-
-s2idle is not affected: CXSD + AOSD + DDR stay in their low power modes
-for 99.9% of an 880 s suspend.
-
-One thing I noticed: the protocol 0x80 module (qcom-generic-ext) does
-not get autoloaded from the protocol@80 node here, so I load it and
-scmi-qcom-memlat-devfreq from a service at boot.
-
-Tested-by: Ramón Jesús Miranda <ramonjesusmiranda@gmail.com>
-
-Thanks,
-Ramón
+> On Sat, 17 Oct 2026 at 19:34, Marek Vasut <marek.vasut@mailbox.org> wrote:
+>> On 10/16/26 5:55 PM, Geert Uytterhoeven wrote:
+>>
+>> [...]
+>>
+>>>    static int r8a78000_cpg_probe(struct platform_device *pdev)
+>>>    {
+>>>        struct device *dev = &pdev->dev;
+>>>        struct r8a78000_cpg_priv *priv;
+>>> -     const struct clk_map *map;
+>>> -     int ret;
+>>> +     const struct clk_map_in *map;
+>>
+>> Super-nitpick, use reverse xmas tree ordering here if there will be V5.
+> 
+> I believe that's already the case. What am I missing?
+It is , sorry for the noise.
