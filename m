@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793115423;
-	b=HMb6k7DH4ghyDxpJm1+CopA+bsA8zf11ALXPLw46WSm+Gjvm46Ks5/QRD2yNYSho8S+q
-	 yl+Y6S7gJRoMf+TKBNfWnRdYemBCvDhtg418sY2mGuQNWiDr1s7KupWKdgppL9+f4U5QB
-	 1+mZU2Q+sdfz4qs4nKl/bLwwFctZ7hcb7/eA6jDnZyENuYWmQ/Neb48cCJDrt3u+9E293
-	 xrYPt5HOCRGFnYpbRTzC66qF98k4NFQreGN6wx/kuo4JTK6hLi8rr/4LJTrVj6iyPlQCV
-	 17zhMYq/tfUv6njgJhG80VnFUDytyU44FuqM49vNZhmLjY6Pe5WkA6OsLsIJXN+Tx2Q==
+	t=1793115424;
+	b=GDFWSvLDNWY2g5NzZizBjWeDvoQD6zxU3qn1c/bPgsYRZ4N1uRbowsUSgp7vF+qkFrQP
+	 YVJ1KemamewW8L/bsD3cYEVK15x1dh4jwfHv7OnNZucZCM52Arj1QL3r8ruPzO6JCP3Tk
+	 ZUL2xk2YyDSF1ohoocr5RT0i/Uv0E4k8PHXK0PwR5pK/hwPQKz4E+4Puu2tVgsrU1mEwi
+	 OP6qwzEI4LnEKP+1mhHEPLDmjmiq7hecugcDOryu2aG69G6qxX7iVd3cRd37g/02SwIrI
+	 BZbUck3p+/+Tqhuwkt0l4niEb5NwCctEfHZETf+xZSz1hfqMAoITQhxzQI2TTBIjXhw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793115423;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793115424;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=rx6gaFO7DjpVw2ov3SN1A7Kr5RzF+G9b8UuLcJzdg4g=;
-	b=ltfThdnyhu625+TWe7/WC0OCsZRnTH3Wq3xO03VkyFQMFo5cQUuBRQeQAq4XrBc1r0dE
-	 kh1jj6tUmbiaIEqTraoYsv6n2Un/naVqymGFmG02FGRp8RYHzYbdoSIu2d+7U5/0sPPqC
-	 ObMMeeY8mTI5f0SVdWpZry2YkKoqGYiTnIjazDw5QIBREbg6jiOffI8Gf8urByWE4y6tN
-	 a4bWqISxux3CRxDPQf8t56NhYFLPTz4pydKPvAWns44zlf12HtA7TDCGhcVT+/yScC4d2
-	 MQfsfspfIVZN7U/fAA4dlekgLg2tLzxYmeTxjgge6zXv986GXoryOcpPdj+qiDsi2Dg==
+	bh=/KGaSHBvvoWL+O7MCZ6oZvrEvuXG4eqoQUwd3V+4yyM=;
+	b=2DXZJuBEkriukKdzAFxMmfxhtk95m7wWApLlKO9WUkna1Dk2wadQeDdrczOwh11uCYpp
+	 1gXPHjkA2NQGpFPS/C+51F3ANul6KGU8GJcOBvpb0EXOqf+YclyHWLJzDsMx04wnhwTnl
+	 fx/KNmhFN/TKPV1hg57veRRHACvYanEe9oDP6h56O1tK3W2HNGKzc2Fqu2LLPIJj8/A8O
+	 MB2i5pXfPgjm8VnQPPPGtMXcwJx75jUUpIsXju8vSc5dLluiqUorh4jx/NNn/pEv02ClS
+	 UbXIMbCgFTuDG7S5KOcnI3VQOphFxCwPKgOZikIJ3gpPRTIRR6OzzgpFQiSkTRA00YQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cLZVTF4J;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LJCqHpSs;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF67606A339;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFEA606A33A;
 	Tue, 27 Oct 2026 15:37:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cLZVTF4J
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LJCqHpSs
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
 	t=1793115423;
-	b=yAQxO5zIB0t7VCG69u7DoJg/krDJ3y1rv2WImdmQ2VZmGiBMqUU2wYWndutcVk/6WB5j
-	 r5Y3VbWc2cPzILDavUepcX7iZ4IYru3GOU4GkVeTQFm7Y057ldFdq85fheT4xZ0vvEZfe
-	 BL3R7qE1SsIWR5kvoqh739g1PDXQ6/ZopOF7ebHJ84WizOVQHOviUNgDeMLnXOuI1QD1p
-	 H/x+v48qGfU1aBF0sipshMeuehufZKPBHGhKgyKjQe+HV3tl1T4jE8HXRGUdPiC9H57sO
-	 bR8K6QuF63KRW8UBIFDbslUd5i/xlRkeBBp1ZVjSW4FAIcd22zGPPdaqbngF6Or/0lw==
+	b=gH8mfoPn3xH9A8r7KsysK4G/1vkGBTB8XVJy+N3Xv3asFinAhXgijs6VNMojjJzEjd9L
+	 0cHNcfmXDqiIwSYXhnZhEjtVBOcfrQR5rYFNvDuSEJ8+tcdiTUWgGcx033x60F17kKmSg
+	 Gb5/LKqE7A0eSVmTPfl0T0m9Ra8XEZ6wUJfqQSBFx6HW7/7rtkunEvvqqzeBvPD3YDBhd
+	 gu44xPVpifv5fRRACMa3Q+leoCKVJuPlwlbJBmdNWbTIX1ABu0UOgxHRnII6weq3IPOCR
+	 dlZYCujFgjG8EnmjV12ocFCwhzrr9MPD13P2hwDa79mP/ugYcub696+0gbDvcPyifYw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	c=relaxed/relaxed; t=1793115423;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=rx6gaFO7DjpVw2ov3SN1A7Kr5RzF+G9b8UuLcJzdg4g=;
-	b=AMVXzDQqk9Bl6uNxAeJEF9KqvQO5WI8DAJ03NdQkeLn8w0okwhIggQ91iq+Gpl4qDgZq
-	 uR7VID316FEu3M3SY/JbqlfC/4t6avSQBskjBTo1hE22SjOojxc8PbfTGgb6YZs7UUz3h
-	 NfjMWcNZB9rhklNinySQnaDssrIYp0JoA392A3/FcXe0CYrD8x9YvJiNBpIqKrFBP+ORi
-	 OFyjaE/dz8Cwu8FDKttiahKgXFB/7k78XzaMR/HDy2XCEP/rxCt7GnLvjO7/n9JvCoQCJ
-	 8gE9sg8+GgUNCXQ3BOUbWg4aVpRqID4aYP7XV35zt+/9XfomAvox4I+a2fPosdx48DA==
+	bh=/KGaSHBvvoWL+O7MCZ6oZvrEvuXG4eqoQUwd3V+4yyM=;
+	b=M7TZbhgXivtmPzB83HT9gI0BxfsV0XeCMRIq9ptYZjcBGMdZ5g1TN497YtR/GwV+KC7x
+	 WzEnCfGCAP/VHIHwDAHkq/oSdkHeUXXVuypMdGewTIDCJoUPQTXHloz1WkJZGfgKkAYDG
+	 FxGVpgJFbu+QdY1gk/4qaaoBHi3+vjwN8ryrMGx50AC9RCp+iRSWME5GmUiSbClGJ8sbh
+	 15BDUIPo6Fp53VP7MBU8KOoH+QqMnKAVg1VHEfHBhwgsZsH8rwGI7lLsXtG8evDYA3tox
+	 loFlzjXdLDqUcemjRAG9h1IVP3uJHu4+0Sp9Suau558yBKEfUfYVuKRJVAc4WZa4zQg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id BF4A61F031EB;
+	by smtp.kernel.org (Postfix) with ESMTPS id B4B791F031E5;
 	Tue, 27 Oct 2026 15:37:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1793115423;
-	bh=rx6gaFO7DjpVw2ov3SN1A7Kr5RzF+G9b8UuLcJzdg4g=;
+	bh=/KGaSHBvvoWL+O7MCZ6oZvrEvuXG4eqoQUwd3V+4yyM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=cLZVTF4JiJOSzdeW2Co6ljjW7O8vWT8wiBDZMROr3xnrH+cqTa3WPD7ocML1JNx8g
-	 Xtu2WXwErx5iecLPQnSR4orDmqbylfs3Rhc/jXibMgogNQ2AHrZ5Uh4WHLv7YbitAi
-	 qYS/0FA5qtEEPGaAzU0WgBz0HI32U2rSbn8MR0yXGTRyQozgyiRjg5By1rBPErOP0j
-	 x/leOqbTndr+Uz/RV7V7yUZRxg3MiT3kMgHccn2HT2LDIg8WBo+pwhp4PsFYeCzJMK
-	 Tv+2xgCQPdEIYxbqYvVXEVbJtmj+asjDeCi7gJcdiHe6dkFXQ92qiz+p64Wv8zs6Xe
-	 gjEdiNEzywbkw==
+	b=LJCqHpSsnpOhGArAJQTiuSh2EZrC68VWzQM9h4CnC0wnl3dHwZ5NA2enhN6Z9Njqf
+	 hHK3kPZaIn3nc9YhrmXpNtMJ1d43AFBJllgYPrwKcf1/BviaLO7UNNvYlWc+dRLclu
+	 IKkEBXmeqtEgxLdxI/ZGTWlcCt4WYm7+lUjjEAPgmSY79siFjPhZN2Qc9xracONMqx
+	 cwT6/pqAzZRMfxHpdtL7LVLB6BVu73D0zvkR+7iavkhMgcqX9nRHPNzeLT3ZCS8fzl
+	 35paNMmzT3zM28pj49izIHAZpeDO4t8OTBNJriTxOHIIBxyY4uGRtxGgEyOX92ycY6
+	 f6WeP0j2AhSrw==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 4668745147;
+	by lkml.kernel.org (Postfix) with ESMTP id 25AD04512E;
 	Tue, 27 Oct 2026 15:37:01 +0000 (UTC)
 From: Han Gao via B4 Relay <devnull+gaohan.iscas.ac.cn@kernel.org>
-Date: Tue, 27 Oct 2026 23:36:55 +0800
-Subject: [PATCH RFC 04/18] dt-bindings: mailbox: add the A210 AP to E902
- doorbell
+Date: Tue, 27 Oct 2026 23:36:52 +0800
+Subject: [PATCH RFC 01/18] firmware: arm_scmi: Allow SCMI transports on
+ RISC-V
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261027-a210-scmi-v1-4-74d58ce85bd8@iscas.ac.cn>
+Message-Id: <20261027-a210-scmi-v1-1-74d58ce85bd8@iscas.ac.cn>
 References: <20261027-a210-scmi-v1-0-74d58ce85bd8@iscas.ac.cn>
 In-Reply-To: <20261027-a210-scmi-v1-0-74d58ce85bd8@iscas.ac.cn>
 To: Sudeep Holla <sudeep.holla@kernel.org>, 
@@ -112,11 +112,11 @@ Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  Paul Walmsley <paul.walmsley@sifive.com>, linux-clk@vger.kernel.org, 
  linux-serial@vger.kernel.org, Han Gao <gaohan@iscas.ac.cn>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793115418; l=3071;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793115418; l=1013;
  i=gaohan@iscas.ac.cn; s=20261021; h=from:subject:message-id;
- bh=Aa03o52/q7r5yl/oQj7tvURMaxh2zbyMjEEfFVs/Mx0=;
- b=9x5MRu5wx8RqE0wf2ApXCODP19BTZv0c73fMy5djuOOqlLT+r+AZHvIggIAKsqbM2e6z5K8ZF
- dzXeFbZybVjD7bIKfS+XUJrF4bXbLFldE77YjSDtNMqOr8tgvu5mgUl
+ bh=TVSlaTkcQWucNuQbo9clD2EYvUNJXp80mxvivBUzLmI=;
+ b=XVlpQR8bfbMMFzGIxQobo08oDZ+aFzeIFawIuzSgfBEgu6kQPqeL3bnZJwtQ/pcZFfd7koJGL
+ 2y8kDDbLI/rAA1wM1EraHXBsLVhI55nKGexS5Wvdgb5NUB3SVppZ1Oj
 X-Developer-Key: i=gaohan@iscas.ac.cn; a=ed25519;
  pk=J8WHEK3filS86QaCaIHDGafqhxKyQ4K7+vFgRirTIiY=
 X-Endpoint-Received: by B4 Relay for gaohan@iscas.ac.cn/20261021 with
@@ -127,98 +127,28 @@ Content-Transfer-Encoding: 7bit
 
 From: Han Gao <gaohan@iscas.ac.cn>
 
-Describe the AP doorbell and optional endpoint clocks. Firmware may keep
-the clocks enabled before the SCMI transport is available. An optional
-E902 to AP data bank identifies a second, receive-only notification
-channel sharing the doorbell interrupt.
+Mailbox and shared-memory SCMI transports do not require ARM execution.
+Allow RISC-V platforms to use the existing SCMI core and protocol drivers;
+architecture-specific transports retain their own dependencies.
 
 Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
 ---
- .../bindings/mailbox/zhihe,a210-ap-mailbox.yaml    | 76 ++++++++++++++++++++++
- 1 file changed, 76 insertions(+)
+ drivers/firmware/arm_scmi/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/mailbox/zhihe,a210-ap-mailbox.yaml b/Documentation/devicetree/bindings/mailbox/zhihe,a210-ap-mailbox.yaml
-new file mode 100644
-index 000000000000..4541750223eb
---- /dev/null
-+++ b/Documentation/devicetree/bindings/mailbox/zhihe,a210-ap-mailbox.yaml
-@@ -0,0 +1,76 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mailbox/zhihe,a210-ap-mailbox.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Zhihe A210 application processor to E902 doorbell
-+
-+maintainers:
-+  - Han Gao <gaohan@iscas.ac.cn>
-+
-+description: |
-+  The A210 exposes a bidirectional notification channel between the
-+  application processors and E902 firmware. Payloads and transaction
-+  completion are managed by the client using shared memory. The firmware
-+  initializes the remote endpoint before the application processor binds.
-+  When firmware manages the endpoint clocks and keeps them running, omit
-+  clocks and clock-names to avoid a dependency on services using this mailbox.
-+
-+properties:
-+  compatible:
-+    const: zhihe,a210-ap-mailbox
-+  reg:
-+    minItems: 2
-+    items:
-+      - description: Application processor interrupt status and control
-+      - description: Remote E902 notification channel
-+      - description:
-+          E902 to application processor channel data, which identifies the
-+          channel that raised the shared interrupt
-+  reg-names:
-+    minItems: 2
-+    items:
-+      - const: interrupt
-+      - const: tx
-+      - const: rx
-+  interrupts:
-+    maxItems: 1
-+  clocks:
-+    items:
-+      - description: Application processor mailbox clock
-+      - description: E902 mailbox clock
-+  clock-names:
-+    items:
-+      - const: local
-+      - const: remote
-+  '#mbox-cells':
-+    const: 1
-+    description: |
-+      Channel index. Channel 0 carries requests to E902 and their completion.
-+      Channel 1 receives E902 notifications and requires the rx region.
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+  - '#mbox-cells'
-+
-+additionalProperties: false
-+
-+dependentRequired:
-+  clocks: [clock-names]
-+  clock-names: [clocks]
-+
-+examples:
-+  - |
-+    mailbox@321000 {
-+        compatible = "zhihe,a210-ap-mailbox";
-+        reg = <0x321000 0x1000>, <0x311000 0x1000>, <0x320000 0x1000>;
-+        reg-names = "interrupt", "tx", "rx";
-+        clocks = <&clk 0>, <&clk 1>;
-+        clock-names = "local", "remote";
-+        #mbox-cells = <1>;
-+        interrupts = <336 4>;
-+    };
+diff --git a/drivers/firmware/arm_scmi/Kconfig b/drivers/firmware/arm_scmi/Kconfig
+index 783c24a20e29..1cfe2b572d18 100644
+--- a/drivers/firmware/arm_scmi/Kconfig
++++ b/drivers/firmware/arm_scmi/Kconfig
+@@ -3,7 +3,7 @@ menu "ARM System Control and Management Interface Protocol"
+ 
+ config ARM_SCMI_PROTOCOL
+ 	tristate "ARM System Control and Management Interface (SCMI) Message Protocol"
+-	depends on ARM || ARM64 || COMPILE_TEST
++	depends on ARM || ARM64 || RISCV || COMPILE_TEST
+ 	help
+ 	  ARM System Control and Management Interface (SCMI) protocol is a
+ 	  set of operating system-independent software interfaces that are
 
 -- 
 2.55.0
