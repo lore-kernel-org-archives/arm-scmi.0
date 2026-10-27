@@ -1,78 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793115430;
-	b=ZQJg0fm6uTosEhHtuMkSBUudQkV7SlSOmNGRfb13u4noyyWf5YNOG1p5KV1TAFNv4hns
-	 sQUGQkBTdgP7oVeCfOxj7yotCTVt7UaWHW/SC6mVv7SCPTxNqy1Rm5mzyi7pfOw/xNgK7
-	 kv96SjTGcbhYVd3T+5saaGfcfPCD3GjHDc/jN1MPwxRx6brEQ8kf9W5iCc96GcQ6Xr4A1
-	 BYDvNNXAeFLyPTAY73oovhrJ7Dk5Oa8Mp7CXQpGSQYR4MyMeJmGsnx3Q9qYjolofbxsEp
-	 Sa/4MBK+X2iXVjutjQqZd/CeP2W/leTatERFCiJ+yhsGKgxyv5sRHAZiWyZDMEkW6Cw==
+	t=1793115425;
+	b=2X8BOYEYkUbb1IFwC9spzlS3UNrsElK04Ri7MnR4CckKHbfd1W7Z0xKbXAy93m6XPdV4
+	 sZ/sAl8yAxydciQvwDpJAmZ+uxDZFW8121vGrG/GYxlZq8iDY00TOvK8BqYblTwAivO3m
+	 LhOA4GrXkF3GrKFOg+elvyi1caVKRuS3bvFcP4stBwvwtrZPiSsIHBhg09pRfMdCbDFBL
+	 T9mXj5VNIsAvD0wH3GXXQCcQ6pmkFoSQzR52BvIa7v+UTNi+qfba2TynFhtaRHkIJgmMs
+	 KRnLQb+UuWZ8fMmJm80OF3YDj8aXoAE7WEsvUptRCMzOWclShEwmV5rmro/7P7ilv4g==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793115430;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793115425;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
 	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=oS++xhGGDKIKaoPqn/jR4GeC6Udugr7VmWtN0GgLuxc=;
-	b=yDprVfvwEp+mazGjjohyfg2+G6dNHJHT7yNtSlp12Ek4Y82VW0/cfGhkQ2B7caXkblp8
-	 T3VdmGORc8uev6zwwrkRUa8jUKE9wN+UWWGWmhYlwSUQsKhlERDBBR4OHGXLuRi//rHIg
-	 L3hDby0R85jM0dYyfap5GeVnAl0TmjNv7m1IAKVRaFy0lN/5zXMFXXN2xvog4L75t67Wg
-	 gv9bMoKmGq9Xu7wnfr16GkOKpAVUmxy4X15koDw2qkF3OE/kPYKqLtIUIMLEDSNtzrrW2
-	 uXi9Lty6Sm4U/9AfU0rM0t9j4K/0oLEpLADASbuxT7Re8B7AzvTkxauQQJDgAvMlQTw==
+	bh=Tjpx55+rYmQrZee75S99QU/G6ELfE3KEh3K+C+Cq1KE=;
+	b=J74zSTrknt93dn7dJyymeOK5hoNNX1/Je+ad902p3M/f1zbPkyA/qApvpx11awG+ed2J
+	 gg8Ucp3yxgDS/oRVD0pU/j5+CkXNioQZHQXTgouzjKnBzGkjKo1yV6jh0zAZVqtWm3n5K
+	 s8xt5PG6ZPa5JkR2C/n2OovCIQpc6TjTdFTEaBbeBAAz4AYqfge+XwUrxHdSxWfAofDYd
+	 +6pxtjmU6al6jWkDf8veoaKKG/tXliirx+LEq53ltCjGcTM5hQ/EsktDuVN5xZ68i+1tD
+	 /7T1zfK4nLnbcaCf0ApJ57c1aA9OPgL/f47wcqd24tWS5RNVTrbt7fAYmcaX4MDXGkw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SuWvAT3P;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lidLQDv6;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9828860A2603;
-	Tue, 27 Oct 2026 15:37:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFB8B60A2615;
+	Tue, 27 Oct 2026 15:37:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SuWvAT3P
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lidLQDv6
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793115429;
-	b=H4qZ2vUMgaP22bKWxncuZTU7U9/SIjGr/k4O0sFR4gVXTNPk8csPErFsXGtd3QnjEAZb
-	 09Ehd2UeX8UrsBg4+OBlIJY6ipQcylQRp+iAyPwV+75kHpW43Fu6fwlSz1gVZk7CrukZY
-	 Yeb6tTyokfLQH5AoOiyn5aA916CHcYUKZTuxq9I8oEEKWKp3EcZU2bvt7F1nERX7u47wM
-	 25ULYDoWY+OFv10Yhi30SCeTAfZWZ0h5c6/JZatW8/SMI01eqOeCvKaE46TxpMSgMngKW
-	 hsW5Lqiufe0HLVk+6qiZeT6gtIRR5yIQ+QtpPB22s37b4jet9/18G2HrRSIj3OClQRQ==
+	t=1793115424;
+	b=vx2/hKZbWoPVNlg0/wDtmlgNvECPOxEpux9kU4NwQ1BT9l0UErCzrm9v9BJxNBzWcCU1
+	 EBX2BTgNIU1d/lKn2oXgrudMC3T7Dqm2/hNhlk2O4FoKiNWg2ASO+8pzIr+kPjxhi/SOB
+	 IF0LEZm33rwYfG95ZpzDy9SvUAaturKZ3EsjNEzJjwKNovB02F3D/kkLamOkQtp+M1gym
+	 P7DlQX2KaqIDj9+tNPLVC6uTOD8tZkv6tkx2NxnjPclqEllkPmUBSdEJLXlEt84Kj6IAY
+	 NriVXgH4OWc1goJKV1a2rDtMItRo6Lxku+u7R1/Jvn6hwf0Rifri7TwXBYEW8zz6x8g==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793115429;
+	c=relaxed/relaxed; t=1793115424;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To;
-	bh=oS++xhGGDKIKaoPqn/jR4GeC6Udugr7VmWtN0GgLuxc=;
-	b=TH9b9wkZenzzVNMGWFopyw3hMbB/1iEzj1F4LSKnRuIC0pWK+W7CE7Nwguu7Ob/sdwtl
-	 nX3zBMERuDTb8jmUymo0ncFevWvfhYF9jzmFhOGDZSOVY4O3KWSnDig1j7OEiOgFYjeM9
-	 TnWKbSanxI1CcTPFFaSbXdLKeZH4Uu0LyoOP30EAu+EBn1ciKDAx9FZLD5O1yK6wlRyBt
-	 JlCWjE/um285Tbfh/6GAZ9pGRqrfceP2XEaFra0x8J8h46hkvm+QFpss99WfsKLuqppjh
-	 6Rm0My/dXR0IqUHtHnBO7Qs4uj9eOhFQOiuXYqCsHhhQ8rTaRJc/XrnZ+MoSpQ8hGrA==
+	bh=Tjpx55+rYmQrZee75S99QU/G6ELfE3KEh3K+C+Cq1KE=;
+	b=bChtuN3GnI6FdibYjoAatL9UZo+Q6/xG7FiL9Eds9lH62wM7c8sbceh+P8y4+b8PbcL+
+	 1FBu3vCfx4hKuCvbkCz/YM8xSW5eBNKvR2DqWMalPTiKH1o0RBK/MOkpjDHRwO/G/iQLW
+	 cP27iIpk0MEopBgkY89sEylUlaz/ubvSBJqPrX0iPW8L777oIkrwJB1MSs7xq3LDp/mXE
+	 Kc1I6M+Us3pjmg9jkOA5DHgTquc5ynGGTfmYIO4YpjEjLqTVMU6aVu+K/IgxX3iHQqx7e
+	 EeBbPxctkL7N8IeLycvs/WS1wlVLxjCkwOMgN9S95397TsXLfFU9oLKWvA8AAo9FfUQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 365841F01400;
-	Tue, 27 Oct 2026 15:37:05 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 0EA801F031E3;
+	Tue, 27 Oct 2026 15:37:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793115429;
-	bh=oS++xhGGDKIKaoPqn/jR4GeC6Udugr7VmWtN0GgLuxc=;
+	s=k20260515; t=1793115424;
+	bh=Tjpx55+rYmQrZee75S99QU/G6ELfE3KEh3K+C+Cq1KE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=SuWvAT3P0MN5hxmaN5JeGG3PsAudaZj6boS02VN0HnDUVQDowA7goRvDuwmSdtA/T
-	 dAdpJOdHEg5oUaHI6sel1Y81JgZfHwehFrNxGDQPCoILIn79G1mgOt2smfDd5dhVwL
-	 62HNQJTYMUEFNCwDPw5M59/5OX5X/rHFqruMsFClaVoFxfiZhGQ1wJDmczu6FRkTYR
-	 YYHIhKbfhy8oY5RT5yfNRS5irHTOeOB4HGVqaEk5OX2bK5wVd1K6G7Yh5rs0coPcSY
-	 VvzR/Sc0O1GBsHNaRbMml/qLP0zdvl1cbPSYwdKAo9jlpnIReKwTM4JzdIGyzz0vsI
-	 LWtS3i38wWFZw==
+	b=lidLQDv6ZMvWdWJWVZBDpOL45P+lc5XFnYhpB1r6zG2ru+AzMd4J5+hR9l+r9WpCZ
+	 apQC8dWctuozrCqczs+Ns146rG25QN1oYlSIePQj68vo7V3OkhKrrvelSvpPNRTNsi
+	 I02xT/3uhR7sNry902JSlToN+n+luCjow9lkLY3uQkHKW2SYgxut3BCUoZuYjDSQ0R
+	 +Z7wXFP4yJjvFpslj+29cE5OkmElzJ52pHmcLrdMIk2E+NIMVMjrEsGlEbaFAM8HxS
+	 4MLU6agTQuHPBNV/OqhVw28aV3PnGV3gaZzMOAb3KqngWOoQCseJ5gIN6+v9Tt5GP+
+	 eEkEKsFzqCUBA==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id AF7944516B;
+	by lkml.kernel.org (Postfix) with ESMTP id 5E2B54514F;
 	Tue, 27 Oct 2026 15:37:01 +0000 (UTC)
 From: Han Gao via B4 Relay <devnull+gaohan.iscas.ac.cn@kernel.org>
-Date: Tue, 27 Oct 2026 23:37:04 +0800
-Subject: [PATCH RFC 13/18] riscv: dts: zhihe: add A210 core support
+Date: Tue, 27 Oct 2026 23:36:57 +0800
+Subject: [PATCH RFC 06/18] dt-bindings: pinctrl: add Zhihe A210 pin
+ controller
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -84,7 +85,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261027-a210-scmi-v1-13-74d58ce85bd8@iscas.ac.cn>
+Message-Id: <20261027-a210-scmi-v1-6-74d58ce85bd8@iscas.ac.cn>
 References: <20261027-a210-scmi-v1-0-74d58ce85bd8@iscas.ac.cn>
 In-Reply-To: <20261027-a210-scmi-v1-0-74d58ce85bd8@iscas.ac.cn>
 To: Sudeep Holla <sudeep.holla@kernel.org>, 
@@ -112,11 +113,11 @@ Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  Paul Walmsley <paul.walmsley@sifive.com>, linux-clk@vger.kernel.org, 
  linux-serial@vger.kernel.org, Han Gao <gaohan@iscas.ac.cn>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793115418; l=13008;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793115418; l=7071;
  i=gaohan@iscas.ac.cn; s=20261021; h=from:subject:message-id;
- bh=RQLOLtjHxIvwJUeim1bI53l1VbR+S6hkZ7O/I75dWFE=;
- b=HnZ4tu8a9SgcvOQ8d6+Xys900xL5pZ80qqnexgVKI4/zWKJAXeLMu6zlMAKyYov2KoeZvw6ZV
- TyX3+7TGTd8BbSkmdU6meacMzlk3eB4m7C3x/0llWRWySfb/kBHtw4v
+ bh=+HQ9Gyt17/JR/JkuvvwD1AdF5rq35H+h461T0R5mLzk=;
+ b=w5SsvrC+wEa3S4CrWDrRgWzw9IwDQJKmbK5lHXD6twnCMCnTWbL8YuJOgLuovxp2x9O3Y24CB
+ 5dr9FFpXz05CcLOdrwqJQLBCaKdCE38oZKvNwaXCYS7yFivGPsSH0n8
 X-Developer-Key: i=gaohan@iscas.ac.cn; a=ed25519;
  pk=J8WHEK3filS86QaCaIHDGafqhxKyQ4K7+vFgRirTIiY=
 X-Endpoint-Received: by B4 Relay for gaohan@iscas.ac.cn/20261021 with
@@ -126,480 +127,233 @@ Reply-To: gaohan@iscas.ac.cn
 
 From: Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>
 
-Describe the CPU clusters, interrupt controllers and pad controllers.
-Use SCMI clock and reset services through the E902 mailbox, with a
-second mailbox channel for firmware notifications.
+Add bindings for the four A210 pad controllers. Describe the shared
+PERI3 SDIO mux, the per-pad bias controls and the optional pad
+controller reset.
 
 Signed-off-by: Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>
 Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
 ---
- arch/riscv/boot/dts/zhihe/a210.dtsi | 458 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 458 insertions(+)
+ .../bindings/pinctrl/zhihe,a210-pinctrl.yaml       | 211 +++++++++++++++++++++
+ 1 file changed, 211 insertions(+)
 
-diff --git a/arch/riscv/boot/dts/zhihe/a210.dtsi b/arch/riscv/boot/dts/zhihe/a210.dtsi
+diff --git a/Documentation/devicetree/bindings/pinctrl/zhihe,a210-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/zhihe,a210-pinctrl.yaml
 new file mode 100644
-index 000000000000..c7b623800aa7
+index 000000000000..ae8eebbb0be2
 --- /dev/null
-+++ b/arch/riscv/boot/dts/zhihe/a210.dtsi
-@@ -0,0 +1,458 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+/*
-+ * Copyright (C) 2021 Alibaba Group Holding Limited.
-+ */
++++ b/Documentation/devicetree/bindings/pinctrl/zhihe,a210-pinctrl.yaml
+@@ -0,0 +1,211 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/pinctrl/zhihe,a210-pinctrl.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+#include <dt-bindings/clock/zhihe,a210-scmi.h>
-+#include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/reset/zhihe,a210-scmi.h>
++title: ZhiHe A210 pin controller
 +
-+/ {
-+	compatible = "zhihe,a210";
-+	#address-cells = <2>;
-+	#size-cells = <2>;
++maintainers:
++  - Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>
 +
-+	cpus: cpus {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		timebase-frequency = <24000000>;
++description: |
++  Pinmux and pinconf controller of the ZhiHe A210 RISC-V SoC.
 +
-+		cpu-map {
-+			cluster0 {
-+				core0 {
-+					cpu = <&c908_0>;
-+				};
++  The pads of the A210 are split into four groups, each managed by its
++  own pad controller with a separate register range:
 +
-+				core1 {
-+					cpu = <&c908_1>;
-+				};
++    AON pad controller     -> zhihe,a210-aon-pinctrl
++    PADCTRL0 (peripheral1) -> zhihe,a210-peri1-pinctrl
++    PADCTRL1 (peripheral2) -> zhihe,a210-peri2-pinctrl
++    PADCTRL2 (peripheral3) -> zhihe,a210-peri3-pinctrl
 +
-+				core2 {
-+					cpu = <&c908_2>;
-+				};
++  Each pad can be muxed individually to up to 8 different functions,
++  though for most pads only a few of those configurations are valid.
++  A few pads in the AON group do not support muxing or configuration
++  at all.
 +
-+				core3 {
-+					cpu = <&c908_3>;
-+				};
-+			};
++  AON, PERI1 and PERI2 pads support configurable drive strength, bias,
++  input enable, Schmitt trigger and slew rate. PERI3 has a separate pad
++  layout: its six dedicated SDIO pads, named SDIO_CLK, SDIO_CMD and
++  SDIO_DAT0..3 in the SoC pin list, share one mux bit that selects SDIO or
++  GPIO4 for all of them. Select their function with the "sdio" group.
++  Per-pad bias can be configured independently.
 +
-+			cluster1 {
-+				core0 {
-+					cpu = <&c920_4>;
-+				};
++properties:
++  compatible:
++    enum:
++      - zhihe,a210-aon-pinctrl
++      - zhihe,a210-peri1-pinctrl
++      - zhihe,a210-peri2-pinctrl
++      - zhihe,a210-peri3-pinctrl
 +
-+				core1 {
-+					cpu = <&c920_5>;
-+				};
++  reg:
++    maxItems: 1
 +
-+				core2 {
-+					cpu = <&c920_6>;
-+				};
++  clocks:
++    maxItems: 1
 +
-+				core3 {
-+					cpu = <&c920_7>;
-+				};
-+			};
-+		};
++  clock-names:
++    const: pclk
 +
-+		c0_l2_cache: l2-cache0 {
-+			compatible = "cache";
-+			cache-block-size = <64>;
-+			cache-level = <2>;
-+			cache-sets = <512>;
-+			cache-size = <524288>;
-+			cache-unified;
-+		};
++  resets:
++    maxItems: 1
 +
-+		c1_l2_cache: l2-cache1 {
-+			compatible = "cache";
-+			cache-block-size = <64>;
-+			cache-level = <2>;
-+			cache-sets = <1024>;
-+			cache-size = <1048576>;
-+			cache-unified;
-+		};
++patternProperties:
++  '-[0-9]+$':
++    type: object
 +
-+		c908_0: cpu@0 {
-+			device_type = "cpu";
-+			compatible = "thead,c908", "riscv";
-+			reg = <0>;
-+			d-cache-block-size = <64>;
-+			d-cache-sets = <256>;
-+			d-cache-size = <32768>;
-+			i-cache-block-size = <64>;
-+			i-cache-sets = <256>;
-+			i-cache-size = <32768>;
-+			mmu-type = "riscv,sv39";
-+			next-level-cache = <&c0_l2_cache>;
-+			riscv,cbom-block-size = <64>;
-+			riscv,cbop-block-size = <64>;
-+			riscv,cboz-block-size = <64>;
-+			riscv,isa-base = "rv64i";
-+			riscv,isa-extensions = "i", "m", "a", "f", "d", "c",
-+					       "b", "v", "sscofpmf", "sstc",
-+					       "svpbmt", "zba", "zbb", "zbc",
-+					       "zbs", "zicbom", "zicbop",
-+					       "zicboz", "zicntr", "zicsr",
-+					       "zifencei", "zihpm";
++    description:
++      A pinmux group referenced by a consumer's pinctrl phandle. It
++      contains one subnode per set of pads sharing the same pinmux and
++      pinconf settings.
 +
-+			cpu0_intc: interrupt-controller {
-+				compatible = "riscv,cpu-intc";
-+				#interrupt-cells = <1>;
-+				interrupt-controller;
-+			};
-+		};
++    additionalProperties: false
 +
-+		c908_1: cpu@1 {
-+			device_type = "cpu";
-+			compatible = "thead,c908", "riscv";
-+			reg = <1>;
-+			d-cache-block-size = <64>;
-+			d-cache-sets = <256>;
-+			d-cache-size = <32768>;
-+			i-cache-block-size = <64>;
-+			i-cache-sets = <256>;
-+			i-cache-size = <32768>;
-+			mmu-type = "riscv,sv39";
-+			next-level-cache = <&c0_l2_cache>;
-+			riscv,cbom-block-size = <64>;
-+			riscv,cbop-block-size = <64>;
-+			riscv,cboz-block-size = <64>;
-+			riscv,isa-base = "rv64i";
-+			riscv,isa-extensions = "i", "m", "a", "f", "d", "c",
-+					       "b", "v", "sscofpmf", "sstc",
-+					       "svpbmt", "zba", "zbb", "zbc",
-+					       "zbs", "zicbom", "zicbop",
-+					       "zicboz", "zicntr", "zicsr",
-+					       "zifencei", "zihpm";
++    patternProperties:
++      '-pins$':
++        type: object
++        $ref: /schemas/pinctrl/pincfg-node.yaml#
 +
-+			cpu1_intc: interrupt-controller {
-+				compatible = "riscv,cpu-intc";
-+				#interrupt-cells = <1>;
-+				interrupt-controller;
-+			};
-+		};
++        description:
++          A pinctrl node describing the pinmux and pinconf settings of
++          one or more pads.
 +
-+		c908_2: cpu@2 {
-+			device_type = "cpu";
-+			compatible = "thead,c908", "riscv";
-+			reg = <2>;
-+			d-cache-block-size = <64>;
-+			d-cache-sets = <256>;
-+			d-cache-size = <32768>;
-+			i-cache-block-size = <64>;
-+			i-cache-sets = <256>;
-+			i-cache-size = <32768>;
-+			mmu-type = "riscv,sv39";
-+			next-level-cache = <&c0_l2_cache>;
-+			riscv,cbom-block-size = <64>;
-+			riscv,cbop-block-size = <64>;
-+			riscv,cboz-block-size = <64>;
-+			riscv,isa-base = "rv64i";
-+			riscv,isa-extensions = "i", "m", "a", "f", "d", "c",
-+					       "b", "v", "sscofpmf", "sstc",
-+					       "svpbmt", "zba", "zbb", "zbc",
-+					       "zbs", "zicbom", "zicbop",
-+					       "zicboz", "zicntr", "zicsr",
-+					       "zifencei", "zihpm";
++        properties:
++          pins:
++            $ref: /schemas/pinctrl/pinmux-node.yaml#/properties/pins
++            description: List of pads that properties in the node apply to.
 +
-+			cpu2_intc: interrupt-controller {
-+				compatible = "riscv,cpu-intc";
-+				#interrupt-cells = <1>;
-+				interrupt-controller;
-+			};
-+		};
++          groups:
++            items:
++              - const: sdio
 +
-+		c908_3: cpu@3 {
-+			device_type = "cpu";
-+			compatible = "thead,c908", "riscv";
-+			reg = <3>;
-+			d-cache-block-size = <64>;
-+			d-cache-sets = <256>;
-+			d-cache-size = <32768>;
-+			i-cache-block-size = <64>;
-+			i-cache-sets = <256>;
-+			i-cache-size = <32768>;
-+			mmu-type = "riscv,sv39";
-+			next-level-cache = <&c0_l2_cache>;
-+			riscv,cbom-block-size = <64>;
-+			riscv,cbop-block-size = <64>;
-+			riscv,cboz-block-size = <64>;
-+			riscv,isa-base = "rv64i";
-+			riscv,isa-extensions = "i", "m", "a", "f", "d", "c",
-+					       "b", "v", "sscofpmf", "sstc",
-+					       "svpbmt", "zba", "zbb", "zbc",
-+					       "zbs", "zicbom", "zicbop",
-+					       "zicboz", "zicntr", "zicsr",
-+					       "zifencei", "zihpm";
++          function:
++            $ref: /schemas/pinctrl/pinmux-node.yaml#/properties/function
++            enum: [ aouart, aouart_ir, aogpio0, aogpio1, aoi2c0, aoi2c1,
++                    aospi, jtag, reset, por, pmic, dvs, uart0, uart1,
++                    uart2, uart3, uart4, uart5, uart6, uart7, uart8,
++                    uart9, uart0_ir, uart1_ir, uart2_ir, uart3_ir,
++                    uart4_ir, uart5_ir, uart6_ir, uart7_ir, uart8_ir,
++                    uart9_ir, gpio0, gpio1, gpio2, gpio3, gpio4, gmac0,
++                    gmac1, spi0, spi1, qspi0, qspi1, pwm0, pwm1, pwm2,
++                    can0, can1, can2, i2s0, i2s1, i2s2, i2s3, i2c0, i2c1,
++                    i2c2, i2c3, i2c4, i2c5, i2c6, i2c7, i2c7_smb, sdio,
++                    isp0, dptx, usb31, sata_p0, sata_p1, hdmi, zmac,
++                    bsel, dbgm, cdbg, pdm, tdm, pcie_x1, pcie_x4,
++                    sen_vclk ]
++            description: The mux function to select for the given pins.
 +
-+			cpu3_intc: interrupt-controller {
-+				compatible = "riscv,cpu-intc";
-+				#interrupt-cells = <1>;
-+				interrupt-controller;
-+			};
-+		};
++          bias-disable: true
 +
-+		c920_4: cpu@4 {
-+			device_type = "cpu";
-+			compatible = "thead,c920", "riscv";
-+			reg = <4>;
-+			d-cache-block-size = <64>;
-+			d-cache-sets = <512>;
-+			d-cache-size = <65536>;
-+			i-cache-block-size = <64>;
-+			i-cache-sets = <512>;
-+			i-cache-size = <65536>;
-+			mmu-type = "riscv,sv39";
-+			next-level-cache = <&c1_l2_cache>;
-+			riscv,cbom-block-size = <64>;
-+			riscv,cbop-block-size = <64>;
-+			riscv,cboz-block-size = <64>;
-+			riscv,isa-base = "rv64i";
-+			riscv,isa-extensions = "i", "m", "a", "f", "d", "c",
-+					       "b", "v", "sscofpmf", "sstc",
-+					       "svpbmt", "zba", "zbb", "zbc",
-+					       "zbs", "zicbom", "zicbop",
-+					       "zicboz", "zicntr", "zicsr",
-+					       "zifencei", "zihpm";
++          bias-pull-up: true
 +
-+			cpu4_intc: interrupt-controller {
-+				compatible = "riscv,cpu-intc";
-+				#interrupt-cells = <1>;
-+				interrupt-controller;
-+			};
-+		};
++          bias-pull-down: true
 +
-+		c920_5: cpu@5 {
-+			device_type = "cpu";
-+			compatible = "thead,c920", "riscv";
-+			reg = <5>;
-+			d-cache-block-size = <64>;
-+			d-cache-sets = <512>;
-+			d-cache-size = <65536>;
-+			i-cache-block-size = <64>;
-+			i-cache-sets = <512>;
-+			i-cache-size = <65536>;
-+			mmu-type = "riscv,sv39";
-+			next-level-cache = <&c1_l2_cache>;
-+			riscv,cbom-block-size = <64>;
-+			riscv,cbop-block-size = <64>;
-+			riscv,cboz-block-size = <64>;
-+			riscv,isa-base = "rv64i";
-+			riscv,isa-extensions = "i", "m", "a", "f", "d", "c",
-+					       "b", "v", "sscofpmf", "sstc",
-+					       "svpbmt", "zba", "zbb", "zbc",
-+					       "zbs", "zicbom", "zicbop",
-+					       "zicboz", "zicntr", "zicsr",
-+					       "zifencei", "zihpm";
++          drive-strength:
++            enum: [ 1, 2, 3, 5, 7, 8, 10, 12, 13, 15, 16, 18, 20, 21, 23,
++                    25 ]
++            description: Drive strength in mA.
 +
-+			cpu5_intc: interrupt-controller {
-+				compatible = "riscv,cpu-intc";
-+				#interrupt-cells = <1>;
-+				interrupt-controller;
-+			};
-+		};
++          input-enable: true
 +
-+		c920_6: cpu@6 {
-+			device_type = "cpu";
-+			compatible = "thead,c920", "riscv";
-+			reg = <6>;
-+			d-cache-block-size = <64>;
-+			d-cache-sets = <512>;
-+			d-cache-size = <65536>;
-+			i-cache-block-size = <64>;
-+			i-cache-sets = <512>;
-+			i-cache-size = <65536>;
-+			mmu-type = "riscv,sv39";
-+			next-level-cache = <&c1_l2_cache>;
-+			riscv,cbom-block-size = <64>;
-+			riscv,cbop-block-size = <64>;
-+			riscv,cboz-block-size = <64>;
-+			riscv,isa-base = "rv64i";
-+			riscv,isa-extensions = "i", "m", "a", "f", "d", "c",
-+					       "b", "v", "sscofpmf", "sstc",
-+					       "svpbmt", "zba", "zbb", "zbc",
-+					       "zbs", "zicbom", "zicbop",
-+					       "zicboz", "zicntr", "zicsr",
-+					       "zifencei", "zihpm";
++          input-disable: true
 +
-+			cpu6_intc: interrupt-controller {
-+				compatible = "riscv,cpu-intc";
-+				#interrupt-cells = <1>;
-+				interrupt-controller;
-+			};
-+		};
++          input-schmitt-enable: true
 +
-+		c920_7: cpu@7 {
-+			device_type = "cpu";
-+			compatible = "thead,c920", "riscv";
-+			reg = <7>;
-+			d-cache-block-size = <64>;
-+			d-cache-sets = <512>;
-+			d-cache-size = <65536>;
-+			i-cache-block-size = <64>;
-+			i-cache-sets = <512>;
-+			i-cache-size = <65536>;
-+			mmu-type = "riscv,sv39";
-+			next-level-cache = <&c1_l2_cache>;
-+			riscv,cbom-block-size = <64>;
-+			riscv,cbop-block-size = <64>;
-+			riscv,cboz-block-size = <64>;
-+			riscv,isa-base = "rv64i";
-+			riscv,isa-extensions = "i", "m", "a", "f", "d", "c",
-+					       "b", "v", "sscofpmf", "sstc",
-+					       "svpbmt", "zba", "zbb", "zbc",
-+					       "zbs", "zicbom", "zicbop",
-+					       "zicboz", "zicntr", "zicsr",
-+					       "zifencei", "zihpm";
++          input-schmitt-disable: true
 +
-+			cpu7_intc: interrupt-controller {
-+				compatible = "riscv,cpu-intc";
-+				#interrupt-cells = <1>;
-+				interrupt-controller;
-+			};
-+		};
-+	};
++          slew-rate:
++            maximum: 1
 +
-+	firmware {
-+		scmi {
-+			compatible = "arm,scmi";
-+			mboxes = <&mbox_e902 0>, <&mbox_e902 1>;
-+			mbox-names = "tx", "rx";
-+			shmem = <&scmi_shmem>, <&scmi_notification_shmem>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
++        oneOf:
++          - required: [pins]
++          - required: [groups]
 +
-+			scmi_clk: protocol@14 {
-+				reg = <0x14>;
-+				#clock-cells = <1>;
-+			};
++        additionalProperties: false
 +
-+			scmi_reset: protocol@16 {
-+				reg = <0x16>;
-+				#reset-cells = <1>;
-+			};
-+		};
-+	};
++allOf:
++  - if:
++      properties:
++        compatible:
++          const: zhihe,a210-peri3-pinctrl
++    then:
++      patternProperties:
++        '-[0-9]+$':
++          patternProperties:
++            '-pins$':
++              properties:
++                pins:
++                  items:
++                    enum: [SDIO_CLK, SDIO_CMD, SDIO_DAT0, SDIO_DAT1,
++                           SDIO_DAT2, SDIO_DAT3]
++                function:
++                  enum: [sdio, gpio4]
++                drive-strength: false
++                input-enable: false
++                input-disable: false
++                input-schmitt-enable: false
++                input-schmitt-disable: false
++                slew-rate: false
++              if:
++                required: [function]
++              then:
++                required: [groups]
++    else:
++      patternProperties:
++        '-[0-9]+$':
++          patternProperties:
++            '-pins$':
++              properties:
++                groups: false
 +
-+	soc {
-+		compatible = "simple-bus";
-+		ranges;
-+		#address-cells = <2>;
-+		dma-noncoherent;
-+		#size-cells = <2>;
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
 +
-+		mbox_e902: mailbox@321000 {
-+			compatible = "zhihe,a210-ap-mailbox";
-+			reg = <0 0x00321000 0 0x1000>,
-+			      <0 0x00311000 0 0x1000>,
-+			      <0 0x00320000 0 0x1000>;
-+			reg-names = "interrupt", "tx", "rx";
-+			interrupt-parent = <&intc>;
-+			interrupts = <336 IRQ_TYPE_LEVEL_HIGH>;
-+			#mbox-cells = <1>;
-+		};
++additionalProperties: false
 +
-+		peri3_padctrl: pinctrl@542000 {
-+			compatible = "zhihe,a210-peri3-pinctrl";
-+			reg = <0x0 0x00542000 0x0 0x1000>;
-+			clocks = <&scmi_clk A210_CLK_PERI3_PAD>;
-+			clock-names = "pclk";
-+			resets = <&scmi_reset A210_RESET_PERI3_PAD>;
++examples:
++  - |
++    pinctrl@2026000 {
++        compatible = "zhihe,a210-peri1-pinctrl";
++        reg = <0x2026000 0x1000>;
++        clocks = <&clk 0>;
++        clock-names = "pclk";
 +
-+			status = "disabled";
-+		};
++        gmac0-0 {
++            gmac0-pins {
++                pins = "GPIO0_0", "GPIO0_12";
++                function = "gmac0";
++                bias-disable;
++                drive-strength = <13>;
++                input-disable;
++                input-schmitt-disable;
++                slew-rate = <0>;
++            };
++        };
++    };
 +
-+		peri1_padctrl: pinctrl@2026000 {
-+			compatible = "zhihe,a210-peri1-pinctrl";
-+			reg = <0x0 0x02026000 0x0 0x1000>;
-+			clocks = <&scmi_clk A210_CLK_PERI1_PAD>;
-+			clock-names = "pclk";
++  - |
++    pinctrl@542000 {
++        compatible = "zhihe,a210-peri3-pinctrl";
++        reg = <0x542000 0x1000>;
++        clocks = <&clk 0>;
++        clock-names = "pclk";
 +
-+			status = "disabled";
-+		};
++        sdio-0 {
++            cmd-data-pins {
++                pins = "SDIO_CMD", "SDIO_DAT0", "SDIO_DAT1",
++                       "SDIO_DAT2", "SDIO_DAT3";
++                bias-pull-up;
++            };
 +
-+		peri2_padctrl: pinctrl@8411000 {
-+			compatible = "zhihe,a210-peri2-pinctrl";
-+			reg = <0x0 0x08411000 0x0 0x1000>;
-+			clocks = <&scmi_clk A210_CLK_PERI2_PAD>;
-+			clock-names = "pclk";
-+			resets = <&scmi_reset A210_RESET_PERI2_PAD>;
-+
-+			status = "disabled";
-+		};
-+
-+		intc: interrupt-controller@18000000 {
-+			compatible = "zhihe,a210-plic", "thead,c900-plic";
-+			reg = <0x0 0x18000000 0x0 0x04000000>;
-+			#address-cells = <0>;
-+			#interrupt-cells = <2>;
-+			interrupt-controller;
-+			interrupts-extended = <&cpu0_intc 0xffffffff>,
-+					      <&cpu0_intc 9>,
-+					      <&cpu1_intc 0xffffffff>,
-+					      <&cpu1_intc 9>,
-+					      <&cpu2_intc 0xffffffff>,
-+					      <&cpu2_intc 9>,
-+					      <&cpu3_intc 0xffffffff>,
-+					      <&cpu3_intc 9>,
-+					      <&cpu4_intc 0xffffffff>,
-+					      <&cpu4_intc 9>,
-+					      <&cpu5_intc 0xffffffff>,
-+					      <&cpu5_intc 9>,
-+					      <&cpu6_intc 0xffffffff>,
-+					      <&cpu6_intc 9>,
-+					      <&cpu7_intc 0xffffffff>,
-+					      <&cpu7_intc 9>;
-+			riscv,ndev = <351>;
-+		};
-+
-+		clint0: clint@1c000000 {
-+			compatible = "zhihe,a210-clint", "thead,c900-clint";
-+			reg = <0x0 0x1c000000 0x0 0x0000d800>;
-+			interrupts-extended = <&cpu0_intc 3>,
-+					      <&cpu0_intc 7>,
-+					      <&cpu1_intc 3>,
-+					      <&cpu1_intc 7>,
-+					      <&cpu2_intc 3>,
-+					      <&cpu2_intc 7>,
-+					      <&cpu3_intc 3>,
-+					      <&cpu3_intc 7>,
-+					      <&cpu4_intc 3>,
-+					      <&cpu4_intc 7>,
-+					      <&cpu5_intc 3>,
-+					      <&cpu5_intc 7>,
-+					      <&cpu6_intc 3>,
-+					      <&cpu6_intc 7>,
-+					      <&cpu7_intc 3>,
-+					      <&cpu7_intc 7>;
-+		};
-+
-+		aon_padctrl: pinctrl@30848000 {
-+			compatible = "zhihe,a210-aon-pinctrl";
-+			reg = <0x0 0x30848000 0x0 0x2000>;
-+			clocks = <&scmi_clk A210_CLK_AON_SYS>;
-+			clock-names = "pclk";
-+
-+			status = "disabled";
-+		};
-+
-+		sram@30907c00 {
-+			compatible = "mmio-sram";
-+			reg = <0 0x30907c00 0 0x200>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+			ranges = <0 0 0x30907c00 0x200>;
-+
-+			scmi_shmem: scp-sram@0 {
-+				compatible = "arm,scmi-shmem";
-+				reg = <0 0x100>;
-+			};
-+
-+			scmi_notification_shmem: scp-sram@100 {
-+				compatible = "arm,scmi-shmem";
-+				reg = <0x100 0x100>;
-+			};
-+		};
-+	};
-+};
++            sdio-pins {
++                groups = "sdio";
++                function = "sdio";
++            };
++        };
++    };
 
 -- 
 2.55.0
