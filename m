@@ -1,58 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793311543;
-	b=umCL9DzsgBn2vNtY07bpHpv1tOQrmYe7YBF+GeK/0LojxRlgtVegwMvThWGCy7ZOP8ay
-	 WQZuSz/JMLHpFuPe19LM0yM0EM1e/pJWr9sTG5gCPixApmkWSttATQoDAJVpvVO/B9rtw
-	 VV0bNJsWzzMvlIxkZ5SG3/AzNEiA+DaUmnYAHQHTALTr6Suz46ZwCFzv23Nrd6FcB08Jw
-	 91Ur2aByOUzFwCCnPDKxOFqKPXI3YZMNKGH9AFqNWHCnqdwfA6Ff4HsB+9Y3Q27J0cP1K
-	 fxyLGqQjdJe5S7PHw82xusNgYwDZABgOyWoqhtvZIIYxeHfK+xx7xvc5+7DvkOdWx6A==
+	t=1793375919;
+	b=Ai3hkUh3m67ZdLH3l4H5Jb2okfkAAcfrFyooS0gp+v6Dlpj3cpEpUm8tM8L99DQKfUQO
+	 8nR6C1cLVRwpt8cwIfU9jHgjrIQuERoJmortYVucox5JnapCT9fs71tSgLAqfOQ0/gjf1
+	 1FS7JgSR+SVhHObg4vUE4UYX0kS6Kq4FVmhbbbWl2ZUtwoJiCe7c4mz68Z4HBJhy1+war
+	 TF929/e2+OQx3fGb6mmALOrXHE8Jyur6XwP7bdW2j7Rm2oinJrVOOJSvlhIOzZsKy3zdo
+	 JBadnkKRXIzGHJXXyjC42AD9yvqYzXNjNkQdjUAOS0EMZoMpJ3CONpelCjaaqBJbFVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793311543;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=7M/wxxdndP3E2ZjYh6p7rGr91d6BR8M0XyDE1EyLxu4=;
-	b=G1Y/gGvqqNtqKn7NedEXXpdHAAccNzIF2VZgTDJPEQV+76WwWGO1BONcJEhv/zmIdugc
-	 4Y4BoIYrGHd0EDxiizpSk6LYo8va+zRbMHs7UbpadNcaFHJdYY7srCG4xNSPjSwsu6t59
-	 0G7z9k2XeHdNXXJAptzW+Y58TfitkUHkQmnOaH1JyinId5vaU8g1kNS0NRAUjNS9fGoEc
-	 iPYWnL3nPd7xjm1wrT6Quh53sXfwyqU28lmZlCx7Ju3hTfXJqfCBog6Ht9gAZXNWGUEpA
-	 PkAzwdD8fKgtH5EN0Mk1zqHz6m87V3eZ1emlvrRpfJ+oGetRq/3iyJYf/SIr7iMB8Ug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793375919;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Subject:Date:
+	 Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
+	bh=pY5J61TIFJyOgKIaQTw1d+jDJ02fxs2l8GZ+SUQWAGo=;
+	b=tR4uHEXBqbl9LfD5EYK4miuk5SamNbDbTNYkXAi3EpJxIFZqBVp74Qw/9NCyAgBBVAao
+	 /3H7FoDUfuBsCO7JRtSe4T/ZP91a3C9Y/IFYDjLM1Ja9iBT2zCIYGLt35JUnGavxlDWcN
+	 txCFZnGrjKRAUSHD+BMIxGEMRrXkIRL6sXros9LvUduSDIXuzSoNvJeZCvsO9owztO9K3
+	 /IEDtHLmdIMAfvvRK2bRs7Zp59205aEg0MrsISayHoBt7up9kl69J+O1Ea4q7uG4C+2oa
+	 GVWnOfhf7LTGYvodTPG0q7mKADUTMNtKmcYrs1HDd5EWLsa0JxRR5Oyo2AS29uS5YVA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Jj4Da+y3;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D73E8606A31A
-	for <arm-scmi@vger.kernel.org>; Thu, 29 Oct 2026 22:05:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D73E8606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=none header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=oU3dR5ae;
+	arc=none smtp.remote-ip=209.85.221.52
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9346A606A31C
+	for <arm-scmi@vger.kernel.org>; Fri, 30 Oct 2026 15:58:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9346A606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Jj4Da+y3
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4F46215A1;
-	Thu, 29 Oct 2026 15:05:39 -0700 (PDT)
-Received: from e121740.arm.com (e121740.arm.com [10.33.8.69])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4CE633F673;
-	Thu, 29 Oct 2026 15:05:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793311542; bh=XL7lVmGkH9v0/AlI6TLawa7TNgDaqN/Y1Le1BKA4gl4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Jj4Da+y3lg20pAKDtXJgsekBy9S+JVIFGSkTQqDm1yPiLKR2RHE7ntUg0CNWxLsic
-	 LZLIWeG8W4Y2hhPislXQSAgALDdIgwloGgWvu42h8uMNusKjYvxaEHj8s1vLzoy3Zk
-	 c4lbJU/PpFGIaGf+IOIbkPnFOUTgj5LhbglkebXk=
-Date: Thu, 29 Oct 2026 22:05:31 +0000
-From: Philip Radford <philip.radford@arm.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Peng Fan <peng.fan@nxp.com>, Sashiko <sashiko-bot@kernel.org>
-Subject: Re: [PATCH 2/3] firmware: arm_scmi: imx: Validate MISC control
- response size
-Message-ID: <auPDK9bG/H8GTOK5@e121740.arm.com>
-References: <20261028130502.2999676-1-sudeep.holla@kernel.org>
- <20261028130502.2999676-2-sudeep.holla@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=oU3dR5ae
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48e20ed3b9dso829016f8f.2
+        for <arm-scmi@vger.kernel.org>; Fri, 30 Oct 2026 08:58:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1793375916; x=1793980716; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=pY5J61TIFJyOgKIaQTw1d+jDJ02fxs2l8GZ+SUQWAGo=;
+        b=oU3dR5aelx0X9640Axl1wdU5N826Lj2FpiVN7eFTYeHxQKvffig6RMfeuhajBvKn2A
+         FdotIcuWDuqVlcGG9FfCu/6MOfjl1iSdOMx/1UV51DLC3Dv6S4QmYoqfWjasf6y74vHV
+         psz5P7t8D9evnlDKBVa+fHwsjKGZZ4l7BoOH+PZvufmmPucGIBzQaas8OTMI7UuTINFD
+         xiHD+xXapOffintzlul5Ma+QrDa19w89GFgU2MQFkIFklc1RqhHCwJTALtSUolwlZ+o3
+         M2P7Q6Y+4C6PIevrACIcSkDust6eWN4yQMQFIt5ZZj14jFWcJKgjNSWoVdgxhYQjEGxo
+         8H0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793375916; x=1793980716;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=pY5J61TIFJyOgKIaQTw1d+jDJ02fxs2l8GZ+SUQWAGo=;
+        b=lbK8XBpPkoitgtBc81hDklIwQ5e8iJgayt+cbfojLB1aVic8CR8J/bkNwH25ZSIb6P
+         8VyUA22MCWEcOirycw3dNP4AL9CVKUMSdm2eh/QVN386xvkIR3FF4196kQ7nulaaKOIc
+         O+TAcyPWkrOK3CTIF30E6xNCLq2aGI+MQKEG9xn2e4BACRg4QX+C5qY7TEZtCmJqaMpd
+         XFA4BfUoRVdEBHrWU7ZGL6bBOjiRdQTS8EH+2USC1UicwZlFga394wipohnvNYwYp/ll
+         YL54FGbfvHcr5DjmdX5AjM6sPAejZYfN5o+9wU+FH2nmVCfbf9mc3MhxGL4X6FLEnBE+
+         FHwg==
+X-Gm-Message-State: AFq9FYI2JSW/RqFb6dlKS6SLUx8tvZDn5xwtvcLib3PPsbL1iUznAhI3
+	Xzv3vMP7wlps9SWZvVW3W+jz1aYJ8fmboJY1aBCHcXjDhy/nuJRf1BwzsyMotH4IMXg=
+X-Gm-Gg: AYBFou1zvN6S9kuOsXGiogOa8UCdSamKIn/5T7MNlap4bAmWDnrce/DKvt/mxygQC0K
+	M/o2Y4+pmhi6yboD7/3kGulMjpLSp0BjxEswUjz0ung91kHM7wQdJrv5J7T3oDLCIbiqBsDVRBR
+	g5K93jcRuJTqhRftozzqpsNYZWQCXLGIcAZNEot6WoGTuo9YeeWqLiXFSwjZiOwOkLdnirNbxHn
+	Ev3XBpNDCdKu2fUx6UFApZSHxx1UR4rFnROyIfPFzlq61QM/l6DqtxpilgO5ah9zZjxr8BYBKS5
+	XQFmVRzvebQCsseaah29vFyVHc65mGRaQkHS+Fmfh97KIviBcfljNtax15wLFlWFCASwzQFtRB/
+	ql3UqQbnj+9xD5m6jmORAOPsQS6yzbZWQ/a8UpowRrgpqZtrPfKdDWrt5/EILABFYd31YxPpjUs
+	ymso9W3p+4OUCQKUHLcTrXyQSBmyiU7JizH34PYdl5rpaMpvzYe72RbMY95Q5UKTX199aGVSqlv
+	+2Dh+nLkufYawjxzoNg3+34drJba+cWA21lKLH99HIsyYSZlkIIjEYwxdGAylb4KZ7GBW1OVXc3
+	QBTNGMkOqRTK4kgBDaRU0uYJ7791ct8ck0u0GTObdcc/2WQZrkQ=
+X-Received: by 2002:a5d:5f88:0:b0:48e:6419:dc6e with SMTP id ffacd0b85a97d-48e6e4f5431mr6781512f8f.16.1793375915915;
+        Fri, 30 Oct 2026 08:58:35 -0700 (PDT)
+Received: from localhost (140.30.66.37.rev.sfr.net. [37.66.30.140])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b789ecsm3862471f8f.29.2026.10.30.08.58.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2026 08:58:35 -0700 (PDT)
+From: =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>
+Subject: [PATCH 00/11] pinctrl: scmi: fixes and GPIO function support
+Date: Fri, 30 Oct 2026 16:58:31 +0100
+Message-Id: <20261030-clegoffic-pinctrl-scmi-gpio-v1-0-52d92843ad97@baylibre.com>
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -62,74 +90,61 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261028130502.2999676-2-sudeep.holla@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAKe+5GoC/yXMwQrCMAwA0F8ZORtotiHir4gHm6U1MtvSbCKM/
+ btVj+/yNjCpKgbnboMqLzXNqYEOHfD9lqKgTs3Qu/5IbnDIs8QcgjIWTbzUGY2firFoxvHEQRy
+ N3hNBG0qVoO/ffrn+bat/CC/fEvb9A/N85Cx/AAAA
+X-Change-ID: 20261030-clegoffic-pinctrl-scmi-gpio-48cfe014bb11
+To: Sudeep Holla <sudeep.holla@kernel.org>, 
+ Cristian Marussi <cristian.marussi@arm.com>, 
+ Linus Walleij <linusw@kernel.org>, Peng Fan <peng.fan@nxp.com>, 
+ Oleksii Moisieiev <oleksii_moisieiev@epam.com>, 
+ Andy Shevchenko <andy@kernel.org>, Dhruva Gole <d-gole@ti.com>, 
+ Bartosz Golaszewski <brgl@kernel.org>
+Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>
+X-Mailer: b4 0.17-dev
 
-On Wed, Oct 28, 2026 at 01:05:01PM +0000, Sudeep Holla wrote:
-> scmi_imx_misc_ctrl_get() uses @num to report the number of
-> values returned by firmware, but it did not retain the caller's value
-> as the capacity of @val.
-> 
+Five fixes: the drive strength went out in milliamperes, the schmitt
+trigger enable was mapped to the input buffer, the settings Linux
+carries without argument went out as disabled, a setting the platform
+reports off read as set, and the protocol layer read past a
+PINCTRL_LIST_ASSOCIATIONS reply larger than its receive buffer.
 
-Hi,
+Then GPIO function support: report the pin-only and GPIO attributes of
+a function, give pin-only functions no groups, mark the GPIO functions,
+and select the GPIO function of a pin on a GPIO request.
 
-> A response with more values than the caller allocated was copied into
-> @val unchecked. For example, the MQS regmap callback supplies storage
-> for one value. Retain the input capacity and reject responses exceeding
-> it before copying, then update @num only after a successful copy.
-> 
-> Document the in/out @num contract of the exported helper.
-> 
-> Reported-by: Sashiko <sashiko-bot@kernel.org>
-> Closes: https://sashiko.dev/#/bug/linux-6897b44a-57fb-4964-95f8-447d0ce526e4
-> Fixes: 61c9f03e22fc ("firmware: arm_scmi: Add initial support for i.MX MISC protocol")
-> Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
-> Reviewed-by: Peng Fan <peng.fan@nxp.com>
-> ---
->  .../firmware/arm_scmi/vendors/imx/imx-sm-misc.c  | 16 ++++++++++++----
->  include/linux/firmware/imx/sm.h                  |  6 ++++++
->  2 files changed, 18 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c b/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c
-> index 0c708b2dd496..f00f7acba845 100644
-> --- a/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c
-> +++ b/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c
-> @@ -273,10 +273,16 @@ static int scmi_imx_misc_ctrl_get(const struct scmi_protocol_handle *ph,
->  {
->  	struct scmi_imx_misc_ctrl_get_out *out;
->  	struct scmi_xfer *t;
-> +	u32 num_values, max_values;
->  	int ret, i;
->  	int max_msg_size = ph->hops->get_max_msg_size(ph);
->  	int max_num = (max_msg_size - sizeof(*out)) / sizeof(__le32);
->  
-> +	if (!num || !val || !*num)
-> +		return -EINVAL;
-> +
-> +	max_values = *num;
-> +
->  	ret = scmi_imx_misc_ctrl_validate_id(ph, ctrl_id);
->  	if (ret)
->  		return ret;
-> @@ -290,16 +296,18 @@ static int scmi_imx_misc_ctrl_get(const struct scmi_protocol_handle *ph,
->  	ret = ph->xops->do_xfer(ph, t);
->  	if (!ret) {
->  		out = t->rx.buf;
-> -		*num = le32_to_cpu(out->num);
-> +		num_values = le32_to_cpu(out->num);
->  
-> -		if (*num >= max_num ||
-> -		    *num * sizeof(__le32) > t->rx.len - sizeof(__le32)) {
-> +		if (num_values > max_values || num_values >= max_num ||
-> +		    num_values * sizeof(__le32) > t->rx.len - sizeof(__le32)) {
->  			ph->xops->xfer_put(ph, t);
->  			return -EINVAL;
->  		}
+Tested on R-Car X5H with a v6.18 backport that needed adapting, all but
+the schmitt mapping, which the platform does not implement. An LLM was
+used to review the patches and to set up the tests.
 
-Why does num_values have to be less than max_num, can it not be equal to? Isn't max_num
-already smaller than max_msg_size due to the initialisation above?
+---
+Clément Le Goffic (11):
+      pinctrl: scmi: send the drive strength in microamperes
+      pinctrl: scmi: map the schmitt trigger enable to its SCMI type
+      pinctrl: scmi: send the settings without argument as enabled
+      pinctrl: scmi: report an off setting as not set
+      firmware: arm_scmi: stop reading past PINCTRL_LIST_ASSOCIATIONS replies
+      firmware: arm_scmi: report the pin-only and GPIO flags of functions
+      pinctrl: scmi: give no groups to pin-only functions
+      pinctrl: scmi: mark the GPIO functions
+      pinctrl: scmi: report whether a function is GPIO
+      firmware: arm_scmi: add an operation to set the function of a single pin
+      pinctrl: scmi: select the GPIO function on GPIO requests
 
-Regards,
-Phil
+ drivers/firmware/arm_scmi/pinctrl.c |  62 +++++++++++--
+ drivers/pinctrl/pinctrl-scmi.c      | 170 +++++++++++++++++++++++++++++++++---
+ include/linux/scmi_protocol.h       |   9 +-
+ 3 files changed, 222 insertions(+), 19 deletions(-)
+---
+base-commit: a39c950806213f6861d00f90729acaaa21f2d95a
+base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+change-id: 20261030-clegoffic-pinctrl-scmi-gpio-48cfe014bb11
+
+Best regards,
+--  
+Clément Le Goffic <clegoffic@baylibre.com>
 
