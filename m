@@ -1,86 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793375919;
-	b=Ai3hkUh3m67ZdLH3l4H5Jb2okfkAAcfrFyooS0gp+v6Dlpj3cpEpUm8tM8L99DQKfUQO
-	 8nR6C1cLVRwpt8cwIfU9jHgjrIQuERoJmortYVucox5JnapCT9fs71tSgLAqfOQ0/gjf1
-	 1FS7JgSR+SVhHObg4vUE4UYX0kS6Kq4FVmhbbbWl2ZUtwoJiCe7c4mz68Z4HBJhy1+war
-	 TF929/e2+OQx3fGb6mmALOrXHE8Jyur6XwP7bdW2j7Rm2oinJrVOOJSvlhIOzZsKy3zdo
-	 JBadnkKRXIzGHJXXyjC42AD9yvqYzXNjNkQdjUAOS0EMZoMpJ3CONpelCjaaqBJbFVw==
+	b=I5i4vZDBK9NzUQ2gxgtTFB8XKfOly5BnzGyHqjLqi6O6UnAij9xMbQ2ij3YA0IA/hGOZ
+	 iNNvcF+Lb1nMREjm+I54aZpWlxuJSAW/QFKEs/M+j+PIHeIsZYHv3dF46n2P9Udkzra4L
+	 xCFTzFXcaGDMhcnXNoHEG5AXWCuhQc6w4lsYhxbL1ybW0QTSQ2P8qmMOdYUaFbIbk0ABz
+	 QkL9yELwnOYhwMZio0dE5/V4pHO+rRSyksyXHY6tBKW259JNxxgxPHYnw4GsYfyp2WJUy
+	 9pskZfrYrVLHB3PAXiIVMk5pe5+UZ18V1lLEKR97AYk96KQa982MuXpocqdmIESLbVQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793375919;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Subject:Date:
-	 Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
-	bh=pY5J61TIFJyOgKIaQTw1d+jDJ02fxs2l8GZ+SUQWAGo=;
-	b=tR4uHEXBqbl9LfD5EYK4miuk5SamNbDbTNYkXAi3EpJxIFZqBVp74Qw/9NCyAgBBVAao
-	 /3H7FoDUfuBsCO7JRtSe4T/ZP91a3C9Y/IFYDjLM1Ja9iBT2zCIYGLt35JUnGavxlDWcN
-	 txCFZnGrjKRAUSHD+BMIxGEMRrXkIRL6sXros9LvUduSDIXuzSoNvJeZCvsO9owztO9K3
-	 /IEDtHLmdIMAfvvRK2bRs7Zp59205aEg0MrsISayHoBt7up9kl69J+O1Ea4q7uG4C+2oa
-	 GVWnOfhf7LTGYvodTPG0q7mKADUTMNtKmcYrs1HDd5EWLsa0JxRR5Oyo2AS29uS5YVA==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
+	 References:In-Reply-To:To:Cc:X-Mailer;
+	bh=G0RjRTX/jH5mtYZPXYcgJHL1PDTWZ4mnU4uted4PjiE=;
+	b=MwYxnGo3U6ROSG+kcPWJmJui9ta3Lc67PVbrIPjkunVzoK/HFwl2RR6Au898V82qhNnA
+	 jO/EREjY9rKCsRJm1YEFsygpcjm61G8Qucs0P/M/gm0LL2U2g8vdvCHBBUDfOFp7Pc9nO
+	 geRp6Gp/lhYROn10RG7MxRuYcwt5wE6skFKupNkBeo9VrF3Kvx6ww4rk+vixZRd8Qn/eo
+	 Di7Crpl1A8a4Sdi/5LY9ENRbyJEPf+wR79kRjPltIJYKinOe7gr6UveBxqyKGaEzmq19g
+	 IYAe1Dx6xV6BywObmbqL9s2pkxOph7lma46XDnmhJoEYYUys1+WHKcJT1A09ujx9RSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=baylibre.com;
 	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=oU3dR5ae;
-	arc=none smtp.remote-ip=209.85.221.52
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=fbab5HK8;
+	arc=none smtp.remote-ip=209.85.128.53
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9346A606A31C
-	for <arm-scmi@vger.kernel.org>; Fri, 30 Oct 2026 15:58:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9346A606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674DD606A31F
+	for <arm-scmi@vger.kernel.org>; Fri, 30 Oct 2026 15:58:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 674DD606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=oU3dR5ae
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48e20ed3b9dso829016f8f.2
-        for <arm-scmi@vger.kernel.org>; Fri, 30 Oct 2026 08:58:37 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=fbab5HK8
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a207b02a2cso6147555e9.1
+        for <arm-scmi@vger.kernel.org>; Fri, 30 Oct 2026 08:58:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1793375916; x=1793980716; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=pY5J61TIFJyOgKIaQTw1d+jDJ02fxs2l8GZ+SUQWAGo=;
-        b=oU3dR5aelx0X9640Axl1wdU5N826Lj2FpiVN7eFTYeHxQKvffig6RMfeuhajBvKn2A
-         FdotIcuWDuqVlcGG9FfCu/6MOfjl1iSdOMx/1UV51DLC3Dv6S4QmYoqfWjasf6y74vHV
-         psz5P7t8D9evnlDKBVa+fHwsjKGZZ4l7BoOH+PZvufmmPucGIBzQaas8OTMI7UuTINFD
-         xiHD+xXapOffintzlul5Ma+QrDa19w89GFgU2MQFkIFklc1RqhHCwJTALtSUolwlZ+o3
-         M2P7Q6Y+4C6PIevrACIcSkDust6eWN4yQMQFIt5ZZj14jFWcJKgjNSWoVdgxhYQjEGxo
-         8H0A==
+        d=baylibre.com; s=google; t=1793375917; x=1793980717; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=G0RjRTX/jH5mtYZPXYcgJHL1PDTWZ4mnU4uted4PjiE=;
+        b=fbab5HK8y8wX1h6u51NvAWZytPsVMx/9Bp/G3NduLpiZtq22JP0dpsORhTBkWRBU1y
+         fludwphpfzYzAo+EdGTm0Y8SixpuXyuGTQzCdyiO434bvBE0JeDgNoMUFlByuP8vyhh9
+         g71q2T8jaQzpVnk7qpTPBa1lAkreue8/5kS19SSr9UlooAOF9fBK2V6SvGJHU+ekVv/b
+         /DyWXQM8qoqcmizlD/wshtPqVOJGXkX9+qucfJJKB3Vjt7YIXwzw5HXk+IFvuTB5iPM0
+         9CaDxpIyCXKeGFjLhX7pkOOVTvbT4Tnm35XNdQOsmiKJBn3vCgmiAQfTRn4PgRgMyra4
+         PbGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793375916; x=1793980716;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=pY5J61TIFJyOgKIaQTw1d+jDJ02fxs2l8GZ+SUQWAGo=;
-        b=lbK8XBpPkoitgtBc81hDklIwQ5e8iJgayt+cbfojLB1aVic8CR8J/bkNwH25ZSIb6P
-         8VyUA22MCWEcOirycw3dNP4AL9CVKUMSdm2eh/QVN386xvkIR3FF4196kQ7nulaaKOIc
-         O+TAcyPWkrOK3CTIF30E6xNCLq2aGI+MQKEG9xn2e4BACRg4QX+C5qY7TEZtCmJqaMpd
-         XFA4BfUoRVdEBHrWU7ZGL6bBOjiRdQTS8EH+2USC1UicwZlFga394wipohnvNYwYp/ll
-         YL54FGbfvHcr5DjmdX5AjM6sPAejZYfN5o+9wU+FH2nmVCfbf9mc3MhxGL4X6FLEnBE+
-         FHwg==
-X-Gm-Message-State: AFq9FYI2JSW/RqFb6dlKS6SLUx8tvZDn5xwtvcLib3PPsbL1iUznAhI3
-	Xzv3vMP7wlps9SWZvVW3W+jz1aYJ8fmboJY1aBCHcXjDhy/nuJRf1BwzsyMotH4IMXg=
-X-Gm-Gg: AYBFou1zvN6S9kuOsXGiogOa8UCdSamKIn/5T7MNlap4bAmWDnrce/DKvt/mxygQC0K
-	M/o2Y4+pmhi6yboD7/3kGulMjpLSp0BjxEswUjz0ung91kHM7wQdJrv5J7T3oDLCIbiqBsDVRBR
-	g5K93jcRuJTqhRftozzqpsNYZWQCXLGIcAZNEot6WoGTuo9YeeWqLiXFSwjZiOwOkLdnirNbxHn
-	Ev3XBpNDCdKu2fUx6UFApZSHxx1UR4rFnROyIfPFzlq61QM/l6DqtxpilgO5ah9zZjxr8BYBKS5
-	XQFmVRzvebQCsseaah29vFyVHc65mGRaQkHS+Fmfh97KIviBcfljNtax15wLFlWFCASwzQFtRB/
-	ql3UqQbnj+9xD5m6jmORAOPsQS6yzbZWQ/a8UpowRrgpqZtrPfKdDWrt5/EILABFYd31YxPpjUs
-	ymso9W3p+4OUCQKUHLcTrXyQSBmyiU7JizH34PYdl5rpaMpvzYe72RbMY95Q5UKTX199aGVSqlv
-	+2Dh+nLkufYawjxzoNg3+34drJba+cWA21lKLH99HIsyYSZlkIIjEYwxdGAylb4KZ7GBW1OVXc3
-	QBTNGMkOqRTK4kgBDaRU0uYJ7791ct8ck0u0GTObdcc/2WQZrkQ=
-X-Received: by 2002:a5d:5f88:0:b0:48e:6419:dc6e with SMTP id ffacd0b85a97d-48e6e4f5431mr6781512f8f.16.1793375915915;
-        Fri, 30 Oct 2026 08:58:35 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1793375917; x=1793980717;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=G0RjRTX/jH5mtYZPXYcgJHL1PDTWZ4mnU4uted4PjiE=;
+        b=dkyf88cLA2ZLs/OgTtaoz/VenQK8Kb2kgxDxQ2gxaNrDKLU5InsIkdsTrhafJ2b+9o
+         xWvXxQDCoVgL0Rxv0sCCCsBT2t8hcirSDdSHGrmKtdcfm+7c76p9I2I09RdKJ0GQ8+uv
+         E6Yim2XOAtJwHCDd5C8YOOdFDYBOKsGXO6rtbVU+14wgzNGIkm3kFAzJAJhTU2Y7UM8k
+         2hpI6dbfi3stEiKrETnmiVMo1PnXE0VVjy3bg74P8d+4Gj5HtAUfOSAyI9Ro0m3k9K2S
+         NgPVOGCZFCAJLrNCOd+dKD9tvtIeG97m2qAOZRt+y7daO733Lqz1u8HGXLpD+i55OqsX
+         5s6w==
+X-Gm-Message-State: AFq9FYL+EGehA3bCcWeDg73yuNgPw0wSHlOkKmUbjsphSBytxDCqDieU
+	3NeHknoLYdYoq7/xD1gQ3wvAsreO5nZhIbqlqK+ffsl8v4MCMmxUNZuMEJr84zxFKFo=
+X-Gm-Gg: AYBFou3bZZNWJmo22zhTQS1hnURCvZlaitudOQc7khUWevayQr9Jhub/4h7/YD7J3TF
+	Tfju79SMLuvcg2Yx/pGsKMc9S6PDsy/9wNiS24QkjQQ6R1+oqF9Gqlf8R2XFznUjfKrzkggDdWW
+	sFqsBhHVuQZP7VARko7WQFEf00QHlMCdWC8u0+3xdCTxRh0ucRwTlSWSw3l+Pr1IqAfJtxsH2Ai
+	XcWWcZ4XVfM34QDg5mu01Tt9bas2MZCZjttiAaJzwtZAnrsljeuJzzxR/U8c3bt2N18et5+1jzX
+	awn8cjv3c9qgq6OinS5wkbNt8ADHNgI4EB2yxrddwV0TinBh8mgtd9sgyZYqbcjmxBDXm/hGJ2+
+	p0guxQcBHJ1ctjPetW7GLlvIZsTPwawzCh0fuX7543OH6FekPJl2NRgPo2IBb6Lb7BwdqPgT/8c
+	kkg3R3KTLMv0VrkifmjqBA6guBs3LzwPOsO4IgYFutXMsLU/TgwQHQ/5oPW5NMof/7osroFPOcJ
+	Frgx/63nZ1kmuEgLA0XCLARlQoRPY4dhgNrg/H/uM47Shix5PiPZpBbbaLTVxwAp82mdPEgXGdG
+	iMN7iWqOhD9f/sJ7Ca/NZYgkMhvBUZwKAWjWPaoO+kHy1yyg8J4=
+X-Received: by 2002:a05:600c:811a:b0:4a1:d10c:7170 with SMTP id 5b1f17b1804b1-4ac1889d884mr57318135e9.31.1793375916707;
+        Fri, 30 Oct 2026 08:58:36 -0700 (PDT)
 Received: from localhost (140.30.66.37.rev.sfr.net. [37.66.30.140])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b789ecsm3862471f8f.29.2026.10.30.08.58.35
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf5b286a0sm57000225e9.4.2026.10.30.08.58.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 08:58:35 -0700 (PDT)
+        Fri, 30 Oct 2026 08:58:36 -0700 (PDT)
 From: =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>
-Subject: [PATCH 00/11] pinctrl: scmi: fixes and GPIO function support
-Date: Fri, 30 Oct 2026 16:58:31 +0100
-Message-Id: <20261030-clegoffic-pinctrl-scmi-gpio-v1-0-52d92843ad97@baylibre.com>
+Date: Fri, 30 Oct 2026 16:58:32 +0100
+Subject: [PATCH 01/11] pinctrl: scmi: send the drive strength in
+ microamperes
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -92,10 +93,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAKe+5GoC/yXMwQrCMAwA0F8ZORtotiHir4gHm6U1MtvSbCKM/
- btVj+/yNjCpKgbnboMqLzXNqYEOHfD9lqKgTs3Qu/5IbnDIs8QcgjIWTbzUGY2firFoxvHEQRy
- N3hNBG0qVoO/ffrn+bat/CC/fEvb9A/N85Cx/AAAA
-X-Change-ID: 20261030-clegoffic-pinctrl-scmi-gpio-48cfe014bb11
+Message-Id: <20261030-clegoffic-pinctrl-scmi-gpio-v1-1-52d92843ad97@baylibre.com>
+References: <20261030-clegoffic-pinctrl-scmi-gpio-v1-0-52d92843ad97@baylibre.com>
+In-Reply-To: <20261030-clegoffic-pinctrl-scmi-gpio-v1-0-52d92843ad97@baylibre.com>
 To: Sudeep Holla <sudeep.holla@kernel.org>, 
  Cristian Marussi <cristian.marussi@arm.com>, 
  Linus Walleij <linusw@kernel.org>, Peng Fan <peng.fan@nxp.com>, 
@@ -107,44 +107,115 @@ Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>
 X-Mailer: b4 0.17-dev
 
-Five fixes: the drive strength went out in milliamperes, the schmitt
-trigger enable was mapped to the input buffer, the settings Linux
-carries without argument went out as disabled, a setting the platform
-reports off read as set, and the protocol layer read past a
-PINCTRL_LIST_ASSOCIATIONS reply larger than its receive buffer.
+SCMI gives the drive strength in microamperes, but
+PIN_CONFIG_DRIVE_STRENGTH is in milliamperes and was sent unchanged.
+Convert it on set and on get. It is the only unit that differs: the
+debounce is in microseconds and the pull resistances in ohms on both
+sides, and every other value is a flag or implementation defined.
 
-Then GPIO function support: report the pin-only and GPIO attributes of
-a function, give pin-only functions no groups, mark the GPIO functions,
-and select the GPIO function of a pin on a GPIO request.
-
-Tested on R-Car X5H with a v6.18 backport that needed adapting, all but
-the schmitt mapping, which the platform does not implement. An LLM was
-used to review the patches and to set up the tests.
-
+Fixes: eb524cb651b7 ("pinctrl: Implementation of the generic scmi-pinctrl driver")
+Signed-off-by: Clément Le Goffic <clegoffic@baylibre.com>
 ---
-Clément Le Goffic (11):
-      pinctrl: scmi: send the drive strength in microamperes
-      pinctrl: scmi: map the schmitt trigger enable to its SCMI type
-      pinctrl: scmi: send the settings without argument as enabled
-      pinctrl: scmi: report an off setting as not set
-      firmware: arm_scmi: stop reading past PINCTRL_LIST_ASSOCIATIONS replies
-      firmware: arm_scmi: report the pin-only and GPIO flags of functions
-      pinctrl: scmi: give no groups to pin-only functions
-      pinctrl: scmi: mark the GPIO functions
-      pinctrl: scmi: report whether a function is GPIO
-      firmware: arm_scmi: add an operation to set the function of a single pin
-      pinctrl: scmi: select the GPIO function on GPIO requests
+ drivers/pinctrl/pinctrl-scmi.c | 29 +++++++++++++++++++++++------
+ 1 file changed, 23 insertions(+), 6 deletions(-)
 
- drivers/firmware/arm_scmi/pinctrl.c |  62 +++++++++++--
- drivers/pinctrl/pinctrl-scmi.c      | 170 +++++++++++++++++++++++++++++++++---
- include/linux/scmi_protocol.h       |   9 +-
- 3 files changed, 222 insertions(+), 19 deletions(-)
----
-base-commit: a39c950806213f6861d00f90729acaaa21f2d95a
-base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-change-id: 20261030-clegoffic-pinctrl-scmi-gpio-48cfe014bb11
+diff --git a/drivers/pinctrl/pinctrl-scmi.c b/drivers/pinctrl/pinctrl-scmi.c
+index c93d61dfa282..6bc94c68e89a 100644
+--- a/drivers/pinctrl/pinctrl-scmi.c
++++ b/drivers/pinctrl/pinctrl-scmi.c
+@@ -14,6 +14,7 @@
+ #include <linux/scmi_protocol.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
++#include <linux/units.h>
+ 
+ #include <linux/pinctrl/machine.h>
+ #include <linux/pinctrl/pinconf.h>
+@@ -155,6 +156,15 @@ static int pinctrl_scmi_map_pinconf_type(enum pin_config_param param,
+ 	return 0;
+ }
+ 
++static u32 pinctrl_scmi_map_pinconf_arg_get(enum pin_config_param param,
++					    u32 value)
++{
++	if (param == PIN_CONFIG_DRIVE_STRENGTH)
++		return value / MILLI;
++
++	return value;
++}
++
+ static int pinctrl_scmi_map_pinconf_type_get(enum pin_config_param param,
+ 					     enum scmi_pinctrl_conf_type *type)
+ {
+@@ -167,13 +177,17 @@ static int pinctrl_scmi_map_pinconf_type_get(enum pin_config_param param,
+ }
+ 
+ static int pinctrl_scmi_map_pinconf_type_set(enum pin_config_param param,
+-					     enum scmi_pinctrl_conf_type *type)
++					     enum scmi_pinctrl_conf_type *type,
++					     u32 *arg)
+ {
+ 	if (param == PIN_CONFIG_LEVEL) {
+ 		*type = SCMI_PIN_OUTPUT_VALUE;
+ 		return 0;
+ 	}
+ 
++	if (param == PIN_CONFIG_DRIVE_STRENGTH)
++		*arg *= MILLI;
++
+ 	return pinctrl_scmi_map_pinconf_type(param, type);
+ }
+ 
+@@ -203,6 +217,7 @@ static int pinctrl_scmi_pinconf_get(struct pinctrl_dev *pctldev,
+ 	if (ret)
+ 		return ret;
+ 
++	config_value = pinctrl_scmi_map_pinconf_arg_get(config_type, config_value);
+ 	*config = pinconf_to_config_packed(config_type, config_value);
+ 
+ 	return 0;
+@@ -267,12 +282,13 @@ static int pinctrl_scmi_pinconf_set(struct pinctrl_dev *pctldev,
+ 		param = pinconf_to_config_param(configs[i]);
+ 		if (param == PIN_CONFIG_PERSIST_STATE)
+ 			continue;
+-		ret = pinctrl_scmi_map_pinconf_type_set(param, &p_config_type[cnt]);
++		p_config_value[cnt] = pinconf_to_config_argument(configs[i]);
++		ret = pinctrl_scmi_map_pinconf_type_set(param, &p_config_type[cnt],
++							&p_config_value[cnt]);
+ 		if (ret) {
+ 			dev_err(pmx->dev, "Error map pinconf_type %d\n", ret);
+ 			goto free_config;
+ 		}
+-		p_config_value[cnt] = pinconf_to_config_argument(configs[i]);
+ 		cnt++;
+ 	}
+ 
+@@ -310,13 +326,13 @@ static int pinctrl_scmi_pinconf_group_set(struct pinctrl_dev *pctldev,
+ 
+ 	for (i = 0; i < num_configs; i++) {
+ 		param = pinconf_to_config_param(configs[i]);
+-		ret = pinctrl_scmi_map_pinconf_type_set(param, &p_config_type[i]);
++		p_config_value[i] = pinconf_to_config_argument(configs[i]);
++		ret = pinctrl_scmi_map_pinconf_type_set(param, &p_config_type[i],
++							&p_config_value[i]);
+ 		if (ret) {
+ 			dev_err(pmx->dev, "Error map pinconf_type %d\n", ret);
+ 			goto free_config;
+ 		}
+-
+-		p_config_value[i] = pinconf_to_config_argument(configs[i]);
+ 	}
+ 
+ 	ret = pinctrl_ops->settings_conf(pmx->ph, group, GROUP_TYPE,
+@@ -359,6 +375,7 @@ static int pinctrl_scmi_pinconf_group_get(struct pinctrl_dev *pctldev,
+ 	if (ret)
+ 		return ret;
+ 
++	config_value = pinctrl_scmi_map_pinconf_arg_get(config_type, config_value);
+ 	*config = pinconf_to_config_packed(config_type, config_value);
+ 
+ 	return 0;
 
-Best regards,
---  
-Clément Le Goffic <clegoffic@baylibre.com>
+-- 
+2.56.0
 
