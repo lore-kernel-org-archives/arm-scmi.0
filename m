@@ -1,58 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793636265;
-	b=AHFvW2rmx0qoMrX6YSEPDF/Yc5NzAX6+IH1rkNCBv7plNuKCeSIfUKfat2wWdfbt8ADa
-	 AYQCG3gPrTWAaBA2i6zMBlYmDIuDP37Br7Xn8jlDPCaLUjNIG486W/qVuulz0mwIkIDhx
-	 zmHB7QucRWRo8iFRZAg6IFZb/TGM/4pOWe39cUnwclJgHGk/6eXf+mg2co6f2RPRvuBM2
-	 ebqsbjhiJ5UfPyj52CdtrTcix+44rmtTxJPDbPayb9K6lboC/e1Ypf5EvvDF2X3TqM6vw
-	 mLaKH2UQiCldFpgEp4oKGpCcuaYpuyiiwoG8+I/OfBMpT/HblXlQApFrqZ6lTHRmkGw==
+	t=1793636299;
+	b=mzExHzNNBwFy5VqdfA2JJQfC833HEfoxhuNNn6Ko6l1t9HFdeoZlSagOYf4+z3O7F8pa
+	 bYXSBGHu3VSNePbKyNIcUk7KBecwd5rEk+XYWZofCnL8fWZ6Rreo43i1VVxppTI/HFwBO
+	 KOmYc49FpFnJnFNOisNkMeHDtMYCdFANUJyvcKd7I31ELYk413+cZ0M2dgO+HOxrTragS
+	 fXHAtbXsdcbfZCmNYCb4wMETsR9Xsjt5VekyRpcMfeBD8QkO5Tazwr+w9E9qBUW3oustx
+	 OzvWEjWi9fdbeUtDN4NOhi2CPSD4IF6ta1N4PRvCH6lkNyCUNsSMCTos9y4zVnOg5EQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793636265;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793636299;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=eI0wI9+p7WOpJfp3rC9C9H32Xmag6INnn2VGhq7DbOU=;
-	b=bI7R5vegczrtVHUEi3AyqxzYd16Y1oPx+rDRnwby1qOumniuoVTVivzvX5mr5S2Crg9a
-	 uUc39U8VzLaEsfqmE906l5CxdZeSJWkktvzSDwjFWW+DoPk85FMOj6SuDS8vyPG1FrvLk
-	 zrWQihCKezT2pax4fjdE00O9KVq1oaWZDmPqTgM10NRiWNq/aVk+NVKOYD/vc3Yn/gx7G
-	 Akh8t8W/QuBq35DNHgmRukQ+cNPt03itzpzBoVjfvs+c+xJ2+csoQlrG1jwIidApwqlUT
-	 YD2N2PrGOqfpBKvXrP6M6aUgcbae+t4o4Ss7mIuH/Wz2SjyGkPF4hfk5vH524Yc9Alg==
+	bh=CEYWK6dZMstnnI6DPMgpQiEcWnhOCPU2yQEpw8GUcNs=;
+	b=uQHLNLsF9lozDy9oV3mIaw0ztVJuyyirpVmUpjmp+MoVWbSNIP1Co98F5/3/Jr8+/ybV
+	 Uxka5MA6Nhw24Vs4xrhwG2GZgcNUhO3e2atU85IF5RN5B05Z2G39GYWlBRKNHOT5SBuYp
+	 mob634H/MS/NacoHCbCLHcR6Hat+flnaiLhfQzds0QM+jpk+rSmhpr2wP1wrUehsDWOML
+	 21i7xx9EMQAe3uZV0Fws/G20UaHvRCd+6ytai20WifVBjVjzieNu7jmZobQuVL6B/p7kK
+	 6ObKJrc2qKYj3wgDTq+N9KiwZ9x9nTn5Ba3NwvzZeLdaBCKtGBBQ6R/yE3aW2ifA//A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZYpvuCT0;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="FGp/FbGp";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DEC606AB88
-	for <arm-scmi@vger.kernel.org>; Mon,  2 Nov 2026 16:17:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E848608360B
+	for <arm-scmi@vger.kernel.org>; Mon,  2 Nov 2026 16:18:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZYpvuCT0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 707081F00A17;
-	Mon,  2 Nov 2026 16:17:43 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FGp/FbGp
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4EBF1F00A16;
+	Mon,  2 Nov 2026 16:18:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793636264;
-	bh=eI0wI9+p7WOpJfp3rC9C9H32Xmag6INnn2VGhq7DbOU=;
+	s=k20260515; t=1793636298;
+	bh=CEYWK6dZMstnnI6DPMgpQiEcWnhOCPU2yQEpw8GUcNs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ZYpvuCT0boVRsnbrBtGRI5PDOz73AJ7KeVEtSXZcs/s+TQQPPF1tJol1065eI/zSi
-	 z4GXGC7W7yi4cCFQRCJvyYXb9UD5U1wxYhjimqHFya6cbnUvKHwcQB19ZU+9JgGMSR
-	 K0mTKqGi2L7sQb69aY4QIpulFBve7el4E60dmooDYtO9KZ/nK8ra6x8t9QIzZ89osG
-	 grbJPrRnAe20tBioL32GeM+IluJ6wRW/ZXdr4jcBplEQidU0KEEHIdtph8WG57uzDp
-	 lewcLPc96fR3lafjS7QhgmUdWyA6DovTwSI1/YW7h+L1kleuERAPCp+3zIRbjmyHTZ
-	 RAcRLfi/n2oIw==
+	b=FGp/FbGpc0lRcpJbhvzYIYewjQMX/cGbpfWsgXEbXvFryJxqxKMXFS8voviRT1jvQ
+	 cWfLJIren/DHR74/jHx//lCBojRvFDRbA/Hg4TFhX2TUw2sInVWamaC/TJDBYfs6ph
+	 940xgez1STlKWRNhpHWhXKzb4A5XPDiJhN2hyd70RSm5NyfwIvMRhvtfdLqzqjIvV0
+	 RHKH4VEertGeSjcsC+A8Cr7Nv8fx3Qmm1Zc/Hq1BN+zSZRdKMdvUIShZjJMMe4JW5f
+	 fDFVd0egVTpH2U03jkRe+cB4BE6+hhGYM8YN/5eWo6e2eeU+LITBOXQTG3MX5PIQKj
+	 D2Rk+GNQeF99w==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-To: linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org,
+To: arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	Sudeep Holla <sudeep.holla@kernel.org>
 Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Peng Fan <peng.fan@nxp.com>,
 	Sashiko <sashiko-bot@kernel.org>
-Subject: Re: [PATCH 1/3] firmware: arm_scmi: imx: Track copied syslog words
-Date: Mon,  2 Nov 2026 16:17:39 +0000
-Message-ID: <179363621802.1025709.8964118647981515869.b4-ty@b4>
+Subject: Re: [PATCH] firmware: arm_scmi: Free mailbox state on mapping failure
+Date: Mon,  2 Nov 2026 16:18:11 +0000
+Message-ID: <179363627396.1026156.9462471466297757648.b4-ty@b4>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261028130502.2999676-1-sudeep.holla@kernel.org>
-References: <20261028130502.2999676-1-sudeep.holla@kernel.org>
+In-Reply-To: <20261028153203.3305067-1-sudeep.holla@kernel.org>
+References: <20261028153203.3305067-1-sudeep.holla@kernel.org>
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -65,24 +64,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Wed, 28 Oct 2026 13:05:00 +0000, Sudeep Holla wrote:
-> The MISC syslog iterator records the number of returned words plus
-> firmware-reported remaining words in the caller's size output.
+On Wed, 28 Oct 2026 15:32:03 +0000, Sudeep Holla wrote:
+> mailbox_chan_setup() allocates its private state from the SCMI base
+> device before mapping the shared-memory area. If mapping fails while
+> setting up an optional RX channel, the core ignores the RX failure and
+> keeps the base device bound, retaining that devres allocation.
 > 
-> The debugfs consumer uses that value to dump its fixed-size buffer. A
-> malformed or inconsistent response can therefore make it read beyond
-> the copied data and allocation.
+> Release the private mailbox state before returning the mapping error.
 > 
 > [...]
 
 Applied to sudeep.holla/linux (for-next/scmi/fixes), thanks!
 
-[1/3] firmware: arm_scmi: imx: Track copied syslog words
-      https://git.kernel.org/sudeep.holla/c/3baf579ba766
-[2/3] firmware: arm_scmi: imx: Validate MISC control response size
-      https://git.kernel.org/sudeep.holla/c/4e3652a0ac71
-[3/3] firmware: arm_scmi: Unregister notifier on enable failure
-      https://git.kernel.org/sudeep.holla/c/b9bb2eb88037
+[1/1] firmware: arm_scmi: Free mailbox state on mapping failure
+      https://git.kernel.org/sudeep.holla/c/38b6268eae65
 -- 
 Regards,
 Sudeep
