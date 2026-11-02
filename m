@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793613068;
-	b=Ja1FDhXKukgmjamaoPCye6LEpFtjLJ2OevUXfTH2mQUE6IXIjwbSzMqGWfph3/gElZWp
-	 XREbMMQNqLcBABAWIzz0WoDtRo5vh2mJ7aCqts+8Ro5oe6PW+7b6TXwgppnqpYhKKqJD+
-	 xkY49mCcH10E+GKtKYhTzUVma8q2jUdqy86xQ5TffvCWHAfE9SpULsBVHSVhWyK29gjKt
-	 eirTGllLQ1LatcCM5brm/IEUS/61mvJfuCObEUlX0blM3fE2mwX9tqzvaA4v1U7j3Gh4m
-	 3jxVsBI4LyTgb82dk/imP7JrCQL3vw6+oi2mcla0zudTMbPOdu/x6mkpcDbAikMP6Vw==
+	t=1793636201;
+	b=qx/VXc4hToLhv+L6YFsRnY8G7AcltZHpibH00ZWXu91wCqB2fxEscPoO4jkzgl5FP6hn
+	 HhLUoqn7SY6Nv/OClnxbbLEzWvoyIprh9ID9VafhZk8JxclU4ijNEoUJTHkL5GcsRUsPt
+	 +/kx1A5+ThmaABQEAB16/eQNjZQh43aUm2GRKX3nk0fnYoQ0j6hBcxB5QSkvbOfebduNc
+	 XULs0lPSyaMlLoEf7X78VX1g5N9gjIqKczBcZoqX9rK4u7dybIjoRt8GXzD+DSZiaAYv2
+	 DE7URL7vsJ0JMtv9f7LuE6Qzgkp1OVTn0cOtfXDJoQwvLAwxtuye0GUzdk172KTdVuw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793613068;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=q4JV/p8yAsWJM87e2NSRQvq77nvu7u4Q4arA+NaEhHA=;
-	b=VIiXYLSV05X7IucDd4Dt4Y1SDV7e2BEwoUHVBK0NJ37dSHnoHkbpDz0GPpPAYFXZky8H
-	 NNlm8IRf9Rs/7ps3kt3q2yQef54kk8LIEqwUfkSbGsgsKuGzKryZAQO8LC1Uemf6NTnJ3
-	 5QnmTupL2plaU8uL1c4NHi+UZA+VBbxl4uebSegpAZA6zhvWRrHt/kKJQ1fGVV4sOYbXh
-	 KyN9OzDmdLxrZ2ialFfxieeWjlV4xq1QnQJI0iRCBhUGJ3JvAIJiKSEtamxZTmHohFNtz
-	 UgTqhRNDZ1IH5Hq9BEY8dSM0T8HfIJsK4kZjy3RIvibnsH2pTF7nt5jIdnIPCML6zNw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793636201;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=/d04P7S4R4uaa3tzPbK1YyRGjqH3Qefze+gmw7FCDXw=;
+	b=QEuUubMe866GYJyWs536IZABCVuxLqRPjyMOWVMxTnWtHjaPIgBxOvdxxSqRhO6bAsNK
+	 B2kWfskMp6VvSBQevzNDCbov0B5EBjKOAL2R9UGp/R5a9etRpBRVfCQuK5H3aGjmuHFmg
+	 Pf2prF5ZTkGHOJ3AWasUrsYLK3AfNd0PSIO1t8oXAhoHl99O+5B85wXRml7pI/+SMU7Tl
+	 TIAcZyVFsT5pgjmSfmECCbC5mB0gWDW56pikmvFLEIFLnU2AwFwH1dLdgz33q/+o8eASY
+	 0Jd9xDdb8Slye2UHhHczM+fbeoJhrBAfRpkx3R0nOpjLb/YsHETeEEN3RNghpew+IrA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S5RHEjXR;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kqBsiQ1Q;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354F4606A326
-	for <arm-scmi@vger.kernel.org>; Mon,  2 Nov 2026 09:51:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC25F60716D9
+	for <arm-scmi@vger.kernel.org>; Mon,  2 Nov 2026 16:16:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S5RHEjXR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E15D1F000C1;
-	Mon,  2 Nov 2026 09:51:06 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kqBsiQ1Q
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C37A61F00A16;
+	Mon,  2 Nov 2026 16:16:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793613067;
-	bh=q4JV/p8yAsWJM87e2NSRQvq77nvu7u4Q4arA+NaEhHA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=S5RHEjXRv4hz1bBWgTG1B80sGbqis6qCJYXHffrydGcZAhsK47mDSD+iJIIkuxxPf
-	 M89T3qLakKRL8kFscmJNOHvIX19O+fA1jNzPRjrYu5F34n8Gz9OWM9hk38ZB3iZ4+d
-	 rxfuNWO8ElO7f8oq34KGZrWoRJ52SiBJUSJGh5Btn214pBNMlsxrUkh34rR1CDYOLi
-	 V2gdofEkQONAy7aZYVZo77hRQ60SpKK/EJqua8xJ3qSqAdqVYTPd6AouogWVKGyLfy
-	 6sSD6db24hceyNWUSN1bBBHR7BXoXKRvYZspoCpkxpeXom7WQtYKlCTGQQ/7VqJb4Z
-	 +W28Ybo4iDNQQ==
-Date: Mon, 2 Nov 2026 09:51:04 +0000
+	s=k20260515; t=1793636200;
+	bh=/d04P7S4R4uaa3tzPbK1YyRGjqH3Qefze+gmw7FCDXw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=kqBsiQ1QN6C3Vb4asC/cgub7kRSShib0CU07BdFzh9kqRijeGLE3yBjRX8K40f51v
+	 JIHB00H3vViHslAlyEekWDDy0JnKksExBQcNmAgu+M7q0VeOSt++lYoBl2GQihBAbq
+	 NorqKUjMHhaq3IKKGpLtV7dzDRfI3j8ELoMeM7Q4FjcLmpzx2l2LsebJ7UZSmgGDaI
+	 URSH/XZKtYpiUask68RTD0zR7FyeudW3WentmA4PH5Z73lv0Vb4+lMgjezcqVvTj35
+	 cyKt/bipZXEnH5OZA9dmtschflh7yNqxvzNUXIdZlt83z3m+8L5Hrn+wg61nYohGNU
+	 IqU+PRKewHVeg==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-To: Philip Radford <philip.radford@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>, Peng Fan <peng.fan@nxp.com>,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: Re: [PATCH 2/3] firmware: arm_scmi: imx: Validate MISC control
- response size
-Message-ID: <20261102-kickass-formidable-beluga-5eacbe@sudeepholla>
-References: <20261028130502.2999676-1-sudeep.holla@kernel.org>
- <20261028130502.2999676-2-sudeep.holla@kernel.org>
- <auPDK9bG/H8GTOK5@e121740.arm.com>
+To: linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org,
+	Sudeep Holla <sudeep.holla@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>
+Subject: Re: [PATCH] firmware: arm_scmi: Drop redundant ACPI configuration guard
+Date: Mon,  2 Nov 2026 16:16:32 +0000
+Message-ID: <179363613954.1025050.12993200940988359381.b4-ty@b4>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261026105510.1778073-1-sudeep.holla@kernel.org>
+References: <20261026105510.1778073-1-sudeep.holla@kernel.org>
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -61,84 +60,25 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <auPDK9bG/H8GTOK5@e121740.arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 29, 2026 at 10:05:31PM +0000, Philip Radford wrote:
-> On Wed, Oct 28, 2026 at 01:05:01PM +0000, Sudeep Holla wrote:
-> > scmi_imx_misc_ctrl_get() uses @num to report the number of
-> > values returned by firmware, but it did not retain the caller's value
-> > as the capacity of @val.
-> > 
+On Mon, 26 Oct 2026 10:55:10 +0000, Sudeep Holla wrote:
+> Commit 98b9bfb659a9 ("ACPI: bus: Use acpi/acpi_bus.h without
+> CONFIG_ACPI") makes the ACPI bus helpers and their stubs available
+> through linux/acpi.h for all configurations.
 > 
-> Hi,
+> Drop the local CONFIG_ACPI conditional around scmi_acpi_device_hid().
+> ACPI_COMPANION() returns NULL when ACPI is disabled, so the existing
+> "unknown" fallback preserves the current behavior.
 > 
-> > A response with more values than the caller allocated was copied into
-> > @val unchecked. For example, the MQS regmap callback supplies storage
-> > for one value. Retain the input capacity and reject responses exceeding
-> > it before copying, then update @num only after a successful copy.
-> > 
-> > Document the in/out @num contract of the exported helper.
-> > 
-> > Reported-by: Sashiko <sashiko-bot@kernel.org>
-> > Closes: https://sashiko.dev/#/bug/linux-6897b44a-57fb-4964-95f8-447d0ce526e4
-> > Fixes: 61c9f03e22fc ("firmware: arm_scmi: Add initial support for i.MX MISC protocol")
-> > Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
-> > Reviewed-by: Peng Fan <peng.fan@nxp.com>
-> > ---
-> >  .../firmware/arm_scmi/vendors/imx/imx-sm-misc.c  | 16 ++++++++++++----
-> >  include/linux/firmware/imx/sm.h                  |  6 ++++++
-> >  2 files changed, 18 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c b/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c
-> > index 0c708b2dd496..f00f7acba845 100644
-> > --- a/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c
-> > +++ b/drivers/firmware/arm_scmi/vendors/imx/imx-sm-misc.c
-> > @@ -273,10 +273,16 @@ static int scmi_imx_misc_ctrl_get(const struct scmi_protocol_handle *ph,
-> >  {
-> >  	struct scmi_imx_misc_ctrl_get_out *out;
-> >  	struct scmi_xfer *t;
-> > +	u32 num_values, max_values;
-> >  	int ret, i;
-> >  	int max_msg_size = ph->hops->get_max_msg_size(ph);
-> >  	int max_num = (max_msg_size - sizeof(*out)) / sizeof(__le32);
-> >  
-> > +	if (!num || !val || !*num)
-> > +		return -EINVAL;
-> > +
-> > +	max_values = *num;
-> > +
-> >  	ret = scmi_imx_misc_ctrl_validate_id(ph, ctrl_id);
-> >  	if (ret)
-> >  		return ret;
-> > @@ -290,16 +296,18 @@ static int scmi_imx_misc_ctrl_get(const struct scmi_protocol_handle *ph,
-> >  	ret = ph->xops->do_xfer(ph, t);
-> >  	if (!ret) {
-> >  		out = t->rx.buf;
-> > -		*num = le32_to_cpu(out->num);
-> > +		num_values = le32_to_cpu(out->num);
-> >  
-> > -		if (*num >= max_num ||
-> > -		    *num * sizeof(__le32) > t->rx.len - sizeof(__le32)) {
-> > +		if (num_values > max_values || num_values >= max_num ||
-> > +		    num_values * sizeof(__le32) > t->rx.len - sizeof(__le32)) {
-> >  			ph->xops->xfer_put(ph, t);
-> >  			return -EINVAL;
-> >  		}
-> 
-> Why does num_values have to be less than max_num, can it not be equal to? Isn't max_num
-> already smaller than max_msg_size due to the initialisation above?
-> 
+> [...]
 
-Good question, I didn't look at that logic as I blindly retained the existing
-logic from `*num >= max_num` to `num_values >= max_num`.
+Applied to sudeep.holla/linux (for-next/scmi/fixes), thanks!
 
-The scmi_imx_misc_ctrl_eet() see to allow value equal to max_num. It could
-have been overlooked when we reviewed initially.
-
-Peng, thoughts ?
-
+[1/1] firmware: arm_scmi: Drop redundant ACPI configuration guard
+      https://git.kernel.org/sudeep.holla/c/7f73b4cb4b3a
 -- 
 Regards,
 Sudeep
+
