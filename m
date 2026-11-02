@@ -1,56 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793636201;
-	b=qx/VXc4hToLhv+L6YFsRnY8G7AcltZHpibH00ZWXu91wCqB2fxEscPoO4jkzgl5FP6hn
-	 HhLUoqn7SY6Nv/OClnxbbLEzWvoyIprh9ID9VafhZk8JxclU4ijNEoUJTHkL5GcsRUsPt
-	 +/kx1A5+ThmaABQEAB16/eQNjZQh43aUm2GRKX3nk0fnYoQ0j6hBcxB5QSkvbOfebduNc
-	 XULs0lPSyaMlLoEf7X78VX1g5N9gjIqKczBcZoqX9rK4u7dybIjoRt8GXzD+DSZiaAYv2
-	 DE7URL7vsJ0JMtv9f7LuE6Qzgkp1OVTn0cOtfXDJoQwvLAwxtuye0GUzdk172KTdVuw==
+	t=1793636265;
+	b=AHFvW2rmx0qoMrX6YSEPDF/Yc5NzAX6+IH1rkNCBv7plNuKCeSIfUKfat2wWdfbt8ADa
+	 AYQCG3gPrTWAaBA2i6zMBlYmDIuDP37Br7Xn8jlDPCaLUjNIG486W/qVuulz0mwIkIDhx
+	 zmHB7QucRWRo8iFRZAg6IFZb/TGM/4pOWe39cUnwclJgHGk/6eXf+mg2co6f2RPRvuBM2
+	 ebqsbjhiJ5UfPyj52CdtrTcix+44rmtTxJPDbPayb9K6lboC/e1Ypf5EvvDF2X3TqM6vw
+	 mLaKH2UQiCldFpgEp4oKGpCcuaYpuyiiwoG8+I/OfBMpT/HblXlQApFrqZ6lTHRmkGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793636201;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793636265;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=/d04P7S4R4uaa3tzPbK1YyRGjqH3Qefze+gmw7FCDXw=;
-	b=QEuUubMe866GYJyWs536IZABCVuxLqRPjyMOWVMxTnWtHjaPIgBxOvdxxSqRhO6bAsNK
-	 B2kWfskMp6VvSBQevzNDCbov0B5EBjKOAL2R9UGp/R5a9etRpBRVfCQuK5H3aGjmuHFmg
-	 Pf2prF5ZTkGHOJ3AWasUrsYLK3AfNd0PSIO1t8oXAhoHl99O+5B85wXRml7pI/+SMU7Tl
-	 TIAcZyVFsT5pgjmSfmECCbC5mB0gWDW56pikmvFLEIFLnU2AwFwH1dLdgz33q/+o8eASY
-	 0Jd9xDdb8Slye2UHhHczM+fbeoJhrBAfRpkx3R0nOpjLb/YsHETeEEN3RNghpew+IrA==
+	bh=eI0wI9+p7WOpJfp3rC9C9H32Xmag6INnn2VGhq7DbOU=;
+	b=bI7R5vegczrtVHUEi3AyqxzYd16Y1oPx+rDRnwby1qOumniuoVTVivzvX5mr5S2Crg9a
+	 uUc39U8VzLaEsfqmE906l5CxdZeSJWkktvzSDwjFWW+DoPk85FMOj6SuDS8vyPG1FrvLk
+	 zrWQihCKezT2pax4fjdE00O9KVq1oaWZDmPqTgM10NRiWNq/aVk+NVKOYD/vc3Yn/gx7G
+	 Akh8t8W/QuBq35DNHgmRukQ+cNPt03itzpzBoVjfvs+c+xJ2+csoQlrG1jwIidApwqlUT
+	 YD2N2PrGOqfpBKvXrP6M6aUgcbae+t4o4Ss7mIuH/Wz2SjyGkPF4hfk5vH524Yc9Alg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kqBsiQ1Q;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZYpvuCT0;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC25F60716D9
-	for <arm-scmi@vger.kernel.org>; Mon,  2 Nov 2026 16:16:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DEC606AB88
+	for <arm-scmi@vger.kernel.org>; Mon,  2 Nov 2026 16:17:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kqBsiQ1Q
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C37A61F00A16;
-	Mon,  2 Nov 2026 16:16:39 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZYpvuCT0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 707081F00A17;
+	Mon,  2 Nov 2026 16:17:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793636200;
-	bh=/d04P7S4R4uaa3tzPbK1YyRGjqH3Qefze+gmw7FCDXw=;
+	s=k20260515; t=1793636264;
+	bh=eI0wI9+p7WOpJfp3rC9C9H32Xmag6INnn2VGhq7DbOU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=kqBsiQ1QN6C3Vb4asC/cgub7kRSShib0CU07BdFzh9kqRijeGLE3yBjRX8K40f51v
-	 JIHB00H3vViHslAlyEekWDDy0JnKksExBQcNmAgu+M7q0VeOSt++lYoBl2GQihBAbq
-	 NorqKUjMHhaq3IKKGpLtV7dzDRfI3j8ELoMeM7Q4FjcLmpzx2l2LsebJ7UZSmgGDaI
-	 URSH/XZKtYpiUask68RTD0zR7FyeudW3WentmA4PH5Z73lv0Vb4+lMgjezcqVvTj35
-	 cyKt/bipZXEnH5OZA9dmtschflh7yNqxvzNUXIdZlt83z3m+8L5Hrn+wg61nYohGNU
-	 IqU+PRKewHVeg==
+	b=ZYpvuCT0boVRsnbrBtGRI5PDOz73AJ7KeVEtSXZcs/s+TQQPPF1tJol1065eI/zSi
+	 z4GXGC7W7yi4cCFQRCJvyYXb9UD5U1wxYhjimqHFya6cbnUvKHwcQB19ZU+9JgGMSR
+	 K0mTKqGi2L7sQb69aY4QIpulFBve7el4E60dmooDYtO9KZ/nK8ra6x8t9QIzZ89osG
+	 grbJPrRnAe20tBioL32GeM+IluJ6wRW/ZXdr4jcBplEQidU0KEEHIdtph8WG57uzDp
+	 lewcLPc96fR3lafjS7QhgmUdWyA6DovTwSI1/YW7h+L1kleuERAPCp+3zIRbjmyHTZ
+	 RAcRLfi/n2oIw==
 From: Sudeep Holla <sudeep.holla@kernel.org>
 To: linux-arm-kernel@lists.infradead.org,
 	arm-scmi@vger.kernel.org,
 	Sudeep Holla <sudeep.holla@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>
-Subject: Re: [PATCH] firmware: arm_scmi: Drop redundant ACPI configuration guard
-Date: Mon,  2 Nov 2026 16:16:32 +0000
-Message-ID: <179363613954.1025050.12993200940988359381.b4-ty@b4>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	Peng Fan <peng.fan@nxp.com>,
+	Sashiko <sashiko-bot@kernel.org>
+Subject: Re: [PATCH 1/3] firmware: arm_scmi: imx: Track copied syslog words
+Date: Mon,  2 Nov 2026 16:17:39 +0000
+Message-ID: <179363621802.1025709.8964118647981515869.b4-ty@b4>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261026105510.1778073-1-sudeep.holla@kernel.org>
-References: <20261026105510.1778073-1-sudeep.holla@kernel.org>
+In-Reply-To: <20261028130502.2999676-1-sudeep.holla@kernel.org>
+References: <20261028130502.2999676-1-sudeep.holla@kernel.org>
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -63,21 +65,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Mon, 26 Oct 2026 10:55:10 +0000, Sudeep Holla wrote:
-> Commit 98b9bfb659a9 ("ACPI: bus: Use acpi/acpi_bus.h without
-> CONFIG_ACPI") makes the ACPI bus helpers and their stubs available
-> through linux/acpi.h for all configurations.
+On Wed, 28 Oct 2026 13:05:00 +0000, Sudeep Holla wrote:
+> The MISC syslog iterator records the number of returned words plus
+> firmware-reported remaining words in the caller's size output.
 > 
-> Drop the local CONFIG_ACPI conditional around scmi_acpi_device_hid().
-> ACPI_COMPANION() returns NULL when ACPI is disabled, so the existing
-> "unknown" fallback preserves the current behavior.
+> The debugfs consumer uses that value to dump its fixed-size buffer. A
+> malformed or inconsistent response can therefore make it read beyond
+> the copied data and allocation.
 > 
 > [...]
 
 Applied to sudeep.holla/linux (for-next/scmi/fixes), thanks!
 
-[1/1] firmware: arm_scmi: Drop redundant ACPI configuration guard
-      https://git.kernel.org/sudeep.holla/c/7f73b4cb4b3a
+[1/3] firmware: arm_scmi: imx: Track copied syslog words
+      https://git.kernel.org/sudeep.holla/c/3baf579ba766
+[2/3] firmware: arm_scmi: imx: Validate MISC control response size
+      https://git.kernel.org/sudeep.holla/c/4e3652a0ac71
+[3/3] firmware: arm_scmi: Unregister notifier on enable failure
+      https://git.kernel.org/sudeep.holla/c/b9bb2eb88037
 -- 
 Regards,
 Sudeep
