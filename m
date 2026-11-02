@@ -1,57 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793636299;
-	b=mzExHzNNBwFy5VqdfA2JJQfC833HEfoxhuNNn6Ko6l1t9HFdeoZlSagOYf4+z3O7F8pa
-	 bYXSBGHu3VSNePbKyNIcUk7KBecwd5rEk+XYWZofCnL8fWZ6Rreo43i1VVxppTI/HFwBO
-	 KOmYc49FpFnJnFNOisNkMeHDtMYCdFANUJyvcKd7I31ELYk413+cZ0M2dgO+HOxrTragS
-	 fXHAtbXsdcbfZCmNYCb4wMETsR9Xsjt5VekyRpcMfeBD8QkO5Tazwr+w9E9qBUW3oustx
-	 OzvWEjWi9fdbeUtDN4NOhi2CPSD4IF6ta1N4PRvCH6lkNyCUNsSMCTos9y4zVnOg5EQ==
+	t=1793642108;
+	b=ziQZmvm+vltMwX9OmWNOGj5fIow8KDGsllWPBq0pAY5T7M1UIKPUbMjPeDldJKrS1Uzo
+	 2GK4cJYlpSImbKuCoPws/8OQ3ROwcFHFAA7MSmwNy4qz8BygHKVaOmy2ckK9CeE36WCbF
+	 7/6R4wmG5KtzTx07QqCY5CuFCUGgwa6jobMupKw8KqId1YW9c7pwiqUdJeFPsZBWDJvOc
+	 RDxSZ/yVSFJxNTL0DmURWWckTuAqYK7t6RvOCBfngaHqw0hBr1VN7d4pmMz8r691gwr4l
+	 XhFWi/wy5t7QYRfS7gUhsJNe+3dY3+qn/lMEPfp3mu+SIpRPiqajO1INPU0Czwxfrsw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793636299;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793642108;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=CEYWK6dZMstnnI6DPMgpQiEcWnhOCPU2yQEpw8GUcNs=;
-	b=uQHLNLsF9lozDy9oV3mIaw0ztVJuyyirpVmUpjmp+MoVWbSNIP1Co98F5/3/Jr8+/ybV
-	 Uxka5MA6Nhw24Vs4xrhwG2GZgcNUhO3e2atU85IF5RN5B05Z2G39GYWlBRKNHOT5SBuYp
-	 mob634H/MS/NacoHCbCLHcR6Hat+flnaiLhfQzds0QM+jpk+rSmhpr2wP1wrUehsDWOML
-	 21i7xx9EMQAe3uZV0Fws/G20UaHvRCd+6ytai20WifVBjVjzieNu7jmZobQuVL6B/p7kK
-	 6ObKJrc2qKYj3wgDTq+N9KiwZ9x9nTn5Ba3NwvzZeLdaBCKtGBBQ6R/yE3aW2ifA//A==
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=pQrWz1faFiddLliYKRPxrOHyvprHZLzoea8K55JlsvA=;
+	b=j+ce8q83s2rSYZ2jD394q4tUSr+pbI1QDvTV3Foje9D9UeXkDiUqrRrG7Koqfco8IwyO
+	 T0TAejxYiWB+F0XMEsoReD5wR1wpqzKWzSMr33a3pp6dJaNTs5g3Je+VTBIIQndzEOfOV
+	 p+CD4RybuXb07Tj2wrBAUJ+nwTrDA1uHtbrFNtCFhDGh7FLX5JvL/XHE2ppXYEna4cQuy
+	 m1BIMe6YRRO7N4EcPPxm8uGb1esrElMCyYPP5xHFzT/Wz3G4vXiOf79UXI5a9j/virZK0
+	 VJ2Uv7ZT4JjPZcKQueDYQVVQAyRzk/5vsU/XYqe5EQWDKs9/w2ErAJkwOt6PbK/dUDA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="FGp/FbGp";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IxwSX640;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E848608360B
-	for <arm-scmi@vger.kernel.org>; Mon,  2 Nov 2026 16:18:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F84606BA5C;
+	Mon,  2 Nov 2026 17:55:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FGp/FbGp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4EBF1F00A16;
-	Mon,  2 Nov 2026 16:18:17 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IxwSX640
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A95311F00A18;
+	Mon,  2 Nov 2026 17:55:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793636298;
-	bh=CEYWK6dZMstnnI6DPMgpQiEcWnhOCPU2yQEpw8GUcNs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=FGp/FbGpc0lRcpJbhvzYIYewjQMX/cGbpfWsgXEbXvFryJxqxKMXFS8voviRT1jvQ
-	 cWfLJIren/DHR74/jHx//lCBojRvFDRbA/Hg4TFhX2TUw2sInVWamaC/TJDBYfs6ph
-	 940xgez1STlKWRNhpHWhXKzb4A5XPDiJhN2hyd70RSm5NyfwIvMRhvtfdLqzqjIvV0
-	 RHKH4VEertGeSjcsC+A8Cr7Nv8fx3Qmm1Zc/Hq1BN+zSZRdKMdvUIShZjJMMe4JW5f
-	 fDFVd0egVTpH2U03jkRe+cB4BE6+hhGYM8YN/5eWo6e2eeU+LITBOXQTG3MX5PIQKj
-	 D2Rk+GNQeF99w==
+	s=k20260515; t=1793642107;
+	bh=pQrWz1faFiddLliYKRPxrOHyvprHZLzoea8K55JlsvA=;
+	h=From:To:Cc:Subject:Date;
+	b=IxwSX6408H/Hh9XMwSjSUDTsMmbsJ8td4vzSrd2svDG55I6Mhggzo+nAaFy2AhBPR
+	 DTDTsoIxwQxSY0v6WyVxTHLIFOypG2Zjo4Dy5PswE1m5HIakzrvXie1gsPy+kvBh7s
+	 iR53zpuyPRXamc5TS8QHBgyjBt89PvLSCaHP8KDAGEjRvsmnX1y+NWgxxytLeCKTcn
+	 tSbwT6ykzso3UD1GwObfo9M+VawWPgxBGLNMsbZXEjvSxEIdSmLlB7ooUGLfxGzbLj
+	 z1S+9YJO5sSdopvAtSPryEHHZJKc7+CHc+jVvpn6wiYn8hthkeT3eq75X2UWEBwyUH
+	 btXnDw99SN8lg==
 From: Sudeep Holla <sudeep.holla@kernel.org>
-To: arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Sudeep Holla <sudeep.holla@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: Re: [PATCH] firmware: arm_scmi: Free mailbox state on mapping failure
-Date: Mon,  2 Nov 2026 16:18:11 +0000
-Message-ID: <179363627396.1026156.9462471466297757648.b4-ty@b4>
+To: SoC Team <soc@lists.linux.dev>,
+	arm-scmi@vger.kernel.org,
+	ALKML <linux-arm-kernel@lists.infradead.org>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>,
+	Arnd Bergmann <arnd@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [GIT PULL] firmware: arm: Fixes for v7.4
+Date: Mon,  2 Nov 2026 17:54:39 +0000
+Message-ID: <20261102175440.1063545-1-sudeep.holla@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261028153203.3305067-1-sudeep.holla@kernel.org>
-References: <20261028153203.3305067-1-sudeep.holla@kernel.org>
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -61,24 +59,92 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Wed, 28 Oct 2026 15:32:03 +0000, Sudeep Holla wrote:
-> mailbox_chan_setup() allocates its private state from the SCMI base
-> device before mapping the shared-memory area. If mapping fails while
-> setting up an optional RX channel, the core ignores the RX failure and
-> keeps the base device bound, retaining that devres allocation.
-> 
-> Release the private mailbox state before returning the mapping error.
-> 
-> [...]
+Hi ARM SoC Team,
 
-Applied to sudeep.holla/linux (for-next/scmi/fixes), thanks!
+Please pull !
 
-[1/1] firmware: arm_scmi: Free mailbox state on mapping failure
-      https://git.kernel.org/sudeep.holla/c/38b6268eae65
--- 
+I have included one dts file fix in this, hope that is OK. Let me know
+if you prefer to keep DTS separate even for fixes.
+
 Regards,
 Sudeep
 
+-->8
+The following changes since commit 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4:
+
+  Linux 7.4-rc1 (2026-11-01 13:26:31 -0800)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git tags/arm-fw-fixes-7.4
+
+for you to fetch changes up to 09fd63fe687ffa2d6594cd31d6fcf5fa7740a63c:
+
+  Merge branches 'for-next/smccc/fixes', 'for-next/scmi/fixes', 'for-next/ffa/fixes' and 'for-next/juno/fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux (2026-11-02 11:33:33 +0000)
+
+----------------------------------------------------------------
+Arm Firmware Interfaces(SCMI/FF-A/SMCCC) fixes for v7.4
+
+SCMI fixes correct protocol-device creation and request tracking in raw
+mode, allow the generic and i.MX pinctrl drivers to share the standard
+SCMI pinctrl device, and avoid creating unused performance-domain
+devices that block cpufreq consumers through fw_devlink ownership. It
+also includes dropping now unnecessary ACPI config guards and several
+robustness fixes: bound i.MX MISC syslog and control responses,
+unregister notification callbacks on event-enable failure, and free
+mailbox state when shared-memory mapping fails.
+
+The FF-A notifier fix distinguishes notification IDs within a hash
+bucket, preventing callback registration and delivery from using a
+colliding ID.
+
+SMCCC and GICv3 fixes restore builds on 32-bit ARM when SMCCC discovery
+is unavailable, while restricting the discovery dependency to arm64
+where the NVIDIA erratum workaround applies.
+
+Finally, correct the Corstone1000-A320 GIC redistributor region size
+for its GICv4 configuration.
+
+----------------------------------------------------------------
+David Cemin (1):
+      firmware: arm_ffa: Compare notify_id when looking up notifier callbacks
+
+Geert Uytterhoeven (2):
+      firmware: arm_scmi: Update ARM_SCMI_HAVE_TRANSPORT rationale
+      firmware: arm_scmi: Fix grammar s/thing/things/
+
+Julian Braha (2):
+      firmware: smccc: Provide stubs for HAVE_ARM_SMCCC_DISCOVERY=n
+      irqchip/gic-v3: Select HAVE_ARM_SMCCC_DISCOVERY only on arm64
+
+Rob Herring (Arm) (1):
+      arm64: dts: arm: corstone1000-a320: Fix GIC redistributor region size
+
+Sudeep Holla (10):
+      firmware: arm_scmi: Avoid protocol devices in exclusive raw mode
+      firmware: arm_scmi: Skip requests for standard protocol devices
+      pinctrl: imx: Match the standard SCMI pinctrl device
+      firmware: arm_scmi: Skip unused performance-domain devices
+      firmware: arm_scmi: Drop redundant ACPI configuration guard
+      firmware: arm_scmi: imx: Track copied syslog words
+      firmware: arm_scmi: imx: Validate MISC control response size
+      firmware: arm_scmi: Unregister notifier on enable failure
+      firmware: arm_scmi: Free mailbox state on mapping failure
+      Merge branches 'for-next/smccc/fixes', 'for-next/scmi/fixes', 'for-next/ffa/fixes' and 'for-next/juno/fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux
+
+ arch/arm64/boot/dts/arm/corstone1000-a320.dtsi     |   2 +-
+ drivers/firmware/arm_ffa/driver.c                  |  11 ++-
+ drivers/firmware/arm_scmi/Kconfig                  |   2 +-
+ drivers/firmware/arm_scmi/bus.c                    | 110 ++++++++++++---------
+ drivers/firmware/arm_scmi/driver.c                 |   4 -
+ drivers/firmware/arm_scmi/notify.c                 |   4 +-
+ drivers/firmware/arm_scmi/transports/Kconfig       |   2 +-
+ drivers/firmware/arm_scmi/transports/mailbox.c     |   7 +-
+ .../firmware/arm_scmi/vendors/imx/imx-sm-misc.c    |  18 +++-
+ drivers/irqchip/Kconfig                            |   2 +-
+ drivers/pinctrl/freescale/pinctrl-imx-scmi.c       |   2 +-
+ include/linux/arm-smccc.h                          |   7 ++
+ include/linux/firmware/imx/sm.h                    |   6 ++
+ 13 files changed, 113 insertions(+), 64 deletions(-)
