@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793648714;
-	b=qRKOKDCm5VcsVHQgZ3QjmzUZu7+eIluCyiU3wnqW8KfFp+6uIxBgDd/wRrz3xIX7//G1
-	 LZq1GrcxyV5XQKM1FZu8RRrkf7MrPqOcjCNc8YBUKvRudoIDuyy1ZfVG6gI9899At7pBI
-	 +21G6xquJyGW8692AZMrfjwbKzoO0+NRF/mynXO0myWSrJH6uM6I+nScfs4KdM9p9KqhV
-	 kUyuuzU4RcyyyPPt5ACLMj47paeFie05/EBPYJnp+nfvfGr7vOgriO1SgJRc4HLCAQT1h
-	 YEfbVCNQJsyBTtPUd9Txu8iqM8sC45VYkwC2g59Zx1PX+z0vxKQiYSRegDRQdiRbDTw==
+	t=1793648715;
+	b=gwMoxQllqxo0rtEPtN/NxnbFTP6RMv37RamJaM9KITkGPIdZ00lQBUfLLns6T07WBOMj
+	 TzQQZnD0M8SpNWJfGeQCoIdndV1o88M20eskapMClu4TFGMRYYOdukaK9nvm9OOSWHels
+	 8audaA3TILsD0wx+818/Kcqx8X9W3wkrDu1Za801lNhCD/cWeUwU23+IrGXjsWRvfgOn2
+	 Ax2Nyqpu7bzC82ZBsXEA0Ghe1LLYFl+pZreKnx/iYqHAvJ5Sk3VfY1b5rqmm7EyrGrb5g
+	 JfxDdihkhCqshXIcLVdb4Xlo7SnlXmqui/dpjusoFSpYqAgpdQdQ3USF3ZMozOkZ1mg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793648714;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793648715;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=2skKssvMl7NrG/EIFxQTg5In1tC5JMHyWGqJ1c52uyI=;
-	b=fJSa6x6ppIXIpZuepexgL4lVF9dF5gpBG8EBBvZpNYfE2ttbqdUEi3Nst6VMrsPO1hQE
-	 v7+nX7latPwmxiycSFmDTIWWWRynBBXiELITLrkTqLatIj479E/Z05xR97v1AdTVbnNJw
-	 pEqXljAXLHj8jaqT0wdCZN5PfCxxz7wn8CfP3azzuIEJtXAlUNOEtgkyZzA0LOV/IvhRt
-	 hTQ4okNjAem67u0XwHSieeTru8aRg9+vHpjO/kdRGAVTHzf3Jm1MinqYMlxs7550mugtI
-	 1/t8fRZEcvgb+zGQ29yyVODR88RRsO1tOqNUba3Bx53A4ZWsnYAI/5qGY+NtxJWp5hw==
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=VCSQCc0yvtrmOoCjuIRBo5BrPWCg2fD0xLmeKel1ZGQ=;
+	b=Cno/9zsdRf8ZblKnIIcRY5UbWvTnRsl+p8RkyGfknv/v5xP5M81wtSGBP2QeLSlNhe/7
+	 Sh54fJLSCefekHszaKGcNk9lfN7TYU/0HeiFDroJK1yL4JKa53f2h51EkrzVvXypOHHcz
+	 78fk5kwTZirulFqcZrkkoZgSDWVZasixGmJwJbK08tqvDyCZ3nT7tC7BXJ64/4Kh318v3
+	 eP2V/lbyo5K3j7hArNWknhIWy1Gx8UM1BKR2BxV7srOohiL2QP5GQ63kORjJvEEwPdBTt
+	 ahGWIom85Q8k+DOaq153bMk2A/+u0hpOkc//7YRh5SIlODIDiucbtsgCx47UM3or1CQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EH3Q2rpB;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OnQkQ8ZY;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7DC1606EE80;
-	Mon,  2 Nov 2026 19:45:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FA1606EE91;
+	Mon,  2 Nov 2026 19:45:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EH3Q2rpB
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OnQkQ8ZY
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793648713;
-	b=sDw2f1cF1aagBONm5vhjndWF7iueeeRFJE7AfQWBAruYI+4xwFehhujyjowi8wkWsu6S
-	 +IRNXt9k+TrHFqJexfzsERGDXC5yBH+oec++ZS9vlfCawFMylLo+n8f4L1wsxyIgTRlIP
-	 dw1KRaZokd7+CuftWLIb6MXCaNwF1AGvp0bucEn7xLPBlxaUatERc6YqEb76V5UCewGEP
-	 MWBEeBDJuWkv79OWiDHTZ3IY88VyMJlHwuuS4ZVLsCIT/5qNrFdzqUA1zH2pSjCn6KrZI
-	 EsqFjRwSwD3KjiV1NtV3JavTZSQauyuaruhh1jIhQWpTQJPt3yM3DSsXFNOwFr5rpFQ==
+	t=1793648714;
+	b=JMGWiSVVVXf4xctn0obdvYfTRTXWniO5A5TDR0cW7kKo9DLspWWRxU37gLCBjndyxWhw
+	 lRWAkgvHK6Eh+wORzX/Ci1ySpTzOAbVXX3lIZbFVKr4TKH2MWLhIGFV6Ul7Mbqw8bGE+E
+	 +5RQQ2xQrsEslpYClet2GKieEvDUZnvnVasPwiP5vXztP1NVlLnyJrfMt6RDbdu4Fm2eh
+	 yu8DGlKi81xr66vWHAR/whkoAKBrq8ttFWeyyMbBHw4yVjLJa92W/inh+9FuQKeJJNald
+	 PWQypYzhbcMHKXTdcEZW+20KCO+bJXWow9EEpVoM8/d1Zvnf9hZxAjh2F/KNRNbN5rg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793648713;
+	c=relaxed/relaxed; t=1793648714;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=2skKssvMl7NrG/EIFxQTg5In1tC5JMHyWGqJ1c52uyI=;
-	b=H4GnM+hW02wAOxg0MgXdDGN3KzhbGpNucpQMd4x8Ik1g3ReqlXMbKWNDVblehqt9dyYQ
-	 kCk0pUQtZe7VTOuO2iqAKsRsEUkYsW9VdPLr2QXXoAbKJELJYl5oiNQH3KRiNZtsns8Ma
-	 NHzfDzquNg5L7eYg2ysobhM2n04oyQRTlWoppsNyp2x9LYsggmOadKPOvxRq0AP1FmoPu
-	 p04G524D2b7/O8ky/8Swol8GvJDYMZA1g1p6Yb4EgbLO1gG4tpz3f3Bv27oz3pfRaQKFm
-	 QszIJyNpWVXcrRReCqNM8BU+0//lVnEaU6gsBHxbpWNyVF4RV4+xLFMP+rzw5YzpI4w==
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=VCSQCc0yvtrmOoCjuIRBo5BrPWCg2fD0xLmeKel1ZGQ=;
+	b=C5xgXsTUUjuB7sq426Jq3sRr8HbxsDuiT2YHEqnwn7PS0JfdkmrvmITDJkGpTHLoOOjD
+	 jvzUIJEDqYyPLBxILoe7ySpQqSZ8S3RmCCJBIVydt4fZQ5f6PFYYfGYdEMeTKB1AzFqK9
+	 rtXjCGVsPC0z7ydsbZGoAgaktTEli08gqdseiHTS9ycgUT/cD/s8pdGV8GGSY/WTj6UR2
+	 L68rkFXbd9piYWugaXofw1RRZybtvYtsDTAdM7S2PZgSBUGavLp8Iw1wAI3Hxfim08078
+	 5Jb2ht4FjbbJayxlZMvYrVvivwhynMhaD57bGpCVlhhRjcqc4YRWjJkfJBWn/KRng2Q==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 15FE11F00A1D;
+	by smtp.kernel.org (Postfix) with ESMTPS id 17D941F00A22;
 	Mon,  2 Nov 2026 19:45:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793648713;
-	bh=2skKssvMl7NrG/EIFxQTg5In1tC5JMHyWGqJ1c52uyI=;
+	s=k20260515; t=1793648714;
+	bh=VCSQCc0yvtrmOoCjuIRBo5BrPWCg2fD0xLmeKel1ZGQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=EH3Q2rpBgrh8OKuqCSJVGVrDZeGvO82NbyyyFsXJ/Mr3pNZHPxFi3XZBtGtTw/H7J
-	 w1/Qm2Nkgu/wex+AD06UYDY+9hQ/yRKcfeVAaSdCrUQhjod0ubVLUmM5j/cho4En26
-	 saeh2OlGUijb2iB2lSHkW1x1lR1Wrtd8m7XO+zx+71PHPzs4aWgl83yjUPsTtlViv5
-	 3ZuZivdxFYl9IHdM9b4ftTpjM6nX3TT2vrvyrAMIRpaeOLmj222FWY0Ukr6VToetxM
-	 2lwUVfZgfUrlkajMR2VKF7suVIDF83h7cyeRbP/Z8ond4uDLYJNlhIoE04BykIYe3x
-	 g+594D6zfY2zg==
+	b=OnQkQ8ZYp84mqS6QCCnSb3gnwXsarHyT6RqKEI1PIklhgIgiOY23/nu+tIhrqYXSF
+	 zHfTuGjaNI4a7BcRXhDDR/YDIWgz8zqDc9pSflAql+W5zPfZU4ad1Y0sE/3cW2YoUX
+	 sJOQ050S7hLCRW4vw/tiVYT0+533qNKUDP7BAr/wWRqE2m6q1ZFzpLPnF5FWd4Dl8P
+	 MqIWKIwek98qgfgUWOHcpnqFJ55ta9ktvDq2HXC1Psjlqh65WWEoWjtp1FikDusEq9
+	 sPRI/cAaSikjzj5KhCQLxjirAbXz85jQnUAO2TEAED5mwLpLaSyY/BSjopYggK3R/J
+	 cjuPAz55Mio2w==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 0932546619;
-	Mon,  2 Nov 2026 19:45:09 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id EE05546616;
+	Mon,  2 Nov 2026 19:45:08 +0000 (UTC)
 From: Han Gao via B4 Relay <devnull+gaohan.iscas.ac.cn@kernel.org>
-Date: Tue, 03 Nov 2026 03:45:09 +0800
-Subject: [PATCH RFC v3 06/17] dt-bindings: pinctrl: add Zhihe A210 pin
- controller
+Date: Tue, 03 Nov 2026 03:45:08 +0800
+Subject: [PATCH RFC v3 05/17] mailbox: add Zhihe A210 AP to E902 mailbox
+ driver
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -84,8 +84,7 @@ List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261103-a210-scmi-v3-6-ee6b31580808@iscas.ac.cn>
+Message-Id: <20261103-a210-scmi-v3-5-ee6b31580808@iscas.ac.cn>
 References: <20261103-a210-scmi-v3-0-ee6b31580808@iscas.ac.cn>
 In-Reply-To: <20261103-a210-scmi-v3-0-ee6b31580808@iscas.ac.cn>
 To: Sudeep Holla <sudeep.holla@kernel.org>, 
@@ -116,183 +115,249 @@ Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-serial@vger.kernel.org, Han Gao <rabenda.cn@gmail.com>, 
  Han Gao <gaohan@iscas.ac.cn>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793648705; l=5149;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793648705; l=7374;
  i=gaohan@iscas.ac.cn; s=20261021; h=from:subject:message-id;
- bh=ViPTWWQQeexsnyAa+LU8olyP5is0pfShY5chI2/PszU=;
- b=BUGfjsDUMGXJ2Xsl51TLYgelij2NnYdnV7+1jqBYXjvnS9TJfLhs32lM54YtvZYZw9lZI3FfS
- kRmBjNho0QBARTjyq1+DvWmWrg62TTXpZJKnuFH9TXcD2UGfrsUCdNY
+ bh=Z7rtD2lVv6OIg4Vqe4Ikd4EKS6jFLkfoX9GIDAAsyp4=;
+ b=VrOF7udLcDMVqx667ugeUMpkqXHz40e/x5dOG22NIXupxPiSI/4m12WowhII4y0a+jNIua+MQ
+ VjdvRvtrVyxBOac3UusDx0riIWfcXEcwv2P1AymO4vKOpG25rZoaynf
 X-Developer-Key: i=gaohan@iscas.ac.cn; a=ed25519;
  pk=J8WHEK3filS86QaCaIHDGafqhxKyQ4K7+vFgRirTIiY=
 X-Endpoint-Received: by B4 Relay for gaohan@iscas.ac.cn/20261021 with
  auth_id=1262
 X-Original-From: Han Gao <gaohan@iscas.ac.cn>
 Reply-To: gaohan@iscas.ac.cn
+Content-Transfer-Encoding: 7bit
 
-From: Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>
+From: Han Gao <gaohan@iscas.ac.cn>
 
-Add a binding for the AON, PERI1 and PERI2 pad controllers of the Zhihe
-A210. Every pad is muxed and configured on its own. Functions of the same
-kind share one name unless a pad can select more than one instance of
-them, as with the UARTs.
+Add a mailbox controller for the doorbells between the A210 application
+processors and the E902 management core. It serves as the SCMI
+transport to the E902 firmware.
 
-Signed-off-by: Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>
+Channel 0 rings E902 and receives its completions. Channel 1 is receive
+only and carries E902 notifications. Both share one interrupt, and E902
+writes INFO0 or INFO1 to tell them apart.
+
+The E902 firmware keeps both mailboxes clocked and out of reset, so the
+driver does not manage clocks or resets.
+
 Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
 ---
- .../bindings/pinctrl/zhihe,a210-pinctrl.yaml       | 146 +++++++++++++++++++++
- 1 file changed, 146 insertions(+)
+ drivers/mailbox/Kconfig        |   9 +++
+ drivers/mailbox/Makefile       |   2 +
+ drivers/mailbox/mailbox-a210.c | 176 +++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 187 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/pinctrl/zhihe,a210-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/zhihe,a210-pinctrl.yaml
+diff --git a/drivers/mailbox/Kconfig b/drivers/mailbox/Kconfig
+index ab869769e278..6d620b0dde6f 100644
+--- a/drivers/mailbox/Kconfig
++++ b/drivers/mailbox/Kconfig
+@@ -409,4 +409,13 @@ config AXIADO_MAILBOX
+ 	  Axiado SoCs.
+ 	  If unsure, say N.
+ 
++config ZHIHE_A210_MBOX
++	bool "Zhihe A210 AP to E902 mailbox"
++	depends on OF && (ARCH_ZHIHE || COMPILE_TEST)
++	help
++	  Mailbox driver for the doorbells between the application
++	  processors and the E902 management core of the Zhihe A210. The
++	  doorbells carry no data, so clients pass their messages through
++	  shared memory. Say Y to use the SCMI firmware on the E902.
++
+ endif
+diff --git a/drivers/mailbox/Makefile b/drivers/mailbox/Makefile
+index 45dc59bb3e7f..f537ebb8aaff 100644
+--- a/drivers/mailbox/Makefile
++++ b/drivers/mailbox/Makefile
+@@ -86,3 +86,5 @@ obj-$(CONFIG_BCM74110_MAILBOX)	+= bcm74110-mailbox.o
+ obj-$(CONFIG_RISCV_SBI_MPXY_MBOX)	+= riscv-sbi-mpxy-mbox.o
+ 
+ obj-$(CONFIG_AXIADO_MAILBOX)	+= axiado-mailbox.o
++
++obj-$(CONFIG_ZHIHE_A210_MBOX) += mailbox-a210.o
+diff --git a/drivers/mailbox/mailbox-a210.c b/drivers/mailbox/mailbox-a210.c
 new file mode 100644
-index 000000000000..96c46b59d147
+index 000000000000..0b66fded6b09
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/pinctrl/zhihe,a210-pinctrl.yaml
-@@ -0,0 +1,146 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/pinctrl/zhihe,a210-pinctrl.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/mailbox/mailbox-a210.c
+@@ -0,0 +1,176 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/* Zhihe A210 application processor to E902 mailbox */
++#include <linux/interrupt.h>
++#include <linux/io.h>
++#include <linux/mailbox_controller.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/spinlock.h>
 +
-+title: Zhihe A210 pin controller
++/* The local mailbox holds the INFO bank and, one page up, the AP interrupt. */
++#define A210_MBOX_STATUS		0x1000
++#define A210_MBOX_CLEAR		0x1004
++#define A210_MBOX_MASK		0x100c
++#define A210_MBOX_GENERATE	0x10
++#define A210_MBOX_INFO(n)	(0x14 + 4 * (n))
++#define A210_MBOX_E902_PENDING	BIT(0)
++#define A210_MBOX_NOTIFY		BIT(6)
 +
-+maintainers:
-+  - Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>
++/* Channel 0 carries AP requests and completions, channel 1 E902 notifications. */
++#define A210_MBOX_CHANS		2
 +
-+description: |
-+  Pinmux and pinconf controller of the Zhihe A210 RISC-V SoC.
++struct a210_mbox {
++	struct mbox_controller controller;
++	struct mbox_chan channels[A210_MBOX_CHANS];
++	void __iomem *local;
++	void __iomem *remote;
++	/* Protects the shared interrupt mask and the set of started channels. */
++	spinlock_t lock;
++	unsigned long started;
++	int irq;
++};
 +
-+  Most pads of the A210 are split into three groups, each managed by its
-+  own pad controller with a separate register range:
++static void a210_mbox_mask(struct a210_mbox *mbox, unsigned int index, bool enable)
++{
++	unsigned long flags;
++	u32 value;
 +
-+    AON pad controller   -> zhihe,a210-aon-pinctrl
-+    Peripheral 1 pads    -> zhihe,a210-peri1-pinctrl
-+    Peripheral 2 pads    -> zhihe,a210-peri2-pinctrl
++	spin_lock_irqsave(&mbox->lock, flags);
++	if (enable)
++		__set_bit(index, &mbox->started);
++	else
++		__clear_bit(index, &mbox->started);
++	value = readl(mbox->local + A210_MBOX_MASK);
++	if (mbox->started)
++		value |= A210_MBOX_E902_PENDING;
++	else
++		value &= ~A210_MBOX_E902_PENDING;
++	writel(value, mbox->local + A210_MBOX_MASK);
++	spin_unlock_irqrestore(&mbox->lock, flags);
++}
 +
-+  Each pad can be muxed individually to up to 8 different functions,
-+  though for most pads only a few of those settings are valid. A few pads
-+  in the AON group do not support muxing or configuration at all.
++static irqreturn_t a210_mbox_irq(int irq, void *data)
++{
++	struct a210_mbox *mbox = data;
 +
-+  The pads support configurable drive strength, bias, input enable,
-+  Schmitt trigger and slew rate.
++	if (!(readl(mbox->local + A210_MBOX_MASK) & A210_MBOX_E902_PENDING))
++		return IRQ_NONE;
++	if (!(readl(mbox->local + A210_MBOX_STATUS) & A210_MBOX_E902_PENDING))
++		return IRQ_NONE;
 +
-+properties:
-+  compatible:
-+    enum:
-+      - zhihe,a210-aon-pinctrl
-+      - zhihe,a210-peri1-pinctrl
-+      - zhihe,a210-peri2-pinctrl
++	writel(A210_MBOX_E902_PENDING, mbox->local + A210_MBOX_CLEAR);
 +
-+  reg:
-+    maxItems: 1
++	/* E902 sets INFO<n> before ringing the shared doorbell for channel n. */
++	for (unsigned int i = 0; i < A210_MBOX_CHANS; i++) {
++		if (!readl(mbox->local + A210_MBOX_INFO(i)))
++			continue;
++		writel(0, mbox->local + A210_MBOX_INFO(i));
++		if (test_bit(i, &mbox->started))
++			mbox_chan_received_data(&mbox->channels[i], NULL);
++	}
++	return IRQ_HANDLED;
++}
 +
-+  clocks:
-+    maxItems: 1
++static unsigned int a210_mbox_index(struct a210_mbox *mbox, struct mbox_chan *channel)
++{
++	return channel - mbox->channels;
++}
 +
-+  clock-names:
-+    const: pclk
++static int a210_mbox_send(struct mbox_chan *channel, void *data)
++{
++	struct a210_mbox *mbox = channel->con_priv;
 +
-+  resets:
-+    maxItems: 1
++	/* E902 notifications are receive-only. */
++	if (a210_mbox_index(mbox, channel))
++		return -EINVAL;
 +
-+patternProperties:
-+  '-[0-9]+$':
-+    type: object
++	/* Payload and completion ownership belong to the shared-memory client. */
++	writel(A210_MBOX_NOTIFY, mbox->remote + A210_MBOX_GENERATE);
++	return 0;
++}
 +
-+    description:
-+      A pinmux group referenced by a consumer's pinctrl phandle. It
-+      contains one subnode per set of pads sharing the same pinmux and
-+      pinconf settings.
++static int a210_mbox_startup(struct mbox_chan *channel)
++{
++	struct a210_mbox *mbox = channel->con_priv;
++	unsigned int index = a210_mbox_index(mbox, channel);
 +
-+    additionalProperties: false
++	writel(0, mbox->local + A210_MBOX_INFO(index));
++	a210_mbox_mask(mbox, index, true);
++	return 0;
++}
 +
-+    patternProperties:
-+      '-pins$':
-+        type: object
-+        $ref: /schemas/pinctrl/pincfg-node.yaml#
++static void a210_mbox_shutdown(struct mbox_chan *channel)
++{
++	struct a210_mbox *mbox = channel->con_priv;
 +
-+        description:
-+          A pinctrl node describing the pinmux and pinconf settings of
-+          one or more pads.
++	a210_mbox_mask(mbox, a210_mbox_index(mbox, channel), false);
++	synchronize_irq(mbox->irq);
++}
 +
-+        properties:
-+          pins:
-+            $ref: /schemas/pinctrl/pinmux-node.yaml#/properties/pins
-+            description: List of pads that properties in the node apply to.
++static const struct mbox_chan_ops a210_mbox_ops = {
++	.send_data = a210_mbox_send,
++	.startup = a210_mbox_startup,
++	.shutdown = a210_mbox_shutdown,
++};
 +
-+          function:
-+            $ref: /schemas/pinctrl/pinmux-node.yaml#/properties/function
-+            enum: [ aouart, aouart_ir, aogpio, aoi2c, aospi, jtag, reset,
-+                    por, pmic, dvs, uart0, uart1, uart2, uart3, uart4,
-+                    uart5, uart6, uart7, uart8, uart9, uart_ir, gpio,
-+                    gmac0, gmac1, spi, qspi, pwm, can, i2s0, i2s1, i2s2,
-+                    i2s3, i2c0, i2c1, i2c2, i2c3, i2c4, i2c5, i2c6, i2c7,
-+                    i2c7_smb, sdio, isp0, dptx, usb31, sata, hdmi, zmac,
-+                    bsel, dbgm, cdbg, pdm, tdm, pcie, sen_vclk ]
-+            description: |
-+              The mux function to select for the given pins. Functions of
-+              the same kind share one name, such as spi or pwm, unless a
-+              pad can select more than one instance. For example GPIO0_16
-+              selects UART0 or UART1, so the UARTs are named uart0 to
-+              uart9.
++static int a210_mbox_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct a210_mbox *mbox;
++	int ret;
 +
-+          bias-disable: true
++	mbox = devm_kzalloc(dev, sizeof(*mbox), GFP_KERNEL);
++	if (!mbox)
++		return -ENOMEM;
 +
-+          bias-pull-up: true
++	mbox->local = devm_platform_ioremap_resource_byname(pdev, "local");
++	if (IS_ERR(mbox->local))
++		return PTR_ERR(mbox->local);
++	mbox->remote = devm_platform_ioremap_resource_byname(pdev, "remote");
++	if (IS_ERR(mbox->remote))
++		return PTR_ERR(mbox->remote);
++	mbox->irq = platform_get_irq(pdev, 0);
++	if (mbox->irq < 0)
++		return mbox->irq;
 +
-+          bias-pull-down: true
++	spin_lock_init(&mbox->lock);
++	a210_mbox_mask(mbox, 0, false);
++	for (unsigned int i = 0; i < A210_MBOX_CHANS; i++)
++		mbox->channels[i].con_priv = mbox;
++	/*
++	 * Neither txdone_irq nor txdone_poll is set: the client acknowledges
++	 * completion after consuming shared memory.
++	 */
++	mbox->controller.dev = dev;
++	mbox->controller.chans = mbox->channels;
++	mbox->controller.num_chans = A210_MBOX_CHANS;
++	mbox->controller.ops = &a210_mbox_ops;
 +
-+          drive-strength:
-+            minimum: 1
-+            maximum: 25
-+            description:
-+              Drive strength in mA. The pads support 1, 2, 3, 5, 7, 8, 10,
-+              12, 13, 15, 16, 18, 20, 21, 23 and 25 mA. Other values select
-+              the next higher strength.
++	ret = devm_request_irq(dev, mbox->irq, a210_mbox_irq, 0, dev_name(dev),
++			       mbox);
++	if (ret)
++		return ret;
 +
-+          input-enable: true
++	return devm_mbox_controller_register(dev, &mbox->controller);
++}
 +
-+          input-disable: true
++static const struct of_device_id a210_mbox_match[] = {
++	{ .compatible = "zhihe,a210-ap-mailbox" },
++	{}
++};
++MODULE_DEVICE_TABLE(of, a210_mbox_match);
 +
-+          input-schmitt-enable: true
++static struct platform_driver a210_mbox_driver = {
++	.probe = a210_mbox_probe,
++	.driver = {
++		.name = "a210-mailbox",
++		.of_match_table = a210_mbox_match,
++		/* Running E902 firmware continuously accesses the remote bank. */
++		.suppress_bind_attrs = true,
++	},
++};
++module_platform_driver(a210_mbox_driver);
 +
-+          input-schmitt-disable: true
-+
-+          slew-rate:
-+            maximum: 1
-+
-+        required:
-+          - pins
-+
-+        additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    pinctrl@2026000 {
-+        compatible = "zhihe,a210-peri1-pinctrl";
-+        reg = <0x2026000 0x1000>;
-+        clocks = <&clk 0>;
-+        clock-names = "pclk";
-+
-+        gmac0-0 {
-+            gmac0-pins {
-+                pins = "GPIO0_0", "GPIO0_12";
-+                function = "gmac0";
-+                bias-disable;
-+                drive-strength = <13>;
-+                input-disable;
-+                input-schmitt-disable;
-+                slew-rate = <0>;
-+            };
-+        };
-+    };
++MODULE_AUTHOR("Han Gao <gaohan@iscas.ac.cn>");
++MODULE_DESCRIPTION("Zhihe A210 AP to E902 mailbox");
++MODULE_LICENSE("GPL");
 
 -- 
 2.55.0
