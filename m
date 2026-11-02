@@ -1,55 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793642108;
-	b=ziQZmvm+vltMwX9OmWNOGj5fIow8KDGsllWPBq0pAY5T7M1UIKPUbMjPeDldJKrS1Uzo
-	 2GK4cJYlpSImbKuCoPws/8OQ3ROwcFHFAA7MSmwNy4qz8BygHKVaOmy2ckK9CeE36WCbF
-	 7/6R4wmG5KtzTx07QqCY5CuFCUGgwa6jobMupKw8KqId1YW9c7pwiqUdJeFPsZBWDJvOc
-	 RDxSZ/yVSFJxNTL0DmURWWckTuAqYK7t6RvOCBfngaHqw0hBr1VN7d4pmMz8r691gwr4l
-	 XhFWi/wy5t7QYRfS7gUhsJNe+3dY3+qn/lMEPfp3mu+SIpRPiqajO1INPU0Czwxfrsw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793642108;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=pQrWz1faFiddLliYKRPxrOHyvprHZLzoea8K55JlsvA=;
-	b=j+ce8q83s2rSYZ2jD394q4tUSr+pbI1QDvTV3Foje9D9UeXkDiUqrRrG7Koqfco8IwyO
-	 T0TAejxYiWB+F0XMEsoReD5wR1wpqzKWzSMr33a3pp6dJaNTs5g3Je+VTBIIQndzEOfOV
-	 p+CD4RybuXb07Tj2wrBAUJ+nwTrDA1uHtbrFNtCFhDGh7FLX5JvL/XHE2ppXYEna4cQuy
-	 m1BIMe6YRRO7N4EcPPxm8uGb1esrElMCyYPP5xHFzT/Wz3G4vXiOf79UXI5a9j/virZK0
-	 VJ2Uv7ZT4JjPZcKQueDYQVVQAyRzk/5vsU/XYqe5EQWDKs9/w2ErAJkwOt6PbK/dUDA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IxwSX640;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793648711;
+	b=zhvLsuxM6tZZW0AgeBDFWt5imQfNkPg9Egr04opQQmXq8TsFLbtTjz2GxWMyJr8OkJh1
+	 UxO2yXUbfVG6R4wjm2BCMAmZIHfQaJLrccr7ZEPek3trBad0SUQuU9vu2V2JvohvtneJz
+	 4G4KVQm7d2cqEQMBr/p4bfvDoGXqIESuvZ+iIOlVQ6ShQebK3SpduJzDNpJYG8UY1hj9b
+	 HHKS/7e3QVCz/rcSk5mYWpuEQfC5Q0uQYVyNVIH8zxvbfHU4flR/iavd4K+MaTqQwc/WF
+	 XjEZLA8x4A6sF5OAYWaaqpxlHlGms7ba7HOgj+sb7ZYOLoiqN97lLWB3+Qd/8IuSoRg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793648711;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=UsM44Bz2hR0jwZlDUjpk1mrvCsTX73s8ccqm/Jjs4CI=;
+	b=I0KQvpo1yIg8eOLzMCWmBlmFZJLzyPTEJT+W5QTtFKQUwQC4tcp8yrTg1zZxWk3l+SMo
+	 hL1TF2JaqSDEM/2bb0weAdB/TdfQHZwqf4elebMa01UKKMfL93l4UNxURhqJpovMOhEh1
+	 Pcr9ITlYjSsrmWVMABCaC9D7O6FeA7AoYAr01UKjh6dHRWv631jsSKqR57q3PR7lW8mva
+	 nAJtipgtC7jdtqamax20kjObEVWMm+Mr7N96LLcabUEKCTSbr3vdyh/zCieQ2Tehk5b3U
+	 oYjeRZwLySd+ifhGz8NcBEt6mTEXeRzc4zp74HmcOZVfLfYgtuw+snijOHoD5J+0c/g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DfR132yd;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F84606BA5C;
-	Mon,  2 Nov 2026 17:55:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4719606A32E;
+	Mon,  2 Nov 2026 19:45:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IxwSX640
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A95311F00A18;
-	Mon,  2 Nov 2026 17:55:06 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DfR132yd
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793648710;
+	b=iSy78I70IOJYScaOUENQkyhXTm6jG5lPLbf1YCxnafzfUjkRKFbLfO/wWkHx25o8nMIC
+	 memyx3LQD1VYL2gOGxE5exW7A/KuJBQAZ12XBEoXdm62nMxBCGQUqpSUDfTYf0DWdNZeS
+	 5L0S1FcSOXXwMrXErzovOICcuQ3udivo9DiS9Kh7P5SDG5HrWWp5cFdBJSnv9egLF0p3Q
+	 aJbP/fcEUc1/Eh/5t+P2+src/1H9MRzv4coQzJ6JVV55C9vmLUQghZexJuesL8MkdSQBf
+	 HOrN8gJUp7lSVBP7u99pOzX5q68fHpx7VtF9zKNhPyLnsLDrXF4vP+sJd94QvqThmuw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793648710;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=UsM44Bz2hR0jwZlDUjpk1mrvCsTX73s8ccqm/Jjs4CI=;
+	b=wbPelbF7H0+N+IF6hoV6PhI9pB3x4m3ArJvnapdPVukEzB/1cSVN4iPkyWlnfSMIXgcH
+	 sf9U7aN/IfvO9GhNZa/+POkC5pd5gR2TNVknyfs1k4NurwF6g3L1Jwqz4TBJywpQGYAmk
+	 oFc1zA6p0BdZbirVsr0zPGozqcR/HD9PZSNW2WAw2RV9TjtZzfL9ZyWTuCxFPhF42iTZB
+	 bjQtzjXJuiMpTL2PPQXdUh6yt7YMDaD7XNTeVx4k9HHs0ibZ7TEuk8jgWzYNr6X24veQK
+	 u5abZUukJ/se6SnDQZYvQ+O/O9xtHNziW6FW+jzd2nOzGnuHtX8GWGTePVcsnt612eg==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 54B3A1F00A1F;
+	Mon,  2 Nov 2026 19:45:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793642107;
-	bh=pQrWz1faFiddLliYKRPxrOHyvprHZLzoea8K55JlsvA=;
-	h=From:To:Cc:Subject:Date;
-	b=IxwSX6408H/Hh9XMwSjSUDTsMmbsJ8td4vzSrd2svDG55I6Mhggzo+nAaFy2AhBPR
-	 DTDTsoIxwQxSY0v6WyVxTHLIFOypG2Zjo4Dy5PswE1m5HIakzrvXie1gsPy+kvBh7s
-	 iR53zpuyPRXamc5TS8QHBgyjBt89PvLSCaHP8KDAGEjRvsmnX1y+NWgxxytLeCKTcn
-	 tSbwT6ykzso3UD1GwObfo9M+VawWPgxBGLNMsbZXEjvSxEIdSmLlB7ooUGLfxGzbLj
-	 z1S+9YJO5sSdopvAtSPryEHHZJKc7+CHc+jVvpn6wiYn8hthkeT3eq75X2UWEBwyUH
-	 btXnDw99SN8lg==
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: SoC Team <soc@lists.linux.dev>,
-	arm-scmi@vger.kernel.org,
-	ALKML <linux-arm-kernel@lists.infradead.org>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
-	Arnd Bergmann <arnd@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [GIT PULL] firmware: arm: Fixes for v7.4
-Date: Mon,  2 Nov 2026 17:54:39 +0000
-Message-ID: <20261102175440.1063545-1-sudeep.holla@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=k20260515; t=1793648710;
+	bh=UsM44Bz2hR0jwZlDUjpk1mrvCsTX73s8ccqm/Jjs4CI=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=DfR132ydmb5vPE4KOoRCNZFkjm6C2zbFRvJ9NkcC1qAb81zc0SBf8H1+2JPMdtziy
+	 pkTqsRWqVK/l7uvyjyEQudasTqgKjaXfdtOq/ljhyJHjw7dip49d0OYEK7C5fcPLp4
+	 jJjxOz3pF1w0TlPKftjX9TrOChJ3gePdcvoRrno3YvIMEYDdcQcdHtaI4V1y5y6RdE
+	 aR4Bk3hIB8KiYjYKwqBfbk8IJ+rYLEWmIihB1A4RXdiWFaDJNSUPCRAobvpNGi0jxl
+	 gbubKPo3KZXR2CTJVRDAQl9JHBf3lNDXpigRh03O7OClIwroFxQaYi1+Ts0rHBRmMB
+	 5glZVYrF4yiUg==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id B2A3B465D3;
+	Mon,  2 Nov 2026 19:45:08 +0000 (UTC)
+From: Han Gao via B4 Relay <devnull+gaohan.iscas.ac.cn@kernel.org>
+Date: Tue, 03 Nov 2026 03:45:04 +0800
+Subject: [PATCH RFC v3 01/17] firmware: arm_scmi: Drop the ARM architecture
+ dependency
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -59,92 +83,80 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261103-a210-scmi-v3-1-ee6b31580808@iscas.ac.cn>
+References: <20261103-a210-scmi-v3-0-ee6b31580808@iscas.ac.cn>
+In-Reply-To: <20261103-a210-scmi-v3-0-ee6b31580808@iscas.ac.cn>
+To: Sudeep Holla <sudeep.holla@kernel.org>, 
+ Cristian Marussi <cristian.marussi@arm.com>, 
+ Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>, Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>, 
+ Jassi Brar <jassisinghbrar@gmail.com>, Linus Walleij <linusw@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+ Bartosz Golaszewski <brgl@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Thomas Gleixner <tglx@kernel.org>, 
+ Radu Rendec <radu@rendec.net>, Samuel Holland <samuel.holland@sifive.com>, 
+ Daniel Lezcano <daniel.lezcano@kernel.org>, 
+ Anup Patel <anup@brainfault.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Brian Masney <bmasney+clk@redhat.com>, 
+ Jerome Brunet <jbrunet+clk@baylibre.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Drew Fustini <fustini@kernel.org>, 
+ Icenowy Zheng <uwu@icenowy.me>, Inochi Amaoto <inochiama@gmail.com>, 
+ Vivian Wang <wangruikang@iscas.ac.cn>, Yao Zi <me@ziyao.cc>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, linux-gpio@vger.kernel.org, 
+ Paul Walmsley <paul.walmsley@sifive.com>, linux-clk@vger.kernel.org, 
+ linux-serial@vger.kernel.org, Han Gao <rabenda.cn@gmail.com>, 
+ Han Gao <gaohan@iscas.ac.cn>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793648705; l=1053;
+ i=gaohan@iscas.ac.cn; s=20261021; h=from:subject:message-id;
+ bh=/i2Hrato1ZaddmWBACOcAsu4rA2pM7/klcdfY2u7RqE=;
+ b=twSKt1n9O18ON1twtQeq9bHAwBn2LoDRA9GzybRh7RNj6v2Uld03XL7r+2OKTy+S8evBTnbrt
+ dLLzVzpNnkEAQRSfFZMsoejt9+FVb1uF2RGgxFrig8PAyxgPBzVtZUJ
+X-Developer-Key: i=gaohan@iscas.ac.cn; a=ed25519;
+ pk=J8WHEK3filS86QaCaIHDGafqhxKyQ4K7+vFgRirTIiY=
+X-Endpoint-Received: by B4 Relay for gaohan@iscas.ac.cn/20261021 with
+ auth_id=1262
+X-Original-From: Han Gao <gaohan@iscas.ac.cn>
+Reply-To: gaohan@iscas.ac.cn
+Content-Transfer-Encoding: 7bit
 
-Hi ARM SoC Team,
+From: Han Gao <gaohan@iscas.ac.cn>
 
-Please pull !
+The SCMI core and the mailbox and shared memory transports only use
+generic kernel interfaces. Transports that need architecture support,
+such as SMC, already carry their own dependencies.
 
-I have included one dts file fix in this, hope that is OK. Let me know
-if you prefer to keep DTS separate even for fixes.
+Drop the ARM and ARM64 dependency so that other architectures can use
+SCMI.
 
-Regards,
-Sudeep
+Suggested-by: Michal Simek <michal.simek@amd.com>
+Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
+---
+ drivers/firmware/arm_scmi/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
--->8
-The following changes since commit 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4:
+diff --git a/drivers/firmware/arm_scmi/Kconfig b/drivers/firmware/arm_scmi/Kconfig
+index 783c24a20e29..b56aed46a387 100644
+--- a/drivers/firmware/arm_scmi/Kconfig
++++ b/drivers/firmware/arm_scmi/Kconfig
+@@ -3,7 +3,6 @@ menu "ARM System Control and Management Interface Protocol"
+ 
+ config ARM_SCMI_PROTOCOL
+ 	tristate "ARM System Control and Management Interface (SCMI) Message Protocol"
+-	depends on ARM || ARM64 || COMPILE_TEST
+ 	help
+ 	  ARM System Control and Management Interface (SCMI) protocol is a
+ 	  set of operating system-independent software interfaces that are
 
-  Linux 7.4-rc1 (2026-11-01 13:26:31 -0800)
+-- 
+2.55.0
 
-are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git tags/arm-fw-fixes-7.4
-
-for you to fetch changes up to 09fd63fe687ffa2d6594cd31d6fcf5fa7740a63c:
-
-  Merge branches 'for-next/smccc/fixes', 'for-next/scmi/fixes', 'for-next/ffa/fixes' and 'for-next/juno/fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux (2026-11-02 11:33:33 +0000)
-
-----------------------------------------------------------------
-Arm Firmware Interfaces(SCMI/FF-A/SMCCC) fixes for v7.4
-
-SCMI fixes correct protocol-device creation and request tracking in raw
-mode, allow the generic and i.MX pinctrl drivers to share the standard
-SCMI pinctrl device, and avoid creating unused performance-domain
-devices that block cpufreq consumers through fw_devlink ownership. It
-also includes dropping now unnecessary ACPI config guards and several
-robustness fixes: bound i.MX MISC syslog and control responses,
-unregister notification callbacks on event-enable failure, and free
-mailbox state when shared-memory mapping fails.
-
-The FF-A notifier fix distinguishes notification IDs within a hash
-bucket, preventing callback registration and delivery from using a
-colliding ID.
-
-SMCCC and GICv3 fixes restore builds on 32-bit ARM when SMCCC discovery
-is unavailable, while restricting the discovery dependency to arm64
-where the NVIDIA erratum workaround applies.
-
-Finally, correct the Corstone1000-A320 GIC redistributor region size
-for its GICv4 configuration.
-
-----------------------------------------------------------------
-David Cemin (1):
-      firmware: arm_ffa: Compare notify_id when looking up notifier callbacks
-
-Geert Uytterhoeven (2):
-      firmware: arm_scmi: Update ARM_SCMI_HAVE_TRANSPORT rationale
-      firmware: arm_scmi: Fix grammar s/thing/things/
-
-Julian Braha (2):
-      firmware: smccc: Provide stubs for HAVE_ARM_SMCCC_DISCOVERY=n
-      irqchip/gic-v3: Select HAVE_ARM_SMCCC_DISCOVERY only on arm64
-
-Rob Herring (Arm) (1):
-      arm64: dts: arm: corstone1000-a320: Fix GIC redistributor region size
-
-Sudeep Holla (10):
-      firmware: arm_scmi: Avoid protocol devices in exclusive raw mode
-      firmware: arm_scmi: Skip requests for standard protocol devices
-      pinctrl: imx: Match the standard SCMI pinctrl device
-      firmware: arm_scmi: Skip unused performance-domain devices
-      firmware: arm_scmi: Drop redundant ACPI configuration guard
-      firmware: arm_scmi: imx: Track copied syslog words
-      firmware: arm_scmi: imx: Validate MISC control response size
-      firmware: arm_scmi: Unregister notifier on enable failure
-      firmware: arm_scmi: Free mailbox state on mapping failure
-      Merge branches 'for-next/smccc/fixes', 'for-next/scmi/fixes', 'for-next/ffa/fixes' and 'for-next/juno/fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux
-
- arch/arm64/boot/dts/arm/corstone1000-a320.dtsi     |   2 +-
- drivers/firmware/arm_ffa/driver.c                  |  11 ++-
- drivers/firmware/arm_scmi/Kconfig                  |   2 +-
- drivers/firmware/arm_scmi/bus.c                    | 110 ++++++++++++---------
- drivers/firmware/arm_scmi/driver.c                 |   4 -
- drivers/firmware/arm_scmi/notify.c                 |   4 +-
- drivers/firmware/arm_scmi/transports/Kconfig       |   2 +-
- drivers/firmware/arm_scmi/transports/mailbox.c     |   7 +-
- .../firmware/arm_scmi/vendors/imx/imx-sm-misc.c    |  18 +++-
- drivers/irqchip/Kconfig                            |   2 +-
- drivers/pinctrl/freescale/pinctrl-imx-scmi.c       |   2 +-
- include/linux/arm-smccc.h                          |   7 ++
- include/linux/firmware/imx/sm.h                    |   6 ++
- 13 files changed, 113 insertions(+), 64 deletions(-)
