@@ -1,78 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793648724;
-	b=sIHfcaE2EJg50aQKc5yA327owk0QZpX5G2oogznzOPVYW827sdFK+NFYD40iz3D+Zmga
-	 I1du96qtHkja4hC0peB2RE/NRv9003+3o239Jpj1+cScvrcP5Y2BTI6PJyevspMWnP3zc
-	 2q9dZl8t/dUQCIP6OWOoj48jVX108QKSfROemSOEq7vpjQ/He26HcHGs70Om5JDfDFEWD
-	 WvoOUeJ0OZzpbnSsoIWg0IRnQ5Bha12H6WoiDXNwtpYTaQ/fSc1tOZb4dIaFXqLdKQhLn
-	 IuyNe4tJSE9S2gW75FC1pgXTxA6/047w+8hlR+AuDQD4cxayt5i0+CJaefo1uWKkHoQ==
+	t=1793703570;
+	b=wRY0LiXTMcYeAyHU0Zvs6/eLZf7XojO17LxT++psZktE7Zbx9ePheVPLucQFFDwb15QV
+	 kaYh2+hnDJ9FVfeTe9ZASTA3+wl+quifpF2BPc7nG8Cg3ceNGU7SrLCGzunjrYsYyUHFt
+	 NQ42WriF8mA0bZDG2mgDRbL63roCyjk5FMq+lpvr6zd3xFs28RaT30B19KhoH2OZ5KKDB
+	 L01v8Te2m9pdsqL6xEYqxbZqrwtSH3ECh6XUHNg87cBier/6AFT22Xu+76+ie1RqRZxZD
+	 4AUx7wYAtlTqel3UABlhKBcpgFwS0KaBD8JaT/O+k2jdYYFJSN9Mt096EW18lUakcJg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793648724;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=xDviUrSMqV9Z+mot6jCFHNu1hNqv1bylSy05f5qWmgw=;
-	b=sRqj07r5EaPZgrk8hemh84AkDbxYHrMzYiqPysnZROijBUhz2trUhltI6Meel2q13Vjt
-	 /Pl614h+M+/0OrR+eSwdFMqebjQzABFE1a2ZTLCOX8DXCqMYsHAvWcxB17i77eh/XQY4r
-	 OMKzlwxRKhiwlNtX/vUu9TfWEK3tpmXNz+/6A3ssijZGm6VW5I7oMkO4Q6cMLQo+ZPL0u
-	 OgFo3CunUxUauwgX4o7z5CYsRFuUo2yuXWim7j7K6dHlHffdZuArUw6bwqlaA7mPALtgR
-	 XYespGYZMaRPYZt2BJFGFwoBx4qQxjkQO1d4p9Cd8mLjQ2WDd0xqD3wqQDX5VWj7ljw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793703570;
+	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
+	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
+	 User-Agent:MIME-Version;
+	bh=HYpokslgUmrlnfncU3L/zsbF0VduaADvTVTWpX9Ts5s=;
+	b=0JisQMOJn/WShuMPaVJwrWARrVOix7DCbVINf/p5wIPauoK2Bk9EbUY0RFj22Rc+VcmT
+	 DQbRfreFqSb6hRCg8Nb9HajIvSGMnRAeXI1SOz90BBvroewGCfya+BXAXoqYvb3p/Zmt6
+	 CJgMxkcfS3j1wd4/tt8o3qLQsncRZAmSvd4HSeDP4De1XHJt4yliYXoUhzZjIKvgIHep8
+	 vJlkaJRAfidYnYsDYBZGNZttqceKhXwObxPt4NN7UdMI5y98a63ATYKVIjWNIHO4YML6R
+	 STrnC6dZ1ywL2CKDwNeczZaohqBi1YpQuujqU/r9aRVngWBOMXNZyS1qQliR8Kx9CnQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MbbHgxWW;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=pengutronix.de;
+	spf=pass smtp.mailfrom=pengutronix.de;
+	dkim=pass header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=Aadq76Ib;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
+Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8777860850AA;
-	Mon,  2 Nov 2026 19:45:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3102D606FAE1;
+	Tue,  3 Nov 2026 10:59:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3102D606FAE1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MbbHgxWW
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793648724;
-	b=fly8MnMLxQkj7QnhtcTqGnn1JCAqPUcXhYE7+HiQ7wGpOwaRFshkyfplcRGFU5/H9iQh
-	 yNUSSJx6QudD3BKgUMoxWVhb4yBgiXeHv8Nd7Z9yCyad/xu+gYfTydHGAwHauMuhArnoU
-	 nBXk/jGIUXREvPS9Av3WcsObXrtQ7/wO9ODzBuG99ef/5QqMLG9abZwF5AczyFJnMulWL
-	 vBbBDCdBet81IcpWVDUVNybzR0qA5KrupXMzVRNurMSPSs1jrqW9buToORqeBL+eM8Et0
-	 wvNaTd89/T/0WqYlQBsK+rFIQR1YaCGR2RAcn4vGEgpKMtXkAQzOVpYFZ+4gNnkj7Yg==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793648724;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=xDviUrSMqV9Z+mot6jCFHNu1hNqv1bylSy05f5qWmgw=;
-	b=MKqNiY5nM22mJ9GI3JuZrOsqYNakqrhtpUJNFXC66/LJUPwNjex6iSzh8Ur9ZQ3bHYi3
-	 n/9iBQFGp9eP9NkNfA7xG6KRvNQDrluObqPb7/dG4Dn1pe9oGzzCY3m2Y7bNZ0cGi9o/3
-	 W9w1OpBji2en3NcllwuOAYlYIoiMnKYbIc4Gn5xLx8prNVFS+VeufgqiFsbvPNgEVHLEh
-	 C3GeIvnGF/xuplgz2TlIPxzfWjRi/86OUaHkNI728Pief+rJelY7io7YlEVB8RnZR5VKo
-	 NsO1V9iehdq2u7knew2dYy6HygDuVOtVU317gkGPVyLRk2zvqSS8BH14yZzRxb0plTQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 655C51F00A1D;
-	Mon,  2 Nov 2026 19:45:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793648724;
-	bh=xDviUrSMqV9Z+mot6jCFHNu1hNqv1bylSy05f5qWmgw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=MbbHgxWW2YJEnOlOf10TwB62Gzg84RjY6W0IkpARovW8PSsh+XZ/MicGtGaKHhnxN
-	 0DxY2xHonBHwTSuv+lMoBst3PJM6edBbG0sYbcQb5pRjCXSYOc6G0ucpvId8KHOEKL
-	 pG1TRaYZu38mRJtGyIlno37FlnqB73audAjmRq5+Oo5QV4gGN1obi8bb11Ak2QnCFc
-	 hav1rFuhhu1q5axxdkey4mbQS5ODEGZxt2a06p4TSxx8HrnirH8ElU/+44gV7uBWW5
-	 vzd4Oaib630dckPKiPZTK/fU6hCEYHTv0thmOK/9HCW7TDp+r42DBnl+AXtSNCalFa
-	 wgHKdA+bfjPjA==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id B618246645;
-	Mon,  2 Nov 2026 19:45:09 +0000 (UTC)
-From: Han Gao via B4 Relay <devnull+gaohan.iscas.ac.cn@kernel.org>
-Date: Tue, 03 Nov 2026 03:45:20 +0800
-Subject: [PATCH RFC v3 17/17] MAINTAINERS: add Zhihe A210
+	dkim=pass (2048-bit key, unprotected) header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=Aadq76Ib
+Received: from [IPv6:2a0a:edc0:0:900:1d::4e] (lupine.office.stw.pengutronix.de [IPv6:2a0a:edc0:0:900:1d::4e])
+	(Authenticated sender: pza@pengutronix.de)
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 20042202806;
+	Tue, 03 Nov 2026 11:59:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
+	s=20260414; t=1793703567;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HYpokslgUmrlnfncU3L/zsbF0VduaADvTVTWpX9Ts5s=;
+	b=Aadq76IbqcmCqFO3Xl3Zl7G6rHCjOEMcq3OCZqjWiNwHifsU01lYWQqJi7gtzgH7e7s01/
+	X5GX06kUJvmBjz1sA8xrqJEmKfp7bXJmK8YBBSF3C7sO0xUViU9CJdLOUpkVgGT/8SKL/0
+	lLKDFt7kswKOQGIrVzvUj5Ilik1RPpIftg30I+1FveeYJ6TkNjQNM1P2+IfuCsKdhsZxsU
+	dZ8f7pEiLT1nTCagZIqaMsIaagznoisklxvltLH8FW2sWMHaOUXr5JFPEB3X/BPtxnTPBH
+	5nFYbVvqdjNJkjdqwLfj/vOK5s9islXy1RWKhe6HLLIjTE4fy/Jwiwj3n6iNKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
+	s=20260414; t=1793703567;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HYpokslgUmrlnfncU3L/zsbF0VduaADvTVTWpX9Ts5s=;
+	b=CrT3xe6idt+GQHJkdGerOBD7jKAzLMWyQ09TK64Va6/Uks2azMFw29nkPPMh+FhKT2BZo9
+	7rG2v4FJZC7p8pgUkf5dprY2QGcLc0470gF/gyjUaq3iS1CR9cu5ftolz38ecZtRH23+zf
+	UCqT7xP8a39I4Z0ESqHOhkW7p8sJPhgE2NUXIhZkqaGoa3T7mqfSRKYi3lq+tpS/tDxZCH
+	/4PHm0y+zCS7Ur1JKYLWX+GmIOmADr44lgneKlzeEW+KqVXiTL2jImDVAqZkMyJnkF7dU/
+	zl6XWDKddDsxpu0LvIHQ4xfWB3/F1QxFCho18qbki+GFAsYdGrKodC4zF+GcRQ==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=pza@pengutronix.de smtp.mailfrom=p.zabel@pengutronix.de
+ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1793703567; a=rsa-sha256;
+	cv=none;
+	b=Rc4ElyTcHQHzzCa23Y4ZZFf0kHWk9XxEJxDqMzfdnAjMQp7SgdRKfBnO9eleQC6TGlkro8
+	SQnOxY8HrlYUDcHu4JgCBM4InflRXupFPE5rF8a6ZCcipmF0qviNPe4eZyDHYwU5xOBnx6
+	J4coPZI4vC6vyUBdm+xR8lnvfECW3rcZoesUogbInFxarxn/4mV3tMTyIi8rTnIBUUqwS8
+	81thafDukchckSBiQsYTGty77NuX9Q2aD4TD1zZR5AGV6BP9dUxO8X7FkYI3hL92lCROWi
+	D2E+pv+qM2E+2oG3kryrnmgGhwTeJd5s1/j2k7ZXNV1pv8S05o3+QBmFf4ZSwg==
+Message-ID: <0525fec32cd3c35768585c57bcfbc4a7bb2a569d.camel@pengutronix.de>
+Subject: Re: [PATCH] reset: scmi: Set the device for the reset controller
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Sudeep Holla
+	 <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>
+Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Date: Tue, 03 Nov 2026 11:59:27 +0100
+In-Reply-To: <20261002084142.1570378-1-hayashi.kunihiko@socionext.com>
+References: <20261002084142.1570378-1-hayashi.kunihiko@socionext.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -82,85 +93,22 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261103-a210-scmi-v3-17-ee6b31580808@iscas.ac.cn>
-References: <20261103-a210-scmi-v3-0-ee6b31580808@iscas.ac.cn>
-In-Reply-To: <20261103-a210-scmi-v3-0-ee6b31580808@iscas.ac.cn>
-To: Sudeep Holla <sudeep.holla@kernel.org>, 
- Cristian Marussi <cristian.marussi@arm.com>, 
- Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Alexandre Ghiti <alex@ghiti.fr>, Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>, 
- Jassi Brar <jassisinghbrar@gmail.com>, Linus Walleij <linusw@kernel.org>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
- Bartosz Golaszewski <brgl@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Thomas Gleixner <tglx@kernel.org>, 
- Radu Rendec <radu@rendec.net>, Samuel Holland <samuel.holland@sifive.com>, 
- Daniel Lezcano <daniel.lezcano@kernel.org>, 
- Anup Patel <anup@brainfault.org>, Stephen Boyd <sboyd@kernel.org>, 
- Brian Masney <bmasney+clk@redhat.com>, 
- Jerome Brunet <jbrunet+clk@baylibre.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Drew Fustini <fustini@kernel.org>, 
- Icenowy Zheng <uwu@icenowy.me>, Inochi Amaoto <inochiama@gmail.com>, 
- Vivian Wang <wangruikang@iscas.ac.cn>, Yao Zi <me@ziyao.cc>, 
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-riscv@lists.infradead.org, linux-gpio@vger.kernel.org, 
- Paul Walmsley <paul.walmsley@sifive.com>, linux-clk@vger.kernel.org, 
- linux-serial@vger.kernel.org, Han Gao <rabenda.cn@gmail.com>, 
- Han Gao <gaohan@iscas.ac.cn>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793648705; l=998;
- i=gaohan@iscas.ac.cn; s=20261021; h=from:subject:message-id;
- bh=8rAYBDf7gj4NVAnJH29mjOJ+nEym4unk8d8Kkoausq0=;
- b=6TtP6/NuwZRzu3va09O8e8UnA3pvPHGh9UPTGAq0Dmo7rbWDjdpRffzRpEhXpozRYgIMWLU6S
- zn1EkLvVW2CC6itThiOaOSkDpscWcGEVnsphO87jn/Tou5u0i4hWASF
-X-Developer-Key: i=gaohan@iscas.ac.cn; a=ed25519;
- pk=J8WHEK3filS86QaCaIHDGafqhxKyQ4K7+vFgRirTIiY=
-X-Endpoint-Received: by B4 Relay for gaohan@iscas.ac.cn/20261021 with
- auth_id=1262
-X-Original-From: Han Gao <gaohan@iscas.ac.cn>
-Reply-To: gaohan@iscas.ac.cn
-Content-Transfer-Encoding: 7bit
 
-From: Han Gao <gaohan@iscas.ac.cn>
+On Fr, 2026-10-02 at 17:41 +0900, Kunihiko Hayashi wrote:
+> SCMI reset driver does not set rcdev.dev when registering its reset
+> controller.
+>=20
+> If rcdev.of_node is not available, the reset core tries to obtain
+> the firmware node from rcdev.dev. However, rcdev.dev is also NULL,
+> causing a NULL pointer dereference.
+>=20
+> [...]
 
-Add Zhiguo Zhu and Han Gao as A210 maintainers.
+Applied to reset/fixes, thanks!
 
-Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
----
- MAINTAINERS | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+[1/1] reset: scmi: Set the device for the reset controller
+      https://git.kernel.org/pub/scm/linux/kernel/git/pza/linux.git/commit/=
+?id=3De3e068a457ce
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 93abbb315065..64ed305d9bce 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -30860,6 +30860,18 @@ L:	linux-kernel@vger.kernel.org
- S:	Maintained
- F:	arch/x86/kernel/cpu/zhaoxin.c
- 
-+ZHIHE A210 SOC SUPPORT
-+M:	Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>
-+M:	Han Gao <gaohan@iscas.ac.cn>
-+L:	linux-riscv@lists.infradead.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/mailbox/zhihe,a210-ap-mailbox.yaml
-+F:	Documentation/devicetree/bindings/pinctrl/zhihe,a210-pinctrl.yaml
-+F:	Documentation/devicetree/bindings/riscv/zhihe.yaml
-+F:	arch/riscv/boot/dts/zhihe/
-+F:	drivers/mailbox/mailbox-a210.c
-+F:	drivers/pinctrl/pinctrl-zhihe-a210.c
-+
- ZONED BLOCK DEVICE (BLOCK LAYER)
- M:	Damien Le Moal <dlemoal@kernel.org>
- L:	linux-block@vger.kernel.org
-
--- 
-2.55.0
-
-
+regards
+Philipp
