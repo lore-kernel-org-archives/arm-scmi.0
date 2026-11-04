@@ -1,47 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.161
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793801235;
-	b=nIEEShr1T4QBEOZt6KbunPO6W9OPeMDPeY9GAph54nRlGpD7KjCNL0pKl3fgQhVRM4oI
-	 jfrslkrdm9vtHm8sq8Ekv24PO7cRmVRuiDdND/3a+g1lGfO+w1b7DRpKV5OPF3fIMjq0Y
-	 VQA05fB9LZVdFwzmguxcIhBj9DdU46/zphh27zMVZgMhU89YMnG3e9KFAvIT/1f0Zzoxb
-	 rZK1FMmSID0AmpeV9TRUMjvPGUq17x7rF/ZcOWSU7MTs+ClS1HJVBtdkfZWxyp6tDfCTk
-	 SZokXarabjpHPdPxUdLJdxl3sEZIG6s57vhcmSdXPGdwacT4nqcSf5f4Y4dEaIe/c2Q==
+	t=1793829345;
+	b=rLRsRyvOfm3iFqy8hL9s1TCFPbNZQl3Ae/CiyeFU3j8TpNS79lAgn0GJIwDFFXigoZK4
+	 WnN+sok2z9K9aZOdHXuJzndQ0GNojsBcTgp+bstUL7mLKPrNt973KBHSE+dWjKv0+4Z4j
+	 JiBDymzkrVuKCpd+ATRttmRmsJmPuObuc/nUoNyO75n21gCgKYWTo2vEIooZ3VuNNPsJy
+	 Qtl1jalxJQt/WydMhyRYnDf3A8oHPdAoGadvo306FcfGkRFzj5Aar6Sm3kR1MeZ+jN8sw
+	 yHGepP/ttWUrPucShtZ+GBsQNGxdIylpV5rQPVkabpFZWb9/gbaugblNutUX7TD4xKQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793801235;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=7KdmzCMxpx265Yf+6eArSomaCxxIsqK3NySacZhOFFc=;
-	b=i64PlST9fIrKJEjd1XO/febzgskLpz243uUOBS4felBrrSf/1W1TRbaABPOrl3+enVPE
-	 /WWJq00RjilOL4IhiMTpRYiX4QdWjm62Bz4oie1wHRsjW44x2pKfh38MYihE6EV7x5k9i
-	 l9zHxPudUu/mox+mAE8udU336wEP8aUVo0LZRYHAA65yuJ/DHeqmKqxbt+FWmpfDvh0Qb
-	 oaW0NjuaAL3CCCuNzqc5UcOjAVXBbjFiRbJBQPx0Q/45QfUk3GQO140euBomN1SrSzCGe
-	 Q4Ujn/Ri2QiW2jxe+wcGmciUjy7+mrKqi6VhFxXFIKKvKQi/y7+u1VlpNRPzmR5iYEA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793829345;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-MBO-RS-ID:X-MBO-RS-META;
+	bh=1KM15pS674xkwzoKzXbfoGMlVw+mkKvC51O5xmcBcQ4=;
+	b=t0hlo8Su6lomWJQzGd5Nqf93NnCFkZGN/E4qEFYkYo58I5M1xYL/Q0GmuGDY7G/kXQta
+	 CMneGgDo2QQn5xGf+UEVPpZ4248MSEhr4/8wn6iOyGyV8MNPgckEOn5mT67SeecdpXZQq
+	 BLnondLiFeJKxjVaxRxOA6JIJ4+xuHYTyee7Ar69cAoZna+/7aPudC/yw85sA8NHWI1QV
+	 V2cTDK7LazoKN70nLEvnry9peKwrKCS789KT6NjushurHNEcEll0TtDw92/7GV4eq2+5H
+	 Pt2RP4LaQ7ffmtHIEf2uithoCC/I/4zR1aH+x05FJ2m2udkKB3rnl5RJ/GTSEUj9mdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IfY2Fkvx;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=mailbox.org;
+	spf=pass smtp.mailfrom=mailbox.org;
+	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=h6Zhmgkl;
+	arc=none smtp.remote-ip=80.241.56.161
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3BB8606A31B;
-	Wed,  4 Nov 2026 14:07:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3E560A5BD2;
+	Wed,  4 Nov 2026 21:55:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EC3E560A5BD2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IfY2Fkvx
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 126CC1F00919;
-	Wed,  4 Nov 2026 14:06:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793801234;
-	bh=7KdmzCMxpx265Yf+6eArSomaCxxIsqK3NySacZhOFFc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=IfY2FkvxwU5rQPtG7BriJGEgXPopOKUGIVmTT9jN19hU9c8xvgE4K2l+EV9ePaGdI
-	 sk1vQwjzCorGrIMKwOP/KjpW/stC2sdqDVRlabuqKdC0YQgVBd5HoN0K+Qbbh2Keql
-	 XHwMh7hBzA5cJ8gQGjKx4mxTMYYoqo2QkNY7sx1Fbb+u3DruvIhARjF30ZhgyofuOn
-	 DlXOpuOErlMm12IV9vGrEqQxFpDoN7FPiyvxN4UjuC/3WiCTvtFK7wB6VerreylYP8
-	 +rak/5bLdixx9lrMhrdaQkgo6E7jfpWQawvVq0EgypGtxjgwRiQ3P9zth7+X/mtTK7
-	 tkIrtRnM3+76Q==
-Message-ID: <ef0ce951-109c-4423-9a1a-e84c1d40e3be@kernel.org>
-Date: Wed, 4 Nov 2026 15:06:56 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=h6Zhmgkl
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4jKfQ45tJbzKmTr;
+	Wed, 04 Nov 2026 22:55:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1793829340;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1KM15pS674xkwzoKzXbfoGMlVw+mkKvC51O5xmcBcQ4=;
+	b=h6ZhmgklkVRwYt1n9X/n8y/F+89/7eFCzwSd2uXk55wsQ90Ro6crnRQRb1W+/3wBdTgGDs
+	rCgkbMrz+lPdFeq24VLUNk86fQWkG/Qmp6KRJki29gFw+aDzt0BI8/eGO4DfWF53mgQ00F
+	Vvtx/YuT8JfVPVJ335jZeVFTJMhxMS42kLvwZcgTlLMKk0LyIdGepefjq/dY3M4DDG5hHI
+	ls+7WPGd5m0yNMYTHmVUO2Wherq54OuGJFTmtAuOPtrmGN2wy+kpaCmxF3cjZ8PU9+jfvm
+	S2Z82043mZWjhHxFE2StoOuBkYEgjH39Nnh2b8Y0RWgBlymNfCmoHckwWGJ6/g==
+Date: Wed, 4 Nov 2026 22:55:35 +0100
+From: Anthony Ruhier <aruhier@mailbox.org>
+To: Pragnesh Papaniya <pragnesh.papaniya@oss.qualcomm.com>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>, 
+	Cristian Marussi <cristian.marussi@arm.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Sibi Sankar <sibi.sankar@oss.qualcomm.com>, MyungJoo Ham <myungjoo.ham@samsung.com>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
+	Dmitry Osipenko <digetx@gmail.com>, Thierry Reding <thierry.reding@kernel.org>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Rajendra Nayak <rajendra.nayak@oss.qualcomm.com>, 
+	Pankaj Patil <pankaj.patil@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	Amir Vajid <amir.vajid@oss.qualcomm.com>, 
+	Ramakrishna Gottimukkula <ramakrishna.gottimukkula@oss.qualcomm.com>
+Subject: Re: [PATCH RFC 07/10] PM / devfreq: Introduce the QCOM SCMI Memlat
+ devfreq driver
+Message-ID: <auukrIsbbd3q-qh-@tour-anthony.aruhier.fr>
+References: <20260724-rfc_v8_scmi_memlat-v1-0-cb732bcff1f4@oss.qualcomm.com>
+ <20260724-rfc_v8_scmi_memlat-v1-7-cb732bcff1f4@oss.qualcomm.com>
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -51,113 +80,56 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v3 00/17] riscv: add initial Zhihe A210 support using
- SCMI clocks and resets
-To: Han Gao <rabenda.cn@gmail.com>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
- Cristian Marussi <cristian.marussi@arm.com>,
- Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>,
- Jassi Brar <jassisinghbrar@gmail.com>, Linus Walleij <linusw@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Thomas Gleixner <tglx@kernel.org>,
- Radu Rendec <radu@rendec.net>, Samuel Holland <samuel.holland@sifive.com>,
- Daniel Lezcano <daniel.lezcano@kernel.org>, Anup Patel
- <anup@brainfault.org>, Stephen Boyd <sboyd@kernel.org>,
- Brian Masney <bmasney+clk@redhat.com>,
- Jerome Brunet <jbrunet+clk@baylibre.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Drew Fustini <fustini@kernel.org>,
- Icenowy Zheng <uwu@icenowy.me>, Inochi Amaoto <inochiama@gmail.com>,
- Vivian Wang <wangruikang@iscas.ac.cn>, Yao Zi <me@ziyao.cc>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, arm-scmi@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-gpio@vger.kernel.org, Paul Walmsley <paul.walmsley@sifive.com>,
- linux-clk@vger.kernel.org, linux-serial@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>
-References: <20261104140031.1172491-1-rabenda.cn@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGPBBMBCgA5AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJp2mE8AAoJEBuTQ307QWKbeaIP
- /ihHTkTW4KsN/DQ945JJbyu5tI0J80Wue7QyyLPglyKfhgb5cLLNPpOC8cCIJsc7+W3i2P38
- s2c1cOH6CYGE7E9ur3Vfme8NW2S2I/Z8VC7bZnzyS23wT17LrsdS/qCpx4o8U+pt/xdXDKph
- EGRYrIEmMpUWvyYzyYKGIe25FtaayIIKpq8eZYyFcp2f/sG5IkOW5uZzHPMPdcm87jU7fyuQ
- rAU2vx9r+ulUfQ/q9Z2roC/ode3l7t2pN7BCBCsUDp6JCrUyZrtT1e7EbA0ZRP3aOBNk2P2E
- DQOgJGjGdO5Yx2Y9LFtltu6JbsBJHi1syGRX3AtQYOMc4Y1WGoeZJmMlvKj2ZqqXNkcWi2DS
- IQEWB0uW6CqFsBBIMGDa+6OzdaVO/uAVXWDWml02Men3CILdI1MbVjoh8ECqYUY7OQ+JJvNN
- vnliuq5WM3Ghd3jg/LZZrxXjdIginRHFQCjIJYLKpLZWm1/iDFedcfzqRNYmTtqscdCNHW41
- oT3Z7BmO9xwdjuwBS6nmS6JJwkbf5Ot2QR4pB/DRU7ZwjT1qHe+9r9gF32wXVQatHNGK/VVu
- sfwOnkdxCWkp/qb2gdQRmZh+SedStWshigH6sNfuHBloF/q+hjMRc8b2m326OZdrbSHwY1Sz
- vti8Hn7n8NjdHO9LKB7BIdjkA9DA5WsqOuVCzsFNBFVDXDQBEADNkrQYSREUL4D3Gws46JEo
- Z9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLueMNsWLJBv
- BaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6eiOMheesVS
- 5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wAGldWsRxb
- f3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA6z6lBZn0
- WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9YegxWKvX
- XHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt91pFzBSO
- IpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gUBLHFTg2h
- YnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/JoFzZ4B0
- p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu4vXVFBYI
- GmpyNPYzRm0QPwARAQABwsF2BBgBCgAgAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmna
- YUkACgkQG5NDfTtBYptX+BAApg32CkxwNucNEi8WfWA8oKkW0y8YDuY6ORMo9FWNGiT/OTy0
- vyJrLocrpn86zwfjVp+eCrssPYh8eqJfnWqmYv6ACQtHPYzPZQ3mSo8H97Z01oUxITzCxpXm
- ZkLgPIqtDPcC2E3dPM/fVxcyowM8XsaMA9wcsaUYrta8toOq2b9tKcjleKMfMrm0gQ9u7wUc
- QbLkwj6TCLOwucb07GXzLTNF9PZmaDUpKAZjMjmrW+le+SFvQbhamx0rxLWPR0NWntXpbCn+
- +ACch03p/JyTBVktxFsFyCt7pTPE1kEaeuXBTe/a2D9iQvRxRW19LvuO2e59/u1wYUiH/orz
- wbIC2S4dBsPAPihL3ztOU1yE86GPyQtSE0kU+/7snnLt4QGi6PChf3t5gnNjAzjUUovO8rgI
- c+5yN5heq5loYHgK6OQ9OlHzsPHO9e9MOQcKlFycs1pyijFGzDwdNUm/SchK8iWT2QApTx4A
- K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
- n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
- qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20261104140031.1172491-1-rabenda.cn@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260724-rfc_v8_scmi_memlat-v1-7-cb732bcff1f4@oss.qualcomm.com>
+X-MBO-RS-ID: bdc02223a3e50c9f112
+X-MBO-RS-META: 5mbzo6rkf8d9aucpqd6mxur6iz7r7xd3
 
-On 04/11/2026 15:00, Han Gao wrote:
-> Hi, Krzysztof
-> 
-> On Wed, 4 Nov 2026 09:24:15 +0100 Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> 
->> On 02/11/2026 20:45, Han Gao wrote:
->>> This adds initial support for the Zhihe A210 SoC and the Melon Pi V1
->>> and V2 boards.
->>>
->>> The A210 has four C908V and four C920V2 cores, plus an E902 management
->>> core. The E902 firmware handles clocks, resets, power, the PMIC and
->>> CPU DVFS, so Linux uses SCMI for clocks and resets. The only new SCMI
->>> piece is the mailbox to the E902. [2] explains why I picked SCMI over
->>> RPMI.
->>>
->> Considering how vulab@iscas.ac.cn is ignoring reviews/comments and spams
->> with a lot of unthreaded emails, completely disregarding any tries of
->> contact over last 1.5 months, shall we ignore all contributions from
->> @iscas.ac.cn?
->>
->> Maybe this will be the only way to actually be heard?
-> 
-> Apologies, I am unable to communicate directly with the team at vulab,
-> but I have passed the relevant information on to them;
-> I trust they will handle the matter appropriately.
+Hi,
 
-Thank you.
+On Fri, Jul 24, 2026 at 12:48:12PM +0530, Pragnesh Papaniya wrote:
+> From: Sibi Sankar <sibi.sankar@oss.qualcomm.com>
+> +	for (i = 0; i < info->memory_cnt; i++) {
+> +		struct scmi_qcom_memory_info *memory = info->memory[i];
+> +		const struct scmi_qcom_memory_range *range = &memory->cfg->memory_range;
+> +		struct devfreq_dev_profile *profile = &memory->profile;
+> +
+> +		/*
+> +		 * CPUCP re-evaluates and re-votes at most once per cpucp_sample_ms,
+> +		 * so a new operating point can appear only that often. Polling at half
+> +		 * that period guarantees each distinct vote is observed in trans_stat
+> +		 * before it can change again.
+> +		 */
+> +		profile->polling_ms = max(1U, info->cfg_data->cpucp_sample_ms / 2);
+> +		profile->get_cur_freq = scmi_qcom_devfreq_get_cur_freq;
+> +		profile->initial_freq = range->max_freq_khz > 1 ?
+> +					(unsigned long)((u64)range->min_freq_khz * HZ_PER_KHZ) :
+> +					range->min_freq_khz;
+> +
+> +		faux_device_set_drvdata(memory->fdev, memory);
+> +
+> +		memory->devfreq = devfreq_add_device(&memory->fdev->dev, profile,
+> +						     DEVFREQ_GOV_REMOTE, NULL);
+> +		if (IS_ERR(memory->devfreq)) {
+> +			ret = PTR_ERR(memory->devfreq);
+> +			memory->devfreq = NULL;
+> +			ops->stop_activity(ph, NULL, 0, MEMLAT_ALGO_STR, MEMLAT_STOP_TIMER);
+> +			return dev_err_probe(&sdev->dev, ret, "failed to add devfreq device\n");
+> +		}
+> +	}
 
-Best regards,
-Krzysztof
+I tried it on Hamoa (Yoga Slim 7x, x1e80100), loaded scmi_qcom_memlat_devfreq,
+and I see the apss_cpucp_mbox IRQ firing 3100 times per second. It raised the
+power consumption while idle, screen off, from 0.9W to 1.4W.
+
+The polling seems to be the issue, as I didn't see hectic changes of frequency.
+Raising the polling from 2ms (default) to 20ms makes the power usage goes back
+to around 0.95W, with ~150 interrupts/s from apss_cpucp_mbox. It's still higher
+than with memlat off, but it seems to be a better trade-off for now.
+
+Can you check on similar platforms (hamoa, glymor) if you see the same issue?
+
+Thanks,
+--
+Anthony Ruhier
