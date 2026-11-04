@@ -1,70 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793747458;
-	b=JnUF+vDy2xJLkyJG9QrYiffoG2jqadu1QDTGS/yl/1RBGUDzN1UKmzGyhTflbKdjIEMM
-	 f88rWIR5XoK01V8tyocsiL3Zr2fnfyEUBDc2TUUeRZcDDOQiPnFYNhaofbDvgJzBT+/+X
-	 UrBCsbtCbGblR2d90FVpZnFhgGK7l8YiIgeBKh7orF3wWFSHZ5/MTMH5cH5CHFpgrhYsa
-	 KHKl0E3CYw7vxE7CT6ht9KWNqOXUqQBfDjRkUR5H3XvxEcvuBIRFkslF2+ctiOjIZK4FT
-	 jiySpHLmRAYKj6G7Zfo80bchUiM94IiEHmBpMR0lp09ZjQUwhRkE5OzOyp3cSSi6UMw==
+	t=1793770449;
+	b=QrElwFYUdExU+W9gYMJJFMeCz+5znhh/Q2LInu6iT4UinTzhT4EWRkOBh9K8YIkbJSTt
+	 PXyIyN5ZM172VYMvwnDeL4hesvMJivQQ4MxBacpOugHehQdFSNmEsYW1r7WHtR3wlCzC+
+	 hetx+S3fgQU8u2feQh9jCCsa2pM9hbunVVGxaUolr1hOX31ModM2qAKb+RhrFBdVUVL+v
+	 YHcWz3SZjT/NWSYnPQo5dTvquQ0OzafmUK2QdsjNGo5hsmfRxiYQwgS+tMr+RnIWoo1WD
+	 FHdsOt8i3CyR6SgErdkOurVwjHjyUk+kQXqRPorDWPfHtFgE4E10R7xBdx4tLHIgIfQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793747458;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=X5mulTtwuiDu6oBH63Wxek1FVxJ/3qD8ZV4+cfvjAFY=;
-	b=QQ10vPbC+uKp6etggCIVrxlQ8LcnDENumIzs/bKkfjSIlXIFyni4F4+T+SK1RA7qLszk
-	 /f41khjshA8W4gYFS7OFRC+jZ1aqg2QC5JbjA6oCwNzbOieXqYj+9oQvMqZJGyzZWM+h9
-	 dC8lqGmenzcAfI0lAqFk89NxTp6XYcufZENX7xBMdsaSXahxfWN0HoZK07kUeZVX6znuf
-	 doRO1jFcfT1LkdDxefyVJzAgoefAMaPmfpEHojA+843s958OZuDCI6bKXcNQHavOBDd95
-	 oOT/b+x5hoIcjXFZf7S2AmQGKkKuO2t1piRkuOy6lVt62w+567QOBXaZDVdTf3v9Cng==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793770449;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=NaPAIDGDHTTSnPgiyoGnXRPKLlfc2mJQHfqQ2f481xg=;
+	b=vfq2YvaEENLTZlSh7ljx+Bbd9W7bR9y4aSOcyZWkP3fFBFGiFnZcPmUMmRuLB5Fd9ctG
+	 siWIo7Df/6p8pbNmoYdmFe4+VZaYQtdMxKsao+E5T+AeqNHhkVfIO19RS4l4y9cB6HtAh
+	 1tljZ/vPkR/6jaa3gt6tC+I34ssyM7sD0KF9PHQhoYSw+E+flobDy9VTSVh8bygLdGRAo
+	 HzkxukDowwn88IDJJqQxZ84/0+ozjAI2pVMmHLwALUFESQsVu/ElmplyXvqmqkABa/2ku
+	 MdI8NdoRhQDqFfMgZIgUjZOnfO0gp8RhtXxhEWhV0yArP2w9+l1YXRr5yEUm8ZyQsoQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=gFCqoSGq;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF790606A338;
-	Tue,  3 Nov 2026 23:10:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CF790606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cfss1h09;
+	arc=none smtp.remote-ip=74.125.82.47
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0655606A31B
+	for <arm-scmi@vger.kernel.org>; Wed,  4 Nov 2026 05:34:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C0655606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=gFCqoSGq
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 52C6E1650;
-	Tue,  3 Nov 2026 15:10:49 -0800 (PST)
-Received: from e121740.manchester.arm.com (e121740.arm.com [10.33.8.69])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BF29B3F673;
-	Tue,  3 Nov 2026 15:10:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793747452; bh=L5CAIPZiZH3kZEJIjArqSoa/6A1lheCZeuDiN6SG4UY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gFCqoSGq+45wVKW19hidynPTe+psph7nB4SwbXUW+0RC1ooQSfr6AsE0XoZ7d6X1M
-	 SX5G1G/5KtMqN8kOulvmQaQvXBrZMGoKuk0U0gXBQeb5mnKXDAN9rvnZTf8coXS5Cq
-	 KlDeRWDKE5tUa/vHPIHvCd/OBjTQt7UOclu6pPM8=
-From: Philip Radford <philip.radford@arm.com>
-To: linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cfss1h09
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-18a19ae4048so8992c88.0
+        for <arm-scmi@vger.kernel.org>; Tue, 03 Nov 2026 21:34:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793770448; x=1794375248; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=NaPAIDGDHTTSnPgiyoGnXRPKLlfc2mJQHfqQ2f481xg=;
+        b=cfss1h0964nVXzPW6asKCRWluZW36QCD/VgbvvklOprt1lgHuRdHrEFRuqMLE1KVaJ
+         zwQJbWZOMLVSjireD60gaeys/K8rzKFR+zYGTCC+q1mlI3M0pdkuipAyJCmYWxbZPgsk
+         VtmOYUa+V+8WvgeCXMcEmO1KXh39n3mI967aPOnEGnJmL+0/7chaW7OrR5eF2f33dNy4
+         Rwr/7HxvOtuOMGdLAc5rakRd+PjIbkFS3CQ6A2pTFnv/jwcgQUGiz+INamfg+PSJjvd5
+         NdAXVlv/nI9c2mvFO5R8WIAp+2RA8Di22xf1Ml4R/X3h8q6dZe0G1BHwNc2LGNgtCfKV
+         GvaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793770448; x=1794375248;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=NaPAIDGDHTTSnPgiyoGnXRPKLlfc2mJQHfqQ2f481xg=;
+        b=DlyeziK/J6xZWzbvG3pZFU9Co1kiCEY8GLmRZj3nFFKYIop3QpWnuLim5oX1QGZDI1
+         jkYEM2yPQd/SThCqzGYOr1jwO55CDcIb6zuxAJqwBMp+c1aMfc64t3T1ql3gYlmnz/IE
+         PxBfiD//T+3Z7LOmRrC8qTwBHTDnVMFOwI9VMkCvEClKmMGTJBuj5u++YmvmmSZxQmVm
+         ijRwNc3cneI0Xu4yiR9rd6I3nmvSGzNsYWTRSn0e1f45qEG0k2x1zuBVu1GNGezf0CVP
+         9UK599RbwJuyAuVT8YLDq9ElGttkvWSPXpGUnxcrr5c4YJfkWyKu68iDg3PoM55hXyX4
+         xSzA==
+X-Gm-Message-State: APuU4Z+1sJ2YL/VXIvzcDC+z4nuFv/6dZUgYpaz3tS1VAuEoI9S0Bf/6
+	M0iTf3UHhrbMOpe40O3538uSLUJ1SLwqXP+DTCzKjOKUXCRkbiACoW5i
+X-Gm-Gg: AYBFou2dNzB6hQORAWvQuvLizAd+VESTj86WaTNsHUQuYmSBnzP5B69Fx+5qP/zwL8v
+	UhLDw0vJKv4ZlXTRgq89MvBFtVlQ9FvSwtKNSne5NxCMQxCAtW5KKYD4YeCCJow2NyYUapSxAPg
+	V/I70GiKSxypTyYGhVsATwMSPvxRMMQgG/v4IwSJJaPZnJSF6ADltd3ZoZOEglS1osF9irfVFPu
+	GDsNJ2laO5FPt7JrB9mXcxQWaEWpBVQEngXTgMZzIBbeMFHpYNURmtAEtZwZ4MruyevKm4KJe2c
+	tERlhqqJFoMREw2o+i1nGCUYl4g3rEqYVVYzk6r/u3vMy1RdF//utmkoSRueYzQ01Su1RXNckD/
+	E/NcQoylYCgtE4O4B17A4q9CfgA6VyRnXr1K56cZFN46Y330izLYrkkjLsJiYmK8jABUszT5nWp
+	DbEc7RDUATIiT5FSSOCVpJpCHEhysDkw5pwd3dFoj00+F6IGZxYXbD1FGBTyzOYnqitCiUkHMw5
+	zRgttIN1iSEbzwFYS0ziwaWcxLrega7vI/i/l8M/hPluD6UM50QqR/IPPF3/Lmm7LpNDNtMqGEb
+	lmpFuAj9AGQtIP3+vVmdZKz8LPooKfr0sx1rCkn4OO0=
+X-Received: by 2002:a05:701b:428f:10b0:143:5c2a:e45f with SMTP id a92af1059eb24-1ac4f91ef0emr37439969c88.0.1793770447458;
+        Tue, 03 Nov 2026 21:34:07 -0800 (PST)
+Received: from CRASHEDROM.localdomain ([142.249.36.161])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c1bcedsm4263001c88.7.2026.11.03.21.34.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 21:34:07 -0800 (PST)
+From: Chengyu Liu <lui2012qwq@gmail.com>
+To: sudeep.holla@kernel.org
+Cc: arm-scmi@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Cc: sudeep.holla@arm.com,
-	james.quinlan@broadcom.com,
-	f.fainelli@gmail.com,
-	vincent.guittot@linaro.org,
-	etienne.carriere@st.com,
-	peng.fan@oss.nxp.com,
-	michal.simek@amd.com,
-	quic_sibis@quicinc.com,
-	dan.carpenter@linaro.org,
-	d-gole@ti.com,
-	souvik.chakravarty@arm.com,
-	Philip Radford <philip.radford@arm.com>
-Subject: [PATCH v10 10/13] firmware: arm_scmi: add Powercap MAI get/set support
-Date: Tue,  3 Nov 2026 23:10:04 +0000
-Message-Id: <20261103231007.537082-11-philip.radford@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261103231007.537082-1-philip.radford@arm.com>
-References: <20261103231007.537082-1-philip.radford@arm.com>
+	Chengyu Liu <lui2012qwq@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] firmware: arm_scmi: fix deadlock between reboot notifier and forceful work
+Date: Wed,  4 Nov 2026 13:33:59 +0800
+Message-Id: <20261104053359.1613991-1-lui2012qwq@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -76,296 +96,91 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add support for Power Measurement Averaging Interval (MAI) get and set
-operations to the SCMI powercap protocol driver. Extends scmi_powercap_info
-to store MAI configuration and implement MAI get/set via xfer and optional
-fast-channel support.
+scmi_reboot_notifier() calls cancel_delayed_work_sync() while holding
+sc->state_mtx, but the work it waits on - scmi_forceful_work_func() -
+takes the same mutex.  If a forceful transition work is in flight when
+the reboot notifier fires, the notifier holds the lock and waits for
+the callback while the callback waits for the lock: deadlock, and the
+reboot wedges.
 
-Signed-off-by: Philip Radford <philip.radford@arm.com>
----
-V9->V10
-- use interval-specific validation for MAI values
-- allow all-zero MAI values to mean the platform did not report the interval
-- moved Powercap fastchannel firmware CPL identifier fix to fastchannel
-  support patch
----
- drivers/firmware/arm_scmi/powercap.c | 172 ++++++++++++++++++++++++---
- include/linux/scmi_protocol.h        |  18 +++
- 2 files changed, 171 insertions(+), 19 deletions(-)
+Moving the cancel outside the lock is not sufficient on its own, as the
+callback also calls unregister_reboot_notifier() unconditionally, which
+blocks on the reboot chain rwsem (down_write vs. the in-progress
+chain's down_read) while the notifier waits for the callback - the
+deadlock would just move to a different lock.  Fix both sides:
 
-diff --git a/drivers/firmware/arm_scmi/powercap.c b/drivers/firmware/arm_scmi/powercap.c
-index b911d9164023..b34ad5734461 100644
---- a/drivers/firmware/arm_scmi/powercap.c
-+++ b/drivers/firmware/arm_scmi/powercap.c
-@@ -447,6 +447,34 @@ scmi_powercap_domain_attrs_process(const struct scmi_protocol_handle *ph,
- 		dom_info->notify_powercap_measurement_change =
- 			SUPPORTS_POWERCAP_MEASUREMENTS_CHANGE_NOTIFY(flags);
+- Notifier: compute the decision under state_mtx, drop the lock, then
+  cancel.  A callback that slips in between sees state ==
+  SCMI_SYSPOWER_REBOOTING (not IN_PROGRESS), skips the forceful
+  request and finishes, so the cancel cannot miss it.  (The callback's
+  own system_state early-return does not cover a work item that
+  started before the reboot began: kernel_restart_prepare() runs the
+  notifier chain before setting system_state.)
+
+- Callback: only unregister the reboot notifier when actually forcing
+  the transition - that is the only case that needs it, because the
+  forceful kernel_restart()/kernel_power_off() would otherwise
+  re-enter scmi_reboot_notifier and self-deadlock on state_mtx.  When
+  the state is not IN_PROGRESS there is nothing to force, and skipping
+  the unregister keeps the callback from blocking on the reboot chain
+  rwsem while the notifier waits for it.
+
+Found by static analysis.
+
+Cc: stable@vger.kernel.org
+Signed-off-by: Chengyu Liu <lui2012qwq@gmail.com>
+---
+ .../firmware/arm_scmi/scmi_power_control.c    | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/firmware/arm_scmi/scmi_power_control.c b/drivers/firmware/arm_scmi/scmi_power_control.c
+index 9557363360..b5a0b71505 100644
+--- a/drivers/firmware/arm_scmi/scmi_power_control.c
++++ b/drivers/firmware/arm_scmi/scmi_power_control.c
+@@ -121,6 +121,7 @@ static int scmi_reboot_notifier(struct notifier_block *nb,
+ 				unsigned long reason, void *__unused)
+ {
+ 	struct scmi_syspower_conf *sc = reboot_nb_to_sconf(nb);
++	bool cancel_work;
  
-+	if (PROTOCOL_REV_MAJOR(ph->version) >= 0x3) {
-+		struct scmi_msg_resp_powercap_domain_attributes_v3 *resp_v3 = r;
-+
-+		flags = le32_to_cpu(resp_v3->attributes);
-+		if (pinfo->notify_measurements_cmd)
-+			dom_info->notify_powercap_measurement_change =
-+			       SUPPORTS_POWERCAP_MEASUREMENTS_CHANGE_NOTIFY(flags);
-+
-+		dom_info->mai_config = SUPPORTS_POWERCAP_MAI_CONFIGURATION(flags);
-+		dom_info->min_mai = le32_to_cpu(resp_v3->min_mai);
-+		dom_info->max_mai = le32_to_cpu(resp_v3->max_mai);
-+		dom_info->mai_step = le32_to_cpu(resp_v3->mai_step);
-+
-+		if (dom_info->mai_config) {
-+			ret = scmi_powercap_interval_validate(dom_info->min_mai,
-+							      dom_info->max_mai,
-+							      dom_info->mai_step,
-+							      &dom_info->mai_config);
-+
-+			if (ret) {
-+				dev_warn(ph->dev, "Platform reported invalid MAI config for domain %d - %s\n",
-+					 dom_info->id, dom_info->name);
-+
-+				return ret;
-+			}
-+		}
-+	}
-+
- 	dom_info->extended_names = SUPPORTS_EXTENDED_NAMES(flags);
- 
- 	dom_info->async_powercap_cap_set =
-@@ -1153,6 +1181,103 @@ static int scmi_powercap_cap_enable_get(const struct scmi_protocol_handle *ph,
- 	return 0;
- }
- 
-+static int scmi_powercap_xfer_mai_get(const struct scmi_protocol_handle *ph,
-+				      u32 domain_id, u32 *mai)
-+{
-+	int ret;
-+	struct scmi_xfer *t;
-+
-+	ret = ph->xops->xfer_get_init(ph, POWERCAP_MAI_GET, sizeof(u32),
-+				      sizeof(u32), &t);
-+
-+	if (ret)
-+		return ret;
-+
-+	put_unaligned_le32(domain_id, t->tx.buf);
-+
-+	ret = ph->xops->do_xfer(ph, t);
-+	if (!ret)
-+		*mai = get_unaligned_le32(t->rx.buf);
-+
-+	ph->xops->xfer_put(ph, t);
-+	return ret;
-+}
-+
-+static int scmi_powercap_xfer_mai_set(const struct scmi_protocol_handle *ph,
-+				      u32 domain_id, u32 mai)
-+{
-+	int ret;
-+	struct scmi_xfer *t;
-+	struct scmi_msg_powercap_cap_or_pai_set *msg;
-+
-+	ret = ph->xops->xfer_get_init(ph, POWERCAP_MAI_SET, sizeof(*msg),
-+				      0, &t);
-+	if (ret)
-+		return ret;
-+
-+	msg = t->tx.buf;
-+	msg->domain_id = cpu_to_le32(domain_id);
-+	msg->flags = cpu_to_le32(0);
-+	msg->value = cpu_to_le32(mai);
-+
-+	ret = ph->xops->do_xfer(ph, t);
-+
-+	ph->xops->xfer_put(ph, t);
-+	return ret;
-+}
-+
-+static int
-+scmi_powercap_measurements_interval_get(const struct scmi_protocol_handle *ph,
-+					u32 domain_id,
-+					u32 *val)
-+{
-+	const struct scmi_powercap_info *pc;
-+	struct scmi_fc_info *fci;
-+
-+	if (!val)
-+		return -EINVAL;
-+
-+	pc = scmi_powercap_dom_info_get(ph, domain_id);
-+	if (!pc)
-+		return -EINVAL;
-+
-+	fci = pc->cpli[CPL0].fc_info;
-+	if (fci && fci[POWERCAP_FC_MAI].get_addr) {
-+		*val = ioread32(fci[POWERCAP_FC_MAI].get_addr);
-+		trace_scmi_fc_call(SCMI_PROTOCOL_POWERCAP, POWERCAP_MAI_GET,
-+				   domain_id, 0, *val, 0);
-+		return 0;
-+	}
-+
-+	return scmi_powercap_xfer_mai_get(ph, domain_id, val);
-+}
-+
-+static int
-+scmi_powercap_measurements_interval_set(const struct scmi_protocol_handle *ph,
-+					u32 domain_id,
-+					u32 val)
-+{
-+	const struct scmi_powercap_info *pc;
-+	struct scmi_fc_info *fci;
-+
-+	pc = scmi_powercap_dom_info_get(ph, domain_id);
-+	if (!pc)
-+		return -EINVAL;
-+
-+	if (!pc->mai_config || !val || val < pc->min_mai || val > pc->max_mai)
-+		return -EINVAL;
-+
-+	fci = pc->cpli[CPL0].fc_info;
-+	if (fci && fci[POWERCAP_FC_MAI].set_addr) {
-+		iowrite32(val, fci[POWERCAP_FC_MAI].set_addr);
-+		ph->hops->fastchannel_db_ring(fci[POWERCAP_FC_MAI].set_db);
-+		trace_scmi_fc_call(SCMI_PROTOCOL_POWERCAP, POWERCAP_MAI_SET, domain_id, 0, val, 0);
-+		return 0;
-+	}
-+
-+	return scmi_powercap_xfer_mai_set(ph, domain_id, val);
-+}
-+
- static const struct scmi_powercap_proto_ops powercap_proto_ops = {
- 	.num_domains_get = scmi_powercap_num_domains_get,
- 	.info_get = scmi_powercap_dom_info_get,
-@@ -1165,6 +1290,8 @@ static const struct scmi_powercap_proto_ops powercap_proto_ops = {
- 	.measurements_get = scmi_powercap_measurements_get,
- 	.measurements_threshold_set = scmi_powercap_measurements_threshold_set,
- 	.measurements_threshold_get = scmi_powercap_measurements_threshold_get,
-+	.measurements_interval_get = scmi_powercap_measurements_interval_get,
-+	.measurements_interval_set = scmi_powercap_measurements_interval_set,
- };
- 
- static void scmi_powercap_domain_init_fc(const struct scmi_protocol_handle *ph,
-@@ -1174,14 +1301,13 @@ static void scmi_powercap_domain_init_fc(const struct scmi_protocol_handle *ph,
- 
- 	for (int id = 0; id < dom_info->num_cpli; id++) {
- 		struct scmi_fc_info *fc;
--		u32 *cpl_id, zero_cpl_id = 0;
-+		u32 *cpl_id;
- 		u32 cpl_fw_id = dom_info->cpli[id].id;
- 
- 		fc = devm_kcalloc(ph->dev, POWERCAP_FC_MAX, sizeof(*fc), GFP_KERNEL);
- 		if (!fc)
- 			return;
- 
--		/* NOTE THAT when num_cpli == 1 the arg *cpl_id is 0 */
- 		cpl_id = (PROTOCOL_REV_MAJOR(ph->version) >= 0x3) ? &cpl_fw_id : NULL;
- 
- 		ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
-@@ -1209,29 +1335,37 @@ static void scmi_powercap_domain_init_fc(const struct scmi_protocol_handle *ph,
- 						dom_info->id, cpl_id,
- 						&fc[POWERCAP_FC_XAI].get_addr, NULL,
- 						&fc[POWERCAP_FC_XAI].rate_limit);
--			ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
--							POWERCAP_MAI_SET, 4,
--							dom_info->id, &zero_cpl_id,
--							&fc[POWERCAP_FC_MAI].set_addr,
--							&fc[POWERCAP_FC_MAI].set_db,
--							&fc[POWERCAP_FC_MAI].rate_limit);
--
--			ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
--							POWERCAP_MAI_GET, 4,
--							dom_info->id, &zero_cpl_id,
--							&fc[POWERCAP_FC_MAI].get_addr, NULL,
--							&fc[POWERCAP_FC_MAI].rate_limit);
- 
--			ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
--							POWERCAP_MEASUREMENTS_GET, 4,
--							dom_info->id, &zero_cpl_id,
--							&fc[POWERCAP_FC_MEASUREMENT].get_addr, NULL,
--							&fc[POWERCAP_FC_MEASUREMENT].rate_limit);
- 		}
- 
- 		dom_info->cpli[id].fc_info = fc;
+ 	mutex_lock(&sc->state_mtx);
+ 	switch (reason) {
+@@ -138,11 +139,18 @@ static int scmi_reboot_notifier(struct notifier_block *nb,
+ 		break;
  	}
  
-+	if (PROTOCOL_REV_MAJOR(ph->version) >= 0x3) {
-+		u32 zero_cpl_id = 0;
+-	if (sc->state == SCMI_SYSPOWER_REBOOTING) {
++	cancel_work = sc->state == SCMI_SYSPOWER_REBOOTING;
++	mutex_unlock(&sc->state_mtx);
 +
-+		fc_cpl0 = dom_info->cpli[CPL0].fc_info;
-+
-+		ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
-+					   POWERCAP_MAI_SET, 4,
-+					   dom_info->id, &zero_cpl_id,
-+					   &fc_cpl0[POWERCAP_FC_MAI].set_addr,
-+					   &fc_cpl0[POWERCAP_FC_MAI].set_db,
-+					   &fc_cpl0[POWERCAP_FC_MAI].rate_limit);
-+
-+		ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
-+					   POWERCAP_MAI_GET, 4,
-+					   dom_info->id, &zero_cpl_id,
-+					   &fc_cpl0[POWERCAP_FC_MAI].get_addr, NULL,
-+					   &fc_cpl0[POWERCAP_FC_MAI].rate_limit);
-+
-+		ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
-+					   POWERCAP_MEASUREMENTS_GET, 4,
-+					   dom_info->id, &zero_cpl_id,
-+					   &fc_cpl0[POWERCAP_FC_MEASUREMENT].get_addr, NULL,
-+					   &fc_cpl0[POWERCAP_FC_MEASUREMENT].rate_limit);
-+	}
-+
- 	if (PROTOCOL_REV_MAJOR(ph->version) < 0x3) {
- 		fc_cpl0 = dom_info->cpli[CPL0].fc_info;
- 		ph->hops->fastchannel_init(ph, POWERCAP_DESCRIBE_FASTCHANNEL,
-diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
-index 085ca1a1e3a7..e858105f1ffd 100644
---- a/include/linux/scmi_protocol.h
-+++ b/include/linux/scmi_protocol.h
-@@ -662,6 +662,12 @@ struct scmi_powercap_cpl_info {
-  *		       reports power data on an abstract linear scale.
-  * @extended_names: Support for long names.
-  * @fastchannels: Support for at least one fastchannel,
-+ * @mai_config: MAI configuration support.
-+ * @min_mai: Minimum supported Power Measurement Averaging Interval in
-+ *			microseconds.
-+ * @max_mai: Maximum supporte Power Measurement Averaging Interval in
-+			microseconds.
-+ * @mai_step: Step size between supported MAI values in microseconds.
-  * @name: name assigned to the Powercap Domain by platform.
-  * @sustainable_power: Maximum sustainable power consumption for this domain
-  *		       under normal conditions.
-@@ -683,6 +689,10 @@ struct scmi_powercap_info {
- 	bool powercap_scale_uw;
- 	bool extended_names;
- 	bool fastchannels;
-+	bool mai_config;
-+	u32 min_mai;
-+	u32 max_mai;
-+	u32 mai_step;
- 	char name[SCMI_MAX_STR_SIZE];
- 	unsigned int sustainable_power;
- 	unsigned int accuracy;
-@@ -741,6 +751,10 @@ struct scmi_powercap_info {
-  * @measurements_threshold_get: get the currently configured low and high power
-  *				thresholds used when registering callbacks for
-  *				notification POWERCAP_MEASUREMENTS_NOTIFY.
-+ * @measurements_interval_get: get the current Power Measurement Averaging
-+ *				Interval (MAI) value for the specified domain.
-+ * @measurements_interval_set: set the Power Measurement Averaging Interval
-+ *				(MAI) value for the specified domain.
-  */
- struct scmi_powercap_proto_ops {
- 	int (*num_domains_get)(const struct scmi_protocol_handle *ph);
-@@ -766,6 +780,10 @@ struct scmi_powercap_proto_ops {
- 	int (*measurements_threshold_get)(const struct scmi_protocol_handle *ph,
- 					  u32 domain_id, u32 *power_thresh_low,
- 					  u32 *power_thresh_high);
-+	int (*measurements_interval_get)(const struct scmi_protocol_handle *ph,
-+					 u32 domain_id, u32 *val);
-+	int (*measurements_interval_set)(const struct scmi_protocol_handle *ph,
-+					 u32 domain_id, u32 val);
- };
++	if (cancel_work) {
+ 		dev_dbg(sc->dev, "Reboot in progress...cancel delayed work.\n");
++		/*
++		 * cancel_delayed_work_sync() waits for a running
++		 * scmi_forceful_work_func(), which takes state_mtx - it must
++		 * not be called with the lock held.
++		 */
+ 		cancel_delayed_work_sync(&sc->forceful_work);
+ 	}
+-	mutex_unlock(&sc->state_mtx);
  
- enum scmi_pinctrl_selector_type {
+ 	return NOTIFY_OK;
+ }
+@@ -190,10 +198,11 @@ static void scmi_forceful_work_func(struct work_struct *work)
+ 
+ 	dev_dbg(sc->dev, "Graceful request timed out...forcing !\n");
+ 	mutex_lock(&sc->state_mtx);
+-	/* avoid deadlock by unregistering reboot notifier first */
+-	unregister_reboot_notifier(&sc->reboot_nb);
+-	if (sc->state == SCMI_SYSPOWER_IN_PROGRESS)
++	if (sc->state == SCMI_SYSPOWER_IN_PROGRESS) {
++		/* avoid deadlock by unregistering reboot notifier first */
++		unregister_reboot_notifier(&sc->reboot_nb);
+ 		scmi_request_forceful_transition(sc);
++	}
+ 	mutex_unlock(&sc->state_mtx);
+ }
+ 
 -- 
-2.34.1
+2.25.1
 
