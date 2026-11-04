@@ -1,85 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793789725;
-	b=3A81eSiS6QO6op6XtS2I89XJmg/OHYFCovktlfOGbHAzSJ4kSCEeYh0J1f8vk/qlh0bd
-	 lyqYTra6K6+caqKl02VY6MCyOcbQfjDewTZMbhaqxyPewGlB4ASiuG+oJ+kMPRWkqeRhv
-	 r0qfI32x5tY3YiZw0r4XyrDv2/yPGQIArUS1xBuWvy8zYypcCD76mYAw8qh2JAuhxJ08+
-	 Lt2BPTqcqMXnEA3FvD3IqNmHtMR7b62kOPL8ubfIZzLJRmAm2W48jA9fZbYTZ2mNcD//Q
-	 /4M1IvEkNVAUrimQduByN4jxiC1gjct470kinzp34ehG+YfUxHdpCtOsIPbbGD24Etw==
+	t=1793798081;
+	b=46z7UTg7f+PhVsoaj0KB9hvHC9NI7zc2nWlSfOn7Acl5J+TCTppAdrsc1QyIHsnEBHgr
+	 NfK3QI0pA5tghC8/Wnx4iR9BCQ9kI5+EWeSdDkW6hUvvQ6udom21xzzujCcQumpwMkoWn
+	 gXummEC89SjRL0/Ojs0m2j202Po3KKja3PLpIKjlYrBHAbE5IE6x7kL9jlGxaK/ySeYVh
+	 0u9mNcdoMfRbkCEneEWC8grCoQI4fnpMdKqyy9C7+WltOw6zdqtR2i3zE3KJq+M892W8C
+	 RVskazCWEtT1moolcJTkEU102t1+IciYLcq3wnjazuiI7kjsa92gAXYfE5NRvme9HMw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793789725;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
-	 Organization;
-	bh=q5EB9sWYexwM66oISVKEoWC7PirZef6I7jp1wtU1bZY=;
-	b=obqMZS7mM7YCredgzLvbHRo5Hnmige9RBTrnFvxgkIUWkaFtBNDka0Sw/MS8C946Zqrt
-	 dNNPXcefviovYM3K9qG6yyDuBPGKrTN00FWWa6l4bzMcv73JMq4tZzSX8te8V5UdivuKc
-	 XK7QY/aD9fIeYrkzQdU/WV+ymIzkcTmCV8QCPsNotqNXLQv7oKxvPmkNx5NmRUuCsuNJL
-	 DRrCqjkqFmgjwPV3faI+49zgfhBGjy06eIYHBPFsa2PxrC30L5f7hXnM5IKxqEdEaeSQp
-	 7wPl9jNJ3ubhWtHiVTYgn4zsTKOoIXg7ijOdTAWYTcd2P39mryb0dfaI9qQgAC/RFnQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793798081;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=/p5+Pyk6coILlORdcQBpVHNHSFgdC438Pn8Lrp7EWZ4=;
+	b=3sQsBr1OyKfsUSs+I4KA4RXu2ln3H0desbtH0KpcZoqiCZxs376ciWjxKACypsHkZw49
+	 S9JEEI/54D9a+JfMCRNSuQyy3Pnjp0xsNwaNlzY2dSX8i85m/3CQDu2Xo2Gakx/7jJlv8
+	 QeWjVAUKkFS+R1Cly22l3Ju0BmFevdUT3RP7s8SSeIs2IBoYWA6OBinEV6zzz74V8Wppm
+	 HYwB3YS8RuLRXoFwJ8ha3tCkSBe2V5RqZiBFUQhyGxGTjij0rpLR2k8DsKEDRMCRmxkHV
+	 yslEvZgFb/qRKE8g04ZRy5wx85SumJI/zZHQQuuL3Hnn3hU3TaXTuTGpPBjYUfsYNjA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="lsrdtjg/";
-	arc=none smtp.remote-ip=198.175.65.12
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PSwVh+0e;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B98E606A31B;
-	Wed,  4 Nov 2026 10:55:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B98E606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ECD3606D809
+	for <arm-scmi@vger.kernel.org>; Wed,  4 Nov 2026 13:14:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lsrdtjg/
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793789723; x=1825325723;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=y7denP/ndQ8Np+vR3riInyTK3v1TSZ+KMP6Au27fEBY=;
-  b=lsrdtjg/tyQRcHcd0sxywiPkwbQ/HgvfIOYKe/rvYR6wBLAysNSQxITb
-   boyLd41aPQYZ3EHivYYSF/sARzh3e7wthnAHyb7R5cwZx0jZyOZxMDAwk
-   0PG/BTNj2GR05LkOpF89vQZ4biQ7vsCwNyH20MzqLj4hDj7QfuQQT6+kR
-   Pkvyyk4aJ4fuRkBHVmHU0sUJZ42SR9sQ8ENAvTu0qyd2LRIUXrzyqHcAJ
-   qxfFrn5xqn5xfuEMPNyNA5K/JciPJCI3/LRiBksXIK9ODO/rJBnrzFR8x
-   vaFcMCSsihpCKHGRc4A/wYK2yyZAeNUgOAIq+A0w1Jko57iQ5UiLZ3uQS
-   g==;
-X-CSE-ConnectionGUID: ruEvMqIvQ1WRZZX7vrkydA==
-X-CSE-MsgGUID: A15xrFJITnyyVqg+6vkYHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11955"; a="2415177"
-X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="2415177"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 02:55:23 -0800
-X-CSE-ConnectionGUID: BZVaxyjYQFOtcDxMqSdGUQ==
-X-CSE-MsgGUID: nR8KF5bSSo65a20nMZftCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="6845480"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.24])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 02:55:19 -0800
-Date: Wed, 4 Nov 2026 12:55:17 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clegoffic@baylibre.com>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Linus Walleij <linusw@kernel.org>, Peng Fan <peng.fan@nxp.com>,
-	Oleksii Moisieiev <oleksii_moisieiev@epam.com>,
-	Andy Shevchenko <andy@kernel.org>, Dhruva Gole <d-gole@ti.com>,
-	Bartosz Golaszewski <brgl@kernel.org>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 11/11] pinctrl: scmi: select the GPIO function on GPIO
- requests
-Message-ID: <ausPFWOj-usp084X@ashevche-desk.local>
-References: <20261030-clegoffic-pinctrl-scmi-gpio-v1-0-52d92843ad97@baylibre.com>
- <20261030-clegoffic-pinctrl-scmi-gpio-v1-11-52d92843ad97@baylibre.com>
- <aunIVW4JeM_P2WOa@ashevche-desk.local>
- <73888927-18ec-44b1-bb14-72e72860bfc2@baylibre.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PSwVh+0e
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C14331F01579
+	for <arm-scmi@vger.kernel.org>; Wed,  4 Nov 2026 13:14:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793798080;
+	bh=/p5+Pyk6coILlORdcQBpVHNHSFgdC438Pn8Lrp7EWZ4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=PSwVh+0eCTT+b5fCxey1CsR0b6m5BP0NC9rEWv/qGoVAp7z7b/X1baMHbpDnRhHw0
+	 1IlSHrcLAlVsg55IpOJF5Nkvf2vaGC/fHZEyKH+Don9up9zSqgKV37V5nainUewRr1
+	 tAyK+1WI3fZ/i42mU5cbzo+HvC/82f7rkN3yxsVGBPX5SeP8DXJpSKARcrEvAMNSv1
+	 RLgoTtiG3rPcDWuwk0+yNZkdNee1OkZ9GCZo58XY+OQNfYVWhHMw4oNuRfTNNgiFs7
+	 4AkeoxFWz8uacgEWDIjPHFeVRqn52p+Yr5AhY/9vo5pidgnseQ+ftRBNMagtn2p8xU
+	 Pbq1Di/rgQkDA==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5be4fea434bso1619635e87.1
+        for <arm-scmi@vger.kernel.org>; Wed, 04 Nov 2026 05:14:40 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AKwUvBxNEaMeY1k1K1TAbyl7SiXiC0ZFYhpI2N/kClewr+JyvvAJhc+LE3erUZ6Pnv6vxzkFw9SAbSDqPA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/0ZX/0tQsLTTvPrykzpVkJFJCjeLEPB4MmA1KefGtZmC/lsRng
+	pPOBWM1ryGisBAjRWZDQMOpEl7SXlvob2B91pQJulGAXtXphICA1eWo+YNVU2vyWV1MBvP1E0FA
+	gieEppKhhoBr+bQ8G2/FOlWHIH4zHckQ=
+X-Received: by 2002:a05:6512:3d93:b0:5bf:ac46:c5d6 with SMTP id
+ 2adb3069b0e04-5bfd956d81cmr4929046e87.12.1793798079384; Wed, 04 Nov 2026
+ 05:14:39 -0800 (PST)
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -89,35 +59,53 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <73888927-18ec-44b1-bb14-72e72860bfc2@baylibre.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20261103-a210-scmi-v3-0-ee6b31580808@iscas.ac.cn> <20261103-a210-scmi-v3-6-ee6b31580808@iscas.ac.cn>
+In-Reply-To: <20261103-a210-scmi-v3-6-ee6b31580808@iscas.ac.cn>
+From: Linus Walleij <linusw@kernel.org>
+Date: Wed, 4 Nov 2026 14:14:27 +0100
+X-Gmail-Original-Message-ID: <CAD++jL=5SypKyjwb71hT2pzTZ3s9qi62JG_EevyjTjGgTZiE8w@mail.gmail.com>
+X-Gm-Features: AclHuK-6MXT5O-NfPKrU9YAGzhqKyzaaZr6RTIvrirwYp92eUVqCIspXmcEerPc
+Message-ID: <CAD++jL=5SypKyjwb71hT2pzTZ3s9qi62JG_EevyjTjGgTZiE8w@mail.gmail.com>
+Subject: Re: [PATCH RFC v3 06/17] dt-bindings: pinctrl: add Zhihe A210 pin controller
+To: gaohan@iscas.ac.cn
+Cc: Sudeep Holla <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>, 
+	Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>, 
+	Jassi Brar <jassisinghbrar@gmail.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, 
+	Samuel Holland <samuel.holland@sifive.com>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
+	Anup Patel <anup@brainfault.org>, Stephen Boyd <sboyd@kernel.org>, 
+	Brian Masney <bmasney+clk@redhat.com>, Jerome Brunet <jbrunet+clk@baylibre.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Drew Fustini <fustini@kernel.org>, Icenowy Zheng <uwu@icenowy.me>, Inochi Amaoto <inochiama@gmail.com>, 
+	Vivian Wang <wangruikang@iscas.ac.cn>, Yao Zi <me@ziyao.cc>, 
+	Jiaxun Yang <jiaxun.yang@flygoat.com>, arm-scmi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-gpio@vger.kernel.org, Paul Walmsley <paul.walmsley@sifive.com>, 
+	linux-clk@vger.kernel.org, linux-serial@vger.kernel.org, 
+	Han Gao <rabenda.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 04, 2026 at 10:38:11AM +0100, Clément Le Goffic wrote:
-> On 11/3/26 12:41 PM, Andy Shevchenko wrote:
-> > On Fri, Oct 30, 2026 at 04:58:42PM +0100, Clément Le Goffic wrote:
+On Mon, Nov 2, 2026 at 8:45=E2=80=AFPM Han Gao via B4 Relay
+<devnull+gaohan.iscas.ac.cn@kernel.org> wrote:
 
-...
+> From: Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>
+>
+> Add a binding for the AON, PERI1 and PERI2 pad controllers of the Zhihe
+> A210. Every pad is muxed and configured on its own. Functions of the same
+> kind share one name unless a pad can select more than one instance of
+> them, as with the UARTs.
+>
+> Signed-off-by: Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>
+> Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
 
-> >> +	int nr_functions, func, ret;
-> >> +
-> >> +	nr_functions = pinctrl_ops->count_get(pmx->ph, FUNCTION_TYPE);
-> > 
-> > Is nr_functions signed for a purpose? Can it hold an error code?
-> 
-> No indeed, will fix in v2.
+This LGTM, just waiting for a non-RFC version and DT bindings review.
 
-> >> +	for (func = 0; func < nr_functions; func++) {
-> > 
-> > 	for (int func = 0; func < nr_functions; func++) {
-
-With the above in mind, the type of func has to be adjusted accordingly.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Yours,
+Linus Walleij
