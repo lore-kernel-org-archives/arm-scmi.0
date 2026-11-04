@@ -1,55 +1,135 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793798189;
-	b=viY5QpbXlrFkMdzE2ei+L9Ka9zRXa1IB7WBzO2O60tc2dmLhPKpameJLY6kA1w+aO8XT
-	 ugjhVSZ6yVkGbH2Yck909w36h9uHTdpDReta/BpKM5Ewq9MQDZQctZXLm3t9jQqTaKwow
-	 E/faoVr0SWmWUL79Amp4Kt7F8oo3YLdvupWdmQ4Ec8Di0dEIA8hZPFlNVmgc58OxNYuQw
-	 latxQgJQ+qXLQJfsiIFgziVlhgZH4Wj6P49qALcHT4SbeNsnxpyTJNatXmRVWjmt1CglU
-	 Lsb+AtN8xJtgYwyS0JZXL5U4Md6aoIIzAuubDwsAcnNEWRFXL5ck6qRusLfFH4WaBIw==
+	t=1793800838;
+	b=ItH43FWuL8JgFjP2T/pjznlmkjZf4eg79viDZ/pNWDugZsiA2GTWq+c6+GPsO11uFM6x
+	 tNrtdYk86jTDgWEwKjtNjJhIX1HfLSce89fYCyeNEZcAsSiOy/SSq5J7lF3E0ruiy80lL
+	 DB7Oh2t9BexYQ3bZ0g2cos4+AUUX1iiaEyAycCEMlofODApLmY8sJuf+49VU46ZTrM9xW
+	 cFSV6+PbPFLn1NS6WpZ8uH75e33aomeoT95U98HtPwrHC0Fl6TSGHVj2XM9hDYEQ7fCq8
+	 6r4RLWKh6znVKyv/Ycf3W2xeE/CwWDh52RtE8kgGuk0aVZSTz/GckM9FvsVHDrQSHTA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793798189;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=H9VTlijTFGW2hK1YgmVnrnjy6rcLsJbVdxBVMKqQ5Mk=;
-	b=4Y3J/K+8aFmGkJb3AiwOzAOJJpgHOfuVymu2xwztFvmSj/OMXAIOggaNTAzCyc6oAqla
-	 Iu6isX1uoK9uIG4HM+I3QhmRJ1317PEg3fmVmhNwzV9AnSvz/xaO+VUoH5gOOtNGYtw30
-	 XWOsi9v+rxlOY0wdu0foCNrFPOXOkrw3QtcXICTq3lYjjfgumuEps24nPifLtS3NVy64V
-	 nosOHsmvBB1dHRXGAVuuTTVuH/ECxyC2wBeEQou+zCGkw3upoSVD78SheSpB7gND++FWJ
-	 0SWHZuE0ITb8C9BAYdtFjCiOGPY/6v5GBiRmabPnrirnpRdMQEGBnmlUTpU6WBV1eCA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793800838;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=EK0JUgp8OCD/gxw0LjPEg0NrLddUOwjtQqQrgH4Zeuo=;
+	b=08CVis7uawwL7A4Qw9dNsA1Fq1eEGOoUc4tvw02gpP3ZvyGvEKJ2Vy7EpUHGoN0PJkLK
+	 xxEnMOsd/5OuV41XgiCWChWO/uOBjjxwyJ4j2leAI6HwyHG1/bXD6FJAoPFVJdaQk0G0y
+	 2RxF3SWhVbEa3V4B0OQGXVO7m43FW5rSO8rTJysQSjHT45TcAr6DHUYGQwsFdQFsglQBP
+	 5j9/wtMBAGlZPfiDbKSR+vi1aMEo1CEA8rwTOUEcRX/ka9RnulwftS2HtX+T5+QH2Ccbz
+	 PpoN+MyruJ1X9Xtc7o0JC0gmRCKFJdX7jwr3dpPk5aiqN1FGsn/iqp3mhEBf1J/NDcQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=anVIaiiw;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lVAYG9Bm;
+	arc=none smtp.remote-ip=74.125.82.49
+Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BA6606A329
-	for <arm-scmi@vger.kernel.org>; Wed,  4 Nov 2026 13:16:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8082B606A329
+	for <arm-scmi@vger.kernel.org>; Wed,  4 Nov 2026 14:00:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8082B606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=anVIaiiw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D61E1F00A2E
-	for <arm-scmi@vger.kernel.org>; Wed,  4 Nov 2026 13:16:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793798188;
-	bh=H9VTlijTFGW2hK1YgmVnrnjy6rcLsJbVdxBVMKqQ5Mk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=anVIaiiw1pZMJg2YZ1N3c1UamUmvnrrKGQWnO8NEpY87ayerF9aRI865xN7k4arhP
-	 0ora4PhcKUA7tc3gRf5KJPZRLzDlKLUVlUaqjd2AMjgBarla0oTMiSTZyFgbsGYlwY
-	 fsVOjVqGXMbB1lKrRbyHQGM8moEQGCArsVVqCajNxylEETrn8qtM2iWzHaOLT43wdY
-	 9CF1Ojyj4aExSItAwUd/2QmsiJWsZaO/6jXd0s8gtn7I/G6Mjw5g7TIub3bSE58eC8
-	 ii1USs42gD/OF3w97LAp+kC8W3GgxUmmbmvKzN05ws3y5BPE6ZVY/ahrli3ugfB9y1
-	 B7FSo5BHSH9EA==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5ba3ac592faso731269e87.0
-        for <arm-scmi@vger.kernel.org>; Wed, 04 Nov 2026 05:16:27 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBzVdPSMk5ViBso3YPL7CWV1tax9QNBSYAX4aEWJCLULS0/ELI75v675gtHp5thGErcmAjYrxhMEqg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z9h0u/VpXxKUEIr2YdF17AU6BTjELkuUxR1vw2jH0xI5B6+MqAj
-	Plz9gZRoT6Z63tGw5LeAX9S6LDzpdAZV4tN0RhJd0QVZhU1D7PQAC+r6AxiljVlP8FGq1y41nLs
-	oVYPfUUachi/j6JRCRFcVxd8/b9DFkYU=
-X-Received: by 2002:a05:6512:6681:20b0:5bf:d9b4:9b48 with SMTP id
- 2adb3069b0e04-5bfd9b49cfdmr3241637e87.23.1793798186772; Wed, 04 Nov 2026
- 05:16:26 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lVAYG9Bm
+Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-1ae18eb9ad0so721206c88.1
+        for <arm-scmi@vger.kernel.org>; Wed, 04 Nov 2026 06:00:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793800838; x=1794405638; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=EK0JUgp8OCD/gxw0LjPEg0NrLddUOwjtQqQrgH4Zeuo=;
+        b=lVAYG9Bmc2hoKTJuJzSrH6J+IhryAyiDTSMdo0aYG9mfqjPS/ga8+3YK2Ad//sbXE2
+         HHofzfmuuJ/nJx0kE/6IytFncp6WqXb39RvQM+YnlJNPVlx4UDFXx8nAXhQykpg/r9dU
+         TTw9D3mrL7B/AtTF/tGzwS4DWBrit2U6UIDoeAg8Au1ygMhfLw7GRk8WtuLYUaZkwSTF
+         aYRfMnD7tWD2+C7sh5TWr6OTrCzca5srbXzkmLr+/5fdNnNFJYIheqB8xKYVa8MXmxFB
+         4bAPEVWyyZRmC6vgyn2/OYmqQ8nZ9BmRTU8WOS8FvaydjpnVOWQKGf91yFtKwUSqhNCh
+         RSlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793800838; x=1794405638;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=EK0JUgp8OCD/gxw0LjPEg0NrLddUOwjtQqQrgH4Zeuo=;
+        b=YbcGXn2NeA+uIWt/MaOjmBlob3Ciay41QifiACzz3Zhwy+Ab4GvS1ZS4dQP3tVwYCS
+         tgMhCi1UZ5sE5sWMU8L8Uu84EnX1+Niip9yMcgtemETDUdDiNdPpE8WzL+ZtVTqp3R0A
+         niBhXAksapZ646LLKmp4ies53GxihOroGMeJC7v0OFz+CuoZPOwqXs+IXkjpksiYr+Pl
+         SDmEIU+ZTgYVYSieyCunFvVUrbTrfPhzRvaycIZoem5igZblRkO0AV4FNn5zByhjvDsB
+         LIe0IpmQ4RCiwDhXlh8y8f6E73SCjZ/4F38Y9mFFRRKWGA6jkNkbVm9k+rq7sqDNZbsQ
+         kIgA==
+X-Forwarded-Encrypted: i=1; AKwUvBwVIUPirbJK+V+tq63Fx98xRVbsFz/SOxzUQ21Ok4XC9i7K0m73pJBFV7FguX45ctmPSsQmozE/bw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+RXgQ9eAUb7rxEkGzDoy5a/5hAuw7QEZK/EtjKvjAk9a6GN3gb
+	QN5dfglMh5kWsPnCBN6yjZ7nMFlecBg9ts4xGh2/K2JzZSFwaRilBgyj
+X-Gm-Gg: AYBFou1Bh2ecn2OTwXYlvcqa7DwX87dCyl7iJsYX1mcwu6glLeEIT8FD99hs5Ks8Y4E
+	tmsDHaD5zCkyeeSz+qMCtEzET8kuLMS9out66qPIS7MAT0jbmjJm92tFccSDjrhG/nX90EwaoMo
+	NRdvLP2ffwa40z09w9rGxEEQZAXNgXdWsbGTDUVLuBojjX8Ay9WQ48HbscXhY+43YBrckH+G2kw
+	bPiLVwIFjYcAwwWlIkgvvF0G4ighNANPxTHJ6oa6zQyTDXyJU5FdQuUCZF38GNh53YSCd5JIKD3
+	2vOsWa7u1i3xhKGpuizOXppb6vEtR/oAPbsn5fsh5NMIPWtavPHqnq7voMsNxzXFgc05xosih+8
+	PNNJ0BrnbR3F/HKlqNndAOhPVIvphgbn54LHUwHpYmjfW2mcU5BjRAD1dx0sFJ1d63leHCaMHTk
+	ChVN9bkvdPc27JjX1zI78j9hrMmwbeO0OKR83PfNLXM2ZKiNP6tf4hYvVU7p+99WUByEnejZx25
+	afEIY9BuyxdSd1IOT+J6QrslnRdkwBl2Fu0GY01L4QeAnLrUB/UDlT+CUX+KCTZ33GFJ4353dyb
+	OVKPp2HnMlCoSOMrIEdHDkVlwkeCz8XQAiNlKAWhpz97mmKLAolYOl++g3IrFylEj9gXqhiwHqN
+	+LiM=
+X-Received: by 2002:a05:7023:a89:b0:1a8:9857:2102 with SMTP id a92af1059eb24-1ac5f183841mr25563977c88.30.1793800837135;
+        Wed, 04 Nov 2026 06:00:37 -0800 (PST)
+Received: from localhost ([2.27.148.106])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c30521sm8553620c88.13.2026.11.04.06.00.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 06:00:36 -0800 (PST)
+From: Han Gao <rabenda.cn@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Han Gao <rabenda.cn@gmail.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Linus Walleij <linusw@kernel.org>,
+	=?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Radu Rendec <radu@rendec.net>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Anup Patel <anup@brainfault.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Drew Fustini <fustini@kernel.org>,
+	Icenowy Zheng <uwu@icenowy.me>,
+	Inochi Amaoto <inochiama@gmail.com>,
+	Vivian Wang <wangruikang@iscas.ac.cn>,
+	Yao Zi <me@ziyao.cc>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-gpio@vger.kernel.org,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	linux-clk@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH RFC v3 00/17] riscv: add initial Zhihe A210 support using SCMI clocks and resets
+Date: Wed,  4 Nov 2026 22:00:30 +0800
+Message-ID: <20261104140031.1172491-1-rabenda.cn@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <9b99c531-1977-4bc1-8105-bd9c3e129951@kernel.org>
+References: 
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -59,60 +139,43 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261103-a210-scmi-v3-0-ee6b31580808@iscas.ac.cn> <20261103-a210-scmi-v3-7-ee6b31580808@iscas.ac.cn>
-In-Reply-To: <20261103-a210-scmi-v3-7-ee6b31580808@iscas.ac.cn>
-From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 4 Nov 2026 14:16:14 +0100
-X-Gmail-Original-Message-ID: <CAD++jLk_PJu_ViUmKSg19VEhc0=3SoyiqwkSH3vGix1qk7xpDA@mail.gmail.com>
-X-Gm-Features: AclHuK9XaDppXSCtd7Lxt5eqeFEltqu7_7zUAwED7nuqN9o1y9Frwslmkgi1DM8
-Message-ID: <CAD++jLk_PJu_ViUmKSg19VEhc0=3SoyiqwkSH3vGix1qk7xpDA@mail.gmail.com>
-Subject: Re: [PATCH RFC v3 07/17] pinctrl: zhihe: add A210 support
-To: gaohan@iscas.ac.cn
-Cc: Sudeep Holla <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>, 
-	Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>, 
-	Jassi Brar <jassisinghbrar@gmail.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, 
-	Samuel Holland <samuel.holland@sifive.com>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
-	Anup Patel <anup@brainfault.org>, Stephen Boyd <sboyd@kernel.org>, 
-	Brian Masney <bmasney+clk@redhat.com>, Jerome Brunet <jbrunet+clk@baylibre.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Drew Fustini <fustini@kernel.org>, Icenowy Zheng <uwu@icenowy.me>, Inochi Amaoto <inochiama@gmail.com>, 
-	Vivian Wang <wangruikang@iscas.ac.cn>, Yao Zi <me@ziyao.cc>, 
-	Jiaxun Yang <jiaxun.yang@flygoat.com>, arm-scmi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-gpio@vger.kernel.org, Paul Walmsley <paul.walmsley@sifive.com>, 
-	linux-clk@vger.kernel.org, linux-serial@vger.kernel.org, 
-	Han Gao <rabenda.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Zhiguo,
+Hi, Krzysztof
 
-On Mon, Nov 2, 2026 at 8:45=E2=80=AFPM Han Gao via B4 Relay
-<devnull+gaohan.iscas.ac.cn@kernel.org> wrote:
+On Wed, 4 Nov 2026 09:24:15 +0100 Krzysztof Kozlowski <krzk@kernel.org> wrote:
 
-> From: Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>
->
-> Add pin mux and pin configuration support for the AON, PERI1 and PERI2
-> pad controllers of the Zhihe A210. Each pad forms its own group. Drive
-> strength requests are rounded up to the next supported value.
->
-> Across system suspend, restore only the register fields Linux has
-> programmed and leave the ones set up by firmware alone. Release the
-> optional pad controller reset at probe.
->
-> Signed-off-by: Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>
-> Co-developed-by: Han Gao <gaohan@iscas.ac.cn>
-> Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
+> On 02/11/2026 20:45, Han Gao wrote:
+> > This adds initial support for the Zhihe A210 SoC and the Melon Pi V1
+> > and V2 boards.
+> > 
+> > The A210 has four C908V and four C920V2 cores, plus an E902 management
+> > core. The E902 firmware handles clocks, resets, power, the PMIC and
+> > CPU DVFS, so Linux uses SCMI for clocks and resets. The only new SCMI
+> > piece is the mailbox to the E902. [2] explains why I picked SCMI over
+> > RPMI.
+> > 
+> Considering how vulab@iscas.ac.cn is ignoring reviews/comments and spams
+> with a lot of unthreaded emails, completely disregarding any tries of
+> contact over last 1.5 months, shall we ignore all contributions from
+> @iscas.ac.cn?
+> 
+> Maybe this will be the only way to actually be heard?
 
-This looks good, just waiting for a non-RFC version and review of
-the device tree bindings.
+Apologies, I am unable to communicate directly with the team at vulab,
+but I have passed the relevant information on to them;
+I trust they will handle the matter appropriately.
 
-Yours,
-Linus Walleij
+Thanks,
+Han
+
+> 
+> Best regards,
+> Krzysztof
+> 
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
+
+Sent using hkml (https://github.com/sjp38/hackermail)
