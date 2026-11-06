@@ -1,82 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793987716;
-	b=hHkN4UUgI4Ntt7u8pWYR3mTRXEG86zhHhjkZNNj6b8Ypgvcx0+grckRs3TPRSUXQ3QTT
-	 m/lzjrUKvqgLOM38VBrBLWVdkuy/6JMYs5i/yqxGnglf0vTuvhgR2tY9QmXY/+/M63xNP
-	 T3PAvUgAKBjpFMwiEx7vjBOMSMdfuW0kKqZzdRtPemEbFmdFRpMd1bgQ94Ju0jvSSf3Rz
-	 t/qwgMKNgEe93A8dT8suGYCbGZZf6wHatUi1kB8VXAooHJQfIofW0lcwrmC0sgO8PdZlF
-	 dCsfvKamOw9c0VPUyDesk1DO31hxcy/FulcUCTmLHrpkkB1uyeXIrUH9GfGuC3d9PDw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793987716;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Slw7IzCaqPRYPs5qP8w8RJF2WXLJYullyRST6UZQnck=;
-	b=fmDszjLN7kjwgGyGd3aAo1u/KUDEQwf6bt3mAFLCqKfaKkrujdpTfEmn8vvLids3ev5G
-	 7wjOwmlWu3xZcsatrBLvbRGDUs3uRnFRSWLItFZEBVB0M/kKPuNXrcIUUmTRM7hnSiYy3
-	 jX1pJx+RMUppqQYze/pOn2TxBPHs7KrD18uOADtP0sZQpYI9kSs2dums83RNl5/qNjO/W
-	 8jQ99DvG76KlXKM9ucNQexaXCylYGSLpbXOOGLVr7OxpR731Psx7/ILoI5tD5kGiQGmJB
-	 4OjqDXJ7BF/xMByI6+zEeZYDuJ/JxOB6oA2d9DKM8myAsSzYDtceO/poyvgzdNnEl7A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d2haV1jf;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793994043;
+	b=V3f3T6BxxCGlG9ezUyp6KqjCB8LQxOckhNlsrVFELfpp/lIntMVSlvRtIwPjVU7oJqH7
+	 kdFFHEgOgRlnKv8cIinFtAeLIUgZ88ZpcrSN2qWAihbVi1YX4+88nmGnMcbqtFCAcn27w
+	 R05ZekoiXdOR+IGptvlMcxK6jh0JrMnooRJ/XqUvKMewlPjz3M/uiUvF8RYRNSO3J6XHX
+	 pStKl/z+8KiBQ2YrKn9NvErx7CWr6p96qn/FWhKzjr5J3F4ThUhkHQEh3aBF3G9f2eQRH
+	 IJEC74Gi4D9SyET3QRBoCnhV+nj8XTBAnVSKl8911qivUL3u76RbWxayukrl1zZexDw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793994043;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=g1N9tbVOhbknui/KUnqnwvb5zZsgA7ui7noFKqFuo+w=;
+	b=ZIaN3vhZIrz/KxEo8/Ro92aaTeIxEk3MFoKUc8I21podMfrWz3qtOCS7Ia3yVmoTFmQG
+	 Emk2VneT29Wex8DKRH6ua5s00/VeyuIcMcMxdVG3o7ohppWXzlQKz6WqH5apPlhCGqUA+
+	 y/Aarzels6RLWvWTfRZFcHbIRcdFga0BanwDSJRiX2MqTf81wWHgmSlWJLdtAdD82LhEJ
+	 TrOfuyVoG3hz5OPxxKtYyo5ml7BoUHK6redwZlGzGE8a7JuLex5ahYMQvazmO/KrCnWdB
+	 XGjYuA09731qHWD5u75xSAJo1ShBP9Qoyh+/dN7MHtZBgFYXFM9+0RX8lAj7yjGYxJA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=igg7+PbW;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0659606A326;
-	Fri,  6 Nov 2026 17:55:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1752606A329;
+	Fri,  6 Nov 2026 19:40:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d2haV1jf
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D27191F0089F;
-	Fri,  6 Nov 2026 17:55:07 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=igg7+PbW
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793994042;
+	b=xg+cbGiCv7xUY3vmJejN0xKYiV+A5OBxL633NmzuWWKWutGf15SSfyTTeRjspRYScIZ6
+	 i5CDfkeEzk2514bmSfUS1WwK9jyQz8JuARhmkXVkdp/tSfspnePBcYfiCDzXZQodKwuMi
+	 LRg8wJM87gA2Q/yJu5Ocydg1i0DrkFdu2oL11Ctv6f1CAwfuTkkv2R+FMfBxKMgdFtC82
+	 cXbJCI3sM80UGMjzUPs2D7Hpdtu4poovJEwEjKFpMf6vso+KUbdvvZDkckiNU7TmkAS/P
+	 aSlshnHRkFxUMxBcxlBypLty+T6r/KuNAiDHB5BuS/XdjUyd/uBs2G8HSp845arks3A==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793994042;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=g1N9tbVOhbknui/KUnqnwvb5zZsgA7ui7noFKqFuo+w=;
+	b=G7AoER38Ntud2RLGbhgOZTKi5Gkqvck3WlqgSk52A1rrEG8UVk9vkP9ABm/Yu1o8OJ0r
+	 VuC0YAWdtHkrM0kZ75nHxZn8TQzdWrfJqCMv0fw19XHx0TI9aYJKBAL1n91x2dPmJ8vCX
+	 Zz8zeP1Kp4jWtZ7BpkFfGIxc5BobA7MEsU3gnZG4L49cLB/sq/c8t93LGv5oa6V7eKeen
+	 Erqri70ZAxSSYoZoZCiZUg7qliE524O+pj4Eg0ODwioy56niqGOlMS/FHPzXl84+Ew5os
+	 3mxcg9rASY6gM0xpcbW5ZyU0EeSvZ3VTOf9xgMKAB7a0ickznSnf4G3S3VM4ka1718A==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 0A1C51F0089F;
+	Fri,  6 Nov 2026 19:40:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793987715;
-	bh=Slw7IzCaqPRYPs5qP8w8RJF2WXLJYullyRST6UZQnck=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=d2haV1jfgqlnTB4aD+TrBInUFDaA6U7aLIycswQOy7Lb+8zKDUvBJoACRr2teqFoT
-	 q0WSvqwcD7aNLSd7Hr4T7k1ZCA+liji7NGYjfFCsu3bmh67LnpXiIe/++epPs9Eok7
-	 VPgvJn/Zri3XwYgI0quDILWRiyCkSaIgZH2HJ+qKmgoJHvFxiHRmCP9S6EVlgEETbD
-	 Z1bEFtMMXxeHJGezK6yNwIPvpPHbn7FmCvYu3uvZ9txCDCkKI0XhxHoh171kYtrFnk
-	 ZWgly+CyYxfVEiUNABjpm5DW6YrcU813UvNROm6VVH4Uily+CxJA4WG6/qGc0u9Ywi
-	 x72KsIaWH7+pQ==
-Date: Fri, 6 Nov 2026 17:55:05 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Linus Walleij <linusw@kernel.org>
-Cc: gaohan@iscas.ac.cn, Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Anup Patel <anup@brainfault.org>, Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Drew Fustini <fustini@kernel.org>, Icenowy Zheng <uwu@icenowy.me>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Vivian Wang <wangruikang@iscas.ac.cn>, Yao Zi <me@ziyao.cc>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-gpio@vger.kernel.org,
-	Paul Walmsley <paul.walmsley@sifive.com>, linux-clk@vger.kernel.org,
-	linux-serial@vger.kernel.org, Han Gao <rabenda.cn@gmail.com>
-Subject: Re: [PATCH RFC v3 06/17] dt-bindings: pinctrl: add Zhihe A210 pin
- controller
-Message-ID: <20261106-either-smudge-c1b21b4a81cb@spud>
-References: <20261103-a210-scmi-v3-0-ee6b31580808@iscas.ac.cn>
- <20261103-a210-scmi-v3-6-ee6b31580808@iscas.ac.cn>
- <CAD++jL=5SypKyjwb71hT2pzTZ3s9qi62JG_EevyjTjGgTZiE8w@mail.gmail.com>
+	s=k20260515; t=1793994042;
+	bh=g1N9tbVOhbknui/KUnqnwvb5zZsgA7ui7noFKqFuo+w=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=igg7+PbWs84GnfXb6WersQMj21z0AZxPr+MjTWMQt4UbLQm0TUR3/a8NlcmOaunZ3
+	 YHSe0rqCvXW2RsiYL6gV0hYYqfPHMNpke7cCIxhVYiuVD/K52B0UkM6Uylm+YcELmV
+	 U3FaVmv6//DejJve94it59m64a1q/gXMn5mxs5rho7KpLbC8H9uZpzt3Q/r/uuLYWm
+	 FuyebVrViz90RHkUb50C9on4G+Fw9p+7C2aOAXUWZr9HI4D8K5lbcPUcK6Wn4f6MRZ
+	 5vosKX1KgwpEDJGbKGY8D2Cyd5h3GvBpwjAaWQDGcA51xv2Lbe8JgfXt975h3V6M5T
+	 A7GMI+EjcSW0g==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 5E0794783A;
+	Fri,  6 Nov 2026 19:40:41 +0000 (UTC)
+From: Han Gao via B4 Relay <devnull+gaohan.iscas.ac.cn@kernel.org>
+Date: Sat, 07 Nov 2026 03:40:33 +0800
+Subject: [PATCH] firmware: arm_scmi: Drop the ARM architecture dependency
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -86,50 +82,78 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3tpStlpzQjO9g692"
-Content-Disposition: inline
-In-Reply-To: <CAD++jL=5SypKyjwb71hT2pzTZ3s9qi62JG_EevyjTjGgTZiE8w@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261107-arm-scmi-arch-dep-v1-1-514872e8ede4@iscas.ac.cn>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMywqEMAyF4VeRrCdgKyj1VcRFGzMawQvNKIL47
+ lZnd77F+U9QjsIKdXZC5F1UljnBfDKgwc89o3TJYHNbGpNX6OOESpOkQQN2vKIrvXOhsIHIQ/q
+ tkb9yvM2m/Vu3MDL9nhBc1w1xJXeQdQAAAA==
+X-Change-ID: 20261107-arm-scmi-arch-dep-96a99b32bcca
+To: Sudeep Holla <sudeep.holla@kernel.org>, 
+ Cristian Marussi <cristian.marussi@arm.com>, 
+ Michal Simek <michal.simek@amd.com>
+Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Han Gao <rabenda.cn@gmail.com>, 
+ Han Gao <gaohan@iscas.ac.cn>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793994040; l=1758;
+ i=gaohan@iscas.ac.cn; s=20261021; h=from:subject:message-id;
+ bh=JFfyRaQjdRkhf1+nAyQftf8BDfEeha9RuqZH2ozDpeU=;
+ b=WKv3qVktXvpY2424NiZPSFXWRZ5auD0LPYgNUC0J2hfBTaOLyfwe2GJj4c8PvAPyBOGi63/t8
+ 2LjLVo+kIR9B4DG1mGecFcC8TiJjdI9omLH+JM6pTdF38NzUBJGIIgh
+X-Developer-Key: i=gaohan@iscas.ac.cn; a=ed25519;
+ pk=J8WHEK3filS86QaCaIHDGafqhxKyQ4K7+vFgRirTIiY=
+X-Endpoint-Received: by B4 Relay for gaohan@iscas.ac.cn/20261021 with
+ auth_id=1262
+X-Original-From: Han Gao <gaohan@iscas.ac.cn>
+Reply-To: gaohan@iscas.ac.cn
+Content-Transfer-Encoding: 7bit
 
---3tpStlpzQjO9g692
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Han Gao <gaohan@iscas.ac.cn>
 
-On Wed, Nov 04, 2026 at 02:14:27PM +0100, Linus Walleij wrote:
-> On Mon, Nov 2, 2026 at 8:45=E2=80=AFPM Han Gao via B4 Relay
-> <devnull+gaohan.iscas.ac.cn@kernel.org> wrote:
->=20
-> > From: Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>
-> >
-> > Add a binding for the AON, PERI1 and PERI2 pad controllers of the Zhihe
-> > A210. Every pad is muxed and configured on its own. Functions of the sa=
-me
-> > kind share one name unless a pad can select more than one instance of
-> > them, as with the UARTs.
-> >
-> > Signed-off-by: Zhiguo Zhu <zhiguo.zhu@linux.alibaba.com>
-> > Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
->=20
-> This LGTM, just waiting for a non-RFC version and DT bindings review.
+The SCMI core and the mailbox and shared memory transports only use
+generic kernel interfaces. Transports that need architecture support,
+such as SMC, already carry their own dependencies.
 
-This version seems okay, but I am also waiting for a non-RFC version to
-ack.
-I think stuff like pinctrl, that has no dependency on whether or not
-SCMI is used, should be split off into standalone series.
+Drop the ARM and ARM64 dependency so that other architectures can use
+SCMI. Depend on HAS_IOMEM instead, for devm_ioremap().
 
-Cheers,
-Conor.
+Suggested-by: Michal Simek <michal.simek@amd.com>
+Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
+---
+This was patch 1 of the Zhihe A210 SoC series [1]. As Michal asked, it
+now goes on its own through the SCMI tree.
 
---3tpStlpzQjO9g692
-Content-Type: application/pgp-signature; name=signature.asc
+Since [1], it depends on HAS_IOMEM: Sashiko found that UML, which has
+no HAS_IOMEM, failed to link devm_ioremap().
 
------BEGIN PGP SIGNATURE-----
+Build tested on x86_64 without OF, i386, loongarch64, ppc64le, riscv64
+and arm64. On UML, SCMI can no longer be selected.
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCau4UeQAKCRB4tDGHoIJi
-0nGqAQD4uPonsKu1Nn5d2AXZzXklvHVCALSr5hp97wCKf60/IwD9FQ/JcPhJXo+G
-8lVmOiMQ/Gmo0P47KaBRYh3sfdQOqgY=
-=9UUN
------END PGP SIGNATURE-----
+[1] https://patch.msgid.link/20261103-a210-scmi-v3-0-ee6b31580808@iscas.ac.cn
+---
+ drivers/firmware/arm_scmi/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---3tpStlpzQjO9g692--
+diff --git a/drivers/firmware/arm_scmi/Kconfig b/drivers/firmware/arm_scmi/Kconfig
+index 783c24a20e29..f403271c3d11 100644
+--- a/drivers/firmware/arm_scmi/Kconfig
++++ b/drivers/firmware/arm_scmi/Kconfig
+@@ -3,7 +3,7 @@ menu "ARM System Control and Management Interface Protocol"
+ 
+ config ARM_SCMI_PROTOCOL
+ 	tristate "ARM System Control and Management Interface (SCMI) Message Protocol"
+-	depends on ARM || ARM64 || COMPILE_TEST
++	depends on HAS_IOMEM || COMPILE_TEST
+ 	help
+ 	  ARM System Control and Management Interface (SCMI) protocol is a
+ 	  set of operating system-independent software interfaces that are
+
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261107-arm-scmi-arch-dep-96a99b32bcca
+
+Best regards,
+--  
+Han Gao <gaohan@iscas.ac.cn>
+
+
