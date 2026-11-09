@@ -1,109 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794261445;
-	b=BooR+bwOvfH/kfgdZjTGQ5R/S6adBanCDEfQhXXOsH2OvqCoHwoj6w8gcwjZh4wmrc/c
-	 PTHcIlo9Xp5dphNmwossGLPPl3nCouwgflUSPbTjnNleCX0h9zL1xl497X8SbBaSTsB3F
-	 x3FOwOzgLldCIae1+cXWP8xEgTV14poVA6+2s8aBeg27p+yvVBT2wSOxmHCAfHVl2Nvo3
-	 Nya6Oq6PdNrHGRZx4AMHXf+CME8xFITe1USu0VkWVHX2cweIInbLnRG+Rnla6znDzHFMO
-	 Kn8R3erxdFv63hjzwwZ0cmYmGiBqS0uTwO0VIikvo+A5LfmrZr/JAzBI/i4ZE/pe6SQ==
+	t=1794261703;
+	b=QxN8CR1ff90SKG5ISruY/xSJfLS3sSf/n8zH/xI6PKcZBRF2HJgx6Pjy1rEIRe7r2nX1
+	 ZdhEkV1QJC+vE8tCYiC05tKdgieEsq7y5Xae8hWfnRTA4iOHHf5FbMWx53CBG1TBXKERW
+	 w8x/tXY4C2RVXv0F+kCGi6DsUdAdCt3IeTCTQesHaPT30S2yRXCy+t+k60dBKqOk2Hpjq
+	 elHVSNHzbEwLo85CkClTHm00G4qfJQXmWJBhHraG5VE+EaJ+kF6+P1nqHJFDS4QE9c51e
+	 1zRtbHVDO/YiWPbWYi+u1MyM+UzumvYrBFzdlHNJS9L3KrUtQ6jSQ4rT6z242pzn9Bg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794261445;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794261703;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
 	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
 	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
+	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
 	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=b7DxPMnLAGx59NG4Xr4LnCuXJDUvyj4OcVD3Rep5gdc=;
-	b=J9KAPDe9CFddzWUUTebrwkBjE2pdOLtV/XyFU9xmqrBlOAfvhkXR8Dx4FbVB8bUm2KxJ
-	 rBHpMfwFoIZsV6vONu3vYDxH2lOoGsIJvd8VkaZAoK/OBoHUgV2RpoFrPmSLPPTnjbPbL
-	 KffJjGv/mDs7iThX6e3v4C/FQM4y3Po15R3zNhUx9IosuxRQxOzF+LpuI0z2OjqgOJh/O
-	 /o1plM9ltD2BMf/rfl26JkBmsGCC+lNfMf+p8lTarzN3DHGO0R10RU6dVR5rKOZE/6qHK
-	 /NHcyuFHApxxe5CKPZ2CGklMoesa6h2ec5WVebvlT3nifAOcLSNdR2vdZ/309QCdjKA==
+	bh=f/U5uro6b/Mumfr/eDH65lCVfbkZfC9WhsiSfQqom5U=;
+	b=HSp/mESNzkwp8GNsXc8xPBhMCpzy492HJ5brzuu78UFjkBChTOJY+9HQ62JuL9TMSRY8
+	 JWIWbRIoAo2qqOiP9szbxLIQlNZmy1nBORwUpqkY1K25vUtqXD5yjQXbj6c16U0fw0GOz
+	 BvCzv0TbazKk+FlOIA8xrQr48Cyoi46YBc3gndo2jdBJ9wmPfdyx6lzkohxYi6b0kZAXl
+	 Xj6JdNfDLr4rywgxizFTTW4FjPgHyrmQxYftdJoo5jojGDv4ZX06bX3aO2w+FvtQzW3Gt
+	 Mw80vYZFxFVADDqlwmqPBuaHZDFGeY/9HHQdfN/W2GVEFSwZuRKH0uKK74iKrBk08wg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=e1VcI6mF;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b="bROBw/Ff";
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=e7I9DGRY;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b="h8rrC24/";
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96A6606A326
-	for <arm-scmi@vger.kernel.org>; Mon,  9 Nov 2026 21:57:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E96A6606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752AD606A31C
+	for <arm-scmi@vger.kernel.org>; Mon,  9 Nov 2026 22:01:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 752AD606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=e1VcI6mF;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=bROBw/Ff
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A9LA2H62029889
-	for <arm-scmi@vger.kernel.org>; Mon, 9 Nov 2026 21:57:24 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=e7I9DGRY;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=h8rrC24/
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A9LA1H61392476
+	for <arm-scmi@vger.kernel.org>; Mon, 9 Nov 2026 22:01:42 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	b7DxPMnLAGx59NG4Xr4LnCuXJDUvyj4OcVD3Rep5gdc=; b=e1VcI6mF4e8vaywo
-	BP2JNRCIqHssN0C8xO6Zctry3jEKmvteqTjRhEneMmvzz90PUDh0+aSacce9EAYb
-	SBGo+9EwmJ8YIEDQGxJ3CE1I4ob3yG3mlEbFtk0ViV7XnQF4VHVoHxbK5t902JfG
-	CZLg6z3J9gD3zgrCNMw5RQCM3rrHuyONQDtVSbxmfsSjBvoJZu3wi7H23A/8iiTr
-	36EiWJ7SEqEcIJ3zXD2H/J2HIj84nVWDfhJoe/+7KxczykChI0kU176cMMYJMdNj
-	kXFBVWZj4l0DCSZ7sxIthy9ceHbhEETDizISpnPuCTfZ6I3AHjKOcpQ9QwDIEtd1
-	dV5NaA==
-Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hufx81nkt-1
+	f/U5uro6b/Mumfr/eDH65lCVfbkZfC9WhsiSfQqom5U=; b=e7I9DGRYOGMiGoH/
+	9ZoE29LUbkorsFvZdOvL+TFcpTgfHORVobuEWk8PJboxsm+F8FvRZETRWPJ4cbVK
+	GUVRv75INA5Iaq/X7r1Xzf6dJRWOo9+iBHur3dSZZas9h9UER+SReUXSWZ8Hr78q
+	KtOSrqyXX4pK8SeVyCc81nDoW1zf29dGDIVRLQuGotPphEf3EEPxLOyA5S+3HUyn
+	M12UZx7KDkpAErIIRLsrsH2ntnuxiEAE9bKaiy0HqEeM+ncFOy7/UQhSmviQJCeO
+	PysqGDgM7FymmEUVNObbm2pGUmVg5WrmxiYG/aMpAQGJec6AE8vg+3c+e0Gwq3P8
+	ZjaCig==
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hucr5tbj3-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Mon, 09 Nov 2026 21:57:23 +0000 (GMT)
-Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-1b3ae17c536so1281969c88.0
-        for <arm-scmi@vger.kernel.org>; Mon, 09 Nov 2026 13:57:23 -0800 (PST)
+	for <arm-scmi@vger.kernel.org>; Mon, 09 Nov 2026 22:01:42 +0000 (GMT)
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-36d69ab3c2bso1937429eec.0
+        for <arm-scmi@vger.kernel.org>; Mon, 09 Nov 2026 14:01:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794261443; x=1794866243; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1794261702; x=1794866502; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=b7DxPMnLAGx59NG4Xr4LnCuXJDUvyj4OcVD3Rep5gdc=;
-        b=bROBw/FfMK8VwRDHkxTvvnAvfeP9mwtDx9xXEWSiFLlTEWtzxNqMGHzLWpgWnIlL66
-         E1uZUpUcCcJ3tCs8thPWdQKL8DKCA3txpmnU0SXqHXZdxaNS7b7+dmtpaA7ggvas1Vni
-         ezBRGqMCcDgfsSExFw/JkkQnBFJtymjyn+4AUlTYoIzScjeNmZDhisQBmV0Bmh13fyRo
-         AUovlx3Hkrx2s2dXdU9TMHTT2nZF18tQ5kelA8RaMBqKAZfSEHAVzmqZvsPZ6ogK6iAh
-         U8/33gjFY/uXcztsLEIQXx1KTdBJZht8SOt07EXLmnrJvtmUpM+KucNSMX3Nl9KX4EE7
-         7YmA==
+        bh=f/U5uro6b/Mumfr/eDH65lCVfbkZfC9WhsiSfQqom5U=;
+        b=h8rrC24/Jk3XFZ9fnclCxBB80fVCabImtkDuqauSxM1hUhaAA9eHf41EPZaZLieNYv
+         ew25GWNCuyynoO/JurLVxPESl+zOyx+1S+UoyYGcx4pbY6yHLhHVNRM3YyJvEQR8X5E3
+         bDZRebq0OGsL8np4uJ+XuFifrCgPflSd06X6ok5yGCv8FJ0r60w2jLy9l0r4ujiye6si
+         w6YstoZ9WH5u9WVd0aaNm1SprrLgFhdLkTj+xLIWc+zYmdPgP4UIbXqlvc+nhJLo58si
+         bSmeyAN97qFxdWb+e7DzS7an+DADr6FG2Yn6r0IvntaMPIFwTSId8/6thCFzwGeWBn0r
+         caGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794261443; x=1794866243;
+        d=1e100.net; s=20260707; t=1794261702; x=1794866502;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=b7DxPMnLAGx59NG4Xr4LnCuXJDUvyj4OcVD3Rep5gdc=;
-        b=G5yFwP2gDyprmGIbz7IrPAYoQeT3+EXeY0J2teSUdQEyIKTcmkbCzagCH1UVIhcqgZ
-         ZaZh8aXfXfm8LFYI41DHMP2EKt1mKIygHdL27fYUyapbaJpIGhMuHcrn5N5lGN3jTrZw
-         rWwTsrHDxoGHQHVFr/xazAB+BHa8niEcOd78ARFZYoSHhLLktxmqMO8yXyTxTGLft/2l
-         JE8JjmtgYwP7GEHdeI0ORlGn9Zr7efIqL90oluztQKBfZ0FxTw44nG79rL8KjwJO6Zv3
-         VG5WEM2ctrpN5nMlnyOMDnozelIcf6axtMtyNPqvWVcHH/w4AYucJZQK7ey4vXNTLjRq
-         KECQ==
-X-Forwarded-Encrypted: i=1; AL+hErGg7CdINYC/cTgPiv/I2ejxibCc1pWdRc/olRZ9uvzNub6sQuE7+4TMt83FsilN4AJYx2ZE+M6bNw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/cwzDXEKUaNawJ7S3+mO8LKWYrJzuURd5Vs8x551cRpIwFs7hM
-	4qcj4ue3mZFvYqPNXbHTfeb00hW2UkiqHK75ExcBkF/PNgvjD/RwxRhjHzDz0rEweufTejjVbYC
-	0lsIzk6gjTJqyF5S6fjMmijNUPG+6khWJTljqRN3I43kGlJqotDHHK+1uuv4Auw==
-X-Gm-Gg: AYBFou3XnCkrkBisMEDz2oi3w+RsUm93hD2mznDx76xRo7p2fT5S4b2IzdNayJcXkAM
-	uD6HoV9Drdam2SxKiUF9OqARdiWYHVgt7WYVB8pKp9e4u6R/rGXES9chD3b0tfzbL8eZYVZNvVL
-	kuvAmQ2IRJLCOH+BIZ1AePA1OeAi261lmoOybX9V4Y8Ulc6n8SnGvACDtnvv2TZvyd2uV7mMBNc
-	ns9vKsxWaf3n08discmHo9Pbll/Q6SK6LhMi6J4FCMxXHkFUz4YZGkZPFWdS1JYfgTfCqiFixFc
-	UjxtTxbacc4srvmjQgUjBsrjmr1Bh+ISLVEKphgkRn8QXW29UdlSy9dIps9nRT7+/VQ3K1giOoj
-	dvknT9ysTaVX/jsERpD9Caq8G6I9hlMEk1bXBEwth4b0gmSFShx9ckOv+L+PGHzNdckYGz4+VTl
-	9Im5rrBJmBzRZaOxxli3kPSfMd5/Y=
-X-Received: by 2002:a05:7022:170a:b0:1b2:40be:a929 with SMTP id a92af1059eb24-1b3b6037813mr817970c88.14.1794261442608;
-        Mon, 09 Nov 2026 13:57:22 -0800 (PST)
-X-Received: by 2002:a05:7022:170a:b0:1b2:40be:a929 with SMTP id a92af1059eb24-1b3b6037813mr817919c88.14.1794261442019;
-        Mon, 09 Nov 2026 13:57:22 -0800 (PST)
+        bh=f/U5uro6b/Mumfr/eDH65lCVfbkZfC9WhsiSfQqom5U=;
+        b=H/zxqvG74EoxQxKsNISLKgXa/Msz00cC7LSzBHPSm/UbJ89jZDXYh9tfprE8OtdhHX
+         5RKOWPr390LqoFTuTQYldNbYu7+5ssway2D/dZN8mTnNVYJxcp1wPrim+l6EYX3QPq7B
+         Vukm8kazKAZiU43ebf/sEeET0XycmNe+lAn3OH0hC0dJ19a/FV9w7O+DUE0T8WWtuoWF
+         asylmsfJvbgpcJVBH3E9PMtqmlKW0yyfkF8JT70PPteK+rFMVNAmwd3n99ZsAK5dz68z
+         EY76EIhWUiGu1vswOOhIlPicMihA1UAmkbbWvXBy3Se36SuVwV7ocVIJs5sBIYdTyxVt
+         Rsow==
+X-Forwarded-Encrypted: i=1; AL+hErGKw7VIxc5v87YZjjLoMEFffRNRVax8hGE3G/eC80OLaCvh/xohYS0AO7+BtKZTtnmSuN12aDw78g==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/Bqgi+83t61KXsgcsdWUpRn4exIRIa+AFLrDSYXzbDD1bbRwF6
+	IjVULsE+nqlQCdQJKOb/D4gD7n+cp4UID3WyxDAlImOs9OpLQd24Cefv45vValCjqqwMpQL/F7o
+	JFIyRC/NaD5IaxXUgfFTNfZGHZZG7uN1X0t4se6XyhF+1RlYb6Lkl3ADj9iXT1w==
+X-Gm-Gg: AYBFou0QlxQAeeL4j8CMK9dSapvSnGNU02K9DNGJK0vLiV+GpEeNRAainraS4ZxmHKd
+	GB3HndFSwTOUnxgbH9phS+fJM9BYcxAe2Njr/GX7i9hP36H9SDhY1BMQdnZU6nE5b02o6DkOhc7
+	/azH6BKvPA6DRRQGEQneqqJokDT9iyE35FQ8p9twlkXuWcah7weeuxEo1re14oo0pbFxW/DeGL+
+	ZyuY8tftlV5CJznCq59Hp1+cNqU3y/o438lintes6obfQNZn4ZMeJJX8fDBiIl5oqN/jrL9rr2L
+	uOC7EkyXBpz9kDdP0aJxe9PK7kzd4whpZZMbWgOqmUvrpe6QdrDfXjzum5NnHWQ1ZYgrmcbKamv
+	UpE8gJZyp15J+et5J0NnICOp+FSCz67hook1NnGMsMN59ybPTokGbA8cH1/9krwwpww9LEyqMwO
+	9LH7EftMg9eF5N5EjyCzxEI0AnMA==
+X-Received: by 2002:a05:693c:6007:b0:36a:1008:5815 with SMTP id 5a478bee46e88-3751c82f248mr762503eec.5.1794261701739;
+        Mon, 09 Nov 2026 14:01:41 -0800 (PST)
+X-Received: by 2002:a05:693c:6007:b0:36a:1008:5815 with SMTP id 5a478bee46e88-3751c82f248mr762424eec.5.1794261700734;
+        Mon, 09 Nov 2026 14:01:40 -0800 (PST)
 Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-375212e9e03sm2048895eec.23.2026.11.09.13.57.20
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751dae6377sm1118577eec.3.2026.11.09.14.01.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 13:57:21 -0800 (PST)
-Date: Mon, 9 Nov 2026 13:57:13 -0800
+        Mon, 09 Nov 2026 14:01:40 -0800 (PST)
+Date: Mon, 9 Nov 2026 14:01:29 -0800
 From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 To: Cristian Marussi <cristian.marussi@arm.com>
 Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -115,12 +115,12 @@ Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
         leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
         usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v15 01/35] firmware: arm_scmi: Harden iterators state
- parsing
-Message-ID: <20261109135713.000049d6@oss.qualcomm.com>
-In-Reply-To: <20261109091221.2532706-2-cristian.marussi@arm.com>
+Subject: Re: [PATCH v15 03/35] firmware: arm_scmi: Introduce a dedicated
+ SCMI Errors header
+Message-ID: <20261109140129.00004b4f@oss.qualcomm.com>
+In-Reply-To: <20261109091221.2532706-4-cristian.marussi@arm.com>
 References: <20261109091221.2532706-1-cristian.marussi@arm.com>
-	<20261109091221.2532706-2-cristian.marussi@arm.com>
+	<20261109091221.2532706-4-cristian.marussi@arm.com>
 Organization: Qualcomm
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -134,94 +134,182 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=AbYkjHXG c=1 sm=1 tr=0 ts=6af241c3 cx=c_pps
- a=kVLUcbK0zfr7ocalXnG1qA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA5MDA4NyBTYWx0ZWRfX3sAcp++/kE8o
+ Gv65Djw73TWgRIZPv283Q4zfm6QgpzpdtDYZ1FepSrqMzdTlipMjhPBGgNOdlWnwtmr+rqIEoA/
+ IzigHHSgfv7aA3FJffaSGm3M9DsPSmk=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA5MDA4NyBTYWx0ZWRfX71KeD0jbpdYT
+ V1ta0ld7nHwot+wymG0QUka+rXigW4OwzuNF0ZHkeHVifMoxhwK9xvZVDarVrVqcYeqH4kgQF2m
+ b4rcLyGssGjn/Pqy9LDF+qMFw3hLMEmGEtRoibOc2QZcVpkW8IJWRShY6OcWSgniCCBtl29b/Fk
+ Lk/0d+OkR3Wi14VBceTliwPvMG7eAXzL1CTDNfvX35bsWd2kFsi1v/o1xF0A6ZfcSLAbiVpWqsX
+ YpjcVxfI3N4IUWtFsiNTiLDzDBm/vSuDDmnb5QcbxXZLLeeK5WHtzh4JdHpAXDCsBmfNJaAN4S/
+ IUCXinBSkQmEkqUG5b2eFobmmGw67PTn09d34St7xXNMyOYGE0seRh+7GBS3viUUgdskIOhOdP4
+ pez0/Gq2KBiIjr1cnpuQQ1DurkCpCwwLNWvQkS7Lqx64ulHPiCJKld09WQO8YcI5bKLUyI19oYE
+ Duu/kFSj7Tggtc4KS7A==
+X-Authority-Analysis: v=2.4 cv=ErlHPicA c=1 sm=1 tr=0 ts=6af242c6 cx=c_pps
+ a=cFYjgdjTJScbgFmBucgdfQ==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
  a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=7CQSdrXTAAAA:8 a=TxbN916H7FYpum8SNwIA:9 a=CjuIK1q_8ugA:10
- a=vr4QvYf-bLy2KjpDp97w:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-GUID: Rly-GRt0SMyT5-5TpJMAgbd7vYtMgoyG
-X-Proofpoint-ORIG-GUID: Rly-GRt0SMyT5-5TpJMAgbd7vYtMgoyG
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA5MDA4NyBTYWx0ZWRfX+kIjXaEHO+Wv
- 3dZdm4Ls9sGueBUEFqwiedb/mniPCGgmcXl+6XNdyNqRnFg60PpRzbeoe6FSq9ZponBe9jS0ugp
- UsSNI31YMGv2nEK4GW48aIPV+jY46mg=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA5MDA4NyBTYWx0ZWRfXzOoZ2TkcTs0O
- 9vKYp8EcU5whSqjICUrhf5/8A99xB+yek4ng0g8tpBgp+IBdlryd1SQP/cVjybkmCg80aaxwbQU
- 6QhK6IoBn9n2TD7SLsYSeTUGaHgz2Okx1GXm6Ti3fVgG6N1TdDqljSmGmBrHPTb85QOFuGnclUf
- hCAc10yLMgPik8Hvvb2bymgmnEwF3oG10HYIQrIBFXYf9wjXXZeztzPBoY30rPtt3cvR6Hl+Hwb
- QDzfEwO7r/0i3PVaAHu+bSQ8QXO/PeT7IHEBMNE8GaQuyiNnStZbZ/yPC8Tie9/BP6q5q/6TY57
- 3IcMf8Tf+0J7oYCzWh2OwREH9vae9wgRDSjFdKjoGKzByoAA/H7waDyynz0OASyz9opo23xSvJ6
- AjROiQCs2QCfxy4mV7oO5Bt++ClpMixtxnxSa3xEfdjVUCsST4WDtfFc6yn/0wh+eWjw3ArYG0V
- WXrI/aVZnpWsalwTMXw==
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=7CQSdrXTAAAA:8 a=EUspDBNiAAAA:8 a=1uBkIsMKrF2EJPe0UmoA:9 a=CjuIK1q_8ugA:10
+ a=scEy_gLbYbu1JhEsrz4S:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-ORIG-GUID: 01bJEP-7fXaeV0emRtuwRMRE98ZvxfoC
+X-Proofpoint-GUID: 01bJEP-7fXaeV0emRtuwRMRE98ZvxfoC
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-09_07,2026-11-06_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0
- impostorscore=0 bulkscore=0 spamscore=0 clxscore=1015 adultscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ clxscore=1015 phishscore=0 malwarescore=0 spamscore=0 bulkscore=0
+ priorityscore=1501 suspectscore=0 impostorscore=0 lowpriorityscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
  definitions=main-2611090087
 
-On Mon,  9 Nov 2026 09:11:47 +0000
+On Mon,  9 Nov 2026 09:11:49 +0000
 Cristian Marussi <cristian.marussi@arm.com> wrote:
 
-> Add checks in the core multi-part iterators support to detect generally
-> malformed and incosistent multi-part replies.
+> Add a new dedicated header and move all of the errors definitions and
+> mapping helpers into it and out of common.h so that SCMI errors definitions
+> alone can be easily included in protocol files without all of the unrelated
+> additional stuff contained in common.h
 
-Spell check patch descriptions.  inconsistent.
+In ideal world I'd move first and add the new codes later.
+(so swap this and previous patch).
 
-Otherwise seems fine but I'm too lazy to check all existing protocols for
-that minimum size!
+Trivial thing but reduce the patch size a tiny bit!
+
+Other than that, seems like there are enough of these
+for a separate header to perhaps make sense.
+
+Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 
 > 
 > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 > ---
->  drivers/firmware/arm_scmi/driver.c    | 10 ++++++++++
->  drivers/firmware/arm_scmi/protocols.h |  6 ++++++
->  2 files changed, 16 insertions(+)
+>  drivers/firmware/arm_scmi/common.h | 43 +----------------------
+>  drivers/firmware/arm_scmi/errors.h | 56 ++++++++++++++++++++++++++++++
+>  2 files changed, 57 insertions(+), 42 deletions(-)
+>  create mode 100644 drivers/firmware/arm_scmi/errors.h
 > 
-> diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-> index 05092301db29..55d9cc487916 100644
-> --- a/drivers/firmware/arm_scmi/driver.c
-> +++ b/drivers/firmware/arm_scmi/driver.c
-> @@ -1873,11 +1873,21 @@ static int __scmi_iterator_run(void *iter, unsigned int *start, unsigned int *en
->  		if (ret)
->  			return ret;
+> diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
+> index e3390686fc58..cdd6f887fae7 100644
+> --- a/drivers/firmware/arm_scmi/common.h
+> +++ b/drivers/firmware/arm_scmi/common.h
+> @@ -26,6 +26,7 @@
 >  
-> +		if (i->t->rx.len < SCMI_MULTIPART_REPLY_MIN_SZ) {
-> +			dev_err(ph->dev, "Invalid multi-part reply.\n");
-> +			return -EINVAL;
-> +		}
-> +
->  		st->rx_len = i->t->rx.len;
->  		ret = iops->update_state(st, i->resp, i->priv);
->  		if (ret)
->  			return ret;
+>  #include <linux/unaligned.h>
 >  
-> +		if (!st->num_returned && st->num_remaining) {
-> +			dev_err(ph->dev, "Inconsistent multi-part reply.\n");
-> +			return -EINVAL;
-> +		}
-> +
->  		if (st->num_returned > st->max_resources - st->desc_index) {
->  			dev_err(ph->dev,
->  				"No. of resources can't exceed %d\n",
-> diff --git a/drivers/firmware/arm_scmi/protocols.h b/drivers/firmware/arm_scmi/protocols.h
-> index 8583159059e6..b295006ef1fd 100644
-> --- a/drivers/firmware/arm_scmi/protocols.h
-> +++ b/drivers/firmware/arm_scmi/protocols.h
-> @@ -33,6 +33,12 @@
+> +#include "errors.h"
+>  #include "protocols.h"
+>  #include "notify.h"
 >  
->  #define MSG_SUPPORTS_FASTCHANNEL(x)	((x) & BIT(0))
+> @@ -37,48 +38,6 @@
 >  
+>  #define SCMI_TRANSPORT_DEVNAME_PREFIX	"__scmi_transport_device"
+>  
+> -enum scmi_error_codes {
+> -	SCMI_SUCCESS = 0,	/* Success */
+> -	SCMI_ERR_SUPPORT = -1,	/* Not supported */
+> -	SCMI_ERR_PARAMS = -2,	/* Invalid Parameters */
+> -	SCMI_ERR_ACCESS = -3,	/* Invalid access/permission denied */
+> -	SCMI_ERR_ENTRY = -4,	/* Not found */
+> -	SCMI_ERR_RANGE = -5,	/* Value out of range */
+> -	SCMI_ERR_BUSY = -6,	/* Device busy */
+> -	SCMI_ERR_COMMS = -7,	/* Communication Error */
+> -	SCMI_ERR_GENERIC = -8,	/* Generic Error */
+> -	SCMI_ERR_HARDWARE = -9,	/* Hardware Error */
+> -	SCMI_ERR_PROTOCOL = -10,/* Protocol Error */
+> -	SCMI_ERR_IN_USE = -11,  /* In Use Error */
+> -	SCMI_ERR_PARTIAL = -12, /* Partial Error */
+> -};
+> -
+> -static const int scmi_linux_errmap[] = {
+> -	/* better than switch case as long as return value is continuous */
+> -	0,			/* SCMI_SUCCESS */
+> -	-EOPNOTSUPP,		/* SCMI_ERR_SUPPORT */
+> -	-EINVAL,		/* SCMI_ERR_PARAM */
+> -	-EACCES,		/* SCMI_ERR_ACCESS */
+> -	-ENOENT,		/* SCMI_ERR_ENTRY */
+> -	-ERANGE,		/* SCMI_ERR_RANGE */
+> -	-EBUSY,			/* SCMI_ERR_BUSY */
+> -	-ECOMM,			/* SCMI_ERR_COMMS */
+> -	-EIO,			/* SCMI_ERR_GENERIC */
+> -	-EREMOTEIO,		/* SCMI_ERR_HARDWARE */
+> -	-EPROTO,		/* SCMI_ERR_PROTOCOL */
+> -	-EBUSY,			/* SCMI_ERR_IN_USE */
+> -	-EBADMSG,		/* SCMI_ERR_PARTIAL */
+> -};
+> -
+> -static inline int scmi_to_linux_errno(int errno)
+> -{
+> -	int err_idx = -errno;
+> -
+> -	if (err_idx >= SCMI_SUCCESS && err_idx < ARRAY_SIZE(scmi_linux_errmap))
+> -		return scmi_linux_errmap[err_idx];
+> -	return -EIO;
+> -}
+> -
+>  #define MSG_ID_MASK		GENMASK(7, 0)
+>  #define MSG_XTRACT_ID(hdr)	FIELD_GET(MSG_ID_MASK, (hdr))
+>  #define MSG_TYPE_MASK		GENMASK(9, 8)
+> diff --git a/drivers/firmware/arm_scmi/errors.h b/drivers/firmware/arm_scmi/errors.h
+> new file mode 100644
+> index 000000000000..707761cd8d34
+> --- /dev/null
+> +++ b/drivers/firmware/arm_scmi/errors.h
+> @@ -0,0 +1,56 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
 > +/*
-> + * Common minimum size currently required by all the existing standard and
-> + * vendor protocols.
+> + * System Control and Management Interface (SCMI) Message Protocol
+> + * header containing SCMI errors definitions and Linux mapping.
+> + *
+> + * Copyright (C) 2018-2026 ARM Ltd.
 > + */
-> +#define SCMI_MULTIPART_REPLY_MIN_SZ	(sizeof(u32))
+> +#ifndef _SCMI_ERRORS_H
+> +#define _SCMI_ERRORS_H
 > +
->  enum scmi_common_cmd {
->  	PROTOCOL_VERSION = 0x0,
->  	PROTOCOL_ATTRIBUTES = 0x1,
+> +#include <linux/errno.h>
+> +#include <linux/array_size.h>
+> +
+> +enum scmi_error_codes {
+> +	SCMI_SUCCESS = 0,	/* Success */
+> +	SCMI_ERR_SUPPORT = -1,	/* Not supported */
+> +	SCMI_ERR_PARAMS = -2,	/* Invalid Parameters */
+> +	SCMI_ERR_ACCESS = -3,	/* Invalid access/permission denied */
+> +	SCMI_ERR_ENTRY = -4,	/* Not found */
+> +	SCMI_ERR_RANGE = -5,	/* Value out of range */
+> +	SCMI_ERR_BUSY = -6,	/* Device busy */
+> +	SCMI_ERR_COMMS = -7,	/* Communication Error */
+> +	SCMI_ERR_GENERIC = -8,	/* Generic Error */
+> +	SCMI_ERR_HARDWARE = -9,	/* Hardware Error */
+> +	SCMI_ERR_PROTOCOL = -10,/* Protocol Error */
+> +	SCMI_ERR_IN_USE = -11,  /* In Use Error */
+> +	SCMI_ERR_PARTIAL = -12, /* Partial Error */
+> +};
+> +
+> +static const int scmi_linux_errmap[] = {
+> +	/* better than switch case as long as return value is continuous */
+> +	0,			/* SCMI_SUCCESS */
+> +	-EOPNOTSUPP,		/* SCMI_ERR_SUPPORT */
+> +	-EINVAL,		/* SCMI_ERR_PARAM */
+> +	-EACCES,		/* SCMI_ERR_ACCESS */
+> +	-ENOENT,		/* SCMI_ERR_ENTRY */
+> +	-ERANGE,		/* SCMI_ERR_RANGE */
+> +	-EBUSY,			/* SCMI_ERR_BUSY */
+> +	-ECOMM,			/* SCMI_ERR_COMMS */
+> +	-EIO,			/* SCMI_ERR_GENERIC */
+> +	-EREMOTEIO,		/* SCMI_ERR_HARDWARE */
+> +	-EPROTO,		/* SCMI_ERR_PROTOCOL */
+> +	-EBUSY,			/* SCMI_ERR_IN_USE */
+> +	-EBADMSG,		/* SCMI_ERR_PARTIAL */
+> +};
+> +
+> +static inline int scmi_to_linux_errno(int errno)
+> +{
+> +	int err_idx = -errno;
+> +
+> +	if (err_idx >= SCMI_SUCCESS && err_idx < ARRAY_SIZE(scmi_linux_errmap))
+> +		return scmi_linux_errmap[err_idx];
+> +	return -EIO;
+> +}
+> +
+> +#endif /* _SCMI_ERRORS_H */
 
