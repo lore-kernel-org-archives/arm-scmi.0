@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794215781;
-	b=VL3Sl1IyjJM9V53jd88gIGdYlOXm/qyNvoORWGsJh7EbOlXLFTIyXxx0HJlgdfSucIlz
-	 Acr62+i/e9asgn30Q3pAcdIGR/iKxTompAdjx719PvswqqGoqxmmACva7uMu/xOnXoMhV
-	 INhSTPYM1Dkk550nm5j7gwFBUbKOysiKQsnKvd1TZAg5yfnrCsw33e7hqX7mMJNkrenvR
-	 kstQCJhI3010iEBtBElyaGgGg/b8/MXtsZKWq+cAVWkAkc9L9vrldmS0MHSJ8ekc+wh82
-	 qcHTwuC2pG0Gur7LXAcu6efB6/smL+G6owHt/lvzMk+iA83hBAGHI9PQcI3Qwf/Adew==
+	t=1794215784;
+	b=jfnfhtcBbiBBPiFcOJhcDmxMt8vMFfdyw77Kb9Cjya40yxuzIVLUKS2BbQx6lB2ymrKb
+	 GA2R4eNSytGy6sG3DoMPbA+LavcnJ5rwU92Jy49qKQSm8MSfxHQNO7mvrwB5VwbmRPsVK
+	 vATVUDHUfViOspYHdArS7DDnMRui9Gleki2iVSXHdvesbAaH7mtYCmfGco57yKmxMWTpD
+	 wXcxUqIuWvdnox9RuImoqdyeb6LIUdIkwzmYhz2+VB4vwQMIEDZzWoFyRYd1F0nu9f0g4
+	 7YjAU//Ixm7kYt/lsPZkmUYy0T3yjgx2bq/iJut8hlw6igEVzVzkzQfe8hJUzHcpb0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794215781;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794215784;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=uKKVEfzej5t7VHzsctsTEaWiZarfFaC8uEMC+XmC0ug=;
-	b=MW9d3ynuxWiwkAoZkTfgauykn2NBKu3h49qzDhaMMmTBCxqjxaSqOjUBWO55WSKmXuJF
-	 ANUXot9SrKnU6r3nlVf1qfn5OwKVr2RKsdmUkN9oMgesOcrRV+r/h7ByicVL5EkKkg4U4
-	 iXbKsppDLSWocV9p78dTNARDHO3Pgi5M/yQdljy20E7p8k/rx0Q5vzAokbQ672ZOvTLle
-	 L/k+1foG2hn5jQhh3D/w9cwm+v4KZkT2usgk7voxFm/8szG3RpHETSqmuWuaAEh3amIWU
-	 V9piWI21BFkZZ1mMs/vLhP0vnNOdtZ7ZE52pTq+q7rlcHrs/0Zvfo8xCfVRg5RBbMpQ==
+	bh=gwmVsT6d+s3J8UMWsgOxymVjfIHMLolJGT/dAoN7VJM=;
+	b=QvIdSl9BvpeGW406AhPItCdMOm56e6jamG1pzWTPnkiLjcQTGAleF9fI5i8aYuyvLtqm
+	 NWJfgOiLTSwKpo93+KIBvM6zGdYRAy/BjY0HIxAhHm4trdNM+xGs9fglpcjN6W0Ek8dPU
+	 385AWMFzMYIHOXx9DMFYcyTvQHA6JVy6vvMGC03jUOvlThrgNrNqWn5K7iN6ZXPL+KCxt
+	 nnhfUYuro021UKhdxilBh23qip7T9mmi+FuxfjTelyGX5YkzVefu22g1fg+Aov1iDgdJI
+	 WfltftyhcSefxwF0AxxmqsR1hxwdyKK70gosGdN8oTCH3MQjhFZW4OapR3y7IR9XM7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=arm.com;
 	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=n1MFCHZc;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=YXYpwLXP;
 	arc=none smtp.remote-ip=217.140.110.172
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1BD76082BDB;
-	Mon,  9 Nov 2026 09:16:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1BD76082BDB
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2F9C60A382E;
+	Mon,  9 Nov 2026 09:16:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2F9C60A382E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=n1MFCHZc
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=YXYpwLXP
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A3421691;
-	Mon,  9 Nov 2026 01:16:17 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 557B614BF;
+	Mon,  9 Nov 2026 01:16:20 -0800 (PST)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 47C9B3F85F;
-	Mon,  9 Nov 2026 01:16:17 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6F4BF3F85F;
+	Mon,  9 Nov 2026 01:16:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794215780; bh=w7L8DbnoCEuyvO8JUAes+aM9b0PjMj4j60HnlNcmEQg=;
+	t=1794215783; bh=UDN+6/6nfh9N9nunu9RXX3MZNyhWSWo4Ujj1piGZyZw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=n1MFCHZc+FdCV7IrWQCjvqajEspnNRW7aJUgYTXhEMrlYr9ipbuK9Ahib1MLbaBv8
-	 LPuXN9pZisTaqJmi9mcRq8CMQMiyf0TbNes/623Vf57N0Hc7AjpSNoc4u+LoOd47CT
-	 6205HT57vt7nsckNb/tK6eDRrwtvYnQ8uLnfhgqo=
+	b=YXYpwLXPv3MGnoexxp2/NyvIDUhIEMrlnEYAQPg8ybwQaQ8FbXcGr03vpNjTRb/0N
+	 4ucpXnnc3oL42fJuDIBqKIY/ehSZYcm1H8ARXwUogshoxUQVVb+VjqDKe1BzJhqIdl
+	 qq2/KXoXm/94nDL821JpV32j846X+ELznfTp0DbQ=
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -67,9 +67,9 @@ Cc: sudeep.holla@kernel.org,
 	usama.arif@linux.dev,
 	kernel-team@meta.com,
 	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH v15 26/35] firmware: arm_scmi: Add Telemetry debugfs ABI documentation
-Date: Mon,  9 Nov 2026 09:12:12 +0000
-Message-ID: <20261109091221.2532706-27-cristian.marussi@arm.com>
+Subject: [PATCH v15 27/35] firmware: arm_scmi: Expose per-instance identifier
+Date: Mon,  9 Nov 2026 09:12:13 +0000
+Message-ID: <20261109091221.2532706-28-cristian.marussi@arm.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261109091221.2532706-1-cristian.marussi@arm.com>
 References: <20261109091221.2532706-1-cristian.marussi@arm.com>
@@ -84,46 +84,60 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add description of the debugfs SCMI Telemetry protocol ABI.
+When multiple SCMI instances are configured, the SCMI stack probes and
+it is initialized multiple times: one core stack for each defined instance.
+
+Each istance is simply identified internally with a number and such number
+is already exposed to the user to name the root of the per-instance debugfs
+subtree, if enabled.
+
+Expose such unique identifier to the SCMI drivers so that they can use
+that same identifier when in need to name their per-instance resources.
 
 Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 ---
-v5 --> v6
- - fixed typos
+v7 --> v8
+ - fixed Doxygen 'non-negative' integer
 ---
- Documentation/ABI/testing/debugfs-scmi | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ drivers/firmware/arm_scmi/driver.c | 1 +
+ include/linux/scmi_protocol.h      | 5 +++++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/Documentation/ABI/testing/debugfs-scmi b/Documentation/ABI/testing/debugfs-scmi
-index ee7179ab2edf..edbbe360321d 100644
---- a/Documentation/ABI/testing/debugfs-scmi
-+++ b/Documentation/ABI/testing/debugfs-scmi
-@@ -68,3 +68,25 @@ Description:	Max number of concurrently allowed in-flight SCMI messages for
- 		the currently configured SCMI transport for instance <n> on the
- 		RX channels.
- Users:		Debugging, any userspace test suite
-+
-+What:		/sys/kernel/debug/scmi/<n>/protocols/0x<m>/
-+Date:		Nov 2026
-+KernelVersion:	7.3
-+Contact:	cristian.marussi@arm.com
-+Description:	A subdirectory grouping debug entries related to protocol <m>
-+		for instance <n>. Each protocol owns and defines the subtree
-+		of entries rooted under this directory.
-+Users:		Debugging, any userspace test suite
-+
-+What:		/sys/kernel/debug/scmi/<n>/protocols/0x1B/shmtis/<m>
-+Date:		Nov 2026
-+KernelVersion:	7.3
-+Contact:	cristian.marussi@arm.com
-+Description:	A set of RO files exposed by the Telemetry protocol (0x1B) in
-+		order to dump the latest snapshot of each SHMTI memory area in
-+		binary format: each file is named by its SHMTI id.
-+		File is seekable and a seek to position zero on an open file
-+		causes the SHMTI snapshot to be refreshed; file timestamps are
-+		updated after each snapshot.
-+		This directory reports SHMTIs for instance <n>.
-+Users:		Debugging, any userspace test suite
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index 8a4664165a64..015dc8473161 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -3483,6 +3483,7 @@ static int scmi_probe(struct platform_device *pdev)
+ 	idr_init(&info->rx_idr);
+ 
+ 	handle = &info->handle;
++	handle->id = info->id;
+ 	handle->dev = info->dev;
+ 	handle->version = &info->version;
+ 	handle->devm_protocol_acquire = scmi_devm_protocol_acquire;
+diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
+index ed3eaa1482a3..4fa32d629e7a 100644
+--- a/include/linux/scmi_protocol.h
++++ b/include/linux/scmi_protocol.h
+@@ -1133,6 +1133,10 @@ struct scmi_notify_ops {
+ /**
+  * struct scmi_handle - Handle returned to ARM SCMI clients for usage.
+  *
++ * @id: A unique non-negative natural integer identifying the SCMI Instance
++ *	associated with this handle to be used across all drivers for
++ *	naming purposes: same identifier used internally as the root for
++ *	the debugfs per-instance tree.
+  * @dev: pointer to the SCMI device
+  * @version: pointer to the structure containing SCMI version information
+  * @devm_protocol_acquire: devres managed method to get hold of a protocol,
+@@ -1153,6 +1157,7 @@ struct scmi_notify_ops {
+  * @notify_ops: pointer to set of notifications related operations
+  */
+ struct scmi_handle {
++	unsigned int id;
+ 	struct device *dev;
+ 	struct scmi_base_info *version;
+ 
 -- 
 2.54.0
 
