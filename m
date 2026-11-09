@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794215774;
-	b=mASg9wkJg9eb8UM0QezNNOl+ovvp1/6RDL0stTejX2GyIcet0vwZrZ3owGR48a1h4URK
-	 3P40FkbbyBmVyKNHO+JH3YKJTGzkTUDQ6QWPVFDTd1ILaHXZA/tyKLkmkSo6l4xGiQXdc
-	 u3EdppDOjVL46vAgFs+NgImtiG/OLx8qe7WsK9e/xpyBWyTTsQgLQTb1j4lClhc/O1aY2
-	 ugopJKia+Q+sijAfolryzztSUFW1figsTskeKLbFAX9pVPX6utORM+uWFlZAAbRAjxMhN
-	 LzDt6j5pXzuPKwNWuYTxAw+bs7G5nh7q4cbzCGaPYdPR0/lAr4818zyIXVsdQlmT7KA==
+	t=1794215778;
+	b=Z7+Izfg88durJvROyrQ7TfE7i+hiDLYOqQybK+E238MA9gQdz7VHIU5FhbvvnA5KHuDa
+	 KCOT+lh4HD9y1rwxBfAuFXrtLyYf/lT724sAi3isBj6cMDkNqOcfEd/bQB4ejqYAk2tU8
+	 f2tX2QEygsIyGWlSWnjPYF/YJsZYr4p99+70Cjdm6vk5J3CmMYjXd1BGbL1sfV7eHgOQ8
+	 CJy2tOS4oWr9kf9VBf1x11FYc9k5tUOlukKZV1HZTKRlr+toYtkSZUkQuPPrA/AFi0ueS
+	 eBUPLQvNdTUjY9New6v4Q/ga1GDoTT10l0F/s/32XvFcxD81ZZ6+2GqsGib1k9xGqCQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794215774;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794215778;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=wJRe2cqZC0a6+43xV+e3R595ivFdBrA2s/VsVQZcsiU=;
-	b=jACUVgxQFcOI21C7YQaFTuqpCB1AIeVl2Lhuz27sRq7/koEl0KofML01CH14mya+kF9v
-	 ymqonSpPd+y7vE5DLiEKGfbbmetQ+a4wPU412FtOvXYqe4it5OX1rbZFVooA2evy+cV65
-	 1BMXLOYzoLP12iclFG3ML+5SbvyNKi1gN7HMQaoBJMa+NXUtwQQZOAtcErCDSk8FscQrp
-	 W2l/tnxTq0spjayno6APygRbdeGJTClmo6lvlbKbDO7411n9SKVYBg8YBfzt5XezhIsVI
-	 16ijXeW3LGXaO9sdwNM/WDtTpNkoGhVr6i1HN91FnLSEzl5XDTpTb8L+x03JkLwa05g==
+	bh=ZliLoTOyQMZxDeBt88NC1Lduh8AAHkgsG8U0rRDLJlg=;
+	b=fb5AZzOLBliSn6to8EOQgcSaxH68bAOmog96/HzMLzKUoFH8la2+T0jM1bNHdypJxCSm
+	 lV9LRsOwH6z6t2a2MEzeY5S5tSlJ+zyXS8BIf4XOtpk5EBCoxlaZVPGD+wn4KvNMnY/Mb
+	 OyneBUgQeZLGVeh3+AywxhR2NOqbB64bfM0cH8aErJ73PbpsizXKR6m76V+7ljv/Fsc4A
+	 WDd/2gzRT5Y+zViykYVHeG7p2D/ih2YipqyghQpvHVC993TShaW3VD4x+7SNpunIuQYg7
+	 zu1L+BfKABFhdvz6dSsLPeueanRGMkQ70WRATIBIYTRANtesFPneyDXDfbh+I8xjxIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=arm.com;
 	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=fIEYH2rm;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="PKc/+PjB";
 	arc=none smtp.remote-ip=217.140.110.172
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DE4E60A3803;
-	Mon,  9 Nov 2026 09:16:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4DE4E60A3803
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7299160A3819;
+	Mon,  9 Nov 2026 09:16:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7299160A3819
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=fIEYH2rm
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=PKc/+PjB
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D283314BF;
-	Mon,  9 Nov 2026 01:16:10 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 01B1C15A1;
+	Mon,  9 Nov 2026 01:16:14 -0800 (PST)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B75773F85F;
-	Mon,  9 Nov 2026 01:16:10 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 214153F85F;
+	Mon,  9 Nov 2026 01:16:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794215773; bh=9oTrkO7uTef4ynTyCzJvu/yBAWhfWXZuSAfIFLBLKQE=;
+	t=1794215777; bh=EyFuXjh0NpCGpHb+y4On/CW4yO1lMeHSoYYXTpPOeXw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fIEYH2rmEu/+5k2PzHmj5pd8ywcWhioS5oR/0ZILNqyzkJN7arq3zEakmpz5aI1ra
-	 KHYhwtQ4tfIYT8h5mW8z0yGNCyXlNqQTt2JpUvm0sLc6C0C/ke8mKZ56Co2zL8byiy
-	 veYiADlTMKQJysBXes/HYnwb3Ta4rvwRIjqF8N9E=
+	b=PKc/+PjBjTtp1dc5dXBkvKwc/UAocxRUJpa9M4eKl99SG2r680BWKg4eu9EOfSwae
+	 yDOiWcayUFhJrXVfrlU5eS2zabz9c0P+WanjeA782EDOcc8NPeHy03EW55Qa46wEd5
+	 tUiogjzQzngXMVcR/OrOQReWHcMG9aK4D1+9oGuQ=
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -67,9 +67,9 @@ Cc: sudeep.holla@kernel.org,
 	usama.arif@linux.dev,
 	kernel-team@meta.com,
 	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH v15 24/35] firmware: arm_scmi: Add common per-protocol debugfs support
-Date: Mon,  9 Nov 2026 09:12:10 +0000
-Message-ID: <20261109091221.2532706-25-cristian.marussi@arm.com>
+Subject: [PATCH v15 25/35] firmware: arm_scmi: Add Telemetry debugfs SHMTI dump support
+Date: Mon,  9 Nov 2026 09:12:11 +0000
+Message-ID: <20261109091221.2532706-26-cristian.marussi@arm.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261109091221.2532706-1-cristian.marussi@arm.com>
 References: <20261109091221.2532706-1-cristian.marussi@arm.com>
@@ -84,241 +84,182 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Allow interested SCMI protocols to register their own specific debugfs
-entries under a common per-instance and per-protocol subtree rooted
-at /sys/kernel/debug/scmi/<N>/protocols/<PROTO_ID>/
+Expose one debugfs entry for each discovered SHMTI that can be used to
+dump the related SHMTI in binary form from TBGN up to TEND markers.
 
-Expose a helper to enable protocol initialization code to get access to
-such per-protocol/per-instance dentries in order to be able to install
-their own dedicated debugfs entries.
-
-Per-protocol debugfs support is configurable and default off.
+No processing is done kernel side, beside using proper accessors for
+device memory.
 
 Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 ---
 v14 --> v15
- - fix debugfs_remove_recursive call-site...was too early
+ - cleanup local debugfs subtree with debugfs_remove_recursive on remove
+v12 --> v13
+ - get inode lock on time update
+v11 --> v12
+ - fix debugfs shmti dump file to use the SID as name
 v8 --> v9
- - avoid NULL deref on DBG cleanup path
+ - use kvzalloc/kfree
+ - use file_update_time to update debugfs file ts
 v5 --> v6
- - bail out of dentry_get helper when SCMI debug susbsytem failed to init
- - remove stale SCMI protocol operations
- - add a preoper clean up of debugfs when protocol init fails
+ - added mutex to protect binary dump buffer during reads (Sashiko)
+ - using debugfs_create_file_size() (Sashiko)
 ---
- drivers/firmware/arm_scmi/Kconfig     | 14 +++++++++
- drivers/firmware/arm_scmi/common.h    |  2 ++
- drivers/firmware/arm_scmi/driver.c    | 42 +++++++++++++++++++++++++--
- drivers/firmware/arm_scmi/protocols.h |  6 ++++
- include/linux/scmi_protocol.h         |  1 -
- 5 files changed, 62 insertions(+), 3 deletions(-)
+ drivers/firmware/arm_scmi/telemetry.c | 103 ++++++++++++++++++++++++++
+ 1 file changed, 103 insertions(+)
 
-diff --git a/drivers/firmware/arm_scmi/Kconfig b/drivers/firmware/arm_scmi/Kconfig
-index 783c24a20e29..f506c4d1d96a 100644
---- a/drivers/firmware/arm_scmi/Kconfig
-+++ b/drivers/firmware/arm_scmi/Kconfig
-@@ -69,6 +69,20 @@ config ARM_SCMI_DEBUG_COUNTERS
- 	  such useful debug counters. This can be helpful for debugging and
- 	  SCMI monitoring.
- 
-+config ARM_SCMI_DEBUG_PROTOCOLS
-+	bool "Enable SCMI protocols debug"
-+	select ARM_SCMI_NEED_DEBUGFS
-+	depends on DEBUG_FS
-+	default n
-+	help
-+	  Enables per-protocol specific debug features, where available.
-+	  When provided, such per-protocol debugfs entries are grouped
-+	  inside a common a subtree named by the protocol number and rooted
-+	  under a per-instance 'protocols' directory.
-+
-+	  Such per-protocol entries subtree structure is freely defined
-+	  within the related protocol code.
-+
- config ARM_SCMI_QUIRKS
- 	bool "Enable SCMI Quirks framework"
- 	depends on JUMP_LABEL || COMPILE_TEST
-diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
-index e9f3051e8016..ff50aaff65ce 100644
---- a/drivers/firmware/arm_scmi/common.h
-+++ b/drivers/firmware/arm_scmi/common.h
-@@ -310,6 +310,7 @@ enum debug_counters {
- /**
-  * struct scmi_debug_info  - Debug common info
-  * @top_dentry: A reference to the top debugfs dentry
-+ * @protos: A reference to the top debugfs protocols subdirectory
-  * @name: Name of this SCMI instance
-  * @type: Type of this SCMI instance
-  * @is_atomic: Flag to state if the transport of this instance is atomic
-@@ -317,6 +318,7 @@ enum debug_counters {
-  */
- struct scmi_debug_info {
- 	struct dentry *top_dentry;
-+	struct dentry *protos;
- 	const char *name;
- 	const char *type;
- 	bool is_atomic;
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index c1f503c6e72c..8a4664165a64 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -19,6 +19,7 @@
- #include <linux/acpi.h>
- #include <linux/bitmap.h>
- #include <linux/cleanup.h>
-+#include <linux/dcache.h>
- #include <linux/debugfs.h>
- #include <linux/device.h>
- #include <linux/export.h>
-@@ -103,6 +104,8 @@ struct scmi_xfers_info {
-  *			has completed.
-  * @ph: An embedded protocol handle that will be passed down to protocol
-  *	initialization code to identify this instance.
-+ * @dbg: An optional reference to this protocol top debugfs directory; it will
-+ *	 be automatically recursively removed on protocol de-initialization.
-  *
-  * Each protocol is initialized independently once for each SCMI platform in
-  * which is defined by fwnode and implemented by the SCMI server fw.
-@@ -117,6 +120,7 @@ struct scmi_protocol_instance {
- 	unsigned int			version;
- 	unsigned int			negotiated_version;
- 	struct scmi_protocol_handle	ph;
-+	struct dentry			*dbg;
- };
- 
- #define ph_to_pi(h)	container_of(h, struct scmi_protocol_instance, ph)
-@@ -2135,6 +2139,25 @@ static void scmi_common_fastchannel_db_ring(struct scmi_fc_db_info *db)
- 		SCMI_PROTO_FC_RING_DB(64);
- }
- 
-+static struct dentry *
-+scmi_debugfs_proto_dentry_get(const struct scmi_protocol_handle *ph)
-+{
-+	struct scmi_protocol_instance *pi = ph_to_pi(ph);
-+	struct scmi_info *info = handle_to_scmi_info(pi->handle);
-+
-+	if (!IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_PROTOCOLS) || !info->dbg)
-+		return ERR_PTR(-ENODEV);
-+
-+	if (!pi->dbg) {
-+		char proto_dir[8];
-+
-+		snprintf(proto_dir, 8, "0x%02X", pi->proto->id);
-+		pi->dbg = debugfs_create_dir(proto_dir, info->dbg->protos);
-+	}
-+
-+	return pi->dbg;
-+}
-+
- static const struct scmi_proto_helpers_ops helpers_ops = {
- 	.extended_name_get = scmi_common_extended_name_get,
- 	.get_max_msg_size = scmi_common_get_max_msg_size,
-@@ -2145,6 +2168,7 @@ static const struct scmi_proto_helpers_ops helpers_ops = {
- 	.protocol_msg_check = scmi_protocol_msg_check,
- 	.fastchannel_init = scmi_common_fastchannel_init,
- 	.fastchannel_db_ring = scmi_common_fastchannel_db_ring,
-+	.debugfs_proto_dentry_get = scmi_debugfs_proto_dentry_get,
- };
- 
- /**
-@@ -2330,12 +2354,12 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
- 	/* proto->init is assured NON NULL by scmi_protocol_register */
- 	ret = pi->proto->instance_init(&pi->ph);
- 	if (ret)
--		goto clean;
-+		goto clean_dbg;
- 
- 	ret = idr_alloc(&info->protocols, pi, proto->id, proto->id + 1,
- 			GFP_KERNEL);
- 	if (ret != proto->id)
--		goto clean;
-+		goto clean_dbg;
- 
- 	/*
- 	 * Warn but ignore events registration errors since we do not want
-@@ -2356,6 +2380,8 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
- 
- 	return pi;
- 
-+clean_dbg:
-+	debugfs_remove_recursive(pi->dbg);
- clean:
- 	/* Take care to put the protocol module's owner before releasing all */
- 	scmi_protocol_put(proto);
-@@ -2474,6 +2500,7 @@ void scmi_protocol_release_unlocked(const struct scmi_handle *handle,
- 			protocol_id);
- 
- 	if (refcount_dec_and_test(&pi->users)) {
-+		struct dentry *dbg = pi->dbg;
- 		void *gid = pi->gid;
- 
- 		if (pi->proto->events)
-@@ -2487,6 +2514,14 @@ void scmi_protocol_release_unlocked(const struct scmi_handle *handle,
- 		scmi_protocol_put(pi->proto);
- 
- 		devres_release_group(handle->dev, gid);
-+
-+		/*
-+		 * Remove per-protocol top dir only after protocol release in
-+		 * order to allow any protocol specific cleanup on the pi->dbg
-+		 * subtree.
-+		 */
-+		debugfs_remove_recursive(dbg);
-+
- 		dev_dbg(handle->dev, "De-Initialized protocol: 0x%X\n",
- 			protocol_id);
- 	}
-@@ -3257,6 +3292,9 @@ static struct scmi_debug_info *scmi_debugfs_common_setup(struct scmi_info *info)
- 	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_COUNTERS))
- 		scmi_debugfs_counters_setup(dbg, trans);
- 
-+	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_PROTOCOLS))
-+		dbg->protos = debugfs_create_dir("protocols", top_dentry);
-+
- 	dbg->top_dentry = top_dentry;
- 
- 	if (devm_add_action_or_reset(info->dev,
-diff --git a/drivers/firmware/arm_scmi/protocols.h b/drivers/firmware/arm_scmi/protocols.h
-index 77daedddaab7..239318ee8f56 100644
---- a/drivers/firmware/arm_scmi/protocols.h
-+++ b/drivers/firmware/arm_scmi/protocols.h
-@@ -11,6 +11,7 @@
- 
+diff --git a/drivers/firmware/arm_scmi/telemetry.c b/drivers/firmware/arm_scmi/telemetry.c
+index c21700bd1b43..7582fe295a23 100644
+--- a/drivers/firmware/arm_scmi/telemetry.c
++++ b/drivers/firmware/arm_scmi/telemetry.c
+@@ -9,10 +9,12 @@
  #include <linux/bitfield.h>
+ #include <linux/compiler_types.h>
  #include <linux/completion.h>
 +#include <linux/debugfs.h>
+ #include <linux/delay.h>
  #include <linux/device.h>
- #include <linux/errno.h>
- #include <linux/kernel.h>
-@@ -293,6 +294,9 @@ struct scmi_fc_info {
-  *		      gathering FC descriptions from the SCMI platform server.
-  * @fastchannel_db_ring: A common helper to ring a FC doorbell.
-  * @get_max_msg_size: A common helper to get the maximum message size.
-+ * @debugfs_proto_dentry_get: A common helper to get a per-protocol debugfs top
-+ *			      directory to use as a root. It will be
-+ *			      recursively removed on protocol de-initialization.
-  */
- struct scmi_proto_helpers_ops {
- 	int (*extended_name_get)(const struct scmi_protocol_handle *ph,
-@@ -316,6 +320,8 @@ struct scmi_proto_helpers_ops {
- 				 u32 *rate_limit);
- 	void (*fastchannel_db_ring)(struct scmi_fc_db_info *db);
- 	int (*get_max_msg_size)(const struct scmi_protocol_handle *ph);
-+	struct dentry *(*debugfs_proto_dentry_get)
-+		(const struct scmi_protocol_handle *ph);
- };
+ #include <linux/err.h>
+ #include <linux/eventfd.h>
++#include <linux/fs.h>
+ #include <linux/hash.h>
+ #include <linux/hashtable.h>
+ #include <linux/jhash.h>
+@@ -463,6 +465,14 @@ struct telemetry_shmti {
+ #define TDCF_OFFS(_b, _p)				\
+ 	((unsigned long)((__force void *)(_p) - (__force void *)(_b)))
  
- /**
-diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
-index 585eb3a4684e..ed3eaa1482a3 100644
---- a/include/linux/scmi_protocol.h
-+++ b/include/linux/scmi_protocol.h
-@@ -1164,7 +1164,6 @@ struct scmi_handle {
- 	void (*devm_protocol_put)(struct scmi_device *sdev, u8 proto);
- 	bool (*is_transport_atomic)(const struct scmi_handle *handle,
- 				    unsigned int *atomic_threshold);
--
- 	const struct scmi_notify_ops *notify_ops;
- };
++struct scmi_telemetry_dbg_shmti {
++	struct telemetry_shmti *shmti;
++	size_t buf_sz;
++	void *buf;
++	/* Protect this descriptor from concurrent readers using it */
++	struct mutex mtx;
++};
++
+ #define SHMTI_EPLG(s)						\
+ 	({							\
+ 		struct telemetry_shmti *_s = (s);		\
+@@ -590,6 +600,7 @@ struct telemetry_info {
+ 	unsigned int default_blk_ts_rate;
+ 	const struct scmi_protocol_handle *ph;
+ 	struct telemetry_shmti *shmti;
++	struct dentry *shmti_top;
+ 	struct telemetry_de *tdes;
+ 	struct xarray xa_des;
+ 	struct telemetry_uuid *primary_uuid;
+@@ -1683,6 +1694,91 @@ scmi_telemetry_enumerate_common_intervals(struct telemetry_info *ti)
+ 					ti->info.intervals);
+ }
+ 
++static int scmi_telemetry_dbg_shmti_open(struct inode *inode, struct file *filp)
++{
++	struct scmi_telemetry_dbg_shmti *sblob;
++	struct telemetry_shmti *shmti;
++
++	if (!inode->i_private)
++		return -ENODEV;
++
++	shmti = inode->i_private;
++	sblob = kzalloc_obj(*sblob);
++	if (!sblob)
++		return -ENOMEM;
++
++	sblob->shmti = shmti;
++	sblob->buf = kvzalloc(shmti->info.len, GFP_KERNEL);
++	if (!sblob->buf) {
++		kfree(sblob);
++		return -ENOMEM;
++	}
++
++	mutex_init(&sblob->mtx);
++
++	filp->private_data = sblob;
++
++	return 0;
++}
++
++static ssize_t scmi_telemetry_dbg_shmti_read(struct file *filp, char __user *buf,
++					     size_t count, loff_t *ppos)
++{
++	struct scmi_telemetry_dbg_shmti *sblob = filp->private_data;
++
++	/* Dump on first read and again after each rewind to start pos */
++	guard(mutex)(&sblob->mtx);
++	if (!sblob->buf_sz || *ppos == 0) {
++		struct inode *ino = file_inode(filp);
++
++		memcpy_fromio(sblob->buf, sblob->shmti->base,
++			      sblob->shmti->info.len);
++		sblob->buf_sz = sblob->shmti->info.len;
++		/* update inode timestamps */
++		inode_lock(ino);
++		file_update_time(filp);
++		inode_unlock(ino);
++	}
++
++	return simple_read_from_buffer(buf, count, ppos, sblob->buf, sblob->buf_sz);
++}
++
++static int scmi_telemetry_dbg_shmti_release(struct inode *inode, struct file *filp)
++{
++	struct scmi_telemetry_dbg_shmti *sblob = filp->private_data;
++
++	kvfree(sblob->buf);
++	kfree(sblob);
++
++	return 0;
++}
++
++static const struct file_operations scmi_telemetry_dbg_shmti_fops = {
++	.open = scmi_telemetry_dbg_shmti_open,
++	.release = scmi_telemetry_dbg_shmti_release,
++	.read = scmi_telemetry_dbg_shmti_read,
++	.llseek = generic_file_llseek,
++	.owner = THIS_MODULE,
++};
++
++static void scmi_telemetry_debugfs_initialize(struct telemetry_info *ti)
++{
++	const struct scmi_protocol_handle *ph = ti->ph;
++	struct dentry *top;
++
++	top = ph->hops->debugfs_proto_dentry_get(ph);
++	ti->shmti_top = debugfs_create_dir("shmtis", top);
++
++	for (unsigned int i = 0; i < ti->num_shmti; i++) {
++		char id[16];
++
++		snprintf(id, 16, "%u", ti->shmti[i].info.sid);
++		debugfs_create_file_size(id, 0444, ti->shmti_top, &ti->shmti[i],
++					 &scmi_telemetry_dbg_shmti_fops,
++					 ti->shmti[i].info.len);
++	}
++}
++
+ static int iter_shmti_update_state(struct scmi_iterator_state *st,
+ 				   const void *response, void *priv)
+ {
+@@ -4717,6 +4813,10 @@ static void scmi_telemetry_resources_free(struct telemetry_info *ti)
+ 	/* Ensure rinfo is no more accessible upfront */
+ 	smp_store_release(&ti->rinfo, NULL);
+ 
++	/* Safe removal of SHMTI debugfs tree before freeing underlying data */
++	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_PROTOCOLS))
++		debugfs_remove_recursive(ti->shmti_top);
++
+ 	kfree(ti->info.shmtis);
+ 	kfree(ti->shmti);
+ 
+@@ -5078,6 +5178,9 @@ static int scmi_telemetry_protocol_init(const struct scmi_protocol_handle *ph)
+ 		}
+ 	}
+ 
++	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_PROTOCOLS))
++		scmi_telemetry_debugfs_initialize(ti);
++
+ 	return 0;
+ }
  
 -- 
 2.54.0
