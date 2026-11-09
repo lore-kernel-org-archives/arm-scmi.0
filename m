@@ -1,58 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.35
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794239621;
-	b=4u6kIhmFizLIl+Q7/JRYoGsiaPKY++DQhFdZoDOv1ydc9HLsR/WjlUECQmEXY4sD8RnB
-	 Qrbi3+IOUsGCSYaLSrnli0juSyxZBbqNPyNHeiTfGVOitFpR3+v6LJXolIZsHs4eRtKOD
-	 SanQqbmksE+vJJewZtKZz+HI/5wkZ1+1tnhhhcIzZFTfml1sNO8PIp/qwePgQsAFSRDfT
-	 77204i1ow3h7weuLSRehuQos9+nLU56pn2/+XI4tAjGvygrTNEkQRX2h6dl2u+A3jycwC
-	 SkK+YBZ2vnpvE45+02Zn5ARb053n4nHlXZOudcQwz4uPrVg2jZT+SVSQzwOKgwG7okQ==
+	t=1794239803;
+	b=PfHRWKqW0e7CKVNmkQqFrHKe68Re5fngV50vhzQeRV9S1YftB4AEq5v0isQZQPVegPSt
+	 npBkJgq90xfCi1vMBRTyijAGm4K2fcV8/I0BRzjT5kIwMG3VAVWCrDCJQ4bC+x6g6gy/2
+	 dPihckSjIBLuHeZqUfWHzQFNrTI4YDsfrIMi1JYUQ81Uu/7++UI1hWW8gxLAX1kzfYAXF
+	 oq+tKi5/7s3Wb+7gPRmkyR5p92H4zfKyv9tgoZZJlhtqhOJ+Xi2TNTRQS4btGrENj1wGy
+	 Dsorrm6YfLUP7dibsvULregOooDN275TBJHEbFgzyWNwtdtH8PGj98vZX2l6BxWYiFA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794239621;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=wsjaeM57Ntxk78dpU682yS1x8SI1hDiUKBvNjgTutVo=;
-	b=I1xaYRkphlfmljxFrcFXYWrWU/uVpDLvZpbVL+ZsC3eW6Zh34ldwtjFif2kB+cZrdL5t
-	 pOieyYoUnK4T3u85iqqAKwBsXoiJR7t13dmwG2t8C5zd9skE17RMh4yqmSbJHOupIJZMy
-	 CQUbYIWBiBMh7309vuRX6pBh5NG8xH/bNbjgN0fx5eALhXH6I1xldkem2EwUkOjibMhhW
-	 bQFHTDxTpP+ZvM1M50yhjT+G0dsuIbH8sBF6wQZFlw83VzCcn+eq3X//eIlCYKHSjWh8E
-	 x381bhqF7KI1oQiZD8GVNarMwNrp4myL8agNxnjPbwU/IWqHPMPjXKD8clHylPNMLlQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794239803;
+	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:
+	 X-Source-L:X-Exim-ID:X-Source:X-Source-Args:X-Source-Dir:
+	 X-Source-Sender:X-Source-Auth:X-Email-Count:X-Org:X-Source-Cap:
+	 X-Local-Domain:X-CMAE-Envelope;
+	bh=IiHfMjI5UW1C+sBrl6OK0Tos0QEXOpbHcV5EoY3XjNc=;
+	b=API26KXNtujkKQkVgP9Cx1NNCGq19m9GJF/Ir0687pklhNggTw3rbZdEEfCP0Hd+dNbw
+	 fgm0iXQjp17fL+RKU6Vesl8zhy5zjkjzuW2tUOM0Ro7q02AWY1KD87xf90xmhhOoDz4bI
+	 zOiSpGk6TVNossvOYWXSq9N06MeH+5H+W9uflgvmQFjv9SMcxuGJykklb9awR5192WBCR
+	 NdU9fg4rzQYWkrgLOF//bhixRVcv87x52QgjSF7f6pkUGPVNxoNgemrpV1JTHa3akMVxi
+	 rIpAqj+GMgrOm9V21j+JWeLRr7PWyyScLZAy1QY7ZO3zdbAoGpTutS5j/M4Y+oY2kQA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="NDiI/qzD";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=roeck-us.net;
+	spf=fail smtp.mailfrom=roeck-us.net;
+	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b="0DcBLZr/";
+	arc=none smtp.remote-ip=35.89.44.35
+Received: from omta36.uswest2.a.cloudfilter.net (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9AB5606A32A
-	for <arm-scmi@vger.kernel.org>; Mon,  9 Nov 2026 15:53:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B0F606A325
+	for <arm-scmi@vger.kernel.org>; Mon,  9 Nov 2026 15:56:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13B0F606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NDiI/qzD
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88BDE1F008A1;
-	Mon,  9 Nov 2026 15:53:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794239620;
-	bh=wsjaeM57Ntxk78dpU682yS1x8SI1hDiUKBvNjgTutVo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=NDiI/qzDlLVjCdvIMoVKxF82J12AbX/CSv0TzrRyu2Mu/SLpzXq4/ErnpV4iMk4Km
-	 rOmO6+kKqbEuo2mkj59A79jp/rd5bfonVcJZhPlUkTwUZSY31myeBoqNWYttuU5iXQ
-	 7ojma7AjIZpGbQqh6I9M3h4YEatXmQOGWSpYY1plWsoLTf1vgBoW+Ql1Q1X2nnOZjH
-	 X5O8Yv+VnaGjCSvMq2QDcy7Fj6E8NwYgpY72VQcYwusOwKBxog7fM1Je0YNKXBWaQV
-	 CUZBoZVWfHpiLoEPQiaGL76wxJxuL+XmC3xIOThnuI59c+rlPy6FVx+FaGqbNNQpG6
-	 ITW2mGc27L9ow==
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
-	Ulf Hansson <ulfh@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Ulf Hansson <ulf.hansson@oss.qualcomm.com>
-Subject: [PATCH RESEND 2/2] pmdomain: arm_scmi: Propagate domain hierarchy setup failures
-Date: Mon,  9 Nov 2026 15:53:32 +0000
-Message-ID: <20261109155332.1686594-2-sudeep.holla@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261109155332.1686594-1-sudeep.holla@kernel.org>
-References: <20261109155332.1686594-1-sudeep.holla@kernel.org>
+	dkim=pass (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=0DcBLZr/
+Received: from eig-obgw-6006b.ext.cloudfilter.net ([10.0.30.211])
+	by cmsmtp with ESMTPS
+	id QOFexnbWJRiNxQRjexKEY0; Mon, 09 Nov 2026 15:56:42 +0000
+Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with ESMTPS
+	id QRjex1fDGFhzrQRjexOMkc; Mon, 09 Nov 2026 15:56:42 +0000
+X-Authority-Analysis: v=2.4 cv=JY+8rVKV c=1 sm=1 tr=0 ts=6af1ed3a
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10 a=iHwBjlyiAAAA:8
+ a=VwQbUJbxAAAA:8 a=bbxMUrBqG-LWPQ326wMA:9 a=CjuIK1q_8ugA:10
+ a=uNSKXYNwxGiU6LD0JREI:22 a=KPbNTLLc3YvdawN95zVk:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
+	:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
+	:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=IiHfMjI5UW1C+sBrl6OK0Tos0QEXOpbHcV5EoY3XjNc=; b=0DcBLZr/Skrac/9YuaGppdAFJq
+	U4CB7I9WuAnpZlpf5NUrjQGth5l+jsEH1ZZW7/3kuHf/CI1Lp1/3mOZDlnxB4GCnQZYfrQON1aFeJ
+	r1cgrB6r23EF/MUjM+b3QUfIi/HqGMotIs//Xrn5CGhx/Rh7JnSIb/+kUuXskx39f8f4Ut83tfE8k
+	u70/v0zPbLBLic59c6WLJy4LLGi74o9UTIBOghgeO6zBoo2osWPwOk2v3Ttf0yFSAd0BTuzgVlGz5
+	J16JZAT5a8P++Mr+xrR0BKI4bov23ZvgBgKXD0XgMfmFM7QOIvyoWE1no2KLsdo5l0YhVy+glJ4C+
+	LI0w7RUg==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:32976 helo=server.roeck-us.net)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <linux@roeck-us.net>)
+	id 1xQRjd-00000001UbS-33TR;
+	Mon, 09 Nov 2026 21:26:41 +0530
+Date: Mon, 9 Nov 2026 07:56:40 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: raoxu <raoxu@uniontech.com>
+Cc: sudeep.holla@kernel.org, cristian.marussi@arm.com,
+	marek.vasut@mailbox.org, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (scmi) Enable temperature sensors using their
+ sensor IDs
+Message-ID: <25506328-5bef-498c-8e9d-00c33bb8b13f@roeck-us.net>
+References: <AED18609B941BCFD+20261109082854.3739085-1-raoxu@uniontech.com>
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -62,57 +85,52 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <AED18609B941BCFD+20261109082854.3739085-1-raoxu@uniontech.com>
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1xQRjd-00000001UbS-33TR
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (server.roeck-us.net) [108.223.40.66]:32976
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 38
+X-Org: HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfDvt/RZtXO3w3AJbYlb9VBcWqFyifqQ3mdxQLnrfea+CamYDgXkftQXzPpXBQAb9SBM92D8rZyCu8vF2WaTjyu8WS6jBNfZdfl9Ni7nGH5NjRwFSioD9
+ 5FbqD6e1Bos0oWLI5j1XBE1EtGqTSZ3mb223rwn494ipCO7kPXsisJZksAdgCVsLtRr6wwbLmQgQXNMwK+ms5tS3V2p6jFuMm5FXhRu62DsnCayBspvPzN6X
 
-of_genpd_add_child_ids() uses all-or-nothing semantics and reports an
-error if any relationship cannot be established. The SCMI driver
-currently only logs that error and completes probe, leaving domains
-registered without their DT-described parent relationships.
+On Mon, Nov 09, 2026 at 04:28:54PM +0800, raoxu wrote:
+> From: Xu Rao <raoxu@uniontech.com>
+> 
+> scmi_hwmon_probe() groups sensors by hwmon type, so the index in
+> scmi_sensors->info[hwmon_temp] is not necessarily the SCMI sensor ID.
+> Passing that index to config_set() targets a different sensor if the
+> platform exposes non-temperature sensors ahead of temperature sensors.
+> The intended temperature sensor can remain disabled, causing subsequent
+> readings to fail. If configuring the wrong sensor fails, thermal
+> registration of the intended sensor is also skipped.
+> 
+> Use the firmware sensor ID, as the read and thermal registration paths
+> already do, so temperature sensors are enabled correctly.
+> 
+> The patch was reviewed and the commit message expanded with OpenCode
+> AI assistance.
+> 
+> Fixes: 72804d1631b3 ("hwmon: (scmi) Enable sensors to assure they can be read")
+> Signed-off-by: Xu Rao <raoxu@uniontech.com>
+> Reviewed-by: Sudeep Holla <sudeep.holla@kernel.org>
 
-Treat hierarchy setup failures as probe failures. Translate -ENOENT to
--EPROBE_DEFER so external parent providers can register first, remove the
-onecell provider before unwinding domains, and publish driver data only
-after hierarchy setup succeeds.
+Applied.
 
-Fixes: fba9c703c184 ("pmdomain: arm_scmi: add support for domain hierarchies")
-Signed-off-by: Sudeep Holla <sudeep.holla@kernel.org>
----
- drivers/pmdomain/arm/scmi_pm_domain.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/pmdomain/arm/scmi_pm_domain.c b/drivers/pmdomain/arm/scmi_pm_domain.c
-index b95b24470ba5..95857bebc444 100644
---- a/drivers/pmdomain/arm/scmi_pm_domain.c
-+++ b/drivers/pmdomain/arm/scmi_pm_domain.c
-@@ -117,19 +117,24 @@ static int scmi_pm_domain_probe(struct scmi_device *sdev)
- 	if (ret)
- 		goto err_rm_genpds;
- 
--	dev_set_drvdata(dev, scmi_pd_data);
--
- 	/*
- 	 * Parse (optional) power-domains-child-ids property to establish
- 	 * parent-child relationships.
- 	*/
- 	ret = of_genpd_add_child_ids(np, scmi_pd_data);
--	if (ret < 0)
--		dev_err(dev, "Failed to add child domain hierarchy: %d\n", ret);
-+	if (ret < 0) {
-+		ret = dev_err_probe(dev, ret == -ENOENT ? -EPROBE_DEFER : ret,
-+				    "failed to add child domain hierarchy\n");
-+		goto err_del_provider;
-+	}
-+
-+	dev_set_drvdata(dev, scmi_pd_data);
- 
- 	dev_info(dev, "Initialized %d power domains", num_domains);
- 
- 	return 0;
-+err_del_provider:
-+	of_genpd_del_provider(np);
- err_rm_genpds:
- 	for (i = num_domains - 1; i >= 0; i--) {
- 		if (!domains[i])
--- 
-2.43.0
-
+Thanks,
+Guenter
