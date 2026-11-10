@@ -1,52 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794318572;
-	b=W6zEpbV1kJjH8+2YyBc3YPFoXWHPhnA/B9DhNDr98q0JOJSBWlE6PUdqqqMyqFKQpCEV
-	 tP02pV5VRaZCoyRWg9/Jy3vxSad8Nv8HRC+dENavnx4iX+ptKhx0wGo+DJ+AtRsywvY7y
-	 OtGaTAXe2k/F+hgdHrvl5X3dF7k48yB2tM+qTAjL3ZbSJq5fulZlea9IWH5drYWRZLVu1
-	 hZjvWv9u8cm38G+tbF3L8ii9q+ND77ZX5E2tNEHo6qfzsGpl5uag6FgG9HuvFQ7B7vBLv
-	 JXEBbZE2aeb46pdHZeq12JfKb2nPCSi3BfiAH9FMLU3B6rZZ7uLrvVRnAKV96cnCRNQ==
+	t=1794319798;
+	b=KbIoFkexXJKG8iqt/cXYVESQyay3KTM9bLLjLH8jFuVQYdSjz4o1Pr4EI+k04eRfhYiS
+	 6nup3JXOwb6vGb7Bp3qa5A2GJUviWO0cwiEMWi0UdfR2k1tQsjAgXK3a2Trf7lKxcAuXP
+	 QdPKxptTHgLqp3OsFqK4rzmvQ1MH8KcLsEtn/+1yJYLZVry/AGT+eylspWCPk1iAIrIki
+	 BuQ2AX8xic9Men7ZbVPzprFJOKcQKds0JL2kK5l8ryVs/z7tHYC1KemZ8vIaYs+0eVpiq
+	 8qZpLFDtvUR2eqJWXy1e+XMcBrxcSAlTqiA6AElgcD7tIp/+65U3aZ2MqKMBkvam0/A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794318572;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794319798;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
 	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=Rte+nFjJfCpN04ZQkjjif+xK/XpIBzJx/BQcSctTM9k=;
-	b=UVN1yp1SLkAMdnNxDfe++6CThSd1J32HPP/n3DwjDD2hy/jKz08V7pH+DHbWtblBKVvC
-	 w+Q5ofxpuUC9CgTFLdq2dMv9qWm13Z5QeoiuQwLYiHMbebQEIV/NxOcpjUIq0cCVZ37UQ
-	 /5GTzpjsiTL3PNuEqnFTti9rPPU9oJeD7Xy+semZclP2OpAtIoy2/wST8ogbpxxVu6RFG
-	 sXhKcFOdbswF9rBNyIf17OnNoaDa1czlkWz33RFmeSSBL1huxnCHLby5mXY8e5YhRBk7b
-	 kCSCXJOUWlqBMuaV+1lAnuqac/ZeDdv4iwowYfolmC35bxqFLDsOQKBuzMejhtspdbw==
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
+	 Organization;
+	bh=pB57B8wW+SEvfaiOl7ycc6ShOq9TASgyNKl6X5D51Yw=;
+	b=Cup8D4OBBd/1Ni+tsDlqSV+WNUfGTdJvlpEXtfdCFSPvgEAc1kJ8Y3wzPWtTkY/7o7Ai
+	 MHrnwRNHeeLAwmRT/y1mTC4DVu0U7//f0dBocf/p/6FsuFqKY652DZKqIYVoL/orf1M/8
+	 cyRzMNYAHuhBAVmQ4rPT/3RJ1tbPnFRM2fiQXOtHowgjaa7fHQgQIml9ScT/TBM/u0Yrq
+	 hZ66GS2dG1TNQwDPIv0Q0oXnrzrahmyZxyvumxMMRag+u6aseDORmejC5M3S4CZe5TCGr
+	 fkvoqUC+zayBGtWjYQG+PDCUEbFvOTiNk4NL5KnadEiBW4VfwdBhAYxwdnZd0Bjpwzw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=M7r9xLlF;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D7AF606A31C;
-	Tue, 10 Nov 2026 13:49:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1D7AF606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NUXMoT5l;
+	arc=none smtp.remote-ip=198.175.65.15
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155F5606A321;
+	Tue, 10 Nov 2026 14:09:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 155F5606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=M7r9xLlF
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 20F1C1477;
-	Tue, 10 Nov 2026 05:49:27 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 353973F632;
-	Tue, 10 Nov 2026 05:49:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794318570; bh=hYzeZBtVBVDXCHttXoGztstvHvPFY7lN52/cdyn0Zr8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M7r9xLlFeYK9RYXoymnR5xbY1504ntzT5LN8cIeeXIgXL7Xcq5lR7JwMvOMEIiJjM
-	 0NOQsrhoEejZso/105nnOcn9IBTS4yVgFxBKiIp0L+ABb8dyCAf6tpi+NzaNtCOxbX
-	 ovxXTmqBujnIKaBPS7kGPeKc09iRcAGySN6wXaaw=
-Date: Tue, 10 Nov 2026 13:49:25 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clegoffic@baylibre.com>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NUXMoT5l
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794319796; x=1825855796;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=m1MGGQV4qzQITJrJo2OceVWPRzE+TICqoPHwYE9qCiY=;
+  b=NUXMoT5lGoYknyvqwe8TdsUaKMndwduuvukvhDcFlzA5WrLYh+z2iVE1
+   /DdxVllC6x4jc7kKxJsQTLA1B6R2T5+j/d5ciHsdJoxa+feOu3d5g/p6g
+   +Ddy3qf2aaOHIC5B3ZvWLtPZxfFN0ik1xYiviYJBfXQdaEomkPZ93Ci5a
+   2H1ZhqLfaM85Cig5djpIPt8y3G38spyJ1oX2O8GVpFg0o7rUZOmhqWJ3g
+   h1vDxaQeFENfOyqysE05Cuaru44Mf72Uq5OQjSiCi45vtXQMDSve5ez+e
+   LbU53CZ6fVnOpPMdPG0inOA1Hu6ttunUZx72QJCzEHQGdzuNlXN+6ausQ
+   g==;
+X-CSE-ConnectionGUID: ILlqd7+4QR+UBHqVVk5iQg==
+X-CSE-MsgGUID: wCEehn2JRPOOKf/xEdnjxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3065885"
+X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
+   d="scan'208";a="3065885"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 06:09:56 -0800
+X-CSE-ConnectionGUID: hnkphMxnRqWtT2jmMU07YQ==
+X-CSE-MsgGUID: K+4pWKqGRQSoA8y0UQ7tFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
+   d="scan'208";a="8180084"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.244])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 06:09:52 -0800
+Date: Tue, 10 Nov 2026 16:09:49 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clegoffic@baylibre.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
 	Linus Walleij <linusw@kernel.org>, Peng Fan <peng.fan@nxp.com>,
 	Oleksii Moisieiev <oleksii_moisieiev@epam.com>,
 	Andy Shevchenko <andy@kernel.org>, Dhruva Gole <d-gole@ti.com>,
@@ -55,9 +75,10 @@ Cc: Sudeep Holla <sudeep.holla@kernel.org>,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 11/11] pinctrl: scmi: select the GPIO function on GPIO
  requests
-Message-ID: <avMg5XmU8uSzPR4s@pluto>
+Message-ID: <avMlrXeemXOSR3ng@ashevche-desk.local>
 References: <20261030-clegoffic-pinctrl-scmi-gpio-v1-0-52d92843ad97@baylibre.com>
  <20261030-clegoffic-pinctrl-scmi-gpio-v1-11-52d92843ad97@baylibre.com>
+ <avMg5XmU8uSzPR4s@pluto>
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -70,76 +91,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261030-clegoffic-pinctrl-scmi-gpio-v1-11-52d92843ad97@baylibre.com>
+In-Reply-To: <avMg5XmU8uSzPR4s@pluto>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Oct 30, 2026 at 04:58:42PM +0100, Clément Le Goffic wrote:
-> On a GPIO request, select the GPIO function of the pin, on the pin for a
-> pin-only function or on its single-pin group. Without a GPIO function the
-> mux is left as it is.
-> 
-> Signed-off-by: Clément Le Goffic <clegoffic@baylibre.com>
-> ---
->  drivers/pinctrl/pinctrl-scmi.c | 64 ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 64 insertions(+)
-> 
-> diff --git a/drivers/pinctrl/pinctrl-scmi.c b/drivers/pinctrl/pinctrl-scmi.c
-> index 6f44e8c0fee6..ba649304638e 100644
-> --- a/drivers/pinctrl/pinctrl-scmi.c
-> +++ b/drivers/pinctrl/pinctrl-scmi.c
-> @@ -74,6 +74,69 @@ static int pinctrl_scmi_free(struct pinctrl_dev *pctldev, unsigned int offset)
->  	return pinctrl_ops->pin_free(pmx->ph, offset);
->  }
->  
-> +static int pinctrl_scmi_gpio_mux_set(struct scmi_pinctrl *pmx, unsigned int pin)
-> +{
-> +	const unsigned int *elems, *pins;
-> +	unsigned int nr_elems, nr_pins, i;
-> +	bool pin_only, gpio;
-> +	int nr_functions, func, ret;
+On Tue, Nov 10, 2026 at 01:49:25PM +0000, Cristian Marussi wrote:
+> On Fri, Oct 30, 2026 at 04:58:42PM +0100, Clément Le Goffic wrote:
 
-Beside nr_functions, cannot all of these variable definitions be moved
-inside the scope in which they are exclusively used, i.e. down inside
-the for-loop ?
+...
 
-> +
-> +	nr_functions = pinctrl_ops->count_get(pmx->ph, FUNCTION_TYPE);
-> +	for (func = 0; func < nr_functions; func++) {
-> +		ret = pinctrl_ops->function_flags_get(pmx->ph, func, &pin_only,
-> +						      &gpio);
-> +		if (ret)
-> +			return ret;
-> +
-> +		if (!gpio)
-> +			continue;
-> +
-> +		ret = pinctrl_ops->function_groups_get(pmx->ph, func, &nr_elems,
-> +						       &elems);
-> +		if (ret)
-> +			return ret;
-> +
-> +		for (i = 0; i < nr_elems; i++) {
-> +			if (pin_only) {
-> +				if (elems[i] != pin)
-> +					continue;
-> +
-> +				return pinctrl_ops->pin_mux_set(pmx->ph, func,
-> +								pin);
-> +			}
-> +
-> +			ret = pinctrl_ops->group_pins_get(pmx->ph, elems[i],
-> +							  &pins, &nr_pins);
-> +			if (ret)
-> +				return ret;
-> +
-> +			if (nr_pins == 1 && pins[0] == pin)
-> +				return pinctrl_ops->mux_set(pmx->ph, func,
-> +							    elems[i]);
-> +		}
+> > +static int pinctrl_scmi_gpio_mux_set(struct scmi_pinctrl *pmx, unsigned int pin)
+> > +{
+> > +	const unsigned int *elems, *pins;
+> > +	unsigned int nr_elems, nr_pins, i;
+> > +	bool pin_only, gpio;
+> > +	int nr_functions, func, ret;
 
-So it is a possibility that in the above loops nothing is set..and it is
-fine should AFAIU...but should we log/debug something in both cases to ease
-troubleshooting ? (maybe just a stupid question ...)
+> Beside nr_functions, cannot all of these variable definitions be moved
+> inside the scope in which they are exclusively used, i.e. down inside
+> the for-loop ?
 
-Thanks,
-Cristian
+While it can be done, it's not most recommended style. Is it already in use in
+this driver elsewhere? If not, don't do it in a single function. Same if it's
+used in like one or two out of dozens of cases. TL;DR: be consistent in the
+first place.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
