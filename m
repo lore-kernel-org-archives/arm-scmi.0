@@ -1,88 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794322057;
-	b=3Q9ORwncgp/oUicM5FYjRGKWxQR2EY0OIK/C1UyfOBWM2El8MTsFgU8/2DRnNWYjjg6K
-	 a4ZmNxo8MvJQJ6K+6wojOx9Y1Ccb+tk7sI+Z8jAdMufG2G8m0GABTvG6ENNbzpyS3YWPt
-	 IOtjS2jcYD+2XXPZquaRjbkW8g5JDm/X5hvVQqGgXccVETGnAN3ZrEmE6nQcC8K/IS0h9
-	 wRujWwdLmzfZI3q4XP2DfxKWyCwKmlduAiDu5jZf0j4lux9jFpWhtJkax/sJTl9X1Emn1
-	 Mt4UdUJ9xoj2pMAC8bNE+g9B9Z55V4JZAMm5MqmEp0F99l9QlFfoYGjIQs6u59+uyrg==
+	t=1794324797;
+	b=ZL3RXZJXGPnFooyh7VVCYt7UOKY17+HBGNOVE5I9cWgXUrn6p6wjg2hXkp6wRwXVttkT
+	 SRBxc8h7QVgfUpy4L7EWfnQhGVvnDkYbxi14tiEvcuIqpK2vYGa6XmlM9lBxNrYAFj/z1
+	 gZm3iEqc2Va6Z+SwtquTWp+QnCtXs+B0nNWG46PHrAXK/10gr/m6htVWF5kDt5p/GTvIj
+	 4dyaYgDFAfeqlkstsOgnb82QVdSF1uK7ze6FbJGKUkUqVZa9ImwmCBpkuhsPxKqYG9G0b
+	 8V1q/iTchH6EQwCSG8sueZ/p1q0jvsHzm6HvqVuAqVw/g3Gt/CIFu14HEfkFc5qnyow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794322057;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=MO+byH4b4UJciY+YAuSXOwdIPo4Acff/hgRSnkQLcP4=;
-	b=t7RhOTynlK1KRzdi+21OyFtBkuOqm8boz4h+7Q6Yaq3BhAeIKf31Bka2lhsEbEPctPfc
-	 9bJV0SppU3IeHjv9jDD/DL0GmeEkxiM1ReJB4cmCvnHPxGZkOFBArrV9vVEaAPqRejlE7
-	 aiugwbq7Oj5zXa6gHEhy+CAx+xt7WtxXQduRT+zT4tUIJB+Gcbqyw3guy6cHEbpHnOq3X
-	 IVY8wRIK9U4L4zAvIYLGgrhl8bzV+S9bKHg8g+RPx4tp2NWMEj43zmdn1/7MLpCC8ATSc
-	 6sSIOlPfpEGK1YXUy1fAal/u5C0v4Ju8ohbnMy91LJnLWhdrOSv/ZsdP1Bsj0W7EOkQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794324797;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=y036tnkZvOptnlPqeztBIgk/DHIDknwaKKSH2dCYLg8=;
+	b=KpjbFv0HjWkumA0iR4Fn6m1GEVjenqcUMp+NzB8wrOtw9qoF5dmiL/t2n/Fm58Msr23c
+	 +BS1pJxj9vJsaik6lV4DnO2+NRfvHgWFZLZ8R1XpUf45ECz4Naqcjsh/0e5qQ+YzQQRbS
+	 BNyPzMbrCjt/JYzMn6G9hlfvITqh9GkoWxr0BKROQ+U8aFB2yJDiD9A/ehlXafxb8/O0a
+	 Qv48+8j7+hdJao7S+v7FUC0BPy25Zy9mbmEVP3BVL+F1brszwN2dOwDCs49D101myd5d5
+	 yZCbcTedxpkMuCsyb8sdX6zVIZ431UgzM+D1mwytJZThuU5FYlq2eYiEGY0uHZagaSQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b="lxQqOG7/";
-	arc=none smtp.remote-ip=209.85.221.42
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB603606A321
-	for <arm-scmi@vger.kernel.org>; Tue, 10 Nov 2026 14:47:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB603606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=HxUdNS7v;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C6C0606A338;
+	Tue, 10 Nov 2026 15:33:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C6C0606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=lxQqOG7/
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-490d59c3edaso1535034f8f.1
-        for <arm-scmi@vger.kernel.org>; Tue, 10 Nov 2026 06:47:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1794322054; x=1794926854; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MO+byH4b4UJciY+YAuSXOwdIPo4Acff/hgRSnkQLcP4=;
-        b=lxQqOG7/ja3vQA3ubzTTIQQXnhHfPS+0aO2YnX7lae2OVRufASV1+doafyCZBTaKNr
-         j+LVB34btw2XqAN9zO80UB04MX2wvWDSAaeIgqgzy09tS7K03khvWHJfsbJ3yE5fG7w1
-         V1Y2hyUUGrxfopBFqMceSlnDujFZCC7M4rETAOUwOtRgmyj9Dz2JqaENxkNpcTKvOCYJ
-         FOHoAKiTaLPRDLPo2MEqmTxxOSMRnZoSAp8o5sxRuz1y4ZYpS8h2JO2oPTuDHc8OyqpE
-         gdkdqPf5esqDTQBfb9CPFOQjrCFdLQE9c1uI9wEa2IRvjK9dLYjshru49vGfQPPYXEgg
-         yDoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794322054; x=1794926854;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=MO+byH4b4UJciY+YAuSXOwdIPo4Acff/hgRSnkQLcP4=;
-        b=XNT2fHgDOujMLBNLGTNasQb5byoQMJULIBupj3p6yMLGQqF/tZIo028/RqMCvI5fhj
-         bRNTWjDp2YJtguagm0vEqRwN36zViiOf5MeUFtj17JDr2NJaKMV1cA1v+495xCWw1FzN
-         PMxInQaIYtC0K4+/tb2MOWnxgyoW6t56D1B9Bc6ykuFThSeH8RVJxHgIf7G18nHuZVkY
-         seaenmIgaUM2ziesYJaMufs/mIwCmfZ/52GLBwiDXZ15csLbZxgwuOLEZ4DYyoi04alv
-         nAAHCogB79DgrZ0nRPOFUXVedw9ZSwI7g/DEd/f3btdeYa+XLA856RBB4j1urODTmr8D
-         KrBQ==
-X-Forwarded-Encrypted: i=1; AL+hErGy8JSNylVD+Gk5hiN6RufD+hvaGEEowezRKWeKuLlc51NliGczSwkshXWCUVMFl3PHBvXzSH/S2Q==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+OZoGuXO30cvrW76H8dN7i7GKyQx6pWowvREZdF68eNkZtqjep
-	sek80eEnRJkbXMnNuMhR+rQp9q7EHdO/wHxK6dD86EyqHXbAUWm1rrij8szcCDAJiCU=
-X-Gm-Gg: AYBFou0WvBqRMjZJAl8CHFrvzDH7q0XpeYsrGT5lpplCtDqEW4cmz9WL2jRADtylLsU
-	DgHRXtpsJv0OqNDMCU6AL4sv/rVmym2lHhdjWhpprj/55MBh1GBWwWKyhztbN/jKIunD4VJzvRW
-	rcqGBDCKcqXA4IDMU2rC6Lni4NFsrdvC3GeIOUof4cyfSuHD1sL5hjXFpdpz+mSMyslcgS/uTO7
-	iWdwdSBHJHiQ+FYodJBnLsPkFXKsUYKkXfVflYQyKyD6XEG5ZNe3aR0m1S9tQUEnV9ZK0fZfsq3
-	dETN5kUcZ7dbDa42qV5Exah9/7bEFq3HBipDfvz2pgWPOaT5q16zeUVktI0EMm6pGJBjpuprIg5
-	ha357ESdSvVK8KFT3SqTsfjL8EpyCpNRg97ntFju1+b1Dm014uwQ7tsz4uh0xlQpqnc8ZOAj0J9
-	f0Kc/++YC3TcA4Eb8JjlWOlamOjBp1jEDOZoVuLr9m4FSB0gcRwPqsrxKPLtHkkhObli0JOQntB
-	Y/LuvXIplpsejrdziIp4gcElg+jTSnkiaIQv4o42MHhu+h9eUufoFgtVuH5y9yetmZW/8VMYheD
-	nBsMa+I2hjfxupDzs7BO/p5v1+7nlBeP67EVA1Su8hpHeGdvRXXCDlCbgw==
-X-Received: by 2002:a05:6000:29cd:b0:492:aff5:da60 with SMTP id ffacd0b85a97d-4982e82c642mr3775637f8f.13.1794322054505;
-        Tue, 10 Nov 2026 06:47:34 -0800 (PST)
-Received: from [192.168.1.62] (140.30.66.37.rev.sfr.net. [37.66.30.140])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-498369a495csm5253059f8f.55.2026.11.10.06.47.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2026 06:47:34 -0800 (PST)
-Message-ID: <7f613b00-bafa-4f4d-889b-4e37f5009b6f@baylibre.com>
-Date: Tue, 10 Nov 2026 15:47:33 +0100
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=HxUdNS7v
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6CEA914BF;
+	Tue, 10 Nov 2026 07:33:12 -0800 (PST)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 90BAB3F85F;
+	Tue, 10 Nov 2026 07:33:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1794324795; bh=nBUxhmvA0ecyPPwlBOt9fU9SaSIGMd2Zc1jhwGnIkjQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HxUdNS7vTci/GNxuiU+PL6sIw8vYWgYQQ2j9oD3St9Q/dGQHoIwmUTRpuTsyb0nEz
+	 dkDtQ71ZVpWmbsEXtAXUCzdNc9kVvrJHxFiSGuzPDYc8SYBopwf/yUn2UA5itaFKBa
+	 mXuD+KbpVmW4I7LeD8HyNfqqXDYFp5svFesO5ZCI=
+Date: Tue, 10 Nov 2026 15:33:10 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+	sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+	d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
+	philip.radford@arm.com, david@kernel.org,
+	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
+	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v15 10/35] firmware: arm_scmi: Add Telemetry resources
+ enumeration
+Message-ID: <avM5No4YdYbQ968p@pluto>
+References: <20261109091221.2532706-1-cristian.marussi@arm.com>
+ <20261109091221.2532706-11-cristian.marussi@arm.com>
+ <20261109173641.00005289@oss.qualcomm.com>
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -92,53 +70,88 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/11] pinctrl: scmi: report an off setting as not set
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>, Linus Walleij
- <linusw@kernel.org>, Peng Fan <peng.fan@nxp.com>,
- Oleksii Moisieiev <oleksii_moisieiev@epam.com>,
- Andy Shevchenko <andy@kernel.org>, Dhruva Gole <d-gole@ti.com>,
- Bartosz Golaszewski <brgl@kernel.org>, arm-scmi@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261030-clegoffic-pinctrl-scmi-gpio-v1-0-52d92843ad97@baylibre.com>
- <20261030-clegoffic-pinctrl-scmi-gpio-v1-4-52d92843ad97@baylibre.com>
- <avL-4lquUqW9lUNh@pluto>
-Content-Language: en-US, fr
-From: =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>
-Autocrypt: addr=clegoffic@baylibre.com; keydata=
- xjMEafx9bxYJKwYBBAHaRw8BAQdAtc85GIwDXLz0rh9thWXC80Lji0otVDVncXT4qaS4j1fN
- K0Nsw6ltZW50IExlIEdvZmZpYyA8Y2xlZ29mZmljQGJheWxpYnJlLmNvbT7ClgQTFgoAPhYh
- BJjMiHuM4ZUwFqUPr36EW4KtCh6TBQJp/H1vAhsDBQkJZgGABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEH6EW4KtCh6Tt+sA/jVC35rY1npFlOy7YnncTdrID8Qf855JA78IzXgvzpGp
- AP9FkuuT80m66PP3DvgYX9kVnG17mSDKO0+v2W18v6ZgCM44BGn8fW8SCisGAQQBl1UBBQEB
- B0DMwF4u//aQyzsFlO8rPJ/cqsAuPH80IeIA3HOEo5mlVgMBCAfCfgQYFgoAJhYhBJjMiHuM
- 4ZUwFqUPr36EW4KtCh6TBQJp/H1vAhsMBQkJZgGAAAoJEH6EW4KtCh6TdSgBAMDS0MiWCivt
- LjzZc9bs+P/xdXywUjDKq3lpQGJ6vZ0GAP9vI6DnN7vwVK6jt6/+0aBGkog5Ura9+WwRFEdM
- vLfPDQ==
-In-Reply-To: <avL-4lquUqW9lUNh@pluto>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109173641.00005289@oss.qualcomm.com>
 
-Hi Cristian,
-
-On 11/10/26 12:24 PM, Cristian Marussi wrote:
-> On Fri, Oct 30, 2026 at 04:58:35PM +0100, Clément Le Goffic wrote:
->> A get of a setting that is on or off, the flags and the pulls, returned
->> 0 as a value, so every one of them showed as set on every pin. Return
->> -EINVAL when the platform answers 0, which is how pinconf reports a
->> setting that is not active.
->>
->> Fixes: eb524cb651b7 ("pinctrl: Implementation of the generic scmi-pinctrl driver")
->> Signed-off-by: Clément Le Goffic <clegoffic@baylibre.com>
->> ---
+On Mon, Nov 09, 2026 at 05:36:41PM -0800, Jonathan Cameron wrote:
+> On Mon,  9 Nov 2026 09:11:56 +0000
+> Cristian Marussi <cristian.marussi@arm.com> wrote:
 > 
-> LGTM.
-> Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
 
-I'll apply Andy remarks. Can I keep your Reviewed-by with those fixes?
+Just one eply down below, I will address and reply more in depth next
+days while addressing the usual zillion Sashiko issues (tiny now at
+least)
 
-Best regards,
-Clément
+> > Add basic Telemetry allocation and initialization routines, introducing and
+> > wiring-up the logic needed to enumerate all the SCMI Telemetry resources
+> > optionally using a lazy on-demand scheme: this approach factors in the
+> > flexibility needed to minimize the amount of initialization work based on
+> > the effective access pattern used by the upper layer ABI.
+> > 
 
+[snip]
+
+ 
+> > +
+> > +/**
+> > + * scmi_telemetry_resources_enumerate  - Enumeration helper
+> > + * @ti: A reference to the telemetry info descriptor for this instance
+> > + *
+> > + * This helper is configured to be called once on the first enumeration
+> > + * attempt, when triggered by invoking ti->res_get() from somewhere else.
+> > + *
+> > + * Once run it substitues itself in ti->res_get() with the simple accessor
+> > + * __scmi_telemetry_resources_get, which returns a descriptor to the resources
+> > + * that were possibly discovered.
+> > + *
+> > + * Note that, while it attempts to fully enumerate Data Events and Groups, it
+> > + * does NOT fail when such enumerations fail, instead it simply gives up with
+> > + * the end result that only a partially populated, but consistent, resources
+> > + * descriptor will be returned; in such a case the incomplete descriptor will
+> > + * be marked as NOT fully_enumerated: this design enables the kernel to deal
+> > + * with badly implemented out-of-spec firmware support while keep on providing
+> > + * a minimal sane, albeit possibly incomplete, set of telemetry respources.
+> 
+> I'm curious about this. What's the motivation for being nice to people who
+> write buggy firmware?  I'd kind of prefer an opt in quirk for any that show
+> up where a fix is impractical rather than a paper over the bad from the start.
+>
+
+Trust me it was never about being nice to FW guys :P
+
+The reasoning, which I am indeed myself questioning these days, was to
+be able to carry on and boot a minimal Telemetry working system even
+without all of the detailed description retrieved by this command
+enumeration process since all of that data descriptors are NOT strictly
+needed, unless yout system defines groups or FastChannels.
+
+Because on one side it is true thet DE_DESCRIPTION is a mandatory
+command BUT on the other side it is also true that the spec does really
+delegate any further detailed description of the Telemetry data to some
+external JSON-like file: so you can really carry on without all of this
+informational and topological data.
+
+As an example if userspace does not want to use kernel mediated access
+to the Telemetry data (most of the IOCTL ABI later on) but instead it
+decides to grab and parse directly the RAW mmaped data from the SHMTI/TDCF,
+in that case you just need the fds to the areas to mmap and its fully
+comprehensive (hopefully) JSON file.
+
+Another possible scenario is bring-up with a limited features FW.
+
+This is also the reasoning behind having the lazy resource enumeration:
+you can boot, get the SHMTIs fds and mmap those areas and that's it:
+you're good to go without doing any enumeration at all.
+
+There were more FW issues indeed that I used to 'survive' early in this
+series that I stop being graceful about it, and even in this case, despite
+surviving in a degraded state I printout a FW_BUG.
+
+Now the bad side of the story is that keeping half-initialized stuff
+in a degraded system lead to an increasing number of possible issues
+flagged by Sashiko, mostly rare errors on path conditions to fix, but
+I am starting to wonder if all of this is worth...
+
+Thanks,
+Cristian
