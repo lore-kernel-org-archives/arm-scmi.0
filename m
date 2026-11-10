@@ -1,110 +1,109 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794336589;
-	b=qUI3Kab5xAyXFxRxu6hAYlaK9xsUbtKsU7rasXK7oycOc7SXjqssfmDB7fPyrgkpi67Z
-	 XBgrFizetuliy9GthoQExfUkbXIhc7DYTsCLpr6+lxh2gOmHHTFvbfTXsTOoKzqw74b8L
-	 wQm2JF+7C7OVmNcYSqcNGvxP6CT3QCGQ9bbhZmmiEoLkoJbz3/SFyv0P9/z3W8xkvqvxl
-	 oSRrnBG8xPm/FeB2pROO1SYSJHOOgJvJra1VcpwrcPkhQ3uZ9r7y+RKDNG9R9r23FBhTB
-	 tzXrUnJuQK6t8JZMouR0LHY76ETnJKD3zl00I+L3S6nmUKrvWrpM1Lq0+q8iVxFlFEQ==
+	t=1794341255;
+	b=jx55CyNpDGIn8QtqEOEBQ+phAa+bU455SxZBa3wH7lduDUEbpv5aaXHQMPkARM7/+/yK
+	 OEmcyqWwsJ0+iCgvOMlDDaTAE5n8V2Iv0XzG1T1YFNSbRKbPJbxr8JLI+kTcbRkW3lVqK
+	 Wbwwftn1wVgkqNBwjLKCjVIjBEXfraxQFvxOboOvgJq8t7A3rJArmnE/Z9QDhML8MmpA6
+	 +2NNcD/Vcj1QzAKCEwXLp9cUha4NF3njT/NmibWCCokmqSVV/E6Hwb2Jq4NxjeE29HJQv
+	 0xRIubrl8S1vCCqxvHeemhGgz49jn3Spy8DuUlpmwgzW7w1GGLtif3rXKYHUL8mE2Kw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794336589;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794341255;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
 	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=QlOMOYWweaD3rhIBYK0FxaPkexbukY9Q5FW/PQSKho0=;
-	b=XPG9s08CxkY40enYPrb+ADhM7Lr8ylzQwRAKR+au+1SRzZfte926eF9CX6VpX5CAgfHM
-	 tXT4C2Ityp14EzqG/vVHd+SGGJ/nlfyRyg6z/x32DwR1Y28MOh3eThLw04rjnODndYK74
-	 BdK0LA+vnpH18uaKCTeU3njjrE1BkfbjyhABbjYULnpsyKrdJQG6XfnFDGxIuCJfgdaCM
-	 /025RzNFYDpC6FxZMzOk7iV4UjDz/0nyzp3Vq7J+B3K7pPNpw2F/bkFmholzOe1ekmlQB
-	 uWQVrpVojOxxkdVFqvMjRsOn2MI0LLglWF2VD2ko/ig8dzkQqiDxwhOVq1nednlG+Ow==
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=mPIzV8gKEEjQbLFg3pcsAJeVEQeLM6Xyl87XSN+E9gA=;
+	b=cel5+GJsesEQS/PRD7EH0Ha2PPP5PgjmpYuGiAOYIqZfvRGNPm54VmVmdUf8C5adIVzh
+	 ERE2VnOhLfEoyZgOdDBpQyFLzFoJWLUaXS+zfH2B+UXK6TiH4YXzz0PuXyESIrV4Y8zr4
+	 H1mAns2oPbbMArL+8Q5vdFCdPLUwlGAhVydUoHXqgYPMP2Z/6I6zevPw7AxD9Z8ZAMark
+	 bzCNXWgiTuwp+0bg8Bcg91bUizoGzx9UqILY7vEeSzursHM/Zk5Z8jRsefLew8Fxs9CcF
+	 kA/Wkam1nCWTLQnS403Hq7pHtBQgD0Xc04Dpc5cF0WTLzqTZbhU0uD6jy1cPdK4/baw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Y+XOPo5s;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=dJUIbwn2;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=IXgKbapi;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b="GqRr/cgb";
 	arc=none smtp.remote-ip=205.220.168.131
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC28D606A31C
-	for <arm-scmi@vger.kernel.org>; Tue, 10 Nov 2026 18:49:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC28D606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4A9606A32A
+	for <arm-scmi@vger.kernel.org>; Tue, 10 Nov 2026 20:07:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B4A9606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Y+XOPo5s;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=dJUIbwn2
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AAIcGIB3670524
-	for <arm-scmi@vger.kernel.org>; Tue, 10 Nov 2026 18:49:48 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=IXgKbapi;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=GqRr/cgb
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AAIoYH33264602
+	for <arm-scmi@vger.kernel.org>; Tue, 10 Nov 2026 20:07:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	QlOMOYWweaD3rhIBYK0FxaPkexbukY9Q5FW/PQSKho0=; b=Y+XOPo5sh17BDAvJ
-	nfpDK75yQgj6nL0Xk2giaKLnNdnKo6OTUstdAfHMLjPDtuJegrWc6VzQTOJOlwTk
-	jediEOjLx4GjeE1F+UrlB22Pyiya0u7op6Lk/2pdCXc37PWVgZ2djhrh/MrNBRc5
-	FdrYSIG5IT7CIGgfE/UYVq4vqBHyfdZDFVPaK01QQ5Gx3I6JtYVQbbGVGrMAzPJD
-	dWX0szOzxXQlmEFe15FE7ZhP54hqQ2Vinzw87Py9rbC6yateKJ5BFOSGQXr/JqLS
-	1SfyfyNFilw+dcdvmkvu4T9AjU45omESi53oMEeWOUCv9CmTlW0DCMuhdpTmXLqz
-	z8EFzQ==
-Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4huucp3fbm-1
+	mPIzV8gKEEjQbLFg3pcsAJeVEQeLM6Xyl87XSN+E9gA=; b=IXgKbapiZZ6s9GV3
+	f+Bbv8kIcfs5lVMVFbopNN4iJDqT2XbREw6RDUpC1phcUUy2GkmU2OreXm1D/K61
+	JaMPL5GiahOQ/0j5tGbdTHrnpuLowlvVBuL9l3daJA3qIq4IFTS+sLu2/c2TSjnr
+	iygrfFCZBsIXPSBCVKrLH3orC6+A/Qra0/hzWN/RYd3uLu6uCCjA/kA+fgubIYRF
+	E0WmPDJz8P3od9GbmUhjrFSGO8mzoD45TzN6RP5Q9Tnf0nSSuJJkDEKQ+szfoIkD
+	FZ0rlrWxPAj1O/uCVDMqYL3t1ygtz2pZIgyOVGqkppjbteNkQvztmzriwWFwnEht
+	Pj8CXQ==
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4huyw4apg3-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Tue, 10 Nov 2026 18:49:47 +0000 (GMT)
-Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-30c0d568830so5401874eec.1
-        for <arm-scmi@vger.kernel.org>; Tue, 10 Nov 2026 10:49:47 -0800 (PST)
+	for <arm-scmi@vger.kernel.org>; Tue, 10 Nov 2026 20:07:34 +0000 (GMT)
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-370230d93efso4601539eec.1
+        for <arm-scmi@vger.kernel.org>; Tue, 10 Nov 2026 12:07:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794336587; x=1794941387; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1794341254; x=1794946054; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=QlOMOYWweaD3rhIBYK0FxaPkexbukY9Q5FW/PQSKho0=;
-        b=dJUIbwn2w/PKp5E4KeVhPlvLWq9tfSVba2c6NeWYZyVmr6STkvDRbAZGyQBUnrpbjK
-         rAJGrgLJNxHNUAzHrg6cBMnXO2x4X1wCj/56Ia4hVQWtdG2kuHZBZs5DxPLvnaTcUPLy
-         I25CIQKJl1HqY8DSrIqwO6TVd3qoA7ViQCGcLMXRwub6FeWRubynDFdXHXGXnu5GW3VX
-         NsD/IFx3vBzbaAU7Rw4t5s9/WMsdpDgjZn0rFiGgpyLazkyUpIjnEe1tSWz9c5aOrOi7
-         6RNaGMTvkOQhd+rBGQ811dHxDV4JV9wmtZTiJjQvfHIpKn/QsJ6m/afC3AMIZOPx5T87
-         PQ7g==
+        bh=mPIzV8gKEEjQbLFg3pcsAJeVEQeLM6Xyl87XSN+E9gA=;
+        b=GqRr/cgbYsAZYscSBX7ZlDSypRFxSDfc7HU6jtmZv8xXeFq9rfHVinoHIi4z9aOivs
+         Dy1crV/y8an8uKJxCOQiByk0RYSKYTsjQgF6LDfBJJzMqMYNrZAddUwCSlE5ejQ6PO3R
+         2dbTUh4JMCMSMZMsRen9jCz6H8dqpVeowcqkHHHl880plft5KfIlaJk/rar32+Qifz4F
+         3g9D1jney/PHABk2lrbRRGYBO+PI9mt0mrOhkJ3XPpev+cxEPt82WwErENsXYmxH4m/U
+         qVKnxbM90pURRHszTKvCrnknCNjzIcugBGRe45vWHNfTauf+TJ52iz3xF0BEg1mI8wca
+         X/Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794336587; x=1794941387;
+        d=1e100.net; s=20260707; t=1794341254; x=1794946054;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=QlOMOYWweaD3rhIBYK0FxaPkexbukY9Q5FW/PQSKho0=;
-        b=A/jTJU5GmLB3ML1NXv0i2xdnO2Z39QVfPxIxubQGwvMDE0xuKHenZAIQKyaEfFGwDs
-         e/sRMyZfoEKx9YP76WtaVUDeeuyApihx8yP1VdUsP7FvSzzbowGrLuQOtFTCu8e9I02g
-         9O8Vw6owLlhHyYg9lSjX+6Vz39T7oWXr4LiPN5coYhZyxnqb+KdKFGiEiWtaAIFasSA+
-         pwb7fE86kxK/XB7yzwirxPJql2+p7gEdVf02YzCouJQNWg2jRWduVpO/CHjAIJp7SxFi
-         smBkcszEqSFGl/QbS8JRalMJVMZQxQbpgJXQ2Dvip0cFxJgKzoX3ztMb99m6ilvjYZTO
-         P7Wg==
-X-Forwarded-Encrypted: i=1; AL+hErFoTIe7yuhJp2K0HtuQk5q+0f5eg8rsQ/XCK9491lxU61vusDfoTThlUZ43k2V6WhzY5yKNfIIGXA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+hES5ZztAdbctbHO6XkUo9PXGgdoKluyvxJNiGiwRT2paX6c9q
-	GxEIRYQXfsOrWbiNCxLCIPHV2s6jgXg70KozYTgW1N4pkTF+r8+UjVGOzm53TY1Kc+Rm15iCr1P
-	8ITvcys8ub6sNWoCdon9zi1k4pJYsmdItg3cXANQ35YSKMJuzXVrqam2vVjswNQ==
-X-Gm-Gg: AYBFou0xsuztzGDtU96aPg/9itiRZkC/lFUGRFrrBqTLzftPczQBOw0/+ndEFNNnFOz
-	lZPiiVUETeASjTVtay2HqxHhV0Kl8Qdya8h7T/hf/kG1gdjrYZ8DNLl2AcX6ZRK4n56YcU12n+s
-	4DFsizcJ0qShjjKLVEOnhcP4fy6fpBHho/Zo/p0TvgVNpjQpDSq5JOJhHr98f5JTQayqmsjezGy
-	NIQNeQo7J5AOIxKbfmUw60jAFkReHbPceM8r0nzfGziYKEgadqs2niFPEaKYcomZWBzym7ajqVy
-	PwQ8Z7hdG2YKjD6tpjuEoe/JxduN/Qn0RrvbAz1XGPx+EhJDiKXLaBKT1QnKxwusPnUBipBVnwp
-	cQ12GzHmiZa0akkEtLipO0y9VjdaKxcXfrBMoUEkZ8GKZeTX9Rmt0xl0dJe/6RT0DlvuQSY27Qu
-	jVaxaLWXjtU/9aOMavEtfmwqPhBJKe
-X-Received: by 2002:a05:693c:66d2:10b0:36a:1f:9b74 with SMTP id 5a478bee46e88-3768636e4b1mr198803eec.27.1794336585380;
-        Tue, 10 Nov 2026 10:49:45 -0800 (PST)
-X-Received: by 2002:a05:693c:66d2:10b0:36a:1f:9b74 with SMTP id 5a478bee46e88-3768636e4b1mr198736eec.27.1794336584648;
-        Tue, 10 Nov 2026 10:49:44 -0800 (PST)
+        bh=mPIzV8gKEEjQbLFg3pcsAJeVEQeLM6Xyl87XSN+E9gA=;
+        b=BTrUUcR7FETyDskXFMIVo/LsdaSxmtoVdhqV8X9VnKG7D9e90GRvE2qNTgN2VuWeCe
+         hgmK9Nss74qkycev/Kzt81k75vPmGS3LrYZ0lc4usbONolyvgfOMGkzaHMqYp3NcQo4A
+         3itGwYB8LjOTOufbDEMouTgjP9OL6eF/z7DImBSWFcbxVFlipZMRKrIjKl2wTrkcExnH
+         tnn6k+Uy24mQdcaTIPQvFHnup3jKXmn6wk08au4CNslcHwRxBgtExEj+p00vpLzsgG4n
+         cyNT/66WRMhF4BfDZ2FYzpwGpuAuSujA90dHV9LYkjIibb/oc0cOE3AH6eqxDWYkn9SW
+         //Mg==
+X-Forwarded-Encrypted: i=1; AL+hErFs78gPqc7WvuYqVFmedfdzxkxFap2pjpMMFxlv1Pb72Ewn0plLGtNn2mwQFbSr1667PJ376DRd0Q==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8LbYoKICdLrpbhb8nTY7fzPuvbYobK/5Xl3xeogXfXyO2Bycli
+	1bILLHt/1RKZ3so9uDChZEnIvZ3lJWafA+mthGx201lTqtxir45DS0f9L4BVkS9SDXMWAcpPcaM
+	8VFfcnPb0i+QDI4WtrWhtCX1+iUyVazvyUkG3LO/QxjFl6APQmYTw1hmMzEZzBA==
+X-Gm-Gg: AYBFou0aIh71vN1qN6z/0yEWiYiktEeM0XnUEyBkM+SmuvMVeS/esN7sZmvcZnmmoYy
+	Sn1eH1Ps5V4xyZV2a0gDacMEnrTOirZQNliISnIFEuNMsq6ZfkM0d84Nse02nzoBUOq5hmG3pCS
+	NtfNE0Htf1Ofn3pyRpXJcwpUtbx9YmAVTGirn0lsh3vRKpjw2b1Rcd088PeJnlarCPNfWXzmXFi
+	tu+WDn1RfLG7StWgX5qyZTMysTEqCV7eW/AV4/WnbDrQjNASQ8BBTk3XdmI6FkgzYvGcdnALYQo
+	Vd2rFbRzMqbQmGUVX2pzagzD8GexN11NJ7XUnyj/r8TZj9IYrv6yznr2YAa24DnyWLx3/Mz6Of+
+	FKhKZoSj8G97hCF6DkJWB7udutoRLPZg/dGfV2+VVID2/d6AAOsnZfZTSv4Ez/rFPdqfBG/pksV
+	7EurRs6q3UE9YGnk8sH0Xx51RqTTkh
+X-Received: by 2002:a05:701b:4588:10b0:1b3:2692:2274 with SMTP id a92af1059eb24-1b3b618d57cmr4809349c88.40.1794341253377;
+        Tue, 10 Nov 2026 12:07:33 -0800 (PST)
+X-Received: by 2002:a05:701b:4588:10b0:1b3:2692:2274 with SMTP id a92af1059eb24-1b3b618d57cmr4809283c88.40.1794341252580;
+        Tue, 10 Nov 2026 12:07:32 -0800 (PST)
 Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37520512ec1sm7990922eec.12.2026.11.10.10.49.36
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3766146551asm1260936eec.1.2026.11.10.12.07.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 10:49:44 -0800 (PST)
-Date: Tue, 10 Nov 2026 10:49:25 -0800
+        Tue, 10 Nov 2026 12:07:32 -0800 (PST)
+Date: Tue, 10 Nov 2026 12:07:08 -0800
 From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 To: Cristian Marussi <cristian.marussi@arm.com>
 Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -116,12 +115,12 @@ Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
         leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
         usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v15 16/35] firmware: arm_scmi: Add Telemetry TDCF
- parsing for UUID lines
-Message-ID: <20261110104925.00001db6@oss.qualcomm.com>
-In-Reply-To: <20261109091221.2532706-17-cristian.marussi@arm.com>
+Subject: Re: [PATCH v15 17/35] firmware: arm_scmi: Add Telemetry
+ configuration operations
+Message-ID: <20261110120708.000059b4@oss.qualcomm.com>
+In-Reply-To: <20261109091221.2532706-18-cristian.marussi@arm.com>
 References: <20261109091221.2532706-1-cristian.marussi@arm.com>
-	<20261109091221.2532706-17-cristian.marussi@arm.com>
+	<20261109091221.2532706-18-cristian.marussi@arm.com>
 Organization: Qualcomm
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -135,218 +134,433 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: zyO-09HG8WMXGl5Wa_z3cNE_qlPQB7QB
-X-Authority-Analysis: v=2.4 cv=U4oHnuru c=1 sm=1 tr=0 ts=6af3674b cx=c_pps
- a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDA4MCBTYWx0ZWRfX4s20HkSCXWT1
+ 8AhCZooQh+63MvBzzEbU0roBri/lQQ4Uc+loj6l4LZ+jC/e7iIEHS5mmz1GDL2gqEUgmgDifF+7
+ oGwG1QLAB/OOHfajQLst/2LwaWDer8H5xJoUZFr8gxFOIK6wrWbhLvYc1Qi8w33LODpIlxJRFLs
+ gWCtxcQjbP599caH39HNZtotov4fmKlerqRjlutoHBT4O8efgplvEz/h60j7KwaR2lYb1zYJQ/0
+ TaP01nAf5yl1dPOAi8ff3EeIgDk9yX7XO206gEPVLzu2GC7sJvrRev0+cw7847x/ts7oyUfp9R7
+ PtkLyBIYiR1wC37fnS1AlCiRNLUDtVKWCyyE1MV/bGLG+avcS7bQpXYWCz6tHzBu0N+kZ9fM2uC
+ YpVfWccrFxUFAk7cWX+zKcvGEwi/ujOYfBAqnzCL3VPBHZUvXYwl0JofqYIB8DXPVyAFG0Dg+kc
+ aiVSx4aaKIXhEo0X09w==
+X-Authority-Analysis: v=2.4 cv=Ee1d0/mC c=1 sm=1 tr=0 ts=6af37986 cx=c_pps
+ a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
  a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=7CQSdrXTAAAA:8 a=gDUTI9D6LIilfzPf5l8A:9 a=CjuIK1q_8ugA:10
- a=6Ab_bkdmUrQuMsNx7PHu:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDA3NCBTYWx0ZWRfX30AowZ8NGUAW
- gRfE8Ct3HFzRvz8jB51xVi/sOqORHQagQRtY7wibEEuOF//bLoYMpiFzOCJogfPhUyHdPCVh2fo
- 0vricLl5/UWkeqbj1qORrlEIBRWMJPiLaoitGWgpQUR4ofaA1+O3QSPfSGP6kAG7lApu08hjI63
- khvLlKfKJbjsJ/cEitWXlnG32n5VWCVhMYiumezvlbUKUQjYpdZf5mLM2TXVe7E/27EZrMEF7yj
- aJbPj9TqyC2+8Xn7eezUGUHwCKED4BoX9dKsC2tA8zn63zsJdwplVstPaKeAh2EH44JaMKTRdCW
- vTdM5eT/9pz2KDIr3ulgN75e8kU4y+pY4SgshmyEwrCBfNY69j7TEbTBzcFrgSiZt5hvUhLk6GA
- dpIiSNm9Tr4WzAbvOYUKYTg/mWh2kY8p038uZmRQm5utjOAXecpuced4rvYURXslHckHwes4APn
- YNSbTglggQnV9hTLqLA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDA3NCBTYWx0ZWRfX2zacM4c2RSSc
- TwoVDDVS0wWFwq3Ib4drbHC2CsAPU/xRL4kzfJ195kEXBilhpAr49hs3AU7krjUZa7tccNDkUHi
- KfWHduSBkZom3/zopWNN21x9OmFrPck=
-X-Proofpoint-GUID: zyO-09HG8WMXGl5Wa_z3cNE_qlPQB7QB
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=7CQSdrXTAAAA:8 a=C_PHm6f9Ewz0PqJoia8A:9 a=CjuIK1q_8ugA:10
+ a=bBxd6f-gb0O0v-kibOvt:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDA4MCBTYWx0ZWRfXyKFvrrHBDAQG
+ mX70X5xoccQxVVGkO1YFqyqucUtHT42zUnlG+rXmNoV+rAIVB2Z5LpTRJpcmyoATCKdl8ONpByj
+ 9pnG69s/1UxGPDT5Q/rhbF3JJ7m3pus=
+X-Proofpoint-GUID: ttAlvj25pHAvJWIT721cx771BcnqDIHt
+X-Proofpoint-ORIG-GUID: ttAlvj25pHAvJWIT721cx771BcnqDIHt
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-10_05,2026-11-06_01,2025-10-01_01
+ definitions=2026-11-10_06,2026-11-06_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 impostorscore=0 clxscore=1015 priorityscore=1501
- malwarescore=0 spamscore=0 adultscore=0 phishscore=0 lowpriorityscore=0
+ impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0 bulkscore=0
+ suspectscore=0 clxscore=1015 adultscore=0 phishscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611100074
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611100080
 
-On Mon,  9 Nov 2026 09:12:02 +0000
+On Mon,  9 Nov 2026 09:12:03 +0000
 Cristian Marussi <cristian.marussi@arm.com> wrote:
 
-> Add support to parse, track and link TDCF UUID lines to the related
-> discovered DataEvents.
-> 
-> Maintain also a central list of discovered UUID lines.
+> Add support for basic Telemetry configuration operations to selectively
+> enable or disable DataEvents monitoring.
 > 
 > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-Trivial stuff + a follow on about how you are handling the
-devm_ cleanup for the de and it making your code more complex
-than it needs to be.  I think a simple helper will get
-you to a better state (and my preferred approach of fine grained
-management is probably overkill!)
-
-Jonathan
-
 > ---
-> v14 --> v15
->  - use proper casting in tlm_collect
->  - use snapshots to collect UUIDs during full scans
->  - stop tracking UUIDs lines singularly..it's useless
->  - use UUIDs line hashing for lookup
->  - clarified UUID/DE binding are permanent
->  - fixed WARN_ON invocation on missing active_uuid
-> v13 --> v14
->  - split out of previous single patch implementing parse SHMTI routines
-> ---
->  drivers/firmware/arm_scmi/telemetry.c | 277 +++++++++++++++++++++++++-
->  include/linux/scmi_protocol.h         |   2 +
->  2 files changed, 277 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/firmware/arm_scmi/telemetry.c b/drivers/firmware/arm_scmi/telemetry.c
-> index e3fbcb1e6ea7..38a94d66116f 100644
-> --- a/drivers/firmware/arm_scmi/telemetry.c
-> +++ b/drivers/firmware/arm_scmi/telemetry.c
+Various comments inline.  Includes a suggestion that some
+__iomem pointer specific overflow checkers might make for
+neater code here and in earlier patches.
 
->  
-> +static int scmi_telemetry_uuids_update(struct telemetry_info *ti,
-> +				       struct telemetry_uuid *uuid)
+> +
+> +struct scmi_msg_telemetry_config_set {
+> +	__le32 group_identifier;
+> +	__le32 control;
+> +#define TELEMETRY_ENABLE		(BIT(0))
+> +#define TELEMETRY_MODE			GENMASK(4, 1)
+> +#define TELEMETRY_MODE_SET(x)		(FIELD_PREP(TELEMETRY_MODE, (x)))
+> +#define	TLM_ONDEMAND			(0)
+> +#define	TLM_NOTIFS			(1)
+> +#define	TLM_SINGLE			(2)
+> +#define TELEMETRY_MODE_ONDEMAND		TELEMETRY_MODE_SET(TLM_ONDEMAND)
+> +#define TELEMETRY_MODE_NOTIFS		TELEMETRY_MODE_SET(TLM_NOTIFS)
+> +#define TELEMETRY_MODE_SINGLE		TELEMETRY_MODE_SET(TLM_SINGLE)
+
+I'd just put the FIELD_PREP inline. It is self explanatory on only a char or
+two longer..
+
+> +
+> +#define TLM_ORPHANS			(0)
+> +#define TLM_GROUP			(1)
+> +#define TLM_ALL				(2)
+> +#define TELEMETRY_SET_SELECTOR(x)	(FIELD_PREP(GENMASK(8, 5), (x)))
+> +#define	TELEMETRY_SET_SELECTOR_ORPHANS	TELEMETRY_SET_SELECTOR(TLM_ORPHANS)
+> +#define	TELEMETRY_SET_SELECTOR_GROUP	TELEMETRY_SET_SELECTOR(TLM_GROUP)
+> +#define	TELEMETRY_SET_SELECTOR_ALL	TELEMETRY_SET_SELECTOR(TLM_ALL)
+> +	__le32 sampling_rate;
+> +};
+
+
+
+> +
+> +static struct payload __iomem *
+> +scmi_telemetry_blkts_payld_locate(struct device *dev,
+> +				  struct telemetry_shmti *shmti, u32 *bts_offs,
+> +				  struct payload __iomem *payld, u32 de_id)
 > +{
-> +	uuid_t **cur_uuids;
+> +	struct payload __iomem *bts_payld = NULL;
 > +
-> +	/* Resize array if needed ... */
-> +	if (ti->info.num_uuids + SCMI_UUID_DB_THRESH >= ti->uuids_len) {
-> +		uuid_t **new_uuids, **old_uuids;
-> +		unsigned int new_len = ti->uuids_len * 2;
+> +	if (!bts_offs)
+> +		return IOMEM_ERR_PTR(-EINVAL);
 > +
-> +		new_uuids = kzalloc_objs(*new_uuids, new_len);
-> +		if (!new_uuids)
-> +			return -ENOMEM;
-> +
-> +		old_uuids = rcu_dereference_protected(ti->info.uuids,
-> +						      lockdep_is_held(&ti->uuids_mtx));
-> +		/* Copy/move old allocated UUIDs */
-> +		for (int i = 0; i < ti->info.num_uuids; i++)
-> +			new_uuids[i] = old_uuids[i];
+> +	if (*bts_offs &&
+> +	    check_add_overflow((__force unsigned long)shmti->base, *bts_offs,
+> +			       (__force unsigned long *)&bts_payld))
 
-memcpy?
+This code has quit a lot of checks on pointer overflow and many need
+some ugly casts. Maybe we can have some local helpers for this?
 
+bool check_add_overflow_iomemptr(void __iomem* start, size_t off, void __iomem **out)
+{
+	unsigned long _start, _out;
+	bool overflow;
+
+	_start = (__force unsigned long)start;
+	overflow = check_add_overflow(_start, off, &_out);
+	*out = (__force void __iomem *)_out;
+
+	return overflow;
+}
+
+or something like that?
+
+> +		return IOMEM_ERR_PTR(-EPROTO);
 > +
-> +		/* Expose new UUID pointer */
-> +		rcu_assign_pointer(ti->info.uuids, new_uuids);
-> +		ti->uuids_len = new_len;
+> +	/* Check SHMTI overflow on returned offset */
+> +	if (bts_payld) {
+> +		if (scmi_telemetry_shmti_overflow(shmti, bts_payld)) {
+> +			trace_scmi_tlm_access(de_id, "SHMTI_OVERFLOW", 0, 0);
+> +			return IOMEM_ERR_PTR(-EINVAL);
+> +		}
+> +	} else {
+> +		dev_warn_once(dev, "Received BLK_TS with zero offset.\n");
+> +		trace_scmi_tlm_access(de_id, "BLKTS_WITH_ZERO_OFFSET", 0, 0);
 > +
-> +		kfree_rcu_mightsleep(old_uuids);
+> +		/*
+> +		 * Find the BLK_TS immediately preceding this DE payld by
+> +		 * scanning.
+> +		 */
+> +		bts_payld = scmi_telemetry_nearest_line_by_type(shmti, payld,
+> +								TDCF_BLK_TS_LINE);
+> +		if (WARN_ON(!bts_payld))
+> +			return IOMEM_ERR_PTR(-EPROTO);
+> +
+> +		/* Calculate offset of found blkts */
+> +		*bts_offs = (void __iomem *)bts_payld - shmti->base;
 > +	}
 > +
-> +	/* Store new UUID reference into the globally accessible UUIDS */
-> +	cur_uuids = rcu_dereference_protected(ti->info.uuids,
-> +					      lockdep_is_held(&ti->uuids_mtx));
-> +	cur_uuids[ti->info.num_uuids] = &uuid->uuid;
-> +	rcu_assign_pointer(ti->info.uuids, cur_uuids);
-> +	/* Update UUIDs count */
-> +	smp_store_release(&ti->info.num_uuids, ti->info.num_uuids + 1);
+> +	return bts_payld;
+> +}
+
+>
+> +
+> +static int scmi_telemetry_group_state_set(const struct scmi_protocol_handle *ph,
+> +					  const bool *enable, const bool *tstamp,
+> +					  struct scmi_telemetry_group *grp)
+> +{
+> +	struct scmi_msg_resp_telemetry_de_configure *resp;
+> +	struct telemetry_info *ti = ph->get_priv(ph);
+> +	struct scmi_msg_telemetry_de_configure *msg;
+> +	struct scmi_xfer *t;
+> +	int ret;
+> +
+> +	/* Stall concurrent configuration request */
+> +	guard(mutex)(&ti->config_mtx);
+> +
+> +	if (!scmi_telemetry_remote_state_update_needed(ti, enable, &grp->enabled,
+> +						       tstamp, &grp->tstamp_enabled,
+> +						       true, grp))
+> +		return 0;
+> +
+> +	ret = ph->xops->xfer_get_init(ph, TELEMETRY_DE_CONFIGURE,
+> +				      sizeof(*msg), sizeof(*resp), &t);
+> +	if (ret)
+> +		return ret;
+> +
+> +	msg = t->tx.buf;
+> +	scmi_telemetry_state_message_prepare(msg, grp->info->grp_id, true,
+> +					     enable, &grp->enabled,
+> +					     tstamp, &grp->tstamp_enabled);
+> +	resp = t->rx.buf;
+> +	ret = ph->xops->do_xfer(ph, t);
+> +	if (!ret) {
+
+So this is doing the out of line good path just to keep the ability to use
+guard. I'd be tempted to not use guard() or use a wrapper function
+just for that.  guard() magic is lovely but only until it makes us
+write harder to read code.  The challenge here is we can't easily
+do __free magic for the xfer.
+
+> +		/*
+> +		 * Update cached state on command success anyway, despite any
+> +		 * possible later response validation issue: once the command
+> +		 * has succedeed keep our state in sync with HW.
+> +		 */
+> +		scmi_telemetry_state_cache_update(ti, enable, &grp->enabled,
+> +						  tstamp, &grp->tstamp_enabled,
+> +						  grp, NULL);
+> +		ret = scmi_telemetry_group_state_set_resp_process(ti, grp, resp);
+> +		if (ret)
+> +			dev_err(ph->dev,
+> +				"Could NOT process GROUP %u state response - ret:%d\n",
+> +				grp->info->grp_id, ret);
+> +	}
+> +
+> +	ph->xops->xfer_put(ph, t);
+> +
+> +	return ret;
+> +}
+> +
+> +static int scmi_telemetry_state_get(const struct scmi_protocol_handle *ph,
+> +				    const u32 *id, bool *enabled, bool *tstamp_enabled,
+> +				    u32 *sid, u32 *offset, uuid_t  *uuid)
+
+bonus space before *uuid.
+
+> +{
+> +	struct telemetry_info *ti = ph->get_priv(ph);
+> +	struct scmi_telemetry_de *de;
+> +	struct telemetry_de *tde;
+> +
+> +	if (!enabled || !tstamp_enabled)
+> +		return -EINVAL;
+> +
+> +	ti->res_get(ti);
+> +	if (!id) {
+> +		guard(mutex)(&ti->des_enabled_mtx);
+> +		/* Returning the all_des_* state */
+> +		*enabled =
+> +			(atomic_read(&ti->des_enabled[ENA_STATE]) == ti->info.base.num_des);
+> +		*tstamp_enabled =
+> +			(atomic_read(&ti->des_enabled[ENA_TSTAMP]) == ti->num_des_tstamp);
+
+Ah.  These are reference counters. I had misunderstood that earlier.
+
+I'd add some docs for this function though as isn't immediately obvious what
+should be returned if these don't match.
+
+> +
+> +		return 0;
+> +	}
+> +
+> +	de = xa_load(&ti->xa_des, *id);
+> +	if (!de)
+> +		return -ENODEV;
+> +
+> +	tde = to_tde(de);
+> +	guard(mutex)(&tde->mtx);
+> +
+> +	*enabled = de->enabled;
+> +	*tstamp_enabled = de->tstamp_enabled;
+> +
+> +	scmi_telemetry_tde_location_update(tde, sid, offset, uuid);
 > +
 > +	return 0;
 > +}
+> +
+> +static int scmi_telemetry_state_set(const struct scmi_protocol_handle *ph,
+> +				    bool is_group, u32 id, const bool *enable,
+> +				    const bool *tstamp, u32 *sid, u32 *offset,
+> +				    uuid_t *uuid)
+> +{
+> +	struct telemetry_info *ti = ph->get_priv(ph);
+> +	struct scmi_telemetry_res_info *rinfo;
+> +
+> +	rinfo = ti->res_get(ti);
+> +	if (!is_group) {
+> +		struct scmi_telemetry_de *de;
+> +
+> +		de = xa_load(&ti->xa_des, id);
+> +		if (!de)
+> +			return -ENODEV;
+> +
+> +		/* Filter out unplausible timestamp requests */
 
+Rather than error out if we get one? That sounds fragile.
 
+> +		return scmi_telemetry_tde_state_set(ph, enable,
+> +						    de->tstamp_support ? tstamp : NULL,
+> +						    de, sid, offset, uuid);
+> +	} else {
+> +		struct scmi_telemetry_group *grp;
+> +
+> +		if (id >= rinfo->num_groups)
+> +			return -EINVAL;
+> +
+> +		grp = &rinfo->grps[id];
+> +		return scmi_telemetry_group_state_set(ph, enable, tstamp, grp);
+> +	}
+> +}
+> +
+> +static int
+> +scmi_telemetry_collection_configure(const struct scmi_protocol_handle *ph,
+> +				    unsigned int res_id, const bool *enable,
+> +				    const unsigned int *update_interval_ms,
+> +				    const enum scmi_telemetry_collection *mode)
+> +{
+> +	enum scmi_telemetry_collection *current_mode, next_mode;
+> +	struct telemetry_info *ti = ph->get_priv(ph);
+> +	struct scmi_msg_telemetry_config_set *msg;
+> +	bool tlm_enable, *current_state, is_group;
+> +	struct scmi_telemetry_res_info *rinfo;
+> +	unsigned int *active_update_interval;
+> +	struct scmi_xfer *t;
+> +	__le32 interval;
+> +	u32 control;
+> +	int ret;
+> +
+> +	/* Stall concurrent configuration request */
+> +	guard(mutex)(&ti->config_mtx);
+> +
+> +	if (mode && (*mode <= SCMI_TLM_SINGLE_READ) &&
 
-> @@ -2362,6 +2554,7 @@ static int scmi_telemetry_resources_alloc(struct telemetry_info *ti)
->  	}
->  
->  	INIT_LIST_HEAD(&ti->fcs_des);
-> +	hash_init(ti->uuids_ht);
+This first line checks if mode is in range of allowed values. 
+When would it not be?  Feels like a confusing thing to check here
+as either of the next two conditions required it to be specific
+values that meet that requirement. Was that meant to be an out
+of range check?
 
-Why init the hash here but the mutex at the caller? I guess
-maybe you wanted it to be obvious the mutex was valid, but to me
-just doing mutex_init up here is easier.
-
->  
->  	ti->shmti = no_free_ptr(shmtis);
->  	ti->info.shmtis = no_free_ptr(shmtis_info);
-> @@ -2427,6 +2620,37 @@ static void scmi_telemetry_lines_cleanup(struct telemetry_info *ti)
->  	}
->  }
-
->  static void scmi_telemetry_tdes_cleanup(struct telemetry_info *ti)
->  {
->  	struct scmi_telemetry_de *de;
-> @@ -2471,6 +2695,7 @@ static void scmi_telemetry_instance_cleanup(void *arg)
->  
->  	scmi_telemetry_groups_free(ti->rinfo);
->  	scmi_telemetry_tdes_cleanup(ti);
-> +	scmi_telemetry_uuids_cleanup(ti);
-
-See below.  The monolithic approach to devm cleanup is making
-your setup code harder to read.  Suggestions down there on how
-to avoid that.
-
->  	scmi_telemetry_lines_cleanup(ti);
->  	scmi_telemetry_resources_free(ti);
->  }
-
->  /**
->   * scmi_telemetry_instance_init  - Instance initializer
->   * @ti: A reference to the telemetry info descriptor for this instance
-> @@ -2563,6 +2805,8 @@ scmi_telemetry_resources_enumerate(struct telemetry_info *ti)
->   */
->  static int scmi_telemetry_instance_init(struct telemetry_info *ti)
->  {
-> +	unsigned int uuids_len;
-> +	uuid_t **cur_uuids;
->  	int ret;
->  
->  	ret = scmi_telemetry_resources_alloc(ti);
-> @@ -2571,6 +2815,35 @@ static int scmi_telemetry_instance_init(struct telemetry_info *ti)
->  
->  	xa_init(&ti->xa_des);
->  
-> +	/*
-> +	 * Always allocate at least one slot for the primary and anyway at
-> +	 * least enough to avoid immediate resizing, assuring uuids_len
-> +	 * always greater or equal to one.
-> +	 */
-> +	uuids_len = max(ti->num_shmti * 2, SCMI_UUID_DB_THRESH + 1);
-> +	cur_uuids = kzalloc_objs(*cur_uuids, uuids_len);
-> +	if (!cur_uuids) {
-> +		xa_destroy(&ti->xa_des);
-> +		scmi_telemetry_resources_free(ti);
-This sort of dance of not using a goto block because we
-have unified cleanup at the end always suggests to me one of two things.
-Finer grained devm_ callbacks, or a helper that can have a clean return
-to this outer function with no side effects, those having all been
-cleaned up via goto based unified error handling in the helper.
-
-I personally prefer fine grained devm with each element clearly
-being paired with the undo, but the helper is perhaps easier to
-introduce here.
-
-> +		return -ENOMEM;
+> +	    ((*mode == SCMI_TLM_NOTIFICATION && !ti->info.continuous_update_support) ||
+> +	     (*mode == SCMI_TLM_SINGLE_READ && !ti->info.single_read_support)))
+> +		return -EINVAL;
+> +
+> +	is_group = res_id != SCMI_TLM_GRP_INVALID;
+> +	if (is_group) {
+> +		rinfo = ti->res_get(ti);
+> +
+> +		if (res_id >= rinfo->num_groups ||
+> +		    !ti->info.per_group_config_support)
+> +			return -EINVAL;
 > +	}
 > +
-> +	mutex_init(&ti->uuids_mtx);
-> +	/* Expose new UUID pointer */
-> +	scoped_guard(mutex, &ti->uuids_mtx) {
-> +		rcu_assign_pointer(ti->info.uuids, cur_uuids);
-> +		ti->uuids_len = uuids_len;
+> +	if (!is_group) {
+
+Maybe this makes sense in later patches, but for now, it looks like
+you can just flip this condition and combine the else below iwth the
+if (is_group) just above. That is...
+
+	if (is_group) {
+		rinfo = ti->res_get(ti);
+
+		if (res_id >= rinfo->num_groups ||
+		    !ti->info.per_group_config_support)
+			return -EINVAL;
+
+		active_update_interval = &rinfo->grps[res_id].active_update_interval;
+		current_mode = &rinfo->grps[res_id].current_mode;
+		current_state = &rinfo->grps[res_id].enabled;
+	} else {
+		active_update_interval = &ti->info.active_update_interval;
+		current_mode = &ti->info.current_mode;
+		current_state = &ti->info.enabled;
+	}
+
+> +		active_update_interval = &ti->info.active_update_interval;
+> +		current_mode = &ti->info.current_mode;
+> +		current_state = &ti->info.enabled;
+> +	} else {
+> +		active_update_interval =
+> +			&rinfo->grps[res_id].active_update_interval;
+> +		current_mode = &rinfo->grps[res_id].current_mode;
+> +		current_state = &rinfo->grps[res_id].enabled;
 > +	}
 > +
-> +	/* Initialize the first UUIDs in the global list with the primary */
-> +	ret = scmi_telemetry_primary_uuid_init(ti);
-> +	if (ret) {
-> +		scmi_telemetry_uuids_cleanup(ti);
-> +		xa_destroy(&ti->xa_des);
-> +		scmi_telemetry_resources_free(ti);
+> +	if (!enable && !update_interval_ms && (!mode || *mode == *current_mode))
+> +		return 0;
+> +
+> +	ret = ph->xops->xfer_get_init(ph, TELEMETRY_CONFIG_SET,
+> +				      sizeof(*msg), 0, &t);
+> +	if (ret)
 > +		return ret;
+> +
+> +	if (!update_interval_ms)
+
+Flip logic then it's visually obvious that if you have it you
+use the passed in active_interval_ms
+
+> +		interval = cpu_to_le32(*active_update_interval);
+> +	else
+> +		interval = cpu_to_le32(*update_interval_ms);
+> +
+> +	tlm_enable = enable ? *enable : *current_state;
+> +	next_mode = mode ? *mode : *current_mode;
+> +
+> +	msg = t->tx.buf;
+> +	msg->group_identifier = cpu_to_le32(res_id);
+> +	control = tlm_enable ? TELEMETRY_ENABLE : 0;
+> +	control |= !is_group ? TELEMETRY_SET_SELECTOR_ALL : TELEMETRY_SET_SELECTOR_GROUP;
+> +	control |= TELEMETRY_MODE_SET(next_mode);
+
+	control = FIELD_PREP(TELEMETRY_ENABLE, tlm_emable ? 1 : 0) |
+		  FIELD_PREP(TELEMETRY_SET_SELECTOR, TLM_SET_SELECTOR_ALL) |
+		  FIELD_PREP(TELMETRY_MODE_SET, next_mode);
+
+With adjusted defines is clearer to read than via the defines at the top of
+file.  I'm never sure why people feel like wrappers around FIELD_PREP make
+things more readable - I want to see that this is building a register value
+and what goes in what named field.  The macros like TELEMETRY_SET_SELECTOR()
+obscure that.
+
+> +	msg->control = cpu_to_le32(control);
+> +	msg->sampling_rate = interval;
+> +	ret = ph->xops->do_xfer(ph, t);
+> +	if (!ret) {
+I'd do
+	if (ret) {
+		ph->xops->xfer_put(ph, t);
+		return ret;
+	}
+
+Even though it duplicates that unwind, I think it is worth it
+to avoid out of line good paths.  Or just don't use guard and use
+a goto.
+
+
+
+> +		*current_mode = next_mode;
+> +		*current_state = tlm_enable;
+> +		/*
+> +		 * Enable streaming mode when notifications were explicitly
+> +		 * requested as a global config, not on a group.
+> +		 */
+> +		if (!is_group)
+> +			ti->streaming_mode = *current_mode == SCMI_TLM_NOTIFICATION;
+> +		if (update_interval_ms)
+> +			*active_update_interval = le32_to_cpu(interval);
 > +	}
 > +
->  	atomic_set(&ti->des_enabled[ENA_STATE], 0);
->  	atomic_set(&ti->des_enabled[ENA_TSTAMP], 0);
->  	mutex_init(&ti->des_enabled_mtx);
+> +	ph->xops->xfer_put(ph, t);
+> +
+> +	return ret;
+> +}
+
 > diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
-> index b7b8bd77b37d..3973779c0aba 100644
+> index 3973779c0aba..ce35734d2249 100644
 > --- a/include/linux/scmi_protocol.h
 > +++ b/include/linux/scmi_protocol.h
-> @@ -981,6 +981,8 @@ struct scmi_telemetry_info {
->  	unsigned int active_update_interval;
->  	struct scmi_telemetry_intervals *intervals;
->  	struct scmi_telemetry_shmti_info **shmtis;
-> +	unsigned int num_uuids;
-> +	uuid_t * __rcu *uuids __counted_by_ptr(num_uuids);
->  };
+> @@ -888,6 +888,12 @@ enum scmi_telemetry_compo_type {
+>  #define SCMI_TLM_BUILD_UPDATE_INTERVAL(s, e)				    \
+>  	(FIELD_PREP(GENMASK(20, 5), (s)) | FIELD_PREP(GENMASK(4, 0), (e)))
 >  
->  /**
+> +enum scmi_telemetry_collection {
+> +	SCMI_TLM_ONDEMAND,
+> +	SCMI_TLM_NOTIFICATION,
+> +	SCMI_TLM_SINGLE_READ,
+
+Given these are called out a 0 1 2 in the spec I'd assign the
+values to them just to make that association clear. 
+
+> +};
 
