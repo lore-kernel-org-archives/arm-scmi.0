@@ -1,103 +1,128 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794503876;
-	b=mUqnESIeq/ymsAmp8Q4KAGKk07Bmpd6Z6c9p9p8EN7IBF4ObEBZzP83DhzeHfaHCyx/D
-	 ce5HqslU5MDrJnCm71C6sfElkLD9ZgNnelNCTVb+7iLZMWaRKhE+Pugb1KTAD1V+SwWPL
-	 jf+tNW7yZkB69RvijNtWqc795etdUa3p4AiaflBNf/7a4l4HtCcNZ91EWbtyzb5MDqTdK
-	 L6g75FSwo6PUBOuKcvXHrVL9Ce/LmPNUF5eyBaT8wmQ0NNy1k2cmySvFGiC2MWBOBUwis
-	 PhzxLqkfTWL2nCBcZLFxCjHmaSvFoWXRdHw6c3WJlsRMgMuzyxSpqPWXa4iICvlg4uQ==
+	t=1794506531;
+	b=XSog4+mkhU24fzgbN2B4BW/ZajIkSqloI1nXA7osQU+OqO1nlyInpr96jEVkxomYQK7W
+	 q/IJVJnfWjOexX1SKkt11YrWh/8LAeLyD+gx/Rz94UXGnBSh2Zq2kKkzDneBvw+Fl4fXx
+	 2NidtLH+/8CK1JK988rECgJC0OxrwHFAfhk0kC0EG9XnbnEmh1Q9aJue2/aZMXvs2Icpx
+	 pB9E+KyxcMKVDA306hFgJRUdj4Wzvy6lMLDmW1o/wfRBx2RMTERleidZWxlpHDCdbmPcX
+	 X+z7F1p1y8CF3CjfNdKA2wHjsQYS/889HWEJ8Q6M7h2dcWMmXloz/a1AmbCU7H03Vlg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794503876;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=VMi+hIkLWXT7siLEN9ATyCll+A1V4GrHFAEeCBcDPio=;
-	b=25EheIKy2mCkG8KJlAlZepDJWxlqrKr+5BN9JIO/HMNByML0t0lLkBu4Zaf+7kH51Lny
-	 DYkTXFwlZAsxwcsi6YduH5D+XS8Cwdq0kv1PlDhwN855MVJSaJKkXLjBdPgdRQJLN2vBG
-	 r8eaGZpfhZWDUlNj50PVceX+1SYrhFq0+W6oaO2XHMr7+IvXMfoNo9xTuD67DEyKFI4cc
-	 t/hPuGPnNt48OnmjFSR//Min+O/yId5ZzT7zdZc3v+1wT8ayhWQ4tKB0h70EOEV/tvaj5
-	 B5kL53GbKUfL5e3XjxkJAlyDyBkN5VKE1prug4a3OFXHrhXPTY941KK7co0zesIKq3g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794506531;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=/q+HZAXO33VdMbT6NBmFvKukVr7avEJ3PXxPK7OsNsg=;
+	b=V3KTY2gvalEMMTG7IlX+oIEB0CK7qZaGHbQBa4dhUW7rtqzOg9kQmeIIb3AcGhf1X7Td
+	 +tMo2i0oECTeLnLiV2yLUl9gFF+ZfhmRdjRBcFrYIrO912Yms03WAgvg+pMliTmFE/hi7
+	 79CB3t6s3lCPmrEOoaqZ6j9+FizIYBbO0ec+N/j0xFX4GKD+M0JZZiEfawRl3W4zKJaxy
+	 yy29XdYhINX0t13G8jjbSl7j9CLiGgKacnDKp8ls4PpDZ0uaCdksP6ZTqTVAZ2Wyisfwo
+	 EWJt1fW95LoAdAlO35r1ORosCld9GFpsfT3DCrPJWyi1F5nzThvt1gZDSnHDVbrKpQQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xi1M0Wrq;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="A2/jZtNk";
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=IWIJzLY8;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F8A606A321;
-	Thu, 12 Nov 2026 17:17:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7007606A321
+	for <arm-scmi@vger.kernel.org>; Thu, 12 Nov 2026 18:02:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7007606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xi1M0Wrq
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B9171F000C5;
-	Thu, 12 Nov 2026 17:17:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794503876;
-	bh=VMi+hIkLWXT7siLEN9ATyCll+A1V4GrHFAEeCBcDPio=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Xi1M0WrqH5bMvx0n0pi4w5v7a8qJzrxjW4xzgjyJBTk4w5Ha9LDFHd8Q2SIO4bI0/
-	 R1AH44wKcxNJXbaWLeAun1BY623lBE7mWeM8MlocaX0VT4oGCtm1o/G3AsbPIXS1Ln
-	 HAfe4Gi1tJJQuDHDrzTAcmJcvP7xkP9KNg6uFt8kIbAQS0k0mQOiMe1zrTRcGbMEAP
-	 QjV4y8GkI+IFa+IR6J9g75IGth5ijUGZ2Wd4tjx81In8/mDCI0Hl19n37GOo0mpyES
-	 RMm1owYYSjXmybNXysJzMRsSMwbMIAEWBzrarLAWP33yYlnJBqzwDlRjfOGVF8svjx
-	 eUQ0ymv8EqhZg==
-Date: Thu, 12 Nov 2026 09:17:55 -0800
-From: Kees Cook <kees@kernel.org>
-To: Bence Csokas <bence.csokas@arm.com>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
-	Zack Rusin <zack.rusin@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Selvin Xavier <selvin.xavier@broadcom.com>,
-	Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
-	Chengchang Tang <tangchengchang@huawei.com>,
-	Junxian Huang <huangjunxian6@hisilicon.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
-	Jes Sorensen <Jes.Sorensen@gmail.com>,
-	Ping-Ke Shih <pkshih@realtek.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Nilesh Javali <njavali@marvell.com>,
-	GR-QLogic-Storage-Upstream@marvell.com,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>,
-	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-	linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-scsi@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] Add struct_offsetofend() for pointer arithmetic
-Message-ID: <202611120916.3619B95@keescook>
-References: <20261112-offsetof-v2-0-276ede839967@arm.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=A2/jZtNk;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=IWIJzLY8
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ACFa0D2012045
+	for <arm-scmi@vger.kernel.org>; Thu, 12 Nov 2026 18:02:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	/q+HZAXO33VdMbT6NBmFvKukVr7avEJ3PXxPK7OsNsg=; b=A2/jZtNklLwEH3VF
+	MjxWSGKtysNcngnLz9nCc5sc7/gnGbaGuYZ7zGqVOcKlM3AKsHIhmaDNdYQI4ZWi
+	az0VQuSJZy2CM9eerFUxN61c5NsUuQzxiT8gItwg263EYYQpvSe2OFTk1hHyIHWv
+	zj2A5PMIXu8TmQfB+bV94iuGZi7aE2RXG7j/lEkQz0san5pM0oxql7aDbK002WSr
+	q3YACElXm56wWe+/r/V6oMS73GNwJk13I7nFJ22sdQaxoLFya70HPeAgeXEJhP2C
+	IZFSFwkvlw+nRnbXeumYkkoleNslYC3xwOyapsv/o/316CYMF4zOohQxHMX4w/kE
+	hE54bQ==
+Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hwg1b8p56-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <arm-scmi@vger.kernel.org>; Thu, 12 Nov 2026 18:02:09 +0000 (GMT)
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-36d1353fdcdso453226eec.0
+        for <arm-scmi@vger.kernel.org>; Thu, 12 Nov 2026 10:02:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1794506529; x=1795111329; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=/q+HZAXO33VdMbT6NBmFvKukVr7avEJ3PXxPK7OsNsg=;
+        b=IWIJzLY82eJhjx1LDl4M8p9/EuzkwvdbjMobocgD6rzIEUFY9Jlhrk4mbqisvSR+wa
+         i7kH9LefCVY8pMurhzyEs1l/69Jr/TsmFZNIPhXQtUPfWyUOKAIVszNpiYuMgWy0UNd2
+         8F5Gw7EUhEwypI5N2ByJFGSZu9sAhLoIc1TAIymdH3mzzPADwFALm1txD5H6igR5sopO
+         UGXmX62Vb33o9/Oww3gqrXidBn9azUhzCyExF6CEEF5M0NMNAphUnCBjs5n3MecOFgd0
+         Ip7yOElPuVXvhHFn7gfDpP+TpJNQ5fFnzyJDK1Mt3eXkuPUEl55GsGol65FtvMbS05tu
+         TWtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794506529; x=1795111329;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/q+HZAXO33VdMbT6NBmFvKukVr7avEJ3PXxPK7OsNsg=;
+        b=P6e70E5iV1M6oGmYISAUTf25bmVjh51QPWLO81ZQ2/8cACI+plo4LWPQ3NaRIK9OB8
+         c8dLI0EGtu+W38qLjkL2kIOJx49qcCy65aqD+TcjigpFHRfVN/YlOBXIkEz0QOd+VNOT
+         ahS69IjO4VV+3Om+3T43bBsk0IYQqQ1TH/cRuCOM6mSI/6NGWA6qmmR7bObNnQKu+6a7
+         hGgpY4Ccf9y/JXTwpF6X8TgZbX+CKC2QYbibYc/5t4W24my8GPZU6dulPT4ElhBv6u1Q
+         DwqA2LHhKpsyw8ZW/2X4jq5BvNqrslQO3+w/DzRS609dP2FpCylNJ3qwSdPtLEjyC2e8
+         PwoA==
+X-Forwarded-Encrypted: i=1; AL+hErECojRBb2puoj4TkU5Al4BMA+jnSibCzoNmB/OfiuJfQ8yBLGksO1rpOo4w26crGHiyMqbSioiYXQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/74f+3ppd8ruu0NUw9bRMpVsE3jY/3/sLYxIRqANJd9Dk59llD
+	1d2uuX/9/YSjFGySkLUj4S4ElWO7SNJ/Ipgs5pW6dixI/KcMTfwKpKowxfqGrfaoqxUpGoEZ/J5
+	zJmyEZXp5nwaq7oiyHYj/0HmrBaOEYbpAybuP5qKzyqdX5ApLFshbP56fybFmbg==
+X-Gm-Gg: AYBFou1vd7mrUgRFwAP9K1RwY8TSr2dPATP/KeLAjHEy3j/pKEXdZbZ++iw2a3QqSuQ
+	hs3i4mTqCrWySz0Mbgab042TSXk8C2ARjBkO/k9GFt8mK53jUgHWb4GHJiY/RhtkCCOgsR+Saw9
+	baDsqpsgWns9lq4UOrc/2EJMtmb6kWsPRltKVZ3s+r6HuavVGwmQC2rep+dkP2hkTaxFIfLOQAq
+	EkT9dOzGtwKs1Lud11gT2eZP2N95fUpby7PExY0COPoNtWvdlGrCkT1wfoOJLE+FSt9V8KmtG45
+	+uZdSA1ciPC5hh4TMcMx1otCzTdum1bM9xe27IV6Er6/5Wm6PL6aaOSxQxbGnvXviM8ia8lX/2q
+	/+Bz0fZwm4Zt9r8ogG4XGa3Nh5iaDVO9TrJM93PwGU84PySIglDPovgtcHt/KjrGdBv373fPmFY
+	BgDKA91CEiNY93RwCW1Zp/osobRw4=
+X-Received: by 2002:a05:7300:fc0e:b0:376:9e80:2bf5 with SMTP id 5a478bee46e88-3769e8f760amr6022193eec.38.1794506528711;
+        Thu, 12 Nov 2026 10:02:08 -0800 (PST)
+X-Received: by 2002:a05:7300:fc0e:b0:376:9e80:2bf5 with SMTP id 5a478bee46e88-3769e8f760amr6021582eec.38.1794506510251;
+        Thu, 12 Nov 2026 10:01:50 -0800 (PST)
+Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37955332ae7sm510064eec.8.2026.11.12.10.01.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 10:01:49 -0800 (PST)
+Date: Thu, 12 Nov 2026 10:01:45 -0800
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+        sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+        f.fainelli@gmail.com, vincent.guittot@linaro.org,
+        etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+        d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
+        philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
+        leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
+        usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v15 10/35] firmware: arm_scmi: Add Telemetry resources
+ enumeration
+Message-ID: <20261112100145.00000560@oss.qualcomm.com>
+In-Reply-To: <20261109091221.2532706-11-cristian.marussi@arm.com>
+References: <20261109091221.2532706-1-cristian.marussi@arm.com>
+	<20261109091221.2532706-11-cristian.marussi@arm.com>
+Organization: Qualcomm
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -107,150 +132,75 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261112-offsetof-v2-0-276ede839967@arm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=c6Q+0h9l c=1 sm=1 tr=0 ts=6af5ff21 cx=c_pps
+ a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=7CQSdrXTAAAA:8 a=eWwvBSKlxOWLqK439NMA:9 a=CjuIK1q_8ugA:10
+ a=6Ab_bkdmUrQuMsNx7PHu:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-GUID: pmoWMEmoMGF7MM3Zt-YgaP99nhE3V2-a
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEyMDA3MSBTYWx0ZWRfX+iI8cXvnmHHK
+ d6LC60wzCcm4K5w2TLnS3ZwQAaq4IgueSUVI6x+KArMmlYrmb0q3i+4uCt8jq81PsFU1JE/rREp
+ iSibFwRK2B2/UUrUzjaWFURkZsAK1bIEgEmLYmgybWIk3aMN5O9PCToFIyFEPdE12tul79nV1He
+ g+viKZ07XW4uPtqaZjY7b7HFcEc6kgujQET5k2mwgmSO8Yk131TuMXI0TNNCmTucXPEjuW5Ct6i
+ p+YlYzkk7Fk8p+HtmCCvpmw2C8QYQ+Fd3XqoEOqnBnbdvB8cCIu/3cEzqAwQ3jsJg9axAFUKXPG
+ u2TE9+j63bLTXRYoCMzYZxSDMQ4OnB4D33YD/TNmYP60Udbb7zvEdEViw3w0/Wg57jXGBgdw9Q2
+ C/bNLSXls9Op3Tas/NaIm+OLwrNHS12WQbUE+D2lUeVa+7Ci3kCn7HEDlihW16UR8Op7XpTlnYU
+ viBFB7pglrL3VSH62PQ==
+X-Proofpoint-ORIG-GUID: pmoWMEmoMGF7MM3Zt-YgaP99nhE3V2-a
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEyMDA3MSBTYWx0ZWRfX6s+KttWcXjfp
+ vzvXWsFxIPNTDxiFgGf5k4ZHMUXhGCI1To816Ha0Zqp35qeIuavLbRsSvqGmCWh70Q101xqGe6B
+ 4rYzLMz0b76Pa0ZLnlMqmSHnSvY3uNw=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-12_02,2026-11-11_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 bulkscore=0 suspectscore=0 priorityscore=1501 phishscore=0
+ impostorscore=0 malwarescore=0 clxscore=1015 spamscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611120071
 
-On Thu, Nov 12, 2026 at 10:29:32AM +0100, Bence Csokas wrote:
-> A common usage pattern for offsetof() is the following:
-> 
->   offsetof(typeof(*ptr), member)
-> 
-> This is exactly the definition of struct_offset(). Some call sites use
-> offsetofend() instead of offsetof(). Add this variant, then replace all
-> call sites with the corresponding macros.
+On Mon,  9 Nov 2026 09:11:56 +0000
+Cristian Marussi <cristian.marussi@arm.com> wrote:
 
-Yeah, I think this is reasonable. I'd prefer to see the Coccinelle
-script explicitly added to tools/coccinelle/api/ though, so it can be
-trivially re-run as needed.
+> Add basic Telemetry allocation and initialization routines, introducing and
+> wiring-up the logic needed to enumerate all the SCMI Telemetry resources
+> optionally using a lazy on-demand scheme: this approach factors in the
+> flexibility needed to minimize the amount of initialization work based on
+> the effective access pattern used by the upper layer ABI.
+> 
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 
-Also, while Alejandro is right about the needless outer parens, I think
-I'd like to keep them just to match the other define, and they do no
-harm.
+Hi Cristian,
 
--Kees
+This stretches across the patch set but first elements related to it are
+in this patch.  How do we handle larger values of de_data_sz?
 
-> 
-> Signed-off-by: Bence Csokas <bence.csokas@arm.com>
-> ---
-> Changes in v2:
-> - Use struct_offset() instead of reinventing it
-> - Rename offsetofendp() to struct_offsetofend()
-> - Merge the two treewide patches
-> - Link to v1: https://patch.msgid.link/20261105-offsetof-v1-0-4153f5c10edc@arm.com
-> 
-> To: Kees Cook <kees@kernel.org>
-> To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-> To: Marcel Holtmann <marcel@holtmann.org>
-> To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-> To: Sumit Semwal <sumit.semwal@linaro.org>
-> To: Christian König <christian.koenig@amd.com>
-> To: Philipp Stanner <phasta@kernel.org>
-> To: Sudeep Holla <sudeep.holla@kernel.org>
-> To: Cristian Marussi <cristian.marussi@arm.com>
-> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> To: Maxime Ripard <mripard@kernel.org>
-> To: Thomas Zimmermann <tzimmermann@suse.de>
-> To: David Airlie <airlied@gmail.com>
-> To: Simona Vetter <simona@ffwll.ch>
-> To: Jani Nikula <jani.nikula@linux.intel.com>
-> To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> To: Tvrtko Ursulin <tursulin@ursulin.net>
-> To: Lyude Paul <lyude@redhat.com>
-> To: Danilo Krummrich <dakr@kernel.org>
-> To: Zack Rusin <zack.rusin@broadcom.com>
-> To: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-> To: Selvin Xavier <selvin.xavier@broadcom.com>
-> To: Kalesh AP <kalesh-anakkur.purayil@broadcom.com>
-> To: Jason Gunthorpe <jgg@ziepe.ca>
-> To: Leon Romanovsky <leon@kernel.org>
-> To: Chengchang Tang <tangchengchang@huawei.com>
-> To: Junxian Huang <huangjunxian6@hisilicon.com>
-> To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> To: Hans de Goede <hansg@kernel.org>
-> To: Mauro Carvalho Chehab <mchehab@kernel.org>
-> To: Haiyang Zhang <haiyangz@microsoft.com>
-> To: Wei Liu <wei.liu@kernel.org>
-> To: Dexuan Cui <decui@microsoft.com>
-> To: Andrew Lunn <andrew+netdev@lunn.ch>
-> To: "David S. Miller" <davem@davemloft.net>
-> To: Eric Dumazet <edumazet@kernel.org>
-> To: Jakub Kicinski <kuba@kernel.org>
-> To: Paolo Abeni <pabeni@redhat.com>
-> To: Miri Korenblit <miriam.rachel.korenblit@intel.com>
-> To: Jes Sorensen <Jes.Sorensen@gmail.com>
-> To: Ping-Ke Shih <pkshih@realtek.com>
-> To: Johannes Berg <johannes@sipsolutions.net>
-> To: Benson Leung <bleung@chromium.org>
-> To: Tzung-Bi Shih <tzungbi@kernel.org>
-> To: Guenter Roeck <groeck@chromium.org>
-> To: Nilesh Javali <njavali@marvell.com>
-> To: GR-QLogic-Storage-Upstream@marvell.com
-> To: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-> To: "Martin K. Petersen" <mkp@kernel.org>
-> Cc: linux-hardening@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-bluetooth@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Cc: arm-scmi@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: nouveau@lists.freedesktop.org
-> Cc: linux-rdma@vger.kernel.org
-> Cc: linux-hyperv@vger.kernel.org
-> Cc: netdev@vger.kernel.org
-> Cc: linux-wireless@vger.kernel.org
-> Cc: chrome-platform@lists.linux.dev
-> Cc: linux-scsi@vger.kernel.org
-> 
-> ---
-> Bence Csokas (2):
->       stddef: Add offsetofend() variant of struct_offset()
->       treewide: Use struct_offset()
-> 
->  drivers/bluetooth/btmrvl_main.c                    | 12 +++++-----
->  drivers/dma-buf/dma-resv.c                         |  2 +-
->  drivers/firmware/arm_scmi/base.c                   |  2 +-
->  drivers/gpu/drm/drm_edid.c                         | 26 +++++++++++-----------
->  drivers/gpu/drm/i915/gem/i915_gem_object.c         |  4 ++--
->  drivers/gpu/drm/i915/i915_active.c                 |  2 +-
->  drivers/gpu/drm/i915/i915_sw_fence_work.c          |  2 +-
->  .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c  |  2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c            | 12 +++++-----
->  drivers/infiniband/hw/bnxt_re/qplib_fp.c           |  2 +-
->  drivers/infiniband/hw/hns/hns_roce_cq.c            |  4 ++--
->  drivers/infiniband/hw/hns/hns_roce_qp.c            |  6 ++---
->  drivers/media/usb/uvc/uvc_v4l2.c                   |  4 ++--
->  drivers/net/hyperv/rndis_filter.c                  |  2 +-
->  drivers/net/wireless/intel/iwlwifi/iwl-drv.c       |  2 +-
->  drivers/net/wireless/intel/iwlwifi/mvm/rs-fw.c     |  2 +-
->  drivers/net/wireless/intel/iwlwifi/mvm/rs.c        |  2 +-
->  .../net/wireless/intel/iwlwifi/pcie/ctxt-info-v2.c |  5 ++---
->  drivers/net/wireless/realtek/rtl8xxxu/core.c       |  2 +-
->  drivers/net/wireless/realtek/rtw88/fw.c            |  2 +-
->  drivers/net/wireless/realtek/rtw89/core.c          |  2 +-
->  drivers/net/wireless/realtek/rtw89/fw.c            |  8 +++----
->  drivers/net/wireless/virtual/mac80211_hwsim_main.c |  4 ++--
->  drivers/platform/chrome/cros_ec_lightbar.c         |  4 ++--
->  drivers/scsi/qla2xxx/qla_gs.c                      |  2 +-
->  drivers/scsi/qla2xxx/qla_mbx.c                     |  2 +-
->  drivers/scsi/qla2xxx/qla_os.c                      |  2 +-
->  drivers/scsi/qla2xxx/qla_tmpl.c                    |  4 ++--
->  drivers/scsi/scsi_transport_fc.c                   |  2 +-
->  include/linux/overflow.h                           | 12 ++++++++++
->  30 files changed, 75 insertions(+), 64 deletions(-)
-> ---
-> base-commit: 9d66f26fefacebfeed15de31c1123451a17ff119
-> change-id: 20261105-offsetof-f62aa6348f0d
-> 
-> Best regards,
-> --  
-> Bence Csokas <bence.csokas@arm.com>
-> 
+The spec allows (and it's useful for things like histograms)
+DEs to have an integer multiple of 64 bits for a single element.
+In the shared memory buffer that just ends up with a bunch of matching
+IDs with discovery via the parsing done in this patch.
 
--- 
-Kees Cook
+The only (I think) today to dump that from this patch set is
+to use the shmti dump interface.  That's not exactly nice!
+
+I messed around with (well chatted with an LLM about) a couple of
+options.
+
+1. Make the whole stack aware of multi line DEs. So all the requests
+   get to return more data.
+2. Adding indexing so you can get a multi line DE in multiple calls.
+   That makes the interface for a bulk read a bit odd.  Userspace will
+   have to be cleverer given variable sized elements.
+
+Given this is a ABI related aspect, needs figuring out sooner rather
+than later I think.
+
+Which way do you think makes more sense?  Or am I missing something?
+
+Jonathan
+
+
+
