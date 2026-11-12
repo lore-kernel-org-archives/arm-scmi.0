@@ -1,109 +1,109 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794422370;
-	b=TzJLWedvIltu7zr4DwYBG/T9v7obKpw9vFORSWg192WDalF4P8DDpWJSIHITiZjQmDxb
-	 6tVVQnDW24TUOkj+3ZfN98r1osq+VA5dCqJ8dBeCu+dgobYWuBzcSj/SoRZMi9GnvJzIZ
-	 jOXQPG3FuJrbxzw2ffaTHvCyBwZiGyQL3ubts/s2UOyk1dEXUcxW5Nw04q+mEEYoSbLDH
-	 mHHdY4Oi5CLEMofnjSfi5JVYsKTEqBzLL7PvioaukVwTw+pK8/dC3GjjGgXKvEtaLVMao
-	 g+AtS/NWZqdPb/3aMwiJ03pIKUHGiOvKhnONUeYaCc2U0tyJodxhWR7s4kjMfKiI+0w==
+	t=1794457822;
+	b=TiWGMeqKQy3VjokHDQofuxZdKitmLcXPsMcoR3FfuyMVGL5j1rRetQlOY8Sze6hVnW/J
+	 9FnYwWk4mKuW42ULwgmdgmAszMBx51nHVFASMEe5GLF6LjpbH+Ss6Tr7W8zWq3ll2Rg9r
+	 8ru2e+E/EGP9vvWJLp0IEH1L5ztBmUxxcAKbFqH1nUtN7vZfVgkplXD9zlG5YE+Z7E3EY
+	 nwh96UWjYFvaKtMyBmP8E3kKaHcLTQj1GqHiQKQN8lgbC/u6Dmy5qCVV45XkD7jyvI1W7
+	 wdSsO4Dsvo1XTo5+xniRCn/HTyLd3mtkxkA1WL6YCZwW2Y5xaXjML/v/8Fwami2+VWg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794422370;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794457822;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
 	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
 	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=YRLMEN7xwMYs3ZpUgHAtG1UwTe/c78BkMK0uijF6N4M=;
-	b=RjIQ+UX7TArnitgqlmRkTI3r7zjFzrl2J70I3uhZbel/TD6nVXCuWfqVbgAsVIo7S2oc
-	 3bb5eqN4Afhz4Oek2ooJVrVvLXZ3sQv+236JZjO3u7YBMwAfa/YUqNzGde/DYefWLFjFb
-	 p6C6C50d+pCrb57f8OKKGm5fqF3qqIg9QV2GdpzTy6N+eq1eBQ8SAQ+hgoBE+uPODrCj0
-	 rQu6plfoV1dNcUNKA9WfbB4E7cwhXKc44BL7PF99MGMFnBAe+qv0CS+H3QxRuqZV3sbrz
-	 A2OK0fKsxt1BiNft3cdHAJsvG+jGA5OdMz8oSYg2bRMSoLH4Ziy3954sU9NjNTr9Lgw==
+	bh=zo53EQpUg0jWnHvwx/8Z+Iyb9X/XpywIVlFbq8/332k=;
+	b=JdOlN71R2+l5tNrV8HiGNO30cFi9xp3oWJwwAEPYaPe5ebQlWZ3LAdpVz9tAJxUsaUy8
+	 cehoUStEvYtGE13hDvzMhFmD1FMqIOH6gm4/Pkck81bjsebCghOIhqptuZBwECBcNZJze
+	 /gWmezBgH1/pGLsY2OI3Nrz2PQ+/a2AkhgCxRuFYzoYampg/2Mv7Kuc1NMg57wtIYtOMg
+	 eZRIMrdmfwrNrdI4I7g6U6NzhHOZiGXRD3EZDPkZ5HrjBVoME6u9Gokfpqb/VZjfyQo3Q
+	 F89hotebkA4I/Fs/YjhvBSmh8EcP3Q5V4xMzS1ubR0IdNNBa3RE0A8baTkAv/PtKHHw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=BhHsZnpy;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Tg+A7O3E;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=pswg6HdD;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XgtBl6UU;
 	arc=none smtp.remote-ip=205.220.180.131
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD16D606A32E
-	for <arm-scmi@vger.kernel.org>; Wed, 11 Nov 2026 18:39:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AD16D606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89EE8606A31C
+	for <arm-scmi@vger.kernel.org>; Thu, 12 Nov 2026 04:30:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89EE8606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=BhHsZnpy;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Tg+A7O3E
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ABIYx3k2042118
-	for <arm-scmi@vger.kernel.org>; Wed, 11 Nov 2026 18:39:28 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=pswg6HdD;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XgtBl6UU
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AC2aWRX1475396
+	for <arm-scmi@vger.kernel.org>; Thu, 12 Nov 2026 04:30:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	YRLMEN7xwMYs3ZpUgHAtG1UwTe/c78BkMK0uijF6N4M=; b=BhHsZnpyTizIvQNY
-	Bpf9ADagu3a4kkxcvWRuGy/1uacyZjlq1SPZDqr1f981IisEhxXc+Km2rw6SWJa/
-	B/Lyxbak5Jcqu6v3omddg6Ibx9i2+7+EcrCRWLoenZiDOWHGHYrPlBGlsZ1W3Fis
-	lXGpOJ1MDRSXy8v/Sdt7mUPhCD/zW/bMJNX0fqEinAdk0kLFx/qhHIRmlYR0s9/z
-	9qdsZOVu1QHii5KPlPptE+ZCJvOMsEPH1X+XrfEEEhA1RYR1S0Dd1CFDi9ORqT9Q
-	36jtCPbZhj7jGoxgMcn5fll2goWlMsZIDKfeK7XmIhaEiKk1DIz9x4LI+Oe+7Hp7
-	iQPUXg==
-Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hvs4m1eqn-1
+	zo53EQpUg0jWnHvwx/8Z+Iyb9X/XpywIVlFbq8/332k=; b=pswg6HdD47FUDh52
+	oBdstQdQmPzqZoDfnsLVUQkhDmuqumK9WAGLA0qD+js7fngSxDth9PNvL6KHjjzt
+	sR6ppFEGfdpTKsX4bFQx2FWaNjaJ6aFty6JJRXbR48b4uds93geUlJVqadIXh52b
+	mCmoM2BSvmeVsTtJxPIBS0KXz5oyWR3hSJ44pv4dFiA3gw3eFeN/s1zz0mSXLtXQ
+	Lvmbh+H5CQIG+2zvxPF4ikFXpfYekR7UBzNDMeCuep+PBTMPcqiof7ganY4OIWpU
+	n30ajMI8Ca7UgJxOdRpxlQalowv0ABEgPYDjZ00tv+nZG90cDYUwqcZ4dpybgmiQ
+	rUEgxQ==
+Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hvtymtmau-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Wed, 11 Nov 2026 18:39:28 +0000 (GMT)
-Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-14373747468so4081029c88.1
-        for <arm-scmi@vger.kernel.org>; Wed, 11 Nov 2026 10:39:28 -0800 (PST)
+	for <arm-scmi@vger.kernel.org>; Thu, 12 Nov 2026 04:30:20 +0000 (GMT)
+Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-16bc6f3fdb1so3045187c88.0
+        for <arm-scmi@vger.kernel.org>; Wed, 11 Nov 2026 20:30:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794422368; x=1795027168; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1794457819; x=1795062619; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=YRLMEN7xwMYs3ZpUgHAtG1UwTe/c78BkMK0uijF6N4M=;
-        b=Tg+A7O3E6Sj6L5e6OTbangZV2ksIHwTIenp+qdlgcdYhavU7xfJ3td50Ck+KnIUMuW
-         bxZk5zIyrGiasC0UYY8pac6naeXqQdRjzGsqXhyqAHdHlvS1/KBqDi4KcdLv1pmdjNnb
-         1zaeZmo7vRnnrybQjzyGg4ADze3WWmM7U1FnvEzVyx5CL/4Yp7PBvHYC5oCNTWIckh63
-         5rXzsQEDc6HObsembe6YJgaw/mVoI1YzIu3fmNQJF9Dqhd/M+3KHT6hE1Mr6DaGLxLFi
-         VcM4xxhjFbRPBMpjVJeRd1ZOmAwx9GFbNYQtEYewJvSXActaIXOd1obRW4wxwIZzSga4
-         xVaQ==
+        bh=zo53EQpUg0jWnHvwx/8Z+Iyb9X/XpywIVlFbq8/332k=;
+        b=XgtBl6UUE7fDhQp+6BhX9mz7rko1w0JN4FPddIWpj1WHAc6FRETmz3E3VX6ygIe9/2
+         xsQ9p/rqNVtWZMxQLdu0LoT2Z68piTE4fdvhY4ODDS79hcscClEhoJgDSbI/V0Zizkod
+         rqXQt1OFBxyMkWGuFer5B710euqDm49CfnxAGtlMg+HZLCvPbaMejFBm72V7VX41EZry
+         Y3eAtuzNfMsMZal6b6RYw3Ern1lbRXfbPjtH849Gsa1ToPWz1RY3cf0+2jgBjsllaJXE
+         RB7ogCpH3r365cEQKY9D+jEZl9PQC9HG/eopOVWFiVM1PQTB7lMFNEIB56Zzcwo6Xvz9
+         GwwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794422368; x=1795027168;
+        d=1e100.net; s=20260707; t=1794457819; x=1795062619;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=YRLMEN7xwMYs3ZpUgHAtG1UwTe/c78BkMK0uijF6N4M=;
-        b=NEIUPV1KYOuQrAc5LMyliNQoUbYvK/jMsGui9novDlsgTd2slrXyx4I0dnnq59XfeX
-         WqOQ0b0INVAvLKnnFFmjlAT0d2q6Wq/oNMu8YCK8x22Ix649qgEqd6J3y57IsrYlP2kV
-         EwXsdITdRFgLEeuviNKMmUsNjZRPGQTVLuycVwAeOH5sjTOfjwDVXz0YF9Uzp3RgKjnV
-         wAvWlo9dsoeF5NpFR2ED+PJsXlEm+UH/bepxRX87OOSv/UdHG39SpOexw7vz+iqVKPsZ
-         iVt2e5RDSsj/Gk1XJFZY33mWSguphi294f27+7ibf4xEXDy8/wvlhI3fyYqVM+Jw9Lnj
-         xyng==
-X-Forwarded-Encrypted: i=1; AL+hErHrGgIk7nscAtVl4j3j/l3+Apzg1EGLKGyqWBsVPFFK4BkG0CpJuTN7hyg1aT7/WT4LfXoQT0PSJQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8Q2EhyYieW15iJ1AczdTCSHz6qBZw/NwrGjIjXXmfhnEDHxHFJ
-	+tlsbcurelWfU7mPk/0znTQo3wQOtBBcly2Uw4OQlSUU+sxzzt4+WM7vp7wYvJ/WdQpddMtXXBs
-	aenp7MusME+LU/711VnjbLfmRDlcFA/1pJMLegsUWmqBRf3SE/RSXq2qYyT0CvLStjxfirw==
-X-Gm-Gg: AYBFou2G+3/meXAPKfdLih/xiGwA1r+RzaCe1uxcNI77i25tee4xu6EuNFCjcF+5TuF
-	xQBqrsiuW9QuCFpeQExWai+9IjI54EfTM7l6ySfNRJxBCx7jZCtyeB91GS9vY/vZ6kIKK220XJt
-	2F6hrhscTnoX6PF6tOx0aUF4rbfp6/vTOIU5w+Gi+Ihv4T8fH05mDf5nOAXn55yLo/keeDfDgL1
-	pCHNg/fJf7uJDT0wGm7UnlhD4cJ5OoM45sDzFmdMrA8DEdHgL0mcSEdgm/RCsqUqSGnvuy87A2u
-	42Eh3it41IzVwge9etoVp+Mv5/broVUdbTlDzbH6t1+GHr06+gHxoIwBI21SJWy9qQfHK/gzg29
-	ykqwXi6jQucfl5ka03A/nnmpmqcclyd9zbGMDJcvYiTWZj6h7roEQMPkUb1XQBbYtOcMi4HbDD1
-	ff1jWqrrjnC+Zm1CEpl9XCIz0Eeb0=
-X-Received: by 2002:a05:7022:f519:b0:1b3:a881:4d9f with SMTP id a92af1059eb24-1b3c0312e9bmr2813251c88.20.1794422367228;
-        Wed, 11 Nov 2026 10:39:27 -0800 (PST)
-X-Received: by 2002:a05:7022:f519:b0:1b3:a881:4d9f with SMTP id a92af1059eb24-1b3c0312e9bmr2813221c88.20.1794422366523;
-        Wed, 11 Nov 2026 10:39:26 -0800 (PST)
+        bh=zo53EQpUg0jWnHvwx/8Z+Iyb9X/XpywIVlFbq8/332k=;
+        b=ZHJ6x7giND3Gn4LUgW8pXH2MxpdlPnzzmDHhAUGdR5pBXgPu51qF2KZt5H+6mOlicS
+         7cXONkRqSHnWJpPTeqF7suf8ld9EoitrBz9hx9nq+qa0uqX5LRp/EEX9gffbZOiLjTSA
+         ENiIIDJiqSwNLR+KHGsop8EOhbFOMhsMyYve+UECw6n3taBhlJGPeZH5fUgy1HqwkJvc
+         CU8ZlkI+dGE3FML2B/ZaI09UBRx6udpPl79/6QArDKKz9GpVrqV5yelEAgwN2p+xPPPv
+         J4yIQ4UByKsTMUMBEpLdGAvKy22fEij1OITRksfETmiD8AZ4ytVdj/dUJs9FOBnu69kl
+         Z7xg==
+X-Forwarded-Encrypted: i=1; AL+hErGcCNfpGY9OblC4lWxVBrurz/YypFjPa2vaW9WxA3hJBuh+d1CjYVYmR7WfQpSd83eOHy2zdEX2LA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/7pisGdizxouOIg6qTy8QV+hOyNQWawLlzGgoCD4LQrFydtUg2
+	KQ1WvN43aMOchN4bQssazUAL293BOGJOz5JL/vvY/dkYAHyqO0UXGPRWDXkH2SOPS5Pb83oVMLj
+	lXFYqysx7rqZF+xH5Qvu7ERpLY+fXBaIZPCkLPoR9Dm9PsTVKcnSueEuvKey6Uw==
+X-Gm-Gg: AYBFou1mKAumONq3P814mRi84Iw5oRP18pkcFMpN7oCMBWXnfq5ozCa+5R8Y2vt/0YJ
+	3cJSKRXYWmmkSZbnFWxcA929ti4DvkeCGNTASCVIVIIr4W+4teNBZ/R5PEwIF6ecQEsRsfvgoEW
+	N+u30G57gzy31zUJKpySzRHCOfpgU6+iuD1+PB0auyRk2YEaLLSeMDTbxKgqmZdgJKhYkR+hQKP
+	JC42+9GlnWwa7GBvd3EblrmWbzkkPuXPxrssgKD19q/MNULGYRhh0/lpk4nquvjsnWBrjTZMAn2
+	1HnZyCG8Tist7j/DkVD9TJddop70CcdhrMQR5sRqnd9KYOMGN1T/m7+khz6fGZVwolbkcmewXxG
+	Ds8q3Rjnx08b35bnd6whpYnnJm1c467vuGB4FvoTp930ikC2uPucyL7KGT758x6/hwzQQS5GYgc
+	HHAnt72S8ZbzxWDJFbO+Z5SHDs/Dk=
+X-Received: by 2002:a05:7022:7f01:b0:1b2:42db:8a54 with SMTP id a92af1059eb24-1b3c030f6e1mr4080440c88.23.1794457819057;
+        Wed, 11 Nov 2026 20:30:19 -0800 (PST)
+X-Received: by 2002:a05:7022:7f01:b0:1b2:42db:8a54 with SMTP id a92af1059eb24-1b3c030f6e1mr4080408c88.23.1794457818345;
+        Wed, 11 Nov 2026 20:30:18 -0800 (PST)
 Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b1003fsm16392776c88.6.2026.11.11.10.39.24
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5890584sm23163630c88.3.2026.11.11.20.30.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 10:39:26 -0800 (PST)
-Date: Wed, 11 Nov 2026 10:39:20 -0800
+        Wed, 11 Nov 2026 20:30:18 -0800 (PST)
+Date: Wed, 11 Nov 2026 20:30:03 -0800
 From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 To: Cristian Marussi <cristian.marussi@arm.com>
 Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -115,12 +115,12 @@ Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
         leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
         usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v15 00/35] Introduce SCMI Telemetry support
-Message-ID: <20261111103920.00004f75@oss.qualcomm.com>
-In-Reply-To: <avRANKPwp-r-QSR4@pluto>
+Subject: Re: [PATCH v15 18/35] firmware: arm_scmi: Add Telemetry DataEvent
+ read capabilities
+Message-ID: <20261111203003.00007e46@oss.qualcomm.com>
+In-Reply-To: <20261109091221.2532706-19-cristian.marussi@arm.com>
 References: <20261109091221.2532706-1-cristian.marussi@arm.com>
-	<20261110163809.000070d6@oss.qualcomm.com>
-	<avRANKPwp-r-QSR4@pluto>
+	<20261109091221.2532706-19-cristian.marussi@arm.com>
 Organization: Qualcomm
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -134,143 +134,66 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: IDqthJknY3tlkRhx5II9mrMf6UlacQPu
-X-Authority-Analysis: v=2.4 cv=OYANnRTY c=1 sm=1 tr=0 ts=6af4b660 cx=c_pps
- a=bS7HVuBVfinNPG3f6cIo3Q==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+X-Proofpoint-GUID: hv8uoeisqyOL0k8d_Ev_XzfhCsH80Cfx
+X-Proofpoint-ORIG-GUID: hv8uoeisqyOL0k8d_Ev_XzfhCsH80Cfx
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEyMDAxNyBTYWx0ZWRfX35j860kzz0tN
+ 1CRFktopHrMZN9bLEPSsMhiIxI3HVKXf9jf7jvQNCvs1wPIc/H74ntrr/Qc9tQeqruyo60vNybk
+ n2cVEdq2yiesCzzbyPFpu3TDYKzAOonY9tfVc2aq5jZWlMRXBYIuGnBVjgbcZop94BKfHxyy3Eg
+ rsArx3Dn1UOxGQ9Za61LaQsiPRx01BwqxDdyfbCvJrEV2v7gyWntRhZmwCS2AAONYHZ/EvDBC7U
+ hRdpK7GPhiflWq+VKgtYtkfMYTokYnzCTbxwtqS2S2VX6t4mLExLFsmt0eyl6HCBVs3stsDbDic
+ rW8FUMXAwbYPR18t7E/YzOFWa0MpG90M2iBxds+nH3B/Xi7q/xrxrCfRAABbU/mKRi4hVowU1SZ
+ s2ycKRyL4IuFXZPFIvQW96w1YFOg0g3eztLobyvLh74s/e1Ty+6NCZoeLy04dOlDGKo0xEo2fmH
+ hm7FBqH3c5XPF5jkqVA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEyMDAxNyBTYWx0ZWRfX4WfBZ4xW9n4F
+ ZvGpgyV8LexSAviLA7b3YcOASydoLmzYNaB2OI76NcSTxzvF89dsRXBKk8JHlzArNuxhiw94jTE
+ Dq801Y/UxiDyzWwT2cDJbinvljT8i5Q=
+X-Authority-Analysis: v=2.4 cv=Q4BHcI2a c=1 sm=1 tr=0 ts=6af540dc cx=c_pps
+ a=kVLUcbK0zfr7ocalXnG1qA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
  a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
- a=7CQSdrXTAAAA:8 a=XOA6F6MpoYfF4Vds9coA:9 a=CjuIK1q_8ugA:10
- a=vBUdepa8ALXHeOFLBtFW:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-GUID: IDqthJknY3tlkRhx5II9mrMf6UlacQPu
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTExMDA3NCBTYWx0ZWRfX1FV1Q2UcZzPX
- HyyxjjUgeM4w7kYaG7OuzBbGwO+nZyaQNWbHk1FUYUOZz9Cuw4xOL8doOv27JA6RaraBcFqJ7OU
- 7sbDd3Dsswf9ixRW3EBftRQK2q1hpfWY/6x6LLIVy6Bc8y3B2pLv8aClzFJRP2tL9jBTnJVqtjY
- LOYxLST9VU5QM3VTpH5UbBD0k8DtcYOwLctF3D8lAzhdXnmCkTuiDdBdImEEQu1q/1Y+g6RkSfy
- 1VklMIp4/2M6CEJBnT6zW4u0OO5RYjZGQhnhXXuYt42InfH961isr1h1oO5JT1jt4+xIRwBsl27
- ncau1TdrwPnSC3Ih+JH/LrR5gLwdnDi+09Wu2lkWNdfUqkADWYPcvghMt8ORNxGR2KkSHf8tyrQ
- e99BmWZm9+Nt1KCHynxQbYX1ILY/Z2PO/4HhlbivoPdKUSBJKz29rzT/k7VqlHlKA2sg8qEBMLl
- DYlLOQOXioIiSx1l6iQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTExMDA3NCBTYWx0ZWRfXypfW4jrvNXgs
- gcy2RQcqMFkyKDGKoMizlldb92upzSbBcRbqB7qaHTHj8lWFBvxIgKJ0mm8UUj/GFhPHphEgcSB
- JhIAs22OlwapC7VEfRT34Pd4Zzx3VHc=
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=7CQSdrXTAAAA:8 a=bWY2Rz8DxC4JnhDb7tQA:9 a=CjuIK1q_8ugA:10
+ a=vr4QvYf-bLy2KjpDp97w:22 a=a-qgeE7W1pNrGK8U0ZQC:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-11_05,2026-11-11_03,2025-10-01_01
+ definitions=2026-11-12_01,2026-11-11_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0
- phishscore=0 priorityscore=1501 suspectscore=0 bulkscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611110074
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
+ adultscore=0 suspectscore=0 clxscore=1015 bulkscore=0 malwarescore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611120017
 
-On Wed, 11 Nov 2026 10:15:16 +0000
+On Mon,  9 Nov 2026 09:12:04 +0000
 Cristian Marussi <cristian.marussi@arm.com> wrote:
 
-> On Tue, Nov 10, 2026 at 04:38:09PM -0800, Jonathan Cameron wrote:
-> > > The upcoming SCMI v4.0 specification [0] introduces a new SCMI protocol
-> > > dedicated to System Telemetry.
-> > >   
-> > 
-> > Hi Cristian,  
+> Add support for Telemetry operations needed to read DataEvent values and
+> timestamps as single entities or all together in a single bulk buffer.
+> The returned values are effectiely retrieved from the platform only
+> when strictly needed, i.e. when no fresh recent cached value was already
+> available.
+> The DataEvent values are fetched transparently from the platform origins
+> using the proper synchronization and consistency primitives, directly from
+> the SHMTIs areas or the FastChannels memory depending on the configuration.
 > 
-> Hi Jonathan,
-> 
-> thanks for your time...I sincerely hope you're travelling abroad on some
-> remote timezone given the time these reviews came in :D
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 
-I'm based in Pacific time these days so was only 4pm ;)
 
-> 
-> > 
-> > So, the main issue here is pretty much summarized by:
-> > 
-> >  28 files changed, 12801 insertions(+), 99 deletions(-)
-> > (obviously there are tests etc, but it's still > 10k lines)
-> >  
-> 
-> Usually I try to implement the complete set of features of a new protocol
-> but indeed this new Telemetry thing is huge by itself so it became quickly
-> overwhelming to review...imagine to code and test it.
-> 
-> > There are relatively few reviewers who would even consider taking that on.
-> > I foolishly thought it wouldn't be too bad (and I review a lot of code).
-> > By about 3/4 of the way though, probably much earlier, I know the quality
-> > of review went down considerably. Honestly it was probably a waste of
-> > time continuing but I'm stubborn like that.
-> > 
-> > So, unless you have a path to bribing or sweet talking various folk to
-> > deal with reviewing this with each having to set aside multiple days
-> > to do it, likely repeating for a couple of versions yet, I think you've
-> > got to figure out out how to make the first patch set more manageable.
-> > Probably don't split it up as much as the mpam or CCA folk have had to,
-> > but you have a lot of colleagues who are experiencing the same problem
-> > at the moment. They may be able to advise.
-> > 
-> > So it would be nice if what was in that first patch set was 'functional'
-> > but I don't think it needs to function on every systems or support more
-> > than an absolutely minimal feature set.  Just fail to probe when you see
-> > something that isn't supported by that minimal set if that means
-> > the thing won't be functional.
-> > 
-> > Once that's in place, over a couple of additional patch sets you can
-> > get to everything you have here.
-> > 
-> > So what if you choose one data path (shmti perhaps), no notifications,
-> > events, maybe even simplify to one of the readback paths.
-> > Maybe even drop event groups initially.   
-> 
-> Based on our real world initial customer of this I can certainly drop a
-> few features that are not supported anyway by the real FW and move it to
-> a later patchset, stuff like groups, notifications and single sample
-> reads, but all of the rest is hardly removable while keeping the system
-> functional and usable.
+> +static int scmi_telemetry_des_sample_get(const struct scmi_protocol_handle *ph,
+> +					 int grp_id, unsigned int *num_samples,
+> +					 struct scmi_telemetry_de_sample *samples)
+> +{
+> +	struct telemetry_info *ti = ph->get_priv(ph);
+> +	struct scmi_msg_telemetry_config_set *msg;
+> +	struct scmi_xfer *t;
+> +	bool is_group;
+> +	u32 control;
+> +	int ret;
+> +
+> +	if (!ti->info.enabled || !num_samples || !samples ||
+> +	    !ti->info.single_read_support)
 
-For purposes of upstream. I'm not sure we care if a particular implementation
-is useable with the feature set initially supported.  We just care if
-there is a path to test the subset supported (hacks / emulation, whatever is fine).
+Trivial but I think if it's not supported we should return appropriate error
+to indicate that rather than -EINVAL.
 
-> 
-> > Possibly even drop timestamps.  Definitely drop things like boot-on
-> > support and debugfs (unless you are using that as a cheeky 'functional'
-> > test ahead of the main userspace interface.  
-> 
-> Not sure what you mean by drop timestamps, definitelly cannot drop
-> boot-on (it is how systems are configured indeed) neither debugfs used
-> for bring-up and FW debug.
-
-Timestamp variety is complex. Fairly sure you are allowed to report no
-timestamps at all as one option. If you pretend they all look like that
-initially it might bring some simplifications. Anyhow, you know this
-code better than I do, so maybe that is harder than I'm thinking.
-
-I'd still push boot-on out for a follow on patch set.  Sure can
-aim to land that one quickly! Sure customers will
-get irritated by lack of support for what they have. Taking equivalent
-of MPAM.  The initial support for that covered pretty much nothing on
-real platforms. Customers were (and still are) irritated. But that
-allowed progress in the right direction.
-
-> 
-> > 
-> > How much would that slim things down?  It doesn't even have to be
-> > useful, just testable.  Realistically I think the hope of getting
-> > enough review doubles if you can halve the size of what you are asking
-> > people to look at.  
-> 
-> I am not sure how many lines I can shed with the above features drops but
-> I'll give it a go anyway at slimming down the series after I have gone
-> through this round of Sashiko pains.
-
-If we have to fallback to breaking it into steps that don't do much
-more than print a message to say 'stuff found' then do that. It's ugly
-but MPAM did that, RME is doing that. No one likes dead code, but it
-does allow progress to be made.  Ideal is end to end with subset of
-features then add features but not always achievable.
-
-Normal rule of thumb for landing a feature is sub 2k lines of code
-because that is about what a reviewer can digest in one go.
-
-Very rare anything above 5k makes progress. As Sudeep mentioned, a
-lot of folk will open the cover letter, see loc and close it again unread.
-
-Jonathan
-
+> +		return -EINVAL;
+> +
