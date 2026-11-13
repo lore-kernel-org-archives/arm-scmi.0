@@ -1,87 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.51
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794567975;
-	b=ETb7ReH8BKnUIpJAeWsB1ra2Kb5+aWLkBel4XQlKWx78vcDqfykXkSjJGaB/K/jSovoe
-	 KRUemnjUAQ5ZERIE52Tsxpx92m/PAcXuwYmdeilQ+yRaehnXw3AIXT5fmttuYevQYopOM
-	 Uqq+qFm/HDUG0HTqa0Luu/jyjcTng4LKukj/T9dv95s8qJDPIQkLAG8KCUhkEGXR8xiQX
-	 A7JPBuygLViF8ROdby88N0EIghKrDZ8w8xm6GgLEOspyYsqfzNiM/hPN0FezaFbWcnfLs
-	 oNM60qMjLDmkEjuZjkyVlDknEU+avnJ4mBq7LFRJtKSDieP0sA3i7p292UyAeI80hvQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794567975;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
-	 References:In-Reply-To:To:Cc:X-Mailer;
-	bh=/KjHy3hpqhFDwucISqBEqrVFtd2/HO1l3B5+bpONlqw=;
-	b=wyHmApHNiCmDeow/verKoKWQctwEohFLBsbG3KCfqvhqABwoqxK453XgzMNy/NYlFNsW
-	 0gV5OAxen5WhbRmyHQRAXzuHqpD63Mw4zWWEMSbr5UPTomA5VLpc3mKzmDjWa9+flTvds
-	 E66A260F5sK+javwN3Ad0nwpFxV9BYMuME/InNdSB/75zMomSGv/4urxtcU3/yOXwHT/9
-	 etnxXuQoEbfX+KrZ41fWZCceo5HtG0R5jivqASbK0Zj4dOiZED62tqLXY6FszZH5QsC5h
-	 8xm4fbMDsqTp0TIURfZtLKK5Lme9CwZMWQK/xfG1jLHQDiN0/lJdKmBhPEpcwhFfrWw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=UGvaPVFX;
-	arc=none smtp.remote-ip=209.85.208.51
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794576482;
+	b=urjzcbjBRqoiLC8a68wp+i48ljTQ1k0dnvViLTf/psu9ZHOxnacL9TL1JpcJgNEEbDfl
+	 syVe0u0+3arjKxvf7FBOZHqmgkmgGSW6IAdyh5EUQnOsQAckFligs9jkn9wthzAATpSuz
+	 1QnBmJd7kjqWne+FLjk/29JacGuTqu4DZwpOfn0WPIxaiwYTx+d424pAyfJtVWqTO3QJa
+	 xpSr9Be0Bbtd5lNRwG4P2CULALK/U/0zaZrOMG5TyT48DqcQx73vRKpH4hcK27ZjYCccq
+	 VfxB4cfy2OpQYFxPdB/lJoWcOVyOBcovnISYcXFv5DQBOCVyxxyaLOQXDSsMzfpHNBg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794576482;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=iDov9ZN1xjasSemK5K6oKfQPW5U/DY+XpLagOIBt0ec=;
+	b=AEObFCFTeD6UAoeH8OABnw9J5B9zmCsZGG6QWwyBLTh4ddMOQNuN2tZfJ6h9WxIKy5sD
+	 pvjj45oNPIrzrXVUYdxbWqX76uWayw/BhxYcDTztG5xKmGvM1VgYLlONGk8u26U0HMjG4
+	 sIRTLEQuquSP74mCCCayqXVgLcClOaZgtX64jTwQs4MGeMLFVnFNsSRfSI6QjNS70cNBz
+	 Z0yseOu/4Xff+9ZVMEDLOQEtJfdQCikGYgRVa2zaWuawCy/sy2QMpq3Ou53kMXdRs2E52
+	 J3AZw74YANy4Mv3XKCs6D1nLUvCjj7Wes/j2Vatr3X1SHe6r2lcpODQBY0gIPrBSBUg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VgGHwj+V;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1308960A5BDD;
+	Fri, 13 Nov 2026 13:28:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VgGHwj+V
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794576481;
+	b=aL0yTxqBetnUeBlXkddYzcd9iqEA7E7JclnVd6I/FYWdCaz3/MJ0+v4uNbmRhIQ0m2K5
+	 Dx0EoGWavQvDzi46aPQzyoAXguE+Vn/Fr2EmkKFLHagbgLdAqDnCXnO2HleqAYshnJqSt
+	 y0z43NV8HK1NHBGRc0S7sw54YmUe9J0RJpTqPZtHsPnEL2YJiaZ2I1V+8cddIY9PQrcrT
+	 HmFwzcox/DcUFPq1WdgVNsogp9QJuMg4gN1gt50Fe69NLbi5e8BRqGPxZSuHnDpot6Eo/
+	 3pAe3GmUCaHOG3Fj3QaIlbxBo0FZtAqvgSu9okzqBIkSGoKwa6SXhdXKF7s0NMLM78w==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794576481;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=iDov9ZN1xjasSemK5K6oKfQPW5U/DY+XpLagOIBt0ec=;
+	b=a4hWgjHc9UXI8pa2+lqHIQW2IbFaeSr9LZzvwO8I19jEsI/U6PiMtVuLjVljO7zDA+Hp
+	 FfDdscISgVcPdChL6tVW8mnHBkNHITDJR51wCa5rdZkjk522U30mRgcksDH7B2lmS+X3X
+	 MvCi0BaeYVqFIiZSm3LaXQTR3EERvTpBuLPGf3JOLROtVwlFBQCHRhnACWM3kFwtzOQCE
+	 52iAPH+60JArWinTzPE+xO9F33qZvfbwP0hyCow5W40gkoblw2y4Da00iOQk/67Ca4p1J
+	 dxuDtx7HsjwLWno0gtcbg8fh8O+OEinbyL3TYjl7DBvbKDytNW7Ok7PvQZaGJZc2ByQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B88A606B58E
-	for <arm-scmi@vger.kernel.org>; Fri, 13 Nov 2026 11:06:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B88A606B58E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=UGvaPVFX
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6b704171bc9so1337562a12.0
-        for <arm-scmi@vger.kernel.org>; Fri, 13 Nov 2026 03:06:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1794567974; x=1795172774; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/KjHy3hpqhFDwucISqBEqrVFtd2/HO1l3B5+bpONlqw=;
-        b=UGvaPVFXaCC0ucte248TizcD7W7yw/pHeHhjTJobe6gikfzhHMz2YCyodT1C7Vkbqn
-         qcfAKlYUAhMERplEVIHH1b5qvgkPL5HMZbqXJTt4K+cekrobY3z2PNVGONyOL03/R435
-         27kYrIZa5/ZB5AP91k2ugv4MkoUFXC0+vT3g9HRRau9qbtVIsU3h3bj4VE316N4xFPba
-         ubgCWdld6znEW+8dDtq44hjusbxqGQqYXnN4uZ/IOAyw74TKbPvOmGwGoE8AcHg0n+Lj
-         cCqA0jZ11Ibuqc5y80ec28iLLpE8fsiNzLZUT9r+5oNJoaQL8AaCxkxU91vRNRcg/aU2
-         5cQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794567974; x=1795172774;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/KjHy3hpqhFDwucISqBEqrVFtd2/HO1l3B5+bpONlqw=;
-        b=edLQbHJwhSyDHPHrRGYmV3IOqHn4L5D1COc7DXgbBqJfXMnxwG3lXzYyw2iXgUFGz4
-         DbK2ACGkGBd7v2bTMnPhoTI7TQCwa1Z2OBvxGA+8voyH0vik0+o84GxzqzbwBjZVf6pN
-         5F/OH8Ztjll5XmUVt03PNC8zKO1Q8E/0PvH6KEhqWubnJeP/chJMQ/yKhxWWxOLYikfM
-         iyoSnMJO0MUQFwkWfuAGgS6squjFTS4fW+Rpp6peIlxJX/8K7Mp0OInTastk/NWHw9co
-         5obOpz/TE8P4JZjy37hrFxvZYY2fmUBFrdK3i5tElyzrN8Wf92hsb+KCYXGMra1cxFKW
-         X8aA==
-X-Gm-Message-State: APuU4Z9vaneHmLDQSkurVc0XNsmd5S1gwWzhsU/mYaallcJXBO1K4lnN
-	KHsXu2xkuTDJ0df5sl6DWJ1z1ERGH31kEYgGmupC8muD6GDry+SVf9s5n+NC5w3j59U=
-X-Gm-Gg: AYBFou2aye761p23dmn1stvZyDc7SrmcX1Nghw35toWeAmHTEpqogL7FszK8rhNEmN2
-	M7bPPphnRBLW9hM4WkJSLBLosoJyrw8klJpDUKhyFZWTJpJmgsfGFkSIlF9FrCaz6gQLDS2HaOK
-	AT8A2nFOPnfxfB6FGhTPs2XIuB/dNWVFZqb3VUbu4fXCzYrJfsgijYpr+SLMdAH5gWuEGPrsTJl
-	w+JolSNzt/+NRUURE/n54V0EwnJjI34x78u+f/3BEGbbJZ+dBxuPfpVYkbC+1M+CNOHcu/jDSPr
-	FyR4O+Dv4ZtunhaU2tmCyiDKkkOHrKxfXEnqBBQqQjNZ9/kJkjOF5uJacjt+e2ekJoeBMB/pIKp
-	HD72ajZMmBXAQbfr79d/6JZa2HVK+tVZoBnOXQxNdCiP4kQoqUeth8mB7hAPQXw1O/d69sPEMK+
-	n4X5igt4o/QL64/oJLwlZXCYYaNTzHkMMuZ+nd1Aj7S86J/0ciCHkwSo0XPLLKrmr3NEO8p6NtL
-	5aHCRCisAFbvQ3eFxf6wEtTX5O1dEXDq0jQf9JkXcqSzmsW2RkzN9NxcBzS+x8PUa4PEUcWw8gG
-	UlyvFVCo5PB0y2l0zd8tLeCYRhGTFIVfocRboqEO2ezcrNV1t0XM
-X-Received: by 2002:a05:6402:1e94:b0:6b4:201f:17b6 with SMTP id 4fb4d7f45d1cf-6b7c088fdedmr1865175a12.6.1794567973645;
-        Fri, 13 Nov 2026 03:06:13 -0800 (PST)
-Received: from localhost (128.33.83.79.rev.sfr.net. [79.83.33.128])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c608c5debsm4495767f8f.42.2026.11.13.03.06.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 03:06:13 -0800 (PST)
-From: =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>
-Date: Fri, 13 Nov 2026 12:05:37 +0100
-Subject: [PATCH v2 11/11] pinctrl: scmi: select the GPIO function on GPIO
- requests
+	by smtp.kernel.org (Postfix) with ESMTPS id E87521F000C7;
+	Fri, 13 Nov 2026 13:28:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794576481;
+	bh=iDov9ZN1xjasSemK5K6oKfQPW5U/DY+XpLagOIBt0ec=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=VgGHwj+Vt6kHCvWhYnw2azRcpIfLcZZGoo2Cp+MPhwOcodlZUztpjgkGRrZ0PafAT
+	 pQDOpSmMWw/UPOe2U6tw0Bx3kh8oODfA3qB9j6sRgXQjXDICA1ZmgV9nmF6lDkiiSX
+	 CUBPuhdwyfgsYOy/hqvFAPwSYqaNjlr0NcVTW/ZAFKNT9i4p6DgxVCD5odbBGlOQNN
+	 CifvQpNIcST14/pSAXudFXeEeYt9sm9pvnBtEmgNAaxGuzUOJSr+uW8NQUroO6I/69
+	 FCovVxjWc01PJX9Y0aNY8Z66rLLXEy6fY1dRA9lc4yNL6TviwRyNblolRJEEPDOtvL
+	 1sK4PHVwWaaKQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 634A1477B8;
+	Fri, 13 Nov 2026 13:28:00 +0000 (UTC)
+From: Ghennadi Procopciuc via B4 Relay <devnull+ghennadi.procopciuc.oss.nxp.com@kernel.org>
+Date: Fri, 13 Nov 2026 15:27:46 +0200
+Subject: [PATCH RFC 1/2] firmware: arm_scmi: clock: discover clock domains
+ on first use
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -92,110 +84,417 @@ List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20261113-clegoffic-pinctrl-scmi-gpio-v2-11-faccb4685d88@baylibre.com>
-References: <20261113-clegoffic-pinctrl-scmi-gpio-v2-0-faccb4685d88@baylibre.com>
-In-Reply-To: <20261113-clegoffic-pinctrl-scmi-gpio-v2-0-faccb4685d88@baylibre.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>, 
- Cristian Marussi <cristian.marussi@arm.com>, 
- Linus Walleij <linusw@kernel.org>, Peng Fan <peng.fan@nxp.com>, 
- Oleksii Moisieiev <oleksii_moisieiev@epam.com>, 
- Andy Shevchenko <andy@kernel.org>, Dhruva Gole <d-gole@ti.com>, 
- Bartosz Golaszewski <brgl@kernel.org>
-Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>
-X-Mailer: b4 0.17-dev
+Message-Id: <20261113-b4-scmi-clk-on-demand-v1-1-7fd162097b57@oss.nxp.com>
+References: <20261113-b4-scmi-clk-on-demand-v1-0-7fd162097b57@oss.nxp.com>
+In-Reply-To: <20261113-b4-scmi-clk-on-demand-v1-0-7fd162097b57@oss.nxp.com>
+To: Brian Masney <bmasney+clk@redhat.com>, 
+ Sudeep Holla <sudeep.holla@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Jerome Brunet <jbrunet+clk@baylibre.com>, 
+ Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-doc@vger.kernel.org, Alberto Ruiz <aruizrui@redhat.com>, 
+ linux-arm-kernel@lists.infradead.org, Christophe Lizzi <clizzi@redhat.com>, 
+ linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ arm-scmi@vger.kernel.org, Eric Chanudet <echanude@redhat.com>, 
+ Enric Balletbo <eballetb@redhat.com>, NXP S32 Linux Team <s32@nxp.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794576479; l=13263;
+ i=ghennadi.procopciuc@oss.nxp.com; s=20261113; h=from:subject:message-id;
+ bh=m6wgrgZ8AgVX0/wwAJXM4DOFHjBScSop3ClJXnn9sMw=;
+ b=xApzx6ZSen2hAtw9bnDZ8DauhYWK7x6qHBqEqiK+W/e6gZJijVfqg6HoZtvi8VsARU2rSleN3
+ 1hxLktsr6zRCcoFXQlxP9ShjD9fkuQXz72imXvoXYNMOjqncM3+t4c1
+X-Developer-Key: i=ghennadi.procopciuc@oss.nxp.com; a=ed25519;
+ pk=hNLk4ZpONFOVJg3NdDWRU2LtaL+HBg4W2I1KU0+XBmo=
+X-Endpoint-Received: by B4 Relay for
+ ghennadi.procopciuc@oss.nxp.com/20261113 with auth_id=1509
+X-Original-From: Ghennadi Procopciuc <ghennadi.procopciuc@oss.nxp.com>
+Reply-To: ghennadi.procopciuc@oss.nxp.com
+Content-Transfer-Encoding: 7bit
 
-On a GPIO request, select the GPIO function of the pin, on the pin for a
-pin-only function or on its single-pin group. Without a GPIO function the
-mux is left as it is.
+From: Ghennadi Procopciuc <ghennadi.procopciuc@oss.nxp.com>
 
-Signed-off-by: Clément Le Goffic <clegoffic@baylibre.com>
+scmi_clock_protocol_init() queries the attributes, rates and parents of
+every clock domain the platform reports. With hundreds of clocks this is
+more than a thousand messages at init, most of them for clocks that are
+never used.
+
+Query only the protocol version and attributes at init, and discover
+each clock domain on the first operation that needs it.
+
+Discovery can sleep, so the operations that can run in atomic context
+(enable, disable and OEM config) fail with -EAGAIN for a clock that is
+not discovered yet. A clock for which info_get() returned its info is
+always discovered.
+
+A failed discovery is returned to the caller, and the clock is
+discovered again on the next operation, so a transient transport error
+does not leave the clock unusable until the protocol is released. As a
+result, info_get() now returns NULL for a clock whose
+CLOCK_DESCRIBE_RATES fails, and clk-scmi does not register it. Before,
+the clock was registered without rate information.
+
+The rates and parents arrays are now allocated after the devres group of
+the protocol instance is closed, so allocate them with kcalloc() and free
+them in a new instance_deinit callback.
+
+is_notify_supported() is called for every clock when the protocol events
+are registered, before any clock is discovered, and must not trigger
+discovery. It now reports the protocol level support, and
+set_notify_enabled() discovers the clock and rejects it with -EOPNOTSUPP
+if it does not support the event. Every clock is then a supported source
+of the events the protocol supports, so enabling an event for all
+sources discovers every clock.
+No in-tree driver registers SCMI clock notifiers.
+
+Signed-off-by: Ghennadi Procopciuc <ghennadi.procopciuc@oss.nxp.com>
 ---
- drivers/pinctrl/pinctrl-scmi.c | 61 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
+ drivers/firmware/arm/scmi/clock.c | 160 ++++++++++++++++++++++++++++----------
+ include/linux/scmi_protocol.h     |   4 +-
+ 2 files changed, 122 insertions(+), 42 deletions(-)
 
-diff --git a/drivers/pinctrl/pinctrl-scmi.c b/drivers/pinctrl/pinctrl-scmi.c
-index 6d51025013ec..89be533354c0 100644
---- a/drivers/pinctrl/pinctrl-scmi.c
-+++ b/drivers/pinctrl/pinctrl-scmi.c
-@@ -74,6 +74,66 @@ static int pinctrl_scmi_free(struct pinctrl_dev *pctldev, unsigned int offset)
- 	return pinctrl_ops->pin_free(pmx->ph, offset);
+diff --git a/drivers/firmware/arm/scmi/clock.c b/drivers/firmware/arm/scmi/clock.c
+index 0278705d809e..010b63b63703 100644
+--- a/drivers/firmware/arm/scmi/clock.c
++++ b/drivers/firmware/arm/scmi/clock.c
+@@ -5,9 +5,11 @@
+  * Copyright (C) 2018-2022 ARM Ltd.
+  */
+ 
++#include <linux/cleanup.h>
+ #include <linux/math64.h>
+ #include <linux/module.h>
+ #include <linux/limits.h>
++#include <linux/mutex.h>
+ #include <linux/sort.h>
+ 
+ #include "protocols.h"
+@@ -159,6 +161,7 @@ struct scmi_clock_rate_notify_payld {
+ 
+ struct scmi_clock_desc {
+ 	u32 id;
++	bool discovered;
+ 	unsigned int tot_rates;
+ 	struct scmi_clock_rates r;
+ #define	RATE_MIN	0
+@@ -175,6 +178,7 @@ struct clock_info {
+ 	bool notify_rate_changed_cmd;
+ 	bool notify_rate_change_requested_cmd;
+ 	atomic_t cur_async_req;
++	struct mutex discover_lock;	/* serializes the discovery of clkds */
+ 	struct scmi_clock_desc *clkds;
+ #define CLOCK_INFO(c, i)	(&(((c)->clkds + (i))->info))
+ 	int (*clock_config_set)(const struct scmi_protocol_handle *ph,
+@@ -192,15 +196,6 @@ static enum scmi_clock_protocol_cmd evt_2_cmd[] = {
+ 	CLOCK_RATE_CHANGE_REQUESTED_NOTIFY,
+ };
+ 
+-static inline struct scmi_clock_info *
+-scmi_clock_domain_lookup(struct clock_info *ci, u32 clk_id)
+-{
+-	if (clk_id >= ci->num_clocks)
+-		return ERR_PTR(-EINVAL);
+-
+-	return CLOCK_INFO(ci, clk_id);
+-}
+-
+ static int
+ scmi_clock_protocol_attributes_get(const struct scmi_protocol_handle *ph,
+ 				   struct clock_info *ci)
+@@ -271,9 +266,9 @@ static int iter_clk_possible_parents_update_state(struct scmi_iterator_state *st
+ 	if (!st->max_resources) {
+ 		int num_parents = st->num_returned + st->num_remaining;
+ 
+-		p->clkd->info.parents = devm_kcalloc(p->dev, num_parents,
+-						     sizeof(*p->clkd->info.parents),
+-						     GFP_KERNEL);
++		p->clkd->info.parents = kcalloc(num_parents,
++						sizeof(*p->clkd->info.parents),
++						GFP_KERNEL);
+ 		if (!p->clkd->info.parents)
+ 			return -ENOMEM;
+ 
+@@ -484,8 +479,8 @@ iter_clk_describe_update_state(struct scmi_iterator_state *st,
+ 	if (!st->max_resources) {
+ 		unsigned int tot_rates = st->num_returned + st->num_remaining;
+ 
+-		p->clkd->r.rates = devm_kcalloc(p->dev, tot_rates,
+-						sizeof(*p->clkd->r.rates), GFP_KERNEL);
++		p->clkd->r.rates = kcalloc(tot_rates, sizeof(*p->clkd->r.rates),
++					   GFP_KERNEL);
+ 		if (!p->clkd->r.rates)
+ 			return -ENOMEM;
+ 
+@@ -638,6 +633,74 @@ scmi_clock_describe_rates_get(const struct scmi_protocol_handle *ph,
+ 	return 0;
  }
  
-+static int pinctrl_scmi_gpio_mux_set(struct scmi_pinctrl *pmx, unsigned int pin)
++/*
++ * Discovery runs after the devres group of the protocol instance is closed,
++ * so the rates and parents arrays cannot be devm-allocated and are freed
++ * here instead.
++ */
++static void scmi_clock_desc_free(struct scmi_clock_desc *clkd)
 +{
-+	unsigned int nr_functions, nr_elems, nr_pins;
-+	const unsigned int *elems, *pins;
-+	bool pin_only, gpio;
++	kfree(clkd->r.rates);
++	kfree(clkd->info.parents);
++}
++
++static int scmi_clock_discover(const struct scmi_protocol_handle *ph,
++			       struct clock_info *ci, u32 clk_id)
++{
++	struct scmi_clock_desc *clkd = &ci->clkds[clk_id];
 +	int ret;
 +
-+	nr_functions = pinctrl_ops->count_get(pmx->ph, FUNCTION_TYPE);
-+	for (unsigned int func = 0; func < nr_functions; func++) {
-+		ret = pinctrl_ops->function_flags_get(pmx->ph, func, &pin_only, &gpio);
-+		if (ret)
-+			return ret;
++	guard(mutex)(&ci->discover_lock);
 +
-+		if (!gpio)
-+			continue;
++	if (clkd->discovered)
++		return 0;
 +
-+		ret = pinctrl_ops->function_groups_get(pmx->ph, func, &nr_elems, &elems);
-+		if (ret)
-+			return ret;
-+
-+		for (unsigned int i = 0; i < nr_elems; i++) {
-+			if (pin_only) {
-+				if (elems[i] != pin)
-+					continue;
-+
-+				return pinctrl_ops->pin_mux_set(pmx->ph, func, pin);
-+			}
-+
-+			ret = pinctrl_ops->group_pins_get(pmx->ph, elems[i], &pins, &nr_pins);
-+			if (ret)
-+				return ret;
-+
-+			if (nr_pins == 1 && pins[0] == pin)
-+				return pinctrl_ops->mux_set(pmx->ph, func, elems[i]);
-+		}
++	clkd->id = clk_id;
++	ret = scmi_clock_attributes_get(ph, clk_id, ci);
++	if (!ret)
++		ret = scmi_clock_describe_rates_get(ph, clk_id, ci);
++	if (ret) {
++		/*
++		 * Start the next attempt from a clean descriptor, so that a
++		 * transient error does not leave the clock unusable and the
++		 * iterators do not leak the arrays of this attempt.
++		 */
++		scmi_clock_desc_free(clkd);
++		memset(clkd, 0, sizeof(*clkd));
++		return ret;
 +	}
 +
-+	dev_dbg(pmx->dev, "No GPIO function for pin %u, mux left unchanged\n", pin);
++	/* Pairs with the acquire in the lookup */
++	smp_store_release(&clkd->discovered, true);
 +
 +	return 0;
 +}
 +
-+static int pinctrl_scmi_gpio_request_enable(struct pinctrl_dev *pctldev,
-+					    struct pinctrl_gpio_range *range,
-+					    unsigned int offset)
++static struct scmi_clock_info *
++scmi_clock_domain_lookup(const struct scmi_protocol_handle *ph,
++			 struct clock_info *ci, u32 clk_id, bool atomic)
 +{
-+	struct scmi_pinctrl *pmx = pinctrl_dev_get_drvdata(pctldev);
++	struct scmi_clock_desc *clkd;
 +	int ret;
 +
-+	ret = pinctrl_ops->pin_request(pmx->ph, offset);
-+	if (ret)
-+		return ret;
++	if (clk_id >= ci->num_clocks)
++		return ERR_PTR(-EINVAL);
 +
-+	ret = pinctrl_scmi_gpio_mux_set(pmx, offset);
-+	if (ret)
-+		pinctrl_ops->pin_free(pmx->ph, offset);
++	clkd = &ci->clkds[clk_id];
++	/* Pairs with the release once the clock is discovered */
++	if (!smp_load_acquire(&clkd->discovered)) {
++		/* Discovery sleeps, so an atomic caller can only use known clocks */
++		if (WARN_ON_ONCE(atomic))
++			return ERR_PTR(-EAGAIN);
 +
-+	return ret;
++		ret = scmi_clock_discover(ph, ci, clk_id);
++		if (ret)
++			return ERR_PTR(ret);
++	}
++
++	return &clkd->info;
 +}
 +
- static const struct pinmux_ops pinctrl_scmi_pinmux_ops = {
- 	.request = pinctrl_scmi_request,
- 	.free = pinctrl_scmi_free,
-@@ -82,6 +142,7 @@ static const struct pinmux_ops pinctrl_scmi_pinmux_ops = {
- 	.get_function_groups = pinmux_generic_get_function_groups,
- 	.function_is_gpio = pinmux_generic_function_is_gpio,
- 	.set_mux = pinctrl_scmi_func_set_mux,
-+	.gpio_request_enable = pinctrl_scmi_gpio_request_enable,
+ static int
+ scmi_clock_rate_get(const struct scmi_protocol_handle *ph,
+ 		    u32 clk_id, u64 *value)
+@@ -670,7 +733,7 @@ static int scmi_clock_rate_set(const struct scmi_protocol_handle *ph,
+ 	struct clock_info *ci = ph->get_priv(ph);
+ 	struct scmi_clock_info *clk;
+ 
+-	clk = scmi_clock_domain_lookup(ci, clk_id);
++	clk = scmi_clock_domain_lookup(ph, ci, clk_id, false);
+ 	if (IS_ERR(clk))
+ 		return PTR_ERR(clk);
+ 
+@@ -726,7 +789,7 @@ static int scmi_clock_determine_rate(const struct scmi_protocol_handle *ph,
+ 	if (!rate)
+ 		return -EINVAL;
+ 
+-	clk = scmi_clock_domain_lookup(ci, clk_id);
++	clk = scmi_clock_domain_lookup(ph, ci, clk_id, false);
+ 	if (IS_ERR(clk))
+ 		return PTR_ERR(clk);
+ 
+@@ -768,7 +831,7 @@ scmi_clock_all_rates_get(const struct scmi_protocol_handle *ph, u32 clk_id)
+ 	struct scmi_clock_desc *clkd;
+ 	struct scmi_clock_info *clk;
+ 
+-	clk = scmi_clock_domain_lookup(ci, clk_id);
++	clk = scmi_clock_domain_lookup(ph, ci, clk_id, false);
+ 	if (IS_ERR(clk) || !clk->name[0])
+ 		return NULL;
+ 
+@@ -827,7 +890,7 @@ scmi_clock_set_parent(const struct scmi_protocol_handle *ph, u32 clk_id,
+ 	struct clock_info *ci = ph->get_priv(ph);
+ 	struct scmi_clock_info *clk;
+ 
+-	clk = scmi_clock_domain_lookup(ci, clk_id);
++	clk = scmi_clock_domain_lookup(ph, ci, clk_id, false);
+ 	if (IS_ERR(clk))
+ 		return PTR_ERR(clk);
+ 
+@@ -923,7 +986,7 @@ static int scmi_clock_enable(const struct scmi_protocol_handle *ph, u32 clk_id,
+ 	struct clock_info *ci = ph->get_priv(ph);
+ 	struct scmi_clock_info *clk;
+ 
+-	clk = scmi_clock_domain_lookup(ci, clk_id);
++	clk = scmi_clock_domain_lookup(ph, ci, clk_id, atomic);
+ 	if (IS_ERR(clk))
+ 		return PTR_ERR(clk);
+ 
+@@ -940,7 +1003,7 @@ static int scmi_clock_disable(const struct scmi_protocol_handle *ph, u32 clk_id,
+ 	struct clock_info *ci = ph->get_priv(ph);
+ 	struct scmi_clock_info *clk;
+ 
+-	clk = scmi_clock_domain_lookup(ci, clk_id);
++	clk = scmi_clock_domain_lookup(ph, ci, clk_id, atomic);
+ 	if (IS_ERR(clk))
+ 		return PTR_ERR(clk);
+ 
+@@ -1041,7 +1104,7 @@ static int scmi_clock_config_oem_set(const struct scmi_protocol_handle *ph,
+ 	struct clock_info *ci = ph->get_priv(ph);
+ 	struct scmi_clock_info *clk;
+ 
+-	clk = scmi_clock_domain_lookup(ci, clk_id);
++	clk = scmi_clock_domain_lookup(ph, ci, clk_id, atomic);
+ 	if (IS_ERR(clk))
+ 		return PTR_ERR(clk);
+ 
+@@ -1060,7 +1123,7 @@ static int scmi_clock_config_oem_get(const struct scmi_protocol_handle *ph,
+ 	struct clock_info *ci = ph->get_priv(ph);
+ 	struct scmi_clock_info *clk;
+ 
+-	clk = scmi_clock_domain_lookup(ci, clk_id);
++	clk = scmi_clock_domain_lookup(ph, ci, clk_id, atomic);
+ 	if (IS_ERR(clk))
+ 		return PTR_ERR(clk);
+ 
+@@ -1084,7 +1147,7 @@ scmi_clock_info_get(const struct scmi_protocol_handle *ph, u32 clk_id)
+ 	struct scmi_clock_info *clk;
+ 	struct clock_info *ci = ph->get_priv(ph);
+ 
+-	clk = scmi_clock_domain_lookup(ci, clk_id);
++	clk = scmi_clock_domain_lookup(ph, ci, clk_id, false);
+ 	if (IS_ERR(clk))
+ 		return NULL;
+ 
+@@ -1113,23 +1176,16 @@ static const struct scmi_clk_proto_ops clk_proto_ops = {
+ static bool scmi_clk_notify_supported(const struct scmi_protocol_handle *ph,
+ 				      u8 evt_id, u32 src_id)
+ {
+-	bool supported;
+-	struct scmi_clock_info *clk;
+ 	struct clock_info *ci = ph->get_priv(ph);
+ 
+-	if (evt_id >= ARRAY_SIZE(evt_2_cmd))
+-		return false;
+-
+-	clk = scmi_clock_domain_lookup(ci, src_id);
+-	if (IS_ERR(clk))
++	if (evt_id >= ARRAY_SIZE(evt_2_cmd) || src_id >= ci->num_clocks)
+ 		return false;
+ 
++	/* No clock is discovered yet, so report the protocol level support */
+ 	if (evt_id == SCMI_EVENT_CLOCK_RATE_CHANGED)
+-		supported = clk->rate_changed_notifications;
+-	else
+-		supported = clk->rate_change_requested_notifications;
++		return ci->notify_rate_changed_cmd;
+ 
+-	return supported;
++	return ci->notify_rate_change_requested_cmd;
+ }
+ 
+ static int scmi_clk_rate_notify(const struct scmi_protocol_handle *ph,
+@@ -1157,10 +1213,23 @@ static int scmi_clk_set_notify_enabled(const struct scmi_protocol_handle *ph,
+ 				       u8 evt_id, u32 src_id, bool enable)
+ {
+ 	int ret, cmd_id;
++	bool supported;
++	struct scmi_clock_info *clk;
++	struct clock_info *ci = ph->get_priv(ph);
+ 
+ 	if (evt_id >= ARRAY_SIZE(evt_2_cmd))
+ 		return -EINVAL;
+ 
++	clk = scmi_clock_domain_lookup(ph, ci, src_id, false);
++	if (IS_ERR(clk))
++		return PTR_ERR(clk);
++
++	supported = evt_id == SCMI_EVENT_CLOCK_RATE_CHANGED ?
++		    clk->rate_changed_notifications :
++		    clk->rate_change_requested_notifications;
++	if (!supported)
++		return -EOPNOTSUPP;
++
+ 	cmd_id = evt_2_cmd[evt_id];
+ 	ret = scmi_clk_rate_notify(ph, src_id, cmd_id, enable);
+ 	if (ret)
+@@ -1229,9 +1298,20 @@ static const struct scmi_protocol_events clk_protocol_events = {
+ 	.num_events = ARRAY_SIZE(clk_events),
  };
  
- static int pinctrl_scmi_map_pinconf_type(enum pin_config_param param,
++static int scmi_clock_protocol_deinit(const struct scmi_protocol_handle *ph)
++{
++	struct clock_info *cinfo = ph->get_priv(ph);
++	int i;
++
++	for (i = 0; i < cinfo->num_clocks; i++)
++		scmi_clock_desc_free(&cinfo->clkds[i]);
++
++	return 0;
++}
++
+ static int scmi_clock_protocol_init(const struct scmi_protocol_handle *ph)
+ {
+-	int clkid, ret;
++	int ret;
+ 	struct clock_info *cinfo;
+ 
+ 	dev_dbg(ph->dev, "Clock Version %d.%d\n",
+@@ -1250,12 +1330,9 @@ static int scmi_clock_protocol_init(const struct scmi_protocol_handle *ph)
+ 	if (!cinfo->clkds)
+ 		return -ENOMEM;
+ 
+-	for (clkid = 0; clkid < cinfo->num_clocks; clkid++) {
+-		cinfo->clkds[clkid].id = clkid;
+-		ret = scmi_clock_attributes_get(ph, clkid, cinfo);
+-		if (!ret)
+-			scmi_clock_describe_rates_get(ph, clkid, cinfo);
+-	}
++	ret = devm_mutex_init(ph->dev, &cinfo->discover_lock);
++	if (ret)
++		return ret;
+ 
+ 	if (PROTOCOL_REV_MAJOR(ph->version) >= 0x3) {
+ 		cinfo->clock_config_set = scmi_clock_config_set_v2;
+@@ -1272,6 +1349,7 @@ static const struct scmi_protocol scmi_clock = {
+ 	.id = SCMI_PROTOCOL_CLOCK,
+ 	.owner = THIS_MODULE,
+ 	.instance_init = &scmi_clock_protocol_init,
++	.instance_deinit = &scmi_clock_protocol_deinit,
+ 	.ops = &clk_proto_ops,
+ 	.events = &clk_protocol_events,
+ 	.supported_version = SCMI_PROTOCOL_SUPPORTED_VERSION,
+diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
+index 3f7cc35eb861..c326f4edc9a0 100644
+--- a/include/linux/scmi_protocol.h
++++ b/include/linux/scmi_protocol.h
+@@ -84,7 +84,9 @@ enum scmi_clock_oem_config {
+  *	by SCMI Clock Protocol
+  *
+  * @count_get: get the count of clocks provided by SCMI
+- * @info_get: get the information of the specified clock
++ * @info_get: get the information of the specified clock. The clock is
++ *	      discovered on the first call for it, which sends messages to
++ *	      the platform, so this can sleep
+  * @rate_get: request the current clock rate of a clock
+  * @rate_set: set the clock rate of a clock
+  * @determine_rate: determine the effective rate that can be supported by a
 
 -- 
-2.56.1
+2.43.0
+
 
