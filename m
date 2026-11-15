@@ -1,62 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794740929;
-	b=wEBXpfBPiCgKNVU2vqW/+mkTVt8++2nMrX6t0Dr4dgKtCsiTunvyIwGz8n9Y/2i4IOK3
-	 HJUjnrJ1USKIGC/tS3ELMqKADft+hDx5utYU4AKhiwJaJeb/+EF82u9512pHaoQ735JD0
-	 uz+ynjmNIXXtcVz5kEihNv15ancbPYGpA5ECYmegEy9hJveyDTHA23xH2qM6xXkr93QsY
-	 yEjO1g6TAaqD8688SbBNY+x5MgXVPTalZFM3ZoDmW0JPKGz4q3Ag8PS5xieVMxu7hOTMo
-	 +McSYnLQt1jPvIBujejjbuhLidsUH6vq2dlG0U2r6wwjGlNevbqMaxXOCpPkd9DGqPA==
+	t=1794742600;
+	b=VScjUrOl7RtJwNheO068McJhQ05ZOkhZkpkPIGkJ9Oy8NX4SlRqW/cQhksAVpav7O6+q
+	 Nss3l2CUnSlW8TPs+/NAesB0paMW7KK4YQQ+A/CdBWZdjFlZ9fFU85cUpBnoyVerCKmUz
+	 peGecwmwntOKoxFG0TJWmBfrj3E6T+IHO+CEaSdlgvjrcKj3q0CPjmxHcHSMv3pmOT3Wi
+	 qUVsp8VabTg6Anxd8b9gTQE7o6GDUjzaHLVZnviTOwT5Y3+2w9JtOhAaCP7hMtaiwgSq0
+	 bEnAYuD43fSqtMjDziZLTAYsdsnpsLy3TBGQ/yZQXq/26V9Ah9SY+9uogg0S58XRcIQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794740929;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=aY1FUVzzYUMqybTrHy9jtFlDRFG7VeirsrOfiyiEqu4=;
-	b=wzK7fqujiBCbPGMtzaTJOyOi0OFEnIGEC8ZqSrDRn0HDIYi3hLYHM8UctY2lq8PKloHH
-	 8807CgB3sfMtAMShZRleruA1N3iO9zMazMCr3SWyQhmm2BYvPcqyK5Mo/Pf7VfTJfZYrJ
-	 lGhk3YRsATSDWUe5Xicrp9a0s0AtAoBYc0pRcygca6YOcoOwaP0odvSnWOXAGJAu9J/Il
-	 p+cSaXAE6EBwtP0/TyrJvborEsy84cZsg7SHz1MnGOTGqC89hNrI/2CUSBtSB4V6z0fKw
-	 +Xb8nU5P5XTA60Yy5aI+uTSgLVNrR7a+7braEyCDvhi78TWl11Hi6ls/lqBPN2B7i8Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794742600;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=0D5rV4LDcAhDtJrh0J4x1Fo3FNQEer06zKXspgdSqYw=;
+	b=OYiOgu23NPaVorbKjxxg2SH6dZbn5F+d0GpzDh1SDIvyUmchRvTvNcRkexd9HtTb2KGz
+	 LrOXDcrLeylNZIBc7pn7kooeHqEtSqPerWzwLvl7521SEbhnXQ/hE/oIJIxozxLCMJ5ig
+	 XRuhW0X+yR8u3/TTgJMDscT6SZUz/Ile1a/61SP5UMG52k67Chp8E8Hdun9C134yIfbIQ
+	 2csldbVE84O5Pbwwn61iDbFk9RgdPAaSoo4ygR8Xi616bQoS0u4tSQPcr4d24eybPP647
+	 YSeBPG1PfQgx2tvG+z/Vok5hTV5y097zcdSJo0cIkgF7pQA9rf04C4pu+vsfvf3NDHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=arm.com;
 	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=maYAFS7L;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=d9jzsKbl;
 	arc=none smtp.remote-ip=217.140.110.172
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F13CE606A337;
-	Sun, 15 Nov 2026 11:08:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F13CE606A337
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51444606A31A;
+	Sun, 15 Nov 2026 11:36:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51444606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=maYAFS7L
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=d9jzsKbl
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 85B911576;
-	Sun, 15 Nov 2026 03:08:45 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34C0C143D;
+	Sun, 15 Nov 2026 03:36:36 -0800 (PST)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6D5BD3F632;
-	Sun, 15 Nov 2026 03:08:47 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A7D3F3F632;
+	Sun, 15 Nov 2026 03:36:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794740928; bh=8XYAIqtuEIboOHoTpgs3rKIeXDomMa1zPXW7EouXHw0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=maYAFS7LKNSu9ZvS5gAJjVprCUwxmdczl1rZA/MGPT8Vw37dJhphmswHpCfvc6zjY
-	 uhEe8tEuqXrJrbdWyuYXNlBPIuxsTsR5DC7vFdyxKb9rt7IQe7Mqikqr7yQBLdyEbF
-	 jc0th20yALxZoMiQgGIH0C4xBml4/5h+uCCZGmTU=
+	t=1794742599; bh=Z5w+PDWtG8RWg9D5f69nuwbyo8DbysjJ678dY4p5bKk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d9jzsKbl1bSMU1kU+fHYKgnrLlU2hud+iS8+c+E1PgpKaNnEE4VcUXWFoWDxqWVa9
+	 CbjZeQaSGEvWpdRA6GMzq3ZlEfNJHs04hjNExfQ/7VFYV83rBy9JVwumEAh5hi0yce
+	 7wntHzLdhQd4OtVhY/9+qQf3tWpMUOGkVwSDM8Ks=
+Date: Sun, 15 Nov 2026 11:36:28 +0000
 From: Cristian Marussi <cristian.marussi@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	arm-scmi@vger.kernel.org
-Cc: sudeep.holla@kernel.org,
-	philip.radford@arm.com,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>
-Subject: [PATCH 3/3] powercap: arm_scmi: Refactor scmi_zones_register error path
-Date: Sun, 15 Nov 2026 11:05:46 +0000
-Message-ID: <20261115110546.2344308-4-cristian.marussi@arm.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261115110546.2344308-1-cristian.marussi@arm.com>
-References: <20261115110546.2344308-1-cristian.marussi@arm.com>
+To: Philip Radford <philip.radford@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-pm@vger.kernel.org,
+	sudeep.holla@arm.com, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+	quic_sibis@quicinc.com, dan.carpenter@linaro.org, d-gole@ti.com,
+	souvik.chakravarty@arm.com, cristian.marussi@arm.com
+Subject: Re: [PATCH v10 01/13] powercap: Add enable disable control-type
+Message-ID: <avmZPMOK8ynHMN0I@pluto>
+References: <20261103231007.537082-1-philip.radford@arm.com>
+ <20261103231007.537082-2-philip.radford@arm.com>
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -66,94 +65,233 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261103231007.537082-2-philip.radford@arm.com>
 
-Refactor and simplify scmi_zones_register error path by using
-cleanup handlers.
+On Tue, Nov 03, 2026 at 11:09:55PM +0000, Philip Radford wrote:
+> Add functionality to disable or enable the Powercap control-type by writing
+> directly into sys/class/powercap/arm-scmi/enabled.
+> 
 
-No functional change.
+Hi Philip,
 
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
----
- drivers/powercap/arm_scmi_powercap.c | 26 +++++++++++---------------
- 1 file changed, 11 insertions(+), 15 deletions(-)
+see a some general remarks down below.
 
-diff --git a/drivers/powercap/arm_scmi_powercap.c b/drivers/powercap/arm_scmi_powercap.c
-index dbc9871fc1e2..6346037c889d 100644
---- a/drivers/powercap/arm_scmi_powercap.c
-+++ b/drivers/powercap/arm_scmi_powercap.c
-@@ -5,6 +5,7 @@
-  * Copyright (C) 2022 ARM Ltd.
-  */
- 
-+#include <linux/cleanup.h>
- #include <linux/device.h>
- #include <linux/math.h>
- #include <linux/limits.h>
-@@ -368,11 +369,12 @@ static int scmi_powercap_register_zone(struct scmi_powercap_root *pr,
- static int scmi_zones_register(struct device *dev,
- 			       struct scmi_powercap_root *pr)
- {
--	int ret = 0;
- 	unsigned int sp = 0, reg_zones = 0;
--	struct scmi_powercap_zone *spz, **zones_stack;
-+	struct scmi_powercap_zone *spz;
-+	int ret = 0;
- 
--	zones_stack = kzalloc_objs(spz, pr->num_zones);
-+	struct scmi_powercap_zone **zones_stack __free(kfree) =
-+		kzalloc_objs(spz, pr->num_zones);
- 	if (!zones_stack)
- 		return -ENOMEM;
- 
-@@ -396,9 +398,7 @@ static int scmi_zones_register(struct device *dev,
- 					parent->invalid ? "hole" : "cycle",
- 					parent->info->id);
- 				scmi_powercap_unregister_all_zones(pr);
--				ret = -EINVAL;
--				reg_zones = 0;
--				goto out;
-+				return -EINVAL;
- 			}
- 			zones_stack[sp++] = spz;
- 			spz = parent;
-@@ -407,16 +407,14 @@ static int scmi_zones_register(struct device *dev,
- 			if (!ret) {
- 				reg_zones++;
- 			} else if (sp) {
--				/* Failed to register a non-leaf zone.
--				 * Bail-out.
--				 */
-+				/* Failed to register a non-leaf zone. Bail-out. */
- 				dev_err(dev,
- 					"Failed to register non-leaf zone ID %u - ret:%d\n",
- 					spz->info->id, ret);
- 				scmi_powercap_unregister_all_zones(pr);
--				reg_zones = 0;
--				goto out;
-+				return ret;
- 			}
-+
- 			/* Pick next zone to process */
- 			if (sp)
- 				spz = zones_stack[--sp];
-@@ -426,13 +424,11 @@ static int scmi_zones_register(struct device *dev,
- 							       node);
- 		}
- 	}
--	ret = 0;
- 
--out:
--	kfree(zones_stack);
-+	/* If we get here any previous error was on a leaf zone, so ignored */
- 	dev_info(dev, "Registered %d SCMI Powercap domains !\n", reg_zones);
- 
--	return ret;
-+	return 0;
- }
- 
- static int scmi_powercap_probe(struct scmi_device *sdev)
--- 
-2.54.0
+> Signed-off-by: Philip Radford <philip.radford@arm.com>
+> ---
+> V9->V10
+> - changed control-type enable writes to snapshot per-zone state instead of
+>   aggregate
+> - cancel enable/disable writes if a root child zone is not configurable
+> - roll back changed zones on failure
+> - changed control-type enable reads to report enabled if any root child zone
+>   is enabled
+> ---
+>  drivers/powercap/arm_scmi_powercap.c | 175 ++++++++++++++++++++++++++-
+>  1 file changed, 174 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/powercap/arm_scmi_powercap.c b/drivers/powercap/arm_scmi_powercap.c
+> index ab66e9a3b1e2..ba398048bf21 100644
+> --- a/drivers/powercap/arm_scmi_powercap.c
+> +++ b/drivers/powercap/arm_scmi_powercap.c
+> @@ -33,13 +33,171 @@ struct scmi_powercap_zone {
+>  
+>  struct scmi_powercap_root {
+>  	unsigned int num_zones;
+> +	bool enabled;
+> +	struct list_head node;
+>  	struct scmi_powercap_zone *spzones;
+>  	struct list_head *registered_zones;
+>  	struct list_head scmi_zones;
+>  };
+>  
+> +static LIST_HEAD(scmi_powercap_roots);
+> +static DEFINE_MUTEX(scmi_powercap_roots_lock);
+> +
+>  static struct powercap_control_type *scmi_top_pcntrl;
+>  
+> +static bool scmi_powercap_is_control_type_child(const struct scmi_powercap_zone *spz)
+> +{
+> +	return spz->registered && !spz->invalid &&
+> +	       spz->info->parent_id == SCMI_POWERCAP_ROOT_ZONE_ID;
 
+Not sure to remember clearly the logic here, but is it possible for a
+zone to be registered and invalid ?
+I made some recent changes/fixes but the invariant that registered
+implied !invalid seemed to apply before and after my fixes...
+
+> +}
+> +
+> +static int
+> +scmi_powercap_read_root_children_enable_state(struct scmi_powercap_root *pr, bool *mode)
+> +{
+> +	struct scmi_powercap_zone *spz;
+> +	bool enabled;
+> +	int i, ret;
+> +
+> +	*mode = false;
+> +
+> +	for (i = 0; i < pr->num_zones; i++) {
+
+	for (int i = 0 ...
+
+> +		spz = &pr->spzones[i];
+> +
+> +		if (!scmi_powercap_is_control_type_child(spz))
+> +			continue;
+> +
+> +		ret = powercap_ops->cap_enable_get(spz->ph, spz->info->id, &enabled);
+> +		if (ret)
+> +			return ret;
+> +
+> +		if (enabled) {
+> +			*mode = true;
+> +			return 0;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +struct scmi_powercap_zone_state {
+> +	struct scmi_powercap_zone *spz;
+> +	bool prev_enabled;
+> +	bool changed;
+> +};
+> +
+> +static int
+> +scmi_powercap_control_type_set_enable(struct powercap_control_type *pct, bool mode)
+> +{
+> +	struct scmi_powercap_zone_state *states;
+> +	struct scmi_powercap_root *pr;
+> +	struct scmi_powercap_zone *spz;
+> +	int num_zones = 0, nr_states = 0;
+> +	int i, ret = 0;
+
+... while looking at some other previous Sashiko reported powercap issue
+I had a superficial look at this, and beside the logic that seems to be
+fine by itself, the code layout is deadly unreadable, thing which is
+pretty normal to happen when there is a mix of allocations mutexes and
+various error exit path....please refactor using cleanup handlers to
+manage all of this allocations and mutexes, it should allow you to drop
+all the gotos and keep a more linear logic across all of this fucntion..
+(and NOTE that when using cleanup.h you MUST drop all of the gotos in
+this function...all info inside cleanup.h too)
+ 
+> +
+> +	mutex_lock(&scmi_powercap_roots_lock);
+> +	list_for_each_entry(pr, &scmi_powercap_roots, node) {
+> +		for (i = 0; i < pr->num_zones; i++) {
+> +			spz = &pr->spzones[i];
+> +
+> +			if (scmi_powercap_is_control_type_child(spz))
+> +				num_zones++;
+> +		}
+> +	}
+> +
+> +	states = kcalloc(num_zones, sizeof(*states), GFP_KERNEL);
+> +	if (!states) {
+> +		ret = -ENOMEM;
+> +		goto out_unlock;
+> +	}
+> +
+> +	list_for_each_entry(pr, &scmi_powercap_roots, node)	{
+> +		for (i = 0; i < pr->num_zones; i++) {
+> +			spz = &pr->spzones[i];
+> +
+> +			if (!scmi_powercap_is_control_type_child(spz))
+> +				continue;
+> +
+> +			if (!spz->info->powercap_cap_config) {
+> +				ret = -EOPNOTSUPP;
+> +				goto out_free;
+> +			}
+> +
+> +			states[nr_states].spz = spz;
+> +
+> +			ret = powercap_ops->cap_enable_get(spz->ph, spz->info->id,
+> +				&states[nr_states].prev_enabled);
+
+also...I have not checked this myself, BUT do you use checkpatch --strict that I
+can see a few strange indents...
+
+> +
+> +			if (ret)
+> +				goto out_free;
+> +
+> +			nr_states++;
+> +		}
+> +	}
+> +
+> +	for (i = 0; i < nr_states; i++) {
+> +		spz = states[i].spz;
+> +
+> +		if (states[i].prev_enabled == mode)
+> +			continue;
+> +
+> +		ret = powercap_ops->cap_enable_set(spz->ph, spz->info->id, mode);
+> +		if (ret)
+> +			goto revert;
+> +
+> +		states[i].changed = true;
+> +	}
+> +
+> +	goto out_free;
+> +
+> +revert:
+> +	while (i--) {
+> +		spz = states[i].spz;
+> +
+> +		if (!states[i].changed)
+> +			continue;
+> +
+> +		powercap_ops->cap_enable_set(spz->ph, spz->info->id,
+> +			states[i].prev_enabled);
+
+ditto...checkpatch
+
+> +	}
+> +
+> +out_free:
+> +			kfree(states);
+> +
+ditto...checkpatch
+> +out_unlock:
+> +			mutex_unlock(&scmi_powercap_roots_lock);
+ditto...checkpatch
+> +
+> +			return ret;
+> +}
+> +
+> +static int
+> +scmi_powercap_control_type_get_enable(struct powercap_control_type *pct, bool *mode)
+> +{
+> +	struct scmi_powercap_root *pr;
+> +	int ret = 0;
+> +
+
+same here...even if it is a smaller function using cleanup guard helps
+streamlining the code...
+
+> +	*mode = false;
+> +
+> +	mutex_lock(&scmi_powercap_roots_lock);
+> +	list_for_each_entry(pr, &scmi_powercap_roots, node) {
+> +		ret = scmi_powercap_read_root_children_enable_state(pr, &pr->enabled);
+> +
+> +		if (ret)
+> +			break;
+> +		if (pr->enabled) {
+> +			*mode = true;
+> +			break;
+> +		}
+> +	}
+> +	mutex_unlock(&scmi_powercap_roots_lock);
+> +
+> +	return ret;
+> +}
+> +
+
+Thanks,
+Cristian
