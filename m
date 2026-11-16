@@ -1,78 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794817380;
-	b=OxEkT7W/sxm6ZQC+2pELvSZx5hOlqBTKbTcZ+Q0k+OUT0peZvRjTK5swefgtFqXFfQeI
-	 QtZFoP3jG2rdprCW/w7FElnV3ov/mFQeYhLcKWpB7EfXbpQ7gTErxXECu5s7jPqJuok8v
-	 v9FMM5ljel9umZslVOCp48BrVjMwaTHfYj49rw5P6RtiR1/PsOaCd8Ra+lq4vT6gTJRfC
-	 qchb6tsbJy7QZYbr+lajNYA668pR5X+i8sgegE3Lg+Vp/aVW5rjEG/S3OskcMnVf4Oiwp
-	 LVv43DR0Rzm+LSPsh2AubJ1hcNa756+iJLVSOzEYiPUDPq22EyA3TOyto8R6Dl4l7iQ==
+	t=1794818680;
+	b=urBs/UAZ1UW4Wf/vP0Y8DVh/Ls9/OnYIh0+O6lKvUt9DlDpYvADgJGKX6zjoNszXJ80I
+	 xotoUTRHYGxziN/lxfm9WG6oHVPH/8YG/J4msPyG7J6wX5xlYLODEGpQ+jASPOUULajVp
+	 3O4OXXl3n6C22cc6DzAyV1Owk7at4E26O38zCYVVllXV0Iuyq76sX5YEmswxuaAkMC2Xe
+	 YU5QnB6sFGxGnkI0sNtLCIfzBaxZZKneUvbVYxdj+V6tpu2LghPnMaa46YC+05N2PIPm8
+	 zPVsPe+4FrsKsmttE5mgkyeOjvEaXwmbG5oGUZx9cUNprvOSFLzwuTHp7MWinVYSOuQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794817380;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:X-UD-Smtp-Session:Date:
-	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=euH0BJNlYcSHq5yr15pcFlaT205pABUUGFubW7NpuMk=;
-	b=0iTN8eT2zpdN//2Lru96YWwvxkExY+ZcFg3+ezS33ht7sjVxl7L9xJG9tdH1EuuAZL9b
-	 pDIWSw84p5mnT9ccm4BW7V1bs5Scyf5or7S2w/IWTxxEuVp71pjHQsH9lsXaAzj7b2Mjm
-	 KRh2k3PeJGHlmio+XBHqRkXf1Co/v3nIPfKP9Nqx+tSUqrnok8H/VVw0o476qpel0RpJR
-	 VIqUfFgzRUMMv88Vuid+43BBm/VvOlFYJvV+mjsgiLhndshXLdd+ice91z0O3afcliLfv
-	 Hna+FLMx6ZJ5WYnE+lW+ErVqzKRf9u6Lgr8+HdasoQFoVqAMnKEZMgcBSOjhe6wO1Kw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794818680;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=rtFnDyl47tsTGuxK40gEh/K+aKI4GtpFKqvWpQwqqwQ=;
+	b=ZmmLX58f6KY+racy8F+SEkKAaHzqGWk/rYoUtl3liCr7c6+d/dFoCBnfmz1w3+oxWjeQ
+	 xbFrjYOuhlEbvZXiSAf3OGZqk+iPdhQLtzjfpGovkPt9C8GnZQO5sxNLUNTvy7YrOtuzh
+	 YrsRfnLPD44til9kKpFsxl9j5KnkTu8Vb22tz8HTJqzcvZ0TmTlVl9Qk/EnFiXhQcMmzw
+	 L+j8mgDwuJf2gXAnaIUGBJeFeLo7KvA2K+Mj9iYXWIhIaOBYgIQmeFhOnvCqwvNdlqoz7
+	 VM69FwguunVM8pYoWWbWK8VdUeEbLsA7YraYq7g57ON6GtFTMEIufMjhd69erOH5V/w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=sang-engineering.com;
-	spf=pass smtp.mailfrom=sang-engineering.com;
-	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=Q95X8rex;
-	arc=none smtp.remote-ip=194.117.254.33
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F067606A332
-	for <arm-scmi@vger.kernel.org>; Mon, 16 Nov 2026 08:22:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F067606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=cUGU25fK;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D378606A329;
+	Mon, 16 Nov 2026 08:44:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D378606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=Q95X8rex
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=euH0
-	BJNlYcSHq5yr15pcFlaT205pABUUGFubW7NpuMk=; b=Q95X8rexII/3mzewfYJW
-	zxeUCE/7KqQCyMLyUMmoeiOuyWjlTDU3Yc5WuzAQun5UV9NomJD+Ib327u1CS29D
-	shtsvpCX0eqF0eEivl5cIuWdGSKGRcdUNH2AUiHRUHIvA3n/tvaSrHAzyc4CYfoa
-	uipewViPV66CHwwtpqiRO3D6fefOqCDADfJNOpl2zduSD8JVzHk02Nu0VIHQZ9YS
-	TjLAmPZw9mgkrkzy2e14AgsJ6ndq0fnQYF8CsGybikyICE2iFjgDs7qW6VY8MGj1
-	laiTd9GEpgasBafTlf2S8/PayX47qKq/sVSbGcq+BQ1DSzqGvQ/lupXTlDUfliK6
-	NQ==
-Received: (qmail 1195362 invoked from network); 16 Nov 2026 09:22:56 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Nov 2026 09:22:56 +0100
-X-UD-Smtp-Session: l3s3148p1@uvIkfGBgKooujnv5
-Date: Mon, 16 Nov 2026 09:22:56 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Ulf Hansson <ulfh@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Kevin Hilman <khilman@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	=?utf-8?Q?Cl=C3=A9ment?= Le Goffic <clegoffic@baylibre.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 8/8] arm64: dts: renesas: ironhide: Enable SCMI devpd,
- sys, clock, and reset
-Message-ID: <avq9YAeAsAgc-btt@shikoro>
-References: <cover.1792163045.git.geert+renesas@glider.be>
- <a66c5ceda67314eb9e86224eb555adf5ce00ecbb.1792163045.git.geert+renesas@glider.be>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=cUGU25fK
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8F6B91476;
+	Mon, 16 Nov 2026 00:44:35 -0800 (PST)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7AE4C3F673;
+	Mon, 16 Nov 2026 00:44:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1794818678; bh=NV4ryiahK74Sd/qVQCgOoI8Ogk6RRN3p9sla8O177pg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=cUGU25fKj58px44C0ZYSxLTw6qwjJ6MulVGA4vFhSi1NyWt38ykS5l1v9kiWxN8+u
+	 p49ziWScwTD7GKlFdlD+2krHBTcagLyOsSD4e0piEsbXIy46fWNasTm3o5eL5O/OGJ
+	 g516rpXghT/27um4/Yh3bOuFk+4Rrb2LFUYNrM/w=
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org
+Cc: sudeep.holla@kernel.org,
+	philip.radford@arm.com,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [PATCH 0/2] SCMI Power Control fixes
+Date: Mon, 16 Nov 2026 08:42:09 +0000
+Message-ID: <20261116084211.3066460-1-cristian.marussi@arm.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -82,19 +61,33 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a66c5ceda67314eb9e86224eb555adf5ce00ecbb.1792163045.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 16, 2026 at 05:55:47PM +0200, Geert Uytterhoeven wrote:
-> SCP FW SDKv4.28.0 and later for Renesas R-Car X5H Ironhide not only
-> implement the SCMI base protocol, but also the SCMI power domain, system
-> power, clock, and reset domain management protocols.
-> 
-> Enable support for the latter by adding the corresponding SCMI protocol
-> subnodes.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi,
 
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Patch 1/2 is a fix to a possible deadlock already posted on the list which
+had still some residual issues as flagged by Sashiko: I addressed such
+issues (hopefully) maintaining the original authorship and reposted within
+this series to minimize conflicts.
+
+Patch 2/2 is a rework aiming at fixing some unbind-time issues flagged by
+Sashiko.
+
+Based on v7.4-rc2.
+
+Thanks,
+Cristian
+
+Chengyu Liu (1):
+  firmware: arm_scmi: Fix deadlock between reboot notifier and forceful
+    work
+
+Cristian Marussi (1):
+  firmware: arm_scmi: Fix SCMI Power Control driver removal
+
+ .../firmware/arm_scmi/scmi_power_control.c    | 102 +++++++++++++++---
+ 1 file changed, 89 insertions(+), 13 deletions(-)
+
+-- 
+2.54.0
 
