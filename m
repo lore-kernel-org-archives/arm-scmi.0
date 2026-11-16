@@ -1,52 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.117.254.33
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794817372;
-	b=z1qlBpay9dtXJYeHF2z645m7ei6PQNYNHvG1vlYNNspvEKssNA/LweotwFz0v1QQGOYx
-	 B5Qyc4fif/MiLQMOU4HsPRqCyHuOP8ijvF3OsmuIbx3eSArm8fVtwbebX/7H1OoGBh2LK
-	 yK7EfqErtFi3zBszU/TjRu1zmJ4y64+DsT4d8oLsgP5okidQXSLteIAb4p96mFA+JwzYf
-	 RyMbqDfoBISw8RlOcb9csXwa089aeUfPCHJOQPA89aa/nGM+/6QDybSuQfcxLLQg1Jtwj
-	 AbilhZrrOIBH57XREhyPnTlQc4IDsma8hHV4XW0QqsJH9tiMPFhC5zbZdxOpT/M3O0Q==
+	t=1794817380;
+	b=OxEkT7W/sxm6ZQC+2pELvSZx5hOlqBTKbTcZ+Q0k+OUT0peZvRjTK5swefgtFqXFfQeI
+	 QtZFoP3jG2rdprCW/w7FElnV3ov/mFQeYhLcKWpB7EfXbpQ7gTErxXECu5s7jPqJuok8v
+	 v9FMM5ljel9umZslVOCp48BrVjMwaTHfYj49rw5P6RtiR1/PsOaCd8Ra+lq4vT6gTJRfC
+	 qchb6tsbJy7QZYbr+lajNYA668pR5X+i8sgegE3Lg+Vp/aVW5rjEG/S3OskcMnVf4Oiwp
+	 LVv43DR0Rzm+LSPsh2AubJ1hcNa756+iJLVSOzEYiPUDPq22EyA3TOyto8R6Dl4l7iQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794817372;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794817380;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:X-UD-Smtp-Session:Date:
 	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=LhPPM3zT6vPGJYGyZWFJeeyKRU3pFACsJcPyj9KudI4=;
-	b=5KKhXD2bAjtq74pS+Eb/eOsm92PIkbnAn1ASWOPpIOqdAITQkWIJ0bZSmagBgGqhWwAa
-	 GhekBqaNKKzFkgRXRHUcRD42rFYG6b31piQb3BtO0cfNuj8NmJU9TY4G8feJy8cIJzSrj
-	 ZbtjUON+BHnK7JzSTU4cExT5zYY2wqJRgXdBbfl1CVt+i0gUynbPt1AHF5hJCuJ7dLd6P
-	 XNKNwjY6iY+Zq1/Kfb5FrqoVDqsCKs+TIIV99X34B0mlaYZV55u/dJ9rBHG/iK4wLJR03
-	 66CuIbFwqVyAbgVgHJiQzZ28yJIro3mHWPP6bhzWOdvH6+YbshS9q6zusy0bTocXQHg==
+	bh=euH0BJNlYcSHq5yr15pcFlaT205pABUUGFubW7NpuMk=;
+	b=0iTN8eT2zpdN//2Lru96YWwvxkExY+ZcFg3+ezS33ht7sjVxl7L9xJG9tdH1EuuAZL9b
+	 pDIWSw84p5mnT9ccm4BW7V1bs5Scyf5or7S2w/IWTxxEuVp71pjHQsH9lsXaAzj7b2Mjm
+	 KRh2k3PeJGHlmio+XBHqRkXf1Co/v3nIPfKP9Nqx+tSUqrnok8H/VVw0o476qpel0RpJR
+	 VIqUfFgzRUMMv88Vuid+43BBm/VvOlFYJvV+mjsgiLhndshXLdd+ice91z0O3afcliLfv
+	 Hna+FLMx6ZJ5WYnE+lW+ErVqzKRf9u6Lgr8+HdasoQFoVqAMnKEZMgcBSOjhe6wO1Kw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=sang-engineering.com;
 	spf=pass smtp.mailfrom=sang-engineering.com;
-	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=gQ1VwnfB;
+	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=Q95X8rex;
 	arc=none smtp.remote-ip=194.117.254.33
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3345606A333
-	for <arm-scmi@vger.kernel.org>; Mon, 16 Nov 2026 08:22:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3345606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F067606A332
+	for <arm-scmi@vger.kernel.org>; Mon, 16 Nov 2026 08:22:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F067606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=gQ1VwnfB
+	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=Q95X8rex
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=LhPP
-	M3zT6vPGJYGyZWFJeeyKRU3pFACsJcPyj9KudI4=; b=gQ1VwnfB/C3G2TjaGW/u
-	C5mnLKImza5xSvZ8/Y4rmPCPquRmolZ0dZDQO4CyyhE1Dkdp1UfEcC53mvU2M28n
-	0EcIQ4W0OE2K7w/n0l5NO6Sc/sPjkwOGhIRmf9DRqTtFjHgg/4bLtcFUg755nQ0i
-	iO+bHKlOv8AyMSVCdjTRPJd9gkYBwdSxR+8XPwvyOjraksJ4ERFaw/MthF2jIByl
-	bzqK8/96ge1aZo7odRBwLUV5+EqbQyrJoIftzGDOBQWF2uTtHsmhkhL7l/bvj9Em
-	Ptl3naiUw8J9GIwNpEaXaunDNU7asy5D9qrkuRmmCzSCH6acUui7lywY6i2sOvBC
-	hw==
-Received: (qmail 1195199 invoked from network); 16 Nov 2026 09:22:48 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Nov 2026 09:22:48 +0100
-X-UD-Smtp-Session: l3s3148p1@BXSwe2Bgdt4ujnv5
-Date: Mon, 16 Nov 2026 09:22:48 +0100
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=euH0
+	BJNlYcSHq5yr15pcFlaT205pABUUGFubW7NpuMk=; b=Q95X8rexII/3mzewfYJW
+	zxeUCE/7KqQCyMLyUMmoeiOuyWjlTDU3Yc5WuzAQun5UV9NomJD+Ib327u1CS29D
+	shtsvpCX0eqF0eEivl5cIuWdGSKGRcdUNH2AUiHRUHIvA3n/tvaSrHAzyc4CYfoa
+	uipewViPV66CHwwtpqiRO3D6fefOqCDADfJNOpl2zduSD8JVzHk02Nu0VIHQZ9YS
+	TjLAmPZw9mgkrkzy2e14AgsJ6ndq0fnQYF8CsGybikyICE2iFjgDs7qW6VY8MGj1
+	laiTd9GEpgasBafTlf2S8/PayX47qKq/sVSbGcq+BQ1DSzqGvQ/lupXTlDUfliK6
+	NQ==
+Received: (qmail 1195362 invoked from network); 16 Nov 2026 09:22:56 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Nov 2026 09:22:56 +0100
+X-UD-Smtp-Session: l3s3148p1@uvIkfGBgKooujnv5
+Date: Mon, 16 Nov 2026 09:22:56 +0100
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -68,11 +68,11 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
 	linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 7/8] pmdomain: renesas: r8a78000: Add SCMI remapping
- support
-Message-ID: <avq9WBwBMtb5YeKx@shikoro>
+Subject: Re: [PATCH v4 8/8] arm64: dts: renesas: ironhide: Enable SCMI devpd,
+ sys, clock, and reset
+Message-ID: <avq9YAeAsAgc-btt@shikoro>
 References: <cover.1792163045.git.geert+renesas@glider.be>
- <2895c8f3cbe718dc597ad25e16c2461f0d681ab6.1792163045.git.geert+renesas@glider.be>
+ <a66c5ceda67314eb9e86224eb555adf5ce00ecbb.1792163045.git.geert+renesas@glider.be>
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -84,32 +84,16 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2895c8f3cbe718dc597ad25e16c2461f0d681ab6.1792163045.git.geert+renesas@glider.be>
+In-Reply-To: <a66c5ceda67314eb9e86224eb555adf5ce00ecbb.1792163045.git.geert+renesas@glider.be>
 
-On Fri, Oct 16, 2026 at 05:55:46PM +0200, Geert Uytterhoeven wrote:
-> Extend the Module Controller driver for R-Car X5H with SCMI support, to
-> remap hardware power domain, module, and reset IDs to abstractions
-> (power domains, clocks, and resets) offered by the SCMI firmware when
-> running on a system with SCMI, and SCMI support is enabled.  Take into
-> account some peculiarities of the current SCMI firmware implementations,
-> like missing handling of gateable functional clock parents.
-> Support for power domains, and module clocks and resets used by serial,
-> I2C, and SPI devices is included.
+On Fri, Oct 16, 2026 at 05:55:47PM +0200, Geert Uytterhoeven wrote:
+> SCP FW SDKv4.28.0 and later for Renesas R-Car X5H Ironhide not only
+> implement the SCMI base protocol, but also the SCMI power domain, system
+> power, clock, and reset domain management protocols.
 > 
-> Note that SCMI clocks representing hardware modules expose access to
-> Module Standby control: they are fake clocks, with a zero clock rate,
-> that can just be enabled and disabled.  Hence they are controlled from
-> the clock domain's start/stop callbacks, together with gateable
-> functional clock parents.
+> Enable support for the latter by adding the corresponding SCMI protocol
+> subnodes.
 > 
-> This lets us avoid putting SCMI IDs in DT, and allows us to use the same
-> hardware description in SoC DTS for systems with and without SCMI
-> firmware.
-> 
-> For now, it is assumed SCMI power domain, clock, and reset IDs are
-> stable, and match SCP FW SDKv4.31.0 and later.
-> 
-> Suggested-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
