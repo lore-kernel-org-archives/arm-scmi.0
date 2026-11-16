@@ -1,57 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794818931;
-	b=t9gpAWngiDCFp2qEb9O8pu7sLGzXM2ldZ/L7q2pxi0Yjh2QCiQ7p0Ocs1o0WsUw/G8QP
-	 rtf7h7p1yQLAqevGOvEKtwaIZYzPVm9j9Xk95NWiXbNTO84GDDuQeqowtnGYEuTvAi2b5
-	 AqwM6wdIXFCXZl0n0u1DhhhR7NsH1aEmOOvf+FMB7QPBt+W9PTZDZFalhuPV/3M++MoG3
-	 u3EH75C/QX8lwUaINMWw5bPRAWGmgE8H5mJasmWYA/OXmfJrSmHAMH+649Kd5+Fam52VD
-	 GwHnZJmtwEOiwGyNbow6gC+5giQFNEPeXv7/nuRwrDO/w+daMi+dC1JQ7egVHhigeNw==
+	t=1794823215;
+	b=HBNpGRRG9xW09RY6I21fX37rJfLwbaCGaLVsv73rdUfCZIAGcYPkTywxqbRHPyxTkA7I
+	 8TnBAealeKw365psn/1dqfVFI0ZpZwayeaskerW4N5WyPV469Wm6/Qur9Un18ID7ybigq
+	 QX9ZFDMonPpSAbuky3Gv91YockHXdm029yjH2AWOcTv0unJTLiiV/H53MDZa5BXEVbjUQ
+	 3mnNYDMYEklkcAe0rXpgsocITQ4vrVS3hR8PrCCHsr8GhB39cQZ3TzEiIe3ztFbRCM36D
+	 CyTVuFwWDQZI3s3h1WgV+I261zGR7qHvhRX006Mr+X/OfIbt5owvzrb6+eT18GNZ2nQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794818931;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=cRVaCL7qU/Nur8d4hgs/SV92X/SL9mr/1daLWF0YHKI=;
-	b=STxujYFlUrhM1OCs4symiMGqEO0KFX7hjFYuofS8xLF4tEQPgOfRTNdnVJ9lrIbxFLmj
-	 yuZ8Ahr4KcKzY0EqHl5zgaN5ScnYv2zO923QvfsqKqOsJ/cQoZxmO+1VvUUg8sWwPwnXA
-	 YenbCrrVJvz0fFwOifj56sf8D5dRT8Uzdu3zM3fwhYsTO6ah5myJvbN/X9EtTsHxhjjT5
-	 LsVDus04iGFgdOwuqWcOiS2uwTLvBdyVXlxn2bJRjmwJQOgmbLqlscQ/RoZM9wpSrBv2H
-	 /DJ0AAzSRKHdu+QUdUAb72ivpOZqCBTU1Och6GX24us+aO4O86/t6Qf6ZqwB6jfiBcg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794823215;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=L2QG11mcJBEDMvu/QuPkL2NoETjOTlYzjaGlnujMsbc=;
+	b=srj1iaDDpoyx5v196O9uVWdhaH7s6ad5IxdWQATVS9ypZk2m2ryRDW73xKgNuO/iNC9+
+	 8BxadoPJh+SsjmvfzWhZGL+TGC9GPudoR2JZ4UYHHWJEnUDzE2UXcV77kobS/lBu1Ca87
+	 Vpzn7O/AJ4XuOO6CPo1yorj3SrihUNFObNvH1tTemFNv9ntfm3OEL37Xv5sWmNT0P+LpS
+	 pN6RpkhZWNEs4LAz3jc5M+BbhwNTPVjZPEv0/UoM5sKbEB0eAbSzxECvnkFduQXKLjA+u
+	 3Tu2QJI35yD4v+LrGwP/ApoJZvOu6Pc0MSj+oQbS6Tb/6uXEHKT38jRGGs36WBS3CvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="Vqu+DQf/";
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA85A606A335;
-	Mon, 16 Nov 2026 08:48:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA85A606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=EZyfG2ka;
+	arc=none smtp.remote-ip=209.85.221.44
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 786C7606A31C
+	for <arm-scmi@vger.kernel.org>; Mon, 16 Nov 2026 10:00:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 786C7606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Vqu+DQf/
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1987E1476;
-	Mon, 16 Nov 2026 00:48:47 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 063273F673;
-	Mon, 16 Nov 2026 00:48:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794818930; bh=0WXE/Ly9cpApr/71QrxJ7M876eoHyZDmr6/7lDWWuQA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Vqu+DQf/8WoHXNUICTl252urZ1VZBjUD5IxrSPQw8Og68X/mI+9yOTKikAuycE2NM
-	 JgV9UHCp9ROnf6DrjV6/siDzVuGlksM11dt4Nb6DgaYzrn6sWGuXVE4upg4m0oHcmQ
-	 aqnGnd/xYeD550ektColUwYAJhb6NeVbei6HnwpM=
-Date: Mon, 16 Nov 2026 08:48:41 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Chengyu Liu <lui2012qwq@gmail.com>
-Cc: sudeep.holla@kernel.org, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, stable@vger.kernel.org,
-	cristian.marussi@arm.com
-Subject: Re: [PATCH] firmware: arm_scmi: fix deadlock between reboot notifier
- and forceful work
-Message-ID: <avrDaZKTkXKfono7@pluto>
-References: <20261104053359.1613991-1-lui2012qwq@gmail.com>
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=EZyfG2ka
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-490d59c3f0aso1233528f8f.1
+        for <arm-scmi@vger.kernel.org>; Mon, 16 Nov 2026 02:00:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1794823213; x=1795428013; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=L2QG11mcJBEDMvu/QuPkL2NoETjOTlYzjaGlnujMsbc=;
+        b=EZyfG2karYEC6c2v8a9CVKvIn3VTpcvJjBWEKWkwZnMuVrzc3zfNGmB4Mkt8Q2Nxlk
+         GefOEJ/SKzAyW/cCiDPKHIfnla/ZHoqVairWDum9XOHNcvHXHpgaqJs0jZvAbCwtUw2y
+         /OZRstU9JA6TLMOPBwJlQBF2LZ6sSivDXJo0tgTSmk5h6DWDKhiX+f9OHcScLEV9J6M+
+         9D4an3zou30wtp+HhT9CGL+Ep+3D2RjGQjuSJZHW+4SNUt2H2ocP5BYNUlEshsgKsM/I
+         5v8n/qJqE2icsgR6ZMA7JHiNnOs7SKAGQlpCgutl27CEGsil1AOla/GK26pcMo8YWu5t
+         kOuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794823213; x=1795428013;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=L2QG11mcJBEDMvu/QuPkL2NoETjOTlYzjaGlnujMsbc=;
+        b=ZkIY8QYvEoNoH8yd5DvAJuQYW788DJlXV8Xsd9y3DX9pphKlO7dQYPtV2rfkvu7MSR
+         PHycz0/XD4imOC5KnZi2MUHzdh1innLS+Zb6uvknai7wsWYW07M9B/Hc92h1xqFlJGIy
+         dyv/aZGwyrHlZVM67xMGqbZrk0oQCdcfEfYrcs/+m+nm0s7/uVWRu5gvkbqfnVk5dGfD
+         Ih9QXIZFQMXThBYqeVyi+2OKIKTMa2yc95R+cecfxiAj4oqya4JOHQamXgQ6x49ofW6I
+         q44XoXoARGjo9mAtZNCIgUyFahEeW0YqcNASeBg/ROJ3/N9LD5PNdNQJJKTLxtAbrbw+
+         Y13w==
+X-Forwarded-Encrypted: i=1; AL+hErGPpZOVx381aZAsIn6m53BwkHi5juXCeQG/aZCZ4ObLV/aTCqRGcD44IBxXHcdLAFyQhzd3oClHQg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+KAn5ypK5JB00wkd6vtKBxd0El8ylB1SnMZmQaH4slIvTfcY7v
+	9DVN+DFz4wqLZFOTac03FFQ99TfGxCOyXTwmW5KX1gi6tmaal5QpdzLrx/QaC7epHOQ=
+X-Gm-Gg: AZFdTZckC3hdU7hgCAlng7VWVYGf/u1F9VgQLlPxkITyGW0SGiicFns/vNwziQ4jwFj
+	CAHI5JvKGMnjL9YpdB6Z+vujy4pzBScMT3BAMDENlMrWwaNQyuvIEIGrtV/zG8/9ChOaB00dh4w
+	x58v+wb7reCveYgWiCJ6GNTfeuNfVADWGyiYM3OusrsQieuZ0pdgoSF1At1E4gSLyQctQZ+SKoP
+	Tz9legfywT7S233dvJNF2qLL0XzaBVG6GjVXBa5CH7QVDWmzpwNcD+RX8pPr294qNVNuVRFGshB
+	OQ/Zowljq9hQE64j/2ZnqjEcvxuSCrJHdO644509wQY9jQdGkSdQAWQwaQwUvYhvn7UkNbQoMn3
+	ZYlC76g2NOhEacsCeSWwQnHz4UlTfPow6YBeLO/h3n7PWemfTJTXr5NyAlCkq20+grDnTTumbW7
+	LlXQ6cnqOzv7GbAmNPrsaiB9wjSt5CTfQKUJu5u97I/GiP34p7CITxc2+Jh/39DIIGu6/pc0xzc
+	xB3Tjo9lp/ErmrdbCp4v/IYuPyVNFM6UePvX1A832uRdma3BQ5n5GK++cTvEs18nhznHc+nwQtt
+	fqWxQy6+fgXhhj2Yb3xRguBq6mlMmvU8uQ==
+X-Received: by 2002:adf:e008:0:20b0:48e:6f76:de98 with SMTP id ffacd0b85a97d-49c71e3e1c0mr15349062f8f.9.1794823212810;
+        Mon, 16 Nov 2026 02:00:12 -0800 (PST)
+Received: from [10.48.2.141] ([212.133.41.25])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c604ecda5sm20247717f8f.37.2026.11.16.02.00.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Nov 2026 02:00:12 -0800 (PST)
+Message-ID: <ce463c97-8fde-44b3-b3bd-c21a69ee61b9@baylibre.com>
+Date: Mon, 16 Nov 2026 11:00:05 +0100
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -61,57 +92,54 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261104053359.1613991-1-lui2012qwq@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/11] pinctrl: scmi: give no groups to pin-only functions
+To: Linus Walleij <linusw@kernel.org>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>,
+ Cristian Marussi <cristian.marussi@arm.com>, Peng Fan <peng.fan@nxp.com>,
+ Oleksii Moisieiev <oleksii_moisieiev@epam.com>,
+ Andy Shevchenko <andy@kernel.org>, Dhruva Gole <d-gole@ti.com>,
+ Bartosz Golaszewski <brgl@kernel.org>, arm-scmi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261030-clegoffic-pinctrl-scmi-gpio-v1-0-52d92843ad97@baylibre.com>
+ <20261030-clegoffic-pinctrl-scmi-gpio-v1-7-52d92843ad97@baylibre.com>
+ <CAD++jLmS1Et_B_U2W5W3GAx8ge5V+B5innksqKwxYnBzh=JPag@mail.gmail.com>
+Content-Language: en-US, fr
+From: =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>
+Autocrypt: addr=clegoffic@baylibre.com; keydata=
+ xjMEafx9bxYJKwYBBAHaRw8BAQdAtc85GIwDXLz0rh9thWXC80Lji0otVDVncXT4qaS4j1fN
+ K0Nsw6ltZW50IExlIEdvZmZpYyA8Y2xlZ29mZmljQGJheWxpYnJlLmNvbT7ClgQTFgoAPhYh
+ BJjMiHuM4ZUwFqUPr36EW4KtCh6TBQJp/H1vAhsDBQkJZgGABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEH6EW4KtCh6Tt+sA/jVC35rY1npFlOy7YnncTdrID8Qf855JA78IzXgvzpGp
+ AP9FkuuT80m66PP3DvgYX9kVnG17mSDKO0+v2W18v6ZgCM44BGn8fW8SCisGAQQBl1UBBQEB
+ B0DMwF4u//aQyzsFlO8rPJ/cqsAuPH80IeIA3HOEo5mlVgMBCAfCfgQYFgoAJhYhBJjMiHuM
+ 4ZUwFqUPr36EW4KtCh6TBQJp/H1vAhsMBQkJZgGAAAoJEH6EW4KtCh6TdSgBAMDS0MiWCivt
+ LjzZc9bs+P/xdXywUjDKq3lpQGJ6vZ0GAP9vI6DnN7vwVK6jt6/+0aBGkog5Ura9+WwRFEdM
+ vLfPDQ==
+In-Reply-To: <CAD++jLmS1Et_B_U2W5W3GAx8ge5V+B5innksqKwxYnBzh=JPag@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 04, 2026 at 01:33:59PM +0800, Chengyu Liu wrote:
-> scmi_reboot_notifier() calls cancel_delayed_work_sync() while holding
-> sc->state_mtx, but the work it waits on - scmi_forceful_work_func() -
-> takes the same mutex.  If a forceful transition work is in flight when
-> the reboot notifier fires, the notifier holds the lock and waits for
-> the callback while the callback waits for the lock: deadlock, and the
-> reboot wedges.
+Hi Linus,
+
+On 11/13/26 11:11 AM, Linus Walleij wrote:
+> On Fri, Oct 30, 2026 at 4:58 PM Clément Le Goffic
+> <clegoffic@baylibre.com> wrote:
 > 
-> Moving the cancel outside the lock is not sufficient on its own, as the
-> callback also calls unregister_reboot_notifier() unconditionally, which
-> blocks on the reboot chain rwsem (down_write vs. the in-progress
-> chain's down_read) while the notifier waits for the callback - the
-> deadlock would just move to a different lock.  Fix both sides:
+>> For a pin-only function PINCTRL_LIST_ASSOCIATIONS returns pins, but the
+>> driver registered them as groups. Register pin-only functions without
+>> groups.
+>>
+>> Fixes: eb524cb651b7 ("pinctrl: Implementation of the generic scmi-pinctrl driver")
+>> Signed-off-by: Clément Le Goffic <clegoffic@baylibre.com>
 > 
-> - Notifier: compute the decision under state_mtx, drop the lock, then
->   cancel.  A callback that slips in between sees state ==
->   SCMI_SYSPOWER_REBOOTING (not IN_PROGRESS), skips the forceful
->   request and finishes, so the cancel cannot miss it.  (The callback's
->   own system_state early-return does not cover a work item that
->   started before the reboot began: kernel_restart_prepare() runs the
->   notifier chain before setting system_state.)
 > 
-> - Callback: only unregister the reboot notifier when actually forcing
->   the transition - that is the only case that needs it, because the
->   forceful kernel_restart()/kernel_power_off() would otherwise
->   re-enter scmi_reboot_notifier and self-deadlock on state_mtx.  When
->   the state is not IN_PROGRESS there is nothing to force, and skipping
->   the unregister keeps the callback from blocking on the reboot chain
->   rwsem while the notifier waits for it.
-> 
-> Found by static analysis.
+> Patch applied for fixes.
+v2 went out after your mail, please skip its patches 1 to 3.
+Its patch 4 does not apply on the patch 1 from v1 (a line join Andy asked for), and its patches 5 and 6 carry the arm_scmi to arm/scmi move from linux-next.
 
-Hi,
+Should I send the fixes of v3, patch 6 included, on your fixes branch, and the rest as a separate series on linux-next?
 
-thanks for this, this looks good to me.
-
-Sashiko flagged a residual issue in your patch:
-
-https://sashiko.dev/#/patchset/20260916093527.2004594-1-vulab%40iscas.ac.cn
-
-Since I am fixing some other issues around this driver I reposted your
-patch within my own series, maintaining your authorship and adding
-the additional fix needed (hopefully :P)
-
-My series including your is at:
-
-https://lore.kernel.org/arm-scmi/20261116084211.3066460-1-cristian.marussi@arm.com/T/#t
-
-Thanks,
-Cristian
+Best regards,
+Clément
