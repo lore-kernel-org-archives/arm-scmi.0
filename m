@@ -1,52 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.117.254.33
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794817359;
-	b=Wb/X0/OMu2Cpu09mBiRSMiBChDNUKDC27bPasLYSVJETZ4Dq0vvqKFuKTbsOEd5+DfrO
-	 FHntIpKYj1UP0fbV11s8jrxEVAJUBFAlzY3c0jv2iGLL2+rOt1mXBmUV5Mfm/zlHREkvh
-	 /gcYDntogxX5R5vM2MVKaiwUF6gJlH4mDnQxKgerIY2AzOqgDpVBVW7OiuFFbrfV5dPR8
-	 hJf5Y5ASFmaJ0KvmhLuv6cexIk3BO7kfl3OJTnhtq3VUgUI+5gEIAsNEaNTO2oOwvjhgL
-	 MA8X2uPaVOj6thj7AslDr93uFYJkho8Un0ufQvczM5zMEpW1bpRPvCwgdInlKesYO3w==
+	t=1794817364;
+	b=TQQAcb2+2kYbde/L7jxWYA7Q7pWMWQj1ceEjlwgfyFy7pWHIy0bGx+DFBoDake5TpfcF
+	 bLRjL7qDU/gEdOWvZhUzBclP/GRp7RSbAQEWvIH7Fm+Dyo6wzHq9hV9RIAvsqWwtTadLY
+	 hrrhzs5RlKrToSQpRlZo0NqxDaEbCYzjZv+vmiMoWG782l2gpMsjtkA51+PUZiqtS0kUe
+	 vdsZGBTXewCeYExNZC1fuY1X5XQGtSzlNn5eAEBtrJmMyDGlKvAtOejs0RnyR4Yt9bKuu
+	 KZC9en2vWiaTy99u4+Sz0CMlAT4A1gBxT2Rrses+z6jkgOaSWRRjDJYRfX3nn+Mx9sA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794817359;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794817364;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:X-UD-Smtp-Session:Date:
 	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=FhHfyYwYQ9ZGP17NUjMsOu+VrPrB95iXQbOeEOYKFOs=;
-	b=xz4zwk3CKeY/HelXoGfCat7RyxBmj8DfdMHXRy96cE+tFJaqlBqviQMDDhTGtk6mKknS
-	 BqJejF9H1RKk2bRZWAD757gm0oCuZgcAsxu8ygd0PpZGkvlw8OrVAHOyy9Z4ZmJWluYP2
-	 XjRD4svOHcjMBKbFXPNwzyhuszhWdS56bRlomg/gm9AzDycU34ti9xy0h0RqzlTGskqI1
-	 IV0WkB0T9fNcMRViOq1bFzD7xMq+h3oRMg8PybLDefejFQirw0Xfg7YEoIYGY+ZaWj6/J
-	 dmZnOeyJrubNy7rvSgBw7PUkhjQGzL4hcquDcRMiU2I+u2DvbdjGw4orH0exz9OikAw==
+	bh=6drHvhTiX4LbvHsMxKCSa0vXCxeP0oTnKR9T3+ALxLA=;
+	b=SMRWy6znacR1TEWfn/i2XAfZJrj9AxLI+Eei61hcvLsnkEGx+kaybdJZI/2sRb6a/8Bt
+	 QbvL+hZmbPLS9+tVUwoEU/QzJeT9u+pLorJSG/88Mnvc02Efc2Q/iywqh/CETHt+YS/bs
+	 9DbY2/LtdLLmWclWKJW0UfH5dMxvuUj2mgDp91dor55MDWgZS5hoxhgSsQqIiudJVcgQ4
+	 ak2r6bStbMH3gEL67iSEm4bHLJ+2p8LaUTeIEHLlJP7hsLohYu8IJObHV5edbmg6+4lY5
+	 cjfDCs+IOVjJited62zxucl6H6iXy+y7WbDqV10GbNWdbpK8KSJ9toPC3m1pTA4MCPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=sang-engineering.com;
 	spf=pass smtp.mailfrom=sang-engineering.com;
-	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b="jx/ZBIZU";
+	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=doTUqjFR;
 	arc=none smtp.remote-ip=194.117.254.33
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CAE606A323
-	for <arm-scmi@vger.kernel.org>; Mon, 16 Nov 2026 08:22:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 23CAE606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46364606A32A
+	for <arm-scmi@vger.kernel.org>; Mon, 16 Nov 2026 08:22:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46364606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=jx/ZBIZU
+	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=doTUqjFR
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=FhHf
-	yYwYQ9ZGP17NUjMsOu+VrPrB95iXQbOeEOYKFOs=; b=jx/ZBIZUH+eiIfgl591n
-	kki9k049+ZNEFJ6O8zEQf43eL2mUryLnYS6WONV35hADltlR8913ZsixH40hIN7M
-	VJdX7R7NtHbnnEPcK1Cx4qLIwgAAAkEUIxLghF2sGxEwGhBpfpcraSVFS6OxBnWb
-	6knyJdn2tt5NVk4EcrvGRFASslihaJ6ZF+tfI7gAzsFc7aD1zwt/+xbbXmBtFWoB
-	GDjvx0KFOdXUqMvBTGcsvH2veU13F0d7G/YP2XBruubZ0O1r2rjAH1rynewjJarR
-	s6SMAGdGvyLWzOH4nB8m5Esih77sNNP7aIVQQEjfU1NA4nbdlGVAspdZE4N3OISG
-	bw==
-Received: (qmail 1194944 invoked from network); 16 Nov 2026 09:22:35 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Nov 2026 09:22:35 +0100
-X-UD-Smtp-Session: l3s3148p1@Iy/hemBg+Igujnv5
-Date: Mon, 16 Nov 2026 09:22:34 +0100
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=6drH
+	vhTiX4LbvHsMxKCSa0vXCxeP0oTnKR9T3+ALxLA=; b=doTUqjFRZjPPJWMbQ+Tr
+	sbyo3Gv86lly0r3r3BPeY2eFFgRhoAHd/2VpZTi5nPl9Zg6NWB2SrHUkRBf3nuOs
+	3PT+xTyC+AVmfzPfTObi2+Pm6yBU5BDr6H6mDEWIYSaypZBaoeMoib6zUGEdKbz1
+	AZBgZAjobfdzuTX9KN338lkY420pVPebdq0KcloW16o0SOt7o9AHem3r7zg6a1W1
+	5lXlCP/zV/2rf+vcM1211mWClkN2OMWAHnlBbFLxUsHJWJ/3Q1ttUJD4WUzc7k7m
+	/WrQHjZOzlZKMG7tjlX6cM+KPfVUBk8EdBP5ES1DAobSOunyFXrLLkh6oxtRUaiV
+	Wg==
+Received: (qmail 1195074 invoked from network); 16 Nov 2026 09:22:40 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Nov 2026 09:22:40 +0100
+X-UD-Smtp-Session: l3s3148p1@MwQ2e2BgAIkujnv5
+Date: Mon, 16 Nov 2026 09:22:40 +0100
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -68,11 +68,10 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
 	linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 5/8] pmdomain: Make genpd_get_from_provider() return
- -EPROBE_DEFER
-Message-ID: <avq9SkUx-3q_28wO@shikoro>
+Subject: Re: [PATCH v4 6/8] pmdomain: Make genpd_get_from_provider() public
+Message-ID: <avq9UNth7O5DhxzH@shikoro>
 References: <cover.1792163045.git.geert+renesas@glider.be>
- <4524363679c1f2163aca3b3dda2bfbde170d095a.1792163045.git.geert+renesas@glider.be>
+ <e3b9d76d5b4a254d561b6e734423063e94225a28.1792163045.git.geert+renesas@glider.be>
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -84,21 +83,17 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4524363679c1f2163aca3b3dda2bfbde170d095a.1792163045.git.geert+renesas@glider.be>
+In-Reply-To: <e3b9d76d5b4a254d561b6e734423063e94225a28.1792163045.git.geert+renesas@glider.be>
 
-On Fri, Oct 16, 2026 at 05:55:44PM +0200, Geert Uytterhoeven wrote:
-> Unlike provider-based look-up functions in other subsystems[1],
-> genpd_get_from_provider() returns -ENOENT instead of -EPROBE_DEFER when
-> the provider is not found, thus not supporting probe deferral.
-> Currently this is worked around in of_genpd_add_subdomain() by remapping
-> -ENOENT[2].
+On Fri, Oct 16, 2026 at 05:55:45PM +0200, Geert Uytterhoeven wrote:
+> Unlike the corresponding function in the clock subsystem[1],
+> genpd_get_from_provider() is private, and thus cannot be used by PM
+> Domain drivers.
 > 
-> Fix this for all current and future callers by returning -EPROBE_DEFER
-> instead, and drop the no longer needed remapping code.
+> Make it public, so the R-Car X5H Module Controller driver can call it.
+> Add an "of_"-prefix for consistency with public genpd function naming.
 > 
-> [1] of_clk_get_hw_from_clkspec(), __fwnode_reset_control_get()),
-> [2] Commit 18027d6f392ee8d8 ("PM: domains: Make of_genpd_add_subdomain()
->     return -EPROBE_DEFER").
+> [1] of_clk_get_from_provider().
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
