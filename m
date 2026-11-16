@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794842701;
-	b=xMc1Ao+kW4e4nCUgQ5TTOIWAkdimIXSekklPbbnQmHGVwJ3WMUPlKv/FDaj1zbshInBl
-	 lGMI5NQ4mNNNQ6BOUwrt/h7tHCcUzvb2zFnNKw+8mwXa+WJa4DW3fB9sHs6QgDi1/Npec
-	 zRzBWrefwbRAwD6YbJ6XpGwrmnV1vEJGeSJGdSi0N2kD6u2O7x/sIVEgwhYnQAUX7lmTX
-	 dcNfhwj6d/EqsO4/puxKfujU2nrMjPWYJWntZbJwX6OuJEFGkmHBBzIhzQhewzZLYLuPj
-	 L3Kv0zhGjxiHQgYpNrLa75t9cq3i+dFPG+986oVjGBxz96m/ktzKAHuluVnLP2MiKmg==
+	t=1794842729;
+	b=gG1hxrRJjpg/OXpmp4CHnUsqHVsbFfj9sZEgvp+MG+9ESuUiSHdGjLwu5kGoH77PowOZ
+	 +TpGeLdFEZzS6O6ieErt3mql4+B1ut3DD7NUJ1AV6U6JDIY8Ui127QAv+lQAXgtUFDJ5j
+	 g5YFeV1RZARtTJy+4Qh1ew1HzCtlN/V2F8RIf0BbXfJ1ZBVO6FgTFdTTk7tYFWlZBpmDh
+	 nNsmk/cR51ob4Q/dRcbuzgG24/MebstC3hHVkAOV41Uy2wM5ft4F/DLy6KmBhLhrWea9Z
+	 giscuMvM4i3qN8579DXJg/ZwKKoo+psmZ0OIzMECittk7reJBz3B9s3WnT5EoxONvKA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794842701;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794842729;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=OShwcgume0qsMyIroIng9kRw/hq2uAXrc3M/m6vyoT4=;
-	b=AbOiz0l/x3uUqUP9WK+3Z0wMiOg9T2aMuwUus28/jt5byCGdOny/ts+DDc5oc4MvdoXU
-	 HFLIx3BzzVllp2eFo4rzt29spoghBLk7ouhLfBoA/IOK1jh8gf3JJHKMVwRJQ8+/1xz7r
-	 IusR2CvsbMo3d5ehpF/O/g1zD5V+hvFlpAv+o9SRNeBOwZgxaJf4KdWe5vyGYy9M6n7P/
-	 Sln+vAPwi/zYXQ6uRIwJaTyNY2AwFjnxsT3muurPzygen9wLWDrRE3YxbcMRE3VAmQYJT
-	 KTJt1B9f7vdPM0KE7jRZTMrw5r2jtPkeOXqb6fKVvyi9TJ3eGEhsXpoTkqD8Cx0gPqA==
+	bh=tBrCJP9dOXojpsN85BTJhtl+ayGDg46qUwwBB1MbyTY=;
+	b=U/cjhoQ/vMBVY5KsCjnHDOh7sCKy/u1COB7vjJoL01MytXZpRp1vjmYMkF/P8BknUG//
+	 ojRl+GaE1nTmqqv3dYJX6DlfRCZVHabw0xsoQHeocW47VJXvGZnSeHPzo2wQuv2cmWaaJ
+	 b6nAI4vMIJKFY7D0s911AEA2eoPd9aMqwxCopltmQjB16lii7lRtL9386ZqaEUwNZQffK
+	 db6NzDldHFgbXwubkwmcshXejULpb7QHvD4X0QpuaFmYVS+HMF5Vgebs+YiHOefdAfTub
+	 PqHx6oCeadThGw3hR+ndVMg0SpWR6Lj81hkDpBPWGJF/EgC1jXQ7reOzW6XF61TkH5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xf4EfoLE;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="XBaw/1vN";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A5E606A31C;
-	Mon, 16 Nov 2026 15:25:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F46D606A323;
+	Mon, 16 Nov 2026 15:25:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xf4EfoLE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFCFA1F000C7;
-	Mon, 16 Nov 2026 15:24:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XBaw/1vN
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C8301F000C8;
+	Mon, 16 Nov 2026 15:25:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794842701;
-	bh=OShwcgume0qsMyIroIng9kRw/hq2uAXrc3M/m6vyoT4=;
+	s=k20260515; t=1794842729;
+	bh=tBrCJP9dOXojpsN85BTJhtl+ayGDg46qUwwBB1MbyTY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Xf4EfoLEajFX2rYfuGfjGhxn0V16UuC0Gkc26HEpPAmEcT4XxwDIYJaGDq6O3mUKS
-	 JaFf2Qyd4qSfjRiUggJas4f0AJImSx70CU6tyrNajNRoo4in4AlnZ9OA/Qwgfkux06
-	 H0FQsgCWyRe1hgfVsUT85i7xBe+UFKATOMfr49X6DCNx3Wox9Yy1y16YTqFdTz3jXJ
-	 lTnYEHZTDhZ1oip22q6uyoqm+MOwZZMH1zE007qRK2bH9++oa2JMahEJ5ERw/x0pml
-	 LMIe+x96RDu0ThNG6IuxGT19ZhHr9VULtu8PK43AX5Hi6McOoluC+BBv29el1rySf2
-	 1a6++Ygt2kieA==
-Date: Mon, 16 Nov 2026 15:24:57 +0000
+	b=XBaw/1vNGcj/B/XDzkZuv61tm1PCF15ZgmGy9zbfQAGzgrvA3fsNxpmkWDLLDh2Hp
+	 GS6nXdDPPxTnBFR3NPl0ugVHqV8eGEAqn6CCphG/UFLQNd4EDFho9AJcbDnB5/Cfq7
+	 ns3nIC/dcZtyzIlMHLw3XjnGieUjL1STN3z81fAbdcwZ1/Hvj/0axkq7ysSlR1bdfL
+	 txRKKjxoE6Fk2DIBjDaf8VnUhtpQyvPSEKGAq53OqMh42dUqxtzEQVxFRxW8UP1ZPR
+	 IwoRDXIvdXzNgZqxzQZV0zJ5M7L0iX9bxxSOa14dXGiSesuvZW4Kq9RBEgcw02KO00
+	 +6OEXiLQPnJWg==
+Date: Mon, 16 Nov 2026 15:25:25 +0000
 From: Sudeep Holla <sudeep.holla@kernel.org>
-To: Cristian Marussi <cristian.marussi@arm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>
+To: Cristian Marussi <cristian.marussi@arm.com>
 Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Sudeep Holla <sudeep.holla@kernel.org>, linux-pm@vger.kernel.org,
-	arm-scmi@vger.kernel.org, philip.radford@arm.com
-Subject: Re: [PATCH 3/3] powercap: arm_scmi: Refactor scmi_zones_register
- error path
-Message-ID: <20261116-imperial-mighty-platypus-edbffe@sudeepholla>
+	linux-pm@vger.kernel.org, arm-scmi@vger.kernel.org,
+	philip.radford@arm.com, Guangshuo Li <liguangshuo@mail.sdu.edu.cn>,
+	"Rafael J. Wysocki" <rafael@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH 1/3] powercap: arm_scmi: Fix potential stale zones after
+ a skipped leaf
+Message-ID: <20261116-influential-jackrabbit-of-criticism-c6c24c@sudeepholla>
 References: <20261115110546.2344308-1-cristian.marussi@arm.com>
- <20261115110546.2344308-4-cristian.marussi@arm.com>
+ <20261115110546.2344308-2-cristian.marussi@arm.com>
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -62,22 +62,33 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261115110546.2344308-4-cristian.marussi@arm.com>
+In-Reply-To: <20261115110546.2344308-2-cristian.marussi@arm.com>
 
-On Sun, Nov 15, 2026 at 11:05:46AM +0000, Cristian Marussi wrote:
-> Refactor and simplify scmi_zones_register error path by using
-> cleanup handlers.
+On Sun, Nov 15, 2026 at 11:05:44AM +0000, Cristian Marussi wrote:
+> From: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
 > 
-> No functional change.
+> scmi_zones_register() skips leaf zones that cannot be registered, but
+> returns the last leaf error when that leaf ends the traversal. Probe
+> then fails without unregistering the successfully registered zones,
+> whose private data is device-managed.
 > 
+> Return success after completing the traversal. Keep the existing error
+> return and full rollback for a failed non-leaf zone.
+> 
+> This issue was found by our static analysis tool under development.
+> 
+> Fixes: 3e767d6850f8 ("powercap: arm_scmi: Remove recursion while parsing zones")
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: stable@vger.kernel.org
 
 Reviewed-by: Sudeep Holla <sudeep.holla@kernel.org>
 
-Hi Rafael,
+> Signed-off-by: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
+> Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 
-Can you pick up 1/3 and 2/3 as fix for v7.4 and this refactoring for v7.5 ?
-
-IIUC, the refactoring is done at last to keep fixes simple for backport.
+I may be wrong but sign-off when you repost means you are agreeing with
+the change and hence review tag is not needed ?
 
 -- 
 Regards,
