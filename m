@@ -1,78 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.193
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794926120;
-	b=gBrLZCkYL9hbVPWY1q8NcvEO/dwtuV5p2rKBqjEf5mAMVWcLaUOrwGTeJcQGhQb7cipI
-	 oI68zg5MvYuxfOPVSPG4Lk+4ih5AlQ8AuL6/eWuOe5vInzSsp/9eD0oqMdH0ucDaNRqRf
-	 Smy3Z853GXAAc1ebf/4TcL8yo2fAfLGDh+wEEv3OO4n1wTQwp58L8V9pCDvaI1g0cBbyM
-	 5Ea2HWF0Z9Yz5UrzA+Aqy/e5udJ2LBXy7aog7W0cX3Ts67KrL0GeHczwoQeJmu3xwt9ps
-	 ozzOJees5Jw+J9bzVJ13ctrWsyWVVcWB7AAC4exr+010nQXCWsKOWHPXrqt0ioXYrEw==
+	t=1794932994;
+	b=qxjaH3ynO7aFy1nO8mgdivl7Se7O96tSuhAH2eSDKmegz4xmFf3jbir5s6LnWmxTCwWi
+	 XCuKDrDE/GYn+uyY4YAnEM0yRVpbwMYEXtPw54Jk0snzKdvyZtlejXm4e7meb3GSA4V6c
+	 +Mc6Eo0zzSH2tEMWQXZMWWYsUNlwFxMsRLZ5HUiC+iKpFDw2PfkAHIVtrzuem+VBurV8I
+	 Wod5MFJI5IlXzqyKW+MbKxUIFtxA2kl0DitG+z4jdObIdesbA1U2m7ZdffBqxPJnPQ5Px
+	 JKb+7lVRuW69wkb8c/FdV8qkT4NjlqYTS1+g4z6xWDnQ58xcxb6Rh3RWLfYW28xtTfQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794926120;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
-	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=p7ojMjj4LC4SS1WElXDJT7WyRei5tH4ru8glaxJTYq4=;
-	b=tuDI43q7W0NxtMA6vcVsosE3kHy0+G9bJgh9K9FQaEJY7BCTpm7lXqJG9mWhzgh7avrT
-	 afZvrA0vjxx/M8tpHQZHddkYy7pyknwpunp/s4cjbqy001blzAXqHOy9l/CePFage/31l
-	 pN+n92UGnCoc7zKkcxYIvpz4LQdQKHIZE3v9nTCPe593HY4DGosjam7FS/wXxbYLd1UZm
-	 0fkpQ4ml+CNhCwToB0wbumtDD2x/WFVi2U7mxq2q8UDmUO6qVgVj0Sqc/SNgvQnuIPpFg
-	 irYqSIISMJvzT9x0dLVp+VnrwLz7HdPWNmgvg9J9sC/55W659hn5jaXGfXdk24fYvgQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794932994;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:CC:Subject:In-Reply-To:
+	 Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=Xah6kH3NsJjHjsSaD0EvODIXJgcLgPXtuKW/zjmxYTw=;
+	b=R8uk4QWC/jzcGrtJY/ddWTYEVD/Wuw5/Bpsuuamq5Zu2UgT7ztIFx11DaNvYiZ11rShk
+	 txt67lj7A8GhQlNPokys7JMONULbjWHmvudPUP+BQsjJaaiRVwSI6saTjfp7gg4Z6qR0N
+	 DCdInX/syFpn4bqvkvuVO6e7xphEfhG8ZbzExdi2fciH7dCE+SsZpt9ICzoiQRiEQJsPS
+	 h0aEsDUX4Jo1WO7KDRVm4SDpL7wrXBlwC5Tfihm+X2rOQ1Wz0c1T4cKJVY1DYgVBBy62v
+	 WbovLEFqbQm/UcrCYTbZto3uaypdGka/Q1Zkn73Le9eyE8w2+fk2HO48dH7mOHO8Ubw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linux-m68k.org;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.222.43
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=g77SUc29;
+	arc=none smtp.remote-ip=95.215.58.193
+Received: from mta1.migadu.com (out-193.mta1.migadu.com [95.215.58.193])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3383606AF43
-	for <arm-scmi@vger.kernel.org>; Tue, 17 Nov 2026 14:35:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F3383606AF43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-9908c849564so1082322241.3
-        for <arm-scmi@vger.kernel.org>; Tue, 17 Nov 2026 06:35:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794926119; x=1795530919;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=p7ojMjj4LC4SS1WElXDJT7WyRei5tH4ru8glaxJTYq4=;
-        b=c5TauMFJGFdAS4AuZbtY/CoHgV3QBBwfw7qxrNCGQ/ZU22rK6RytB+1VgQwsxXOIHQ
-         3f5nQPZhto7iBgIPlOT+i0xE2c5scVDvLfOqT9RWGhJSra7QKpwuKjWEJ/KsASyq8PP2
-         iC77lShSV2owHIDq5gpQ7PCbOhhYJHn4yUF8tqi5bh1AkEsQh/U9e1WMW4Gk46BeUDCd
-         kFELXLjJr0U8xPWDjRL+iMGssfhhIucFDvM+M48MCDT6P56vhoukf9+fsHuyYXVXw5nr
-         6v19UUbAAUPsMa078Gm5IINdONk+cLz4j9RGxVZ8eIAQleshTsOMCcqHB/zCpmflanwX
-         OUnA==
-X-Forwarded-Encrypted: i=1; AL+hErFkzQAZkqhgPlkSnuf4Wn+NyA+Jgawhh1a56uy69K4dyJR0vkk/JdbF08HV1uh3EEn4A3xgprwxEQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8kqb0scwfRVFsiduYA5PIfBdoF6PCHRKprA5Cd05HuoLBhgWFU
-	R81KBI8HNox69lmAHDpgpqr/EH7flgU/WFtef7XXtfBu2JK9kvWAIltCj2MdGOBd
-X-Gm-Gg: AYBFou1F9QOIFq3QWdeC/vbHZITTCe5UBUlYlFhzbInXZjdG1TGQE7ru2/Y8k8ks4we
-	BE3itsiG+gIUWYW7w4vTTpyIoWTDegFqwFvecr1UH02fSkIc8B2y1tCOjtuKUnw+5zsFtMOQdYE
-	dJnqSyzsnktBSB/YqwZ9MeAs3ipZCnuXGS1GqT9RJHZsCGOYrCc6p+4dFIhbRMlNWCQ9sBS50kR
-	0Nv9GrTF6O7+rSzykFNNHH9WflYD/3FGj8I3UHFUU+AxAmHu5Z3U4pxawq/xa5haEPPFJEbs+oM
-	FdnZwIX279m2GHHtdAcv0BJ4mAFp8cYhEDtncbhUSwY69+01xELPMlwwGTPh+fjnSLjmnBUuXnH
-	iEj97Y7saIx7UkFq2QLiOXkv/PB/h+gJ03B61nF3xOjjpkE/eW8Icqda0mE1OXt1tM0kDmuydEP
-	RhBxCOp1HsG7PERpT9x6rRFTjNeOpaew0woMqhhMlK7NXehgPSSdpyvl4M3ZPjvPutKFjSFyAQH
-	CpjSsZxt//SmXtOe96MRezPHQLK9ariGQ9D/IX51b4q/Ntbo6sCEriWstLiAz/PhFhFEF1IBXgC
-	hUc97jyLRbNTLslhzak/MBN+oYboKIXcJwhW3CIYtFV4EA5B12qsZaJ/CCIP8kIHW2qKf5UtxeZ
-	p7VAeNOjoZMqC
-X-Received: by 2002:a05:6122:e44a:b0:5ea:e196:272b with SMTP id 71dfb90a1353d-5ee34ad0625mr4572046e0c.19.1794926118785;
-        Tue, 17 Nov 2026 06:35:18 -0800 (PST)
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ee34e5e51fsm9149529e0c.9.2026.11.17.06.35.16
-        for <arm-scmi@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Nov 2026 06:35:17 -0800 (PST)
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-7d2ee9e7093so1233661137.1
-        for <arm-scmi@vger.kernel.org>; Tue, 17 Nov 2026 06:35:16 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErGTXusjLxwg2ubp/K517/s+sZkvjbYRBndHQCRFySmFiCeMrfoux0AUvYVQQGtiGh0uuTigqwIbFw==@vger.kernel.org
-X-Received: by 2002:a67:e118:0:b0:7c1:bc57:c7f5 with SMTP id
- ada2fe7eead31-7d64d69de8amr3553023137.12.1794926116643; Tue, 17 Nov 2026
- 06:35:16 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963A2606A330
+	for <arm-scmi@vger.kernel.org>; Tue, 17 Nov 2026 16:29:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 963A2606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=g77SUc29
+X-Envelope-To: arm-scmi@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=L5r87W+vvYhaC4SQ0Zx2qEfNiZ7OppygpT1qNDZLbu4=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794932991; v=1; x=1795537791;
+ b=g77SUc29ucT/305eXQyOO/RdLLnTiApw0sYGzoEYg9tr7a9qf2N6jCchSzK9gEuD6vlCP8gg
+ ZtGYFskQqf4gkxIzRo5iyfvUmBn+b7M0xzh/kV6fJ1MyltaOSZYObdCp2OsO++bGXGNFNmgQxUB
+ XuKC7ddVWcLSayz+JbP6QyJA=
+X-Envelope-To: arm-scmi@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id ec8f52277812aa2e;
+	Tue, 17 Nov 2026 16:29:51 +0000
+X-Mizu-Trace-ID: ec8f52277812aa2e
+X-Migadu-Flow: FLOW_OUT
+Date: Tue, 17 Nov 2026 16:29:47 +0000
+From: Bradley Morgan <bradley.morgan@linux.dev>
+To: marek.vasut+renesas@mailbox.org
+CC: akpm@linux-foundation.org, arm-scmi@vger.kernel.org, cristian.marussi@arm.com,
+ eadavis@sina.com, geert+renesas@glider.be, kees+treewide@kernel.org,
+ leitao@debian.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ marco.crivellari@suse.com, michal.simek@amd.com, oleg@redhat.com,
+ panchuang@vivo.com, petr.pavlu@suse.com, pmladek@suse.com,
+ ptikhomirov@virtuozzo.com, ptsm@linux.microsoft.com, sudeep.holla@kernel.org,
+ systemd-devel@lists.freedesktop.org, willy@infradead.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_=5BRFC=5D_kernel/reboot=3A_Add_orderly?=
+ =?US-ASCII?Q?=5Fsuspend=28=29_via_/sbin/suspend_user_mode_helper?=
+In-Reply-To: <20261117084523.50711-1-marek.vasut+renesas@mailbox.org>
+Message-ID: <03D974DA-29CF-404A-99BD-545D199E0A6B@linux.dev>
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -82,120 +70,231 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261113-clegoffic-pinctrl-scmi-gpio-v2-0-faccb4685d88@baylibre.com>
- <20261113-clegoffic-pinctrl-scmi-gpio-v2-1-faccb4685d88@baylibre.com>
-In-Reply-To: <20261113-clegoffic-pinctrl-scmi-gpio-v2-1-faccb4685d88@baylibre.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 17 Nov 2026 15:35:05 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWwp4RtKnBpFNJPHdigzrQ-wf3yt-pBZGG9QKs9tcd_Ow@mail.gmail.com>
-X-Gm-Features: Aa3M54qy9_Rj7xaMwVGFv3qcI8VRtXgzHIP9TNCjd9LuAgCDDCHrVflQc6VrO_I
-Message-ID: <CAMuHMdWwp4RtKnBpFNJPHdigzrQ-wf3yt-pBZGG9QKs9tcd_Ow@mail.gmail.com>
-Subject: Re: [PATCH v2 01/11] pinctrl: scmi: send the drive strength in microamperes
-To: =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>, 
-	Linus Walleij <linusw@kernel.org>, Peng Fan <peng.fan@nxp.com>, 
-	Oleksii Moisieiev <oleksii_moisieiev@epam.com>, Andy Shevchenko <andy@kernel.org>, 
-	Dhruva Gole <d-gole@ti.com>, Bartosz Golaszewski <brgl@kernel.org>, arm-scmi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Hi Cl=C3=A9ment,
-
-On Fri, 13 Nov 2026 at 16:02, Cl=C3=A9ment Le Goffic <clegoffic@baylibre.co=
-m> wrote:
-> SCMI gives the drive strength in microamperes, but
-> PIN_CONFIG_DRIVE_STRENGTH is in milliamperes and was sent unchanged.
-> Convert it on set and on get. It is the only unit that differs: the
-> debounce is in microseconds and the pull resistances in ohms on both
-> sides, and every other value is a flag or implementation defined.
+On 17 November 2026 08:44:19 GMT, Marek Vasut
+<marek.vasut+renesas@mailbox.org> wrote:
+>Currently, Linux responds to firmware-issued poweroff and reboot requests
+>by invoking user mode helpers /sbin/poweroff and /sbin/reboot, which give
+>userspace the ability to perform orderly poweroff and reboot according to
+>policy set by userspace.
 >
-> Fixes: eb524cb651b7 ("pinctrl: Implementation of the generic scmi-pinctrl=
- driver")
-> Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
-> Signed-off-by: Cl=C3=A9ment Le Goffic <clegoffic@baylibre.com>
-
-Thanks for your patch, which is now commit cc2f90768e971bcc ("pinctrl:
-scmi: send the drive strength in microamperes") in pinctrl/for-next.
-
-> --- a/drivers/pinctrl/pinctrl-scmi.c
-> +++ b/drivers/pinctrl/pinctrl-scmi.c
-> @@ -14,6 +14,7 @@
->  #include <linux/scmi_protocol.h>
->  #include <linux/slab.h>
->  #include <linux/types.h>
-> +#include <linux/units.h>
+>This is not the case for firmware-issued suspend request, which directly
+>invokes pm_suspend(PM_SUSPEND_MEM), without giving userspace any way to
+>determine the suspend policy. This is problematic, because the userspace
+>might not be quite ready to suspend right the instant when the suspend
+>request from firmware arrives, e.g. because the user is interacting with
+>the device and the userspace knows that interaction will end in the near
+>future, at which point the system can be suspended perfectly well.
 >
->  #include <linux/pinctrl/machine.h>
->  #include <linux/pinctrl/pinconf.h>
-> @@ -155,6 +156,14 @@ static int pinctrl_scmi_map_pinconf_type(enum pin_co=
-nfig_param param,
->         return 0;
->  }
+>Introduce a user mode helper, /sbin/suspend, which acts the same way as
+>the other user mode helpers, and which is invoked when firmware-issued
+>suspend request arrives. Userspace can use the helper to apply suspend
+>policy, most likely by invoking init system suspend target. In case the
+>helper is not present, retain current behavior and suspend immediately.
 >
-> +static u32 pinctrl_scmi_map_pinconf_arg_get(enum pin_config_param param,=
- u32 value)
-> +{
-> +       if (param =3D=3D PIN_CONFIG_DRIVE_STRENGTH)
-> +               return value / MILLI;
+>Note that /sbin/suspend is non-standard. I also considered registering
+>an input device and sending KEY_SUSPEND via such a device, but that does
+>not seems nice. I also had a look at wake locks, but I don't think this
+>is the right tool either. I am sending this as an RFC, because I would
+>like to get input on this. I am including change for two platforms, SCMI
+>and ZynqMP, which could benefit from this. Thank you for your input !
 
-Does this need rounding?
+Hmm. let me use my thinking glasses.
 
-While MILLI =3D 1000UL is correct from a numerical point of view,
-it is not correct from a semantical point of view.
-
-<linux/units.h> has:
-
-    #define MICROWATT_PER_MILLIWATT 1000UL
-
-In the absence of a generic conversion value, "(MICRO / MILLI)" might
-be better.
-
-> +
-> +       return value;
-> +}
-> +
->  static int pinctrl_scmi_map_pinconf_type_get(enum pin_config_param param=
-,
->                                              enum scmi_pinctrl_conf_type =
-*type)
->  {
-> @@ -167,13 +176,17 @@ static int pinctrl_scmi_map_pinconf_type_get(enum p=
-in_config_param param,
->  }
 >
->  static int pinctrl_scmi_map_pinconf_type_set(enum pin_config_param param=
-,
-> -                                            enum scmi_pinctrl_conf_type =
-*type)
-> +                                            enum scmi_pinctrl_conf_type =
-*type,
-> +                                            u32 *arg)
->  {
->         if (param =3D=3D PIN_CONFIG_LEVEL) {
->                 *type =3D SCMI_PIN_OUTPUT_VALUE;
->                 return 0;
->         }
+>Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>---
+>Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+>Cc: Andrew Morton <akpm@linux-foundation.org>
+>Cc: Breno Leitao <leitao@debian.org>
+>Cc: Cristian Marussi <cristian.marussi@arm.com>
+>Cc: Edward Adam Davis <eadavis@sina.com>
+>Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+>Cc: Kees Cook <kees+treewide@kernel.org>
+>Cc: Marco Crivellari <marco.crivellari@suse.com>
+>Cc: Michal Simek <michal.simek@amd.com>
+>Cc: Oleg Nesterov <oleg@redhat.com>
+>Cc: Pan Chuang <panchuang@vivo.com>
+>Cc: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+>Cc: Petr Mladek <pmladek@suse.com>
+>Cc: Petr Pavlu <petr.pavlu@suse.com>
+>Cc: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
+>Cc: Sudeep Holla <sudeep.holla@kernel.org>
+>Cc: arm-scmi@vger.kernel.org
+>Cc: linux-arm-kernel@lists.infradead.org
+>Cc: linux-renesas-soc@vger.kernel.org
+>Cc: linux-kernel@vger.kernel.org
+>Cc: systemd-devel@lists.freedesktop.org
+>---
+> .../firmware/arm/scmi/scmi_power_control.c    | 11 +-----
+> drivers/soc/xilinx/zynqmp_power.c             |  4 +--
+> include/linux/reboot.h                        |  1 +
+> kernel/reboot.c                               | 34 +++++++++++++++++++
+> 4 files changed, 38 insertions(+), 12 deletions(-)
 >
-> +       if (param =3D=3D PIN_CONFIG_DRIVE_STRENGTH)
-> +               *arg *=3D MILLI;
+>diff --git a/drivers/firmware/arm/scmi/scmi_power_control.c b/drivers/firmware/arm/scmi/scmi_power_control.c
+>index e791a206768c2..b61afb46ca7ef 100644
+>--- a/drivers/firmware/arm/scmi/scmi_power_control.c
+>+++ b/drivers/firmware/arm/scmi/scmi_power_control.c
+>@@ -80,7 +80,6 @@ enum scmi_syspower_state {
+>  * @reboot_nb: A notifier_block optionally used to track reboot progress
+>  * @forceful_work: A worker used to trigger a forceful transition once a
+>  *		   graceful has timed out.
+>- * @suspend_work: A worker used to trigger system suspend
+>  */
+> struct scmi_syspower_conf {
+> 	struct device *dev;
+>@@ -93,7 +92,6 @@ struct scmi_syspower_conf {
+> 	struct notifier_block reboot_nb;
+> 
+> 	struct delayed_work forceful_work;
+>-	struct work_struct suspend_work;
+> };
+> 
+> #define userspace_nb_to_sconf(x)	\
+>@@ -254,7 +252,7 @@ static void scmi_request_graceful_transition(struct scmi_syspower_conf *sc,
+> 		orderly_reboot();
+> 		break;
+> 	case SCMI_SYSTEM_SUSPEND:
+>-		schedule_work(&sc->suspend_work);
+>+		orderly_suspend();
+> 		break;
+> 	default:
+> 		break;
+>@@ -323,11 +321,6 @@ static int scmi_userspace_notifier(struct notifier_block *nb,
+> 	return NOTIFY_OK;
+> }
+> 
+>-static void scmi_suspend_work_func(struct work_struct *work)
+>-{
+>-	pm_suspend(PM_SUSPEND_MEM);
+>-}
+>-
+> static int scmi_syspower_probe(struct scmi_device *sdev)
+> {
+> 	int ret;
+>@@ -352,8 +345,6 @@ static int scmi_syspower_probe(struct scmi_device *sdev)
+> 	sc->dev = &sdev->dev;
+> 	dev_set_drvdata(&sdev->dev, sc);
+> 
+>-	INIT_WORK(&sc->suspend_work, scmi_suspend_work_func);
+>-
+> 	return handle->notify_ops->devm_event_notifier_register(sdev,
+> 							   SCMI_PROTOCOL_SYSTEM,
+> 					 SCMI_EVENT_SYSTEM_POWER_STATE_NOTIFIER,
+>diff --git a/drivers/soc/xilinx/zynqmp_power.c b/drivers/soc/xilinx/zynqmp_power.c
+>index ce75bc5ca9633..cd1cab58e84ca 100644
+>--- a/drivers/soc/xilinx/zynqmp_power.c
+>+++ b/drivers/soc/xilinx/zynqmp_power.c
+>@@ -112,7 +112,7 @@ static irqreturn_t zynqmp_pm_isr(int irq, void *data)
+> 			orderly_poweroff(true);
+> 			break;
+> 		case SUSPEND_POWER_REQUEST:
+>-			pm_suspend(PM_SUSPEND_MEM);
+>+			orderly_suspend();
+> 			break;
+> 		default:
+> 			pr_err("%s Unsupported InitSuspendCb reason code %d\n",
+>@@ -196,7 +196,7 @@ static void zynqmp_pm_init_suspend_work_fn(struct work_struct *work)
+> 	if (pm_work->args[0] == SUSPEND_SYSTEM_SHUTDOWN) {
+> 		orderly_poweroff(true);
+> 	} else if (pm_work->args[0] == SUSPEND_POWER_REQUEST) {
+>-		pm_suspend(PM_SUSPEND_MEM);
+>+		orderly_suspend();
+> 	} else {
+> 		pr_err("%s Unsupported InitSuspendCb reason code %d.\n",
+> 		       __func__, pm_work->args[0]);
+>diff --git a/include/linux/reboot.h b/include/linux/reboot.h
+>index aa08c3bbbf59a..c009deb3eb2b6 100644
+>--- a/include/linux/reboot.h
+>+++ b/include/linux/reboot.h
+>@@ -177,6 +177,7 @@ void ctrl_alt_del(void);
+> 
+> extern void orderly_poweroff(bool force);
+> extern void orderly_reboot(void);
+>+extern void orderly_suspend(void);
+> 
+> /**
+>  * enum hw_protection_action - Hardware protection action
+>diff --git a/kernel/reboot.c b/kernel/reboot.c
+>index bc71183d4ad87..1d830051dc920 100644
+>--- a/kernel/reboot.c
+>+++ b/kernel/reboot.c
+>@@ -851,6 +851,7 @@ void ctrl_alt_del(void)
+> #define POWEROFF_CMD_PATH_LEN  256
+> static char poweroff_cmd[POWEROFF_CMD_PATH_LEN] = "/sbin/poweroff";
+> static const char reboot_cmd[] = "/sbin/reboot";
+>+static const char suspend_cmd[] = "/sbin/suspend";
+> 
+> static int run_cmd(const char *cmd)
+> {
+>@@ -872,6 +873,20 @@ static int run_cmd(const char *cmd)
+> 	return ret;
+> }
+> 
+>+static int __orderly_suspend(void)
+>+{
+>+	int ret;
+>+
+>+	ret = run_cmd(suspend_cmd);
+>+
+>+	if (ret) {
+>+		pr_info("Failed to start orderly suspend: fall back to suspend-to-mem\n");
+>+		pm_suspend(PM_SUSPEND_MEM);
+>+	}
+>+
+>+	return ret;
+>+}
+>+
+> static int __orderly_reboot(void)
+> {
+> 	int ret;
+>@@ -951,6 +966,25 @@ void orderly_reboot(void)
+> }
+> EXPORT_SYMBOL_GPL(orderly_reboot);
+> 
+>+static void suspend_work_func(struct work_struct *work)
+>+{
+>+	__orderly_suspend();
+>+}
+>+
+>+static DECLARE_WORK(suspend_work, suspend_work_func);
+>+
+>+/**
+>+ * orderly_suspend - Trigger an orderly system suspend
+>+ *
+>+ * This may be called from any context to trigger a system suspend.
+>+ * If the orderly suspend fails, it will force an immediate suspend.
+>+ */
+>+void orderly_suspend(void)
+>+{
+>+	schedule_work(&suspend_work);
+>+}
+>+EXPORT_SYMBOL_GPL(orderly_suspend);
+>+
+> static const char *hw_protection_action_str(enum hw_protection_action
+> action)
+> {
+> 	switch (action) {
+>
 
-What happens if the result differs from the original value in =C2=B5A,
-due to truncation or rounding?
 
-Likewise about the use of MILLI.
+Right, I had a look, this doesn't "hurt" to merge, like for example
+nothing will break, and this looks simple enough, but again, as you said,
+/sbin/suspend isn't standard, so that's a crux. I'm thinking using PM may
+be a "lightbulb" idea for me here. But I may be going crazy.
 
-Gr{oetje,eeting}s,
+hmm, if I had to say tag or no, I'd give the tag:
 
-                        Geert
+Reviewed-by: Bradley Morgan <bradley.morgan@linux.dev>
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Since
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+1: this doesn't hurt to merge
+2: this looks very very simple and quite cool tbh.
+
+
+--- Thanks!
