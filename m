@@ -1,64 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794937567;
-	b=Cu31HlBJtjBPX24O+DIPSOghCuEmuEr/ZQpITVNYDebaq/JFTXUBZW8hN3BNNMKM2wkU
-	 Bcs5yvXjRg5tViRruMiOVkZCglYvyOJ1z/UHAV71lQBVJQ8c2YqGtrN+pd0EJRlmKJSBb
-	 kBWkCWVf17yZy5ztrCCk8f13DgQP1uSVyj7GHomjrdi8JgoYQrYFDgK5FKfsme9Q7NcrQ
-	 6UAJY0Qh5wDsEdJ7IgUb6qtlrDIUyoY++zvyHlAz0mW/vHETNroBcc9AXfWVCbVe4WKWc
-	 M2xWeJ6cqn2y4qDv+b1flwnltDnpNvot6BHRnrpG4hrc8NXyfVoQ/LRF+wDYioJVYfg==
+	t=1794940075;
+	b=brrqgyFpcrD7pECYbsjDkSvCWKbrc03B2dP1fXJj+6odGRDpCZQZThXXcuPXOHg7aTiO
+	 ixuiN3frBc9gtr1dZPk7WPRsCRxNvyrf2U4sAgxCCuquO+NI9geZ2cCGCFVMRXgirrltt
+	 c+kwYHqK6zQVIOTc79wm0QSb9qgTMwiu56taMouAvNzeBA0D5TPTcpzz/MxxiZHE2u/81
+	 2jV41StnJxadeiGOR2g8qIlfiaTypSHdT/D7TJ89s9NbLUAvRrjcceUXT0YzPcg+qIomF
+	 nWf9r0GknEKp6ZxCYw4/4Uxic0EWJGCheWu6/yfWswqIEUIK/Z5J3ITG9DnYePcwneQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794937567;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=SlG7QLB1kJzkI8H5DG02stBipiVu0CjDAuInDuzsrOs=;
-	b=aBupCYYgcrWLiiEYyBZVmkKz2UQA1wTRiSg5gzB7/t4k6iLuZGE2ie5M6LXhoixo9bAc
-	 l0l4PyTcfyJ0sNYYAs+3eoSN8ldeTgs7aT1D9Ga+V1cerhjtG0/IfuwAoK+PZlSPgTsAI
-	 /bERrBY77PWWwuaLA5vBXeFM6RjP+/3hDh630j2LUO/DOlA1OQ7YC2UPL7mLI29WrsOYp
-	 Kvrq53SnAWZDQYYKudVXW8SSsjEXvRj0C+EQjAycmSJ4VkluW+B0hwyn0EY9gQjZfsvok
-	 mCOBSVVZEEdqrpMLRygYj7fYqi2R6x5OcDxCVI5PTYhwLHA+8N1rs2tn8AgAUiIQrTw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794940075;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=d2xN15dj3gCvbJHEB+TEBgOrVQFIeke+Q9K2cfCpikA=;
+	b=iidXHr6dMeABWU2MOsAkIufbLr8Nywdu5CJfUp0kbfrmlu+ebdOp5UGkxjxukGMLFjs0
+	 mBgjs+7Sbc1NsVyYS/vzpn43LUGxL8D8xAFlv5EHPF6vNqEm7k5BV5888osH7Vfr+T6M2
+	 xo9856FVnsivpUBSM36nhHkRXMKk+fMOC0jBPdI0TTHu1vRt6IwBrMYx46eLUEock1WVl
+	 FI8RBU6YJauz3RhF9GTxkhlB11n36QHAKFnoYTj5uuUbpddHG0bQ2zXSg6CvI2oMpmK2Z
+	 aciTHeiqnyytjz56f5u+VYU2b/v+HUKE0svCuWGtlNkGW1D8Dd+RJ5wPxOokUsORd1A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=uQLS4+jt;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BB05606A31C;
-	Tue, 17 Nov 2026 17:46:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0BB05606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dqULsYEt;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9424B606A31C;
+	Tue, 17 Nov 2026 18:27:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=uQLS4+jt
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DB0281A00;
-	Tue, 17 Nov 2026 09:46:01 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 790703F632;
-	Tue, 17 Nov 2026 09:46:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794937564; bh=NtQj8MNCnhvZNvOKcp20IxPx6PzYni3ArIZnYqISPiU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uQLS4+jtKeL+VWPwFB7KD+ijfK5bsFdh6jcei9p++JhjdTH5twkyk2rjtE0VjeJKX
-	 WbJ69WshCKRQq6OkrwKT7zPQzcQ3uXYNCOKNaLQPHVJNgYuHIYjUZ34XI31hEUxtlS
-	 ya2sdIDWkywrPkXXVAuR9GgYar6qaPhH58MZ18Xk=
-Date: Tue, 17 Nov 2026 17:46:00 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Chengyu Liu <lui2012qwq@gmail.com>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, philip.radford@arm.com,
-	stable@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dqULsYEt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 340431F000C4;
+	Tue, 17 Nov 2026 18:27:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794940075;
+	bh=d2xN15dj3gCvbJHEB+TEBgOrVQFIeke+Q9K2cfCpikA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dqULsYEtt6CVaxlO9mQ6ePjg54L1qfwjVAX9O2MIZTa/dE0PKcBqvpx05FKgSVh5+
+	 8JYLEdhpMkz5k2XlhWPYRuija2Xqm8oC/Wmg110tvZCjq2JqblBUP5aLUrY/z7J1LR
+	 i4T7gU3FFD5E7EQpxZ7b15/60fdvrPCatwaKUO7PZ1QCWW3esoGE960t8aoT2vn/Sp
+	 etj5+atmpx4h2AyUYebq5tPIl49tk4Z9pZ9os1a3dib+Uan4/Yy2jly+jjdkp5os/z
+	 wq2Pr4qCj7UcJB17/2DLrYP9+UnmHZOxg5SmSrmnYUoy4dyX7imNgrprxXTJd3TLXr
+	 8Hlx2DJdXTB9w==
+Date: Tue, 17 Nov 2026 18:27:52 +0000
+From: Sudeep Holla <sudeep.holla@kernel.org>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: Chengyu Liu <lui2012qwq@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org,
+	philip.radford@arm.com, stable@vger.kernel.org
 Subject: Re: [PATCH 1/2] firmware: arm_scmi: Fix deadlock between reboot
  notifier and forceful work
-Message-ID: <avyS2OLs3XGcKXXn@pluto>
+Message-ID: <20261117-hypersonic-beautiful-perch-bd4fcf@sudeepholla>
 References: <20261116084211.3066460-1-cristian.marussi@arm.com>
  <20261116084211.3066460-2-cristian.marussi@arm.com>
  <20261116-astonishing-urchin-from-jupiter-838cfc@sudeepholla>
  <avw5o7sTyriZ2ZiX@pluto>
  <20261117-prodigious-limpet-of-fame-3d72e6@sudeepholla>
  <CAE=Q7=4+HMtqbiK9v3jw4t31TQOYUfRXKRurZ7KcMi7GTi1v2A@mail.gmail.com>
+ <avyS2OLs3XGcKXXn@pluto>
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -68,27 +65,37 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAE=Q7=4+HMtqbiK9v3jw4t31TQOYUfRXKRurZ7KcMi7GTi1v2A@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <avyS2OLs3XGcKXXn@pluto>
 
-On Wed, Nov 18, 2026 at 01:35:04AM +0800, Chengyu Liu wrote:
-> Hi,
+On Tue, Nov 17, 2026 at 05:46:00PM +0000, Cristian Marussi wrote:
+> On Wed, Nov 18, 2026 at 01:35:04AM +0800, Chengyu Liu wrote:
+> > Hi,
+> > 
+> > I think the current v2 may have reintroduced the second deadlock
+> > described in my original commit message.
+> > 
+> > scmi_forceful_work_func() still calls unregister_reboot_notifier()
+> > while holding sc->state_mtx. Could you also check the potential lock
+> > inversion between state_mtx and reboot_notifier_list.rwsem?
+> > 
+> > The reboot path holds the rwsem read lock while executing the notifier
+> > callback, which then waits for state_mtx. Meanwhile, the worker holds
+> > state_mtx while trying to unregister the notifier, which requires the
+> > rwsem write lock.
 > 
-> I think the current v2 may have reintroduced the second deadlock
-> described in my original commit message.
+> Yes indeed Sashiko complains about the same and the second part of the
+> issue on the rwsem is unresolved and will need more work.
 > 
-> scmi_forceful_work_func() still calls unregister_reboot_notifier()
-> while holding sc->state_mtx. Could you also check the potential lock
-> inversion between state_mtx and reboot_notifier_list.rwsem?
-> 
-> The reboot path holds the rwsem read lock while executing the notifier
-> callback, which then waits for state_mtx. Meanwhile, the worker holds
-> state_mtx while trying to unregister the notifier, which requires the
-> rwsem write lock.
 
-Yes indeed Sashiko complains about the same and the second part of the
-issue on the rwsem is unresolved and will need more work.
+That's what I was referring when I said
+" ... re-evaluate needs_forceful again here after un-registration before
+  calling below forced transition ?"
 
-Thanks,
-Cristian
+But then your response somehow convinced me that it is not needed 😉.
+
+-- 
+Regards,
+Sudeep
