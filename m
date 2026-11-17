@@ -1,82 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794905140;
-	b=b8XOIqUZV5jKpTWOIHJ4LHDW8zNqdHQWQMuIKvcZ9rELaJTMe5cfPIhMo6RclxQXoZye
-	 /LG5PBj+9r6IEypyn33N9nvDjjHaKccYodckQXKo6I2SzNw8a6Mpt2rZFH+7XCeA31f7X
-	 vGa++wLisa+lro3D7xb/fJBBiWRdb2ApagXdYuYBjk3flEKsDVCBJra7ucA9xkyKDx72i
-	 aQaRdfsJRUJzbcsifnahFRceV8SJxloNQtbRRU8Uljf5TGs65l1NmjyvDR6BIU/V7SBtr
-	 blj3G9XVkrK8OAeC4N+HN/ixhjuFcr1lak1MH1tV8c4I8Hl3LHZYR9kbmOp1Vw+j5Jw==
+	t=1794914733;
+	b=NuO8IEHimlPEUAf+1fmCWjw3uIKUDaE0Ko0/NyYGIIF7hVeMbGKdy1q2xhM3cycMc8Wj
+	 VRfXgk5L/aa2CacAe64J1RNAUslo6CMWJ9SOjJ4QIeiDPjFJEdAh9NDSRm2VHX9+/+lWd
+	 IDCGTy86+rS5aF8YH4f0t6c99/XEnRnX2tsaPurX86QitE5KqThpi+sZPxMpvAYbkojlr
+	 ftHIWciw/wWfn2iOU7nuhi+Rw6SLUoAGNjdvB9emmIc4aq8IkTX8Wyc3kuC4Hi193bkSb
+	 VqmVwxrfQ9oCMEhMk/ztrfRJIt+j13VmtyjebB9jvT1FWmfpNv8NqL1k6NYHwQSiFNw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794905140;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-MBO-RS-ID:X-MBO-RS-META;
-	bh=DezbHtCd3hypT1eHDNwCunwup1tFxqb9i/BJNZQvL3k=;
-	b=wal432cXKDL9eW9DyDAXBA7Z/CN/ieYh7NIozFrWtbi0ogYHhVCITeY6cMlrjZIphfDQ
-	 LtydONEKg3CaBqxhEdKtbwSFZEjyVZpBMnY4XgmL2gUOC6+31XbCovZ1Elxhnjg8lMvqz
-	 gyvL+qINacazfqz5WCds/X9XoKQsKoM3JziBuHLMYn8feMD81kAXpS9ysFgIiDpb2lA8l
-	 OQCGqRAV5jOeR/rnTdXVjMtF97pKHVgGxoXlAV8CsKCBTuShMmHA9O6gl9KInZQrwXI2W
-	 OoT0cB/er0lKFBufMyBsdYr6NJdVgJLMjWGZPMwo5vLND9ajSaPQoWBoBqX0MOCn2bg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794914733;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=EjKtFJmbELwLxN/SkX96ZRarriuHbmHuTOFtDaMQmWI=;
+	b=vc7+GjM4TPpDfqh51AXZMkbG/0fFJ490Ri5xPlmKdmBrIIwr5t8mMBTPgCOepE6yFv74
+	 3ILtSqlA8rVkarY6A3zSQV3Ipqco1W+qSmuf46ULMOQEPt5q341nmr0AXLTliEmEQu/Li
+	 UNyCBn5EV3tTNKPK/oL5pQSkbxd3c/rbuzWvOwTbbKHB79BV+IVYAGDCDbbcvprZKv341
+	 udwEQKIO9ZwaF6BLj7eYjcAMlBknTibWBl+Dw+LTnulGEhjDIrRqd7nvn5yqYdnZkxQ8v
+	 TpD76FPHuU/tRGASTh5yqgBNR5VjUKLZWvE0cYwszn9+voBWcpkWzpAHZ89SY/fWAcw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b="GO50dc6/";
-	arc=none smtp.remote-ip=80.241.56.161
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5DD606A337;
-	Tue, 17 Nov 2026 08:45:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C5DD606A337
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="Yh0K/+MF";
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B0D9606A31C;
+	Tue, 17 Nov 2026 11:25:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8B0D9606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=GO50dc6/
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4jTJGK3mhYzKnh3;
-	Tue, 17 Nov 2026 09:45:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1794905129;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=DezbHtCd3hypT1eHDNwCunwup1tFxqb9i/BJNZQvL3k=;
-	b=GO50dc6/HVjeV41229FKdWwES4NpxJJhDlDZigkZ3+vM29imYgmk90hxAjJeH93i73BSH+
-	8y7RPFasxVbOKg5+zYF1b3WPdOZIQ30nU/JRGxHW3qXGsWEbh6mPjfBR2lxoLN9A53snN5
-	Kmx24gb08ySNfOtBnwMS3gqUMGgbptePByNUwnmZPGhRwCjmKLtsUh3J4UoOu0C9NMKFR4
-	gBq74VDdGpfHSExtPn9UaTTnUfBYOnseqMNMY8tGOKkIpdril77Xpyg10cunUnF9YkKn+e
-	Uux1WarCFtKCiqIWbos5DwfFOBWYdNgji+sfA2u7tp9ewbCicQQ9o8PHcoIvwA==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-To: linux-arm-kernel@lists.infradead.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Breno Leitao <leitao@debian.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Edward Adam Davis <eadavis@sina.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Kees Cook <kees+treewide@kernel.org>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Pan Chuang <panchuang@vivo.com>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Petr Mladek <pmladek@suse.com>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	arm-scmi@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	systemd-devel@lists.freedesktop.org
-Subject: [PATCH] [RFC] kernel/reboot: Add orderly_suspend() via /sbin/suspend user mode helper
-Date: Tue, 17 Nov 2026 09:44:19 +0100
-Message-ID: <20261117084523.50711-1-marek.vasut+renesas@mailbox.org>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Yh0K/+MF
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D9E751476;
+	Tue, 17 Nov 2026 03:25:28 -0800 (PST)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BC5353F763;
+	Tue, 17 Nov 2026 03:25:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1794914731; bh=tsiBf/59DLImedYvMeJnfBpkP0avVT+CnBoreYFhOPM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Yh0K/+MFNRFDcpjhbH82LlRvl8CDwEEwkAyIdCSxF/8JFqZfRt/a+Y5/fonHTre6z
+	 k2ymSKZ2F0YsUTmdHu+F/B94sY0jucBPXi0KY4XmmqpXKdALi+O7aKmKB/T97NvlHd
+	 cLuQv/+0tf4SF5AAqIY3HRg7XUO7xuLEOw0nhrRQ=
+Date: Tue, 17 Nov 2026 11:25:23 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Sudeep Holla <sudeep.holla@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, philip.radford@arm.com,
+	Chengyu Liu <lui2012qwq@gmail.com>, stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] firmware: arm_scmi: Fix deadlock between reboot
+ notifier and forceful work
+Message-ID: <avw5o7sTyriZ2ZiX@pluto>
+References: <20261116084211.3066460-1-cristian.marussi@arm.com>
+ <20261116084211.3066460-2-cristian.marussi@arm.com>
+ <20261116-astonishing-urchin-from-jupiter-838cfc@sudeepholla>
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -86,209 +64,139 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: f8999e5d1c94626d345
-X-MBO-RS-META: rnnwiz1qpbuo1m538wigdx8oazjoq1un
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261116-astonishing-urchin-from-jupiter-838cfc@sudeepholla>
 
-Currently, Linux responds to firmware-issued poweroff and reboot requests
-by invoking user mode helpers /sbin/poweroff and /sbin/reboot, which give
-userspace the ability to perform orderly poweroff and reboot according to
-policy set by userspace.
+On Mon, Nov 16, 2026 at 06:25:52PM +0000, Sudeep Holla wrote:
+> On Mon, Nov 16, 2026 at 08:42:10AM +0000, Cristian Marussi wrote:
+> > From: Chengyu Liu <lui2012qwq@gmail.com>
 
-This is not the case for firmware-issued suspend request, which directly
-invokes pm_suspend(PM_SUSPEND_MEM), without giving userspace any way to
-determine the suspend policy. This is problematic, because the userspace
-might not be quite ready to suspend right the instant when the suspend
-request from firmware arrives, e.g. because the user is interacting with
-the device and the userspace knows that interaction will end in the near
-future, at which point the system can be suspended perfectly well.
+Hi Sudeep,
 
-Introduce a user mode helper, /sbin/suspend, which acts the same way as
-the other user mode helpers, and which is invoked when firmware-issued
-suspend request arrives. Userspace can use the helper to apply suspend
-policy, most likely by invoking init system suspend target. In case the
-helper is not present, retain current behavior and suspend immediately.
+> > 
+> > scmi_reboot_notifier() calls cancel_delayed_work_sync() while holding
+> > sc->state_mtx, but the work it waits on - scmi_forceful_work_func() -
+> > takes the same mutex.  If a forceful transition work is in flight when
+> > the reboot notifier fires, the notifier holds the lock and waits for
+> > the callback while the callback waits for the lock: deadlock, and the
+> > reboot wedges.
+> > 
+> > Moving the cancel outside the lock is not sufficient on its own, as the
+> > callback also calls unregister_reboot_notifier() unconditionally, which
+> > blocks on the reboot chain rwsem (down_write vs. the in-progress
+> > chain's down_read) while the notifier waits for the callback - the
+> > deadlock would just move to a different lock.  Fix both sides:
+> > 
+> > - Notifier: compute the decision under state_mtx, drop the lock, then
+> >   cancel.  A callback that slips in between sees state ==
+> >   SCMI_SYSPOWER_REBOOTING (not IN_PROGRESS), skips the forceful
+> >   request and finishes, so the cancel cannot miss it.  (The callback's
+> >   own system_state early-return does not cover a work item that
+> >   started before the reboot began: kernel_restart_prepare() runs the
+> >   notifier chain before setting system_state.)
+> > 
+> > - Callback: only unregister the reboot notifier when actually forcing
+> >   the transition - that is the only case that needs it, because the
+> >   forceful kernel_restart()/kernel_power_off() would otherwise
+> >   re-enter scmi_reboot_notifier and self-deadlock on state_mtx.  When
+> >   the state is not IN_PROGRESS there is nothing to force, and skipping
+> >   the unregister keeps the callback from blocking on the reboot chain
+> >   rwsem while the notifier waits for it.
+> > 
+> > Found by static analysis.
+> > 
+> > Cc: stable@vger.kernel.org
+> > Fixes: 2c4b97fee94a ("firmware: arm_scmi: Add SCMI System Power Control driver")
+> > Signed-off-by: Chengyu Liu <lui2012qwq@gmail.com>
+> > [Cristian: drop lock before triggering forceful reboot (needs_forceful)]
+> > Tested-by: Cristian Marussi <cristian.marussi@arm.com>
+> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> > ---
+> >  .../firmware/arm_scmi/scmi_power_control.c    | 26 ++++++++++++++-----
+> >  1 file changed, 19 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/drivers/firmware/arm_scmi/scmi_power_control.c b/drivers/firmware/arm_scmi/scmi_power_control.c
+> > index e791a206768c..e0680e33180e 100644
+> > --- a/drivers/firmware/arm_scmi/scmi_power_control.c
+> > +++ b/drivers/firmware/arm_scmi/scmi_power_control.c
+> > @@ -121,6 +121,7 @@ static int scmi_reboot_notifier(struct notifier_block *nb,
+> >  				unsigned long reason, void *__unused)
+> >  {
+> >  	struct scmi_syspower_conf *sc = reboot_nb_to_sconf(nb);
+> > +	bool cancel_work;
+> >  
+> >  	mutex_lock(&sc->state_mtx);
+> >  	switch (reason) {
+> > @@ -138,11 +139,18 @@ static int scmi_reboot_notifier(struct notifier_block *nb,
+> >  		break;
+> >  	}
+> >  
+> > -	if (sc->state == SCMI_SYSPOWER_REBOOTING) {
+> > +	cancel_work = sc->state == SCMI_SYSPOWER_REBOOTING;
+> > +	mutex_unlock(&sc->state_mtx);
+> > +
+> > +	if (cancel_work) {
+> >  		dev_dbg(sc->dev, "Reboot in progress...cancel delayed work.\n");
+> > +		/*
+> > +		 * cancel_delayed_work_sync() waits for a running
+> > +		 * scmi_forceful_work_func(), which takes state_mtx - it must
+> > +		 * not be called with the lock held.
+> > +		 */
+> >  		cancel_delayed_work_sync(&sc->forceful_work);
+> 
+> Sashiko still complains about the deadlock.
+> 
 
-Note that /sbin/suspend is non-standard. I also considered registering
-an input device and sending KEY_SUSPEND via such a device, but that does
-not seems nice. I also had a look at wake locks, but I don't think this
-is the right tool either. I am sending this as an RFC, because I would
-like to get input on this. I am including change for two platforms, SCMI
-and ZynqMP, which could benefit from this. Thank you for your input !
+Yes I know.
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Breno Leitao <leitao@debian.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Edward Adam Davis <eadavis@sina.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Kees Cook <kees+treewide@kernel.org>
-Cc: Marco Crivellari <marco.crivellari@suse.com>
-Cc: Michal Simek <michal.simek@amd.com>
-Cc: Oleg Nesterov <oleg@redhat.com>
-Cc: Pan Chuang <panchuang@vivo.com>
-Cc: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: arm-scmi@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-renesas-soc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: systemd-devel@lists.freedesktop.org
----
- .../firmware/arm/scmi/scmi_power_control.c    | 11 +-----
- drivers/soc/xilinx/zynqmp_power.c             |  4 +--
- include/linux/reboot.h                        |  1 +
- kernel/reboot.c                               | 34 +++++++++++++++++++
- 4 files changed, 38 insertions(+), 12 deletions(-)
+> How about changing this to non-sync cancel_delayed_work() so that it doesn't
+> wait and deadlock like it complains ?
+> 
 
-diff --git a/drivers/firmware/arm/scmi/scmi_power_control.c b/drivers/firmware/arm/scmi/scmi_power_control.c
-index e791a206768c2..b61afb46ca7ef 100644
---- a/drivers/firmware/arm/scmi/scmi_power_control.c
-+++ b/drivers/firmware/arm/scmi/scmi_power_control.c
-@@ -80,7 +80,6 @@ enum scmi_syspower_state {
-  * @reboot_nb: A notifier_block optionally used to track reboot progress
-  * @forceful_work: A worker used to trigger a forceful transition once a
-  *		   graceful has timed out.
-- * @suspend_work: A worker used to trigger system suspend
-  */
- struct scmi_syspower_conf {
- 	struct device *dev;
-@@ -93,7 +92,6 @@ struct scmi_syspower_conf {
- 	struct notifier_block reboot_nb;
- 
- 	struct delayed_work forceful_work;
--	struct work_struct suspend_work;
- };
- 
- #define userspace_nb_to_sconf(x)	\
-@@ -254,7 +252,7 @@ static void scmi_request_graceful_transition(struct scmi_syspower_conf *sc,
- 		orderly_reboot();
- 		break;
- 	case SCMI_SYSTEM_SUSPEND:
--		schedule_work(&sc->suspend_work);
-+		orderly_suspend();
- 		break;
- 	default:
- 		break;
-@@ -323,11 +321,6 @@ static int scmi_userspace_notifier(struct notifier_block *nb,
- 	return NOTIFY_OK;
- }
- 
--static void scmi_suspend_work_func(struct work_struct *work)
--{
--	pm_suspend(PM_SUSPEND_MEM);
--}
--
- static int scmi_syspower_probe(struct scmi_device *sdev)
- {
- 	int ret;
-@@ -352,8 +345,6 @@ static int scmi_syspower_probe(struct scmi_device *sdev)
- 	sc->dev = &sdev->dev;
- 	dev_set_drvdata(&sdev->dev, sc);
- 
--	INIT_WORK(&sc->suspend_work, scmi_suspend_work_func);
--
- 	return handle->notify_ops->devm_event_notifier_register(sdev,
- 							   SCMI_PROTOCOL_SYSTEM,
- 					 SCMI_EVENT_SYSTEM_POWER_STATE_NOTIFIER,
-diff --git a/drivers/soc/xilinx/zynqmp_power.c b/drivers/soc/xilinx/zynqmp_power.c
-index ce75bc5ca9633..cd1cab58e84ca 100644
---- a/drivers/soc/xilinx/zynqmp_power.c
-+++ b/drivers/soc/xilinx/zynqmp_power.c
-@@ -112,7 +112,7 @@ static irqreturn_t zynqmp_pm_isr(int irq, void *data)
- 			orderly_poweroff(true);
- 			break;
- 		case SUSPEND_POWER_REQUEST:
--			pm_suspend(PM_SUSPEND_MEM);
-+			orderly_suspend();
- 			break;
- 		default:
- 			pr_err("%s Unsupported InitSuspendCb reason code %d\n",
-@@ -196,7 +196,7 @@ static void zynqmp_pm_init_suspend_work_fn(struct work_struct *work)
- 	if (pm_work->args[0] == SUSPEND_SYSTEM_SHUTDOWN) {
- 		orderly_poweroff(true);
- 	} else if (pm_work->args[0] == SUSPEND_POWER_REQUEST) {
--		pm_suspend(PM_SUSPEND_MEM);
-+		orderly_suspend();
- 	} else {
- 		pr_err("%s Unsupported InitSuspendCb reason code %d.\n",
- 		       __func__, pm_work->args[0]);
-diff --git a/include/linux/reboot.h b/include/linux/reboot.h
-index aa08c3bbbf59a..c009deb3eb2b6 100644
---- a/include/linux/reboot.h
-+++ b/include/linux/reboot.h
-@@ -177,6 +177,7 @@ void ctrl_alt_del(void);
- 
- extern void orderly_poweroff(bool force);
- extern void orderly_reboot(void);
-+extern void orderly_suspend(void);
- 
- /**
-  * enum hw_protection_action - Hardware protection action
-diff --git a/kernel/reboot.c b/kernel/reboot.c
-index bc71183d4ad87..1d830051dc920 100644
---- a/kernel/reboot.c
-+++ b/kernel/reboot.c
-@@ -851,6 +851,7 @@ void ctrl_alt_del(void)
- #define POWEROFF_CMD_PATH_LEN  256
- static char poweroff_cmd[POWEROFF_CMD_PATH_LEN] = "/sbin/poweroff";
- static const char reboot_cmd[] = "/sbin/reboot";
-+static const char suspend_cmd[] = "/sbin/suspend";
- 
- static int run_cmd(const char *cmd)
- {
-@@ -872,6 +873,20 @@ static int run_cmd(const char *cmd)
- 	return ret;
- }
- 
-+static int __orderly_suspend(void)
-+{
-+	int ret;
-+
-+	ret = run_cmd(suspend_cmd);
-+
-+	if (ret) {
-+		pr_info("Failed to start orderly suspend: fall back to suspend-to-mem\n");
-+		pm_suspend(PM_SUSPEND_MEM);
-+	}
-+
-+	return ret;
-+}
-+
- static int __orderly_reboot(void)
- {
- 	int ret;
-@@ -951,6 +966,25 @@ void orderly_reboot(void)
- }
- EXPORT_SYMBOL_GPL(orderly_reboot);
- 
-+static void suspend_work_func(struct work_struct *work)
-+{
-+	__orderly_suspend();
-+}
-+
-+static DECLARE_WORK(suspend_work, suspend_work_func);
-+
-+/**
-+ * orderly_suspend - Trigger an orderly system suspend
-+ *
-+ * This may be called from any context to trigger a system suspend.
-+ * If the orderly suspend fails, it will force an immediate suspend.
-+ */
-+void orderly_suspend(void)
-+{
-+	schedule_work(&suspend_work);
-+}
-+EXPORT_SYMBOL_GPL(orderly_suspend);
-+
- static const char *hw_protection_action_str(enum hw_protection_action action)
- {
- 	switch (action) {
--- 
-2.53.0
+Indeed I think this is just the solution...I mean dropping this patch as
+a whole and keeping the original wider locking section BUT do not cancel 
+synchronously, but simply with cancel_delayed_work(&sc->forceful_work);
 
+> >  	}
+> > -	mutex_unlock(&sc->state_mtx);
+> >  
+> >  	return NOTIFY_OK;
+> >  }
+> > @@ -181,6 +189,7 @@ static void scmi_forceful_work_func(struct work_struct *work)
+> >  {
+> >  	struct scmi_syspower_conf *sc;
+> >  	struct delayed_work *dwork;
+> > +	bool needs_forceful;
+> >  
+> >  	if (system_state > SYSTEM_RUNNING)
+> >  		return;
+> > @@ -188,13 +197,16 @@ static void scmi_forceful_work_func(struct work_struct *work)
+> >  	dwork = to_delayed_work(work);
+> >  	sc = dwork_to_sconf(dwork);
+> >  
+> > -	dev_dbg(sc->dev, "Graceful request timed out...forcing !\n");
+> >  	mutex_lock(&sc->state_mtx);
+> > -	/* avoid deadlock by unregistering reboot notifier first */
+> > -	unregister_reboot_notifier(&sc->reboot_nb);
+> > -	if (sc->state == SCMI_SYSPOWER_IN_PROGRESS)
+> > -		scmi_request_forceful_transition(sc);
+> > +	needs_forceful = sc->state == SCMI_SYSPOWER_IN_PROGRESS;
+> >  	mutex_unlock(&sc->state_mtx);
+> > +
+> > +	if (needs_forceful) {
+> > +		dev_dbg(sc->dev, "Graceful request timed out...forcing !\n");
+> > +		/* avoid deadlock by unregistering reboot notifier first */
+> > +		unregister_reboot_notifier(&sc->reboot_nb);
+> 
+> And re-evaluate needs_forceful again here after un-registration before
+> calling below forced transition ?
+>
+
+If all of this is locked as it was originally there is no need, the two
+threads should just sync properly...
+
+Let's see what Sashiko thinks..
+
+Thanks,
+Cristian
