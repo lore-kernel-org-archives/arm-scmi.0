@@ -1,75 +1,133 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.15.3
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795018693;
-	b=aa1MadVHLFaYdVZpQc7uLKSLVCHCpnjue3SjGlwfhNHLNLaKvVAD8ZQiS9wdwctHpc8f
-	 yILXprmphMzNYK8tcBotAgjDR98MxX7MzdeILB5Y3YS3X1WyFO0VXAvckXZ8M3lTB5N30
-	 C0Yx9IZPx2I+9oPfakWq0aoVhLIBaXyi8+HO5ImdJNXZ88wulMQv9F2SToQUhgyhdtZUg
-	 PMEFRJ2RwMbGr10x8b/m4BULpt8gocBYI8Id9Z/yfxVYjDv3onZ7HCew/nTO0aOns61Dc
-	 d8dEXTUYW/d8k66OwR08XYMVhaaOjMZqu9Cegs/nqzyOEBet1kuANRx0xQl3znMhGXw==
+	t=1795022791;
+	b=UOHYgYzLoG/vFSZWXaf8llmUZMCbm9s9jWqOfeECs6SV+lBAPo/SR9uysoOuKs3MGv2E
+	 WArKV75BmVGw7z00rDV6Au1txEAbbdbd6sZsbSKVaN6y0U91v84zcVlMzihD4kQvOyhIU
+	 7onjMZKfW7WY9MEVAWSp8lVn4Ou9/JLuLmYZ+eIF3V2bxqw1Bm+qIm20PqsdzuTbtA2rv
+	 sd7sVFnTjGniRg9m+njPXFl2j1F4j59Vm1fb0FSBlDxuPzhRQaS4nKH+eN6qmf2GcvxSQ
+	 SjtS4+xikXvhtmowOHZwUgD2UHrgYufzZy0Z64P9CMNX0e3alIFoPDl5SjwjW5ltIag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795018693;
-	h=DMARC-Filter:DKIM2-Signature:Message-Instance:DKIM-Signature:
-	 X-UI-Sender-Class:Received:Message-ID:Date:MIME-Version:User-Agent:To:
-	 Cc:References:Subject:Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:UI-OutboundReport;
-	bh=m/bYAf+dZPqaYiTr9U4wbR60qvam9O91KPznC9SM+Rw=;
-	b=bEYCI0PV9KKcZLQ/rz+FdjheAh5L9aCDvCMNbqmZBScqKlQ2cQM6j8LHoda20XhUA+Xt
-	 vKycv5Kej7v+JOLK7N3vyxH7EXRT+MsZ04EgzGtxarsFnWfRrrHDmRVubsjvotmECCev3
-	 bmR24KY43w/j+K4V0RAzB9neqGkeF74ChTdqzp5htxfMiEWbbzro2wpfDRhQSQxYMsnMN
-	 iQu2Oj6dNHRtt4qgIpxvlr2daZCGDaSP/fID5GlwhKqrykgP2n8TDHMB2JXlyVxYF5I9A
-	 UsM8aoJ/g3qtIB6lV4jHaxFbSL4oJrDn18VWYcjJRwDVkaDs4HL3C0fMh7pZ6mcat5Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795022791;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=RW3VrDJt2jwVTxo1IxmYUqwi3Wi45tGK1TjCoqfFq0w=;
+	b=tw9Web+PIGyjZluJ5mKYApgkLyb5msm6BJphbRgp2W9vKN+eyTeW6bBIpcgRCGLa8/b3
+	 8oK/tUAUghZhKyNVC4MtxDdkpF6yo5l3axml69uFuMcjqZhiuqVu9ALP2cNmP32uXHHn2
+	 TNujepJgi8rBNmlImX7w0Hz336WVwf+dGTHySTdx30VFFMsS6t7pzwJnELQjEWwyCemjk
+	 J/IRUQ7GCSgxCzlM7/LOcm3+1zgbASivPi2JiqIlENoAfnhruqLl4Aid8C4YG5K76TGdP
+	 DENOzXY62c1IkfAgAzMQgVM/pd7HAyiHMwxXsIpjsNvBTxzgf7rYefc/srS2M++mWzQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=web.de;
-	spf=pass smtp.mailfrom=web.de;
-	dkim=pass header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=Sq2pZ4fJ;
-	arc=none smtp.remote-ip=212.227.15.3
-Received: from mout.web.de (mout.web.de [212.227.15.3])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=YQar5ru2;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XAfrputA;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B768606A334
-	for <arm-scmi@vger.kernel.org>; Wed, 18 Nov 2026 16:18:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B768606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35771606B5C5
+	for <arm-scmi@vger.kernel.org>; Wed, 18 Nov 2026 17:26:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35771606B5C5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=Sq2pZ4fJ
-DKIM2-Signature:  i=1; m=1; t=1795018689;
- mf=PE1hcmt1cy5FbGZyaW5nQHdlYi5kZT4=;
- rt=PGFybS1zY21pQHZnZXIua2VybmVsLm9yZz4=;
- d=web.de;
- s=s29768273:rsa-sha256:FkpMTTduCpjhycgHrlx2+SaWZzeG
-   /c1pCZQuO1/T2ukHskE9GHVulkqZ1hn8JK1tMsi+7iyPP0zc8sDrYkfWRyxW45pk0diFRS9ROFN
-   2xpsIBOwKr+kTy/hdldbEEaopzVg8LQjidkkamrOS0t+4noLHAWDYSoWNCVfhi7PgNNpX2mhB5k
-   m/c4nntPQMRYLk/xD3t/fHJHIG1gls5fmFuBmTT74ZCgpyHkfeQviBP+FXICqRWxVPMhbIHJfM2
-   8KhH4+GFyyF4TLb2RN8aTz/g1W68RhEYh08JBMQsV0pHbimUWO51A01nrZl4fl+MaAdLNuGXLHT
-   erggW198V9wFAA==;
-Message-Instance:  m=1;
- h=sha256:
-   nmDQmRUZN+uSb6f41n1+u/twAW/9MOE+IlpKSrhtQ2c=:
-   m/bYAf+dZPqaYiTr9U4wbR60qvam9O91KPznC9SM+Rw=,
-  sha512:
-   zX2+2XXbx3o4gU2xku4GB4cqxrBOQp8b36AIme9KhpF2+Tfpfrq7eCVISoNBJrVOiHre2EOgPDAktIpuxKNcAA==:
-   zNQth83cxu+7P+zsMCoEGFA85dRG3Im3HA+UQSy2I1SSJBBxQex5ejV+UkYztj2FOXZaJDLzv8zHaeVc4P9ZvA==;
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1795018349; x=1795623149; i=markus.elfring@web.de;
-	bh=m/bYAf+dZPqaYiTr9U4wbR60qvam9O91KPznC9SM+Rw=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Sq2pZ4fJs+BzhaIwvm8e/3/0HpxFCg7jQWws+b1dZ/6qneTU1yz+ROx/uwCCMRvJ
-	 6cvWqldKmn6ywVqDff9eoYeX+ZZmuPtD+rqT5QpvJT1FEobai3gW6WyNsPOwtIK5F
-	 gRHMeEL5J0/L5eFXiR1Ket8FnWRSbAtsEtA+BBRauRBAI2gDigW+LsPd9k5tRfvc/
-	 qluUE5UgtiNgvQOgZkgFpXPuCZynTDrXUouM5kVYdwyYoz9McgjoD1I/3HZXlxx/V
-	 DlsWkS0mG29EnRpCb72pLiglo7982hrmwcLVpI9gnFm21ve6N5p8BvpVAqJjc/uOn
-	 Mfr3yY0ERjq5An+ogw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MSqXS-1x0Vzm49l8-00SiyN; Wed, 18
- Nov 2026 17:12:29 +0100
-Message-ID: <bfe10f1f-443e-4286-8172-6f941663c86e@web.de>
-Date: Wed, 18 Nov 2026 17:11:53 +0100
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=YQar5ru2;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XAfrputA
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AIHHLpp895121
+	for <arm-scmi@vger.kernel.org>; Wed, 18 Nov 2026 17:26:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	RW3VrDJt2jwVTxo1IxmYUqwi3Wi45tGK1TjCoqfFq0w=; b=YQar5ru2ZJRA21yd
+	iG69+sbMplKpJXo7wVX6UP5PPD90Cy9ibfd4l7ZuEFKY8rrHN/VDBNLpHiAu9rlZ
+	YbOlLg9l44mCmgjJhIceUOLa+lJsqxPbLFWQXDQLhKFxKlo3atLqau/bhX8a9iP4
+	SxJx4lIrxxSLitIRlth7Tkx3SUsJoyg76ZqxKPWaPhQceejykdeNC38wiARdwfi4
+	6dEHZY/fAwZo9Wwg4prbO4Wu8xnUBaqVpq3v+Y9Tv+kc6wmQ9pkK1fgaBTUR3dhH
+	suy9pn/N4pcvvV/mGyl1ZaRnK2VrBhf2geRafZTZ76t9TiiXXStrGO9BI66kc8QN
+	8KBbuA==
+Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j1g9p01ed-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <arm-scmi@vger.kernel.org>; Wed, 18 Nov 2026 17:26:30 +0000 (GMT)
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-383f2d05c73so122211eec.0
+        for <arm-scmi@vger.kernel.org>; Wed, 18 Nov 2026 09:26:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1795022789; x=1795627589; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=RW3VrDJt2jwVTxo1IxmYUqwi3Wi45tGK1TjCoqfFq0w=;
+        b=XAfrputAOunWowo8og+wxsxbwygfqgaGe/nx6T4xz5bDI+Q3g1pkgaAD7NyDeTBEzw
+         e6cBizyEfE/NMDvxxs226M8NG/BY+4kNBokJvUeVqA6Y3jLyIeEkw90Od/PFCMGBA9al
+         PZNe0w4WZhNhZdg9Xqjtt+u2epfQhnXJbQ13bCMyUkCXuuje6v9kFu8/eBDWbJJd+73C
+         jzTUQzasVB1RpzLysN6JATPXCixiqecLr2iV4naRv8MdBrxXFTbeLpvUQir+BfKi6DrW
+         mKtMymyRnPZkW3cc+y2KNV834ZvhEyqb1RGBCqLduF9qOoY0wP0S9InP+UaDfElNYsCQ
+         wGIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795022789; x=1795627589;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RW3VrDJt2jwVTxo1IxmYUqwi3Wi45tGK1TjCoqfFq0w=;
+        b=gB+QvWJ/xgDs71EDKqFGH0yDEJIdZfhFWwUkQJ7VKwyH21FEuw8FpylB38XKhlmrVX
+         qCNs+IF18AbEl+xKymzcoHQyZ6dFXTqLlAGTyFwayGJOYGz3YKrYqiGJqk6cwCdRl+Ys
+         NlQm3ae652zes3+56+PNimFZLZ54qLqniv2qCE81ZRGZRuBDwGH5iNLswjbt8oU+45oF
+         4Jz6FHLglJhZfNeJCj3olbOOFQGlZb69vWqDAX1NKU7AN99LkP7a4bafV57RaSAVAc/4
+         V4EsoStZoq17Yp21Xi7WLp6swNy7+2rE54s+1m8guzksA9oT2izrdHJTxgktozBTnc5G
+         h6xg==
+X-Forwarded-Encrypted: i=1; AL+hErFMbt4+sKUJUtWKLcsdAN18plM2YzqP9ssTe2Xg+hF3snnpEITfuJQnwVkS+vjv3MLf5t6ND4bQQA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9eV+Ox+Mp8ty1WPO5+WyF30iyvJunnhVJJK2/jkqPSWWP6Ri0B
+	n4UwmJdiblRk56eGs0G00hPUIwZ2m7koMBZksVwHg7W7j0JBa2FBC7tmH4aEUYFKXKkeqhQni+V
+	YM5cIWgO/nZzLZFBA9xvb7dWGFgeqWaKAlBynmnaS+M9AVgYiaFrdlNw7hQ6WpQ==
+X-Gm-Gg: AZFdTZdLrpz+5l/0UBMyuUMwT5BqLm3D4zpvct2H9saJCf4OqU2cmhnUzgFhNstnr0N
+	+aNdndaAGT29TEWKWaxdx6/9oZHODnqOEBg7+G6STgLOGuF8cRmpmk//wAhfygr95eRcxWc/uQG
+	B005GH+Gn8ELsemzosnOFrV0Cd1TpdyiEHpFZDXdDiarQxI96CV1UFyzbOJOBHoHmjVjwFDmIFa
+	RrQsR5JvgUarRmQbL0hIXZEmq9NNgMxeWAW2+yUlubKOKB1Gmeg4h8y4PQFecX+Fp7zlzACSUel
+	1DRm57gLhYjYgEfSG46qR1ROjieybra6aqkhKPZJ+AQp23kq/G1Rot22urFuJSJnlkL6eL5k3Mc
+	seqAbj1GBEuB54MPik3DDjb2mKCov55rAnhtf4E0dzZS5Hg+KzYY91XtTGVmNb/w/NuxuSKgnhL
+	gcw2zz/mgnE7397jOyEX0x9ESrWGw=
+X-Received: by 2002:a05:7300:bc19:b0:36a:18e2:64c with SMTP id 5a478bee46e88-3827f98ff0cmr3828967eec.11.1795022788925;
+        Wed, 18 Nov 2026 09:26:28 -0800 (PST)
+X-Received: by 2002:a05:7300:bc19:b0:36a:18e2:64c with SMTP id 5a478bee46e88-3827f98ff0cmr3828923eec.11.1795022787802;
+        Wed, 18 Nov 2026 09:26:27 -0800 (PST)
+Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-382a7eaf3b3sm10705697eec.27.2026.11.18.09.26.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 09:26:27 -0800 (PST)
+Date: Wed, 18 Nov 2026 09:26:23 -0800
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+        sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+        f.fainelli@gmail.com, vincent.guittot@linaro.org,
+        etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+        d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
+        philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
+        leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
+        usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v15 10/35] firmware: arm_scmi: Add Telemetry resources
+ enumeration
+Message-ID: <20261118092623.00000cc4@oss.qualcomm.com>
+In-Reply-To: <av1rTY1cZjRbxzD6@pluto>
+References: <20261109091221.2532706-1-cristian.marussi@arm.com>
+	<20261109091221.2532706-11-cristian.marussi@arm.com>
+	<20261112100145.00000560@oss.qualcomm.com>
+	<avYZ2t_GoT7BN2nU@pluto>
+	<20261116133638.00006cc3@oss.qualcomm.com>
+	<av1rTY1cZjRbxzD6@pluto>
+Organization: Qualcomm
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -79,210 +137,210 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Bence Csokas <bence.csokas@arm.com>, cocci@inria.fr,
- linux-hardening@vger.kernel.org, Julia Lawall <julia.lawall@inria.fr>
-Cc: GR-QLogic-Storage-Upstream@marvell.com,
- James.Bottomley@HansenPartnership.com, Jes.Sorensen@gmail.com,
- airlied@gmail.com, andrealmeid@igalia.com, andrew+netdev@lunn.ch,
- andrii@kernel.org, arm-scmi@vger.kernel.org, ast@kernel.org,
- bcm-kernel-feedback-list@broadcom.com, bharathsm@microsoft.com,
- bleung@chromium.org, bpf@vger.kernel.org, brauner@kernel.org,
- cem@kernel.org, christian.koenig@amd.com, chrome-platform@lists.linux.dev,
- cristian.marussi@arm.com, dakr@kernel.org, daniel@iogearbox.net,
- dave@stgolabs.net, davem@davemloft.net, decui@microsoft.com,
- dri-devel@lists.freedesktop.org, dsahern@kernel.org, dvhart@infradead.org,
- eddyz87@gmail.com, edumazet@kernel.org, emil@etsalapatis.com, g@b4.vu,
- gnoack@google.com, groeck@chromium.org, gustavoars@kernel.org,
- haiyangz@microsoft.com, hansg@kernel.org, herbert@gondor.apana.org.au,
- horms@kernel.org, huangjunxian6@hisilicon.com, idosch@nvidia.com,
- ihor.solodrai@linux.dev, intel-gfx@lists.freedesktop.org,
- ipsec@lists.linux.dev, jack@suse.cz, jani.nikula@linux.intel.com,
- jgg@ziepe.ca, jmorris@namei.org, johannes@sipsolutions.net,
- jolsa@kernel.org, joonas.lahtinen@linux.intel.com,
- kalesh-anakkur.purayil@broadcom.com, kees@kernel.org, kuba@kernel.org,
- laurent.pinchart@ideasonboard.com, leon@kernel.org,
- linaro-mm-sig@lists.linaro.org, linkinjeon@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
- linux-cifs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-xfs@vger.kernel.org, luiz.dentz@gmail.com, lyude@redhat.com,
- maarten.lankhorst@linux.intel.com, marcel@holtmann.org,
- martin.lau@linux.dev, mchehab@kernel.org, memxor@gmail.com, mic@digikod.net,
- mingo@redhat.com, miriam.rachel.korenblit@intel.com, mkp@kernel.org,
- mripard@kernel.org, netdev@vger.kernel.org, nicolas.palix@imag.fr,
- njavali@marvell.com, nouveau@lists.freedesktop.org, pabeni@redhat.com,
- paul@paul-moore.com, pc@manguebit.org, perex@perex.cz, peterz@infradead.org,
- phasta@kernel.org, pkshih@realtek.com, rodrigo.vivi@intel.com,
- ronniesahlberg@gmail.com, samba-technical@lists.samba.org,
- selvin.xavier@broadcom.com, serge@hallyn.com, simona@ffwll.ch,
- song@kernel.org, sprasad@microsoft.com, steffen.klassert@secunet.com,
- sudeep.holla@kernel.org, sumit.semwal@linaro.org, tangchengchang@huawei.com,
- tglx@kernel.org, tiwai@suse.com, tom@talpey.com, tursulin@ursulin.net,
- tzimmermann@suse.de, tzungbi@kernel.org, viro@zeniv.linux.org.uk,
- wei.liu@kernel.org, willemdebruijn.kernel@gmail.com,
- yonghong.song@linux.dev, zack.rusin@broadcom.com
-References: <20261118-offsetof-v4-1-95b385c10b22@arm.com>
-Subject: Re: [PATCH v4 1/2] coccinelle: Add offsetofend() variant of
- struct_offset()
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20261118-offsetof-v4-1-95b385c10b22@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:6EPveX8Ri1t77eUHD87iadI+dVaiRGmKrcwX0pgqshl6eE/PUfu
- U/grdzqZeabqS0kEnnjyRXEVSYDjlvBsjC2oZG3t3rvYXHw3tr9N9kjJJpqOAEsA2vHBJqN
- AR+JHHmlfVSnKcJYWSJp1TR8Y5+Zu/geNXBYWb0YhnSvyDMYofveGe0n8eBYJD9wGvHxA8z
- U1kcbkwxGmL25oJsNUZfg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:rM0ETHJyGqI=;7bapq5lffTVvrvQuskQh/L6Ng5n
- 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
- PVQaXLpHYtdr+cU6hxQLaJ5A8jw==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: U-4ZsWs2XYcehPBSCforsPeV92WNPqDq
+X-Authority-Analysis: v=2.4 cv=LooHWXdc c=1 sm=1 tr=0 ts=6afddfc6 cx=c_pps
+ a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=7CQSdrXTAAAA:8 a=woqvtWepuCvEniIg8AEA:9 a=CjuIK1q_8ugA:10
+ a=6Ab_bkdmUrQuMsNx7PHu:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDA2OSBTYWx0ZWRfXzSbWokgBmlso
+ UwQV89Y9zBZz4wMRfvG6G8plcrpOCCcdr5M14JD0yDAwbRNpgfEHAHfwVUJEv84SzPvn005BO8k
+ XSbZfdMn2/ku+aetCpHtm155GZPhaxoJ6sz9re+mxoMUSnbIZxfnAlkfFkXExHxwLxDSN2V//HQ
+ l+7PVI++FzBgEFWx1gBViHsWcg1hc4Cxl5d+EpLik/ng+5A2F9wVggRkizF9sWKg1Xkjamf4aKk
+ yTw+3r65ATErlajUxB8tkOYVhNQ5py9Pp4jaTIOMAB/nA1pbDHkg+6UNaGgomm0UW4FG/CONKh4
+ Q5cwnkW4eJDruTVc5s+V0LlLgsMbsL1izpPsKc3vPYAT8FP5aT7Mo9+i3mRVJiL94eJBKQQ/fvy
+ SzTjF3EOPAweapO8kkQ5LPsuWYNwmzWlscW48GFk2sK4ssYR/UqWZw4ifGU86FiRUpYZgEyfMqY
+ D4OpnjK2JDHArOR+fkA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDA2OSBTYWx0ZWRfXwieRlouxWPCf
+ XciDd7FJdLqsXN66B3mro9Ypd/7G1qLSdOku1gSU+AwGmf5ZqcaIhahOrMJngwelAWM0DM0tVjm
+ +cSPUbG/nsKvkIMpGaco7CRwuZ92fRg=
+X-Proofpoint-GUID: U-4ZsWs2XYcehPBSCforsPeV92WNPqDq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-18_05,2026-11-16_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 clxscore=1015 malwarescore=0 impostorscore=0 phishscore=0
+ adultscore=0 spamscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611180069
 
-=E2=80=A6
-> +++ b/scripts/coccinelle/api/struct_offsetof.cocci
-> @@ -0,0 +1,18 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/// Use struct_offset() family of macros
-> +///
-> +// Confidence: High
-> +// Options: --no-includes --ignore ./tools/
-> +
-> +virtual patch
+On Wed, 18 Nov 2026 09:09:33 +0000
+Cristian Marussi <cristian.marussi@arm.com> wrote:
 
-Can further coccicheck operation modes become more interesting here?
+> On Mon, Nov 16, 2026 at 01:36:38PM -0800, Jonathan Cameron wrote:
+> > On Thu, 12 Nov 2026 19:56:10 +0000
+> > Cristian Marussi <cristian.marussi@arm.com> wrote:
+> >   
+> 
+> Hi,
+> 
+> > > On Thu, Nov 12, 2026 at 10:01:45AM -0800, Jonathan Cameron wrote:  
+> > > > On Mon,  9 Nov 2026 09:11:56 +0000
+> > > > Cristian Marussi <cristian.marussi@arm.com> wrote:
+> > > >     
+> > > > > Add basic Telemetry allocation and initialization routines, introducing and
+> > > > > wiring-up the logic needed to enumerate all the SCMI Telemetry resources
+> > > > > optionally using a lazy on-demand scheme: this approach factors in the
+> > > > > flexibility needed to minimize the amount of initialization work based on
+> > > > > the effective access pattern used by the upper layer ABI.
+> > > > > 
+> > > > > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>    
+> > > > 
+> > > > Hi Cristian,
+> > > > 
+> > > > This stretches across the patch set but first elements related to it are
+> > > > in this patch.  How do we handle larger values of de_data_sz?
+> > > >     
+> > > 
+> > > We dont. This was somethig that was on my todo list initially, but then
+> > > I realized that there was NO FW-side plan to actually implement anything
+> > > larger than 64bit.  
+> > 
+> > Understood, some set of firmware that you have isn't doing this. I don't
+> > necessarily mind not supporting it initially but like the other features
+> > it is very useful to have an implementation to make sure it doesn't break
+> > the ABI. I don't want to go through a 'move to version 2 ABI if you want
+> > this feature' path.
+> >  
+> 
+> Agreed that it would be better if avoided.
+>  
+> > Let's just say I hit this for a reason. Whether that reason makes it into
+> > a production firmware is an open question at the moment.
+> > 
+> > FWIW I have both QEMU based emulation (I'm working through the process to be
+> > able to share that) and the changes to fit in via what I think is the
+> > cleanest ABI change. Kernel / userspace change below.
+> > I modified this from my original proposal to take into account the
+> > desire to add it later (even if to me it smells like papering over a bug
+> > rather than adding a feature!).  See below for what that required.
+> > Not only shmti is tested.  The LLM found bugs in it's own fast channel
+> > code, so take that with a pinch of salt!
+> >  
+> 
+> I skimmed through your patch and it is mostly in line with what I was
+> imagining (not even protyped though), i.e. in a nutshell
+> 
+>  - an ABI feature bit to add MUTIWORD support
+>  - a flag bit to activate this feature on all _READ IOCTLs at will
+>  - a repurpose of the pad field in scmi_tlm_sample
+> 
+> What I find awkward is the usage of pad as an index: that will expose
+> a lot of duplicate data since all DEs multi-words are now scattered
+> through a number of sample with the same ID and TS, and a bit cumbersome
+> to handle in userspace to reconstruct the multi-word value.
+> 
+> My non-tested-nor-prototyped idea was instead to repurpose the pad field
+> as a length, so as to pack all the multi-words payload as the trailing
+> part of a flexible array member (an extrnal array really being an ABI)
+> and use a single structure to read a complete DE.
+> 
+> In this case the problem would be to maintain backward compatibility
+> with the current scmi_tlm_de_sample.
 
+Indeed, that's what drove the just using an index approach.
 
-> +
-> +@offsetof depends on patch@
-> +expression ptr, member;
-> +@@
-> +- offsetof(typeof(*(ptr)), member)
-> ++ struct_offset(ptr, member)
-> +@offsetofend depends on patch@
-> +expression ptr, member;
-> +@@
-> +- offsetofend(typeof(*(ptr)), member)
-> ++ struct_offsetofend(ptr, member)
+> 
+> At first I was thinking that we could simply introduce a new alternative
+> scmi_tlm_de_multi_sample structure that is used in place of the current
+> scmi_tlm_de_sample ONLY when feataure bits is available AND requested: so
+> userspace knows that when sets flag.MULTIWORD it has to use the
+> multi-word structure in input where pad is a length and there are multipe vals.
+> 
+> While this would work for all the bulk ops since they take a __u64 pointer
+> to a payload structure really (so it does NOT really matter what they are
+> carrying as long as it is consistent with the advertised feature bits and
+> request flag),  it CANNOT work for DE_READ where scmi_tlm_de_sample is
+> used directly...so a change in the current, not-merged, ABI would be
+> needed anyway....
+> 
+> Then...I thought that maybe we dont even need this...and this part could be
+> judged horrific maybe, so feel free to stop reading if your eyes starts
+> bleeding :P
+> 
+> Currently we have
+> 
+> struct scmi_tlm_de_sample {                                                      
+>         __u32 id;                                                                
+>         __u32 pad;                                                               
+>         __u64 tstamp;                                                            
+>         __u64 val;                                                               
+> };                     
+> 
+> with pad being unused and the whole structure that can be used alone
+> or packed into a container struct.
+> 
+> WHAT IF... when MULTIWORD feature is enabled AND requested we repurpose
+> the meaning NOT ONLY of <pad> but also of <val> and use this latter NOT
+> as a payload for a single value returned but as a pointer to an external
+> array of words counted by pad ?
+> 
+> The structure size remains the same, while its interpretation vary based
+> on the requested flag when such feature is available.
+> 
+> It may be a bit cumbersome still on userspace for bulk requests since
+> scmi_tlm_batch will contain a pointer to an array of possibly varied
+> sized items, so item_sz represents the common basic scmi_tlm_de_sample
+> size which in turn carries the sizing inside the repurposed <pad>
+> field inside for each single sample item
 
-How do you think about to use the following SmPL rule variant instead?
+Are they variable sized, or indirections?   Today I think
+scmi_tlm_data_read() simply points to an array of scmi_tlm_de_sample.
+In this scheme it continues to do that but some of those then have
+pointers on to additional storage.  That's a more complex beast
+to manage. 
 
+> 
+> ...so you can anyway check the provided user-input sizes it is just
+> scattered all over and as a consequence also the user provided data
+> would have to be a bit fragmented since 
+> 
+>  - batch points to an array of scmi_tlm_de_sample sized by items_sz
+>  - each sample in turn points to its array of values sized by <pad>
+I read this as implying they all do this including the small ones.
 
-@replacement depends on patch@
-expression pointer, member;
-@@
-(
--offsetof
-+struct_offset
-|
--offsetofend
-+struct_offsetofend
-)(
--typeof(*
--(pointer)
-+pointer
--)
- , member
- )
+>  - you can really mix both kind of DEs in the same request: some
+>    can carry the single word value embedded in val, multiwords can
+>    point to teh <pad> sized external array.
+
+But nope.  It is a grab bag of different types that happen to be
+the same length.
+
+> 
+> ...mmm sort of start liking this hoorr...or I am missing something ?
+> 
+> ... O_o ... it would need a tad of documentation of course ...
+
+Quite a bit!  And probably a helper library.
+
+> 
+> If you have not fainted in despair, I (and some LLM) could prototype
+> something like this in one of the next series ... certainly not in V16.
+> 
+> ... thoughts ? insults ? :P
+
+It's an option.  More compact than the index one, though overheads of
+allocations might undo that unless they tend to be many line DEs
+and does avoid duplication of the metadata and timestamp (if there) which
+are guaranteed to match in every line.  Give we are trending towards
+basically having this breaking ABI change (be it with an opt in)
+it maybe comes down to invasiveness of changes in userspace that would
+be needed to accommodate it.
+
+Probably a case for a prototype and see what it looks like.
+
+Anyhow, I guess now we have two options on the table we can conclude
+it is 'probably' going to be a safe ABI extension to make in a follow
+up series.  Not ideal, but I'd rather this didn't substantially slow
+down the progress to getting to full feature set.
+
+Jonathan
 
 
-Regards,
-Markus
+> 
+> Thanks,
+> Cristian
+
