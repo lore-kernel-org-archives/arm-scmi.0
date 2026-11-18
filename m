@@ -1,131 +1,126 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795022791;
-	b=UOHYgYzLoG/vFSZWXaf8llmUZMCbm9s9jWqOfeECs6SV+lBAPo/SR9uysoOuKs3MGv2E
-	 WArKV75BmVGw7z00rDV6Au1txEAbbdbd6sZsbSKVaN6y0U91v84zcVlMzihD4kQvOyhIU
-	 7onjMZKfW7WY9MEVAWSp8lVn4Ou9/JLuLmYZ+eIF3V2bxqw1Bm+qIm20PqsdzuTbtA2rv
-	 sd7sVFnTjGniRg9m+njPXFl2j1F4j59Vm1fb0FSBlDxuPzhRQaS4nKH+eN6qmf2GcvxSQ
-	 SjtS4+xikXvhtmowOHZwUgD2UHrgYufzZy0Z64P9CMNX0e3alIFoPDl5SjwjW5ltIag==
+	t=1795023130;
+	b=N/EHI5Dz6DuP0HUlnMXEZLVKoIkHxKJIpu2nWoRTSqQzg4AqzsVmhKhokaglW3qgM/hH
+	 eyJhwMlgPMr1qt4g7LcZb8xLkowuVm9flbadxzKNXA0VySX8zVrhM68/26Vl8jg2ZjCrf
+	 6VpYYt+WKN5eI9TvDUaKixmAIySHBDw7jkhUHe1WaUv5KUOKMs6i76Yryxo/LmQsvkIXG
+	 fsFym6PikavwUZpkjvfMK5FSkBJSjYPa6e9bCBS6SJ6HhZNcVu0UiBMDkKuZssBJB14zt
+	 LVKyGbfnrs111rGwsXTrKMgRvlGvNMXTNgxof5weC2yAW3Vi8nGDNxSfK57BQaI3ukw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795022791;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795023130;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
 	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=RW3VrDJt2jwVTxo1IxmYUqwi3Wi45tGK1TjCoqfFq0w=;
-	b=tw9Web+PIGyjZluJ5mKYApgkLyb5msm6BJphbRgp2W9vKN+eyTeW6bBIpcgRCGLa8/b3
-	 8oK/tUAUghZhKyNVC4MtxDdkpF6yo5l3axml69uFuMcjqZhiuqVu9ALP2cNmP32uXHHn2
-	 TNujepJgi8rBNmlImX7w0Hz336WVwf+dGTHySTdx30VFFMsS6t7pzwJnELQjEWwyCemjk
-	 J/IRUQ7GCSgxCzlM7/LOcm3+1zgbASivPi2JiqIlENoAfnhruqLl4Aid8C4YG5K76TGdP
-	 DENOzXY62c1IkfAgAzMQgVM/pd7HAyiHMwxXsIpjsNvBTxzgf7rYefc/srS2M++mWzQ==
+	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=sIHU3OVQcJmZgw72w0jml0JK+bFdjHCcLJtdZKnwGXA=;
+	b=0HYazfkphOhL8Qts6+kVBF8j+lA7ZLqip2hqZBlxWxqAMT+7UlV0nbnu8EEHnN3CZn3O
+	 dx5SmTVqGSugNGr4pHD4uI36s1xsp8xRk0I3XrLuC71xVN4gB27z2v+pSRatWMNxUhEqE
+	 G3tTX7wJ+WHONAmaM2H2axenPASRV8JO/vPHWq2h0eTgn+U+BKElqcgVha45VwEFZjk3n
+	 sfKbqHhB3tkgouWwFDcF0+syupBuywFjmjbdR9dfhJgwQeR2eoAm+oRi+9NdwD9oiawxc
+	 lyXUgT2PPFVKrJXQZ/qtNkSWr5hRpcX+pgnlZg/PLNCiHlT1vIsqxCErNtg5J5WnZ5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=YQar5ru2;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XAfrputA;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=pFkwc1Iy;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=DYmHiRSY;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35771606B5C5
-	for <arm-scmi@vger.kernel.org>; Wed, 18 Nov 2026 17:26:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35771606B5C5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF2F606A743
+	for <arm-scmi@vger.kernel.org>; Wed, 18 Nov 2026 17:32:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AEF2F606A743
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=YQar5ru2;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XAfrputA
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AIHHLpp895121
-	for <arm-scmi@vger.kernel.org>; Wed, 18 Nov 2026 17:26:30 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=pFkwc1Iy;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=DYmHiRSY
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AIHGH5R401776
+	for <arm-scmi@vger.kernel.org>; Wed, 18 Nov 2026 17:32:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	RW3VrDJt2jwVTxo1IxmYUqwi3Wi45tGK1TjCoqfFq0w=; b=YQar5ru2ZJRA21yd
-	iG69+sbMplKpJXo7wVX6UP5PPD90Cy9ibfd4l7ZuEFKY8rrHN/VDBNLpHiAu9rlZ
-	YbOlLg9l44mCmgjJhIceUOLa+lJsqxPbLFWQXDQLhKFxKlo3atLqau/bhX8a9iP4
-	SxJx4lIrxxSLitIRlth7Tkx3SUsJoyg76ZqxKPWaPhQceejykdeNC38wiARdwfi4
-	6dEHZY/fAwZo9Wwg4prbO4Wu8xnUBaqVpq3v+Y9Tv+kc6wmQ9pkK1fgaBTUR3dhH
-	suy9pn/N4pcvvV/mGyl1ZaRnK2VrBhf2geRafZTZ76t9TiiXXStrGO9BI66kc8QN
-	8KBbuA==
-Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j1g9p01ed-1
+	sIHU3OVQcJmZgw72w0jml0JK+bFdjHCcLJtdZKnwGXA=; b=pFkwc1Iyuzm6QtDB
+	jpsJ240F2OsnqEDyuEM9eL3utOmm39sagvXqEk1Sui825XGU+BgTf1jsT4Y7HC+K
+	USyfrnC+eNY7LltVz+nv00s5wEZXbWjT2SmSF+TAEMe+cClCjyR1Jnl1q7OZnPZc
+	kghsxF/P/OH3kEMGdkapkioydXTlexe4fLYVy+xli5AwkPdTLhdcKUXKOPpLT9zJ
+	xet04GqFXxPV6kHKKudVoccNsnXfRXGcCsD1Qgna+TdHOU3WczSnxzjz5H9jQozY
+	P/T+GbLcRBg+RbhjISf2YB45doJUOSzNg9Ud7jKvNdEgPCMoBTi1lemTxk2KpLjW
+	7CVkQw==
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j1e5qrr2n-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Wed, 18 Nov 2026 17:26:30 +0000 (GMT)
-Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-383f2d05c73so122211eec.0
-        for <arm-scmi@vger.kernel.org>; Wed, 18 Nov 2026 09:26:29 -0800 (PST)
+	for <arm-scmi@vger.kernel.org>; Wed, 18 Nov 2026 17:32:08 +0000 (GMT)
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-375f0fd31f4so1599510eec.0
+        for <arm-scmi@vger.kernel.org>; Wed, 18 Nov 2026 09:32:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1795022789; x=1795627589; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1795023128; x=1795627928; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=RW3VrDJt2jwVTxo1IxmYUqwi3Wi45tGK1TjCoqfFq0w=;
-        b=XAfrputAOunWowo8og+wxsxbwygfqgaGe/nx6T4xz5bDI+Q3g1pkgaAD7NyDeTBEzw
-         e6cBizyEfE/NMDvxxs226M8NG/BY+4kNBokJvUeVqA6Y3jLyIeEkw90Od/PFCMGBA9al
-         PZNe0w4WZhNhZdg9Xqjtt+u2epfQhnXJbQ13bCMyUkCXuuje6v9kFu8/eBDWbJJd+73C
-         jzTUQzasVB1RpzLysN6JATPXCixiqecLr2iV4naRv8MdBrxXFTbeLpvUQir+BfKi6DrW
-         mKtMymyRnPZkW3cc+y2KNV834ZvhEyqb1RGBCqLduF9qOoY0wP0S9InP+UaDfElNYsCQ
-         wGIw==
+        bh=sIHU3OVQcJmZgw72w0jml0JK+bFdjHCcLJtdZKnwGXA=;
+        b=DYmHiRSYvGa2j/22qQPBU9+R5TD5sWvJIIIVr5F+SB5O4QEgrasJwlNCufAQNX5UYm
+         Di9n8427xArfRH5XDC/JwjgYuubvauN4/JOdcEN5yu8+V/ohV1EPiXx1PKCzgPbUcPy6
+         /qsRsrMqntNskxqVbz4r0pXp2KhDmtOZ9spCNhJCRYtlKjiyoNg+7MIRBdT4bCTyHABH
+         5PQixdrsoziVV+5/hSbwOsGg1kqqHF04UA2mzVSCI8InkAANxJRvab5tciu/mA1rWEjB
+         NoVVRBzV+JfDE0PbC/y/TcHFpT9B4CbZuv9BYQLH42rDnlSpn+gM/yv/gKc4GldeC2g6
+         KyzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795022789; x=1795627589;
+        d=1e100.net; s=20260707; t=1795023128; x=1795627928;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=RW3VrDJt2jwVTxo1IxmYUqwi3Wi45tGK1TjCoqfFq0w=;
-        b=gB+QvWJ/xgDs71EDKqFGH0yDEJIdZfhFWwUkQJ7VKwyH21FEuw8FpylB38XKhlmrVX
-         qCNs+IF18AbEl+xKymzcoHQyZ6dFXTqLlAGTyFwayGJOYGz3YKrYqiGJqk6cwCdRl+Ys
-         NlQm3ae652zes3+56+PNimFZLZ54qLqniv2qCE81ZRGZRuBDwGH5iNLswjbt8oU+45oF
-         4Jz6FHLglJhZfNeJCj3olbOOFQGlZb69vWqDAX1NKU7AN99LkP7a4bafV57RaSAVAc/4
-         V4EsoStZoq17Yp21Xi7WLp6swNy7+2rE54s+1m8guzksA9oT2izrdHJTxgktozBTnc5G
-         h6xg==
-X-Forwarded-Encrypted: i=1; AL+hErFMbt4+sKUJUtWKLcsdAN18plM2YzqP9ssTe2Xg+hF3snnpEITfuJQnwVkS+vjv3MLf5t6ND4bQQA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z9eV+Ox+Mp8ty1WPO5+WyF30iyvJunnhVJJK2/jkqPSWWP6Ri0B
-	n4UwmJdiblRk56eGs0G00hPUIwZ2m7koMBZksVwHg7W7j0JBa2FBC7tmH4aEUYFKXKkeqhQni+V
-	YM5cIWgO/nZzLZFBA9xvb7dWGFgeqWaKAlBynmnaS+M9AVgYiaFrdlNw7hQ6WpQ==
-X-Gm-Gg: AZFdTZdLrpz+5l/0UBMyuUMwT5BqLm3D4zpvct2H9saJCf4OqU2cmhnUzgFhNstnr0N
-	+aNdndaAGT29TEWKWaxdx6/9oZHODnqOEBg7+G6STgLOGuF8cRmpmk//wAhfygr95eRcxWc/uQG
-	B005GH+Gn8ELsemzosnOFrV0Cd1TpdyiEHpFZDXdDiarQxI96CV1UFyzbOJOBHoHmjVjwFDmIFa
-	RrQsR5JvgUarRmQbL0hIXZEmq9NNgMxeWAW2+yUlubKOKB1Gmeg4h8y4PQFecX+Fp7zlzACSUel
-	1DRm57gLhYjYgEfSG46qR1ROjieybra6aqkhKPZJ+AQp23kq/G1Rot22urFuJSJnlkL6eL5k3Mc
-	seqAbj1GBEuB54MPik3DDjb2mKCov55rAnhtf4E0dzZS5Hg+KzYY91XtTGVmNb/w/NuxuSKgnhL
-	gcw2zz/mgnE7397jOyEX0x9ESrWGw=
-X-Received: by 2002:a05:7300:bc19:b0:36a:18e2:64c with SMTP id 5a478bee46e88-3827f98ff0cmr3828967eec.11.1795022788925;
-        Wed, 18 Nov 2026 09:26:28 -0800 (PST)
-X-Received: by 2002:a05:7300:bc19:b0:36a:18e2:64c with SMTP id 5a478bee46e88-3827f98ff0cmr3828923eec.11.1795022787802;
-        Wed, 18 Nov 2026 09:26:27 -0800 (PST)
+        bh=sIHU3OVQcJmZgw72w0jml0JK+bFdjHCcLJtdZKnwGXA=;
+        b=CKtSruHj+Cqpy0mFLVVAKBkwKUFr+7pSj50yVgqhrvoi1mAI3zW+5LqAHpFkjSd7fe
+         b1CeINcfZdUEt6F4F7WBE/Cvt/2cF6E4g/Y/dEOqf7bydWUpJjB1BTlUaYi+92ai/Zvz
+         0Oty4W/1Q5LbArzWmPBJjRc25tbL0I/P4nJUqJX5e4gBddXOOeY3VyGEGzhcAE3uzfgc
+         TnVvjGgDR0xeC9+Gg3wHI0Ad7NnJ7mEAkbFkHpvXPPJ9/lMmWiIcrljmcYqGWcAvWcG1
+         6ploqeypQnO4L4U/P5vwilNNBnF1iTjO8F3JjdaipiEVVr83X13LD8zlHk/NejBDJfIs
+         D3jQ==
+X-Forwarded-Encrypted: i=1; AL+hErESGk+UFgPWYoiSk1td9kAG5MVkt3ftTwFyiuxTZVbXFAKY0urozLDYBUcrNlMIjCza5bZ+Tk9lzQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/NrSiCw+wxRdW0yGBJdFwWtvsEHDGbaticSIhncFbxrO2KNoAM
+	Mz9tAvBSOcM0qkyalkNghGmM24jvdnGnYsmKP+jGcZlUhbUbhcM6V4ltmmuhfp34obl5YfH6K8V
+	N1QmuI6iyVb5AkGzyFObUjjEvzfMrqvXhkuIz+a5z5dD0dpA772Irac6ZVeNwvg==
+X-Gm-Gg: AZFdTZcLmPK3GaFoQ/aJaPdYWoue91kvWwAKq9Og60jStK3fGYdXO4LyJGpnLKxPT8k
+	ltyS2/tbCHF8picVmVxA8VH57CIUOMXlZejjGR/LfuQK6ba8tFy3ZSgsg1dMdJNzs7dacTipPBC
+	XYfbXmWT5Zl6ORp8+vshSOIhyuS99t/9SqT9bQExB/zPF5g9As30BFKgUcrGz6mpP/8rh5R/dgB
+	T1cXAb3nDcOP1XqRRrFKsdEeUwv1pYtmBNXbW8UemOZzgrLEOQKbUrjJMV6r0P1Ir8IvF7Q++9t
+	Hm91FeHKch4s49S4LHQtoIveYS2/5gwoFmu38JTQKzN5SO6CSdS2kLbZ87De8TahCSrPsg7+FBv
+	sWV/jZnLCx/QGWfIx8LCKhahLNTr5Ba0dMhsQ+sfOG1YZ8mcktIfJ1qtuhkexePS2ZlNxiW5FPv
+	4SETo8qG1nxvq6gfRmg1ylAjrROoCj
+X-Received: by 2002:a05:7300:d210:b0:380:f8fd:d19c with SMTP id 5a478bee46e88-3828181369cmr3425941eec.35.1795023128087;
+        Wed, 18 Nov 2026 09:32:08 -0800 (PST)
+X-Received: by 2002:a05:7300:d210:b0:380:f8fd:d19c with SMTP id 5a478bee46e88-3828181369cmr3425903eec.35.1795023127474;
+        Wed, 18 Nov 2026 09:32:07 -0800 (PST)
 Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-382a7eaf3b3sm10705697eec.27.2026.11.18.09.26.25
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-382a63059e3sm13849129eec.5.2026.11.18.09.32.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 09:26:27 -0800 (PST)
-Date: Wed, 18 Nov 2026 09:26:23 -0800
+        Wed, 18 Nov 2026 09:32:07 -0800 (PST)
+Date: Wed, 18 Nov 2026 09:32:03 -0800
 From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
-        sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+To: Sudeep Holla <sudeep.holla@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org,
+        linux-doc@vger.kernel.org, james.quinlan@broadcom.com,
         f.fainelli@gmail.com, vincent.guittot@linaro.org,
         etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
         d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
         philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
         leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
         usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v15 10/35] firmware: arm_scmi: Add Telemetry resources
- enumeration
-Message-ID: <20261118092623.00000cc4@oss.qualcomm.com>
-In-Reply-To: <av1rTY1cZjRbxzD6@pluto>
+Subject: Re: [PATCH v15 00/35] Introduce SCMI Telemetry support
+Message-ID: <20261118093203.000069f1@oss.qualcomm.com>
+In-Reply-To: <20261118-poetic-robust-raptor-bcff2b@sudeepholla>
 References: <20261109091221.2532706-1-cristian.marussi@arm.com>
-	<20261109091221.2532706-11-cristian.marussi@arm.com>
-	<20261112100145.00000560@oss.qualcomm.com>
-	<avYZ2t_GoT7BN2nU@pluto>
-	<20261116133638.00006cc3@oss.qualcomm.com>
-	<av1rTY1cZjRbxzD6@pluto>
+	<20261117170709.00002088@oss.qualcomm.com>
+	<20261118-poetic-robust-raptor-bcff2b@sudeepholla>
 Organization: Qualcomm
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: arm-scmi@vger.kernel.org
@@ -137,210 +132,138 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: U-4ZsWs2XYcehPBSCforsPeV92WNPqDq
-X-Authority-Analysis: v=2.4 cv=LooHWXdc c=1 sm=1 tr=0 ts=6afddfc6 cx=c_pps
- a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=7CQSdrXTAAAA:8 a=woqvtWepuCvEniIg8AEA:9 a=CjuIK1q_8ugA:10
- a=6Ab_bkdmUrQuMsNx7PHu:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDA2OSBTYWx0ZWRfXzSbWokgBmlso
- UwQV89Y9zBZz4wMRfvG6G8plcrpOCCcdr5M14JD0yDAwbRNpgfEHAHfwVUJEv84SzPvn005BO8k
- XSbZfdMn2/ku+aetCpHtm155GZPhaxoJ6sz9re+mxoMUSnbIZxfnAlkfFkXExHxwLxDSN2V//HQ
- l+7PVI++FzBgEFWx1gBViHsWcg1hc4Cxl5d+EpLik/ng+5A2F9wVggRkizF9sWKg1Xkjamf4aKk
- yTw+3r65ATErlajUxB8tkOYVhNQ5py9Pp4jaTIOMAB/nA1pbDHkg+6UNaGgomm0UW4FG/CONKh4
- Q5cwnkW4eJDruTVc5s+V0LlLgsMbsL1izpPsKc3vPYAT8FP5aT7Mo9+i3mRVJiL94eJBKQQ/fvy
- SzTjF3EOPAweapO8kkQ5LPsuWYNwmzWlscW48GFk2sK4ssYR/UqWZw4ifGU86FiRUpYZgEyfMqY
- D4OpnjK2JDHArOR+fkA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDA2OSBTYWx0ZWRfXwieRlouxWPCf
- XciDd7FJdLqsXN66B3mro9Ypd/7G1qLSdOku1gSU+AwGmf5ZqcaIhahOrMJngwelAWM0DM0tVjm
- +cSPUbG/nsKvkIMpGaco7CRwuZ92fRg=
-X-Proofpoint-GUID: U-4ZsWs2XYcehPBSCforsPeV92WNPqDq
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-ORIG-GUID: moEy3aO8EVkAS2M8ipZz-i_AZnSvyUJs
+X-Authority-Analysis: v=2.4 cv=c5Q+0h9l c=1 sm=1 tr=0 ts=6afde118 cx=c_pps
+ a=cFYjgdjTJScbgFmBucgdfQ==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=VwQbUJbxAAAA:8 a=7CQSdrXTAAAA:8 a=ZJvAkwxlLmQLexqbkCwA:9 a=QEXdDO2ut3YA:10
+ a=scEy_gLbYbu1JhEsrz4S:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDA2OSBTYWx0ZWRfX/WyPbJEdd5VP
+ Pd2eoAkeSB6iaLTvML7bEtDtqpacWg9zoGo88YoG9f0cw4WIOGW8Sd6i/SFjsN89wsneygmmQ+1
+ BYeSxsYJf89y3s1+vhe/p0Aj5vSKbCE=
+X-Proofpoint-GUID: moEy3aO8EVkAS2M8ipZz-i_AZnSvyUJs
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDA2OSBTYWx0ZWRfX6scMEyuKTolk
+ sx+saKPs29AI4ZniVNegulWyOnLC/TKot0k3UaGQjK1Nt6eQg9a0YS1H4tzaVwf2gEulnDn+I+a
+ 5mPkS0WP7u8cxGTKzXN8IasYXaY9FYiijyqW9UAFDg/DWMu1OjD52HFRJuLlNgSvWyrCytH7QUw
+ b5ASVqQnWcIpcdardDDdyA7tH2U9vWyAan1mkj5S0J2Z4eQUwOAdPdvG85tph6LLB6Z+aJ2P8ud
+ RE+kp8MpZVmlQFT6x21+4d0soDgqO6XCVeun1qYAi4Mo+UMN8oCvDox/u3n0hc7Y4kKWgIwvSds
+ BWVBJ/mrpmbO5FYlJlm5L6aFaPkWD8NeCeCeBRj6ZPlrCwQQN7TpkK1wyGuyWW5quYSpvOUGua7
+ Gjp22htfvh0n7iB5MnCCSdomlZtGBnKBSqTPogTiVbiM6l84ixr9BXJjutd35rlSDkMIjQY8T3G
+ hSMhfhnxtjSBJK9G/Tw==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-18_05,2026-11-16_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 clxscore=1015 malwarescore=0 impostorscore=0 phishscore=0
- adultscore=0 spamscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ clxscore=1015 suspectscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0
+ phishscore=0 priorityscore=1501 malwarescore=0 spamscore=0 impostorscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611180069
 
-On Wed, 18 Nov 2026 09:09:33 +0000
-Cristian Marussi <cristian.marussi@arm.com> wrote:
+On Wed, 18 Nov 2026 09:33:44 +0000
+Sudeep Holla <sudeep.holla@kernel.org> wrote:
 
-> On Mon, Nov 16, 2026 at 01:36:38PM -0800, Jonathan Cameron wrote:
-> > On Thu, 12 Nov 2026 19:56:10 +0000
+> On Tue, Nov 17, 2026 at 05:07:09PM -0800, Jonathan Cameron wrote:
+> > On Mon,  9 Nov 2026 09:11:46 +0000
 > > Cristian Marussi <cristian.marussi@arm.com> wrote:
-> >   
-> 
-> Hi,
-> 
-> > > On Thu, Nov 12, 2026 at 10:01:45AM -0800, Jonathan Cameron wrote:  
-> > > > On Mon,  9 Nov 2026 09:11:56 +0000
-> > > > Cristian Marussi <cristian.marussi@arm.com> wrote:
-> > > >     
-> > > > > Add basic Telemetry allocation and initialization routines, introducing and
-> > > > > wiring-up the logic needed to enumerate all the SCMI Telemetry resources
-> > > > > optionally using a lazy on-demand scheme: this approach factors in the
-> > > > > flexibility needed to minimize the amount of initialization work based on
-> > > > > the effective access pattern used by the upper layer ABI.
-> > > > > 
-> > > > > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>    
-> > > > 
-> > > > Hi Cristian,
-> > > > 
-> > > > This stretches across the patch set but first elements related to it are
-> > > > in this patch.  How do we handle larger values of de_data_sz?
-> > > >     
-> > > 
-> > > We dont. This was somethig that was on my todo list initially, but then
-> > > I realized that there was NO FW-side plan to actually implement anything
-> > > larger than 64bit.  
-> > 
-> > Understood, some set of firmware that you have isn't doing this. I don't
-> > necessarily mind not supporting it initially but like the other features
-> > it is very useful to have an implementation to make sure it doesn't break
-> > the ABI. I don't want to go through a 'move to version 2 ABI if you want
-> > this feature' path.
-> >  
-> 
-> Agreed that it would be better if avoided.
->  
-> > Let's just say I hit this for a reason. Whether that reason makes it into
-> > a production firmware is an open question at the moment.
-> > 
-> > FWIW I have both QEMU based emulation (I'm working through the process to be
-> > able to share that) and the changes to fit in via what I think is the
-> > cleanest ABI change. Kernel / userspace change below.
-> > I modified this from my original proposal to take into account the
-> > desire to add it later (even if to me it smells like papering over a bug
-> > rather than adding a feature!).  See below for what that required.
-> > Not only shmti is tested.  The LLM found bugs in it's own fast channel
-> > code, so take that with a pinch of salt!
-> >  
-> 
-> I skimmed through your patch and it is mostly in line with what I was
-> imagining (not even protyped though), i.e. in a nutshell
-> 
->  - an ABI feature bit to add MUTIWORD support
->  - a flag bit to activate this feature on all _READ IOCTLs at will
->  - a repurpose of the pad field in scmi_tlm_sample
-> 
-> What I find awkward is the usage of pad as an index: that will expose
-> a lot of duplicate data since all DEs multi-words are now scattered
-> through a number of sample with the same ID and TS, and a bit cumbersome
-> to handle in userspace to reconstruct the multi-word value.
-> 
-> My non-tested-nor-prototyped idea was instead to repurpose the pad field
-> as a length, so as to pack all the multi-words payload as the trailing
-> part of a flexible array member (an extrnal array really being an ABI)
-> and use a single structure to read a complete DE.
-> 
-> In this case the problem would be to maintain backward compatibility
-> with the current scmi_tlm_de_sample.
+> >  =20
+> > > Hi all,
+> > >=20
+> > > [TLDR Summary]
+> > >  [V15 highlights]
+> > >  - general cleanup and hardening driven by reviews
+> > >  - improved TDCF access routines to minimize lost samples under load
+> > >  - completed ABI docs
+> > >=20
+> > >  [V16 TODO]
+> > >   - address any remaining V15 outstanding Sashiko/reviewers issues
+> > >=20
+> > > The upcoming SCMI v4.0 specification [0] introduces a new SCMI protoc=
+ol
+> > > dedicated to System Telemetry. =20
+> >=20
+> > This is one from the family of issues you find when reviewing ones own
+> > (well LLM generated) emulation, realizing it doesn't match the spec,
+> > and yet works.
+> >=20
+> > This works fine without the required SCMI protocol property in ACPI.
+> > 2.2.2 of ACPI for System Control and Management Interface 1.0
+> > Platform Design Document. 111115A 1.0
+> >=20
+> > Now, in here is an informative statement...
+> >=20
+> > Protocols not listed using a property may not be enumerate by the opera=
+ting system.
+> >=20
+> > But they are...=20
+> > =20
+>=20
+> Correct, I intentionally left that out. I do have a patch that restricts =
+it
+> strictly to the listed property. However, I held off on pushing it becaus=
+e of
+> an issue we saw on an internal test platform.
+>=20
+> On that platform, the firmware advertised the protocol to the OSPM via the
+> base protocol, even though it wasn't functional at all. Once they realized
+> this, they simply dropped the entry from the ACPI SCMI device as a workar=
+ound
+> instead of properly fixing the base protocol discovery. While understanda=
+ble,
+> relying on that workaround delays proper firmware fixes.
+>=20
+> That is why I went with the non-mandatory "may not be" wording. I am happ=
+y to
+> merge that restriction patch if a real production platform actually needs=
+ it,
+> but until then, leaving it open helps catch and fix broken firmware
+> implementations =F0=9F=98=84.
 
-Indeed, that's what drove the just using an index approach.
+You can't merge it safely as at a later date because chances are high
+someone is relying on the current behavior and not presenting that
+(currently pointless) package in ACPI for some protocol or other.
 
-> 
-> At first I was thinking that we could simply introduce a new alternative
-> scmi_tlm_de_multi_sample structure that is used in place of the current
-> scmi_tlm_de_sample ONLY when feataure bits is available AND requested: so
-> userspace knows that when sets flag.MULTIWORD it has to use the
-> multi-word structure in input where pad is a length and there are multipe vals.
-> 
-> While this would work for all the bulk ops since they take a __u64 pointer
-> to a payload structure really (so it does NOT really matter what they are
-> carrying as long as it is consistent with the advertised feature bits and
-> request flag),  it CANNOT work for DE_READ where scmi_tlm_de_sample is
-> used directly...so a change in the current, not-merged, ABI would be
-> needed anyway....
-> 
-> Then...I thought that maybe we dont even need this...and this part could be
-> judged horrific maybe, so feel free to stop reading if your eyes starts
-> bleeding :P
-> 
-> Currently we have
-> 
-> struct scmi_tlm_de_sample {                                                      
->         __u32 id;                                                                
->         __u32 pad;                                                               
->         __u64 tstamp;                                                            
->         __u64 val;                                                               
-> };                     
-> 
-> with pad being unused and the whole structure that can be used alone
-> or packed into a container struct.
-> 
-> WHAT IF... when MULTIWORD feature is enabled AND requested we repurpose
-> the meaning NOT ONLY of <pad> but also of <val> and use this latter NOT
-> as a payload for a single value returned but as a pointer to an external
-> array of words counted by pad ?
-> 
-> The structure size remains the same, while its interpretation vary based
-> on the requested flag when such feature is available.
-> 
-> It may be a bit cumbersome still on userspace for bulk requests since
-> scmi_tlm_batch will contain a pointer to an array of possibly varied
-> sized items, so item_sz represents the common basic scmi_tlm_de_sample
-> size which in turn carries the sizing inside the repurposed <pad>
-> field inside for each single sample item
-
-Are they variable sized, or indirections?   Today I think
-scmi_tlm_data_read() simply points to an array of scmi_tlm_de_sample.
-In this scheme it continues to do that but some of those then have
-pointers on to additional storage.  That's a more complex beast
-to manage. 
-
-> 
-> ...so you can anyway check the provided user-input sizes it is just
-> scattered all over and as a consequence also the user provided data
-> would have to be a bit fragmented since 
-> 
->  - batch points to an array of scmi_tlm_de_sample sized by items_sz
->  - each sample in turn points to its array of values sized by <pad>
-I read this as implying they all do this including the small ones.
-
->  - you can really mix both kind of DEs in the same request: some
->    can carry the single word value embedded in val, multiwords can
->    point to teh <pad> sized external array.
-
-But nope.  It is a grab bag of different types that happen to be
-the same length.
-
-> 
-> ...mmm sort of start liking this hoorr...or I am missing something ?
-> 
-> ... O_o ... it would need a tad of documentation of course ...
-
-Quite a bit!  And probably a helper library.
-
-> 
-> If you have not fainted in despair, I (and some LLM) could prototype
-> something like this in one of the next series ... certainly not in V16.
-> 
-> ... thoughts ? insults ? :P
-
-It's an option.  More compact than the index one, though overheads of
-allocations might undo that unless they tend to be many line DEs
-and does avoid duplication of the metadata and timestamp (if there) which
-are guaranteed to match in every line.  Give we are trending towards
-basically having this breaking ABI change (be it with an opt in)
-it maybe comes down to invasiveness of changes in userspace that would
-be needed to accommodate it.
-
-Probably a case for a prototype and see what it looks like.
-
-Anyhow, I guess now we have two options on the table we can conclude
-it is 'probably' going to be a safe ABI extension to make in a follow
-up series.  Not ideal, but I'd rather this didn't substantially slow
-down the progress to getting to full feature set.
+I'm fine with a permanent decision not to check this but I don't see it
+as a thing that can ever change (except maybe now whilst there are not
+that many platforms out there using it!)
 
 Jonathan
 
-
-> 
-> Thanks,
-> Cristian
+>=20
+> > So, obviously we can ignore informative spec lines but that is a pretty=
+ strong
+> > sentence. I can't immediately think of what would go wrong if we ignore=
+d it
+> > - maybe we'd not pick an exclusive PCC and fallback to a common one the=
+ firmware
+> > doesn't want us to use?  But if it doesn't want us to use it why make T=
+elemetry
+> > discoverable on it.
+> >  =20
+>=20
+> Indeed, falling back to the common channel lets us uncover any underlying
+> issues in the firmware implementation. That is the exact scenario we hit =
+on
+> the test platform, which convinced me to hold back the patch.
+>=20
+> > Should that be wired through from the ACPI parsing code?
+> >  =20
+>=20
+>=20
+> As mentioned, we certainly can, though I'm not sure we should. The "may n=
+ot
+> be" phrasing simply leaves the choice up to the OSPM rather than mandatin=
+g a
+> strict restriction.
+>=20
+> > Anyhow, not something I care that much about but thought I'd call it out
+> > as an oddity.
+> >  =20
+>=20
+> Thanks and well spotted. Much appreciated as it brought the information o=
+ut
+> which otherwise would have just got lost.
+>=20
 
