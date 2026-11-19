@@ -1,57 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795102911;
-	b=O0jLsantnidAQqNBt9U3MTk1ELmszEvFS0+QloydaWH0x0DgIQJ7jxtTRcqMwUXnvoV3
-	 YtF5vgRunoGil0FO0ygvZeNxkVXzVyUpEvnU0Y+ULVDibcZe3oYrSwRRKTwxd9zRZPH7d
-	 cPDxqN9JaZgeHSV6lfoNrh69GKYbg2+XbtXTu9qeRRXP5rKRmoYqdDT7++6Qse4nNI+9o
-	 +YipgRL015HDfF5FLXHQRc8mL+GzbMWOhkjqoF60uJRf7nTOlufSP7gNJPXZhqE7Ro4pA
-	 iwGH3mnVZvvjYt8aUtZC26ulOUxzM4f8MrOkOv6AvTm5cwfa/6fluz2HcEUE0zbEZFw==
+	t=1795103698;
+	b=gXxtY9BEby0ycyxumaNl4E47+k/E+XAE29p6WZpHPfRIvmwpbLjf8oyX+781w5d0eUCZ
+	 GDSmuCAn/zaOTUxwqgduqBu0JAa2rswYUJAIu0G2ef7GzqLnz9ryW3I6Q79ex8RkRCOqj
+	 E+unSGaKs7Duvo1XpqUx+t9EZ1qpc541NW5RWc6yXW6B3CHmEuUP2/t8g14YNcaCH97pw
+	 v90G8djlmFECvUWudBUFyZfo7b9gzn5oqdoIz+BplPf1uxClaDj5Y46A3ULd42WHYa+TS
+	 s2rZoBxVVUtfN/IbnhfABnP0qVD0jAiTJXzjxyLI5PnTnOvgNrUBtc7Zp5m2Fe2hffA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795102911;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=mu1GS7zq5v7jKNMibYP5uLcrR4u8HWZVh4sY6q3AL0k=;
-	b=2aOVri+9/ak4u7agTDjeeK3kfzczwpUynuOHy/7bvy0QQC7AcqAM46HL/Eu9lsDDRHsP
-	 98Vk0hjzdOi9mdrvUImSxqPfzbcswe5biwqz7ykqttdS3LSyF/pUrkRs0YU2t8CvAwpf8
-	 F6/HsfACkLrDnvPgQLhbhBdV+xUZb18GxbhV8/++TfHfNY8PO7l03NwwRiXonrwfmqF3w
-	 6ZMKQ66+VQ6PXJRj7AY52QCb2aHCxdsfzx8fTXg8DxrAvyI9L8DrX5fwh8pY7A0N62oki
-	 cmKIgD6ao+cSmnqmQ0J1Eb1EbLibkuiwVB2Ti8X2QYYM+Sg2XLN56ShXYB3r+rLtRsw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795103698;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:Message-ID:
+	 Subject:From:To:Cc:Date:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:User-Agent:MIME-Version:
+	 X-Last-TLS-Session-Version;
+	bh=d4uWrDX7zSkzZqLOJTxS5A0HYGBte0tk9t+WFwpVL4U=;
+	b=VJtDENcOUDOYyKST9Gf+AzWQmGnRj8o0DHx9ea3ymUb1rd2lrPiIlaipW0fp6CuF7GeN
+	 ZPNPaXfDTrYhSuASFx3Kfis7KqQ1uxJjNuVlB8jdMccFKhRsHgvBYNjmPhw1cHd+K/JDK
+	 Fl4WulKvTd8A3MU6yJRhiIds9Fg5s3IkK3aZyQ9+Vwl+gduhwlI/3dYkvwkrZNhTyvDQg
+	 haSvbPc8Ce0F3yy3lsW0mOXeGfivP1ktxyJTmY+s8mKCMu8nZDPmXNRg4bc/puMm0ApND
+	 6RF2EGk7opdrE+rguYlB1oFLTSwVxEp9bsAboe5GuV1MU2wxB3jnY53sepZj3/uSXag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="U9cA8/Ez";
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF886606D6D3;
-	Thu, 19 Nov 2026 15:41:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CF886606D6D3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=dxJnOMHj;
+	arc=none smtp.remote-ip=185.171.202.116
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B639606A330;
+	Thu, 19 Nov 2026 15:54:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B639606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=U9cA8/Ez
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7E6B31575;
-	Thu, 19 Nov 2026 07:41:40 -0800 (PST)
-Received: from e121740.arm.com (e121740.arm.com [10.33.8.69])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8DEC93F882;
-	Thu, 19 Nov 2026 07:41:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795102903; bh=NlRRdYCCJGm99z73/IEGFJszgoLZZ9ZAh8xLUpvPMNU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U9cA8/EzyyfEhUEXjcHKkfM1oReVxnoPxYcO1CUKzLYOU5C8Ni0vDwbtS8QsL2dwV
-	 ninSekApZxfIgtqV5OqNOxuPPVNrU/kTqsXZM2Zvl+YWTD8fuwyEUxVkv5YwbVC32l
-	 kqSiWkDHU8eCcTQ1gbJj5e7jiplJektFVP0Pbe3c=
-Date: Thu, 19 Nov 2026 15:41:33 +0000
-From: Philip Radford <philip.radford@arm.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, cristian.marussi@arm.com
-Subject: Re: [PATCH 0/2] firmware: arm_scmi: fix shared memory and protocol
- table
-Message-ID: <av8YrXYoCi+ov/bK@e121740.arm.com>
-References: <20261116123153.2672631-1-philip.radford@arm.com>
- <179509633637.1254008.1621228754406865513.b4-ty@b4>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=dxJnOMHj
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id EC24AC4CBEF;
+	Thu, 19 Nov 2026 15:55:00 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 96EB75FF9A;
+	Thu, 19 Nov 2026 15:54:55 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 725E811BC01DC;
+	Thu, 19 Nov 2026 16:54:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1795103694; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=d4uWrDX7zSkzZqLOJTxS5A0HYGBte0tk9t+WFwpVL4U=;
+	b=dxJnOMHj3Qc/cZb1vPNqQ6ynyUgmJE8wACVPr6euR9sxqcACRoKlQ8nrsYvxzprnYmbAAz
+	bzHtJBCtCYJffGgDwFSwHl3z9JQEOg+wHGE1HytEkpz54x5TXlJ8CwA/1K8TxVc6vL0Tcw
+	HQVoy1LyH8PF5ACstg9XTbH5cChyzUzWNMdKYNn4EeBKw04/VflXJDVtSnQSQPDaPlV35L
+	E7mBRp3rtBI8yECXmFLhyQvCDbDSRn2TIx5tL9CANO6k6g1jDBDNse4RXjMe+d7RX8gvX1
+	03kxaune9tA/7XrjWCCr17P9Oi8fq3nIkwrPQi2y8W/IPH6Odg4qEKaVhPgnrg==
+Message-ID: <9b0133ef58eaac423851e9a8e34676ade7fc2cf4.camel@bootlin.com>
+Subject: Re: [PATCH 0/3] mailbox: Add Marvell MHU driver
+From: Paul Cercueil <paul.cercueil@bootlin.com>
+To: Jassi Brar <jassisinghbrar@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+  Conor Dooley <conor+dt@kernel.org>, Sudeep Holla
+ <sudeep.holla@kernel.org>, Cristian Marussi	 <cristian.marussi@arm.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,  Sunil Kovvuri Goutham	
+ <sgoutham@marvell.com>, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, arm-scmi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org
+Date: Thu, 19 Nov 2026 16:54:47 +0100
+In-Reply-To: <20261119152944.276763-1-paul.cercueil@bootlin.com>
+References: <20261119152944.276763-1-paul.cercueil@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -61,42 +77,59 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <179509633637.1254008.1621228754406865513.b4-ty@b4>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Thu, Nov 19, 2026 at 01:55:17PM +0000, Sudeep Holla wrote:
-> On Mon, 16 Nov 2026 12:31:51 +0000, Philip Radford wrote:
-> > Here is a short seires to address two SCMI bugs reported by Sashiko.
-> > 
-> > Patch [1/2] slightly alters logic to avoid using an uninitialized
-> > reg_io_width value when selecting shared memory accessors.
-> > 
-> > Patch [2/2] handles missing SCMI protocol ID tables in registration and
-> > unregistration paths.
-> > 
-> > [...]
-> 
-> Hi Philip,
-> 
+FYI Sashiko found issues in all patches. I'll send a v2 tomorrow or next we=
+ek.
 
-Hi,
+Cheers,
+-Paul
 
-> Please avoid using bug report as subject line also. I have rebased the
-> change on for-next/arm_fw/updates as I have moved files. Also I did
-> rewrite a bit of commit message and kept !id_table check consistent
-> across register and unregister. Please check the branch and shout if
-> you disagree.
-> 
-> Applied to sudeep.holla/linux (for-next/arm_fw/updates), thanks!
-> 
-> [1/2] firmware: arm_scmi: uninitialized reg_io_width in shmem_setup_iomap()
->       https://git.kernel.org/sudeep.holla/c/8db620083cf2
-> [2/2] firmware: arm_scmi: null pointer dereference in scmi_protocol_table_register()
->       https://git.kernel.org/sudeep.holla/c/99e55aac0f9c
-
-Noted with regards to the subject line, and I agree your ammendments
-look cleaner.
-
-Regards,
-Phil
+Le jeudi 19 novembre 2026 =C3=A0 16:29 +0100, Paul Cercueil a =C3=A9crit=C2=
+=A0:
+> Hi Jassi,
+>=20
+> This patchset adds support for the mailbox found in the OcteonTX and
+> OcteonTX2 based SoCs, which is used for SCMI communication.
+>=20
+> This is technically a v5, where the v4 was sent in 2023 [1].
+> Given that years have passed, and that the original authors left Marvell
+> AFAIK, I figured out it was just better to restart at v1.
+>=20
+> The last patch applies to the SCMI driver, it does not have a direct
+> dependency on the other two and can go through the ARM tree, if you or
+> the ARM-SCMI maintainers prefer so.
+>=20
+> Cheers,
+> -Paul
+>=20
+> [1]:
+> https://lore.kernel.org/all/4397b39c-084b-954b-956a-5168a3c8958c@linaro.o=
+rg/T/
+>=20
+> George Cherian (3):
+> =C2=A0 dt-bindings: mailbox: add Marvell MHU
+> =C2=A0 mailbox: marvell-mhu: add Marvell MHU driver
+> =C2=A0 scmi: driver: Increase timeout for rx response
+>=20
+> =C2=A0.../bindings/mailbox/marvell,mhu.yaml=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 60 ++++
+> =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0=C2=A0 7 +
+> =C2=A0.../firmware/arm_scmi/transports/mailbox.c=C2=A0=C2=A0=C2=A0 |=C2=
+=A0=C2=A0 2 +-
+> =C2=A0drivers/mailbox/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 11 +
+> =C2=A0drivers/mailbox/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> =C2=A0drivers/mailbox/marvell_mhu.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 267 ++++++++=
+++++++++++
+> =C2=A06 files changed, 348 insertions(+), 1 deletion(-)
+> =C2=A0create mode 100644 Documentation/devicetree/bindings/mailbox/marvel=
+l,mhu.yaml
+> =C2=A0create mode 100644 drivers/mailbox/marvell_mhu.c
