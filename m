@@ -1,76 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795164716;
-	b=Tbn7yhsx9l8rNRuRE2ovhWdAc6Sz4maydkwEUIrg+a0zMC0Ulg+zz3L+caajPNo/AKay
-	 Elluun1D/TPkTF6aoFCQOi4uAMXfS9nTIt9SDe99EnfFIjy0Drn1WFuePx4AWPLmKJZx5
-	 E+QL9XWRAKVTxeXWjoRppxpJHhkJhZTijV8+l0TW4H11QjCprTBuFuVxyBnKRA8C1xFC2
-	 i+cltviBGN3W31DF0OzS1w0Hvu8YlyBi++JcUCJsYDSENrt6pewFQweg8wcbgLnp2xA1e
-	 V3wu07+wrrytP9R4/ogDJbFtpEUp+BvgVvp1c0G9W+acmctntpj8OIlP/apJDuMtOIw==
+	t=1795170593;
+	b=igDSjaciVt1h7xrSK3u989LkSeyPB5pKTcxvh1tRBWbZzqql6Pv9Ytq1WN5J59tOlOXH
+	 YnQjrCFbTWuGgOcV6UcrdJfHTj52QKZNwo+7M9JviXn7lNS3AhcE2+ZxlrpFLEZimEVYa
+	 zMj4/z5ozCi/4QMDKHsvVwaY6SzTlWcvbKBQ0qEItElebu20DOFPfmnWHFrggQdwujMuo
+	 D39iQZn+xn7VpFDVIMa8AiDXAOmLS0q/ziuhe3n2V8JrTmSOAfJvG92FKNtyDLCNaT/zP
+	 ix1NThll8G6z+x5KM/VBnWezLM//eTnGNeynyMAJ05Ki0NTE32ohmsvld0bx3fF+n3g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795164716;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
-	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type;
-	bh=O29ozXrRa1nWnNxSLjjwsMRtxZK+i1ptmKe8i27enGA=;
-	b=wI8Tgnwt7wO+YbzGCaJZZyVXJXbdD5kUEwkYjcwye6XojSFdWqu1XQ9fkO/S9nE7lt2a
-	 /Q377Kakkh1bKhaOo6kiUprd+L7cPyjoe9IjVAbr0pB/V2fPheR8SRF3iBX1F9xYvadVQ
-	 h8YPOqEqm2FSMlICN/NSbgFNR6xhM19bUB7QWXPaV0J8ZAAljxtNhYIeCtrSltXxDVB/S
-	 yAWdZ7J+Zx1aysvEXU6ewyLgRfvQBjnSlxiqcE7fXlwR6OtRniiRkmNzjPUBkmF6sdy7W
-	 0bK6F0DKuxeb7pJXiSZ42ha7aQY2mlLAK9E79N+hgeoJh4kxY4UBBUs7mMNCQGpWyJg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795170593;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=YECa1p9LzdYXA7zGnIWZNUD0xhZVO826hfzpFJvQccs=;
+	b=jX3Puw6vX7EANFrePbGcWvFdTUO5jFK6lqUB40pRz4qlZzDxSAp4tz1Sv+E7My5/qhNx
+	 Gy7ygnJl++6E6z//m++nHs/h649V/UYzN2c98CgcVwLb7rNeGalyu2maxV9EPld1WGIuk
+	 fJIeeuKbP63z6BpxE9CAhkwe8wQt87KiL7pMYKGW4eN+1vm7fIn/QMa7osvTLavcAPOrL
+	 vXWZ+aL9P4oxGJkLAB6b8LTQCVTj3RerlOvoGem16Mt0Z2ND0u6Yg/Bxniixc/QQV7b/2
+	 6wa3VlpgLixki1JkpsJCZOPTkgKpj+nC98PdlN16lIhaQzIxOYmSsvzJEIalemsHwEA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=linux-m68k.org;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.221.171
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
+	dmarc=pass header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=emnnzxhh;
+	arc=none smtp.remote-ip=209.85.128.41
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FFF606A326
-	for <arm-scmi@vger.kernel.org>; Fri, 20 Nov 2026 08:51:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8FFF606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-5ec20398b05so544287e0c.1
-        for <arm-scmi@vger.kernel.org>; Fri, 20 Nov 2026 00:51:55 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D869B606A331
+	for <arm-scmi@vger.kernel.org>; Fri, 20 Nov 2026 10:29:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D869B606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=emnnzxhh
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4bb68c197c7so8450225e9.1
+        for <arm-scmi@vger.kernel.org>; Fri, 20 Nov 2026 02:29:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1795170591; x=1795775391; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YECa1p9LzdYXA7zGnIWZNUD0xhZVO826hfzpFJvQccs=;
+        b=emnnzxhhSXC7pOKVR4XJxY37JOLjOZChOAK8ys6839gghkzDP+P+c5pUqMAdfQBI8u
+         AEHGxP6PrOmX6taHKNBIJJC5V/mEyzoX0UK2Ne9gWuY3HPn53Zb/5ETmtXitq0LlHZA6
+         PLcBn6cQcLYaOEiRvWhqaGoNM/bMkhIPn/xxaF+NV2e++aJJiQ/yqseiqE3UmEx3eK1+
+         ij775jpfZ1RUph0D6QJHxszrkgPkYhm4N+7mWb2I3KzT6yBo9OKyQVgSglqI1Q93UQ3B
+         LA0EMG/ZrARNzVVucMAgbJCyu4tY5crfyGbBhh0vFBEgPBa/v+rKxcsxsaJAIj7/cE8w
+         cBFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795164715; x=1795769515;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=O29ozXrRa1nWnNxSLjjwsMRtxZK+i1ptmKe8i27enGA=;
-        b=an1yqAawbf79FmS8P7CGEbqZNziBQSnABmPFJeTlC9d/Os9k5k3Hj4rRYmkk5SkyYG
-         cuXdaeG4dmaLjkevyOyqjukhLZ1eD49qvBhwNZEcTZ3sSgmEPTmgAlJl/Hat7mqisxDd
-         l/bYYw+RfoxYuB3+RI7/PlJ9tCXwpLGEftsMkaXBnL134mD+k9/Pj7Gs00Vm6S814wRo
-         l7+X17nbLPb9blN/6XAhHlftsnRAFICTD8fd25SzNJgIzrQYyMwrxkq16vRQHqau5WLa
-         It8dHWkTpHO0WOm1hAs/g6MjrPov3hdKItJG1M74z4dyMohOOr0oXTnn2GI4vg99RX6z
-         kR+Q==
-X-Forwarded-Encrypted: i=1; AL+hErHzaXzkejMzWu4cZiv6TJ/hoeNocJ4/q/BfFZlNy/e5aDskTV6GzbXP9K8hpw35EtrzSPyucFB+CA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z9Do8Bf0qu1NdmyHiJe12qwY86/+82dXzu/BGgozPqLG/qLAAn3
-	mMmFmSvoje/PiSbKsVPZiZWiOgT8u5oYoz4i8rOvaayF5xtWhX2nmPDQjU5YYsbL
-X-Gm-Gg: AZFdTZeyx43SBrz+0XpjH1zKxFY5lEn5pBI4X/MLhaXzKpbfvbtzf+y3FM33ZM+tbmz
-	jH7IzAaOQ+wNAP34pa+q0yXfdXnj0sSjRKuI5ZSnRallO2oZm9KJ46VMItTwuYahAYrJn29KrMX
-	ZvKDtySGcAChZuFWkZ+NKBP/BpYKG/cqST5e/KU6WPJH4PxWJmTB4s/YDDjCK7/+jnto7RgdvRl
-	4ON/5qRKykI/iV4pyYJqgP69I6B6rurwfyUYgLBm4bUOXfEKWUbjFhLID0DR/B2UIanI4ZvcJeO
-	sUHLlpQWGX5pOQ+skwFolLKlb8z/q/csOJbHZN19d86dn0i6ED3SxT3snutx2tzu0kFExKNH3Nm
-	by6+inzYTvATvHHUMyB42/CIq0RTGJqvKh+6v8bGUuJU8Da0y1iNfojZYwslENqifhdZbmrf+fn
-	bbZeEun59bmnUMe0TGtBI64L3fb5psnH8+iOy3MH7z5k6xNreJxEraZBN60yUN3fpfVx7XikBI1
-	M2Frz9BS2A/jhIP4VqOt5SpJc07j2DEVN+0DQCNbvDeBknZlWkwt4bNY+EoN505VlypIHPxv9La
-	hehcdDBQwZQ+9tDLvEKAZ8xoYnuP5kylGPg2V1+7oH8w25HG3L53JmF/O+zknWRF+Qk=
-X-Received: by 2002:a05:6122:3c41:b0:5e9:176f:a548 with SMTP id 71dfb90a1353d-5ee8ad10eedmr1371388e0c.0.1795164714794;
-        Fri, 20 Nov 2026 00:51:54 -0800 (PST)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com. [209.85.217.51])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ee8b5cd7c8sm1970957e0c.11.2026.11.20.00.51.54
-        for <arm-scmi@vger.kernel.org>
+        d=1e100.net; s=20260707; t=1795170591; x=1795775391;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=YECa1p9LzdYXA7zGnIWZNUD0xhZVO826hfzpFJvQccs=;
+        b=KlbWBFN8UiEV5DOJ+ApcPSiKZt+43i3mal6FEHOKFDPWr5IGgeEV9LoWx0u0bJrBUm
+         dqpIETFs4+1raQbFOdwDY6aq1pTFfTuwKBNui6JMOHQMz9C6f/9AKSqwT0pZxdnK8HO1
+         lwxXk4xcb6LAGQM/6pMZP8wuGn/50D5fyNOppABctRvooR8to3V0H75r5kEtRAtQwTRM
+         TKO1W7WHjFVNIydt+P3UEy2lXiyY1EePL6hf2ZZhSjzfPPVKgwIxvWMboPMbZVqLPdFQ
+         bFyoWtHcQxYFcUVNsIAp+4fqBJy7Da785MOiMZBY4s9jjIkrtqxSkYaCRTT4plCHp6Ff
+         T5yQ==
+X-Forwarded-Encrypted: i=1; AL+hErGlMKW4EvE8l/59A0YoVlRWpZViudogXO74MOcScskbzdaPmgNOhdvnEpd3PguZOGUW7+FABl3B2w==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8YoAJBFrgr6WsAdgU05no4vEmZ+wdLd9QABh+Em6uTBNdWMXur
+	xS3oX+g+frmJv5G5HVXqftRsMv+pkCUVmkyULW72UXf55M1YQrV2A2VahTJoq1WU6Uw=
+X-Gm-Gg: AYBFou3oJFnw/MRyb8qwhq0UJDwLiKRex+PIEj22pcOnwK1HVQeuMBadw9M02Llmm/+
+	9G3Cr+FyH2l5stelQ0PsJb2NxGRk9aVvnGJcsc/rA5LTCCIjujbCgPuOFR0CiTKH87x+23dDdRz
+	U6EAXFm9eURnw2q8c86dsU2EXHAPersFjv8Gy7bJmFIDu+fL+J23OPyfpOawoqaHagTKp3Lyrmc
+	RiuvrYRbpR9H8J7B4zBGSHiCYYgFWXq4kNw8p5V5FE/VfU+ZLE2zLgv5X/l8CRmSWqG9+YS26Fi
+	Ij4mqBF7x6eOZXhBc4b/7hkyyE0jW54lJZ3JBpKlvHJXT4xpzI9TMDTjjmBV6kn5jUIvM3UsOHu
+	D/W+ImofE4rBPKpDWB9Ii/kFONfRDHoHA11UzrmJOVWYqgH/AI6q0O+xn0t5m9QPO8TTquTrz5J
+	14sL5gFt2MM7rWULIdaU+SXVY8SnaT0esk3TylOZ7gAbBWwy/at+08TkDNPe1hkJlYBY0yblLwz
+	+Rrxb6pMEQB61PQIk1n1pVITXsgga0Q33VL5x+Y1yHCG1zp/4KyS0YSfwGw5FSaDWaTGSxERKZG
+	ng4uShockvOZY2zMC3HPXLqhJuB4K7JZLbHkaxCjZKSD0HnL/9NKM8LJ5w==
+X-Received: by 2002:a05:600c:64c8:b0:4bb:605d:8e92 with SMTP id 5b1f17b1804b1-4bb8881e767mr51613175e9.32.1795170591115;
+        Fri, 20 Nov 2026 02:29:51 -0800 (PST)
+Received: from [192.168.1.62] (140.30.66.37.rev.sfr.net. [37.66.30.140])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884a3a3dsm65912515e9.10.2026.11.20.02.29.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Nov 2026 00:51:54 -0800 (PST)
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-7cc53938a8fso506222137.2
-        for <arm-scmi@vger.kernel.org>; Fri, 20 Nov 2026 00:51:54 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFKpjaENoorKw4ybcLThreckI+hQYnYMK+ufjXGIm3+FXTc74doHuy0EigBUWWN8RzEN23DH6PzgA==@vger.kernel.org
-X-Received: by 2002:a05:6102:1a1a:b0:7d2:b348:6355 with SMTP id
- ada2fe7eead31-7d7395e01bbmr694434137.23.1795164714287; Fri, 20 Nov 2026
- 00:51:54 -0800 (PST)
+        Fri, 20 Nov 2026 02:29:50 -0800 (PST)
+Message-ID: <19c3745a-6308-46ff-bb37-3acc88fe22e2@baylibre.com>
+Date: Fri, 20 Nov 2026 11:29:49 +0100
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -80,103 +92,76 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <CAMuHMdUov1u3kXzBX3ZM8rRkBdLq_M8LwQ2VtxSEOH9w68Rr2g@mail.gmail.com>
- <20261120084335.3492524-1-rabenda.cn@gmail.com>
-In-Reply-To: <20261120084335.3492524-1-rabenda.cn@gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 20 Nov 2026 09:51:43 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUrCkbjJW3Ld1nFbfj_Dfa4YwhUoK5g7rAn89yz=bYy4g@mail.gmail.com>
-X-Gm-Features: Aa3M54r6LC9IQldUg86oiQcyOqnhN_8FdF1As7xILWU1aB_YhbizNGLY-xXfwEM
-Message-ID: <CAMuHMdUrCkbjJW3Ld1nFbfj_Dfa4YwhUoK5g7rAn89yz=bYy4g@mail.gmail.com>
-Subject: Re: [PATCH] firmware: arm_scmi: Drop the ARM architecture dependency
-To: Han Gao <rabenda.cn@gmail.com>
-Cc: gaohan@iscas.ac.cn, Sudeep Holla <sudeep.holla@kernel.org>, 
-	Cristian Marussi <cristian.marussi@arm.com>, Michal Simek <michal.simek@amd.com>, 
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/15] R-Car X5H Ironhide CPG/MDLC SCMI remapping
+ support
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Brian Masney <bmasney+clk@redhat.com>,
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Ulf Hansson <ulfh@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Kevin Hilman <khilman@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Paul Elder <paul.elder+renesas@ideasonboard.com>,
+ Sudeep Holla <sudeep.holla@kernel.org>,
+ Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <cover.1795029012.git.geert+renesas@glider.be>
+ <1e9c5ac3-d82b-4af9-9946-0302cadf7404@baylibre.com>
+ <20261119234759.GB2324725@killaraus.ideasonboard.com>
+Content-Language: en-US, fr
+From: =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>
+Autocrypt: addr=clegoffic@baylibre.com; keydata=
+ xjMEafx9bxYJKwYBBAHaRw8BAQdAtc85GIwDXLz0rh9thWXC80Lji0otVDVncXT4qaS4j1fN
+ K0Nsw6ltZW50IExlIEdvZmZpYyA8Y2xlZ29mZmljQGJheWxpYnJlLmNvbT7ClgQTFgoAPhYh
+ BJjMiHuM4ZUwFqUPr36EW4KtCh6TBQJp/H1vAhsDBQkJZgGABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEH6EW4KtCh6Tt+sA/jVC35rY1npFlOy7YnncTdrID8Qf855JA78IzXgvzpGp
+ AP9FkuuT80m66PP3DvgYX9kVnG17mSDKO0+v2W18v6ZgCM44BGn8fW8SCisGAQQBl1UBBQEB
+ B0DMwF4u//aQyzsFlO8rPJ/cqsAuPH80IeIA3HOEo5mlVgMBCAfCfgQYFgoAJhYhBJjMiHuM
+ 4ZUwFqUPr36EW4KtCh6TBQJp/H1vAhsMBQkJZgGAAAoJEH6EW4KtCh6TdSgBAMDS0MiWCivt
+ LjzZc9bs+P/xdXywUjDKq3lpQGJ6vZ0GAP9vI6DnN7vwVK6jt6/+0aBGkog5Ura9+WwRFEdM
+ vLfPDQ==
+In-Reply-To: <20261119234759.GB2324725@killaraus.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Han,
+Hi Laurent,
 
-On Fri, 20 Nov 2026 at 09:43, Han Gao <rabenda.cn@gmail.com> wrote:
-> On Fri, 20 Nov 2026 09:26:47 +0100 Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Fri, 6 Nov 2026 at 20:40, Han Gao via B4 Relay
-> > <devnull+gaohan.iscas.ac.cn@kernel.org> wrote:
-> > > From: Han Gao <gaohan@iscas.ac.cn>
-> > >
-> > > The SCMI core and the mailbox and shared memory transports only use
-> > > generic kernel interfaces. Transports that need architecture support,
-> > > such as SMC, already carry their own dependencies.
-> > >
-> > > Drop the ARM and ARM64 dependency so that other architectures can use
-> > > SCMI. Depend on HAS_IOMEM instead, for devm_ioremap().
-> > >
-> > > Suggested-by: Michal Simek <michal.simek@amd.com>
-> > > Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
-> >
-> > Thanks for your patch, which is now commit fe87ede443a15969 ("firmware:
-> > arm: scmi: Drop the ARM architecture dependency") in scmi/for-linux-next.
-> >
-> > > ---
-> > > This was patch 1 of the Zhihe A210 SoC series [1]. As Michal asked, it
-> > > now goes on its own through the SCMI tree.
-> > >
-> > > Since [1], it depends on HAS_IOMEM: Sashiko found that UML, which has
-> > > no HAS_IOMEM, failed to link devm_ioremap().
-> > >
-> > > Build tested on x86_64 without OF, i386, loongarch64, ppc64le, riscv64
-> > > and arm64. On UML, SCMI can no longer be selected.
-> > >
-> > > [1] https://patch.msgid.link/20261103-a210-scmi-v3-0-ee6b31580808@iscas.ac.cn
-> >
-> > > --- a/drivers/firmware/arm_scmi/Kconfig
-> > > +++ b/drivers/firmware/arm_scmi/Kconfig
-> > > @@ -3,7 +3,7 @@ menu "ARM System Control and Management Interface Protocol"
-> > >
-> > >  config ARM_SCMI_PROTOCOL
-> > >         tristate "ARM System Control and Management Interface (SCMI) Message Protocol"
-> > > -       depends on ARM || ARM64 || COMPILE_TEST
-> > > +       depends on HAS_IOMEM || COMPILE_TEST
-> >
-> > Please extend the dependencies to RISCV (from the link above, I assume
-> > you are targeting riscv?) instead.  There is no point in showing this
-> > option on architectures that have no users of SCMI; one already has
-> > too many relevant symbols to configure.
-> > People who want to build test on x86_64 without OF, i386, loongarch64,
-> > ppc64le, ... can just enable COMPILE_TEST.
->
-> Following Michal's suggestion[1], I'm dropping ARM/ARM64.
->
-> [1] https://lore.kernel.org/all/3d38c4a5-1a12-4af1-ac2e-413a457ce4c5@amd.com/
+Thanks for your feedback !
 
-Yes, I read that.
+On 11/20/26 12:47 AM, Laurent Pinchart wrote:
+> As far as I understand, the assumption impacts the mdlc and cpg drivers
+> only, not their DT bindings. If (or rather, let's face it, when) a
+> firmware revision later breaks the assumption, we will be able to handle
+> it in those drivers without affecting DT.
+> 
+> I don't like this remapping driver much, in the sense that I wish it
+> wouldn't be needed, but it seems to me to be the best possible
+> compromise given the instability introduced by SCMI.
 
-For reference, other firmware interfaces are also not exposed to the
-whole world:
+I don't think SCMI itself introduce instability.
+It only defines the protocol, and each firmware choose its ids.
+Could you tell me what you mean by instability?
 
-$ git grep -w ARCH_SUPPORTS_ACPI
-arch/arm64/Kconfig:     select ARCH_SUPPORTS_ACPI
-arch/loongarch/Kconfig: select ARCH_SUPPORTS_ACPI
-arch/riscv/Kconfig:     select ARCH_SUPPORTS_ACPI if 64BIT
-arch/x86/Kconfig:       select ARCH_SUPPORTS_ACPI
-drivers/acpi/Kconfig:config ARCH_SUPPORTS_ACPI
-drivers/acpi/Kconfig:   depends on ARCH_SUPPORTS_ACPI
-$ git grep -w "config EFI"
-arch/arm/Kconfig:config EFI
-arch/arm64/Kconfig:config EFI
-arch/loongarch/Kconfig:config EFI
-arch/riscv/Kconfig:config EFI
-arch/x86/Kconfig:config EFI
+For development firmware, Geert's cover leaves it to vendor trees:
 
-Thanks!
+> This list deliberately ignores ID instability and the need for SCMI
+> quirks during development of the SCMI firmware.  While upstream Linux
+> must only support sufficiently mature firmware versions, vendor trees
+> (e.g. renesas-lts) may still want to support development firmware
+> versions.
 
-Gr{oetje,eeting}s,
+For a resource that hangs the platform when Linux uses it, the SCMI server should deny Linux access to it.
+Until the firmware is fixed, a quirk can cover it.
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Clément
