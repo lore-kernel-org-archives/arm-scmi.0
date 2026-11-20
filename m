@@ -1,77 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795132091;
-	b=gtL3SP9bTdGliv3Lhx37IddCAk0NY5I+EMuqnkpgekNQd8ccEqim5cHUFxo6LkMXU3Wd
-	 //AiON8IV1wc7s4NoKGvXRF8wayCshQ3/E+BJlVjbm/9Qv4KSY6Kyqxh86lLON9141+Rj
-	 t1Ra9dKJEhgNwWZw+pgs7YKoJ5c48wb6bN7EUmYoDmCStIu0NCLGBbxPJCC2tfzzZa0lQ
-	 eP6bbH0c2BP75incGWi4M9soAOSclVeeS8H87VDUOEGRsDK/Cix9BD/zRp1WPZQAYwQkU
-	 6Ehf6nVqxM0lzgek86afiP0duRhMfhPuEyuhwjycQ1UdByUPwqo/YBZpNRty2Hrs/2w==
+	t=1795152507;
+	b=4NCt1D1qMjLXK5h0DgJ6+z4ahzoGvBWmYNaD+RfEyfCfeLP3/dtdJvyeVTGex1yjKjUD
+	 GxQTOFcOWWoTIQRMpuoWHDJksTlHK0XVNXcU4HeyOnUafCg7ACI4arRWAxfFscfzMQGtj
+	 RnCIz466JjaFPmVyKDcju2X2ngLfnyQsGG3VbDX+8te58RsZm9jANSezqbJoQA6p18EsF
+	 eQJJt1yga3xOOiizW6ti47SwnW5WjlgeNQ8rgiTeeGDZQr06yGhjK1hGWa/nedYbO2Xiw
+	 D/5zyGHGuLsfw1Rdt/3klkPYw2kv61OwHOvj/81yDVFdawWJ+b6y1V/AIaZq2H1shSg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795132091;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=+ijbtSK0fBZ6ownvGj02cHskN9Djna0WvtK/k37lNQ8=;
-	b=McH/PNe7u3YghfauTg1It6U4WjKSCJM61zW0zbgZy0uZ5dJQnIKZGolx01vS0EAaceXG
-	 cVf4vIta5w9aayl62r1S4DqSUo2payi7eerWfUhglCkZWIUdcukR/A8GAZOpmeoXk6EAa
-	 kpt9gpfSDkrXMqGCudPJTjQXMT5qjtAIRCJeKimDv3gAkjkRZ5WZXUqHzKuJi4c1BSOcK
-	 ZoJO/Zd2jCWjUTPY4MwuhR1x7kmMYXPZ0o9/UoXR3rJ3gIgpGWlBvKmt5jc1RBXaWWECp
-	 LIkgFei9xGXKEtYm0rVAlJdbD6jVPTzhZt1ZJ/6qXr5NSmHmd22CeNcvnjaegrbv5AQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795152507;
+	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-MBO-RS-META:X-MBO-RS-ID;
+	bh=WEAQeDdttdbQETJGcnx9VoAq4ig2AwjGPCEda+gTOGQ=;
+	b=OqTLEONIBZgC9wts5petQKDIDgzZgvBEfLX6KPVA8I+fz8XzrLMHOIovRfAp7iRKmOph
+	 lFnGqWOA4cwcgQK22WHlFjWJj3+hRbNbx2S45Vn7x8qm0AqkuPskhERhRYmRRBp42EdRr
+	 T3IL/LRIm3OZG4gz4Ct26fgrkh+Hn/tc2CZrwQGZVm+0cNHySs8dC3sQmCIEZXsutp2pe
+	 Lrk39xWha1u/aC6REfVqIw+5ouJ1zsQNNTQtLxkK9Wc3bXXbuvyqnkFERB+gUppQQTGCe
+	 ujWYGEnCB1sKan7P0fRvJsLp6Ll77fdQwnGfvnXCb2WjC1cUffTFVgm9ZP6EVVbjaVw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ideasonboard.com;
-	spf=pass smtp.mailfrom=ideasonboard.com;
-	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=NcISFCtC;
-	arc=none smtp.remote-ip=213.167.242.64
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	dmarc=pass header.from=mailbox.org;
+	spf=pass smtp.mailfrom=mailbox.org;
+	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b="sKxHoD/w";
+	arc=none smtp.remote-ip=80.241.56.171
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A07A606A320;
-	Thu, 19 Nov 2026 23:48:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3A07A606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0406E606A32A;
+	Fri, 20 Nov 2026 05:28:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0406E606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=NcISFCtC
-Received: from killaraus.ideasonboard.com (2001-14ba-7086-3000--a06.rev.dnainternet.fi [IPv6:2001:14ba:7086:3000::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC82A6AF;
-	Fri, 20 Nov 2026 00:45:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1795131932;
-	bh=EZwvQCbn6puXRaR/jIu1ad9YLeXmu2tjVf0hS1LGbjk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NcISFCtC5Xg1GEKU99n//zV0rhPkR5PRrt6WisLdwe6SwAb9p/WCxEUiEiBfgG2fT
-	 Rnpzq+GOOlztVp88d33vyp6XUpVa/L77iC0tum6ZLf4aiWr26kd0THZmA812SHkFlO
-	 cwcwWjPeI9XKnw4+785lXybLQPrjxZjjA9AcwDVk=
-Date: Fri, 20 Nov 2026 01:47:59 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: =?utf-8?Q?Cl=C3=A9ment?= Le Goffic <clegoffic@baylibre.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Ulf Hansson <ulfh@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Kevin Hilman <khilman@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Paul Elder <paul.elder+renesas@ideasonboard.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 00/15] R-Car X5H Ironhide CPG/MDLC SCMI remapping
- support
-Message-ID: <20261119234759.GB2324725@killaraus.ideasonboard.com>
-References: <cover.1795029012.git.geert+renesas@glider.be>
- <1e9c5ac3-d82b-4af9-9946-0302cadf7404@baylibre.com>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=sKxHoD/w
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4jW3lQ0xNpzMlPN;
+	Fri, 20 Nov 2026 06:28:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1795152498;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WEAQeDdttdbQETJGcnx9VoAq4ig2AwjGPCEda+gTOGQ=;
+	b=sKxHoD/wkyhiKEJN2+3QmTb0qDvBrxW1HdvWzxofGKDRkx7niuPPgNjcczay04H6pg1lzo
+	ol9cvS8Kbpl/5Pemf35AL9pgP29UzvKg4ll2tlOTTybkIP3vHuMSfgUPgzLb5AgVEg56SH
+	7MtPaGCBEYLDbYk8Z5zBj1+oCNmU1sj09Zp3Eayom7UOsMdGmicEGxtCQWec4J++I3o1x9
+	b+26X8fsDrfZ4QtYzawBYvHCbh4qwLwhxGOYXr57IMxStv/ap1R75vWahfo9RUq5DIsdWq
+	x0QI8vk/9D6rS17cwmtPlSswW6cexjLm8mKetoqw7wz+5eMCm4MCetOwRg311w==
+Message-ID: <57d2cc58-15ac-434e-ab40-7a8a54d93a1f@mailbox.org>
+Date: Fri, 20 Nov 2026 03:57:12 +0100
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -81,61 +62,58 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1e9c5ac3-d82b-4af9-9946-0302cadf7404@baylibre.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 01/15] clk: renesas: r8a78000: Merge debug prints in
+ r8a78000_clk_get()
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Brian Masney <bmasney+clk@redhat.com>,
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Ulf Hansson <ulfh@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Kevin Hilman <khilman@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Paul Elder <paul.elder+renesas@ideasonboard.com>,
+ =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>,
+ Sudeep Holla <sudeep.holla@kernel.org>,
+ Cristian Marussi <cristian.marussi@arm.com>
+Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <cover.1795029012.git.geert+renesas@glider.be>
+ <cee843b319c9eceba2339f14a134e305a2b05d7e.1795029012.git.geert+renesas@glider.be>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <cee843b319c9eceba2339f14a134e305a2b05d7e.1795029012.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: p1aubxpjti7wzrrdeoih94dcd5ndsxbz
+X-MBO-RS-ID: b4229e44a0cdd305af8
 
-On Thu, Nov 19, 2026 at 03:47:15PM +0100, Clément Le Goffic wrote:
-> On 11/18/26 8:44 PM, Geert Uytterhoeven wrote:
-> > 	Hi all,
-> > 
-> > TL;DR:
-> > 
-> >     Describe hardware in DT, and perform mapping to abstractions offered
-> >     by SCMI in Linux.
+On 11/18/26 8:44 PM, Geert Uytterhoeven wrote:
+> The two debug prints in r8a78000_clk_get() are very similar.
+> Merge them into a single debug print.
 > 
-> A question on the approach
-> An SCMI variant DT could mark the CPG and MDLC status = "reserved" and point the consumers at arm,scmi, while the U-Boot IPL keeps the hardware DT.
-> Since v4, the series assumes the SCMI ids are stable:
-> 
-> >   - Remove dependencies by making assumptions and dropping disputed
-> >     items, to move this series forward:
-> >       - Assume all SCMI IDs are stable.
-> 
-> If they are, why not using them in the DT directly?
+> While at it, unwrap the (wrongly-indented) continuation of the
+> r8a78000_clk_get() function header, as it fits on a single line.
 
-As far as I understand, the assumption impacts the mdlc and cpg drivers
-only, not their DT bindings. If (or rather, let's face it, when) a
-firmware revision later breaks the assumption, we will be able to handle
-it in those drivers without affecting DT.
+It might be worth mentioning, that this now also uses 
+clk_hw_get_name(hw) instead of map->fw_id .
 
-I don't like this remapping driver much, in the sense that I wish it
-wouldn't be needed, but it seems to me to be the best possible
-compromise given the instability introduced by SCMI.
+[...]
 
-> On partitioning, the cover letter says:
-> 
-> >   - The clock, reset, and power domain IDs are not stable by design,
-> >     causing DT incompatibilities.
-> >     SCMI requires that the ID space exposed to an agent (i.e. Linux)
-> >     starts at zero and is contiguous.  Hence any change in system
-> >     partitioning (Application CPU core vs. Realtime CPU core,
-> >     virtualization, ...) may mean a renumbering of all SCMI IDs,
-> >     implying a massive change to the DT.
-> 
-> SCMI do not mandate that renumbering. The ids start at zero and are sequential, but nothing requires them to cover only the resources of one agent.
-> The firmware can keep a single id space for all agents and restrict per agent what each one may use, the rest returning DENIED (SCMI 4.0, section 3.2.1).
-> For virtualization, the spec has the hypervisor grant each VM its resources this way. A new VM then changes permissions, not ids.
-> 
-> With a single id space, a software configuration only changes which nodes are enabled, so one DT per software configuration, a base DT plus an overlay, is enough.
-> If managing many configurations ever becomes a nightmare, tools exist for it, such as Lopper from devicetree-org [1], which generate one DT per execution domain from a single system DT.
-> 
-> That leaves the missing clock domain, which is a gap in SCMI itself.
-> 
-> [1] https://github.com/devicetree-org/lopper
-
--- 
-Regards,
-
-Laurent Pinchart
+> -	dev_dbg(dev, "Mapping DT clock %u to fixed clock %u\n", id, map->fw_id);
+> -
+>   	hw = priv->fixed_hws[map->fw_id];
+>   
+> -	dev_dbg(dev, "clock %u is %s at %lu Hz\n", id, clk_hw_get_name(hw),
+> -		clk_hw_get_rate(hw));
+> +	dev_dbg(dev, "Mapping DT clock %u to %s at %lu Hz\n", id,
+> +		clk_hw_get_name(hw), clk_hw_get_rate(hw));
+[...]
