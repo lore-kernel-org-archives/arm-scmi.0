@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795304615;
-	b=qXXy7KpOAAg9iTqUlbJ5UU09Vn3UALqNlOY94j3x4ufJMDckCKdcSgDZBxTXBYF4WYUY
-	 CiMlNRp+y4er4TS5H08rwelH9VGsz9zwA5zqDdR/GTUYlvH0VJ/JITDQ4HRfk1oBoHk5D
-	 VL7I12IwY56tV3RJsTqrTfFRGrS/GBf8+slaXD4VUR6k9FcKCVrkzXLocrhaCkdbkt7D9
-	 BHgyTRIcIDIIe1WawXqOP5zi6jVGfw+Y5cKjx9c3qqa+NaTaMedo2LmbsGAq1JWnTtv87
-	 UNl4Fbp4k/Tc+87A6acM7WXFSpKabZ5WGS8H05nb+xxOUcWIcCj3wbTGij/jgwGrFeg==
+	t=1795304619;
+	b=v/KvCPlPbyvl/nV1oysv3ibTpYnD9Hywk65hkjZ3eJT8TDVXA9z6VnCAbkdXeUvzfQ+r
+	 Lwt/bH5qIZs22Xv/wsr/w+k9ooppthsFayoKyY0PqukoDCYYFKiFkxH+k4RHiSLJzQZUN
+	 W3kjP4L5HXzrRPxDxDf43WthoYaKd+wMXU67c2GkclJlEQALMu9vMtwnlNazWO1KrOpK0
+	 6xgiKPCsA56oENlSu08NU+V8+714fPB5a/BGzUyx3lwQnyY1JjBDWtI9Gc4XIM5WuITO/
+	 EmXt+Ge2y1LzAVez0ejIL+XS6NO6A9hQ6KL0W4x5CZGHbqJ7eSGJUFhBLwJsf57GsbA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795304615;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795304619;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=vFT5X4VScYFosTBP0L3XnNtdE1oB9AcZg2PDRicv4pI=;
-	b=G9j54vJL4Vo6ODW5pFRJASgT6WQ5vNUG6LrK3CCJDGd+YtGfNfGa5AxEP8E9/o/i06fs
-	 2oWPEmUkVFgnPsyP334awKClbNXCNldOW6I8Ao933SNTfZec5cz09yiEx7ZdDMAEq0z3p
-	 8q3ziCxYSGcq2jJzRW6CHzyDoK3iCdagtU6dFj3KBb/iHjoU8h0iWXL94BBhds7gNC46i
-	 1On4oFBMF1poFeTW4s6yTHB9MoTPnQ63mnFdCajyPbSV/O6VMen4PAl+BFamyvlz1xzdv
-	 /STP2DYgxH0mw37MUJqejwVRg0GwCRL0IYdZjqtIoKaCshms85PAMzk2OThBmq0AYSA==
+	bh=5aHo1OGeOfOj5EfMcl+mo+WPC3cWBElxO5fk9EmyHrE=;
+	b=Knv3hbNUVOzOxKh9y5duUZ7Ix+A/FxneJk2DZzRC7GgVOvHWkyUy2AgY5gb83Agb2zdt
+	 kciYRLVnfXocoLaDazuHy4w1G5w4LUbtBoAzGiz18Gc39FEdJ3boK+0wePLHoTSkaCda5
+	 ONyHPQN5SMzfECWVsQfVccy7jQ3ssYQo0iS4rewtjv207strx1hHXwc0OjGYxU3zzR91A
+	 9HifqfxeQTDxrOFSEobsrzY9Lbip1zwHDHJg+SwYHLiGq8LyZX2+CXOCZkhoA64lfinVL
+	 Rj7Mxfh9SpDOPq0In6hiKb5eLiaRklHVb97dzoU+mMSzBL0Con01iCdMAsD/sBLZN3g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=arm.com;
 	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=r+MPzQBx;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=qrMNmfP1;
 	arc=none smtp.remote-ip=217.140.110.172
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B8B6606A32C;
-	Sat, 21 Nov 2026 23:43:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B8B6606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4163606A336;
+	Sat, 21 Nov 2026 23:43:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4163606A336
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=r+MPzQBx
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=qrMNmfP1
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2653A16F2;
-	Sat, 21 Nov 2026 15:43:32 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 42C011575;
+	Sat, 21 Nov 2026 15:43:35 -0800 (PST)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 37C463F632;
-	Sat, 21 Nov 2026 15:43:32 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5A70D3F632;
+	Sat, 21 Nov 2026 15:43:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795304615; bh=kCb2vXk43N6EA15KnutMEDFVvCutj0Y3CtplbWRuKk4=;
+	t=1795304618; bh=wPGFAz4GR+cJOiQT8ezN/i8t+DmkptVFngiVrZEgm7E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=r+MPzQBxYByHNiQNM7X4BWA7zmfy1JTT+yMVYj3ANPNiyreXPh+pRpWdhwB/QfHR+
-	 Dzw0tLny6hLDVgXMf9Gti6xMb3hYv+p0dB84JtsYjizZEDaTDEF7qkFUxan7Zs4AtX
-	 G0T0OQx2NzP7lkKM8I9ma3lxaXfBnIiVi7LHFTD8=
+	b=qrMNmfP1CmXYD/fHdZSTwdes8/kNOYkiMIm1Fy/6yn7xZES/cNbiCbDOmHmrrrfUT
+	 yGOeJtTHQ9T068zNAlex+L5JeHce2HI3FCKlzC9Q1bXmbAUTLrt3RLtUsrx2l9GEdo
+	 MiP+h34ItqDj47URczXU31fEy2skGgeD8jHQeOXw=
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -67,9 +67,9 @@ Cc: sudeep.holla@kernel.org,
 	usama.arif@linux.dev,
 	kernel-team@meta.com,
 	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH v16 03/31] firmware: arm_scmi: Add centralized detection of truncated replies
-Date: Sat, 21 Nov 2026 23:39:37 +0000
-Message-ID: <20261121234005.1525419-4-cristian.marussi@arm.com>
+Subject: [PATCH v16 04/31] firmware: arm_scmi: Introduce a dedicated SCMI Errors header
+Date: Sat, 21 Nov 2026 23:39:38 +0000
+Message-ID: <20261121234005.1525419-5-cristian.marussi@arm.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261121234005.1525419-1-cristian.marussi@arm.com>
 References: <20261121234005.1525419-1-cristian.marussi@arm.com>
@@ -84,87 +84,133 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When an xfer is allocated with a very well known fixed reply size by
-providing a non-zero rx_size parameter to xfer_get_init(), it becomes
-possible to verify if the effectively received reply was truncated.
-
-Add the logic to detect and report truncated replies.
+Add a new dedicated header and move all of the errors definitions and
+mapping helpers into it and out of common.h so that SCMI errors definitions
+alone can be easily included in protocol files without all of the unrelated
+additional stuff contained in common.h
 
 Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 ---
- drivers/firmware/arm_scmi/driver.c    | 12 ++++++++++++
- drivers/firmware/arm_scmi/protocols.h |  8 ++++++++
- drivers/firmware/arm_scmi/raw_mode.c  |  1 +
- 3 files changed, 21 insertions(+)
+ drivers/firmware/arm_scmi/common.h | 39 +---------------------
+ drivers/firmware/arm_scmi/errors.h | 52 ++++++++++++++++++++++++++++++
+ 2 files changed, 53 insertions(+), 38 deletions(-)
+ create mode 100644 drivers/firmware/arm_scmi/errors.h
 
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index a9b0f704c39b..12c215d04d43 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -1356,6 +1356,16 @@ static int scmi_wait_for_reply(struct device *dev, const struct scmi_desc *desc,
- 		}
- 	}
+diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
+index af5b025ee072..cdd6f887fae7 100644
+--- a/drivers/firmware/arm_scmi/common.h
++++ b/drivers/firmware/arm_scmi/common.h
+@@ -26,6 +26,7 @@
  
-+	/* Check for truncated messages..it will be logged by the caller */
-+	if (!ret && !xfer->hdr.status && xfer->expected_rx_len &&
-+	    xfer->expected_rx_len != xfer->rx.len) {
-+		dev_dbg(dev,
-+			"Truncated reply - HDR:%08X  expected:%zd  received:%zd\n",
-+			pack_scmi_header(&xfer->hdr), xfer->expected_rx_len,
-+			xfer->rx.len);
-+		xfer->hdr.status = SCMI_ERR_COMMS;
-+	}
+ #include <linux/unaligned.h>
+ 
++#include "errors.h"
+ #include "protocols.h"
+ #include "notify.h"
+ 
+@@ -37,44 +38,6 @@
+ 
+ #define SCMI_TRANSPORT_DEVNAME_PREFIX	"__scmi_transport_device"
+ 
+-enum scmi_error_codes {
+-	SCMI_SUCCESS = 0,	/* Success */
+-	SCMI_ERR_SUPPORT = -1,	/* Not supported */
+-	SCMI_ERR_PARAMS = -2,	/* Invalid Parameters */
+-	SCMI_ERR_ACCESS = -3,	/* Invalid access/permission denied */
+-	SCMI_ERR_ENTRY = -4,	/* Not found */
+-	SCMI_ERR_RANGE = -5,	/* Value out of range */
+-	SCMI_ERR_BUSY = -6,	/* Device busy */
+-	SCMI_ERR_COMMS = -7,	/* Communication Error */
+-	SCMI_ERR_GENERIC = -8,	/* Generic Error */
+-	SCMI_ERR_HARDWARE = -9,	/* Hardware Error */
+-	SCMI_ERR_PROTOCOL = -10,/* Protocol Error */
+-};
+-
+-static const int scmi_linux_errmap[] = {
+-	/* better than switch case as long as return value is continuous */
+-	0,			/* SCMI_SUCCESS */
+-	-EOPNOTSUPP,		/* SCMI_ERR_SUPPORT */
+-	-EINVAL,		/* SCMI_ERR_PARAM */
+-	-EACCES,		/* SCMI_ERR_ACCESS */
+-	-ENOENT,		/* SCMI_ERR_ENTRY */
+-	-ERANGE,		/* SCMI_ERR_RANGE */
+-	-EBUSY,			/* SCMI_ERR_BUSY */
+-	-ECOMM,			/* SCMI_ERR_COMMS */
+-	-EIO,			/* SCMI_ERR_GENERIC */
+-	-EREMOTEIO,		/* SCMI_ERR_HARDWARE */
+-	-EPROTO,		/* SCMI_ERR_PROTOCOL */
+-};
+-
+-static inline int scmi_to_linux_errno(int errno)
+-{
+-	int err_idx = -errno;
+-
+-	if (err_idx >= SCMI_SUCCESS && err_idx < ARRAY_SIZE(scmi_linux_errmap))
+-		return scmi_linux_errmap[err_idx];
+-	return -EIO;
+-}
+-
+ #define MSG_ID_MASK		GENMASK(7, 0)
+ #define MSG_XTRACT_ID(hdr)	FIELD_GET(MSG_ID_MASK, (hdr))
+ #define MSG_TYPE_MASK		GENMASK(9, 8)
+diff --git a/drivers/firmware/arm_scmi/errors.h b/drivers/firmware/arm_scmi/errors.h
+new file mode 100644
+index 000000000000..e1b265d5c148
+--- /dev/null
++++ b/drivers/firmware/arm_scmi/errors.h
+@@ -0,0 +1,52 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * System Control and Management Interface (SCMI) Message Protocol
++ * header containing SCMI errors definitions and Linux mapping.
++ *
++ * Copyright (C) 2018-2026 ARM Ltd.
++ */
++#ifndef _SCMI_ERRORS_H
++#define _SCMI_ERRORS_H
 +
- 	return ret;
- }
- 
-@@ -1616,6 +1626,8 @@ static int xfer_get_init(const struct scmi_protocol_handle *ph,
- 
- 	xfer->tx.len = tx_size;
- 	xfer->rx.len = rx_size ? : info->desc->max_msg_size;
-+	/* When a specific rx_size was specified, check for truncation */
-+	xfer->expected_rx_len = rx_size ? : 0;
- 	xfer->hdr.type = MSG_TYPE_COMMAND;
- 	xfer->hdr.id = msg_id;
- 	xfer->hdr.poll_completion = false;
-diff --git a/drivers/firmware/arm_scmi/protocols.h b/drivers/firmware/arm_scmi/protocols.h
-index c15ec188291a..50b89c56e309 100644
---- a/drivers/firmware/arm_scmi/protocols.h
-+++ b/drivers/firmware/arm_scmi/protocols.h
-@@ -106,6 +106,13 @@ struct scmi_msg_hdr {
-  * @rx: Receive message, the buffer should be pre-allocated to store
-  *	message. If request-ACK protocol is used, we can reuse the same
-  *	buffer for the rx path as we use for the tx path.
-+ * @expected_rx_len: The expected length of the payload in the reply, excluding
-+ *		     the status field. When set to a non-zero value this is used
-+ *		     to evaluate if a reply had been possibly truncated due to a
-+ *		     misconfigured transport: it is only set to some meaningful
-+ *		     non-zero value for replies having a very well known fixed
-+ *		     size, definitely not for variable-sized xfers with an RX
-+ *		     len initialized to max_msg_size.
-  * @done: command message transmit completion event
-  * @async_done: pointer to delayed response message received event completion,
-  *		or NULL when no delayed response is expected. Protected by
-@@ -139,6 +146,7 @@ struct scmi_xfer {
- 	struct scmi_msg_hdr hdr;
- 	struct scmi_msg tx;
- 	struct scmi_msg rx;
-+	size_t expected_rx_len;
- 	struct completion done;
- 	struct completion *async_done;
- 	bool pending;
-diff --git a/drivers/firmware/arm_scmi/raw_mode.c b/drivers/firmware/arm_scmi/raw_mode.c
-index 7e42dd6cc2af..45206edff446 100644
---- a/drivers/firmware/arm_scmi/raw_mode.c
-+++ b/drivers/firmware/arm_scmi/raw_mode.c
-@@ -574,6 +574,7 @@ static int scmi_xfer_raw_get_init(struct scmi_raw_mode_info *raw, void *buf,
- 	xfer->hdr.status = SCMI_SUCCESS;
- 	xfer->tx.len = tx_size;
- 	xfer->rx.len = raw->desc->max_msg_size;
-+	xfer->expected_rx_len = 0;
- 	/* Clear the whole TX buffer */
- 	memset(xfer->tx.buf, 0x00, raw->desc->max_msg_size);
- 	if (xfer->tx.len)
++#include <linux/errno.h>
++#include <linux/array_size.h>
++
++enum scmi_error_codes {
++	SCMI_SUCCESS = 0,	/* Success */
++	SCMI_ERR_SUPPORT = -1,	/* Not supported */
++	SCMI_ERR_PARAMS = -2,	/* Invalid Parameters */
++	SCMI_ERR_ACCESS = -3,	/* Invalid access/permission denied */
++	SCMI_ERR_ENTRY = -4,	/* Not found */
++	SCMI_ERR_RANGE = -5,	/* Value out of range */
++	SCMI_ERR_BUSY = -6,	/* Device busy */
++	SCMI_ERR_COMMS = -7,	/* Communication Error */
++	SCMI_ERR_GENERIC = -8,	/* Generic Error */
++	SCMI_ERR_HARDWARE = -9,	/* Hardware Error */
++	SCMI_ERR_PROTOCOL = -10,/* Protocol Error */
++};
++
++static const int scmi_linux_errmap[] = {
++	/* better than switch case as long as return value is continuous */
++	0,			/* SCMI_SUCCESS */
++	-EOPNOTSUPP,		/* SCMI_ERR_SUPPORT */
++	-EINVAL,		/* SCMI_ERR_PARAM */
++	-EACCES,		/* SCMI_ERR_ACCESS */
++	-ENOENT,		/* SCMI_ERR_ENTRY */
++	-ERANGE,		/* SCMI_ERR_RANGE */
++	-EBUSY,			/* SCMI_ERR_BUSY */
++	-ECOMM,			/* SCMI_ERR_COMMS */
++	-EIO,			/* SCMI_ERR_GENERIC */
++	-EREMOTEIO,		/* SCMI_ERR_HARDWARE */
++	-EPROTO,		/* SCMI_ERR_PROTOCOL */
++};
++
++static inline int scmi_to_linux_errno(int errno)
++{
++	int err_idx = -errno;
++
++	if (err_idx >= SCMI_SUCCESS && err_idx < ARRAY_SIZE(scmi_linux_errmap))
++		return scmi_linux_errmap[err_idx];
++	return -EIO;
++}
++
++#endif /* _SCMI_ERRORS_H */
 -- 
 2.54.0
 
