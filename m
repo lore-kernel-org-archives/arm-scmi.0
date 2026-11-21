@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795304669;
-	b=tD1pTruU991RZJQmGTF6/vW5jMZB6hTSLso2uNMEuac+A4jTUc+qxT4agQNICJdC1eLG
-	 WOD009OseTuC47IrpbNBQ5U2q56GNF7WmAXe6pASFxvQY3EZyBIE+B8dmFQGNNLjcUiLL
-	 ePuIpt2DITEhC1WwhsTVot3rXCH3OWp3xP52uUHEP+TV2dayQhp+/cQxAcgbBM4YAVzNn
-	 GvkdmrpO/+PksoXfVhhAk5QjCZYqvu+RAgzkEvePPgPr8+DgH/ddHNZsqx++HnFqOlbHz
-	 Ho7hRERf+9lQ002TcXQdugl/rXXz/WpMplUrN1fc+cTitgZWJLcW3/icpuroxOOXUxQ==
+	t=1795304673;
+	b=ASTKoPYc/7zXR5xnE+F1sBTBfAQyacLwdtxYg5M4vNo2ldvnCDTnfqjFsiotCfaOxfOh
+	 URUjQzWQ0D+14dEfFOXDqeSRSAZe0QdQz0EFEmi7aLN+AAvRZqmD6XWsmRP4M0tZKuKwY
+	 3zIyx7kwYknffB7ETRsbvNHobFgHnyIuRlAjnXgxvI5v7LiRS9D0xTAiAf5e2b96e1bZg
+	 yonKIpddUWZcdZ5XTS9Yir15pIA3X6ZsHPMlWepJSv/9NrDtNIgx+rGL/4MFB031pPQEA
+	 yXY6/8yNOp3L+WiOO30aK9GSz3cvo5ZZutdbMr3XoRgIrDhaiKBI+A8mdieCFClOUuw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795304669;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795304673;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=FQsmtXBpj9g7Vc2MnK1s/XKa2XQ1wGnZHAswBU4OXjc=;
-	b=roNuGvibFSI2WaxVgVKqRWBtQY2i5lMecC3FafLZQe2tsqSQ6iwaV+y4nXubUaIQB2Gz
-	 qe3NQtn2/C6bQ7BxfU+xBbyY5x/nJTC0OFIShkAPLWoleWdnP9lQsU1V0vDzoP+YYZbvA
-	 eNenSpsaDjyJoFqXWy+3ydUJZq8ktlks1g+huir3+sd8ye1uBzYmbtRSh9VZqpQ4/bvgi
-	 b8UOdChyGDd1UAq5Eh7/r8BosiYKuyHOROFwOfZAQ2OT19j7meq6YnmDb70x3oWn5PWYV
-	 kl7usJcrLS19NlUJlhZgs9bngZDIdB2mUQqfYzKoii/zXFsH6p/BciBL9T41A5gt7Bw==
+	bh=OKpDCNyl1moqPt1/HkWVp3v99rggGU7D2fGszC6D84Y=;
+	b=QEYOxLOz8xFX953wT0ujJVoiTSPtFOkn1k+te0RizpQAvdCaiZ9qH2yvgAW6lrnHpErq
+	 R2YSnIwGrwrI74+9YLJOrtae6hWtWV9TXsyC+UhWSnUCajEJ2jq8rGbl93EL01iO46Pts
+	 pllzxeZqBS6FtMbng76xqzc2VS1zPT7c0NUDUoaIPHUoM1jfPc8QkcgI+JB5Fmot12A60
+	 AEbLf6n3nPxAxjQ2WHqq5i/8+JXPKDz5igLPW+/2P/v3zAUSH0rCECLg9fTWY5mL3+CmN
+	 c/yHMmakbzefSaG7oGqdb62Y5OjJd5kaeFxFOCkDbiRoqS/S51IVpZ4jDeOQZE/7VnQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=arm.com;
 	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Zfrhk0pu;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Htofl0ZR;
 	arc=none smtp.remote-ip=217.140.110.172
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D728606A682;
-	Sat, 21 Nov 2026 23:44:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D728606A682
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74470606A33D;
+	Sat, 21 Nov 2026 23:44:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 74470606A33D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Zfrhk0pu
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Htofl0ZR
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CA2EB16F2;
-	Sat, 21 Nov 2026 15:44:25 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E01701575;
+	Sat, 21 Nov 2026 15:44:28 -0800 (PST)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E228F3FA21;
-	Sat, 21 Nov 2026 15:44:25 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 06B1A3F632;
+	Sat, 21 Nov 2026 15:44:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795304668; bh=6NA3IHW0zaPrOvgsZWpIC6A/H3nptBWjkmO2buyDTig=;
+	t=1795304671; bh=ZrwV5GEgbTHD6z7lX0jVIStuH2ZZt3a6t5U6nc2ToL0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Zfrhk0pu+AFEzqdKfXWiEcyAkAqlSitR35SyWsNIGGSd+X7mozDWyFKwyxEO8nsgr
-	 cYvjuJ0cI64LYolBOp+v5gO4P/DUh8VVJoy4DRM+FRrNKLE3bFHbFosCFqw+RsJUgz
-	 S6NRqPhPY6NwitB9Wba6PoH9bit6Eby+3xbmV+0E=
+	b=Htofl0ZRP6WfomXdNQ9yfEhDRA3qEE9CERVMNFDUVzlD3SHM3bZTQxd4hZHZRjpri
+	 QixxZMO2ZAWo8uwaJvCdF8edg1xueSTX6h/hkcExlZVBPhv8H1Gi+Gw+jeTIdcpbcf
+	 LOpYCsEyAKnMBfnPfbsz9pv5FYhOzpheqey/2yN8=
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -67,9 +67,9 @@ Cc: sudeep.holla@kernel.org,
 	usama.arif@linux.dev,
 	kernel-team@meta.com,
 	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH v16 20/31] firmware: arm_scmi: Add Telemetry boot-on support
-Date: Sat, 21 Nov 2026 23:39:54 +0000
-Message-ID: <20261121234005.1525419-21-cristian.marussi@arm.com>
+Subject: [PATCH v16 21/31] firmware: arm_scmi: Add common per-protocol debugfs support
+Date: Sat, 21 Nov 2026 23:39:55 +0000
+Message-ID: <20261121234005.1525419-22-cristian.marussi@arm.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261121234005.1525419-1-cristian.marussi@arm.com>
 References: <20261121234005.1525419-1-cristian.marussi@arm.com>
@@ -84,430 +84,238 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the initialization and discovery logic needed to detect when the
-platform SCMI server is configured with telemetry enabled at boot and
-perform all the needed resource enumerations to keep the kernel telemetry
-subsystem state aligned with the platform boot-on configurations.
+Allow interested SCMI protocols to register their own specific debugfs
+entries under a common per-instance and per-protocol subtree rooted
+at /sys/kernel/debug/scmi/<N>/protocols/<PROTO_ID>/
+
+Expose a helper to enable protocol initialization code to get access to
+such per-protocol/per-instance dentries in order to be able to install
+their own dedicated debugfs entries.
+
+Per-protocol debugfs support is configurable and default off.
 
 Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 ---
-v15 --> 16
- - removed group support at boot-on
- - discard DE/FC at enumeration time that were found in SHMTI at boot
- -  align DE local/global TS state after enumeration
+v15 --> v16
+ - cleanup protocol dbg root after devres group closure
 v14 --> v15
- - use IS_TDE_TS_ macro
- - retrieve collection_mode at boot-on and force ignore groups
- - count only successfully initialized groups at boot-on
-v13 --> v14
- - moved some definitions from earlier split patch
- - renamed some fields to more strictly adhere to spec nomenclature
-v12 --> v13
- - greb tde->mtx on DE_ENABLED_LIST
-v11 --> v12
- - fixed TS_RATE determination at boot-on
-v10 --> v11
- - fix non-conformancy on CONFIG_GET when groups NON configurable
- - use SCAN_UPDATE also on BOOT-ON initial scan (NO discovery)
- - avoid 'naked' ti->rinfo accesses
-v8 -- > v9
- - remove useless initial state lookup after RESET
- - properly set de->tstamp_support on DE_ENABLED_LIST
+ - fix debugfs_remove_recursive call-site...was too early
+v8 --> v9
+ - avoid NULL deref on DBG cleanup path
 v5 --> v6
- - reporte properly an error on scmi_telemetry_config_lookup() failure
-   (Sashiko)
-v4 --> v5
- - use renamed grp_id instead of old id in group descriptors
- - fixes sparse warnings
-v3 --> v4
- - bail-out FW_BUG errors
- - fix typos in comments
- - track boot-on Telemetry DE states
-v2 --> v3
- - split from monolithic telemetry protocol patch
- - swap logic in scmi_telemetry_initial_state_lookup
+ - bail out of dentry_get helper when SCMI debug susbsytem failed to init
+ - remove stale SCMI protocol operations
+ - add a preoper clean up of debugfs when protocol init fails
 ---
- drivers/firmware/arm_scmi/telemetry.c | 283 +++++++++++++++++++++++++-
- 1 file changed, 277 insertions(+), 6 deletions(-)
+ drivers/firmware/arm_scmi/Kconfig     | 14 ++++++++++
+ drivers/firmware/arm_scmi/common.h    |  2 ++
+ drivers/firmware/arm_scmi/driver.c    | 39 +++++++++++++++++++++++++++
+ drivers/firmware/arm_scmi/protocols.h |  6 +++++
+ include/linux/scmi_protocol.h         |  1 -
+ 5 files changed, 61 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/firmware/arm_scmi/telemetry.c b/drivers/firmware/arm_scmi/telemetry.c
-index 21fbd6a4578d..b74371bc41d5 100644
---- a/drivers/firmware/arm_scmi/telemetry.c
-+++ b/drivers/firmware/arm_scmi/telemetry.c
-@@ -133,6 +133,21 @@ struct scmi_msg_resp_telemetry_update_intervals {
- 	__le32 intervals[];
+diff --git a/drivers/firmware/arm_scmi/Kconfig b/drivers/firmware/arm_scmi/Kconfig
+index 783c24a20e29..f506c4d1d96a 100644
+--- a/drivers/firmware/arm_scmi/Kconfig
++++ b/drivers/firmware/arm_scmi/Kconfig
+@@ -69,6 +69,20 @@ config ARM_SCMI_DEBUG_COUNTERS
+ 	  such useful debug counters. This can be helpful for debugging and
+ 	  SCMI monitoring.
+ 
++config ARM_SCMI_DEBUG_PROTOCOLS
++	bool "Enable SCMI protocols debug"
++	select ARM_SCMI_NEED_DEBUGFS
++	depends on DEBUG_FS
++	default n
++	help
++	  Enables per-protocol specific debug features, where available.
++	  When provided, such per-protocol debugfs entries are grouped
++	  inside a common a subtree named by the protocol number and rooted
++	  under a per-instance 'protocols' directory.
++
++	  Such per-protocol entries subtree structure is freely defined
++	  within the related protocol code.
++
+ config ARM_SCMI_QUIRKS
+ 	bool "Enable SCMI Quirks framework"
+ 	depends on JUMP_LABEL || COMPILE_TEST
+diff --git a/drivers/firmware/arm_scmi/common.h b/drivers/firmware/arm_scmi/common.h
+index cdd6f887fae7..ed1623da6563 100644
+--- a/drivers/firmware/arm_scmi/common.h
++++ b/drivers/firmware/arm_scmi/common.h
+@@ -307,6 +307,7 @@ enum debug_counters {
+ /**
+  * struct scmi_debug_info  - Debug common info
+  * @top_dentry: A reference to the top debugfs dentry
++ * @protos: A reference to the top debugfs protocols subdirectory
+  * @name: Name of this SCMI instance
+  * @type: Type of this SCMI instance
+  * @is_atomic: Flag to state if the transport of this instance is atomic
+@@ -314,6 +315,7 @@ enum debug_counters {
+  */
+ struct scmi_debug_info {
+ 	struct dentry *top_dentry;
++	struct dentry *protos;
+ 	const char *name;
+ 	const char *type;
+ 	bool is_atomic;
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index 1e2bf1eef2a4..4b3f291e623a 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -19,6 +19,7 @@
+ #include <linux/acpi.h>
+ #include <linux/bitmap.h>
+ #include <linux/cleanup.h>
++#include <linux/dcache.h>
+ #include <linux/debugfs.h>
+ #include <linux/device.h>
+ #include <linux/export.h>
+@@ -101,6 +102,8 @@ struct scmi_xfers_info {
+  *			has completed.
+  * @ph: An embedded protocol handle that will be passed down to protocol
+  *	initialization code to identify this instance.
++ * @dbg: An optional reference to this protocol top debugfs directory; it will
++ *	 be automatically recursively removed on protocol de-initialization.
+  *
+  * Each protocol is initialized independently once for each SCMI platform in
+  * which is defined by fwnode and implemented by the SCMI server fw.
+@@ -114,6 +117,7 @@ struct scmi_protocol_instance {
+ 	unsigned int			version;
+ 	unsigned int			negotiated_version;
+ 	struct scmi_protocol_handle	ph;
++	struct dentry			*dbg;
  };
  
-+struct scmi_msg_telemetry_de_enabled_list {
-+	__le32 index;
-+	__le32 flags;
-+};
-+
-+struct scmi_enabled_de_desc {
-+	__le32 id;
-+	__le32 mode;
-+};
-+
-+struct scmi_msg_resp_telemetry_de_enabled_list {
-+	__le32 flags;
-+	struct scmi_enabled_de_desc array[];
-+};
-+
- struct scmi_msg_telemetry_de_configure {
- 	__le32 identifier;
- 	__le32 flags;
-@@ -181,6 +196,20 @@ struct scmi_msg_resp_telemetry_reading_complete {
- 	__le32 array[] __counted_by_le(num_dwords);
- };
- 
-+struct scmi_msg_telemetry_config_get {
-+	__le32 group_identifier;
-+	__le32 flags;
-+#define TELEMETRY_GET_SELECTOR(x)	(FIELD_PREP(GENMASK(3, 0), (x)))
-+#define	TELEMETRY_GET_SELECTOR_ORPHANS	TELEMETRY_GET_SELECTOR(TLM_ORPHANS)
-+#define	TELEMETRY_GET_SELECTOR_GROUP	TELEMETRY_GET_SELECTOR(TLM_GROUP)
-+#define	TELEMETRY_GET_SELECTOR_ALL	TELEMETRY_GET_SELECTOR(TLM_ALL)
-+};
-+
-+struct scmi_msg_resp_telemetry_config_get {
-+	__le32 control;
-+	__le32 sampling_rate;
-+};
-+
- /* TDCF */
- 
- #define _I(__a)		(ioread32((void __iomem *)(__a)))
-@@ -509,6 +538,8 @@ static inline bool scmi_tde_has_tstamp(struct telemetry_de *t)
- 	return t->de.tstamp_support && t->de.tstamp_enabled;
+ #define ph_to_pi(h)	container_of(h, struct scmi_protocol_instance, ph)
+@@ -2154,6 +2158,25 @@ static void scmi_common_fastchannel_db_ring(struct scmi_fc_db_info *db)
+ 		SCMI_PROTO_FC_RING_DB(64);
  }
  
-+#define DE_ENABLED_WITH_TSTAMP	2
++static struct dentry *
++scmi_debugfs_proto_dentry_get(const struct scmi_protocol_handle *ph)
++{
++	struct scmi_protocol_instance *pi = ph_to_pi(ph);
++	struct scmi_info *info = handle_to_scmi_info(pi->handle);
 +
- enum de_state {
- 	ENA_STATE,
- 	ENA_TSTAMP,
-@@ -911,6 +942,7 @@ static int scmi_telemetry_de_descriptor_parse(struct telemetry_info *ti,
++	if (!IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_PROTOCOLS) || !info->dbg)
++		return ERR_PTR(-ENODEV);
++
++	if (!pi->dbg) {
++		char proto_dir[8];
++
++		snprintf(proto_dir, 8, "0x%02X", pi->proto->id);
++		pi->dbg = debugfs_create_dir(proto_dir, info->dbg->protos);
++	}
++
++	return pi->dbg;
++}
++
+ static const struct scmi_proto_helpers_ops helpers_ops = {
+ 	.extended_name_get = scmi_common_extended_name_get,
+ 	.get_max_msg_size = scmi_common_get_max_msg_size,
+@@ -2164,6 +2187,7 @@ static const struct scmi_proto_helpers_ops helpers_ops = {
+ 	.protocol_msg_check = scmi_protocol_msg_check,
+ 	.fastchannel_init = scmi_common_fastchannel_init,
+ 	.fastchannel_db_ring = scmi_common_fastchannel_db_ring,
++	.debugfs_proto_dentry_get = scmi_debugfs_proto_dentry_get,
+ };
+ 
+ /**
+@@ -2315,6 +2339,7 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
  {
- 	const struct scmi_de_desc *desc = *next;
- 	size_t payld_sz = sizeof(*desc);
-+	bool fc_support;
+ 	int ret = -ENOMEM;
+ 	void *gid;
++	struct dentry *dbg;
+ 	struct scmi_protocol_instance *pi;
+ 	const struct scmi_handle *handle = &info->handle;
  
- 	lockdep_assert_held(&tde->mtx);
+@@ -2377,7 +2402,9 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
+ clean:
+ 	/* Take care to put the protocol module's owner before releasing all */
+ 	scmi_protocol_put(proto);
++	dbg = pi->dbg;
+ 	devres_release_group(handle->dev, gid);
++	debugfs_remove_recursive(dbg);
+ out:
+ 	return ERR_PTR(ret);
+ }
+@@ -2455,6 +2482,7 @@ void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
+ 		goto out;
  
-@@ -929,7 +961,7 @@ static int scmi_telemetry_de_descriptor_parse(struct telemetry_info *ti,
- 	tde->de.info->persistent = IS_PERSISTENT(desc);
- 	tde->ts_type = TSTAMP_SUPPORT(desc);
- 	tde->de.tstamp_support = !!tde->ts_type;
--	tde->de.fc_support = IS_FC_SUPPORTED(desc);
-+	fc_support = IS_FC_SUPPORTED(desc);
- 	tde->de.name_support = IS_NAME_SUPPORTED(desc);
- 	/* Update DE_DESCRIPTOR size for the next iteration */
- 	*next += sizeof(*desc);
-@@ -938,6 +970,10 @@ static int scmi_telemetry_de_descriptor_parse(struct telemetry_info *ti,
- 	if (*rx_len < payld_sz)
- 		return -ENOSPC;
+ 	if (refcount_dec_and_test(&pi->users)) {
++		struct dentry *dbg = pi->dbg;
+ 		void *gid = pi->gid;
  
-+	/* Was already discovered as a SHMTI-based DE ? */
-+	if (fc_support && tde->base)
-+		return -EPROTO;
+ 		if (pi->proto->events)
+@@ -2468,6 +2496,14 @@ void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
+ 		scmi_protocol_put(pi->proto);
+ 
+ 		devres_release_group(handle->dev, gid);
 +
- 	if (IS_TDE_TS_LINE(tde)) {
- 		__le32 *line_ts_rate = *next;
- 
-@@ -946,15 +982,20 @@ static int scmi_telemetry_de_descriptor_parse(struct telemetry_info *ti,
- 		/* Variably sized depending on TS support */
- 		*next += sizeof(*line_ts_rate);
- 	} else if (IS_TDE_TS_BLK(tde)) {
--		/* Setup default BLK TS value at first */
--		tde->de.info->ts_rate = ti->default_blk_ts_rate;
 +		/*
-+		 * Setup default BLK TS rate value at first, if it has NOT
-+		 * already been picked from the BLK_TS line by the boot-on
-+		 * SCAN_UPDATE.
++		 * Remove per-protocol top dir only after protocol release in
++		 * order to allow any protocol specific cleanup on the pi->dbg
++		 * subtree.
 +		 */
-+		if (!tde->de.info->ts_rate)
-+			tde->de.info->ts_rate = ti->default_blk_ts_rate;
- 	} else if (!IS_TDE_TS_NONE(tde)) {
- 		dev_warn(ti->ph->dev,
- 			 "Unknown TDE timestamp type %u\n", tde->ts_type);
- 		return -EPROTO;
++		debugfs_remove_recursive(dbg);
++
+ 		dev_dbg(handle->dev, "De-Initialized protocol: 0x%X\n",
+ 			protocol_id);
  	}
+@@ -3224,6 +3260,9 @@ static struct scmi_debug_info *scmi_debugfs_common_setup(struct scmi_info *info)
+ 	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_COUNTERS))
+ 		scmi_debugfs_counters_setup(dbg, trans);
  
--	if (tde->de.fc_support) {
-+	if (fc_support) {
- 		struct de_desc_fastchannel *dfc;
- 		phys_addr_t phys_addr;
- 		void __iomem *addr;
-@@ -985,6 +1026,7 @@ static int scmi_telemetry_de_descriptor_parse(struct telemetry_info *ti,
- 		tde->base = addr;
- 		tde->offset = 0;
- 		tde->fc_size = size;
-+		tde->de.fc_support = fc_support;
++	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_PROTOCOLS))
++		dbg->protos = debugfs_create_dir("protocols", top_dentry);
++
+ 	dbg->top_dentry = top_dentry;
  
- 		/* Variably sized depending on FC support */
- 		*next += sizeof(*dfc);
-@@ -1067,6 +1109,11 @@ static int iter_de_descr_process_response(const struct scmi_protocol_handle *ph,
- 		}
- 	}
+ 	if (devm_add_action_or_reset(info->dev,
+diff --git a/drivers/firmware/arm_scmi/protocols.h b/drivers/firmware/arm_scmi/protocols.h
+index 1aa3ee1fb2b0..c39ef77770d1 100644
+--- a/drivers/firmware/arm_scmi/protocols.h
++++ b/drivers/firmware/arm_scmi/protocols.h
+@@ -11,6 +11,7 @@
  
-+	/* TS is NOT supported clear any enabled state possibly at boot-on */
-+	if (!tde->de.tstamp_support)
-+		scmi_telemetry_de_state_update(ti, ENA_TSTAMP,
-+					       &tde->de.tstamp_enabled, false);
-+
- 	/* Count timestamped DEs */
- 	ti->num_des_tstamp += !!tde->de.tstamp_support;
+ #include <linux/bitfield.h>
+ #include <linux/completion.h>
++#include <linux/debugfs.h>
+ #include <linux/device.h>
+ #include <linux/errno.h>
+ #include <linux/kernel.h>
+@@ -292,6 +293,9 @@ struct scmi_fc_info {
+  *		      gathering FC descriptions from the SCMI platform server.
+  * @fastchannel_db_ring: A common helper to ring a FC doorbell.
+  * @get_max_msg_size: A common helper to get the maximum message size.
++ * @debugfs_proto_dentry_get: A common helper to get a per-protocol debugfs top
++ *			      directory to use as a root. It will be
++ *			      recursively removed on protocol de-initialization.
+  */
+ struct scmi_proto_helpers_ops {
+ 	int (*extended_name_get)(const struct scmi_protocol_handle *ph,
+@@ -315,6 +319,8 @@ struct scmi_proto_helpers_ops {
+ 				 u32 *rate_limit);
+ 	void (*fastchannel_db_ring)(struct scmi_fc_db_info *db);
+ 	int (*get_max_msg_size)(const struct scmi_protocol_handle *ph);
++	struct dentry *(*debugfs_proto_dentry_get)
++		(const struct scmi_protocol_handle *ph);
+ };
  
-@@ -1079,6 +1126,216 @@ static int iter_de_descr_process_response(const struct scmi_protocol_handle *ph,
- 	return 0;
- }
+ /**
+diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
+index a2f46167883d..4b4c7b336c71 100644
+--- a/include/linux/scmi_protocol.h
++++ b/include/linux/scmi_protocol.h
+@@ -1119,7 +1119,6 @@ struct scmi_handle {
+ 	void (*devm_protocol_put)(struct scmi_device *sdev, u8 proto);
+ 	bool (*is_transport_atomic)(const struct scmi_handle *handle,
+ 				    unsigned int *atomic_threshold);
+-
+ 	const struct scmi_notify_ops *notify_ops;
+ };
  
-+static int scmi_telemetry_config_lookup(struct telemetry_info *ti,
-+					unsigned int grp_id, bool *enabled,
-+					unsigned int *active_update_interval,
-+					enum scmi_telemetry_collection *mode,
-+					bool ignore_groups)
-+{
-+	const struct scmi_protocol_handle *ph = ti->ph;
-+	struct scmi_msg_telemetry_config_get *msg;
-+	struct scmi_msg_resp_telemetry_config_get *resp;
-+	bool is_group = grp_id != SCMI_TLM_GRP_INVALID;
-+	struct scmi_xfer *t;
-+	u32 flags;
-+	int ret;
-+
-+	ret = ph->xops->xfer_get_init(ph, TELEMETRY_CONFIG_GET,
-+				      sizeof(*msg), sizeof(*resp), &t);
-+	if (ret)
-+		return ret;
-+
-+	msg = t->tx.buf;
-+	msg->group_identifier = cpu_to_le32(grp_id);
-+
-+	/* Spec mandates the ALL selector when per-group config not available */
-+	if (!ti->info.per_group_config_support || ignore_groups)
-+		flags = TELEMETRY_GET_SELECTOR_ALL;
-+	else
-+		flags = !is_group ? TELEMETRY_GET_SELECTOR_ORPHANS :
-+			TELEMETRY_GET_SELECTOR_GROUP;
-+
-+	msg->flags = cpu_to_le32(flags);
-+
-+	resp = t->rx.buf;
-+	ret = ph->xops->do_xfer(ph, t);
-+	if (!ret) {
-+		*enabled = le32_get_bits(resp->control, TELEMETRY_ENABLE);
-+		*mode = le32_get_bits(resp->control, TELEMETRY_MODE);
-+		if (!is_group)
-+			ti->streaming_mode = *mode == SCMI_TLM_NOTIFICATION;
-+		*active_update_interval =
-+			SCMI_TLM_GET_UPDATE_INTERVAL(le32_to_cpu(resp->sampling_rate));
-+	}
-+
-+	ph->xops->xfer_put(ph, t);
-+
-+	return ret;
-+}
-+
-+static void iter_enabled_list_prepare_message(void *message,
-+					      unsigned int desc_index,
-+					      const void *priv)
-+{
-+	struct scmi_msg_telemetry_de_enabled_list *msg = message;
-+
-+	msg->index = cpu_to_le32(desc_index);
-+	msg->flags = 0;
-+}
-+
-+static int iter_enabled_list_update_state(struct scmi_iterator_state *st,
-+					  const void *response, void *priv)
-+{
-+	const struct scmi_msg_resp_telemetry_de_enabled_list *r = response;
-+
-+	st->num_returned = le32_get_bits(r->flags, GENMASK(15, 0));
-+	st->num_remaining = le32_get_bits(r->flags, GENMASK(31, 16));
-+
-+	if (st->rx_len < (sizeof(*r) + sizeof(r->array[0]) * st->num_returned))
-+		return -EINVAL;
-+
-+	/*
-+	 * total enabled is not declared previously anywhere so we
-+	 * assume it's returned+remaining on first call.
-+	 */
-+	if (!st->max_resources)
-+		st->max_resources = st->num_returned + st->num_remaining;
-+
-+	return 0;
-+}
-+
-+static int
-+iter_enabled_list_process_response(const struct scmi_protocol_handle *ph,
-+				   const void *response,
-+				   struct scmi_iterator_state *st, void *priv)
-+{
-+	const struct scmi_msg_resp_telemetry_de_enabled_list *r = response;
-+	const struct scmi_enabled_de_desc *desc;
-+	struct telemetry_info *ti = priv;
-+	struct telemetry_de *tde;
-+	u32 de_id;
-+	int ret;
-+
-+	desc = &r->array[st->loop_idx];
-+	de_id = le32_to_cpu(desc->id);
-+	if (scmi_telemetry_tde_lookup(ti, de_id)) {
-+		dev_err(ph->dev,
-+			"Found INVALID DE with DUPLICATED ID:0x%08X\n", de_id);
-+		return -EINVAL;
-+	}
-+
-+	tde = scmi_telemetry_tde_get(ti, de_id);
-+	if (IS_ERR(tde))
-+		return PTR_ERR(tde);
-+
-+	guard(mutex)(&tde->mtx);
-+	tde->de.info->id = de_id;
-+	tde->de.enabled = true;
-+	tde->de.tstamp_enabled = le32_to_cpu(desc->mode) == DE_ENABLED_WITH_TSTAMP;
-+	/*
-+	 * Guessing that, if a DE is reported as enabled with timestamp, it has
-+	 * to support timestamp: NOTE THAT the timestamp type (tde->ts_type) can
-+	 * ONLY be discovered later by  DE_DESCRIPTION.
-+	 */
-+	tde->de.tstamp_support = tde->de.tstamp_enabled;
-+
-+	ret = scmi_telemetry_tde_register(ti, tde);
-+	if (ret) {
-+		scmi_telemetry_free_tde_put(ti, tde);
-+		return ret;
-+	}
-+
-+	scmi_telemetry_de_state_update(ti, ENA_STATE, NULL, true);
-+	if (tde->de.tstamp_enabled)
-+		scmi_telemetry_de_state_update(ti, ENA_TSTAMP, NULL, true);
-+
-+	dev_dbg(ph->dev, "Registered new ENABLED DE with ID:0x%08X\n",
-+		tde->de.info->id);
-+
-+	return 0;
-+}
-+
-+static int scmi_telemetry_enumerate_des_enabled_list(struct telemetry_info *ti)
-+{
-+	const struct scmi_protocol_handle *ph = ti->ph;
-+	struct scmi_telemetry_res_info *rinfo;
-+	struct scmi_iterator_ops ops = {
-+		.prepare_message = iter_enabled_list_prepare_message,
-+		.update_state = iter_enabled_list_update_state,
-+		.process_response = iter_enabled_list_process_response,
-+	};
-+	void *iter;
-+	int ret;
-+
-+	iter = ph->hops->iter_response_init(ph, &ops, 0,
-+					    TELEMETRY_DE_ENABLED_LIST,
-+					    sizeof(u32) * 2, ti);
-+	if (IS_ERR(iter))
-+		return PTR_ERR(iter);
-+
-+	ret = ph->hops->iter_response_run(iter);
-+	if (ret)
-+		return ret;
-+
-+	/* Get rinfo as it is...without triggering an enumeration */
-+	rinfo = __scmi_telemetry_resources_get(ti);
-+
-+	dev_info(ti->ph->dev, "Found %u enabled DEs.\n", rinfo->num_des);
-+
-+	return 0;
-+}
-+
-+static int scmi_telemetry_initial_state_lookup(struct telemetry_info *ti)
-+{
-+	struct device *dev = ti->ph->dev;
-+	int ret;
-+
-+	/* Discover the initial state ONLY for DEs, ignoring groups */
-+	ret = scmi_telemetry_config_lookup(ti, SCMI_TLM_GRP_INVALID,
-+					   &ti->info.enabled,
-+					   &ti->info.active_update_interval,
-+					   &ti->info.current_mode, true);
-+	if (ret)
-+		return ret;
-+
-+	if (!ti->info.enabled)
-+		return 0;
-+
-+	/*
-+	 * When Telemetry is found already enabled on the platform, proceed with
-+	 * passive discovery using DE_ENABLED_LIST and TDCF scanning: note that
-+	 * this CAN only discover DEs exposed via SHMTIs.
-+	 * FastChannel DEs need a proper DE_DESCRIPTION enumeration, while, even
-+	 * though incoming Notifications could be used for passive discovery too,
-+	 * it would carry a considerable risk of assimilating trash as DEs.
-+	 */
-+	dev_info(dev,
-+		 "Telemetry found enabled with update interval %lux10^%d mode:%u\n",
-+		 SCMI_TLM_GET_UPDATE_INTERVAL_SECS(ti->info.active_update_interval),
-+		 SCMI_TLM_GET_UPDATE_INTERVAL_EXP(ti->info.active_update_interval),
-+		 ti->info.current_mode);
-+	/*
-+	 * Query enabled DEs list: collect states. It will include DEs from any
-+	 * interface. Enabled groups still NOT enumerated.
-+	 */
-+	ret = scmi_telemetry_enumerate_des_enabled_list(ti);
-+	if (ret) {
-+		dev_err(dev, FW_BUG "Cannot query enabled DE list. Abort.\n");
-+		return ret;
-+	}
-+
-+	/* Discover DEs on SHMTis: collect states/offsets/values */
-+	for (int id = 0; id < ti->num_shmti; id++) {
-+		ret = scmi_telemetry_shmti_scan(ti, id, SCAN_UPDATE);
-+		if (ret)
-+			dev_warn(dev,
-+				 "Failed discovery-scan of SHMTI ID:%d - ret:%d\n",
-+				 id, ret);
-+	}
-+
-+	return 0;
-+}
-+
- static void scmi_telemetry_tdes_cleanup(void *arg)
- {
- 	struct telemetry_info *ti = arg;
-@@ -2217,9 +2474,17 @@ static void scmi_telemetry_tdcf_data_parse(struct telemetry_info *ti,
- 
- 		trace_scmi_tlm_access(de_id, "DE_LOCATION_UPDATED", 0, 0);
- 
-+		/* Just in case it was passively discovered boot-on */
-+		if (IS_TDE_TS_NONE(tde)) {
-+			if (use_blk_ts)
-+				tde->ts_type = TSTAMP_BLK;
-+			else if (LINE_TS_VALID_RAW(meta))
-+				tde->ts_type = TSTAMP_LINE;
-+		}
-+
- 		dev_dbg(ti->ph->dev,
--			"TDCF-updated DE_ID:0x%08X - shmti:%pK  offset:%u\n",
--			tde->de.info->id, tde->base, tde->offset);
-+			"TDCF-updated DE_ID:0x%08X - shmti:%pK  offset:%u  ts_type:%d\n",
-+			tde->de.info->id, tde->base, tde->offset, tde->ts_type);
- 	}
- 
- 	/*
-@@ -3918,6 +4183,12 @@ static int scmi_telemetry_protocol_init(const struct scmi_protocol_handle *ph)
- 		return ret;
- 	}
- 
-+	ret = scmi_telemetry_initial_state_lookup(ti);
-+	if (ret) {
-+		dev_err(dev, FW_BUG "Cannot retrieve initial state. Abort.\n");
-+		return ret;
-+	}
-+
- 	ti->info.base.version = ph->version;
- 
- 	return ph->set_priv(ph, ti);
 -- 
 2.54.0
 
