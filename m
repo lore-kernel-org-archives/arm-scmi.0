@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795304691;
-	b=Qxf4Si6RIYNGeRIlsVszyPEceUZtLjwtKvkzYoQtIh0nCamROIkntmtTO/0y3NQkod57
-	 TLJ3TcmsUMeV1+oHxxdGvlm+iOZOX7FTX77WZz/9kSzDcd67HuUnRjS2qrcbIOL4x4Mrm
-	 XTfZX6bFcF1SShGegOC9g/ZjvipPKTI5pLxVmn/bqATkKeNlDVUBg1Kj2ADYR7wE4ZK/Y
-	 w4zGrchzpFE8NtlWJm8nNewI0jpcas4IBjs0zKNCfnPwRrQrMOwBTO+dRYjoudtmc1hlX
-	 0+LApywUB0RYDBAx/ZatWkJafs3JbQJ57XhaE9pHq/T2NZdypX3CaNoo4uTaR3gObSA==
+	t=1795304695;
+	b=wTppnz3ySVcZ1STc7UBoNAxfd1LjV3ehM+Eug+QunkZLATXeJHkJFBtT8oHwIYe6QU0P
+	 W58Job+530AlJRov8Gj3X23ZD5aFr46TP9n4r2KK6lAzjKpadeYxK+gjNfmCICnr6XZzt
+	 DNXSXVu7+o64oIxhz5S8RuHoVRVPQbnwY7glATPdU0qhZzs5EADuj4up1PJPBgOONWwj/
+	 uxaQi/P1Ek7Ld5Q10kSXJZFpPYE7cnAYqUQrxhQlEPQZ6f0GlOogPzeHou2B+E1L4P5Vl
+	 AFSt1zIDhfFxLNmxMOxEjYYvcT/iprfjrdSr2RD33U1136X/1cNAmHu/b84ubtuKFGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795304691;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795304695;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=ybksNdKGZwcUybmuPou+wEJRhGtFCZ9Lfc93sClRt68=;
-	b=s0Bah7JN0TAIj5uH31fFyN6ElMod1TDwp0Mb96rfgYHEMd+0dBVtLT25xlW6TxfPSwHA
-	 R+A5UdG+j8q7YmqHewM9lNdgOcQd+eqe7bpqFiNQQfjVu0LP70ukJ/QNJAboXwIALIoi/
-	 5zRbB+QcjsbPRfDgcL9ilWO3F59D+WuDvmG1XXl7eTnvquPEg+waC9E0R7KLFKZ39Bl98
-	 q4CVd/2v00M9DD2Jd1jkpAQZB15NaThl+rpEzJUJZsBwvg57qnur03NcI1F6rmmZ9diKe
-	 HuryD5JWocLHSewGBdsEDChY8Wf0DBEYkmHW+947M5vAVIiFzqnWSNHk61Fu/afWmkw==
+	bh=bqq8tdBHE7PY5lGg3anCtrKLQXzps/O+HDy/opBt6hY=;
+	b=ySuGAu2dygUoK46aWHgHITDVV8/8LsmA/yV/nfmAAYZsuvaE08w8SnRQ2eDrPAEWsTFA
+	 qQartI/m4MMr4WSYMbxlEvdmjg03ilw6IF+WsG8mBXl7gm7X8AM1GlwcELQi5MktqjzZ3
+	 Ph78k7guD0XbEUYN+WA+hEilAmMwQQAHla5f6cYtyXVxRa+MlGDw3ol+HjPbEdXRY52+M
+	 Ny+cMcdAfLER3OvVG9Z/ySspXyw9SNHI2916GDTbRxa2yk9Qnn64lt6Ip7Hrauub4dEGI
+	 15qw/1+kYCWk8UZIX33h76oFevMYZLC5/9t3O9fCR3WK8k0g+SgxkbxC16V5HURiWZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=arm.com;
 	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Qa8m6wdW;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="KzBHSe/X";
 	arc=none smtp.remote-ip=217.140.110.172
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 410C2606A68B;
-	Sat, 21 Nov 2026 23:44:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 410C2606A68B
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8684B606A682;
+	Sat, 21 Nov 2026 23:44:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8684B606A682
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Qa8m6wdW
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=KzBHSe/X
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A016B16F2;
-	Sat, 21 Nov 2026 15:44:47 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EF36D1758;
+	Sat, 21 Nov 2026 15:44:50 -0800 (PST)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B5C133F632;
-	Sat, 21 Nov 2026 15:44:47 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D1D5C3F632;
+	Sat, 21 Nov 2026 15:44:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795304690; bh=XLIQNLKLqBN+XK89CZJOMck4z1OnlpSdMf9XcQtFphE=;
+	t=1795304693; bh=SV9pZMl6M/fxVelvGmHOdqTt7nzTXsoHruNVd0Kxcmo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Qa8m6wdWbe8jp5e4Nbx42ZUCMtYHu2+k3QJRySv4AuwU5HbKanMM9u5UGnJvFeNEZ
-	 2sFGFObLoJM13G+6cOGjZa/S5Bid8LwwjednVKyvohBvzpHKP0xTVJbbU8d1i1o3Aq
-	 XPfb7GAju2cjrwL606WjBQWYVZqYjLyZQJp25aPg=
+	b=KzBHSe/XhNtnIfHPS6w345as4YhfsREt0GbOD1D/xXpv7o2ebdmLAvqr1/qblIO8a
+	 5xWbJ57q+vg2M7vjEwXvUtCB++8CFMHC6H5BoyY0D6VQo3fi/vwCov3emWw1ACreRS
+	 wnsP1Jwin3KDz0jzko7dwDOnWaeaPQkTLGMR8HPI=
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -66,10 +66,12 @@ Cc: sudeep.holla@kernel.org,
 	puranjay@kernel.org,
 	usama.arif@linux.dev,
 	kernel-team@meta.com,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH v16 27/31] firmware: arm_scmi: Enable autoloading for System Telemetry driver
-Date: Sat, 21 Nov 2026 23:40:01 +0000
-Message-ID: <20261121234005.1525419-28-cristian.marussi@arm.com>
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [PATCH v16 28/31] docs: ioctl-number: Add SCMI Ioctls
+Date: Sat, 21 Nov 2026 23:40:02 +0000
+Message-ID: <20261121234005.1525419-29-cristian.marussi@arm.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261121234005.1525419-1-cristian.marussi@arm.com>
 References: <20261121234005.1525419-1-cristian.marussi@arm.com>
@@ -84,27 +86,28 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the SCMI System Telemetry driver and related protocols to the list of
-standard protocols whosw devices are created automatically, so enabling
-module autoloading.
+Add SCMI Subsystem IOCTLs numbers
 
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org
 Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 ---
- drivers/firmware/arm_scmi/bus.c | 1 +
+ Documentation/userspace-api/ioctl/ioctl-number.rst | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
-index 25197197db8e..32002fd9d843 100644
---- a/drivers/firmware/arm_scmi/bus.c
-+++ b/drivers/firmware/arm_scmi/bus.c
-@@ -546,6 +546,7 @@ static const struct scmi_device_id scmi_std_id_table[] = {
- 	{ SCMI_PROTOCOL_POWERCAP, "powercap" },
- 	{ SCMI_PROTOCOL_PINCTRL, "pinctrl" },
- 	{ SCMI_PROTOCOL_PINCTRL, "pinctrl-imx" },
-+	{ SCMI_PROTOCOL_TELEMETRY, "telemetry" },
- 	{ },
- };
- 
+diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+index dbe462040999..53e970fc750e 100644
+--- a/Documentation/userspace-api/ioctl/ioctl-number.rst
++++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+@@ -403,6 +403,7 @@ Code  Seq#    Include File                                             Comments
+ 0xEC  00-01  linux/platform_data/cros_ec_chardev.h                     ChromeOS EC driver
+ 0xEE  00-09  uapi/linux/pfrut.h                                        Platform Firmware Runtime Update and Telemetry
+ 0xEF  00-0F  uapi/linux/ntfs.h                                         NTFS
++0xF1  00-FF  uapi/linux/scmi.h					       ARM SCMI Subsystem
+ 0xF3  00-3F  drivers/usb/misc/sisusbvga/sisusb.h                       sisfb (in development)
+                                                                        <mailto:thomas@winischhofer.net>
+ 0xF6  all                                                              LTTng Linux Trace Toolkit Next Generation
 -- 
 2.54.0
 
