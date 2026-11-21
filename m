@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795304613;
-	b=tF57R/XhI+0tDldjRtDn+FvPvo3gFnvm63xv5jbOR1ShKejErcT1BaE9q2P2ZaymATC7
-	 I2hODV2VIFyWwpX6TmJdV4FR8FfHW4qJYPHjsMJcHOEpu1mYKY5dh/ekoSuHqzBIm/3Uk
-	 rKoPR6D5fN6RSmaxGRxhQ5OHunPvVzOzcNHqJxd+7iGVzt/8+qRI4zfRjK1fSAdYr77Od
-	 6cJle+BPiDk2jfF2ViBFKVeO0GL8jmGHe6ZwPKJaw2Fcz/XrWZwRTdc+Q3JoGgO2A3BhK
-	 cHVH4Sqi2Bb+k4QD1QpnsW3FT/pxr36NyR9eCwfSstNx4z8TJ0iBHZRRlAPzRuZwxAA==
+	t=1795304615;
+	b=qXXy7KpOAAg9iTqUlbJ5UU09Vn3UALqNlOY94j3x4ufJMDckCKdcSgDZBxTXBYF4WYUY
+	 CiMlNRp+y4er4TS5H08rwelH9VGsz9zwA5zqDdR/GTUYlvH0VJ/JITDQ4HRfk1oBoHk5D
+	 VL7I12IwY56tV3RJsTqrTfFRGrS/GBf8+slaXD4VUR6k9FcKCVrkzXLocrhaCkdbkt7D9
+	 BHgyTRIcIDIIe1WawXqOP5zi6jVGfw+Y5cKjx9c3qqa+NaTaMedo2LmbsGAq1JWnTtv87
+	 UNl4Fbp4k/Tc+87A6acM7WXFSpKabZ5WGS8H05nb+xxOUcWIcCj3wbTGij/jgwGrFeg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795304613;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795304615;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=UP2PfH8d8VCNmy/9UBHp2fW+iJh9ONjNf0LSHyozQHU=;
-	b=igFFyy7TNWGRSMF7mmau+ZY0T3bfVFNz1DSfHJEDo4Ycth4M4OvN864DOO7zIQPstDJ/
-	 xF0ZZKne9b2LSvSphiuzDl64mW2+frhcmYfPfxKX8AFRbG4rEco411+X6yUom8Slmfr4M
-	 gSegAgoNho2rJrloszuZHYdI97FBdXCm5C2aWI/ZhHVcJzmcrx2+pgTvFn+khL8XsGibY
-	 DfQ4mXKh/+g2MEAOEEwbK9ygtXTMSk5rhY5Je5SVlJYXB96W8CzEebc5ebvSEujJlcHhg
-	 Lw9cORx6Ho+h/DFQUBMXgCJNwrAmpgx+/hprPeItTwmT7bslrBYrA8CJLXepeoTGaAQ==
+	bh=vFT5X4VScYFosTBP0L3XnNtdE1oB9AcZg2PDRicv4pI=;
+	b=G9j54vJL4Vo6ODW5pFRJASgT6WQ5vNUG6LrK3CCJDGd+YtGfNfGa5AxEP8E9/o/i06fs
+	 2oWPEmUkVFgnPsyP334awKClbNXCNldOW6I8Ao933SNTfZec5cz09yiEx7ZdDMAEq0z3p
+	 8q3ziCxYSGcq2jJzRW6CHzyDoK3iCdagtU6dFj3KBb/iHjoU8h0iWXL94BBhds7gNC46i
+	 1On4oFBMF1poFeTW4s6yTHB9MoTPnQ63mnFdCajyPbSV/O6VMen4PAl+BFamyvlz1xzdv
+	 /STP2DYgxH0mw37MUJqejwVRg0GwCRL0IYdZjqtIoKaCshms85PAMzk2OThBmq0AYSA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=arm.com;
 	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=oo+UnUFY;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=r+MPzQBx;
 	arc=none smtp.remote-ip=217.140.110.172
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 914BA606A331;
-	Sat, 21 Nov 2026 23:43:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 914BA606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B8B6606A32C;
+	Sat, 21 Nov 2026 23:43:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B8B6606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=oo+UnUFY
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=r+MPzQBx
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 05DE71575;
-	Sat, 21 Nov 2026 15:43:29 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2653A16F2;
+	Sat, 21 Nov 2026 15:43:32 -0800 (PST)
 Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 13DE03F632;
-	Sat, 21 Nov 2026 15:43:28 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 37C463F632;
+	Sat, 21 Nov 2026 15:43:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795304611; bh=/n2EWMdhO6kRAQYILC79T8bC3i1LKVlfeGgq74DQarY=;
+	t=1795304615; bh=kCb2vXk43N6EA15KnutMEDFVvCutj0Y3CtplbWRuKk4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oo+UnUFY/GW7vo313JKvwf3sD/EJo5YhDQvHJDjfv2SCO7B6vhg3WsxEt7g22Unr9
-	 DsfQRzRI9TJlOvluIrI+IWWSjxG9vNtPXaGpgTHgYymr57/N9aZkrl0HJ5taSa2S0f
-	 MlZMOwGkKWqmpI3CPObLWHgO5Nk2h5C/Q37KJBQs=
+	b=r+MPzQBxYByHNiQNM7X4BWA7zmfy1JTT+yMVYj3ANPNiyreXPh+pRpWdhwB/QfHR+
+	 Dzw0tLny6hLDVgXMf9Gti6xMb3hYv+p0dB84JtsYjizZEDaTDEF7qkFUxan7Zs4AtX
+	 G0T0OQx2NzP7lkKM8I9ma3lxaXfBnIiVi7LHFTD8=
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -67,9 +67,9 @@ Cc: sudeep.holla@kernel.org,
 	usama.arif@linux.dev,
 	kernel-team@meta.com,
 	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH v16 02/31] [RFC] firmware: arm_scmi: Additional iterators consistency checks
-Date: Sat, 21 Nov 2026 23:39:36 +0000
-Message-ID: <20261121234005.1525419-3-cristian.marussi@arm.com>
+Subject: [PATCH v16 03/31] firmware: arm_scmi: Add centralized detection of truncated replies
+Date: Sat, 21 Nov 2026 23:39:37 +0000
+Message-ID: <20261121234005.1525419-4-cristian.marussi@arm.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261121234005.1525419-1-cristian.marussi@arm.com>
 References: <20261121234005.1525419-1-cristian.marussi@arm.com>
@@ -84,92 +84,87 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a few more consistency checks around the number of returned and
-remaining items during the life of an iteration: this is useful to spot
-prematurely terminated iterations that would produce shorter than expected
-results.
+When an xfer is allocated with a very well known fixed reply size by
+providing a non-zero rx_size parameter to xfer_get_init(), it becomes
+possible to verify if the effectively received reply was truncated.
 
-Handling these anomalies in the platform multi-part replies within the
-core SCMI iterators machinery avoids the need to address such issues
-multiple times at the protocol layer.
+Add the logic to detect and report truncated replies.
 
 Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 ---
-RFC because this is another fix that is potentially disrupting for any
-non compliant SCMI platform deployed in the wild.
----
- drivers/firmware/arm_scmi/driver.c | 38 ++++++++++++++++++++++++++----
- 1 file changed, 33 insertions(+), 5 deletions(-)
+ drivers/firmware/arm_scmi/driver.c    | 12 ++++++++++++
+ drivers/firmware/arm_scmi/protocols.h |  8 ++++++++
+ drivers/firmware/arm_scmi/raw_mode.c  |  1 +
+ 3 files changed, 21 insertions(+)
 
 diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 55d9cc487916..a9b0f704c39b 100644
+index a9b0f704c39b..12c215d04d43 100644
 --- a/drivers/firmware/arm_scmi/driver.c
 +++ b/drivers/firmware/arm_scmi/driver.c
-@@ -1852,7 +1852,7 @@ static int __scmi_iterator_run(void *iter, unsigned int *start, unsigned int *en
- 	const struct scmi_protocol_handle *ph;
- 	struct scmi_iterator_state *st;
- 	struct scmi_iterator *i;
--	unsigned int n;
-+	unsigned int n, i_start, i_max, i_returned;
- 
- 	if (!iter)
- 		return -EINVAL;
-@@ -1862,10 +1862,15 @@ static int __scmi_iterator_run(void *iter, unsigned int *start, unsigned int *en
- 	ph = i->ph;
- 	st = &i->state;
- 
-+	/* Initialize iteration counters used to check consistency */
-+	i_max = 0;
-+	i_returned = 0;
-+	i_start = start ? *start : 0;
-+
- 	/* Reinitialize state for next run */
- 	st->num_returned = 0;
- 	st->num_remaining = 0;
--	st->desc_index = start ? *start : 0;
-+	st->desc_index = i_start;
- 
- 	do {
- 		iops->prepare_message(i->msg, st->desc_index, i->priv);
-@@ -1883,12 +1888,35 @@ static int __scmi_iterator_run(void *iter, unsigned int *start, unsigned int *en
- 		if (ret)
- 			return ret;
- 
--		if (!st->num_returned && st->num_remaining) {
--			dev_err(ph->dev, "Inconsistent multi-part reply.\n");
-+		/*
-+		 * Initialize max items expectation for this run based on
-+		 * values returned on first message exchange: during the
-+		 * following iterations consistency will be validated against
-+		 * these parameters, so as to spot FW anomalies like sudden
-+		 * termination or unplausible conditions.
-+		 */
-+		if (!i_max)
-+			i_max = i_start + st->num_returned + st->num_remaining;
-+
-+		if ((!st->num_returned && st->num_remaining) ||
-+		    (i_max != i_start + i_returned + st->num_returned + st->num_remaining)) {
-+			dev_err(ph->dev,
-+				"Inconsistent multi-part reply. max:%u  i_max:%u  i_start:%u  i_returned:%u  returned:%u  remaining:%u  desc_index:%u\n",
-+				st->max_resources, i_max, i_start, i_returned,
-+				st->num_returned, st->num_remaining,
-+				st->desc_index);
- 			return -EINVAL;
+@@ -1356,6 +1356,16 @@ static int scmi_wait_for_reply(struct device *dev, const struct scmi_desc *desc,
  		}
+ 	}
  
--		if (st->num_returned > st->max_resources - st->desc_index) {
-+		dev_dbg(ph->dev,
-+			"Multi-part - max:%u  i_max:%u  i_start:%u  i_returned:%u  returned:%u  remaining:%u  desc_index:%u\n",
-+			st->max_resources, i_max, i_start, i_returned,
-+			st->num_returned, st->num_remaining, st->desc_index);
++	/* Check for truncated messages..it will be logged by the caller */
++	if (!ret && !xfer->hdr.status && xfer->expected_rx_len &&
++	    xfer->expected_rx_len != xfer->rx.len) {
++		dev_dbg(dev,
++			"Truncated reply - HDR:%08X  expected:%zd  received:%zd\n",
++			pack_scmi_header(&xfer->hdr), xfer->expected_rx_len,
++			xfer->rx.len);
++		xfer->hdr.status = SCMI_ERR_COMMS;
++	}
 +
-+		/* Account for last batch received */
-+		i_returned += st->num_returned;
-+
-+		if (st->num_returned + st->desc_index > st->max_resources) {
- 			dev_err(ph->dev,
- 				"No. of resources can't exceed %d\n",
- 				st->max_resources);
+ 	return ret;
+ }
+ 
+@@ -1616,6 +1626,8 @@ static int xfer_get_init(const struct scmi_protocol_handle *ph,
+ 
+ 	xfer->tx.len = tx_size;
+ 	xfer->rx.len = rx_size ? : info->desc->max_msg_size;
++	/* When a specific rx_size was specified, check for truncation */
++	xfer->expected_rx_len = rx_size ? : 0;
+ 	xfer->hdr.type = MSG_TYPE_COMMAND;
+ 	xfer->hdr.id = msg_id;
+ 	xfer->hdr.poll_completion = false;
+diff --git a/drivers/firmware/arm_scmi/protocols.h b/drivers/firmware/arm_scmi/protocols.h
+index c15ec188291a..50b89c56e309 100644
+--- a/drivers/firmware/arm_scmi/protocols.h
++++ b/drivers/firmware/arm_scmi/protocols.h
+@@ -106,6 +106,13 @@ struct scmi_msg_hdr {
+  * @rx: Receive message, the buffer should be pre-allocated to store
+  *	message. If request-ACK protocol is used, we can reuse the same
+  *	buffer for the rx path as we use for the tx path.
++ * @expected_rx_len: The expected length of the payload in the reply, excluding
++ *		     the status field. When set to a non-zero value this is used
++ *		     to evaluate if a reply had been possibly truncated due to a
++ *		     misconfigured transport: it is only set to some meaningful
++ *		     non-zero value for replies having a very well known fixed
++ *		     size, definitely not for variable-sized xfers with an RX
++ *		     len initialized to max_msg_size.
+  * @done: command message transmit completion event
+  * @async_done: pointer to delayed response message received event completion,
+  *		or NULL when no delayed response is expected. Protected by
+@@ -139,6 +146,7 @@ struct scmi_xfer {
+ 	struct scmi_msg_hdr hdr;
+ 	struct scmi_msg tx;
+ 	struct scmi_msg rx;
++	size_t expected_rx_len;
+ 	struct completion done;
+ 	struct completion *async_done;
+ 	bool pending;
+diff --git a/drivers/firmware/arm_scmi/raw_mode.c b/drivers/firmware/arm_scmi/raw_mode.c
+index 7e42dd6cc2af..45206edff446 100644
+--- a/drivers/firmware/arm_scmi/raw_mode.c
++++ b/drivers/firmware/arm_scmi/raw_mode.c
+@@ -574,6 +574,7 @@ static int scmi_xfer_raw_get_init(struct scmi_raw_mode_info *raw, void *buf,
+ 	xfer->hdr.status = SCMI_SUCCESS;
+ 	xfer->tx.len = tx_size;
+ 	xfer->rx.len = raw->desc->max_msg_size;
++	xfer->expected_rx_len = 0;
+ 	/* Clear the whole TX buffer */
+ 	memset(xfer->tx.buf, 0x00, raw->desc->max_msg_size);
+ 	if (xfer->tx.len)
 -- 
 2.54.0
 
