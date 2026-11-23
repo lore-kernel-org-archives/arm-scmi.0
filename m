@@ -1,111 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.137
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795437291;
-	b=EWC9vpI78E2Q1obS386X1qqXuV8CW5z3dk+wnKpMf5so6cpxjb8GAXneWcIlr+V18uvl
-	 AucmBZ1zrtIQNySttoGL5ESKiWgzjy9ajBvO6OIQY9GW1m/040Q0J1fb95cWt9ZFEzy4o
-	 GpzTDS5720dsrrLSq0E8vBu0P+JZf2cwL0xHE9CFyuIqadkBCD5P4x183/zRdcQduzxns
-	 oRyJjnddpu8cfrMbMTtfjDyfW+yr13poBbL7kkxhtIGPh0gvnQE2dCPvXWsXY/oiHQkA2
-	 m4S3B7UmRVn8zpFXCuo1cnAfEwyAmlU/XIMHE4P99RXRvgpFYu+BHw3eBuyAHHmdhZQ==
+	t=1795438454;
+	b=C24pPrf6IXGVQDyJKstaxdBF3dARcfpCOVfksWHH4o03/d8FuvZFuj3Tvj2wRfKJYEXl
+	 z68QiKplCg1ETwHX+0v08pe8i7MsXzsbkPvrcvp4oWCf/y90DPwaM63A4YomDwEOP5G5Q
+	 H+145qkJD0eLZOIvGJI7h+fYfGGgX/r6Nbo8bwMTqCLN9gjZb0XHNFkb2Isq6uvpspmNR
+	 9NKkvBObwPszLVxHnbQxzC7oVMul52uTLDD98y86eLrwHfizcW0iCdB5He4KhsOf4lqYG
+	 I0UUG6BBmIwwGn06Re0TI7+fbcunYRsz9j3sKoJwNQHA5SQ7oA3VfOynPSS0ImZNZpA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795437291;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
-	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=eHnVdH3eygeNZ6mEwcCP89LSgWOPzbTMb7xVcTPFhqQ=;
-	b=1wIsBJduPQVnrryNO0X8lTJECMg2Jy1kJK/29fwS9q08oMG3n0MQ2ZtLIokL7SrhFucs
-	 1MkKCb9GGKJ61GyrGcSYPWWGVabCm8MMowJREsrYQa8fhMcqFvXQBw8V97GKV9SMMwThy
-	 sGxvXByp3nwdHw4iLeqyKRTPZdlySbsUyqlg+nSSAKrzeVLvDhyEn5cHFlHC5hK3VD5Zn
-	 z4Sw0yCS0ythA3pq0qvte6jp9ug5iedsMydZkQp1QtGw+3cAUMO5cffWU19DBDh2tYWzy
-	 TonT7/weritznSdpwdkVnmHDY0VhxkAV0f7uEPTB7m56tJLKG9ea6N4G59Pq5YEoM1A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795438454;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=AK9gZq1mzNYYir8TNaIUe4uUnYICwkK2Y+EuWc7ckdM=;
+	b=Vi1ldyKcVMsvylTVDEwzRegejsri8FbXuVi6XXhyVu25a8EwImGTzv2H0xK0t48X6zym
+	 hSDXytEwy36fgzQtuTKSL7QbC2UbqAL864TAzqFlY9xAooMJQMGsuCz/VvyLTOpjon6zd
+	 4QiseuF4DOmqWLTawHa06o8TNGmLz7ugVyZGHLNoV59X6VjqNHow0ReeEuznwBogdeRgf
+	 8nb0cWOXduZ0chxzEty5hImRGduPtFsTCakkwclBPbfqOztWDLniLF3Si41xa/MVS9pPe
+	 cUsU5hF+xmmRAyLqEa8gt1CK/FiZId3izMe8xTW31vFpKH10ZX6byHOH3O8F6oAneTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=glider.be;
-	spf=pass smtp.mailfrom=glider.be;
-	dkim=pass header.d=glider.be header.i=@glider.be header.a=rsa-sha256 header.s=fm1 header.b=lwhvrItP;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=UsLMaOp3;
-	arc=none smtp.remote-ip=202.12.124.137
-Received: from flow-b2-smtp.messagingengine.com (flow-b2-smtp.messagingengine.com [202.12.124.137])
+	dmarc=pass header.from=ideasonboard.com;
+	spf=pass smtp.mailfrom=ideasonboard.com;
+	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=AZIGKtbJ;
+	arc=none smtp.remote-ip=213.167.242.64
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F23F606A31A
-	for <arm-scmi@vger.kernel.org>; Mon, 23 Nov 2026 12:34:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F23F606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=glider.be
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24300606A31A;
+	Mon, 23 Nov 2026 12:54:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24300606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=glider.be header.i=@glider.be header.a=rsa-sha256 header.s=fm1 header.b=lwhvrItP;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=UsLMaOp3
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailflow.stl.internal (Postfix) with ESMTP id 062221302F4D
-	for <arm-scmi@vger.kernel.org>; Mon, 23 Nov 2026 07:34:49 -0500 (EST)
-Received: from ams-imap-13 ([10.64.2.33])
-  by ams-compute-02.internal (MEProxy); Mon, 23 Nov 2026 07:34:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=glider.be; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1795437275;
-	 x=1795440875; bh=eHnVdH3eygeNZ6mEwcCP89LSgWOPzbTMb7xVcTPFhqQ=; b=
-	lwhvrItPrxrnWeg316nV1PuaExKq05uOnB7kdGOR+IJk3rFQ4890Jz9EcO31c0kk
-	xI5+e5MQsZ0Yu/9Wf27fOSkUCHAHEv49K9IkC+q+zMAiV0fWxL6WVhEL0+7utY0A
-	sMfoGyUVx5WNE7TkLtuFcn5bgseBGwR+2VyVL+Itg7Bp2cdvDppO16Gw3TVGIzFs
-	+veTAsVcniGMCYUlt6/hAvIA3qTBC20vLfBumf1+HmZqvHv8q4hsNKIWQCGv9AIk
-	kBIyqj9HN4qUmIGzSxUWBSlcFtdt4oVoz0eRwV++3xeZ2I5GDpbWpNk2sI5vSH5E
-	XacBZeeCuSCzIGUDtDjXyA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795437275; x=
-	1795440875; bh=eHnVdH3eygeNZ6mEwcCP89LSgWOPzbTMb7xVcTPFhqQ=; b=U
-	sLMaOp3ptN7qnKvIWkUvlnS7dH7+uzP+HriLKIrFXHLFQoGwOy+gn5VW7NtvjlTt
-	ManvQiXA/yGJs2Qs6t1/vWVROdmRhLQH/8Hcwu1SoOc4SZMVpnelETNdusb/zknJ
-	UmxWQ0dzev43r8pjIXIriUtoK8G+VORVCbl2FWAa9ww1T55Zk7Fli9ccMLHqkTRa
-	728HmALwK06es2xy8VIwZ29dfV8WS8beUKPzAiEKfZ+k1pFpUdcWF5cXI8faDOsU
-	AVE3P+q0ygfltJRFgOfUjOofusYqIx5b+2wM0O7GquksOL7nSHB2Odj/pNqvOcPx
-	EDEeO1hAn3Zw6rwm8/1hA==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=glider.be a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795437275; d=glider.be;
-	mf=PGdlZXJ0K3JlbmVzYXNAZ2xpZGVyLmJlPg==;
-	rt=PGFybS1zY21pQHZnZXIua2VybmVsLm9yZz4=;
-	s=fm1:rsa-sha256:hW+yjebsqhsmBpzi5Cd+QUFN8qaD2Kct5XzdSNVPsIjw7OY
-	LkeX4iwPXEbBUVIpD5sXYm3Ggc96rAU/mTuWM0GaDJ8c4VkmURD+FeA/BEFKNqa1
-	K0f+zAAQeP8r3Nbi7TyJ2v+RBYei0vCSKJDwrGcPfQ4TGA9ldpJOvpuKnBo6Gfua
-	8m3a5bEfQneWXYxwKtNEjtMha+/tJX9QPy836bEwgUEFE7upWAffF6w50RMRKnR7
-	rnFHBZ3+kqKqPRXL20JWZHm3Hbh/G3yOSNLU/NVf69vNg4TtqpWZbA2QfriJ3VAS
-	pvcLxV/dad7wPtEf1m4PeIPrsLnbQ4TKItd+zVw==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:NqarG23xk+ubs76/imvVRMIVR9rWyW+HFno8706/BFM=:crBsktOEwz7H50H+P11uEpNa/OLN9cRsaNs9xh5MNQY=;
-X-ME-Sender: <xms:0jIEa-kXHJSkHDBxBkbB-Rfk12hTluPPIO3BLiJ00t8HIPNy3Ml4xg>
-    <xme:0jIEawpYzEGOcdmBH7VfOrQ3QrgvR7pCr3gof4I3Y8cveujyxtwEy4Wlp9OZfM0KZ
-    6NIwSex1_RsXjNhe9UyR-zy65wJm5Tu98aBjnJFwfhWMy5aSsomJmxq>
-X-ME-Proxy-Cause: dmFkZTGjXOFYrJRxiwHc7rFicL9MWrbJzVM+Gc43OT+4O8mbpHX/5MAATZsAInI6Irclg4
-    HmBPr8P3wEx6H7B5dwsR/HHfQoqdBCUtEOiLxJS9mZIu4PwsE2PDUU94Q4jqfnzMI9Btwd
-    XpAwuZscnIVSUJsF+0koA0iiwDsWZD37XBYDpPn7VmVqd2+XDkRmbJlf9eAMXdWpLtpQMN
-    czFKZy8qBH04/Oxu9ZQMA8zOfPCNmVRws8jIRBNnncQG5Q6WPhVcUJAKcrqyeTM0Wsgfxf
-    7khQAAS5dOfnNwzM5QvQ9pzjX/BkQ1CzMMp393inSIF78qd4yR0IFm8Ms0iqIjWovz6FpU
-    CgFQgw/soK/tq/mFGhE7cmCgQ2BSc3IlcKqUnBArsu0BDneAWSEtDCvjKurDHAbPO6oPbX
-    sF57QnbFAohTkunviWyVlbAtg2pDgFRklPonksWA69xQ0TXMBe/n4cgjmLBjnjnFOL+NIQ
-    KG8IEHZU2UaWpcvWRx2fiUdHV9c6XRoVgAOrwaQm0/CLrqRT7skw2gfC9tF/v7PC1CmPph
-    Hx52t6ORfO6Jkd49V45jcWX6CXK3RoCdKJg6vWEOHTfKxESaXeoFqhF0QwDn54eSftAZVO
-    e2XmsNI60B6pmvsE0U09WBDT/LdtdFP602rgOxjdTpAl5xk+xpMyC10wzLkw
-X-ME-Proxy: <xmx:1jIEa9MdAPtePcO_m0xHaaHu0JEHLytb4ihDc7EMzSSAh4JomFv1WQ>
-    <xmx:1jIEaxKYf69HkxcKUSVCWteMnRpFcoVEdsxp4onPUsO6FVxf2CWTFQ>
-    <xmx:1jIEa8vVRg3M5Q1pMJ_4h2N16qOm3qOZcdRAwjDOgv9xHzpZR0A39A>
-    <xmx:1jIEazHtrOgobv7i74yPIQ2hjQZ8bg54nM33N94XEWR69sFzIEwHvg>
-    <xmx:2zIEa8npJ8YnsLCDqc6cvQGTXzw3RisQ_vkaFmsAS7VIUCAHgwtMzrMj>
-Feedback-ID: ia0f84a9e:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 935AEF80098; Mon, 23 Nov 2026 07:34:26 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=AZIGKtbJ
+Received: from killaraus.ideasonboard.com (2001-14ba-7086-3000--a06.rev.dnainternet.fi [IPv6:2001:14ba:7086:3000::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 31A5E177;
+	Mon, 23 Nov 2026 13:51:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1795438299;
+	bh=WRMJuqFdJHPeKGISVHJw8r4oTogveJ42OLFSdKyGCc8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AZIGKtbJR6NkLXRom8BW/EhsnsC1Qtzflabo8Bbcd6MJhGpnl0G7O9/Nfw94CZnoM
+	 KK2Frc1pLjhhlJe1YrWwhiM0MzcAEmKh73qx4i+5jLEyo05m07KyNw26uLNjEdzMnt
+	 6U/AC2OPCb7Ic8d01t0cFQ49muIHRDjCsjQmSzZI=
+Date: Mon, 23 Nov 2026 14:54:10 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	Ulf Hansson <ulfh@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Kevin Hilman <khilman@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Paul Elder <paul.elder+renesas@ideasonboard.com>,
+	=?utf-8?Q?Cl=C3=A9ment?= Le Goffic <clegoffic@baylibre.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v5 05/15] clk: renesas: r8a78000: Add SCMI remapping
+ support
+Message-ID: <20261123125410.GK3010398@killaraus.ideasonboard.com>
+References: <cover.1795029012.git.geert+renesas@glider.be>
+ <e01baebc546ed6f1b71a0487a59cda73239ea7f1.1795029012.git.geert+renesas@glider.be>
+ <20261123113619.GG3010398@killaraus.ideasonboard.com>
+ <23ab561a-c5c5-41ff-a0f4-87a3f5ca2e49@app.fastmail.com>
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -115,100 +82,67 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-ThreadId: A9C68vVDcqlZ
-Date: Mon, 23 Nov 2026 13:34:06 +0100
-From: "Geert Uytterhoeven" <geert+renesas@glider.be>
-To: "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>
-Cc: "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "Stephen Boyd" <sboyd@kernel.org>,
- "Brian Masney" <bmasney+clk@redhat.com>,
- "Jerome Brunet" <jbrunet+clk@baylibre.com>, "Ulf Hansson" <ulfh@kernel.org>,
- "Philipp Zabel" <p.zabel@pengutronix.de>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- "Marek Vasut" <marek.vasut+renesas@mailbox.org>,
- "Bartosz Golaszewski" <bartosz.golaszewski@oss.qualcomm.com>,
- "Konrad Dybcio" <konrad.dybcio@oss.qualcomm.com>,
- "Kevin Hilman" <khilman@baylibre.com>, "Vinod Koul" <vkoul@kernel.org>,
- "Wolfram Sang" <wsa+renesas@sang-engineering.com>,
- "Kuninori Morimoto" <kuninori.morimoto.gx@renesas.com>,
- "Paul Elder" <paul.elder+renesas@ideasonboard.com>,
- =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>,
- "Sudeep Holla" <sudeep.holla@kernel.org>,
- "Cristian Marussi" <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-Message-Id: <23ab561a-c5c5-41ff-a0f4-87a3f5ca2e49@app.fastmail.com>
-In-Reply-To: <20261123113619.GG3010398@killaraus.ideasonboard.com>
-References: <cover.1795029012.git.geert+renesas@glider.be>
- <e01baebc546ed6f1b71a0487a59cda73239ea7f1.1795029012.git.geert+renesas@glider.be>
- <20261123113619.GG3010398@killaraus.ideasonboard.com>
-Subject: Re: [PATCH v5 05/15] clk: renesas: r8a78000: Add SCMI remapping support
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <23ab561a-c5c5-41ff-a0f4-87a3f5ca2e49@app.fastmail.com>
 
-Hi Laurent,
+On Mon, Nov 23, 2026 at 01:34:06PM +0100, Geert Uytterhoeven wrote:
+> On Mon, Nov 23, 2026, at 12:36, Laurent Pinchart wrote:
+> > On Wed, Nov 18, 2026 at 08:44:53PM +0100, Geert Uytterhoeven wrote:
+> >> Extend the Clock Pulse Generator driver for R-Car X5H with SCMI support,
+> >> to remap DT clock IDs to abstractions (clocks) offered by the SCMI
+> >> firmware when running on a system with SCMI, and SCMI support is
+> >> enabled.  Take into account some peculiarities of the current SCMI
+> >> firmware implementations, and fall-back to fixed-rate clocks as
+> >> replacements for SCMI clocks that are not available.
+> >> Support for bus clocks used by serial, I2C, and SPI devices is included.
+> >> 
+> >> This lets us avoid putting SCMI IDs in DT, and allows us to use the same
+> >> hardware description in SoC DTS for systems with and without SCMI
+> >> firmware.
+> >> 
+> >> For now, it is assumed SCMI clock IDs are stable, and match SCP FW
+> >> SDKv4.31.0 and later.
+> >> 
+> >> Suggested-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> >> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> 
+> >> --- a/drivers/clk/renesas/r8a78000-cpg.c
+> >> +++ b/drivers/clk/renesas/r8a78000-cpg.c
+> 
+> >> @@ -140,7 +182,35 @@ static struct clk_hw **get_hws(struct r8a78000_cpg_priv *priv)
+> >>  
+> >>  	for (unsigned int i = 0; i < map->size; i++) {
+> >>  		fw_id = map->entries[i].fw_id;
+> >> -		hws[i] = fixed_hws[fw_id];
+> >> +		if (fw_id >= FIXED_CLK_OFFSET) {
+> >> +			hws[i] = fixed_hws[fw_id - FIXED_CLK_OFFSET];
+> >> +			continue;
+> >> +		}
+> >> +
+> >> +		scmi_spec.np = scmi_clk_np;
+> >> +		scmi_spec.args_count = 1;
+> >> +		scmi_spec.args[0] = fw_id;
+> >> +
+> >> +		clk = of_clk_get_from_provider(&scmi_spec);
+> >> +		if (IS_ERR(clk))
+> >> +			return dev_err_cast_probe(dev, clk,
+> >> +				"Failed to get SCMI clock %u\n", fw_id);
+> >> +
+> >> +		hw = __clk_get_hw(clk);
+> >> +		clk_put(clk);
+> >
+> > Doesn't that leave the hw pointer possibly dangling, shouldn't you keep
+> > the reference to the clock ?
+> 
+> Only struct clk is reference-counted; struct clk_hw is not, and exists as
+> long as the clock provider hasn't unregistered it.
 
-On Mon, Nov 23, 2026, at 12:36, Laurent Pinchart wrote:
-> On Wed, Nov 18, 2026 at 08:44:53PM +0100, Geert Uytterhoeven wrote:
->> Extend the Clock Pulse Generator driver for R-Car X5H with SCMI support,
->> to remap DT clock IDs to abstractions (clocks) offered by the SCMI
->> firmware when running on a system with SCMI, and SCMI support is
->> enabled.  Take into account some peculiarities of the current SCMI
->> firmware implementations, and fall-back to fixed-rate clocks as
->> replacements for SCMI clocks that are not available.
->> Support for bus clocks used by serial, I2C, and SPI devices is included.
->> 
->> This lets us avoid putting SCMI IDs in DT, and allows us to use the same
->> hardware description in SoC DTS for systems with and without SCMI
->> firmware.
->> 
->> For now, it is assumed SCMI clock IDs are stable, and match SCP FW
->> SDKv4.31.0 and later.
->> 
->> Suggested-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
->> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+That's what I meant, what prevents clk_hw from being destroyed while you
+still hold a pointer ?
 
->> --- a/drivers/clk/renesas/r8a78000-cpg.c
->> +++ b/drivers/clk/renesas/r8a78000-cpg.c
+-- 
+Regards,
 
->> @@ -140,7 +182,35 @@ static struct clk_hw **get_hws(struct r8a78000_cpg_priv *priv)
->>  
->>  	for (unsigned int i = 0; i < map->size; i++) {
->>  		fw_id = map->entries[i].fw_id;
->> -		hws[i] = fixed_hws[fw_id];
->> +		if (fw_id >= FIXED_CLK_OFFSET) {
->> +			hws[i] = fixed_hws[fw_id - FIXED_CLK_OFFSET];
->> +			continue;
->> +		}
->> +
->> +		scmi_spec.np = scmi_clk_np;
->> +		scmi_spec.args_count = 1;
->> +		scmi_spec.args[0] = fw_id;
->> +
->> +		clk = of_clk_get_from_provider(&scmi_spec);
->> +		if (IS_ERR(clk))
->> +			return dev_err_cast_probe(dev, clk,
->> +				"Failed to get SCMI clock %u\n", fw_id);
->> +
->> +		hw = __clk_get_hw(clk);
->> +		clk_put(clk);
->
-> Doesn't that leave the hw pointer possibly dangling, shouldn't you keep
-> the reference to the clock ?
-
-Only struct clk is reference-counted; struct clk_hw is not, and exists as
-long as the clock provider hasn't unregistered it.
-
-Gr{oetje,eeting}s,
-
-                                                Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                                            -- Linus Torvalds
+Laurent Pinchart
