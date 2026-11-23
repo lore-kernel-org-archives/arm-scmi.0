@@ -1,87 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795447302;
-	b=wf4fe+4WashFSeiRMXV2DmwuFC+v0uTze6KhjpMr+HtGJdA3UYHjOj9SQqoDqOdIO4sB
-	 R3KmAe7yewcPWkI6CuBB9Ca2IO5iBKlDUUzb6ghKWrHDRe16YR7Vksa94nKtJ0wtCmHzZ
-	 jHapAh2sGkYu5puQKPGjR8yvfOO77IR4c8KuN9s9MTEO+3sI6Dqqodxzfs5m+Av/Yz/DI
-	 yQPwjgDr6M5oGp7gd3mbAsVQ8JUNxzVQLt1JDjppQSgd6wCNdM/YUEOvA/BLHNSphavXr
-	 WUVgwNAR6wJY/uPItwbL5/KYz7ZKyUNosRUA7g1Y5k6L3pevgL0ggJ8iGRKVPUMlCMA==
+	t=1795448813;
+	b=a38QsFNshK+pZ8612NL+mb9BEZYd0C9/ZTeDl88EEpRcZjgMjG6mjQoaIV5/JKGoLzRu
+	 7cStND9y9F7vDgjyQVhTSHFZeC6HzSEAejX5nII4Ktb7rKH3WR9ypC6DG5AU4TjNjJGuK
+	 +P/GOLm+dxHr7Yk8ZgY4B4eWbUGon009abw3fTy+D9KkvA7UNJhR1ATk9D7lgHDy7w85Y
+	 qqslryjcOYACIHwiWlK5NyEXBqM4agen8XGLTj26cL3x+7HjF6oB4FtnIm3u6TDsYzqHj
+	 KfqMdzOkijqiik+/5iXAjJi9fwj/oi6yyxVd+0x043DETNwMLi0SVKQ5LMtlXx3jjKw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795447302;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795448813;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
-	 References:In-Reply-To:To:Cc:X-Mailer;
-	bh=i9NMjvAfw7eusmnV0AZKfdwsVuRZv9qemPp30arLmJE=;
-	b=DoT2HtfcHE4j458E6AUHlOZUHLamNIMI83vHlH4JRsnDaSLSDvP3f8eHtVoiu4NFE0V3
-	 5pb33In6SwwNbgXnAb2+2dOJb/wMtCFo/eAS/RN1qzCN0A+Rs6ZYcn4Qyt2V7zTna7mXd
-	 5dJ8i4F2e/qNQZ/lhA14igANFJsNjwScrsoje/rxhgYeVdOvJ9N2jFXeuSwzy1veetdE4
-	 BwDXr7P/tB9pphaV6SD9Qy7iGHjOOA2SLn85+TjTjvAOIa2l3VKwFtJcHnzf3L3aMPhfE
-	 s7qrEPl3G7cHM5G/VT4RlrDjKdgYWQO4ww3ydXRs6DMzKTzwi3nNMVD9pLeRjVjuEeA==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Jco5N9HqUZU5bQiDb/7CVG3Xd5xNAy5U7XJ/rBLzfGA=;
+	b=R9dx6SFpgIZXYVuJtQj08ZHONXz0qQTNW157LSW/nEVRTtRHla4z97T7ab5nkhaUqezY
+	 P//HyDYDBysfPeGSbW5S0J6RmuY4eyHRTuIHSt7/ZtVDpXWR/w9QHXUzmoB7Njvq3Z8F+
+	 XM0aOR3u414fy+zFUULvS/SRU6iE58ruOI9zRg1Jmj8dQDIK0Wu8cA6TXZhKFoHPsdy7v
+	 8xJaYl90GA9TknXKnNvE0OiXEYvWD2M1SltZXoIZ56tywOzMsBZKAzC8ikrf9CojjpZaS
+	 0SssoINMrdHSZWGQA6a9bTUhMwr3VNN9YEre3rbjH9VlUQi8nx9Xm0a7oU7ek9cL/zw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=baylibre.com;
 	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=p0n77Wx4;
-	arc=none smtp.remote-ip=209.85.208.48
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=fOacZBda;
+	arc=none smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7278660A2620
-	for <arm-scmi@vger.kernel.org>; Mon, 23 Nov 2026 15:21:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7278660A2620
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1963F606A31E
+	for <arm-scmi@vger.kernel.org>; Mon, 23 Nov 2026 15:46:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1963F606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=p0n77Wx4
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6b7ddb99db4so4448394a12.0
-        for <arm-scmi@vger.kernel.org>; Mon, 23 Nov 2026 07:21:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=fOacZBda
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4b467581b98so32620875e9.0
+        for <arm-scmi@vger.kernel.org>; Mon, 23 Nov 2026 07:46:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1795447299; x=1796052099; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=i9NMjvAfw7eusmnV0AZKfdwsVuRZv9qemPp30arLmJE=;
-        b=p0n77Wx4SqlI35wj3vSW5/a4xAdd4wNUNkh6YbMnzBVQ54OiVYdXwuDS9gjnUHkZJO
-         113Ix9RduNcBVNZhUsvmmaAQszrFfW10LvTEOpHUVO68WLndMwTMBR8QxmKc1q9/4HXl
-         TYgwU3FMu2fAABoP7Ggd9CHuD3hEOlsymAC0F8NBRefLojQKEJqNrBa2etf2kwTwisFz
-         042NXBX18mrhZ6KVHLQQTEKrIiFws5bdZrfumK2QmX5qqN3O+VHtMQW7uRaJ8QGZqb9B
-         Sss/h2R8j1cWU9e0qjKAJoAIn7t1nww74JCdAIdkMTzlzZE/l6j4r8U61jNwpUWqsH6L
-         dG9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795447299; x=1796052099;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=baylibre.com; s=google; t=1795448810; x=1796053610; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=i9NMjvAfw7eusmnV0AZKfdwsVuRZv9qemPp30arLmJE=;
-        b=j6+T7Hf3Go0RqutjMGTWtYhht22NeyaZHkl0r/dGZ4Eqv8GFtTEadDXENwv/CctDuZ
-         7yvnhw6dkvbX05vYHL/FRthyqones+U8pox5T7ftxphkorRu7MZ8IiwOxpe/RissZ49X
-         zba7whPIiCcSyoFAdehE42+RDTNy3VAUrdMCMlp+a1wytXVPKEa2vGz7P1K3oEWzYtme
-         WlDXrJfaqJqLF2Y0IAWnWWuNsVzw5Qa16W/xWWFVhaUZUeSI0XePOadnsZyrUoJYvJ3p
-         FG9tbJwjVtTlPXHXJDn6UcmCmEy7Eyflr/4sEFbEVqhhiSsjc3EzTqAC4/uzK9p2euJi
-         waXg==
-X-Gm-Message-State: APuU4Z8Kb/aMwlG7q11skmobPuhrh+Rv5Iwjg0huhWyM1r1y6G4AwpIe
-	modVE9A5pG2+UaJ7R8JZptVA8HLlXRKcGpIyyjULmPiGiWHFel5EABTXisdwJGfz3ng=
-X-Gm-Gg: AZFdTZdhfWp3gAk5+HSOIjEAmjfIZOcg224gJfFmh3P8AbgqeO1dV3b0ox5pARsw2Cx
-	Tt9SnOoxk2gBSngOOjvBBXHKAZ0ySoQOnBP2Cs00RSlindSKB6Q71nCKluzHO/VMcWpF+3HJEPz
-	GwE6DTtJi2/RpaPlSYBO8YvHoXHdO7ftFFfgYRWZcogFJQqj7a5rP5kbkCLmWOnJgvBdHkQH1Ey
-	2xfaCjAHzJFXT0Y+RoqOwOhHJdcKBb1PvA4Afl+H5jfo0S4Po7Iezd2QHdrG94/CVllNGMl3/ly
-	aw5s4Zy12Vnw3bP9ccZyuhfnUIR8jP3fnEvzqukv+N4Y1jCpZAPsaN9KS2XR3/5b49Jq3n7v3oe
-	gHms+6TV16Y/QsRoNvlYrPHlBZy0kEfZVbMAefJw71PUvQmBZvGfw9/nXLhK5iKUUjfBYrt/C7b
-	msgXgkNSzC+8XV/hkFz0K89zzu1SD2yWOslgyQiNiJ55yYKZIjKtBlJAr3+0zO9sfgkmb0qQ3ih
-	e3Z6xX8c7wMARwA0Wn078SR7rnnPm9JnhWRlyxfYhJ+AXjMxBBvN55BjMabZXj1rRLD8heDw35/
-	rSByjHum4nNZ+KdmQ1UNDFtpwGr+Ed96ZEJOdE8RUSkjVO/RCmQ=
-X-Received: by 2002:a05:6402:4004:b0:6b5:8719:6d51 with SMTP id 4fb4d7f45d1cf-6ba37e6f76amr9086912a12.32.1795447298876;
-        Mon, 23 Nov 2026 07:21:38 -0800 (PST)
-Received: from localhost (140.30.66.37.rev.sfr.net. [37.66.30.140])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6bb989eesm22884229f8f.50.2026.11.23.07.21.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 07:21:38 -0800 (PST)
-From: =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>
-Date: Mon, 23 Nov 2026 16:21:31 +0100
-Subject: [PATCH v3 09/10] firmware: arm_scmi: add an operation to set the
- function of a single pin
+        bh=Jco5N9HqUZU5bQiDb/7CVG3Xd5xNAy5U7XJ/rBLzfGA=;
+        b=fOacZBda84BFoSkxXuiBVPLK/rTm6IN+e9Ek3paclKzsb1oUy9+exLA1ADv7ZABA8u
+         MR1nAkc8ZxaJ/NE0ubq28uS5lLu04ASAN1E81kIwboAxh6EjEAJa57Scn80l7VM9OWPD
+         3GcOQ3H75clVIMWmk8NCvi6ucqRuF620LaP6pKF9QKb+98kPRfVBrEXzXt5KK3O4n7A1
+         QznDfPcx3UK8HKVzDGk8rremjqB7GvcZ5W1R5HlnN404GpcH1NuKWwVPDhqHknlCM68L
+         p6xI23V9vBPx9u7bWGiiiQBxtEpJDgNrSjUnB6a4pv658iUwdKWUpqcRTdQ+obyduqN6
+         yhRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795448810; x=1796053610;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Jco5N9HqUZU5bQiDb/7CVG3Xd5xNAy5U7XJ/rBLzfGA=;
+        b=qsHx9FDD0fMb7FRbth7D/uXqP4pnywOCGzqswDCsQRyuak0L6IQcoiACKV3Jxaa5Io
+         Yyr3CW+Dzqzl0FWBo17TYTT5r1N+kDVBpzB9S7v5cZfgrhPsouhZpLj6WX4MMf/S5ktu
+         +E78eTc1TRu7Qj1+sXQ0r4/1G9wGmu0K4tQ36z4UdwpEgnIVl9XqvfezgUd8RkKgptLA
+         zk2PITfkWpRKhQ33YYufmqHL+FBbGM+OF9f3dePPCn5u5S2FPa7J2A7Jp4ODui3ni0+c
+         wu3/PVLl+W6oYCTqx47fGuvAlgIPEOJQPK0P54ksiRnBG+riNbGkBveAn3ET1B2Xqax+
+         WTgA==
+X-Forwarded-Encrypted: i=1; AL+hErGm1r5xpNkF6It19ueJVvo/nAsQ7nTNP3YJGUk1U3W8EaE75OzXybhXWgLZpje1pHCKteOZ4vsvXA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+UKpyQ3d/AOTCitsS4jNkDm1/TUvMbyzH6nWT6l9PROL5PfmQh
+	KUmASQkfu+B80O6qj3JfSXqSwsqWZXDnisgevECKMmH0Vj1Bt1m++7H5W2T0YvBAV/M=
+X-Gm-Gg: AZFdTZcr7vuvlBaHjrg9wNQb/+zcjFkXQKdo3TtOVEVrRRRXXZekgDLo9SPhJXbylOd
+	7TshPnpPZLDiWE2ngJaHaI1a2XyWql66RjVixKMGYAiO5T3qN+f4U+A3BeipG3FxG6OLovrzxqG
+	MrSN/gDYu8Dl8ElCY3EsoZbnn+esIFQb/4hTt2hrkbNhbX6SJ1ziCmK307vjpXVrPuN8+22McJC
+	WqSCIjrqLDPkPguvWg/usc/f8dnC55vuqyMro83ICZaWdBjo0n46Z2U34TFF71qR/fL4g4jH8Z1
+	NmhPKwSdwgl87/nRaawK9P+FeqQes3Kf4WFlmkyZNTYT3WXqd/wZhfMVfGgieXg+8P3YzGFbzd5
+	36HLxPvGiy8fmeudvAB0f5t241Onqd+hLqSpWcvWVORPiscrz1vgWrIZUEtC8XyWnQ9WSI3tFdL
+	/lDcvjpnWXrvN28c1cE1VwV+PGclbyc1CFGN8/hKxs0eNNf5Sjv/MHAQAfnYFryqFn8ALhSWqer
+	BpaRCSPW1LccHrBSXmo0hijXmFAlXz911JlbcVsZKhpnoReEcYYGlrRJJM1lVNAzkorrQWesTcJ
+	lfY8OpaHCMdtc9Qge635245FucmBjW7NC7/eRf7bTmMd2EJrLvu6kfOCug==
+X-Received: by 2002:a05:600c:670b:b0:4a6:30c3:1114 with SMTP id 5b1f17b1804b1-4bb88922df3mr229426595e9.12.1795448810466;
+        Mon, 23 Nov 2026 07:46:50 -0800 (PST)
+Received: from [192.168.1.62] (140.30.66.37.rev.sfr.net. [37.66.30.140])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb88442693sm312466955e9.1.2026.11.23.07.46.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Nov 2026 07:46:50 -0800 (PST)
+Message-ID: <fc13a7a8-b825-400c-9ea0-ceb2670dc478@baylibre.com>
+Date: Mon, 23 Nov 2026 16:46:49 +0100
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -91,77 +92,81 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/15] R-Car X5H Ironhide CPG/MDLC SCMI remapping
+ support
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Brian Masney <bmasney+clk@redhat.com>,
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Ulf Hansson <ulfh@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Kevin Hilman <khilman@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Paul Elder <paul.elder+renesas@ideasonboard.com>,
+ Sudeep Holla <sudeep.holla@kernel.org>,
+ Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <cover.1795029012.git.geert+renesas@glider.be>
+ <1e9c5ac3-d82b-4af9-9946-0302cadf7404@baylibre.com>
+ <20261119234759.GB2324725@killaraus.ideasonboard.com>
+ <19c3745a-6308-46ff-bb37-3acc88fe22e2@baylibre.com>
+ <awAqqg6F2Z1t55x2@ninjato>
+ <d94ad9ca-afdd-4301-a69c-0bbad5b334fa@baylibre.com>
+ <20261123103633.GB2959742@killaraus.ideasonboard.com>
+Content-Language: en-US, fr
+From: =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>
+Autocrypt: addr=clegoffic@baylibre.com; keydata=
+ xjMEafx9bxYJKwYBBAHaRw8BAQdAtc85GIwDXLz0rh9thWXC80Lji0otVDVncXT4qaS4j1fN
+ K0Nsw6ltZW50IExlIEdvZmZpYyA8Y2xlZ29mZmljQGJheWxpYnJlLmNvbT7ClgQTFgoAPhYh
+ BJjMiHuM4ZUwFqUPr36EW4KtCh6TBQJp/H1vAhsDBQkJZgGABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEH6EW4KtCh6Tt+sA/jVC35rY1npFlOy7YnncTdrID8Qf855JA78IzXgvzpGp
+ AP9FkuuT80m66PP3DvgYX9kVnG17mSDKO0+v2W18v6ZgCM44BGn8fW8SCisGAQQBl1UBBQEB
+ B0DMwF4u//aQyzsFlO8rPJ/cqsAuPH80IeIA3HOEo5mlVgMBCAfCfgQYFgoAJhYhBJjMiHuM
+ 4ZUwFqUPr36EW4KtCh6TBQJp/H1vAhsMBQkJZgGAAAoJEH6EW4KtCh6TdSgBAMDS0MiWCivt
+ LjzZc9bs+P/xdXywUjDKq3lpQGJ6vZ0GAP9vI6DnN7vwVK6jt6/+0aBGkog5Ura9+WwRFEdM
+ vLfPDQ==
+In-Reply-To: <20261123103633.GB2959742@killaraus.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Message-Id: <20261123-clegoffic-pinctrl-scmi-gpio-v3-9-d61f039be008@baylibre.com>
-References: <20261123-clegoffic-pinctrl-scmi-gpio-v3-0-d61f039be008@baylibre.com>
-In-Reply-To: <20261123-clegoffic-pinctrl-scmi-gpio-v3-0-d61f039be008@baylibre.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>, 
- Cristian Marussi <cristian.marussi@arm.com>, 
- Linus Walleij <linusw@kernel.org>, Peng Fan <peng.fan@nxp.com>, 
- Oleksii Moisieiev <oleksii_moisieiev@epam.com>, 
- Andy Shevchenko <andy@kernel.org>, Dhruva Gole <d-gole@ti.com>, 
- Bartosz Golaszewski <brgl@kernel.org>, 
- =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>
-Cc: arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.17-dev
 
-Add pin_mux_set, which selects a function on a single pin. mux_set only
-works on groups.
+Hi Laurent,
 
-Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
-Signed-off-by: Clément Le Goffic <clegoffic@baylibre.com>
----
- drivers/firmware/arm_scmi/pinctrl.c | 6 ++++++
- include/linux/scmi_protocol.h       | 2 ++
- 2 files changed, 8 insertions(+)
+On 11/23/26 11:36 AM, Laurent Pinchart wrote:
+>> I know several SDK versions exist, and supporting several of them is work for a vendor tree.
+>> As Geert's cover says, "While upstream Linux must only support sufficiently mature firmware versions, vendor trees (e.g. renesas-lts) may still want to support development firmware versions".
+>> Each SDK version can then have its own DT there.
+> 
+> That's not how DT works. Please be gentle with Krzysztof and avoid
+> increasing his blood pressure :-)
 
-diff --git a/drivers/firmware/arm_scmi/pinctrl.c b/drivers/firmware/arm_scmi/pinctrl.c
-index 1bc4bca4c48f..4e3968fbc5ec 100644
---- a/drivers/firmware/arm_scmi/pinctrl.c
-+++ b/drivers/firmware/arm_scmi/pinctrl.c
-@@ -790,6 +790,11 @@ static int scmi_pinctrl_mux_set(const struct scmi_protocol_handle *ph,
- 	return scmi_pinctrl_function_select(ph, group, GROUP_TYPE, selector);
- }
- 
-+static int scmi_pinctrl_pin_mux_set(const struct scmi_protocol_handle *ph, u32 selector, u32 pin)
-+{
-+	return scmi_pinctrl_function_select(ph, pin, PIN_TYPE, selector);
-+}
-+
- static int scmi_pinctrl_get_pin_info(const struct scmi_protocol_handle *ph,
- 				     u32 selector)
- {
-@@ -854,6 +859,7 @@ static const struct scmi_pinctrl_proto_ops pinctrl_proto_ops = {
- 	.function_groups_get = scmi_pinctrl_function_groups_get,
- 	.function_flags_get = scmi_pinctrl_function_flags_get,
- 	.mux_set = scmi_pinctrl_mux_set,
-+	.pin_mux_set = scmi_pinctrl_pin_mux_set,
- 	.settings_get_one = scmi_pinctrl_settings_get_one,
- 	.settings_get_all = scmi_pinctrl_settings_get_all,
- 	.settings_conf = scmi_pinctrl_settings_conf,
-diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
-index 072190e89064..5cea4ee14a3e 100644
---- a/include/linux/scmi_protocol.h
-+++ b/include/linux/scmi_protocol.h
-@@ -789,6 +789,7 @@ enum scmi_pinctrl_conf_type {
-  * @function_flags_get: tells whether the specified function is pin-only and
-  *	whether it is a GPIO function
-  * @mux_set: set muxing function for groups of pins
-+ * @pin_mux_set: set muxing function for a single pin
-  * @settings_get_one: returns one configuration parameter for pin or group
-  *	specified by config_type
-  * @settings_get_all: returns all configuration parameters for pin or group
-@@ -812,6 +813,7 @@ struct scmi_pinctrl_proto_ops {
- 				  u32 selector, bool *pin_only, bool *gpio);
- 	int (*mux_set)(const struct scmi_protocol_handle *ph, u32 selector,
- 		       u32 group);
-+	int (*pin_mux_set)(const struct scmi_protocol_handle *ph, u32 selector, u32 pin);
- 	int (*settings_get_one)(const struct scmi_protocol_handle *ph,
- 				u32 selector,
- 				enum scmi_pinctrl_selector_type type,
+These DTs would stay in the vendor tree, so they would not reach Krzysztof :-)
+Upstream would have one SCMI DT, as v5 has one table.
 
--- 
-2.56.1
+>> If a release that changes ids is already out, it needs a new DT, or a quirk for that one release when the DT cannot be updated.
+> 
+> So you're proposing that, with any new firmware that introduces an ABI
+> breakage, every single DTB on all boards in the wild get updated ? That
+> just doesn't scale, sorry. Let's forget about that bad idea, and focus
+> on finding a good solution.
+I think the v5 tables have the same problem.
+As Wolfram said, "the driver is then tied to a specific firmware version", so the same ABI breakage needs a new kernel on every board in the wild.
+Either way every board needs an update, so I think the fix belong in the firmware.
 
+I also see technical weaknesses in the remapping:
+It adds a second layer of ids on top of the SCMI ids, so each new device needs entries in the kernel tables as well as its DT node.
+And Zephyr already uses the SCMI ids in its DT for this chip, without such a layer.
+
+With the SDK DTs only in the vendor tree, what technical weakness do you see in the solution I proposed?
+I still think it is a good one ^^
+
+Best regards,
+Clément
