@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795549904;
-	b=C+ceD1UBDNleIxKWss97GjEM5thEaJmDU7DilbU73E5oqyC8jbwCZM0L+OjiVN8Kg5ZX
-	 L0UpTQEW7+diaSICk40zuGpoxBNOIVqOd/4Bg0cZuBWS/wIPipTMvAQc9g8vocAqnA65g
-	 3K6P+/GIDJ6P2HZWX03nme/tphvWBIdABUpplfiPDtap5xROnepw9R10rAFU1FIStrs/p
-	 YQ4l9sxB9DNpEux1N0cDsU92krIM43aZJBXUpP4TVMisXJ6e5dDZ9yqkQ0SZjpgkvW89+
-	 krO4jfDYe4FxatuHdU8EkghUhSXYPFQHhaMgcxyh6lHQjxcl4BwhKWSQAvUR377LU3w==
+	t=1795549908;
+	b=exE9oxV/u0/0FUSS5cC27Ta00iqYnh8Z2geyYigrO1y0fawhxGc9+Fr2bNz1kQzb/wkT
+	 FCwA/nUHMgrz7RgkVTyzF/x7TxBB2ugCPHK1UXf+Xf65JjaobhZMXM/wUqgoCmt81xntg
+	 VcJ8SNnuePOtW9w59ViO+3DCm9bWLWrbwZjiYr+zT+DQz5EG1O2zDvR1fE23i2/BIk/Ky
+	 CbFt4Ifabr6YS86Nn3kMp05Ue53QghHzxu5Uj1qh/FqtfJ34tMFd5o7Y/gl5oEcUs4a5A
+	 5OQS4rIsITuXwGuibxtc9/FFc9ZZL4RK0E7nVots0dNdJQnFtMls7l9qgZZ7KvJKnkA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795549904;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795549908;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=HVVjPYeaF6vpT1dloEdpdlPz6fxZPqesfz6KrE1VaXY=;
-	b=gOrlg/WPsTmQ2ubjC+9h4BMyDHvswJbDHRFbxbU/5EHuSXyAq9w2+g8/ouSHxJPahctq
-	 99htODeU0F9/mvpGiSAuZ2dr9xXzNAoKxs6prw6jpH1vklVMPESRHatlsGvZ651gMYo8g
-	 +MZYM0SSJrA2YekPxumIpGd2SWhNeqW36veRSdePHy0v3D1ZLnpKztq2cGJn3qQ0PoCNp
-	 XcPGuL5koRFs5hAUI6h5FZZf1/6esfqGmt9csWTFgVEAqqW/l2BUUF/NvhhymMEyK7SlW
-	 YpfGV2097sbw+QAB57JqG3GRZuVqiWHnxBt59CD2Kb8TladJNzgAvDdfjg8/FEAGLZA==
+	bh=UXv2USDLjxCmkBT7t673t/L9uechNCEsT7mnauJfqOk=;
+	b=fEReXu3eV5vB3GAmCfvg27U/3Yp0zHia4ouNGzPYakE49+a6nhCvTKDOb6rf66VEEqcN
+	 HZmvQvu7BhHqGzDkz5mbNNa9t7FpZHTUOVhUMPQK+Lsi+EpmfMz9NnYQXhztEr6HviE9y
+	 mXX+nvhH2eRH9kAaiqEuDJ+Jyi81AIKraqpsPb6TF28QQd27Ey5s5w4NIA9I/DO22LuLW
+	 nlGHlbdHuxj2ufQAo3aVrE/twpmS3I00NP2SQm7R04pwrwvJ0medtDqZtrf5wQYAhhqba
+	 4urUsUQOB4x0yxptiVfl6E9b3m6BYpwqYcqt1MoskoO3Zfpy7/jYIgW4Wq64KLakCkg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=arm.com;
 	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=jetB5X42;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=I3cIDB4u;
 	arc=none smtp.remote-ip=217.140.110.172
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A84AE606A323;
-	Tue, 24 Nov 2026 19:51:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A84AE606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6C3E606A680;
+	Tue, 24 Nov 2026 19:51:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6C3E606A680
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=jetB5X42
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=I3cIDB4u
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 37A4816F8;
-	Tue, 24 Nov 2026 11:51:40 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 57986175A;
+	Tue, 24 Nov 2026 11:51:44 -0800 (PST)
 Received: from pluto.guest.local (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 512BA3F763;
-	Tue, 24 Nov 2026 11:51:39 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6B4A33F763;
+	Tue, 24 Nov 2026 11:51:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795549903; bh=fX/3v0ZEU3noaKhW3lw0KAbS/QafXhjsYGajjulKGmk=;
+	t=1795549907; bh=jI3f070raLj7/k00GZw1QBRqUT86GTz73dk4UnjUdbY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jetB5X42IgGzrm9bD5fokDc7HKL7D29JJ/5RLnT6cjBmBiS6qtDdPnAJ/FhXClnn6
-	 sF7bd9MERVtLduErV1ABtuGyOF23ojz4Piwfg07/ev85XbIjh+qzOymcLFpEeEPUkn
-	 74lH66gd2MlAc86rC7O6V7GVy383dBstaizFS/tY=
+	b=I3cIDB4uhWiMlavHBp1Nyxq3mpjquLNcxo5Re1sIqaB5STCBAdqUeBWj6zBUV+y+z
+	 UZu37heUAP1DJPKAwwhvkkp94NmcT5SKLgdDwHkxPw9UzUxHe0229qhG6AV4pZC4td
+	 bi0APtjRbKsvgJXG6aClLawOQh2P1lyu8wMAPOwo=
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -67,9 +67,9 @@ Cc: sudeep.holla@kernel.org,
 	usama.arif@linux.dev,
 	kernel-team@meta.com,
 	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH v17 25/34] firmware: arm_scmi: Add Telemetry debugfs SHMTI dump support
-Date: Tue, 24 Nov 2026 19:48:31 +0000
-Message-ID: <20261124194841.1147072-26-cristian.marussi@arm.com>
+Subject: [PATCH v17 26/34] firmware: arm_scmi: Add Telemetry debugfs ABI documentation
+Date: Tue, 24 Nov 2026 19:48:32 +0000
+Message-ID: <20261124194841.1147072-27-cristian.marussi@arm.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261124194841.1147072-1-cristian.marussi@arm.com>
 References: <20261124194841.1147072-1-cristian.marussi@arm.com>
@@ -84,184 +84,48 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Expose one debugfs entry for each discovered SHMTI that can be used to
-dump the related SHMTI in binary form from TBGN up to TEND markers.
-
-No processing is done kernel side, beside using proper accessors for
-device memory.
+Add description of the debugfs SCMI Telemetry protocol ABI.
 
 Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 ---
 v15 --> v16
- - initialize/destroy debugFS around SHMTIs init
-v14 --> v15
- - cleanup local debugfs subtree with debugfs_remove_recursive on remove
-v12 --> v13
- - get inode lock on time update
-v11 --> v12
- - fix debugfs shmti dump file to use the SID as name
-v8 --> v9
- - use kvzalloc/kfree
- - use file_update_time to update debugfs file ts
+ - fix Kernel version/date
 v5 --> v6
- - added mutex to protect binary dump buffer during reads (Sashiko)
- - using debugfs_create_file_size() (Sashiko)
+ - fixed typos
 ---
- drivers/firmware/arm_scmi/telemetry.c | 103 ++++++++++++++++++++++++++
- 1 file changed, 103 insertions(+)
+ Documentation/ABI/testing/debugfs-scmi | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/drivers/firmware/arm_scmi/telemetry.c b/drivers/firmware/arm_scmi/telemetry.c
-index a3f446b98cb4..ddfa27b71ee4 100644
---- a/drivers/firmware/arm_scmi/telemetry.c
-+++ b/drivers/firmware/arm_scmi/telemetry.c
-@@ -9,9 +9,11 @@
- #include <linux/bitfield.h>
- #include <linux/compiler_types.h>
- #include <linux/completion.h>
-+#include <linux/debugfs.h>
- #include <linux/delay.h>
- #include <linux/device.h>
- #include <linux/err.h>
-+#include <linux/fs.h>
- #include <linux/hash.h>
- #include <linux/hashtable.h>
- #include <linux/jhash.h>
-@@ -445,6 +447,14 @@ struct telemetry_shmti {
- #define TDCF_OFFS(_b, _p)				\
- 	((unsigned long)((__force void *)(_p) - (__force void *)(_b)))
- 
-+struct scmi_telemetry_dbg_shmti {
-+	struct telemetry_shmti *shmti;
-+	size_t buf_sz;
-+	void *buf;
-+	/* Protect this descriptor from concurrent readers using it */
-+	struct mutex mtx;
-+};
+diff --git a/Documentation/ABI/testing/debugfs-scmi b/Documentation/ABI/testing/debugfs-scmi
+index ee7179ab2edf..b3e09142fa08 100644
+--- a/Documentation/ABI/testing/debugfs-scmi
++++ b/Documentation/ABI/testing/debugfs-scmi
+@@ -68,3 +68,25 @@ Description:	Max number of concurrently allowed in-flight SCMI messages for
+ 		the currently configured SCMI transport for instance <n> on the
+ 		RX channels.
+ Users:		Debugging, any userspace test suite
 +
- #define SHMTI_EPLG(s)						\
- 	({							\
- 		struct telemetry_shmti *_s = (s);		\
-@@ -554,6 +564,7 @@ struct telemetry_info {
- 	unsigned int default_blk_ts_rate;
- 	const struct scmi_protocol_handle *ph;
- 	struct telemetry_shmti *shmti;
-+	struct dentry *shmti_top;
- 	struct telemetry_de *tdes;
- 	struct xarray xa_des;
- 	struct telemetry_uuid *primary_uuid;
-@@ -1358,6 +1369,10 @@ static void scmi_telemetry_tdes_cleanup(void *arg)
- 		scmi_telemetry_de_unlink(&tde->de);
- 		scmi_telemetry_free_tde_put(ti, tde);
- 	}
++What:		/sys/kernel/debug/scmi/<n>/protocols/0x<m>/
++Date:		Feb 2027
++KernelVersion:	7.5
++Contact:	cristian.marussi@arm.com
++Description:	A subdirectory grouping debug entries related to protocol <m>
++		for instance <n>. Each protocol owns and defines the subtree
++		of entries rooted under this directory.
++Users:		Debugging, any userspace test suite
 +
-+	/* Safe removal of SHMTI debugfs tree before freeing underlying data */
-+	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_PROTOCOLS))
-+		debugfs_remove_recursive(ti->shmti_top);
- }
- 
- static int scmi_telemetry_de_descriptors_get(struct telemetry_info *ti)
-@@ -1535,6 +1550,91 @@ scmi_telemetry_enumerate_common_intervals(struct telemetry_info *ti)
- 					ti->info.intervals);
- }
- 
-+static int scmi_telemetry_dbg_shmti_open(struct inode *inode, struct file *filp)
-+{
-+	struct scmi_telemetry_dbg_shmti *sblob;
-+	struct telemetry_shmti *shmti;
-+
-+	if (!inode->i_private)
-+		return -ENODEV;
-+
-+	shmti = inode->i_private;
-+	sblob = kzalloc_obj(*sblob);
-+	if (!sblob)
-+		return -ENOMEM;
-+
-+	sblob->shmti = shmti;
-+	sblob->buf = kvzalloc(shmti->info.len, GFP_KERNEL);
-+	if (!sblob->buf) {
-+		kfree(sblob);
-+		return -ENOMEM;
-+	}
-+
-+	mutex_init(&sblob->mtx);
-+
-+	filp->private_data = sblob;
-+
-+	return 0;
-+}
-+
-+static ssize_t scmi_telemetry_dbg_shmti_read(struct file *filp, char __user *buf,
-+					     size_t count, loff_t *ppos)
-+{
-+	struct scmi_telemetry_dbg_shmti *sblob = filp->private_data;
-+
-+	/* Dump on first read and again after each rewind to start pos */
-+	guard(mutex)(&sblob->mtx);
-+	if (!sblob->buf_sz || *ppos == 0) {
-+		struct inode *ino = file_inode(filp);
-+
-+		memcpy_fromio(sblob->buf, sblob->shmti->base,
-+			      sblob->shmti->info.len);
-+		sblob->buf_sz = sblob->shmti->info.len;
-+		/* update inode timestamps */
-+		inode_lock(ino);
-+		file_update_time(filp);
-+		inode_unlock(ino);
-+	}
-+
-+	return simple_read_from_buffer(buf, count, ppos, sblob->buf, sblob->buf_sz);
-+}
-+
-+static int scmi_telemetry_dbg_shmti_release(struct inode *inode, struct file *filp)
-+{
-+	struct scmi_telemetry_dbg_shmti *sblob = filp->private_data;
-+
-+	kvfree(sblob->buf);
-+	kfree(sblob);
-+
-+	return 0;
-+}
-+
-+static const struct file_operations scmi_telemetry_dbg_shmti_fops = {
-+	.open = scmi_telemetry_dbg_shmti_open,
-+	.release = scmi_telemetry_dbg_shmti_release,
-+	.read = scmi_telemetry_dbg_shmti_read,
-+	.llseek = generic_file_llseek,
-+	.owner = THIS_MODULE,
-+};
-+
-+static void scmi_telemetry_debugfs_initialize(struct telemetry_info *ti)
-+{
-+	const struct scmi_protocol_handle *ph = ti->ph;
-+	struct dentry *top;
-+
-+	top = ph->hops->debugfs_proto_dentry_get(ph);
-+	ti->shmti_top = debugfs_create_dir("shmtis", top);
-+
-+	for (unsigned int i = 0; i < ti->num_shmti; i++) {
-+		char id[16];
-+
-+		snprintf(id, 16, "%u", ti->shmti[i].info.sid);
-+		debugfs_create_file_size(id, 0444, ti->shmti_top, &ti->shmti[i],
-+					 &scmi_telemetry_dbg_shmti_fops,
-+					 ti->shmti[i].info.len);
-+	}
-+}
-+
- static int iter_shmti_update_state(struct scmi_iterator_state *st,
- 				   const void *response, void *priv)
- {
-@@ -1750,6 +1850,9 @@ static int scmi_telemetry_enumerate_shmti(struct telemetry_info *ti)
- 	/* Expose the fully initialized SHMTI infos */
- 	smp_store_release(&ti->info.base.num_shmtis, ti->num_shmti);
- 
-+	if (IS_ENABLED(CONFIG_ARM_SCMI_DEBUG_PROTOCOLS))
-+		scmi_telemetry_debugfs_initialize(ti);
-+
- 	return devm_add_action_or_reset(ph->dev, scmi_telemetry_tdes_cleanup, ti);
- }
- 
++What:		/sys/kernel/debug/scmi/<n>/protocols/0x1B/shmtis/<m>
++Date:		Feb 2027
++KernelVersion:	7.5
++Contact:	cristian.marussi@arm.com
++Description:	A set of RO files exposed by the Telemetry protocol (0x1B) in
++		order to dump the latest snapshot of each SHMTI memory area in
++		binary format: each file is named by its SHMTI id.
++		File is seekable and a seek to position zero on an open file
++		causes the SHMTI snapshot to be refreshed; file timestamps are
++		updated after each snapshot.
++		This directory reports SHMTIs for instance <n>.
++Users:		Debugging, any userspace test suite
 -- 
 2.54.0
 
