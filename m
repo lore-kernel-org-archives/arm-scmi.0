@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795549805;
-	b=4sBKfHkg7fiLiIE7KE09VnpQ586ZLNvGI3QFN0Q0CHO3dkfyK/Jri7d9B0K5e2kkQprD
-	 7eUKwR0+so8q65xkRUXJ99NGOjcIzgVYD4VWkhSyx4BvmlPzT8ONMysjWKMky4ni/D8tm
-	 KxgF9nHBCi+fOE/57L6IuxUH9ll9VGLw3p+W6wqwOLqFSJPpFR/1wjMW/vvMwSlUe/Hsa
-	 fqiR2zQloYi3pJpXP8DvnwnnOCoWHs+BPaA66RDq9mMaraUnPjFxbkDAdRtzzxim2Ug2U
-	 JKL9vb14lXo+pFoU7snVWv2Aaoxse30PPHT08VkA98ZAx15Or3nbzIcxkNT8s2BiI0w==
+	t=1795549809;
+	b=gxzJt/titGbO9s3VMEqwxmzXAlGwmKBDbaRwn9AiFDhb5GaB6WFzzkkY/pgJv6hRrncZ
+	 DhOeFrwh4HVx75CfHzNflCw/odx5TPI/Vef1Cf3CVRrDITRkeB+kCSBxN/pqYH9QZSe+2
+	 A8Xhr5JdVRpzex/n1OIM/EE5RHxQvGtKVk6XMZmPkFJtEKX1dr/pzX+a3+9MLWGY9cL6j
+	 ZXlP3Qhyb5Cap5BSBeRvf9kzkP3yUt9q0MeXmSiLRaqq09mK9G0wlZNFSAHTtOtOcKLTC
+	 0w1MICYsFtkN7gw2cimSct44GcX/stqK8YPTsCKGoq9Lfa8uOQ8fRfqEkZQ1FZCCwww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795549805;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795549809;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=80q8YD+7sXMXFl1ECfvCh2AR2uYXOG7FEJnScBZQu+E=;
-	b=2r5TWLkMuErxJA7yhQDXRBqvykh6vDrzDTROv6IN9JX8vB9jqaQnXAvcAn4wh/IV+wyx
-	 cUmzLMJaiGuczK+piLPXosx40JzmNok8TNE1uYV/0FhynKgd7Bv2QEpScBrjnEKB3HQRS
-	 T6HvAdbBFJ4PT9CJJWr+FfBP/1OzrbVijQj6ZPidZEhJMdDPPogISKfs/CYYOBjLajZ3P
-	 TsR7SBoRPejNW5Afkugw/Cdw4rpW7QZizCfIBLC6To0Yu4uXo5zuexUf63T9cIb/jxUAX
-	 2vuKWsi2XFyhwIQGKzqX8ns7SndxP8W90N0vKzS8+czlsIlJfN6bmuQOHRPNlhVDHww==
+	bh=yNyKWZOKL+pL6ans6rni0y3A9ZwAY/enEa6bOoRGTiY=;
+	b=t4zFgAU2FE1WT3jr6p63/DM+OsUeAc8jHBLJZWOfcUpevwAk8KexebuTL9ffUAXRlYR1
+	 wU2V0G0t9Y0zAXKBETmh4hLNEGSbn8m29bVsy3PCoY52zx/0+ENfnSGt07mLPmFBt/v8E
+	 UkZ6fFwzDzlb/Ry4ImmSP4l/cEROLlUHcF4IjpN++sxyLqpz4QZYqYErwJnutFJWMgxJz
+	 Mg+9bsV38e2AtikYjKwygTdbVRTYwTnOeg0zbsvFtaEesbRkCYuzm/ROmQjEYU6ap+FKB
+	 59TNO/offMaJcDrlDuygfGPxz62uA1gv721UzS4z55dz6WojGpBCLStvo2wS9U3dWvw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=arm.com;
 	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=PZoTVDeX;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Li1HQ431;
 	arc=none smtp.remote-ip=217.140.110.172
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2345606A323;
-	Tue, 24 Nov 2026 19:50:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2345606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BE97606A323;
+	Tue, 24 Nov 2026 19:50:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4BE97606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=PZoTVDeX
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Li1HQ431
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2229516F3;
-	Tue, 24 Nov 2026 11:50:01 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2D39116F8;
+	Tue, 24 Nov 2026 11:50:05 -0800 (PST)
 Received: from pluto.guest.local (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 597AB3F763;
-	Tue, 24 Nov 2026 11:50:00 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 653393F763;
+	Tue, 24 Nov 2026 11:50:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795549804; bh=Y0MBG+9tAaJnrCVNc9NifzCluMxb+aEqtuevfolvhu4=;
+	t=1795549808; bh=CHkShNmAafdRmkE3fj+tkXnVfpPqAB5vDKfdzNp4PA0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PZoTVDeXQBHBNQY/osXgVd4HpvJwvqovP/XFHePZT8nGFZFqxWnm001xC7RIY477y
-	 hD0+50Et8HCCSg1ZBt1r60YTg2KwysBE7pqyUxA7BaE35ZhOd9sZ+u52C3Upk3hKfv
-	 9c/4qEcw57xjbMDkUNjGtG2kfvNFD6DIDyN3uPQ4=
+	b=Li1HQ431u6djcBCNqeK4cnYE7nZopfvrxGyoZok43KxAzv0oAZHp+rXbw92S5PKym
+	 +Osc6Jdt4Nfn6q8no18XoipZ6SVJJ1629hhEv8WQucPw98B03ZHdJWDJEDf6wzsSYl
+	 8LMhcTx7xqmEoo4rBFYV2yaQpDrM9Im8LYkBcs/Y=
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -67,9 +67,9 @@ Cc: sudeep.holla@kernel.org,
 	usama.arif@linux.dev,
 	kernel-team@meta.com,
 	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH v17 02/34] [RFC] firmware: arm_scmi: Additional iterators consistency checks
-Date: Tue, 24 Nov 2026 19:48:08 +0000
-Message-ID: <20261124194841.1147072-3-cristian.marussi@arm.com>
+Subject: [PATCH v17 03/34] firmware: arm_scmi: Make Clock attributes size deterministic
+Date: Tue, 24 Nov 2026 19:48:09 +0000
+Message-ID: <20261124194841.1147072-4-cristian.marussi@arm.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261124194841.1147072-1-cristian.marussi@arm.com>
 References: <20261124194841.1147072-1-cristian.marussi@arm.com>
@@ -84,90 +84,61 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a few more consistency checks around the number of returned and
-remaining items during the life of an iteration: this is useful to spot
-prematurely terminated iterations that would produce shorter than expected
-results.
+SCMI Clock protocol CLOCK_ATTRIBUTES command varied in its reply payload
+size together with the specification evolution.
 
-Handling these anomalies in the platform multi-part replies within the
-core SCMI iterators machinery avoids the need to address such issues
-multiple times at the protocol layer.
+Between Clock version 0x10000 and 0x20000 one trailing field was added.
+The current implementation used the maximum possible payload size across
+any protocol version as the rx_size paramenter passed to xfer_get_init:
+such solution works fine but inhibits any possible centralized check on
+the size of the received reply.
+
+Size the requested reply strictly according to the expected protocol
+version.
 
 Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 ---
-RFC because this is another fix that is potentially disrupting for any
-non compliant SCMI platform deployed in the wild.
----
- drivers/firmware/arm_scmi/driver.c | 36 ++++++++++++++++++++++++++----
- 1 file changed, 32 insertions(+), 4 deletions(-)
+ drivers/firmware/arm_scmi/clock.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-index 55d9cc487916..6dd249c08f5f 100644
---- a/drivers/firmware/arm_scmi/driver.c
-+++ b/drivers/firmware/arm_scmi/driver.c
-@@ -1852,7 +1852,7 @@ static int __scmi_iterator_run(void *iter, unsigned int *start, unsigned int *en
- 	const struct scmi_protocol_handle *ph;
- 	struct scmi_iterator_state *st;
- 	struct scmi_iterator *i;
--	unsigned int n;
-+	unsigned int n, i_start, i_max, i_returned;
+diff --git a/drivers/firmware/arm_scmi/clock.c b/drivers/firmware/arm_scmi/clock.c
+index 6b5d50b35a48..ed93970c3b87 100644
+--- a/drivers/firmware/arm_scmi/clock.c
++++ b/drivers/firmware/arm_scmi/clock.c
+@@ -362,10 +362,14 @@ static int scmi_clock_attributes_get(const struct scmi_protocol_handle *ph,
+ 	u32 attributes;
+ 	struct scmi_xfer *t;
+ 	struct scmi_msg_resp_clock_attributes *attr;
++	size_t rx_size = sizeof(*attr);
+ 	struct scmi_clock_info *clk = CLOCK_INFO(cinfo, clk_id);
  
- 	if (!iter)
++	if (PROTOCOL_REV_MAJOR(ph->version) < 0x2)
++		rx_size -= sizeof(attr->clock_enable_latency);
++
+ 	ret = ph->xops->xfer_get_init(ph, CLOCK_ATTRIBUTES,
+-				      sizeof(clk_id), sizeof(*attr), &t);
++				      sizeof(clk_id), rx_size, &t);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1002,12 +1006,16 @@ scmi_clock_config_get(const struct scmi_protocol_handle *ph, u32 clk_id,
+ 	int ret;
+ 	struct scmi_xfer *t;
+ 	struct scmi_msg_resp_clock_attributes *resp;
++	size_t rx_size = sizeof(*resp);
+ 
+ 	if (!enabled)
  		return -EINVAL;
-@@ -1862,10 +1862,15 @@ static int __scmi_iterator_run(void *iter, unsigned int *start, unsigned int *en
- 	ph = i->ph;
- 	st = &i->state;
  
-+	/* Initialize iteration counters used to check consistency */
-+	i_max = 0;
-+	i_returned = 0;
-+	i_start = start ? *start : 0;
++	if (PROTOCOL_REV_MAJOR(ph->version) < 0x2)
++		rx_size -= sizeof(resp->clock_enable_latency);
 +
- 	/* Reinitialize state for next run */
- 	st->num_returned = 0;
- 	st->num_remaining = 0;
--	st->desc_index = start ? *start : 0;
-+	st->desc_index = i_start;
+ 	ret = ph->xops->xfer_get_init(ph, CLOCK_ATTRIBUTES,
+-				      sizeof(clk_id), sizeof(*resp), &t);
++				      sizeof(clk_id), rx_size, &t);
+ 	if (ret)
+ 		return ret;
  
- 	do {
- 		iops->prepare_message(i->msg, st->desc_index, i->priv);
-@@ -1883,11 +1888,34 @@ static int __scmi_iterator_run(void *iter, unsigned int *start, unsigned int *en
- 		if (ret)
- 			return ret;
- 
--		if (!st->num_returned && st->num_remaining) {
--			dev_err(ph->dev, "Inconsistent multi-part reply.\n");
-+		/*
-+		 * Initialize max items expectation for this run based on
-+		 * values returned on first message exchange: during the
-+		 * following iterations consistency will be validated against
-+		 * these parameters, so as to spot FW anomalies like sudden
-+		 * termination or unplausible conditions.
-+		 */
-+		if (!i_max)
-+			i_max = i_start + st->num_returned + st->num_remaining;
-+
-+		if ((!st->num_returned && st->num_remaining) ||
-+		    (i_max != i_start + i_returned + st->num_returned + st->num_remaining)) {
-+			dev_err(ph->dev,
-+				"Inconsistent multi-part reply. max:%u  i_max:%u  i_start:%u  i_returned:%u  returned:%u  remaining:%u  desc_index:%u\n",
-+				st->max_resources, i_max, i_start, i_returned,
-+				st->num_returned, st->num_remaining,
-+				st->desc_index);
- 			return -EINVAL;
- 		}
- 
-+		dev_dbg(ph->dev,
-+			"Multi-part - max:%u  i_max:%u  i_start:%u  i_returned:%u  returned:%u  remaining:%u  desc_index:%u\n",
-+			st->max_resources, i_max, i_start, i_returned,
-+			st->num_returned, st->num_remaining, st->desc_index);
-+
-+		/* Account for last batch received */
-+		i_returned += st->num_returned;
-+
- 		if (st->num_returned > st->max_resources - st->desc_index) {
- 			dev_err(ph->dev,
- 				"No. of resources can't exceed %d\n",
 -- 
 2.54.0
 
