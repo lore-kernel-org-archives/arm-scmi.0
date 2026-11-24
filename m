@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795549835;
-	b=ibHubjds23YnldBL2HvKtd7nLJPtT6Gj3Y2NKkO3QbPs2H7B0Sgu8X3mX3135tEVwgm2
-	 w9doAZXNOGJtUun1wVFrS7bLROm6wtycrAtkLbgqZaA6F2xrwQHLwXVRuL68mjxbmDmUK
-	 lvciX3uCY/mQweDmwLY5kxbSPKBPC/KD7xEiUfI0N/ybJw/3f4zd4cne5/EZyi+HRDROF
-	 HzuS4pdm2uDWH+qTBf80ZeP0lOWH2Ha2KZQRyk4/cRuKYlxnKpYlSEiMqKHwDFwAzFGgI
-	 8T4MAw7cG8hvgIZNXoANPFLEl9fypznodZ0htm8miYBCotYIaCLXhiXkbiPgDquUEiA==
+	t=1795549839;
+	b=r0aLK6q3xuMyNyOFGK/SB7ATQxqB4+29f5y46ARnGjNpASP4xgAEZRkKwBQB1sLmvLj3
+	 AFkAkZUlwaT0g+0aLalLemJ7Fv52SnkqWo0IAYUZ1lVCBN6EAlYaewTb2msXMTPuTGCKW
+	 w4tghqYOXzc4MVxoAd7Vo9Wx4E9o03X6VvgSqt7GEnDHlw9VbZ1P3ELFdk4XLfwvC0nW4
+	 khHV7aJgdCeqNyDOi+hvkStHiCvJJLz9xsXBh3+YUZAqs/3MHh94QdclUl4D5e4Ol5BrY
+	 IWtV5X7H1a+pgyHhHz3t3wmZHSSyM50dnR+LGTNOu2Jog9XuxSFaesZVNj3PjK98h8A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795549835;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795549839;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=t7R2yoCiAeLQBhB6gJTWyBDgFqLo/L9FrePQ72IrN3c=;
-	b=yh7A5llF6+CBVAEpKH5VgKarK2D8qvhzFLO3KDuiEI5KzrgIGtbQ4Dwyn0kC1BBXUc1Q
-	 7poQR1Wtm0JGsL5zLcI/nolQcDfE0hzbm6cPODAex/WmBV8R4VzWEAllt7wHDAtqJk3/P
-	 5F/fmjqjSehBsZvfdTF+32V6sFFIJuyxop3qNa/Z7lHimr0faekLvDi8wlCAcX03ktZfe
-	 P1KpGwUk9CHQAL8fKYOrrA8QGQfdA7E/cejYw9nMnefPXEl2MfstE+K3aYjah29YeQzSI
-	 tTCWo9OSZG2rY91gyk0XtaN7Zaq2yVb31OnKIPedw0PyWdCip8zt9/eh0MQ7DGsRFoA==
+	bh=qECIJQpjfuH1ZjZJ/r1/HeSCxlIyRoe7mrKRIpv1eYs=;
+	b=Eopyck+gjbZjpAt7RXoZmm3eLIiP70UoagtOS7S231TwYL44IQTrqLtig1dBv2flexlz
+	 P0MfaXO7cbWIv0HelENpHwTW1tmhR6kLoIWnd6fCwl3k5Tp8QRrvTbIqK4W3ya7LLlers
+	 Vnwinm0gWeqSFqg10Cog3+zfnlUwFDGLQwy2gEEME6VREKvsZu5Yp0421QPlRNvcvFnOO
+	 Wkv6gpgBasYYCVOAeFmXLiCTu7zasODoC5Rpn33v4R35txye4ed6zycO2nwzndfff91sx
+	 T7W2OWX769M1OnamuvXlluf80NTWLy6jtDGhtHv7x9059pKmjluLHQbeSlcHD2jsLUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=arm.com;
 	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=aG9NYjTD;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="tCVuD/1C";
 	arc=none smtp.remote-ip=217.140.110.172
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF249606A326;
-	Tue, 24 Nov 2026 19:50:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF249606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 012B3606A323;
+	Tue, 24 Nov 2026 19:50:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 012B3606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=aG9NYjTD
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=tCVuD/1C
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3635A339;
-	Tue, 24 Nov 2026 11:50:31 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7E6AA497;
+	Tue, 24 Nov 2026 11:50:35 -0800 (PST)
 Received: from pluto.guest.local (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B09F33F763;
-	Tue, 24 Nov 2026 11:50:29 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E6C13F763;
+	Tue, 24 Nov 2026 11:50:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795549834; bh=hfA0ap4Xo70CAlarCd2qZoILhqj61SvsIL72n1hY+fo=;
+	t=1795549838; bh=/SQydrJmcQbyexqcY63QR4hJ8qgiHzXl7qLMR3pL2Cc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aG9NYjTDaxxLrPnCnjpM217wgQMIfUEv+KcorF53RPv1F/3mdMmhGYt0w1XmACW7c
-	 NI7J7dBOq+l6KO3SS0DdIPPi8l4ja0P17QbJkS+o8dzeuckE/QQONj3K2picf0Q3d1
-	 hN0sYK3AtJ0TXLi3VybQA7rnJdDvn/a2HQ8qoZLg=
+	b=tCVuD/1C+E0CEtwigo3CyzjpCkIzggnVs5gvep3MWRqrwK2OdplPwT2sYtQapVgeO
+	 p94PVIN+TUKywlpIly1pyOtQAgv9B+UCBkpIOWk8jCz0AEPJyBkG8iCv0eeGCMAIWc
+	 U5p5HpFOH8dMgsHZ1tBeg+jUgvxD8MsDn3NTlrgI=
 From: Cristian Marussi <cristian.marussi@arm.com>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -66,14 +66,10 @@ Cc: sudeep.holla@kernel.org,
 	puranjay@kernel.org,
 	usama.arif@linux.dev,
 	kernel-team@meta.com,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: [PATCH v17 09/34] dt-bindings: firmware: arm,scmi: Add support for telemetry protocol
-Date: Tue, 24 Nov 2026 19:48:15 +0000
-Message-ID: <20261124194841.1147072-10-cristian.marussi@arm.com>
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [PATCH v17 10/34] include: trace: Add Telemetry trace events
+Date: Tue, 24 Nov 2026 19:48:16 +0000
+Message-ID: <20261124194841.1147072-11-cristian.marussi@arm.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261124194841.1147072-1-cristian.marussi@arm.com>
 References: <20261124194841.1147072-1-cristian.marussi@arm.com>
@@ -88,42 +84,76 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add new SCMI v4.0 Telemetry protocol bindings definitions.
+Add custom traces to report Telemetry accesses and collection events.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 ---
-v3 --> v4
- - changed protocol number to lowercase 1b
- - fixed misplaced block for protocol 0x1b
-
-Cc: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: devicetree@vger.kernel.org
+v12 --> v13
+ - better commit message
+ - use const char where required
+v7 --> v8
+ - use proper FTRACE helpers for variable strings
 ---
- Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ include/trace/events/scmi.h | 45 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-index 6fc44105f1c3..b63543390fd9 100644
---- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-+++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-@@ -324,6 +324,14 @@ properties:
-     required:
-       - reg
- 
-+  protocol@1b:
-+    $ref: '#/$defs/protocol-node'
-+    unevaluatedProperties: false
+diff --git a/include/trace/events/scmi.h b/include/trace/events/scmi.h
+index b421c253df00..ae63a13fd141 100644
+--- a/include/trace/events/scmi.h
++++ b/include/trace/events/scmi.h
+@@ -178,6 +178,51 @@ TRACE_EVENT(scmi_msg_dump,
+ 		  __get_str(tag), __entry->msg_id, __entry->seq, __entry->status,
+ 		__print_hex_str(__get_dynamic_array(cmd), __entry->len))
+ );
 +
-+    properties:
-+      reg:
-+        const: 0x1b
++TRACE_EVENT(scmi_tlm_access,
++	TP_PROTO(u64 de_id, const char *tag, u64 startm, u64 endm),
++	TP_ARGS(de_id, tag, startm, endm),
 +
- unevaluatedProperties: false
++	TP_STRUCT__entry(
++		__field(u64, de_id)
++		__string(tag, tag)
++		__field(u64, startm)
++		__field(u64, endm)
++	),
++
++	TP_fast_assign(
++		__entry->de_id = de_id;
++		__assign_str(tag);
++		__entry->startm = startm;
++		__entry->endm = endm;
++	),
++
++	TP_printk("[%s] de_id=0x%llX - startm=%016llX endm=%016llX",
++		  __get_str(tag), __entry->de_id, __entry->startm, __entry->endm)
++);
++
++TRACE_EVENT(scmi_tlm_collect,
++	TP_PROTO(u64 ts, u64 de_id, u64 value, const char *tag),
++	TP_ARGS(ts, de_id, value, tag),
++
++	TP_STRUCT__entry(
++		__field(u64, ts)
++		__field(u64, de_id)
++		__field(u64, value)
++		__string(tag, tag)
++	),
++
++	TP_fast_assign(
++		__entry->ts = ts;
++		__entry->de_id = de_id;
++		__entry->value = value;
++		__assign_str(tag);
++	),
++
++	TP_printk("[%s] ts=%llu de_id=0x%04llX value=%016llu",
++		   __get_str(tag), __entry->ts, __entry->de_id, __entry->value)
++);
++
+ #endif /* _TRACE_SCMI_H */
  
- $defs:
+ /* This part must be outside protection */
 -- 
 2.54.0
 
