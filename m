@@ -1,123 +1,123 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.168.131
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795604912;
-	b=TT23wDzxzlq9wCZnfaKmMKalOaohSvjc4Gg6xum6ie+ePs+xg+K8PLflNry+/ml8CuAU
-	 lCiYMwhTUmWCBGrqB8X/Jk0lUDaJ5EbY8MtUz5A9+cQ9NQrfm5sAwbO8RWzJGzHViDNcT
-	 qB0MSqz+Lz3CJsHEQEO8GQEVEKBSv+trTCsRNJ2XtR7Pj2Cu236UMZ3BUkSsTiERJMP5M
-	 njpQb4nSJFedaVF8pE9eNi3yLdvRFjwU8rvCZIvv3Kd2jXLPtQTKWK8v/FPW4a29tGL2Q
-	 WPppNDtSOvS7dVvr7D4a6L8phxmP2bHePL0vjYZ0L1xGiwkXv4QwoIL2mrn4gefVdcQ==
+	t=1795605450;
+	b=btQMoApYShsQaYJK1OAp8KZJH9YcrFSjrzzIKOm9kXjkCVhkQ0G9xlSiV7Nym8/q4Aub
+	 6C1dNi88qvAQ0JTDsBa7KXOsLosomx89YPUTicYR/2/yFVP2dmMKMkPjvG//MH13dnOy/
+	 jlq+NQNTnIiuuPxvYW1SVRPvmAm1gUZ//VZjdb/E+8KCt0/XFpJF5fWXjH49ND17cIlFF
+	 TkPHs1GFACedpVF/re8dSxXNshPtz+W1ntiUKKYBunl73EbelnNHpEQ0hPCAtXtNFyghj
+	 y6nIBXBs8HQK+ucaGp34ZZx+VVvoGfH51uwz3/Qx31irsHWbgXkcQ7AUlZs3HsBdcmA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795604912;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795605450;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:MIME-Version:
 	 References:In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:
-	 Cc:Content-Type:Content-Transfer-Encoding:X-Proofpoint-Spam-Info:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=m7zUToUS1+7RVlBq8lg0DAY2VTgGDQHEGVuEzMquWAQ=;
-	b=hmHNvTYsV8nkcgxI/6YpzS39LbWucldLMt9rXIf6+agTD8oE7tfOKQPDO9jVbonbGP3T
-	 9RxXVd1sbNeJvIAxPDK9Dlna211vbPwWdCokLGBDtSY4Xqgp3du/OV+KyL8kvUz6Ir2lB
-	 y01FWNB5fejMlxZFRPinMk7D8r6IoszGWle6yleMykCh14GYZJo/Xsf3lygbTqah3nOaY
-	 P1wqqZz5F3SHSXmPunYn+jvxUcn//nSzifemgbrkxSn5Bg3YI/k9YhJ42rIux+WOEDThK
-	 lqxbXF5XTXj9VcTqtP487XeER79Fn+hXRhbd3hrGem6sq3ofeF6kvvV5vwZJnd4rVXQ==
+	 Cc:Content-Type:Content-Transfer-Encoding:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=GGcM3DKIo02LA8xtKEqWDCXbSDDx+E/CgQ8lPKySp7s=;
+	b=LCrdLixNe78+nIsEq0b6sWRlUS3SERvLuHHJHI0u9dLx9WyIrIrYPI77TV132q6+SvN+
+	 p8xFEgVhLip4CmqCUo4V9fLSVCr6iHn+V8R/8wTaR03ujjlDC3OedcNLi4EOYkSKSRCNt
+	 TYnvab+ABkryKMBcNWkAfOq6QpE8Z9q+HKo/KkGzMcXPVDpmJWU8Q4McTpwpCzc6kDcY/
+	 t23pgguC9IWKhD9MSC4wnU931tj93UILCxKuO6UCzublssFQMqERNiELWWI/HnMFkVnBx
+	 G75i5rJ3lLRZLFn81HMwJWhOzyCpWna1ou3md0fE6IV/A9+deUDWhnqA5MMCdFkOiUg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=nc9uQR+j;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=JooTsSeq;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=W4jWDdVB;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=QKrZI4Ng;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.168.131
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A9B60A2603
-	for <arm-scmi@vger.kernel.org>; Wed, 25 Nov 2026 11:08:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53A9B60A2603
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F8C606A32E
+	for <arm-scmi@vger.kernel.org>; Wed, 25 Nov 2026 11:17:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92F8C606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=nc9uQR+j;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=JooTsSeq
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AP9mTNh4034187
-	for <arm-scmi@vger.kernel.org>; Wed, 25 Nov 2026 11:08:31 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=W4jWDdVB;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=QKrZI4Ng
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AP9mbRH796736
+	for <arm-scmi@vger.kernel.org>; Wed, 25 Nov 2026 11:17:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	m7zUToUS1+7RVlBq8lg0DAY2VTgGDQHEGVuEzMquWAQ=; b=nc9uQR+jLwGYfJ+v
-	wCrebLA8CUnPykqKns+CQ2yrRQX7mBdPXHCMWPqrppNP4EEqU2xz/ZDxv4GlaaV4
-	diSFgLYngeA848CL7VUmP79lf0CGvoFe7HMV9ryXoUlJgFCDYVA+vY5YqMNHvOzp
-	AP64yguW96k89HPWqInNVzFmbAczwLCAuNLpnN+AtB/co6g5xKucvRnn7YHP17Tt
-	nsxQo16Kb9HnPlxBxSSD/axvQB25PQ9cB8UzYqupv/HjZ1aliLqhuH91v4Qctbk2
-	zFH/QuxXH5D6PfcOI6atlTGFW72NTj/SQ4NkYR6bvlOtcKnV3kbeDY4jlT8UZFVN
-	H9JRJA==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j5mqbjf0n-1
+	GGcM3DKIo02LA8xtKEqWDCXbSDDx+E/CgQ8lPKySp7s=; b=W4jWDdVB1vbwwYli
+	084svRdTuIpZGcbEUnPgXFOT3xfX3COpD8NlOSCTDx5vbmO6iqlsSjsyj1d4GyLL
+	nVOQ7ZWM8f0DKHclVqbU4ZkP7EVvYnnEXvT3wIzR4iDWx6pNq8Z1BIggEvUuYzO1
+	GxNYOiSA7xj39P9WA85R+PuRN/T8BnNtIXrGD8KSW0aoV0KInDxHm0smhmzGphcI
+	3lY13tpzpfmCw4yTAdbwxyIy0T27VvXtuE7mzUuS4uPS3QeJ/y1RC2M0RqeEGhwn
+	KxzYHwGlf6NbPM8BaVxNMu7AyROhy/1HuLKSIiKuynlR62oYOUOeNrSDq7kvHR8I
+	97krqA==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j5n6rtdex-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <arm-scmi@vger.kernel.org>; Wed, 25 Nov 2026 11:08:31 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-3b41f4ca1bfso4457275a91.1
-        for <arm-scmi@vger.kernel.org>; Wed, 25 Nov 2026 03:08:31 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795604911; cv=none;
+	for <arm-scmi@vger.kernel.org>; Wed, 25 Nov 2026 11:17:28 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3b40b011aa4so6813634a91.0
+        for <arm-scmi@vger.kernel.org>; Wed, 25 Nov 2026 03:17:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795605448; cv=none;
         d=google.com; s=arc-20260327;
-        b=qvnWQNmKVnPGmWqGP/ErvyIjcjwBBzTtrYRzv05lW5lABH59KCaF1vzHluISVGlyu7
-         O12oq2qTBHbs4tC9JduwXaBNuYlogG5nxWCdx5u45je3XMHA13/v/cfMbO5RYA6DAPTg
-         fOyr/RRw6ghB3Pu8j3FYIZaJpxfQI3nNV4Dc4SJ9j1tKRjsKhQneQczFKvs4YYuQ6Scd
-         9GeRSluz5bRXnfWdENyK2KzGFhRghElUAaDCQPsD73yuUa29tGesaY+2tTJ7T0jKztK3
-         Z57CzYa1boEu79HocQyt9NvBNXnwnfvuEZdOdDLGU2XoSUQNupTAP2oYZZgmIR1Gijbz
-         VIvQ==
+        b=pyKrjoEI+sJBShytD2b8gXcZU65YAI5h5/5+k+yhRJyVHAWpZIupO0QwvF0oAfPkQZ
+         4EtCXRohLh/1uoKZBybQ18YRAJaj0fl5RDdssKBi8hp+hOl0bbxJJODwiF4koouTqjXf
+         agw4BN5/26Yn9H3nTEOHXSM0Gh+dnp9Zsbq0EgemYYFUEMJhfMwsmWPWCZCtoF0ojJK8
+         J2Gq5JQ7C2g6QLuyMXCXaT8bzuCIDAlxVmtJXCp2BHw4+JEJZ8u2KTUnV4sM0ap1uEEa
+         BO/Wh1RA6xqHcAd51X8Ze+Tem9DNbV1pKOx4KgQYTGGwmeo/CKD0VvzfzbLqfyMq0mEI
+         KkbA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=m7zUToUS1+7RVlBq8lg0DAY2VTgGDQHEGVuEzMquWAQ=;
-        fh=nk6V33TU74/EIash1kwTUKYF4oxoHqGfKg/anh9Xuhc=;
-        b=HxL/rWrsfJUvQ4p1kW8Kz/Ocv3W8F0Wgz72JmFu8HQACMgcIEfkrZD4MpBSKu/5psm
-         mmYXfse6CX7xduxUukWukrozJuErQfEh5ui2LEIa8kAA7KpkKs4MP6/SeWZmSdlxIbMm
-         Q3my8Co+D/NPbtmm45mF1M86Oag63rbSWdEHhD4yfeJJ2R04cD3TSApUbGmyQPRM5EoY
-         Bll4kwoS3enUMUn7exa3VUOqQWJ535Si3NVgKu0g4CKz5o3oYoMAKl4jdzhD2ch8PvBg
-         VY3OnkEDbr67BUwYaYgxkdGXmaZVdJnGiBuDG46M3QFXnd/IBGKBw5F9orQ+DWtib9q/
-         wCtQ==;
+        bh=GGcM3DKIo02LA8xtKEqWDCXbSDDx+E/CgQ8lPKySp7s=;
+        fh=ON2+gcF0nduQaUdKOxxebLv8RjzC97/QV0mfTDtUTtw=;
+        b=nS2FS7WEaJ1VyZpSrlXJ+5cjg3Gr5jTbs9EVWSjsMt8E6VZkeCyS6mkN3pfFvYnKCM
+         RmIOOUsWkKE8GU49M8oxzNCP6UOV6Ws9Z7r+U4Q86I+bqHvvqAHsIzisqzKzmLycrwFm
+         xLerjleSHywoJp8VvVhSV7sclhtQ0RpaBfR7xlRTbGlN22Z2qs4gInxE7lAVeoeeq6J/
+         zYSV8kOJnxILfW9SJynqc2WXpqNYHgCAgDN/mu7o1JUvpvI6x+qRq0Uaa2HQI3P8xeet
+         LB0PNyziZvga3+bdX9ZloAB35NctOcQC4Omblpg9VIfnI+aNnoz/4GEOAO3Vul7Zfec8
+         FhzQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1795604911; x=1796209711; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1795605448; x=1796210248; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=m7zUToUS1+7RVlBq8lg0DAY2VTgGDQHEGVuEzMquWAQ=;
-        b=JooTsSeq2RR1X9kQ7o0BsZFsA8NkAkFKzubTfUrfxs0AoHK0J6gRp/ranL0IYd4DTh
-         qTFPTwolI/JQcnvGSgmo+MEX93AyyL2/zTlaOKAMWqGXXu/OU/+e+Nml21uA+/7i/TW3
-         AdMpSpQ6HS+75nLtv4n1XMi0n4knpbPsOUxLp7zi+/cFhxR+qTBbpB5FWeoW/wz+mo1E
-         L/TIjfPa4lOEIjrqRusrw/DGKvaaCaUSlWcHhH60n6vEOlahEwY4nM7VlyNTUMmgjtSb
-         bJhUa4rVDCDmrO92JSSelxDCxWetV8Y/S+s0qvhkkRctw9hA8CuSIPoGQoLr5wa4JDyS
-         nBWg==
+        bh=GGcM3DKIo02LA8xtKEqWDCXbSDDx+E/CgQ8lPKySp7s=;
+        b=QKrZI4NgAhRHB370rBIbBEFXiJRt9QROPd09PkqFBWsAzoWKlBdFIThs/MDYEdCSPA
+         sPezC3Mh+wdHgWOLLOkO08Lx1ylLHGANQeWY4nSZtmt6GXCMw2hsFyMnPh0wZ5fQWxCn
+         RKlNQfOhbztl8N7O3XdyM4PXLMzGyROxS37zsonwNnHD1MZM/u2ba/jRAks6GZGao2F1
+         RdReAizJpvZ6OFoVaGQ+FKCm7gZt2CPq2GwdAdMoj8oSh8NV8yNrfLcO58J77RoXtiCN
+         3WFjxQQ1pHWUyyBRIXb4Af76MTBTdVlnzLXd1lWXI80FspcDhyCTYHZXWnHdqY6O0pt4
+         nQEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795604911; x=1796209711;
+        d=1e100.net; s=20260707; t=1795605448; x=1796210248;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=m7zUToUS1+7RVlBq8lg0DAY2VTgGDQHEGVuEzMquWAQ=;
-        b=EiYBN9U4dbVORu6n+O2DtoSnV1aWs+sRo9QXuZTdU6XQ0IAmgpAUbbN12AlpFBHb6Y
-         6JPYC8+vhwGa1Zgf6AQThXULxmxl56ze6JOdeNnpEtm2YTpINqacKCI8Z9YMX4Ca7trN
-         6EkvF0YTtJG0FRGX+Sh4YQFySlsN9ClBcc/GXpss+xFT60Nt47hWV97XWlO9Ub0BzLrs
-         woLoqniNoIf53I4CP4fW6MLQCd65dtlBagv/XnSMsABLChCSYcbQq94fbKWNV69YlM8z
-         AH0L0bjUeI7mrkGMMRri1aICEbep2UNAXwh6zK8clWrYQdMm33Ypx+f1DOw+vb3E1APP
-         hcPQ==
-X-Forwarded-Encrypted: i=1; AL+hErEf2KiDZ1+r0fvT3wID2hQsfY7V3ko4l+fHfBjHXUmICk06xrRl8XuKTbkWefK2JFwgxC8GXvfmCA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z94PT62d3bGLdfNWs3LIi48zx07ewIOY8b1tA5aBs/WSwwdofEW
-	CzLpIu9qS/dYNoNsIe7pnWQdS42V5DMeIv8t68Qlo+vuV8p6eOX9Ja7kX6LGbEqPI5xfaXwTyus
-	K+uZh35MlmeJKBFyv2rjow5EomvQErkr7aguSJQrnqghc9rGsrGNMClCRyH7i8vf99Ft5PvoYRy
-	Y/zfZcD3SrP2yesgihYa74kabRo7NOUS0m1mhy
-X-Gm-Gg: AZFdTZfvAoTLp4mhN57iKTXq95o7I7tiA4nHaurMM5eY8eNuhARdegQoB6rVCZvAgez
-	hOkZlI/Zpo97NDyQxFTmFday46hjL7IjsTdPDaslNIJcG07qaz7IfU3zcU6wAIX/thaoYFdKJqv
-	J4+ZG9RNykSeZZZk0N1zECuw68OyAaIyoyW5VShDTH5qQaD0Y+s4F+Mnl4Kw==
-X-Received: by 2002:a17:90a:c10e:b0:3a8:13d6:f740 with SMTP id 98e67ed59e1d1-3b41c911c91mr17608610a91.22.1795604910727;
-        Wed, 25 Nov 2026 03:08:30 -0800 (PST)
-X-Received: by 2002:a17:90a:c10e:b0:3a8:13d6:f740 with SMTP id
- 98e67ed59e1d1-3b41c911c91mr17608576a91.22.1795604910256; Wed, 25 Nov 2026
- 03:08:30 -0800 (PST)
+        bh=GGcM3DKIo02LA8xtKEqWDCXbSDDx+E/CgQ8lPKySp7s=;
+        b=EEwnEdVlY1U58+wBQAEGiRMAzYKxHBLubn6MMB6Ipmd+d0R7awOF2ntN9MXvWXGdfP
+         qmVeJijYgCXahVtNRyiU1Lgpov6C5MW5pwsH33IF6Kolh8PaZqgRqbog0IVTTgh/jvos
+         Q+bAK+V3+vSGYeKgbkp4YblNGXhMvTlOF3N29ucnLaKlzcEYqhVlfnmBl/bvUDczbZ2S
+         FjBKOA3PbpZYdw9yZ4LCgpghlFLAcH1igKfJ7mJdXl1lxhVoSCD9nmOg0Mg0E3QZrBSH
+         72tUJB8S65eU/b9IQLAkvRzk2jcJvTpeDpzZ6dqrD5yYbX5zotv4ZQCM3OMjm8L4HFzr
+         H7+A==
+X-Forwarded-Encrypted: i=1; AL+hErEQyR959bxUwjPggENxEDSFVhDts9AtUBuJu5huKItl8YnidsCUkQhBwaSAmoYAQNaGhAHtcPLU9w==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/+i30/loW8gWC2u5Lf9SCu2JBCrGIP+Hrc1rKNEcL87N9ZO00b
+	Zx71KSDt3dPLR0gavA6k0IzOANlgPT/oK+smlAb+MgIWWxYRP7DULJxNtXE8afGF9IYA8GpOrUY
+	6kEwjmp+B9faxbAmXnNhsigYhGE+yVvGShabIEsFLYogmbCg1Gfne1r7eEPcaqqbc5hYij59PK3
+	Os+I1KwpEbud/pIHJK3GiNfXhMX50pb8yySN2I
+X-Gm-Gg: AZFdTZdGzJyxKSH2kG3CJF7oZa5CTZud+Bc9jkV2ON1mbrkUqSOlQdTfYiVSIMhUZOE
+	aulqWIzqMkvO2GcCdm/KClhH6/3j0Edbb4IYiiGq3DL/Vqm/cqlfyxBEehVr1j3qSWngor4YYVQ
+	Ta+ZdKE4uuxlHtuaUij+ex3Gli5kmwUuprBC3I0xObXdHsKWAkD4Pm6bYznw==
+X-Received: by 2002:a17:90a:d2cf:b0:3b4:1714:5bfc with SMTP id 98e67ed59e1d1-3b41c9b9dc1mr17035900a91.61.1795605447966;
+        Wed, 25 Nov 2026 03:17:27 -0800 (PST)
+X-Received: by 2002:a17:90a:d2cf:b0:3b4:1714:5bfc with SMTP id
+ 98e67ed59e1d1-3b41c9b9dc1mr17035856a91.61.1795605447334; Wed, 25 Nov 2026
+ 03:17:27 -0800 (PST)
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -127,13 +127,13 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <cover.1795029012.git.geert+renesas@glider.be> <16bd6b25711f0e5a4a8ff7484ad3acba83a2a2fb.1795029012.git.geert+renesas@glider.be>
-In-Reply-To: <16bd6b25711f0e5a4a8ff7484ad3acba83a2a2fb.1795029012.git.geert+renesas@glider.be>
+References: <cover.1795029012.git.geert+renesas@glider.be> <dcdd928d5b89cd0a67bd8c1d3a60cf657516850f.1795029012.git.geert+renesas@glider.be>
+In-Reply-To: <dcdd928d5b89cd0a67bd8c1d3a60cf657516850f.1795029012.git.geert+renesas@glider.be>
 From: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
-Date: Wed, 25 Nov 2026 12:08:17 +0100
-X-Gm-Features: Aa3M54pwdhQzxCyuIzV30L5QTtG5r_OlDFzkU_dedYyzSv3GvUcS-vx6Qv1tWoA
-Message-ID: <CAPx+jO9F6MkwODVi10HkGNYCTJHG_0vc8Bc3FMs4go2q9+=_JA@mail.gmail.com>
-Subject: Re: [PATCH v5 09/15] pmdomain: Make genpd_get_from_provider() return -EPROBE_DEFER
+Date: Wed, 25 Nov 2026 12:17:16 +0100
+X-Gm-Features: Aa3M54otUsCwPZ0NLSXUquKQv9JCjL7ZJt5maqUuGrgwo9AgbaI_i_khKOzQbo4
+Message-ID: <CAPx+jO8EFFeGp5HwOEnQgR1rc--1Akz+ADOoqTjdba6Y8Hb11w@mail.gmail.com>
+Subject: Re: [PATCH v5 10/15] pmdomain: Make genpd_get_from_provider() public
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
@@ -157,100 +157,212 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
         linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI1MDA0NCBTYWx0ZWRfX5kDY9tjzLqhB
- IiFVnVXamRx3QESYTU+evJ4WHvwZCjjC8a+eXN5l6Hxr42fqQvuud6w4L2tUEesFw704akjmQ9W
- lWQRMxz61RH/7sOkzHfgIZb0EVehpAU=
-X-Authority-Analysis: v=2.4 cv=Bb9NQbt2 c=1 sm=1 tr=0 ts=6b06c1af cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI1MDA0NCBTYWx0ZWRfXztOIA2hwychB
+ /UpLkPs2rz8ATSP1J0z1fkPuoPem6rnvCWkJJINqU0A8dA4evkfD+MC+A9mUJZRFW/QFNKOXYkB
+ QRzcXAbGRb3Db+4YXmKfAdWcUOmIXIPQ+fEmlgm9ZY6PfBCGKVckzkxUYjgu7An3mTqWB5JRhqa
+ OIX231N2Sx5VBMMYvu9GNRBM3sjIuHENQTi8EyUwyGgYH40VEH5CC3Zerp/rwEC5ol96+Ps7bPW
+ P3vPLiDH7SlNIEqPtcgzSGhJLUgflC49fZA3qSvB9cJDKo5OodsHflS6xqUwHr7ctFlg81jaT2R
+ ASM4Y+bjjMfFBZQGB1P+6FE3KZhBuQOmPC4mbZlP4RfoRcQMInejjIYP43c+HkV8IyKF4zXu/6K
+ lh5wqOIraJDOYWM11k6Hku8IlbxTErv4bhgB6NRu6TfjGA4sHfQ9xfMcnHcRSY8cZavuxoVSr5y
+ lkcGTl4XzYKVnFuVw5g==
+X-Authority-Analysis: v=2.4 cv=Voa2kO2n c=1 sm=1 tr=0 ts=6b06c3c8 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
  a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=yOCtJkima9RkubShWh1s:22 a=LDBv8-xUAAAA:8 a=wQiWHD2DouBedGx1vnwA:9
- a=QEXdDO2ut3YA:10 a=rl5im9kqc5Lf4LNbBjHf:22 a=DZeXCJrVpAJBw65Qk4Ds:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI1MDA0NCBTYWx0ZWRfX1eSyAHluxGUp
- U0e7rGKK3AQYwQrZBsJ/REOY6ftwvHjHRDgi+RFHyT2RHRbEBLTP7INssBpo6sKRt5zSYJ3SUoP
- 16jpuNTkLyEGMaacp7y5Rnm8uk0J5NuTxQjkNxeOKuSDsCLqLXiNcyaLOn9MpwvOPxMQ+nBrrlB
- A9bGptC2XI/9CoAlAaxU2GGNrJtjvUfmtwxrubGC31GLD1/1h35+jA5BSxsu/Lr4Topjt35v2GR
- SBto3MNkKGkjuu7E5njVyVCtI6Ufw8ojIIoS+9g4HUAxqPbDB8KY9D98itwJmwfRPqVoPEHH4xd
- 7pcaukI2O0wuSR+97aZUtNLxVDVGcFo0vPCmEVoiFoKyvAT38e++fno4u5Is7GkTipcsHOfhRQB
- wF4YIO52j2OzX3gxHKGJD5pvwgor3aRmI+kTIEcu1U8xtkDvzx8jv6OOwxVtJ6uxYur8uy1iw6Q
- VjS6lvOe+lsIYs54soA==
-X-Proofpoint-ORIG-GUID: DLWXg6P7WpVo8VKMloEARY1oTJ_zjV-9
-X-Proofpoint-GUID: DLWXg6P7WpVo8VKMloEARY1oTJ_zjV-9
+ a=eoimf2acIAo5FJnRuUoq:22 a=LDBv8-xUAAAA:8 a=wx2en-tew_9JlkkAXb0A:9
+ a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22 a=DZeXCJrVpAJBw65Qk4Ds:22
+X-Proofpoint-GUID: fJi6Qe3iJdHqkiYX3LXNKYb9YGttq3YU
+X-Proofpoint-ORIG-GUID: fJi6Qe3iJdHqkiYX3LXNKYb9YGttq3YU
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI1MDA0NCBTYWx0ZWRfXzN6NXYdFrUgx
+ qzWifTAkzN5neNREQk1e4XrQByGIPCy2mjLPNmEdFejc/cE+VzJmwv/H/kq2wp9ohNwSL+OrEFO
+ FXJLD7RWKYcgJRp9yUM6HEUd+oB/E6E=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-25_03,2026-11-23_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 clxscore=1011 priorityscore=1501 impostorscore=0
- malwarescore=0 lowpriorityscore=0 bulkscore=0 phishscore=0 suspectscore=0
+ impostorscore=0 malwarescore=0 clxscore=1011 bulkscore=0 lowpriorityscore=0
+ adultscore=0 spamscore=0 priorityscore=1501 suspectscore=0 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611250044
 
 On Wed, Nov 18, 2026 at 8:46=E2=80=AFPM Geert Uytterhoeven
 <geert+renesas@glider.be> wrote:
 >
-> Unlike provider-based look-up functions in other subsystems[1],
-> genpd_get_from_provider() returns -ENOENT instead of -EPROBE_DEFER when
-> the provider is not found, thus not supporting probe deferral.
-> Currently this is worked around in of_genpd_add_subdomain() by remapping
-> -ENOENT[2]; other callsites don't care about the actual error code.
+> Unlike the corresponding function in the clock subsystem[1],
+> genpd_get_from_provider() is private, and thus cannot be used by PM
+> Domain drivers.
+>
+> Make it public, so the R-Car X5H Module Controller driver can call it.
+> Add an "of_"-prefix for consistency with public genpd function naming.
+>
+> [1] of_clk_get_from_provider().
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-of_genpd_add_subdomain() isn't the only caller of
-genpd_get_from_provider(), hence this would change other behaviours
-too.
-
-In particular of_genpd_add_child_ids() could suddenly start returning
--EPROBE_DEFER, which seems reasonable to me. My point is, please
-extend the commit message so this gets clarified.
-
-Otherwise, the code looks good to me.
+FYI, this looks good to me. Will apply the next version.
 
 Kind regards
 Uffe
 
->
-> Fix this for all current and future callers by returning -EPROBE_DEFER
-> instead, and drop the no longer needed remapping code.
->
-> [1] of_clk_get_hw_from_clkspec(), __fwnode_reset_control_get()),
-> [2] Commit 18027d6f392ee8d8 ("PM: domains: Make of_genpd_add_subdomain()
->     return -EPROBE_DEFER").
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
 > v5:
 >   - Add Tested-by,
->   - Clarify that all other callsites should be fine.
 >
 > v4:
->   - New.
+>   - Improve patch description,
+>
+> v3:
+>   - Add "of_" prefix,
+>
+> v2:
+>   - No changes.
 > ---
->  drivers/pmdomain/core.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/pmdomain/core.c   | 22 +++++++++++-----------
+>  include/linux/pm_domain.h |  7 +++++++
+>  2 files changed, 18 insertions(+), 11 deletions(-)
 >
 > diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
-> index ee8075e90852e738..c242807f62579e5b 100644
+> index c242807f62579e5b..2a44b45955dd6ba7 100644
 > --- a/drivers/pmdomain/core.c
 > +++ b/drivers/pmdomain/core.c
-> @@ -3021,7 +3021,7 @@ EXPORT_SYMBOL_GPL(of_genpd_del_provider);
->  static struct generic_pm_domain *genpd_get_from_provider(
->                                         const struct of_phandle_args *gen=
+> @@ -3008,7 +3008,7 @@ void of_genpd_del_provider(struct device_node *np)
+>  EXPORT_SYMBOL_GPL(of_genpd_del_provider);
+>
+>  /**
+> - * genpd_get_from_provider() - Look-up PM domain
+> + * of_genpd_get_from_provider() - Look-up PM domain
+>   * @genpdspec: OF phandle args to use for look-up
+>   *
+>   * Looks for a PM domain provider under the node specified by @genpdspec=
+ and if
+> @@ -3018,8 +3018,7 @@ EXPORT_SYMBOL_GPL(of_genpd_del_provider);
+>   * Returns a valid pointer to struct generic_pm_domain on success or ERR=
+_PTR()
+>   * on failure.
+>   */
+> -static struct generic_pm_domain *genpd_get_from_provider(
+> -                                       const struct of_phandle_args *gen=
 pdspec)
+> +struct generic_pm_domain *of_genpd_get_from_provider(const struct of_pha=
+ndle_args *genpdspec)
 >  {
-> -       struct generic_pm_domain *genpd =3D ERR_PTR(-ENOENT);
-> +       struct generic_pm_domain *genpd =3D ERR_PTR(-EPROBE_DEFER);
+>         struct generic_pm_domain *genpd =3D ERR_PTR(-EPROBE_DEFER);
 >         struct of_genpd_provider *provider;
+> @@ -3041,6 +3040,7 @@ static struct generic_pm_domain *genpd_get_from_pro=
+vider(
 >
->         if (!genpdspec)
-> @@ -3276,7 +3276,7 @@ int of_genpd_add_subdomain(const struct of_phandle_=
-args *parent_spec,
->  out:
->         mutex_unlock(&gpd_list_lock);
->
-> -       return ret =3D=3D -ENOENT ? -EPROBE_DEFER : ret;
-> +       return ret;
+>         return genpd;
 >  }
->  EXPORT_SYMBOL_GPL(of_genpd_add_subdomain);
+> +EXPORT_SYMBOL_GPL(of_genpd_get_from_provider);
 >
+>  /**
+>   * of_genpd_add_child_ids() - Parse power-domains-child-ids property
+> @@ -3113,7 +3113,7 @@ int of_genpd_add_child_ids(struct device_node *np,
+>                         goto err_unwind;
+>
+>                 /* Get the parent domain */
+> -               parent_genpd =3D genpd_get_from_provider(&parent_args);
+> +               parent_genpd =3D of_genpd_get_from_provider(&parent_args)=
+;
+>                 of_node_put(parent_args.np);
+>                 if (IS_ERR(parent_genpd)) {
+>                         pr_err("Failed to get parent domain for %pOF: %ld=
+\n",
+> @@ -3196,7 +3196,7 @@ int of_genpd_remove_child_ids(struct device_node *n=
+p,
+>                 if (ret)
+>                         continue;
+>
+> -               parent_genpd =3D genpd_get_from_provider(&parent_args);
+> +               parent_genpd =3D of_genpd_get_from_provider(&parent_args)=
+;
+>                 of_node_put(parent_args.np);
+>                 if (IS_ERR(parent_genpd))
+>                         continue;
+> @@ -3227,7 +3227,7 @@ int of_genpd_add_device(const struct of_phandle_arg=
+s *genpdspec, struct device *
+>
+>         mutex_lock(&gpd_list_lock);
+>
+> -       genpd =3D genpd_get_from_provider(genpdspec);
+> +       genpd =3D of_genpd_get_from_provider(genpdspec);
+>         if (IS_ERR(genpd)) {
+>                 ret =3D PTR_ERR(genpd);
+>                 goto out;
+> @@ -3259,13 +3259,13 @@ int of_genpd_add_subdomain(const struct of_phandl=
+e_args *parent_spec,
+>
+>         mutex_lock(&gpd_list_lock);
+>
+> -       parent =3D genpd_get_from_provider(parent_spec);
+> +       parent =3D of_genpd_get_from_provider(parent_spec);
+>         if (IS_ERR(parent)) {
+>                 ret =3D PTR_ERR(parent);
+>                 goto out;
+>         }
+>
+> -       subdomain =3D genpd_get_from_provider(subdomain_spec);
+> +       subdomain =3D of_genpd_get_from_provider(subdomain_spec);
+>         if (IS_ERR(subdomain)) {
+>                 ret =3D PTR_ERR(subdomain);
+>                 goto out;
+> @@ -3297,13 +3297,13 @@ int of_genpd_remove_subdomain(const struct of_pha=
+ndle_args *parent_spec,
+>
+>         mutex_lock(&gpd_list_lock);
+>
+> -       parent =3D genpd_get_from_provider(parent_spec);
+> +       parent =3D of_genpd_get_from_provider(parent_spec);
+>         if (IS_ERR(parent)) {
+>                 ret =3D PTR_ERR(parent);
+>                 goto out;
+>         }
+>
+> -       subdomain =3D genpd_get_from_provider(subdomain_spec);
+> +       subdomain =3D of_genpd_get_from_provider(subdomain_spec);
+>         if (IS_ERR(subdomain)) {
+>                 ret =3D PTR_ERR(subdomain);
+>                 goto out;
+> @@ -3491,7 +3491,7 @@ static int __genpd_dev_pm_attach(struct device *dev=
+, struct device *base_dev,
+>                 return ret;
+>
+>         mutex_lock(&gpd_list_lock);
+> -       pd =3D genpd_get_from_provider(&pd_args);
+> +       pd =3D of_genpd_get_from_provider(&pd_args);
+>         of_node_put(pd_args.np);
+>         if (IS_ERR(pd)) {
+>                 mutex_unlock(&gpd_list_lock);
+> diff --git a/include/linux/pm_domain.h b/include/linux/pm_domain.h
+> index 14e0e346c610a9a6..d65ee8b3725c1bcb 100644
+> --- a/include/linux/pm_domain.h
+> +++ b/include/linux/pm_domain.h
+> @@ -467,6 +467,7 @@ int of_genpd_add_provider_simple(struct device_node *=
+np,
+>  int of_genpd_add_provider_onecell(struct device_node *np,
+>                                   struct genpd_onecell_data *data);
+>  void of_genpd_del_provider(struct device_node *np);
+> +struct generic_pm_domain *of_genpd_get_from_provider(const struct of_pha=
+ndle_args *genpdspec);
+>  int of_genpd_add_device(const struct of_phandle_args *args, struct devic=
+e *dev);
+>  int of_genpd_add_subdomain(const struct of_phandle_args *parent_spec,
+>                            const struct of_phandle_args *subdomain_spec);
+> @@ -501,6 +502,12 @@ static inline int of_genpd_add_provider_onecell(stru=
+ct device_node *np,
+>
+>  static inline void of_genpd_del_provider(struct device_node *np) {}
+>
+> +static inline struct generic_pm_domain *of_genpd_get_from_provider(
+> +                               const struct of_phandle_args *genpdspec)
+> +{
+> +       return ERR_PTR(-ENODEV);
+> +}
+> +
+>  static inline int of_genpd_add_device(const struct of_phandle_args *args=
+,
+>                                       struct device *dev)
+>  {
 > --
 > 2.43.0
 >
