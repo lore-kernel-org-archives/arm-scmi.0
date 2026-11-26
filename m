@@ -1,85 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795644917;
-	b=foZOVasQS2/EZjid8afMG/1NK7aAjkf75o1bctxQVqNq4a+UV3usw1Ks0mwcv3xaecIF
-	 qpHpcto/FpWBW/uctEK8tb7uwzMEVPCJqgkv4aveqkM/zKlmpqANbD/OG8FeSc7oXgQaS
-	 xO88JO1ErPSlyS07CpBugE40hpFUiK0w563pzBIVipzLVipW+SGX6DPRR/XUUTcf8ZouY
-	 0zqJ1fCNCyzpZqp37no1FUF6L+N8vhnEwYtH1dzWAQ18wFuf91O9DMNhhxR8MIyJrxJg4
-	 +ikzwmt0M26TDCAVkzXcCHYdB5kYS4ho/DSRBR3G4UFjMEnzwO+Mv4QsFG3gdiw08Qw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795644917;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=ni8H7Ap+HCHG0QQIQxl79mCC54GcejU+9kKv4fWZ8x0=;
-	b=CVJqi9CZxX+wF2VsaczefIUM43JEP5DEPg7mnDozyg4ppHL6HSQiEGdaDBvNm28LhfV+
-	 oh7U1zuTBQNaUr8e1yrZlmT70bY20j56zXAYCyZhq46NYHJW/ucBjDfCowdqQi7gUQBvc
-	 dS5FbxFfod0UBusF12FvthfTW5ngTJcSP5nBCgElnJ7PRy426C5xtabdZtktJqZ10pJqk
-	 S8MXMrfPHi9SU8DrKlHjGgwaw3NdDRd3bS5IM9forycBzlkUYeZQ/LAZ9tYdclgOZGuBK
-	 GrmduWjNCM1dzTe6NcAwDU7/iMBynGd+c/hzu1717H8KwSoVmbp6Ab50BFEKBKyuM7w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ideasonboard.com;
-	spf=pass smtp.mailfrom=ideasonboard.com;
-	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=iHyirvab;
-	arc=none smtp.remote-ip=213.167.242.64
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.48
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795655133;
+	b=Ni3jLAo4kvjrIaoiqQ5z+LsQ9P1hvXgs2YyfcwyceRq78K76I/GCHfCtCk6ZKbR9sIgl
+	 05Wb0AKq04154xQM36AVSJK4uCqD/t76k4WFI7t1mrcNpFgT7pQa2Y9QhsDl8Viq+MfRm
+	 wW4DO6MXLoWgXOqdfbxEn1FlSMIuW4izytdBMrLT0+wT1Hx3DSyLc62zloQQXVnQUXAHd
+	 xyf63m0y7FM+PEJaPlLMpfKwJWDzLM3Vx2dC3qUMAX5Ox9TMSkgYADcMreEZm69tHkh5Z
+	 yVwY2Ul7JxA8b22Bp6zb5fdmbyL0fw/QV+0ZICyOU5uL1TdBh59PS8n8tSIgaf20Ksw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795655133;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=oZFbZu0+kSU0ykNmAfKFLTt1Nnu3oYAy3AIE96bAt98=;
+	b=yFqgj9jnNTyTCQeznEvZCqtuxEa5sh9bSQ804e71TFnNo+fytlxDk8iG+Uw5qX4QWIZD
+	 Umd318lFJUok8cutHQ5XT24gpqlGaViXRRU+cNX0knHnN/fliHcfgN9G3nrh+OU4piLb9
+	 EsiLHEYON7r4G3ZKoUIANBcbPVnZHpbwsnY/keQ3kJAnmVTpgbBez5V5CLzlkNoKvQBJE
+	 o5DLbyFAdb63ClOiYsNkoOCE6XpB0EVqTrdNU9AhIsPCID7G2cEsgLVd5+KtRBmtR6iVr
+	 wTu3uzP/euoMwM7ZDHkPhEEZw/dZ2GFi6z2FsZKnGjlTCR3jWXolNtLoLHmOuNjxobg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cgoyLmaJ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.48
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B673606A31E;
-	Wed, 25 Nov 2026 22:15:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8B673606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5228F606A323
+	for <arm-scmi@vger.kernel.org>; Thu, 26 Nov 2026 01:05:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5228F606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=iHyirvab
-Received: from killaraus.ideasonboard.com (KD106184139166.ec-userreverse.dion.ne.jp [106.184.139.166])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 82515153F;
-	Wed, 25 Nov 2026 23:12:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1795644753;
-	bh=OggzM8lGNFtq1hPtvltuDCL/vSTbieC7jAHyiV1fkmo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iHyirvabuaE3TVwnRQbirNpfnfPyOZnZmb9URm+Kj2204fNQfd5I1nJcfFpDq7bG6
-	 1wcnhQ1L7lx7UpizCZoIZwu7/QEVSvSIGaxE2yuV2OCoc09FPWoYg90DX/yLyNA0Cq
-	 ZgYJLo1G4mKY3mHqLlX5dL0VArUlBnJoySGAKuD0=
-Date: Thu, 26 Nov 2026 07:15:02 +0900
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: =?utf-8?Q?Cl=C3=A9ment?= Le Goffic <clegoffic@baylibre.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Ulf Hansson <ulfh@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Kevin Hilman <khilman@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Paul Elder <paul.elder+renesas@ideasonboard.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 00/15] R-Car X5H Ironhide CPG/MDLC SCMI remapping
- support
-Message-ID: <20261125221502.GD3581@killaraus.ideasonboard.com>
-References: <cover.1795029012.git.geert+renesas@glider.be>
- <1e9c5ac3-d82b-4af9-9946-0302cadf7404@baylibre.com>
- <20261119234759.GB2324725@killaraus.ideasonboard.com>
- <19c3745a-6308-46ff-bb37-3acc88fe22e2@baylibre.com>
- <awAqqg6F2Z1t55x2@ninjato>
- <d94ad9ca-afdd-4301-a69c-0bbad5b334fa@baylibre.com>
- <20261123103633.GB2959742@killaraus.ideasonboard.com>
- <fc13a7a8-b825-400c-9ea0-ceb2670dc478@baylibre.com>
- <20261123160550.GA3050935@killaraus.ideasonboard.com>
- <27796cff-eef5-46ce-8079-93a0a8d40db5@baylibre.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cgoyLmaJ
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-862d919fb1cso3159338a34.0
+        for <arm-scmi@vger.kernel.org>; Wed, 25 Nov 2026 17:05:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795655132; cv=none;
+        d=google.com; s=arc-20260327;
+        b=hsthGQxnHZ/FcjHCuo71g7jgdXVT7tYW/gXuNJglZlP0xK/GJmI0eZKWKbx/hQmSqS
+         GGqOC6RpWd1plOeogyUxiX6sUD5tvsTWFIdC5qwhY/gnE32mznznGP4jaczSkKsQgXiL
+         0wpxt2OmBjmwJk11ZBp7IFRTxB2zYvOuj2yXej3ulDhuU0JunlJJgE8xWuS4LBWAgLEr
+         KLhXS4dVGJW0CvNjV0FIF32Ntb3ZJO8XS7npHc9Bx1xNp1pXI7FvDGyvjXQaMQ0Ab+if
+         wMbdL/lljSi7iD0c725vpvEIaYNBKER5Pz6PaSxhS3Krt+AhJsP1RmfkkTcEN9bfaKJy
+         jB3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=oZFbZu0+kSU0ykNmAfKFLTt1Nnu3oYAy3AIE96bAt98=;
+        fh=7Z0kRUi8M7uwafxNmnEIgiw/ah1QzULLuJN1aWkhBOk=;
+        b=TCS3cSnvwhWReRVduWv5EwnwcL7BTuBWDjE3Q1q1egT6hcraKlliRGaBCr61SUuA+b
+         clErkKhlu99i9FklWiN3jt6I3oFZEg9b95Jntvd+6JDchTUXnQaLKC8/MjDYIfJphoE1
+         8EFb6SjgnTo5FhXek/ZkhKI6IlDSv8DiUm+4sQe4UhDSICrbEnporuW6RnPgzyX3Pwpk
+         L2w7OFSn2FBzq+emKotDf9VOI87sh2Q7q+DRZ60ipp5lhiswN6IhJNAdcNlbZMgiSIeD
+         9h8nEhzXgFNmLqdXBHgQxlsEY23VT7Wj61POSL6aNcMFTQLq1iNQvNZDJE58K0ao7t5U
+         o5cg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795655132; x=1796259932; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=oZFbZu0+kSU0ykNmAfKFLTt1Nnu3oYAy3AIE96bAt98=;
+        b=cgoyLmaJMVDNVs+2Bkuc4Gq4+rP+DzY8TDkVwXQhjOAL+dp4qnzsQw8tWInOtDs9Mq
+         UfCGt5aDesmtR99fdlhyjGFE9kcH+meWw8pUXjFyF8a1RVQj4OBSi4+qlisTXaVaqgIl
+         MrliG4v4ek1mtcAZbQi/ZDUGtd/sOUBo42s/CcXIYbpBMonrrKUcXJLrTV1cUPei4yoV
+         snDcKqQ1TfQK5lOBKjhZFnby1iBhoWTvyUsF9NmKO5vTZYskOK8pu1aA7GCOM5k3yfAa
+         2yRXENBU1NR+BtcUWuJPXZqe/ek14dU8nj0xUic9ShVJ4x0nU3/Xr92BgafYQtw7+MG5
+         XGhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795655132; x=1796259932;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=oZFbZu0+kSU0ykNmAfKFLTt1Nnu3oYAy3AIE96bAt98=;
+        b=wuFfqdVgheSpFQuhqTgsyULnzsh7LjmqB5f0HJZ7qX/cUUX25dt5mB7au9Vxqu3dmC
+         pnCeXf9/6Eojm6a4Y/voZM5Eg9Me0AUPkw06YNBTdZDxqgg03PTKmCwdVW9cQfTVok1c
+         75NblivOdd7TqutzZ5ePLyYpV2eE+1ScAE/ddIQOG5/GNXZFteM0epb38C7tJSLXd6Sj
+         bSb5u8sdll2OUjkNOw9DrG6kG49DzR4w2E+emZfBur2jG5EUau5Kb7N5WQnZcRisqXgq
+         N9S4nYKyiQeI++nif9PZ28Hasoi21uZhtRB6zwPnKDXURjQBTLMacsfUjNwwd+DdyKaG
+         mldQ==
+X-Forwarded-Encrypted: i=1; AL+hErGroICF7cy0c+yHkpSwGjacQKDLLtNqjIelgInh1M1QdYoYbUVGkUcnXizik3NPD8+yDAdpwRtbZQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/rhB7KdiXr+od5D+O5Y3ZmQQX1UVnlrp2lTgJGKURqHNtk4IP6
+	kO7DA0CkDCJKnsepwTLQ9w9p0Q0S2eQBU49Qs/BSLjefLJVHn00ktdpFzi1mZwu4ig6b27vq/aY
+	EY8A5n4OjHsNwh6wKL8hQUlL68HtNp/47UvYYvloHUg==
+X-Gm-Gg: AZFdTZeMdtbX8D7ZRCqlZbjdfEpsgx95aqipYVPOF78gFmvGI+IzDEkCJmOGLpuP2ZT
+	8ZlT4JsIwcmH1fBRo5wk8S/IHqo8rjZYui4Te47NOjyP8B5z0Zny8JpQhsLgt6a5c5UA5l0oVbb
+	uolQlAX5+Ev+1R13hQAmflJwnUI4zDHSyMfHddTAgI+ArfHxfMX0ICwE1/ykmCjOMz1JVnTBjdv
+	9sI5EP/xdzX7LhZiNaEeeV049WSrZW0y8h8p8YCPfeoryIFT3rZZgm5srYLdKmQJvXUhjUky9R1
+	HPDOrFsAYhiTx6qggA7NFtuS0nrcLWi36TZpHxFUwb1oavaNhiS6BBNgh5127w5I5CveCeLliIe
+	5QELtzhlevUNyhN3GFP5LjiBQGynGm1ZapfNe1pDn/rx+5tK3hdh+SAVSg24dV//qC8zdv1NiFW
+	Uzb+PKGXEH6ibsrg==
+X-Received: by 2002:a05:6820:c5cf:10b0:71b:82fc:ad8c with SMTP id
+ 006d021491bc7-71b82fcb56fmr1443500eaf.44.1795655131818; Wed, 25 Nov 2026
+ 17:05:31 -0800 (PST)
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -89,74 +104,39 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <27796cff-eef5-46ce-8079-93a0a8d40db5@baylibre.com>
+References: <20261121-sp11-noturbo-v1-1-37e1083cec5b@gmail.com> <20261123-eccentric-ludicrous-roadrunner-0a7efe@sudeepholla>
+In-Reply-To: <20261123-eccentric-ludicrous-roadrunner-0a7efe@sudeepholla>
+From: Dale Whinham <daleyo@gmail.com>
+Date: Thu, 26 Nov 2026 01:04:55 +0000
+X-Gm-Features: Aa3M54oTuIZ-TKok2yilEFNywBJAakQOAVzcdKFaeMZPoEEMc6Y-VCIDW_86pZY
+Message-ID: <CAFcmK8g+Udyp9h24WSEx2RepBA=rZpEQs==1hTi83A+_zF-GOw@mail.gmail.com>
+Subject: Re: [PATCH] firmware: arm_scmi: Don't mark OPPs as turbo without a
+ sustained frequency
+To: Sudeep Holla <sudeep.holla@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Sibi Sankar <sibi.sankar@oss.qualcomm.com>, Dhruva Gole <d-gole@ti.com>, 
+	Haipeng Lin <jimmie.lin@gmail.com>, Charlie Garner <charlie@akao.au>, arm-scmi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Nov 23, 2026 at 08:09:05PM +0100, Clément Le Goffic wrote:
-> On 11/23/26 5:05 PM, Laurent Pinchart wrote:
-> > v5 supports one firmware version at the moment, and the driver would get
-> > support for new firmware versions when/if needed.
-> 
-> This is where I disagree: I don't think a SoC driver should follow the
-> SDK versions.
+On Mon, 23 Nov 2026 at 10:26, Sudeep Holla <sudeep.holla@kernel.org> wrote:
+> Charlie had posted a fix for this a while ago but never got back to my
+> comments.[1]
 
-In theory, I agree. In practice, I don't see how that's avoidable.
+Apologies, I hadn't seen that patch, but I'm glad you are familiar
+with the issue.
 
-We routinely have drivers that follow hardware revisions. There's
-nothing controversial there, when hardware behaviour differs between
-revisions, drivers have to adapt. It would be great if every single IP
-core in every SoC was perfect in its first revision, but bugs happen,
-and we have to deal with them.
+> I worked out something very similar as a solution. Anyways does it work
+> if we also add the check for non-zero dom->sustained_perf_level ?
 
-With SCMI, firmware will also not have a stable interface, and it will
-be worse than hardware. A hardware bug is way more costly to fix, so the
-QA process is more strict. Firmware are too easy to update, so they're
-simply less stable.
+Haipeng Lin has an X1P machine so hopefully he will be able to confirm
+soon if adding a check for non-zero sustained_perf_level into the
+chain still works.
 
-We have two options to deal with that: either we handle that instability
-in every leaf driver, or we handle it in a central place. The latter
-seems a much better solution to me.
+> No need to repost if you agree, I will fix it up while applying ?
 
-> > I have yet to see any vendor who can provide 100% stability guarantees
-> > for SCMI firmware interfaces. In theory, sure. In real life, I just
-> > don't buy it.
-> 
-> I agree that while an SCMI firmware is in development, its ids can
-> change between versions. To keep the ids of a released firmware
-> stable, I see three rules:
-> - an id always names the same resource, ids are never swapped,
-> - an id is never dropped: when a resource goes away, the firmware
->   keeps its id reserved and denies access to it, as SCMI 4.0 section
->   3.2.1 describes,
-> - new ids are only added at the end
-> 
-> I think upstream should only support a firmware that follows these
-> rules, with its ids in the DT.
-> 
-> For firmware still in development, I agree with what Cristian wrote on
-> the RFC[1]: "fix your firmwares AND/OR apply quirks in the meantime".
-> 
-> Any other view on this is welcome.
+Absolutely fine with me, thank you.
 
-It's not a matter of "in development". Software is always in
-development. Don't get me wrong, I agree that we should minimize
-breaking changes in SCMI firmware, but we can't avoid them, or even
-minimize them enough, without a QA cost that nobody seems willing to
-pay. Where's the stable SCP firmware for X5H ?
-
-The way to go in my opinion is minimizing firmware breakages *and*
-having a remapping driver. Those are not mutually exclusive.
-
-> > We can agree to disagree on this, no issue.
-> 
-> Sure, I think we both already know we disagree on this :-)
-> Thanks for taking the time to discuss it
-> 
-> [1] https://lore.kernel.org/r/aekXUvIPb8nkhdKu@pluto
-
--- 
-Regards,
-
-Laurent Pinchart
+Best regards,
+Dale
