@@ -1,79 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795796911;
-	b=Vp5ZseKFhhkst0QakqNjYqg2QpHKvGr8h0cBMADOOUdewPOM7H92kEPzfi6VDQkWF/vc
-	 ajSSIqZaS0DuWLPWfExwqwDkwzSQKNNd80MUx8GWo8BTOy1s5ynsqN0fRiSHwlUx3/NFW
-	 yqVgeq8JdndHiqJqSnckasTk3gePbYbBZ8xLDecJTpSh1xpR212N0dF1Krlh3JmntdOiV
-	 vd+vj4TfUP3oVKQKDybFO52dW3HuoyotZzWpVhbc0f6wUg/RC0Pcks+p0s/sapFXvKWMU
-	 fEKw+Imza8jMLPE079Fptl+Emk4CVT54lZIN/v/l2u3v6sM6SfM8ErL9RzL1fK8F+Jw==
+	t=1795803908;
+	b=Au6nIWpd1kt6fo4uEdawCGuVjF1I/OQWVqcEMdv/DP02WMaKP05EK4upiVBdZZSLinWb
+	 breUo3yXuYmbx536rcL5AWoaGEmAScWGwPJmIB2UlvWmJg54debuaVG3K6HfZv5OYXC6v
+	 vwDJyzjXYgsSMobXOX3FriBHlQy5tutcYynpZp5qW4jmnBnKcRYbFefZEpllr+zmV4EzW
+	 krK7vbIWM289ZOqdKvJNy79c80NUtv10Yk+izhTsmaY+l+asBuQrfxKO2DKRDvrZH36Jz
+	 QShd2S9/WU0IBF0JUby/l7Rw8JXq1G2SkVsQEBNOINoafuMAde9onca3NJIKE0jv+7Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795796911;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=x3qSxsN0BB2ADEZtB2vqAGa6KasHvlIycteLaQjp0Gk=;
-	b=yMYIdaxR2u9WbxCpaJrRto5e2q1qZYsuGJ8KwexTysa/XPeahOqKtOo9LE0aBZYErrWD
-	 Bj6fPNxvIZUZXUIXWWdNWnQ6Y/DCvkgsKfmr4QEyQHVdLI4DZBsqrthiiCzNuZCdivv1K
-	 pJMWij1lmaa4QnpeOLs4K7+tv2il6ZVv3KaH821+fxf4FhoUvjsGA0hsYig6IRSU+GGV9
-	 8rDzH+LQq7ZEimT9d/bB6l7c2iNgc33y9ALLTBPqjELHKpYsg7anf1MZs3oP5vx+tFlcF
-	 UPneNUbYhInXAVazAExd4JGvgBJokLQENjB++LVvSXifn0chxHb2i2802zXaQEV/nbA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795803908;
+	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-MBO-RS-META:X-MBO-RS-ID;
+	bh=nhYYKORTR+/BNUYkaM3WAO4aIQzSPeOEyfSMlfBv7+k=;
+	b=eZmnKiKfgvALBKifPzuymRVbhoKec+7QRIrCIc+0U7OuIJpNV+/k0+Cby4LKE2q1/gU+
+	 4SsXipincuBEaLWSji+ntdUopHvj3VlFZwDjs5Xhm//6+HH1YuQhx9d03cW5p79/m7SuV
+	 JiD6T59DRpjI1MUpJgBmq1r1+ztGqF11K6KI1hN4l0f72BqM9Xz0jxvp/YkvVmElSJflq
+	 3qlNFYEcP9GiS7GLkaES1vuCdmR8NifI4wg98CpRNDlPIGSTzPl619C63OabsXhS17dIP
+	 GYHjeZC2mMU5BKYmHYwC17WyXnJhVExDUVwGQcl00OcW3YPBx8QYPXmGgR2i4BJhhIQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l2Pm7Itk;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=mailbox.org;
+	spf=pass smtp.mailfrom=mailbox.org;
+	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=rp0o4cZg;
+	arc=none smtp.remote-ip=80.241.56.151
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36FED606A321;
-	Fri, 27 Nov 2026 16:28:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0195606A321;
+	Fri, 27 Nov 2026 18:25:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0195606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l2Pm7Itk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EEC51F0089A;
-	Fri, 27 Nov 2026 16:28:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795796910;
-	bh=x3qSxsN0BB2ADEZtB2vqAGa6KasHvlIycteLaQjp0Gk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=l2Pm7ItkpIPgm7/RJh1LG9Uldqz63IQNXTQcy/oxc6jEnfQXD6O+UiN0iUDdV9kW4
-	 vKCqMR9wbBbC99/JdWhVt1derfvG5gJFKZVLgJeMRgL3fPlzi1JTLuGYDpffFtie4f
-	 5cqW4LnGiNeEi1TUYkAzYLf/ivY4KZHecG274eIdm21GS0L/EhUn0fLL+49gdMCRWl
-	 8ifB/dWzURMRVvqYyqCXCKP4AUJoeX2vVIhKCGeDWIttROejEwvNCTfFETl+5avQ7l
-	 IinHhVi7btRrJKhzLhuLGrm6skO5tx3ATeura8ZtWhS2rbEoC/f3zo59FiGAdbCyAP
-	 KeLmtq/rY3ofA==
-From: Geert Uytterhoeven <geert@kernel.org>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Ulf Hansson <ulfh@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Paul Elder <paul.elder+renesas@ideasonboard.com>,
-	=?UTF-8?q?Cl=C3=A9ment=20Le=20Goffic?= <clegoffic@baylibre.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>
-Cc: devicetree@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v6 14/14] arm64: dts: renesas: ironhide: Enable SCMI devpd, sys, clock, and reset
-Date: Fri, 27 Nov 2026 17:26:59 +0100
-Message-ID: <f1dc2ba18aec2b2f7341edf8f7e8c8de95b651c3.1795796064.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1795796064.git.geert+renesas@glider.be>
-References: <cover.1795796064.git.geert+renesas@glider.be>
+	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=rp0o4cZg
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4jbhfR0W8sz8vb0;
+	Fri, 27 Nov 2026 19:25:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1795803903;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nhYYKORTR+/BNUYkaM3WAO4aIQzSPeOEyfSMlfBv7+k=;
+	b=rp0o4cZg/2LoIO1Q3s2bGCHl0Aon823Hf088RxGd6yK0MGZt0OcgEHQyZ8sPv/bU9JRYhC
+	qfnbtzyR0NSsKumv1eWkS6y22w/gphMewwv47R1gJk07iLtsp/FHrbmnTm3wsmGibl6682
+	AB7m/c/rSdKsxCj7EVhQXuOcTdBL1Jg4NCfVCTSsOZDMnx6lWDFEKpjljbhE/RQ7/+YMeV
+	nr6R4OO+cgd8IDbsU8hyAuExijEq1D+zcY7LVNMGKNH5hKOT4UQ3VCqaH9K+dES520+O0c
+	zv/tXwq6+iJm2zJFx6THtVHP7g/ytNNUCEcX72NJX4FNmrF5vBCiD/1CP6LXFQ==
+Message-ID: <0e44d7dd-eb49-4c47-a43c-11ed90c96bb0@mailbox.org>
+Date: Fri, 27 Nov 2026 19:24:58 +0100
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -83,69 +62,56 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 01/14] clk: renesas: r8a78000: Merge debug prints in
+ r8a78000_clk_get()
+To: Geert Uytterhoeven <geert@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Brian Masney <bmasney+clk@redhat.com>,
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Ulf Hansson <ulfh@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Kevin Hilman <khilman@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Paul Elder <paul.elder+renesas@ideasonboard.com>,
+ =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>,
+ Sudeep Holla <sudeep.holla@kernel.org>,
+ Cristian Marussi <cristian.marussi@arm.com>
+Cc: devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+References: <cover.1795796064.git.geert+renesas@glider.be>
+ <7abac4b033081657e2a9870182bc06f5a5a02c0c.1795796064.git.geert+renesas@glider.be>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <7abac4b033081657e2a9870182bc06f5a5a02c0c.1795796064.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: cepmxa9jpmdz5zarare85p9sm4r8pee9
+X-MBO-RS-ID: feb1e7b3c69ed64ac80
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
+On 11/27/26 5:26 PM, Geert Uytterhoeven wrote:
+> From: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> The two debug prints in r8a78000_clk_get() are very similar.
+> Merge them into a single debug print.
+> 
+> Note that the clock's name is still printed, but its ID no longer is, as
+> that is purely internal.  The printing of real firmware IDs will be
+> readded when their handling is added.
+> 
+> While at it, unwrap the (wrongly-indented) continuation of the
+> r8a78000_clk_get() function header, as it fits on a single line.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-SCP FW SDKv4.28.0 and later for Renesas R-Car X5H Ironhide not only
-implement the SCMI base protocol, but also the SCMI power domain, system
-power, clock, and reset domain management protocols.
-
-Enable support for the latter by adding the corresponding SCMI protocol
-subnodes.
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
-v6:
-  - No changes,
-
-v5:
-  - Add Tested-by,
-
-v4:
-  - No changes,
-
-v3:
-  - No changes,
-
-v2:
-  - Fix misindentations,
-  - Add scmi_clk node, as it is no longer added in earlier commits.
----
- .../boot/dts/renesas/r8a78000-ironhide.dts    | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/r8a78000-ironhide.dts b/arch/arm64/boot/dts/renesas/r8a78000-ironhide.dts
-index b2d6b06c63881896..ade8bcd3a0e5ee8b 100644
---- a/arch/arm64/boot/dts/renesas/r8a78000-ironhide.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a78000-ironhide.dts
-@@ -31,6 +31,25 @@ scmi: scmi {
- 			arm,no-completion-irq;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
-+
-+			scmi_devpd: protocol@11 {
-+				reg = <0x11>;
-+				#power-domain-cells = <1>;
-+			};
-+
-+			scmi_sys: protocol@12 {
-+				reg = <0x12>;
-+			};
-+
-+			scmi_clk: protocol@14 {
-+				reg = <0x14>;
-+				#clock-cells = <1>;
-+			};
-+
-+			scmi_reset: protocol@16 {
-+				reg = <0x16>;
-+				#reset-cells = <1>;
-+			};
- 		};
- 	};
- 
--- 
-2.43.0
-
+Thank you !
