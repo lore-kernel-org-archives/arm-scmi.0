@@ -1,58 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.254.49.198
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795803908;
-	b=Au6nIWpd1kt6fo4uEdawCGuVjF1I/OQWVqcEMdv/DP02WMaKP05EK4upiVBdZZSLinWb
-	 breUo3yXuYmbx536rcL5AWoaGEmAScWGwPJmIB2UlvWmJg54debuaVG3K6HfZv5OYXC6v
-	 vwDJyzjXYgsSMobXOX3FriBHlQy5tutcYynpZp5qW4jmnBnKcRYbFefZEpllr+zmV4EzW
-	 krK7vbIWM289ZOqdKvJNy79c80NUtv10Yk+izhTsmaY+l+asBuQrfxKO2DKRDvrZH36Jz
-	 QShd2S9/WU0IBF0JUby/l7Rw8JXq1G2SkVsQEBNOINoafuMAde9onca3NJIKE0jv+7Q==
+	t=1795863748;
+	b=CQgBP+YmZs22lFpFpND2o0e2ro26zurpYzmqlRHubzOgRPKCc0JNiqGIM+U5bDxCSSqf
+	 Lrbz2hqWaMbAWP1SBmUUzA4b0bO6mVi2nHlFRX01gsHUQpm0Ck0W3DsPMuY1/Rc+5F0Ng
+	 YjyKNAYJUIOdoqBLy73awkgv6RwSdDpYTuzTvPsiCAyU5lGs88DokeZu2WAc7kR/8zTzp
+	 EdOupsAvsVbpMyrCufdcS7F2gwZPc79BH8f6MtMKHRQJqIVBBAtPoibSLGCxw4kWr1H5P
+	 6HWGob76+Fi2CoJaR8vRSMZQM+1gTv+e7gl0rI675+v8tAO4zm+4D4A4cMWEuEq4aiw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795803908;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-MBO-RS-META:X-MBO-RS-ID;
-	bh=nhYYKORTR+/BNUYkaM3WAO4aIQzSPeOEyfSMlfBv7+k=;
-	b=eZmnKiKfgvALBKifPzuymRVbhoKec+7QRIrCIc+0U7OuIJpNV+/k0+Cby4LKE2q1/gU+
-	 4SsXipincuBEaLWSji+ntdUopHvj3VlFZwDjs5Xhm//6+HH1YuQhx9d03cW5p79/m7SuV
-	 JiD6T59DRpjI1MUpJgBmq1r1+ztGqF11K6KI1hN4l0f72BqM9Xz0jxvp/YkvVmElSJflq
-	 3qlNFYEcP9GiS7GLkaES1vuCdmR8NifI4wg98CpRNDlPIGSTzPl619C63OabsXhS17dIP
-	 GYHjeZC2mMU5BKYmHYwC17WyXnJhVExDUVwGQcl00OcW3YPBx8QYPXmGgR2i4BJhhIQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795863748;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:X-HM-Tid:X-HM-MType:
+	 X-HM-Spam-Status:DKIM-Signature;
+	bh=1iiyAT9AAkImriSAkCuGBq7hfmlUIBgJJjwrPdzvpWA=;
+	b=MW0TQ6BcYG/V4vbB+E4aP1Gg7f8x3Y3hI462fdk1ISDSZXNW42ltKSHKMXISQkYg6C+K
+	 4ptYo+o42R5OcrB2GtipA5nARordqQ82MjS8asr9KdnulYPDwEn4Ip/7XfWdPOQ4F5W3g
+	 FdkbcIg4/s4+EhhFKjcgmwSRpBNt1RLtF5vXA6WggzmcLT3FA0kqhDNYsHN/FWG5IxMr2
+	 YeoBIPMY9c3ve/r+9IjI0F9ImVq7RTroceJnC2DQkKHTyYReer+KxpWvIcAft5dT3ROwu
+	 A84rX0gFjWGXbjh2rbAWYrLm6dPYuQNstk4TVVkkjagCPffRGTrC0bbSeRku6yjjqUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=rp0o4cZg;
-	arc=none smtp.remote-ip=80.241.56.151
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	dmarc=pass header.from=mail.sdu.edu.cn;
+	spf=pass smtp.mailfrom=mail.sdu.edu.cn;
+	dkim=pass header.d=mail.sdu.edu.cn header.i=@mail.sdu.edu.cn header.a=rsa-sha256 header.s=default header.b=ghwnPl3W;
+	arc=none smtp.remote-ip=45.254.49.198
+Received: from mail-m49198.qiye.163.com (mail-m49198.qiye.163.com [45.254.49.198])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0195606A321;
-	Fri, 27 Nov 2026 18:25:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0195606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0CB606A31F;
+	Sat, 28 Nov 2026 11:02:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF0CB606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.sdu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.sdu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=rp0o4cZg
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4jbhfR0W8sz8vb0;
-	Fri, 27 Nov 2026 19:25:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1795803903;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nhYYKORTR+/BNUYkaM3WAO4aIQzSPeOEyfSMlfBv7+k=;
-	b=rp0o4cZg/2LoIO1Q3s2bGCHl0Aon823Hf088RxGd6yK0MGZt0OcgEHQyZ8sPv/bU9JRYhC
-	qfnbtzyR0NSsKumv1eWkS6y22w/gphMewwv47R1gJk07iLtsp/FHrbmnTm3wsmGibl6682
-	AB7m/c/rSdKsxCj7EVhQXuOcTdBL1Jg4NCfVCTSsOZDMnx6lWDFEKpjljbhE/RQ7/+YMeV
-	nr6R4OO+cgd8IDbsU8hyAuExijEq1D+zcY7LVNMGKNH5hKOT4UQ3VCqaH9K+dES520+O0c
-	zv/tXwq6+iJm2zJFx6THtVHP7g/ytNNUCEcX72NJX4FNmrF5vBCiD/1CP6LXFQ==
-Message-ID: <0e44d7dd-eb49-4c47-a43c-11ed90c96bb0@mailbox.org>
-Date: Fri, 27 Nov 2026 19:24:58 +0100
+	dkim=pass (1024-bit key) header.d=mail.sdu.edu.cn header.i=@mail.sdu.edu.cn header.a=rsa-sha256 header.s=default header.b=ghwnPl3W
+Received: from user.localdomain (unknown [223.80.110.101])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 5656652a6;
+	Sat, 28 Nov 2026 19:02:21 +0800 (GMT+08:00)
+From: Tian Xuechen <202300460064@mail.sdu.edu.cn>
+To: sudeep.holla@kernel.org,
+	ulfh@kernel.org,
+	khilman@baylibre.com,
+	tixy@linaro.org
+Cc: cristian.marussi@arm.com,
+	arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org,
+	liguangshuo@mail.sdu.edu.cn
+Subject: [PATCH] pmdomain: arm: Unregister SCPI domains on removal
+Date: Sat, 28 Nov 2026 19:02:20 +0800
+Message-Id: <20261128110220.875342-1-202300460064@mail.sdu.edu.cn>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: arm-scmi@vger.kernel.org
 List-Id: <arm-scmi.vger.kernel.org>
 List-Post: <mailto:arm-scmi@vger.kernel.org>
@@ -62,56 +59,120 @@ List-Unsubscribe: <mailto:arm-scmi+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:arm-scmi+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 01/14] clk: renesas: r8a78000: Merge debug prints in
- r8a78000_clk_get()
-To: Geert Uytterhoeven <geert@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Brian Masney <bmasney+clk@redhat.com>,
- Jerome Brunet <jbrunet+clk@baylibre.com>, Ulf Hansson <ulfh@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Kevin Hilman <khilman@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Paul Elder <paul.elder+renesas@ideasonboard.com>,
- =?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clegoffic@baylibre.com>,
- Sudeep Holla <sudeep.holla@kernel.org>,
- Cristian Marussi <cristian.marussi@arm.com>
-Cc: devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Geert Uytterhoeven <geert+renesas@glider.be>
-References: <cover.1795796064.git.geert+renesas@glider.be>
- <7abac4b033081657e2a9870182bc06f5a5a02c0c.1795796064.git.geert+renesas@glider.be>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <7abac4b033081657e2a9870182bc06f5a5a02c0c.1795796064.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: cepmxa9jpmdz5zarare85p9sm4r8pee9
-X-MBO-RS-ID: feb1e7b3c69ed64ac80
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0aa221d2053e03a2kunm50e636623cbc57
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCHxhMVksYSx5PGU4dTEtKQ1YeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUhVQ0tVSkpLVUpLSllXWRYaDxIVHRRZQVlPS0hVSktJQk
+	NDTFVKS0tVS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=ghwnPl3WXP8VS77kfF/XDfU3Wv8UjAX3ZoOQJQKxpCwDxM7J6G+ob2KIxJX39zASMO1KV9cySFOHfsHtmsgNSFh5WJqBZyMQ6TuA/dNX9ZPQGIPqsyzpb2ul9QD/1+D+T9kQrzCSGqrUOMh012/lBtOm+8qAcMjHAb1tOE/XY+E=; s=default; c=relaxed/relaxed; d=mail.sdu.edu.cn; v=1;
+	bh=1iiyAT9AAkImriSAkCuGBq7hfmlUIBgJJjwrPdzvpWA=;
+	h=date:mime-version:subject:message-id:from;
 
-On 11/27/26 5:26 PM, Geert Uytterhoeven wrote:
-> From: Geert Uytterhoeven <geert+renesas@glider.be>
-> 
-> The two debug prints in r8a78000_clk_get() are very similar.
-> Merge them into a single debug print.
-> 
-> Note that the clock's name is still printed, but its ID no longer is, as
-> that is purely internal.  The printing of real firmware IDs will be
-> readded when their handling is added.
-> 
-> While at it, unwrap the (wrongly-indented) continuation of the
-> r8a78000_clk_get() function header, as it fits on a single line.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+From: Tian Xuechen <202300460064@mail.sdu.edu.cn>
 
-Thank you !
+The SCPI driver releases its domain storage on removal without
+unregistering the provider or domains. Remove the provider before
+freeing its domains and unwind previously initialized domains if probe
+fails.
+
+This issue was found by our static analysis tool under development.
+
+Fixes: 8bec4337ad40 ("firmware: scpi: add device power domain support using genpd")
+Signed-off-by: Tian Xuechen <202300460064@mail.sdu.edu.cn>
+---
+ drivers/pmdomain/arm/scpi_pm_domain.c | 41 +++++++++++++++++++++------
+ 1 file changed, 33 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/pmdomain/arm/scpi_pm_domain.c b/drivers/pmdomain/arm/scpi_pm_domain.c
+index 1d55a9e548e0..d9fa5ef7c1ec 100644
+--- a/drivers/pmdomain/arm/scpi_pm_domain.c
++++ b/drivers/pmdomain/arm/scpi_pm_domain.c
+@@ -62,6 +62,21 @@ static int scpi_pd_power_off(struct generic_pm_domain *domain)
+ 	return scpi_pd_power(pd, false);
+ }
+ 
++static void scpi_pm_remove_domains(struct genpd_onecell_data *data)
++{
++	int i;
++
++	for (i = data->num_domains - 1; i >= 0; i--)
++		if (data->domains[i])
++			pm_genpd_remove(data->domains[i]);
++}
++
++static void scpi_pm_domain_remove(struct platform_device *pdev)
++{
++	of_genpd_del_provider(pdev->dev.of_node);
++	scpi_pm_remove_domains(platform_get_drvdata(pdev));
++}
++
+ static int scpi_pm_domain_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -105,9 +120,10 @@ static int scpi_pm_domain_probe(struct platform_device *pdev)
+ 	if (!domains)
+ 		return -ENOMEM;
+ 
+-	for (i = 0; i < num_domains; i++, scpi_pd++) {
+-		domains[i] = &scpi_pd->genpd;
++	scpi_pd_data->domains = domains;
++	scpi_pd_data->num_domains = num_domains;
+ 
++	for (i = 0; i < num_domains; i++, scpi_pd++) {
+ 		scpi_pd->domain = i;
+ 		scpi_pd->ops = scpi_ops;
+ 		scpi_pd->genpd.name = devm_kasprintf(dev, GFP_KERNEL,
+@@ -115,7 +131,8 @@ static int scpi_pm_domain_probe(struct platform_device *pdev)
+ 		if (!scpi_pd->genpd.name) {
+ 			dev_err(dev, "Failed to allocate genpd name:%pOFn.%d\n",
+ 				np, i);
+-			continue;
++			ret = -ENOMEM;
++			goto err_remove_domains;
+ 		}
+ 		scpi_pd->genpd.power_off = scpi_pd_power_off;
+ 		scpi_pd->genpd.power_on = scpi_pd_power_on;
+@@ -126,15 +143,22 @@ static int scpi_pm_domain_probe(struct platform_device *pdev)
+ 		 * The SCP firmware itself may have switched on some domains,
+ 		 * but for reference counting purpose, keep it this way.
+ 		 */
+-		pm_genpd_init(&scpi_pd->genpd, NULL, true);
++		ret = pm_genpd_init(&scpi_pd->genpd, NULL, true);
++		if (ret)
++			goto err_remove_domains;
++		domains[i] = &scpi_pd->genpd;
+ 	}
+ 
+-	scpi_pd_data->domains = domains;
+-	scpi_pd_data->num_domains = num_domains;
+-
+-	of_genpd_add_provider_onecell(np, scpi_pd_data);
++	ret = of_genpd_add_provider_onecell(np, scpi_pd_data);
++	if (ret)
++		goto err_remove_domains;
+ 
++	platform_set_drvdata(pdev, scpi_pd_data);
+ 	return 0;
++
++err_remove_domains:
++	scpi_pm_remove_domains(scpi_pd_data);
++	return ret;
+ }
+ 
+ static const struct of_device_id scpi_power_domain_ids[] = {
+@@ -149,6 +173,7 @@ static struct platform_driver scpi_power_domain_driver = {
+ 		.of_match_table = scpi_power_domain_ids,
+ 	},
+ 	.probe = scpi_pm_domain_probe,
++	.remove = scpi_pm_domain_remove,
+ };
+ module_platform_driver(scpi_power_domain_driver);
+ 
+
+base-commit: 4dce97c6c265544342e716e62fd24bbb232590c5
+-- 
+2.43.0
+
